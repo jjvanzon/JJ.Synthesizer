@@ -14,8 +14,10 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer()
         {
-            // TODO: Create repositories.
-            IOperatorRepository operatorRepository = null;
+			Assert.Inconclusive("Test cannot run. TODO: Create repositories.");
+
+			// TODO: Create repositories.
+			IOperatorRepository operatorRepository = null;
             IInletRepository inletRepository = null;
             IOutletRepository outletRepository = null;
 
