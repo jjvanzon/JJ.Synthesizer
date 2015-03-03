@@ -61,6 +61,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add.
+        /// </summary>
+        internal static string Add {
+            get {
+                return ResourceManager.GetString("Add", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inlet.
         /// </summary>
         internal static string Inlet {
@@ -88,6 +97,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operator Type.
+        /// </summary>
+        internal static string OperatorTypeName {
+            get {
+                return ResourceManager.GetString("OperatorTypeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Outlet.
         /// </summary>
         internal static string Outlet {
@@ -102,6 +120,24 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Outlets {
             get {
                 return ResourceManager.GetString("Outlets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Substract.
+        /// </summary>
+        internal static string Substract {
+            get {
+                return ResourceManager.GetString("Substract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value.
+        /// </summary>
+        internal static string Value {
+            get {
+                return ResourceManager.GetString("Value", resourceCulture);
             }
         }
     }

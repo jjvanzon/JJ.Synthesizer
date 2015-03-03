@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.ExtendedEntities;
+﻿using JJ.Business.Synthesizer.OperatorWrappers;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Reflection;
@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer
 {
@@ -32,40 +33,62 @@ namespace JJ.Business.Synthesizer
             _outletRepository = outletRepository;
         }
 
-        public Value CreateValueOperator()
+        public Value CreateValue()
         {
             Operator op = _operatorRepository.Create();
-            op.OperatorTypeName = ObjectNames.Value;
-            op.Name = ObjectNames.Value;
+            op.OperatorTypeName = PropertyNames.Value;
+            op.Name = PropertyDisplayNames.Value;
 
             Outlet outlet = _outletRepository.Create();
-            outlet.Name = ObjectNames.Result;
+            outlet.Name = PropertyNames.Result;
             outlet.LinkTo(op);
 
-            Value valueOperator = new Value(op);
-            return valueOperator; 
+            var value = new Value(op);
+            return value; 
         }
 
-        public Add CreateAddOperator()
+        public Add CreateAdd()
         {
             Operator op = _operatorRepository.Create();
-            op.OperatorTypeName = ObjectNames.Add;
-            op.Name = ObjectNames.Add;
+            op.OperatorTypeName = PropertyNames.Add;
+            op.Name = PropertyDisplayNames.Add;
 
             Inlet operandA = _inletRepository.Create();
-            operandA.Name = ObjectNames.OperandA;
+            operandA.Name = PropertyNames.OperandA;
             operandA.LinkTo(op);
 
             Inlet operandB = _inletRepository.Create();
-            operandB.Name = ObjectNames.OperandB;
+            operandB.Name = PropertyNames.OperandB;
             operandB.LinkTo(op);
 
             Outlet outlet = _outletRepository.Create();
-            outlet.Name = ObjectNames.Result;
+            outlet.Name = PropertyNames.Result;
             outlet.LinkTo(op);
 
-            Add addOperator = new Add(op);
-            return addOperator; 
+            var add = new Add(op);
+            return add;
+        }
+
+        public Substract CreateSubstract()
+        {
+            Operator op = _operatorRepository.Create();
+            op.OperatorTypeName = PropertyNames.Substract;
+            op.Name = PropertyDisplayNames.Substract;
+
+            Inlet operandA = _inletRepository.Create();
+            operandA.Name = PropertyNames.OperandA;
+            operandA.LinkTo(op);
+
+            Inlet operandB = _inletRepository.Create();
+            operandB.Name = PropertyNames.OperandB;
+            operandB.LinkTo(op);
+
+            Outlet outlet = _outletRepository.Create();
+            outlet.Name = PropertyNames.Result;
+            outlet.LinkTo(op);
+
+            var substract = new Substract(op);
+            return substract;
         }
     }
 }

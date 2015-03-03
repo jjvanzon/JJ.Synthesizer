@@ -7,17 +7,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.ExtendedEntities
+namespace JJ.Business.Synthesizer.OperatorWrappers
 {
-    public class Add
+    public class Substract
     {
         private Operator _operator;
         public Operator Operator { get { return _operator; } }
 
-        public Add(Operator op)
+        public Substract(Operator op)
         {
             if (op == null) throw new NullException(() => op);
             _operator = op;
+        }
+
+        public string Name
+        {
+            get { return _operator.Name; }
+            set { _operator.Name = value; }
         }
 
         public Outlet OperandA
