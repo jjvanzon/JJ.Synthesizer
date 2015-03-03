@@ -117,31 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add" xml:space="preserve">
-    <value>Optellen</value>
+  <data name="OperandNotSet" xml:space="preserve">
+    <value>{0} operator named '{1}' does not have {2} filled in.</value>
+    <comment>{0} = Operator type name. {1} = Operator name. {2} = Operand name.</comment>
   </data>
-  <data name="Inlet" xml:space="preserve">
-    <value>Ingang</value>
-  </data>
-  <data name="Inlets" xml:space="preserve">
-    <value>Ingangen</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Naam</value>
-  </data>
-  <data name="OperatorTypeName" xml:space="preserve">
-    <value>Operator soort</value>
-  </data>
-  <data name="Outlet" xml:space="preserve">
-    <value>Uitgang</value>
-  </data>
-  <data name="Outlets" xml:space="preserve">
-    <value>Uitgangen</value>
-  </data>
-  <data name="Substract" xml:space="preserve">
-    <value>Aftrekken</value>
-  </data>
-  <data name="Value" xml:space="preserve">
-    <value>Waarde</value>
+  <data name="ValueOperatorValueIs0" xml:space="preserve">
+    <value>Value of value operator named '{0}' is 0.</value>
+    <comment>{0} = Value operator name.</comment>
   </data>
 </root>

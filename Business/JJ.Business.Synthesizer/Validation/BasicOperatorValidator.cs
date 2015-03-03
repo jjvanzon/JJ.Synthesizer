@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class OperatorValidator : FluentValidator<Operator>
+    public class BasicOperatorValidator : FluentValidator<Operator>
     {
-        public OperatorValidator(Operator obj)
+        public BasicOperatorValidator(Operator obj)
             : base(obj)
         { }
 

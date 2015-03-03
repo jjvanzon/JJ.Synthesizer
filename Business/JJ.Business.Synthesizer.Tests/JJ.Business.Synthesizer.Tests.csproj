@@ -50,10 +50,23 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="PersistenceHelper.cs" />
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Configuration\JJ.Framework.Configuration.csproj">
+      <Project>{805a8237-05ed-40ae-8d1a-9288373ea5e0}</Project>
+      <Name>JJ.Framework.Configuration</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Persistence.Memory\JJ.Framework.Persistence.Memory.csproj">
+      <Project>{86348b50-eca9-4849-a221-73f0ed31713b}</Project>
+      <Name>JJ.Framework.Persistence.Memory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Persistence\JJ.Framework.Persistence.csproj">
+      <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
+      <Name>JJ.Framework.Persistence</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Testing\JJ.Framework.Testing.csproj">
       <Project>{369d4e9e-4eff-4699-83b3-c4951ee0a3c3}</Project>
       <Name>JJ.Framework.Testing</Name>
@@ -66,6 +79,10 @@
       <Project>{31660f5f-6141-4da5-b364-6c0717b8f0a9}</Project>
       <Name>JJ.Persistence.Synthesizer.DefaultRepositories</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.Memory\JJ.Persistence.Synthesizer.Memory.csproj">
+      <Project>{bc3be171-ad84-4ee4-8356-06a581bdcdf7}</Project>
+      <Name>JJ.Persistence.Synthesizer.Memory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer\JJ.Persistence.Synthesizer.csproj">
       <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
       <Name>JJ.Persistence.Synthesizer</Name>
@@ -74,6 +91,9 @@
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
       <Name>JJ.Business.Synthesizer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

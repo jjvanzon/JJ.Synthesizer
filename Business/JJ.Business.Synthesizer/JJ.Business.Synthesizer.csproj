@@ -34,11 +34,20 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Calculator.cs" />
-    <Compile Include="ExtendedEntities\Add.cs" />
-    <Compile Include="ExtendedEntities\Value.cs" />
+    <Compile Include="OperatorWrappers\Substract.cs" />
+    <Compile Include="Resources\Messages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Messages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\MessagesFormatter.cs" />
+    <Compile Include="SoundCalculator.cs" />
+    <Compile Include="Validation\SubstractOperatorValidator.cs" />
+    <Compile Include="Validation\GenericOperatorValidator.cs" />
+    <Compile Include="OperatorWrappers\Add.cs" />
+    <Compile Include="OperatorWrappers\Value.cs" />
     <Compile Include="LinkTo\LinkToExtensions.cs" />
-    <Compile Include="Names\ObjectNames.cs" />
+    <Compile Include="Names\PropertyNames.cs" />
     <Compile Include="OperatorFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\PropertyDisplayNames.Designer.cs">
@@ -46,8 +55,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PropertyDisplayNames.resx</DependentUpon>
     </Compile>
-    <Compile Include="Validation\AddValidator.cs" />
-    <Compile Include="Validation\OperatorValidator.cs" />
+    <Compile Include="Validation\AddOperatorValidator.cs" />
+    <Compile Include="Validation\BasicOperatorValidator.cs" />
+    <Compile Include="Warnings\AddOperatorWarningValidator.cs" />
+    <Compile Include="Warnings\SubstractOperatorWarningValidator.cs" />
+    <Compile Include="Warnings\ValueOperatorWarningValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation.Resources\JJ.Framework.Presentation.Resources.csproj">
@@ -72,6 +84,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Messages.nl-NL.resx" />
+    <EmbeddedResource Include="Resources\Messages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\PropertyDisplayNames.nl-NL.resx" />
     <EmbeddedResource Include="Resources\PropertyDisplayNames.resx">
       <Generator>ResXFileCodeGenerator</Generator>

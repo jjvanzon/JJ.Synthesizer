@@ -117,6 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+    <comment>The arithmetic meaning, like "a + b".</comment>
+  </data>
   <data name="Inlet" xml:space="preserve">
     <value>Inlet</value>
   </data>
@@ -126,10 +130,19 @@
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="OperatorTypeName" xml:space="preserve">
+    <value>Operator Type</value>
+  </data>
   <data name="Outlet" xml:space="preserve">
     <value>Outlet</value>
   </data>
   <data name="Outlets" xml:space="preserve">
     <value>Outlets</value>
+  </data>
+  <data name="Substract" xml:space="preserve">
+    <value>Substract</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
   </data>
 </root>

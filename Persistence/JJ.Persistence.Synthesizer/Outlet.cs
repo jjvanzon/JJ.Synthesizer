@@ -8,6 +8,11 @@ namespace JJ.Persistence.Synthesizer
 {
     public class Outlet
     {
+        public Outlet()
+        {
+            ConnectedInlets = new List<Inlet>();
+        }
+
         /// <summary> parent </summary>
         public virtual Operator Operator { get; set; }
         public virtual string Name { get; set; }
