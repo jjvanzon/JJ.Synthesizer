@@ -51,15 +51,15 @@
     <Compile Include="Validation\OperatorValidator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation.Resources\JJ.Framework.Presentation.Resources.csproj">
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Presentation.Resources\JJ.Framework.Presentation.Resources.csproj">
       <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
       <Name>JJ.Framework.Presentation.Resources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
       <Name>JJ.Framework.Reflection</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Validation\JJ.Framework.Validation.csproj">
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Validation\JJ.Framework.Validation.csproj">
       <Project>{59ddc853-62af-4f86-a803-3d4dd491e978}</Project>
       <Name>JJ.Framework.Validation</Name>
     </ProjectReference>

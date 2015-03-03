@@ -55,11 +55,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Testing\JJ.Framework.Testing.csproj">
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Testing\JJ.Framework.Testing.csproj">
       <Project>{369d4e9e-4eff-4699-83b3-c4951ee0a3c3}</Project>
       <Name>JJ.Framework.Testing</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Validation\JJ.Framework.Validation.csproj">
+    <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Validation\JJ.Framework.Validation.csproj">
       <Project>{59ddc853-62af-4f86-a803-3d4dd491e978}</Project>
       <Name>JJ.Framework.Validation</Name>
     </ProjectReference>
