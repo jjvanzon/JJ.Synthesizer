@@ -10,14 +10,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Validation
+namespace JJ.Business.Synthesizer.Validation.Entities
 {
-    public class TimePowerValidator : GenericOperatorValidator
+    public class DivideValidator : GenericOperatorValidator
     {
-        public TimePowerValidator(Operator obj)
+        public DivideValidator(Operator obj)
             : base(obj, 
-                PropertyNames.TimePower, 3,
-                PropertyNames.Signal, PropertyNames.Exponent, PropertyNames.Origin, 
+                PropertyNames.Divide, 3, 
+                PropertyNames.Numerator, PropertyNames.Denominator, PropertyNames.Origin, 
                 PropertyNames.Result)
         { }
     }

@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Warnings
+namespace JJ.Business.Synthesizer.Warnings.Entities
 {
-    public class SubstractWarningValidator : FirstXInletsNotFilledInWarningValidator
+    public class AdderWarningValidator : FirstXInletsNotFilledInWarningValidator
     {
-        public SubstractWarningValidator(Operator obj)
+        public AdderWarningValidator(Operator obj)
             : base(obj)
         { }
     }

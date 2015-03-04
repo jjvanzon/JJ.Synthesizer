@@ -10,19 +10,21 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class ValueOperator : OperatorWrapperBase
     {
+        public const int RESULT_INDEX = 0;
+
         public ValueOperator(Operator op)
             : base(op)
         { }
 
         public Outlet Result
         {
-            get { return _operator.Outlets[0]; }
+            get { return _operator.Outlets[RESULT_INDEX]; }
         }
 
         public double Value
         {
-            get { return _operator.Outlets[0].Value; }
-            set { _operator.Outlets[0].Value = value; }
+            get { return Result.Value; }
+            set { Result.Value = value; }
         }
 
         public static implicit operator Outlet(ValueOperator wrapper)

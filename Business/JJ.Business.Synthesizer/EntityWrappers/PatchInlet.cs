@@ -10,19 +10,22 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class PatchInlet : OperatorWrapperBase
     {
+        public const int INPUT_INDEX = 0;
+        public const int RESULT_INDEX = 0;
+
         public PatchInlet(Operator op)
             :base(op)
         { }
 
         public Outlet Input
         {
-            get { return _operator.Inlets[0].Input; }
-            set { _operator.Inlets[0].LinkTo(value); }
+            get { return _operator.Inlets[INPUT_INDEX].Input; }
+            set { _operator.Inlets[INPUT_INDEX].LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return _operator.Outlets[0]; }
+            get { return _operator.Outlets[RESULT_INDEX]; }
         }
 
         public static implicit operator Outlet(PatchInlet wrapper)

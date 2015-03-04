@@ -10,31 +10,36 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class TimeMultiply : OperatorWrapperBase
     {
+        public const int SIGNAL_INDEX = 0;
+        public const int TIME_MULTIPLIER_INDEX = 1;
+        public const int ORIGIN_INDEX = 2;
+        public const int RESULT_INDEX = 0;
+
         public TimeMultiply(Operator op)
             : base(op)
         { }
 
         public Outlet Signal
         {
-            get { return _operator.Inlets[0].Input; }
-            set { _operator.Inlets[0].LinkTo(value); }
+            get { return _operator.Inlets[SIGNAL_INDEX].Input; }
+            set { _operator.Inlets[SIGNAL_INDEX].LinkTo(value); }
         }
 
         public Outlet TimeMultiplier
         {
-            get { return _operator.Inlets[1].Input; }
-            set { _operator.Inlets[1].LinkTo(value); }
+            get { return _operator.Inlets[TIME_MULTIPLIER_INDEX].Input; }
+            set { _operator.Inlets[TIME_MULTIPLIER_INDEX].LinkTo(value); }
         }
 
         public Outlet Origin
         {
-            get { return _operator.Inlets[2].Input; }
-            set { _operator.Inlets[2].LinkTo(value); }
+            get { return _operator.Inlets[ORIGIN_INDEX].Input; }
+            set { _operator.Inlets[ORIGIN_INDEX].LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return _operator.Outlets[0]; }
+            get { return _operator.Outlets[RESULT_INDEX]; }
         }
 
         public static implicit operator Outlet(TimeMultiply wrapper)

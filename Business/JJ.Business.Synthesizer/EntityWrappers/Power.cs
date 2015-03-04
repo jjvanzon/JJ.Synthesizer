@@ -10,25 +10,29 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Power : OperatorWrapperBase
     {
+        public const int BASE_INDEX = 0;
+        public const int EXPONENT_INDEX = 1;
+        public const int RESULT_INDEX = 0;
+
         public Power(Operator op)
             :base(op)
         { }
 
         public Outlet Base
         {
-            get { return _operator.Inlets[0].Input; }
-            set { _operator.Inlets[0].LinkTo(value); }
+            get { return _operator.Inlets[BASE_INDEX].Input; }
+            set { _operator.Inlets[BASE_INDEX].LinkTo(value); }
         }
 
         public Outlet Exponent
         {
-            get { return _operator.Inlets[1].Input; }
-            set { _operator.Inlets[1].LinkTo(value); }
+            get { return _operator.Inlets[EXPONENT_INDEX].Input; }
+            set { _operator.Inlets[EXPONENT_INDEX].LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return _operator.Outlets[0]; }
+            get { return _operator.Outlets[RESULT_INDEX]; }
         }
 
         public static implicit operator Outlet(Power wrapper)

@@ -10,15 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Validation
+namespace JJ.Business.Synthesizer.Validation.Entities
 {
-    public class TimeMultiplyValidator : GenericOperatorValidator
+    public class SubstractValidator : GenericOperatorValidator
     {
-        public TimeMultiplyValidator(Operator obj)
-            : base(obj, 
-                PropertyNames.TimeMultiply, 3,
-                PropertyNames.Signal, PropertyNames.TimeMultiplier, PropertyNames.Origin,
-                PropertyNames.Result)
+        public SubstractValidator(Operator obj)
+            : base(obj, PropertyNames.Substract, 2, PropertyNames.OperandA, PropertyNames.OperandB, PropertyNames.Result)
         { }
     }
 }

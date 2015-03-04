@@ -10,12 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Validation
+namespace JJ.Business.Synthesizer.Validation.Entities
 {
-    public class PatchInletValidator : GenericOperatorValidator
+    public class PowerValidator : GenericOperatorValidator
     {
-        public PatchInletValidator(Operator obj)
-            : base(obj, PropertyNames.PatchInlet, 1, PropertyNames.Input, PropertyNames.Result)
+        public PowerValidator(Operator obj)
+            : base(obj, PropertyNames.Power, 2, PropertyNames.Base, PropertyNames.Exponent, PropertyNames.Result)
         { }
     }
 }

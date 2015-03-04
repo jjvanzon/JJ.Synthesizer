@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Reflection;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 using System;
@@ -16,6 +17,7 @@ namespace JJ.Business.Synthesizer.Warnings
         public FirstXInletsNotFilledInWarningValidator(Operator obj, int? inletCount = null)
             : base(obj, postponeExecute: true)
         {
+            if (obj == null) throw new NullException(() => obj);
             if (inletCount < 0) throw new Exception("inletCount cannot be less than 0.");
 
             _inletCount = inletCount ?? obj.Inlets.Count;

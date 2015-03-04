@@ -56,21 +56,21 @@
     </Compile>
     <Compile Include="Resources\MessagesFormatter.cs" />
     <Compile Include="SoundCalculator.cs" />
-    <Compile Include="Validation\AdderValidator.cs" />
-    <Compile Include="Validation\TimeMultiplyValidator.cs" />
-    <Compile Include="Validation\TimeSubstractValidator.cs" />
-    <Compile Include="Validation\TimePowerValidator.cs" />
-    <Compile Include="Validation\TimeDivideValidator.cs" />
-    <Compile Include="Validation\TimeAddValidator.cs" />
-    <Compile Include="Validation\SineValidator.cs" />
-    <Compile Include="Validation\PowerValidator.cs" />
-    <Compile Include="Validation\PatchOutletValidator.cs" />
-    <Compile Include="Validation\PatchInletValidator.cs" />
-    <Compile Include="Validation\DivideValidator.cs" />
-    <Compile Include="Validation\ValueOperatorValidator.cs" />
-    <Compile Include="Validation\MultiplyValidator.cs" />
+    <Compile Include="Validation\Entities\AdderValidator.cs" />
+    <Compile Include="Validation\Entities\TimeMultiplyValidator.cs" />
+    <Compile Include="Validation\Entities\TimeSubstractValidator.cs" />
+    <Compile Include="Validation\Entities\TimePowerValidator.cs" />
+    <Compile Include="Validation\Entities\TimeDivideValidator.cs" />
+    <Compile Include="Validation\Entities\TimeAddValidator.cs" />
+    <Compile Include="Validation\Entities\SineValidator.cs" />
+    <Compile Include="Validation\Entities\PowerValidator.cs" />
+    <Compile Include="Validation\Entities\PatchOutletValidator.cs" />
+    <Compile Include="Validation\Entities\PatchInletValidator.cs" />
+    <Compile Include="Validation\Entities\DivideValidator.cs" />
+    <Compile Include="Validation\Entities\ValueOperatorValidator.cs" />
+    <Compile Include="Validation\Entities\MultiplyValidator.cs" />
     <Compile Include="Validation\RecursiveOperatorValidator.cs" />
-    <Compile Include="Validation\SubstractValidator.cs" />
+    <Compile Include="Validation\Entities\SubstractValidator.cs" />
     <Compile Include="Validation\GenericOperatorValidator.cs" />
     <Compile Include="EntityWrappers\Add.cs" />
     <Compile Include="EntityWrappers\ValueOperator.cs" />
@@ -83,25 +83,26 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PropertyDisplayNames.resx</DependentUpon>
     </Compile>
-    <Compile Include="Validation\AddValidator.cs" />
+    <Compile Include="Validation\Entities\AddValidator.cs" />
     <Compile Include="Validation\BasicOperatorValidator.cs" />
     <Compile Include="Validation\VersatileOperatorValidator.cs" />
-    <Compile Include="Warnings\AdderWarningValidator.cs" />
-    <Compile Include="Warnings\AddWarningValidator.cs" />
-    <Compile Include="Warnings\TimeSubstractWarningValidator.cs" />
-    <Compile Include="Warnings\TimePowerWarningValidator.cs" />
-    <Compile Include="Warnings\TimeMultiplyWarningValidator.cs" />
-    <Compile Include="Warnings\TimeDivideWarningValidator.cs" />
-    <Compile Include="Warnings\TimeAddWarningValidator.cs" />
-    <Compile Include="Warnings\SineWarningValidator.cs" />
-    <Compile Include="Warnings\PowerWarningValidator.cs" />
+    <Compile Include="Warnings\VersatileOperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\AdderWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\AddWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\TimeSubstractWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\TimePowerWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\TimeMultiplyWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\TimeDivideWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\TimeAddWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\SineWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\PowerWarningValidator.cs" />
     <Compile Include="Warnings\FirstXInletsNotFilledInWarningValidator.cs" />
-    <Compile Include="Warnings\PatchOutletWarningValidator.cs" />
-    <Compile Include="Warnings\DivideWarningValidator.cs" />
-    <Compile Include="Warnings\MultiplyWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\PatchOutletWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\DivideWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\MultiplyWarningValidator.cs" />
     <Compile Include="Warnings\RecursiveOperatorWarningValidator.cs" />
-    <Compile Include="Warnings\SubstractWarningValidator.cs" />
-    <Compile Include="Warnings\ValueOperatorWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\SubstractWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\ValueOperatorWarningValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">

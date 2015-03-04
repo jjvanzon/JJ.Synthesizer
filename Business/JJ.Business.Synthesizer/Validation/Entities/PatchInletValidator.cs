@@ -10,15 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Validation
+namespace JJ.Business.Synthesizer.Validation.Entities
 {
-    public class TimeDivideValidator : GenericOperatorValidator
+    public class PatchInletValidator : GenericOperatorValidator
     {
-        public TimeDivideValidator(Operator obj)
-            : base(obj, 
-                PropertyNames.TimeDivide, 3,
-                PropertyNames.Signal, PropertyNames.TimeDivider, PropertyNames.Origin, 
-                PropertyNames.Result)
+        public PatchInletValidator(Operator obj)
+            : base(obj, PropertyNames.PatchInlet, 1, PropertyNames.Input, PropertyNames.Result)
         { }
     }
 }
