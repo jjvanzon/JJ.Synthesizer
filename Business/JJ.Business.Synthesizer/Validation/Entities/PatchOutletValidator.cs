@@ -10,12 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Validation
+namespace JJ.Business.Synthesizer.Validation.Entities
 {
-    public class TimeAddValidator : GenericOperatorValidator
+    public class PatchOutletValidator : GenericOperatorValidator
     {
-        public TimeAddValidator(Operator obj)
-            : base(obj, PropertyNames.TimeAdd, 2, PropertyNames.Signal, PropertyNames.TimeDifference, PropertyNames.Result)
+        public PatchOutletValidator(Operator obj)
+            : base(obj, PropertyNames.PatchOutlet, 1, PropertyNames.Input, PropertyNames.Result)
         { }
     }
 }

@@ -9,6 +9,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Adder : OperatorWrapperBase
     {
+        public int RESULT_INDEX = 0;
+
         public Adder(Operator op)
             :base(op)
         { }
@@ -31,7 +33,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return _operator.Outlets[0]; }
+            get { return _operator.Outlets[RESULT_INDEX]; }
         }
 
         public static implicit operator Outlet(Adder wrapper)

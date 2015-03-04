@@ -7,12 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Warnings
+namespace JJ.Business.Synthesizer.Warnings.Entities
 {
-    public class TimeSubstractWarningValidator : FirstXInletsNotFilledInWarningValidator
+    public class MultiplyWarningValidator : FirstXInletsNotFilledInWarningValidator
     {
-        public TimeSubstractWarningValidator(Operator obj)
-            : base(obj)
+        public MultiplyWarningValidator(Operator obj)
+            : base(obj, inletCount: 2)
         { }
     }
 }

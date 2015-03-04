@@ -10,37 +10,43 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Sine : OperatorWrapperBase
     {
+        public const int VOLUME_INDEX = 0;
+        public const int PITCH_INDEX = 1;
+        public const int LEVEL_INDEX = 2;
+        public const int PHASE_START_INDEX = 3;
+        public const int RESULT_INDEX = 0;
+
         public Sine(Operator op)
             :base(op)
         { }
 
         public Outlet Volume
         {
-            get { return _operator.Inlets[0].Input; }
-            set { _operator.Inlets[0].LinkTo(value); }
+            get { return _operator.Inlets[VOLUME_INDEX].Input; }
+            set { _operator.Inlets[VOLUME_INDEX].LinkTo(value); }
         }
 
         public Outlet Pitch
         {
-            get { return _operator.Inlets[1].Input; }
-            set { _operator.Inlets[1].LinkTo(value); }
+            get { return _operator.Inlets[PITCH_INDEX].Input; }
+            set { _operator.Inlets[PITCH_INDEX].LinkTo(value); }
         }
 
         public Outlet Level
         {
-            get { return _operator.Inlets[2].Input; }
-            set { _operator.Inlets[2].LinkTo(value); }
+            get { return _operator.Inlets[LEVEL_INDEX].Input; }
+            set { _operator.Inlets[LEVEL_INDEX].LinkTo(value); }
         }
 
         public Outlet PhaseStart
         {
-            get { return _operator.Inlets[3].Input; }
-            set { _operator.Inlets[3].LinkTo(value); }
+            get { return _operator.Inlets[PHASE_START_INDEX].Input; }
+            set { _operator.Inlets[PHASE_START_INDEX].LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return _operator.Outlets[0]; }
+            get { return _operator.Outlets[RESULT_INDEX]; }
         }
 
         public static implicit operator Outlet(Sine wrapper)

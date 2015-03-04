@@ -10,12 +10,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Validation
+namespace JJ.Business.Synthesizer.Validation.Entities
 {
-    public class PowerValidator : GenericOperatorValidator
+    public class SineValidator : GenericOperatorValidator
     {
-        public PowerValidator(Operator obj)
-            : base(obj, PropertyNames.Power, 2, PropertyNames.Base, PropertyNames.Exponent, PropertyNames.Result)
+        public SineValidator(Operator obj)
+            : base(obj, 
+                PropertyNames.Sine, 4,
+                PropertyNames.Volume, PropertyNames.Pitch, PropertyNames.Level, PropertyNames.PhaseStart, 
+                PropertyNames.Result)
         { }
     }
 }

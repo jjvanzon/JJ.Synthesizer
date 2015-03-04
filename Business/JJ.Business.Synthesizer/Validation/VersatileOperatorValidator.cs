@@ -1,5 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 using System;
@@ -45,8 +46,10 @@ namespace JJ.Business.Synthesizer.Validation
                 // TODO: Get a better property key.
                 ValidationMessages.Add("OperatorTypeName", MessagesFormatter.UnsupportedOperatorTypeName(Object.OperatorTypeName));
             }
-
-            Execute(validatorType);
+            else
+            {
+                Execute(validatorType);
+            }
         }
     }
 }

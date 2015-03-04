@@ -23,30 +23,10 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            // Handle circularity
             if (_alreadyDone.Contains(Object)) return;
             _alreadyDone.Add(Object);
 
-            if (String.Equals(Object.OperatorTypeName, PropertyNames.ValueOperator)) 
-            {
-                Execute<ValueOperatorWarningValidator>();
-            }
-            else if (String.Equals(Object.OperatorTypeName, PropertyNames.Add))
-            {
-                Execute<AddWarningValidator>();
-            }
-            else if (String.Equals(Object.OperatorTypeName, PropertyNames.Substract))
-            {
-                Execute<SubstractWarningValidator>();
-            }
-            else if (String.Equals(Object.OperatorTypeName, PropertyNames.Multiply))
-            {
-                Execute<MultiplyWarningValidator>();
-            }
-            else
-            {
-                throw new Exception(String.Format("OperatorTypeName value '{0}' is not supported.", Object.OperatorTypeName));
-            }
+            Execute<VersatileOperatorWarningValidator>();
             
             foreach (Inlet inlet in Object.Inlets)
             {

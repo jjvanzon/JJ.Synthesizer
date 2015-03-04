@@ -11,25 +11,29 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Add : OperatorWrapperBase
     {
+        public const int OPERAND_A_INDEX = 0;
+        public const int OPERAND_B_INDEX = 1;
+        public const int RESULT_INDEX = 0;
+
         public Add(Operator op)
             : base(op)
         { }
 
         public Outlet OperandA
         {
-            get { return _operator.Inlets[0].Input; }
-            set { _operator.Inlets[0].LinkTo(value); }
+            get { return _operator.Inlets[OPERAND_A_INDEX].Input; }
+            set { _operator.Inlets[OPERAND_A_INDEX].LinkTo(value); }
         }
 
         public Outlet OperandB
         {
-            get { return _operator.Inlets[1].Input; }
-            set { _operator.Inlets[1].LinkTo(value); }
+            get { return _operator.Inlets[OPERAND_B_INDEX].Input; }
+            set { _operator.Inlets[OPERAND_B_INDEX].LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return _operator.Outlets[0]; }
+            get { return _operator.Outlets[RESULT_INDEX]; }
         }
 
         public static implicit operator Outlet(Add wrapper)

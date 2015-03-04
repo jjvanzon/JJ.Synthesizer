@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Warnings
+namespace JJ.Business.Synthesizer.Warnings.Entities
 {
-    public class TimeDivideWarningValidator : FirstXInletsNotFilledInWarningValidator
+    public class DivideWarningValidator : FirstXInletsNotFilledInWarningValidator
     {
-        public TimeDivideWarningValidator(Operator obj)
+        public DivideWarningValidator(Operator obj)
             : base(obj, inletCount: 2)
         { }
     }

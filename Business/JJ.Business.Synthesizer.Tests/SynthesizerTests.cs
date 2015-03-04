@@ -10,6 +10,8 @@ using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Warnings;
 using System.Diagnostics;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Validation.Entities;
+using JJ.Business.Synthesizer.Warnings.Entities;
 
 namespace JJ.Business.Synthesizer.Tests
 {

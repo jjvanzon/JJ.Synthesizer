@@ -10,31 +10,36 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class TimePower : OperatorWrapperBase
     {
+        public const int SIGNAL_INDEX = 0;
+        public const int EXPONENT_INDEX = 1;
+        public const int ORIGIN_INDEX = 2;
+        public const int RESULT_INDEX = 0;
+
         public TimePower(Operator op)
             :base(op)
         { }
 
         public Outlet Signal
         {
-            get { return _operator.Inlets[0].Input; }
-            set { _operator.Inlets[0].LinkTo(value); }
+            get { return _operator.Inlets[SIGNAL_INDEX].Input; }
+            set { _operator.Inlets[SIGNAL_INDEX].LinkTo(value); }
         }
 
         public Outlet Exponent
         {
-            get { return _operator.Inlets[1].Input; }
-            set { _operator.Inlets[1].LinkTo(value); }
+            get { return _operator.Inlets[EXPONENT_INDEX].Input; }
+            set { _operator.Inlets[EXPONENT_INDEX].LinkTo(value); }
         }
 
         public Outlet Origin
         {
-            get { return _operator.Inlets[2].Input; }
-            set { _operator.Inlets[2].LinkTo(value); }
+            get { return _operator.Inlets[ORIGIN_INDEX].Input; }
+            set { _operator.Inlets[ORIGIN_INDEX].LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return _operator.Outlets[0]; }
+            get { return _operator.Outlets[RESULT_INDEX]; }
         }
 
         public static implicit operator Outlet(TimePower wrapper)
