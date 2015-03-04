@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer
             outlet.LinkTo(op);
 
             var wrapper = new ValueOperator(op);
-            wrapper.Value = 0;
+            wrapper.Value = value;
             return wrapper; 
         }
 
