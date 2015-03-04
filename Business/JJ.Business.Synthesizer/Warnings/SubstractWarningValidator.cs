@@ -9,21 +9,10 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class SubstractWarningValidator : FluentValidator<Operator>
+    public class SubstractWarningValidator : FirstXInletsNotFilledInWarningValidator
     {
         public SubstractWarningValidator(Operator obj)
             : base(obj)
         { }
-
-        protected override void Execute()
-        {
-            foreach (Inlet inlet in Object.Inlets)
-            {
-                if (inlet.Input == null)
-                {
-                    ValidationMessages.Add("OperandNotSet", MessagesFormatter.OperandNotSet(Object.OperatorTypeName, Object.Name, inlet.Name)); // TODO: Use a better propertyKey. with an expression?
-                }
-            }
-        }
     }
 }

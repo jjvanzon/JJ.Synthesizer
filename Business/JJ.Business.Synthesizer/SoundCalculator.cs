@@ -17,10 +17,21 @@ namespace JJ.Business.Synthesizer
         {
             _funcDictionary = new Dictionary<string, Func<Operator, double, double>>
             {
-                { PropertyNames.ValueOperator, CalculateValueOperator },
                 { PropertyNames.Add, CalculateAdd },
-                { PropertyNames.Substract, CalculateSubstract },
+                { PropertyNames.Adder, CalculateAdder },
+                { PropertyNames.Divide, CalculateDivide },
                 { PropertyNames.Multiply, CalculateMultiply },
+                { PropertyNames.PatchInlet, CalculatePatchInlet },
+                { PropertyNames.PatchOutlet, CalculatePatchOutlet },
+                { PropertyNames.Power, CalculatePower },
+                { PropertyNames.Sine, CalculateSine },
+                { PropertyNames.Substract, CalculateSubstract },
+                { PropertyNames.TimeAdd, CalculateTimeAdd },
+                { PropertyNames.TimeDivide, CalculateTimeDivide },
+                { PropertyNames.TimeMultiply, CalculateTimeMultiply },
+                { PropertyNames.TimePower, CalculateTimePower },
+                { PropertyNames.TimeSubstract, CalculateTimeSubstract },
+                { PropertyNames.ValueOperator, CalculateValueOperator },
             };
         }
 
@@ -32,33 +43,78 @@ namespace JJ.Business.Synthesizer
             return value;
         }
 
-        private double CalculateValueOperator(Operator op, double time)
-        {
-            var wrapper = new ValueOperator(op);
-
-            return wrapper.Result.Value;
-        }
-
         private double CalculateAdd(Operator op, double time)
         {
             var wrapper = new Add(op);
 
-            if (wrapper.OperandA == null || wrapper.OperandB == null) return 0;
+            Outlet operandAOutlet = wrapper.OperandA;
+            Outlet operandBOutlet = wrapper.OperandB;
 
-            double a = CalculateValue(wrapper.OperandA, time);
-            double b = CalculateValue(wrapper.OperandB, time);
+            if (operandAOutlet == null || operandBOutlet == null) return 0;
+
+            double a = CalculateValue(operandAOutlet, time);
+            double b = CalculateValue(operandBOutlet, time);
             return a + b;
         }
 
-        private double CalculateSubstract(Operator op, double time)
+        private double CalculateAdder(Operator op, double time)
         {
-            var wrapper = new Substract(op);
+            var wrapper = new Adder(op);
 
-            if (wrapper.OperandA == null || wrapper.OperandB == null) return 0;
-            
-            double a = CalculateValue(wrapper.OperandA, time);
-            double b = CalculateValue(wrapper.OperandB, time);
-            return a - b;
+            IList<Outlet> operands = wrapper.Operands;
+
+            double result = 0;
+
+            for (int i = 0; i < operands.Count; i++)
+            {
+                Outlet operand = operands[i];
+
+                if (operand != null)
+                {
+                    result += CalculateValue(operand, time);
+                }
+            }
+
+            return result;
+        }
+
+        private double CalculateDivide(Operator op, double time)
+        {
+            var wrapper = new Divide(op);
+
+            Outlet originOutlet = wrapper.Origin;
+            Outlet numeratorOutlet = wrapper.Numerator;
+            Outlet denominatorOutlet = wrapper.Denominator;
+
+            // Without Origin
+            if (originOutlet == null)
+            {
+                if (numeratorOutlet == null || denominatorOutlet == null) return 0;
+
+                double denominator = CalculateValue(denominatorOutlet, time);
+
+                if (denominator == 0) return 0;
+
+                double numerator = CalculateValue(numeratorOutlet, time);
+
+                return numerator / denominator;
+            }
+
+            // With Origin
+            else
+            {
+                double origin = CalculateValue(originOutlet, time);
+
+                if (numeratorOutlet == null || denominatorOutlet == null) return origin;
+
+                double denominator = CalculateValue(denominatorOutlet, time);
+
+                if (denominator == 0) return origin;
+
+                double numerator = CalculateValue(wrapper.Numerator, time);
+
+                return (numerator - origin) / denominator + origin;
+            }
         }
 
         private double CalculateMultiply(Operator op, double time)
@@ -89,6 +145,304 @@ namespace JJ.Business.Synthesizer
                 double b = CalculateValue(wrapper.OperandB, time);
                 return (a - origin) * b + origin;
             }
+        }
+
+        private double CalculatePatchInlet(Operator op, double time)
+        {
+            var wrapper = new PatchInlet(op);
+
+            if (wrapper.Input == null)
+            {
+                return 0;
+            }
+
+            return CalculateValue(wrapper.Input, time);
+        }
+
+        private double CalculatePatchOutlet(Operator op, double time)
+        {
+            var wrapper = new PatchOutlet(op);
+
+            if (wrapper.Input == null)
+            {
+                return 0;
+            }
+
+            return CalculateValue(wrapper.Input, time);
+        }
+
+        private double CalculatePower(Operator op, double time)
+        {
+            var wrapper = new Power(op);
+
+            if (wrapper.Base == null || wrapper.Exponent == null)
+            {
+                return 0;
+            }
+
+            double @base = CalculateValue(wrapper.Base, time);
+            double exponent = CalculateValue(wrapper.Exponent, time);
+
+            return Math.Pow(@base, exponent);
+        }
+
+        private double CalculateSine(Operator op, double time)
+        {
+            var wrapper = new Sine(op);
+
+            Outlet volumeOutlet = wrapper.Volume;
+            Outlet pitchOutlet = wrapper.Volume;
+
+            if (volumeOutlet == null || pitchOutlet == null)
+            {
+                return 0;
+            }
+
+            Outlet levelOutlet = wrapper.Level;
+            Outlet phaseStartOutlet = wrapper.PhaseStart;
+
+            double volume = CalculateValue(volumeOutlet, time);
+            double pitch = CalculateValue(pitchOutlet, time);
+
+            if (levelOutlet == null && phaseStartOutlet == null)
+            {
+                return volume * Math.Sin(2 * Math.PI * pitch * time);
+            }
+
+            double level = levelOutlet != null ? CalculateValue(levelOutlet, time) : 0;
+            double phaseStart = levelOutlet != null ? CalculateValue(phaseStartOutlet, time) : 0;
+
+            double result = level + volume * Math.Sin(2 * Math.PI * phaseStart + 2 * Math.PI * pitch * time);
+            return result;
+        }
+
+        private double CalculateSubstract(Operator op, double time)
+        {
+            var wrapper = new Substract(op);
+
+            if (wrapper.OperandA == null || wrapper.OperandB == null) return 0;
+
+            double a = CalculateValue(wrapper.OperandA, time);
+            double b = CalculateValue(wrapper.OperandB, time);
+            return a - b;
+        }
+
+        private double CalculateTimeAdd(Operator op, double time)
+        {
+            var timeAdd = new TimeAdd(op);
+
+            Outlet signalOutlet = timeAdd.Signal;
+
+            if (signalOutlet == null)
+            {
+                return 0;
+            }
+
+            Outlet timeDifferenceOutlet = timeAdd.TimeDifference;
+
+            if (timeDifferenceOutlet != null)
+            {
+                // IMPORTANT: To add time to the output, you have substract time from the input.
+                time = time - CalculateValue(timeDifferenceOutlet, time);
+            }
+
+            double result = CalculateValue(signalOutlet, time);
+            return result;
+        }
+
+        private double CalculateTimeDivide(Operator op, double time)
+        {
+            var timeDivide = new TimeDivide(op);
+
+            // Determine origin
+            Outlet originOutlet = timeDivide.Origin;
+            double origin = 0;
+            if (originOutlet != null)
+            {
+                origin = CalculateValue(originOutlet, time);
+            }
+
+            // No signal? Exit with default (the origin).
+            Outlet signalOutlet = timeDivide.Signal;
+            if (signalOutlet == null)
+            {
+                return origin;
+            }
+
+            // No time divider? Just pass through signal.
+            Outlet timeDividerOutlet = timeDivide.TimeDivider;
+            if (timeDividerOutlet == null)
+            {
+                double result = CalculateValue(signalOutlet, time);
+                return result;
+            }
+
+            // Time divider 0? Don't return infinity, but just pass through signal.
+            double timeDivider = CalculateValue(timeDividerOutlet, time);
+            if (timeDivider == 0)
+            {
+                double result = CalculateValue(signalOutlet, time);
+                return result;
+            }
+
+            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+
+            // Formula without origin
+            if (originOutlet == null)
+            {
+                double transformedTime = time * timeDivider;
+                double result = CalculateValue(signalOutlet, transformedTime);
+                return result;
+            }
+
+            // Formula with origin
+            else
+            {
+                double transformedTime = (time - origin) * timeDivider + origin;
+                double result = CalculateValue(signalOutlet, transformedTime);
+                return result;
+            }
+        }
+
+        private double CalculateTimeMultiply(Operator op, double time)
+        {
+            var timeMultiply = new TimeMultiply(op);
+
+            // Determine origin
+            Outlet originOutlet = timeMultiply.Origin;
+            double origin = 0;
+            if (originOutlet != null)
+            {
+                origin = CalculateValue(originOutlet, time);
+            }
+
+            // No signal? Exit with default (the origin).
+            Outlet signalOutlet = timeMultiply.Signal;
+            if (signalOutlet == null)
+            {
+                return origin;
+            }
+
+            // No time multiplier? Just pass through signal.
+            Outlet timeMultiplierOutlet = timeMultiply.TimeMultiplier;
+            if (timeMultiplierOutlet == null)
+            {
+                double result = CalculateValue(signalOutlet, time);
+                return result;
+            }
+
+            // Time multiplier 0? See that as multiplier = 1 or rather: just pass through signal.
+            double timeDivider = CalculateValue(timeMultiplierOutlet, time);
+            if (timeDivider == 0)
+            {
+                double result = CalculateValue(signalOutlet, time);
+                return result;
+            }
+
+            // IMPORTANT: To multiply the time in the output, you have to divide the time of the input.
+
+            // Formula without origin
+            if (originOutlet == null)
+            {
+                double transformedTime = time / timeDivider;
+                double result = CalculateValue(signalOutlet, transformedTime);
+                return result;
+            }
+
+            // Formula with origin
+            else
+            {
+                double transformedTime = (time - origin) / timeDivider + origin;
+                double result = CalculateValue(signalOutlet, transformedTime);
+                return result;
+            }
+        }
+
+        private double CalculateTimePower(Operator op, double time)
+        {
+            var timePower = new TimePower(op);
+
+            Outlet signalOutlet = timePower.Signal;
+            if (signalOutlet == null)
+            {
+                return 0;
+            }
+
+            Outlet exponentOutlet = timePower.Exponent;
+            if (exponentOutlet == null)
+            {
+                return CalculateValue(signalOutlet, time);
+            }
+
+            // IMPORTANT: 
+
+            // To increase time in the output, you have to decrease time of the input. 
+            // That is why the reciprocal of the exponent is used.
+
+            // Furthermore, you can not use a fractional exponent on a negative number.
+            // Time can be negative, that is why the sign is taken off the time 
+            // before taking the power and then added to it again after taking the power.
+
+            Outlet originOutlet = timePower.Origin;
+            if (originOutlet == null)
+            {
+                // (time: -4, exponent: 2) => -1 * Pow(4, 1/2)
+                double timeAbs = Math.Abs(time);
+                double timeSign = Math.Sign(time);
+
+                double exponent = CalculateValue(exponentOutlet, time);
+
+                double transformedTime = timeSign * Math.Pow(timeAbs, 1 / exponent);
+
+                double result = CalculateValue(signalOutlet, transformedTime);
+                return result;
+            }
+            else
+            {
+                double origin = CalculateValue(originOutlet, time);
+
+                double timeAbs = System.Math.Abs(time - origin);
+                double timeSign = System.Math.Sign(time - origin);
+
+                double exponent = CalculateValue(exponentOutlet, time);
+
+                double transformedTime = timeSign * Math.Pow(timeAbs, 1 / exponent) + origin;
+
+                double result = CalculateValue(signalOutlet, transformedTime);
+                return result;
+            }
+        }
+
+        private double CalculateTimeSubstract(Operator op, double time)
+        {
+            var timeSubstract = new TimeSubstract(op);
+
+            Outlet signalOutlet = timeSubstract.Signal;
+
+            if (signalOutlet == null)
+            {
+                return 0;
+            }
+
+            Outlet timeDifferenceOutlet = timeSubstract.TimeDifference;
+            if (timeDifferenceOutlet == null)
+            {
+                double result = CalculateValue(signalOutlet, time);
+                return result;
+            }
+
+            // IMPORTANT: To substract time from the output, you have add time to the input.
+            double timeDifference = CalculateValue(timeDifferenceOutlet, time);
+            double transformedTime = time + timeDifference;
+            double result2 = CalculateValue(signalOutlet, transformedTime);
+            return result2;
+        }
+
+        private double CalculateValueOperator(Operator op, double time)
+        {
+            var wrapper = new ValueOperator(op);
+
+            return wrapper.Result.Value;
         }
     }
 }

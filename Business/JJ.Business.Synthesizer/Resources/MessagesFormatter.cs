@@ -8,9 +8,9 @@ namespace JJ.Business.Synthesizer.Resources
 {
     public static class MessagesFormatter
     {
-        public static string OperandNotSet(string operatorTypeName, string operatorName, string operandName)
+        public static string InletNotSet(string operatorTypeName, string operatorName, string operandName)
         {
-            return String.Format(Messages.OperandNotSet, operatorTypeName, operatorName, operandName);
+            return String.Format(Messages.InletNotSet, operatorTypeName, operatorName, operandName);
         }
 
         public static string ValueOperatorValueIs0(string valueOperatorName)

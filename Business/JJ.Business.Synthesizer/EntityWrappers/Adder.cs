@@ -13,9 +13,20 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             :base(op)
         { }
 
-        public IList<Inlet> Inlets
+        /// <summary>
+        /// Executes a loop, so prevent calling it multiple times.
+        /// </summary>
+        public IList<Outlet> Operands
         {
-            get { return _operator.Inlets; }
+            get 
+            { 
+                IList<Outlet> operands = new Outlet[_operator.Inlets.Count];
+                for (int i = 0; i < _operator.Inlets.Count; i++)
+                {
+                    operands[i] = _operator.Inlets[i].Input;
+                }
+                return operands;
+            }
         }
 
         public Outlet Result

@@ -63,9 +63,9 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to {0} operator named &apos;{1}&apos; does not have {2} filled in..
         /// </summary>
-        internal static string OperandNotSet {
+        internal static string InletNotSet {
             get {
-                return ResourceManager.GetString("OperandNotSet", resourceCulture);
+                return ResourceManager.GetString("InletNotSet", resourceCulture);
             }
         }
         
