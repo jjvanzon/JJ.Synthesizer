@@ -23,45 +23,28 @@ namespace JJ.Business.Synthesizer.Tests
                 IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
                 IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
 
-                var manager = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
+                var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
+                ValueOperator value1 = factory.CreateValueOperator(2);
+                ValueOperator value2 = factory.CreateValueOperator(3);
+                Add add = factory.CreateAdd(value1, value2);
+                ValueOperator value3 = factory.CreateValueOperator(1);
+                Substract substract = factory.CreateSubstract(add, value3);
 
-                Value value1 = manager.CreateValue();
-                value1.Result.Value = 2;
-
-                Value value2 = manager.CreateValue();
-                value2.Result.Value = 3;
-
-                Add add = manager.CreateAdd();
-                add.OperandA = value1.Result;
-                add.OperandB = value2.Result;
-
-                Value value3 = manager.CreateValue();
-                value3.Result.Value = 1;
-
-                Substract substract = manager.CreateSubstract();
-                substract.OperandA = add.Result;
-                substract.OperandB = value3.Result;
-
-                // TODO: Validate whole patch.
-                IValidator validator1 = new BasicOperatorValidator(add.Operator);
-                IValidator validator2 = new AddValidator(add.Operator);
-                IValidator validator3 = new SubstractValidator(substract.Operator);
-                validator1.Verify();
-                validator2.Verify();
-                validator3.Verify();
+                IValidator validator = new RecursiveOperatorValidator(substract.Operator);
+                validator.Verify();
 
                 var calculator = new SoundCalculator();
-                double value = calculator.GetValue(add.Result, 0);
+                double value = calculator.GetValue(add, 0);
                 Assert.AreEqual(5, value, 0.00000000000001);
 
-                value = calculator.GetValue(substract.Result, 0);
+                value = calculator.GetValue(substract, 0);
                 Assert.AreEqual(4, value, 0.00000000000001);
                 
                 // Test recursive validator
-                value1.Result.Value = 0;
+                value1.Value = 0;
                 substract.Operator.Inlets[0].Name = "134";
-                IValidator recursiveValidator = new RecursiveOperatorValidator(substract.Operator);
-                IValidator recursiveWarningValidator = new RecursiveOperatorWarningValidator(substract.Operator);
+                IValidator validator2 = new RecursiveOperatorValidator(substract.Operator);
+                IValidator warningValidator = new RecursiveOperatorWarningValidator(substract.Operator);
             }
         }
 
@@ -82,7 +65,8 @@ namespace JJ.Business.Synthesizer.Tests
                 }
             });
 
-            bool isValid = validator1.IsValid && validator2.IsValid;
+            bool isValid = validator1.IsValid && 
+                           validator2.IsValid;
         }
 
         [TestMethod]
@@ -94,10 +78,10 @@ namespace JJ.Business.Synthesizer.Tests
                 IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
                 IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
 
-                var manager = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
+                var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
 
-                IValidator validator1 = new AddWarningValidator(manager.CreateAdd().Operator);
-                IValidator validator2 = new ValueWarningValidator(manager.CreateValue().Operator);
+                IValidator validator1 = new AddWarningValidator(factory.CreateAdd().Operator);
+                IValidator validator2 = new ValueOperatorWarningValidator(factory.CreateValueOperator().Operator);
 
                 bool isValid = validator1.IsValid &&
                                validator2.IsValid;

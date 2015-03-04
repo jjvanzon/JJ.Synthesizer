@@ -31,5 +31,10 @@ namespace JJ.Business.Synthesizer.OperatorWrappers
         {
             get { return _operator.Outlets[0]; }
         }
+
+        public static implicit operator Outlet(Add wrapper)
+        {
+            return wrapper.Result;
+        }
     }
 }

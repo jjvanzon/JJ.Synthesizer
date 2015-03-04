@@ -10,19 +10,19 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class ValueWarningValidator : FluentValidator<Operator>
+    public class ValueOperatorWarningValidator : FluentValidator<Operator>
     {
-        public ValueWarningValidator(Operator obj)
+        public ValueOperatorWarningValidator(Operator obj)
             : base(obj)
         { }
 
         protected override void Execute()
         {
-            var value = new Value(Object);
+            var valueOperator = new ValueOperator(Object);
 
-            if (value.Result.Value == 0)
+            if (valueOperator == 0)
             {
-                ValidationMessages.Add("ValueOperatorValueIs0", MessagesFormatter.ValueOperatorValueIs0(value.Name)); // TODO: Use a better propertyKey. with an expression?
+                ValidationMessages.Add("ValueOperatorValueIs0", MessagesFormatter.ValueOperatorValueIs0(valueOperator.Name)); // TODO: Use a better propertyKey. with an expression?
             }
         }
     }
