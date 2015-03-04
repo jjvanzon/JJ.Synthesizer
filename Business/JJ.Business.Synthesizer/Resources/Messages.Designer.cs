@@ -70,6 +70,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operator type &apos;{0}&apos; is not supported..
+        /// </summary>
+        internal static string UnsupportedOperatorTypeName {
+            get {
+                return ResourceManager.GetString("UnsupportedOperatorTypeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Value of value operator named &apos;{0}&apos; is 0..
         /// </summary>
         internal static string ValueOperatorValueIs0 {

@@ -26,28 +26,7 @@ namespace JJ.Business.Synthesizer.Validation
             if (_alreadyDone.Contains(Object)) return;
             _alreadyDone.Add(Object);
 
-            Execute<BasicOperatorValidator>();
-
-            if (String.Equals(Object.OperatorTypeName, PropertyNames.ValueOperator)) 
-            {
-                Execute<ValueOperatorValidator>();
-            }
-            else if (String.Equals(Object.OperatorTypeName, PropertyNames.Add))
-            {
-                Execute<AddValidator>();
-            }
-            else if (String.Equals(Object.OperatorTypeName, PropertyNames.Substract))
-            {
-                Execute<SubstractValidator>();
-            }
-            else if (String.Equals(Object.OperatorTypeName, PropertyNames.Multiply))
-            {
-                Execute<MultiplyValidator>();
-            }
-            else
-            {
-                throw new Exception(String.Format("OperatorTypeName value '{0}' is not supported.", Object.OperatorTypeName));
-            }
+            Execute<VersatileOperatorValidator>();
             
             foreach (Inlet inlet in Object.Inlets)
             {

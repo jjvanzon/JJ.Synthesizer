@@ -12,13 +12,10 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class MultiplyValidator : GenericOperatorValidator
+    public class PatchOutletValidator : GenericOperatorValidator
     {
-        public MultiplyValidator(Operator obj)
-            : base(obj, 
-                PropertyNames.Multiply, 3, 
-                PropertyNames.OperandA, PropertyNames.OperandB, PropertyNames.Origin,
-                PropertyNames.Result)
+        public PatchOutletValidator(Operator obj)
+            : base(obj, PropertyNames.PatchOutlet, 1, PropertyNames.Input, PropertyNames.Result)
         { }
     }
 }

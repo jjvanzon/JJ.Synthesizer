@@ -17,5 +17,10 @@ namespace JJ.Business.Synthesizer.Resources
         {
             return String.Format(Messages.ValueOperatorValueIs0, valueOperatorName);
         }
+
+        internal static string UnsupportedOperatorTypeName(string operatorTypeName)
+        {
+            return String.Format(Messages.UnsupportedOperatorTypeName, operatorTypeName);
+        }
     }
 }

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.OperatorWrappers
+namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class ValueOperator : OperatorWrapperBase
     {

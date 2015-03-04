@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class MultiplyValidator : GenericOperatorValidator
+    public class TimePowerValidator : GenericOperatorValidator
     {
-        public MultiplyValidator(Operator obj)
+        public TimePowerValidator(Operator obj)
             : base(obj, 
-                PropertyNames.Multiply, 3, 
-                PropertyNames.OperandA, PropertyNames.OperandB, PropertyNames.Origin,
+                PropertyNames.TimePower, 3,
+                PropertyNames.Signal, PropertyNames.Exponent, PropertyNames.Origin, 
                 PropertyNames.Result)
         { }
     }

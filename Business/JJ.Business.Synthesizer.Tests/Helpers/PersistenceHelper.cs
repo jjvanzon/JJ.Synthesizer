@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Tests
+namespace JJ.Business.Synthesizer.Helpers
 {
     internal static class PersistenceHelper
     {

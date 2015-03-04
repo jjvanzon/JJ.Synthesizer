@@ -1,5 +1,4 @@
-﻿using JJ.Framework.Reflection;
-using JJ.Persistence.Synthesizer;
+﻿using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.LinkTo;
 using System;
 using System.Collections.Generic;
@@ -7,24 +6,30 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.OperatorWrappers
+namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Substract : OperatorWrapperBase
+    public class TimeMultiply : OperatorWrapperBase
     {
-        public Substract(Operator op)
+        public TimeMultiply(Operator op)
             : base(op)
         { }
 
-        public Outlet OperandA
+        public Outlet Signal
         {
             get { return _operator.Inlets[0].Input; }
             set { _operator.Inlets[0].LinkTo(value); }
         }
 
-        public Outlet OperandB
+        public Outlet TimeMultiplier
         {
             get { return _operator.Inlets[1].Input; }
             set { _operator.Inlets[1].LinkTo(value); }
+        }
+
+        public Outlet Origin
+        {
+            get { return _operator.Inlets[2].Input; }
+            set { _operator.Inlets[2].LinkTo(value); }
         }
 
         public Outlet Result
@@ -32,7 +37,7 @@ namespace JJ.Business.Synthesizer.OperatorWrappers
             get { return _operator.Outlets[0]; }
         }
 
-        public static implicit operator Outlet(Substract wrapper)
+        public static implicit operator Outlet(TimeMultiply wrapper)
         {
             return wrapper.Result;
         }
