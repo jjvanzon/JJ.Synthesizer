@@ -9,22 +9,11 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.OperatorWrappers
 {
-    public class Add
+    public class Add : OperatorWrapperBase
     {
-        private Operator _operator;
-        public Operator Operator { get { return _operator; } }
-
         public Add(Operator op)
-        {
-            if (op == null) throw new NullException(() => op);
-            _operator = op;
-        }
-
-        public string Name
-        {
-            get { return _operator.Name; }
-            set { _operator.Name = value; }
-        }
+            : base(op)
+        { }
 
         public Outlet OperandA
         {

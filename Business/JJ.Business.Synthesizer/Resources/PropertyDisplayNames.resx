@@ -127,6 +127,9 @@
   <data name="Inlets" xml:space="preserve">
     <value>Inlets</value>
   </data>
+  <data name="Multiply" xml:space="preserve">
+    <value>Multiply</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
   </data>

@@ -19,13 +19,20 @@ namespace JJ.Business.Synthesizer
             {
                 return outlet.Value;
             }
+
             else if (op.OperatorTypeName == PropertyNames.Add)
             {
                 return CalculateAdd(op, time);
             }
+
             else if (op.OperatorTypeName == PropertyNames.Substract)
             {
                 return CalculateSubstract(op, time);
+            }
+
+            else if (op.OperatorTypeName == PropertyNames.Multiply)
+            {
+                return CalculateMultiply(op, time);
             }
 
             throw new Exception(String.Format("OperatorTypeName value '{0}' is not supported.", op.OperatorTypeName));
@@ -34,6 +41,9 @@ namespace JJ.Business.Synthesizer
         private double CalculateAdd(Operator op, double time)
         {
             var wrapper = new Add(op);
+
+            if (wrapper.OperandA == null || wrapper.OperandB == null) return 0;
+
             double a = GetValue(wrapper.OperandA, time);
             double b = GetValue(wrapper.OperandB, time);
             return a + b;
@@ -42,9 +52,42 @@ namespace JJ.Business.Synthesizer
         private double CalculateSubstract(Operator op, double time)
         {
             var wrapper = new Substract(op);
+
+            if (wrapper.OperandA == null || wrapper.OperandB == null) return 0;
+            
             double a = GetValue(wrapper.OperandA, time);
             double b = GetValue(wrapper.OperandB, time);
             return a - b;
+        }
+
+        private double CalculateMultiply(Operator op, double time)
+        {
+            var wrapper = new Multiply(op);
+
+            if (wrapper.Origin == null)
+            {
+                if (wrapper.OperandA == null || wrapper.OperandB == null)
+                {
+                    return 0;
+                }
+
+                double a = GetValue(wrapper.OperandA, time);
+                double b = GetValue(wrapper.OperandB, time);
+                return a * b;
+            }
+            else
+            {
+                double origin = GetValue(wrapper.Origin, time);
+
+                if (wrapper.OperandA == null || wrapper.OperandB == null)
+                {
+                    return origin;
+                }
+
+                double a = GetValue(wrapper.OperandA, time);
+                double b = GetValue(wrapper.OperandB, time);
+                return (a - origin) * b + origin;
+            }
         }
     }
 }

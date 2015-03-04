@@ -44,8 +44,8 @@ namespace JJ.Business.Synthesizer.Tests
 
                 // TODO: Validate whole patch.
                 IValidator validator1 = new BasicOperatorValidator(add.Operator);
-                IValidator validator2 = new AddOperatorValidator(add.Operator);
-                IValidator validator3 = new SubstractOperatorValidator(substract.Operator);
+                IValidator validator2 = new AddValidator(add.Operator);
+                IValidator validator3 = new SubstractValidator(substract.Operator);
                 validator1.Verify();
                 validator2.Verify();
                 validator3.Verify();
@@ -56,14 +56,20 @@ namespace JJ.Business.Synthesizer.Tests
 
                 value = calculator.GetValue(substract.Result, 0);
                 Assert.AreEqual(4, value, 0.00000000000001);
+                
+                // Test recursive validator
+                value1.Result.Value = 0;
+                substract.Operator.Inlets[0].Name = "134";
+                IValidator recursiveValidator = new RecursiveOperatorValidator(substract.Operator);
+                IValidator recursiveWarningValidator = new RecursiveOperatorWarningValidator(substract.Operator);
             }
         }
 
         [TestMethod]
         public void Test_Synthesizer_AddOperatorValidator()
         {
-            IValidator validator1 = new AddOperatorValidator(new Operator());
-            IValidator validator2 = new AddOperatorValidator(new Operator 
+            IValidator validator1 = new AddValidator(new Operator());
+            IValidator validator2 = new AddValidator(new Operator 
             {
                 Inlets = new Inlet[]
                 { 
@@ -90,8 +96,8 @@ namespace JJ.Business.Synthesizer.Tests
 
                 var manager = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
 
-                IValidator validator1 = new AddOperatorWarningValidator(manager.CreateAdd().Operator);
-                IValidator validator2 = new ValueOperatorWarningValidator(manager.CreateValue().Operator);
+                IValidator validator1 = new AddWarningValidator(manager.CreateAdd().Operator);
+                IValidator validator2 = new ValueWarningValidator(manager.CreateValue().Operator);
 
                 bool isValid = validator1.IsValid &&
                                validator2.IsValid;

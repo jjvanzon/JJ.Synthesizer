@@ -43,8 +43,8 @@ namespace JJ.Business.Synthesizer
             outlet.Name = PropertyNames.Result;
             outlet.LinkTo(op);
 
-            var value = new Value(op);
-            return value; 
+            var wrapper = new Value(op);
+            return wrapper; 
         }
 
         public Add CreateAdd()
@@ -65,8 +65,8 @@ namespace JJ.Business.Synthesizer
             outlet.Name = PropertyNames.Result;
             outlet.LinkTo(op);
 
-            var add = new Add(op);
-            return add;
+            var wrapper = new Add(op);
+            return wrapper;
         }
 
         public Substract CreateSubstract()
@@ -87,8 +87,34 @@ namespace JJ.Business.Synthesizer
             outlet.Name = PropertyNames.Result;
             outlet.LinkTo(op);
 
-            var substract = new Substract(op);
-            return substract;
+            var wrapper = new Substract(op);
+            return wrapper;
+        }
+
+        public Multiply CreateMultiply()
+        {
+            Operator op = _operatorRepository.Create();
+            op.OperatorTypeName = PropertyNames.Multiply;
+            op.Name = PropertyDisplayNames.Multiply;
+
+            Inlet operandA = _inletRepository.Create();
+            operandA.Name = PropertyNames.OperandA;
+            operandA.LinkTo(op);
+
+            Inlet operandB = _inletRepository.Create();
+            operandB.Name = PropertyNames.OperandB;
+            operandB.LinkTo(op);
+
+            Inlet origin = _inletRepository.Create();
+            operandB.Name = PropertyNames.Origin;
+            operandB.LinkTo(op);
+
+            Outlet outlet = _outletRepository.Create();
+            outlet.Name = PropertyNames.Result;
+            outlet.LinkTo(op);
+
+            var wrapper = new Multiply(op);
+            return wrapper;
         }
     }
 }
