@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class ValueOperatorWarningValidator : FluentValidator<Operator>
+    public class ValueWarningValidator : FluentValidator<Operator>
     {
-        public ValueOperatorWarningValidator(Operator obj)
+        public ValueWarningValidator(Operator obj)
             : base(obj)
         { }
 

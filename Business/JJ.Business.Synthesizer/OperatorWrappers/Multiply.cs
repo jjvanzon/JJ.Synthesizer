@@ -1,5 +1,4 @@
-﻿using JJ.Framework.Reflection;
-using JJ.Persistence.Synthesizer;
+﻿using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.LinkTo;
 using System;
 using System.Collections.Generic;
@@ -9,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.OperatorWrappers
 {
-    public class Substract : OperatorWrapperBase
+    public class Multiply : OperatorWrapperBase
     {
-        public Substract(Operator op)
-            : base(op)
+        public Multiply(Operator op)
+            :base(op)
         { }
 
         public Outlet OperandA
@@ -25,6 +24,12 @@ namespace JJ.Business.Synthesizer.OperatorWrappers
         {
             get { return _operator.Inlets[1].Input; }
             set { _operator.Inlets[1].LinkTo(value); }
+        }
+
+        public Outlet Origin
+        {
+            get { return _operator.Inlets[2].Input; }
+            set { _operator.Inlets[2].LinkTo(value); }
         }
 
         public Outlet Result

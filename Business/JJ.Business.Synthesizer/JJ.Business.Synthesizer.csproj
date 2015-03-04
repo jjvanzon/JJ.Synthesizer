@@ -34,6 +34,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OperatorWrappers\Multiply.cs" />
+    <Compile Include="OperatorWrappers\OperatorWrapperBase.cs" />
     <Compile Include="OperatorWrappers\Substract.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -42,7 +44,10 @@
     </Compile>
     <Compile Include="Resources\MessagesFormatter.cs" />
     <Compile Include="SoundCalculator.cs" />
-    <Compile Include="Validation\SubstractOperatorValidator.cs" />
+    <Compile Include="Validation\ValueValidator.cs" />
+    <Compile Include="Validation\MultiplyValidator.cs" />
+    <Compile Include="Validation\RecursiveOperatorValidator.cs" />
+    <Compile Include="Validation\SubstractValidator.cs" />
     <Compile Include="Validation\GenericOperatorValidator.cs" />
     <Compile Include="OperatorWrappers\Add.cs" />
     <Compile Include="OperatorWrappers\Value.cs" />
@@ -55,11 +60,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PropertyDisplayNames.resx</DependentUpon>
     </Compile>
-    <Compile Include="Validation\AddOperatorValidator.cs" />
+    <Compile Include="Validation\AddValidator.cs" />
     <Compile Include="Validation\BasicOperatorValidator.cs" />
-    <Compile Include="Warnings\AddOperatorWarningValidator.cs" />
-    <Compile Include="Warnings\SubstractOperatorWarningValidator.cs" />
-    <Compile Include="Warnings\ValueOperatorWarningValidator.cs" />
+    <Compile Include="Warnings\AddWarningValidator.cs" />
+    <Compile Include="Warnings\MultiplyWarningValidator.cs" />
+    <Compile Include="Warnings\RecursiveOperatorWarningValidator.cs" />
+    <Compile Include="Warnings\SubstractWarningValidator.cs" />
+    <Compile Include="Warnings\ValueWarningValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation.Resources\JJ.Framework.Presentation.Resources.csproj">

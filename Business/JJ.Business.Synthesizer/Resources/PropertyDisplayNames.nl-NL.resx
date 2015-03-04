@@ -126,6 +126,9 @@
   <data name="Inlets" xml:space="preserve">
     <value>Ingangen</value>
   </data>
+  <data name="Multiply" xml:space="preserve">
+    <value>Vermenigvuldigen</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>Naam</value>
   </data>
