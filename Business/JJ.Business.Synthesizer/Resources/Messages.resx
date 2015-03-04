@@ -121,6 +121,10 @@
     <value>{0} operator named '{1}' does not have {2} filled in.</value>
     <comment>{0} = Operator type name. {1} = Operator name. {2} = Operand name.</comment>
   </data>
+  <data name="UnsupportedOperatorTypeName" xml:space="preserve">
+    <value>Operator type '{0}' is not supported.</value>
+    <comment>{0} = Operator type name</comment>
+  </data>
   <data name="ValueOperatorValueIs0" xml:space="preserve">
     <value>Value of value operator named '{0}' is 0.</value>
     <comment>{0} = Value operator name.</comment>

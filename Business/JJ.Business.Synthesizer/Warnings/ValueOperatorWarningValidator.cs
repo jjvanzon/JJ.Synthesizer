@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.OperatorWrappers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;

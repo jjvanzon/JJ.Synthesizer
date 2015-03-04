@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class AddWarningValidator : ValidatorBase<Operator>
+    public class DivideWarningValidator : FluentValidator<Operator>
     {
-        public AddWarningValidator(Operator obj)
+        public DivideWarningValidator(Operator obj)
             : base(obj)
         { }
 
         protected override void Execute()
         {
-            foreach (Inlet inlet in Object.Inlets)
+            foreach (Inlet inlet in Object.Inlets.Take(2))
             {
                 if (inlet.Input == null)
                 {

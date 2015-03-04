@@ -34,9 +34,21 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OperatorWrappers\Multiply.cs" />
-    <Compile Include="OperatorWrappers\OperatorWrapperBase.cs" />
-    <Compile Include="OperatorWrappers\Substract.cs" />
+    <Compile Include="EntityWrappers\Adder.cs" />
+    <Compile Include="EntityWrappers\TimeSubstract.cs" />
+    <Compile Include="EntityWrappers\TimeMultiply.cs" />
+    <Compile Include="EntityWrappers\TimePower.cs" />
+    <Compile Include="EntityWrappers\TimeDivide.cs" />
+    <Compile Include="EntityWrappers\TimeAdd.cs" />
+    <Compile Include="EntityWrappers\Sine.cs" />
+    <Compile Include="EntityWrappers\Power.cs" />
+    <Compile Include="EntityWrappers\PatchOutlet.cs" />
+    <Compile Include="EntityWrappers\PatchInlet.cs" />
+    <Compile Include="EntityWrappers\Divide.cs" />
+    <Compile Include="ISoundCalculator.cs" />
+    <Compile Include="EntityWrappers\Multiply.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
+    <Compile Include="EntityWrappers\Substract.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -44,13 +56,24 @@
     </Compile>
     <Compile Include="Resources\MessagesFormatter.cs" />
     <Compile Include="SoundCalculator.cs" />
+    <Compile Include="Validation\AdderValidator.cs" />
+    <Compile Include="Validation\TimeMultiplyValidator.cs" />
+    <Compile Include="Validation\TimeSubstractValidator.cs" />
+    <Compile Include="Validation\TimePowerValidator.cs" />
+    <Compile Include="Validation\TimeDivideValidator.cs" />
+    <Compile Include="Validation\TimeAddValidator.cs" />
+    <Compile Include="Validation\SineValidator.cs" />
+    <Compile Include="Validation\PowerValidator.cs" />
+    <Compile Include="Validation\PatchOutletValidator.cs" />
+    <Compile Include="Validation\PatchInletValidator.cs" />
+    <Compile Include="Validation\DivideValidator.cs" />
     <Compile Include="Validation\ValueOperatorValidator.cs" />
     <Compile Include="Validation\MultiplyValidator.cs" />
     <Compile Include="Validation\RecursiveOperatorValidator.cs" />
     <Compile Include="Validation\SubstractValidator.cs" />
     <Compile Include="Validation\GenericOperatorValidator.cs" />
-    <Compile Include="OperatorWrappers\Add.cs" />
-    <Compile Include="OperatorWrappers\ValueOperator.cs" />
+    <Compile Include="EntityWrappers\Add.cs" />
+    <Compile Include="EntityWrappers\ValueOperator.cs" />
     <Compile Include="LinkTo\LinkToExtensions.cs" />
     <Compile Include="Names\PropertyNames.cs" />
     <Compile Include="OperatorFactory.cs" />
@@ -62,7 +85,12 @@
     </Compile>
     <Compile Include="Validation\AddValidator.cs" />
     <Compile Include="Validation\BasicOperatorValidator.cs" />
+    <Compile Include="Validation\VersatileOperatorValidator.cs" />
+    <Compile Include="Warnings\AdderWarningValidator.cs" />
     <Compile Include="Warnings\AddWarningValidator.cs" />
+    <Compile Include="Warnings\FirstXOperandsNotFilledInWarningValidator.cs" />
+    <Compile Include="Warnings\PatchOutletWarningValidator.cs" />
+    <Compile Include="Warnings\DivideWarningValidator.cs" />
     <Compile Include="Warnings\MultiplyWarningValidator.cs" />
     <Compile Include="Warnings\RecursiveOperatorWarningValidator.cs" />
     <Compile Include="Warnings\SubstractWarningValidator.cs" />

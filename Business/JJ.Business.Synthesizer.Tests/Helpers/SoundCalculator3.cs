@@ -7,13 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer
+namespace JJ.Business.Synthesizer.Helpers
 {
-    public class SoundCalculator : ISoundCalculator
+    /// <summary>
+    /// Variation with no null checks.
+    /// Trying out a few things that might optimize things.
+    /// </summary>
+    internal class SoundCalculator3 : ISoundCalculator
     {
         private IDictionary<string, Func<Operator, double, double>> _funcDictionary;
 
-        public SoundCalculator()
+        public SoundCalculator3()
         {
             _funcDictionary = new Dictionary<string, Func<Operator, double, double>>
             {
@@ -34,59 +38,36 @@ namespace JJ.Business.Synthesizer
 
         private double CalculateValueOperator(Operator op, double time)
         {
-            var wrapper = new ValueOperator(op);
-
-            return wrapper.Result.Value;
+            return op.Outlets[0].Value;
         }
 
         private double CalculateAdd(Operator op, double time)
         {
-            var wrapper = new Add(op);
-
-            if (wrapper.OperandA == null || wrapper.OperandB == null) return 0;
-
-            double a = CalculateValue(wrapper.OperandA, time);
-            double b = CalculateValue(wrapper.OperandB, time);
+            double a = CalculateValue(op.Inlets[0].Input, time);
+            double b = CalculateValue(op.Inlets[1].Input, time);
             return a + b;
         }
 
         private double CalculateSubstract(Operator op, double time)
         {
-            var wrapper = new Substract(op);
-
-            if (wrapper.OperandA == null || wrapper.OperandB == null) return 0;
-            
-            double a = CalculateValue(wrapper.OperandA, time);
-            double b = CalculateValue(wrapper.OperandB, time);
+            double a = CalculateValue(op.Inlets[0].Input, time);
+            double b = CalculateValue(op.Inlets[1].Input, time);
             return a - b;
         }
 
         private double CalculateMultiply(Operator op, double time)
         {
-            var wrapper = new Multiply(op);
-
-            if (wrapper.Origin == null)
+            if (op.Inlets[2].Input == null)
             {
-                if (wrapper.OperandA == null || wrapper.OperandB == null)
-                {
-                    return 0;
-                }
-
-                double a = CalculateValue(wrapper.OperandA, time);
-                double b = CalculateValue(wrapper.OperandB, time);
+                double a = CalculateValue(op.Inlets[0].Input, time);
+                double b = CalculateValue(op.Inlets[1].Input, time);
                 return a * b;
             }
             else
             {
-                double origin = CalculateValue(wrapper.Origin, time);
-
-                if (wrapper.OperandA == null || wrapper.OperandB == null)
-                {
-                    return origin;
-                }
-
-                double a = CalculateValue(wrapper.OperandA, time);
-                double b = CalculateValue(wrapper.OperandB, time);
+                double origin = CalculateValue(op.Inlets[2].Input, time);
+                double a = CalculateValue(op.Inlets[0].Input, time);
+                double b = CalculateValue(op.Inlets[1].Input, time);
                 return (a - origin) * b + origin;
             }
         }

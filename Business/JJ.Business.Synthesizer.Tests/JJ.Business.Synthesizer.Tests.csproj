@@ -50,7 +50,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="PersistenceHelper.cs" />
+    <Compile Include="Helpers\PersistenceHelper.cs" />
+    <Compile Include="Helpers\SoundCalculator2.cs" />
+    <Compile Include="Helpers\SoundCalculator3.cs" />
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

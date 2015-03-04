@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Validation
                     // TODO: ExpressionToValueVisitor chokes on:
                     // () => Object.Inlets[i].Name
                     var inlet = Object.Inlets[i];
-                    For(() => inlet.Name, GetPropertyDisplayName_ForInlet(0))
+                    For(() => inlet.Name, GetPropertyDisplayName_ForInletName(0))
                         .IsValue(_expectedInletNames[i]);
                 }
             }
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Validation
                     // TODO: ExpressionToValueVisitor chokes on:
                     // () => Object.Outlets[i].Name
                     var outlet = Object.Outlets[i];
-                    For(() => outlet.Name, GetPropertyDisplayName_ForOutlet(0))
+                    For(() => outlet.Name, GetPropertyDisplayName_ForOutletName(0))
                         .IsValue(_expectedOutletNames[i]);
                 }
             }
@@ -85,12 +85,12 @@ namespace JJ.Business.Synthesizer.Validation
             return CommonTitlesFormatter.EntityCount(PropertyDisplayNames.Inlets);
         }
 
-        private string GetPropertyDisplayName_ForInlet(int index)
+        private string GetPropertyDisplayName_ForInletName(int index)
         {
             return String.Format("{0} {1}: {2}", PropertyDisplayNames.Inlet, index + 1, PropertyDisplayNames.Name);
         }
 
-        private string GetPropertyDisplayName_ForOutlet(int index)
+        private string GetPropertyDisplayName_ForOutletName(int index)
         {
             return String.Format("{0} {1}: {2}", PropertyDisplayNames.Outlet, index + 1, PropertyDisplayNames.Name);
         }

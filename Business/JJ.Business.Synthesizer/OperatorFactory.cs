@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.OperatorWrappers;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Reflection;
@@ -33,22 +33,22 @@ namespace JJ.Business.Synthesizer
             _outletRepository = outletRepository;
         }
 
-        public ValueOperator CreateValueOperator(double value = 0)
+        public ValueOperator NewValue(double value = 0)
         {
             Operator op = _operatorRepository.Create();
             op.OperatorTypeName = PropertyNames.ValueOperator;
-            op.Name = PropertyDisplayNames.Value;
+            op.Name = PropertyDisplayNames.ValueOperator;
 
             Outlet outlet = _outletRepository.Create();
             outlet.Name = PropertyNames.Result;
             outlet.LinkTo(op);
 
             var wrapper = new ValueOperator(op);
-            wrapper.Value = 0;
+            wrapper.Value = value;
             return wrapper; 
         }
 
-        public Add CreateAdd(Outlet operandA = null, Outlet operandB = null)
+        public Add NewAdd(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = _operatorRepository.Create();
             op.OperatorTypeName = PropertyNames.Add;
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Substract CreateSubstract(Outlet operandA = null, Outlet operandB = null)
+        public Substract NewSubstract(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = _operatorRepository.Create();
             op.OperatorTypeName = PropertyNames.Substract;
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Multiply CreateMultiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
+        public Multiply NewMultiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
         {
             Operator op = _operatorRepository.Create();
             op.OperatorTypeName = PropertyNames.Multiply;

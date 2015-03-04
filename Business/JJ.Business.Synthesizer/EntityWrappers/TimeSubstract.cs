@@ -7,21 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.OperatorWrappers
+namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Add : OperatorWrapperBase
+    public class TimeSubstract : OperatorWrapperBase
     {
-        public Add(Operator op)
+        public TimeSubstract(Operator op)
             : base(op)
         { }
 
-        public Outlet OperandA
+        public Outlet Signal
         {
             get { return _operator.Inlets[0].Input; }
             set { _operator.Inlets[0].LinkTo(value); }
         }
 
-        public Outlet OperandB
+        public Outlet TimeDifference
         {
             get { return _operator.Inlets[1].Input; }
             set { _operator.Inlets[1].LinkTo(value); }
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.OperatorWrappers
             get { return _operator.Outlets[0]; }
         }
 
-        public static implicit operator Outlet(Add wrapper)
+        public static implicit operator Outlet(TimeSubstract wrapper)
         {
             return wrapper.Result;
         }

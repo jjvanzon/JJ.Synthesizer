@@ -121,6 +121,12 @@
     <value>Add</value>
     <comment>The arithmetic meaning, like "a + b".</comment>
   </data>
+  <data name="Adder" xml:space="preserve">
+    <value>Adder</value>
+  </data>
+  <data name="Divide" xml:space="preserve">
+    <value>Divide</value>
+  </data>
   <data name="Inlet" xml:space="preserve">
     <value>Inlet</value>
   </data>
@@ -142,10 +148,34 @@
   <data name="Outlets" xml:space="preserve">
     <value>Outlets</value>
   </data>
+  <data name="PatchInlet" xml:space="preserve">
+    <value>Patch Inlet</value>
+  </data>
+  <data name="PatchOutlet" xml:space="preserve">
+    <value>Patch Outlet</value>
+  </data>
+  <data name="Power" xml:space="preserve">
+    <value>Power</value>
+  </data>
+  <data name="Sine" xml:space="preserve">
+    <value>Sine</value>
+  </data>
   <data name="Substract" xml:space="preserve">
     <value>Substract</value>
   </data>
-  <data name="Value" xml:space="preserve">
+  <data name="TimeAdd" xml:space="preserve">
+    <value>Time Add</value>
+  </data>
+  <data name="TimeDivide" xml:space="preserve">
+    <value>Time Divide</value>
+  </data>
+  <data name="TimeMultiply" xml:space="preserve">
+    <value>Time Multiply</value>
+  </data>
+  <data name="TimePower" xml:space="preserve">
+    <value>Time Power</value>
+  </data>
+  <data name="ValueOperator" xml:space="preserve">
     <value>Value</value>
   </data>
 </root>
