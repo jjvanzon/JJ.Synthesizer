@@ -27,9 +27,9 @@ namespace JJ.Business.Synthesizer.Warnings
             if (_alreadyDone.Contains(Object)) return;
             _alreadyDone.Add(Object);
 
-            if (String.Equals(Object.OperatorTypeName, PropertyNames.Value)) 
+            if (String.Equals(Object.OperatorTypeName, PropertyNames.ValueOperator)) 
             {
-                Execute<ValueWarningValidator>();
+                Execute<ValueOperatorWarningValidator>();
             }
             else if (String.Equals(Object.OperatorTypeName, PropertyNames.Add))
             {

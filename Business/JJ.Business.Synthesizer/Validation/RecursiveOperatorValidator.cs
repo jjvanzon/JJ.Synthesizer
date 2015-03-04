@@ -28,9 +28,9 @@ namespace JJ.Business.Synthesizer.Validation
 
             Execute<BasicOperatorValidator>();
 
-            if (String.Equals(Object.OperatorTypeName, PropertyNames.Value)) 
+            if (String.Equals(Object.OperatorTypeName, PropertyNames.ValueOperator)) 
             {
-                Execute<ValueValidator>();
+                Execute<ValueOperatorValidator>();
             }
             else if (String.Equals(Object.OperatorTypeName, PropertyNames.Add))
             {

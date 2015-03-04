@@ -44,13 +44,13 @@
     </Compile>
     <Compile Include="Resources\MessagesFormatter.cs" />
     <Compile Include="SoundCalculator.cs" />
-    <Compile Include="Validation\ValueValidator.cs" />
+    <Compile Include="Validation\ValueOperatorValidator.cs" />
     <Compile Include="Validation\MultiplyValidator.cs" />
     <Compile Include="Validation\RecursiveOperatorValidator.cs" />
     <Compile Include="Validation\SubstractValidator.cs" />
     <Compile Include="Validation\GenericOperatorValidator.cs" />
     <Compile Include="OperatorWrappers\Add.cs" />
-    <Compile Include="OperatorWrappers\Value.cs" />
+    <Compile Include="OperatorWrappers\ValueOperator.cs" />
     <Compile Include="LinkTo\LinkToExtensions.cs" />
     <Compile Include="Names\PropertyNames.cs" />
     <Compile Include="OperatorFactory.cs" />
@@ -66,7 +66,7 @@
     <Compile Include="Warnings\MultiplyWarningValidator.cs" />
     <Compile Include="Warnings\RecursiveOperatorWarningValidator.cs" />
     <Compile Include="Warnings\SubstractWarningValidator.cs" />
-    <Compile Include="Warnings\ValueWarningValidator.cs" />
+    <Compile Include="Warnings\ValueOperatorWarningValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation.Resources\JJ.Framework.Presentation.Resources.csproj">

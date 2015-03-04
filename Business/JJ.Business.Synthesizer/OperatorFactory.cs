@@ -33,87 +33,95 @@ namespace JJ.Business.Synthesizer
             _outletRepository = outletRepository;
         }
 
-        public Value CreateValue()
+        public ValueOperator CreateValueOperator(double value = 0)
         {
             Operator op = _operatorRepository.Create();
-            op.OperatorTypeName = PropertyNames.Value;
+            op.OperatorTypeName = PropertyNames.ValueOperator;
             op.Name = PropertyDisplayNames.Value;
 
             Outlet outlet = _outletRepository.Create();
             outlet.Name = PropertyNames.Result;
             outlet.LinkTo(op);
 
-            var wrapper = new Value(op);
+            var wrapper = new ValueOperator(op);
+            wrapper.Value = 0;
             return wrapper; 
         }
 
-        public Add CreateAdd()
+        public Add CreateAdd(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = _operatorRepository.Create();
             op.OperatorTypeName = PropertyNames.Add;
             op.Name = PropertyDisplayNames.Add;
 
-            Inlet operandA = _inletRepository.Create();
-            operandA.Name = PropertyNames.OperandA;
-            operandA.LinkTo(op);
+            Inlet operandAInlet = _inletRepository.Create();
+            operandAInlet.Name = PropertyNames.OperandA;
+            operandAInlet.LinkTo(op);
 
-            Inlet operandB = _inletRepository.Create();
-            operandB.Name = PropertyNames.OperandB;
-            operandB.LinkTo(op);
+            Inlet operandBInlet = _inletRepository.Create();
+            operandBInlet.Name = PropertyNames.OperandB;
+            operandBInlet.LinkTo(op);
 
             Outlet outlet = _outletRepository.Create();
             outlet.Name = PropertyNames.Result;
             outlet.LinkTo(op);
 
             var wrapper = new Add(op);
+            wrapper.OperandA = operandA;
+            wrapper.OperandB = operandB;
             return wrapper;
         }
 
-        public Substract CreateSubstract()
+        public Substract CreateSubstract(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = _operatorRepository.Create();
             op.OperatorTypeName = PropertyNames.Substract;
             op.Name = PropertyDisplayNames.Substract;
 
-            Inlet operandA = _inletRepository.Create();
-            operandA.Name = PropertyNames.OperandA;
-            operandA.LinkTo(op);
+            Inlet operandAInlet = _inletRepository.Create();
+            operandAInlet.Name = PropertyNames.OperandA;
+            operandAInlet.LinkTo(op);
 
-            Inlet operandB = _inletRepository.Create();
-            operandB.Name = PropertyNames.OperandB;
-            operandB.LinkTo(op);
+            Inlet operandBInlet = _inletRepository.Create();
+            operandBInlet.Name = PropertyNames.OperandB;
+            operandBInlet.LinkTo(op);
 
             Outlet outlet = _outletRepository.Create();
             outlet.Name = PropertyNames.Result;
             outlet.LinkTo(op);
 
             var wrapper = new Substract(op);
+            wrapper.OperandA = operandA;
+            wrapper.OperandB = operandB;
             return wrapper;
         }
 
-        public Multiply CreateMultiply()
+        public Multiply CreateMultiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
         {
             Operator op = _operatorRepository.Create();
             op.OperatorTypeName = PropertyNames.Multiply;
             op.Name = PropertyDisplayNames.Multiply;
 
-            Inlet operandA = _inletRepository.Create();
-            operandA.Name = PropertyNames.OperandA;
-            operandA.LinkTo(op);
+            Inlet operandAInlet = _inletRepository.Create();
+            operandAInlet.Name = PropertyNames.OperandA;
+            operandAInlet.LinkTo(op);
 
-            Inlet operandB = _inletRepository.Create();
-            operandB.Name = PropertyNames.OperandB;
-            operandB.LinkTo(op);
+            Inlet operandBInlet = _inletRepository.Create();
+            operandBInlet.Name = PropertyNames.OperandB;
+            operandBInlet.LinkTo(op);
 
-            Inlet origin = _inletRepository.Create();
-            operandB.Name = PropertyNames.Origin;
-            operandB.LinkTo(op);
+            Inlet originInlet = _inletRepository.Create();
+            operandBInlet.Name = PropertyNames.Origin;
+            operandBInlet.LinkTo(op);
 
             Outlet outlet = _outletRepository.Create();
             outlet.Name = PropertyNames.Result;
             outlet.LinkTo(op);
 
             var wrapper = new Multiply(op);
+            wrapper.OperandA = operandA;
+            wrapper.OperandB = operandB;
+            wrapper.Origin = origin;
             return wrapper;
         }
     }

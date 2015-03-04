@@ -11,11 +11,17 @@ namespace JJ.Business.Synthesizer
 {
     public class SoundCalculator
     {
+        private IDictionary<string, Func<double, Operator, double>> _methodDictionary = new Dictionary<string, Func<double, Operator, double>>
+        {
+            //{ PropertyNames.ValueOperator, CalculateValue },
+            //{ PropertyNames.Add, CalculateAdd }
+        };
+
         public double GetValue(Outlet outlet, double time)
         {
             Operator op = outlet.Operator;
 
-            if (op.OperatorTypeName == PropertyNames.Value) // Reference comparisons for performance.
+            if (op.OperatorTypeName == PropertyNames.ValueOperator) // Reference comparisons for performance.
             {
                 return outlet.Value;
             }
@@ -36,6 +42,13 @@ namespace JJ.Business.Synthesizer
             }
 
             throw new Exception(String.Format("OperatorTypeName value '{0}' is not supported.", op.OperatorTypeName));
+        }
+
+        private double CalculateValue(Operator op, double time)
+        {
+            var wrapper = new ValueOperator(op);
+
+            return wrapper.Result.Value;
         }
 
         private double CalculateAdd(Operator op, double time)
