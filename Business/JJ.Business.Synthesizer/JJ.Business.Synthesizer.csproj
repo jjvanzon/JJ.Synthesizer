@@ -88,7 +88,14 @@
     <Compile Include="Validation\VersatileOperatorValidator.cs" />
     <Compile Include="Warnings\AdderWarningValidator.cs" />
     <Compile Include="Warnings\AddWarningValidator.cs" />
-    <Compile Include="Warnings\FirstXOperandsNotFilledInWarningValidator.cs" />
+    <Compile Include="Warnings\TimeSubstractWarningValidator.cs" />
+    <Compile Include="Warnings\TimePowerWarningValidator.cs" />
+    <Compile Include="Warnings\TimeMultiplyWarningValidator.cs" />
+    <Compile Include="Warnings\TimeDivideWarningValidator.cs" />
+    <Compile Include="Warnings\TimeAddWarningValidator.cs" />
+    <Compile Include="Warnings\SineWarningValidator.cs" />
+    <Compile Include="Warnings\PowerWarningValidator.cs" />
+    <Compile Include="Warnings\FirstXInletsNotFilledInWarningValidator.cs" />
     <Compile Include="Warnings\PatchOutletWarningValidator.cs" />
     <Compile Include="Warnings\DivideWarningValidator.cs" />
     <Compile Include="Warnings\MultiplyWarningValidator.cs" />
@@ -97,6 +104,10 @@
     <Compile Include="Warnings\ValueOperatorWarningValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
+      <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
+      <Name>JJ.Framework.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation.Resources\JJ.Framework.Presentation.Resources.csproj">
       <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
       <Name>JJ.Framework.Presentation.Resources</Name>

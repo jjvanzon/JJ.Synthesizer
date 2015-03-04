@@ -9,23 +9,10 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class PatchOutletWarningValidator : FluentValidator<Operator>
+    public class PatchOutletWarningValidator : FirstXInletsNotFilledInWarningValidator
     {
         public PatchOutletWarningValidator(Operator obj)
-            : base(obj)
+            : base(obj, inletCount: 1)
         { }
-
-        protected override void Execute()
-        {
-            if (Object.Inlets.Count > 0)
-            {
-                Inlet inlet = Object.Inlets[0];
-
-                if (inlet.Input == null)
-                {
-                    ValidationMessages.Add("OperandNotSet", MessagesFormatter.OperandNotSet(Object.OperatorTypeName, Object.Name, inlet.Name)); // TODO: Use a better propertyKey. with an expression?
-                }
-            }
-        }
     }
 }

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class AddWarningValidator : FirstXInletsNotFilledInWarningValidator
+    public class TimeSubstractWarningValidator : FirstXInletsNotFilledInWarningValidator
     {
-        public AddWarningValidator(Operator obj)
+        public TimeSubstractWarningValidator(Operator obj)
             : base(obj)
         { }
     }
