@@ -59,7 +59,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Synthesizer.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Persistence.Synthesizer.Memory", "Persistence\JJ.Persistence.Synthesizer.Memory\JJ.Persistence.Synthesizer.Memory.csproj", "{BC3BE171-AD84-4EE4-8356-06A581BDCDF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection.Tests", "Framework\JJ.Framework.Reflection.Tests\JJ.Framework.Reflection.Tests.csproj", "{E150EBF6-16F7-4299-B4BD-791757D6CC9E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection.Tests", "JJ.Framework\Framework\JJ.Framework.Reflection.Tests\JJ.Framework.Reflection.Tests.csproj", "{E150EBF6-16F7-4299-B4BD-791757D6CC9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
