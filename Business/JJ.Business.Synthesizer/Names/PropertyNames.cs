@@ -42,6 +42,7 @@ namespace JJ.Business.Synthesizer.Names
         public const string TimeDifference = "TimeDifference";
         public const string TimeDivider = "TimeDivider";
         public const string TimeMultiplier = "TimeMultiplier";
+        public const string Operand = "Operand";
 
         // Outlets
         public const string Result = "Result";

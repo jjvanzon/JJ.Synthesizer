@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Tests
                 IValidator validator = new RecursiveOperatorValidator(substract.Operator);
                 validator.Verify();
 
-                ISoundCalculator calculator = CreateSoundCalculator();
+                ISoundCalculator calculator = new SoundCalculator3();
                 double value = calculator.CalculateValue(add, 0);
                 Assert.AreEqual(5, value, 0.00000000000001);
                 value = calculator.CalculateValue(substract, 0);
@@ -55,8 +55,13 @@ namespace JJ.Business.Synthesizer.Tests
                 long ms = sw.ElapsedMilliseconds;
 
                 // Test recursive validator
-                value1.Value = 0;
+                add.OperandA = null;
+                value3.Value = 0;
                 substract.Operator.Inlets[0].Name = "134";
+
+                System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("nl-NL");
+                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("nl-NL");
+
                 IValidator validator2 = new RecursiveOperatorValidator(substract.Operator);
                 IValidator warningValidator = new RecursiveOperatorWarningValidator(substract.Operator);
 
@@ -67,7 +72,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_AddValidator()
         {
-            IValidator validator2 = new AddValidator(new Operator 
+            IValidator validator1 = new AddValidator(new Operator 
             {
                 Inlets = new Inlet[]
                 { 
@@ -80,7 +85,7 @@ namespace JJ.Business.Synthesizer.Tests
                 }
             });
 
-            IValidator validator1 = new AddValidator(new Operator());
+            IValidator validator2 = new AddValidator(new Operator());
 
             bool isValid = validator1.IsValid && 
                            validator2.IsValid;
@@ -105,9 +110,31 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-        private ISoundCalculator CreateSoundCalculator()
+        [TestMethod]
+        public void Test_Synthesizer_Adder()
         {
-            return new SoundCalculator3();
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
+                IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
+                IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
+
+                var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
+                ValueOperator val1 = factory.NewValue(1);
+                ValueOperator val2 = factory.NewValue(2);
+                ValueOperator val3 = factory.NewValue(3);
+                Adder adder = factory.NewAdder(val1, val2, val3);
+
+                IValidator validator = new AdderValidator(adder.Operator);
+                validator.Verify();
+
+                var calculator = new SoundCalculator();
+                double value = calculator.CalculateValue(adder, 0);
+
+                adder.Operator.Inlets[0].Name = "qwer";
+                IValidator validator2 = new AdderValidator(adder.Operator);
+                validator2.Verify();
+            }
         }
-    }
+   }
 }

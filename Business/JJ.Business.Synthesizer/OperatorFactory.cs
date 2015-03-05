@@ -54,19 +54,25 @@ namespace JJ.Business.Synthesizer
         {
             if (operands == null) throw new NullException(() => operands);
 
-            // TODO: Is it any use delegating to the helper method,
-            // when you do something this specialized?
-            Operator op = CreateOperator(
-                PropertyNames.Add, PropertyDisplayNames.Add, operands.Length,
-                operands.Select(x => "")  // TODO: Fill in proper names.
-                        .Union(PropertyNames.Result)
-                        .ToArray());
+            Operator op = _operatorRepository.Create();
+            op.OperatorTypeName = PropertyNames.Adder;
+            op.Name = PropertyDisplayNames.Adder;
+
+            for (int i = 0; i < operands.Length; i++)
+            {
+                Inlet inlet = _inletRepository.Create();
+                inlet.Name = String.Format("{0}{1}", PropertyNames.Operand, i + 1);
+                inlet.LinkTo(op);
+
+                Outlet operand = operands[i];
+                inlet.Input = operand;
+            }
+
+            Outlet outlet = _outletRepository.Create();
+            outlet.Name = PropertyNames.Result;
+            outlet.LinkTo(op);
 
             var wrapper = new Adder(op);
-            for (int i = 0; i < operands.Length; i++)
-			{
-			    wrapper.Operands[i] = operands[i];
-			}
             return wrapper;
         }
 

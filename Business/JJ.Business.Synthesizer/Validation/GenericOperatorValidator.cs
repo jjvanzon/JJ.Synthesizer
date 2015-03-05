@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Validation
             {
                 for (int i = 0; i < Object.Inlets.Count; i++)
                 {
-                    For(() => Object.Inlets[i].Name, GetPropertyDisplayName_ForInletName(0))
+                    For(() => Object.Inlets[i].Name, GetPropertyDisplayName_ForInletName(i))
                         .IsValue(_expectedInletNames[i]);
                 }
             }
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Validation
             {
                 for (int i = 0; i < Object.Outlets.Count; i++)
                 {
-                    For(() => Object.Outlets[i].Name, GetPropertyDisplayName_ForOutletName(0))
+                    For(() => Object.Outlets[i].Name, GetPropertyDisplayName_ForOutletName(i))
                         .IsValue(_expectedOutletNames[i]);
                 }
             }

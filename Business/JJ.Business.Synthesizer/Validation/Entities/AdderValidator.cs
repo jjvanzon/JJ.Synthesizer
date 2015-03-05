@@ -29,11 +29,24 @@ namespace JJ.Business.Synthesizer.Validation.Entities
             For(() => Object.Outlets.Count, GetPropertyDisplayName_ForOutletCount())
                 .IsValue(1);
 
+            for (int i = 0; i < Object.Inlets.Count; i++)
+            {
+                string expectedName = String.Format("{0}{1}", PropertyNames.Operand, i + 1);
+
+                For(() => Object.Inlets[i].Name, GetPropertyDisplayName_ForInletName(i))
+                    .IsValue(expectedName);
+            }
+
             if (Object.Outlets.Count == 1)
             {
                 For(() => Object.Outlets[0].Name, GetPropertyDisplayName_ForOutletName())
                     .IsValue(PropertyNames.Result);
             }
+        }
+
+        private string GetPropertyDisplayName_ForInletName(int index)
+        {
+            return String.Format("{0} {1}: {2}", PropertyDisplayNames.Inlet, index + 1, PropertyDisplayNames.Name);
         }
 
         private string GetPropertyDisplayName_ForOutletCount()

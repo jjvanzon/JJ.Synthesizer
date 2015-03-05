@@ -26,7 +26,9 @@ namespace JJ.Business.Synthesizer.Validation
             if (_alreadyDone.Contains(Object)) return;
             _alreadyDone.Add(Object);
 
-            Execute<VersatileOperatorValidator>();
+            string messagePrefix = String.Format("{0} '{1}': ", Object.OperatorTypeName, Object.Name);
+
+            Execute(new VersatileOperatorValidator(Object), messagePrefix);
             
             foreach (Inlet inlet in Object.Inlets)
             {
