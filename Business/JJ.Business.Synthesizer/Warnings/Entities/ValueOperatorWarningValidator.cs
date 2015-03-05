@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Warnings.Entities
 
                     if (value == 0)
                     {
-                        ValidationMessages.Add("ValueOperatorValueIs0", MessagesFormatter.ValueOperatorValueIs0(Object.Name)); // TODO: Use a better propertyKey. with an expression?
+                        ValidationMessages.Add(() => Object.Outlets[0].Value, MessagesFormatter.ValueOperatorValueIs0(Object.Name));
                     }
                 }
             }

@@ -65,10 +65,9 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_AddOperatorValidator()
+        public void Test_Synthesizer_AddValidator()
         {
-            IValidator validator1 = new PatchInletValidator(new Operator());
-            IValidator validator2 = new PatchInletValidator(new Operator 
+            IValidator validator2 = new AddValidator(new Operator 
             {
                 Inlets = new Inlet[]
                 { 
@@ -80,6 +79,8 @@ namespace JJ.Business.Synthesizer.Tests
                     new Outlet { Name = "zxcv" }
                 }
             });
+
+            IValidator validator1 = new AddValidator(new Operator());
 
             bool isValid = validator1.IsValid && 
                            validator2.IsValid;

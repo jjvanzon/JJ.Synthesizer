@@ -31,10 +31,7 @@ namespace JJ.Business.Synthesizer.Validation.Entities
 
             if (Object.Outlets.Count == 1)
             {
-                // TODO: ExpressionToValueVisitor chokes on:
-                // () => Object.Outlets[i].Name
-                var outlet = Object.Outlets[0];
-                For(() => outlet.Name, GetPropertyDisplayName_ForOutletName())
+                For(() => Object.Outlets[0].Name, GetPropertyDisplayName_ForOutletName())
                     .IsValue(PropertyNames.Result);
             }
         }

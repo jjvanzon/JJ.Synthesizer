@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Warnings
             { PropertyNames.ValueOperator, typeof(ValueOperatorWarningValidator) }
         };
 
-        public VersatileOperatorWarningValidator(Operator obj, ISet<object> alreadyDone = null)
+        public VersatileOperatorWarningValidator(Operator obj)
             : base(obj)
         { }
 
@@ -41,8 +41,7 @@ namespace JJ.Business.Synthesizer.Warnings
             Type validatorType;
             if (!_validatorTypeDictionary.TryGetValue(Object.OperatorTypeName, out validatorType))
             {
-                // TODO: Get a better property key.
-                ValidationMessages.Add("OperatorTypeName", MessagesFormatter.UnsupportedOperatorTypeName(Object.OperatorTypeName));
+                ValidationMessages.Add(() => Object.OperatorTypeName, MessagesFormatter.UnsupportedOperatorTypeName(Object.OperatorTypeName));
             }
             else
             {

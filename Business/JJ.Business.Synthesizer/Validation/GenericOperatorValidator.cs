@@ -51,10 +51,7 @@ namespace JJ.Business.Synthesizer.Validation
             {
                 for (int i = 0; i < Object.Inlets.Count; i++)
                 {
-                    // TODO: ExpressionToValueVisitor chokes on:
-                    // () => Object.Inlets[i].Name
-                    var inlet = Object.Inlets[i];
-                    For(() => inlet.Name, GetPropertyDisplayName_ForInletName(0))
+                    For(() => Object.Inlets[i].Name, GetPropertyDisplayName_ForInletName(0))
                         .IsValue(_expectedInletNames[i]);
                 }
             }
@@ -66,10 +63,7 @@ namespace JJ.Business.Synthesizer.Validation
             {
                 for (int i = 0; i < Object.Outlets.Count; i++)
                 {
-                    // TODO: ExpressionToValueVisitor chokes on:
-                    // () => Object.Outlets[i].Name
-                    var outlet = Object.Outlets[i];
-                    For(() => outlet.Name, GetPropertyDisplayName_ForOutletName(0))
+                    For(() => Object.Outlets[i].Name, GetPropertyDisplayName_ForOutletName(0))
                         .IsValue(_expectedOutletNames[i]);
                 }
             }
