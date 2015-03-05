@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer
             _outletRepository = outletRepository;
         }
 
-        public Add NewAdd(Outlet operandA = null, Outlet operandB = null)
+        public Add Add(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.Add, PropertyDisplayNames.Add, 2,
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Adder NewAdder(params Outlet[] operands)
+        public Adder Adder(params Outlet[] operands)
         {
             if (operands == null) throw new NullException(() => operands);
 
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Divide NewDivide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
+        public Divide Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.Divide, PropertyDisplayNames.Divide, 3,
@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Multiply NewMultiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
+        public Multiply Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.Multiply, PropertyDisplayNames.Multiply, 3,
@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchInlet NewPatchInlet(Outlet input = null)
+        public PatchInlet PatchInlet(Outlet input = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.PatchInlet, PropertyDisplayNames.PatchInlet, 1,
@@ -125,7 +125,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public PatchOutlet NewPatchOutlet(Outlet input = null)
+        public PatchOutlet PatchOutlet(Outlet input = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.PatchOutlet, PropertyDisplayNames.PatchOutlet, 1,
@@ -140,7 +140,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Power NewPower(Outlet @base = null, Outlet exponent = null)
+        public Power Power(Outlet @base = null, Outlet exponent = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.Power, PropertyDisplayNames.Power, 2, 
@@ -156,7 +156,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Sine NewSine(Outlet volume = null, Outlet pitch = null, Outlet level = null, Outlet phaseStart = null)
+        public Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet level = null, Outlet phaseStart = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.Sine, PropertyDisplayNames.Sine, 4,
@@ -174,7 +174,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public Substract NewSubstract(Outlet operandA = null, Outlet operandB = null)
+        public Substract Substract(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.Substract, PropertyDisplayNames.Substract, 2,
@@ -190,7 +190,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public TimeAdd NewTimeAdd(Outlet signal = null, Outlet timeDifference = null)
+        public TimeAdd TimeAdd(Outlet signal = null, Outlet timeDifference = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.TimeAdd, PropertyDisplayNames.TimeAdd, 2,
@@ -206,7 +206,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public TimeDivide NewTimeDivide(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
+        public TimeDivide TimeDivide(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.TimeDivide, PropertyDisplayNames.TimeDivide, 3,
@@ -223,7 +223,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public TimeMultiply NewTimeMultiply(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
+        public TimeMultiply TimeMultiply(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.TimeMultiply, PropertyDisplayNames.TimeMultiply, 3,
@@ -240,7 +240,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public TimePower NewTimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
+        public TimePower TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.TimePower, PropertyDisplayNames.TimePower, 3,
@@ -257,7 +257,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public TimeSubstract NewTimeSubstract(Outlet signal = null, Outlet timeDifference = null)
+        public TimeSubstract TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.Divide, PropertyDisplayNames.Divide, 2, 
@@ -273,7 +273,7 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public ValueOperator NewValue(double value = 0)
+        public ValueOperator Value(double value = 0)
         {
             Operator op = CreateOperator(
                 PropertyNames.ValueOperator,
