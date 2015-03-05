@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JJ.Persistence.Synthesizer
 {
-    public class NodeType
+    public class SampleFormat
     {
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }

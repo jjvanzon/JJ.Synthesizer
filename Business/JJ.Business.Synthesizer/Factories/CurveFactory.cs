@@ -54,6 +54,8 @@ namespace JJ.Business.Synthesizer.Factories
         /// <param name="nodeInfos">When a NodeInfo is null, a node will not be created at that point in time.</param>
         public Curve CreateCurve(double timeSpan, params NodeInfo[] nodeInfos)
         {
+            // TODO: I do not like how calling this overload looks.
+
             if (nodeInfos == null) throw new NullException(() => nodeInfos);
 
             Curve curve = _curveRepository.Create();
