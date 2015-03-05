@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Mappings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertyNames.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Persistence.Memory\JJ.Framework.Persistence.Memory.csproj">

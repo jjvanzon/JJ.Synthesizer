@@ -7,12 +7,14 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer.Memory
 {
-    // TODO: Make mapping optional for memory persistance.
-    public class OperatorMapping : MemoryMapping<Operator>
+    // TODO: Make mapping optional for memory persistance?
+
+    public class CurveMapping : MemoryMapping<Curve>
     {
-        public OperatorMapping()
+        public CurveMapping()
         {
-            IdentityType = IdentityType.NoIDs;
+            IdentityType = IdentityType.AutoIncrement;
+            IdentityPropertyName = PropertyNames.ID;
         }
     }
 
@@ -20,7 +22,35 @@ namespace JJ.Persistence.Synthesizer.Memory
     {
         public InletMapping()
         {
-            IdentityType = IdentityType.NoIDs;
+            IdentityType = IdentityType.AutoIncrement;
+            IdentityPropertyName = PropertyNames.ID;
+        }
+    }
+
+    public class NodeMapping : MemoryMapping<Node>
+    {
+        public NodeMapping()
+        {
+            IdentityType = IdentityType.AutoIncrement;
+            IdentityPropertyName = PropertyNames.ID;
+        }
+    }
+
+    public class NodeTypeMapping : MemoryMapping<NodeType>
+    {
+        public NodeTypeMapping()
+        {
+            IdentityType = IdentityType.AutoIncrement;
+            IdentityPropertyName = PropertyNames.ID;
+        }
+    }
+
+    public class OperatorMapping : MemoryMapping<Operator>
+    {
+        public OperatorMapping()
+        {
+            IdentityType = IdentityType.AutoIncrement;
+            IdentityPropertyName = PropertyNames.ID;
         }
     }
 
@@ -28,7 +58,17 @@ namespace JJ.Persistence.Synthesizer.Memory
     {
         public OutletMapping()
         {
-            IdentityType = IdentityType.NoIDs;
+            IdentityType = IdentityType.AutoIncrement;
+            IdentityPropertyName = PropertyNames.ID;
+        }
+    }
+
+    public class PatchMapping : MemoryMapping<Patch>
+    {
+        public PatchMapping()
+        {
+            IdentityType = IdentityType.AutoIncrement;
+            IdentityPropertyName = PropertyNames.ID;
         }
     }
 }

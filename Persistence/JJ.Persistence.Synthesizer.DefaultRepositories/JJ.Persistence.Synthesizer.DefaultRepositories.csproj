@@ -34,15 +34,21 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PatchRepository.cs" />
+    <Compile Include="NodeTypeRepository.cs" />
+    <Compile Include="NodeRepository.cs" />
+    <Compile Include="CurveRepository.cs" />
     <Compile Include="InletRepository.cs" />
+    <Compile Include="Interfaces\IPatchRepository.cs" />
+    <Compile Include="Interfaces\INodeTypeRepository.cs" />
+    <Compile Include="Interfaces\INodeRepository.cs" />
+    <Compile Include="Interfaces\ICurveRepository.cs" />
     <Compile Include="OutletRepository.cs" />
     <Compile Include="Interfaces\IOutletRepository.cs" />
     <Compile Include="Interfaces\IInletRepository.cs" />
     <Compile Include="Interfaces\IOperatorRepository.cs" />
-    <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="OperatorRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RepositoryBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Persistence\JJ.Framework.Persistence.csproj">

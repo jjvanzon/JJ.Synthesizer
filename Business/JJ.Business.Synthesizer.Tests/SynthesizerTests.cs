@@ -12,6 +12,7 @@ using System.Diagnostics;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Business.Synthesizer.Warnings.Entities;
+using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -28,11 +29,11 @@ namespace JJ.Business.Synthesizer.Tests
                 IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
 
                 var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
-                ValueOperator value1 = factory.NewValue(2);
-                ValueOperator value2 = factory.NewValue(3);
-                Add add = factory.NewAdd(value1, value2);
-                ValueOperator value3 = factory.NewValue(1);
-                Substract substract = factory.NewSubstract(add, value3);
+                ValueOperator value1 = factory.Value(2);
+                ValueOperator value2 = factory.Value(3);
+                Add add = factory.Add(value1, value2);
+                ValueOperator value3 = factory.Value(1);
+                Substract substract = factory.Substract(add, value3);
 
                 IValidator validator = new RecursiveOperatorValidator(substract.Operator);
                 validator.Verify();
@@ -72,7 +73,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_AddValidator()
         {
-            IValidator validator1 = new AddValidator(new Operator 
+            IValidator validator1 = new AddValidator(new Operator
             {
                 Inlets = new Inlet[]
                 { 
@@ -87,7 +88,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             IValidator validator2 = new AddValidator(new Operator());
 
-            bool isValid = validator1.IsValid && 
+            bool isValid = validator1.IsValid &&
                            validator2.IsValid;
         }
 
@@ -102,8 +103,8 @@ namespace JJ.Business.Synthesizer.Tests
 
                 var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
 
-                IValidator validator1 = new AddWarningValidator(factory.NewAdd().Operator);
-                IValidator validator2 = new ValueOperatorWarningValidator(factory.NewValue().Operator);
+                IValidator validator1 = new AddWarningValidator(factory.Add().Operator);
+                IValidator validator2 = new ValueOperatorWarningValidator(factory.Value().Operator);
 
                 bool isValid = validator1.IsValid &&
                                validator2.IsValid;
@@ -120,10 +121,10 @@ namespace JJ.Business.Synthesizer.Tests
                 IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
 
                 var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
-                ValueOperator val1 = factory.NewValue(1);
-                ValueOperator val2 = factory.NewValue(2);
-                ValueOperator val3 = factory.NewValue(3);
-                Adder adder = factory.NewAdder(val1, val2, val3);
+                ValueOperator val1 = factory.Value(1);
+                ValueOperator val2 = factory.Value(2);
+                ValueOperator val3 = factory.Value(3);
+                Adder adder = factory.Adder(val1, val2, val3);
 
                 IValidator validator = new AdderValidator(adder.Operator);
                 validator.Verify();
@@ -133,8 +134,46 @@ namespace JJ.Business.Synthesizer.Tests
 
                 adder.Operator.Inlets[0].Name = "qwer";
                 IValidator validator2 = new AdderValidator(adder.Operator);
-                validator2.Verify();
+                //validator2.Verify();
             }
         }
-   }
+
+        [TestMethod]
+        public void Test_Synthesizer_PatchBuildingCodeWithShorterCode()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
+                IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
+                IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
+
+                var x = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
+
+                Substract substract = x.Substract(x.Add(x.Value(2), x.Value(3)), x.Value(1));
+
+                Substract substract2 = x.Substract
+                (
+                    x.Add
+                    (
+                        x.Value(2),
+                        x.Value(3)
+                    ),
+                    x.Value(1)
+                );
+            }
+        }
+
+        //[TestMethod]
+        //public void Test_Synthesizer_TemplateTestMethod()
+        //{
+        //    using (IContext context = PersistenceHelper.CreateContext())
+        //    {
+        //        IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
+        //        IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
+        //        IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
+
+        //        var x = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
+        //    }
+        //}
+    }
 }

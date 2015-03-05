@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer.DefaultRepositories
 {
-    public class InletRepository : RepositoryBase<Inlet, int>, IInletRepository
+    public class NodeRepository : RepositoryBase<Node, int>, INodeRepository
     {
-        public InletRepository(IContext context)
+        public NodeRepository(IContext context)
             : base(context)
         { }
     }

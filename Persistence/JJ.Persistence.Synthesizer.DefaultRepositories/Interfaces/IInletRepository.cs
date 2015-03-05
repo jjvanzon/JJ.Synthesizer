@@ -1,4 +1,5 @@
-﻿using JJ.Persistence.Synthesizer;
+﻿using JJ.Framework.Persistence;
+using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,6 @@ using System.Text;
 
 namespace JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces
 {
-    public interface IInletRepository : IRepository<Inlet>
+    public interface IInletRepository : IRepository<Inlet, int>
     { }
 }

@@ -13,6 +13,8 @@ namespace JJ.Persistence.Synthesizer
             ConnectedInlets = new List<Inlet>();
         }
 
+        public virtual int ID { get; set; }
+
         /// <summary> parent </summary>
         public virtual Operator Operator { get; set; }
         public virtual string Name { get; set; }

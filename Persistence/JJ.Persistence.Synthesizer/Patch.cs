@@ -12,6 +12,7 @@ namespace JJ.Persistence.Synthesizer
             Operators = new List<Operator>();
         }
 
-        public IList<Operator> Operators { get; set; }
+        public virtual int ID { get; set; }
+        public virtual IList<Operator> Operators { get; set; }
     }
 }

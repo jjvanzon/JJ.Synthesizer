@@ -34,7 +34,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Curve.cs" />
+    <Compile Include="CurveIn.cs" />
     <Compile Include="Inlet.cs" />
+    <Compile Include="Node.cs" />
+    <Compile Include="NodeType.cs" />
     <Compile Include="Operator.cs" />
     <Compile Include="Outlet.cs" />
     <Compile Include="Patch.cs" />
