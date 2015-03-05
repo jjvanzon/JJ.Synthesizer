@@ -27,13 +27,14 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
+            int i = 0;
             foreach (Inlet inlet in Object.Inlets.Take(_inletCount))
             {
                 if (inlet.Input == null)
                 {
-                    // TODO: Use a better propertyKey. with an expression?
-                    ValidationMessages.Add("OperandNotSet", MessagesFormatter.InletNotSet(Object.OperatorTypeName, Object.Name, inlet.Name));
+                    ValidationMessages.Add(() => Object.Inlets[i].Input, MessagesFormatter.InletNotSet(Object.OperatorTypeName, Object.Name, inlet.Name));
                 }
+                i++;
             }
         }
     }

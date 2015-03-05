@@ -43,8 +43,7 @@ namespace JJ.Business.Synthesizer.Validation
             Type validatorType;
             if (!_validatorTypeDictionary.TryGetValue(Object.OperatorTypeName, out validatorType))
             {
-                // TODO: Get a better property key.
-                ValidationMessages.Add("OperatorTypeName", MessagesFormatter.UnsupportedOperatorTypeName(Object.OperatorTypeName));
+                ValidationMessages.Add(() => Object.OperatorTypeName, MessagesFormatter.UnsupportedOperatorTypeName(Object.OperatorTypeName));
             }
             else
             {
