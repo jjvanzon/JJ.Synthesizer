@@ -16,6 +16,8 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Framework.Testing;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Framework.Validation;
+using JJ.Business.Synthesizer.Factories;
+using JJ.Business.Synthesizer.Infos;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -89,36 +91,16 @@ namespace JJ.Business.Synthesizer.Tests
                 ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
                 INodeRepository nodeRepository = PersistenceHelper.CreateRepository<INodeRepository>(context);
                 INodeTypeRepository nodeTypeRepository = PersistenceHelper.CreateRepository<INodeTypeRepository>(context);
-
-                Curve curve = curveRepository.Create();
-                curve.Name = "Curve";
-
-                Node node1 = nodeRepository.Create();
-                node1.Time = 0;
-                node1.Value = 0.5;
-                node1.SetNodeTypeEnum(NodeTypeEnum.Off, nodeTypeRepository);
-                node1.LinkTo(curve);
-
-                Node node2 = nodeRepository.Create();
-                node2.Time = 1;
-                node2.Value = 2;
-                node2.SetNodeTypeEnum(NodeTypeEnum.Block, nodeTypeRepository);
-                node2.LinkTo(curve);
-
-                Node node3 = nodeRepository.Create();
-                node3.Time = 2;
-                node3.Value = 1;
-                node3.SetNodeTypeEnum(NodeTypeEnum.Line, nodeTypeRepository);
-                node3.LinkTo(curve);
-
-                Node node4 = nodeRepository.Create();
-                node4.Time = 3;
-                // Behavior is different in JJ code base compared to the Circle code base. 
-                // In the Circle code base, an Off node means value = 0.
-                // In the JJ code base, a previous linear node will use the non-zero the value of the Off node.
-                node4.Value = 0.5;
-                node4.SetNodeTypeEnum(NodeTypeEnum.Off, nodeTypeRepository);
-                node4.LinkTo(curve);
+                
+                var curveFactory = TestHelper.CreateCurveFactory(context);
+                Curve curve = curveFactory.CreateCurve
+                (
+                    3,
+                    new NodeInfo(0.5, NodeTypeEnum.Off),
+                    new NodeInfo(2.0, NodeTypeEnum.Block),
+                    new NodeInfo(1.0, NodeTypeEnum.Line),
+                    new NodeInfo(0.5, NodeTypeEnum.Off)
+                );
 
                 var calculator = new CurveCalculator(curve);
 
@@ -131,7 +113,8 @@ namespace JJ.Business.Synthesizer.Tests
                 // Line
                 AssertHelper.AreEqual(1.00, () => calculator.CalculateValue(2.0));
                 // Behavior is different in JJ code base compared to the Circle code base. 
-                // See earilier comment.
+                // In the Circle code base, an Off node means value = 0.
+                // In the JJ code base, a previous linear node will use the non-zero the value of the Off node.
                 AssertHelper.AreEqual(0.75, () => calculator.CalculateValue(2.5));
                 // Off
                 AssertHelper.AreEqual(0.00, () => calculator.CalculateValue(3.0));
