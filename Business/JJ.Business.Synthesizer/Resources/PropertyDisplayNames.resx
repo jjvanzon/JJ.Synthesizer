@@ -124,6 +124,12 @@
   <data name="Adder" xml:space="preserve">
     <value>Adder</value>
   </data>
+  <data name="Curve" xml:space="preserve">
+    <value>Curve</value>
+  </data>
+  <data name="CurveIn" xml:space="preserve">
+    <value>Curve In</value>
+  </data>
   <data name="Divide" xml:space="preserve">
     <value>Divide</value>
   </data>
@@ -138,6 +144,12 @@
   </data>
   <data name="Name" xml:space="preserve">
     <value>Name</value>
+  </data>
+  <data name="Nodes" xml:space="preserve">
+    <value>Nodes</value>
+  </data>
+  <data name="NodeType" xml:space="preserve">
+    <value>Node Type</value>
   </data>
   <data name="OperatorTypeName" xml:space="preserve">
     <value>Operator Type</value>
@@ -177,5 +189,8 @@
   </data>
   <data name="ValueOperator" xml:space="preserve">
     <value>Value</value>
+  </data>
+  <data name="Node" xml:space="preserve">
+    <value>Node</value>
   </data>
 </root>

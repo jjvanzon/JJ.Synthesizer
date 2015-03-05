@@ -8,9 +8,10 @@ namespace JJ.Persistence.Synthesizer
 {
     public class CurveIn
     {
-        /// <summary>
-        /// base
-        /// </summary>
+        public virtual int ID { get; set; }
+        /// <summary> base </summary>
         public virtual Operator Operator { get; set; }
+
+        public virtual Curve Curve { get; set; }
     }
 }

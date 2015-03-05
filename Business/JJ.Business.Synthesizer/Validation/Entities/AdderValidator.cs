@@ -24,23 +24,23 @@ namespace JJ.Business.Synthesizer.Validation.Entities
             if (Object == null) throw new NullException(() => Object);
 
             For(() => Object.OperatorTypeName, PropertyDisplayNames.OperatorTypeName)
-                .IsValue(PropertyNames.Adder);
+                .Is(PropertyNames.Adder);
 
             For(() => Object.Outlets.Count, GetPropertyDisplayName_ForOutletCount())
-                .IsValue(1);
+                .Is(1);
 
             for (int i = 0; i < Object.Inlets.Count; i++)
             {
                 string expectedName = String.Format("{0}{1}", PropertyNames.Operand, i + 1);
 
                 For(() => Object.Inlets[i].Name, GetPropertyDisplayName_ForInletName(i))
-                    .IsValue(expectedName);
+                    .Is(expectedName);
             }
 
             if (Object.Outlets.Count == 1)
             {
                 For(() => Object.Outlets[0].Name, GetPropertyDisplayName_ForOutletName())
-                    .IsValue(PropertyNames.Result);
+                    .Is(PropertyNames.Result);
             }
         }
 

@@ -12,26 +12,30 @@ using System.Text;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Resources;
 
-namespace JJ.Business.Synthesizer
+namespace JJ.Business.Synthesizer.Factories
 {
     public class OperatorFactory
     {
         private IOperatorRepository _operatorRepository;
         private IInletRepository _inletRepository;
         private IOutletRepository _outletRepository;
+        private ICurveInRepository _curveInRepository;
 
         public OperatorFactory(
             IOperatorRepository operatorRepository, 
             IInletRepository inletRepository,
-            IOutletRepository outletRepository)
+            IOutletRepository outletRepository,
+            ICurveInRepository curveInRepository)
         {
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
+            if (curveInRepository == null) throw new NullException(() => curveInRepository);
 
             _operatorRepository = operatorRepository;
             _inletRepository = inletRepository;
             _outletRepository = outletRepository;
+            _curveInRepository = curveInRepository;
         }
 
         public Add Add(Outlet operandA = null, Outlet operandB = null)
@@ -276,8 +280,7 @@ namespace JJ.Business.Synthesizer
         public ValueOperator Value(double value = 0)
         {
             Operator op = CreateOperator(
-                PropertyNames.ValueOperator,
-                PropertyDisplayNames.ValueOperator, 0,
+                PropertyNames.ValueOperator, PropertyDisplayNames.ValueOperator, 0,
                 PropertyNames.Result);
 
             var wrapper = new ValueOperator(op)
@@ -285,6 +288,20 @@ namespace JJ.Business.Synthesizer
                 Value = value
             };
 
+            return wrapper;
+        }
+
+        public CurveInWrapper CurveIn(Curve curve = null)
+        {
+            Operator op = CreateOperator(
+                PropertyNames.CurveIn,PropertyDisplayNames.CurveIn, 0,
+                PropertyNames.Result);
+
+            CurveIn curveIn = _curveInRepository.Create();
+            curveIn.LinkTo(op);
+            curveIn.LinkTo(curve);
+
+            var wrapper = new CurveInWrapper(curveIn);
             return wrapper;
         }
 

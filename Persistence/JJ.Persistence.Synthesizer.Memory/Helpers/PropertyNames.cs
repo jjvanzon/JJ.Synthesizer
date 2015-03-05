@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Persistence.Synthesizer.Memory
+namespace JJ.Persistence.Synthesizer.Memory.Helpers
 {
     internal class PropertyNames
     {

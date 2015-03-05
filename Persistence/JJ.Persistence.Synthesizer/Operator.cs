@@ -22,5 +22,8 @@ namespace JJ.Persistence.Synthesizer
 
         /// <summary> parent </summary>
         public virtual Patch Patch { get; set; }
+
+        // TODO: Smells like polymorphism.
+        public virtual CurveIn AsCurveIn { get; set; }
     }
 }

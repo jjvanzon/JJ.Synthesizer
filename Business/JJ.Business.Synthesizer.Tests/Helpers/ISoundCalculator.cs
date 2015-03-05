@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer
 {
-    public interface ISoundCalculator
+    internal interface ISoundCalculator
     {
         double CalculateValue(Outlet outlet, double time);
     }

@@ -1,18 +1,24 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Framework.Testing;
-using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Framework.Persistence;
-using JJ.Persistence.Synthesizer;
-using JJ.Business.Synthesizer.Warnings;
-using System.Diagnostics;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Validation.Entities;
-using JJ.Business.Synthesizer.Warnings.Entities;
+using System.Linq;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
+using System.Globalization;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using JJ.Framework.Common;
+using JJ.Framework.Persistence;
+using JJ.Framework.Validation;
+using JJ.Persistence.Synthesizer;
+using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Validation.Entities;
+using JJ.Business.Synthesizer.Warnings;
+using JJ.Business.Synthesizer.Warnings.Entities;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Factories;
+using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Tests.Helpers;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -24,49 +30,73 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
-                IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
-                IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
+                OperatorFactory x = TestHelper.CreateOperatorFactory(context);
 
-                var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
-                ValueOperator value1 = factory.Value(2);
-                ValueOperator value2 = factory.Value(3);
-                Add add = factory.Add(value1, value2);
-                ValueOperator value3 = factory.Value(1);
-                Substract substract = factory.Substract(add, value3);
+                Add add = x.Add(x.Value(2), x.Value(3));
+                Substract substract = x.Substract(add, x.Value(1));
 
                 IValidator validator = new RecursiveOperatorValidator(substract.Operator);
                 validator.Verify();
 
                 ISoundCalculator calculator = new SoundCalculator3();
                 double value = calculator.CalculateValue(add, 0);
-                Assert.AreEqual(5, value, 0.00000000000001);
+                Assert.AreEqual(5, value, 0.0001);
                 value = calculator.CalculateValue(substract, 0);
-                Assert.AreEqual(4, value, 0.00000000000001);
-
-                // Test performance a bit.
-                int repeats = 88200;
-                Outlet outlet = substract.Operator.Outlets[0];
-                Stopwatch sw = Stopwatch.StartNew();
-                for (int i = 0; i < repeats; i++)
-                {
-                    value = calculator.CalculateValue(outlet, 0);
-                }
-                sw.Stop();
-                long ms = sw.ElapsedMilliseconds;
+                Assert.AreEqual(4, value, 0.0001);
 
                 // Test recursive validator
-                add.OperandA = null;
-                value3.Value = 0;
-                substract.Operator.Inlets[0].Name = "134";
+                CultureHelper.SetThreadCulture("nl-NL");
 
-                System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("nl-NL");
-                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("nl-NL");
+                add.OperandA = null;
+                substract.OperandB.Value = 0;
+                substract.Operator.Inlets[0].Name = "134";
 
                 IValidator validator2 = new RecursiveOperatorValidator(substract.Operator);
                 IValidator warningValidator = new RecursiveOperatorWarningValidator(substract.Operator);
+            }
+        }
 
-                //Assert.Inconclusive(String.Format("{0}ms for 1s of sound.", ms));
+        private class PerformanceResult
+        {
+            public ISoundCalculator Calculator { get; set; }
+            public long Milliseconds { get; set; }
+        }
+
+        [TestMethod]
+        public void Test_Synthesizer_Performance()
+        {
+            // TODO: Rename test SoundCalculator* classes to OperatorCalculator*.
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
+                Outlet outlet = MockFactory.CreateMockOperatorStructure(factory);
+
+                IList<PerformanceResult> results = new PerformanceResult[] 
+                {
+                    new PerformanceResult { Calculator = new SoundCalculator1() },
+                    new PerformanceResult { Calculator = new SoundCalculator2() },
+                    new PerformanceResult { Calculator = new SoundCalculator3() }
+                };
+
+                int repeats = 88200;
+
+                foreach (PerformanceResult result in results)
+                {
+			        ISoundCalculator calculator = result.Calculator;
+
+                    Stopwatch sw = Stopwatch.StartNew();
+                    for (int i = 0; i < repeats; i++)
+                    {
+                        double value = calculator.CalculateValue(outlet, 0);
+                    }
+                    sw.Stop();
+                    long ms = sw.ElapsedMilliseconds;
+                    result.Milliseconds = ms;
+                }
+
+                string message = String.Join(", ", results.Select(x => String.Format("{0}: {1}ms", x.Calculator.GetType().Name, x.Milliseconds)));
+                Assert.Inconclusive(message);
             }
         }
 
@@ -97,11 +127,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
-                IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
-                IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
-
-                var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
+                OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
 
                 IValidator validator1 = new AddWarningValidator(factory.Add().Operator);
                 IValidator validator2 = new ValueOperatorWarningValidator(factory.Value().Operator);
@@ -116,11 +142,8 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
-                IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
-                IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
+                OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
 
-                var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
                 ValueOperator val1 = factory.Value(1);
                 ValueOperator val2 = factory.Value(2);
                 ValueOperator val3 = factory.Value(3);
@@ -129,7 +152,7 @@ namespace JJ.Business.Synthesizer.Tests
                 IValidator validator = new AdderValidator(adder.Operator);
                 validator.Verify();
 
-                var calculator = new SoundCalculator();
+                var calculator = new OperatorCalculator();
                 double value = calculator.CalculateValue(adder, 0);
 
                 adder.Operator.Inlets[0].Name = "qwer";
@@ -139,15 +162,11 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_PatchBuildingCodeWithShorterCode()
+        public void Test_Synthesizer_ShorterCodeNotation()
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
-                IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
-                IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
-
-                var x = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
+                OperatorFactory x = TestHelper.CreateOperatorFactory(context);
 
                 Substract substract = x.Substract(x.Add(x.Value(2), x.Value(3)), x.Value(1));
 
@@ -163,17 +182,52 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-        //[TestMethod]
-        //public void Test_Synthesizer_TemplateTestMethod()
-        //{
-        //    using (IContext context = PersistenceHelper.CreateContext())
-        //    {
-        //        IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
-        //        IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
-        //        IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
+        [TestMethod]
+        public void Test_Synthesizer_SineWithCurve()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                CurveFactory curveFactory = TestHelper.CreateCurveFactory(context);
+                Curve curve = curveFactory.Create(1, 0, 1, 0.8, null, null, 0.8, 0);
 
-        //        var x = new OperatorFactory(operatorRepository, inletRepository, outletRepository);
-        //    }
-        //}
+                OperatorFactory f = TestHelper.CreateOperatorFactory(context);
+                Sine sine = f.Sine(f.CurveIn(curve), f.Value(440));
+
+                CultureHelper.SetThreadCulture("nl-NL");
+                IValidator[] validators = 
+                {
+                    new CurveValidator(curve), 
+                    new VersatileOperatorValidator(sine.Operator),
+                    new VersatileOperatorWarningValidator(sine.Operator)
+                };
+                validators.ForEach(x => x.Verify());
+
+                var calculator = new OperatorCalculator();
+                var values = new double[]
+                {
+                    calculator.CalculateValue(sine, 0.00),
+                    calculator.CalculateValue(sine, 0.05),
+                    calculator.CalculateValue(sine, 0.10),
+                    calculator.CalculateValue(sine, 0.15),
+                    calculator.CalculateValue(sine, 0.20),
+                    calculator.CalculateValue(sine, 0.25),
+                    calculator.CalculateValue(sine, 0.30),
+                    calculator.CalculateValue(sine, 0.35),
+                    calculator.CalculateValue(sine, 0.40),
+                    calculator.CalculateValue(sine, 0.45),
+                    calculator.CalculateValue(sine, 0.50),
+                    calculator.CalculateValue(sine, 0.55),
+                    calculator.CalculateValue(sine, 0.60),
+                    calculator.CalculateValue(sine, 0.65),
+                    calculator.CalculateValue(sine, 0.70),
+                    calculator.CalculateValue(sine, 0.75),
+                    calculator.CalculateValue(sine, 0.80),
+                    calculator.CalculateValue(sine, 0.85),
+                    calculator.CalculateValue(sine, 0.90),
+                    calculator.CalculateValue(sine, 0.95),
+                    calculator.CalculateValue(sine, 1.00)
+                };
+            }
+        }
     }
 }

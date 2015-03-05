@@ -42,29 +42,29 @@ namespace JJ.Business.Synthesizer.Validation
             if (Object == null) throw new NullException(() => Object);
 
             For(() => Object.OperatorTypeName, PropertyDisplayNames.OperatorTypeName)
-                .IsValue(_expectedOperatorTypeName);
+                .Is(_expectedOperatorTypeName);
 
             For(() => Object.Inlets.Count, GetPropertyDisplayName_ForInletCount())
-                .IsValue(_expectedInletNames.Count);
+                .Is(_expectedInletNames.Count);
 
             if (Object.Inlets.Count == _expectedInletNames.Count)
             {
                 for (int i = 0; i < Object.Inlets.Count; i++)
                 {
                     For(() => Object.Inlets[i].Name, GetPropertyDisplayName_ForInletName(i))
-                        .IsValue(_expectedInletNames[i]);
+                        .Is(_expectedInletNames[i]);
                 }
             }
 
             For(() => Object.Outlets.Count, GetPropertyDisplayName_ForOutletCount())
-                .IsValue(_expectedOutletNames.Count);
+                .Is(_expectedOutletNames.Count);
 
             if (Object.Outlets.Count == _expectedOutletNames.Count)
             {
                 for (int i = 0; i < Object.Outlets.Count; i++)
                 {
                     For(() => Object.Outlets[i].Name, GetPropertyDisplayName_ForOutletName(i))
-                        .IsValue(_expectedOutletNames[i]);
+                        .Is(_expectedOutletNames[i]);
                 }
             }
         }

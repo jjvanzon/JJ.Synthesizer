@@ -1,19 +1,23 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Names;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Framework.Common;
+using JJ.Framework.Reflection;
 
-namespace JJ.Business.Synthesizer
+namespace JJ.Business.Synthesizer.Calculation
 {
-    public class SoundCalculator : ISoundCalculator
+    public class OperatorCalculator
     {
         private IDictionary<string, Func<Operator, double, double>> _funcDictionary;
 
-        public SoundCalculator()
+        public OperatorCalculator()
         {
             _funcDictionary = new Dictionary<string, Func<Operator, double, double>>
             {
@@ -32,6 +36,7 @@ namespace JJ.Business.Synthesizer
                 { PropertyNames.TimePower, CalculateTimePower },
                 { PropertyNames.TimeSubstract, CalculateTimeSubstract },
                 { PropertyNames.ValueOperator, CalculateValueOperator },
+                { PropertyNames.CurveIn, CalculateCurveIn },
             };
         }
 
@@ -427,6 +432,21 @@ namespace JJ.Business.Synthesizer
         {
             var wrapper = new ValueOperator(op);
             return wrapper.Result.Value;
+        }
+
+        private double CalculateCurveIn(Operator op, double time)
+        {
+            CurveIn curveIn = op.AsCurveIn;
+
+            if (op.AsCurveIn == null) throw new NullException(() => op.AsCurveIn);
+
+            if (curveIn.Curve == null) return 0; // TODO: Think about if this null tolerance is appropriate.
+
+            Curve curve = curveIn.Curve;
+
+            var curveCalculator = new CurveCalculator(curve);
+            double result = curveCalculator.CalculateValue(time);
+            return result;
         }
     }
 }

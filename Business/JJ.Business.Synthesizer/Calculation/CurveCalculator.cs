@@ -1,0 +1,63 @@
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Framework.Common;
+using JJ.Framework.Reflection;
+using JJ.Persistence.Synthesizer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace JJ.Business.Synthesizer.Calculation
+{
+    public class CurveCalculator
+    {
+        private Curve _curve;
+
+        public CurveCalculator(Curve curve)
+        {
+            if (curve == null) throw new NullException(() => curve);
+            _curve = curve;
+        }
+
+        public double CalculateValue(double time)
+        {
+            Node nodeA = null;
+            Node nodeB = null;
+
+            // Find the nodes the time is in between
+            foreach (var node in _curve.Nodes)
+            {
+                if (node.Time > time)
+                {
+                    nodeB = node;
+                    break;
+                }
+                nodeA = node;
+            }
+
+            if (nodeA == null || nodeB == null) return 0;
+
+            // Calculate the Value
+            NodeTypeEnum nodeTypeEnum = nodeA.GetNodeTypeEnum();
+            switch (nodeTypeEnum)
+            {
+                case NodeTypeEnum.Line:
+                    if (nodeB.Time <= nodeA.Time) return nodeA.Value; // If time accidently reversed...
+                    return nodeA.Value + (nodeB.Value - nodeA.Value) * (time - nodeA.Time) / (nodeB.Time - nodeA.Time);
+
+                case NodeTypeEnum.Off:
+                    return 0;
+
+                case NodeTypeEnum.Block:
+                    return nodeA.Value;
+
+                default:
+                    // TODO: Return default, so things will not crash on stage?
+                    throw new ValueNotSupportedException(nodeTypeEnum);
+            }
+        }
+
+    }
+}
