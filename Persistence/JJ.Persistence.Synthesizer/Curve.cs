@@ -6,12 +6,14 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer
 {
-    public class Inlet
+    public class Curve
     {
+        public Curve()
+        {
+            Nodes = new List<Node>();
+        }
+
         public virtual int ID { get; set; }
-        /// <summary> parent </summary>
-        public virtual Operator Operator { get; set; }
-        public virtual string Name { get; set; }
-        public virtual Outlet Input { get; set; }
+        public IList<Node> Nodes { get; set; }
     }
 }

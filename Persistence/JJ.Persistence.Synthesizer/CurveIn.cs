@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer
 {
-    public class Inlet
+    public class CurveIn
     {
-        public virtual int ID { get; set; }
-        /// <summary> parent </summary>
+        /// <summary>
+        /// base
+        /// </summary>
         public virtual Operator Operator { get; set; }
-        public virtual string Name { get; set; }
-        public virtual Outlet Input { get; set; }
     }
 }

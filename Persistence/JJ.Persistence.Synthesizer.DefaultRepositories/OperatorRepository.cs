@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer.DefaultRepositories
 {
-    public class OperatorRepository : RepositoryBase<Operator>, IOperatorRepository
+    public class OperatorRepository : RepositoryBase<Operator, int>, IOperatorRepository
     {
         public OperatorRepository(IContext context)
             : base(context)

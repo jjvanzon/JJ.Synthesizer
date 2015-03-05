@@ -14,11 +14,13 @@ namespace JJ.Persistence.Synthesizer
             Outlets = new List<Outlet>();
         }
 
-        /// <summary> parent </summary>
-        public virtual Patch Patch { get; set; }
+        public virtual int ID { get; set; }
         public virtual string OperatorTypeName { get; set; }
         public virtual string Name { get; set; }
         public virtual IList<Inlet> Inlets { get; set; }
         public virtual IList<Outlet> Outlets { get; set; }
+
+        /// <summary> parent </summary>
+        public virtual Patch Patch { get; set; }
     }
 }

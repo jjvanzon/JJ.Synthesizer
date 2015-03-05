@@ -8,6 +8,6 @@ using System.Text;
 
 namespace JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces
 {
-    public interface IOutletRepository : IRepository<Outlet, int>
+    public interface ICurveRepository : IRepository<Curve, int>
     { }
 }
