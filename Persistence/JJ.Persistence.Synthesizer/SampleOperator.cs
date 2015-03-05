@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer
 {
-    public class CurveIn
+    public class SampleOperator
     {
         public virtual int ID { get; set; }
 
         /// <summary> base </summary>
         public virtual Operator Operator { get; set; }
 
-        public virtual Curve Curve { get; set; }
+        public Sample Sample { get; set; }
     }
 }

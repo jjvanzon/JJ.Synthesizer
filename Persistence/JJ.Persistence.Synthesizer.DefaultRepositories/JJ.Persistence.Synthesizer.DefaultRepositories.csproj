@@ -34,7 +34,21 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ChannelTypeRepository.cs" />
+    <Compile Include="SampleRepository.cs" />
+    <Compile Include="SampleOperatorRepository.cs" />
+    <Compile Include="SampleFormatRepository.cs" />
+    <Compile Include="SampleChannelRepository.cs" />
+    <Compile Include="ChannelSetupRepository.cs" />
+    <Compile Include="InterpolationTypeRepository.cs" />
     <Compile Include="CurveInRepository.cs" />
+    <Compile Include="Interfaces\ISampleOperatorRepository.cs" />
+    <Compile Include="Interfaces\ISampleFormatRepository.cs" />
+    <Compile Include="Interfaces\ISampleChannelRepository.cs" />
+    <Compile Include="Interfaces\ISampleRepository.cs" />
+    <Compile Include="Interfaces\IChannelSetupRepository.cs" />
+    <Compile Include="Interfaces\IInterpolationTypeRepository.cs" />
+    <Compile Include="Interfaces\IChannelTypeRepository.cs" />
     <Compile Include="Interfaces\ICurveInRepository.cs" />
     <Compile Include="PatchRepository.cs" />
     <Compile Include="NodeTypeRepository.cs" />

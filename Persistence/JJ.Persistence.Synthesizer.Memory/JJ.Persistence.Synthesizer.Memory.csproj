@@ -34,11 +34,21 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mappings\ChannelTypeMapping.cs" />
+    <Compile Include="Mappings\SampleMapping.cs" />
+    <Compile Include="Mappings\SampleOperatorMapping.cs" />
+    <Compile Include="Mappings\SampleFormatMapping.cs" />
+    <Compile Include="Mappings\SampleChannelMapping.cs" />
+    <Compile Include="Mappings\ChannelSetupMapping.cs" />
+    <Compile Include="Mappings\InterpolationTypeMapping.cs" />
     <Compile Include="Mappings\CurveInMapping.cs" />
     <Compile Include="Mappings\CurveMapping.cs" />
     <Compile Include="Mappings\InletMappings.cs" />
     <Compile Include="Mappings\NodeMappings.cs" />
     <Compile Include="Mappings\NodeTypeMappings.cs" />
+    <Compile Include="Repositories\ChannelTypeRepository.cs" />
+    <Compile Include="Repositories\SampleFormatRepository.cs" />
+    <Compile Include="Repositories\InterpolationTypeRepository.cs" />
     <Compile Include="Repositories\NodeTypeRepository.cs" />
     <Compile Include="Mappings\OperatorMappings.cs" />
     <Compile Include="Mappings\OutletMappings.cs" />

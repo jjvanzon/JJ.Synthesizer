@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer.Memory.Repositories
 {
-    public class NodeTypeRepository : JJ.Persistence.Synthesizer.DefaultRepositories.NodeTypeRepository
+    public class SampleFormatRepository : JJ.Persistence.Synthesizer.DefaultRepositories.SampleFormatRepository
     {
-        public NodeTypeRepository(IContext context)
+        public SampleFormatRepository(IContext context)
             : base(context)
         {
-            NodeType entity;
+            SampleFormat entity;
 
             // TODO: I need to be able to specify identity explicit or something
             // Not just auto-increment or NoIDs
@@ -22,13 +22,10 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
             entity.Name = "Undefined";
 
             entity = Create();
-            entity.Name = "Off";
+            entity.Name = "Raw";
 
             entity = Create();
-            entity.Name = "Block";
-
-            entity = Create();
-            entity.Name = "Line";
+            entity.Name = "Wav";
         }
     }
 }
