@@ -79,6 +79,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Curve.
+        /// </summary>
+        internal static string Curve {
+            get {
+                return ResourceManager.GetString("Curve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Curve In.
+        /// </summary>
+        internal static string CurveIn {
+            get {
+                return ResourceManager.GetString("CurveIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Divide.
         /// </summary>
         internal static string Divide {
@@ -120,6 +138,33 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Node.
+        /// </summary>
+        internal static string Node {
+            get {
+                return ResourceManager.GetString("Node", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nodes.
+        /// </summary>
+        internal static string Nodes {
+            get {
+                return ResourceManager.GetString("Nodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Node Type.
+        /// </summary>
+        internal static string NodeType {
+            get {
+                return ResourceManager.GetString("NodeType", resourceCulture);
             }
         }
         

@@ -11,9 +11,12 @@ namespace JJ.Persistence.Synthesizer
         public Curve()
         {
             Nodes = new List<Node>();
+            CurvesIn = new List<CurveIn>();
         }
 
         public virtual int ID { get; set; }
+        public virtual string Name { get; set; }
         public IList<Node> Nodes { get; set; }
+        public IList<CurveIn> CurvesIn { get; set; }
     }
 }

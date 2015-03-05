@@ -1,0 +1,40 @@
+﻿using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Reflection;
+using JJ.Framework.Validation;
+using JJ.Persistence.Synthesizer;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace JJ.Business.Synthesizer.Validation.Entities
+{
+    public class CurveValidator : FluentValidator<Curve>
+    {
+        public CurveValidator(Curve obj)
+            : base(obj)
+        { }
+
+        protected override void Execute()
+        {
+            if (Object == null) throw new NullException(() => Object);
+
+            For(() => Object.Name, PropertyDisplayNames.Name)
+                .NotInteger();
+
+            For(() => Object.Nodes.Count, CommonTitlesFormatter.EntityCount(PropertyDisplayNames.Nodes))
+                .AtLeast(2);
+
+            int i = 1;
+            foreach (Node node in Object.Nodes)
+            {
+                string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Node, i);
+                Execute(new NodeValidator(node), messagePrefix);
+
+                i++;
+            }
+        }
+    }
+}

@@ -34,6 +34,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CurveInRepository.cs" />
+    <Compile Include="Interfaces\ICurveInRepository.cs" />
     <Compile Include="PatchRepository.cs" />
     <Compile Include="NodeTypeRepository.cs" />
     <Compile Include="NodeRepository.cs" />

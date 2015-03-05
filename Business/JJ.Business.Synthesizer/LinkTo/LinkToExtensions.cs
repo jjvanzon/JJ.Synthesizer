@@ -78,5 +78,59 @@ namespace JJ.Business.Synthesizer.LinkTo
                 }
             }
         }
+
+        public static void LinkTo(this Node node, Curve curve)
+        {
+            if (node == null) throw new NullException(() => node);
+
+            if (node.Curve != null)
+            {
+                if (node.Curve.Nodes.Contains(node))
+                {
+                    node.Curve.Nodes.Remove(node);
+                }
+            }
+
+            node.Curve = curve;
+
+            if (node.Curve != null)
+            {
+                if (!node.Curve.Nodes.Contains(node))
+                {
+                    node.Curve.Nodes.Add(node);
+                }
+            }
+        }
+
+        public static void LinkTo(this CurveIn curveIn, Operator op)
+        {
+            if (curveIn == null) throw new NullException(() => curveIn);
+
+            curveIn.Operator = op;
+            op.AsCurveIn = curveIn;
+        }
+        
+        public static void LinkTo(this CurveIn curveIn, Curve curve)
+        {
+            if (curveIn == null) throw new NullException(() => curveIn);
+
+            if (curveIn.Curve != null)
+            {
+                if (curveIn.Curve.CurvesIn.Contains(curveIn))
+                {
+                    curveIn.Curve.CurvesIn.Remove(curveIn);
+                }
+            }
+
+            curveIn.Curve = curve;
+
+            if (curveIn.Curve != null)
+            {
+                if (!curveIn.Curve.CurvesIn.Contains(curveIn))
+                {
+                    curveIn.Curve.CurvesIn.Add(curveIn);
+                }
+            }
+        }
     }
 }

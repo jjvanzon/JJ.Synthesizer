@@ -34,7 +34,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculation\CurveCalculator.cs" />
+    <Compile Include="Factories\CurveFactory.cs" />
     <Compile Include="EntityWrappers\Adder.cs" />
+    <Compile Include="EntityWrappers\CurveInWrapper.cs" />
     <Compile Include="EntityWrappers\TimeSubstract.cs" />
     <Compile Include="EntityWrappers\TimeMultiply.cs" />
     <Compile Include="EntityWrappers\TimePower.cs" />
@@ -45,7 +48,8 @@
     <Compile Include="EntityWrappers\PatchOutlet.cs" />
     <Compile Include="EntityWrappers\PatchInlet.cs" />
     <Compile Include="EntityWrappers\Divide.cs" />
-    <Compile Include="ISoundCalculator.cs" />
+    <Compile Include="Enums\NodeTypeEnum.cs" />
+    <Compile Include="Extensions\EntityEnumExtensions.cs" />
     <Compile Include="EntityWrappers\Multiply.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
     <Compile Include="EntityWrappers\Substract.cs" />
@@ -55,8 +59,11 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\MessagesFormatter.cs" />
-    <Compile Include="SoundCalculator.cs" />
+    <Compile Include="Calculation\OperatorCalculator.cs" />
     <Compile Include="Validation\Entities\AdderValidator.cs" />
+    <Compile Include="Validation\Entities\CurveInValidator.cs" />
+    <Compile Include="Validation\Entities\CurveValidator.cs" />
+    <Compile Include="Validation\Entities\NodeValidator.cs" />
     <Compile Include="Validation\Entities\TimeMultiplyValidator.cs" />
     <Compile Include="Validation\Entities\TimeSubstractValidator.cs" />
     <Compile Include="Validation\Entities\TimePowerValidator.cs" />
@@ -76,7 +83,7 @@
     <Compile Include="EntityWrappers\ValueOperator.cs" />
     <Compile Include="LinkTo\LinkToExtensions.cs" />
     <Compile Include="Names\PropertyNames.cs" />
-    <Compile Include="OperatorFactory.cs" />
+    <Compile Include="Factories\OperatorFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\PropertyDisplayNames.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -146,6 +153,7 @@
       <LastGenOutput>PropertyDisplayNames.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
