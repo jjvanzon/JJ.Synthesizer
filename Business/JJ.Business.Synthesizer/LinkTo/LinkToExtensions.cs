@@ -16,9 +16,9 @@ namespace JJ.Business.Synthesizer.LinkTo
 
             if (inlet.Operator != null)
             {
-                if (op.Inlets.Contains(inlet))
+                if (inlet.Operator.Inlets.Contains(inlet))
                 {
-                    op.Inlets.Remove(inlet);
+                    inlet.Operator.Inlets.Remove(inlet);
                 }
             }
 
@@ -26,9 +26,9 @@ namespace JJ.Business.Synthesizer.LinkTo
 
             if (inlet.Operator != null)
             {
-                if (!op.Inlets.Contains(inlet))
+                if (!inlet.Operator.Inlets.Contains(inlet))
                 {
-                    op.Inlets.Add(inlet);
+                    inlet.Operator.Inlets.Add(inlet);
                 }
             }
         }
@@ -39,9 +39,9 @@ namespace JJ.Business.Synthesizer.LinkTo
 
             if (outlet.Operator != null)
             {
-                if (op.Outlets.Contains(outlet))
+                if (outlet.Operator.Outlets.Contains(outlet))
                 {
-                    op.Outlets.Remove(outlet);
+                    outlet.Operator.Outlets.Remove(outlet);
                 }
             }
 
@@ -49,9 +49,9 @@ namespace JJ.Business.Synthesizer.LinkTo
 
             if (outlet.Operator != null)
             {
-                if (!op.Outlets.Contains(outlet))
+                if (!outlet.Operator.Outlets.Contains(outlet))
                 {
-                    op.Outlets.Add(outlet);
+                    outlet.Operator.Outlets.Add(outlet);
                 }
             }
         }
@@ -62,9 +62,9 @@ namespace JJ.Business.Synthesizer.LinkTo
 
             if (inlet.Input != null)
             {
-                if (outlet.ConnectedInlets.Contains(inlet))
+                if (inlet.Input.ConnectedInlets.Contains(inlet))
                 {
-                    outlet.ConnectedInlets.Remove(inlet);
+                    inlet.Input.ConnectedInlets.Remove(inlet);
                 }
             }
 
@@ -72,9 +72,9 @@ namespace JJ.Business.Synthesizer.LinkTo
 
             if (inlet.Input != null)
             {
-                if (!outlet.ConnectedInlets.Contains(inlet))
+                if (!inlet.Input.ConnectedInlets.Contains(inlet))
                 {
-                    outlet.ConnectedInlets.Add(inlet);
+                    inlet.Input.ConnectedInlets.Add(inlet);
                 }
             }
         }
