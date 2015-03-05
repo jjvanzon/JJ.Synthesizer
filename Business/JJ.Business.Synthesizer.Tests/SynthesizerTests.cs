@@ -188,7 +188,7 @@ namespace JJ.Business.Synthesizer.Tests
             using (IContext context = PersistenceHelper.CreateContext())
             {
                 CurveFactory curveFactory = TestHelper.CreateCurveFactory(context);
-                Curve curve = curveFactory.Create(1, 0, 1, 0.8, null, null, 0.8, 0);
+                Curve curve = curveFactory.CreateCurve(1, 0, 1, 0.8, null, null, 0.8, 0);
 
                 OperatorFactory f = TestHelper.CreateOperatorFactory(context);
                 Sine sine = f.Sine(f.CurveIn(curve), f.Value(440));
