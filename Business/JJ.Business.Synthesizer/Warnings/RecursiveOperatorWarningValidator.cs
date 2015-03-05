@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Warnings
             if (_alreadyDone.Contains(Object)) return;
             _alreadyDone.Add(Object);
 
-            Execute(new VersatileOperatorWarningValidator(Object, _alreadyDone));
+            Execute(new VersatileOperatorWarningValidator(Object));
             
             foreach (Inlet inlet in Object.Inlets)
             {
