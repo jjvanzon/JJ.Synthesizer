@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 adder.Operator.Inlets[0].Name = "qwer";
                 IValidator validator2 = new AdderValidator(adder.Operator);
-                validator2.Verify();
+                //validator2.Verify();
             }
         }
    }
