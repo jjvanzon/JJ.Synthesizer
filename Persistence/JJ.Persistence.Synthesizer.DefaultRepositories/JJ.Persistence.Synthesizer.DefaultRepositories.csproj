@@ -35,6 +35,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChannelTypeRepository.cs" />
+    <Compile Include="ChannelSetupChannelTypeRepository.cs" />
+    <Compile Include="Interfaces\IChannelSetupChannelTypeRepository.cs" />
     <Compile Include="SampleRepository.cs" />
     <Compile Include="SampleOperatorRepository.cs" />
     <Compile Include="SampleFormatRepository.cs" />

@@ -34,7 +34,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\EntityIDs.cs" />
     <Compile Include="Mappings\ChannelTypeMapping.cs" />
+    <Compile Include="Mappings\ChannelSetupChannelTypeMapping.cs" />
     <Compile Include="Mappings\SampleMapping.cs" />
     <Compile Include="Mappings\SampleOperatorMapping.cs" />
     <Compile Include="Mappings\SampleFormatMapping.cs" />
@@ -47,6 +49,8 @@
     <Compile Include="Mappings\NodeMappings.cs" />
     <Compile Include="Mappings\NodeTypeMappings.cs" />
     <Compile Include="Repositories\ChannelTypeRepository.cs" />
+    <Compile Include="Repositories\ChannelSetupRepository.cs" />
+    <Compile Include="Repositories\ChannelSetupChannelTypeRepository.cs" />
     <Compile Include="Repositories\SampleFormatRepository.cs" />
     <Compile Include="Repositories\InterpolationTypeRepository.cs" />
     <Compile Include="Repositories\NodeTypeRepository.cs" />
