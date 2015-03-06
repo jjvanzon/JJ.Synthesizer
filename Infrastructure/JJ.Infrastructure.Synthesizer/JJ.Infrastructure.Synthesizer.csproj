@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BFE8068F-E441-44D2-896D-30FBB67946BF}</ProjectGuid>
+    <ProjectGuid>{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JJ.Persistence.Synthesizer</RootNamespace>
-    <AssemblyName>JJ.Persistence.Synthesizer</AssemblyName>
+    <RootNamespace>JJ.Infrastructure.Synthesizer</RootNamespace>
+    <AssemblyName>JJ.Infrastructure.Synthesizer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -34,24 +34,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChannelSetupChannelType.cs" />
-    <Compile Include="ChannelType.cs" />
-    <Compile Include="SampleDataType.cs" />
-    <Compile Include="Curve.cs" />
-    <Compile Include="CurveIn.cs" />
-    <Compile Include="Inlet.cs" />
-    <Compile Include="InterpolationType.cs" />
-    <Compile Include="ChannelSetup.cs" />
-    <Compile Include="Node.cs" />
-    <Compile Include="NodeType.cs" />
-    <Compile Include="Operator.cs" />
-    <Compile Include="Outlet.cs" />
-    <Compile Include="Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sample.cs" />
-    <Compile Include="SampleChannel.cs" />
-    <Compile Include="AudioFileFormat.cs" />
-    <Compile Include="SampleOperator.cs" />
+    <Compile Include="SampleLoader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

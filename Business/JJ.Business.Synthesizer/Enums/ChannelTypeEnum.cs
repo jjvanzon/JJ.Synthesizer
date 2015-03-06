@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Enums
 {
-    public enum NodeTypeEnum
+    public enum ChannelTypeEnum
     {
         Undefined = 0,
-        Off = 1,
-        Block = 2,
-        Line = 3,
+        Single = 1,
+        Left = 2,
+        Right = 3
     }
 }

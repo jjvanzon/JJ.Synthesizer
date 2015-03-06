@@ -132,5 +132,48 @@ namespace JJ.Business.Synthesizer.LinkTo
                 }
             }
         }
+
+
+
+
+
+
+
+
+
+
+
+
+        public static void LinkTo(this SampleOperator SampleOperator, Operator op)
+        {
+            if (SampleOperator == null) throw new NullException(() => SampleOperator);
+
+            SampleOperator.Operator = op;
+            op.AsSampleOperator = SampleOperator;
+        }
+
+        public static void LinkTo(this SampleOperator SampleOperator, Sample Sample)
+        {
+            if (SampleOperator == null) throw new NullException(() => SampleOperator);
+
+            if (SampleOperator.Sample != null)
+            {
+                if (SampleOperator.Sample.SampleOperators.Contains(SampleOperator))
+                {
+                    SampleOperator.Sample.SampleOperators.Remove(SampleOperator);
+                }
+            }
+
+            SampleOperator.Sample = Sample;
+
+            if (SampleOperator.Sample != null)
+            {
+                if (!SampleOperator.Sample.SampleOperators.Contains(SampleOperator))
+                {
+                    SampleOperator.Sample.SampleOperators.Add(SampleOperator);
+                }
+            }
+        }
+
     }
 }

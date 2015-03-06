@@ -36,16 +36,18 @@
   <ItemGroup>
     <Compile Include="ChannelTypeRepository.cs" />
     <Compile Include="ChannelSetupChannelTypeRepository.cs" />
+    <Compile Include="SampleDataTypeRepository.cs" />
     <Compile Include="Interfaces\IChannelSetupChannelTypeRepository.cs" />
+    <Compile Include="Interfaces\ISampleDataTypeRepository.cs" />
     <Compile Include="SampleRepository.cs" />
     <Compile Include="SampleOperatorRepository.cs" />
-    <Compile Include="SampleFormatRepository.cs" />
+    <Compile Include="AudioFileFormatRepository.cs" />
     <Compile Include="SampleChannelRepository.cs" />
     <Compile Include="ChannelSetupRepository.cs" />
     <Compile Include="InterpolationTypeRepository.cs" />
     <Compile Include="CurveInRepository.cs" />
     <Compile Include="Interfaces\ISampleOperatorRepository.cs" />
-    <Compile Include="Interfaces\ISampleFormatRepository.cs" />
+    <Compile Include="Interfaces\IAudioFileFormatRepository.cs" />
     <Compile Include="Interfaces\ISampleChannelRepository.cs" />
     <Compile Include="Interfaces\ISampleRepository.cs" />
     <Compile Include="Interfaces\IChannelSetupRepository.cs" />

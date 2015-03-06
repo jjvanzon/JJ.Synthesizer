@@ -192,4 +192,10 @@
   <data name="Node" xml:space="preserve">
     <value>Knooppunt</value>
   </data>
+  <data name="Sample" xml:space="preserve">
+    <value>Geluidsfragment</value>
+  </data>
+  <data name="Operator" xml:space="preserve">
+    <value>Operator</value>
+  </data>
 </root>

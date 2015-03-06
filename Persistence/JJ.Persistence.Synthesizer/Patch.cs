@@ -5,6 +5,9 @@ using System.Text;
 
 namespace JJ.Persistence.Synthesizer
 {
+    /// <summary>
+    /// Does not have much functional use yet.
+    /// </summary>
     public class Patch
     {
         public Patch()

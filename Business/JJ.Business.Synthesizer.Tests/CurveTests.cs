@@ -81,8 +81,6 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-        // TODO: Port this code.
-
         [TestMethod]
         public void Test_Curve_MixedNodeTypes()
         {

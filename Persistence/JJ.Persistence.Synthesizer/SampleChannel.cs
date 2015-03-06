@@ -10,8 +10,13 @@ namespace JJ.Persistence.Synthesizer
     {
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
+        public virtual byte[] RawBytes { get; set; }
+
         public virtual ChannelType ChannelType { get; set; }
 
-        public virtual byte[] Bytes { get; set; }
+        /// <summary>
+        /// parent, not nullable
+        /// </summary>
+        public virtual Sample Sample { get; set; }
     }
 }
