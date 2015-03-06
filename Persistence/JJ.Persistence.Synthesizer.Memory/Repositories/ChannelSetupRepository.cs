@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer.Memory.Repositories
 {
-    public class ChannelTypeRepository : JJ.Persistence.Synthesizer.DefaultRepositories.ChannelTypeRepository
+    public class ChannelSetupRepository : JJ.Persistence.Synthesizer.DefaultRepositories.ChannelSetupRepository
     {
-        public ChannelTypeRepository(IContext context)
+        public ChannelSetupRepository(IContext context)
             : base(context)
         {
-            ChannelType entity;
+            ChannelSetup entity;
 
             // TODO: I need to be able to specify identity explicit or something
             // Not just auto-increment or NoIDs
@@ -22,13 +22,10 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
             entity.Name = "Undefined";
 
             entity = Create();
-            entity.Name = "Single";
+            entity.Name = "Mono";
 
             entity = Create();
-            entity.Name = "Left";
-
-            entity = Create();
-            entity.Name = "Right";
+            entity.Name = "Stereo";
         }
     }
 }
