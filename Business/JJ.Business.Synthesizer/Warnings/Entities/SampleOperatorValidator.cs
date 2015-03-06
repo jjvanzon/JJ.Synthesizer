@@ -8,11 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Warnings.Entities
+namespace JJ.Business.Synthesizer.Validation.Entities
 {
-    public class CurveInValidator : FluentValidator<CurveIn>
+    public class SampleOperatorValidator : FluentValidator<SampleOperator>
     {
-        public CurveInValidator(CurveIn obj)
+        public SampleOperatorValidator(SampleOperator obj)
             : base(obj)
         { }
 
@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Warnings.Entities
         {
             if (Object == null) throw new NullException(() => Object);
 
-            For(() => Object.Operator, PropertyDisplayNames.Operator)
+            For(() => Object.Sample, PropertyDisplayNames.Sample)
                 .NotNull();
         }
     }

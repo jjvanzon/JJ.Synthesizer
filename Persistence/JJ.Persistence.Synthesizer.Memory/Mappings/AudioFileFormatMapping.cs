@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer.Memory.Mappings
 {
-    public class SampleFormatMapping : MemoryMapping<SampleFormat>
+    public class AudioFileFormatMapping : MemoryMapping<AudioFileFormat>
     {
-        public SampleFormatMapping()
+        public AudioFileFormatMapping()
         {
             IdentityType = IdentityType.AutoIncrement;
             IdentityPropertyName = PropertyNames.ID;

@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings.Entities
 {
-    public class CurveInValidator : FluentValidator<CurveIn>
+    public class SamplerOperatorValidator : FluentValidator<CurveIn>
     {
-        public CurveInValidator(CurveIn obj)
+        public SamplerOperatorValidator(CurveIn obj)
             : base(obj)
         { }
 

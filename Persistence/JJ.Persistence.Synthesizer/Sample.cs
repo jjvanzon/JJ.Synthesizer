@@ -18,14 +18,24 @@ namespace JJ.Persistence.Synthesizer
         public virtual double Amplifier { get; set; }
         public virtual double TimeMultiplier { get; set; }
         public virtual bool IsActive { get; set; }
-        public virtual int BytesToSkip { get; set; }
-        public virtual string Location { get; set; }
-        public virtual int BitsPerSample { get; set; }
+        public virtual int SamplingRate { get; set; }
 
+        /// <summary>
+        /// E.g. when you need to skip a header of a file.
+        /// </summary>
+        public virtual int BytesToSkip { get; set; }
+
+        /// <summary>
+        /// E.g. the file path.
+        /// </summary>
+        public virtual string Location { get; set; }
+
+        public virtual SampleDataType SampleDataType { get; set; }
         public virtual ChannelSetup ChannelSetup { get; set; }
-        public virtual SampleFormat SampleFormat { get; set; }
+        public virtual AudioFileFormat AudioFileFormat { get; set; }
         public virtual InterpolationType InterpolationType { get; set; }
 
         public virtual IList<SampleChannel> SampleChannels { get; set; }
+        public virtual IList<SampleOperator> SampleOperators { get; set; }
     }
 }

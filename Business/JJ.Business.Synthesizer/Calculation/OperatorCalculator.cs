@@ -15,10 +15,19 @@ namespace JJ.Business.Synthesizer.Calculation
 {
     public class OperatorCalculator
     {
+        private ChannelType _channelType;
+
         private IDictionary<string, Func<Operator, double, double>> _funcDictionary;
 
-        public OperatorCalculator()
+        private IDictionary<SampleChannel, ISampleCalculator> _sampleCalculatorDictionary =
+            new Dictionary<SampleChannel, ISampleCalculator>();
+
+        public OperatorCalculator(ChannelType channelType)
         {
+            if (channelType == null) throw new NullException(() => channelType);
+
+            _channelType = channelType;
+
             _funcDictionary = new Dictionary<string, Func<Operator, double, double>>
             {
                 { PropertyNames.Add, CalculateAdd },
@@ -326,8 +335,8 @@ namespace JJ.Business.Synthesizer.Calculation
             }
 
             // Time multiplier 0? See that as multiplier = 1 or rather: just pass through signal.
-            double timeDivider = CalculateValue(timeMultiplierOutlet, time);
-            if (timeDivider == 0)
+            double timeMultiply = CalculateValue(timeMultiplierOutlet, time);
+            if (timeMultiply == 0)
             {
                 double result = CalculateValue(signalOutlet, time);
                 return result;
@@ -338,7 +347,7 @@ namespace JJ.Business.Synthesizer.Calculation
             // Formula without origin
             if (originOutlet == null)
             {
-                double transformedTime = time / timeDivider;
+                double transformedTime = time / timeMultiply;
                 double result = CalculateValue(signalOutlet, transformedTime);
                 return result;
             }
@@ -346,7 +355,7 @@ namespace JJ.Business.Synthesizer.Calculation
             // Formula with origin
             else
             {
-                double transformedTime = (time - origin) / timeDivider + origin;
+                double transformedTime = (time - origin) / timeMultiply + origin;
                 double result = CalculateValue(signalOutlet, transformedTime);
                 return result;
             }
@@ -436,16 +445,36 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateCurveIn(Operator op, double time)
         {
-            CurveIn curveIn = op.AsCurveIn;
-
             if (op.AsCurveIn == null) throw new NullException(() => op.AsCurveIn);
 
-            if (curveIn.Curve == null) return 0; // TODO: Think about if this null tolerance is appropriate.
+            if (op.AsCurveIn.Curve == null) return 0; // TODO: Think about if this null tolerance is appropriate.
 
-            Curve curve = curveIn.Curve;
+            Curve curve = op.AsCurveIn.Curve;
 
             var curveCalculator = new CurveCalculator(curve);
             double result = curveCalculator.CalculateValue(time);
+            return result;
+        }
+
+        private double CalculateSampleOperator(Operator op, double time)
+        {
+            if (op.AsSampleOperator == null) throw new NullException(() => op.AsSampleOperator);
+
+            if (op.AsSampleOperator.Sample == null) return 0; // TODO: Think about if this null tolerance is appropriate.
+
+            Sample sample = op.AsSampleOperator.Sample;
+
+            // TODO: What about when the channel type is not there in the Sample?
+            SampleChannel sampleChannel = sample.SampleChannels.Where(x => x.ChannelType.ID == _channelType.ID).Single();
+
+            ISampleCalculator sampleCalculator;
+            if (!_sampleCalculatorDictionary.TryGetValue(sampleChannel, out sampleCalculator))
+            {
+                sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sampleChannel);
+                _sampleCalculatorDictionary.Add(sampleChannel, sampleCalculator);
+            }
+
+            double result = sampleCalculator.CalculateValue(time);
             return result;
         }
     }

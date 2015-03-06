@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer.DefaultRepositories
 {
-    public class SampleFormatRepository : RepositoryBase<SampleFormat, int>, ISampleFormatRepository
+    public class AudioFileFormatRepository : RepositoryBase<AudioFileFormat, int>, IAudioFileFormatRepository
     {
-        public SampleFormatRepository(IContext context)
+        public AudioFileFormatRepository(IContext context)
             : base(context)
         { }
     }

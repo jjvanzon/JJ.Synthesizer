@@ -193,4 +193,10 @@
   <data name="Node" xml:space="preserve">
     <value>Node</value>
   </data>
+  <data name="Sample" xml:space="preserve">
+    <value>Sample</value>
+  </data>
+  <data name="Operator" xml:space="preserve">
+    <value>Operator</value>
+  </data>
 </root>

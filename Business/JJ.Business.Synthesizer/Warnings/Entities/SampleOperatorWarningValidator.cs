@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings.Entities
 {
-    public class CurveInValidator : FluentValidator<CurveIn>
+    public class SampleOperatorWarningValidator : FluentValidator<SampleOperator>
     {
-        public CurveInValidator(CurveIn obj)
+        public SampleOperatorWarningValidator(SampleOperator obj)
             : base(obj)
         { }
 
@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Warnings.Entities
         {
             if (Object == null) throw new NullException(() => Object);
 
-            For(() => Object.Operator, PropertyDisplayNames.Operator)
+            For(() => Object.Sample, PropertyDisplayNames.Sample)
                 .NotNull();
         }
     }

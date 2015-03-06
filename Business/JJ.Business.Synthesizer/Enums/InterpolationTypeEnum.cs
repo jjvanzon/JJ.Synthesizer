@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Enums
 {
-    public enum NodeTypeEnum
+    public enum InterpolationTypeEnum
     {
         Undefined = 0,
-        Off = 1,
-        Block = 2,
-        Line = 3,
+        Block = 1,
+        Line = 2
     }
 }
