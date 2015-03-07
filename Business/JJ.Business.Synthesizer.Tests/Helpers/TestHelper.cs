@@ -38,11 +38,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
             ISampleDataTypeRepository sampleDataTypeRepository = PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context);
-            IChannelSetupRepository channelSetupRepository = PersistenceHelper.CreateRepository<IChannelSetupRepository>(context);
+            ISpeakerSetupRepository speakerSetupRepository = PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context);
             IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
             IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
 
-            var manager = new SampleManager(sampleRepository, sampleDataTypeRepository, channelSetupRepository, interpolationTypeRepository, audioFileFormatRepository);
+            var manager = new SampleManager(sampleRepository, sampleDataTypeRepository, speakerSetupRepository, interpolationTypeRepository, audioFileFormatRepository);
             return manager;
         }
     }

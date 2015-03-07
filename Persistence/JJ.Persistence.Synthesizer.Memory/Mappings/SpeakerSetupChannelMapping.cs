@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer.Memory.Mappings
 {
-    public class ChannelTypeMapping : MemoryMapping<ChannelType>
+    public class SpeakerSetupChannelMapping : MemoryMapping<SpeakerSetupChannel>
     {
-        public ChannelTypeMapping()
+        public SpeakerSetupChannelMapping()
         {
             IdentityType = IdentityType.AutoIncrement;
             IdentityPropertyName = PropertyNames.ID;

@@ -16,26 +16,26 @@ namespace JJ.Business.Synthesizer.SideEffects
     {
         private Sample _entity;
         private ISampleDataTypeRepository _sampleDataTypeRepository;
-        private IChannelSetupRepository _channelSetupRepository;
+        private ISpeakerSetupRepository _speakerSetupRepository;
         private IInterpolationTypeRepository _interpolationTypeRepository;
         private IAudioFileFormatRepository _audioFileFormatRepository;
 
         public Sample_SideEffect_SetDefaults(
             Sample entity,
             ISampleDataTypeRepository sampleDataTypeRepository,
-            IChannelSetupRepository channelSetupRepository,
+            ISpeakerSetupRepository speakerSetupRepository,
             IInterpolationTypeRepository interpolationTypeRepository,
             IAudioFileFormatRepository audioFileFormatRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
-            if (channelSetupRepository == null) throw new NullException(() => channelSetupRepository);
+            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
             if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
             if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
 
             _entity = entity;
             _sampleDataTypeRepository = sampleDataTypeRepository;
-            _channelSetupRepository = channelSetupRepository;
+            _speakerSetupRepository = speakerSetupRepository;
             _interpolationTypeRepository = interpolationTypeRepository;
             _audioFileFormatRepository = audioFileFormatRepository;
         }
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.SideEffects
             _entity.SamplingRate = 44100;
             _entity.SetAudioFileFormatEnum(AudioFileFormatEnum.Raw, _audioFileFormatRepository);
             _entity.SetSampleDataTypeEnum(SampleDataTypeEnum.Int16, _sampleDataTypeRepository);
-            _entity.SetChannelSetupEnum(ChannelSetupEnum.Mono, _channelSetupRepository);
+            _entity.SetSpeakerSetupEnum(SpeakerSetupEnum.Mono, _speakerSetupRepository);
             _entity.SetInterpolationTypeEnum(InterpolationTypeEnum.Line, _interpolationTypeRepository);
         }
     }

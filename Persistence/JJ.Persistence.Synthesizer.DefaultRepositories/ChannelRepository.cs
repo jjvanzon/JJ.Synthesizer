@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer.DefaultRepositories
 {
-    public class ChannelSetupRepository : RepositoryBase<ChannelSetup, int>, IChannelSetupRepository
+    public class ChannelRepository : RepositoryBase<Channel, int>, IChannelRepository
     {
-        public ChannelSetupRepository(IContext context)
+        public ChannelRepository(IContext context)
             : base(context)
         { }
 
         /// <summary>
         /// Does not get the related entities immediately unless you override it in a specialized repository.
         /// </summary>
-        public virtual ChannelSetup GetWithRelatedEntities(int id)
+        public virtual Channel GetWithRelatedEntities(int id)
         {
             return Get(id);
         }

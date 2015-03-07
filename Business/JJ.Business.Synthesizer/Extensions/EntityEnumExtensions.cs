@@ -12,32 +12,32 @@ namespace JJ.Business.Synthesizer.Extensions
 {
     public static class EntityEnumExtensions
     {
-        public static ChannelSetupEnum GetChannelSetupEnum(this Sample sample)
+        public static SpeakerSetupEnum GetSpeakerSetupEnum(this Sample sample)
         {
-            if (sample.ChannelSetup == null) return ChannelSetupEnum.Undefined;
+            if (sample.SpeakerSetup == null) return SpeakerSetupEnum.Undefined;
 
-            return (ChannelSetupEnum)sample.ChannelSetup.ID;
+            return (SpeakerSetupEnum)sample.SpeakerSetup.ID;
         }
 
-        public static void SetChannelSetupEnum(this Sample sample, ChannelSetupEnum channelSetupEnum, IChannelSetupRepository channelSetupRepository)
+        public static void SetSpeakerSetupEnum(this Sample sample, SpeakerSetupEnum speakerSetupEnum, ISpeakerSetupRepository speakerSetupRepository)
         {
-            if (channelSetupRepository == null) throw new NullException(() => channelSetupRepository);
+            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
 
-            sample.ChannelSetup = channelSetupRepository.GetWithRelatedEntities((int)channelSetupEnum);
+            sample.SpeakerSetup = speakerSetupRepository.GetWithRelatedEntities((int)speakerSetupEnum);
         }
 
-        public static ChannelTypeEnum GetChannelTypeEnum(this SampleChannel sampleChannel)
+        public static ChannelEnum GetChannelEnum(this SampleChannel sampleChannel)
         {
-            if (sampleChannel.ChannelType == null) return ChannelTypeEnum.Undefined;
+            if (sampleChannel.Channel == null) return ChannelEnum.Undefined;
 
-            return (ChannelTypeEnum)sampleChannel.ChannelType.ID;
+            return (ChannelEnum)sampleChannel.Channel.ID;
         }
 
-        public static void SetChannelTypeEnum(this SampleChannel sampleChannel, ChannelTypeEnum channelTypeEnum, IChannelTypeRepository channelTypeRepository)
+        public static void SetChannelEnum(this SampleChannel sampleChannel, ChannelEnum channelEnum, IChannelRepository channelRepository)
         {
-            if (channelTypeRepository == null) throw new NullException(() => channelTypeRepository);
+            if (channelRepository == null) throw new NullException(() => channelRepository);
 
-            sampleChannel.ChannelType = channelTypeRepository.GetWithRelatedEntities((int)channelTypeEnum);
+            sampleChannel.Channel = channelRepository.GetWithRelatedEntities((int)channelEnum);
         }
 
         public static InterpolationTypeEnum GetInterpolationTypeEnum(this Sample sample)

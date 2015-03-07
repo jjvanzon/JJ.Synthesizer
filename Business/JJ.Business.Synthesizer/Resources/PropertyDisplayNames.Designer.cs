@@ -115,20 +115,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Speaker Setup.
-        /// </summary>
-        public static string ChannelSetup {
-            get {
-                return ResourceManager.GetString("ChannelSetup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Channel.
         /// </summary>
-        public static string ChannelType {
+        public static string Channel {
             get {
-                return ResourceManager.GetString("ChannelType", resourceCulture);
+                return ResourceManager.GetString("Channel", resourceCulture);
             }
         }
         
@@ -345,6 +336,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Sine {
             get {
                 return ResourceManager.GetString("Sine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Speaker Setup.
+        /// </summary>
+        public static string SpeakerSetup {
+            get {
+                return ResourceManager.GetString("SpeakerSetup", resourceCulture);
             }
         }
         

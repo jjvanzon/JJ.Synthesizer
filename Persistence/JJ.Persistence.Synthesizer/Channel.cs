@@ -5,16 +5,16 @@ using System.Text;
 
 namespace JJ.Persistence.Synthesizer
 {
-    public class ChannelType
+    public class Channel
     {
-        public ChannelType()
+        public Channel()
         {
-            ChannelSetupChannelTypes = new List<ChannelSetupChannelType>();
+            SpeakerSetupChannels = new List<SpeakerSetupChannel>();
         }
 
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
 
-        public virtual IList<ChannelSetupChannelType> ChannelSetupChannelTypes { get; set; }
+        public virtual IList<SpeakerSetupChannel> SpeakerSetupChannels { get; set; }
     }
 }

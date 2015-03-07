@@ -21,14 +21,14 @@ namespace JJ.Infrastructure.Synthesizer
                 throw new Exception("sample.SampleChannels.Count must be 2.");
             }
 
-            if (sample.SampleChannels[0].GetChannelTypeEnum() != ChannelTypeEnum.Left)
+            if (sample.SampleChannels[0].GetChannelEnum() != ChannelEnum.Left)
             {
-                throw new Exception("sample.SampleChannels[0].ChannelType must be 'Left'.");
+                throw new Exception("sample.SampleChannels[0].Channel must be 'Left'.");
             }
 
-            if (sample.SampleChannels[1].GetChannelTypeEnum() != ChannelTypeEnum.Right)
+            if (sample.SampleChannels[1].GetChannelEnum() != ChannelEnum.Right)
             {
-                throw new Exception("sample.SampleChannels[1].ChannelType must be 'Right'.");
+                throw new Exception("sample.SampleChannels[1].Channel must be 'Right'.");
             }
         }
 

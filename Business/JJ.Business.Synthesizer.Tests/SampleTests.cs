@@ -33,18 +33,18 @@ namespace JJ.Business.Synthesizer.Tests
             using (IContext context = PersistenceHelper.CreateContext())
             {
                 IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
-                IChannelTypeRepository channelTypeRepository = PersistenceHelper.CreateRepository<IChannelTypeRepository>(context);
+                IChannelRepository channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(context);
 
-                ChannelType channelType = channelTypeRepository.GetWithRelatedEntities((int)ChannelTypeEnum.Single);
+                Channel channel = channelRepository.GetWithRelatedEntities((int)ChannelEnum.Single);
 
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 Sample sample = sampleManager.CreateSample();
 
                 // TODO: Do this in a manager class.
-                SampleChannel sampleChannel = new SampleChannel { ID = 1, ChannelType = channelType };
+                SampleChannel sampleChannel = new SampleChannel { ID = 1, Channel = channel };
                 sampleChannel.LinkTo(sample);
 
-                Stream stream = EmbeddedResourceHelper.GetEmbeddedResourceStream(this.GetType().Assembly, "TestResources", VIOLIN_16BIT_MONO_RAW_FILE_NAME);
+                Stream stream = GetViolinSampleStream();
                 SampleLoadHelper.LoadSample(sample, stream);
 
                 IValidator sampleValidator = sampleManager.ValidateSample(sample);
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Tests
                 var wrapper = f.TimeMultiply(f.Sample(sample), f.Value(10));
                 //var wrapper = f.Sample(sample);
 
-                OperatorCalculator calculator = new OperatorCalculator(channelType);
+                OperatorCalculator calculator = new OperatorCalculator(channel);
 
                 int destSampleCount = 44100 * 6;
 
@@ -77,6 +77,12 @@ namespace JJ.Business.Synthesizer.Tests
                     }
                 }
             }
+        }
+
+        private Stream GetViolinSampleStream()
+        {
+            Stream stream = EmbeddedResourceHelper.GetEmbeddedResourceStream(this.GetType().Assembly, "TestResources", VIOLIN_16BIT_MONO_RAW_FILE_NAME);
+            return stream;
         }
     }
 }

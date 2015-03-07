@@ -8,8 +8,8 @@ using System.Text;
 
 namespace JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces
 {
-    public interface IChannelTypeRepository : IRepository<ChannelType, int>
+    public interface ISpeakerSetupRepository : IRepository<SpeakerSetup, int>
     {
-        ChannelType GetWithRelatedEntities(int id);
+        SpeakerSetup GetWithRelatedEntities(int id);
     }
 }

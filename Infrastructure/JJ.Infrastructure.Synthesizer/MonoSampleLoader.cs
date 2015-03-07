@@ -22,9 +22,9 @@ namespace JJ.Infrastructure.Synthesizer
                 throw new Exception("sample.SampleChannels.Count must be 1.");
             }
 
-            if (sample.SampleChannels[0].GetChannelTypeEnum() != ChannelTypeEnum.Single)
+            if (sample.SampleChannels[0].GetChannelEnum() != ChannelEnum.Single)
             {
-                throw new Exception("sample.SampleChannels[0].ChannelType must be 'Single'.");
+                throw new Exception("sample.SampleChannels[0].Channel must be 'Single'.");
             }
         }
 

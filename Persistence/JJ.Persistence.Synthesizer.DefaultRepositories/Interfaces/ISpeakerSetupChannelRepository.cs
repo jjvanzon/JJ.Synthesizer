@@ -8,6 +8,6 @@ using System.Text;
 
 namespace JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces
 {
-    public interface IChannelSetupChannelTypeRepository : IRepository<ChannelSetupChannelType, int>
+    public interface ISpeakerSetupChannelRepository : IRepository<SpeakerSetupChannel, int>
     { }
 }

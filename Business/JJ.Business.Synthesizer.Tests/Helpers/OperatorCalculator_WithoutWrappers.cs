@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 namespace JJ.Business.Synthesizer.Helpers
 {
     /// <summary>
-    /// Variation with no null checks.
+    /// Variation without wrapper instantiation.
     /// Trying out a few things that might optimize things.
     /// </summary>
-    internal class SoundCalculator_WithoutWrappersOrNullChecks : ISoundCalculator
+    internal class OperatorCalculator_WithoutWrappers : IOperatorCalculator
     {
         private IDictionary<string, Func<Operator, double, double>> _funcDictionary;
 
-        public SoundCalculator_WithoutWrappersOrNullChecks()
+        public OperatorCalculator_WithoutWrappers()
         {
             _funcDictionary = new Dictionary<string, Func<Operator, double, double>>
             {
@@ -31,7 +31,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public double CalculateValue(Outlet outlet, double time)
         {
             Func<Operator, double, double> func = _funcDictionary[outlet.Operator.OperatorTypeName];
-            // TODO: This will break when there are multiple outlets.
             double value = func(outlet.Operator, time);
             return value;
         }
@@ -43,13 +42,18 @@ namespace JJ.Business.Synthesizer.Helpers
 
         private double CalculateAdd(Operator op, double time)
         {
+            if (op.Inlets[0].Input == null || op.Inlets[1].Input == null) return 0;
+
             double a = CalculateValue(op.Inlets[0].Input, time);
             double b = CalculateValue(op.Inlets[1].Input, time);
+
             return a + b;
         }
 
         private double CalculateSubstract(Operator op, double time)
         {
+            if (op.Inlets[0].Input == null || op.Inlets[1].Input == null) return 0;
+
             double a = CalculateValue(op.Inlets[0].Input, time);
             double b = CalculateValue(op.Inlets[1].Input, time);
             return a - b;
@@ -59,6 +63,11 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op.Inlets[2].Input == null)
             {
+                if (op.Inlets[0].Input == null || op.Inlets[1].Input == null) 
+                {
+                    return 0;
+                }
+
                 double a = CalculateValue(op.Inlets[0].Input, time);
                 double b = CalculateValue(op.Inlets[1].Input, time);
                 return a * b;
@@ -66,6 +75,12 @@ namespace JJ.Business.Synthesizer.Helpers
             else
             {
                 double origin = CalculateValue(op.Inlets[2].Input, time);
+
+                if (op.Inlets[0].Input == null || op.Inlets[1].Input == null) 
+                {
+                    return origin;
+                }
+
                 double a = CalculateValue(op.Inlets[0].Input, time);
                 double b = CalculateValue(op.Inlets[1].Input, time);
                 return (a - origin) * b + origin;

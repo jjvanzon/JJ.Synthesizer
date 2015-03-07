@@ -7,17 +7,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Helpers
+namespace JJ.Business.Synthesizer.Tests
 {
-    /// <summary>
-    /// Variation without wrapper instantiation.
-    /// Trying out a few things that might optimize things.
-    /// </summary>
-    internal class SoundCalculator_WithoutWrappers : ISoundCalculator
+    public class OperatorCalculator_WithWrappersAndNullChecks : IOperatorCalculator
     {
         private IDictionary<string, Func<Operator, double, double>> _funcDictionary;
 
-        public SoundCalculator_WithoutWrappers()
+        public OperatorCalculator_WithWrappersAndNullChecks()
         {
             _funcDictionary = new Dictionary<string, Func<Operator, double, double>>
             {
@@ -31,59 +27,64 @@ namespace JJ.Business.Synthesizer.Helpers
         public double CalculateValue(Outlet outlet, double time)
         {
             Func<Operator, double, double> func = _funcDictionary[outlet.Operator.OperatorTypeName];
-            // TODO: This will break when there are multiple outlets.
             double value = func(outlet.Operator, time);
             return value;
         }
 
         private double CalculateValueOperator(Operator op, double time)
         {
-            return op.AsValueOperator.Value;
+            var wrapper = new ValueOperatorWrapper(op);
+            return wrapper.Value;
         }
 
         private double CalculateAdd(Operator op, double time)
         {
-            if (op.Inlets[0].Input == null || op.Inlets[1].Input == null) return 0;
+            var wrapper = new Add(op);
 
-            double a = CalculateValue(op.Inlets[0].Input, time);
-            double b = CalculateValue(op.Inlets[1].Input, time);
+            if (wrapper.OperandA == null || wrapper.OperandB == null) return 0;
 
+            double a = CalculateValue(wrapper.OperandA, time);
+            double b = CalculateValue(wrapper.OperandB, time);
             return a + b;
         }
 
         private double CalculateSubstract(Operator op, double time)
         {
-            if (op.Inlets[0].Input == null || op.Inlets[1].Input == null) return 0;
+            var wrapper = new Substract(op);
 
-            double a = CalculateValue(op.Inlets[0].Input, time);
-            double b = CalculateValue(op.Inlets[1].Input, time);
+            if (wrapper.OperandA == null || wrapper.OperandB == null) return 0;
+
+            double a = CalculateValue(wrapper.OperandA, time);
+            double b = CalculateValue(wrapper.OperandB, time);
             return a - b;
         }
 
         private double CalculateMultiply(Operator op, double time)
         {
-            if (op.Inlets[2].Input == null)
+            var wrapper = new Multiply(op);
+
+            if (wrapper.Origin == null)
             {
-                if (op.Inlets[0].Input == null || op.Inlets[1].Input == null) 
+                if (wrapper.OperandA == null || wrapper.OperandB == null)
                 {
                     return 0;
                 }
 
-                double a = CalculateValue(op.Inlets[0].Input, time);
-                double b = CalculateValue(op.Inlets[1].Input, time);
+                double a = CalculateValue(wrapper.OperandA, time);
+                double b = CalculateValue(wrapper.OperandB, time);
                 return a * b;
             }
             else
             {
-                double origin = CalculateValue(op.Inlets[2].Input, time);
+                double origin = CalculateValue(wrapper.Origin, time);
 
-                if (op.Inlets[0].Input == null || op.Inlets[1].Input == null) 
+                if (wrapper.OperandA == null || wrapper.OperandB == null)
                 {
                     return origin;
                 }
 
-                double a = CalculateValue(op.Inlets[0].Input, time);
-                double b = CalculateValue(op.Inlets[1].Input, time);
+                double a = CalculateValue(wrapper.OperandA, time);
+                double b = CalculateValue(wrapper.OperandB, time);
                 return (a - origin) * b + origin;
             }
         }

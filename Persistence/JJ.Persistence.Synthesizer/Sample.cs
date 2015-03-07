@@ -32,7 +32,7 @@ namespace JJ.Persistence.Synthesizer
         public virtual string Location { get; set; }
 
         public virtual SampleDataType SampleDataType { get; set; }
-        public virtual ChannelSetup ChannelSetup { get; set; }
+        public virtual SpeakerSetup SpeakerSetup { get; set; }
         public virtual AudioFileFormat AudioFileFormat { get; set; }
         public virtual InterpolationType InterpolationType { get; set; }
 

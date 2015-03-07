@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.Validation.Entities
             For(() => sample.Name, PropertyDisplayNames.Name).NotInteger();
             For(() => sample.SamplingRate, PropertyDisplayNames.SamplingRate).Above(0);
             For(() => sample.AudioFileFormat, PropertyDisplayNames.AudioFileFormat).NotNull();
+            For(() => sample.TimeMultiplier, PropertyDisplayNames.AudioFileFormat).IsNot(0);
 
             if (sample.AudioFileFormat != null)
             {
@@ -52,7 +53,7 @@ namespace JJ.Business.Synthesizer.Validation.Entities
                     .IsNot(InterpolationTypeEnum.Undefined);
             }
 
-            For(() => sample.ChannelSetup, PropertyDisplayNames.ChannelSetup).NotNull();
+            For(() => sample.SpeakerSetup, PropertyDisplayNames.SpeakerSetup).NotNull();
 
             int i = 1;
             foreach (SampleChannel sampleChannel in sample.SampleChannels)

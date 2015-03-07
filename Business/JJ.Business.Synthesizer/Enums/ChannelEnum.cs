@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Enums
 {
-    public enum ChannelTypeEnum
+    public enum ChannelEnum
     {
         Undefined = 0,
         Single = 1,
