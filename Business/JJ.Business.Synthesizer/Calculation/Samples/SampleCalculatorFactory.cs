@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Calculation
+namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     public static class SampleCalculatorFactory
     {
@@ -20,13 +20,27 @@ namespace JJ.Business.Synthesizer.Calculation
             SampleDataTypeEnum sampleDataType = sampleChannel.Sample.GetSampleDataTypeEnum();
             InterpolationTypeEnum interpolationType = sampleChannel.Sample.GetInterpolationTypeEnum();
 
-            switch (sampleDataType)
+            switch (interpolationType)
             {
-                case SampleDataTypeEnum.Int16:
-                    switch (interpolationType)
+                case InterpolationTypeEnum.Block:
+                    switch (sampleDataType)
                     {
-                        case InterpolationTypeEnum.Block:
-                            return new Int16BlockInterpolationSampleCalculator(sampleChannel);
+                        case SampleDataTypeEnum.Int16:
+                            return new Int16_BlockInterpolation_SampleCalculator(sampleChannel);
+
+                        case SampleDataTypeEnum.Byte:
+                            return new Byte_BlockInterpolation_SampleCalculator(sampleChannel);
+                    }
+                    break;
+
+                case InterpolationTypeEnum.Line:
+                    switch (sampleDataType)
+                    {
+                        case SampleDataTypeEnum.Int16:
+                            return new Int16_LineInterpolation_SampleCalculator(sampleChannel);
+
+                        case SampleDataTypeEnum.Byte:
+                            return new Byte_LineInterpolation_SampleCalculator(sampleChannel);
                     }
                     break;
             }

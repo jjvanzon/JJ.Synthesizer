@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Persistence.Synthesizer.Memory.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,13 +20,20 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
             // Not just auto-increment or NoIDs
 
             entity = Create();
-            entity.Name = "Undefined";
-
-            entity = Create();
             entity.Name = "Mono";
 
             entity = Create();
             entity.Name = "Stereo";
+        }
+
+        public override ChannelSetup GetWithRelatedEntities(int id)
+        {
+            ChannelSetup entity = Get(id);
+
+            IChannelSetupChannelTypeRepository childRepository = RepositoryHelper.GetChannelSetupChannelTypeRepository(_context);
+            entity.ChannelSetupChannelTypes = childRepository.GetAll().Where(x => x.ChannelSetup.ID == id).ToList();
+
+            return entity;
         }
     }
 }

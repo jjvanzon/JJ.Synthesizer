@@ -229,4 +229,7 @@
   <data name="ChannelType" xml:space="preserve">
     <value>Channel</value>
   </data>
+  <data name="SampleOperator" xml:space="preserve">
+    <value>Sample Operator</value>
+  </data>
 </root>

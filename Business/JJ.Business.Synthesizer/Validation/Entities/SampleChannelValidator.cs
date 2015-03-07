@@ -27,7 +27,9 @@ namespace JJ.Business.Synthesizer.Validation.Entities
             For(() => sampleChannel.ChannelType, PropertyDisplayNames.ChannelType)
                 .NotNull();
 
-            if (sampleChannel.ChannelType != null)
+            if (sampleChannel.Sample != null &&
+                sampleChannel.Sample.ChannelSetup != null &&
+                sampleChannel.ChannelType != null)
             {
                 int[] allowedChannelTypeIDs = sampleChannel.Sample.ChannelSetup.ChannelSetupChannelTypes.Select(x => x.ChannelType.ID).ToArray();
                 if (!allowedChannelTypeIDs.Contains(sampleChannel.ChannelType.ID))

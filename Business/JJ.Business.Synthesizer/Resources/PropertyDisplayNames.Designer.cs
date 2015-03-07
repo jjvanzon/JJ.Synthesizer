@@ -322,6 +322,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sample Operator.
+        /// </summary>
+        public static string SampleOperator {
+            get {
+                return ResourceManager.GetString("SampleOperator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sampling Rate.
         /// </summary>
         public static string SamplingRate {

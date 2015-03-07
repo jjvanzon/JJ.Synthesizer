@@ -163,6 +163,29 @@ namespace JJ.Business.Synthesizer.LinkTo
                 }
             }
         }
+        
+        public static void LinkTo(this SampleChannel sampleChannel, Sample sample)
+        {
+            if (sampleChannel == null) throw new NullException(() => sampleChannel);
+
+            if (sampleChannel.Sample != null)
+            {
+                if (sampleChannel.Sample.SampleChannels.Contains(sampleChannel))
+                {
+                    sampleChannel.Sample.SampleChannels.Remove(sampleChannel);
+                }
+            }
+
+            sampleChannel.Sample = sample;
+
+            if (sampleChannel.Sample != null)
+            {
+                if (!sampleChannel.Sample.SampleChannels.Contains(sampleChannel))
+                {
+                    sampleChannel.Sample.SampleChannels.Add(sampleChannel);
+                }
+            }
+        }
 
         public static void LinkTo(this ValueOperator valueOperator, Operator op)
         {

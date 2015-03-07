@@ -10,7 +10,7 @@ namespace JJ.Infrastructure.Synthesizer
 {
     public static class SampleLoadHelper
     {
-        public static void Load(Sample sample, string filePath)
+        public static void LoadSample(Sample sample, string filePath)
         {
             ISampleLoader sampleLoader = SampleLoaderFactory.CreateSampleLoader(sample);
             sampleLoader.Load(filePath);
@@ -19,7 +19,7 @@ namespace JJ.Infrastructure.Synthesizer
         /// <summary>
         /// Only works when stream supports the Length property.
         /// </summary>
-        public static void Load(Sample sample, Stream stream)
+        public static void LoadSample(Sample sample, Stream stream)
         {
             ISampleLoader sampleLoader = SampleLoaderFactory.CreateSampleLoader(sample);
             sampleLoader.Load(stream);

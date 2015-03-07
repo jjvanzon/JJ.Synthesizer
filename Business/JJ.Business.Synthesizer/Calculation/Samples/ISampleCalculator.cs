@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Calculation
+namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     public interface ISampleCalculator
     {
