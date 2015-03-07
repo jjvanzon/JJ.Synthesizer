@@ -61,11 +61,29 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Channel &apos;{0}&apos; not allowed for speaker setup &apos;{1}&apos;..
+        ///   Looks up a localized string similar to Amount of channels in the sample does not match with the speaker setup of the sample..
         /// </summary>
-        internal static string ChannelNotAllowedForSpeakerSetup {
+        internal static string ChannelCountDoesNotMatchSpeakerSetup {
             get {
-                return ResourceManager.GetString("ChannelNotAllowedForSpeakerSetup", resourceCulture);
+                return ResourceManager.GetString("ChannelCountDoesNotMatchSpeakerSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channel must be &apos;{0}&apos; for speaker setup &apos;{1}&apos;..
+        /// </summary>
+        internal static string ChannelMustBeXForSpeakerSetupY {
+            get {
+                return ResourceManager.GetString("ChannelMustBeXForSpeakerSetupY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channels must all have the same size..
+        /// </summary>
+        internal static string ChannelsMustAllHaveSameSize {
+            get {
+                return ResourceManager.GetString("ChannelsMustAllHaveSameSize", resourceCulture);
             }
         }
         

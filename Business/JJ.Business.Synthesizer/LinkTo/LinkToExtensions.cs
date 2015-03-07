@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer.LinkTo
                 }
             }
         }
-        
+
         public static void LinkTo(this SampleChannel sampleChannel, Sample sample)
         {
             if (sampleChannel == null) throw new NullException(() => sampleChannel);
@@ -185,6 +185,20 @@ namespace JJ.Business.Synthesizer.LinkTo
                     sampleChannel.Sample.SampleChannels.Add(sampleChannel);
                 }
             }
+        }
+
+        public static void LinkTo(this SampleChannel sampleChannel, Channel channel)
+        {
+            sampleChannel.Channel = channel;
+
+            // No inverse property
+        }
+
+        public static void LinkTo(this Sample sample, SpeakerSetup speakerSetup)
+        {
+            sample.SpeakerSetup = speakerSetup;
+
+            // No inverse property
         }
 
         public static void LinkTo(this ValueOperator valueOperator, Operator op)

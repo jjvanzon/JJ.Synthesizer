@@ -232,4 +232,7 @@
   <data name="SampleOperator" xml:space="preserve">
     <value>Sample Operator</value>
   </data>
+  <data name="SampleChannels" xml:space="preserve">
+    <value>Channels</value>
+  </data>
 </root>

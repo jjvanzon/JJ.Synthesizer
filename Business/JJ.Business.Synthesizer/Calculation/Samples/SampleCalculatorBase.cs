@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
         public SampleCalculatorBase(SampleChannel sampleChannel)
         {
             if (sampleChannel == null) throw new NullException(() => sampleChannel);
-            if (_sample.TimeMultiplier == 0) throw new Exception("_sample.TimeMultiplier cannot be 0.");
+            if (sampleChannel.Sample.TimeMultiplier == 0) throw new Exception("sampleChannel.Sample.TimeMultiplier cannot be 0.");
 
             _sampleChannel = sampleChannel;
             _sample = sampleChannel.Sample;
