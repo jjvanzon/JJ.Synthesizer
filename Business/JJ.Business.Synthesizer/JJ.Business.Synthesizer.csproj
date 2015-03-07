@@ -141,6 +141,10 @@
     <Compile Include="Warnings\Entities\ValueOperatorWarningValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\JJ.Canonical\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
+      <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
+      <Name>JJ.Business.CanonicalModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\JJ.Framework\Framework\JJ.Framework.Business\JJ.Framework.Business.csproj">
       <Project>{f44d03e8-feec-40d4-b866-a87799185b4c}</Project>
       <Name>JJ.Framework.Business</Name>
@@ -176,10 +180,6 @@
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer\JJ.Persistence.Synthesizer.csproj">
       <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
       <Name>JJ.Persistence.Synthesizer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
-      <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
-      <Name>JJ.Business.CanonicalModel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
