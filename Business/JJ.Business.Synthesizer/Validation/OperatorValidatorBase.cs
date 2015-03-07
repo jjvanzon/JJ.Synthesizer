@@ -12,13 +12,16 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class GenericOperatorValidator : FluentValidator<Operator>
+    /// <summary>
+    /// Validates the configuration of names, inlets and outlets.
+    /// </summary>
+    public abstract class OperatorValidatorBase : FluentValidator<Operator>
     {
         private string _expectedOperatorTypeName;
         private IList<string> _expectedInletNames;
         private IList<string> _expectedOutletNames;
 
-        public GenericOperatorValidator(
+        public OperatorValidatorBase(
             Operator obj, 
             string expectedOperatorTypeName, 
             int expectedInletCount, 
@@ -40,30 +43,32 @@ namespace JJ.Business.Synthesizer.Validation
         protected override void Execute()
         {
             if (Object == null) throw new NullException(() => Object);
+            
+            Operator op = Object;
 
-            For(() => Object.OperatorTypeName, PropertyDisplayNames.OperatorTypeName)
+            For(() => op.OperatorTypeName, PropertyDisplayNames.OperatorTypeName)
                 .Is(_expectedOperatorTypeName);
 
-            For(() => Object.Inlets.Count, GetPropertyDisplayName_ForInletCount())
+            For(() => op.Inlets.Count, GetPropertyDisplayName_ForInletCount())
                 .Is(_expectedInletNames.Count);
 
-            if (Object.Inlets.Count == _expectedInletNames.Count)
+            if (op.Inlets.Count == _expectedInletNames.Count)
             {
-                for (int i = 0; i < Object.Inlets.Count; i++)
+                for (int i = 0; i < op.Inlets.Count; i++)
                 {
-                    For(() => Object.Inlets[i].Name, GetPropertyDisplayName_ForInletName(i))
+                    For(() => op.Inlets[i].Name, GetPropertyDisplayName_ForInletName(i))
                         .Is(_expectedInletNames[i]);
                 }
             }
 
-            For(() => Object.Outlets.Count, GetPropertyDisplayName_ForOutletCount())
+            For(() => op.Outlets.Count, GetPropertyDisplayName_ForOutletCount())
                 .Is(_expectedOutletNames.Count);
 
-            if (Object.Outlets.Count == _expectedOutletNames.Count)
+            if (op.Outlets.Count == _expectedOutletNames.Count)
             {
-                for (int i = 0; i < Object.Outlets.Count; i++)
+                for (int i = 0; i < op.Outlets.Count; i++)
                 {
-                    For(() => Object.Outlets[i].Name, GetPropertyDisplayName_ForOutletName(i))
+                    For(() => op.Outlets[i].Name, GetPropertyDisplayName_ForOutletName(i))
                         .Is(_expectedOutletNames[i]);
                 }
             }

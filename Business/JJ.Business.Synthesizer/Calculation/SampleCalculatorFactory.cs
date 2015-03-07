@@ -18,25 +18,23 @@ namespace JJ.Business.Synthesizer.Calculation
             if (sampleChannel == null) throw new NullException(() => sampleChannel);
 
             SampleDataTypeEnum sampleDataType = sampleChannel.Sample.GetSampleDataTypeEnum();
+            InterpolationTypeEnum interpolationType = sampleChannel.Sample.GetInterpolationTypeEnum();
+
             switch (sampleDataType)
             {
                 case SampleDataTypeEnum.Int16:
-                    InterpolationTypeEnum interpolationType = sampleChannel.Sample.GetInterpolationTypeEnum();
                     switch (interpolationType)
                     {
                         case InterpolationTypeEnum.Block:
-                            return new Int16BlockSampleCalculator(sampleChannel);
-
-                        default:
-                            throw new Exception(String.Format(
-                                "{0} '{1}' combined with {2} '{3}' is not supported.", 
-                                typeof(SampleDataTypeEnum).Name, sampleDataType, 
-                                typeof(InterpolationTypeEnum).Name, interpolationType));
+                            return new Int16BlockInterpolationSampleCalculator(sampleChannel);
                     }
-
-                default:
-                    throw new ValueNotSupportedException(sampleDataType);
+                    break;
             }
+
+            throw new Exception(String.Format(
+                "{0} '{1}' combined with {2} '{3}' is not supported.",
+                typeof(SampleDataTypeEnum).Name, sampleDataType,
+                typeof(InterpolationTypeEnum).Name, interpolationType));
         }
     }
 }

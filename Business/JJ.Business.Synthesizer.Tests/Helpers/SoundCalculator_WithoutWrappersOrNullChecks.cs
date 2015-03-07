@@ -13,11 +13,11 @@ namespace JJ.Business.Synthesizer.Helpers
     /// Variation with no null checks.
     /// Trying out a few things that might optimize things.
     /// </summary>
-    internal class SoundCalculator3 : ISoundCalculator
+    internal class SoundCalculator_WithoutWrappersOrNullChecks : ISoundCalculator
     {
         private IDictionary<string, Func<Operator, double, double>> _funcDictionary;
 
-        public SoundCalculator3()
+        public SoundCalculator_WithoutWrappersOrNullChecks()
         {
             _funcDictionary = new Dictionary<string, Func<Operator, double, double>>
             {
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Helpers
 
         private double CalculateValueOperator(Operator op, double time)
         {
-            return op.Outlets[0].Value;
+            return op.AsValueOperator.Value;
         }
 
         private double CalculateAdd(Operator op, double time)

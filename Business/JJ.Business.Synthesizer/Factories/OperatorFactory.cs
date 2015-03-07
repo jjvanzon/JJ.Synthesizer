@@ -20,22 +20,26 @@ namespace JJ.Business.Synthesizer.Factories
         private IInletRepository _inletRepository;
         private IOutletRepository _outletRepository;
         private ICurveInRepository _curveInRepository;
+        private IValueOperatorRepository _valueOperatorRepository;
 
         public OperatorFactory(
             IOperatorRepository operatorRepository, 
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
-            ICurveInRepository curveInRepository)
+            ICurveInRepository curveInRepository,
+            IValueOperatorRepository valueOperatorRepository)
         {
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (curveInRepository == null) throw new NullException(() => curveInRepository);
+            if (valueOperatorRepository == null) throw new NullException(() => valueOperatorRepository);
 
             _operatorRepository = operatorRepository;
             _inletRepository = inletRepository;
             _outletRepository = outletRepository;
             _curveInRepository = curveInRepository;
+            _valueOperatorRepository = valueOperatorRepository;
         }
 
         public Add Add(Outlet operandA = null, Outlet operandB = null)
@@ -277,13 +281,16 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public ValueOperator Value(double value = 0)
+        public ValueOperatorWrapper Value(double value = 0)
         {
             Operator op = CreateOperator(
                 PropertyNames.ValueOperator, PropertyDisplayNames.ValueOperator, 0,
                 PropertyNames.Result);
 
-            var wrapper = new ValueOperator(op)
+            ValueOperator valueOperator = _valueOperatorRepository.Create();
+            valueOperator.LinkTo(op);
+
+            var wrapper = new ValueOperatorWrapper(op)
             {
                 Value = value
             };

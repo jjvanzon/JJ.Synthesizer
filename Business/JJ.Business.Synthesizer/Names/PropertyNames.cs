@@ -25,6 +25,7 @@ namespace JJ.Business.Synthesizer.Names
         public const string TimeSubstract = "TimeSubstract";
         public const string ValueOperator = "ValueOperator";
         public const string CurveIn = "CurveIn";
+        public const string SampleOperator = "SampleOperator";
 
         // Inlets
         public const string OperandA = "OperandA";

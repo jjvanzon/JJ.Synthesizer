@@ -61,11 +61,56 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Channel &apos;{0}&apos; not allowed for speaker setup &apos;{1}&apos;..
+        /// </summary>
+        internal static string ChannelTypeNotAllowedForChannelSetup {
+            get {
+                return ResourceManager.GetString("ChannelTypeNotAllowedForChannelSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} operator named &apos;{1}&apos; does not have {2} filled in..
         /// </summary>
         internal static string InletNotSet {
             get {
                 return ResourceManager.GetString("InletNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Amplifier of &apos;{0}&apos; named &apos;{1}&apos; is 0..
+        /// </summary>
+        internal static string ObjectAmplifier0 {
+            get {
+                return ResourceManager.GetString("ObjectAmplifier0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sample &apos;{0}&apos;: channel &apos;{1}&apos; is not loaded..
+        /// </summary>
+        internal static string SampleChannelNotLoaded {
+            get {
+                return ResourceManager.GetString("SampleChannelNotLoaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sample &apos;{0}&apos;: channel &apos;{1}&apos; has no data..
+        /// </summary>
+        internal static string SampleCount0 {
+            get {
+                return ResourceManager.GetString("SampleCount0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sample named &apos;{0}&apos; is not active..
+        /// </summary>
+        internal static string SampleNotActive {
+            get {
+                return ResourceManager.GetString("SampleNotActive", resourceCulture);
             }
         }
         
@@ -79,7 +124,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value of value operator named &apos;{0}&apos; is 0..
+        ///   Looks up a localized string similar to Value named &apos;{0}&apos; is 0..
         /// </summary>
         internal static string ValueOperatorValueIs0 {
             get {

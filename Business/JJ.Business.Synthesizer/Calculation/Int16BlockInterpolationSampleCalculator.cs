@@ -9,12 +9,12 @@ using System.Text;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
-    public class Int16BlockSampleCalculator : SampleCalculatorBase
+    public class Int16BlockInterpolationSampleCalculator : SampleCalculatorBase
     {
         private Sample _sample;
         private short[] _samples;
 
-        public Int16BlockSampleCalculator(SampleChannel sampleChannel)
+        public Int16BlockInterpolationSampleCalculator(SampleChannel sampleChannel)
             : base(sampleChannel)
         {
             if (sampleChannel == null) throw new NullException(() => sampleChannel);
@@ -23,10 +23,11 @@ namespace JJ.Business.Synthesizer.Calculation
 
             using (Stream stream = StreamHelper.BytesToStream(sampleChannel.RawBytes))
             {
-                long count = stream.Length;
+                long count = stream.Length / 2;
 
                 _samples = new short[count];
 
+                stream.Position = 0;
                 using (var binaryReader = new BinaryReader(stream))
                 {
                     int i = 0;
@@ -42,6 +43,8 @@ namespace JJ.Business.Synthesizer.Calculation
         public override double CalculateValue(double time)
         {
             if (!_sample.IsActive) return 0;
+
+            // TODO: Is it nog better to handle this elsewhere?
             if (_sample.TimeMultiplier == 0) return 0;
 
             // TODO: Pre-calculate the quotient.

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings.Entities
 {
-    public class MultiplyWarningValidator : FirstXInletsNotFilledInWarningValidator
+    public class MultiplyWarningValidator : FirstXInletsNotFilledInWarningValidatorBase
     {
         public MultiplyWarningValidator(Operator obj)
             : base(obj, inletCount: 2)

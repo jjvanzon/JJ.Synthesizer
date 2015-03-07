@@ -133,47 +133,43 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-
-
-
-
-
-
-
-
-
-
-
-        public static void LinkTo(this SampleOperator SampleOperator, Operator op)
+        public static void LinkTo(this SampleOperator sampleOperator, Operator op)
         {
-            if (SampleOperator == null) throw new NullException(() => SampleOperator);
+            if (sampleOperator == null) throw new NullException(() => sampleOperator);
 
-            SampleOperator.Operator = op;
-            op.AsSampleOperator = SampleOperator;
+            sampleOperator.Operator = op;
+            op.AsSampleOperator = sampleOperator;
         }
 
-        public static void LinkTo(this SampleOperator SampleOperator, Sample Sample)
+        public static void LinkTo(this SampleOperator sampleOperator, Sample sample)
         {
-            if (SampleOperator == null) throw new NullException(() => SampleOperator);
+            if (sampleOperator == null) throw new NullException(() => sampleOperator);
 
-            if (SampleOperator.Sample != null)
+            if (sampleOperator.Sample != null)
             {
-                if (SampleOperator.Sample.SampleOperators.Contains(SampleOperator))
+                if (sampleOperator.Sample.SampleOperators.Contains(sampleOperator))
                 {
-                    SampleOperator.Sample.SampleOperators.Remove(SampleOperator);
+                    sampleOperator.Sample.SampleOperators.Remove(sampleOperator);
                 }
             }
 
-            SampleOperator.Sample = Sample;
+            sampleOperator.Sample = sample;
 
-            if (SampleOperator.Sample != null)
+            if (sampleOperator.Sample != null)
             {
-                if (!SampleOperator.Sample.SampleOperators.Contains(SampleOperator))
+                if (!sampleOperator.Sample.SampleOperators.Contains(sampleOperator))
                 {
-                    SampleOperator.Sample.SampleOperators.Add(SampleOperator);
+                    sampleOperator.Sample.SampleOperators.Add(sampleOperator);
                 }
             }
         }
 
+        public static void LinkTo(this ValueOperator valueOperator, Operator op)
+        {
+            if (valueOperator == null) throw new NullException(() => valueOperator);
+
+            valueOperator.Operator = op;
+            op.AsValueOperator = valueOperator;
+        }
     }
 }

@@ -34,8 +34,35 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MonoSampleLoader.cs" />
+    <Compile Include="StereoSampleLoader.cs" />
+    <Compile Include="ISampleLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SampleLoader.cs" />
+    <Compile Include="SampleLoaderBase.cs" />
+    <Compile Include="SampleLoaderFactory.cs" />
+    <Compile Include="SampleLoadHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer\JJ.Business.Synthesizer.csproj">
+      <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
+      <Name>JJ.Business.Synthesizer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
+      <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
+      <Name>JJ.Framework.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.IO\JJ.Framework.IO.csproj">
+      <Project>{c600657b-7e29-44b5-83a1-747fab30d5d0}</Project>
+      <Name>JJ.Framework.IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
+      <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
+      <Name>JJ.Framework.Reflection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer\JJ.Persistence.Synthesizer.csproj">
+      <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
+      <Name>JJ.Persistence.Synthesizer</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

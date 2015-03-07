@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Validation.Entities
 {
-    public class DivideValidator : GenericOperatorValidator
+    public class DivideValidator : OperatorValidatorBase
     {
         public DivideValidator(Operator obj)
             : base(obj, 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings.Entities
 {
-    public class PatchOutletWarningValidator : FirstXInletsNotFilledInWarningValidator
+    public class PatchOutletWarningValidator : FirstXInletsNotFilledInWarningValidatorBase
     {
         public PatchOutletWarningValidator(Operator obj)
             : base(obj, inletCount: 1)

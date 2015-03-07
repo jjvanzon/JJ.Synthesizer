@@ -117,16 +117,36 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ChannelTypeNotAllowedForChannelSetup" xml:space="preserve">
+    <value>Kanaal '{0}' is niet toegestaan voor luidspreker opstelling '{1}'.</value>
+    <comment>{0} = channel name e.g. 'left', 'right', {1} = e.g. 'mono', 'stereo'</comment>
+  </data>
   <data name="InletNotSet" xml:space="preserve">
     <value>{2} is niet ingevuld voor {0} operator genaamd '{1}'.</value>
     <comment>{0} = Operator type name. {1} = Operator name. {2} = Operand name.</comment>
+  </data>
+  <data name="ObjectAmplifier0" xml:space="preserve">
+    <value>Versterking van '{0}' genaamd '{1}' is 0.</value>
+    <comment>{0} = Object type name. {1} = Object name.</comment>
+  </data>
+  <data name="SampleChannelNotLoaded" xml:space="preserve">
+    <value>Geluidsfragment '{0}': kanaal '{1}' is niet ingeladen.</value>
+    <comment>{0} = sample name, {1} = channel name e.g. 'left', 'right'</comment>
+  </data>
+  <data name="SampleCount0" xml:space="preserve">
+    <value>Geluidsfragment '{0}': kanaal '{1}' heeft geen data.</value>
+    <comment>{0} = Sample name.</comment>
+  </data>
+  <data name="SampleNotActive" xml:space="preserve">
+    <value>Geluidsfragment genaamd '{0}' is niet actief.</value>
+    <comment>{0} = Sample name.</comment>
   </data>
   <data name="UnsupportedOperatorTypeName" xml:space="preserve">
     <value>Operator type '{0}' wordt niet ondersteund.</value>
     <comment>{0} = Operator type name</comment>
   </data>
   <data name="ValueOperatorValueIs0" xml:space="preserve">
-    <value>Waarde van waarde operator genaamd '{0}' is 0.</value>
+    <value>Waarde genaamd '{0}' is 0.</value>
     <comment>{0} = Value operator name.</comment>
   </data>
 </root>

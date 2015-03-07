@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PropertyDisplayNames {
+    public class PropertyDisplayNames {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Resources {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("JJ.Business.Synthesizer.Resources.PropertyDisplayNames", typeof(PropertyDisplayNames).Assembly);
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Resources {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Add.
         /// </summary>
-        internal static string Add {
+        public static string Add {
             get {
                 return ResourceManager.GetString("Add", resourceCulture);
             }
@@ -72,16 +72,70 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Adder.
         /// </summary>
-        internal static string Adder {
+        public static string Adder {
             get {
                 return ResourceManager.GetString("Adder", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to As a Curve In.
+        /// </summary>
+        public static string AsCurveIn {
+            get {
+                return ResourceManager.GetString("AsCurveIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to As a Sample Operator.
+        /// </summary>
+        public static string AsSampleOperator {
+            get {
+                return ResourceManager.GetString("AsSampleOperator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to As a Value Operator.
+        /// </summary>
+        public static string AsValueOperator {
+            get {
+                return ResourceManager.GetString("AsValueOperator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Audio File Format.
+        /// </summary>
+        public static string AudioFileFormat {
+            get {
+                return ResourceManager.GetString("AudioFileFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Speaker Setup.
+        /// </summary>
+        public static string ChannelSetup {
+            get {
+                return ResourceManager.GetString("ChannelSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channel.
+        /// </summary>
+        public static string ChannelType {
+            get {
+                return ResourceManager.GetString("ChannelType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Curve.
         /// </summary>
-        internal static string Curve {
+        public static string Curve {
             get {
                 return ResourceManager.GetString("Curve", resourceCulture);
             }
@@ -90,7 +144,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Curve In.
         /// </summary>
-        internal static string CurveIn {
+        public static string CurveIn {
             get {
                 return ResourceManager.GetString("CurveIn", resourceCulture);
             }
@@ -99,7 +153,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Divide.
         /// </summary>
-        internal static string Divide {
+        public static string Divide {
             get {
                 return ResourceManager.GetString("Divide", resourceCulture);
             }
@@ -108,7 +162,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Inlet.
         /// </summary>
-        internal static string Inlet {
+        public static string Inlet {
             get {
                 return ResourceManager.GetString("Inlet", resourceCulture);
             }
@@ -117,16 +171,25 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Inlets.
         /// </summary>
-        internal static string Inlets {
+        public static string Inlets {
             get {
                 return ResourceManager.GetString("Inlets", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Interpolation Type.
+        /// </summary>
+        public static string InterpolationType {
+            get {
+                return ResourceManager.GetString("InterpolationType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Multiply.
         /// </summary>
-        internal static string Multiply {
+        public static string Multiply {
             get {
                 return ResourceManager.GetString("Multiply", resourceCulture);
             }
@@ -135,7 +198,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
-        internal static string Name {
+        public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
             }
@@ -144,7 +207,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Node.
         /// </summary>
-        internal static string Node {
+        public static string Node {
             get {
                 return ResourceManager.GetString("Node", resourceCulture);
             }
@@ -153,7 +216,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Nodes.
         /// </summary>
-        internal static string Nodes {
+        public static string Nodes {
             get {
                 return ResourceManager.GetString("Nodes", resourceCulture);
             }
@@ -162,7 +225,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Node Type.
         /// </summary>
-        internal static string NodeType {
+        public static string NodeType {
             get {
                 return ResourceManager.GetString("NodeType", resourceCulture);
             }
@@ -171,7 +234,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Operator.
         /// </summary>
-        internal static string Operator {
+        public static string Operator {
             get {
                 return ResourceManager.GetString("Operator", resourceCulture);
             }
@@ -180,7 +243,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Operator Type.
         /// </summary>
-        internal static string OperatorTypeName {
+        public static string OperatorTypeName {
             get {
                 return ResourceManager.GetString("OperatorTypeName", resourceCulture);
             }
@@ -189,7 +252,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Outlet.
         /// </summary>
-        internal static string Outlet {
+        public static string Outlet {
             get {
                 return ResourceManager.GetString("Outlet", resourceCulture);
             }
@@ -198,7 +261,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Outlets.
         /// </summary>
-        internal static string Outlets {
+        public static string Outlets {
             get {
                 return ResourceManager.GetString("Outlets", resourceCulture);
             }
@@ -207,7 +270,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Patch Inlet.
         /// </summary>
-        internal static string PatchInlet {
+        public static string PatchInlet {
             get {
                 return ResourceManager.GetString("PatchInlet", resourceCulture);
             }
@@ -216,7 +279,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Patch Outlet.
         /// </summary>
-        internal static string PatchOutlet {
+        public static string PatchOutlet {
             get {
                 return ResourceManager.GetString("PatchOutlet", resourceCulture);
             }
@@ -225,7 +288,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Power.
         /// </summary>
-        internal static string Power {
+        public static string Power {
             get {
                 return ResourceManager.GetString("Power", resourceCulture);
             }
@@ -234,16 +297,43 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Sample.
         /// </summary>
-        internal static string Sample {
+        public static string Sample {
             get {
                 return ResourceManager.GetString("Sample", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Channel.
+        /// </summary>
+        public static string SampleChannel {
+            get {
+                return ResourceManager.GetString("SampleChannel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sample Data Type.
+        /// </summary>
+        public static string SampleDataType {
+            get {
+                return ResourceManager.GetString("SampleDataType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sampling Rate.
+        /// </summary>
+        public static string SamplingRate {
+            get {
+                return ResourceManager.GetString("SamplingRate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sine.
         /// </summary>
-        internal static string Sine {
+        public static string Sine {
             get {
                 return ResourceManager.GetString("Sine", resourceCulture);
             }
@@ -252,7 +342,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Substract.
         /// </summary>
-        internal static string Substract {
+        public static string Substract {
             get {
                 return ResourceManager.GetString("Substract", resourceCulture);
             }
@@ -261,7 +351,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Time Add.
         /// </summary>
-        internal static string TimeAdd {
+        public static string TimeAdd {
             get {
                 return ResourceManager.GetString("TimeAdd", resourceCulture);
             }
@@ -270,7 +360,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Time Divide.
         /// </summary>
-        internal static string TimeDivide {
+        public static string TimeDivide {
             get {
                 return ResourceManager.GetString("TimeDivide", resourceCulture);
             }
@@ -279,7 +369,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Time Multiply.
         /// </summary>
-        internal static string TimeMultiply {
+        public static string TimeMultiply {
             get {
                 return ResourceManager.GetString("TimeMultiply", resourceCulture);
             }
@@ -288,7 +378,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Time Power.
         /// </summary>
-        internal static string TimePower {
+        public static string TimePower {
             get {
                 return ResourceManager.GetString("TimePower", resourceCulture);
             }
@@ -297,7 +387,7 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
-        internal static string ValueOperator {
+        public static string ValueOperator {
             get {
                 return ResourceManager.GetString("ValueOperator", resourceCulture);
             }

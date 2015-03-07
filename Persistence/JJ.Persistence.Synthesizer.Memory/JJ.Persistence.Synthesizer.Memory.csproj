@@ -37,6 +37,7 @@
     <Compile Include="Helpers\EntityIDs.cs" />
     <Compile Include="Mappings\ChannelTypeMapping.cs" />
     <Compile Include="Mappings\ChannelSetupChannelTypeMapping.cs" />
+    <Compile Include="Mappings\ValueOperatorMapping.cs" />
     <Compile Include="Mappings\SampleDataTypeMapping.cs" />
     <Compile Include="Mappings\SampleMapping.cs" />
     <Compile Include="Mappings\SampleOperatorMapping.cs" />

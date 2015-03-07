@@ -15,13 +15,15 @@ namespace JJ.Business.Synthesizer.Validation
     {
         private IDictionary<string, Type> _validatorTypeDictionary = new Dictionary<string, Type>
         {
-            { PropertyNames.Add, typeof(AddValidator) },
             { PropertyNames.Adder, typeof(AdderValidator) },
+            { PropertyNames.Add, typeof(AddValidator) },
+            { PropertyNames.CurveIn, typeof(CurveInValidator) },
             { PropertyNames.Divide, typeof(DivideValidator) },
             { PropertyNames.Multiply, typeof(MultiplyValidator) },
             { PropertyNames.PatchInlet, typeof(PatchInletValidator) },
             { PropertyNames.PatchOutlet, typeof(PatchOutletValidator) },
             { PropertyNames.Power, typeof(PowerValidator) },
+            { PropertyNames.SampleOperator, typeof(SampleOperatorValidator) },
             { PropertyNames.Sine, typeof(SineValidator) },
             { PropertyNames.Substract, typeof(SubstractValidator) },
             { PropertyNames.TimeAdd, typeof(TimeAddValidator) },

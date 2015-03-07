@@ -36,12 +36,13 @@
   <ItemGroup>
     <Compile Include="Calculation\CurveCalculator.cs" />
     <Compile Include="Calculation\ISampleCalculator.cs" />
-    <Compile Include="Calculation\Int16BlockSampleCalculator.cs" />
+    <Compile Include="Calculation\Int16BlockInterpolationSampleCalculator.cs" />
     <Compile Include="Calculation\SampleCalculatorBase.cs" />
     <Compile Include="Calculation\SampleCalculatorFactory.cs" />
     <Compile Include="EntityWrappers\SampleOperatorWrapper.cs" />
     <Compile Include="Enums\ChannelSetupEnum.cs" />
     <Compile Include="Enums\ChannelTypeEnum.cs" />
+    <Compile Include="Enums\AudioFileFormatEnum.cs" />
     <Compile Include="Enums\InterpolationTypeEnum.cs" />
     <Compile Include="Enums\SampleDataTypeEnum.cs" />
     <Compile Include="Factories\CurveFactory.cs" />
@@ -70,11 +71,16 @@
     </Compile>
     <Compile Include="Resources\MessagesFormatter.cs" />
     <Compile Include="Calculation\OperatorCalculator.cs" />
+    <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Validation\Entities\AdderValidator.cs" />
-    <Compile Include="Validation\Entities\SamplerOperatorValidator.cs" />
+    <Compile Include="Validation\Entities\SampleChannelValidator.cs" />
+    <Compile Include="Validation\Entities\SampleOperatorValidator.cs" />
     <Compile Include="Validation\Entities\CurveInValidator.cs" />
+    <Compile Include="Validation\Entities\SampleValidator.cs" />
+    <Compile Include="Warnings\Entities\SampleChannelWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\SampleWarningValidator.cs" />
+    <Compile Include="Warnings\OperatorWarningValidatorBase.cs" />
     <Compile Include="Warnings\Entities\SampleOperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\SampleOperatorValidator.cs" />
     <Compile Include="Validation\Entities\CurveValidator.cs" />
     <Compile Include="Validation\Entities\NodeValidator.cs" />
     <Compile Include="Validation\Entities\TimeMultiplyValidator.cs" />
@@ -91,9 +97,9 @@
     <Compile Include="Validation\Entities\MultiplyValidator.cs" />
     <Compile Include="Validation\RecursiveOperatorValidator.cs" />
     <Compile Include="Validation\Entities\SubstractValidator.cs" />
-    <Compile Include="Validation\GenericOperatorValidator.cs" />
+    <Compile Include="Validation\OperatorValidatorBase.cs" />
     <Compile Include="EntityWrappers\Add.cs" />
-    <Compile Include="EntityWrappers\ValueOperator.cs" />
+    <Compile Include="EntityWrappers\ValueOperatorWrapper.cs" />
     <Compile Include="LinkTo\LinkToExtensions.cs" />
     <Compile Include="Names\PropertyNames.cs" />
     <Compile Include="Factories\OperatorFactory.cs" />
@@ -117,15 +123,19 @@
     <Compile Include="Warnings\Entities\TimeAddWarningValidator.cs" />
     <Compile Include="Warnings\Entities\SineWarningValidator.cs" />
     <Compile Include="Warnings\Entities\PowerWarningValidator.cs" />
-    <Compile Include="Warnings\FirstXInletsNotFilledInWarningValidator.cs" />
+    <Compile Include="Warnings\FirstXInletsNotFilledInWarningValidatorBase.cs" />
     <Compile Include="Warnings\Entities\PatchOutletWarningValidator.cs" />
     <Compile Include="Warnings\Entities\DivideWarningValidator.cs" />
     <Compile Include="Warnings\Entities\MultiplyWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\RecursiveOperatorWarningValidator.cs" />
+    <Compile Include="Warnings\RecursiveOperatorWarningValidator.cs" />
     <Compile Include="Warnings\Entities\SubstractWarningValidator.cs" />
     <Compile Include="Warnings\Entities\ValueOperatorWarningValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Business\JJ.Framework.Business.csproj">
+      <Project>{f44d03e8-feec-40d4-b866-a87799185b4c}</Project>
+      <Name>JJ.Framework.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
       <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
       <Name>JJ.Framework.Common</Name>
@@ -167,7 +177,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\PropertyDisplayNames.nl-NL.resx" />
     <EmbeddedResource Include="Resources\PropertyDisplayNames.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PropertyDisplayNames.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

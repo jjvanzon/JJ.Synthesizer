@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class FirstXInletsNotFilledInWarningValidator: ValidatorBase<Operator>
+    public abstract class FirstXInletsNotFilledInWarningValidatorBase : OperatorWarningValidatorBase
     {
         private int _inletCount;
 
-        public FirstXInletsNotFilledInWarningValidator(Operator obj, int? inletCount = null)
+        public FirstXInletsNotFilledInWarningValidatorBase(Operator obj, int? inletCount = null)
             : base(obj, postponeExecute: true)
         {
             if (obj == null) throw new NullException(() => obj);
