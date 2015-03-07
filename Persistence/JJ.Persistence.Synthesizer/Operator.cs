@@ -26,5 +26,6 @@ namespace JJ.Persistence.Synthesizer
         // TODO: Smells like polymorphism.
         public virtual CurveIn AsCurveIn { get; set; }
         public virtual SampleOperator AsSampleOperator { get; set; }
+        public virtual ValueOperator AsValueOperator { get; set; }
     }
 }

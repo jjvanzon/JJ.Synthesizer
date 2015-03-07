@@ -20,15 +20,17 @@ namespace JJ.Business.Synthesizer.Validation.Entities
         protected override void Execute()
         {
             if (Object == null) throw new NullException(() => Object);
+            
+            Curve curve = Object;
 
-            For(() => Object.Name, PropertyDisplayNames.Name)
+            For(() => curve.Name, PropertyDisplayNames.Name)
                 .NotInteger();
 
-            For(() => Object.Nodes.Count, CommonTitlesFormatter.EntityCount(PropertyDisplayNames.Nodes))
+            For(() => curve.Nodes.Count, CommonTitlesFormatter.EntityCount(PropertyDisplayNames.Nodes))
                 .AtLeast(2);
 
             int i = 1;
-            foreach (Node node in Object.Nodes)
+            foreach (Node node in curve.Nodes)
             {
                 string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Node, i);
                 Execute(new NodeValidator(node), messagePrefix);

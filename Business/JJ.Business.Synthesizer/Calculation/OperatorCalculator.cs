@@ -439,8 +439,11 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateValueOperator(Operator op, double time)
         {
-            var wrapper = new ValueOperator(op);
-            return wrapper.Result.Value;
+            if (op.AsValueOperator == null) throw new NullException(() => op.AsValueOperator);
+
+            var wrapper = new ValueOperatorWrapper(op);
+
+            return wrapper.Value;
         }
 
         private double CalculateCurveIn(Operator op, double time)

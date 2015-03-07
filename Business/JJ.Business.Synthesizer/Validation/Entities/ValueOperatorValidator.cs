@@ -12,10 +12,18 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Validation.Entities
 {
-    public class ValueOperatorValidator : GenericOperatorValidator
+    public class ValueOperatorValidator : OperatorValidatorBase
     {
         public ValueOperatorValidator(Operator obj)
             : base(obj, PropertyNames.ValueOperator, 0, PropertyNames.Result)
         { }
+
+        protected override void Execute()
+        {
+            base.Execute();
+
+            For(() => Object.AsValueOperator, PropertyDisplayNames.AsValueOperator)
+                .NotNull();
+        }
     }
 }

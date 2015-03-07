@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings.Entities
 {
-    public class SineWarningValidator : FirstXInletsNotFilledInWarningValidator
+    public class SineWarningValidator : FirstXInletsNotFilledInWarningValidatorBase
     {
         public SineWarningValidator(Operator obj)
             : base(obj, inletCount: 2)

@@ -8,31 +8,31 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class ValueOperator : OperatorWrapperBase
+    public class ValueOperatorWrapper : OperatorWrapperBase
     {
         public const int RESULT_INDEX = 0;
 
-        public ValueOperator(Operator op)
+        public ValueOperatorWrapper(Operator op)
             : base(op)
         { }
 
         public Outlet Result
         {
-            get { return _operator.Outlets[RESULT_INDEX]; }
+            get { return Operator.Outlets[RESULT_INDEX]; }
         }
 
         public double Value
         {
-            get { return Result.Value; }
-            set { Result.Value = value; }
+            get { return Operator.AsValueOperator.Value; }
+            set { Operator.AsValueOperator.Value = value; }
         }
 
-        public static implicit operator Outlet(ValueOperator wrapper)
+        public static implicit operator Outlet(ValueOperatorWrapper wrapper)
         {
             return wrapper.Result;
         }
 
-        public static implicit operator double(ValueOperator wrapper)
+        public static implicit operator double(ValueOperatorWrapper wrapper)
         {
             return wrapper.Value;
         }

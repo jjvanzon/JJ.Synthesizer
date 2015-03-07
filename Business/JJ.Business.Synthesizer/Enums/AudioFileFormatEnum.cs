@@ -4,9 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Infrastructure.Synthesizer
+namespace JJ.Business.Synthesizer.Enums
 {
-    public class SampleLoader
+    public enum AudioFileFormatEnum
     {
+        Undefined = 0,
+        Raw = 1,
+        Wav = 2
     }
 }

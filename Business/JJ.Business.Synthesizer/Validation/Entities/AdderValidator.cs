@@ -22,25 +22,23 @@ namespace JJ.Business.Synthesizer.Validation.Entities
         protected override void Execute()
         {
             if (Object == null) throw new NullException(() => Object);
+            
+            Operator op = Object;
 
-            For(() => Object.OperatorTypeName, PropertyDisplayNames.OperatorTypeName)
-                .Is(PropertyNames.Adder);
+            For(() => op.OperatorTypeName, PropertyDisplayNames.OperatorTypeName).Is(PropertyNames.Adder);
 
-            For(() => Object.Outlets.Count, GetPropertyDisplayName_ForOutletCount())
-                .Is(1);
+            For(() => op.Outlets.Count, GetPropertyDisplayName_ForOutletCount()).Is(1);
 
-            for (int i = 0; i < Object.Inlets.Count; i++)
+            for (int i = 0; i < op.Inlets.Count; i++)
             {
                 string expectedName = String.Format("{0}{1}", PropertyNames.Operand, i + 1);
 
-                For(() => Object.Inlets[i].Name, GetPropertyDisplayName_ForInletName(i))
-                    .Is(expectedName);
+                For(() => op.Inlets[i].Name, GetPropertyDisplayName_ForInletName(i)).Is(expectedName);
             }
 
-            if (Object.Outlets.Count == 1)
+            if (op.Outlets.Count == 1)
             {
-                For(() => Object.Outlets[0].Name, GetPropertyDisplayName_ForOutletName())
-                    .Is(PropertyNames.Result);
+                For(() => op.Outlets[0].Name, GetPropertyDisplayName_ForOutletName()).Is(PropertyNames.Result);
             }
         }
 

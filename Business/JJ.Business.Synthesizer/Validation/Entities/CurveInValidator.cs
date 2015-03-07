@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Names;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Reflection;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
@@ -8,19 +10,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Warnings.Entities
+namespace JJ.Business.Synthesizer.Validation.Entities
 {
-    public class CurveInValidator : FluentValidator<CurveIn>
+    public class CurveInValidator : OperatorValidatorBase
     {
-        public CurveInValidator(CurveIn obj)
-            : base(obj)
+        public CurveInValidator(Operator op)
+            : base(op, PropertyNames.CurveIn, 0, PropertyNames.Result)
         { }
 
         protected override void Execute()
         {
-            if (Object == null) throw new NullException(() => Object);
+            base.Execute();
 
-            For(() => Object.Operator, PropertyDisplayNames.Operator)
+            Operator op = Object;
+
+            For(() => op.AsCurveIn, PropertyDisplayNames.AsCurveIn)
                 .NotNull();
         }
     }

@@ -10,18 +10,21 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings.Entities
 {
-    public class CurveInWarningValidator : FluentValidator<CurveIn>
+    public class CurveInWarningValidator : OperatorWarningValidatorBase
     {
-        public CurveInWarningValidator(CurveIn obj)
-            : base(obj)
+        public CurveInWarningValidator(Operator op)
+            : base(op)
         { }
 
         protected override void Execute()
         {
             if (Object == null) throw new NullException(() => Object);
 
-            For(() => Object.Curve, PropertyDisplayNames.Curve)
-                .NotNull();
+            if (Object.AsCurveIn != null) // For warnings I need null-tollerance.
+            {
+                For(() => Object.AsCurveIn.Curve, PropertyDisplayNames.Curve)
+                    .NotNull();
+            }
         }
     }
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Validation.Entities
 {
-    public class TimeAddValidator : GenericOperatorValidator
+    public class TimeAddValidator : OperatorValidatorBase
     {
         public TimeAddValidator(Operator obj)
             : base(obj, PropertyNames.TimeAdd, 2, PropertyNames.Signal, PropertyNames.TimeDifference, PropertyNames.Result)

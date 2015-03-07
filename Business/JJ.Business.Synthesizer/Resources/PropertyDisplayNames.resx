@@ -199,4 +199,34 @@
   <data name="Operator" xml:space="preserve">
     <value>Operator</value>
   </data>
+  <data name="AsCurveIn" xml:space="preserve">
+    <value>As a Curve In</value>
+  </data>
+  <data name="AsSampleOperator" xml:space="preserve">
+    <value>As a Sample Operator</value>
+  </data>
+  <data name="AsValueOperator" xml:space="preserve">
+    <value>As a Value Operator</value>
+  </data>
+  <data name="SamplingRate" xml:space="preserve">
+    <value>Sampling Rate</value>
+  </data>
+  <data name="AudioFileFormat" xml:space="preserve">
+    <value>Audio File Format</value>
+  </data>
+  <data name="SampleDataType" xml:space="preserve">
+    <value>Sample Data Type</value>
+  </data>
+  <data name="InterpolationType" xml:space="preserve">
+    <value>Interpolation Type</value>
+  </data>
+  <data name="ChannelSetup" xml:space="preserve">
+    <value>Speaker Setup</value>
+  </data>
+  <data name="SampleChannel" xml:space="preserve">
+    <value>Channel</value>
+  </data>
+  <data name="ChannelType" xml:space="preserve">
+    <value>Channel</value>
+  </data>
 </root>

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings.Entities
 {
-    public class ValueOperatorWarningValidator : FluentValidator<Operator>
+    public class ValueOperatorWarningValidator : OperatorWarningValidatorBase
     {
         public ValueOperatorWarningValidator(Operator obj)
             : base(obj)
@@ -21,18 +21,11 @@ namespace JJ.Business.Synthesizer.Warnings.Entities
         {
             if (Object == null) throw new NullException(() => Object);
 
-            if (Object.Outlets.Count > 0)
+            if (Object.AsValueOperator != null) // For warnings I need null-tollerance.
             {
-                Outlet resultOutlet = Object.Outlets[0];
-
-                if (resultOutlet != null)
+                if (Object.AsValueOperator.Value == 0)
                 {
-                    double value = resultOutlet.Value;
-
-                    if (value == 0)
-                    {
-                        ValidationMessages.Add(() => Object.Outlets[0].Value, MessagesFormatter.ValueOperatorValueIs0(Object.Name));
-                    }
+                    ValidationMessages.Add(() => Object.AsValueOperator.Value, MessagesFormatter.ValueOperatorValueIs0(Object.Name));
                 }
             }
         }

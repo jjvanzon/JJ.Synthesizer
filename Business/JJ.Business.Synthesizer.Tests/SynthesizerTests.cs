@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests
                 IValidator validator = new RecursiveOperatorValidator(substract.Operator);
                 validator.Verify();
 
-                ISoundCalculator calculator = new SoundCalculator3();
+                ISoundCalculator calculator = new SoundCalculator_WithoutWrappersOrNullChecks();
                 double value = calculator.CalculateValue(add, 0);
                 Assert.AreEqual(5, value, 0.0001);
                 value = calculator.CalculateValue(substract, 0);
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests
                 CultureHelper.SetThreadCulture("nl-NL");
 
                 add.OperandA = null;
-                substract.OperandB.Value = 0;
+                substract.OperandB.Operator.AsValueOperator.Value = 0;
                 substract.Operator.Inlets[0].Name = "134";
 
                 IValidator validator2 = new RecursiveOperatorValidator(substract.Operator);
@@ -75,9 +75,9 @@ namespace JJ.Business.Synthesizer.Tests
 
                 IList<PerformanceResult> results = new PerformanceResult[] 
                 {
-                    new PerformanceResult { Calculator = new SoundCalculator1() },
-                    new PerformanceResult { Calculator = new SoundCalculator2() },
-                    new PerformanceResult { Calculator = new SoundCalculator3() }
+                    new PerformanceResult { Calculator = new SoundCalculator_WithWrappersAndNullChecks() },
+                    new PerformanceResult { Calculator = new SoundCalculator_WithoutWrappers() },
+                    new PerformanceResult { Calculator = new SoundCalculator_WithoutWrappersOrNullChecks() }
                 };
 
                 int repeats = 88200;
@@ -149,9 +149,9 @@ namespace JJ.Business.Synthesizer.Tests
 
                 OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
 
-                ValueOperator val1 = factory.Value(1);
-                ValueOperator val2 = factory.Value(2);
-                ValueOperator val3 = factory.Value(3);
+                ValueOperatorWrapper val1 = factory.Value(1);
+                ValueOperatorWrapper val2 = factory.Value(2);
+                ValueOperatorWrapper val3 = factory.Value(3);
                 Adder adder = factory.Adder(val1, val2, val3);
 
                 IValidator validator = new AdderValidator(adder.Operator);

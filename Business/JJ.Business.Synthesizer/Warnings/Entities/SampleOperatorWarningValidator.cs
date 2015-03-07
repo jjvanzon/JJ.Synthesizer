@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings.Entities
 {
-    public class SampleOperatorWarningValidator : FluentValidator<SampleOperator>
+    public class SampleOperatorWarningValidator : OperatorWarningValidatorBase
     {
-        public SampleOperatorWarningValidator(SampleOperator obj)
+        public SampleOperatorWarningValidator(Operator obj)
             : base(obj)
         { }
 
@@ -20,8 +20,11 @@ namespace JJ.Business.Synthesizer.Warnings.Entities
         {
             if (Object == null) throw new NullException(() => Object);
 
-            For(() => Object.Sample, PropertyDisplayNames.Sample)
-                .NotNull();
+            if (Object.AsSampleOperator != null) // For warnings I need null-tollerance.
+            {
+                For(() => Object.AsSampleOperator.Sample, PropertyDisplayNames.Sample)
+                    .NotNull();
+            }
         }
     }
 }

@@ -18,7 +18,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
             IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
             ICurveInRepository curveInRepository = PersistenceHelper.CreateRepository<ICurveInRepository>(context);
-            var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository, curveInRepository);
+            IValueOperatorRepository valueOperatorRepository = PersistenceHelper.CreateRepository<IValueOperatorRepository>(context);
+            var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository, curveInRepository, valueOperatorRepository);
             return factory;
         }
 

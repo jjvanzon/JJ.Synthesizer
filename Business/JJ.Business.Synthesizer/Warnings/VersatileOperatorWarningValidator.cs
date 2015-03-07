@@ -17,11 +17,12 @@ namespace JJ.Business.Synthesizer.Warnings
         {
             { PropertyNames.Add, typeof(AddWarningValidator) },
             { PropertyNames.Adder, typeof(AdderWarningValidator) },
+            { PropertyNames.CurveIn, typeof(CurveInWarningValidator) },
             { PropertyNames.Divide, typeof(DivideWarningValidator) },
             { PropertyNames.Multiply, typeof(MultiplyWarningValidator) },
-            //{ PropertyNames.PatchInlet, typeof(PatchInletWarningValidator) }, // Has no warning validator (yet).
             { PropertyNames.PatchOutlet, typeof(PatchOutletWarningValidator) },
             { PropertyNames.Power, typeof(PowerWarningValidator) },
+            { PropertyNames.SampleOperator, typeof(SampleOperatorWarningValidator) },
             { PropertyNames.Sine, typeof(SineWarningValidator) },
             { PropertyNames.Substract, typeof(SubstractWarningValidator) },
             { PropertyNames.TimeAdd, typeof(TimeAddWarningValidator) },

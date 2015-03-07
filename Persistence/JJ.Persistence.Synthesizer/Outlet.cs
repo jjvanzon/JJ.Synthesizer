@@ -19,8 +19,5 @@ namespace JJ.Persistence.Synthesizer
         public virtual Operator Operator { get; set; }
         public virtual string Name { get; set; }
         public virtual IList<Inlet> ConnectedInlets { get; set; }
-
-        // TODO: Is this polymorphic? It is only used for value operators.
-        public virtual double Value { get; set; }
     }
 }

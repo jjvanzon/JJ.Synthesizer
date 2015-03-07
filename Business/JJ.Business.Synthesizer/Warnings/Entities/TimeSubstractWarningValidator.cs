@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings.Entities
 {
-    public class TimeSubstractWarningValidator : FirstXInletsNotFilledInWarningValidator
+    public class TimeSubstractWarningValidator : FirstXInletsNotFilledInWarningValidatorBase
     {
         public TimeSubstractWarningValidator(Operator obj)
             : base(obj)
