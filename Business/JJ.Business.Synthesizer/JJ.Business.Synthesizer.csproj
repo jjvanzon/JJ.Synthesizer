@@ -34,17 +34,24 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculation\Samples\BlockInterpolation_SampleCalculatorBase.cs" />
+    <Compile Include="Calculation\Samples\Byte_BlockInterpolation_SampleCalculator.cs" />
     <Compile Include="Calculation\CurveCalculator.cs" />
-    <Compile Include="Calculation\ISampleCalculator.cs" />
-    <Compile Include="Calculation\Int16BlockInterpolationSampleCalculator.cs" />
-    <Compile Include="Calculation\SampleCalculatorBase.cs" />
-    <Compile Include="Calculation\SampleCalculatorFactory.cs" />
+    <Compile Include="Calculation\Samples\Byte_LineInterpolation_SampleCalculator.cs" />
+    <Compile Include="Calculation\Samples\Int16_LineInterpolation_SampleCalculator.cs" />
+    <Compile Include="Calculation\Samples\LineInterpolation_SampleCalculatorBase.cs" />
+    <Compile Include="Calculation\Samples\ISampleCalculator.cs" />
+    <Compile Include="Calculation\Samples\Int16_BlockInterpolation_SampleCalculator.cs" />
+    <Compile Include="Calculation\Samples\SampleCalculatorBase.cs" />
+    <Compile Include="Calculation\Samples\SampleCalculatorFactory.cs" />
+    <Compile Include="Calculation\Samples\SampleCalculatorHelper.cs" />
     <Compile Include="EntityWrappers\SampleOperatorWrapper.cs" />
     <Compile Include="Enums\ChannelSetupEnum.cs" />
     <Compile Include="Enums\ChannelTypeEnum.cs" />
     <Compile Include="Enums\AudioFileFormatEnum.cs" />
     <Compile Include="Enums\InterpolationTypeEnum.cs" />
     <Compile Include="Enums\SampleDataTypeEnum.cs" />
+    <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Factories\CurveFactory.cs" />
     <Compile Include="EntityWrappers\Adder.cs" />
     <Compile Include="EntityWrappers\CurveInWrapper.cs" />
@@ -64,6 +71,7 @@
     <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
     <Compile Include="EntityWrappers\Substract.cs" />
     <Compile Include="Infos\NodeInfo.cs" />
+    <Compile Include="Managers\SampleManager.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -167,6 +175,10 @@
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer\JJ.Persistence.Synthesizer.csproj">
       <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
       <Name>JJ.Persistence.Synthesizer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
+      <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
+      <Name>JJ.Business.CanonicalModel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -228,4 +228,7 @@
   <data name="ChannelType" xml:space="preserve">
     <value>Kanaal</value>
   </data>
+  <data name="SampleOperator" xml:space="preserve">
+    <value>Geluidsfragment operator</value>
+  </data>
 </root>

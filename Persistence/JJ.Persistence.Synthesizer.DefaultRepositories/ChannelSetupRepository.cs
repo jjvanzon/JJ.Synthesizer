@@ -13,5 +13,13 @@ namespace JJ.Persistence.Synthesizer.DefaultRepositories
         public ChannelSetupRepository(IContext context)
             : base(context)
         { }
+
+        /// <summary>
+        /// Does not get the related entities immediately unless you override it in a specialized repository.
+        /// </summary>
+        public virtual ChannelSetup GetWithRelatedEntities(int id)
+        {
+            return Get(id);
+        }
     }
 }

@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
+using JJ.Business.Synthesizer.Calculation.Samples;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
@@ -19,8 +20,8 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private IDictionary<string, Func<Operator, double, double>> _funcDictionary;
 
-        private IDictionary<SampleChannel, ISampleCalculator> _sampleCalculatorDictionary =
-            new Dictionary<SampleChannel, ISampleCalculator>();
+        private IDictionary<int, ISampleCalculator> _sampleCalculatorDictionary =
+            new Dictionary<int, ISampleCalculator>();
 
         public OperatorCalculator(ChannelType channelType)
         {
@@ -32,11 +33,13 @@ namespace JJ.Business.Synthesizer.Calculation
             {
                 { PropertyNames.Add, CalculateAdd },
                 { PropertyNames.Adder, CalculateAdder },
+                { PropertyNames.CurveIn, CalculateCurveIn },
                 { PropertyNames.Divide, CalculateDivide },
                 { PropertyNames.Multiply, CalculateMultiply },
                 { PropertyNames.PatchInlet, CalculatePatchInlet },
                 { PropertyNames.PatchOutlet, CalculatePatchOutlet },
                 { PropertyNames.Power, CalculatePower },
+                { PropertyNames.SampleOperator, CalculateSampleOperator },
                 { PropertyNames.Sine, CalculateSine },
                 { PropertyNames.Substract, CalculateSubstract },
                 { PropertyNames.TimeAdd, CalculateTimeAdd },
@@ -45,7 +48,6 @@ namespace JJ.Business.Synthesizer.Calculation
                 { PropertyNames.TimePower, CalculateTimePower },
                 { PropertyNames.TimeSubstract, CalculateTimeSubstract },
                 { PropertyNames.ValueOperator, CalculateValueOperator },
-                { PropertyNames.CurveIn, CalculateCurveIn },
             };
         }
 
@@ -335,8 +337,8 @@ namespace JJ.Business.Synthesizer.Calculation
             }
 
             // Time multiplier 0? See that as multiplier = 1 or rather: just pass through signal.
-            double timeMultiply = CalculateValue(timeMultiplierOutlet, time);
-            if (timeMultiply == 0)
+            double timeMultiplier = CalculateValue(timeMultiplierOutlet, time);
+            if (timeMultiplier == 0)
             {
                 double result = CalculateValue(signalOutlet, time);
                 return result;
@@ -347,7 +349,7 @@ namespace JJ.Business.Synthesizer.Calculation
             // Formula without origin
             if (originOutlet == null)
             {
-                double transformedTime = time / timeMultiply;
+                double transformedTime = time / timeMultiplier;
                 double result = CalculateValue(signalOutlet, transformedTime);
                 return result;
             }
@@ -355,7 +357,7 @@ namespace JJ.Business.Synthesizer.Calculation
             // Formula with origin
             else
             {
-                double transformedTime = (time - origin) / timeMultiply + origin;
+                double transformedTime = (time - origin) / timeMultiplier + origin;
                 double result = CalculateValue(signalOutlet, transformedTime);
                 return result;
             }
@@ -471,10 +473,10 @@ namespace JJ.Business.Synthesizer.Calculation
             SampleChannel sampleChannel = sample.SampleChannels.Where(x => x.ChannelType.ID == _channelType.ID).Single();
 
             ISampleCalculator sampleCalculator;
-            if (!_sampleCalculatorDictionary.TryGetValue(sampleChannel, out sampleCalculator))
+            if (!_sampleCalculatorDictionary.TryGetValue(sampleChannel.ID, out sampleCalculator))
             {
                 sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sampleChannel);
-                _sampleCalculatorDictionary.Add(sampleChannel, sampleCalculator);
+                _sampleCalculatorDictionary.Add(sampleChannel.ID, sampleCalculator);
             }
 
             double result = sampleCalculator.CalculateValue(time);

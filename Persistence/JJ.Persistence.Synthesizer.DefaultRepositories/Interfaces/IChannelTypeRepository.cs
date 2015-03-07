@@ -9,5 +9,7 @@ using System.Text;
 namespace JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces
 {
     public interface IChannelTypeRepository : IRepository<ChannelType, int>
-    { }
+    {
+        ChannelType GetWithRelatedEntities(int id);
+    }
 }

@@ -21,25 +21,29 @@ namespace JJ.Business.Synthesizer.Factories
         private IOutletRepository _outletRepository;
         private ICurveInRepository _curveInRepository;
         private IValueOperatorRepository _valueOperatorRepository;
+        private ISampleOperatorRepository _sampleOperatorRepository;
 
         public OperatorFactory(
             IOperatorRepository operatorRepository, 
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
             ICurveInRepository curveInRepository,
-            IValueOperatorRepository valueOperatorRepository)
+            IValueOperatorRepository valueOperatorRepository,
+            ISampleOperatorRepository sampleOperatorRepository)
         {
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (curveInRepository == null) throw new NullException(() => curveInRepository);
             if (valueOperatorRepository == null) throw new NullException(() => valueOperatorRepository);
+            if (sampleOperatorRepository == null) throw new NullException(() => sampleOperatorRepository);
 
             _operatorRepository = operatorRepository;
             _inletRepository = inletRepository;
             _outletRepository = outletRepository;
             _curveInRepository = curveInRepository;
             _valueOperatorRepository = valueOperatorRepository;
+            _sampleOperatorRepository = sampleOperatorRepository;
         }
 
         public Add Add(Outlet operandA = null, Outlet operandB = null)
@@ -309,6 +313,20 @@ namespace JJ.Business.Synthesizer.Factories
             curveIn.LinkTo(curve);
 
             var wrapper = new CurveInWrapper(curveIn);
+            return wrapper;
+        }
+
+        public SampleOperatorWrapper Sample(Sample sample = null)
+        {
+            Operator op = CreateOperator(
+                PropertyNames.SampleOperator, PropertyDisplayNames.SampleOperator, 0,
+                PropertyNames.Result);
+
+            SampleOperator sampleOperator = _sampleOperatorRepository.Create();
+            sampleOperator.LinkTo(op);
+            sampleOperator.LinkTo(sample);
+
+            var wrapper = new SampleOperatorWrapper(sampleOperator);
             return wrapper;
         }
 

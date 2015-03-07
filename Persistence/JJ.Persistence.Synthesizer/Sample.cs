@@ -11,6 +11,7 @@ namespace JJ.Persistence.Synthesizer
         public Sample ()
 	    {
             SampleChannels = new List<SampleChannel>();
+            SampleOperators = new List<SampleOperator>();
 	    }
 
         public virtual int ID { get; set; }

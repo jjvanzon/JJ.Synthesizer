@@ -1,7 +1,9 @@
-﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
+﻿using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.SideEffects;
+using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Framework.Business;
 using JJ.Framework.Reflection;
+using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using System;
@@ -9,47 +11,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ValidationMessage = JJ.Business.CanonicalModel.ValidationMessage;
 
-namespace JJ.Business.Synthesizer.SideEffects
+namespace JJ.Business.Synthesizer.Managers
 {
-    public class Sample_SideEffect_SetDefaults : ISideEffect
+    public class SampleManager
     {
-        private Sample _entity;
+        private ISampleRepository _sampleRepository;
         private ISampleDataTypeRepository _sampleDataTypeRepository;
         private IChannelSetupRepository _channelSetupRepository;
         private IInterpolationTypeRepository _interpolationTypeRepository;
         private IAudioFileFormatRepository _audioFileFormatRepository;
 
-        public Sample_SideEffect_SetDefaults(
-            Sample entity,
+        public SampleManager(
+            ISampleRepository sampleRepository,
             ISampleDataTypeRepository sampleDataTypeRepository,
             IChannelSetupRepository channelSetupRepository,
             IInterpolationTypeRepository interpolationTypeRepository,
             IAudioFileFormatRepository audioFileFormatRepository)
         {
-            if (entity == null) throw new NullException(() => entity);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
             if (channelSetupRepository == null) throw new NullException(() => channelSetupRepository);
             if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
             if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
 
-            _entity = entity;
+            _sampleRepository = sampleRepository;
             _sampleDataTypeRepository = sampleDataTypeRepository;
             _channelSetupRepository = channelSetupRepository;
             _interpolationTypeRepository = interpolationTypeRepository;
             _audioFileFormatRepository = audioFileFormatRepository;
         }
 
-        public void Execute()
+        public Sample CreateSample()
         {
-            _entity.Amplifier = 1;
-            _entity.TimeMultiplier = 1;
-            _entity.IsActive = true;
-            _entity.SamplingRate = 44100;
-            _entity.SetAudioFileFormatEnum(AudioFileFormatEnum.Raw, _audioFileFormatRepository);
-            _entity.SetSampleDataTypeEnum(SampleDataTypeEnum.Int16, _sampleDataTypeRepository);
-            _entity.SetChannelSetupEnum(ChannelSetupEnum.Mono, _channelSetupRepository);
-            _entity.SetInterpolationTypeEnum(InterpolationTypeEnum.Line, _interpolationTypeRepository);
+            Sample sample = _sampleRepository.Create();
+
+            ISideEffect sideEffect = new Sample_SideEffect_SetDefaults(sample, _sampleDataTypeRepository, _channelSetupRepository, _interpolationTypeRepository, _audioFileFormatRepository);
+            sideEffect.Execute();
+
+            return sample;
+        }
+
+        public IValidator ValidateSample(Sample sample)
+        {
+            IValidator sampleValidator = new SampleValidator(sample);
+            return sampleValidator;
         }
     }
 }

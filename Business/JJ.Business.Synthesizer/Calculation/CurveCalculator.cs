@@ -45,7 +45,9 @@ namespace JJ.Business.Synthesizer.Calculation
             {
                 case NodeTypeEnum.Line:
                     if (nodeB.Time <= nodeA.Time) return nodeA.Value; // If time accidently reversed...
-                    return nodeA.Value + (nodeB.Value - nodeA.Value) * (time - nodeA.Time) / (nodeB.Time - nodeA.Time);
+                    double dt = nodeB.Time - nodeA.Time;
+                    double dx = (nodeB.Value - nodeA.Value);
+                    return nodeA.Value + dx * (time - nodeA.Time) / dt;
 
                 case NodeTypeEnum.Off:
                     return 0;
@@ -54,7 +56,6 @@ namespace JJ.Business.Synthesizer.Calculation
                     return nodeA.Value;
 
                 default:
-                    // TODO: Return default, so things will not crash on stage?
                     throw new ValueNotSupportedException(nodeTypeEnum);
             }
         }

@@ -58,6 +58,7 @@
     <Compile Include="Helpers\SoundCalculator_WithoutWrappers.cs" />
     <Compile Include="Helpers\SoundCalculator_WithoutWrappersOrNullChecks.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
+    <Compile Include="SampleTests.cs" />
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -90,6 +91,10 @@
       <Project>{59ddc853-62af-4f86-a803-3d4dd491e978}</Project>
       <Name>JJ.Framework.Validation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\JJ.Infrastructure.Synthesizer\JJ.Infrastructure.Synthesizer.csproj">
+      <Project>{fd1352fd-c03a-4f3e-bca8-663fb9c622a4}</Project>
+      <Name>JJ.Infrastructure.Synthesizer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.DefaultRepositories\JJ.Persistence.Synthesizer.DefaultRepositories.csproj">
       <Project>{31660f5f-6141-4da5-b364-6c0717b8f0a9}</Project>
       <Name>JJ.Persistence.Synthesizer.DefaultRepositories</Name>
@@ -109,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EmbeddedResource Include="TestResources\violin_16bit_mono.raw" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

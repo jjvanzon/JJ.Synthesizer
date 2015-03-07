@@ -34,6 +34,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\RepositoryHelper.cs" />
     <Compile Include="Helpers\EntityIDs.cs" />
     <Compile Include="Mappings\ChannelTypeMapping.cs" />
     <Compile Include="Mappings\ChannelSetupChannelTypeMapping.cs" />

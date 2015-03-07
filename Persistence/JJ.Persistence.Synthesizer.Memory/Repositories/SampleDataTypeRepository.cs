@@ -19,9 +19,6 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
             // Not just auto-increment or NoIDs
 
             entity = Create();
-            entity.Name = "Undefined";
-
-            entity = Create();
             entity.Name = "Byte";
             
             entity = Create();

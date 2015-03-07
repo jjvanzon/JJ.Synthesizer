@@ -19,11 +19,11 @@ namespace JJ.Business.Synthesizer.Extensions
             return (ChannelSetupEnum)sample.ChannelSetup.ID;
         }
 
-        public static void SetChannelSetupEnum(this Sample sample, ChannelSetupEnum ChannelSetupEnum, IChannelSetupRepository ChannelSetupRepository)
+        public static void SetChannelSetupEnum(this Sample sample, ChannelSetupEnum channelSetupEnum, IChannelSetupRepository channelSetupRepository)
         {
-            if (ChannelSetupRepository == null) throw new NullException(() => ChannelSetupRepository);
+            if (channelSetupRepository == null) throw new NullException(() => channelSetupRepository);
 
-            sample.ChannelSetup = ChannelSetupRepository.Get((int)ChannelSetupEnum);
+            sample.ChannelSetup = channelSetupRepository.GetWithRelatedEntities((int)channelSetupEnum);
         }
 
         public static ChannelTypeEnum GetChannelTypeEnum(this SampleChannel sampleChannel)
@@ -33,11 +33,11 @@ namespace JJ.Business.Synthesizer.Extensions
             return (ChannelTypeEnum)sampleChannel.ChannelType.ID;
         }
 
-        public static void SetChannelTypeEnum(this SampleChannel sampleChannel, ChannelTypeEnum ChannelTypeEnum, IChannelTypeRepository ChannelTypeRepository)
+        public static void SetChannelTypeEnum(this SampleChannel sampleChannel, ChannelTypeEnum channelTypeEnum, IChannelTypeRepository channelTypeRepository)
         {
-            if (ChannelTypeRepository == null) throw new NullException(() => ChannelTypeRepository);
+            if (channelTypeRepository == null) throw new NullException(() => channelTypeRepository);
 
-            sampleChannel.ChannelType = ChannelTypeRepository.Get((int)ChannelTypeEnum);
+            sampleChannel.ChannelType = channelTypeRepository.GetWithRelatedEntities((int)channelTypeEnum);
         }
 
         public static InterpolationTypeEnum GetInterpolationTypeEnum(this Sample sample)
@@ -46,12 +46,12 @@ namespace JJ.Business.Synthesizer.Extensions
 
             return (InterpolationTypeEnum)sample.InterpolationType.ID;
         }
-
-        public static void SetInterpolationTypeEnum(this Sample sample, InterpolationTypeEnum InterpolationTypeEnum, IInterpolationTypeRepository InterpolationTypeRepository)
+        
+        public static void SetInterpolationTypeEnum(this Sample sample, InterpolationTypeEnum interpolationTypeEnum, IInterpolationTypeRepository interpolationTypeRepository)
         {
-            if (InterpolationTypeRepository == null) throw new NullException(() => InterpolationTypeRepository);
+            if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
 
-            sample.InterpolationType = InterpolationTypeRepository.Get((int)InterpolationTypeEnum);
+            sample.InterpolationType = interpolationTypeRepository.Get((int)interpolationTypeEnum);
         }
 
         public static NodeTypeEnum GetNodeTypeEnum(this Node node)
@@ -75,11 +75,25 @@ namespace JJ.Business.Synthesizer.Extensions
             return (SampleDataTypeEnum)sample.SampleDataType.ID;
         }
 
-        public static void SetSampleDataTypeEnum(this Sample sample, SampleDataTypeEnum SampleDataTypeEnum, ISampleDataTypeRepository SampleDataTypeRepository)
+        public static void SetSampleDataTypeEnum(this Sample sample, SampleDataTypeEnum sampleDataTypeEnum, ISampleDataTypeRepository sampleDataTypeRepository)
         {
-            if (SampleDataTypeRepository == null) throw new NullException(() => SampleDataTypeRepository);
+            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
 
-            sample.SampleDataType = SampleDataTypeRepository.Get((int)SampleDataTypeEnum);
+            sample.SampleDataType = sampleDataTypeRepository.Get((int)sampleDataTypeEnum);
+        }
+
+        public static AudioFileFormatEnum GetAudioFileFormatEnum(this Sample sample)
+        {
+            if (sample.AudioFileFormat == null) return AudioFileFormatEnum.Undefined;
+
+            return (AudioFileFormatEnum)sample.AudioFileFormat.ID;
+        }
+
+        public static void SetAudioFileFormatEnum(this Sample sample, AudioFileFormatEnum audioFileFormatEnum, IAudioFileFormatRepository audioFileFormatRepository)
+        {
+            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
+
+            sample.AudioFileFormat = audioFileFormatRepository.Get((int)audioFileFormatEnum);
         }
     }
 }
