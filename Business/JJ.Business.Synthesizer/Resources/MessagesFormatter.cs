@@ -23,9 +23,9 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.UnsupportedOperatorTypeName, operatorTypeName);
         }
 
-        public static string ChannelNotAllowedForSpeakerSetup(string channelName, string speakerSetupName)
+        public static string ChannelMustBeXForSpeakerSetupY(string expectedChannelName, string speakerSetupName)
         {
-            return String.Format(Messages.ChannelNotAllowedForSpeakerSetup, channelName, speakerSetupName);
+            return String.Format(Messages.ChannelMustBeXForSpeakerSetupY, expectedChannelName, speakerSetupName);
         }
 
         public static string SampleChannelNotLoaded(string sampleName, string channelName)
@@ -46,6 +46,16 @@ namespace JJ.Business.Synthesizer.Resources
         public static string SampleCount0(string sampleName, string channelName)
         {
             return String.Format(Messages.SampleCount0, sampleName, channelName);
+        }
+
+        public static string ChannelCountDoesNotMatchSpeakerSetup()
+        {
+            return Messages.ChannelCountDoesNotMatchSpeakerSetup;
+        }
+
+        public static string ChannelsMustAllHaveSameSize()
+        {
+            return Messages.ChannelsMustAllHaveSameSize;
         }
     }
 }

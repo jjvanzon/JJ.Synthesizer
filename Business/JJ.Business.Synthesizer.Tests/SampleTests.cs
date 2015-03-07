@@ -35,33 +35,31 @@ namespace JJ.Business.Synthesizer.Tests
                 IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
                 IChannelRepository channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(context);
 
-                Channel channel = channelRepository.GetWithRelatedEntities((int)ChannelEnum.Single);
-
+                // Create
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 Sample sample = sampleManager.CreateSample();
 
-                // TODO: Do this in a manager class.
-                SampleChannel sampleChannel = new SampleChannel { ID = 1, Channel = channel };
-                sampleChannel.LinkTo(sample);
-
+                // Load
                 Stream stream = GetViolinSampleStream();
                 SampleLoadHelper.LoadSample(sample, stream);
 
+                // Validate
                 IValidator sampleValidator = sampleManager.ValidateSample(sample);
                 sampleValidator.Verify();
 
+                // Create Patch
                 OperatorFactory f = TestHelper.CreateOperatorFactory(context);
                 var wrapper = f.TimeMultiply(f.Sample(sample), f.Value(10));
-                //var wrapper = f.Sample(sample);
 
-                OperatorCalculator calculator = new OperatorCalculator(channel);
-
-                int destSampleCount = 44100 * 6;
+                // Calculate and write to file
+                OperatorCalculator calculator = new OperatorCalculator(sample.SampleChannels[0].Channel);
 
                 using (Stream destStream = new FileStream("SampleOperatorOutput.raw", FileMode.Create, FileAccess.Write, FileShare.Read))
                 {
                     using (BinaryWriter writer = new BinaryWriter(destStream))
                     {
+                        int destSampleCount = 44100 * 6;
+
                         double t = 0;
                         double dt = 1.0 / 44100.0;
 

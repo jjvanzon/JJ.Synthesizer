@@ -231,4 +231,7 @@
   <data name="SampleOperator" xml:space="preserve">
     <value>Geluidsfragment operator</value>
   </data>
+  <data name="SampleChannels" xml:space="preserve">
+    <value>Kanalen</value>
+  </data>
 </root>

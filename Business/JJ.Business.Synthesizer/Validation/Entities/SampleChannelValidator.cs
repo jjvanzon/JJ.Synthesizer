@@ -11,9 +11,15 @@ namespace JJ.Business.Synthesizer.Validation.Entities
 {
     public class SampleChannelValidator : FluentValidator<SampleChannel>
     {
-        public SampleChannelValidator(SampleChannel obj)
-            : base(obj)
-        { }
+        private Channel _expectedChannel;
+
+        public SampleChannelValidator(SampleChannel obj, Channel expectedChannel)
+            : base(obj, postponeExecute: true)
+        {
+            _expectedChannel = expectedChannel;
+
+            Execute();
+        }
         
         protected override void Execute()
         {
@@ -27,14 +33,14 @@ namespace JJ.Business.Synthesizer.Validation.Entities
             For(() => sampleChannel.Channel, PropertyDisplayNames.Channel)
                 .NotNull();
 
+            // Check if the channel matches the expected channel.
             if (sampleChannel.Sample != null &&
-                sampleChannel.Sample.SpeakerSetup != null &&
-                sampleChannel.Channel != null)
+                sampleChannel.Channel != null &&
+                sampleChannel.Sample.SpeakerSetup != null)
             {
-                int[] allowedChannelIDs = sampleChannel.Sample.SpeakerSetup.SpeakerSetupChannels.Select(x => x.Channel.ID).ToArray();
-                if (!allowedChannelIDs.Contains(sampleChannel.Channel.ID))
+                if (sampleChannel.Channel.ID != _expectedChannel.ID)
                 {
-                    string message = MessagesFormatter.ChannelNotAllowedForSpeakerSetup(sampleChannel.Channel.Name, sampleChannel.Sample.SpeakerSetup.Name);
+                    string message = MessagesFormatter.ChannelMustBeXForSpeakerSetupY(_expectedChannel.Name, sampleChannel.Sample.SpeakerSetup.Name);
                     ValidationMessages.Add(() => sampleChannel.Channel.ID, message);
                 }
             };
