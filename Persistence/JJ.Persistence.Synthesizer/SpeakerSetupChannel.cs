@@ -9,18 +9,18 @@ namespace JJ.Persistence.Synthesizer
     /// <summary>
     /// bridge entity
     /// </summary>
-    public class ChannelSetupChannelType
+    public class SpeakerSetupChannel
     {
         public virtual int ID { get; set; }
 
         /// <summary>
         /// not nullable
         /// </summary>
-        public virtual ChannelSetup ChannelSetup { get; set; }
+        public virtual SpeakerSetup SpeakerSetup { get; set; }
 
         /// <summary>
         /// not nullable
         /// </summary>
-        public virtual ChannelType ChannelType { get; set; }
+        public virtual Channel Channel { get; set; }
     }
 }

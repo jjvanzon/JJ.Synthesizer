@@ -46,8 +46,8 @@
     <Compile Include="Calculation\Samples\SampleCalculatorFactory.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorHelper.cs" />
     <Compile Include="EntityWrappers\SampleOperatorWrapper.cs" />
-    <Compile Include="Enums\ChannelSetupEnum.cs" />
-    <Compile Include="Enums\ChannelTypeEnum.cs" />
+    <Compile Include="Enums\SpeakerSetupEnum.cs" />
+    <Compile Include="Enums\ChannelEnum.cs" />
     <Compile Include="Enums\AudioFileFormatEnum.cs" />
     <Compile Include="Enums\InterpolationTypeEnum.cs" />
     <Compile Include="Enums\SampleDataTypeEnum.cs" />
@@ -182,12 +182,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\Messages.nl-NL.resx" />
+    <EmbeddedResource Include="Resources\Messages.nl-NL.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Messages.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Messages.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\PropertyDisplayNames.nl-NL.resx" />
+    <EmbeddedResource Include="Resources\PropertyDisplayNames.nl-NL.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\PropertyDisplayNames.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>PropertyDisplayNames.Designer.cs</LastGenOutput>

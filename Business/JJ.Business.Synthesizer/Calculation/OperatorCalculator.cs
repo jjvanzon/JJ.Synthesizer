@@ -16,18 +16,18 @@ namespace JJ.Business.Synthesizer.Calculation
 {
     public class OperatorCalculator
     {
-        private ChannelType _channelType;
+        private Channel _channel;
 
         private IDictionary<string, Func<Operator, double, double>> _funcDictionary;
 
         private IDictionary<int, ISampleCalculator> _sampleCalculatorDictionary =
             new Dictionary<int, ISampleCalculator>();
 
-        public OperatorCalculator(ChannelType channelType)
+        public OperatorCalculator(Channel channel)
         {
-            if (channelType == null) throw new NullException(() => channelType);
+            if (channel == null) throw new NullException(() => channel);
 
-            _channelType = channelType;
+            _channel = channel;
 
             _funcDictionary = new Dictionary<string, Func<Operator, double, double>>
             {
@@ -452,7 +452,7 @@ namespace JJ.Business.Synthesizer.Calculation
         {
             if (op.AsCurveIn == null) throw new NullException(() => op.AsCurveIn);
 
-            if (op.AsCurveIn.Curve == null) return 0; // TODO: Think about if this null tolerance is appropriate.
+            if (op.AsCurveIn.Curve == null) return 0;
 
             Curve curve = op.AsCurveIn.Curve;
 
@@ -465,12 +465,13 @@ namespace JJ.Business.Synthesizer.Calculation
         {
             if (op.AsSampleOperator == null) throw new NullException(() => op.AsSampleOperator);
 
-            if (op.AsSampleOperator.Sample == null) return 0; // TODO: Think about if this null tolerance is appropriate.
+            if (op.AsSampleOperator.Sample == null) return 0;
 
             Sample sample = op.AsSampleOperator.Sample;
 
             // TODO: What about when the channel type is not there in the Sample?
-            SampleChannel sampleChannel = sample.SampleChannels.Where(x => x.ChannelType.ID == _channelType.ID).Single();
+            // TODO: Performance problem?
+            SampleChannel sampleChannel = sample.SampleChannels.Where(x => x.Channel.ID == _channel.ID).Single();
 
             ISampleCalculator sampleCalculator;
             if (!_sampleCalculatorDictionary.TryGetValue(sampleChannel.ID, out sampleCalculator))

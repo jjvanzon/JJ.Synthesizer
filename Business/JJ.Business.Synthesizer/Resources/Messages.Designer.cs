@@ -63,9 +63,9 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Channel &apos;{0}&apos; not allowed for speaker setup &apos;{1}&apos;..
         /// </summary>
-        internal static string ChannelTypeNotAllowedForChannelSetup {
+        internal static string ChannelNotAllowedForSpeakerSetup {
             get {
-                return ResourceManager.GetString("ChannelTypeNotAllowedForChannelSetup", resourceCulture);
+                return ResourceManager.GetString("ChannelNotAllowedForSpeakerSetup", resourceCulture);
             }
         }
         

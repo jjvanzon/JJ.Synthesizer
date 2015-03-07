@@ -9,7 +9,7 @@ namespace JJ.Persistence.Synthesizer
     public class SampleChannel
     {
         public virtual int ID { get; set; }
-        public virtual ChannelType ChannelType { get; set; }
+        public virtual Channel Channel { get; set; }
 
         /// <summary>
         /// nullable (might be loaded from a file)

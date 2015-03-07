@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ChannelTypeNotAllowedForChannelSetup" xml:space="preserve">
+  <data name="ChannelNotAllowedForSpeakerSetup" xml:space="preserve">
     <value>Channel '{0}' not allowed for speaker setup '{1}'.</value>
     <comment>{0} = channel name e.g. 'left', 'right', {1} = e.g. 'mono', 'stereo'</comment>
   </data>

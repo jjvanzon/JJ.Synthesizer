@@ -8,11 +8,11 @@ namespace JJ.Persistence.Synthesizer.Memory.Helpers
 {
     internal static class EntityIDs
     {
-        public const int ENTITY_ID_CHANNEL_SETUP_MONO = 1;
-        public const int ENTITY_ID_CHANNEL_SETUP_STEREO = 2;
-        public const int ENTITY_ID_CHANNEL_TYPE_SINGLE = 1;
-        public const int ENTITY_ID_CHANNEL_TYPE_LEFT = 2;
-        public const int ENTITY_ID_CHANNEL_TYPE_RIGHT = 3;
+        public const int ENTITY_ID_SPEAKER_SETUP_MONO = 1;
+        public const int ENTITY_ID_SPEAKER_SETUP_STEREO = 2;
+        public const int ENTITY_ID_CHANNEL_SINGLE = 1;
+        public const int ENTITY_ID_CHANNEL_LEFT = 2;
+        public const int ENTITY_ID_CHANNEL_RIGHT = 3;
 
     }
 }

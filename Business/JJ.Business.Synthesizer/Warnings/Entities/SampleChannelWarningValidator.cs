@@ -21,11 +21,11 @@ namespace JJ.Business.Synthesizer.Warnings.Entities
 
             if (Object.RawBytes == null)
             {
-                ValidationMessages.Add(() => Object.RawBytes, MessagesFormatter.SampleChannelNotLoaded(GetSampleName(), GetChannelTypeName()));
+                ValidationMessages.Add(() => Object.RawBytes, MessagesFormatter.SampleChannelNotLoaded(GetSampleName(), GetChannelName()));
             }
             else if (Object.RawBytes.Length == 0)
             {
-                ValidationMessages.Add(() => Object.RawBytes.Length, MessagesFormatter.SampleCount0(GetSampleName(), GetChannelTypeName()));
+                ValidationMessages.Add(() => Object.RawBytes.Length, MessagesFormatter.SampleCount0(GetSampleName(), GetChannelName()));
             }
         }
 
@@ -37,10 +37,10 @@ namespace JJ.Business.Synthesizer.Warnings.Entities
             return sampleName;
         }
 
-        private string GetChannelTypeName()
+        private string GetChannelName()
         {
-            string channelTypeName = Object.ChannelType != null ? Object.ChannelType.Name : null;
-            return channelTypeName;
+            string channelName = Object.Channel != null ? Object.Channel.Name : null;
+            return channelName;
         }
     }
 }

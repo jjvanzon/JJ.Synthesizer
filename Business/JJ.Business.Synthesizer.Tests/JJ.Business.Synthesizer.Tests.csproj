@@ -51,12 +51,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CurveTests.cs" />
-    <Compile Include="Helpers\ISoundCalculator.cs" />
+    <Compile Include="Helpers\IOperatorCalculator.cs" />
     <Compile Include="Helpers\MockFactory.cs" />
-    <Compile Include="Helpers\SoundCalculator_WithWrappersAndNullChecks.cs" />
+    <Compile Include="Helpers\OperatorCalculator_WithWrappersAndNullChecks.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
-    <Compile Include="Helpers\SoundCalculator_WithoutWrappers.cs" />
-    <Compile Include="Helpers\SoundCalculator_WithoutWrappersOrNullChecks.cs" />
+    <Compile Include="Helpers\OperatorCalculator_WithoutWrappers.cs" />
+    <Compile Include="Helpers\OperatorCalculator_WithoutWrappersOrNullChecks.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="SampleTests.cs" />
     <Compile Include="SynthesizerTests.cs" />

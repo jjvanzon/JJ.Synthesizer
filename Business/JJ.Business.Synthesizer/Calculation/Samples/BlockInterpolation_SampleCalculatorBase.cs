@@ -24,9 +24,6 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
         {
             if (!_sample.IsActive) return 0;
 
-            // TODO: Is it not better to handle this elsewhere?
-            if (_sample.TimeMultiplier == 0) return 0;
-
             double t = time * _rate;
             int t0 = (int)t;
 

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer.DefaultRepositories
 {
-    public class ChannelSetupChannelTypeRepository : RepositoryBase<ChannelSetupChannelType, int>, IChannelSetupChannelTypeRepository
+    public class SpeakerSetupChannelRepository : RepositoryBase<SpeakerSetupChannel, int>, ISpeakerSetupChannelRepository
     {
-        public ChannelSetupChannelTypeRepository(IContext context)
+        public SpeakerSetupChannelRepository(IContext context)
             : base(context)
         { }
     }

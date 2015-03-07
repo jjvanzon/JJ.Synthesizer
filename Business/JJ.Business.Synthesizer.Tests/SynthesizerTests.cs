@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Tests
                 IValidator validator = new RecursiveOperatorValidator(substract.Operator);
                 validator.Verify();
 
-                ISoundCalculator calculator = new SoundCalculator_WithoutWrappersOrNullChecks();
+                IOperatorCalculator calculator = new OperatorCalculator_WithoutWrappersOrNullChecks();
                 double value = calculator.CalculateValue(add, 0);
                 Assert.AreEqual(5, value, 0.0001);
                 value = calculator.CalculateValue(substract, 0);
@@ -59,15 +59,13 @@ namespace JJ.Business.Synthesizer.Tests
 
         private class PerformanceResult
         {
-            public ISoundCalculator Calculator { get; set; }
+            public IOperatorCalculator Calculator { get; set; }
             public long Milliseconds { get; set; }
         }
 
         [TestMethod]
         public void Test_Synthesizer_Performance()
         {
-            // TODO: Rename test SoundCalculator* classes to OperatorCalculator*.
-
             using (IContext context = PersistenceHelper.CreateContext())
             {
                 OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
@@ -75,16 +73,16 @@ namespace JJ.Business.Synthesizer.Tests
 
                 IList<PerformanceResult> results = new PerformanceResult[] 
                 {
-                    new PerformanceResult { Calculator = new SoundCalculator_WithWrappersAndNullChecks() },
-                    new PerformanceResult { Calculator = new SoundCalculator_WithoutWrappers() },
-                    new PerformanceResult { Calculator = new SoundCalculator_WithoutWrappersOrNullChecks() }
+                    new PerformanceResult { Calculator = new OperatorCalculator_WithWrappersAndNullChecks() },
+                    new PerformanceResult { Calculator = new OperatorCalculator_WithoutWrappers() },
+                    new PerformanceResult { Calculator = new OperatorCalculator_WithoutWrappersOrNullChecks() }
                 };
 
                 int repeats = 88200;
 
                 foreach (PerformanceResult result in results)
                 {
-			        ISoundCalculator calculator = result.Calculator;
+			        IOperatorCalculator calculator = result.Calculator;
 
                     Stopwatch sw = Stopwatch.StartNew();
                     for (int i = 0; i < repeats; i++)
@@ -143,9 +141,9 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                IChannelTypeRepository channelTypeRepository = PersistenceHelper.CreateRepository<IChannelTypeRepository>(context);
+                IChannelRepository channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(context);
 
-                ChannelType singleChannelType = channelTypeRepository.Get((int)ChannelTypeEnum.Single);
+                Channel singleChannel = channelRepository.Get((int)ChannelEnum.Single);
 
                 OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
 
@@ -157,7 +155,7 @@ namespace JJ.Business.Synthesizer.Tests
                 IValidator validator = new AdderValidator(adder.Operator);
                 validator.Verify();
 
-                var calculator = new OperatorCalculator(singleChannelType);
+                var calculator = new OperatorCalculator(singleChannel);
                 double value = calculator.CalculateValue(adder, 0);
 
                 adder.Operator.Inlets[0].Name = "qwer";
@@ -192,9 +190,9 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                IChannelTypeRepository channelTypeRepository = PersistenceHelper.CreateRepository<IChannelTypeRepository>(context);
+                IChannelRepository channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(context);
 
-                ChannelType singleChannelType = channelTypeRepository.Get((int)ChannelTypeEnum.Single);
+                Channel singleChannel = channelRepository.Get((int)ChannelEnum.Single);
 
                 CurveFactory curveFactory = TestHelper.CreateCurveFactory(context);
                 Curve curve = curveFactory.CreateCurve(1, 0, 1, 0.8, null, null, 0.8, 0);
@@ -211,7 +209,7 @@ namespace JJ.Business.Synthesizer.Tests
                 };
                 validators.ForEach(x => x.Verify());
 
-                var calculator = new OperatorCalculator(singleChannelType);
+                var calculator = new OperatorCalculator(singleChannel);
                 var values = new double[]
                 {
                     calculator.CalculateValue(sine, 0.00),

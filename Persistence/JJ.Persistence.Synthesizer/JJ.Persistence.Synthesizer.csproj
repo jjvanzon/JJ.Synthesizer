@@ -34,14 +34,14 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChannelSetupChannelType.cs" />
-    <Compile Include="ChannelType.cs" />
+    <Compile Include="SpeakerSetupChannel.cs" />
+    <Compile Include="Channel.cs" />
     <Compile Include="SampleDataType.cs" />
     <Compile Include="Curve.cs" />
     <Compile Include="CurveIn.cs" />
     <Compile Include="Inlet.cs" />
     <Compile Include="InterpolationType.cs" />
-    <Compile Include="ChannelSetup.cs" />
+    <Compile Include="SpeakerSetup.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NodeType.cs" />
     <Compile Include="Operator.cs" />

@@ -24,18 +24,18 @@ namespace JJ.Business.Synthesizer.Validation.Entities
             For(() => sampleChannel.Sample, PropertyDisplayNames.Sample)
                 .NotNull();
 
-            For(() => sampleChannel.ChannelType, PropertyDisplayNames.ChannelType)
+            For(() => sampleChannel.Channel, PropertyDisplayNames.Channel)
                 .NotNull();
 
             if (sampleChannel.Sample != null &&
-                sampleChannel.Sample.ChannelSetup != null &&
-                sampleChannel.ChannelType != null)
+                sampleChannel.Sample.SpeakerSetup != null &&
+                sampleChannel.Channel != null)
             {
-                int[] allowedChannelTypeIDs = sampleChannel.Sample.ChannelSetup.ChannelSetupChannelTypes.Select(x => x.ChannelType.ID).ToArray();
-                if (!allowedChannelTypeIDs.Contains(sampleChannel.ChannelType.ID))
+                int[] allowedChannelIDs = sampleChannel.Sample.SpeakerSetup.SpeakerSetupChannels.Select(x => x.Channel.ID).ToArray();
+                if (!allowedChannelIDs.Contains(sampleChannel.Channel.ID))
                 {
-                    string message = MessagesFormatter.ChannelTypeNotAllowedForChannelSetup(sampleChannel.ChannelType.Name, sampleChannel.Sample.ChannelSetup.Name);
-                    ValidationMessages.Add(() => sampleChannel.ChannelType.ID, message);
+                    string message = MessagesFormatter.ChannelNotAllowedForSpeakerSetup(sampleChannel.Channel.Name, sampleChannel.Sample.SpeakerSetup.Name);
+                    ValidationMessages.Add(() => sampleChannel.Channel.ID, message);
                 }
             };
         }

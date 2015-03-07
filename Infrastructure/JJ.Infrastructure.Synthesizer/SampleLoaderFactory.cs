@@ -17,19 +17,18 @@ namespace JJ.Infrastructure.Synthesizer
         {
             if (sample == null) throw new NullException(() => sample);
 
-            SampleDataTypeEnum sampleDataType = sample.GetSampleDataTypeEnum();
-            ChannelSetupEnum channelSetup = sample.GetChannelSetupEnum();
+            SpeakerSetupEnum speakerSetup = sample.GetSpeakerSetupEnum();
 
-            switch (channelSetup)
+            switch (speakerSetup)
             {
-                case ChannelSetupEnum.Mono:
+                case SpeakerSetupEnum.Mono:
                     return new MonoSampleLoader(sample);
 
-                case ChannelSetupEnum.Stereo:
+                case SpeakerSetupEnum.Stereo:
                     return new StereoSampleLoader(sample);
 
                 default:
-                    throw new ValueNotSupportedException(channelSetup);
+                    throw new ValueNotSupportedException(speakerSetup);
             }
         }
     }

@@ -220,13 +220,13 @@
   <data name="InterpolationType" xml:space="preserve">
     <value>Interpolation Type</value>
   </data>
-  <data name="ChannelSetup" xml:space="preserve">
+  <data name="SpeakerSetup" xml:space="preserve">
     <value>Speaker Setup</value>
   </data>
   <data name="SampleChannel" xml:space="preserve">
     <value>Channel</value>
   </data>
-  <data name="ChannelType" xml:space="preserve">
+  <data name="Channel" xml:space="preserve">
     <value>Channel</value>
   </data>
   <data name="SampleOperator" xml:space="preserve">

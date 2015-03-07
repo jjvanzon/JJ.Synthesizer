@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer.Memory.Repositories
 {
-    public class ChannelTypeRepository : JJ.Persistence.Synthesizer.DefaultRepositories.ChannelTypeRepository
+    public class ChannelRepository : JJ.Persistence.Synthesizer.DefaultRepositories.ChannelRepository
     {
-        public ChannelTypeRepository(IContext context)
+        public ChannelRepository(IContext context)
             : base(context)
         {
-            ChannelType entity;
+            Channel entity;
 
             // TODO: I need to be able to specify identity explicit or something
             // Not just auto-increment or NoIDs
@@ -29,12 +29,12 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
             entity.Name = "Right";
         }
 
-        public override ChannelType GetWithRelatedEntities(int id)
+        public override Channel GetWithRelatedEntities(int id)
         {
-            ChannelType entity = Get(id);
+            Channel entity = Get(id);
 
-            IChannelSetupChannelTypeRepository childRepository = RepositoryHelper.GetChannelSetupChannelTypeRepository(_context);
-            entity.ChannelSetupChannelTypes = childRepository.GetAll().Where(x => x.ChannelType.ID == id).ToList();
+            ISpeakerSetupChannelRepository childRepository = RepositoryHelper.GetSpeakerSetupChannelRepository(_context);
+            entity.SpeakerSetupChannels = childRepository.GetAll().Where(x => x.Channel.ID == id).ToList();
 
             return entity;
         }

@@ -13,35 +13,35 @@ namespace JJ.Persistence.Synthesizer.Memory.Helpers
     {
         // TODO: Is it dangerous that you basically ignore the context here?
 
-        private static IChannelSetupRepository _channelSetupRepository;
-        private static IChannelTypeRepository _channelTypeRepository;
-        private static IChannelSetupChannelTypeRepository _channelSetupChannelTypeRepository;
+        private static ISpeakerSetupRepository _speakerSetupRepository;
+        private static IChannelRepository _channelRepository;
+        private static ISpeakerSetupChannelRepository _speakerSetupChannelRepository;
 
-        public static IChannelSetupRepository GetChannelSetupRepository(IContext context)
+        public static ISpeakerSetupRepository GetSpeakerSetupRepository(IContext context)
         {
-            if (_channelSetupRepository == null)
+            if (_speakerSetupRepository == null)
             {
-                _channelSetupRepository = new ChannelSetupRepository(context);
+                _speakerSetupRepository = new SpeakerSetupRepository(context);
             }
-            return _channelSetupRepository;
+            return _speakerSetupRepository;
         }
 
-        public static IChannelTypeRepository GetChannelTypeRepository(IContext context)
+        public static IChannelRepository GetChannelRepository(IContext context)
         {
-            if (_channelTypeRepository == null)
+            if (_channelRepository == null)
             {
-                _channelTypeRepository = new ChannelTypeRepository(context);
+                _channelRepository = new ChannelRepository(context);
             }
-            return _channelTypeRepository;
+            return _channelRepository;
         }
 
-        public static IChannelSetupChannelTypeRepository GetChannelSetupChannelTypeRepository(IContext context)
+        public static ISpeakerSetupChannelRepository GetSpeakerSetupChannelRepository(IContext context)
         {
-            if (_channelSetupChannelTypeRepository == null)
+            if (_speakerSetupChannelRepository == null)
             {
-                _channelSetupChannelTypeRepository = new ChannelSetupChannelTypeRepository(context);
+                _speakerSetupChannelRepository = new SpeakerSetupChannelRepository(context);
             }
-            return _channelSetupChannelTypeRepository;
+            return _speakerSetupChannelRepository;
         }
     }
 }
