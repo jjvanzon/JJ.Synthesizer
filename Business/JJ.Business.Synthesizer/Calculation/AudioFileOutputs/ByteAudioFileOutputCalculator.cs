@@ -9,9 +9,9 @@ using System.Text;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
-    internal class Int16AudioFileOutputCalculator : AudioFileOutputCalculatorBase
+    internal class ByteAudioFileOutputCalculator : AudioFileOutputCalculatorBase
     {
-        public Int16AudioFileOutputCalculator(AudioFileOutput audioFileOutput, string filePath)
+        public ByteAudioFileOutputCalculator(AudioFileOutput audioFileOutput, string filePath)
             : base(audioFileOutput, filePath)
         { }
 
@@ -32,12 +32,13 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                         {
                             Outlet outlet = _outlets[i];
 
-                            short value = 0;
+                            byte value = 0;
                             if (outlet != null) // TODO: I do not like this 'if'.
                             {
                                 double d = _operatorCalculators[i].CalculateValue(outlet, t);
                                 d *= _audioFileOutput.Amplifier;
-                                value = (short)d;
+                                d += 128;
+                                value = (byte)d;
                             }
 
                             writer.Write(value);

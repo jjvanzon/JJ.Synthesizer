@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Validation.Entities;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
@@ -9,9 +10,26 @@ using System.Text;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
+    /// <summary>
+    /// Use the pre-calculated fields of the base class.
+    /// </summary>
     internal abstract class AudioFileOutputCalculatorBase : IAudioFileOutputCalculator
     {
         protected string _filePath;
+
+        /// <summary>
+        /// The array index is the channel index.
+        /// </summary>
+        protected OperatorCalculator[] _operatorCalculators;
+
+        /// <summary>
+        /// The array index is the channel index.
+        /// </summary>
+        protected Outlet[] _outlets;
+
+        protected double _dt;
+        protected double _endTime;
+        protected int _channelCount;
 
         /// <summary>
         /// The base class will verify the data.
@@ -35,6 +53,16 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
             _audioFileOutput = audioFileOutput;
             _filePath = filePath;
+
+            // Pre-calculate some data.
+            _channelCount = _audioFileOutput.GetChannelCount();
+
+            IList<AudioFileOutputChannel> audioFileOutputChannels = _audioFileOutput.AudioFileOutputChannels.OrderBy(x => x.Index).ToArray();
+            _outlets = audioFileOutputChannels.Select(x => x.Outlet).ToArray();
+            _operatorCalculators = audioFileOutputChannels.Select(x => new OperatorCalculator(x.Index)).ToArray();
+
+            _dt = 1.0 / _audioFileOutput.SamplingRate / _audioFileOutput.TimeMultiplier;
+            _endTime = _audioFileOutput.GetEndTime();
         }
 
         public abstract void Execute();

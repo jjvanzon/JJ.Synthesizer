@@ -178,5 +178,58 @@ namespace JJ.Business.Synthesizer.LinkTo
             valueOperator.Operator = op;
             op.AsValueOperator = valueOperator;
         }
+
+        public static void LinkTo(this AudioFileOutput audioFileOutput, SpeakerSetup speakerSetup)
+        {
+            audioFileOutput.SpeakerSetup = speakerSetup;
+
+            // No inverse property
+        }
+
+        public static void LinkTo(this AudioFileOutputChannel audioFileOutputChannel, AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutputChannel == null) throw new NullException(() => audioFileOutputChannel);
+
+            if (audioFileOutputChannel.AudioFileOutput != null)
+            {
+                if (audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Contains(audioFileOutputChannel))
+                {
+                    audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Remove(audioFileOutputChannel);
+                }
+            }
+
+            audioFileOutputChannel.AudioFileOutput = audioFileOutput;
+
+            if (audioFileOutputChannel.AudioFileOutput != null)
+            {
+                if (!audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Contains(audioFileOutputChannel))
+                {
+                    audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Add(audioFileOutputChannel);
+                }
+            }
+        }
+        
+        public static void LinkTo(this AudioFileOutputChannel audioFileOutputChannel, Outlet outlet)
+        {
+            if (audioFileOutputChannel == null) throw new NullException(() => audioFileOutputChannel);
+
+            if (audioFileOutputChannel.Outlet != null)
+            {
+                if (audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Contains(audioFileOutputChannel))
+                {
+                    audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Remove(audioFileOutputChannel);
+                }
+            }
+
+            audioFileOutputChannel.Outlet = outlet;
+
+            if (audioFileOutputChannel.Outlet != null)
+            {
+                if (!audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Contains(audioFileOutputChannel))
+                {
+                    audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Add(audioFileOutputChannel);
+                }
+            }
+        }
     }
 }

@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class SampleTests
     {
+        private const string OUTPUT_FILE_NAME = "AudioFileOutput.raw";
         private const string VIOLIN_16BIT_MONO_RAW_FILE_NAME = "violin_16bit_mono.raw";
 
         [TestMethod]
@@ -49,8 +50,8 @@ namespace JJ.Business.Synthesizer.Tests
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
                 audioFileOutput.Duration = 6;
-                audioFileOutput.FilePath = "AudioFileOutput.raw";
-                audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
+                audioFileOutput.FilePath = OUTPUT_FILE_NAME;
+                audioFileOutput.AudioFileOutputChannels[0].LinkTo(outlet);
 
                 IValidator audioFileOutputValidator = audioFileOutputManager.ValidateAudioFileOutput(audioFileOutput);
                 audioFileOutputValidator.Verify();

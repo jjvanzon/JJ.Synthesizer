@@ -23,10 +23,12 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                 case SampleDataTypeEnum.Int16:
                     return new Int16AudioFileOutputCalculator(audioFileOutput, filePath);
 
+                case SampleDataTypeEnum.Byte:
+                    return new ByteAudioFileOutputCalculator(audioFileOutput, filePath);
+
                 default:
                     throw new ValueNotSupportedException(sampleDataTypeEnum);
             }
-
         }
     }
 }
