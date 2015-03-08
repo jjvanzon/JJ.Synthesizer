@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
@@ -14,6 +15,11 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
         protected double _rate;
         protected double[,] _samples;
 
+        /// <summary>
+        /// For performance, so we can use this value directly. 
+        /// </summary>
+        public int ChannelCount { get; private set; }
+
         public SampleCalculatorBase(Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
@@ -21,6 +27,8 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 
             _sample = sample;
             _rate = _sample.SamplingRate / _sample.TimeMultiplier;
+
+            ChannelCount = _sample.GetChannelCount();
         }
 
         public abstract double CalculateValue(int channelIndex, double time);

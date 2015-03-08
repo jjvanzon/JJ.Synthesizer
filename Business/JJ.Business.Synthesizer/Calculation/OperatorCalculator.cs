@@ -465,11 +465,10 @@ namespace JJ.Business.Synthesizer.Calculation
         {
             if (op.AsSampleOperator == null) throw new NullException(() => op.AsSampleOperator);
 
-            if (op.AsSampleOperator.Sample == null) return 0;
-
             Sample sample = op.AsSampleOperator.Sample;
 
-            // TODO: What if the sample channels do not match the channel we want?
+            if (sample == null) return 0;
+
             ISampleCalculator sampleCalculator;
             if (!_sampleCalculatorDictionary.TryGetValue(sample.ID, out sampleCalculator))
             {
@@ -477,7 +476,20 @@ namespace JJ.Business.Synthesizer.Calculation
                 _sampleCalculatorDictionary.Add(sample.ID, sampleCalculator);
             }
 
-            double result = sampleCalculator.CalculateValue(_channelIndex, time);
+            // This is a solution for when the sample channels do not match the channel we want.
+            // But this is only a fallback that will work for mono and stereo,
+            // and not for e.g. 5.1 surround sound.
+            int channelIndex;
+            if (sampleCalculator.ChannelCount < _channelIndex)
+            {
+                channelIndex = 0;
+            }
+            else
+            {
+                channelIndex = _channelIndex;
+            }
+
+            double result = sampleCalculator.CalculateValue(channelIndex, time);
             return result;
         }
     }

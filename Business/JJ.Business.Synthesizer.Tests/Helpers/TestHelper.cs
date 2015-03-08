@@ -39,11 +39,21 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
             ISampleDataTypeRepository sampleDataTypeRepository = PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context);
             ISpeakerSetupRepository speakerSetupRepository = PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context);
-            IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
             IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
-            //ISampleChannelRepository sampleChannelRepository = PersistenceHelper.CreateRepository<ISampleChannelRepository>(context);
+            IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
 
-            var manager = new SampleManager(sampleRepository, sampleDataTypeRepository, speakerSetupRepository, interpolationTypeRepository, audioFileFormatRepository);
+            var manager = new SampleManager(sampleRepository, sampleDataTypeRepository, speakerSetupRepository, audioFileFormatRepository, interpolationTypeRepository);
+            return manager;
+        }
+
+        internal static AudioFileOutputManager CreateAudioFileOutputManager(IContext context)
+        {
+            IAudioFileOutputRepository audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(context);
+            ISampleDataTypeRepository sampleDataTypeRepository = PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context);
+            ISpeakerSetupRepository speakerSetupRepository = PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context);
+            IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
+
+            var manager = new AudioFileOutputManager(audioFileOutputRepository, sampleDataTypeRepository, speakerSetupRepository, audioFileFormatRepository);
             return manager;
         }
     }

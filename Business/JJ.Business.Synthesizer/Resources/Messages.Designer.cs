@@ -61,6 +61,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Channel count does not match speaker setup..
+        /// </summary>
+        internal static string ChannelCountDoesNotMatchSpeakerSetup {
+            get {
+                return ResourceManager.GetString("ChannelCountDoesNotMatchSpeakerSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channel number does not match speaker setup..
+        /// </summary>
+        internal static string ChannelIndexDoesNotMatchSpeakerSetup {
+            get {
+                return ResourceManager.GetString("ChannelIndexDoesNotMatchSpeakerSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} operator named &apos;{1}&apos; does not have {2} filled in..
         /// </summary>
         internal static string InletNotSet {

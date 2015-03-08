@@ -28,16 +28,16 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
             // First read out the doubles.
             using (Stream stream = StreamHelper.BytesToStream(sample.Bytes))
             {
-                if (stream.Length % bytesPerSample != 0)
-                {
-                    throw new Exception(String.Format("Amount of bytes in stream does not contain a multiple of the bytes per sample. stream.Length = '{0}', bytesPerSample = '{1}'", stream.Length, bytesPerSample));
-                }
-
                 doubles = new double[stream.Length / bytesPerSample];
+
+                // For tollerance if sample does not exactly contain a multiple of the sample size,
+                // do not read the whole stream, but just until the last possible sample.
+                int lengthToRead = doubles.Length * bytesPerSample;
+
                 using (var reader = new BinaryReader(stream))
                 {
                     int i = 0;
-                    while (stream.Position < stream.Length)
+                    while (stream.Position < lengthToRead)
                     {
                         double d = readValueDelegate(reader);
                         doubles[i] = d;

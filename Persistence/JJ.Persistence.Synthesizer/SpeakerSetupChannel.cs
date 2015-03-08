@@ -12,6 +12,7 @@ namespace JJ.Persistence.Synthesizer
     public class SpeakerSetupChannel
     {
         public virtual int ID { get; set; }
+        public virtual int Index { get; set; }
 
         /// <summary>
         /// not nullable
