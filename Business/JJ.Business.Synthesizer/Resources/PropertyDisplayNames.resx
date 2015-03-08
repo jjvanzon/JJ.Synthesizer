@@ -223,16 +223,10 @@
   <data name="SpeakerSetup" xml:space="preserve">
     <value>Speaker Setup</value>
   </data>
-  <data name="SampleChannel" xml:space="preserve">
-    <value>Channel</value>
-  </data>
   <data name="Channel" xml:space="preserve">
     <value>Channel</value>
   </data>
   <data name="SampleOperator" xml:space="preserve">
     <value>Sample Operator</value>
-  </data>
-  <data name="SampleChannels" xml:space="preserve">
-    <value>Channels</value>
   </data>
 </root>

@@ -11,8 +11,8 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     internal class Int16_BlockInterpolation_SampleCalculator : BlockInterpolation_SampleCalculatorBase
     {
-        public Int16_BlockInterpolation_SampleCalculator(SampleChannel sampleChannel)
-            : base(sampleChannel, 2)
+        public Int16_BlockInterpolation_SampleCalculator(Sample sample)
+            : base(sample)
         { }
 
         protected override double ReadValue(BinaryReader binaryReader)

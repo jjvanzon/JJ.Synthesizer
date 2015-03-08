@@ -61,33 +61,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Amount of channels in the sample does not match with the speaker setup of the sample..
-        /// </summary>
-        internal static string ChannelCountDoesNotMatchSpeakerSetup {
-            get {
-                return ResourceManager.GetString("ChannelCountDoesNotMatchSpeakerSetup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Channel must be &apos;{0}&apos; for speaker setup &apos;{1}&apos;..
-        /// </summary>
-        internal static string ChannelMustBeXForSpeakerSetupY {
-            get {
-                return ResourceManager.GetString("ChannelMustBeXForSpeakerSetupY", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Channels must all have the same size..
-        /// </summary>
-        internal static string ChannelsMustAllHaveSameSize {
-            get {
-                return ResourceManager.GetString("ChannelsMustAllHaveSameSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} operator named &apos;{1}&apos; does not have {2} filled in..
         /// </summary>
         internal static string InletNotSet {
@@ -106,16 +79,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sample &apos;{0}&apos;: channel &apos;{1}&apos; is not loaded..
-        /// </summary>
-        internal static string SampleChannelNotLoaded {
-            get {
-                return ResourceManager.GetString("SampleChannelNotLoaded", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sample &apos;{0}&apos;: channel &apos;{1}&apos; has no data..
+        ///   Looks up a localized string similar to Sample &apos;{0}&apos; has no data..
         /// </summary>
         internal static string SampleCount0 {
             get {
@@ -129,6 +93,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string SampleNotActive {
             get {
                 return ResourceManager.GetString("SampleNotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sample &apos;{0}&apos; is not loaded..
+        /// </summary>
+        internal static string SampleNotLoaded {
+            get {
+                return ResourceManager.GetString("SampleNotLoaded", resourceCulture);
             }
         }
         

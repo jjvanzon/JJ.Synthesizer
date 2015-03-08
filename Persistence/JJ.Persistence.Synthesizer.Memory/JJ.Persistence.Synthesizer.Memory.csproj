@@ -43,7 +43,6 @@
     <Compile Include="Mappings\SampleMapping.cs" />
     <Compile Include="Mappings\SampleOperatorMapping.cs" />
     <Compile Include="Mappings\AudioFileFormatMapping.cs" />
-    <Compile Include="Mappings\SampleChannelMapping.cs" />
     <Compile Include="Mappings\SpeakerSetupMapping.cs" />
     <Compile Include="Mappings\InterpolationTypeMapping.cs" />
     <Compile Include="Mappings\CurveInMapping.cs" />

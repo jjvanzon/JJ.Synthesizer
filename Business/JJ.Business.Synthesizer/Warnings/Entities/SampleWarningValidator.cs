@@ -30,14 +30,14 @@ namespace JJ.Business.Synthesizer.Warnings.Entities
                 ValidationMessages.Add(() => Object.Amplifier, MessagesFormatter.SampleNotActive(Object.Name));
             }
 
-            int i = 1;
-            foreach (SampleChannel sampleChannel in Object.SampleChannels)
+            if (Object.Bytes == null)
             {
-                string messageHeading = String.Format("{0} {1}: ", PropertyDisplayNames.SampleChannel, i);
-                Execute(new SampleChannelWarningValidator(sampleChannel), messageHeading);
-
-                i++;
-            }   
+                ValidationMessages.Add(() => Object.Bytes, MessagesFormatter.SampleNotLoaded(Object.Name));
+            }
+            else if (Object.Bytes.Length == 0)
+            {
+                ValidationMessages.Add(() => Object.Bytes.Length, MessagesFormatter.SampleCount0(Object.Name));
+            }
         }
     }
 }

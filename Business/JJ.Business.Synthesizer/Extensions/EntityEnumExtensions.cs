@@ -26,20 +26,6 @@ namespace JJ.Business.Synthesizer.Extensions
             sample.SpeakerSetup = speakerSetupRepository.GetWithRelatedEntities((int)speakerSetupEnum);
         }
 
-        public static ChannelEnum GetChannelEnum(this SampleChannel sampleChannel)
-        {
-            if (sampleChannel.Channel == null) return ChannelEnum.Undefined;
-
-            return (ChannelEnum)sampleChannel.Channel.ID;
-        }
-
-        public static void SetChannelEnum(this SampleChannel sampleChannel, ChannelEnum channelEnum, IChannelRepository channelRepository)
-        {
-            if (channelRepository == null) throw new NullException(() => channelRepository);
-
-            sampleChannel.Channel = channelRepository.GetWithRelatedEntities((int)channelEnum);
-        }
-
         public static InterpolationTypeEnum GetInterpolationTypeEnum(this Sample sample)
         {
             if (sample.InterpolationType == null) return InterpolationTypeEnum.Undefined;

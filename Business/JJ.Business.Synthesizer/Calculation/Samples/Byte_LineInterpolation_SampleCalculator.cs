@@ -11,8 +11,8 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     internal class Byte_LineInterpolation_SampleCalculator : LineInterpolation_SampleCalculatorBase
     {
-        public Byte_LineInterpolation_SampleCalculator(SampleChannel sampleChannel)
-            : base(sampleChannel, 1)
+        public Byte_LineInterpolation_SampleCalculator(Sample sample)
+            : base(sample)
         { }
 
         protected override double ReadValue(BinaryReader binaryReader)

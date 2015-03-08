@@ -43,13 +43,13 @@ namespace JJ.Infrastructure.Synthesizer
             byte[] destBytes1 = new byte[destLength];
             byte[] destBytes2 = new byte[destLength];
 
-            int i = 0;
-            for (int j = 0; j < sourceBytes.Length - 1; j++)
+            int j = 0;
+            for (int i = 0; i < sourceBytes.Length - 1; i++)
             {
-                destBytes1[i] = sourceBytes[j];
-                j++;
-                destBytes2[i] = sourceBytes[j];
+                destBytes1[j] = sourceBytes[i];
                 i++;
+                destBytes2[j] = sourceBytes[i];
+                j++;
             }
              
             _sample.SampleChannels[0].RawBytes = destBytes1;

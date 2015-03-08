@@ -73,8 +73,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Persistence.Synthesizer.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection.Tests", "Framework\JJ.Framework.Reflection.Tests\JJ.Framework.Reflection.Tests.csproj", "{E150EBF6-16F7-4299-B4BD-791757D6CC9E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Infrastructure.Synthesizer", "Infrastructure\JJ.Infrastructure.Synthesizer\JJ.Infrastructure.Synthesizer.csproj", "{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -721,24 +719,6 @@ Global
 		{E150EBF6-16F7-4299-B4BD-791757D6CC9E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{E150EBF6-16F7-4299-B4BD-791757D6CC9E}.Release|x64.ActiveCfg = Release|Any CPU
 		{E150EBF6-16F7-4299-B4BD-791757D6CC9E}.Release|x86.ActiveCfg = Release|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.NPDebug|Any CPU.Build.0 = Debug|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.NPDebug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.NPDebug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.NPDebug|x64.ActiveCfg = Debug|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.NPDebug|x86.ActiveCfg = Debug|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.Release|x64.ActiveCfg = Release|Any CPU
-		{FD1352FD-C03A-4F3E-BCA8-663FB9C622A4}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

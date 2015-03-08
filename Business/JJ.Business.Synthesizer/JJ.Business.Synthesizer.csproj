@@ -51,7 +51,6 @@
     <Compile Include="Enums\AudioFileFormatEnum.cs" />
     <Compile Include="Enums\InterpolationTypeEnum.cs" />
     <Compile Include="Enums\SampleDataTypeEnum.cs" />
-    <Compile Include="Extensions\UnlinkRelatedEntitiesExtensions.cs" />
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Factories\CurveFactory.cs" />
     <Compile Include="EntityWrappers\Adder.cs" />
@@ -71,8 +70,8 @@
     <Compile Include="EntityWrappers\Multiply.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
     <Compile Include="EntityWrappers\Substract.cs" />
+    <Compile Include="Helpers\SampleDataTypeHelper.cs" />
     <Compile Include="Infos\NodeInfo.cs" />
-    <Compile Include="LinkTo\UnlinkExtensions.cs" />
     <Compile Include="Managers\SampleManager.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -83,11 +82,9 @@
     <Compile Include="Calculation\OperatorCalculator.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Validation\Entities\AdderValidator.cs" />
-    <Compile Include="Validation\Entities\SampleChannelValidator.cs" />
     <Compile Include="Validation\Entities\SampleOperatorValidator.cs" />
     <Compile Include="Validation\Entities\CurveInValidator.cs" />
     <Compile Include="Validation\Entities\SampleValidator.cs" />
-    <Compile Include="Warnings\Entities\SampleChannelWarningValidator.cs" />
     <Compile Include="Warnings\Entities\SampleWarningValidator.cs" />
     <Compile Include="Warnings\OperatorWarningValidatorBase.cs" />
     <Compile Include="Warnings\Entities\SampleOperatorWarningValidator.cs" />

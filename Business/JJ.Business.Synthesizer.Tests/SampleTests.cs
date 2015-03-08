@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Validation;
-using JJ.Infrastructure.Synthesizer;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -19,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Framework.IO;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -32,16 +32,13 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
-                IChannelRepository channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(context);
-
                 // Create
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 Sample sample = sampleManager.CreateSample();
 
                 // Load
                 Stream stream = GetViolinSampleStream();
-                SampleLoadHelper.LoadSample(sample, stream);
+                sample.Bytes = StreamHelper.StreamToBytes(stream);
 
                 // Validate
                 IValidator sampleValidator = sampleManager.ValidateSample(sample);
@@ -52,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests
                 var wrapper = f.TimeMultiply(f.Sample(sample), f.Value(10));
 
                 // Calculate and write to file
-                OperatorCalculator calculator = new OperatorCalculator(sample.SampleChannels[0].Channel);
+                OperatorCalculator calculator = new OperatorCalculator(channelIndex: 0);
 
                 using (Stream destStream = new FileStream("SampleOperatorOutput.raw", FileMode.Create, FileAccess.Write, FileShare.Read))
                 {

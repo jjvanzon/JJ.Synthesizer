@@ -10,21 +10,19 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     internal abstract class SampleCalculatorBase : ISampleCalculator
     {
-        protected SampleChannel _sampleChannel;
         protected Sample _sample;
         protected double _rate;
-        protected double[] _samples;
+        protected double[,] _samples;
 
-        public SampleCalculatorBase(SampleChannel sampleChannel)
+        public SampleCalculatorBase(Sample sample)
         {
-            if (sampleChannel == null) throw new NullException(() => sampleChannel);
-            if (sampleChannel.Sample.TimeMultiplier == 0) throw new Exception("sampleChannel.Sample.TimeMultiplier cannot be 0.");
+            if (sample == null) throw new NullException(() => sample);
+            if (sample.TimeMultiplier == 0) throw new Exception("sample.TimeMultiplier cannot be 0.");
 
-            _sampleChannel = sampleChannel;
-            _sample = sampleChannel.Sample;
+            _sample = sample;
             _rate = _sample.SamplingRate / _sample.TimeMultiplier;
         }
 
-        public abstract double CalculateValue(double time);
+        public abstract double CalculateValue(int channelIndex, double time);
     }
 }

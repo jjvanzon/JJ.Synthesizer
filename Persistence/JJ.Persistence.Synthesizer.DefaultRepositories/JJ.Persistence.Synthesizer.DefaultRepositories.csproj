@@ -44,13 +44,11 @@
     <Compile Include="SampleRepository.cs" />
     <Compile Include="SampleOperatorRepository.cs" />
     <Compile Include="AudioFileFormatRepository.cs" />
-    <Compile Include="SampleChannelRepository.cs" />
     <Compile Include="SpeakerSetupRepository.cs" />
     <Compile Include="InterpolationTypeRepository.cs" />
     <Compile Include="CurveInRepository.cs" />
     <Compile Include="Interfaces\ISampleOperatorRepository.cs" />
     <Compile Include="Interfaces\IAudioFileFormatRepository.cs" />
-    <Compile Include="Interfaces\ISampleChannelRepository.cs" />
     <Compile Include="Interfaces\ISampleRepository.cs" />
     <Compile Include="Interfaces\ISpeakerSetupRepository.cs" />
     <Compile Include="Interfaces\IInterpolationTypeRepository.cs" />
