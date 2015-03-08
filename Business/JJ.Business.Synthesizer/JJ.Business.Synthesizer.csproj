@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
+    <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\Samples\BlockInterpolation_SampleCalculatorBase.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Enums\InterpolationTypeEnum.cs" />
     <Compile Include="Enums\SampleDataTypeEnum.cs" />
     <Compile Include="Extensions\AudioFileOutputExtensions.cs" />
+    <Compile Include="Extensions\UnlinkRelatedEntitiesExtensions.cs" />
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Factories\CurveFactory.cs" />
     <Compile Include="EntityWrappers\Adder.cs" />
@@ -78,6 +80,7 @@
     <Compile Include="Helpers\SampleDataTypeHelper.cs" />
     <Compile Include="Extensions\SampleExtensions.cs" />
     <Compile Include="Infos\NodeInfo.cs" />
+    <Compile Include="LinkTo\UnlinkExtensions.cs" />
     <Compile Include="Managers\AudioFileOutputManager.cs" />
     <Compile Include="Managers\SampleManager.cs" />
     <Compile Include="Resources\Messages.Designer.cs">

@@ -11,6 +11,7 @@ namespace JJ.Persistence.Synthesizer
         public Outlet()
         {
             ConnectedInlets = new List<Inlet>();
+            AsAudioFileOutputChannels = new List<AudioFileOutputChannel>();
         }
 
         public virtual int ID { get; set; }
@@ -19,5 +20,7 @@ namespace JJ.Persistence.Synthesizer
         public virtual Operator Operator { get; set; }
         public virtual string Name { get; set; }
         public virtual IList<Inlet> ConnectedInlets { get; set; }
+
+        public virtual IList<AudioFileOutputChannel> AsAudioFileOutputChannels { get; set; }
     }
 }

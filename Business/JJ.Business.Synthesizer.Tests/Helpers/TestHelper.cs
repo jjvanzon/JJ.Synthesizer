@@ -49,11 +49,12 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         internal static AudioFileOutputManager CreateAudioFileOutputManager(IContext context)
         {
             IAudioFileOutputRepository audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(context);
+            IAudioFileOutputChannelRepository audioFileOutputChannelRepository = PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(context);
             ISampleDataTypeRepository sampleDataTypeRepository = PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context);
             ISpeakerSetupRepository speakerSetupRepository = PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context);
             IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
 
-            var manager = new AudioFileOutputManager(audioFileOutputRepository, sampleDataTypeRepository, speakerSetupRepository, audioFileFormatRepository);
+            var manager = new AudioFileOutputManager(audioFileOutputRepository, audioFileOutputChannelRepository, sampleDataTypeRepository, speakerSetupRepository, audioFileFormatRepository);
             return manager;
         }
     }
