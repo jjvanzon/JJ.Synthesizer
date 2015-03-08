@@ -222,16 +222,10 @@
   <data name="SpeakerSetup" xml:space="preserve">
     <value>Luidspreker opstelling</value>
   </data>
-  <data name="SampleChannel" xml:space="preserve">
-    <value>Kanaal</value>
-  </data>
   <data name="Channel" xml:space="preserve">
     <value>Kanaal</value>
   </data>
   <data name="SampleOperator" xml:space="preserve">
     <value>Geluidsfragment operator</value>
-  </data>
-  <data name="SampleChannels" xml:space="preserve">
-    <value>Kanalen</value>
   </data>
 </root>

@@ -16,7 +16,7 @@ namespace JJ.Persistence.Synthesizer
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// bridge entity
+        /// bridge entity, count is above zero
         /// </summary>
         public virtual IList<SpeakerSetupChannel> SpeakerSetupChannels { get; set; }
     }

@@ -9,6 +9,6 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     public interface ISampleCalculator
     {
-        double CalculateValue(double time);
+        double CalculateValue(int channelIndex, double time);
     }
 }

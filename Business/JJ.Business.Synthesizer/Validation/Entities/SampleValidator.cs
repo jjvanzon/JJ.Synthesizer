@@ -55,34 +55,6 @@ namespace JJ.Business.Synthesizer.Validation.Entities
             }
 
             For(() => sample.SpeakerSetup, PropertyDisplayNames.SpeakerSetup).NotNull();
-
-            For(() => sample.SampleChannels.Count, CommonTitlesFormatter.EntityCount(PropertyDisplayNames.SampleChannels))
-                .Above(0);
-
-            if (sample.SampleChannels.Count != sample.SpeakerSetup.SpeakerSetupChannels.Count)
-            {
-                ValidationMessages.Add(() => sample.SampleChannels.Count, MessagesFormatter.ChannelCountDoesNotMatchSpeakerSetup());
-            }
-            else
-            {
-                if (!sample.SampleChannels.All(x => x.RawBytes == null))
-                {
-                    // TODO: Can this not be done simpler?
-                    if (sample.SampleChannels.Select(x => x.RawBytes.Length).Distinct().Count() != 1)
-                    {
-                        ValidationMessages.Add(() => sample.SampleChannels, MessagesFormatter.ChannelsMustAllHaveSameSize());
-                    }
-                }
-
-                for (int i = 0; i < sample.SampleChannels.Count; i++)
-                {
-                    SampleChannel sampleChannel = sample.SampleChannels[i];
-                    Channel expectedChannel = sample.SpeakerSetup.SpeakerSetupChannels[i].Channel;
-
-                    string messageHeading = String.Format("{0} {1}: ", PropertyDisplayNames.SampleChannel, i + 1);
-                    Execute(new SampleChannelValidator(sampleChannel, expectedChannel), messageHeading);
-                }
-            }
         }
     }
 }

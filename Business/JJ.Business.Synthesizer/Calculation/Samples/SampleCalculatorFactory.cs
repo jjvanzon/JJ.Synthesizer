@@ -13,12 +13,12 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     public static class SampleCalculatorFactory
     {
-        public static ISampleCalculator CreateSampleCalculator(SampleChannel sampleChannel)
+        public static ISampleCalculator CreateSampleCalculator(Sample sample)
         {
-            if (sampleChannel == null) throw new NullException(() => sampleChannel);
+            if (sample == null) throw new NullException(() => sample);
 
-            SampleDataTypeEnum sampleDataType = sampleChannel.Sample.GetSampleDataTypeEnum();
-            InterpolationTypeEnum interpolationType = sampleChannel.Sample.GetInterpolationTypeEnum();
+            SampleDataTypeEnum sampleDataType = sample.GetSampleDataTypeEnum();
+            InterpolationTypeEnum interpolationType = sample.GetInterpolationTypeEnum();
 
             switch (interpolationType)
             {
@@ -26,10 +26,10 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                     switch (sampleDataType)
                     {
                         case SampleDataTypeEnum.Int16:
-                            return new Int16_BlockInterpolation_SampleCalculator(sampleChannel);
+                            return new Int16_BlockInterpolation_SampleCalculator(sample);
 
                         case SampleDataTypeEnum.Byte:
-                            return new Byte_BlockInterpolation_SampleCalculator(sampleChannel);
+                            return new Byte_BlockInterpolation_SampleCalculator(sample);
                     }
                     break;
 
@@ -37,10 +37,10 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                     switch (sampleDataType)
                     {
                         case SampleDataTypeEnum.Int16:
-                            return new Int16_LineInterpolation_SampleCalculator(sampleChannel);
+                            return new Int16_LineInterpolation_SampleCalculator(sample);
 
                         case SampleDataTypeEnum.Byte:
-                            return new Byte_LineInterpolation_SampleCalculator(sampleChannel);
+                            return new Byte_LineInterpolation_SampleCalculator(sample);
                     }
                     break;
             }

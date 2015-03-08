@@ -117,16 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ChannelCountDoesNotMatchSpeakerSetup" xml:space="preserve">
-    <value>Amount of channels in the sample does not match with the speaker setup of the sample.</value>
-  </data>
-  <data name="ChannelMustBeXForSpeakerSetupY" xml:space="preserve">
-    <value>Channel must be '{0}' for speaker setup '{1}'.</value>
-    <comment>{0} = channel name e.g. 'left', 'right', {1} = e.g. 'mono', 'stereo'</comment>
-  </data>
-  <data name="ChannelsMustAllHaveSameSize" xml:space="preserve">
-    <value>Channels must all have the same size.</value>
-  </data>
   <data name="InletNotSet" xml:space="preserve">
     <value>{0} operator named '{1}' does not have {2} filled in.</value>
     <comment>{0} = Operator type name. {1} = Operator name. {2} = Operand name.</comment>
@@ -135,17 +125,17 @@
     <value>Amplifier of '{0}' named '{1}' is 0.</value>
     <comment>{0} = Object type name. {1} = Object name.</comment>
   </data>
-  <data name="SampleChannelNotLoaded" xml:space="preserve">
-    <value>Sample '{0}': channel '{1}' is not loaded.</value>
-    <comment>{0} = sample name, {1} = channel name e.g. 'left', 'right'</comment>
-  </data>
   <data name="SampleCount0" xml:space="preserve">
-    <value>Sample '{0}': channel '{1}' has no data.</value>
-    <comment>{0} = sample name, {1} = channel name e.g. 'left', 'right'</comment>
+    <value>Sample '{0}' has no data.</value>
+    <comment>{0} = sample name</comment>
   </data>
   <data name="SampleNotActive" xml:space="preserve">
     <value>Sample named '{0}' is not active.</value>
     <comment>{0} = Sample name.</comment>
+  </data>
+  <data name="SampleNotLoaded" xml:space="preserve">
+    <value>Sample '{0}' is not loaded.</value>
+    <comment>{0} = sample name</comment>
   </data>
   <data name="UnsupportedOperatorTypeName" xml:space="preserve">
     <value>Operator type '{0}' is not supported.</value>

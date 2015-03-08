@@ -16,18 +16,18 @@ namespace JJ.Business.Synthesizer.Calculation
 {
     public class OperatorCalculator
     {
-        private Channel _channel;
+        private int _channelIndex;
 
         private IDictionary<string, Func<Operator, double, double>> _funcDictionary;
 
         private IDictionary<int, ISampleCalculator> _sampleCalculatorDictionary =
             new Dictionary<int, ISampleCalculator>();
 
-        public OperatorCalculator(Channel channel)
+        public OperatorCalculator(int channelIndex)
         {
-            if (channel == null) throw new NullException(() => channel);
+            if (channelIndex < 0) throw new Exception("channelIndex must a positive number.");
 
-            _channel = channel;
+            _channelIndex = channelIndex;
 
             _funcDictionary = new Dictionary<string, Func<Operator, double, double>>
             {
@@ -469,18 +469,15 @@ namespace JJ.Business.Synthesizer.Calculation
 
             Sample sample = op.AsSampleOperator.Sample;
 
-            // TODO: What about when the channel type is not there in the Sample?
-            // TODO: Performance problem?
-            SampleChannel sampleChannel = sample.SampleChannels.Where(x => x.Channel.ID == _channel.ID).Single();
-
+            // TODO: What if the sample channels do not match the channel we want?
             ISampleCalculator sampleCalculator;
-            if (!_sampleCalculatorDictionary.TryGetValue(sampleChannel.ID, out sampleCalculator))
+            if (!_sampleCalculatorDictionary.TryGetValue(sample.ID, out sampleCalculator))
             {
-                sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sampleChannel);
-                _sampleCalculatorDictionary.Add(sampleChannel.ID, sampleCalculator);
+                sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sample);
+                _sampleCalculatorDictionary.Add(sample.ID, sampleCalculator);
             }
 
-            double result = sampleCalculator.CalculateValue(time);
+            double result = sampleCalculator.CalculateValue(_channelIndex, time);
             return result;
         }
     }

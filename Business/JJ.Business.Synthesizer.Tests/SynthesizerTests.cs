@@ -141,10 +141,6 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                IChannelRepository channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(context);
-
-                Channel singleChannel = channelRepository.Get((int)ChannelEnum.Single);
-
                 OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
 
                 ValueOperatorWrapper val1 = factory.Value(1);
@@ -155,7 +151,7 @@ namespace JJ.Business.Synthesizer.Tests
                 IValidator validator = new AdderValidator(adder.Operator);
                 validator.Verify();
 
-                var calculator = new OperatorCalculator(singleChannel);
+                var calculator = new OperatorCalculator(channelIndex: 0);
                 double value = calculator.CalculateValue(adder, 0);
 
                 adder.Operator.Inlets[0].Name = "qwer";
@@ -190,10 +186,6 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                IChannelRepository channelRepository = PersistenceHelper.CreateRepository<IChannelRepository>(context);
-
-                Channel singleChannel = channelRepository.Get((int)ChannelEnum.Single);
-
                 CurveFactory curveFactory = TestHelper.CreateCurveFactory(context);
                 Curve curve = curveFactory.CreateCurve(1, 0, 1, 0.8, null, null, 0.8, 0);
 
@@ -209,7 +201,7 @@ namespace JJ.Business.Synthesizer.Tests
                 };
                 validators.ForEach(x => x.Verify());
 
-                var calculator = new OperatorCalculator(singleChannel);
+                var calculator = new OperatorCalculator(channelIndex: 0);
                 var values = new double[]
                 {
                     calculator.CalculateValue(sine, 0.00),

@@ -41,9 +41,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             ISpeakerSetupRepository speakerSetupRepository = PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context);
             IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
             IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
-            ISampleChannelRepository sampleChannelRepository = PersistenceHelper.CreateRepository<ISampleChannelRepository>(context);
+            //ISampleChannelRepository sampleChannelRepository = PersistenceHelper.CreateRepository<ISampleChannelRepository>(context);
 
-            var manager = new SampleManager(sampleRepository, sampleDataTypeRepository, speakerSetupRepository, interpolationTypeRepository, audioFileFormatRepository, sampleChannelRepository);
+            var manager = new SampleManager(sampleRepository, sampleDataTypeRepository, speakerSetupRepository, interpolationTypeRepository, audioFileFormatRepository);
             return manager;
         }
     }

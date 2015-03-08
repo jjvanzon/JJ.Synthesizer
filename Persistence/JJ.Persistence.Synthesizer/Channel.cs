@@ -14,6 +14,7 @@ namespace JJ.Persistence.Synthesizer
 
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
+        public virtual int Index { get; set; }
 
         /// <summary>
         /// bridge entity

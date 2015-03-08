@@ -295,24 +295,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Channel.
-        /// </summary>
-        public static string SampleChannel {
-            get {
-                return ResourceManager.GetString("SampleChannel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Channels.
-        /// </summary>
-        public static string SampleChannels {
-            get {
-                return ResourceManager.GetString("SampleChannels", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Sample Data Type.
         /// </summary>
         public static string SampleDataType {

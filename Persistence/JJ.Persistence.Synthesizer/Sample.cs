@@ -10,7 +10,7 @@ namespace JJ.Persistence.Synthesizer
     {
         public Sample ()
 	    {
-            SampleChannels = new List<SampleChannel>();
+            //SampleChannels = new List<SampleChannel>();
             SampleOperators = new List<SampleOperator>();
 	    }
 
@@ -31,12 +31,21 @@ namespace JJ.Persistence.Synthesizer
         /// </summary>
         public virtual string Location { get; set; }
 
+        /// <summary> not nullable </summary>
         public virtual SampleDataType SampleDataType { get; set; }
+
+        /// <summary> not nullable </summary>
         public virtual SpeakerSetup SpeakerSetup { get; set; }
+
+        /// <summary> not nullable </summary>
         public virtual AudioFileFormat AudioFileFormat { get; set; }
+
+        /// <summary> not nullable </summary>
         public virtual InterpolationType InterpolationType { get; set; }
 
-        public virtual IList<SampleChannel> SampleChannels { get; set; }
+        //public virtual IList<SampleChannel> SampleChannels { get; set; }
         public virtual IList<SampleOperator> SampleOperators { get; set; }
+
+        public byte[] Bytes { get; set; }
     }
 }
