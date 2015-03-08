@@ -35,6 +35,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChannelRepository.cs" />
+    <Compile Include="AudioFileOutputRepository.cs" />
+    <Compile Include="AudioFileOutputChannelRepository.cs" />
+    <Compile Include="Interfaces\IAudioFileOutputChannelRepository.cs" />
+    <Compile Include="Interfaces\IAudioFileOutputRepository.cs" />
     <Compile Include="SpeakerSetupChannelRepository.cs" />
     <Compile Include="ValueOperatorRepository.cs" />
     <Compile Include="Interfaces\IValueOperatorRepository.cs" />

@@ -34,6 +34,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioFileOutput.cs" />
+    <Compile Include="AudioFileOutputChannel.cs" />
     <Compile Include="SpeakerSetupChannel.cs" />
     <Compile Include="Channel.cs" />
     <Compile Include="SampleDataType.cs" />

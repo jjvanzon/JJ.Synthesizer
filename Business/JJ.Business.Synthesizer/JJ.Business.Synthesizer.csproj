@@ -34,6 +34,10 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
+    <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
+    <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
+    <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\Samples\BlockInterpolation_SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\Byte_BlockInterpolation_SampleCalculator.cs" />
     <Compile Include="Calculation\CurveCalculator.cs" />
@@ -51,6 +55,7 @@
     <Compile Include="Enums\AudioFileFormatEnum.cs" />
     <Compile Include="Enums\InterpolationTypeEnum.cs" />
     <Compile Include="Enums\SampleDataTypeEnum.cs" />
+    <Compile Include="Extensions\AudioFileOutputExtensions.cs" />
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Factories\CurveFactory.cs" />
     <Compile Include="EntityWrappers\Adder.cs" />
@@ -71,7 +76,9 @@
     <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
     <Compile Include="EntityWrappers\Substract.cs" />
     <Compile Include="Helpers\SampleDataTypeHelper.cs" />
+    <Compile Include="Extensions\SampleExtensions.cs" />
     <Compile Include="Infos\NodeInfo.cs" />
+    <Compile Include="Managers\AudioFileOutputManager.cs" />
     <Compile Include="Managers\SampleManager.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -80,11 +87,15 @@
     </Compile>
     <Compile Include="Resources\MessagesFormatter.cs" />
     <Compile Include="Calculation\OperatorCalculator.cs" />
+    <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Validation\Entities\AdderValidator.cs" />
     <Compile Include="Validation\Entities\SampleOperatorValidator.cs" />
     <Compile Include="Validation\Entities\CurveInValidator.cs" />
     <Compile Include="Validation\Entities\SampleValidator.cs" />
+    <Compile Include="Validation\Entities\AudioFileOutputValidator.cs" />
+    <Compile Include="Warnings\Entities\AudioFileOutputChannelWarningValidator.cs" />
+    <Compile Include="Warnings\Entities\AudioFileOutputWarningValidator.cs" />
     <Compile Include="Warnings\Entities\SampleWarningValidator.cs" />
     <Compile Include="Warnings\OperatorWarningValidatorBase.cs" />
     <Compile Include="Warnings\Entities\SampleOperatorWarningValidator.cs" />

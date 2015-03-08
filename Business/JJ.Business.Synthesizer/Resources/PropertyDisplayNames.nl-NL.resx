@@ -228,4 +228,13 @@
   <data name="SampleOperator" xml:space="preserve">
     <value>Geluidsfragment operator</value>
   </data>
+  <data name="TimeMultiplier" xml:space="preserve">
+    <value>Tijd vermenigvuldiger</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Tijdsduur</value>
+  </data>
+  <data name="AudioFileOutput" xml:space="preserve">
+    <value>Geluidsbestand uitvoer</value>
+  </data>
 </root>

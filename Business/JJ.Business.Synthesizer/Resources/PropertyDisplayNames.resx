@@ -229,4 +229,13 @@
   <data name="SampleOperator" xml:space="preserve">
     <value>Sample Operator</value>
   </data>
+  <data name="TimeMultiplier" xml:space="preserve">
+    <value>Time Multiplier</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="AudioFileOutput" xml:space="preserve">
+    <value>Audio File Output</value>
+  </data>
 </root>

@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ValidationMessage = JJ.Business.CanonicalModel.ValidationMessage;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -22,27 +23,27 @@ namespace JJ.Business.Synthesizer.Managers
         private ISampleRepository _sampleRepository;
         private ISampleDataTypeRepository _sampleDataTypeRepository;
         private ISpeakerSetupRepository _speakerSetupRepository;
-        private IInterpolationTypeRepository _interpolationTypeRepository;
         private IAudioFileFormatRepository _audioFileFormatRepository;
+        private IInterpolationTypeRepository _interpolationTypeRepository;
 
         public SampleManager(
             ISampleRepository sampleRepository,
             ISampleDataTypeRepository sampleDataTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository,
-            IInterpolationTypeRepository interpolationTypeRepository,
-            IAudioFileFormatRepository audioFileFormatRepository)
+            IAudioFileFormatRepository audioFileFormatRepository,
+            IInterpolationTypeRepository interpolationTypeRepository)
         {
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
             if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
+            if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
 
             _sampleRepository = sampleRepository;
             _sampleDataTypeRepository = sampleDataTypeRepository;
             _speakerSetupRepository = speakerSetupRepository;
-            _interpolationTypeRepository = interpolationTypeRepository;
             _audioFileFormatRepository = audioFileFormatRepository;
+            _interpolationTypeRepository = interpolationTypeRepository;
         }
 
         public Sample CreateSample()
@@ -61,17 +62,6 @@ namespace JJ.Business.Synthesizer.Managers
 
             IValidator sampleValidator = new SampleValidator(sample);
             return sampleValidator;
-        }
-
-        public double GetDuration(Sample sample)
-        {
-            if (sample == null) throw new NullException(() => sample);
-            if (sample.Bytes.Length == 0) throw new Exception("sample.Bytes.Length cannot be 0.");
-            if (sample.SamplingRate == 0) throw new Exception("sample.SamplingRate cannot be null.");
-
-            // TODO: divide by bytes per sample and take header size into consideration.
-            double duration = (double)sample.Bytes.Length / sample.SamplingRate * sample.TimeMultiplier;
-            return duration;
         }
     }
 }

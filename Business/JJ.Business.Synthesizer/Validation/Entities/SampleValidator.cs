@@ -26,8 +26,12 @@ namespace JJ.Business.Synthesizer.Validation.Entities
 
             For(() => sample.Name, PropertyDisplayNames.Name).NotInteger();
             For(() => sample.SamplingRate, PropertyDisplayNames.SamplingRate).Above(0);
+            For(() => sample.TimeMultiplier, PropertyDisplayNames.TimeMultiplier).IsNot(0);
+
             For(() => sample.AudioFileFormat, PropertyDisplayNames.AudioFileFormat).NotNull();
-            For(() => sample.TimeMultiplier, PropertyDisplayNames.AudioFileFormat).IsNot(0);
+            For(() => sample.SampleDataType, PropertyDisplayNames.SampleDataType).NotNull();
+            For(() => sample.InterpolationType, PropertyDisplayNames.InterpolationType).NotNull();
+            For(() => sample.SpeakerSetup, PropertyDisplayNames.SpeakerSetup).NotNull();
 
             if (sample.AudioFileFormat != null)
             {
@@ -36,8 +40,6 @@ namespace JJ.Business.Synthesizer.Validation.Entities
                     .IsNot(AudioFileFormatEnum.Undefined);
             }
 
-            For(() => sample.SampleDataType, PropertyDisplayNames.SampleDataType).NotNull();
-
             if (sample.SampleDataType != null)
             {
                 For(() => sample.SampleDataType.ID, PropertyDisplayNames.SampleDataType)
@@ -45,16 +47,12 @@ namespace JJ.Business.Synthesizer.Validation.Entities
                     .IsNot(SampleDataTypeEnum.Undefined);
             }
 
-            For(() => sample.InterpolationType, PropertyDisplayNames.InterpolationType).NotNull();
-
             if (sample.InterpolationType != null)
             {
                 For(() => sample.InterpolationType.ID, PropertyDisplayNames.InterpolationType)
                     .IsEnumValue<InterpolationTypeEnum>()
                     .IsNot(InterpolationTypeEnum.Undefined);
             }
-
-            For(() => sample.SpeakerSetup, PropertyDisplayNames.SpeakerSetup).NotNull();
         }
     }
 }

@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Framework.IO;
+using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -32,45 +33,30 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                // Create
+                Stream stream = GetViolinSampleStream();
+                byte[] bytes = StreamHelper.StreamToBytes(stream);
+
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 Sample sample = sampleManager.CreateSample();
+                sample.Bytes = bytes;
 
-                // Load
-                Stream stream = GetViolinSampleStream();
-                sample.Bytes = StreamHelper.StreamToBytes(stream);
-
-                // Validate
                 IValidator sampleValidator = sampleManager.ValidateSample(sample);
                 sampleValidator.Verify();
 
-                // Create Patch
-                OperatorFactory f = TestHelper.CreateOperatorFactory(context);
-                var wrapper = f.TimeMultiply(f.Sample(sample), f.Value(10));
+                OperatorFactory x = TestHelper.CreateOperatorFactory(context);
+                Outlet outlet = x.TimeMultiply(x.Sample(sample), x.Value(10));
 
-                // Calculate and write to file
-                OperatorCalculator calculator = new OperatorCalculator(channelIndex: 0);
+                AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
+                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
+                audioFileOutput.Duration = 6;
+                audioFileOutput.FilePath = "AudioFileOutput.raw";
+                audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
-                using (Stream destStream = new FileStream("SampleOperatorOutput.raw", FileMode.Create, FileAccess.Write, FileShare.Read))
-                {
-                    using (BinaryWriter writer = new BinaryWriter(destStream))
-                    {
-                        int destSampleCount = 44100 * 6;
+                IValidator audioFileOutputValidator = audioFileOutputManager.ValidateAudioFileOutput(audioFileOutput);
+                audioFileOutputValidator.Verify();
 
-                        double t = 0;
-                        double dt = 1.0 / 44100.0;
-
-                        for (int i = 0; i < destSampleCount; i++)
-			            {
-			                double value = calculator.CalculateValue(wrapper, t);
-                            short convertedValue = (short)value;
-
-                            writer.Write(convertedValue);
-
-                            t += dt;
-			            }
-                    }
-                }
+                IAudioFileOutputCalculator calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
+                calculator.Execute();
             }
         }
 

@@ -37,6 +37,8 @@
     <Compile Include="Helpers\RepositoryHelper.cs" />
     <Compile Include="Helpers\EntityIDs.cs" />
     <Compile Include="Mappings\ChannelMapping.cs" />
+    <Compile Include="Mappings\AudioFileOutputMapping.cs" />
+    <Compile Include="Mappings\AudioFileOutputChannelMapping.cs" />
     <Compile Include="Mappings\SpeakerSetupChannelMapping.cs" />
     <Compile Include="Mappings\ValueOperatorMapping.cs" />
     <Compile Include="Mappings\SampleDataTypeMapping.cs" />

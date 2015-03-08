@@ -115,6 +115,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Audio File Output.
+        /// </summary>
+        public static string AudioFileOutput {
+            get {
+                return ResourceManager.GetString("AudioFileOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Channel.
         /// </summary>
         public static string Channel {
@@ -147,6 +156,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Divide {
             get {
                 return ResourceManager.GetString("Divide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duration.
+        /// </summary>
+        public static string Duration {
+            get {
+                return ResourceManager.GetString("Duration", resourceCulture);
             }
         }
         
@@ -363,6 +381,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string TimeDivide {
             get {
                 return ResourceManager.GetString("TimeDivide", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time Multiplier.
+        /// </summary>
+        public static string TimeMultiplier {
+            get {
+                return ResourceManager.GetString("TimeMultiplier", resourceCulture);
             }
         }
         
