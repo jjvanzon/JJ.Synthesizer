@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Validation.Entities;
+﻿using JJ.Framework.IO;
+using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection;
 using JJ.Framework.Validation;
@@ -7,6 +8,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JJ.Business.Synthesizer.Enums;
+using System.IO;
+using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Structs;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
@@ -47,7 +55,6 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
             if (String.IsNullOrEmpty(filePath)) throw new Exception("Either filePath must be passed explicitly or audioFileOutput.FilePath must be filled in.");
 
-            // TODO: I have never done this before. I wonder if it is a good idea.
             IValidator validator = new AudioFileOutputValidator(audioFileOutput);
             validator.Verify();
 
@@ -66,5 +73,32 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
         }
 
         public abstract void Execute();
+
+        protected void ConditionallyWriteHeader(BinaryWriter writer)
+        {
+            AudioFileFormatEnum audioFileFormatEnum = _audioFileOutput.GetAudioFileFormatEnum();
+            switch (audioFileFormatEnum)
+            {
+                case AudioFileFormatEnum.Wav:
+                    var audioFileInfo = new AudioFileInfo
+                    {
+                        SamplingRate = _audioFileOutput.SamplingRate,
+                        ChannelCount = _channelCount,
+                        SampleCount = (int)(_endTime / _dt),
+                        BitsPerValue = SampleDataTypeHelper.SizeOf(_audioFileOutput.SampleDataType) * 8,
+                    };
+
+                    WavHeaderStruct wavHeaderStruct = WavHeaderManager.CreateWavHeaderStruct(audioFileInfo);
+                    writer.WriteStruct(wavHeaderStruct);
+                    break;
+
+                case AudioFileFormatEnum.Raw:
+                    // Do nothing
+                    break;
+
+                default:
+                    throw new ValueNotSupportedException(audioFileFormatEnum);
+            }
+        }
     }
 }

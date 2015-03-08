@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Validation.Entities
                 .NotInteger();
 
             For(() => curve.Nodes.Count, CommonTitlesFormatter.EntityCount(PropertyDisplayNames.Nodes))
-                .AtLeast(2);
+                .Min(2);
 
             int i = 1;
             foreach (Node node in curve.Nodes)

@@ -6,6 +6,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Structs;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
@@ -26,6 +32,8 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             {
                 using (var writer = new BinaryWriter(stream))
                 {
+                    base.ConditionallyWriteHeader(writer);
+
                     for (double t = 0; t <= endTime; t += dt)
                     {
                         for (int i = 0; i < channelCount; i++)

@@ -26,14 +26,16 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class SampleTests
     {
-        private const string OUTPUT_FILE_NAME = "AudioFileOutput.raw";
         private const string VIOLIN_16BIT_MONO_RAW_FILE_NAME = "violin_16bit_mono.raw";
+        private const string OUTPUT_FILE_NAME = "AudioFileOutput.wav";
 
         [TestMethod]
         public void Test_Synthesizer_Sample()
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
+                IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
+
                 Stream stream = GetViolinSampleStream();
                 byte[] bytes = StreamHelper.StreamToBytes(stream);
 
@@ -49,6 +51,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
+                audioFileOutput.SetAudioFileFormatEnum(AudioFileFormatEnum.Wav, audioFileFormatRepository);
                 audioFileOutput.Duration = 6;
                 audioFileOutput.FilePath = OUTPUT_FILE_NAME;
                 audioFileOutput.AudioFileOutputChannels[0].LinkTo(outlet);

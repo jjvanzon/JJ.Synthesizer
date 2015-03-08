@@ -48,5 +48,19 @@ namespace JJ.Business.Synthesizer.Names
 
         // Outlets
         public const string Result = "Result";
+        
+        // Wav Header Properties
+        public const string ChunkID = "ChunkID";
+        public const string Format = "Format";
+        public const string SubChunkID = "SubChunkID";
+        public const string SubChunk1Size = "SubChunk1Size";
+        public const string AudioFormat = "AudioFormat";
+        public const string SubChunk2ID = "SubChunk2ID";
+        public const string ChannelCount = "ChannelCount";
+        public const string BitsPerValue = "BitsPerValue";
+        public const string SamplingRate = "SamplingRate";
+        public const string BytesPerSample = "BytesPerSample";
+        public const string BytesPerSecond = "BytesPerSecond";
+        public const string ChunkSize = "ChunkSize";
     }
 }

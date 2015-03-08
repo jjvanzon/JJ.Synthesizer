@@ -26,6 +26,8 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             {
                 using (var writer = new BinaryWriter(stream))
                 {
+                    base.ConditionallyWriteHeader(writer);
+
                     for (double t = 0; t <= endTime; t += dt)
                     {
                         for (int i = 0; i < channelCount; i++)
