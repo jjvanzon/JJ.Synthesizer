@@ -23,82 +23,93 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
     /// </summary>
     internal abstract class AudioFileOutputCalculatorBase : IAudioFileOutputCalculator
     {
-        protected string _filePath;
-
-        /// <summary>
-        /// The array index is the channel index.
-        /// </summary>
-        protected OperatorCalculator[] _operatorCalculators;
-
-        /// <summary>
-        /// The array index is the channel index.
-        /// </summary>
-        protected Outlet[] _outlets;
-
-        protected double _dt;
-        protected double _endTime;
-        protected int _channelCount;
-
-        /// <summary>
-        /// The base class will verify the data.
-        /// </summary>
-        protected AudioFileOutput _audioFileOutput;
+        private string _filePath;
+        private AudioFileOutput _audioFileOutput;
 
         public AudioFileOutputCalculatorBase(AudioFileOutput audioFileOutput, string filePath)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
-            if (String.IsNullOrEmpty(filePath)) 
+            if (String.IsNullOrEmpty(audioFileOutput.FilePath) &&
+                String.IsNullOrEmpty(filePath))
             {
-                filePath = audioFileOutput.FilePath;
+                throw new Exception("Either filePath must be passed explicitly or audioFileOutput.FilePath must be filled in.");
             }
-
-            if (String.IsNullOrEmpty(filePath)) throw new Exception("Either filePath must be passed explicitly or audioFileOutput.FilePath must be filled in.");
-
-            IValidator validator = new AudioFileOutputValidator(audioFileOutput);
-            validator.Verify();
 
             _audioFileOutput = audioFileOutput;
             _filePath = filePath;
+        }
 
-            // Pre-calculate some data.
-            _channelCount = _audioFileOutput.GetChannelCount();
+        public void Execute()
+        {
+            IValidator validator = new AudioFileOutputValidator(_audioFileOutput);
+            validator.Verify();
+
+            string filePath = _filePath;
+            if (String.IsNullOrEmpty(filePath))
+            {
+                filePath = _audioFileOutput.FilePath;
+            }
+
+            int channelCount = _audioFileOutput.GetChannelCount();
 
             IList<AudioFileOutputChannel> audioFileOutputChannels = _audioFileOutput.AudioFileOutputChannels.OrderBy(x => x.Index).ToArray();
-            _outlets = audioFileOutputChannels.Select(x => x.Outlet).ToArray();
-            _operatorCalculators = audioFileOutputChannels.Select(x => new OperatorCalculator(x.Index)).ToArray();
+            Outlet[] outlets = audioFileOutputChannels.Select(x => x.Outlet).ToArray();
+            OperatorCalculator[] operatorCalculators = audioFileOutputChannels.Select(x => new OperatorCalculator(x.Index)).ToArray();
 
-            _dt = 1.0 / _audioFileOutput.SamplingRate / _audioFileOutput.TimeMultiplier;
-            _endTime = _audioFileOutput.GetEndTime();
-        }
+            double dt = 1.0 / _audioFileOutput.SamplingRate / _audioFileOutput.TimeMultiplier;
+            double endTime = _audioFileOutput.GetEndTime();
 
-        public abstract void Execute();
-
-        protected void ConditionallyWriteHeader(BinaryWriter writer)
-        {
-            AudioFileFormatEnum audioFileFormatEnum = _audioFileOutput.GetAudioFileFormatEnum();
-            switch (audioFileFormatEnum)
+            using (Stream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
-                case AudioFileFormatEnum.Wav:
-                    var audioFileInfo = new AudioFileInfo
+                using (var writer = new BinaryWriter(stream))
+                {
+                    // Write header
+                    AudioFileFormatEnum audioFileFormatEnum = _audioFileOutput.GetAudioFileFormatEnum();
+                    switch (audioFileFormatEnum)
                     {
-                        SamplingRate = _audioFileOutput.SamplingRate,
-                        ChannelCount = _channelCount,
-                        SampleCount = (int)(_endTime / _dt),
-                        BitsPerValue = SampleDataTypeHelper.SizeOf(_audioFileOutput.SampleDataType) * 8,
-                    };
+                        case AudioFileFormatEnum.Wav:
+                            var audioFileInfo = new AudioFileInfo
+                            {
+                                SamplingRate = _audioFileOutput.SamplingRate,
+                                ChannelCount = channelCount,
+                                SampleCount = (int)(endTime / dt),
+                                BitsPerValue = SampleDataTypeHelper.SizeOf(_audioFileOutput.SampleDataType) * 8,
+                            };
 
-                    WavHeaderStruct wavHeaderStruct = WavHeaderManager.CreateWavHeaderStruct(audioFileInfo);
-                    writer.WriteStruct(wavHeaderStruct);
-                    break;
+                            WavHeaderStruct wavHeaderStruct = WavHeaderManager.CreateWavHeaderStruct(audioFileInfo);
+                            writer.WriteStruct(wavHeaderStruct);
+                            break;
 
-                case AudioFileFormatEnum.Raw:
-                    // Do nothing
-                    break;
+                        case AudioFileFormatEnum.Raw:
+                            // Do nothing
+                            break;
 
-                default:
-                    throw new ValueNotSupportedException(audioFileFormatEnum);
+                        default:
+                            throw new ValueNotSupportedException(audioFileFormatEnum);
+                    }
+
+                    // Write Samples
+                    for (double t = 0; t <= endTime; t += dt)
+                    {
+                        for (int i = 0; i < channelCount; i++)
+                        {
+                            Outlet outlet = outlets[i];
+
+                            double value = 0;
+                            if (outlet != null) // TODO: I do not like this 'if'.
+                            {
+                                value = operatorCalculators[i].CalculateValue(outlet, t);
+                                value *= _audioFileOutput.Amplifier;
+                            }
+
+                            WriteValue(writer, value);
+                        }
+                    }
+                }
             }
         }
+
+        protected abstract void WriteValue(BinaryWriter binaryWriter, double value);
     }
 }
