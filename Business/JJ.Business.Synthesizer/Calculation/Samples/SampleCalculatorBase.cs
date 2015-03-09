@@ -6,6 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
+using System.IO;
+using JJ.Framework.IO;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
@@ -29,7 +32,59 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
             _rate = _sample.SamplingRate / _sample.TimeMultiplier;
 
             ChannelCount = _sample.GetChannelCount();
+
+            _samples = ReadSamples(sample);
         }
+
+        private double[,] ReadSamples(Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            int bytesPerSample = SampleDataTypeHelper.SizeOf(sample.SampleDataType);
+            double amplifier = sample.Amplifier;
+            double[] doubles;
+
+            // First read out the doubles.
+            using (Stream stream = StreamHelper.BytesToStream(sample.Bytes))
+            {
+                doubles = new double[stream.Length / bytesPerSample];
+
+                // For tollerance if sample does not exactly contain a multiple of the sample size,
+                // do not read the whole stream, but just until the last possible sample.
+                int lengthToRead = doubles.Length * bytesPerSample;
+
+                using (var reader = new BinaryReader(stream))
+                {
+                    int i = 0;
+                    while (stream.Position < lengthToRead)
+                    {
+                        double d = ReadValue(reader);
+                        doubles[i] = d;
+                        i++;
+                    }
+                }
+            }
+
+            // Then split the doubles into channels.
+            long count = doubles.Length / ChannelCount;
+            double[,] samples = new double[ChannelCount, count];
+
+            int k = 0;
+            for (int i = 0; i < ChannelCount; i++)
+            {
+                for (int j = 0; j < count; j++)
+                {
+                    double d = doubles[k];
+                    samples[i, j] = d * amplifier;
+
+                    k++;
+                }
+            }
+
+            return samples;
+        }
+
+        protected abstract double ReadValue(BinaryReader binaryReader);
 
         public abstract double CalculateValue(int channelIndex, double time);
     }
