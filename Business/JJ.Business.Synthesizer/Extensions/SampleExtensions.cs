@@ -23,10 +23,10 @@ namespace JJ.Business.Synthesizer.Extensions
             if (sample.Bytes.Length == 0) throw new Exception("sample.Bytes.Length cannot be 0.");
             if (sample.SamplingRate == 0) throw new Exception("sample.SamplingRate cannot be null.");
 
-            double duration = (sample.Bytes.Length - sample.BytesToSkip)
-                              / sample.GetChannelCount()
-                              / sample.SamplingRate
-                              / SampleDataTypeHelper.SizeOf(sample.SampleDataType)
+            double duration = (double)(sample.Bytes.Length - sample.BytesToSkip)
+                              / (double)sample.GetChannelCount()
+                              / (double)sample.SamplingRate
+                              / (double)SampleDataTypeHelper.SizeOf(sample.SampleDataType)
                               * sample.TimeMultiplier;
             return duration;
         }

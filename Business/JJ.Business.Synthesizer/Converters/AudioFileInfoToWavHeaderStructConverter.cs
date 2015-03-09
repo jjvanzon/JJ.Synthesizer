@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Converters
         {
             if (audioFileInfo == null) throw new NullException(() => audioFileInfo);
 
-            int soundByteCount = audioFileInfo.SampleCount * audioFileInfo.ChannelCount * audioFileInfo.BitsPerValue / 8;
+            int soundByteCount = audioFileInfo.SampleCount * audioFileInfo.ChannelCount * audioFileInfo.BytesPerValue;
             
             WavHeaderStruct wavHeaderStruct = new WavHeaderStruct
             {
@@ -31,9 +31,9 @@ namespace JJ.Business.Synthesizer.Converters
                 AudioFormat = WavHeaderConstants.AUDIO_FORMAT_INDICATOR_PCM,
                 ChannelCount = (short)audioFileInfo.ChannelCount,
                 SamplingRate = audioFileInfo.SamplingRate,
-                BytesPerSecond = audioFileInfo.ChannelCount * audioFileInfo.BitsPerValue / 8 * audioFileInfo.SamplingRate,
-                BytesPerSample = (short)(audioFileInfo.ChannelCount * audioFileInfo.BitsPerValue / 8),
-                BitsPerValue = (short)audioFileInfo.BitsPerValue,
+                BytesPerSecond = audioFileInfo.ChannelCount * audioFileInfo.BytesPerValue * audioFileInfo.SamplingRate,
+                BytesPerSample = (short)(audioFileInfo.ChannelCount * audioFileInfo.BytesPerValue),
+                BitsPerValue = (short)(audioFileInfo.BytesPerValue * 8),
 
                 SubChunk2ID = WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_DATA_LOWERCASE,
                 SubChunk2Size = soundByteCount

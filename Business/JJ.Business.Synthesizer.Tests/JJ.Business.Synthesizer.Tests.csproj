@@ -116,6 +116,9 @@
     <None Include="App.config" />
     <EmbeddedResource Include="TestResources\violin_16bit_mono.raw" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TestResources\violin_16bit_mono_44100.wav" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
