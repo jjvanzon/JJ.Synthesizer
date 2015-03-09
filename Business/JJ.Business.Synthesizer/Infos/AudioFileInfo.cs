@@ -8,10 +8,7 @@ namespace JJ.Business.Synthesizer.Infos
 {
     internal class AudioFileInfo
     {
-        /// <summary>
-        /// TODO: Make a SampleDataTypeEnum property instead. 
-        /// </summary>
-        public int BitsPerValue { get; set; }
+        public int BytesPerValue { get; set; }
         public int ChannelCount { get; set; }
         public int SampleCount { get; set; }
         public int SamplingRate { get; set; }

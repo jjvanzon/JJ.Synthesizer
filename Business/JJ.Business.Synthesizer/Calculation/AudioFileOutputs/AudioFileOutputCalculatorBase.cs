@@ -72,9 +72,9 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                             var audioFileInfo = new AudioFileInfo
                             {
                                 SamplingRate = _audioFileOutput.SamplingRate,
+                                BytesPerValue = SampleDataTypeHelper.SizeOf(_audioFileOutput.SampleDataType),
                                 ChannelCount = channelCount,
-                                SampleCount = (int)(endTime / dt),
-                                BitsPerValue = SampleDataTypeHelper.SizeOf(_audioFileOutput.SampleDataType) * 8,
+                                SampleCount = (int)(endTime / dt)
                             };
 
                             WavHeaderStruct wavHeaderStruct = WavHeaderManager.CreateWavHeaderStruct(audioFileInfo);

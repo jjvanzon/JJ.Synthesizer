@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Converters
 
             var audioFileInfo = new AudioFileInfo
             {
-                BitsPerValue = wavHeaderStruct.BitsPerValue,
+                BytesPerValue = wavHeaderStruct.BitsPerValue * 8,
                 ChannelCount = wavHeaderStruct.ChannelCount,
                 SamplingRate = wavHeaderStruct.SamplingRate,
                 SampleCount = wavHeaderStruct.SubChunk2Size / wavHeaderStruct.ChannelCount / wavHeaderStruct.BitsPerValue / 8

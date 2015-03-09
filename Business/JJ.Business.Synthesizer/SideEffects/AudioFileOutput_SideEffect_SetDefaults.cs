@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.SideEffects
             _entity.Duration = 1;
             _entity.SamplingRate = 44100;
 
-            _entity.SetAudioFileFormatEnum(AudioFileFormatEnum.Raw, _audioFileFormatRepository);
+            _entity.SetAudioFileFormatEnum(AudioFileFormatEnum.Wav, _audioFileFormatRepository);
             _entity.SetSampleDataTypeEnum(SampleDataTypeEnum.Int16, _sampleDataTypeRepository);
             _entity.SetSpeakerSetupEnum(SpeakerSetupEnum.Mono, _speakerSetupRepository);
         }
