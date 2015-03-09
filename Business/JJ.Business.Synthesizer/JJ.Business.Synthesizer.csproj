@@ -49,7 +49,6 @@
     <Compile Include="Calculation\Samples\Int16_BlockInterpolation_SampleCalculator.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorFactory.cs" />
-    <Compile Include="Calculation\Samples\SampleCalculatorHelper.cs" />
     <Compile Include="Constants\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
     <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />

@@ -14,11 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
     {
         public LineInterpolation_SampleCalculatorBase(Sample sample)
             : base(sample)
-        {
-            _samples = SampleCalculatorHelper.ReadSamples(sample, ReadValue);
-        }
-
-        protected abstract double ReadValue(BinaryReader binaryReader);
+        { }
 
         public override double CalculateValue(int channelIndex, double time)
         {
