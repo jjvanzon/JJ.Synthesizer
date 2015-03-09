@@ -36,12 +36,9 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                Stream stream = GetViolin16BitMonoRawStream();
-                byte[] bytes = StreamHelper.StreamToBytes(stream);
-
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
-                Sample sample = sampleManager.CreateSample();
-                sample.Bytes = bytes;
+                Stream stream = GetViolin16BitMonoRawStream();
+                Sample sample = sampleManager.CreateSample(stream, AudioFileFormatEnum.Raw);
 
                 IValidator sampleValidator = sampleManager.ValidateSample(sample);
                 sampleValidator.Verify();
@@ -74,12 +71,9 @@ namespace JJ.Business.Synthesizer.Tests
                 IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
 
                 Stream stream = GetViolin16BitMono44100WavStream();
-                byte[] bytes = StreamHelper.StreamToBytes(stream);
 
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
-                Sample sample = sampleManager.CreateSample();
-                sample.Bytes = bytes;
-                sample.SetAudioFileFormatEnum(AudioFileFormatEnum.Wav, audioFileFormatRepository);
+                Sample sample = sampleManager.CreateSample(stream, AudioFileFormatEnum.Wav);
 
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet = x.Sample(sample);

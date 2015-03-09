@@ -19,10 +19,10 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
             // Not just auto-increment or NoIDs
 
             entity = Create();
-            entity.Name = "Line";
+            entity.Name = "Block";
 
             entity = Create();
-            entity.Name = "Block";
+            entity.Name = "Line";
         }
     }
 }

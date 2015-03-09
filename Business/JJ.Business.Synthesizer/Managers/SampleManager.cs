@@ -15,6 +15,14 @@ using System.Text;
 using System.Threading.Tasks;
 using ValidationMessage = JJ.Business.CanonicalModel.ValidationMessage;
 using JJ.Business.Synthesizer.Helpers;
+using System.IO;
+using JJ.Framework.Common;
+using JJ.Framework.IO;
+using JJ.Business.Synthesizer.Structs;
+using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Converters;
+using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Constants;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -46,6 +54,9 @@ namespace JJ.Business.Synthesizer.Managers
             _interpolationTypeRepository = interpolationTypeRepository;
         }
 
+        /// <summary>
+        /// Creates a Sample and sets its defaults.
+        /// </summary>
         public Sample CreateSample()
         {
             Sample sample = _sampleRepository.Create();
@@ -53,6 +64,93 @@ namespace JJ.Business.Synthesizer.Managers
             ISideEffect sideEffect = new Sample_SideEffect_SetDefaults(sample, _sampleDataTypeRepository, _speakerSetupRepository, _interpolationTypeRepository, _audioFileFormatRepository);
             sideEffect.Execute();
 
+            return sample;
+        }
+
+        public Sample CreateSample(Stream stream, AudioFileFormatEnum audioFileFormatEnum)
+        {
+            if (stream == null) throw new NullException(() => stream);
+
+            switch (audioFileFormatEnum)
+            {
+                case AudioFileFormatEnum.Wav:
+                    return CreateWavSample(stream);
+
+                case AudioFileFormatEnum.Raw:
+                    return CreateRawSample(stream);
+
+                default:
+                    throw new ValueNotSupportedException(audioFileFormatEnum);
+            }
+        }
+
+        private Sample CreateWavSample(Stream stream)
+        {
+            // Initialize sample
+            Sample sample = CreateSample();
+            sample.SetAudioFileFormatEnum(AudioFileFormatEnum.Wav, _audioFileFormatRepository);
+
+            // Read bytes
+            stream.Position = 0;
+            sample.Bytes = StreamHelper.StreamToBytes(stream);
+
+            // Read header
+            if (sample.Bytes.Length < WavHeaderConstants.WAV_HEADER_LENGTH)
+            {
+                throw new Exception(String.Format("A WAV file must be at least {0} bytes.", WavHeaderConstants.WAV_HEADER_LENGTH));
+            }
+            stream.Position = 0;
+            WavHeaderStruct wavHeaderStruct;
+            using (var reader = new BinaryReader(stream))
+            {
+                wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
+            }
+
+            // Validate header
+            IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);
+            validator.Verify();
+
+            // Convert header
+            AudioFileInfo audioFileInfo = WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
+            
+            sample.SamplingRate = audioFileInfo.SamplingRate;
+            switch (audioFileInfo.ChannelCount)
+            {
+                case 1:
+                    sample.SetSpeakerSetupEnum(SpeakerSetupEnum.Mono, _speakerSetupRepository);
+                    break;
+
+                case 2:
+                    sample.SetSpeakerSetupEnum(SpeakerSetupEnum.Stereo, _speakerSetupRepository);
+                    break;
+
+                default:
+                    throw new Exception(String.Format("audioFile.ChannelCount value '{0}' not supported.", audioFileInfo.ChannelCount));
+            }
+
+            switch (audioFileInfo.BytesPerValue)
+            {
+                case 1:
+                    sample.SetSampleDataTypeEnum(SampleDataTypeEnum.Byte, _sampleDataTypeRepository);
+                    break;
+
+                case 2:
+                    sample.SetSampleDataTypeEnum(SampleDataTypeEnum.Int16, _sampleDataTypeRepository);
+                    break;
+
+                default:
+                    throw new Exception(String.Format("audioFile.BytesPerValue value '{0}' not supported.", audioFileInfo.BytesPerValue));
+            }
+
+            return sample;
+        }
+
+        private Sample CreateRawSample(Stream stream)
+        {
+            Sample sample = CreateSample();
+            sample.SetAudioFileFormatEnum(AudioFileFormatEnum.Raw, _audioFileFormatRepository);
+            stream.Position = 0;
+            sample.Bytes = StreamHelper.StreamToBytes(stream);
             return sample;
         }
 

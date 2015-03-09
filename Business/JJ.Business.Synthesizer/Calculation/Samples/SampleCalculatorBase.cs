@@ -9,6 +9,9 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using System.IO;
 using JJ.Framework.IO;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Constants;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
@@ -47,6 +50,21 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
             // First read out the doubles.
             using (Stream stream = StreamHelper.BytesToStream(sample.Bytes))
             {
+                // Skip header
+                AudioFileFormatEnum audioFileFormatEnum = sample.GetAudioFileFormatEnum();
+                switch (audioFileFormatEnum)
+                {
+                    case AudioFileFormatEnum.Raw:
+                        break;
+
+                    case AudioFileFormatEnum.Wav:
+                        stream.Position = WavHeaderConstants.WAV_HEADER_LENGTH;
+                        break;
+
+                    default:
+                        throw new ValueNotSupportedException(audioFileFormatEnum);
+                }
+
                 doubles = new double[stream.Length / bytesPerSample];
 
                 // For tollerance if sample does not exactly contain a multiple of the sample size,
