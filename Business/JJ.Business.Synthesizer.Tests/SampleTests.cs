@@ -27,8 +27,6 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class SampleTests
     {
-        private const string VIOLIN_16BIT_MONO_RAW_FILE_NAME = "violin_16bit_mono.raw";
-        private const string VIOLIN_16BIT_MONO_44100_WAV_FILE_NAME = "violin_16bit_mono_44100.wav";
         private const string OUTPUT_FILE_NAME = "AudioFileOutput.wav";
 
         [TestMethod]
@@ -37,7 +35,7 @@ namespace JJ.Business.Synthesizer.Tests
             using (IContext context = PersistenceHelper.CreateContext())
             {
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
-                Stream stream = GetViolin16BitMonoRawStream();
+                Stream stream = TestHelper.GetViolin16BitMonoRawStream();
                 Sample sample = sampleManager.CreateSample(stream, AudioFileFormatEnum.Raw);
 
                 IValidator sampleValidator = sampleManager.ValidateSample(sample);
@@ -70,7 +68,7 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
 
-                Stream stream = GetViolin16BitMono44100WavStream();
+                Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
 
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 Sample sample = sampleManager.CreateSample(stream, AudioFileFormatEnum.Wav);
@@ -91,24 +89,12 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
 
-                Stream wavStream = GetViolin16BitMono44100WavStream();
-                Stream rawStream = GetViolin16BitMonoRawStream();
+                Stream wavStream = TestHelper.GetViolin16BitMono44100WavStream();
+                Stream rawStream = TestHelper.GetViolin16BitMonoRawStream();
 
                 Sample wavSample = sampleManager.CreateSample(wavStream);
                 Sample rawSample = sampleManager.CreateSample(rawStream);
             }
-        }
-
-        private Stream GetViolin16BitMonoRawStream()
-        {
-            Stream stream = EmbeddedResourceHelper.GetEmbeddedResourceStream(this.GetType().Assembly, "TestResources", VIOLIN_16BIT_MONO_RAW_FILE_NAME);
-            return stream;
-        }
-
-        private Stream GetViolin16BitMono44100WavStream()
-        {
-            Stream stream = EmbeddedResourceHelper.GetEmbeddedResourceStream(this.GetType().Assembly, "TestResources", VIOLIN_16BIT_MONO_44100_WAV_FILE_NAME);
-            return stream;
         }
     }
 }

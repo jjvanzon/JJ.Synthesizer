@@ -64,13 +64,18 @@ namespace JJ.Business.Synthesizer.Factories
 
         public Adder Adder(params Outlet[] operands)
         {
+            return Adder((IList<Outlet>)operands);
+        }
+
+        public Adder Adder(IList<Outlet> operands)
+        {
             if (operands == null) throw new NullException(() => operands);
 
             Operator op = _operatorRepository.Create();
             op.OperatorTypeName = PropertyNames.Adder;
             op.Name = PropertyDisplayNames.Adder;
 
-            for (int i = 0; i < operands.Length; i++)
+            for (int i = 0; i < operands.Count; i++)
             {
                 Inlet inlet = _inletRepository.Create();
                 inlet.Name = String.Format("{0}{1}", PropertyNames.Operand, i + 1);

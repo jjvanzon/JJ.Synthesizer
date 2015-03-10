@@ -20,6 +20,9 @@ using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Managers;
+using System.IO;
+using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -69,7 +72,7 @@ namespace JJ.Business.Synthesizer.Tests
             using (IContext context = PersistenceHelper.CreateContext())
             {
                 OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
-                Outlet outlet = MockFactory.CreateMockOperatorStructure(factory);
+                Outlet outlet = EntityFactory.CreateMockOperatorStructure(factory);
 
                 IList<PerformanceResult> results = new PerformanceResult[] 
                 {
@@ -226,6 +229,46 @@ namespace JJ.Business.Synthesizer.Tests
                     calculator.CalculateValue(sine, 0.95),
                     calculator.CalculateValue(sine, 1.00)
                 };
+            }
+        }
+
+        [TestMethod]
+        public void Test_Synthesizer_TimePowerWithEcho()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                SampleManager sampleManager = TestHelper.CreateSampleManager(context);
+                AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
+                OperatorFactory operatorFactory = TestHelper.CreateOperatorFactory(context);
+
+                Stream sampleStream = TestHelper.GetViolin16BitMono44100WavStream();
+                Sample sample = sampleManager.CreateSample(sampleStream);
+                sample.SamplingRate = 8000;
+                sample.BytesToSkip = 100;
+
+                Outlet sampleOperator = operatorFactory.Sample(sample);
+                Outlet effect = EntityFactory.CreateTimePowerEffectWithEcho(operatorFactory, sampleOperator);
+
+                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
+                audioFileOutput.AudioFileOutputChannels[0].Outlet = effect;
+                audioFileOutput.FilePath = "Test_Synthesizer_TimePowerWithEcho.wav";
+                audioFileOutput.Duration = 6.5;
+                
+                IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
+
+                Stopwatch sw1 = Stopwatch.StartNew();
+                audioFileOutputCalculator.Execute();
+                sw1.Stop();
+
+                string message = String.Format("{0}ms", sw1.ElapsedMilliseconds);
+                Assert.Inconclusive(message);
+
+                //Stopwatch sw2 = Stopwatch.StartNew();
+                //audioFileOutputCalculator.Execute();
+                //sw2.Stop();
+
+                //string message = String.Format("1st time: {0}ms, 2nd time: {1}ms", sw1.ElapsedMilliseconds, sw2.ElapsedMilliseconds);
+                //Assert.Inconclusive(message);
             }
         }
     }
