@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
@@ -14,7 +16,13 @@ namespace JJ.Business.Synthesizer.Extensions
         public static int GetChannelCount(this Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
-            return sample.SpeakerSetup.SpeakerSetupChannels.Count;
+            SpeakerSetupEnum speakerSetupEnum = sample.GetSpeakerSetupEnum();
+            switch (speakerSetupEnum) 
+            {
+                case SpeakerSetupEnum.Mono: return 1;
+                case SpeakerSetupEnum.Stereo: return 2;
+                default: throw new ValueNotSupportedException(speakerSetupEnum);
+            }
         }
 
         public static double GetDuration(this Sample sample)
