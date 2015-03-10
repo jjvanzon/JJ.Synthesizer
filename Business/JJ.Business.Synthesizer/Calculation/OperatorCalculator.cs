@@ -198,7 +198,7 @@ namespace JJ.Business.Synthesizer.Calculation
         {
             var wrapper = new Sine(op);
             Outlet volumeOutlet = wrapper.Volume;
-            Outlet pitchOutlet = wrapper.Volume;
+            Outlet pitchOutlet = wrapper.Pitch;
 
             if (volumeOutlet == null || pitchOutlet == null) return 0;
 
