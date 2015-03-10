@@ -10,6 +10,8 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
 {
     public class InterpolationTypeRepository : JJ.Persistence.Synthesizer.DefaultRepositories.InterpolationTypeRepository
     {
+        private readonly object _lock = new object();
+
         public InterpolationTypeRepository(IContext context)
             : base(context)
         {
@@ -17,12 +19,23 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
 
             // TODO: I need to be able to specify identity explicit or something
             // Not just auto-increment or NoIDs
-
-            entity = Create();
-            entity.Name = "Block";
-
-            entity = Create();
-            entity.Name = "Line";
+            
+            lock (_lock)
+            {
+                entity = TryGet(1);
+                if (entity == null)
+                {
+                    entity = Create();
+                    entity.Name = "Block";
+                }
+                
+                entity = TryGet(2);
+                if (entity == null)
+                {
+                    entity = Create();
+                    entity.Name = "Line";
+                }
+            }
         }
     }
 }

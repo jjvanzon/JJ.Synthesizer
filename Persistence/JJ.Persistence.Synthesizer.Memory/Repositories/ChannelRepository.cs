@@ -11,6 +11,8 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
 {
     public class ChannelRepository : JJ.Persistence.Synthesizer.DefaultRepositories.ChannelRepository
     {
+        private readonly object _lock = new object();
+
         public ChannelRepository(IContext context)
             : base(context)
         {
@@ -19,17 +21,32 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
             // TODO: I need to be able to specify identity explicit or something
             // Not just auto-increment or NoIDs
 
-            entity = Create();
-            entity.Name = "Single";
-            entity.Index = 0;
-
-            entity = Create();
-            entity.Name = "Left";
-            entity.Index = 0;
-
-            entity = Create();
-            entity.Name = "Right";
-            entity.Index = 1;
+            lock (_lock)
+            {
+                entity = TryGet(1);
+                if (entity == null)
+                {
+                    entity = Create();
+                    entity.Name = "Single";
+                    entity.Index = 0;
+                }
+                
+                entity = TryGet(2);
+                if (entity == null)
+                {
+                    entity = Create();
+                    entity.Name = "Left";
+                    entity.Index = 0;
+                }
+                
+                entity = TryGet(3);
+                if (entity == null)
+                {
+                    entity = Create();
+                    entity.Name = "Right";
+                    entity.Index = 1;
+                }
+            }
         }
 
         public override Channel GetWithRelatedEntities(int id)

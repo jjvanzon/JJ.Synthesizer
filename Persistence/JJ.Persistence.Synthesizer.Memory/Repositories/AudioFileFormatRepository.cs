@@ -10,6 +10,8 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
 {
     public class AudioFileFormatRepository : JJ.Persistence.Synthesizer.DefaultRepositories.AudioFileFormatRepository
     {
+        private readonly object _lock = new object();
+
         public AudioFileFormatRepository(IContext context)
             : base(context)
         {
@@ -17,12 +19,23 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
 
             // TODO: I need to be able to specify identity explicit or something
             // Not just auto-increment or NoIDs
+            
+            lock (_lock)
+            {
+                entity = TryGet(1);
+                if (entity == null)
+                {
+                    entity = Create();
+                    entity.Name = "Raw";
+                }
 
-            entity = Create();
-            entity.Name = "Raw";
-
-            entity = Create();
-            entity.Name = "Wav";
+                entity = TryGet(2);
+                if (entity == null)
+                {
+                    entity = Create();
+                    entity.Name = "Wav";
+                }
+            }
         }
     }
 }

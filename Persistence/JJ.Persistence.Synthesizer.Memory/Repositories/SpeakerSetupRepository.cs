@@ -11,6 +11,8 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
 {
     public class SpeakerSetupRepository : JJ.Persistence.Synthesizer.DefaultRepositories.SpeakerSetupRepository
     {
+        private readonly object _lock = new object();
+
         public SpeakerSetupRepository(IContext context)
             : base(context)
         {
@@ -18,12 +20,23 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
 
             // TODO: I need to be able to specify identity explicit or something
             // Not just auto-increment or NoIDs
+            
+            lock (_lock)
+            {
+                entity = TryGet(1);
+                if (entity == null)
+                {
+                    entity = Create();
+                    entity.Name = "Mono";
+                }
 
-            entity = Create();
-            entity.Name = "Mono";
-
-            entity = Create();
-            entity.Name = "Stereo";
+                entity = TryGet(2);
+                if (entity == null)
+                {
+                    entity = Create();
+                    entity.Name = "Stereo";
+                }
+            }
         }
 
         public override SpeakerSetup GetWithRelatedEntities(int id)
