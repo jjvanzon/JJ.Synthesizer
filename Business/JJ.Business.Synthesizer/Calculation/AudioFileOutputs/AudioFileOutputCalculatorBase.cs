@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             double dt = 1.0 / _audioFileOutput.SamplingRate / _audioFileOutput.TimeMultiplier;
             double endTime = _audioFileOutput.GetEndTime();
 
-            using (Stream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Read))
+            using (Stream stream = GetStream(filePath))
             {
                 using (var writer = new BinaryWriter(stream))
                 {
@@ -115,5 +115,9 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
         }
 
         protected abstract void WriteValue(BinaryWriter binaryWriter, double value);
+
+        // Create opportunity to hack in a stream, while trying to keep merge conflicts to a minimum.
+        private Stream _stream;
+        private Stream GetStream(string filePath) => _stream ?? new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Read);
     }
 }
