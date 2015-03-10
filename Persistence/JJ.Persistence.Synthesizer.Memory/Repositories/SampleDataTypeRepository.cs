@@ -35,6 +35,25 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
                     entity = Create();
                     entity.Name = "Int16";
                 }
+
+                entity = TryGet(4);
+                if (entity == null)
+                {
+                    // HACK: Create and delete entity "3"
+                    {
+                        entity = Create();
+                        entity.Name = "Dummy";
+                        Delete(entity);
+                    }
+
+                    // Create entity "4"
+                    entity = TryGet(4);
+                    if (entity == null)
+                    {
+                        entity = Create();
+                        entity.Name = "Float32";
+                    }
+                }
             }
         }
     }

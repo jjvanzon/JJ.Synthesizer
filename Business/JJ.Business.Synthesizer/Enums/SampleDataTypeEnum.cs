@@ -10,6 +10,7 @@ namespace JJ.Business.Synthesizer.Enums
     {
         Undefined = 0,
         Byte = 1,
-        Int16 = 2
+        Int16 = 2,
+        Float32 = 4
     }
 }

@@ -20,6 +20,9 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             SampleDataTypeEnum sampleDataTypeEnum = audioFileOutput.GetSampleDataTypeEnum();
             switch (sampleDataTypeEnum)
             {
+                case SampleDataTypeEnum.Float32:
+                    return new Float32AudioFileOutputCalculator(audioFileOutput, filePath);
+                    
                 case SampleDataTypeEnum.Int16:
                     return new Int16AudioFileOutputCalculator(audioFileOutput, filePath);
 

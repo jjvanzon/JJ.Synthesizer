@@ -169,6 +169,10 @@ namespace JJ.Business.Synthesizer.Managers
                     sample.SetSampleDataTypeEnum(SampleDataTypeEnum.Int16, _sampleDataTypeRepository);
                     break;
 
+                case 4:
+                    sample.SetSampleDataTypeEnum(SampleDataTypeEnum.Float32, _sampleDataTypeRepository);
+                    break;
+                    
                 default:
                     throw new Exception(String.Format("audioFile.BytesPerValue value '{0}' not supported.", audioFileInfo.BytesPerValue));
             }

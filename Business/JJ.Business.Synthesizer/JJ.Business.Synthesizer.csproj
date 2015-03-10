@@ -39,11 +39,14 @@
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorBase.cs" />
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
+    <Compile Include="Calculation\AudioFileOutputs\Float32AudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\Samples\BlockInterpolation_SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\Byte_BlockInterpolation_SampleCalculator.cs" />
     <Compile Include="Calculation\CurveCalculator.cs" />
     <Compile Include="Calculation\Samples\Byte_LineInterpolation_SampleCalculator.cs" />
+    <Compile Include="Calculation\Samples\Float32_BlockInterpolation_SampleCalculator.cs" />
+    <Compile Include="Calculation\Samples\Float32_LineInterpolation_SampleCalculator.cs" />
     <Compile Include="Calculation\Samples\Int16_LineInterpolation_SampleCalculator.cs" />
     <Compile Include="Calculation\Samples\LineInterpolation_SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\ISampleCalculator.cs" />

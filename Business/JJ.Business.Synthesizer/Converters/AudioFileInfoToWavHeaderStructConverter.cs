@@ -38,7 +38,8 @@ namespace JJ.Business.Synthesizer.Converters
                 SubChunk2ID = WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_DATA_LOWERCASE,
                 SubChunk2Size = soundByteCount
             };
-
+            
+            if (audioFileInfo.BytesPerValue >= 4) wavHeaderStruct.AudioFormat = WavHeaderConstants.AUDIO_FORMAT_INDICATOR_IEEE_FLOAT;
             return wavHeaderStruct;
         }
     }

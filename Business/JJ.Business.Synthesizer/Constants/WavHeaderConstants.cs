@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Constants
         public const int BIG_ENDIAN_ASCII_CHARACTERS_FMT_SPACE_LOWERCASE = 0x20746D66;
         public const int BIG_ENDIAN_ASCII_CHARACTERS_DATA_LOWERCASE = 0x61746164;
         public const short AUDIO_FORMAT_INDICATOR_PCM = 1;
+        public const short AUDIO_FORMAT_INDICATOR_IEEE_FLOAT = 3;
         public const int SUB_CHUNK_1_SIZE = 16;
     }
 }

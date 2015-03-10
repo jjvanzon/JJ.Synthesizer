@@ -28,6 +28,9 @@ namespace JJ.Business.Synthesizer.Helpers
 
                 case SampleDataTypeEnum.Int16:
                     return 2;
+                
+                case SampleDataTypeEnum.Float32:
+                    return 4;
 
                 default:
                     throw new ValueNotSupportedException(sampleDataTypeEnum);

@@ -25,6 +25,9 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                 case InterpolationTypeEnum.Block:
                     switch (sampleDataType)
                     {
+                        case SampleDataTypeEnum.Float32:
+                            return new Float32_BlockInterpolation_SampleCalculator(sample);
+                        
                         case SampleDataTypeEnum.Int16:
                             return new Int16_BlockInterpolation_SampleCalculator(sample);
 
@@ -36,6 +39,9 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                 case InterpolationTypeEnum.Line:
                     switch (sampleDataType)
                     {
+                        case SampleDataTypeEnum.Float32:
+                            return new Float32_LineInterpolation_SampleCalculator(sample);
+                        
                         case SampleDataTypeEnum.Int16:
                             return new Int16_LineInterpolation_SampleCalculator(sample);
 
