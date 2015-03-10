@@ -44,6 +44,7 @@ namespace JJ.Persistence.Synthesizer
         public virtual InterpolationType InterpolationType { get; set; }
 
         //public virtual IList<SampleChannel> SampleChannels { get; set; }
+        [Obsolete("Deprecated. SampleOperator's properties will be integrated into Operator entity soon.")]
         public virtual IList<SampleOperator> SampleOperators { get; set; }
 
         public byte[] Bytes { get; set; }

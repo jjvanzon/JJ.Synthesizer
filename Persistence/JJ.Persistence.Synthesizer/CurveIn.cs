@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer
 {
+    [Obsolete("Deprecated. Properties will be integrated into Operator entity soon.")]
     public class CurveIn
     {
         public virtual int ID { get; set; }

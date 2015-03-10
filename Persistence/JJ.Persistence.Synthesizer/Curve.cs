@@ -17,6 +17,7 @@ namespace JJ.Persistence.Synthesizer
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
         public IList<Node> Nodes { get; set; }
+        [Obsolete("Deprecated. CurveIn's properties will be integrated into Operator entity soon.")]
         public IList<CurveIn> CurvesIn { get; set; }
     }
 }
