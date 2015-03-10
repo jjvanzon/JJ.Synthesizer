@@ -238,4 +238,7 @@
   <data name="AudioFileOutput" xml:space="preserve">
     <value>Audio File Output</value>
   </data>
+  <data name="TimeSubstract" xml:space="preserve">
+    <value>Time Substract</value>
+  </data>
 </root>

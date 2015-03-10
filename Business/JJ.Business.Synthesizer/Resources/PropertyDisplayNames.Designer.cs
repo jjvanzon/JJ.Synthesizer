@@ -412,6 +412,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Time Substract.
+        /// </summary>
+        public static string TimeSubstract {
+            get {
+                return ResourceManager.GetString("TimeSubstract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
         public static string ValueOperator {
