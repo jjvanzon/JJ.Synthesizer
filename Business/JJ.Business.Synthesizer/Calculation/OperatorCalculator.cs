@@ -441,8 +441,6 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateValueOperator(Operator op, double time)
         {
-            if (op.AsValueOperator == null) throw new NullException(() => op.AsValueOperator);
-
             var wrapper = new ValueOperatorWrapper(op);
 
             return wrapper.Value;
@@ -450,8 +448,6 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateCurveIn(Operator op, double time)
         {
-            if (op.AsCurveIn == null) throw new NullException(() => op.AsCurveIn);
-
             if (op.AsCurveIn.Curve == null) return 0;
 
             Curve curve = op.AsCurveIn.Curve;
@@ -463,8 +459,6 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateSampleOperator(Operator op, double time)
         {
-            if (op.AsSampleOperator == null) throw new NullException(() => op.AsSampleOperator);
-
             Sample sample = op.AsSampleOperator.Sample;
 
             if (sample == null) return 0;

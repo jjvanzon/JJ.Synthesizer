@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\IOperatorCalculator.cs" />
-    <Compile Include="Helpers\MockFactory.cs" />
+    <Compile Include="Helpers\EntityFactory.cs" />
     <Compile Include="Helpers\OperatorCalculator_WithWrappersAndNullChecks.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\OperatorCalculator_WithoutWrappers.cs" />

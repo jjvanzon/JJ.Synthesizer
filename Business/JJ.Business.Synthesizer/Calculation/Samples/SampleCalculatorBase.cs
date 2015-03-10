@@ -65,6 +65,8 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                         throw new ValueNotSupportedException(audioFileFormatEnum);
                 }
 
+                stream.Position += sample.BytesToSkip;
+
                 doubles = new double[stream.Length / bytesPerSample];
 
                 // For tollerance if sample does not exactly contain a multiple of the sample size,
