@@ -21,12 +21,15 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
 
             entity = Create();
             entity.Name = "Single";
+            entity.Index = 0;
 
             entity = Create();
             entity.Name = "Left";
+            entity.Index = 0;
 
             entity = Create();
             entity.Name = "Right";
+            entity.Index = 1;
         }
 
         public override Channel GetWithRelatedEntities(int id)

@@ -24,16 +24,19 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
             entity = Create();
             entity.SpeakerSetup = speakerSetupRepository.Get(EntityIDs.ENTITY_ID_SPEAKER_SETUP_MONO);
             entity.Channel = channelRepository.Get(EntityIDs.ENTITY_ID_CHANNEL_SINGLE);
+            entity.Index = 0;
             _list.Add(entity);
 
             entity = Create();
             entity.SpeakerSetup = speakerSetupRepository.Get(EntityIDs.ENTITY_ID_SPEAKER_SETUP_STEREO);
             entity.Channel = channelRepository.Get(EntityIDs.ENTITY_ID_CHANNEL_LEFT);
+            entity.Index = 0;
             _list.Add(entity);
 
             entity = Create();
             entity.SpeakerSetup = speakerSetupRepository.Get(EntityIDs.ENTITY_ID_SPEAKER_SETUP_STEREO);
             entity.Channel = channelRepository.Get(EntityIDs.ENTITY_ID_CHANNEL_RIGHT);
+            entity.Index = 1;
             _list.Add(entity);
         }
     }
