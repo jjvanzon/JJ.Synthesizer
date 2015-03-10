@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 
             // Return if sample not in range.
             if (t0 < 0) return 0;
-            if (t0 + 1 > _samples.Length - 1) return 0;
+            if (t0 + 1 > _samples.GetLength(channelIndex) - 1) return 0;
 
             double x0 = _samples[channelIndex, t0];
             double x1 = _samples[channelIndex, t0 + 1];
