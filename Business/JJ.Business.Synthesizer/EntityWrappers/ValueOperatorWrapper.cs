@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return wrapper.Result;
         }
 
-        public static implicit operator double(ValueOperatorWrapper wrapper)
+        public static explicit operator double(ValueOperatorWrapper wrapper)
         {
             return wrapper.Value;
         }
