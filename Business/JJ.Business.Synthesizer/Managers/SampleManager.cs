@@ -67,42 +67,6 @@ namespace JJ.Business.Synthesizer.Managers
             return sample;
         }
 
-        /// <summary>
-        /// Creates a Sample from the stream and sets its defaults.
-        /// Detects the format from the header.
-        /// </summary>
-        public Sample CreateSample(Stream stream)
-        {
-            if (stream == null) throw new NullException(() => stream);
-
-            Sample sample = CreateSample();
-            stream.Position = 0;
-            sample.Bytes = StreamHelper.StreamToBytes(stream);
-
-            stream.Position = 0;
-            if (stream.Length >= WavHeaderConstants.WAV_HEADER_LENGTH)
-            {
-                WavHeaderStruct wavHeaderStruct;
-                using (var reader = new BinaryReader(stream))
-                {
-                    wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
-                }
-
-                IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);
-                if (validator.IsValid)
-                {
-                    sample.SetAudioFileFormatEnum(AudioFileFormatEnum.Wav, _audioFileFormatRepository);
-                    ConvertWavHeaderStructToSample(wavHeaderStruct, sample);
-                }
-                else
-                {
-                    sample.SetAudioFileFormatEnum(AudioFileFormatEnum.Raw, _audioFileFormatRepository);
-                }
-            }
-
-            return sample;
-        }
-
         public Sample CreateSample(Stream stream, AudioFileFormatEnum audioFileFormatEnum)
         {
             if (stream == null) throw new NullException(() => stream);
@@ -120,43 +84,67 @@ namespace JJ.Business.Synthesizer.Managers
             }
         }
 
+        /// <summary>
+        /// Creates a Sample from the stream and sets its defaults.
+        /// Detects the format from the header.
+        /// </summary>
+        public Sample CreateSample(Stream stream)
+        {
+            if (stream == null) throw new NullException(() => stream);
+
+            stream.Position = 0;
+            if (stream.Length >= WavHeaderConstants.WAV_HEADER_LENGTH)
+            {
+                WavHeaderStruct wavHeaderStruct;
+                var reader = new BinaryReader(stream);
+                wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
+
+                IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);
+                if (validator.IsValid)
+                {
+                    Sample wavSample = CreateWavSample(wavHeaderStruct);
+                    stream.Position = 0;
+                    wavSample.Bytes = StreamHelper.StreamToBytes(stream);
+                    return wavSample;
+                }
+            }
+
+            Sample rawSample = CreateSample(stream, AudioFileFormatEnum.Raw);
+            return rawSample;
+        }
+
         private Sample CreateWavSample(Stream stream)
         {
-            // Initialize sample
-            Sample sample = CreateSample();
-            sample.SetAudioFileFormatEnum(AudioFileFormatEnum.Wav, _audioFileFormatRepository);
-
-            // Read bytes
-            stream.Position = 0;
-            sample.Bytes = StreamHelper.StreamToBytes(stream);
-
             // Read header
-            if (sample.Bytes.Length < WavHeaderConstants.WAV_HEADER_LENGTH)
+            if (stream.Length < WavHeaderConstants.WAV_HEADER_LENGTH)
             {
                 throw new Exception(String.Format("A WAV file must be at least {0} bytes.", WavHeaderConstants.WAV_HEADER_LENGTH));
             }
             stream.Position = 0;
             WavHeaderStruct wavHeaderStruct;
-            using (var reader = new BinaryReader(stream))
-            {
-                wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
-            }
+            var reader = new BinaryReader(stream);
+            wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
 
             // Validate header
             IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);
             validator.Verify();
 
-            ConvertWavHeaderStructToSample(wavHeaderStruct, sample);
+            // Create Sample
+            Sample sample = CreateWavSample(wavHeaderStruct);
+            stream.Position = 0;
+            sample.Bytes = StreamHelper.StreamToBytes(stream);
 
             return sample;
         }
 
-        private void ConvertWavHeaderStructToSample(WavHeaderStruct wavHeaderStruct, Sample sample)
+        private Sample CreateWavSample(WavHeaderStruct wavHeaderStruct)
         {
-            // Convert header
             AudioFileInfo audioFileInfo = WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
 
+            Sample sample = CreateSample();
+
             sample.SamplingRate = audioFileInfo.SamplingRate;
+
             switch (audioFileInfo.ChannelCount)
             {
                 case 1:
@@ -184,6 +172,8 @@ namespace JJ.Business.Synthesizer.Managers
                 default:
                     throw new Exception(String.Format("audioFile.BytesPerValue value '{0}' not supported.", audioFileInfo.BytesPerValue));
             }
+
+            return sample;
         }
 
         private Sample CreateRawSample(Stream stream)
@@ -198,7 +188,6 @@ namespace JJ.Business.Synthesizer.Managers
         public IValidator ValidateSample(Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
-
             IValidator sampleValidator = new SampleValidator(sample);
             return sampleValidator;
         }
