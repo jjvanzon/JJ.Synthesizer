@@ -33,6 +33,8 @@ This version of the engine supports various types of synthesis and signal manipu
 - __Basic Arithmetic__ (mathematical operations for sound manipulation)
 - __FM Synthesis__ (theoretical support for frequency modulation synthesis, not fully tested)
 
+*Note:* Due to a limitation in this version, pitch envelopes do not work with freely drawn curves. However, pitch envelopes might work by using continuous math functions.
+
 ### Interpolation Options
 
 The engine supports two interpolation methods for __Curves__, __Samples__, and __Audio Files__:
