@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.Factories
                 inlet.LinkTo(op);
 
                 Outlet operand = operands[i];
-                inlet.Input = operand;
+                inlet.LinkTo(operand);
             }
 
             Outlet outlet = _outletRepository.Create();
