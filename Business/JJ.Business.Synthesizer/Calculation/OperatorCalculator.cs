@@ -143,7 +143,20 @@ namespace JJ.Business.Synthesizer.Calculation
                 if (operandAOutlet == null || operandBOutlet == null) return 0;
 
                 double a = CalculateValue(operandAOutlet, time);
+                if (a == 0)
+                {
+                    // Short circuit multiplication
+                    return 0;
+                }
+
                 double b = CalculateValue(operandBOutlet, time);
+                if (b == 0)
+                {
+                    // Swap operands, for likeliness of multiplication short circuit.
+                    (wrapper.OperandB, wrapper.OperandA) = (wrapper.OperandA, wrapper.OperandB);
+                    return 0;
+                }
+
                 return a * b;
             }
             else
