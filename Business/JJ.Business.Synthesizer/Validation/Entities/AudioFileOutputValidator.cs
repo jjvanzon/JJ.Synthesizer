@@ -49,9 +49,12 @@ namespace JJ.Business.Synthesizer.Validation.Entities
                     ValidationMessages.Add(() => audioFileOutput.AudioFileOutputChannels.Count, MessagesFormatter.ChannelCountDoesNotMatchSpeakerSetup());
                 }
 
+                // Omit AudioFileOutputChannel.Index validation, for Mono Left Channel (=1) to work.
+                return;
+
                 IList<AudioFileOutputChannel> sortedAudioFileOutputChannels = audioFileOutput.AudioFileOutputChannels.OrderBy(x => x.Index).ToArray();
                 IList<SpeakerSetupChannel> sortedSpeakerSetupChannels = audioFileOutput.SpeakerSetup.SpeakerSetupChannels.OrderBy(x => x.Channel.Index).ToArray();
-
+                
                 if (sortedAudioFileOutputChannels.Count == sortedSpeakerSetupChannels.Count)
                 {
                     for (int i = 0; i < sortedAudioFileOutputChannels.Count; i++)
