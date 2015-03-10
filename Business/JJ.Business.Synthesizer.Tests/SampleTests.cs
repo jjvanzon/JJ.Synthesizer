@@ -84,6 +84,21 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
+        [TestMethod]
+        public void Test_Sample_WavHeaderDetection()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                SampleManager sampleManager = TestHelper.CreateSampleManager(context);
+
+                Stream wavStream = GetViolin16BitMono44100WavStream();
+                Stream rawStream = GetViolin16BitMonoRawStream();
+
+                Sample wavSample = sampleManager.CreateSample(wavStream);
+                Sample rawSample = sampleManager.CreateSample(rawStream);
+            }
+        }
+
         private Stream GetViolin16BitMonoRawStream()
         {
             Stream stream = EmbeddedResourceHelper.GetEmbeddedResourceStream(this.GetType().Assembly, "TestResources", VIOLIN_16BIT_MONO_RAW_FILE_NAME);
