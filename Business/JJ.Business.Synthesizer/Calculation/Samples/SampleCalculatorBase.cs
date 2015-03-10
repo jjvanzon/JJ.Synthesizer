@@ -90,12 +90,12 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
             double[,] samples = new double[ChannelCount, count];
 
             int k = 0;
-            for (int i = 0; i < ChannelCount; i++)
+            for (int i = 0; i < count; i++)
             {
-                for (int j = 0; j < count; j++)
+                for (int j = 0; j < ChannelCount; j++)
                 {
                     double d = doubles[k];
-                    samples[i, j] = d * amplifier;
+                    samples[j, i] = d * amplifier;
 
                     k++;
                 }
