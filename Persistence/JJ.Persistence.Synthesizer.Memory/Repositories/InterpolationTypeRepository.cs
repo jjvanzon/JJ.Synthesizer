@@ -10,7 +10,7 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
 {
     public class InterpolationTypeRepository : JJ.Persistence.Synthesizer.DefaultRepositories.InterpolationTypeRepository
     {
-        private readonly object _lock = new object();
+        private static readonly object _lock = new object();
 
         public InterpolationTypeRepository(IContext context)
             : base(context)

@@ -10,7 +10,7 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
 {
     public class NodeTypeRepository : JJ.Persistence.Synthesizer.DefaultRepositories.NodeTypeRepository
     {
-        private readonly object _lock = new object();
+        private static readonly object _lock = new object();
 
         public NodeTypeRepository(IContext context)
             : base(context)

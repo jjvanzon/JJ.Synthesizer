@@ -10,7 +10,7 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
 {
     public class AudioFileFormatRepository : JJ.Persistence.Synthesizer.DefaultRepositories.AudioFileFormatRepository
     {
-        private readonly object _lock = new object();
+        private static readonly object _lock = new object();
 
         public AudioFileFormatRepository(IContext context)
             : base(context)

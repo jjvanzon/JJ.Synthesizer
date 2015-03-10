@@ -11,7 +11,7 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
 {
     public class ChannelRepository : JJ.Persistence.Synthesizer.DefaultRepositories.ChannelRepository
     {
-        private readonly object _lock = new object();
+        private static readonly object _lock = new object();
 
         public ChannelRepository(IContext context)
             : base(context)

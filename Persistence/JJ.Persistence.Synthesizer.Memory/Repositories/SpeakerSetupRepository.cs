@@ -11,7 +11,7 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
 {
     public class SpeakerSetupRepository : JJ.Persistence.Synthesizer.DefaultRepositories.SpeakerSetupRepository
     {
-        private readonly object _lock = new object();
+        private static readonly object _lock = new object();
 
         public SpeakerSetupRepository(IContext context)
             : base(context)

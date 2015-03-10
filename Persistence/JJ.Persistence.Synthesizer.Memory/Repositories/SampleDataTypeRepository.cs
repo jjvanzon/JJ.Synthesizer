@@ -10,7 +10,7 @@ namespace JJ.Persistence.Synthesizer.Memory.Repositories
 {
     public class SampleDataTypeRepository : JJ.Persistence.Synthesizer.DefaultRepositories.SampleDataTypeRepository
     {
-        private readonly object _lock = new object();
+        private static readonly object _lock = new object();
 
         public SampleDataTypeRepository(IContext context)
             : base(context)
