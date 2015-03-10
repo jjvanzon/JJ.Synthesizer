@@ -24,6 +24,11 @@ namespace JJ.Business.Synthesizer.Validation.Entities
 
             For(() => Object.AsSampleOperator, PropertyDisplayNames.AsSampleOperator)
                 .NotNull();
+        
+            if (Object.AsSampleOperator.Sample != null)
+            {
+                Execute(new SampleValidator(Object.AsSampleOperator.Sample));
+            }
         }
     }
 }

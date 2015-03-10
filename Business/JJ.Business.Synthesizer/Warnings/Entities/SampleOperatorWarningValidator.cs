@@ -24,6 +24,11 @@ namespace JJ.Business.Synthesizer.Warnings.Entities
             {
                 For(() => Object.AsSampleOperator.Sample, PropertyDisplayNames.Sample)
                     .NotNull();
+                
+                if (Object.AsSampleOperator.Sample != null)
+                {
+                    Execute(new SampleWarningValidator(Object.AsSampleOperator.Sample));
+                }
             }
         }
     }

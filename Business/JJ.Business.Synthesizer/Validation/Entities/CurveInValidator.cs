@@ -26,6 +26,11 @@ namespace JJ.Business.Synthesizer.Validation.Entities
 
             For(() => op.AsCurveIn, PropertyDisplayNames.AsCurveIn)
                 .NotNull();
+        
+            if (op.AsCurveIn.Curve != null)
+            {
+                Execute(new CurveValidator(op.AsCurveIn.Curve));
+            }
         }
     }
 }
