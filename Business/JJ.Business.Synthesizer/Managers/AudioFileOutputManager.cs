@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Managers
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             if (speakerSetupEnum == SpeakerSetupEnum.Undefined) throw new Exception("speakerSetupEnum cannot be 'Undefined'.");
 
-            SpeakerSetup speakerSetup = _speakerSetupRepository.Get((int)speakerSetupEnum);
+            SpeakerSetup speakerSetup = _speakerSetupRepository.GetWithRelatedEntities((int)speakerSetupEnum);
             SetSpeakerSetup(audioFileOutput, speakerSetup);
         }
 
