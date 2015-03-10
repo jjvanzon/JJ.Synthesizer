@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             double dt = 1.0 / _audioFileOutput.SamplingRate / _audioFileOutput.TimeMultiplier;
             double endTime = _audioFileOutput.GetEndTime();
 
-            using (Stream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
+            using (Stream stream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.Read))
             {
                 using (var writer = new BinaryWriter(stream))
                 {
