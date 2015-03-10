@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer.Managers
             AudioFileInfo audioFileInfo = WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
 
             Sample sample = CreateSample();
-
+            sample.SetAudioFileFormatEnum(AudioFileFormatEnum.Wav, _audioFileFormatRepository);
             sample.SamplingRate = audioFileInfo.SamplingRate;
 
             switch (audioFileInfo.ChannelCount)
