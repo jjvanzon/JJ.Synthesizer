@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Tests
+namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    public class OperatorCalculator_WithWrappersAndNullChecks : IOperatorCalculator
+    internal class OperatorCalculator_WithWrappersAndNullChecks : IOperatorCalculator
     {
         private IDictionary<string, Func<Operator, double, double>> _funcDictionary;
 

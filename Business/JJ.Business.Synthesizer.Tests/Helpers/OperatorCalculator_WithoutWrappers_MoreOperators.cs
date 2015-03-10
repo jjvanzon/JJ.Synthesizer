@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Business.Synthesizer.Calculation.Samples;
+using JJ.Business.Synthesizer.Calculation;
 
-namespace JJ.Business.Synthesizer.Calculation
+namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    public class OperatorCalculator
+    internal class OperatorCalculator_WithoutWrappers_MoreOperators : IOperatorCalculator
     {
         private int _channelIndex;
 
@@ -23,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation
         private IDictionary<int, ISampleCalculator> _sampleCalculatorDictionary =
             new Dictionary<int, ISampleCalculator>();
 
-        public OperatorCalculator(int channelIndex)
+        public OperatorCalculator_WithoutWrappers_MoreOperators(int channelIndex)
         {
             if (channelIndex < 0) throw new Exception("channelIndex must a positive number.");
 

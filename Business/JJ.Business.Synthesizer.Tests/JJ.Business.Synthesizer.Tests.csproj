@@ -51,6 +51,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="CurveTests.cs" />
+    <Compile Include="Helpers\OperatorCalculator_WithWrappersAndNullChecks_MoreOperators.cs" />
+    <Compile Include="Helpers\OperatorCalculator_WithoutWrappers_MoreOperators.cs" />
     <Compile Include="Helpers\IOperatorCalculator.cs" />
     <Compile Include="Helpers\EntityFactory.cs" />
     <Compile Include="Helpers\OperatorCalculator_WithWrappersAndNullChecks.cs" />

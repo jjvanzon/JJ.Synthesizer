@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Helpers
+namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     /// <summary>
     /// Variation without wrapper instantiation.

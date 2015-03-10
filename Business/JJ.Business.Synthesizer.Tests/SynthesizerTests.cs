@@ -10,6 +10,7 @@ using JJ.Framework.Persistence;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Validation.Entities;
@@ -77,7 +78,9 @@ namespace JJ.Business.Synthesizer.Tests
                 IList<PerformanceResult> results = new PerformanceResult[] 
                 {
                     new PerformanceResult { Calculator = new OperatorCalculator_WithWrappersAndNullChecks() },
+                    new PerformanceResult { Calculator = new OperatorCalculator_WithWrappersAndNullChecks_MoreOperators(0) },
                     new PerformanceResult { Calculator = new OperatorCalculator_WithoutWrappers() },
+                    new PerformanceResult { Calculator = new OperatorCalculator_WithoutWrappers_MoreOperators(0) },
                     new PerformanceResult { Calculator = new OperatorCalculator_WithoutWrappersOrNullChecks() }
                 };
 
@@ -97,7 +100,7 @@ namespace JJ.Business.Synthesizer.Tests
                     result.Milliseconds = ms;
                 }
 
-                string message = String.Join(", ", results.Select(x => String.Format("{0}: {1}ms", x.Calculator.GetType().Name, x.Milliseconds)));
+                string message = String.Join("," + Environment.NewLine, results.Select(x => String.Format("{0}: {1}ms", x.Calculator.GetType().Name, x.Milliseconds)));
                 Assert.Inconclusive(message);
             }
         }
@@ -237,6 +240,8 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
+                IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
+
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
                 OperatorFactory operatorFactory = TestHelper.CreateOperatorFactory(context);
@@ -245,6 +250,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Sample sample = sampleManager.CreateSample(sampleStream);
                 sample.SamplingRate = 8000;
                 sample.BytesToSkip = 100;
+                //sample.SetInterpolationTypeEnum(InterpolationTypeEnum.Block, interpolationTypeRepository);
 
                 Outlet sampleOperator = operatorFactory.Sample(sample);
                 Outlet effect = EntityFactory.CreateTimePowerEffectWithEcho(operatorFactory, sampleOperator);

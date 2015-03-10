@@ -11,10 +11,11 @@ using System.Threading.Tasks;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Business.Synthesizer.Calculation.Samples;
+using JJ.Business.Synthesizer.Calculation;
 
-namespace JJ.Business.Synthesizer.Calculation
+namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    public class OperatorCalculator
+    internal class OperatorCalculator_WithWrappersAndNullChecks_MoreOperators : IOperatorCalculator
     {
         private int _channelIndex;
 
@@ -23,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation
         private IDictionary<int, ISampleCalculator> _sampleCalculatorDictionary =
             new Dictionary<int, ISampleCalculator>();
 
-        public OperatorCalculator(int channelIndex)
+        public OperatorCalculator_WithWrappersAndNullChecks_MoreOperators(int channelIndex)
         {
             if (channelIndex < 0) throw new Exception("channelIndex must a positive number.");
 
@@ -61,8 +62,9 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateAdd(Operator op, double time)
         {
-            Outlet operandAOutlet = op.Inlets[Add.OPERAND_A_INDEX].Input;
-            Outlet operandBOutlet = op.Inlets[Add.OPERAND_B_INDEX].Input;
+            var wrapper = new Add(op);
+            Outlet operandAOutlet = wrapper.OperandA;
+            Outlet operandBOutlet = wrapper.OperandB;
 
             if (operandAOutlet == null || operandBOutlet == null) return 0;
 
@@ -71,22 +73,15 @@ namespace JJ.Business.Synthesizer.Calculation
             return a + b;
         }
 
-        private IDictionary<int, Outlet[]> _adderOperands = new Dictionary<int, Outlet[]>();
-
         private double CalculateAdder(Operator op, double time)
         {
-            Outlet[] operands;
-            if (!_adderOperands.TryGetValue(op.ID, out operands))
-            {
-                var wrapper = new Adder(op);
+            var wrapper = new Adder(op);
 
-                operands = wrapper.Operands.ToArray();
-                _adderOperands.Add(op.ID, operands);
-            }
+            IList<Outlet> operands = wrapper.Operands;
 
             double result = 0;
 
-            for (int i = 0; i < operands.Length; i++)
+            for (int i = 0; i < operands.Count; i++)
             {
                 Outlet operand = operands[i];
 
@@ -101,9 +96,10 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateDivide(Operator op, double time)
         {
-            Outlet originOutlet = op.Inlets[Divide.ORIGIN_INDEX].Input;
-            Outlet numeratorOutlet = op.Inlets[Divide.NUMERATOR_INDEX].Input;
-            Outlet denominatorOutlet = op.Inlets[Divide.DENOMINATOR_INDEX].Input;
+            var wrapper = new Divide(op);
+            Outlet originOutlet = wrapper.Origin;
+            Outlet numeratorOutlet = wrapper.Numerator;
+            Outlet denominatorOutlet = wrapper.Denominator;
 
             // Without Origin
             if (originOutlet == null)
@@ -130,7 +126,7 @@ namespace JJ.Business.Synthesizer.Calculation
 
                 if (denominator == 0) return origin;
 
-                double numerator = CalculateValue(numeratorOutlet, time);
+                double numerator = CalculateValue(wrapper.Numerator, time);
 
                 return (numerator - origin) / denominator + origin;
             }
@@ -138,9 +134,10 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateMultiply(Operator op, double time)
         {
-            Outlet originOutlet = op.Inlets[Multiply.ORIGIN_INDEX].Input;
-            Outlet operandAOutlet = op.Inlets[Multiply.OPERAND_A_INDEX].Input;
-            Outlet operandBOutlet = op.Inlets[Multiply.OPERAND_B_INDEX].Input;
+            var wrapper = new Multiply(op);
+            Outlet originOutlet = wrapper.Origin;
+            Outlet operandAOutlet = wrapper.OperandA;
+            Outlet operandBOutlet = wrapper.OperandB;
 
             if (originOutlet == null)
             {
@@ -164,7 +161,9 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculatePatchInlet(Operator op, double time)
         {
-            Outlet inputOutlet = op.Inlets[PatchInlet.INPUT_INDEX].Input;
+            var wrapper = new PatchInlet(op);
+
+            Outlet inputOutlet = wrapper.Input;
 
             if (inputOutlet == null) return 0;
 
@@ -173,7 +172,9 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculatePatchOutlet(Operator op, double time)
         {
-            Outlet inputOutlet = op.Inlets[PatchOutlet.INPUT_INDEX].Input;
+            var wrapper = new PatchOutlet(op);
+
+            Outlet inputOutlet = wrapper.Input;
 
             if (inputOutlet == null) return 0;
 
@@ -182,8 +183,9 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculatePower(Operator op, double time)
         {
-            Outlet baseOutlet = op.Inlets[Power.BASE_INDEX].Input;
-            Outlet exponentOutlet = op.Inlets[Power.EXPONENT_INDEX].Input;
+            var wrapper = new Power(op);
+            Outlet baseOutlet = wrapper.Base;
+            Outlet exponentOutlet = wrapper.Exponent;
 
             if (baseOutlet == null || exponentOutlet == null) return 0;
 
@@ -195,13 +197,14 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateSine(Operator op, double time)
         {
-            Outlet volumeOutlet = op.Inlets[Sine.VOLUME_INDEX].Input;
-            Outlet pitchOutlet = op.Inlets[Sine.PITCH_INDEX].Input;
+            var wrapper = new Sine(op);
+            Outlet volumeOutlet = wrapper.Volume;
+            Outlet pitchOutlet = wrapper.Volume;
 
             if (volumeOutlet == null || pitchOutlet == null) return 0;
 
-            Outlet levelOutlet = op.Inlets[Sine.LEVEL_INDEX].Input;
-            Outlet phaseStartOutlet = op.Inlets[Sine.PHASE_START_INDEX].Input;
+            Outlet levelOutlet = wrapper.Level;
+            Outlet phaseStartOutlet = wrapper.PhaseStart;
 
             double volume = CalculateValue(volumeOutlet, time);
             double pitch = CalculateValue(pitchOutlet, time);
@@ -220,8 +223,9 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateSubstract(Operator op, double time)
         {
-            Outlet operandAOutlet = op.Inlets[Substract.OPERAND_A_INDEX].Input;
-            Outlet operandBOutlet = op.Inlets[Substract.OPERAND_B_INDEX].Input;
+            var wrapper = new Substract(op);
+            Outlet operandAOutlet = wrapper.OperandA;
+            Outlet operandBOutlet = wrapper.OperandB;
 
             if (operandAOutlet == null || operandBOutlet == null) return 0;
 
@@ -233,10 +237,12 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateTimeAdd(Operator op, double time)
         {
-            Outlet signalOutlet = op.Inlets[TimeAdd.SIGNAL_INDEX].Input;
+            var wrapper = new TimeAdd(op);
+
+            Outlet signalOutlet = wrapper.Signal;
             if (signalOutlet == null) return 0;
 
-            Outlet timeDifferenceOutlet = op.Inlets[TimeAdd.TIME_DIFFERENCE_INDEX].Input;
+            Outlet timeDifferenceOutlet = wrapper.TimeDifference;
             if (timeDifferenceOutlet == null)
             {
                 double result = CalculateValue(signalOutlet, time);
@@ -252,8 +258,10 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateTimeDivide(Operator op, double time)
         {
+            var wrapper = new TimeDivide(op);
+
             // Determine origin
-            Outlet originOutlet = op.Inlets[TimeDivide.ORIGIN_INDEX].Input;
+            Outlet originOutlet = wrapper.Origin;
             double origin = 0;
             if (originOutlet != null)
             {
@@ -261,14 +269,14 @@ namespace JJ.Business.Synthesizer.Calculation
             }
 
             // No signal? Exit with default (the origin).
-            Outlet signalOutlet = op.Inlets[TimeDivide.SIGNAL_INDEX].Input;
+            Outlet signalOutlet = wrapper.Signal;
             if (signalOutlet == null)
             {
                 return origin;
             }
 
             // No time divider? Just pass through signal.
-            Outlet timeDividerOutlet = op.Inlets[TimeDivide.TIME_DIVIDER_INDEX].Input;
+            Outlet timeDividerOutlet = wrapper.TimeDivider;
             if (timeDividerOutlet == null)
             {
                 double result = CalculateValue(signalOutlet, time);
@@ -304,8 +312,10 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateTimeMultiply(Operator op, double time)
         {
+            var wrapper = new TimeMultiply(op);
+
             // Determine origin
-            Outlet originOutlet = op.Inlets[TimeMultiply.ORIGIN_INDEX].Input;
+            Outlet originOutlet = wrapper.Origin;
             double origin = 0;
             if (originOutlet != null)
             {
@@ -313,14 +323,14 @@ namespace JJ.Business.Synthesizer.Calculation
             }
 
             // No signal? Exit with default (the origin).
-            Outlet signalOutlet = op.Inlets[TimeMultiply.SIGNAL_INDEX].Input;
+            Outlet signalOutlet = wrapper.Signal;
             if (signalOutlet == null)
             {
                 return origin;
             }
 
             // No time multiplier? Just pass through signal.
-            Outlet timeMultiplierOutlet = op.Inlets[TimeMultiply.TIME_MULTIPLIER_INDEX].Input;
+            Outlet timeMultiplierOutlet = wrapper.TimeMultiplier;
             if (timeMultiplierOutlet == null)
             {
                 double result = CalculateValue(signalOutlet, time);
@@ -356,13 +366,15 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateTimePower(Operator op, double time)
         {
-            Outlet signalOutlet = op.Inlets[TimePower.SIGNAL_INDEX].Input;
+            var wrapper = new TimePower(op);
+
+            Outlet signalOutlet = wrapper.Signal;
             if (signalOutlet == null)
             {
                 return 0;
             }
 
-            Outlet exponentOutlet = op.Inlets[TimePower.EXPONENT_INDEX].Input;
+            Outlet exponentOutlet = wrapper.Exponent;
             if (exponentOutlet == null)
             {
                 return CalculateValue(signalOutlet, time);
@@ -377,7 +389,7 @@ namespace JJ.Business.Synthesizer.Calculation
             // Time can be negative, that is why the sign is taken off the time 
             // before taking the power and then added to it again after taking the power.
 
-            Outlet originOutlet = op.Inlets[TimePower.ORIGIN_INDEX].Input;
+            Outlet originOutlet = wrapper.Origin;
             if (originOutlet == null)
             {
                 // (time: -4, exponent: 2) => -1 * Pow(4, 1/2)
@@ -409,10 +421,12 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateTimeSubstract(Operator op, double time)
         {
-            Outlet signalOutlet = op.Inlets[TimeSubstract.SIGNAL_INDEX].Input;
+            var wrapper = new TimeSubstract(op);
+
+            Outlet signalOutlet = wrapper.Signal;
             if (signalOutlet == null) return 0;
 
-            Outlet timeDifferenceOutlet = op.Inlets[TimeSubstract.TIME_DIFFERENCE_INDEX].Input;
+            Outlet timeDifferenceOutlet = wrapper.TimeDifference;
             if (timeDifferenceOutlet == null)
             {
                 double result = CalculateValue(signalOutlet, time);
@@ -428,7 +442,9 @@ namespace JJ.Business.Synthesizer.Calculation
 
         private double CalculateValueOperator(Operator op, double time)
         {
-            return op.AsValueOperator.Value;
+            var wrapper = new ValueOperatorWrapper(op);
+
+            return wrapper.Value;
         }
 
         private double CalculateCurveIn(Operator op, double time)
@@ -437,7 +453,6 @@ namespace JJ.Business.Synthesizer.Calculation
 
             Curve curve = op.AsCurveIn.Curve;
 
-            // TODO: Cache CurveCalculators?
             var curveCalculator = new CurveCalculator(curve);
             double result = curveCalculator.CalculateValue(time);
             return result;
