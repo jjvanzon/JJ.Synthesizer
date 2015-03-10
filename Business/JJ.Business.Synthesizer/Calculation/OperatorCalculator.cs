@@ -480,7 +480,7 @@ namespace JJ.Business.Synthesizer.Calculation
             // But this is only a fallback that will work for mono and stereo,
             // and not for e.g. 5.1 surround sound.
             int channelIndex;
-            if (sampleCalculator.ChannelCount < _channelIndex)
+            if (sampleCalculator.ChannelCount - 1 < _channelIndex)
             {
                 channelIndex = 0;
             }
