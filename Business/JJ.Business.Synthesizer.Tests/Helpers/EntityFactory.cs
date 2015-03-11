@@ -27,6 +27,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return echo;
         }
 
+        public static Outlet CreateMultiplyWithEcho(OperatorFactory x, Outlet signal)
+        {
+            Outlet multiply = x.Multiply(signal, x.Value(1.5));
+            Outlet echo = CreateEcho(x, multiply);
+            return echo;
+        }
+
         public static Outlet CreateTimePowerEffect(OperatorFactory x, Outlet signal)
         {
             if (x == null) throw new NullException(() => x);
