@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation
         private IDictionary<string, Func<Operator, double, double>> _funcDictionary;
 
         private IDictionary<int, ISampleCalculator> _sampleCalculatorDictionary =
-            new Dictionary<int, ISampleCalculator>();
+             new Dictionary<int, ISampleCalculator>();
 
         public OperatorCalculator(int channelIndex)
         {
@@ -59,6 +59,11 @@ namespace JJ.Business.Synthesizer.Calculation
             return value;
         }
 
+        private double CalculateValueOperator(Operator op, double time)
+        {
+            return op.AsValueOperator.Value;
+        }
+
         private double CalculateAdd(Operator op, double time)
         {
             Outlet operandAOutlet = op.Inlets[Add.OPERAND_A_INDEX].Input;
@@ -71,32 +76,17 @@ namespace JJ.Business.Synthesizer.Calculation
             return a + b;
         }
 
-        private IDictionary<int, Outlet[]> _adderOperands = new Dictionary<int, Outlet[]>();
-
-        private double CalculateAdder(Operator op, double time)
+        private double CalculateSubstract(Operator op, double time)
         {
-            Outlet[] operands;
-            if (!_adderOperands.TryGetValue(op.ID, out operands))
-            {
-                var wrapper = new Adder(op);
+            Outlet operandAOutlet = op.Inlets[Substract.OPERAND_A_INDEX].Input;
+            Outlet operandBOutlet = op.Inlets[Substract.OPERAND_B_INDEX].Input;
 
-                operands = wrapper.Operands.ToArray();
-                _adderOperands.Add(op.ID, operands);
-            }
+            if (operandAOutlet == null || operandBOutlet == null) return 0;
 
-            double result = 0;
+            double a = CalculateValue(operandAOutlet, time);
+            double b = CalculateValue(operandBOutlet, time);
 
-            for (int i = 0; i < operands.Length; i++)
-            {
-                Outlet operand = operands[i];
-
-                if (operand != null)
-                {
-                    result += CalculateValue(operand, time);
-                }
-            }
-
-            return result;
+            return a - b;
         }
 
         private double CalculateDivide(Operator op, double time)
@@ -162,24 +152,6 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
-        private double CalculatePatchInlet(Operator op, double time)
-        {
-            Outlet inputOutlet = op.Inlets[PatchInlet.INPUT_INDEX].Input;
-
-            if (inputOutlet == null) return 0;
-
-            return CalculateValue(inputOutlet, time);
-        }
-
-        private double CalculatePatchOutlet(Operator op, double time)
-        {
-            Outlet inputOutlet = op.Inlets[PatchOutlet.INPUT_INDEX].Input;
-
-            if (inputOutlet == null) return 0;
-
-            return CalculateValue(inputOutlet, time);
-        }
-
         private double CalculatePower(Operator op, double time)
         {
             Outlet baseOutlet = op.Inlets[Power.BASE_INDEX].Input;
@@ -191,44 +163,6 @@ namespace JJ.Business.Synthesizer.Calculation
             double exponent = CalculateValue(exponentOutlet, time);
 
             return Math.Pow(@base, exponent);
-        }
-
-        private double CalculateSine(Operator op, double time)
-        {
-            Outlet volumeOutlet = op.Inlets[Sine.VOLUME_INDEX].Input;
-            Outlet pitchOutlet = op.Inlets[Sine.PITCH_INDEX].Input;
-
-            if (volumeOutlet == null || pitchOutlet == null) return 0;
-
-            Outlet levelOutlet = op.Inlets[Sine.LEVEL_INDEX].Input;
-            Outlet phaseStartOutlet = op.Inlets[Sine.PHASE_START_INDEX].Input;
-
-            double volume = CalculateValue(volumeOutlet, time);
-            double pitch = CalculateValue(pitchOutlet, time);
-
-            if (levelOutlet == null && phaseStartOutlet == null)
-            {
-                return volume * Math.Sin(2 * Math.PI * pitch * time);
-            }
-
-            double level = levelOutlet != null ? CalculateValue(levelOutlet, time) : 0;
-            double phaseStart = levelOutlet != null ? CalculateValue(phaseStartOutlet, time) : 0;
-
-            double result = level + volume * Math.Sin(2 * (Math.PI * phaseStart + Math.PI * pitch * time));
-            return result;
-        }
-
-        private double CalculateSubstract(Operator op, double time)
-        {
-            Outlet operandAOutlet = op.Inlets[Substract.OPERAND_A_INDEX].Input;
-            Outlet operandBOutlet = op.Inlets[Substract.OPERAND_B_INDEX].Input;
-
-            if (operandAOutlet == null || operandBOutlet == null) return 0;
-
-            double a = CalculateValue(operandAOutlet, time);
-            double b = CalculateValue(operandBOutlet, time);
-
-            return a - b;
         }
 
         private double CalculateTimeAdd(Operator op, double time)
@@ -246,6 +180,25 @@ namespace JJ.Business.Synthesizer.Calculation
             // IMPORTANT: To add time to the output, you have substract time from the input.
             double timeDifference = CalculateValue(timeDifferenceOutlet, time);
             double transformedTime = time - timeDifference;
+            double result2 = CalculateValue(signalOutlet, transformedTime);
+            return result2;
+        }
+
+        private double CalculateTimeSubstract(Operator op, double time)
+        {
+            Outlet signalOutlet = op.Inlets[TimeSubstract.SIGNAL_INDEX].Input;
+            if (signalOutlet == null) return 0;
+
+            Outlet timeDifferenceOutlet = op.Inlets[TimeSubstract.TIME_DIFFERENCE_INDEX].Input;
+            if (timeDifferenceOutlet == null)
+            {
+                double result = CalculateValue(signalOutlet, time);
+                return result;
+            }
+
+            // IMPORTANT: To substract time from the output, you have add time to the input.
+            double timeDifference = CalculateValue(timeDifferenceOutlet, time);
+            double transformedTime = time + timeDifference;
             double result2 = CalculateValue(signalOutlet, transformedTime);
             return result2;
         }
@@ -407,28 +360,57 @@ namespace JJ.Business.Synthesizer.Calculation
             }
         }
 
-        private double CalculateTimeSubstract(Operator op, double time)
-        {
-            Outlet signalOutlet = op.Inlets[TimeSubstract.SIGNAL_INDEX].Input;
-            if (signalOutlet == null) return 0;
+        private IDictionary<int, Outlet[]> _adderOperandsDictionary = new Dictionary<int, Outlet[]>();
 
-            Outlet timeDifferenceOutlet = op.Inlets[TimeSubstract.TIME_DIFFERENCE_INDEX].Input;
-            if (timeDifferenceOutlet == null)
+        private double CalculateAdder(Operator op, double time)
+        {
+            Outlet[] operands;
+            if (!_adderOperandsDictionary.TryGetValue(op.ID, out operands))
             {
-                double result = CalculateValue(signalOutlet, time);
-                return result;
+                var wrapper = new Adder(op);
+
+                operands = wrapper.Operands.ToArray();
+                _adderOperandsDictionary.Add(op.ID, operands);
             }
 
-            // IMPORTANT: To substract time from the output, you have add time to the input.
-            double timeDifference = CalculateValue(timeDifferenceOutlet, time);
-            double transformedTime = time + timeDifference;
-            double result2 = CalculateValue(signalOutlet, transformedTime);
-            return result2;
+            double result = 0;
+
+            for (int i = 0; i < operands.Length; i++)
+            {
+                Outlet operand = operands[i];
+
+                if (operand != null)
+                {
+                    result += CalculateValue(operand, time);
+                }
+            }
+
+            return result;
         }
 
-        private double CalculateValueOperator(Operator op, double time)
+        private double CalculateSine(Operator op, double time)
         {
-            return op.AsValueOperator.Value;
+            Outlet volumeOutlet = op.Inlets[Sine.VOLUME_INDEX].Input;
+            Outlet pitchOutlet = op.Inlets[Sine.PITCH_INDEX].Input;
+
+            if (volumeOutlet == null || pitchOutlet == null) return 0;
+
+            Outlet levelOutlet = op.Inlets[Sine.LEVEL_INDEX].Input;
+            Outlet phaseStartOutlet = op.Inlets[Sine.PHASE_START_INDEX].Input;
+
+            double volume = CalculateValue(volumeOutlet, time);
+            double pitch = CalculateValue(pitchOutlet, time);
+
+            if (levelOutlet == null && phaseStartOutlet == null)
+            {
+                return volume * Math.Sin(2 * Math.PI * pitch * time);
+            }
+
+            double level = levelOutlet != null ? CalculateValue(levelOutlet, time) : 0;
+            double phaseStart = levelOutlet != null ? CalculateValue(phaseStartOutlet, time) : 0;
+
+            double result = level + volume * Math.Sin(2 * (Math.PI * phaseStart + Math.PI * pitch * time));
+            return result;
         }
 
         private double CalculateCurveIn(Operator op, double time)
@@ -471,6 +453,24 @@ namespace JJ.Business.Synthesizer.Calculation
 
             double result = sampleCalculator.CalculateValue(channelIndex, time);
             return result;
+        }
+
+        private double CalculatePatchInlet(Operator op, double time)
+        {
+            Outlet inputOutlet = op.Inlets[PatchInlet.INPUT_INDEX].Input;
+
+            if (inputOutlet == null) return 0;
+
+            return CalculateValue(inputOutlet, time);
+        }
+
+        private double CalculatePatchOutlet(Operator op, double time)
+        {
+            Outlet inputOutlet = op.Inlets[PatchOutlet.INPUT_INDEX].Input;
+
+            if (inputOutlet == null) return 0;
+
+            return CalculateValue(inputOutlet, time);
         }
     }
 }

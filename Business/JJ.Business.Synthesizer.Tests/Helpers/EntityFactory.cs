@@ -20,6 +20,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return substract;
         }
 
+        public static Outlet CreateTimePowerEffectWithEcho(OperatorFactory x, Outlet signal)
+        {
+            Outlet timePower = CreateTimePowerEffect(x, signal);
+            Outlet echo = CreateEcho(x, timePower);
+            return echo;
+        }
+
         public static Outlet CreateTimePowerEffect(OperatorFactory x, Outlet signal)
         {
             if (x == null) throw new NullException(() => x);
@@ -47,13 +54,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             Adder adder = x.Adder(repeats);
             return adder;
-        }
-
-        public static Outlet CreateTimePowerEffectWithEcho(OperatorFactory x, Outlet signal)
-        {
-            Outlet timePower = CreateTimePowerEffect(x, signal);
-            Outlet echo = CreateEcho(x, timePower);
-            return echo;
         }
     }
 }

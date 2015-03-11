@@ -250,7 +250,6 @@ namespace JJ.Business.Synthesizer.Tests
                 Sample sample = sampleManager.CreateSample(sampleStream);
                 sample.SamplingRate = 8000;
                 sample.BytesToSkip = 100;
-                //sample.SetInterpolationTypeEnum(InterpolationTypeEnum.Block, interpolationTypeRepository);
 
                 Outlet sampleOperator = operatorFactory.Sample(sample);
                 Outlet effect = EntityFactory.CreateTimePowerEffectWithEcho(operatorFactory, sampleOperator);
@@ -259,23 +258,103 @@ namespace JJ.Business.Synthesizer.Tests
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = effect;
                 audioFileOutput.FilePath = "Test_Synthesizer_TimePowerWithEcho.wav";
                 audioFileOutput.Duration = 6.5;
-                
+
                 IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
 
-                Stopwatch sw1 = Stopwatch.StartNew();
+                Stopwatch sw = Stopwatch.StartNew();
                 audioFileOutputCalculator.Execute();
-                sw1.Stop();
+                sw.Stop();
 
-                string message = String.Format("{0}ms", sw1.ElapsedMilliseconds);
+                string message = String.Format("{0}ms", sw.ElapsedMilliseconds);
                 Assert.Inconclusive(message);
-
-                //Stopwatch sw2 = Stopwatch.StartNew();
-                //audioFileOutputCalculator.Execute();
-                //sw2.Stop();
-
-                //string message = String.Format("1st time: {0}ms, 2nd time: {1}ms", sw1.ElapsedMilliseconds, sw2.ElapsedMilliseconds);
-                //Assert.Inconclusive(message);
             }
         }
+            
+        [TestMethod]
+        public void Test_Synthesizer_HardCodedTimePowerWithEcho()
+        {
+            const double seconds = 6.5;
+            const double samplingRate = 44100.0;
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
+
+                SampleManager sampleManager = TestHelper.CreateSampleManager(context);
+                AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
+
+                Stream sampleStream = TestHelper.GetViolin16BitMono44100WavStream();
+                Sample sample = sampleManager.CreateSample(sampleStream);
+                sample.SamplingRate = 8000;
+                sample.BytesToSkip = 100;
+
+                var hardCodedCalculator = new HardCodedTimePowerWithEchoCalculator(sample);
+
+                // For debugging to compare the values with the original calculation.
+                //OperatorFactory x = TestHelper.CreateOperatorFactory(context);
+                //Outlet outlet = EntityFactory.CreateTimePowerEffectWithEcho(x, x.Sample(sample));
+                //var operatorCalculator = new OperatorCalculator(0);
+
+                Stopwatch sw = Stopwatch.StartNew();
+                using (Stream destStream = new FileStream("HardCodedTimePowerWithEchoCalculator.raw", FileMode.Create, FileAccess.Write, FileShare.Read))
+                {
+                    using (BinaryWriter writer = new BinaryWriter(destStream))
+                    {
+                        int destSampleCount = (int)(samplingRate * seconds);
+
+                        double t = 0;
+                        double dt = 1.0 / samplingRate;
+
+                        for (int i = 0; i < destSampleCount; i++)
+                        {
+                            // For debugging to compare the values with the original calculation.
+                            //double valueFromOutlet = operatorCalculator.CalculateValue(outlet, t);
+                            double value = hardCodedCalculator.CalculateValue(t);
+                            short convertedValue = (short)value;
+
+                            writer.Write(convertedValue);
+
+                            t += dt;
+                        }
+                    }
+                }
+                sw.Stop();
+
+                string message = String.Format("{0}ms", sw.ElapsedMilliseconds);
+                Assert.Inconclusive(message);
+            }
+        }
+
+        //[TestMethod]
+        //public void CalculateValue()
+        //{
+        //    double time = 0;
+
+        //    // TimePower
+        //    double signal = 10;
+        //    double exponent = 1.5;
+
+        //    double timeAbs = Math.Abs(time);
+        //    double timeSign = Math.Sign(time);
+
+        //    time = timeSign * Math.Pow(timeAbs, 1 / exponent);
+
+        //    // Echo
+        //    double value = 0;
+        //    double cumulativeDenominator = 1;
+        //    double cumulativeDelay = 0;
+
+        //    for (int i = 0; i < 15; i++)
+        //    {
+        //        double time2 = time - cumulativeDelay;
+        //        double value2 = 8;
+        //        value2 /= cumulativeDenominator;
+
+        //        value += value2;
+
+        //        cumulativeDenominator *= 1.5;
+        //        cumulativeDelay += 0.25;
+        //    }
+        //}
     }
 }
