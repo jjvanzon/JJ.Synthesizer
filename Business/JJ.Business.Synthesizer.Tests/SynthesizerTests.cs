@@ -24,6 +24,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Managers;
 using System.IO;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
+using JJ.Business.Synthesizer.Calculation.Operators;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -240,8 +241,6 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
-
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
                 OperatorFactory operatorFactory = TestHelper.CreateOperatorFactory(context);
@@ -275,8 +274,6 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
-
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
                 OperatorFactory operatorFactory = TestHelper.CreateOperatorFactory(context);
@@ -313,8 +310,6 @@ namespace JJ.Business.Synthesizer.Tests
 
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
-
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
 
@@ -361,8 +356,6 @@ namespace JJ.Business.Synthesizer.Tests
 
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
-
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
 
@@ -398,6 +391,18 @@ namespace JJ.Business.Synthesizer.Tests
 
                 string message = String.Format("{0}ms", sw.ElapsedMilliseconds);
                 Assert.Inconclusive(message);
+            }
+        }
+
+        [TestMethod]
+        public void Test_Synthesizer_OperatorCalculatorNew()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                OperatorFactory x = TestHelper.CreateOperatorFactory(context);
+                Outlet outlet = x.Add(x.Value(1), x.Value(2));
+                var calculator = new OperatorCalculatorNew(outlet.Operator);
+                double result = calculator.Calculate(0, 0);
             }
         }
 

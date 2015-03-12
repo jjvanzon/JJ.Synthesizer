@@ -15,6 +15,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Calculation.Operators;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {

@@ -21,6 +21,7 @@ using System.Threading.Tasks;
 using JJ.Framework.IO;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Calculation.Operators;
 
 namespace JJ.Business.Synthesizer.Tests
 {

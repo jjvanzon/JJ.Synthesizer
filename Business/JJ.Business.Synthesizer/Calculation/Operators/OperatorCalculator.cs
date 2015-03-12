@@ -12,7 +12,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Business.Synthesizer.Calculation.Samples;
 
-namespace JJ.Business.Synthesizer.Calculation
+namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     public class OperatorCalculator
     {

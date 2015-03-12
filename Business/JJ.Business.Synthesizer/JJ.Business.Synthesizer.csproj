@@ -39,6 +39,36 @@
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
+    <Compile Include="Calculation\Operators\AddCalculator.cs" />
+    <Compile Include="Calculation\Operators\AdderCalculator.cs" />
+    <Compile Include="Calculation\Operators\OperatorCalculatorNew.cs" />
+    <Compile Include="Calculation\Operators\~OperatorCalculatorNewWrapper.cs" />
+    <Compile Include="Calculation\Operators\SampleMonoToMonoCalculator.cs" />
+    <Compile Include="Calculation\Operators\SampleMonoToStereoCalculator.cs" />
+    <Compile Include="Calculation\Operators\SampleStereoToMonoCalculator.cs" />
+    <Compile Include="Calculation\Operators\SampleStereoToStereoCalculator.cs" />
+    <Compile Include="Calculation\Operators\SineWithLevelAndPhaseStartCalculator.cs" />
+    <Compile Include="Calculation\Operators\SineWithPhaseStartCalculator.cs" />
+    <Compile Include="Calculation\Operators\MultiplyWithOriginCalculator.cs" />
+    <Compile Include="Calculation\Operators\DivideWithoutOriginCalculator.cs" />
+    <Compile Include="Calculation\Operators\CurveInCalculator.cs" />
+    <Compile Include="Calculation\Operators\DivideWithOriginCalculator.cs" />
+    <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
+    <Compile Include="Calculation\Operators\MultiplyWithoutOriginCalculator.cs" />
+    <Compile Include="Calculation\Operators\PatchInletCalculator.cs" />
+    <Compile Include="Calculation\Operators\PatchOutletCalculator.cs" />
+    <Compile Include="Calculation\Operators\PowerCalculator.cs" />
+    <Compile Include="Calculation\Operators\SampleOperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SineCalculator.cs" />
+    <Compile Include="Calculation\Operators\SineWithLevelCalculator.cs" />
+    <Compile Include="Calculation\Operators\SubstractCalculator.cs" />
+    <Compile Include="Calculation\Operators\TimeAddCalculator.cs" />
+    <Compile Include="Calculation\Operators\TimeDivideCalculator.cs" />
+    <Compile Include="Calculation\Operators\TimeMultiplyCalculator.cs" />
+    <Compile Include="Calculation\Operators\TimePowerWithoutOriginCalculator.cs" />
+    <Compile Include="Calculation\Operators\TimePowerWithOriginCalculator.cs" />
+    <Compile Include="Calculation\Operators\TimeSubstractCalculator.cs" />
+    <Compile Include="Calculation\Operators\ValueCalculator.cs" />
     <Compile Include="Calculation\Samples\BlockInterpolation_SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\Byte_BlockInterpolation_SampleCalculator.cs" />
     <Compile Include="Calculation\CurveCalculator.cs" />
@@ -93,7 +123,7 @@
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
     <Compile Include="Resources\MessagesFormatter.cs" />
-    <Compile Include="Calculation\OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\OperatorCalculator.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Structs\WavHeaderStruct.cs" />
@@ -103,6 +133,8 @@
     <Compile Include="Validation\Entities\SampleValidator.cs" />
     <Compile Include="Validation\Entities\AudioFileOutputValidator.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
+    <Compile Include="Visitors\OperatorCalculatorVisitor.cs" />
+    <Compile Include="Visitors\OperatorVisitorBase.cs" />
     <Compile Include="Warnings\Entities\AudioFileOutputChannelWarningValidator.cs" />
     <Compile Include="Warnings\Entities\AudioFileOutputWarningValidator.cs" />
     <Compile Include="Warnings\Entities\SampleWarningValidator.cs" />
