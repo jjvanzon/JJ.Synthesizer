@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Visitors
             return list;
         }
 
-        protected override void VisitAdd(Operator op)
+        protected override void VisitOperator(Operator op)
         {
             OperatorCalculatorBase calculator;
             if (_dictionary.TryGetValue(op.ID, out calculator))
@@ -47,39 +47,35 @@ namespace JJ.Business.Synthesizer.Visitors
                 return;
             }
 
+            base.VisitOperator(op);
+
+            calculator = _stack.Peek();
+            _dictionary.Add(op.ID, calculator);
+        }
+
+        protected override void VisitAdd(Operator op)
+        {
             OperatorCalculatorBase operandACalculator = _stack.Pop();
             OperatorCalculatorBase operandBCalculator = _stack.Pop();
 
             if (operandACalculator == null || operandBCalculator == null)
             {
-                calculator = new ValueCalculator(0);
+                var calculator = new ValueCalculator(0);
+                _stack.Push(calculator);
             }
             else
             {
-                calculator = new AddCalculator(operandACalculator, operandBCalculator);
+                var calculator = new AddCalculator(operandACalculator, operandBCalculator);
+                _stack.Push(calculator);
             }
-
-            _stack.Push(calculator);
-            _dictionary.Add(op.ID, calculator);
-
-            base.VisitAdd(op);
         }
 
         protected override void VisitValueOperator(Operator op)
         {
-            OperatorCalculatorBase calculator;
-            if (_dictionary.TryGetValue(op.ID, out calculator))
-            {
-                _stack.Push(calculator);
-                return;
-            }
-
             double value = op.AsValueOperator.Value;
 
-            calculator = new ValueCalculator(value);
-
+            var calculator = new ValueCalculator(value);
             _stack.Push(calculator);
-            _dictionary.Add(op.ID, calculator);
         }
 
         protected override void VisitInlet(Inlet inlet)
