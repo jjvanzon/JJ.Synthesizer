@@ -50,6 +50,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Accessors\OperatorCalculatorBase_Accessor.cs" />
+    <Compile Include="Accessors\OperatorCalculatorNew_Accessor.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\HardCodedOperatorCalculator.cs" />
     <Compile Include="Helpers\OperatorCalculator_WithWrappersAndNullChecks_MoreOperators.cs" />
