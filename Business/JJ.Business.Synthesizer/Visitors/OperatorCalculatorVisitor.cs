@@ -24,26 +24,31 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected override void VisitAdd(Operator op)
         {
-            Outlet operandAOutlet = op.Inlets[Add.OPERAND_A_INDEX].Input;
-            Outlet operandBOutlet = op.Inlets[Add.OPERAND_B_INDEX].Input;
+            OperatorCalculatorBase operandACalculator = _stack.Pop();
+            OperatorCalculatorBase operandBCalculator = _stack.Pop();
 
-            if (operandAOutlet == null || operandBOutlet == null)
+            if (operandACalculator == null || operandBCalculator == null)
             {
                 OperatorCalculatorBase valueCalculator = new ValueCalculator(0);
                 _stack.Push(valueCalculator);
             }
+            else
+            {
+                OperatorCalculatorBase calculator = new AddCalculator(operandACalculator, operandBCalculator);
+                _stack.Push(calculator);
+            }
 
-            Visit(operandAOutlet.Operator);
-            OperatorCalculatorBase operandACalculator = _stack.Pop();
-
-            Visit(operandBOutlet.Operator);
-            OperatorCalculatorBase operandBCalculator = _stack.Pop();
-
-            OperatorCalculatorBase calculator = new AddCalculator(operandACalculator, operandBCalculator);
-            _stack.Push(calculator);
-
-            // For now the base does nothing.
             base.VisitAdd(op);
+        }
+
+        protected override void VisitInlet(Inlet inlet)
+        {
+            if (inlet.Input == null)
+            {
+                _stack.Push(null);
+            }
+
+            base.VisitInlet(inlet);
         }
 
         protected override void VisitValueOperator(Operator op)

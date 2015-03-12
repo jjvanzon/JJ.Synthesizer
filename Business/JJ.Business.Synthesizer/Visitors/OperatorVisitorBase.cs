@@ -43,16 +43,33 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             if (op == null) throw new NullException(() => op);
 
+            // Reverse the order of evaluating the inlet,
+            // so that the first inlet will be the last one pushed
+            // so it will be the first one popped.
+            for (int i = op.Inlets.Count - 1; i >= 0; i--)
+            {
+                Inlet inlet = op.Inlets[i];
+                VisitInlet(inlet);
+            }
+
             Action<Operator> action = _delegateDictionary[op.OperatorTypeName];
             action(op);
+        }
 
-            for (int i = 0; i < op.Inlets.Count; i++)
+        protected virtual void VisitInlet(Inlet inlet)
+        {
+            Outlet outlet = inlet.Input;
+
+            if (outlet != null)
             {
-                Outlet outlet = op.Inlets[i].Input;
-                // TODO: This code will break if an operator can have multiple outlets.
-                Operator op2 = outlet.Operator; 
-                Visit(op2);
+                VisitOutlet(outlet);
             }
+        }
+
+        protected virtual void VisitOutlet(Outlet outlet)
+        {
+            Operator op = outlet.Operator;
+            Visit(op);
         }
 
         protected virtual void VisitAdd(Operator op)

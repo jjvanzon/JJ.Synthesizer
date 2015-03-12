@@ -25,6 +25,7 @@ using JJ.Business.Synthesizer.Managers;
 using System.IO;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Framework.Testing;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -403,6 +404,33 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet outlet = x.Add(x.Value(1), x.Value(2));
                 var calculator = new OperatorCalculatorNew(outlet.Operator);
                 double result = calculator.Calculate(0, 0);
+                Assert.AreEqual(3.0, result, 0.0001);
+            }
+        }
+
+        [TestMethod]
+        public void Test_Synthesizer_OperatorCalculatorNew_WithNullInlet()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                OperatorFactory x = TestHelper.CreateOperatorFactory(context);
+                Outlet outlet = x.Add(null, x.Value(2));
+                var calculator = new OperatorCalculatorNew(outlet.Operator);
+                double result = calculator.Calculate(0, 0);
+                Assert.AreEqual(0.0, result, 0.000000001);
+            }
+        }
+
+        [TestMethod]
+        public void Test_Synthesizer_OperatorCalculatorNew_NestedOperators()
+        {
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                OperatorFactory x = TestHelper.CreateOperatorFactory(context);
+                Outlet outlet = x.Add(x.Add(x.Value(1), x.Value(2)), x.Value(4));
+                var calculator = new OperatorCalculatorNew(outlet.Operator);
+                double result = calculator.Calculate(0, 0);
+                Assert.AreEqual(7.0, result, 0.000000001);
             }
         }
 
