@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Visitors
             };
         }
 
-        protected virtual void Visit(Operator op)
+        protected virtual void VisitOperator(Operator op)
         {
             if (op == null) throw new NullException(() => op);
 
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitOutlet(Outlet outlet)
         {
             Operator op = outlet.Operator;
-            Visit(op);
+            VisitOperator(op);
         }
 
         protected virtual void VisitAdd(Operator op)

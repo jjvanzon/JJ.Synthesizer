@@ -11,22 +11,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     public class OperatorCalculatorNew
     {
-        private OperatorCalculatorBase _rootOperatorCalculator;
+        private OperatorCalculatorBase[] _rootOperatorCalculators;
 
-        /// <summary>
-        /// TODO: the rootOperator should probably become the rootOutlet. 
-        /// </summary>
-        public OperatorCalculatorNew(Operator rootOperator)
+        public OperatorCalculatorNew(params Outlet[] channelOutlets)
+            : this((IList<Outlet>)channelOutlets)
+        { }
+
+        public OperatorCalculatorNew(IList<Outlet> channelOutlets)
         {
-            if (rootOperator == null) throw new NullException(() => rootOperator);
+            if (channelOutlets == null) throw new NullException(() => channelOutlets);
 
             var visitor = new OperatorCalculatorVisitor();
-            _rootOperatorCalculator = visitor.Execute(rootOperator);
+            _rootOperatorCalculators = visitor.Execute(channelOutlets).ToArray();
         }
 
         public virtual double Calculate(double time, int channelIndex)
         {
-            return _rootOperatorCalculator.Calculate(time, channelIndex);
+            return _rootOperatorCalculators[channelIndex].Calculate(time, channelIndex);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
@@ -13,13 +14,26 @@ namespace JJ.Business.Synthesizer.Visitors
     {
         private Stack<OperatorCalculatorBase> _stack;
 
-        public OperatorCalculatorBase Execute(Operator rootOperator)
+        public IList<OperatorCalculatorBase> Execute(IList<Outlet> channelOutlets)
         {
-            _stack = new Stack<OperatorCalculatorBase>();
+            if (channelOutlets == null) throw new NullException(() => channelOutlets);
 
-            Visit(rootOperator);
+            IList<OperatorCalculatorBase> list = new List<OperatorCalculatorBase>();
 
-            return _stack.Pop();
+            for (int i = 0; i < channelOutlets.Count; i++)
+            {
+                Outlet channelOutlet = channelOutlets[i];
+
+                _stack = new Stack<OperatorCalculatorBase>();
+
+                VisitOutlet(channelOutlet);
+
+                OperatorCalculatorBase operatorCalculator = _stack.Pop();
+
+                list.Add(operatorCalculator);
+            }
+
+            return list;
         }
 
         protected override void VisitAdd(Operator op)
