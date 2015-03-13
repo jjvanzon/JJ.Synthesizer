@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
+    /// <summary>
+    /// Currently not used.
+    /// </summary>
     public class OperatorCalculatorBase_Accessor
     {
         private Accessor _accessor;

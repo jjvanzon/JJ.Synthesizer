@@ -9,18 +9,19 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SampleOperatorCalculator : OperatorCalculatorBase
+    internal class SampleOperatorStereoToMonoCalculator : OperatorCalculatorBase
     {
         private ISampleCalculator _sampleCalculator;
 
-        public SampleOperatorCalculator(Sample sample)
+        public SampleOperatorStereoToMonoCalculator(Sample sample)
         {
             _sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sample);
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            return _sampleCalculator.CalculateValue(time, channelIndex);
+            // For now just return the first channel
+            return _sampleCalculator.CalculateValue(time, 0);
         }
     }
 }

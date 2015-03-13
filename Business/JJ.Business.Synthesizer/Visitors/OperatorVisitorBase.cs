@@ -72,54 +72,71 @@ namespace JJ.Business.Synthesizer.Visitors
             VisitOperator(op);
         }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitAdd(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitAdder(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitCurveIn(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitDivide(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitMultiply(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitPatchInlet(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitPatchOutlet(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitPower(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitSampleOperator(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitSine(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitSubstract(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitTimeAdd(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitTimeDivide(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitTimeMultiply(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitTimePower(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitTimeSubstract(Operator op)
         { }
 
+        /// <summary> does nothing </summary>
         protected virtual void VisitValueOperator(Operator op)
         { }
     }

@@ -106,6 +106,6 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 
         protected abstract double ReadValue(BinaryReader binaryReader);
 
-        public abstract double CalculateValue(int channelIndex, double time);
+        public abstract double CalculateValue(double time, int channelIndex);
     }
 }

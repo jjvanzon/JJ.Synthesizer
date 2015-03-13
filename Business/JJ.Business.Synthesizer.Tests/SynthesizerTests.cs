@@ -403,7 +403,7 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet = x.Add(x.Value(1), x.Value(2));
-                var calculator = new OperatorCalculatorNew(outlet);
+                var calculator = new OptimizedOperatorCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(3.0, result, 0.0001);
             }
@@ -416,7 +416,7 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet = x.Add(null, x.Value(2));
-                var calculator = new OperatorCalculatorNew(outlet);
+                var calculator = new OptimizedOperatorCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(0.0, result, 0.000000001);
             }
@@ -429,7 +429,7 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet = x.Add(x.Add(x.Value(1), x.Value(2)), x.Value(4));
-                var calculator = new OperatorCalculatorNew(outlet);
+                var calculator = new OptimizedOperatorCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(7.0, result, 0.000000001);
             }
@@ -443,7 +443,7 @@ namespace JJ.Business.Synthesizer.Tests
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet1 = x.Add(x.Add(x.Value(1), x.Value(2)), x.Value(4));
                 Outlet outlet2 = x.Add(x.Value(5), x.Value(6));
-                var calculator = new OperatorCalculatorNew(outlet1, outlet2);
+                var calculator = new OptimizedOperatorCalculator(outlet1, outlet2);
                 double result1 = calculator.Calculate(0, 0);
                 double result2 = calculator.Calculate(0, 1);
                 Assert.AreEqual(7.0, result1, 0.000000001);
@@ -460,7 +460,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet sharedOutlet = x.Value(1);
                 Outlet outlet1 = x.Add(sharedOutlet, x.Value(2));
                 Outlet outlet2 = x.Add(sharedOutlet, x.Value(3));
-                var calculator = new OperatorCalculatorNew(outlet1, outlet2);
+                var calculator = new OptimizedOperatorCalculator(outlet1, outlet2);
                 double result1 = calculator.Calculate(0, 0);
                 double result2 = calculator.Calculate(0, 1);
                 Assert.AreEqual(3.0, result1, 0.000000001);

@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
             : base(sample)
         { }
 
-        public override double CalculateValue(int channelIndex, double time)
+        public override double CalculateValue(double time, int channelIndex)
         {
             if (!_sample.IsActive) return 0;
 

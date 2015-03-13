@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    public class OperatorCalculatorNew
+    public class OptimizedOperatorCalculator
     {
         private OperatorCalculatorBase[] _rootOperatorCalculators;
 
-        public OperatorCalculatorNew(params Outlet[] channelOutlets)
+        public OptimizedOperatorCalculator(params Outlet[] channelOutlets)
             : this((IList<Outlet>)channelOutlets)
         { }
 
-        public OperatorCalculatorNew(IList<Outlet> channelOutlets)
+        public OptimizedOperatorCalculator(IList<Outlet> channelOutlets)
         {
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
 

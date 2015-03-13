@@ -89,6 +89,32 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return a - b;
         }
 
+        private double CalculateMultiply(Operator op, double time)
+        {
+            Outlet originOutlet = op.Inlets[Multiply.ORIGIN_INDEX].Input;
+            Outlet operandAOutlet = op.Inlets[Multiply.OPERAND_A_INDEX].Input;
+            Outlet operandBOutlet = op.Inlets[Multiply.OPERAND_B_INDEX].Input;
+
+            if (originOutlet == null)
+            {
+                if (operandAOutlet == null || operandBOutlet == null) return 0;
+
+                double a = CalculateValue(operandAOutlet, time);
+                double b = CalculateValue(operandBOutlet, time);
+                return a * b;
+            }
+            else
+            {
+                double origin = CalculateValue(originOutlet, time);
+
+                if (operandAOutlet == null || operandBOutlet == null) return origin;
+
+                double a = CalculateValue(operandAOutlet, time);
+                double b = CalculateValue(operandBOutlet, time);
+                return (a - origin) * b + origin;
+            }
+        }
+
         private double CalculateDivide(Operator op, double time)
         {
             Outlet originOutlet = op.Inlets[Divide.ORIGIN_INDEX].Input;
@@ -123,32 +149,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 double numerator = CalculateValue(numeratorOutlet, time);
 
                 return (numerator - origin) / denominator + origin;
-            }
-        }
-
-        private double CalculateMultiply(Operator op, double time)
-        {
-            Outlet originOutlet = op.Inlets[Multiply.ORIGIN_INDEX].Input;
-            Outlet operandAOutlet = op.Inlets[Multiply.OPERAND_A_INDEX].Input;
-            Outlet operandBOutlet = op.Inlets[Multiply.OPERAND_B_INDEX].Input;
-
-            if (originOutlet == null)
-            {
-                if (operandAOutlet == null || operandBOutlet == null) return 0;
-
-                double a = CalculateValue(operandAOutlet, time);
-                double b = CalculateValue(operandBOutlet, time);
-                return a * b;
-            }
-            else
-            {
-                double origin = CalculateValue(originOutlet, time);
-
-                if (operandAOutlet == null || operandBOutlet == null) return origin;
-
-                double a = CalculateValue(operandAOutlet, time);
-                double b = CalculateValue(operandBOutlet, time);
-                return (a - origin) * b + origin;
             }
         }
 
@@ -203,58 +203,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return result2;
         }
 
-        private double CalculateTimeDivide(Operator op, double time)
-        {
-            // Determine origin
-            Outlet originOutlet = op.Inlets[TimeDivide.ORIGIN_INDEX].Input;
-            double origin = 0;
-            if (originOutlet != null)
-            {
-                origin = CalculateValue(originOutlet, time);
-            }
-
-            // No signal? Exit with default (the origin).
-            Outlet signalOutlet = op.Inlets[TimeDivide.SIGNAL_INDEX].Input;
-            if (signalOutlet == null)
-            {
-                return origin;
-            }
-
-            // No time divider? Just pass through signal.
-            Outlet timeDividerOutlet = op.Inlets[TimeDivide.TIME_DIVIDER_INDEX].Input;
-            if (timeDividerOutlet == null)
-            {
-                double result = CalculateValue(signalOutlet, time);
-                return result;
-            }
-
-            // Time divider 0? Don't return infinity, but just pass through signal.
-            double timeDivider = CalculateValue(timeDividerOutlet, time);
-            if (timeDivider == 0)
-            {
-                double result = CalculateValue(signalOutlet, time);
-                return result;
-            }
-
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-
-            // Formula without origin
-            if (originOutlet == null)
-            {
-                double transformedTime = time * timeDivider;
-                double result = CalculateValue(signalOutlet, transformedTime);
-                return result;
-            }
-
-            // Formula with origin
-            else
-            {
-                double transformedTime = (time - origin) * timeDivider + origin;
-                double result = CalculateValue(signalOutlet, transformedTime);
-                return result;
-            }
-        }
-
         private double CalculateTimeMultiply(Operator op, double time)
         {
             // Determine origin
@@ -269,6 +217,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             Outlet signalOutlet = op.Inlets[TimeMultiply.SIGNAL_INDEX].Input;
             if (signalOutlet == null)
             {
+                // TODO: This seesm useless. Origin is a time variable, while we have to return an x.
                 return origin;
             }
 
@@ -302,6 +251,59 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             else
             {
                 double transformedTime = (time - origin) / timeMultiplier + origin;
+                double result = CalculateValue(signalOutlet, transformedTime);
+                return result;
+            }
+        }
+
+        private double CalculateTimeDivide(Operator op, double time)
+        {
+            // Determine origin
+            Outlet originOutlet = op.Inlets[TimeDivide.ORIGIN_INDEX].Input;
+            double origin = 0;
+            if (originOutlet != null)
+            {
+                origin = CalculateValue(originOutlet, time);
+            }
+
+            // No signal? Exit with default (the origin).
+            Outlet signalOutlet = op.Inlets[TimeDivide.SIGNAL_INDEX].Input;
+            if (signalOutlet == null)
+            {
+                // TODO: This seesm useless. Origin is a time variable, while we have to return an x.
+                return origin;
+            }
+
+            // No time divider? Just pass through signal.
+            Outlet timeDividerOutlet = op.Inlets[TimeDivide.TIME_DIVIDER_INDEX].Input;
+            if (timeDividerOutlet == null)
+            {
+                double result = CalculateValue(signalOutlet, time);
+                return result;
+            }
+
+            // Time divider 0? Don't return infinity, but just pass through signal.
+            double timeDivider = CalculateValue(timeDividerOutlet, time);
+            if (timeDivider == 0)
+            {
+                double result = CalculateValue(signalOutlet, time);
+                return result;
+            }
+
+            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+
+            // Formula without origin
+            if (originOutlet == null)
+            {
+                double transformedTime = time * timeDivider;
+                double result = CalculateValue(signalOutlet, transformedTime);
+                return result;
+            }
+
+            // Formula with origin
+            else
+            {
+                double transformedTime = (time - origin) * timeDivider + origin;
                 double result = CalculateValue(signalOutlet, transformedTime);
                 return result;
             }
@@ -451,7 +453,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 channelIndex = _channelIndex;
             }
 
-            double result = sampleCalculator.CalculateValue(channelIndex, time);
+            double result = sampleCalculator.CalculateValue(time, channelIndex);
             return result;
         }
 

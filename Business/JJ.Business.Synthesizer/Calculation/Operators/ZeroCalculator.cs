@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SampleStereoToMonoCalculator : OperatorCalculatorBase
+    internal class ZeroCalculator : OperatorCalculatorBase
     {
+        public override double Calculate(double time, int channelIndex)
+        {
+            return 0;
+        }
     }
 }

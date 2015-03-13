@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 transformedTime = Math.Sign(transformedTime) * Math.Pow(Math.Abs(transformedTime), 1 / exponent);
 
                 // Sample
-                double value2 = _sampleCalculator.CalculateValue(0, transformedTime);
+                double value2 = _sampleCalculator.CalculateValue(transformedTime, 0);
 
                 // Divide
                 value2 /= cumulativeDenominator;
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 transformedTime = transformedTime /= multiplier;
 
                 // Sample
-                double value2 = _sampleCalculator.CalculateValue(0, transformedTime);
+                double value2 = _sampleCalculator.CalculateValue(transformedTime, 0);
 
                 // Divide
                 value2 /= cumulativeDenominator;

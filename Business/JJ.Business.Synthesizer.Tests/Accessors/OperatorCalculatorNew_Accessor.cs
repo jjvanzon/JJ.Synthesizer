@@ -8,11 +8,14 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Tests.Accessors
 {
+    /// <summary>
+    /// Currently not used.
+    /// </summary>
     public class OperatorCalculatorNew_Accessor
     {
         private Accessor _accessor;
 
-        public OperatorCalculatorNew_Accessor(OperatorCalculatorNew operatorCalculatorNew)
+        public OperatorCalculatorNew_Accessor(OptimizedOperatorCalculator operatorCalculatorNew)
         {
             _accessor = new Accessor(operatorCalculatorNew);
         }

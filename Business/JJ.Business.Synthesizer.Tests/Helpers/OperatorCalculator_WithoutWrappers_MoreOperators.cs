@@ -470,7 +470,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 channelIndex = _channelIndex;
             }
 
-            double result = sampleCalculator.CalculateValue(channelIndex, time);
+            double result = sampleCalculator.CalculateValue(time, channelIndex);
             return result;
         }
     }

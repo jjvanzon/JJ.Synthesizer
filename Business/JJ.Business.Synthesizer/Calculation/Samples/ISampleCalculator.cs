@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     public interface ISampleCalculator
     {
-        double CalculateValue(int channelIndex, double time);
+        double CalculateValue(double time, int channelIndex);
 
         /// <summary>
         /// For performance, so we can use this value directly.
