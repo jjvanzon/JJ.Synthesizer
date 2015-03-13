@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Calculation.Operators.Entities;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -35,6 +36,11 @@ namespace JJ.Business.Synthesizer.Visitors
                 VisitOutlet(channelOutlet);
 
                 OperatorCalculatorBase operatorCalculator = _stack.Pop();
+
+                if (_stack.Count != 0)
+                {
+                    throw new Exception("_stack.Count should have been 0.");
+                }
 
                 list.Add(operatorCalculator);
             }
@@ -341,9 +347,9 @@ namespace JJ.Business.Synthesizer.Visitors
 
             List<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>();
 
-            for (int i = 0; i < operandCalculators.Count; i++)
+            for (int i = 0; i < op.Inlets.Count; i++)
             {
-                OperatorCalculatorBase operandCalculator = operandCalculators[i] = _stack.Pop();
+                OperatorCalculatorBase operandCalculator =  _stack.Pop();
 
                 if (operandCalculator != null)
                 {

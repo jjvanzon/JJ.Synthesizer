@@ -78,8 +78,8 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet outlet = x.Sample(sample);
 
                 // Trigger SampleCalculation
-                var calculator = new OperatorCalculator(0);
-                double value = calculator.CalculateValue(outlet, 0);
+                IOperatorCalculator calculator = new InterpretedOperatorCalculator(0, outlet);
+                double value = calculator.Calculate(0, 0);
             }
         }
 

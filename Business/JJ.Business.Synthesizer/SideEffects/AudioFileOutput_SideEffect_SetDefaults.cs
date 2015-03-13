@@ -17,7 +17,6 @@ namespace JJ.Business.Synthesizer.SideEffects
         private AudioFileOutput _entity;
         private ISampleDataTypeRepository _sampleDataTypeRepository;
         private ISpeakerSetupRepository _speakerSetupRepository;
-        private IInterpolationTypeRepository _interpolationTypeRepository;
         private IAudioFileFormatRepository _audioFileFormatRepository;
 
         public AudioFileOutput_SideEffect_SetDefaults(

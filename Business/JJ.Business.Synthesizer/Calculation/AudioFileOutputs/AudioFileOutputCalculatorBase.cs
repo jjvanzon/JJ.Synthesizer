@@ -24,12 +24,14 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
     /// </summary>
     internal abstract class AudioFileOutputCalculatorBase : IAudioFileOutputCalculator
     {
+        private const bool IS_OPTIMIZED = true;
+
         private string _filePath;
         private AudioFileOutput _audioFileOutput;
 
-        IList<AudioFileOutputChannel> _audioFileOutputChannels;
+        AudioFileOutputChannel[] _audioFileOutputChannels;
         Outlet[] _outlets;
-        OperatorCalculator[] _operatorCalculators;
+        IOperatorCalculator[] _operatorCalculators;
 
         public AudioFileOutputCalculatorBase(AudioFileOutput audioFileOutput, string filePath)
         {
@@ -44,9 +46,26 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             _audioFileOutput = audioFileOutput;
             _filePath = filePath;
 
+            // Prepare some objects
+            int channelCount = _audioFileOutput.AudioFileOutputChannels.Count;
             _audioFileOutputChannels = _audioFileOutput.AudioFileOutputChannels.OrderBy(x => x.Index).ToArray();
             _outlets = _audioFileOutputChannels.Select(x => x.Outlet).ToArray();
-            _operatorCalculators = _audioFileOutputChannels.Select(x => new OperatorCalculator(x.Index)).ToArray();
+
+            _operatorCalculators = new IOperatorCalculator[channelCount];
+            for (int i = 0; i < channelCount; i++)
+            {
+                IOperatorCalculator operatorCalculator;
+                if (IS_OPTIMIZED)
+                {
+                    operatorCalculator = new OptimizedOperatorCalculator(_outlets);
+                }
+                else
+                {
+                    operatorCalculator = new InterpretedOperatorCalculator(i, _outlets[i]);
+                }
+                
+                _operatorCalculators[i] = operatorCalculator;
+            }
         }
 
         public void Execute()
@@ -104,7 +123,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                             double value = 0;
                             if (outlet != null) // TODO: I do not like this 'if'.
                             {
-                                value = _operatorCalculators[i].CalculateValue(outlet, t);
+                                value = _operatorCalculators[i].Calculate(t, i);
                                 value *= _audioFileOutput.Amplifier;
                             }
 

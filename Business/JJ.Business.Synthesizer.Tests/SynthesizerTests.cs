@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Tests
                 IValidator validator = new RecursiveOperatorValidator(substract.Operator);
                 validator.Verify();
 
-                IOperatorCalculator calculator = new OperatorCalculator_WithoutWrappersOrNullChecks();
+                ITestOperatorCalculator calculator = new TestOperatorCalculator_WithoutWrappersOrNullChecks();
                 double value = calculator.CalculateValue(add, 0);
                 Assert.AreEqual(5, value, 0.0001);
                 value = calculator.CalculateValue(substract, 0);
@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         private class PerformanceResult
         {
-            public IOperatorCalculator Calculator { get; set; }
+            public ITestOperatorCalculator Calculator { get; set; }
             public long Milliseconds { get; set; }
         }
 
@@ -80,18 +80,18 @@ namespace JJ.Business.Synthesizer.Tests
 
                 IList<PerformanceResult> results = new PerformanceResult[] 
                 {
-                    new PerformanceResult { Calculator = new OperatorCalculator_WithWrappersAndNullChecks() },
-                    new PerformanceResult { Calculator = new OperatorCalculator_WithWrappersAndNullChecks_MoreOperators(0) },
-                    new PerformanceResult { Calculator = new OperatorCalculator_WithoutWrappers() },
-                    new PerformanceResult { Calculator = new OperatorCalculator_WithoutWrappers_MoreOperators(0) },
-                    new PerformanceResult { Calculator = new OperatorCalculator_WithoutWrappersOrNullChecks() }
+                    new PerformanceResult { Calculator = new TestOperatorCalculator_WithWrappersAndNullChecks() },
+                    new PerformanceResult { Calculator = new TestOperatorCalculator_WithWrappersAndNullChecks_MoreOperators(0) },
+                    new PerformanceResult { Calculator = new TestOperatorCalculator_WithoutWrappers() },
+                    new PerformanceResult { Calculator = new TestOperatorCalculator_WithoutWrappers_MoreOperators(0) },
+                    new PerformanceResult { Calculator = new TestOperatorCalculator_WithoutWrappersOrNullChecks() }
                 };
 
                 int repeats = 88200;
 
                 foreach (PerformanceResult result in results)
                 {
-			        IOperatorCalculator calculator = result.Calculator;
+			        ITestOperatorCalculator calculator = result.Calculator;
 
                     Stopwatch sw = Stopwatch.StartNew();
                     for (int i = 0; i < repeats; i++)
@@ -160,8 +160,8 @@ namespace JJ.Business.Synthesizer.Tests
                 IValidator validator = new AdderValidator(adder.Operator);
                 validator.Verify();
 
-                var calculator = new OperatorCalculator(channelIndex: 0);
-                double value = calculator.CalculateValue(adder, 0);
+                var calculator = new InterpretedOperatorCalculator(0, adder);
+                double value = calculator.Calculate(0, 0);
 
                 adder.Operator.Inlets[0].Name = "qwer";
                 IValidator validator2 = new AdderValidator(adder.Operator);
@@ -210,30 +210,30 @@ namespace JJ.Business.Synthesizer.Tests
                 };
                 validators.ForEach(x => x.Verify());
 
-                var calculator = new OperatorCalculator(channelIndex: 0);
+                InterpretedOperatorCalculator calculator = new InterpretedOperatorCalculator(0, sine);
                 var values = new double[]
                 {
-                    calculator.CalculateValue(sine, 0.00),
-                    calculator.CalculateValue(sine, 0.05),
-                    calculator.CalculateValue(sine, 0.10),
-                    calculator.CalculateValue(sine, 0.15),
-                    calculator.CalculateValue(sine, 0.20),
-                    calculator.CalculateValue(sine, 0.25),
-                    calculator.CalculateValue(sine, 0.30),
-                    calculator.CalculateValue(sine, 0.35),
-                    calculator.CalculateValue(sine, 0.40),
-                    calculator.CalculateValue(sine, 0.45),
-                    calculator.CalculateValue(sine, 0.50),
-                    calculator.CalculateValue(sine, 0.55),
-                    calculator.CalculateValue(sine, 0.60),
-                    calculator.CalculateValue(sine, 0.65),
-                    calculator.CalculateValue(sine, 0.70),
-                    calculator.CalculateValue(sine, 0.75),
-                    calculator.CalculateValue(sine, 0.80),
-                    calculator.CalculateValue(sine, 0.85),
-                    calculator.CalculateValue(sine, 0.90),
-                    calculator.CalculateValue(sine, 0.95),
-                    calculator.CalculateValue(sine, 1.00)
+                    calculator.Calculate(sine, 0.00),
+                    calculator.Calculate(sine, 0.05),
+                    calculator.Calculate(sine, 0.10),
+                    calculator.Calculate(sine, 0.15),
+                    calculator.Calculate(sine, 0.20),
+                    calculator.Calculate(sine, 0.25),
+                    calculator.Calculate(sine, 0.30),
+                    calculator.Calculate(sine, 0.35),
+                    calculator.Calculate(sine, 0.40),
+                    calculator.Calculate(sine, 0.45),
+                    calculator.Calculate(sine, 0.50),
+                    calculator.Calculate(sine, 0.55),
+                    calculator.Calculate(sine, 0.60),
+                    calculator.Calculate(sine, 0.65),
+                    calculator.Calculate(sine, 0.70),
+                    calculator.Calculate(sine, 0.75),
+                    calculator.Calculate(sine, 0.80),
+                    calculator.Calculate(sine, 0.85),
+                    calculator.Calculate(sine, 0.90),
+                    calculator.Calculate(sine, 0.95),
+                    calculator.Calculate(sine, 1.00)
                 };
             }
         }
@@ -285,12 +285,15 @@ namespace JJ.Business.Synthesizer.Tests
                 sample.SamplingRate = 8000;
                 sample.BytesToSkip = 100;
 
+                //IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
+                //sample.SetInterpolationTypeEnum(InterpolationTypeEnum.Block, interpolationTypeRepository);
+
                 Outlet sampleOperator = operatorFactory.Sample(sample);
                 Outlet effect = EntityFactory.CreateMultiplyWithEcho(operatorFactory, sampleOperator);
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = effect;
-                audioFileOutput.FilePath = "Test_Synthesizer_TimePowerWithEcho.wav";
+                audioFileOutput.FilePath = "Test_Synthesizer_MultiplyWithEcho.wav";
                 audioFileOutput.Duration = 6.5;
 
                 IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
@@ -369,7 +372,7 @@ namespace JJ.Business.Synthesizer.Tests
                 var hardCodedCalculator = new HardCodedOperatorCalculator(sample);
 
                 Stopwatch sw = Stopwatch.StartNew();
-                using (Stream destStream = new FileStream("HardCodedTimePowerWithEchoCalculator.raw", FileMode.Create, FileAccess.Write, FileShare.Read))
+                using (Stream destStream = new FileStream("HardCodedMultiplyWithEchoCalculator.raw", FileMode.Create, FileAccess.Write, FileShare.Read))
                 {
                     using (BinaryWriter writer = new BinaryWriter(destStream))
                     {

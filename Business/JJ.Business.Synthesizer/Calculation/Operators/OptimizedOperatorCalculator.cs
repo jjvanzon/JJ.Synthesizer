@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    public class OptimizedOperatorCalculator
+    public class OptimizedOperatorCalculator : IOperatorCalculator
     {
         private OperatorCalculatorBase[] _rootOperatorCalculators;
 
@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _rootOperatorCalculators = visitor.Execute(channelOutlets).ToArray();
         }
 
-        public virtual double Calculate(double time, int channelIndex)
+        public double Calculate(double time, int channelIndex)
         {
             return _rootOperatorCalculators[channelIndex].Calculate(time, channelIndex);
         }
