@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JJ.Framework.Common;
 using JJ.Framework.Persistence;
 using JJ.Framework.Validation;
+using JJ.Framework.IO;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Extensions;
@@ -27,6 +28,8 @@ using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Framework.Testing;
 using JJ.Business.Synthesizer.Tests.Accessors;
+using JJ.Business.Synthesizer.Structs;
+using JJ.Business.Synthesizer.Infos;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -326,11 +329,22 @@ namespace JJ.Business.Synthesizer.Tests
                 var hardCodedCalculator = new HardCodedOperatorCalculator(sample);
 
                 Stopwatch sw = Stopwatch.StartNew();
-                using (Stream destStream = new FileStream("HardCodedTimePowerWithEchoCalculator.raw", FileMode.Create, FileAccess.Write, FileShare.Read))
+                using (Stream destStream = new FileStream("Test_Synthesizer_HardCodedTimePowerWithEcho.wav", FileMode.Create, FileAccess.Write, FileShare.Read))
                 {
                     using (BinaryWriter writer = new BinaryWriter(destStream))
                     {
                         int destSampleCount = (int)(samplingRate * seconds);
+
+                        // Write header
+                        var audioFileInfo = new AudioFileInfo
+                        {
+                            BytesPerValue = 2,
+                            ChannelCount = 1,
+                            SamplingRate = 44100,
+                            SampleCount = destSampleCount
+                        };
+                        WavHeaderStruct wavHeaderStruct = WavHeaderManager.CreateWavHeaderStruct(audioFileInfo);
+                        writer.WriteStruct(wavHeaderStruct);
 
                         double t = 0;
                         double dt = 1.0 / samplingRate;
@@ -362,7 +376,6 @@ namespace JJ.Business.Synthesizer.Tests
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
-                AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
 
                 Stream sampleStream = TestHelper.GetViolin16BitMono44100WavStream();
                 Sample sample = sampleManager.CreateSample(sampleStream);
@@ -372,11 +385,22 @@ namespace JJ.Business.Synthesizer.Tests
                 var hardCodedCalculator = new HardCodedOperatorCalculator(sample);
 
                 Stopwatch sw = Stopwatch.StartNew();
-                using (Stream destStream = new FileStream("HardCodedMultiplyWithEchoCalculator.raw", FileMode.Create, FileAccess.Write, FileShare.Read))
+                using (Stream destStream = new FileStream("Test_Synthesizer_HardCodedMultiplyWithEcho.wav", FileMode.Create, FileAccess.Write, FileShare.Read))
                 {
                     using (BinaryWriter writer = new BinaryWriter(destStream))
                     {
                         int destSampleCount = (int)(samplingRate * seconds);
+
+                        // Write header
+                        var audioFileInfo = new AudioFileInfo
+                        {
+                            BytesPerValue = 2,
+                            ChannelCount = 1,
+                            SamplingRate = 44100,
+                            SampleCount = destSampleCount
+                        };
+                        WavHeaderStruct wavHeaderStruct = WavHeaderManager.CreateWavHeaderStruct(audioFileInfo);
+                        writer.WriteStruct(wavHeaderStruct);
 
                         double t = 0;
                         double dt = 1.0 / samplingRate;

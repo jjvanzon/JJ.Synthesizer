@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Structs
 {
-    internal struct WavHeaderStruct
+    /// <summary>
+    /// This page describes it pretty well:
+    /// http://www-mmsp.ece.mcgill.ca/documents/AudioFormats/WAVE/WAVE.html
+    /// </summary>
+    public struct WavHeaderStruct
     {
-        // This page describes it pretty well:
-        // http://www-mmsp.ece.mcgill.ca/documents/AudioFormats/WAVE/WAVE.html
-
         public int ChunkID;
         public int ChunkSize;
         public int Format;
