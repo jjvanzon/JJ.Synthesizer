@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Reflection;
+﻿using JJ.Business.Synthesizer.Constants;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class SampleOperatorWrapper
     {
-        public const int RESULT_INDEX = 0;
-
         private SampleOperator _sampleOperator;
 
         public SampleOperatorWrapper(SampleOperator sampleOperator)
@@ -28,7 +27,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return _sampleOperator.Operator.Outlets[RESULT_INDEX]; }
+            get { return _sampleOperator.Operator.Outlets[OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX]; }
         }
 
         public static implicit operator Outlet(SampleOperatorWrapper wrapper)

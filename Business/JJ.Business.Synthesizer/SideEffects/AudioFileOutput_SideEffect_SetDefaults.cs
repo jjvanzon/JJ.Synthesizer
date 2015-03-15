@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    public class AudioFileOutput_SideEffect_SetDefaults : ISideEffect
+    internal class AudioFileOutput_SideEffect_SetDefaults : ISideEffect
     {
         private AudioFileOutput _entity;
         private ISampleDataTypeRepository _sampleDataTypeRepository;

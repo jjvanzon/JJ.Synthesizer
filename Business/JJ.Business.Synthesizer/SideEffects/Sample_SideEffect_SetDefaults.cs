@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    public class Sample_SideEffect_SetDefaults : ISideEffect
+    internal class Sample_SideEffect_SetDefaults : ISideEffect
     {
         private Sample _entity;
         private ISampleDataTypeRepository _sampleDataTypeRepository;

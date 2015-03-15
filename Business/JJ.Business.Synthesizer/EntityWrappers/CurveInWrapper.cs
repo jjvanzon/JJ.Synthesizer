@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Reflection;
+﻿using JJ.Business.Synthesizer.Constants;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class CurveInWrapper
     {
-        public const int RESULT_INDEX = 0;
 
         private CurveIn _curveIn;
 
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return _curveIn.Operator.Outlets[RESULT_INDEX]; }
+            get { return _curveIn.Operator.Outlets[OperatorConstants.CURVE_IN_RESULT_INDEX]; }
         }
 
         public static implicit operator Outlet(CurveInWrapper wrapper)

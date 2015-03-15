@@ -43,16 +43,16 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
 
-                Add add = x.Add(x.Value(2), x.Value(3));
-                Substract substract = x.Substract(add, x.Value(1));
+                AddWrapper add = x.Add(x.Value(2), x.Value(3));
+                SubstractWrapper substract = x.Substract(add, x.Value(1));
 
                 IValidator validator = new RecursiveOperatorValidator(substract.Operator);
                 validator.Verify();
 
                 ITestOperatorCalculator calculator = new TestOperatorCalculator_WithoutWrappersOrNullChecks();
-                double value = calculator.CalculateValue(add, 0);
+                double value = calculator.Calculate(add, 0);
                 Assert.AreEqual(5, value, 0.0001);
-                value = calculator.CalculateValue(substract, 0);
+                value = calculator.Calculate(substract, 0);
                 Assert.AreEqual(4, value, 0.0001);
 
                 // Test recursive validator
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Tests
                     Stopwatch sw = Stopwatch.StartNew();
                     for (int i = 0; i < repeats; i++)
                     {
-                        double value = calculator.CalculateValue(outlet, 0);
+                        double value = calculator.Calculate(outlet, 0);
                     }
                     sw.Stop();
                     long ms = sw.ElapsedMilliseconds;
@@ -158,7 +158,7 @@ namespace JJ.Business.Synthesizer.Tests
                 ValueOperatorWrapper val1 = factory.Value(1);
                 ValueOperatorWrapper val2 = factory.Value(2);
                 ValueOperatorWrapper val3 = factory.Value(3);
-                Adder adder = factory.Adder(val1, val2, val3);
+                AdderWrapper adder = factory.Adder(val1, val2, val3);
 
                 IValidator validator = new AdderValidator(adder.Operator);
                 validator.Verify();
@@ -179,9 +179,9 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
 
-                Substract substract = x.Substract(x.Add(x.Value(2), x.Value(3)), x.Value(1));
+                SubstractWrapper substract = x.Substract(x.Add(x.Value(2), x.Value(3)), x.Value(1));
 
-                Substract substract2 = x.Substract
+                SubstractWrapper substract2 = x.Substract
                 (
                     x.Add
                     (
@@ -202,7 +202,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Curve curve = curveFactory.CreateCurve(1, 0, 1, 0.8, null, null, 0.8, 0);
 
                 OperatorFactory f = TestHelper.CreateOperatorFactory(context);
-                Sine sine = f.Sine(f.CurveIn(curve), f.Value(440));
+                SineWrapper sine = f.Sine(f.CurveIn(curve), f.Value(440));
 
                 CultureHelper.SetThreadCulture("nl-NL");
                 IValidator[] validators = 

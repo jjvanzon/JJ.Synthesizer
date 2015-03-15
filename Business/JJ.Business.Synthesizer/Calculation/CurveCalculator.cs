@@ -59,6 +59,5 @@ namespace JJ.Business.Synthesizer.Calculation
                     throw new ValueNotSupportedException(nodeTypeEnum);
             }
         }
-
     }
 }

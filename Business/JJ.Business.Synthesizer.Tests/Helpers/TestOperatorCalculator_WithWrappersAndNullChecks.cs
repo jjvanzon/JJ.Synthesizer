@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             };
         }
 
-        public double CalculateValue(Outlet outlet, double time)
+        public double Calculate(Outlet outlet, double time)
         {
             Func<Operator, double, double> func = _funcDictionary[outlet.Operator.OperatorTypeName];
             double value = func(outlet.Operator, time);
@@ -39,29 +39,29 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private double CalculateAdd(Operator op, double time)
         {
-            var wrapper = new Add(op);
+            var wrapper = new AddWrapper(op);
 
             if (wrapper.OperandA == null || wrapper.OperandB == null) return 0;
 
-            double a = CalculateValue(wrapper.OperandA, time);
-            double b = CalculateValue(wrapper.OperandB, time);
+            double a = Calculate(wrapper.OperandA, time);
+            double b = Calculate(wrapper.OperandB, time);
             return a + b;
         }
 
         private double CalculateSubstract(Operator op, double time)
         {
-            var wrapper = new Substract(op);
+            var wrapper = new SubstractWrapper(op);
 
             if (wrapper.OperandA == null || wrapper.OperandB == null) return 0;
 
-            double a = CalculateValue(wrapper.OperandA, time);
-            double b = CalculateValue(wrapper.OperandB, time);
+            double a = Calculate(wrapper.OperandA, time);
+            double b = Calculate(wrapper.OperandB, time);
             return a - b;
         }
 
         private double CalculateMultiply(Operator op, double time)
         {
-            var wrapper = new Multiply(op);
+            var wrapper = new MultiplyWrapper(op);
 
             if (wrapper.Origin == null)
             {
@@ -70,21 +70,21 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                     return 0;
                 }
 
-                double a = CalculateValue(wrapper.OperandA, time);
-                double b = CalculateValue(wrapper.OperandB, time);
+                double a = Calculate(wrapper.OperandA, time);
+                double b = Calculate(wrapper.OperandB, time);
                 return a * b;
             }
             else
             {
-                double origin = CalculateValue(wrapper.Origin, time);
+                double origin = Calculate(wrapper.Origin, time);
 
                 if (wrapper.OperandA == null || wrapper.OperandB == null)
                 {
                     return origin;
                 }
 
-                double a = CalculateValue(wrapper.OperandA, time);
-                double b = CalculateValue(wrapper.OperandB, time);
+                double a = Calculate(wrapper.OperandA, time);
+                double b = Calculate(wrapper.OperandB, time);
                 return (a - origin) * b + origin;
             }
         }

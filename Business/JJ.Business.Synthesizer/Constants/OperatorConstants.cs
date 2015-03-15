@@ -1,0 +1,76 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace JJ.Business.Synthesizer.Constants
+{
+    public static class OperatorConstants
+    {
+        public const int ADDER_RESULT_INDEX = 0;
+
+        public const int ADD_OPERAND_A_INDEX = 0;
+        public const int ADD_OPERAND_B_INDEX = 1;
+        public const int ADD_RESULT_INDEX = 0;
+
+        public const int CURVE_IN_RESULT_INDEX = 0;
+
+        public const int DIVIDE_NUMERATOR_INDEX = 0;
+        public const int DIVIDE_DENOMINATOR_INDEX = 1;
+        public const int DIVIDE_ORIGIN_INDEX = 2;
+        public const int DIVIDE_RESULT_INDEX = 0;
+
+        public const int MULTIPLY_OPERAND_A_INDEX = 0;
+        public const int MULTIPLY_OPERAND_B_INDEX = 1;
+        public const int MULTIPLY_ORIGIN_INDEX = 2;
+        public const int MULTIPLY_RESULT_INDEX = 0;
+
+        public const int PATCH_INLET_INPUT_INDEX = 0;
+        public const int PATCH_INLET_RESULT_INDEX = 0;
+
+        public const int PATCH_OUTLET_INPUT_INDEX = 0;
+        public const int PATCH_OUTLET_RESULT_INDEX = 0;
+
+        public const int POWER_BASE_INDEX = 0;
+        public const int POWER_EXPONENT_INDEX = 1;
+        public const int POWER_RESULT_INDEX = 0;
+
+        public const int SAMPLE_OPERATOR_RESULT_INDEX = 0;
+
+        public const int SINE_VOLUME_INDEX = 0;
+        public const int SINE_PITCH_INDEX = 1;
+        public const int SINE_LEVEL_INDEX = 2;
+        public const int SINE_PHASE_START_INDEX = 3;
+        public const int SINE_RESULT_INDEX = 0;
+
+        public const int SUBSTRACT_OPERAND_A_INDEX = 0;
+        public const int SUBSTRACT_OPERAND_B_INDEX = 1;
+        public const int SUBSTRACT_RESULT_INDEX = 0;
+
+        public const int TIME_ADD_SIGNAL_INDEX = 0;
+        public const int TIME_ADD_TIME_DIFFERENCE_INDEX = 1;
+        public const int TIME_ADD_RESULT_INDEX = 0;
+
+        public const int TIME_DIVIDE_SIGNAL_INDEX = 0;
+        public const int TIME_DIVIDE_TIME_DIVIDER_INDEX = 1;
+        public const int TIME_DIVIDE_ORIGIN_INDEX = 2;
+        public const int TIME_DIVIDE_RESULT_INDEX = 0;
+
+        public const int TIME_MULTIPLY_SIGNAL_INDEX = 0;
+        public const int TIME_MULTIPLY_TIME_MULTIPLIER_INDEX = 1;
+        public const int TIME_MULTIPLY_ORIGIN_INDEX = 2;
+        public const int TIME_MULTIPLY_RESULT_INDEX = 0;
+
+        public const int TIME_POWER_SIGNAL_INDEX = 0;
+        public const int TIME_POWER_EXPONENT_INDEX = 1;
+        public const int TIME_POWER_ORIGIN_INDEX = 2;
+        public const int TIME_POWER_RESULT_INDEX = 0;
+
+        public const int TIME_SUBSTRACT_SIGNAL_INDEX = 0;
+        public const int TIME_SUBSTRACT_TIME_DIFFERENCE_INDEX = 1;
+        public const int TIME_SUBSTRACT_RESULT_INDEX = 0;
+
+        public const int VALUE_OPERATOR_RESULT_INDEX = 0;
+    }
+}

@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Reflection;
+﻿using JJ.Business.Synthesizer.Constants;
+using JJ.Framework.Reflection;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
@@ -10,15 +11,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class ValueOperatorWrapper : OperatorWrapperBase
     {
-        public const int RESULT_INDEX = 0;
-
         public ValueOperatorWrapper(Operator op)
             : base(op)
         { }
 
         public Outlet Result
         {
-            get { return Operator.Outlets[RESULT_INDEX]; }
+            get { return Operator.Outlets[OperatorConstants.VALUE_OPERATOR_RESULT_INDEX]; }
         }
 
         public double Value

@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             };
         }
 
-        public double CalculateValue(Outlet outlet, double time)
+        public double Calculate(Outlet outlet, double time)
         {
             Func<Operator, double, double> func = _funcDictionary[outlet.Operator.OperatorTypeName];
             double value = func(outlet.Operator, time);
@@ -42,15 +42,15 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private double CalculateAdd(Operator op, double time)
         {
-            double a = CalculateValue(op.Inlets[0].InputOutlet, time);
-            double b = CalculateValue(op.Inlets[1].InputOutlet, time);
+            double a = Calculate(op.Inlets[0].InputOutlet, time);
+            double b = Calculate(op.Inlets[1].InputOutlet, time);
             return a + b;
         }
 
         private double CalculateSubstract(Operator op, double time)
         {
-            double a = CalculateValue(op.Inlets[0].InputOutlet, time);
-            double b = CalculateValue(op.Inlets[1].InputOutlet, time);
+            double a = Calculate(op.Inlets[0].InputOutlet, time);
+            double b = Calculate(op.Inlets[1].InputOutlet, time);
             return a - b;
         }
 
@@ -58,15 +58,15 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             if (op.Inlets[2].InputOutlet == null)
             {
-                double a = CalculateValue(op.Inlets[0].InputOutlet, time);
-                double b = CalculateValue(op.Inlets[1].InputOutlet, time);
+                double a = Calculate(op.Inlets[0].InputOutlet, time);
+                double b = Calculate(op.Inlets[1].InputOutlet, time);
                 return a * b;
             }
             else
             {
-                double origin = CalculateValue(op.Inlets[2].InputOutlet, time);
-                double a = CalculateValue(op.Inlets[0].InputOutlet, time);
-                double b = CalculateValue(op.Inlets[1].InputOutlet, time);
+                double origin = Calculate(op.Inlets[2].InputOutlet, time);
+                double a = Calculate(op.Inlets[0].InputOutlet, time);
+                double b = Calculate(op.Inlets[1].InputOutlet, time);
                 return (a - origin) * b + origin;
             }
         }

@@ -9,6 +9,6 @@ namespace JJ.Business.Synthesizer
 {
     internal interface ITestOperatorCalculator
     {
-        double CalculateValue(Outlet outlet, double time);
+        double Calculate(Outlet outlet, double time);
     }
 }

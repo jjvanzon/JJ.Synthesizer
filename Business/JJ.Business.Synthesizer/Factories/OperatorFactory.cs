@@ -46,14 +46,14 @@ namespace JJ.Business.Synthesizer.Factories
             _sampleOperatorRepository = sampleOperatorRepository;
         }
 
-        public Add Add(Outlet operandA = null, Outlet operandB = null)
+        public AddWrapper Add(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.Add, PropertyDisplayNames.Add, 2,
                 PropertyNames.OperandA, PropertyNames.OperandB,
                 PropertyNames.Result);
 
-            var wrapper = new Add(op)
+            var wrapper = new AddWrapper(op)
             {
                 OperandA = operandA,
                 OperandB = operandB
@@ -62,12 +62,12 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Adder Adder(params Outlet[] operands)
+        public AdderWrapper Adder(params Outlet[] operands)
         {
             return Adder((IList<Outlet>)operands);
         }
 
-        public Adder Adder(IList<Outlet> operands)
+        public AdderWrapper Adder(IList<Outlet> operands)
         {
             if (operands == null) throw new NullException(() => operands);
 
@@ -89,18 +89,18 @@ namespace JJ.Business.Synthesizer.Factories
             outlet.Name = PropertyNames.Result;
             outlet.LinkTo(op);
 
-            var wrapper = new Adder(op);
+            var wrapper = new AdderWrapper(op);
             return wrapper;
         }
 
-        public Divide Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
+        public DivideWrapper Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.Divide, PropertyDisplayNames.Divide, 3,
                 PropertyNames.Numerator, PropertyNames.Denominator, PropertyNames.Origin,
                 PropertyNames.Result);
 
-            var wrapper = new Divide(op)
+            var wrapper = new DivideWrapper(op)
             {
                 Numerator = numerator,
                 Denominator = denominator,
@@ -110,14 +110,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Multiply Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
+        public MultiplyWrapper Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.Multiply, PropertyDisplayNames.Multiply, 3,
                 PropertyNames.OperandA, PropertyNames.OperandB, PropertyNames.Origin,
                 PropertyNames.Result);
 
-            var wrapper = new Multiply(op)
+            var wrapper = new MultiplyWrapper(op)
             {
                 OperandA = operandA,
                 OperandB = operandB,
@@ -127,14 +127,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public PatchInlet PatchInlet(Outlet input = null)
+        public PatchInletWrapper PatchInlet(Outlet input = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.PatchInlet, PropertyDisplayNames.PatchInlet, 1,
                 PropertyNames.Input,
                 PropertyNames.Result);
 
-            var wrapper = new PatchInlet(op)
+            var wrapper = new PatchInletWrapper(op)
             {
                 Input = input
             };
@@ -142,14 +142,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public PatchOutlet PatchOutlet(Outlet input = null)
+        public PatchOutletWrapper PatchOutlet(Outlet input = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.PatchOutlet, PropertyDisplayNames.PatchOutlet, 1,
                 PropertyNames.Input,
                 PropertyNames.Result);
 
-            var wrapper = new PatchOutlet(op)
+            var wrapper = new PatchOutletWrapper(op)
             {
                 Input = input
             };
@@ -157,14 +157,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Power Power(Outlet @base = null, Outlet exponent = null)
+        public PowerWrapper Power(Outlet @base = null, Outlet exponent = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.Power, PropertyDisplayNames.Power, 2, 
                 PropertyNames.Base, PropertyNames.Exponent, 
                 PropertyNames.Result);
 
-            var wrapper = new Power(op)
+            var wrapper = new PowerWrapper(op)
             {
                 Base = @base,
                 Exponent = exponent
@@ -173,14 +173,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet level = null, Outlet phaseStart = null)
+        public SineWrapper Sine(Outlet volume = null, Outlet pitch = null, Outlet level = null, Outlet phaseStart = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.Sine, PropertyDisplayNames.Sine, 4,
                 PropertyNames.Volume, PropertyNames.Pitch, PropertyNames.Level, PropertyNames.PhaseStart,
                 PropertyNames.Result);
 
-            var wrapper = new Sine(op)
+            var wrapper = new SineWrapper(op)
             {
                 Volume = volume,
                 Pitch = pitch,
@@ -191,14 +191,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Substract Substract(Outlet operandA = null, Outlet operandB = null)
+        public SubstractWrapper Substract(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.Substract, PropertyDisplayNames.Substract, 2,
                 PropertyNames.OperandA, PropertyNames.OperandB,
                 PropertyNames.Result);
 
-            var wrapper = new Substract(op)
+            var wrapper = new SubstractWrapper(op)
             {
                 OperandA = operandA,
                 OperandB = operandB
@@ -207,14 +207,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public TimeAdd TimeAdd(Outlet signal = null, Outlet timeDifference = null)
+        public TimeAddWrapper TimeAdd(Outlet signal = null, Outlet timeDifference = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.TimeAdd, PropertyDisplayNames.TimeAdd, 2,
                 PropertyNames.Signal, PropertyNames.TimeDifference,
                 PropertyNames.Result);
 
-            var wrapper = new TimeAdd(op)
+            var wrapper = new TimeAddWrapper(op)
             {
                 Signal = signal,
                 TimeDifference = timeDifference
@@ -223,14 +223,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public TimeDivide TimeDivide(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
+        public TimeDivideWrapper TimeDivide(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.TimeDivide, PropertyDisplayNames.TimeDivide, 3,
                 PropertyNames.Signal, PropertyNames.TimeDivider, PropertyNames.Origin,
                 PropertyNames.Result);
 
-            var wrapper = new TimeDivide(op)
+            var wrapper = new TimeDivideWrapper(op)
             {
                 Signal = signal,
                 TimeDivider = timeDivider,
@@ -240,14 +240,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public TimeMultiply TimeMultiply(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
+        public TimeMultiplyWrapper TimeMultiply(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.TimeMultiply, PropertyDisplayNames.TimeMultiply, 3,
                 PropertyNames.Signal, PropertyNames.TimeMultiplier, PropertyNames.Origin,
                 PropertyNames.Result);
 
-            var wrapper = new TimeMultiply(op)
+            var wrapper = new TimeMultiplyWrapper(op)
             {
                 Signal = signal,
                 TimeMultiplier = timeMultiplier,
@@ -257,14 +257,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public TimePower TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
+        public TimePowerWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.TimePower, PropertyDisplayNames.TimePower, 3,
                 PropertyNames.Signal, PropertyNames.Exponent, PropertyNames.Origin,
                 PropertyNames.Result);
 
-            var wrapper = new TimePower(op)
+            var wrapper = new TimePowerWrapper(op)
             {
                 Signal = signal,
                 Exponent = exponent,
@@ -274,14 +274,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public TimeSubstract TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
+        public TimeSubstractWrapper TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
         {
             Operator op = CreateOperator(
                 PropertyNames.Divide, PropertyDisplayNames.Divide, 2, 
                 PropertyNames.Signal, PropertyNames.TimeDifference, 
                 PropertyNames.Result);
 
-            var wrapper = new TimeSubstract(op)
+            var wrapper = new TimeSubstractWrapper(op)
             {
                 Signal = signal,
                 TimeDifference = timeDifference

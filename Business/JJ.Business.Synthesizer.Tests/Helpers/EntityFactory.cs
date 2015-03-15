@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             if (x == null) throw new NullException(() => x);
 
-            Substract substract = x.Substract(x.Add(x.Value(2), x.Value(3)), x.Value(1));
+            SubstractWrapper substract = x.Substract(x.Add(x.Value(2), x.Value(3)), x.Value(1));
             return substract;
         }
 
@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 cumulativeDelay += delay;
             }
 
-            Adder adder = x.Adder(repeats);
+            AdderWrapper adder = x.Adder(repeats);
             return adder;
         }
     }
