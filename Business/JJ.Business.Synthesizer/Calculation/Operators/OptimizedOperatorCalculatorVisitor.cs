@@ -49,6 +49,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     throw new Exception("_stack.Count should have been 0.");
                 }
 
+                operatorCalculator = operatorCalculator ?? new ZeroCalculator(); 
+
                 list.Add(operatorCalculator);
             }
 
@@ -87,7 +89,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (operandACalculator == null || operandBCalculator == null)
             {
-                calculator = new ZeroCalculator();
+                calculator = null;
             }
             else
             {
@@ -106,7 +108,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (operandACalculator == null || operandBCalculator == null)
             {
-                calculator = new ZeroCalculator();
+                calculator = null;
             }
             else
             {
@@ -128,7 +130,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 if (operandACalculator == null || operandBCalculator == null)
                 {
-                    calculator = new ZeroCalculator();
+                    calculator = null;
                 }
                 else
                 {
@@ -163,7 +165,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 if (numeratorCalculator == null || denominatorCalculator == null)
                 {
-                    calculator = new ZeroCalculator();
+                    calculator = null;
                 }
                 else
                 {
@@ -196,7 +198,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (baseCalculator == null || exponentCalculator == null)
             {
-                calculator = new ZeroCalculator();
+                calculator = null;
             }
             else
             {
@@ -215,7 +217,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (signalCalculator == null)
             {
-                calculator = new ZeroCalculator();
+                calculator = null;
             }
             else if (timeDifferenceCalculator == null)
             {
@@ -238,7 +240,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (signalCalculator == null)
             {
-                calculator = new ZeroCalculator();
+                calculator = null;
             }
             else if (timeDifferenceCalculator == null)
             {
@@ -262,7 +264,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (signalCalculator == null)
             {
-                calculator = new ZeroCalculator();
+                calculator = null;
             }
             else
             {
@@ -296,7 +298,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (signalCalculator == null)
             {
-                calculator = new ZeroCalculator();
+                calculator = null;
             }
             else
             {
@@ -330,7 +332,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (signalCalculator == null)
             {
-                calculator = new ZeroCalculator();
+                calculator = null;
             }
             else if (exponentCalculator == null)
             {
@@ -359,7 +361,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (volumeCalculator == null || pitchCalculator == null)
             {
-                calculator = new ZeroCalculator();
+                calculator = null;
             }
             else if (levelCalculator == null && phaseStartCalculator == null)
             {
@@ -387,7 +389,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (op.AsCurveIn.Curve == null)
             {
-                calculator = new ZeroCalculator();
+                calculator = null;
             }
             else
             {
@@ -403,7 +405,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             if (op.AsSampleOperator.Sample == null)
             {
-                calculator = new ZeroCalculator();
+                calculator = null;
             }
             else
             {

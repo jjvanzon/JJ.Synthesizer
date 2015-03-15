@@ -424,7 +424,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_OperatorCalculatorNew()
+        public void Test_Synthesizer_OptimizedOperatorCalculator()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -437,7 +437,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_OperatorCalculatorNew_WithNullInlet()
+        public void Test_Synthesizer_OptimizedOperatorCalculator_WithNullInlet()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -450,7 +450,20 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_OperatorCalculatorNew_NestedOperators()
+        public void Test_Synthesizer_OptimizedOperatorCalculator_Nulls()
+        {
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            {
+                OperatorFactory x = TestHelper.CreateOperatorFactory(context);
+                Outlet outlet = x.Add(x.Value(1), x.Add(x.Value(2), null));
+                var calculator = new OptimizedOperatorCalculator(outlet);
+                double result = calculator.Calculate(0, 0);
+                Assert.AreEqual(0.0, result, 0.000000001);
+            }
+        }
+
+        [TestMethod]
+        public void Test_Synthesizer_OptimizedOperatorCalculator_NestedOperators()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -463,7 +476,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_OperatorCalculatorNew_TwoChannels()
+        public void Test_Synthesizer_OptimizedOperatorCalculator_TwoChannels()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -479,7 +492,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_OperatorCalculatorNew_InstanceIntegrity()
+        public void Test_Synthesizer_OptimizedOperatorCalculator_InstanceIntegrity()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
