@@ -1,5 +1,7 @@
-﻿using JJ.Business.Synthesizer.Visitors;
+﻿using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Visitors;
 using JJ.Framework.Reflection;
+using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;

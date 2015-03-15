@@ -28,5 +28,29 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return _operator.Name; }
             set { _operator.Name = value; }
         }
+
+        /// <summary>
+        /// Gets an item out of _operator.Inlets and verifies that the index is valid in the list.
+        /// </summary>
+        protected Inlet GetInlet(int index)
+        {
+            if (index >= _operator.Inlets.Count)
+            {
+                throw new Exception(String.Format("_operator.Inlets does not have index [{0}].", index));
+            }
+            return _operator.Inlets[index];
+        }
+
+        /// <summary>
+        /// Gets an item out of _operator.Outlets and verifies that the index is valid in the list.
+        /// </summary>
+        protected Outlet GetOutlet(int index)
+        {
+            if (index >= _operator.Outlets.Count)
+            {
+                throw new Exception(String.Format("_operator.Outlets does not have index [{0}].", index));
+            }
+            return _operator.Outlets[index];
+        }
     }
 }

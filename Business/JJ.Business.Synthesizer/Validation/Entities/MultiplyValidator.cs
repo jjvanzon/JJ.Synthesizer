@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Validation.Entities
 {
-    public class MultiplyValidator : OperatorValidatorBase
+    public class MultiplyValidator : NonSpecializedOperatorValidatorBase
     {
         public MultiplyValidator(Operator obj)
             : base(obj, 

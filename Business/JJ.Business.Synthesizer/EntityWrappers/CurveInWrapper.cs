@@ -19,30 +19,29 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (curveIn == null) throw new NullException(() => curveIn);
             _curveIn = curveIn;
-
-            Verify();
         }
 
         public Curve Curve
         {
-            get { Verify(); return _curveIn.Curve; }
-            set { Verify(); _curveIn.Curve = value; }
+            get { return _curveIn.Curve; }
+            set { _curveIn.Curve = value; }
         }
 
         public Outlet Result
         {
-            get { Verify(); return _curveIn.Operator.Outlets[OperatorConstants.CURVE_IN_RESULT_INDEX]; }
+            get 
+            {
+                if (OperatorConstants.CURVE_IN_RESULT_INDEX >= _curveIn.Operator.Outlets.Count)
+                {
+                    throw new Exception(String.Format("_operator.Outlets does not have index [{0}].", OperatorConstants.CURVE_IN_RESULT_INDEX));
+                }
+                return _curveIn.Operator.Outlets[OperatorConstants.CURVE_IN_RESULT_INDEX];
+            }
         }
 
         public static implicit operator Outlet(CurveInWrapper wrapper)
         {
             return wrapper.Result;
-        }
-
-        private void Verify()
-        {
-            IValidator validator = new CurveInValidator(_curveIn.Operator);
-            validator.Verify();
         }
     }
 }

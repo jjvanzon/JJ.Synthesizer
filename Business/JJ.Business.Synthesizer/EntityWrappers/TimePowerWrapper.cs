@@ -14,43 +14,35 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     public class TimePowerWrapper : OperatorWrapperBase
     {
         public TimePowerWrapper(Operator op)
-            :base(op)
-        {
-            Verify();
-        }
+            : base(op)
+        { }
 
         public Outlet Signal
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.TIME_POWER_SIGNAL_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.TIME_POWER_SIGNAL_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.TIME_POWER_SIGNAL_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.TIME_POWER_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet Exponent
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.TIME_POWER_EXPONENT_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.TIME_POWER_EXPONENT_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.TIME_POWER_EXPONENT_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.TIME_POWER_EXPONENT_INDEX).LinkTo(value); }
         }
 
         public Outlet Origin
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.TIME_POWER_ORIGIN_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.TIME_POWER_ORIGIN_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.TIME_POWER_ORIGIN_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.TIME_POWER_ORIGIN_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { Verify(); return _operator.Outlets[OperatorConstants.TIME_POWER_RESULT_INDEX]; }
+            get { return GetOutlet(OperatorConstants.TIME_POWER_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(TimePowerWrapper wrapper)
         {
             return wrapper.Result;
-        }
-
-        private void Verify()
-        {
-            IValidator validator = new TimePowerValidator(Operator);
-            validator.Verify();
         }
     }
 }

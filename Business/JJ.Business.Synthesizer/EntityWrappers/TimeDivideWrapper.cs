@@ -15,42 +15,34 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     {
         public TimeDivideWrapper(Operator op)
             : base(op)
-        {
-            Verify();
-        }
+        { }
 
         public Outlet Signal
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.TIME_DIVIDE_SIGNAL_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.TIME_DIVIDE_SIGNAL_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.TIME_DIVIDE_SIGNAL_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.TIME_DIVIDE_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet TimeDivider
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.TIME_DIVIDE_TIME_DIVIDER_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.TIME_DIVIDE_TIME_DIVIDER_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.TIME_DIVIDE_TIME_DIVIDER_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.TIME_DIVIDE_TIME_DIVIDER_INDEX).LinkTo(value); }
         }
 
         public Outlet Origin
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.TIME_DIVIDE_ORIGIN_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.TIME_DIVIDE_ORIGIN_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.TIME_DIVIDE_ORIGIN_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.TIME_DIVIDE_ORIGIN_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return _operator.Outlets[OperatorConstants.TIME_DIVIDE_RESULT_INDEX]; }
+            get { return GetOutlet(OperatorConstants.TIME_DIVIDE_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(TimeDivideWrapper wrapper)
         {
             return wrapper.Result;
-        }
-
-        private void Verify()
-        {
-            IValidator validator = new TimeDivideValidator(Operator);
-            validator.Verify();
         }
     }
 }

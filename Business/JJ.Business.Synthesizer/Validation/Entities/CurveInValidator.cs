@@ -27,11 +27,11 @@ namespace JJ.Business.Synthesizer.Validation.Entities
             For(() => op.AsCurveIn, PropertyDisplayNames.AsCurveIn)
                 .NotNull();
 
-            if (op.AsCurveIn != null)
-            {
-                // TODO: TOO recursive?
-                Execute(new CurveValidator(op.AsCurveIn.Curve));
-            }
+            For(() => op.AsSampleOperator, PropertyDisplayNames.AsSampleOperator)
+                .IsNull();
+
+            For(() => op.AsValueOperator, PropertyDisplayNames.AsValueOperator)
+                .IsNull();
         }
     }
 }

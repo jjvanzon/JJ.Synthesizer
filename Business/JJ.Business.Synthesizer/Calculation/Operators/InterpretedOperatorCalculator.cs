@@ -12,6 +12,8 @@ using JJ.Framework.Common;
 using JJ.Framework.Reflection;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Constants;
+using JJ.Framework.Validation;
+using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -36,6 +38,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _channelOutlet = channelOutlet;
             _channelIndex = channelIndex;
+
+            IValidator validator = new RecursiveOperatorValidator(channelOutlet.Operator);
+            validator.Verify();
 
             _funcDictionary = new Dictionary<string, Func<Operator, double, double>>
             {

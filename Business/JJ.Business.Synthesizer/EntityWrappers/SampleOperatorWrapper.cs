@@ -19,30 +19,30 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (sampleOperator == null) throw new NullException(() => sampleOperator);
             _sampleOperator = sampleOperator;
-
-            Verify();
         }
 
         public Sample Sample
         {
-            get { Verify(); return _sampleOperator.Sample; }
-            set { Verify(); _sampleOperator.Sample = value; }
+            get { return _sampleOperator.Sample; }
+            set { _sampleOperator.Sample = value; }
         }
 
         public Outlet Result
         {
-            get { Verify(); return _sampleOperator.Operator.Outlets[OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX]; }
+            get 
+            {
+                if (OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX >= _sampleOperator.Operator.Outlets.Count)
+                {
+                    throw new Exception(String.Format("_operator.Outlets does not have index [{0}].", OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX));
+                }
+
+                return _sampleOperator.Operator.Outlets[OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX]; 
+            }
         }
 
         public static implicit operator Outlet(SampleOperatorWrapper wrapper)
         {
             return wrapper.Result;
-        }
-
-        private void Verify()
-        {
-            IValidator validator = new SampleOperatorValidator(_sampleOperator.Operator);
-            validator.Verify();
         }
     }
 }

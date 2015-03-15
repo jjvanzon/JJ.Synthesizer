@@ -15,19 +15,17 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     {
         public ValueOperatorWrapper(Operator op)
             : base(op)
-        {
-            Verify();
-        }
+        { }
 
         public Outlet Result
         {
-            get { Verify(); return Operator.Outlets[OperatorConstants.VALUE_OPERATOR_RESULT_INDEX]; }
+            get { return GetOutlet(OperatorConstants.VALUE_OPERATOR_RESULT_INDEX); }
         }
 
         public double Value
         {
-            get { Verify(); return Operator.AsValueOperator.Value; }
-            set { Verify(); Operator.AsValueOperator.Value = value; }
+            get { return Operator.AsValueOperator.Value; }
+            set { Operator.AsValueOperator.Value = value; }
         }
 
         public static implicit operator Outlet(ValueOperatorWrapper wrapper)
@@ -38,12 +36,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public static implicit operator double(ValueOperatorWrapper wrapper)
         {
             return wrapper.Value;
-        }
-
-        private void Verify()
-        {
-            IValidator validator = new ValueOperatorValidator(Operator);
-            validator.Verify();
         }
     }
 }

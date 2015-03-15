@@ -131,6 +131,7 @@
     <Compile Include="Validation\Entities\CurveInValidator.cs" />
     <Compile Include="Validation\Entities\SampleValidator.cs" />
     <Compile Include="Validation\Entities\AudioFileOutputValidator.cs" />
+    <Compile Include="Validation\NonSpecializedOperatorValidatorBase.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
     <Compile Include="Visitors\OperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\OperatorVisitorBase.cs" />

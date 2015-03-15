@@ -15,42 +15,34 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     {
         public TimeMultiplyWrapper(Operator op)
             : base(op)
-        {
-            Verify();
-        }
+        { }
 
         public Outlet Signal
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.TIME_MULTIPLY_SIGNAL_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.TIME_MULTIPLY_SIGNAL_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.TIME_MULTIPLY_SIGNAL_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.TIME_MULTIPLY_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet TimeMultiplier
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.TIME_MULTIPLY_TIME_MULTIPLIER_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.TIME_MULTIPLY_TIME_MULTIPLIER_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.TIME_MULTIPLY_TIME_MULTIPLIER_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.TIME_MULTIPLY_TIME_MULTIPLIER_INDEX).LinkTo(value); }
         }
 
         public Outlet Origin
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.TIME_MULTIPLY_ORIGIN_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.TIME_MULTIPLY_ORIGIN_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.TIME_MULTIPLY_ORIGIN_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.TIME_MULTIPLY_ORIGIN_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { Verify(); return _operator.Outlets[OperatorConstants.TIME_MULTIPLY_RESULT_INDEX]; }
+            get { return GetOutlet(OperatorConstants.TIME_MULTIPLY_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(TimeMultiplyWrapper wrapper)
         {
             return wrapper.Result;
-        }
-
-        private void Verify()
-        {
-            IValidator validator = new TimeMultiplyValidator(Operator);
-            validator.Verify();
         }
     }
 }

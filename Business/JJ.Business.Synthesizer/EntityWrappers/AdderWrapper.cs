@@ -14,9 +14,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     {
         public AdderWrapper(Operator op)
             : base(op)
-        {
-            Verify();
-        }
+        { }
 
         /// <summary>
         /// Executes a loop, so prevent calling it multiple times.
@@ -25,8 +23,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             get
             {
-                Verify();
-
                 IList<Outlet> operands = new Outlet[_operator.Inlets.Count];
                 for (int i = 0; i < _operator.Inlets.Count; i++)
                 {
@@ -38,18 +34,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { Verify(); return _operator.Outlets[OperatorConstants.ADDER_RESULT_INDEX]; }
+            get { return GetOutlet(OperatorConstants.ADDER_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(AdderWrapper wrapper)
         {
             return wrapper.Result;
-        }
-
-        private void Verify()
-        {
-            IValidator validator = new AdderValidator(Operator);
-            validator.Verify();
         }
     }
 }

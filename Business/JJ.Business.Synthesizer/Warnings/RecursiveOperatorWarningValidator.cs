@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Names;
+using JJ.Business.Synthesizer.Warnings.Entities;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 using System;
@@ -27,7 +28,21 @@ namespace JJ.Business.Synthesizer.Warnings
             _alreadyDone.Add(Object);
 
             Execute<VersatileOperatorWarningValidator>();
-            
+
+            SampleOperator sampleOperator = Object.AsSampleOperator;
+            if (sampleOperator != null)
+            {
+                Sample sample = sampleOperator.Sample;
+                if (sample != null)
+                {
+                    if (!_alreadyDone.Contains(sample))
+                    {
+                        _alreadyDone.Add(sample);
+                        Execute(new SampleWarningValidator(sample));
+                    }
+                }
+            }
+
             foreach (Inlet inlet in Object.Inlets)
             {
                 if (inlet.InputOutlet != null)

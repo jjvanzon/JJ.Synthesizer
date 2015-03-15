@@ -16,36 +16,28 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     {
         public SubstractWrapper(Operator op)
             : base(op)
-        {
-            Verify();
-        }
+        { }
 
         public Outlet OperandA
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.SUBSTRACT_OPERAND_A_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.SUBSTRACT_OPERAND_A_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.SUBSTRACT_OPERAND_A_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.SUBSTRACT_OPERAND_A_INDEX).LinkTo(value); }
         }
 
         public Outlet OperandB
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.SUBSTRACT_OPERAND_B_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.SUBSTRACT_OPERAND_B_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.SUBSTRACT_OPERAND_B_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.SUBSTRACT_OPERAND_B_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { Verify(); return _operator.Outlets[OperatorConstants.SUBSTRACT_RESULT_INDEX]; }
+            get { return GetOutlet(OperatorConstants.SUBSTRACT_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(SubstractWrapper wrapper)
         {
             return wrapper.Result;
-        }
-
-        private void Verify()
-        {
-            IValidator validator = new SubstractValidator(Operator);
-            validator.Verify();
         }
     }
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Validation.Entities
 {
-    public class PatchInletValidator : OperatorValidatorBase
+    public class PatchInletValidator : NonSpecializedOperatorValidatorBase
     {
         public PatchInletValidator(Operator obj)
             : base(obj, PropertyNames.PatchInlet, 1, PropertyNames.Input, PropertyNames.Result)

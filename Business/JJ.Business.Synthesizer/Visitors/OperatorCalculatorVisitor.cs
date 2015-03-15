@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Calculation.Operators.Entities;
+using JJ.Framework.Validation;
+using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Visitors
 {
@@ -23,16 +25,20 @@ namespace JJ.Business.Synthesizer.Visitors
         {
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
 
+            foreach (Outlet channelOutlet in channelOutlets)
+            {
+                IValidator validator = new RecursiveOperatorValidator(channelOutlet.Operator);
+                validator.Verify();
+            }
+
             _stack = new Stack<OperatorCalculatorBase>();
             _dictionary = new Dictionary<int, OperatorCalculatorBase>();
             _channelCount = channelOutlets.Count;
 
             var list = new List<OperatorCalculatorBase>(_channelCount);
 
-            for (int i = 0; i < _channelCount; i++)
+            foreach (Outlet channelOutlet in channelOutlets)
             {
-                Outlet channelOutlet = channelOutlets[i];
-
                 VisitOutlet(channelOutlet);
 
                 OperatorCalculatorBase operatorCalculator = _stack.Pop();

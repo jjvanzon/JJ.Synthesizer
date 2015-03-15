@@ -15,30 +15,22 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     {
         public PatchOutletWrapper(Operator op)
             : base(op)
-        {
-            Verify();
-        }
+        { }
 
         public Outlet Input
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.PATCH_OUTLET_INPUT_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.PATCH_OUTLET_INPUT_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.PATCH_OUTLET_INPUT_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.PATCH_OUTLET_INPUT_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { Verify(); return _operator.Outlets[OperatorConstants.PATCH_OUTLET_RESULT_INDEX]; }
+            get { return GetOutlet(OperatorConstants.PATCH_OUTLET_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(PatchOutletWrapper wrapper)
         {
             return wrapper.Result;
-        }
-
-        private void Verify()
-        {
-            IValidator validator = new PatchInletValidator(Operator);
-            validator.Verify();
         }
     }
 }

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Validation.Entities
 {
-    public class SineValidator : OperatorValidatorBase
+    public class SineValidator : NonSpecializedOperatorValidatorBase
     {
         public SineValidator(Operator obj)
             : base(obj, 

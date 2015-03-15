@@ -14,37 +14,29 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     public class TimeAddWrapper : OperatorWrapperBase
     {
         public TimeAddWrapper(Operator op)
-            :base(op)
-        {
-            Verify();
-        }
+            : base(op)
+        { }
 
         public Outlet Signal
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.TIME_ADD_SIGNAL_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.TIME_ADD_SIGNAL_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.TIME_ADD_SIGNAL_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.TIME_ADD_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet TimeDifference
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.TIME_ADD_TIME_DIFFERENCE_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.TIME_ADD_TIME_DIFFERENCE_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.TIME_ADD_TIME_DIFFERENCE_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.TIME_ADD_TIME_DIFFERENCE_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { Verify(); return _operator.Outlets[OperatorConstants.TIME_ADD_RESULT_INDEX]; }
+            get { return GetOutlet(OperatorConstants.TIME_ADD_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(TimeAddWrapper wrapper)
         {
             return wrapper.Result;
-        }
-
-        private void Verify()
-        {
-            IValidator validator = new TimeAddValidator(Operator);
-            validator.Verify();
         }
     }
 }

@@ -15,36 +15,28 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     {
         public PowerWrapper(Operator op)
             :base(op)
-        {
-            Verify();
-        }
+        { }
 
         public Outlet Base
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.POWER_BASE_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.POWER_BASE_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.POWER_BASE_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.POWER_BASE_INDEX).LinkTo(value); }
         }
 
         public Outlet Exponent
         {
-            get { Verify(); return _operator.Inlets[OperatorConstants.POWER_EXPONENT_INDEX].InputOutlet; }
-            set { Verify(); _operator.Inlets[OperatorConstants.POWER_EXPONENT_INDEX].LinkTo(value); }
+            get { return GetInlet(OperatorConstants.POWER_EXPONENT_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.POWER_EXPONENT_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { Verify(); return _operator.Outlets[OperatorConstants.POWER_RESULT_INDEX]; }
+            get { return GetOutlet(OperatorConstants.POWER_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(PowerWrapper wrapper)
         {
             return wrapper.Result;
-        }
-
-        private void Verify()
-        {
-            IValidator validator = new PowerValidator(Operator);
-            validator.Verify();
         }
     }
 }

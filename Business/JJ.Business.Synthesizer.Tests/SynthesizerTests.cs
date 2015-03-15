@@ -83,8 +83,8 @@ namespace JJ.Business.Synthesizer.Tests
 
                 IList<PerformanceResult> results = new PerformanceResult[] 
                 {
-                    //new PerformanceResult { Calculator = new TestOperatorCalculator_WithWrappersAndNullChecks() },
-                    //new PerformanceResult { Calculator = new TestOperatorCalculator_WithWrappersAndNullChecks_MoreOperators(0) },
+                    new PerformanceResult { Calculator = new TestOperatorCalculator_WithWrappersAndNullChecks() },
+                    new PerformanceResult { Calculator = new TestOperatorCalculator_WithWrappersAndNullChecks_MoreOperators(0) },
                     new PerformanceResult { Calculator = new TestOperatorCalculator_WithoutWrappers() },
                     new PerformanceResult { Calculator = new TestOperatorCalculator_WithoutWrappers_MoreOperators(0) },
                     new PerformanceResult { Calculator = new TestOperatorCalculator_WithoutWrappersOrNullChecks() }
