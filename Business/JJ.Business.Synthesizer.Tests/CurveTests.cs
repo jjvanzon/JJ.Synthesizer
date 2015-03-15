@@ -125,10 +125,14 @@ namespace JJ.Business.Synthesizer.Tests
         {
             var curve = new Curve() { Name = "Curve" };
 
-            curve.Nodes.Add(
-                new Node() { Time = 0, Value = 1 },
-                new Node() { Time = 1, Value = 2 },
-                new Node() { Time = 2, Value = 0 });
+            var node1 = new Node() { Time = 0, Value = 1 };
+            node1.LinkTo(curve);
+
+            var node2 = new Node() { Time = 1, Value = 2 };
+            node2.LinkTo(curve);
+
+            var node3 = new Node() { Time = 2, Value = 0 };
+            node3.LinkTo(curve);
 
             return curve;
         }

@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Constants;
+using JJ.Framework.Validation;
+using JJ.Business.Synthesizer.Validation.Entities;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -13,34 +15,42 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     {
         public TimePowerWrapper(Operator op)
             :base(op)
-        { }
+        {
+            Verify();
+        }
 
         public Outlet Signal
         {
-            get { return _operator.Inlets[OperatorConstants.TIME_POWER_SIGNAL_INDEX].InputOutlet; }
-            set { _operator.Inlets[OperatorConstants.TIME_POWER_SIGNAL_INDEX].LinkTo(value); }
+            get { Verify(); return _operator.Inlets[OperatorConstants.TIME_POWER_SIGNAL_INDEX].InputOutlet; }
+            set { Verify(); _operator.Inlets[OperatorConstants.TIME_POWER_SIGNAL_INDEX].LinkTo(value); }
         }
 
         public Outlet Exponent
         {
-            get { return _operator.Inlets[OperatorConstants.TIME_POWER_EXPONENT_INDEX].InputOutlet; }
-            set { _operator.Inlets[OperatorConstants.TIME_POWER_EXPONENT_INDEX].LinkTo(value); }
+            get { Verify(); return _operator.Inlets[OperatorConstants.TIME_POWER_EXPONENT_INDEX].InputOutlet; }
+            set { Verify(); _operator.Inlets[OperatorConstants.TIME_POWER_EXPONENT_INDEX].LinkTo(value); }
         }
 
         public Outlet Origin
         {
-            get { return _operator.Inlets[OperatorConstants.TIME_POWER_ORIGIN_INDEX].InputOutlet; }
-            set { _operator.Inlets[OperatorConstants.TIME_POWER_ORIGIN_INDEX].LinkTo(value); }
+            get { Verify(); return _operator.Inlets[OperatorConstants.TIME_POWER_ORIGIN_INDEX].InputOutlet; }
+            set { Verify(); _operator.Inlets[OperatorConstants.TIME_POWER_ORIGIN_INDEX].LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return _operator.Outlets[OperatorConstants.TIME_POWER_RESULT_INDEX]; }
+            get { Verify(); return _operator.Outlets[OperatorConstants.TIME_POWER_RESULT_INDEX]; }
         }
 
         public static implicit operator Outlet(TimePowerWrapper wrapper)
         {
             return wrapper.Result;
+        }
+
+        private void Verify()
+        {
+            IValidator validator = new TimePowerValidator(Operator);
+            validator.Verify();
         }
     }
 }

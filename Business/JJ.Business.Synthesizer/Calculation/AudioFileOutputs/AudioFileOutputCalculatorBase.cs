@@ -37,6 +37,9 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
+            IValidator validator = new AudioFileOutputValidator(audioFileOutput);
+            validator.Verify();
+
             if (String.IsNullOrEmpty(audioFileOutput.FilePath) &&
                 String.IsNullOrEmpty(filePath))
             {

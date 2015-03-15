@@ -1,7 +1,9 @@
 ﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection;
+using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
@@ -19,6 +21,9 @@ namespace JJ.Business.Synthesizer.Calculation
         {
             if (curve == null) throw new NullException(() => curve);
             _curve = curve;
+
+            IValidator validator = new CurveValidator(_curve);
+            validator.Verify();
         }
 
         public double CalculateValue(double time)

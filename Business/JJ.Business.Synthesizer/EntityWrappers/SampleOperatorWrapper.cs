@@ -1,5 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Constants;
+using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Framework.Reflection;
+using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
@@ -17,22 +19,30 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             if (sampleOperator == null) throw new NullException(() => sampleOperator);
             _sampleOperator = sampleOperator;
+
+            Verify();
         }
 
         public Sample Sample
         {
-            get { return _sampleOperator.Sample; }
-            set { _sampleOperator.Sample = value; }
+            get { Verify(); return _sampleOperator.Sample; }
+            set { Verify(); _sampleOperator.Sample = value; }
         }
 
         public Outlet Result
         {
-            get { return _sampleOperator.Operator.Outlets[OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX]; }
+            get { Verify(); return _sampleOperator.Operator.Outlets[OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX]; }
         }
 
         public static implicit operator Outlet(SampleOperatorWrapper wrapper)
         {
             return wrapper.Result;
+        }
+
+        private void Verify()
+        {
+            IValidator validator = new SampleOperatorValidator(_sampleOperator.Operator);
+            validator.Verify();
         }
     }
 }
