@@ -12,10 +12,11 @@ using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Calculation.Operators.Entities;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Visitors;
 
-namespace JJ.Business.Synthesizer.Visitors
+namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class OperatorCalculatorVisitor : OperatorVisitorBase
+    internal partial class OptimizedOperatorCalculatorVisitor : OperatorVisitorBase
     {
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
@@ -342,50 +343,6 @@ namespace JJ.Business.Synthesizer.Visitors
             else
             {
                 calculator = new TimePowerWithOriginCalculator(signalCalculator, exponentCalculator, originCalculator);
-            }
-
-            _stack.Push(calculator);
-        }
-
-        protected override void VisitAdder(Operator op)
-        {
-            OperatorCalculatorBase calculator;
-
-            List<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>();
-
-            for (int i = 0; i < op.Inlets.Count; i++)
-            {
-                OperatorCalculatorBase operandCalculator =  _stack.Pop();
-
-                if (operandCalculator != null)
-                {
-                    operandCalculators.Add(operandCalculator);
-                }
-            }
-
-            switch (operandCalculators.Count)
-            {
-                case 0:
-                    calculator = new ZeroCalculator();
-                    break;
-
-                case 1:
-                    calculator = operandCalculators[0];
-                    break;
-
-                case 2:
-                    calculator = new AddCalculator(operandCalculators[0], operandCalculators[1]);
-                    break;
-
-                case 3:
-                    calculator = new AdderCalculator3(operandCalculators[0], operandCalculators[1], operandCalculators[2]);
-                    break;
-                    
-                // TODO: Make more adder calculators for different amounts of operands to prevent a loop.
-
-                default:
-                    calculator = new AdderCalculator(operandCalculators.ToArray());
-                    break;
             }
 
             _stack.Push(calculator);

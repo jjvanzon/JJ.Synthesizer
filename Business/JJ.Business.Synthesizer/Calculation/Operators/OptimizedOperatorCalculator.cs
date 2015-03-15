@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
 
-            var visitor = new OperatorCalculatorVisitor();
+            var visitor = new OptimizedOperatorCalculatorVisitor();
             _rootOperatorCalculators = visitor.Execute(channelOutlets).ToArray();
         }
 

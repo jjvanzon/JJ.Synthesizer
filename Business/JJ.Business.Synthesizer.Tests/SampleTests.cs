@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet outlet = x.Sample(sample);
 
                 // Trigger SampleCalculation
-                IOperatorCalculator calculator = new InterpretedOperatorCalculator(0, outlet);
+                IOperatorCalculator calculator = new InterpretedOperatorCalculator(outlet);
                 double value = calculator.Calculate(0, 0);
             }
         }

@@ -24,8 +24,6 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
     /// </summary>
     internal abstract class AudioFileOutputCalculatorBase : IAudioFileOutputCalculator
     {
-        private const bool IS_OPTIMIZED = true;
-
         private string _filePath;
         private AudioFileOutput _audioFileOutput;
 
@@ -57,16 +55,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             _operatorCalculators = new IOperatorCalculator[channelCount];
             for (int i = 0; i < channelCount; i++)
             {
-                IOperatorCalculator operatorCalculator;
-                if (IS_OPTIMIZED)
-                {
-                    operatorCalculator = new OptimizedOperatorCalculator(_outlets);
-                }
-                else
-                {
-                    operatorCalculator = new InterpretedOperatorCalculator(i, _outlets[i]);
-                }
-                
+                IOperatorCalculator operatorCalculator = new OptimizedOperatorCalculator(_outlets);
                 _operatorCalculators[i] = operatorCalculator;
             }
         }

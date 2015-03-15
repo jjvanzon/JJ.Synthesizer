@@ -19,28 +19,34 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     public class InterpretedOperatorCalculator : IOperatorCalculator
     {
+        /// <summary>
+        /// Is set in the Calculate method
+        /// and used in other methods.
+        /// </summary>
         private int _channelIndex;
 
-        /// <summary>
-        /// Temporary to fake the same interface.
-        /// </summary>
-        private Outlet _channelOutlet;
+        private Outlet[] _channelOutlets;
 
-        private IDictionary<string, Func<Operator, double, double>> _funcDictionary;
+        private Dictionary<string, Func<Operator, double, double>> _funcDictionary;
 
-        private IDictionary<int, ISampleCalculator> _sampleCalculatorDictionary =
-             new Dictionary<int, ISampleCalculator>();
+        private Dictionary<int, ISampleCalculator> _sampleCalculatorDictionary =
+            new Dictionary<int, ISampleCalculator>();
 
-        public InterpretedOperatorCalculator(int channelIndex, Outlet channelOutlet)
+        public InterpretedOperatorCalculator(params Outlet[] channelOutlets)
+            : this((IList<Outlet>)channelOutlets)
+        { }
+
+        public InterpretedOperatorCalculator(IList<Outlet> channelOutlets)
         {
-            if (channelOutlet == null) throw new NullException(() => channelOutlet);
-            if (channelIndex < 0) throw new Exception("channelIndex must a positive number.");
+            if (channelOutlets == null) throw new NullException(() => channelOutlets);
 
-            _channelOutlet = channelOutlet;
-            _channelIndex = channelIndex;
+            foreach (Outlet channelOutlet in channelOutlets)
+            {
+                IValidator validator = new RecursiveOperatorValidator(channelOutlet.Operator);
+                validator.Verify();
+            }
 
-            IValidator validator = new RecursiveOperatorValidator(channelOutlet.Operator);
-            validator.Verify();
+            _channelOutlets = channelOutlets.ToArray();
 
             _funcDictionary = new Dictionary<string, Func<Operator, double, double>>
             {
@@ -67,7 +73,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public double Calculate(double time, int channelIndex)
         {
             _channelIndex = channelIndex;
-            return Calculate(_channelOutlet, time);
+            return Calculate(_channelOutlets[_channelIndex], time);
         }
 
         public double Calculate(Outlet outlet, double time)
@@ -380,7 +386,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
         }
 
-        private IDictionary<int, Outlet[]> _adderOperandsDictionary = new Dictionary<int, Outlet[]>();
+        private Dictionary<int, Outlet[]> _adderOperandsDictionary = new Dictionary<int, Outlet[]>();
 
         private double CalculateAdder(Operator op, double time)
         {

@@ -27,7 +27,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
             _originCalculator = originCalculator;
         }
 
-
         public override double Calculate(double time, int channelIndex)
         {
             double origin = _denominatorCalculator.Calculate(time, channelIndex);

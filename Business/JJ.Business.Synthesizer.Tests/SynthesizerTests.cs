@@ -163,7 +163,7 @@ namespace JJ.Business.Synthesizer.Tests
                 IValidator validator = new AdderValidator(adder.Operator);
                 validator.Verify();
 
-                var calculator = new InterpretedOperatorCalculator(0, adder);
+                var calculator = new InterpretedOperatorCalculator(adder);
                 double value = calculator.Calculate(0, 0);
 
                 adder.Operator.Inlets[0].Name = "qwer";
@@ -194,7 +194,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_SineWithCurve()
+        public void Test_Synthesizer_SineWithCurve_InterpretedMode()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -213,7 +213,7 @@ namespace JJ.Business.Synthesizer.Tests
                 };
                 validators.ForEach(x => x.Verify());
 
-                InterpretedOperatorCalculator calculator = new InterpretedOperatorCalculator(0, sine);
+                InterpretedOperatorCalculator calculator = new InterpretedOperatorCalculator(sine);
                 var values = new double[]
                 {
                     calculator.Calculate(sine, 0.00),

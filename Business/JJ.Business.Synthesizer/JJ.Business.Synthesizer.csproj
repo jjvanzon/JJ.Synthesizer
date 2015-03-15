@@ -40,7 +40,12 @@
     <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\AddCalculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\AdderCalculatorClasses.cs" />
+    <Compile Include="Calculation\Operators\Entities\AdderCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\AdderCalculators.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AdderCalculators.tt</DependentUpon>
+    </Compile>
     <Compile Include="Calculation\Operators\IOperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\TimeDivideWithOriginCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\TimeDivideWithoutOriginCalculator.cs" />
@@ -67,6 +72,11 @@
     <Compile Include="Calculation\Operators\Entities\TimePowerWithOriginCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\TimeSubstractCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\ValueCalculator.cs" />
+    <Compile Include="Calculation\Operators\OptimizedOperatorCalculatorVisitor.VisitAdder.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>OptimizedOperatorCalculatorVisitor.VisitAdder.tt</DependentUpon>
+    </Compile>
     <Compile Include="Calculation\Samples\BlockInterpolation_SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\Byte_BlockInterpolation_SampleCalculator.cs" />
     <Compile Include="Calculation\CurveCalculator.cs" />
@@ -133,7 +143,7 @@
     <Compile Include="Validation\Entities\AudioFileOutputValidator.cs" />
     <Compile Include="Validation\NonSpecializedOperatorValidatorBase.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
-    <Compile Include="Visitors\OperatorCalculatorVisitor.cs" />
+    <Compile Include="Calculation\Operators\OptimizedOperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\OperatorVisitorBase.cs" />
     <Compile Include="Calculation\Operators\Entities\TimeMultiplyWithoutOriginCalculator.cs" />
     <Compile Include="Warnings\Entities\AudioFileOutputChannelWarningValidator.cs" />
@@ -250,7 +260,19 @@
       <LastGenOutput>PropertyDisplayNames.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Calculation\Operators\Entities\AdderCalculators.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AdderCalculators.cs</LastGenOutput>
+    </None>
+    <None Include="Calculation\Operators\OptimizedOperatorCalculatorVisitor.VisitAdder.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>OptimizedOperatorCalculatorVisitor.VisitAdder.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
