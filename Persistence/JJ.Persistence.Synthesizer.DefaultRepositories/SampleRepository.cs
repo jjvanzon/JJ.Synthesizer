@@ -13,5 +13,15 @@ namespace JJ.Persistence.Synthesizer.DefaultRepositories
         public SampleRepository(IContext context)
             : base(context)
         { }
+
+        public virtual void SetBinary(int id, byte[] bytes)
+        {
+            throw new NotSupportedException("Binary can only be accessed using a specialized repository.");
+        }
+
+        public virtual byte[] GetBinary(int id)
+        {
+            throw new NotSupportedException("Binary can only be accessed using a specialized repository.");
+        }
     }
 }

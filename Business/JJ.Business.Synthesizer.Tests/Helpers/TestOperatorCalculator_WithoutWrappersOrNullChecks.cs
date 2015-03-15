@@ -42,31 +42,31 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private double CalculateAdd(Operator op, double time)
         {
-            double a = CalculateValue(op.Inlets[0].Input, time);
-            double b = CalculateValue(op.Inlets[1].Input, time);
+            double a = CalculateValue(op.Inlets[0].InputOutlet, time);
+            double b = CalculateValue(op.Inlets[1].InputOutlet, time);
             return a + b;
         }
 
         private double CalculateSubstract(Operator op, double time)
         {
-            double a = CalculateValue(op.Inlets[0].Input, time);
-            double b = CalculateValue(op.Inlets[1].Input, time);
+            double a = CalculateValue(op.Inlets[0].InputOutlet, time);
+            double b = CalculateValue(op.Inlets[1].InputOutlet, time);
             return a - b;
         }
 
         private double CalculateMultiply(Operator op, double time)
         {
-            if (op.Inlets[2].Input == null)
+            if (op.Inlets[2].InputOutlet == null)
             {
-                double a = CalculateValue(op.Inlets[0].Input, time);
-                double b = CalculateValue(op.Inlets[1].Input, time);
+                double a = CalculateValue(op.Inlets[0].InputOutlet, time);
+                double b = CalculateValue(op.Inlets[1].InputOutlet, time);
                 return a * b;
             }
             else
             {
-                double origin = CalculateValue(op.Inlets[2].Input, time);
-                double a = CalculateValue(op.Inlets[0].Input, time);
-                double b = CalculateValue(op.Inlets[1].Input, time);
+                double origin = CalculateValue(op.Inlets[2].InputOutlet, time);
+                double a = CalculateValue(op.Inlets[0].InputOutlet, time);
+                double b = CalculateValue(op.Inlets[1].InputOutlet, time);
                 return (a - origin) * b + origin;
             }
         }

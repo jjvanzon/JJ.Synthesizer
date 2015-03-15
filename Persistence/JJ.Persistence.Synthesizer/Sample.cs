@@ -10,7 +10,6 @@ namespace JJ.Persistence.Synthesizer
     {
         public Sample ()
 	    {
-            //SampleChannels = new List<SampleChannel>();
             SampleOperators = new List<SampleOperator>();
 	    }
 
@@ -27,7 +26,7 @@ namespace JJ.Persistence.Synthesizer
         public virtual int BytesToSkip { get; set; }
 
         /// <summary>
-        /// E.g. the file path.
+        /// Optional. E.g. the file path.
         /// </summary>
         public virtual string Location { get; set; }
 
@@ -43,9 +42,8 @@ namespace JJ.Persistence.Synthesizer
         /// <summary> not nullable </summary>
         public virtual InterpolationType InterpolationType { get; set; }
 
-        //public virtual IList<SampleChannel> SampleChannels { get; set; }
         public virtual IList<SampleOperator> SampleOperators { get; set; }
 
-        public byte[] Bytes { get; set; }
+        public virtual byte[] Bytes { get; set; }
     }
 }

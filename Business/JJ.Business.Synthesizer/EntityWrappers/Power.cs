@@ -20,13 +20,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Base
         {
-            get { return _operator.Inlets[BASE_INDEX].Input; }
+            get { return _operator.Inlets[BASE_INDEX].InputOutlet; }
             set { _operator.Inlets[BASE_INDEX].LinkTo(value); }
         }
 
         public Outlet Exponent
         {
-            get { return _operator.Inlets[EXPONENT_INDEX].Input; }
+            get { return _operator.Inlets[EXPONENT_INDEX].InputOutlet; }
             set { _operator.Inlets[EXPONENT_INDEX].LinkTo(value); }
         }
 

@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Curve_Off()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 INodeTypeRepository nodeTypeRepository = PersistenceHelper.CreateRepository<INodeTypeRepository>(context);
 
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Curve_Block()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 INodeTypeRepository nodeTypeRepository = PersistenceHelper.CreateRepository<INodeTypeRepository>(context);
 
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Curve_Line()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 INodeTypeRepository nodeTypeRepository = PersistenceHelper.CreateRepository<INodeTypeRepository>(context);
 
@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Curve_MixedNodeTypes()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
                 INodeRepository nodeRepository = PersistenceHelper.CreateRepository<INodeRepository>(context);

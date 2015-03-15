@@ -22,25 +22,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Volume
         {
-            get { return _operator.Inlets[VOLUME_INDEX].Input; }
+            get { return _operator.Inlets[VOLUME_INDEX].InputOutlet; }
             set { _operator.Inlets[VOLUME_INDEX].LinkTo(value); }
         }
 
         public Outlet Pitch
         {
-            get { return _operator.Inlets[PITCH_INDEX].Input; }
+            get { return _operator.Inlets[PITCH_INDEX].InputOutlet; }
             set { _operator.Inlets[PITCH_INDEX].LinkTo(value); }
         }
 
         public Outlet Level
         {
-            get { return _operator.Inlets[LEVEL_INDEX].Input; }
+            get { return _operator.Inlets[LEVEL_INDEX].InputOutlet; }
             set { _operator.Inlets[LEVEL_INDEX].LinkTo(value); }
         }
 
         public Outlet PhaseStart
         {
-            get { return _operator.Inlets[PHASE_START_INDEX].Input; }
+            get { return _operator.Inlets[PHASE_START_INDEX].InputOutlet; }
             set { _operator.Inlets[PHASE_START_INDEX].LinkTo(value); }
         }
 

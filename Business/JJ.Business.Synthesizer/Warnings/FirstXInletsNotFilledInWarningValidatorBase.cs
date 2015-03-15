@@ -30,9 +30,9 @@ namespace JJ.Business.Synthesizer.Warnings
             int i = 0;
             foreach (Inlet inlet in Object.Inlets.Take(_inletCount))
             {
-                if (inlet.Input == null)
+                if (inlet.InputOutlet == null)
                 {
-                    ValidationMessages.Add(() => Object.Inlets[i].Input, MessagesFormatter.InletNotSet(Object.OperatorTypeName, Object.Name, inlet.Name));
+                    ValidationMessages.Add(() => Object.Inlets[i].InputOutlet, MessagesFormatter.InletNotSet(Object.OperatorTypeName, Object.Name, inlet.Name));
                 }
                 i++;
             }

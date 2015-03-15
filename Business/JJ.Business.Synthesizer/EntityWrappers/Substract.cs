@@ -21,13 +21,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet OperandA
         {
-            get { return _operator.Inlets[OPERAND_A_INDEX].Input; }
+            get { return _operator.Inlets[OPERAND_A_INDEX].InputOutlet; }
             set { _operator.Inlets[OPERAND_A_INDEX].LinkTo(value); }
         }
 
         public Outlet OperandB
         {
-            get { return _operator.Inlets[OPERAND_B_INDEX].Input; }
+            get { return _operator.Inlets[OPERAND_B_INDEX].InputOutlet; }
             set { _operator.Inlets[OPERAND_B_INDEX].LinkTo(value); }
         }
 

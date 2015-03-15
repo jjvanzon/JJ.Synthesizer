@@ -16,7 +16,7 @@ namespace JJ.Persistence.Synthesizer
 
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
-        public IList<Node> Nodes { get; set; }
-        public IList<CurveIn> CurvesIn { get; set; }
+        public virtual IList<Node> Nodes { get; set; }
+        public virtual IList<CurveIn> CurvesIn { get; set; }
     }
 }

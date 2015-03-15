@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_Sample()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 Stream stream = TestHelper.GetViolin16BitMonoRawStream();
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_Sample_WithWavHeader()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
 
@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Sample_WavHeaderDetection()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
 

@@ -481,7 +481,7 @@ namespace JJ.Business.Synthesizer.Visitors
         /// </summary>
         protected override void VisitInlet(Inlet inlet)
         {
-            if (inlet.Input == null)
+            if (inlet.InputOutlet == null)
             {
                 _stack.Push(null);
             }

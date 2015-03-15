@@ -13,6 +13,7 @@ namespace JJ.Persistence.Synthesizer
         /// <summary> base </summary>
         public virtual Operator Operator { get; set; }
 
+        /// <summary> nullable </summary>
         public virtual Curve Curve { get; set; }
     }
 }

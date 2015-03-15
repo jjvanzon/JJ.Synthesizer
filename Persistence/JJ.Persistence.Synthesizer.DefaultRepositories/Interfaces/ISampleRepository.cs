@@ -9,5 +9,8 @@ using System.Text;
 namespace JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces
 {
     public interface ISampleRepository : IRepository<Sample, int>
-    { }
+    {
+        void SetBinary(int id, byte[] bytes);
+        byte[] GetBinary(int id);
+    }
 }

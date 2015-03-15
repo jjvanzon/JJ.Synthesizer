@@ -17,12 +17,12 @@ namespace JJ.Persistence.Synthesizer
         }
 
         public virtual int ID { get; set; }
+        public virtual string Name { get; set; }
 
         /// <summary> parent </summary>
         public virtual Operator Operator { get; set; }
-        public virtual string Name { get; set; }
-        public virtual IList<Inlet> ConnectedInlets { get; set; }
 
+        public virtual IList<Inlet> ConnectedInlets { get; set; }
         public virtual IList<AudioFileOutputChannel> AsAudioFileOutputChannels { get; set; }
 
         private string DebuggerDisplay

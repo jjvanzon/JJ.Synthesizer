@@ -21,19 +21,19 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet OperandA
         {
-            get { return _operator.Inlets[OPERAND_A_INDEX].Input; }
+            get { return _operator.Inlets[OPERAND_A_INDEX].InputOutlet; }
             set { _operator.Inlets[OPERAND_A_INDEX].LinkTo(value); }
         }
 
         public Outlet OperandB
         {
-            get { return _operator.Inlets[OPERAND_B_INDEX].Input; }
+            get { return _operator.Inlets[OPERAND_B_INDEX].InputOutlet; }
             set { _operator.Inlets[OPERAND_B_INDEX].LinkTo(value); }
         }
 
         public Outlet Origin
         {
-            get { return _operator.Inlets[ORIGIN_INDEX].Input; }
+            get { return _operator.Inlets[ORIGIN_INDEX].InputOutlet; }
             set { _operator.Inlets[ORIGIN_INDEX].LinkTo(value); }
         }
 

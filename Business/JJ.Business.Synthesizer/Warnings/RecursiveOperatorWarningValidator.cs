@@ -30,9 +30,9 @@ namespace JJ.Business.Synthesizer.Warnings
             
             foreach (Inlet inlet in Object.Inlets)
             {
-                if (inlet.Input != null)
+                if (inlet.InputOutlet != null)
                 {
-                    Execute(new RecursiveOperatorWarningValidator(inlet.Input.Operator, _alreadyDone));
+                    Execute(new RecursiveOperatorWarningValidator(inlet.InputOutlet.Operator, _alreadyDone));
                 }
             }
         }

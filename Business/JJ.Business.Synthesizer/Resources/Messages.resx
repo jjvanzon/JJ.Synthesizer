@@ -120,7 +120,7 @@
   <data name="ChannelCountDoesNotMatchSpeakerSetup" xml:space="preserve">
     <value>Channel count does not match speaker setup.</value>
   </data>
-  <data name="ChannelIndexDoesNotMatchSpeakerSetup" xml:space="preserve">
+  <data name="ChannelIndexNumberDoesNotMatchSpeakerSetup" xml:space="preserve">
     <value>Channel number does not match speaker setup.</value>
   </data>
   <data name="InletNotSet" xml:space="preserve">

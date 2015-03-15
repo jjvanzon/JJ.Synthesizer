@@ -89,8 +89,8 @@ namespace JJ.Business.Synthesizer.Managers
 
             IList<AudioFileOutputChannel> entitiesToKeep = new List<AudioFileOutputChannel>(audioFileOutput.AudioFileOutputChannels.Count);
 
-            IList<AudioFileOutputChannel> sortedExistingAudioFileOutputChannels = audioFileOutput.AudioFileOutputChannels.OrderBy(x => x.Index).ToArray();
-            IList<Channel> sortedChannels = speakerSetup.SpeakerSetupChannels.OrderBy(x => x.Index).Select(x => x.Channel).ToArray();
+            IList<AudioFileOutputChannel> sortedExistingAudioFileOutputChannels = audioFileOutput.AudioFileOutputChannels.OrderBy(x => x.IndexNumber).ToArray();
+            IList<Channel> sortedChannels = speakerSetup.SpeakerSetupChannels.OrderBy(x => x.IndexNumber).Select(x => x.Channel).ToArray();
 
             for (int i = 0; i < sortedChannels.Count; i++)
             {
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Managers
                     audioFileOutputChannel = _audioFileOutputChannelRepository.Create();
                     audioFileOutputChannel.LinkTo(audioFileOutput);
                 }
-                audioFileOutputChannel.Index = channel.Index;
+                audioFileOutputChannel.IndexNumber = channel.IndexNumber;
 
                 entitiesToKeep.Add(audioFileOutputChannel);
             }

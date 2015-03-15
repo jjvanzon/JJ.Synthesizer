@@ -1,0 +1,1 @@
+﻿select s.Binary from Sample s where s.ID = @id

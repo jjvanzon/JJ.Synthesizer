@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                 IList<Outlet> operands = new Outlet[_operator.Inlets.Count];
                 for (int i = 0; i < _operator.Inlets.Count; i++)
                 {
-                    operands[i] = _operator.Inlets[i].Input;
+                    operands[i] = _operator.Inlets[i].InputOutlet;
                 }
                 return operands;
             }

@@ -32,9 +32,9 @@ namespace JJ.Business.Synthesizer.Validation
             
             foreach (Inlet inlet in Object.Inlets)
             {
-                if (inlet.Input != null)
+                if (inlet.InputOutlet != null)
                 {
-                    Execute(new RecursiveOperatorValidator(inlet.Input.Operator, _alreadyDone));
+                    Execute(new RecursiveOperatorValidator(inlet.InputOutlet.Operator, _alreadyDone));
                 }
             }
         }

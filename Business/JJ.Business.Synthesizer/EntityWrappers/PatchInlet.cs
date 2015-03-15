@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Input
         {
-            get { return _operator.Inlets[INPUT_INDEX].Input; }
+            get { return _operator.Inlets[INPUT_INDEX].InputOutlet; }
             set { _operator.Inlets[INPUT_INDEX].LinkTo(value); }
         }
 

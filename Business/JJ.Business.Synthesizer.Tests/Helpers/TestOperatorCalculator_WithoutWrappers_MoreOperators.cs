@@ -62,8 +62,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private double CalculateAdd(Operator op, double time)
         {
-            Outlet operandAOutlet = op.Inlets[Add.OPERAND_A_INDEX].Input;
-            Outlet operandBOutlet = op.Inlets[Add.OPERAND_B_INDEX].Input;
+            Outlet operandAOutlet = op.Inlets[Add.OPERAND_A_INDEX].InputOutlet;
+            Outlet operandBOutlet = op.Inlets[Add.OPERAND_B_INDEX].InputOutlet;
 
             if (operandAOutlet == null || operandBOutlet == null) return 0;
 
@@ -102,9 +102,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private double CalculateDivide(Operator op, double time)
         {
-            Outlet originOutlet = op.Inlets[Divide.ORIGIN_INDEX].Input;
-            Outlet numeratorOutlet = op.Inlets[Divide.NUMERATOR_INDEX].Input;
-            Outlet denominatorOutlet = op.Inlets[Divide.DENOMINATOR_INDEX].Input;
+            Outlet originOutlet = op.Inlets[Divide.ORIGIN_INDEX].InputOutlet;
+            Outlet numeratorOutlet = op.Inlets[Divide.NUMERATOR_INDEX].InputOutlet;
+            Outlet denominatorOutlet = op.Inlets[Divide.DENOMINATOR_INDEX].InputOutlet;
 
             // Without Origin
             if (originOutlet == null)
@@ -139,9 +139,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private double CalculateMultiply(Operator op, double time)
         {
-            Outlet originOutlet = op.Inlets[Multiply.ORIGIN_INDEX].Input;
-            Outlet operandAOutlet = op.Inlets[Multiply.OPERAND_A_INDEX].Input;
-            Outlet operandBOutlet = op.Inlets[Multiply.OPERAND_B_INDEX].Input;
+            Outlet originOutlet = op.Inlets[Multiply.ORIGIN_INDEX].InputOutlet;
+            Outlet operandAOutlet = op.Inlets[Multiply.OPERAND_A_INDEX].InputOutlet;
+            Outlet operandBOutlet = op.Inlets[Multiply.OPERAND_B_INDEX].InputOutlet;
 
             if (originOutlet == null)
             {
@@ -165,7 +165,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private double CalculatePatchInlet(Operator op, double time)
         {
-            Outlet inputOutlet = op.Inlets[PatchInlet.INPUT_INDEX].Input;
+            Outlet inputOutlet = op.Inlets[PatchInlet.INPUT_INDEX].InputOutlet;
 
             if (inputOutlet == null) return 0;
 
@@ -174,7 +174,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private double CalculatePatchOutlet(Operator op, double time)
         {
-            Outlet inputOutlet = op.Inlets[PatchOutlet.INPUT_INDEX].Input;
+            Outlet inputOutlet = op.Inlets[PatchOutlet.INPUT_INDEX].InputOutlet;
 
             if (inputOutlet == null) return 0;
 
@@ -183,8 +183,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private double CalculatePower(Operator op, double time)
         {
-            Outlet baseOutlet = op.Inlets[Power.BASE_INDEX].Input;
-            Outlet exponentOutlet = op.Inlets[Power.EXPONENT_INDEX].Input;
+            Outlet baseOutlet = op.Inlets[Power.BASE_INDEX].InputOutlet;
+            Outlet exponentOutlet = op.Inlets[Power.EXPONENT_INDEX].InputOutlet;
 
             if (baseOutlet == null || exponentOutlet == null) return 0;
 
@@ -196,13 +196,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private double CalculateSine(Operator op, double time)
         {
-            Outlet volumeOutlet = op.Inlets[Sine.VOLUME_INDEX].Input;
-            Outlet pitchOutlet = op.Inlets[Sine.PITCH_INDEX].Input;
+            Outlet volumeOutlet = op.Inlets[Sine.VOLUME_INDEX].InputOutlet;
+            Outlet pitchOutlet = op.Inlets[Sine.PITCH_INDEX].InputOutlet;
 
             if (volumeOutlet == null || pitchOutlet == null) return 0;
 
-            Outlet levelOutlet = op.Inlets[Sine.LEVEL_INDEX].Input;
-            Outlet phaseStartOutlet = op.Inlets[Sine.PHASE_START_INDEX].Input;
+            Outlet levelOutlet = op.Inlets[Sine.LEVEL_INDEX].InputOutlet;
+            Outlet phaseStartOutlet = op.Inlets[Sine.PHASE_START_INDEX].InputOutlet;
 
             double volume = CalculateValue(volumeOutlet, time);
             double pitch = CalculateValue(pitchOutlet, time);
@@ -221,8 +221,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private double CalculateSubstract(Operator op, double time)
         {
-            Outlet operandAOutlet = op.Inlets[Substract.OPERAND_A_INDEX].Input;
-            Outlet operandBOutlet = op.Inlets[Substract.OPERAND_B_INDEX].Input;
+            Outlet operandAOutlet = op.Inlets[Substract.OPERAND_A_INDEX].InputOutlet;
+            Outlet operandBOutlet = op.Inlets[Substract.OPERAND_B_INDEX].InputOutlet;
 
             if (operandAOutlet == null || operandBOutlet == null) return 0;
 
@@ -234,10 +234,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private double CalculateTimeAdd(Operator op, double time)
         {
-            Outlet signalOutlet = op.Inlets[TimeAdd.SIGNAL_INDEX].Input;
+            Outlet signalOutlet = op.Inlets[TimeAdd.SIGNAL_INDEX].InputOutlet;
             if (signalOutlet == null) return 0;
 
-            Outlet timeDifferenceOutlet = op.Inlets[TimeAdd.TIME_DIFFERENCE_INDEX].Input;
+            Outlet timeDifferenceOutlet = op.Inlets[TimeAdd.TIME_DIFFERENCE_INDEX].InputOutlet;
             if (timeDifferenceOutlet == null)
             {
                 double result = CalculateValue(signalOutlet, time);
@@ -254,7 +254,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private double CalculateTimeDivide(Operator op, double time)
         {
             // Determine origin
-            Outlet originOutlet = op.Inlets[TimeDivide.ORIGIN_INDEX].Input;
+            Outlet originOutlet = op.Inlets[TimeDivide.ORIGIN_INDEX].InputOutlet;
             double origin = 0;
             if (originOutlet != null)
             {
@@ -262,14 +262,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             }
 
             // No signal? Exit with default (the origin).
-            Outlet signalOutlet = op.Inlets[TimeDivide.SIGNAL_INDEX].Input;
+            Outlet signalOutlet = op.Inlets[TimeDivide.SIGNAL_INDEX].InputOutlet;
             if (signalOutlet == null)
             {
                 return origin;
             }
 
             // No time divider? Just pass through signal.
-            Outlet timeDividerOutlet = op.Inlets[TimeDivide.TIME_DIVIDER_INDEX].Input;
+            Outlet timeDividerOutlet = op.Inlets[TimeDivide.TIME_DIVIDER_INDEX].InputOutlet;
             if (timeDividerOutlet == null)
             {
                 double result = CalculateValue(signalOutlet, time);
@@ -306,7 +306,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private double CalculateTimeMultiply(Operator op, double time)
         {
             // Determine origin
-            Outlet originOutlet = op.Inlets[TimeMultiply.ORIGIN_INDEX].Input;
+            Outlet originOutlet = op.Inlets[TimeMultiply.ORIGIN_INDEX].InputOutlet;
             double origin = 0;
             if (originOutlet != null)
             {
@@ -314,14 +314,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             }
 
             // No signal? Exit with default (the origin).
-            Outlet signalOutlet = op.Inlets[TimeMultiply.SIGNAL_INDEX].Input;
+            Outlet signalOutlet = op.Inlets[TimeMultiply.SIGNAL_INDEX].InputOutlet;
             if (signalOutlet == null)
             {
                 return origin;
             }
 
             // No time multiplier? Just pass through signal.
-            Outlet timeMultiplierOutlet = op.Inlets[TimeMultiply.TIME_MULTIPLIER_INDEX].Input;
+            Outlet timeMultiplierOutlet = op.Inlets[TimeMultiply.TIME_MULTIPLIER_INDEX].InputOutlet;
             if (timeMultiplierOutlet == null)
             {
                 double result = CalculateValue(signalOutlet, time);
@@ -357,13 +357,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private double CalculateTimePower(Operator op, double time)
         {
-            Outlet signalOutlet = op.Inlets[TimePower.SIGNAL_INDEX].Input;
+            Outlet signalOutlet = op.Inlets[TimePower.SIGNAL_INDEX].InputOutlet;
             if (signalOutlet == null)
             {
                 return 0;
             }
 
-            Outlet exponentOutlet = op.Inlets[TimePower.EXPONENT_INDEX].Input;
+            Outlet exponentOutlet = op.Inlets[TimePower.EXPONENT_INDEX].InputOutlet;
             if (exponentOutlet == null)
             {
                 return CalculateValue(signalOutlet, time);
@@ -378,7 +378,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             // Time can be negative, that is why the sign is taken off the time 
             // before taking the power and then added to it again after taking the power.
 
-            Outlet originOutlet = op.Inlets[TimePower.ORIGIN_INDEX].Input;
+            Outlet originOutlet = op.Inlets[TimePower.ORIGIN_INDEX].InputOutlet;
             if (originOutlet == null)
             {
                 // (time: -4, exponent: 2) => -1 * Pow(4, 1/2)
@@ -410,10 +410,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         private double CalculateTimeSubstract(Operator op, double time)
         {
-            Outlet signalOutlet = op.Inlets[TimeSubstract.SIGNAL_INDEX].Input;
+            Outlet signalOutlet = op.Inlets[TimeSubstract.SIGNAL_INDEX].InputOutlet;
             if (signalOutlet == null) return 0;
 
-            Outlet timeDifferenceOutlet = op.Inlets[TimeSubstract.TIME_DIFFERENCE_INDEX].Input;
+            Outlet timeDifferenceOutlet = op.Inlets[TimeSubstract.TIME_DIFFERENCE_INDEX].InputOutlet;
             if (timeDifferenceOutlet == null)
             {
                 double result = CalculateValue(signalOutlet, time);

@@ -59,7 +59,7 @@ namespace JJ.Business.Synthesizer.Visitors
 
         protected virtual void VisitInlet(Inlet inlet)
         {
-            Outlet outlet = inlet.Input;
+            Outlet outlet = inlet.InputOutlet;
 
             if (outlet != null)
             {

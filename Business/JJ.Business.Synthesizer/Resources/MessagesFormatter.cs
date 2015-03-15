@@ -48,9 +48,9 @@ namespace JJ.Business.Synthesizer.Resources
             return Messages.ChannelCountDoesNotMatchSpeakerSetup;
         }
 
-        public static string ChannelIndexDoesNotMatchSpeakerSetup()
+        public static string ChannelIndexNumberDoesNotMatchSpeakerSetup()
         {
-            return Messages.ChannelIndexDoesNotMatchSpeakerSetup;
+            return Messages.ChannelIndexNumberDoesNotMatchSpeakerSetup;
         }
     }
 }

@@ -49,8 +49,8 @@ namespace JJ.Business.Synthesizer.Validation.Entities
                     ValidationMessages.Add(() => audioFileOutput.AudioFileOutputChannels.Count, MessagesFormatter.ChannelCountDoesNotMatchSpeakerSetup());
                 }
 
-                IList<AudioFileOutputChannel> sortedAudioFileOutputChannels = audioFileOutput.AudioFileOutputChannels.OrderBy(x => x.Index).ToArray();
-                IList<SpeakerSetupChannel> sortedSpeakerSetupChannels = audioFileOutput.SpeakerSetup.SpeakerSetupChannels.OrderBy(x => x.Channel.Index).ToArray();
+                IList<AudioFileOutputChannel> sortedAudioFileOutputChannels = audioFileOutput.AudioFileOutputChannels.OrderBy(x => x.IndexNumber).ToArray();
+                IList<SpeakerSetupChannel> sortedSpeakerSetupChannels = audioFileOutput.SpeakerSetup.SpeakerSetupChannels.OrderBy(x => x.Channel.IndexNumber).ToArray();
 
                 if (sortedAudioFileOutputChannels.Count == sortedSpeakerSetupChannels.Count)
                 {
@@ -59,11 +59,11 @@ namespace JJ.Business.Synthesizer.Validation.Entities
                         AudioFileOutputChannel audioFileOutputChannel = sortedAudioFileOutputChannels[i];
                         SpeakerSetupChannel speakerSetupChannel = sortedSpeakerSetupChannels[i];
 
-                        if (audioFileOutputChannel.Index != speakerSetupChannel.Index)
+                        if (audioFileOutputChannel.IndexNumber != speakerSetupChannel.IndexNumber)
                         {
                             string messageHeading = String.Format("{0} {1}: ", PropertyDisplayNames.Channel, i + 1);
 
-                            ValidationMessages.Add(() => audioFileOutputChannel.Index, messageHeading + MessagesFormatter.ChannelIndexDoesNotMatchSpeakerSetup());
+                            ValidationMessages.Add(() => audioFileOutputChannel.IndexNumber, messageHeading + MessagesFormatter.ChannelIndexNumberDoesNotMatchSpeakerSetup());
                         }
                     }
                 }

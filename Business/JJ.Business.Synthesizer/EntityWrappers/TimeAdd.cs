@@ -20,13 +20,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return _operator.Inlets[SIGNAL_INDEX].Input; }
+            get { return _operator.Inlets[SIGNAL_INDEX].InputOutlet; }
             set { _operator.Inlets[SIGNAL_INDEX].LinkTo(value); }
         }
 
         public Outlet TimeDifference
         {
-            get { return _operator.Inlets[TIME_DIFFERENCE_INDEX].Input; }
+            get { return _operator.Inlets[TIME_DIFFERENCE_INDEX].InputOutlet; }
             set { _operator.Inlets[TIME_DIFFERENCE_INDEX].LinkTo(value); }
         }
 

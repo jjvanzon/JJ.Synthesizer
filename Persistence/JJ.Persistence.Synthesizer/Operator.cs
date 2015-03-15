@@ -17,10 +17,8 @@ namespace JJ.Persistence.Synthesizer
         }
 
         public virtual int ID { get; set; }
-        public virtual string OperatorTypeName { get; set; }
         public virtual string Name { get; set; }
-        public virtual IList<Inlet> Inlets { get; set; }
-        public virtual IList<Outlet> Outlets { get; set; }
+        public virtual string OperatorTypeName { get; set; }
 
         /// <summary> parent </summary>
         public virtual Patch Patch { get; set; }
@@ -29,6 +27,9 @@ namespace JJ.Persistence.Synthesizer
         public virtual CurveIn AsCurveIn { get; set; }
         public virtual SampleOperator AsSampleOperator { get; set; }
         public virtual ValueOperator AsValueOperator { get; set; }
+
+        public virtual IList<Inlet> Inlets { get; set; }
+        public virtual IList<Outlet> Outlets { get; set; }
 
         private string DebuggerDisplay
         {

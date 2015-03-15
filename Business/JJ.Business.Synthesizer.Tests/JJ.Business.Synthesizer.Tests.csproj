@@ -35,6 +35,27 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\..\External Components\NHibernate\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\..\External Components\NHibernate\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentNHibernate, Version=1.2.0.712, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\External Components\NHibernate\FluentNHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=1.0.1.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\External Components\NHibernate\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate, Version=3.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\External Components\NHibernate\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle">
+      <HintPath>..\..\External Components\NHibernate\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -52,6 +73,7 @@
   <ItemGroup>
     <Compile Include="Accessors\OperatorCalculatorBase_Accessor.cs" />
     <Compile Include="Accessors\OperatorCalculatorNew_Accessor.cs" />
+    <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\HardCodedOperatorCalculator.cs" />
     <Compile Include="Helpers\TestOperatorCalculator_WithWrappersAndNullChecks_MoreOperators.cs" />
@@ -63,6 +85,7 @@
     <Compile Include="Helpers\TestOperatorCalculator_WithoutWrappers.cs" />
     <Compile Include="Helpers\TestOperatorCalculator_WithoutWrappersOrNullChecks.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
+    <Compile Include="NHibernateTests.cs" />
     <Compile Include="SampleTests.cs" />
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,6 +106,14 @@
     <ProjectReference Include="..\..\Framework\JJ.Framework.Persistence.Memory\JJ.Framework.Persistence.Memory.csproj">
       <Project>{86348b50-eca9-4849-a221-73f0ed31713b}</Project>
       <Name>JJ.Framework.Persistence.Memory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Persistence.NHibernate\JJ.Framework.Persistence.NHibernate.csproj">
+      <Project>{db783ed9-fde6-458f-a094-457b7f4283a0}</Project>
+      <Name>JJ.Framework.Persistence.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Persistence.SqlClient\JJ.Framework.Persistence.SqlClient.csproj">
+      <Project>{ceb85f8e-d429-4510-95a5-47cc3069d412}</Project>
+      <Name>JJ.Framework.Persistence.SqlClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Persistence\JJ.Framework.Persistence.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
@@ -107,6 +138,14 @@
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.Memory\JJ.Persistence.Synthesizer.Memory.csproj">
       <Project>{bc3be171-ad84-4ee4-8356-06a581bdcdf7}</Project>
       <Name>JJ.Persistence.Synthesizer.Memory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.NHibernate\JJ.Persistence.Synthesizer.NHibernate.csproj">
+      <Project>{afcf2122-db43-461c-9fdf-41adec10a375}</Project>
+      <Name>JJ.Persistence.Synthesizer.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.SqlClient\JJ.Persistence.Synthesizer.SqlClient.csproj">
+      <Project>{0de125b6-b3ed-4459-8696-b5d851ad89a0}</Project>
+      <Name>JJ.Persistence.Synthesizer.SqlClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer\JJ.Persistence.Synthesizer.csproj">
       <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>

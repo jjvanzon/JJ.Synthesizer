@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
             // Prepare some objects
             int channelCount = _audioFileOutput.AudioFileOutputChannels.Count;
-            _audioFileOutputChannels = _audioFileOutput.AudioFileOutputChannels.OrderBy(x => x.Index).ToArray();
+            _audioFileOutputChannels = _audioFileOutput.AudioFileOutputChannels.OrderBy(x => x.IndexNumber).ToArray();
             _outlets = _audioFileOutputChannels.Select(x => x.Outlet).ToArray();
 
             _operatorCalculators = new IOperatorCalculator[channelCount];

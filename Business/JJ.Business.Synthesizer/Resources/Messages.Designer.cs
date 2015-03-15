@@ -72,9 +72,9 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Channel number does not match speaker setup..
         /// </summary>
-        internal static string ChannelIndexDoesNotMatchSpeakerSetup {
+        internal static string ChannelIndexNumberDoesNotMatchSpeakerSetup {
             get {
-                return ResourceManager.GetString("ChannelIndexDoesNotMatchSpeakerSetup", resourceCulture);
+                return ResourceManager.GetString("ChannelIndexNumberDoesNotMatchSpeakerSetup", resourceCulture);
             }
         }
         

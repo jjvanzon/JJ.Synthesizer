@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
 
@@ -73,7 +73,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_Performance()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet = EntityFactory.CreateMockOperatorStructure(factory);
@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_WarningValidators()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
 
@@ -148,7 +148,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_Adder()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
 
@@ -172,7 +172,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_ShorterCodeNotation()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
 
@@ -193,7 +193,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_SineWithCurve()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 CurveFactory curveFactory = TestHelper.CreateCurveFactory(context);
                 Curve curve = curveFactory.CreateCurve(1, 0, 1, 0.8, null, null, 0.8, 0);
@@ -241,7 +241,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_TimePowerWithEcho()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
@@ -274,7 +274,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_MultiplyWithEcho()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
@@ -313,7 +313,7 @@ namespace JJ.Business.Synthesizer.Tests
             const double seconds = 6.5;
             const double samplingRate = 44100.0;
 
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
@@ -359,7 +359,7 @@ namespace JJ.Business.Synthesizer.Tests
             const double seconds = 6.5;
             const double samplingRate = 44100.0;
 
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
@@ -402,7 +402,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_OperatorCalculatorNew()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet = x.Add(x.Value(1), x.Value(2));
@@ -415,7 +415,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_OperatorCalculatorNew_WithNullInlet()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet = x.Add(null, x.Value(2));
@@ -428,7 +428,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_OperatorCalculatorNew_NestedOperators()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet = x.Add(x.Add(x.Value(1), x.Value(2)), x.Value(4));
@@ -441,7 +441,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_OperatorCalculatorNew_TwoChannels()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet1 = x.Add(x.Add(x.Value(1), x.Value(2)), x.Value(4));
@@ -457,7 +457,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_OperatorCalculatorNew_InstanceIntegrity()
         {
-            using (IContext context = PersistenceHelper.CreateContext())
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet sharedOutlet = x.Value(1);

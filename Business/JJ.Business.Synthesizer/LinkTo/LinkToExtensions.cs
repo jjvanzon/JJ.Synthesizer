@@ -60,21 +60,21 @@ namespace JJ.Business.Synthesizer.LinkTo
         {
             if (inlet == null) throw new NullException(() => inlet);
 
-            if (inlet.Input != null)
+            if (inlet.InputOutlet != null)
             {
-                if (inlet.Input.ConnectedInlets.Contains(inlet))
+                if (inlet.InputOutlet.ConnectedInlets.Contains(inlet))
                 {
-                    inlet.Input.ConnectedInlets.Remove(inlet);
+                    inlet.InputOutlet.ConnectedInlets.Remove(inlet);
                 }
             }
 
-            inlet.Input = outlet;
+            inlet.InputOutlet = outlet;
 
-            if (inlet.Input != null)
+            if (inlet.InputOutlet != null)
             {
-                if (!inlet.Input.ConnectedInlets.Contains(inlet))
+                if (!inlet.InputOutlet.ConnectedInlets.Contains(inlet))
                 {
-                    inlet.Input.ConnectedInlets.Add(inlet);
+                    inlet.InputOutlet.ConnectedInlets.Add(inlet);
                 }
             }
         }

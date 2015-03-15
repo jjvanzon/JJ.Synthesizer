@@ -10,10 +10,8 @@ namespace JJ.Persistence.Synthesizer
     {
         public virtual int ID { get; set; }
 
-        /// <summary>
-        /// base
-        /// </summary>
-        public Operator Operator { get; set; }
+        /// <summary> base </summary>
+        public virtual Operator Operator { get; set; }
 
         public virtual double Value { get; set; }
     }
