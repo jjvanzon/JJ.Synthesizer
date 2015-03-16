@@ -158,86 +158,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase operandBCalculator = _stack.Pop();
             OperatorCalculatorBase originCalculator = _stack.Pop();
 
-            if (originCalculator != null)
-            {
-                VisitMultiplyWithOrigin(operandACalculator, operandBCalculator, originCalculator);
-            }
-            else
+            if (originCalculator == null)
             {
                 VisitMultiplyWithoutOrigin(operandACalculator, operandBCalculator);
             }
-        }
-
-        private void VisitMultiplyWithOrigin(
-            OperatorCalculatorBase operandACalculator, 
-            OperatorCalculatorBase operandBCalculator, 
-            OperatorCalculatorBase originCalculator)
-        {
-            OperatorCalculatorBase calculator;
-
-            if (operandACalculator == null || operandBCalculator == null)
-            {
-                calculator = originCalculator;
-            }
             else
             {
-                double a = operandACalculator.Calculate(0, 0);
-                double b = operandBCalculator.Calculate(0, 0);
-                double origin = originCalculator.Calculate(0, 0);
-
-                if (!(operandACalculator is ValueCalculator) &&
-                    !(operandBCalculator is ValueCalculator) &&
-                    originCalculator is ValueCalculator)
-                {
-                    calculator = new Multiply_WithOrigin_AndConstOperandA_AndOperandB_Calculator(a, b, originCalculator);
-                }
-                else if (!(operandACalculator is ValueCalculator) &&
-                         operandBCalculator is ValueCalculator &&
-                         !(originCalculator is ValueCalculator))
-                {
-                    calculator = new Multiply_WithOrigin_AndConstOperandB_Calculator(operandACalculator, b, originCalculator);
-                }
-                else if (!(operandACalculator is ValueCalculator) &&
-                         operandBCalculator is ValueCalculator &&
-                         originCalculator is ValueCalculator)
-                {
-                    calculator = new Multiply_WithConstOrigin_AndOperandB_Calculator(operandACalculator, b, origin);
-                }
-                else if (operandACalculator is ValueCalculator &&
-                         !(operandBCalculator is ValueCalculator) &&
-                         !(originCalculator is ValueCalculator))
-                {
-                    calculator = new Multiply_WithOrigin_AndConstOperandA_Calculator(a, operandBCalculator, originCalculator);
-                }
-                else if (operandACalculator is ValueCalculator &&
-                         !(operandBCalculator is ValueCalculator) &&
-                         originCalculator is ValueCalculator)
-                {
-                    calculator = new Multiply_WithConstOrigin_AndOperandA_Calculator(a, operandBCalculator, origin);
-                }
-                else if (operandACalculator is ValueCalculator &&
-                         operandBCalculator is ValueCalculator &&
-                         !(originCalculator is ValueCalculator))
-                {
-                    calculator = new Multiply_WithOrigin_AndConstOperandA_AndOperandB_Calculator(a, b, originCalculator);
-                }
-                else if ((operandACalculator is ValueCalculator) &&
-                         operandBCalculator is ValueCalculator &&
-                         originCalculator is ValueCalculator)
-                {
-                    double value = (a - origin) * b + origin;
-                    calculator = new ValueCalculator(value);
-                }
-                else
-                {
-                    calculator = new Multiply_WithOrigin_Calculator(operandACalculator, operandBCalculator, originCalculator);
-                }
+                VisitMultiplyWithOrigin(operandACalculator, operandBCalculator, originCalculator);
             }
-
-            _stack.Push(calculator);
         }
 
-        private void VisitMultiplyWithoutOrigin(OperatorCalculatorBase operandACalculator, OperatorCalculatorBase operandBCalculator)
+        private void VisitMultiplyWithoutOrigin(
+            OperatorCalculatorBase operandACalculator, 
+            OperatorCalculatorBase operandBCalculator)
         {
             OperatorCalculatorBase calculator;
 
@@ -267,6 +200,92 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 {
                     calculator = new Multiply_WithoutOrigin_Calculator(operandACalculator, operandBCalculator);
                 }
+            }
+
+            _stack.Push(calculator);
+        }
+
+        private void VisitMultiplyWithOrigin(
+            OperatorCalculatorBase operandACalculator,
+            OperatorCalculatorBase operandBCalculator,
+            OperatorCalculatorBase originCalculator)
+        {
+            if (operandACalculator == null || operandBCalculator == null)
+            {
+                _stack.Push(originCalculator);
+            }
+            else
+            {
+                if (originCalculator is ValueCalculator)
+                {
+                    double origin = originCalculator.Calculate(0, 0);
+                    VisitMultiplyWithConstOrigin(operandACalculator, operandBCalculator, origin);
+                }
+                else
+                {
+                    VisitMultiplyWithVariableOrigin(operandACalculator, operandBCalculator, originCalculator);
+                }
+            }
+        }
+
+        private void VisitMultiplyWithConstOrigin(
+            OperatorCalculatorBase operandACalculator, 
+            OperatorCalculatorBase operandBCalculator, 
+            double origin)
+        {
+            OperatorCalculatorBase calculator;
+
+            double a = operandACalculator.Calculate(0, 0);
+            double b = operandBCalculator.Calculate(0, 0);
+
+            if (operandACalculator is ValueCalculator &&
+                operandBCalculator is ValueCalculator)
+            {
+                double value = (a - origin) * b + origin;
+                calculator = new ValueCalculator(value);
+            }
+            else if (operandACalculator is ValueCalculator)
+            {
+                calculator = new Multiply_WithConstOrigin_AndOperandA_Calculator(a, operandBCalculator, origin);
+            }
+            else if (operandBCalculator is ValueCalculator)
+            {
+                calculator = new Multiply_WithConstOrigin_AndOperandB_Calculator(operandACalculator, b, origin);
+            }
+            else
+            {
+                calculator = new Multiply_WithConstOrigin_Calculator(operandACalculator, operandBCalculator, origin);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        private void VisitMultiplyWithVariableOrigin(
+            OperatorCalculatorBase operandACalculator, 
+            OperatorCalculatorBase operandBCalculator, 
+            OperatorCalculatorBase originCalculator)
+        {
+            OperatorCalculatorBase calculator;
+
+            double a = operandACalculator.Calculate(0, 0);
+            double b = operandBCalculator.Calculate(0, 0);
+            
+            if (operandACalculator is ValueCalculator &&
+                operandBCalculator is ValueCalculator)
+            {
+                calculator = new Multiply_WithOrigin_AndConstOperandA_AndOperandB_Calculator(a, b, originCalculator);
+            }
+            else if (operandACalculator is ValueCalculator)
+            {
+                calculator = new Multiply_WithOrigin_AndConstOperandA_Calculator(a, operandBCalculator, originCalculator);
+            }
+            else if (operandBCalculator is ValueCalculator)
+            {
+                calculator = new Multiply_WithOrigin_AndConstOperandB_Calculator(operandACalculator, b, originCalculator);
+            }
+            else
+            {
+                calculator = new Multiply_WithOrigin_Calculator(operandACalculator, operandBCalculator, originCalculator);
             }
 
             _stack.Push(calculator);
