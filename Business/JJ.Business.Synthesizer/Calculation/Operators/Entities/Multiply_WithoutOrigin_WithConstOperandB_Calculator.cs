@@ -7,25 +7,23 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
 {
-    internal class MultiplyWithoutOriginCalculator : OperatorCalculatorBase
+    internal class Multiply_WithoutOrigin_WithConstOperandB_Calculator : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _operandACalculator;
-        private OperatorCalculatorBase _operandBCalculator;
+        private double _operandBValue;
 
-        public MultiplyWithoutOriginCalculator(OperatorCalculatorBase operandACalculator, OperatorCalculatorBase operandBCalculator)
+        public Multiply_WithoutOrigin_WithConstOperandB_Calculator(OperatorCalculatorBase operandACalculator, double operandBValue)
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
 
             _operandACalculator = operandACalculator;
-            _operandBCalculator = operandBCalculator;
+            _operandBValue = operandBValue;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
             double a = _operandACalculator.Calculate(time, channelIndex);
-            double b = _operandBCalculator.Calculate(time, channelIndex);
-            return a * b;
+            return a * _operandBValue;
         }
     }
 }

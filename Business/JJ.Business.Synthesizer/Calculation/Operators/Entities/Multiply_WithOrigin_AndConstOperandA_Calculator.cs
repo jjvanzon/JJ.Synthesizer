@@ -7,22 +7,21 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
 {
-    internal class MultiplyWithOriginCalculator : OperatorCalculatorBase
+    internal class Multiply_WithOrigin_AndConstOperandA_Calculator : OperatorCalculatorBase
     {
-        private OperatorCalculatorBase _operandACalculator;
+        private double _operandAValue;
         private OperatorCalculatorBase _operandBCalculator;
         private OperatorCalculatorBase _originCalculator;
 
-        public MultiplyWithOriginCalculator(
-            OperatorCalculatorBase operandACalculator, 
+        public Multiply_WithOrigin_AndConstOperandA_Calculator(
+            double operandAValue, 
             OperatorCalculatorBase operandBCalculator, 
             OperatorCalculatorBase originCalculator)
         {
-            if (operandACalculator == null) throw new NullException(() => operandACalculator);
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
 
-            _operandACalculator = operandACalculator;
+            _operandAValue = operandAValue;
             _operandBCalculator = operandBCalculator;
             _originCalculator = originCalculator;
         }
@@ -30,9 +29,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
         public override double Calculate(double time, int channelIndex)
         {
             double origin = _originCalculator.Calculate(time, channelIndex);
-            double a = _operandACalculator.Calculate(time, channelIndex);
             double b = _operandBCalculator.Calculate(time, channelIndex);
-            return (a - origin) * b + origin;
+            return (_operandAValue - origin) * b + origin;
         }
     }
 }

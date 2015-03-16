@@ -46,6 +46,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AdderCalculators.tt</DependentUpon>
     </Compile>
+    <Compile Include="Calculation\Operators\Entities\AddWithConstOperandACalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\AddWithConstOperandBCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithConstOrigin_AndOperandB_Calculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithConstOrigin_AndOperandA_Calculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithOrigin_AndConstOperandA_AndOperandB_Calculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithConstOrigin_Calculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithOrigin_AndConstOperandB_Calculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithOrigin_AndConstOperandA_Calculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithoutOrigin_WithConstOperandB_Calculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithoutOrigin_WithConstOperandA_Calculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\SubstractWithConstOperandBCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\SubstractWithConstOperandACalculator.cs" />
     <Compile Include="Calculation\Operators\IOperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\TimeDivideWithOriginCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\TimeDivideWithoutOriginCalculator.cs" />
@@ -56,12 +68,12 @@
     <Compile Include="Calculation\Operators\Entities\SampleOperatorStereoToMonoCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\SineWithLevelAndPhaseStartCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\SineWithPhaseStartCalculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\MultiplyWithOriginCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithOrigin_Calculator.cs" />
     <Compile Include="Calculation\Operators\Entities\DivideWithoutOriginCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\CurveInCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\DivideWithOriginCalculator.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
-    <Compile Include="Calculation\Operators\Entities\MultiplyWithoutOriginCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithoutOrigin_Calculator.cs" />
     <Compile Include="Calculation\Operators\Entities\PowerCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\SineCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\SineWithLevelCalculator.cs" />
