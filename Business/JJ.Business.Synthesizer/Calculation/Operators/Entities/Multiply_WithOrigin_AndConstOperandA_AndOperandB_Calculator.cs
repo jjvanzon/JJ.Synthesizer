@@ -19,6 +19,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
             OperatorCalculatorBase originCalculator)
         {
             if (originCalculator == null) throw new NullException(() => originCalculator);
+            if (originCalculator is Value_Calculator) throw new Exception("originCalculator cannot be a Value_Calculator.");
 
             _operandAValue = operandAValue;
             _operandBValue = operandBValue;

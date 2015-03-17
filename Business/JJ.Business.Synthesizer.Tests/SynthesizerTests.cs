@@ -445,7 +445,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet outlet = x.Add(null, x.Value(2));
                 var calculator = new OptimizedOperatorCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
-                Assert.AreEqual(0.0, result, 0.000000001);
+                Assert.AreEqual(2.0, result, 0.000000001);
             }
         }
 
@@ -458,7 +458,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet outlet = x.Add(x.Value(1), x.Add(x.Value(2), null));
                 var calculator = new OptimizedOperatorCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
-                Assert.AreEqual(0.0, result, 0.000000001);
+                Assert.AreEqual(3.0, result, 0.000000001);
             }
         }
 

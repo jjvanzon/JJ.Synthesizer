@@ -7,32 +7,30 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
 {
-    internal class Multiply_WithOrigin_AndConstOperandA_Calculator : OperatorCalculatorBase
+    internal class Divide_WithOrigin_AndConstNumerator_AndDenominator_Calculator : OperatorCalculatorBase
     {
-        private double _operandAValue;
-        private OperatorCalculatorBase _operandBCalculator;
+        private double _numeratorValue;
+        private double _denominatorValue;
         private OperatorCalculatorBase _originCalculator;
 
-        public Multiply_WithOrigin_AndConstOperandA_Calculator(
-            double operandAValue, 
-            OperatorCalculatorBase operandBCalculator, 
+        public Divide_WithOrigin_AndConstNumerator_AndDenominator_Calculator(
+            double numeratorValue, 
+            double denominatorValue, 
             OperatorCalculatorBase originCalculator)
         {
-            if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Value_Calculator) throw new Exception("operandBCalculator cannot be a Value_Calculator.");
+            if (denominatorValue == 0) throw new Exception("denominatorValue cannot be 0.");
             if (originCalculator == null) throw new NullException(() => originCalculator);
             if (originCalculator is Value_Calculator) throw new Exception("originCalculator cannot be a Value_Calculator.");
 
-            _operandAValue = operandAValue;
-            _operandBCalculator = operandBCalculator;
+            _numeratorValue = numeratorValue;
+            _denominatorValue = denominatorValue;
             _originCalculator = originCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
             double origin = _originCalculator.Calculate(time, channelIndex);
-            double b = _operandBCalculator.Calculate(time, channelIndex);
-            return (_operandAValue - origin) * b + origin;
+            return (_numeratorValue - origin) / _denominatorValue + origin;
         }
     }
 }

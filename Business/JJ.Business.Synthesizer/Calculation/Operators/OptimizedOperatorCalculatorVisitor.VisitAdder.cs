@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             switch (operandCalculators.Count)
             {
                 case 0:
-                    calculator = new ZeroCalculator();
+                    calculator = new Zero_Calculator();
                     break;
 
                 case 1:
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 2:
-                    calculator = new AddCalculator(operandCalculators[0], operandCalculators[1]);
+                    calculator = new Add_Calculator(operandCalculators[0], operandCalculators[1]);
                     break;
 
                 case 3:
@@ -757,7 +757,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 
                 default:
-                    calculator = new AdderCalculator(operandCalculators.ToArray());
+                    calculator = new Adder_Calculator(operandCalculators.ToArray());
                     break;
             }
 

@@ -23,6 +23,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             double value = 0;
             double cumulativeDenominator = 1;
             double cumulativeDelay = 0;
+            double exponent = 1.5;
 
             for (int i = 0; i < 15; i++)
             {
@@ -30,7 +31,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 double transformedTime = time - cumulativeDelay;
 
                 // TimePower
-                double exponent = 1.5;
                 transformedTime = Math.Sign(transformedTime) * Math.Pow(Math.Abs(transformedTime), 1 / exponent);
 
                 // Sample
@@ -55,18 +55,18 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             double value = 0;
             double cumulativeDenominator = 1;
             double cumulativeDelay = 0;
+            double multiplier = 1.5;
 
             for (int i = 0; i < 15; i++)
             {
                 // TimeAdd
                 double transformedTime = time - cumulativeDelay;
 
-                // TimeMultiply
-                double multiplier = 1.5;
-                transformedTime = transformedTime /= multiplier;
-
                 // Sample
                 double value2 = _sampleCalculator.CalculateValue(transformedTime, 0);
+
+                // Multiply
+                value2 *= multiplier;
 
                 // Divide
                 value2 /= cumulativeDenominator;
