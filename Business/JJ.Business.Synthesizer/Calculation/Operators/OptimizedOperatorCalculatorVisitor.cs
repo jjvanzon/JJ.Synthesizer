@@ -87,45 +87,47 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase operandACalculator = _stack.Pop();
             OperatorCalculatorBase operandBCalculator = _stack.Pop();
 
-            if (operandACalculator == null && 
-                operandBCalculator == null)
+            operandACalculator = operandACalculator ?? new Value_Calculator(0);
+            operandBCalculator = operandBCalculator ?? new Value_Calculator(0);
+
+            double a = operandACalculator.Calculate(0, 0);
+            double b = operandBCalculator.Calculate(0, 0);
+            bool operandAIsConst = operandACalculator is Value_Calculator;
+            bool operandBIsConst = operandBCalculator is Value_Calculator;
+            bool operandAIsConstZero = operandAIsConst && a == 0;
+            bool operandBIsConstZero = operandAIsConst && b == 0;
+
+            if (operandAIsConstZero && operandBIsConstZero)
             {
-                calculator = null;
+                calculator = new Value_Calculator(0);
             }
-            else if (operandACalculator == null)
+            else if (operandAIsConstZero)
             {
                 calculator = operandBCalculator;
             }
-            else if (operandBCalculator == null)
+            else if (operandBIsConstZero)
             {
                 calculator = operandACalculator;
             }
+            if (operandAIsConst && operandBIsConst)
+            {
+                calculator = new Value_Calculator(a + b);
+            }
+            else if (operandAIsConst)
+            {
+                calculator = new Add_WithConstOperandA_Calculator(a, operandBCalculator);
+            }
+            else if (operandBIsConst)
+            {
+                calculator = new Add_WithConstOperandB_Calculator(operandACalculator, b);
+            }
             else
             {
-                double a = operandACalculator.Calculate(0, 0);
-                double b = operandBCalculator.Calculate(0, 0);
-                bool operandAIsConst = operandACalculator is Value_Calculator;
-                bool operandBIsConst = operandBCalculator is Value_Calculator;
-
-                if (operandAIsConst && operandBIsConst)
-                {
-                    calculator = new Value_Calculator(a + b);
-                }
-                else if (operandAIsConst)
-                {
-                    calculator = new Add_WithConstOperandA_Calculator(a, operandBCalculator);
-                }
-                else if (operandBIsConst)
-                {
-                    calculator = new Add_WithConstOperandB_Calculator(operandACalculator, b);
-                }
-                else
-                {
-                    calculator = new Add_Calculator(operandACalculator, operandBCalculator);
-                }
+                calculator = new Add_Calculator(operandACalculator, operandBCalculator);
             }
 
             _stack.Push(calculator);
+            return;
         }
 
         protected override void VisitSubstract(Operator op)
@@ -135,42 +137,39 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase operandACalculator = _stack.Pop();
             OperatorCalculatorBase operandBCalculator = _stack.Pop();
 
-            if (operandACalculator == null && operandBCalculator == null)
+            operandACalculator = operandACalculator ?? new Value_Calculator(0);
+            operandBCalculator = operandBCalculator ?? new Value_Calculator(0);
+
+            double a = operandACalculator.Calculate(0, 0);
+            double b = operandBCalculator.Calculate(0, 0);
+            bool operandAIsConst = operandACalculator is Value_Calculator;
+            bool operandBIsConst = operandBCalculator is Value_Calculator;
+            bool operandAIsConstZero = operandAIsConst && a == 0;
+            bool operandBIsConstZero = operandBIsConst && a == 0;
+
+            if (operandAIsConstZero && operandBIsConstZero)
             {
-                calculator = null;
+                calculator = new Value_Calculator(0);
             }
-            else if (operandBCalculator == null)
+            else if (operandBIsConstZero)
             {
                 calculator = operandACalculator;
             }
+            else if (operandAIsConst && operandBIsConst)
+            {
+                calculator = new Value_Calculator(a - b);
+            }
+            else if (operandAIsConst)
+            {
+                calculator = new Substract_WithConstOperandA_Calculator(a, operandBCalculator);
+            }
+            else if (operandBIsConst)
+            {
+                calculator = new Substract_WithConstOperandB_Calculator(operandACalculator, b);
+            }
             else
             {
-                operandACalculator = operandACalculator ?? new Value_Calculator(0);
-
-                // TODO: Try something
-                //operandBCalculator = operandBCalculator ?? new Value_Calculator(0);
-
-                double a = operandACalculator.Calculate(0, 0);
-                double b = operandBCalculator.Calculate(0, 0);
-                bool operandAIsConst = operandACalculator is Value_Calculator;
-                bool operandBIsConst = operandBCalculator is Value_Calculator;
-
-                if (operandAIsConst && operandBIsConst)
-                {
-                    calculator = new Value_Calculator(a - b);
-                }
-                else if (operandAIsConst)
-                {
-                    calculator = new Substract_WithConst_OperandA_Calculator(a, operandBCalculator);
-                }
-                else if (operandBIsConst)
-                {
-                    calculator = new Substract_WithConst_OperandB_Calculator(operandACalculator, b);
-                }
-                else
-                {
-                    calculator = new Substract_Calculator(operandACalculator, operandBCalculator);
-                }
+                calculator = new Substract_Calculator(operandACalculator, operandBCalculator);
             }
 
             _stack.Push(calculator);
@@ -178,169 +177,179 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         protected override void VisitMultiply(Operator op)
         {
+            OperatorCalculatorBase calculator;
+
             OperatorCalculatorBase operandACalculator = _stack.Pop();
             OperatorCalculatorBase operandBCalculator = _stack.Pop();
             OperatorCalculatorBase originCalculator = _stack.Pop();
 
-            if (originCalculator == null)
-            {
-                VisitMultiplyWithoutOrigin(operandACalculator, operandBCalculator);
-            }
-            else
-            {
-                VisitMultiplyWithOrigin(operandACalculator, operandBCalculator, originCalculator);
-            }
-        }
-
-        private void VisitMultiplyWithoutOrigin(
-            OperatorCalculatorBase operandACalculator, 
-            OperatorCalculatorBase operandBCalculator)
-        {
-            OperatorCalculatorBase calculator;
-
-            if (operandACalculator == null && operandBCalculator == null)
-            {
-                calculator = null;
-            }
-            else if (operandACalculator == null)
-            {
-                calculator = operandBCalculator;
-            }
-            else if (operandBCalculator == null)
-            {
-                calculator = operandACalculator;
-            }
-            else
-            {
-                double a = operandACalculator.Calculate(0, 0);
-                double b = operandBCalculator.Calculate(0, 0);
-                bool operandAIsConst = operandACalculator is Value_Calculator;
-                bool operandBIsConst = operandBCalculator is Value_Calculator;
-
-                if (operandAIsConst && operandBIsConst)
-                {
-                    calculator = new Value_Calculator(a * b);
-                }
-                else if (operandAIsConst)
-                {
-                    calculator = new Multiply_WithoutOrigin_WithConstOperandA_Calculator(a, operandBCalculator);
-                }
-                else if (operandBIsConst)
-                {
-                    calculator = new Multiply_WithoutOrigin_WithConstOperandB_Calculator(operandACalculator, b);
-                }
-                else
-                {
-                    calculator = new Multiply_WithoutOrigin_Calculator(operandACalculator, operandBCalculator);
-                }
-            }
-
-            _stack.Push(calculator);
-        }
-
-        private void VisitMultiplyWithOrigin(
-            OperatorCalculatorBase operandACalculator,
-            OperatorCalculatorBase operandBCalculator,
-            OperatorCalculatorBase originCalculator)
-        {
-            if (originCalculator == null) throw new NullException(() => originCalculator);
-
-            if (operandACalculator == null && 
-                operandBCalculator == null)
-            {
-                _stack.Push(originCalculator);
-            }
-            else if (operandACalculator == null)
-            {
-                _stack.Push(operandBCalculator);
-            }
-            else if (operandBCalculator == null)
-            {
-                _stack.Push(operandACalculator);
-            }
-            else
-            {
-                double origin = originCalculator.Calculate(0, 0);
-                bool originIsConst = originCalculator is Value_Calculator;
-
-                if (originIsConst)
-                {
-                    VisitMultiplyWithConstOrigin(operandACalculator, operandBCalculator, origin);
-                }
-                else
-                {
-                    VisitMultiplyWithVariableOrigin(operandACalculator, operandBCalculator, originCalculator);
-                }
-            }
-        }
-
-        private void VisitMultiplyWithConstOrigin(
-            OperatorCalculatorBase operandACalculator, 
-            OperatorCalculatorBase operandBCalculator, 
-            double origin)
-        {
-            if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-
-            OperatorCalculatorBase calculator;
+            operandACalculator = operandACalculator ?? new Value_Calculator(1);
+            operandBCalculator = operandBCalculator ?? new Value_Calculator(1);
+            originCalculator = originCalculator ?? new Value_Calculator(0);
 
             double a = operandACalculator.Calculate(0, 0);
             double b = operandBCalculator.Calculate(0, 0);
+            double origin = originCalculator.Calculate(0, 0);
             bool operandAIsConst = operandACalculator is Value_Calculator;
             bool operandBIsConst = operandBCalculator is Value_Calculator;
+            bool originIsConst = originCalculator is Value_Calculator;
+            bool operandAIsConstZero = operandAIsConst && a == 0;
+            bool operandBIsConstZero = operandBIsConst && b == 0;
+            bool originIsConstZero = operandBIsConst && b == 0;
+            bool operandAIsConstOne = operandAIsConst && a == 1;
+            bool operandBIsConstOne = operandBIsConst && b == 1;
 
-            if (operandAIsConst && operandBIsConst)
+            if (operandAIsConstZero || operandBIsConstZero)
+            {
+                calculator = originCalculator;
+            }
+            else if (operandAIsConstOne)
+            {
+                calculator = operandBCalculator;
+            }
+            else if (operandBIsConstOne)
+            {
+                calculator = operandACalculator;
+            }
+            else if (originIsConstZero && operandAIsConst && operandBIsConst)
+            {
+                calculator = new Value_Calculator(a * b);
+            }
+            else if (originIsConst && operandAIsConst && operandBIsConst)
             {
                 double value = (a - origin) * b + origin;
                 calculator = new Value_Calculator(value);
             }
-            else if (operandAIsConst)
+            else if (originIsConstZero && operandAIsConst && !operandBIsConst)
+            {
+                calculator = new Multiply_WithoutOrigin_WithConstOperandA_Calculator(a, operandBCalculator);
+            }
+            else if (originIsConstZero && !operandAIsConst && operandBIsConst)
+            {
+                calculator = new Multiply_WithoutOrigin_WithConstOperandB_Calculator(operandACalculator, b);
+            }
+            else if (originIsConstZero && !operandAIsConst && !operandBIsConst)
+            {
+                calculator = new Multiply_WithoutOrigin_Calculator(operandACalculator, operandBCalculator);
+            }
+            else if (originIsConst && operandAIsConst && !operandBIsConst)
             {
                 calculator = new Multiply_WithConstOrigin_AndOperandA_Calculator(a, operandBCalculator, origin);
             }
-            else if (operandBIsConst)
+            else if (originIsConst && !operandAIsConst && operandBIsConst)
             {
                 calculator = new Multiply_WithConstOrigin_AndOperandB_Calculator(operandACalculator, b, origin);
             }
-            else
+            else if (!originIsConst && !operandAIsConst && !operandBIsConst)
             {
                 calculator = new Multiply_WithConstOrigin_Calculator(operandACalculator, operandBCalculator, origin);
             }
-
-            _stack.Push(calculator);
-        }
-
-        private void VisitMultiplyWithVariableOrigin(
-            OperatorCalculatorBase operandACalculator, 
-            OperatorCalculatorBase operandBCalculator, 
-            OperatorCalculatorBase originCalculator)
-        {
-            if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (originCalculator == null) throw new NullException(() => originCalculator);
-
-            OperatorCalculatorBase calculator;
-
-            double a = operandACalculator.Calculate(0, 0);
-            double b = operandBCalculator.Calculate(0, 0);
-            bool operandAIsConst = operandACalculator is Value_Calculator;
-            bool operandBIsConst = operandBCalculator is Value_Calculator;
-            
-            if (operandAIsConst && operandBIsConst)
+            else if (!originIsConst && operandAIsConst && operandBIsConst)
             {
                 calculator = new Multiply_WithOrigin_AndConstOperandA_AndOperandB_Calculator(a, b, originCalculator);
             }
-            else if (operandAIsConst)
+            else if (!originIsConst && operandAIsConst && !operandBIsConst)
             {
                 calculator = new Multiply_WithOrigin_AndConstOperandA_Calculator(a, operandBCalculator, originCalculator);
             }
-            else if (operandBIsConst)
+            else if (!originIsConst && !operandAIsConst && operandBIsConst)
             {
                 calculator = new Multiply_WithOrigin_AndConstOperandB_Calculator(operandACalculator, b, originCalculator);
             }
             else
             {
                 calculator = new Multiply_WithOrigin_Calculator(operandACalculator, operandBCalculator, originCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        // TODO: Maybe use the refactor and inline strategy, so the 0 denominator tricks
+        // all get incorporated.
+        protected void VisitDivide_New_NotFinishd(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase numeratorCalculator = _stack.Pop();
+            OperatorCalculatorBase denominatorCalculator = _stack.Pop();
+            OperatorCalculatorBase originCalculator = _stack.Pop();
+
+            numeratorCalculator = numeratorCalculator ?? new Value_Calculator(0);
+            denominatorCalculator = denominatorCalculator ?? new Value_Calculator(1);
+            originCalculator = originCalculator ?? new Value_Calculator(0);
+
+            double numerator = numeratorCalculator.Calculate(0, 0);
+            double denominator = denominatorCalculator.Calculate(0, 0);
+            double origin = originCalculator.Calculate(0, 0);
+            bool numeratorIsConst = numeratorCalculator is Value_Calculator;
+            bool denominatorIsConst = denominatorCalculator is Value_Calculator;
+            bool originIsConst = originCalculator is Value_Calculator;
+            bool numeratorIsConstZero = numeratorIsConst && numerator == 0;
+            bool denominatorIsConstZero = denominatorIsConst && denominator == 0;
+            bool originIsConstZero = denominatorIsConst && denominator == 0;
+            bool numeratorIsConstOne = numeratorIsConst && numerator == 1;
+            bool denominatorIsConstOne = denominatorIsConst && denominator == 1;
+
+            if (numeratorIsConstZero || denominatorIsConstZero)
+            {
+                calculator = originCalculator;
+            }
+            else if (numeratorIsConstOne)
+            {
+                calculator = denominatorCalculator;
+            }
+            else if (denominatorIsConstOne)
+            {
+                calculator = numeratorCalculator;
+            }
+            else if (originIsConstZero && numeratorIsConst && denominatorIsConst)
+            {
+                calculator = new Value_Calculator(numerator / denominator);
+            }
+            else if (originIsConst && numeratorIsConst && denominatorIsConst)
+            {
+                double value = (numerator - origin) / denominator + origin;
+                calculator = new Value_Calculator(value);
+            }
+            else if (originIsConstZero && numeratorIsConst && !denominatorIsConst)
+            {
+                calculator = new Divide_WithoutOrigin_WithConstNumerator_Calculator(numerator, denominatorCalculator);
+            }
+            else if (originIsConstZero && !numeratorIsConst && denominatorIsConst)
+            {
+                calculator = new Divide_WithoutOrigin_WithConstDenominator_Calculator(numeratorCalculator, denominator);
+            }
+            else if (originIsConstZero && !numeratorIsConst && !denominatorIsConst)
+            {
+                calculator = new Divide_WithoutOrigin_Calculator(numeratorCalculator, denominatorCalculator);
+            }
+            else if (originIsConst && numeratorIsConst && !denominatorIsConst)
+            {
+                calculator = new Divide_WithConstOrigin_AndNumerator_Calculator(numerator, denominatorCalculator, origin);
+            }
+            else if (originIsConst && !numeratorIsConst && denominatorIsConst)
+            {
+                calculator = new Divide_WithConstOrigin_AndDenominator_Calculator(numeratorCalculator, denominator, origin);
+            }
+            else if (!originIsConst && !numeratorIsConst && !denominatorIsConst)
+            {
+                calculator = new Divide_WithConstOrigin_Calculator(numeratorCalculator, denominatorCalculator, origin);
+            }
+            else if (!originIsConst && numeratorIsConst && denominatorIsConst)
+            {
+                calculator = new Divide_WithOrigin_AndConstNumerator_AndDenominator_Calculator(numerator, denominator, originCalculator);
+            }
+            else if (!originIsConst && numeratorIsConst && !denominatorIsConst)
+            {
+                calculator = new Divide_WithOrigin_AndConstNumerator_Calculator(numerator, denominatorCalculator, originCalculator);
+            }
+            else if (!originIsConst && !numeratorIsConst && denominatorIsConst)
+            {
+                calculator = new Divide_WithOrigin_AndConstDenominator_Calculator(numeratorCalculator, denominator, originCalculator);
+            }
+            else
+            {
+                calculator = new Divide_WithOrigin_Calculator(numeratorCalculator, denominatorCalculator, originCalculator);
             }
 
             _stack.Push(calculator);

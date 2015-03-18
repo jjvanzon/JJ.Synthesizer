@@ -78,8 +78,8 @@
     <Compile Include="Calculation\Operators\Entities\Multiply_WithOrigin_AndConstOperandA_Calculator.cs" />
     <Compile Include="Calculation\Operators\Entities\Multiply_WithoutOrigin_WithConstOperandB_Calculator.cs" />
     <Compile Include="Calculation\Operators\Entities\Multiply_WithoutOrigin_WithConstOperandA_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Substract_WithConst_OperandB_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Substract_WithConst_OperandA_Calculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Substract_WithConstOperandB_Calculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Substract_WithConstOperandA_Calculator.cs" />
     <Compile Include="Calculation\Operators\IOperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\TimeDivide_WithOrigin_Calculator.cs" />
     <Compile Include="Calculation\Operators\Entities\TimeDivide_WithoutOrigin_Calculator.cs" />
