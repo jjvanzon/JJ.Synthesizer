@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces
 {
-    public interface IEntityPointRepository : IRepository<EntityPoint, int>
+    public interface IEntityPositionRepository : IRepository<EntityPosition, int>
     {
-        EntityPoint GetByEntityTypeNameAndID(string entityTypeName, int id);
+        EntityPosition GetByEntityTypeNameAndID(string entityTypeName, int id);
     }
 }

@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
-    class OperatorViewModel
+    public class OperatorViewModel
     {
+        public string Name { get; set; }
+        public int ID { get; set; }
     }
 }

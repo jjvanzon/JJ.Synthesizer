@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer.DefaultRepositories
 {
-    public class EntityPointRepository : RepositoryBase<EntityPoint, int>, IEntityPointRepository 
+    public class EntityPositionRepository : RepositoryBase<EntityPosition, int>, IEntityPositionRepository 
     {
-        public EntityPointRepository(IContext context)
+        public EntityPositionRepository(IContext context)
             : base(context)
         { }
 
-        public EntityPoint GetByEntityTypeNameAndID(string entityTypeName, int id)
+        public EntityPosition GetByEntityTypeNameAndID(string entityTypeName, int id)
         {
             throw new NotImplementedException();
         }

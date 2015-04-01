@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Persistence.Synthesizer
 {
-    public class EntityPoint
+    public class EntityPosition
     {
         public string EntityType { get; set; }
         public int EntityID { get; set; }
