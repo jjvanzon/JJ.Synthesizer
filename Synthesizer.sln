@@ -69,6 +69,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer.WinForms", "Presentation\JJ.Presentation.Synthesizer.WinForms\JJ.Presentation.Synthesizer.WinForms.csproj", "{5B200A79-0358-438D-8DCE-F3E40E9E88A7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer.Svg", "Presentation\JJ.Presentation.Synthesizer.Svg\JJ.Presentation.Synthesizer.Svg.csproj", "{DA036CC8-85CC-4A2B-B557-0A222A4486C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -679,6 +681,24 @@ Global
 		{5B200A79-0358-438D-8DCE-F3E40E9E88A7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5B200A79-0358-438D-8DCE-F3E40E9E88A7}.Release|x64.ActiveCfg = Release|Any CPU
 		{5B200A79-0358-438D-8DCE-F3E40E9E88A7}.Release|x86.ActiveCfg = Release|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.NPDebug|Any CPU.Build.0 = Debug|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.NPDebug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.NPDebug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.NPDebug|x64.ActiveCfg = Debug|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.NPDebug|x86.ActiveCfg = Debug|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.Release|x64.ActiveCfg = Release|Any CPU
+		{DA036CC8-85CC-4A2B-B557-0A222A4486C3}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

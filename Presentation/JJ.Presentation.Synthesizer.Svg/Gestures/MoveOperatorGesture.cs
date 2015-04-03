@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Presentation.Synthesizer.Gestures
+namespace JJ.Presentation.Synthesizer.Svg.Gestures
 {
     class MoveOperatorGesture
     {

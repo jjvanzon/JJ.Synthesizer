@@ -32,11 +32,16 @@ namespace JJ.Business.Synthesizer.Managers
         {
             if (op == null) throw new NullException(() => op);
 
+            return GetOrCreateOperatorPosition(op.ID);
+
+        }
+        public EntityPosition GetOrCreateOperatorPosition(int operatorID)
+        {
             EntityPosition entityPosition;
-            if (!_operatorPositionDictionary.TryGetValue(op.ID, out entityPosition))
+            if (!_operatorPositionDictionary.TryGetValue(operatorID, out entityPosition))
             {
-                int entityID = op.ID;
-                string entityTypeName = op.GetType().Name;
+                int entityID = operatorID;
+                string entityTypeName = typeof(Operator).Name;
 
                 entityPosition = _entityPositionRepository.TryGetByEntityTypeNameAndID(entityTypeName, entityID);
                 if (entityPosition == null)

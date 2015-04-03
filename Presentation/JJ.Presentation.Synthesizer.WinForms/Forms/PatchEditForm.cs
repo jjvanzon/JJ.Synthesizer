@@ -2,6 +2,7 @@
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.Presenters;
+using JJ.Presentation.Synthesizer.Svg.Converters;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using System;
@@ -16,29 +17,38 @@ namespace JJ.Presentation.Synthesizer.WinForms
 {
     public partial class PatchEditForm : Form
     {
+        private IContext _context;
         private PatchEditPresenter _presenter;
         private PatchEditViewModel _viewModel;
 
         public PatchEditForm()
         {
             InitializeComponent();
-            Initialize();
+
+            _context = PersistenceHelper.CreateContext();
+            _presenter = CreatePresenter(_context);
+
+            Operator op = CreateMockOperator();
+
+            Edit(op.ID);
         }
 
-        private void Initialize()
+        private Operator CreateMockOperator()
         {
-            IContext context = PersistenceHelper.CreateContext();
-            PersistenceWrapper persistenceWrapper = PersistenceHelper.CreatePersistenceWrapper(context);
-
+            PersistenceWrapper persistenceWrapper = PersistenceHelper.CreatePersistenceWrapper(_context);
             Outlet entity = EntityFactory.CreateTestPatch2(persistenceWrapper);
+            persistenceWrapper.Flush(); // Flush to get the ID.
+            return entity.Operator;
+        }
 
-            _presenter = CreatePresenter(context);
+        public void Edit(int operatorID)
+        {
+            _viewModel = _presenter.Edit(operatorID);
 
-            persistenceWrapper.Flush(); // Flush necessary to get the entity.Operator.ID.
+            ViewModelToDiagramConverter converter = new ViewModelToDiagramConverter();
+            ViewModelToDiagramConverter.Result converterResult = converter.Execute(_viewModel.RootOperators.Single());
 
-            _viewModel = _presenter.Edit(entity.Operator.ID);
-
-            diagramControl1.Diagram = _viewModel.Diagram;
+            diagramControl1.Diagram = converterResult.Diagram;
         }
 
         private PatchEditPresenter CreatePresenter(IContext context)
@@ -48,7 +58,5 @@ namespace JJ.Presentation.Synthesizer.WinForms
             var presenter = new PatchEditPresenter(operatorRepository, entityPositionRepository);
             return presenter;
         }
-
-        public PatchEditPresenter _presetner { get; set; }
     }
 }

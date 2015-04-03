@@ -16,7 +16,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new PatchEditForm());
+
+            var form = new PatchEditForm();
+            Application.Run(form);
         }
     }
 }

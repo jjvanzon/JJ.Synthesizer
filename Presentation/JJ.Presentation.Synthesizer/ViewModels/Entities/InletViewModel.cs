@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
-    public sealed class OperatorViewModel
+    public sealed class InletViewModel
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public float CenterX { get; set; }
-        public float CenterY { get; set; }
 
-        public IList<InletViewModel> Inlets { get; set; }
-
-        public IList<OutletViewModel> Outlets { get; set; }
+        /// <summary> nullable </summary>
+        public OutletViewModel InputOutlet { get; set; }
     }
 }

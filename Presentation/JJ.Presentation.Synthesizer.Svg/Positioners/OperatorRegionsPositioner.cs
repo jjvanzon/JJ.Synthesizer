@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Presentation.Synthesizer.Positioners
+namespace JJ.Presentation.Synthesizer.Svg.Positioners
 {
     /// <summary>
     /// Calculates the rectangles for the regions in the SVG model for an operator 

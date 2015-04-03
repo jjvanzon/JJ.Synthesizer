@@ -155,6 +155,10 @@
       <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
       <Name>JJ.Persistence.Synthesizer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\JJ.Presentation.Synthesizer.Svg\JJ.Presentation.Synthesizer.Svg.csproj">
+      <Project>{da036cc8-85cc-4a2b-b557-0a222a4486c3}</Project>
+      <Name>JJ.Presentation.Synthesizer.Svg</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JJ.Presentation.Synthesizer\JJ.Presentation.Synthesizer.csproj">
       <Project>{919ae8a0-c964-4746-94a9-bc61a2546e78}</Project>
       <Name>JJ.Presentation.Synthesizer</Name>

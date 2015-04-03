@@ -4,21 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Framework.Common;
-using JJ.Persistence.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Framework.Presentation.Svg.Models.Elements;
-using JJ.Framework.Presentation.Svg.Models.Styling;
 using JJ.Framework.Presentation.Svg.Enums;
 using JJ.Framework.Presentation.Svg.Helpers;
-using JJ.Business.Synthesizer.Managers;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Positioners;
+using JJ.Framework.Presentation.Svg.Models.Elements;
+using JJ.Framework.Presentation.Svg.Models.Styling;
 using JJ.Framework.Presentation.Svg.Gestures;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.Svg.Positioners;
 
-namespace JJ.Presentation.Synthesizer.Converters
+namespace JJ.Presentation.Synthesizer.Svg.Converters
 {
-    internal class EntitiesToDiagramConverter
+    public class ViewModelToDiagramConverter
     {
         public class Result
         {
@@ -45,13 +42,11 @@ namespace JJ.Presentation.Synthesizer.Converters
         private static BackStyle _invisibleBackStyle;
         private static LineStyle _invisibleLineStyle;
 
-        private EntityPositionManager _entityPositionMananger;
-
         // TODO: In the fugure drag gesture and drop gesture should be two different gesture types.
         private DragDropGesture _dragGesture;
         private DragDropGesture _dropGesture;
 
-        static EntitiesToDiagramConverter()
+        static ViewModelToDiagramConverter()
         {
             _defaultBackStyle = new BackStyle
             {
@@ -110,31 +105,24 @@ namespace JJ.Presentation.Synthesizer.Converters
             };
         }
 
-        public EntitiesToDiagramConverter(IEntityPositionRepository entityPositionRepository)
+        public Result Execute(OperatorViewModel rootOperatorViewModel)
         {
-            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
-
-            _entityPositionMananger = new EntityPositionManager(entityPositionRepository);
-        }
-
-        public Result Execute(Operator rootOperator)
-        {
-            if (rootOperator == null) throw new NullException(() => rootOperator);
+            if (rootOperatorViewModel == null) throw new NullException(() => rootOperatorViewModel);
 
             var diagram = new Diagram();
             _dragGesture = new DragDropGesture();
             _dropGesture = new DragDropGesture();
 
-            Rectangle rectangle = ConvertToRectanglesAndLinesRecursive(rootOperator, diagram);
+            Rectangle rectangle = ConvertToRectanglesAndLinesRecursive(rootOperatorViewModel, diagram);
 
             return new Result(diagram, _dragGesture, _dropGesture);
         }
 
-        private Rectangle ConvertToRectanglesAndLinesRecursive(Operator op, Diagram diagram)
+        private Rectangle ConvertToRectanglesAndLinesRecursive(OperatorViewModel operatorViewModel, Diagram diagram)
         {
-            Rectangle rectangle1 = ConvertToRectangleWithRelatedEntities(op, diagram);
+            Rectangle rectangle1 = ConvertToRectangleWithRelatedEntities(operatorViewModel, diagram);
 
-            foreach (Inlet inlet in op.Inlets)
+            foreach (InletViewModel inlet in operatorViewModel.Inlets)
             {
                 if (inlet.InputOutlet != null)
                 {
@@ -151,20 +139,20 @@ namespace JJ.Presentation.Synthesizer.Converters
             return rectangle1;
         }
 
-        private Rectangle ConvertToRectangleWithRelatedEntities(Operator op, Diagram diagram)
+        private Rectangle ConvertToRectangleWithRelatedEntities(OperatorViewModel operatorViewModel, Diagram diagram)
         {
-            Rectangle rectangle = ConvertToRectangle(op);
+            Rectangle rectangle = ConvertToRectangle(operatorViewModel);
             rectangle.Diagram = diagram;
 
-            Point point = ConvertToPoint(op);
+            Point point = ConvertToPoint(operatorViewModel);
             point.Diagram = diagram;
             point.Parent = rectangle;
 
-            Label label = ConvertToLabel(op);
+            Label label = ConvertToLabel(operatorViewModel);
             label.Diagram = diagram;
             label.Parent = rectangle;
 
-            OperatorRegionsPositioner.Result positionerResult = OperatorRegionsPositioner.Execute(rectangle, op.Inlets.Count, op.Outlets.Count);
+            OperatorRegionsPositioner.Result positionerResult = OperatorRegionsPositioner.Execute(rectangle, operatorViewModel.Inlets.Count, operatorViewModel.Outlets.Count);
 
             IEnumerable<Rectangle> rectangles = positionerResult.InletRectangles
                                                                 .Union(positionerResult.OutletRectangles)
@@ -185,29 +173,26 @@ namespace JJ.Presentation.Synthesizer.Converters
             return rectangle;
         }
 
-        private Rectangle ConvertToRectangle(Operator op)
+        private Rectangle ConvertToRectangle(OperatorViewModel operatorViewModel)
         {
-            EntityPosition entityPosition = _entityPositionMananger.GetOrCreateOperatorPosition(op);
-
             var rectangle = new Rectangle
             {
                 Width = DEFAULT_WIDTH,
                 Height = DEFAULT_HEIGHT,
                 BackStyle = _defaultBackStyle,
                 LineStyle = _defaultLineStyle,
-                // EntityPosition is the center instead of the top-left corner.
-                X = entityPosition.X - DEFAULT_WIDTH / 2f,
-                Y = entityPosition.Y - DEFAULT_HEIGHT / 2f
+                X = operatorViewModel.CenterX - DEFAULT_WIDTH / 2f,
+                Y = operatorViewModel.CenterY - DEFAULT_HEIGHT / 2f
             };
 
             return rectangle;
         }
 
-        private Label ConvertToLabel(Operator op)
+        private Label ConvertToLabel(OperatorViewModel operatorViewModel)
         {
             var label = new Label
             {
-                Text = op.Name,
+                Text = operatorViewModel.Name,
                 Width = DEFAULT_WIDTH,
                 Height = DEFAULT_HEIGHT,
                 TextStyle = _defaultTextStyle
@@ -216,10 +201,8 @@ namespace JJ.Presentation.Synthesizer.Converters
             return label;
         }
 
-        private Point ConvertToPoint(Operator op)
+        private Point ConvertToPoint(OperatorViewModel operatorViewModel)
         {
-            EntityPosition entityPosition = _entityPositionMananger.GetOrCreateOperatorPosition(op);
-
             var point = new Point
             {
                 X = DEFAULT_WIDTH / 2f,
