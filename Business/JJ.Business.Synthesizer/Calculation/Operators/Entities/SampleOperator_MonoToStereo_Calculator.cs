@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Reflection;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;

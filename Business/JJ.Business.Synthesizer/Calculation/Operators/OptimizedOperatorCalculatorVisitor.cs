@@ -2,7 +2,7 @@
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Reflection;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;
@@ -281,7 +281,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             numeratorCalculator = numeratorCalculator ?? new Value_Calculator(0);
             denominatorCalculator = denominatorCalculator ?? new Value_Calculator(1);
             originCalculator = originCalculator ?? new Value_Calculator(0);
-
 
             double numerator = numeratorCalculator.Calculate(0, 0);
             double denominator = denominatorCalculator.Calculate(0, 0);

@@ -1,5 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Reflection;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using System;

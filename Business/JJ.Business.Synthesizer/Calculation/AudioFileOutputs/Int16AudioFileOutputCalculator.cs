@@ -1,4 +1,4 @@
-﻿using JJ.Framework.Reflection;
+﻿using JJ.Framework.Reflection.Exceptions;
 using JJ.Persistence.Synthesizer;
 using JJ.Business.Synthesizer.Extensions;
 using System;

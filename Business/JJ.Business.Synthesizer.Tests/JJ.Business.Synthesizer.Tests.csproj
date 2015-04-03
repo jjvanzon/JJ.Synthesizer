@@ -85,7 +85,7 @@
     <Compile Include="Helpers\TestOperatorCalculator_WithoutWrappers.cs" />
     <Compile Include="Helpers\TestOperatorCalculator_WithoutWrappersOrNullChecks.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
-    <Compile Include="NHibernateTests.cs" />
+    <Compile Include="DatabaseContextTests.cs" />
     <Compile Include="SampleTests.cs" />
     <Compile Include="SynthesizerTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

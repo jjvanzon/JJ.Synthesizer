@@ -38,6 +38,7 @@
     <Compile Include="Gestures\AddLineGesture.cs" />
     <Compile Include="Gestures\MoveOperatorGesture.cs" />
     <Compile Include="Gestures\ChangeLineGesture.cs" />
+    <Compile Include="Positioners\OperatorRegionsPositioner.cs" />
     <Compile Include="Presenters\PatchEditPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToEntity\ToEntityExtensions.cs" />
@@ -49,6 +50,10 @@
     <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer\JJ.Business.Synthesizer.csproj">
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
       <Name>JJ.Business.Synthesizer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
+      <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
+      <Name>JJ.Framework.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Persistence\JJ.Framework.Persistence.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>

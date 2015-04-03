@@ -14,9 +14,19 @@ namespace JJ.Persistence.Synthesizer.DefaultRepositories
             : base(context)
         { }
 
-        public EntityPosition GetByEntityTypeNameAndID(string entityTypeName, int id)
+        public EntityPosition GetByEntityTypeNameAndID(string entityTypeName, int entityID)
         {
-            throw new NotImplementedException();
+            EntityPosition entity = TryGetByEntityTypeNameAndID(entityTypeName, entityID);
+            if (entity == null)
+            {
+                throw new Exception(String.Format("EntityPosition with EntityTypeName '{0}' and EntityID '{1}' not found.", entityTypeName, entityID));
+            }
+            return entity;
+        }
+
+        public virtual EntityPosition TryGetByEntityTypeNameAndID(string entityTypeName, int entityID)
+        {
+            throw new NotSupportedException();
         }
     }
 }

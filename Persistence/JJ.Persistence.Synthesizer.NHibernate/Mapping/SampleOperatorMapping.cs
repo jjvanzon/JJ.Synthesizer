@@ -12,8 +12,10 @@ namespace JJ.Persistence.Synthesizer.NHibernate.Mapping
     {
         public SampleOperatorMapping()
         {
-            Id(x => x.ID);
-            References(x => x.Operator, ColumnNames.OperatorID);
+            // Horrible code for NHibernate to understand a 1-to-1 relationship.
+            Id(x => x.OperatorID).GeneratedBy.Foreign(TableNames.Operator);
+            HasOne(x => x.Operator).Constrained().ForeignKey();
+
             References(x => x.Sample, ColumnNames.SampleID);
         }
     }

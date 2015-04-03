@@ -13,6 +13,9 @@ namespace JJ.Persistence.Synthesizer
         /// <summary> base </summary>
         public virtual Operator Operator { get; set; }
 
+        // Needed for NHibernate to understand 1-to-1 relationships.
+        public virtual int OperatorID { get; set; }
+
         /// <summary> nullable </summary>
         public virtual Sample Sample { get; set; }
     }

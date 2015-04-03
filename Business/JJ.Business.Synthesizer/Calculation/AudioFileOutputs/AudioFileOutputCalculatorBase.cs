@@ -1,7 +1,7 @@
 ﻿using JJ.Framework.IO;
 using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Reflection;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
 using System;

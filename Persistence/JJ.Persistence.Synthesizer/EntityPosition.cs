@@ -8,9 +8,9 @@ namespace JJ.Persistence.Synthesizer
 {
     public class EntityPosition
     {
-        public string EntityType { get; set; }
-        public int EntityID { get; set; }
-        public float X { get; set; }
-        public float Y { get; set; }
+        public virtual string EntityTypeName { get; set; }
+        public virtual int EntityID { get; set; }
+        public virtual float X { get; set; }
+        public virtual float Y { get; set; }
     }
 }

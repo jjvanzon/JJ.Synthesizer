@@ -1,6 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
-using JJ.Framework.Reflection;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;

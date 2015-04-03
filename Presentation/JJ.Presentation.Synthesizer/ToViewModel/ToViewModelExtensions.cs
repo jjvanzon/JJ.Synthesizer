@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Presentation.Svg.Models.Elements;
-using JJ.Framework.Reflection;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.Converters;
@@ -21,11 +22,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var converter = new EntitiesToDiagramConverter(entityPositionRepository);
 
-            Diagram diagram = converter.Execute(op);
+            EntitiesToDiagramConverter.Result converterResult = converter.Execute(op);
 
             var viewModel = new PatchEditViewModel
             {
-                Diagram = diagram
+                Diagram = converterResult.Diagram,
+                DragGesture = converterResult.DragGesture,
+                DropGesture = converterResult.DropGesture
             };
 
             return viewModel;

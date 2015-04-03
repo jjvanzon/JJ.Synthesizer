@@ -2,7 +2,7 @@
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Common;
-using JJ.Framework.Reflection;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using System;

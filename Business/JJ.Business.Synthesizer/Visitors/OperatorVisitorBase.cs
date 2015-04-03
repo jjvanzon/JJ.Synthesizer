@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Names;
-using JJ.Framework.Reflection;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Persistence.Synthesizer;
 using System;
 using System.Collections.Generic;

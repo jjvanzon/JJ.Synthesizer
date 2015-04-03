@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Reflection;
+﻿using JJ.Framework.Mathematics;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using System;
@@ -11,6 +12,11 @@ namespace JJ.Business.Synthesizer.Managers
 {
     public class EntityPositionManager
     {
+        private const int MIN_RANDOM_X = 50;
+        private const int MAX_RANDOM_X = 300;
+        private const int MIN_RANDOM_Y = 50;
+        private const int MAX_RANDOM_Y = 400;
+
         private IEntityPositionRepository _entityPositionRepository;
 
         private Dictionary<int, EntityPosition> _operatorPositionDictionary = new Dictionary<int, EntityPosition>();
@@ -22,15 +28,27 @@ namespace JJ.Business.Synthesizer.Managers
             _entityPositionRepository = entityPositionRepository;
         }
 
-        public EntityPosition GetOperatorPosition(Operator op)
+        public EntityPosition GetOrCreateOperatorPosition(Operator op)
         {
             if (op == null) throw new NullException(() => op);
 
             EntityPosition entityPosition;
             if (!_operatorPositionDictionary.TryGetValue(op.ID, out entityPosition))
             {
-                entityPosition = _entityPositionRepository.GetByEntityTypeNameAndID(op.GetType().Name, op.ID);
-                _operatorPositionDictionary.Add(op.ID, entityPosition);
+                int entityID = op.ID;
+                string entityTypeName = op.GetType().Name;
+
+                entityPosition = _entityPositionRepository.TryGetByEntityTypeNameAndID(entityTypeName, entityID);
+                if (entityPosition == null)
+                {
+                    entityPosition = _entityPositionRepository.Create();
+                    entityPosition.EntityTypeName = entityTypeName;
+                    entityPosition.EntityID = entityID;
+                    entityPosition.X = Randomizer.GetInt32(MIN_RANDOM_X, MAX_RANDOM_X);
+                    entityPosition.Y = Randomizer.GetInt32(MIN_RANDOM_Y, MAX_RANDOM_Y);
+                }
+
+                _operatorPositionDictionary.Add(entityID, entityPosition);
             }
             
             return entityPosition;
