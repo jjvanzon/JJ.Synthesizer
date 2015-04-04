@@ -31,6 +31,15 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             public DragDropGesture DropGesture { get; private set; }
         }
 
+        private class OperatorSvgElements
+        {
+            public Rectangle Rectangle { get; set; }
+            public IList<Rectangle> InletRectangles { get; set; }
+            public IList<Rectangle> OutletRectangles { get; set; }
+            public IList<Point> InletPoints { get; set; }
+            public IList<Point> OutletPoints { get; set; }
+        }
+
         private const float DEFAULT_WIDTH = 125;
         private const float DEFAULT_HEIGHT = 60;
 
@@ -46,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         private DragDropGesture _dragGesture;
         private DragDropGesture _dropGesture;
 
-        private Dictionary<OperatorViewModel, Rectangle> _dictionary;
+        private Dictionary<OperatorViewModel, OperatorSvgElements> _dictionary;
 
         static ViewModelToDiagramConverter()
         {
@@ -94,8 +103,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
 
             // Temporary (2015-04-02) for debugging: Show invisible elements.
             _invisiblePointStyle.Visible = true;
-            _invisiblePointStyle.Color = ColorHelper.White;
-            _invisiblePointStyle.Width = 15;
+            _invisiblePointStyle.Color = ColorHelper.GetColor(128, 40, 128, 192);
+            _invisiblePointStyle.Width = 10;
 
             _invisibleBackStyle.Visible = true;
             _invisibleBackStyle.Color = ColorHelper.GetColor(64, 40, 128, 192);
@@ -110,82 +119,130 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         {
             if (patchViewModel == null) throw new NullException(() => patchViewModel);
 
-            _dictionary = new Dictionary<OperatorViewModel, Rectangle>();
+            _dictionary = new Dictionary<OperatorViewModel, OperatorSvgElements>();
 
             var diagram = new Diagram();
             _dragGesture = new DragDropGesture();
-            _dropGesture = new DragDropGesture();
+            // TODO: Change again when the drag gesture and the drop gesture are different Gestures.
+            //_dropGesture = new DragDropGesture();
+            _dropGesture = _dragGesture;
 
             foreach (OperatorViewModel operatorViewModel in patchViewModel.Operators)
             {
-                Rectangle rectangle = ConvertToRectanglesAndLinesRecursive(operatorViewModel, diagram);
+                OperatorSvgElements rectangle = ConvertToRectanglesAndLinesRecursive(operatorViewModel, diagram);
             }
 
             return new Result(diagram, _dragGesture, _dropGesture);
         }
 
-        private Rectangle ConvertToRectanglesAndLinesRecursive(OperatorViewModel operatorViewModel, Diagram diagram)
+        private OperatorSvgElements ConvertToRectanglesAndLinesRecursive(OperatorViewModel operatorViewModel, Diagram diagram)
         {
-            Rectangle rectangle1;
-            if (_dictionary.TryGetValue(operatorViewModel, out rectangle1))
+            OperatorSvgElements operatorSvgElements1;
+            if (_dictionary.TryGetValue(operatorViewModel, out operatorSvgElements1))
             {
-                return rectangle1;
+                return operatorSvgElements1;
             }
 
-            rectangle1 = ConvertToRectangleWithRelatedEntities(operatorViewModel, diagram);
+            operatorSvgElements1 = ConvertToRectangleWithRelatedEntities(operatorViewModel, diagram);
 
-            _dictionary.Add(operatorViewModel, rectangle1);
+            _dictionary.Add(operatorViewModel, operatorSvgElements1);
 
-            foreach (InletViewModel inlet in operatorViewModel.Inlets)
+            for (int i = 0; i < operatorViewModel.Inlets.Count; i++)
             {
+                InletViewModel inlet = operatorViewModel.Inlets[i];
+
                 if (inlet.InputOutlet != null)
                 {
                     // Recursive call
-                    Rectangle rectangle2 = ConvertToRectanglesAndLinesRecursive(inlet.InputOutlet.Operator, diagram);
+                    OperatorSvgElements operatorSvgElements2 = ConvertToRectanglesAndLinesRecursive(inlet.InputOutlet.Operator, diagram);
 
                     Line line = CreateLine();
                     line.Diagram = diagram;
-                    line.PointA = GetCenterPointFromRectangle(rectangle1);
-                    line.PointB = GetCenterPointFromRectangle(rectangle2);
+                    line.PointA = operatorSvgElements1.InletPoints[i];
+
+                    // TODO: This does not work for multiple outlets. A lot of code doesn't.
+                    if (operatorSvgElements2.OutletPoints.Count > 0)
+                    {
+                        line.PointB = operatorSvgElements2.OutletPoints[0];
+                    }
                 }
             }
 
-            return rectangle1;
+            return operatorSvgElements1;
         }
 
-        private Rectangle ConvertToRectangleWithRelatedEntities(OperatorViewModel operatorViewModel, Diagram diagram)
+        private OperatorSvgElements ConvertToRectangleWithRelatedEntities(OperatorViewModel operatorViewModel, Diagram diagram)
         {
             Rectangle rectangle = ConvertToRectangle(operatorViewModel);
             rectangle.Diagram = diagram;
-
-            Point point = ConvertToPoint(operatorViewModel);
-            point.Diagram = diagram;
-            point.Parent = rectangle;
 
             Label label = ConvertToLabel(operatorViewModel);
             label.Diagram = diagram;
             label.Parent = rectangle;
 
-            OperatorRegionsPositioner.Result positionerResult = OperatorRegionsPositioner.Execute(rectangle, operatorViewModel.Inlets.Count, operatorViewModel.Outlets.Count);
+            // Add invisible elements to diagram
+            OperatorElementsPositioner.Result positionerResult = OperatorElementsPositioner.Execute(rectangle, operatorViewModel.Inlets.Count, operatorViewModel.Outlets.Count);
 
-            IEnumerable<Rectangle> rectangles = Enumerable.Union(positionerResult.InletRectangles,
-                                                                 positionerResult.OutletRectangles);
-            foreach (Rectangle rectangle2 in rectangles)
+            IEnumerable<Rectangle> inletAndOutletRectangles = Enumerable.Union(positionerResult.InletRectangles,
+                                                                               positionerResult.OutletRectangles);
+
+            foreach (Rectangle inletOrOutletRectangle in inletAndOutletRectangles)
             {
-                rectangle2.Diagram = diagram;
-                rectangle2.Parent = rectangle;
-                rectangle2.BackStyle = _invisibleBackStyle;
-                rectangle2.LineStyle = _invisibleLineStyle;
-                rectangle2.Bubble = false;
+                inletOrOutletRectangle.Diagram = diagram;
+                inletOrOutletRectangle.Parent = rectangle;
+                inletOrOutletRectangle.BackStyle = _invisibleBackStyle;
+                inletOrOutletRectangle.LineStyle = _invisibleLineStyle;
             }
 
+            IEnumerable<Point> inletAndOutletPoints = Enumerable.Union(positionerResult.InletPoints,
+                                                                       positionerResult.OutletPoints);
+
+            foreach (Point inletOrOutletPoint in inletAndOutletPoints)
+            {
+                inletOrOutletPoint.Diagram = diagram;
+                inletOrOutletPoint.Parent = rectangle;
+                inletOrOutletPoint.PointStyle = _invisiblePointStyle;
+            }
+
+            // Tags
+            for (int i = 0; i < operatorViewModel.Inlets.Count; i++)
+            {
+                InletViewModel inletViewModel = operatorViewModel.Inlets[i];
+                Element inletElement = positionerResult.InletRectangles[i];
+                inletElement.Tag = inletViewModel.ID.ToString();
+            }
+
+            for (int i = 0; i < operatorViewModel.Outlets.Count; i++)
+            {
+                OutletViewModel outletViewModel = operatorViewModel.Outlets[i];
+                Element outletElement = positionerResult.OutletRectangles[i];
+                outletElement.Tag = outletViewModel.ID.ToString();
+            }
+
+            // Gestures
             rectangle.Gestures.Add(new MoveGesture());
 
-            positionerResult.OutletRectangles.ForEach(x => x.Gestures.Add(_dragGesture));
+            foreach (Element outletElement in positionerResult.OutletRectangles)
+            {
+                outletElement.Gestures.Add(_dragGesture);
+                outletElement.Bubble = false;
+            }
 
-            positionerResult.InletRectangles.ForEach(x => x.Gestures.Add(_dropGesture));
+            foreach (Element inletElement in positionerResult.InletRectangles)
+            {
+                inletElement.Gestures.Add(_dropGesture);
+                inletElement.Bubble = false;
+            }
 
-            return rectangle;
+            // Return result
+            return new OperatorSvgElements
+            {
+                Rectangle = rectangle,
+                InletRectangles = positionerResult.InletRectangles,
+                OutletRectangles = positionerResult.OutletRectangles,
+                InletPoints = positionerResult.InletPoints,
+                OutletPoints = positionerResult.OutletPoints
+            };
         }
 
         private Rectangle ConvertToRectangle(OperatorViewModel operatorViewModel)
@@ -237,11 +294,6 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             };
 
             return line;
-        }
-
-        private Point GetCenterPointFromRectangle(Rectangle rectangle)
-        {
-            return rectangle.Children.OfType<Point>().Single();
         }
     }
 }

@@ -12,19 +12,17 @@ namespace JJ.Presentation.Synthesizer.Svg.Positioners
     /// Calculates the rectangles for the regions in the SVG model for an operator 
     /// that have different gestures associated with them
     /// </summary>
-    internal static class OperatorRegionsPositioner
+    internal static class OperatorElementsPositioner
     {
         public class Result
         {
-            public IList<Rectangle> InletRectangles { get; private set; }
-            public IList<Rectangle> OutletRectangles { get; private set; }
-
-            public Result(IList<Rectangle> inletRectangles, IList<Rectangle> outletRectangles)
-            {
-                InletRectangles = inletRectangles;
-                OutletRectangles = outletRectangles;
-            }
+            public IList<Rectangle> InletRectangles { get; set; }
+            public IList<Rectangle> OutletRectangles { get; set; }
+            public IList<Point> InletPoints { get; set; }
+            public IList<Point> OutletPoints { get; set; }
         }
+
+        private const float ROW_COUNT = 3f;
 
         public static Result Execute(Rectangle parentRectangle, int inletCount, int outletCount)
         {
@@ -32,16 +30,16 @@ namespace JJ.Presentation.Synthesizer.Svg.Positioners
             if (inletCount < 0) throw new LessThanException(() => inletCount, 0);
             if (outletCount < 0) throw new LessThanException(() => outletCount, 0);
 
-            float rowHeight = parentRectangle.Height / 3f;
+            float rowHeight = parentRectangle.Height / ROW_COUNT;
 
             float x;
 
-            IList<Rectangle> inletRectangles;
+            IList<Rectangle> inletRectangles = new Rectangle[inletCount];
+            IList<Point> inletPoints = new Point[inletCount];
             if (inletCount > 0)
             {
                 x = 0;
                 float inletWidth = parentRectangle.Width / inletCount;
-                inletRectangles = new Rectangle[inletCount];
                 for (int i = 0; i < inletCount; i++)
                 {
                     inletRectangles[i] = new Rectangle
@@ -52,21 +50,23 @@ namespace JJ.Presentation.Synthesizer.Svg.Positioners
                         Height = rowHeight
                     };
 
+                    inletPoints[i] = new Point
+                    {
+                        X = x + inletWidth / 2f,
+                        Y = 0
+                    };
+
                     x += inletWidth;
                 }
             }
-            else
-            {
-                inletRectangles = new Rectangle[0];
-            }
 
-            IList<Rectangle> outletRectangles;
+            IList<Rectangle> outletRectangles = new Rectangle[outletCount];
+            IList<Point> outletPoints = new Point[outletCount];
             if (outletCount > 0)
             {
                 x = 0;
                 float y = 2f * rowHeight;
                 float outletWidth = parentRectangle.Width / outletCount;
-                outletRectangles = new Rectangle[outletCount];
                 for (int i = 0; i < outletCount; i++)
                 {
                     outletRectangles[i] = new Rectangle
@@ -77,15 +77,23 @@ namespace JJ.Presentation.Synthesizer.Svg.Positioners
                         Height = rowHeight
                     };
 
+                    outletPoints[i] = new Point
+                    {
+                        X = x + outletWidth / 2f,
+                        Y = parentRectangle.Height
+                    };
+
                     x += outletWidth;
                 }
             }
-            else
-            {
-                outletRectangles = new Rectangle[0];
-            }
 
-            return new Result(inletRectangles, outletRectangles);
+            return new Result 
+            {
+                InletRectangles = inletRectangles,
+                InletPoints = inletPoints,
+                OutletRectangles = outletRectangles,
+                OutletPoints = outletPoints
+            };
         }
     }
 }
