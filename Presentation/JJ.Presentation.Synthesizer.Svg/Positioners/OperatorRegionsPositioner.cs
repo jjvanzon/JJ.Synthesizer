@@ -17,13 +17,11 @@ namespace JJ.Presentation.Synthesizer.Svg.Positioners
         public class Result
         {
             public IList<Rectangle> InletRectangles { get; private set; }
-            public Rectangle NameRectangle { get; private set; }
             public IList<Rectangle> OutletRectangles { get; private set; }
 
-            public Result(IList<Rectangle> inletRectangles, Rectangle nameRectangle, IList<Rectangle> outletRectangles)
+            public Result(IList<Rectangle> inletRectangles, IList<Rectangle> outletRectangles)
             {
                 InletRectangles = inletRectangles;
-                NameRectangle = nameRectangle;
                 OutletRectangles = outletRectangles;
             }
         }
@@ -62,15 +60,6 @@ namespace JJ.Presentation.Synthesizer.Svg.Positioners
                 inletRectangles = new Rectangle[0];
             }
 
-            // TODO: We do not need the name rectangle.
-            var nameRectangle = new Rectangle
-            {
-                X = 0,
-                Y = rowHeight,
-                Width = parentRectangle.Width,
-                Height = rowHeight
-            };
-
             IList<Rectangle> outletRectangles;
             if (outletCount > 0)
             {
@@ -96,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Positioners
                 outletRectangles = new Rectangle[0];
             }
 
-            return new Result(inletRectangles, nameRectangle, outletRectangles);
+            return new Result(inletRectangles, outletRectangles);
         }
     }
 }

@@ -79,32 +79,31 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
 
             _invisiblePointStyle = new PointStyle
             {
-                //Visible = false,
-                // Temporary (2015-04-02) for debugging.
-                Visible = true,
-                Color = ColorHelper.White,
-                Width = 15
+                Visible = false,
             };
 
             _invisibleBackStyle = new BackStyle
             {
-                // TODO: Reactivate code line after debugging
-                //Visible = false 
-                // Temporary (2015-04-02) for debugging.
-                Visible = true,
-                Color = ColorHelper.GetColor(64, 40, 128, 192),
+                Visible = false 
             };
 
             _invisibleLineStyle = new LineStyle
             {
-                // TODO: Reactivate code line after debugging
-                // Visible = false 
-                // Temporary (2015-04-02) for debugging.
-                Visible = true,
-                Color = ColorHelper.GetColor(128, 40, 128, 192),
-                Width = 2,
-                DashStyleEnum = DashStyleEnum.Dotted
+                 Visible = false 
             };
+
+            // Temporary (2015-04-02) for debugging: Show invisible elements.
+            _invisiblePointStyle.Visible = true;
+            _invisiblePointStyle.Color = ColorHelper.White;
+            _invisiblePointStyle.Width = 15;
+
+            _invisibleBackStyle.Visible = true;
+            _invisibleBackStyle.Color = ColorHelper.GetColor(64, 40, 128, 192);
+
+            _invisibleLineStyle.Visible = true;
+            _invisibleLineStyle.Color = ColorHelper.GetColor(128, 40, 128, 192);
+            _invisibleLineStyle.Width = 2;
+            _invisibleLineStyle.DashStyleEnum = DashStyleEnum.Dotted;
         }
 
         public Result Execute(PatchViewModel patchViewModel)
@@ -169,20 +168,21 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
 
             OperatorRegionsPositioner.Result positionerResult = OperatorRegionsPositioner.Execute(rectangle, operatorViewModel.Inlets.Count, operatorViewModel.Outlets.Count);
 
-            IEnumerable<Rectangle> rectangles = positionerResult.InletRectangles
-                                                                .Union(positionerResult.OutletRectangles)
-                                                                /*.Union(positionerResult.NameRectangle)*/;
+            IEnumerable<Rectangle> rectangles = Enumerable.Union(positionerResult.InletRectangles,
+                                                                 positionerResult.OutletRectangles);
             foreach (Rectangle rectangle2 in rectangles)
             {
-                rectangle2.BackStyle = _invisibleBackStyle;
-                rectangle2.LineStyle = _invisibleLineStyle;
                 rectangle2.Diagram = diagram;
                 rectangle2.Parent = rectangle;
+                rectangle2.BackStyle = _invisibleBackStyle;
+                rectangle2.LineStyle = _invisibleLineStyle;
+                rectangle2.Bubble = false;
             }
 
-            //positionerResult.NameRectangle.Gestures.Add(new MoveGesture());
             rectangle.Gestures.Add(new MoveGesture());
+
             positionerResult.OutletRectangles.ForEach(x => x.Gestures.Add(_dragGesture));
+
             positionerResult.InletRectangles.ForEach(x => x.Gestures.Add(_dropGesture));
 
             return rectangle;
