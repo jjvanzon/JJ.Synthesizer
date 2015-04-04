@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Warnings.Entities
 
             if (audioFileOutput.Amplifier == 0)
             {
-                ValidationMessages.Add(() => audioFileOutput.Amplifier, MessagesFormatter.ObjectAmplifier0(PropertyDisplayNames.AudioFileOutput, audioFileOutput.Name));
+                ValidationMessages.Add(() => audioFileOutput.Amplifier, MessageFormatter.ObjectAmplifier0(PropertyDisplayNames.AudioFileOutput, audioFileOutput.Name));
             }
 
             int i = 1;

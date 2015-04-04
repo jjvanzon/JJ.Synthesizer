@@ -58,6 +58,7 @@
     <Compile Include="Mapping\ChannelMapping.cs" />
     <Compile Include="Mapping\CurveMapping.cs" />
     <Compile Include="Mapping\CurveInMapping.cs" />
+    <Compile Include="Mapping\EntityPositionMapping.cs" />
     <Compile Include="Mapping\InletMapping.cs" />
     <Compile Include="Mapping\InterpolatonTypeMapping.cs" />
     <Compile Include="Mapping\NodeMapping.cs" />

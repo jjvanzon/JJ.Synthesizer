@@ -28,34 +28,35 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _context = PersistenceHelper.CreateContext();
             _presenter = CreatePresenter(_context);
 
-            Operator op = CreateMockOperator();
+            Patch patch = CreateMockPatch();
 
-            Edit(op.ID);
+            Edit(patch.ID);
         }
 
-        private Operator CreateMockOperator()
+        private Patch CreateMockPatch()
         {
             PersistenceWrapper persistenceWrapper = PersistenceHelper.CreatePersistenceWrapper(_context);
-            Outlet entity = EntityFactory.CreateTestPatch2(persistenceWrapper);
+            Patch patch = EntityFactory.CreateTestPatch2(persistenceWrapper);
             persistenceWrapper.Flush(); // Flush to get the ID.
-            return entity.Operator;
+            return patch;
         }
 
-        public void Edit(int operatorID)
+        public void Edit(int patchID)
         {
-            _viewModel = _presenter.Edit(operatorID);
+            _viewModel = _presenter.Edit(patchID);
 
             ViewModelToDiagramConverter converter = new ViewModelToDiagramConverter();
-            ViewModelToDiagramConverter.Result converterResult = converter.Execute(_viewModel.RootOperators.Single());
+            ViewModelToDiagramConverter.Result converterResult = converter.Execute(_viewModel.Patch);
 
             diagramControl1.Diagram = converterResult.Diagram;
         }
 
         private PatchEditPresenter CreatePresenter(IContext context)
         {
+            IPatchRepository patchRepository = PersistenceHelper.CreateRepository<IPatchRepository>(context);
             IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
             IEntityPositionRepository entityPositionRepository = PersistenceHelper.CreateRepository<IEntityPositionRepository>(context);
-            var presenter = new PatchEditPresenter(operatorRepository, entityPositionRepository);
+            var presenter = new PatchEditPresenter(patchRepository, operatorRepository, entityPositionRepository);
             return presenter;
         }
     }

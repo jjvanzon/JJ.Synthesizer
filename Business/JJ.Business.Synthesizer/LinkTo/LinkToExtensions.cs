@@ -231,5 +231,28 @@ namespace JJ.Business.Synthesizer.LinkTo
                 }
             }
         }
+        
+        public static void LinkTo(this Operator op, Patch patch)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            if (op.Patch != null)
+            {
+                if (op.Patch.Operators.Contains(op))
+                {
+                    op.Patch.Operators.Remove(op);
+                }
+            }
+
+            op.Patch = patch;
+
+            if (op.Patch != null)
+            {
+                if (!op.Patch.Operators.Contains(op))
+                {
+                    op.Patch.Operators.Add(op);
+                }
+            }
+        }
     }
 }

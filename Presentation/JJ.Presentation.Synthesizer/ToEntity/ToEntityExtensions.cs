@@ -12,10 +12,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 {
     internal static class ToEntityExtensions
     {
-        public static Operator ToEntity(this PatchEditViewModel viewModel, IOperatorRepository operatorRepository, IEntityPositionRepository entityPositionRepository)
+        public static Patch ToEntity(
+            this PatchEditViewModel viewModel,
+            IPatchRepository patchRepository, 
+            IOperatorRepository operatorRepository, 
+            IEntityPositionRepository entityPositionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
 
             throw new NotImplementedException();

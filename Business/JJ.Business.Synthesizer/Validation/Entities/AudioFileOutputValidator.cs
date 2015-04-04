@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Validation.Entities
             {
                 if (audioFileOutput.AudioFileOutputChannels.Count != audioFileOutput.SpeakerSetup.SpeakerSetupChannels.Count)
                 {
-                    ValidationMessages.Add(() => audioFileOutput.AudioFileOutputChannels.Count, MessagesFormatter.ChannelCountDoesNotMatchSpeakerSetup());
+                    ValidationMessages.Add(() => audioFileOutput.AudioFileOutputChannels.Count, MessageFormatter.ChannelCountDoesNotMatchSpeakerSetup());
                 }
 
                 IList<AudioFileOutputChannel> sortedAudioFileOutputChannels = audioFileOutput.AudioFileOutputChannels.OrderBy(x => x.IndexNumber).ToArray();
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Validation.Entities
                         {
                             string messageHeading = String.Format("{0} {1}: ", PropertyDisplayNames.Channel, i + 1);
 
-                            ValidationMessages.Add(() => audioFileOutputChannel.IndexNumber, messageHeading + MessagesFormatter.ChannelIndexNumberDoesNotMatchSpeakerSetup());
+                            ValidationMessages.Add(() => audioFileOutputChannel.IndexNumber, messageHeading + MessageFormatter.ChannelIndexNumberDoesNotMatchSpeakerSetup());
                         }
                     }
                 }

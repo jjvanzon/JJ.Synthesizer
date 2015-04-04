@@ -22,21 +22,21 @@ namespace JJ.Business.Synthesizer.Warnings.Entities
 
             if (Object.Amplifier == 0)
             {
-                ValidationMessages.Add(() => Object.Amplifier, MessagesFormatter.ObjectAmplifier0(PropertyDisplayNames.Sample, Object.Name));
+                ValidationMessages.Add(() => Object.Amplifier, MessageFormatter.ObjectAmplifier0(PropertyDisplayNames.Sample, Object.Name));
             }
 
             if (!Object.IsActive)
             {
-                ValidationMessages.Add(() => Object.Amplifier, MessagesFormatter.SampleNotActive(Object.Name));
+                ValidationMessages.Add(() => Object.Amplifier, MessageFormatter.SampleNotActive(Object.Name));
             }
 
             if (Object.Bytes == null)
             {
-                ValidationMessages.Add(() => Object.Bytes, MessagesFormatter.SampleNotLoaded(Object.Name));
+                ValidationMessages.Add(() => Object.Bytes, MessageFormatter.SampleNotLoaded(Object.Name));
             }
             else if (Object.Bytes.Length == 0)
             {
-                ValidationMessages.Add(() => Object.Bytes.Length, MessagesFormatter.SampleCount0(Object.Name));
+                ValidationMessages.Add(() => Object.Bytes.Length, MessageFormatter.SampleCount0(Object.Name));
             }
         }
     }

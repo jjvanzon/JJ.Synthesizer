@@ -41,6 +41,7 @@
     <Compile Include="ViewModels\Entities\InletViewModel.cs" />
     <Compile Include="ViewModels\Entities\OperatorViewModel.cs" />
     <Compile Include="ViewModels\Entities\OutletViewModel.cs" />
+    <Compile Include="ViewModels\Entities\PatchViewModel.cs" />
     <Compile Include="ViewModels\PatchEditViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

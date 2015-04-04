@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Warnings.Entities
             {
                 if (Object.AsValueOperator.Value == 0)
                 {
-                    ValidationMessages.Add(() => Object.AsValueOperator.Value, MessagesFormatter.ValueOperatorValueIs0(Object.Name));
+                    ValidationMessages.Add(() => Object.AsValueOperator.Value, MessageFormatter.ValueOperatorValueIs0(Object.Name));
                 }
             }
         }

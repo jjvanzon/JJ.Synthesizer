@@ -10,6 +10,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {
     internal class PersistenceWrapper
     {
+        public IPatchRepository PatchRepository { get; private set; }
         public IOperatorRepository OperatorRepository { get; private set; }
         public IInletRepository InletRepository { get; private set; }
         public IOutletRepository OutletRepository { get; private set; }
@@ -18,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
         public ISampleOperatorRepository SampleOperatorRepository { get; private set; }
 
         public PersistenceWrapper(
+            IPatchRepository patchRepository,
             IOperatorRepository operatorRepository,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
@@ -25,6 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             IValueOperatorRepository valueOperatorRepository,
             ISampleOperatorRepository sampleOperatorRepository)
         {
+            if (patchRepository == null) throw new NullException(() => patchRepository);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
@@ -32,6 +35,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             if (valueOperatorRepository == null) throw new NullException(() => valueOperatorRepository);
             if (sampleOperatorRepository == null) throw new NullException(() => sampleOperatorRepository);
 
+            PatchRepository = patchRepository;
             OperatorRepository = operatorRepository;
             InletRepository = inletRepository;
             OutletRepository = outletRepository;

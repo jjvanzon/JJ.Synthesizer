@@ -9,6 +9,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class PatchEditViewModel
     {
-        public IList<OperatorViewModel> RootOperators { get; set; }
+        public PatchViewModel Patch { get; set; }
    }
 }

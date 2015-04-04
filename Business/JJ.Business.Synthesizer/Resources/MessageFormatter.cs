@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Resources
 {
-    public static class MessagesFormatter
+    public static class MessageFormatter
     {
         public static string InletNotSet(string operatorTypeName, string operatorName, string operandName)
         {
@@ -51,6 +51,11 @@ namespace JJ.Business.Synthesizer.Resources
         public static string ChannelIndexNumberDoesNotMatchSpeakerSetup()
         {
             return Messages.ChannelIndexNumberDoesNotMatchSpeakerSetup;
+        }
+
+        public static string OperatorPatchIsNotTheExpectedPatch(string operatorName, string expectedPatchName)
+        {
+            return String.Format(Messages.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
         }
     }
 }

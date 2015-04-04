@@ -18,7 +18,7 @@ namespace JJ.Persistence.Synthesizer.NHibernate.Mapping
 
             References(x => x.Patch, ColumnNames.PatchID);
 
-            // The tierlantijnen, like HasOne and Cascade.All(), are necessary for NHibernate to understand 1-to-1 relationships.
+            // HasOne and Cascade.All() are necessary for NHibernate to understand 1-to-1 relationships.
             HasOne(x => x.AsCurveIn).Cascade.All();
             HasOne(x => x.AsSampleOperator).Cascade.All();
             HasOne(x => x.AsValueOperator).Cascade.All();

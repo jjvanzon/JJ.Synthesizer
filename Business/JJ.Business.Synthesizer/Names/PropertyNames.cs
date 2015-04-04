@@ -62,5 +62,8 @@ namespace JJ.Business.Synthesizer.Names
         public const string BytesPerSample = "BytesPerSample";
         public const string BytesPerSecond = "BytesPerSecond";
         public const string ChunkSize = "ChunkSize";
+
+        // Other
+        public const string Patch = "Patch";
     }
 }

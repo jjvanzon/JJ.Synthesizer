@@ -16,16 +16,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     public class PatchEditPresenter
     {
+        private IPatchRepository _patchRepository;
+        // TODO: See if this repository is even used anymore.
         private IOperatorRepository _operatorRepository;
         private IEntityPositionRepository _entityPositionRepository;
 
         private EntityPositionManager _entityPositionManager;
 
-        public PatchEditPresenter(IOperatorRepository operatorRepository, IEntityPositionRepository entityPositionRepository)
+        public PatchEditPresenter(
+            IPatchRepository patchRepository, 
+            IOperatorRepository operatorRepository, 
+            IEntityPositionRepository entityPositionRepository)
         {
+            if (patchRepository == null) throw new NullException(() => patchRepository);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
 
+            _patchRepository = patchRepository;
             _operatorRepository = operatorRepository;
             _entityPositionRepository = entityPositionRepository;
 
@@ -34,32 +41,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public PatchEditViewModel Create()
         {
-            Operator rootOperator = _operatorRepository.Create();
+            Patch entity = _patchRepository.Create();
 
-            PatchEditViewModel viewModel = rootOperator.ToPatchEditViewModel();
+            PatchEditViewModel viewModel = entity.ToPatchEditViewModel();
 
             return viewModel;
         }
 
-        public PatchEditViewModel Edit(int rootOperatorID)
+        public PatchEditViewModel Edit(int patchID)
         {
-            Operator rootOperator = _operatorRepository.Get(rootOperatorID);
+            Patch entity = _patchRepository.Get(patchID);
 
-            PatchEditViewModel viewModel = rootOperator.ToPatchEditViewModel();
+            PatchEditViewModel viewModel = entity.ToPatchEditViewModel();
 
-            foreach (OperatorViewModel operatorViewModel in viewModel.RootOperators)
+            foreach (OperatorViewModel operatorViewModel in viewModel.Patch.Operators)
             {
-                SetPositionsRecursive(operatorViewModel);
+                SetPosition(operatorViewModel);
             }
 
             return viewModel;
         }
 
+        [Obsolete("", true)]
         private void SetPositionsRecursive(OperatorViewModel operatorViewModel)
         {
-            EntityPosition entityPosition = _entityPositionManager.GetOrCreateOperatorPosition(operatorViewModel.ID);
-            operatorViewModel.CenterX = entityPosition.X;
-            operatorViewModel.CenterY = entityPosition.Y;
+            SetPosition(operatorViewModel);
 
             for (int i = 0; i < operatorViewModel.Inlets.Count; i++)
             {
@@ -72,24 +78,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        private void SetPosition(OperatorViewModel operatorViewModel)
+        {
+            EntityPosition entityPosition = _entityPositionManager.GetOrCreateOperatorPosition(operatorViewModel.ID);
+            operatorViewModel.CenterX = entityPosition.X;
+            operatorViewModel.CenterY = entityPosition.Y;
+        }
+
         public PatchEditViewModel Save(PatchEditViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Operator rootOperator = viewModel.ToEntity(_operatorRepository, _entityPositionRepository);
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _entityPositionRepository);
 
             throw new NotImplementedException();
         }
 
         // TODO: StartMoveOperator and EndMoveOperator?
-        public OperatorViewModel MoveOperator(PatchEditViewModel viewModel, int operatorID, float newX, float newY)
-        {
-            throw new NotImplementedException();
-        }
+        //public OperatorViewModel MoveOperator(PatchEditViewModel viewModel, int operatorID, float newX, float newY)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public PatchEditViewModel ChangeInputOutlet(PatchEditViewModel viewModel, int inletID, int inputOutletID)
-        {
-            throw new NotImplementedException();
-        }
+        //public PatchEditViewModel ChangeInputOutlet(PatchEditViewModel viewModel, int inletID, int inputOutletID)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

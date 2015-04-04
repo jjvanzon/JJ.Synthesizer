@@ -14,46 +14,100 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToViewModelExtensions
     {
-        public static PatchEditViewModel ToPatchEditViewModel(this Operator rootOperator)
+        public static PatchEditViewModel ToPatchEditViewModel(this Patch patch)
         {
-            if (rootOperator == null) throw new NullException(() => rootOperator);
-
-            return ToPatchEditViewModel(new Operator[] { rootOperator });
-        }
-
-        public static PatchEditViewModel ToPatchEditViewModel(this IList<Operator> rootOperators)
-        {
-            if (rootOperators == null) throw new NullException(() => rootOperators);
-
-            IDictionary<Operator, OperatorViewModel> alreadyProcessed = new Dictionary<Operator, OperatorViewModel>();
+            if (patch == null) throw new NullException(() => patch);
 
             var viewModel = new PatchEditViewModel
             {
-                RootOperators = rootOperators.Select(x => x.ToViewModelRecursive(alreadyProcessed)).ToArray()
+                Patch = patch.ToViewModelRecursive()
             };
 
             return viewModel;
         }
 
-        private static OperatorViewModel ToViewModelRecursive(this Operator op, IDictionary<Operator, OperatorViewModel> alreadyProcessed)
+        private static PatchViewModel ToViewModelRecursive(this Patch patch)
         {
-            OperatorViewModel operatorViewModel;
-            if (alreadyProcessed .TryGetValue(op, out operatorViewModel))
-            {
-                return operatorViewModel;
-            }
-            var viewModel = new OperatorViewModel();
-            alreadyProcessed.Add(op, viewModel);
+            PatchViewModel viewModel = patch.ToViewModel();
 
-            viewModel.ID = op.ID;
-            viewModel.Name = op.Name;
-            viewModel.Inlets = op.Inlets.Select(x => x.ToViewModelRecursive(alreadyProcessed)).ToArray();
-            viewModel.Outlets = op.Outlets.Select(x => x.ToViewModelRecursive(alreadyProcessed)).ToArray();
+            var dictionary = new Dictionary<Operator, OperatorViewModel>();
+
+            viewModel.Operators = new List<OperatorViewModel>(patch.Operators.Count);
+
+            foreach (Operator op in patch.Operators)
+            {
+                OperatorViewModel operatorViewModel = op.ToViewModelRecursive(dictionary);
+                viewModel.Operators.Add(operatorViewModel);
+            }
 
             return viewModel;
         }
 
-        private static InletViewModel ToViewModelRecursive(this Inlet inlet, IDictionary<Operator, OperatorViewModel> alreadyProcessed)
+        private static OperatorViewModel ToViewModelRecursive(this Operator op, IDictionary<Operator, OperatorViewModel> dictionary)
+        {
+            OperatorViewModel viewModel;
+            if (dictionary.TryGetValue(op, out viewModel))
+            {
+                return viewModel;
+            }
+
+            viewModel = op.ToViewModel();
+
+            dictionary.Add(op, viewModel);
+
+            viewModel.Inlets = op.Inlets.Select(x => x.ToViewModelRecursive(dictionary)).ToArray();
+            viewModel.Outlets = op.Outlets.Select(x => x.ToViewModelRecursive(dictionary)).ToArray();
+
+            return viewModel;
+        }
+
+        private static InletViewModel ToViewModelRecursive(this Inlet inlet, IDictionary<Operator, OperatorViewModel> dictionary)
+        {
+            InletViewModel viewModel = inlet.ToViewModel();
+
+            if (inlet.InputOutlet != null)
+            {
+                viewModel.InputOutlet = inlet.InputOutlet.ToViewModelRecursive(dictionary);
+            }
+
+            return viewModel;
+        }
+
+        private static OutletViewModel ToViewModelRecursive(this Outlet outlet, IDictionary<Operator, OperatorViewModel> dictionary)
+        {
+            OutletViewModel viewModel = outlet.ToViewModel();
+
+            // Recursive call
+            viewModel.Operator = outlet.Operator.ToViewModelRecursive(dictionary);
+
+            return viewModel;
+        }
+
+        // Singular Form
+
+        private static PatchViewModel ToViewModel(this Patch patch)
+        {
+            var viewModel = new PatchViewModel
+            {
+                ID = patch.ID,
+                PatchName = patch.Name
+            };
+
+            return viewModel;
+        }
+
+        private static OperatorViewModel ToViewModel(this Operator op)
+        {
+            var viewModel = new OperatorViewModel
+            {
+                ID = op.ID,
+                Name = op.Name,
+            };
+
+            return viewModel;
+        }
+
+        private static InletViewModel ToViewModel(this Inlet inlet)
         {
             var viewModel = new InletViewModel
             {
@@ -61,24 +115,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = inlet.Name
             };
 
-            if (inlet.InputOutlet != null)
-            {
-                viewModel.InputOutlet = inlet.InputOutlet.ToViewModelRecursive(alreadyProcessed);
-            }
-
             return viewModel;
         }
 
-        private static OutletViewModel ToViewModelRecursive(this Outlet outlet, IDictionary<Operator, OperatorViewModel> alreadyProcessed)
+        private static OutletViewModel ToViewModel(this Outlet outlet)
         {
             var viewModel = new OutletViewModel
             {
                 ID = outlet.ID,
-                Name = outlet.Name,
+                Name = outlet.Name
             };
-
-            // Recursive call
-            viewModel.Operator = outlet.Operator.ToViewModelRecursive(alreadyProcessed);
 
             return viewModel;
         }

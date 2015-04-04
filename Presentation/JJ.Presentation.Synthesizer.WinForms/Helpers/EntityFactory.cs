@@ -1,4 +1,6 @@
-﻿using JJ.Business.Synthesizer.Factories;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Factories;
+using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
@@ -12,22 +14,30 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {
     internal static class EntityFactory
     {
-        public static Outlet CreateTestPatch1(PersistenceWrapper persistenceWrapper)
+        public static Patch CreateTestPatch1(PersistenceWrapper persistenceWrapper)
         {
             if (persistenceWrapper == null) throw new NullException(() => persistenceWrapper);
 
             OperatorFactory x = CreateOperatorFactory(persistenceWrapper);
 
-            return x.Add();
+            Outlet outlet = x.Add();
+
+            Patch patch = new Patch();
+            PatchManager.AddToPatch(outlet.Operator, patch);
+            return patch;
         }
 
-        public static Outlet CreateTestPatch2(PersistenceWrapper persistenceWrapper)
+        public static Patch CreateTestPatch2(PersistenceWrapper persistenceWrapper)
         {
             if (persistenceWrapper == null) throw new NullException(() => persistenceWrapper);
 
             OperatorFactory x = CreateOperatorFactory(persistenceWrapper);
 
-            return x.Substract(x.Add(x.Value(1), x.Value(2)), x.Value(3));
+            Outlet outlet = x.Substract(x.Add(x.Value(1), x.Value(2)), x.Value(3));
+
+            Patch patch = persistenceWrapper.PatchRepository.Create();
+            PatchManager.AddToPatch(outlet.Operator, patch);
+            return patch;
         }
 
         private static OperatorFactory CreateOperatorFactory(PersistenceWrapper persistenceWrapper)

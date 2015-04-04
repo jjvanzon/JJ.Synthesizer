@@ -46,6 +46,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         private DragDropGesture _dragGesture;
         private DragDropGesture _dropGesture;
 
+        private Dictionary<OperatorViewModel, Rectangle> _dictionary;
+
         static ViewModelToDiagramConverter()
         {
             _defaultBackStyle = new BackStyle
@@ -105,22 +107,35 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             };
         }
 
-        public Result Execute(OperatorViewModel rootOperatorViewModel)
+        public Result Execute(PatchViewModel patchViewModel)
         {
-            if (rootOperatorViewModel == null) throw new NullException(() => rootOperatorViewModel);
+            if (patchViewModel == null) throw new NullException(() => patchViewModel);
+
+            _dictionary = new Dictionary<OperatorViewModel, Rectangle>();
 
             var diagram = new Diagram();
             _dragGesture = new DragDropGesture();
             _dropGesture = new DragDropGesture();
 
-            Rectangle rectangle = ConvertToRectanglesAndLinesRecursive(rootOperatorViewModel, diagram);
+            foreach (OperatorViewModel operatorViewModel in patchViewModel.Operators)
+            {
+                Rectangle rectangle = ConvertToRectanglesAndLinesRecursive(operatorViewModel, diagram);
+            }
 
             return new Result(diagram, _dragGesture, _dropGesture);
         }
 
         private Rectangle ConvertToRectanglesAndLinesRecursive(OperatorViewModel operatorViewModel, Diagram diagram)
         {
-            Rectangle rectangle1 = ConvertToRectangleWithRelatedEntities(operatorViewModel, diagram);
+            Rectangle rectangle1;
+            if (_dictionary.TryGetValue(operatorViewModel, out rectangle1))
+            {
+                return rectangle1;
+            }
+
+            rectangle1 = ConvertToRectangleWithRelatedEntities(operatorViewModel, diagram);
+
+            _dictionary.Add(operatorViewModel, rectangle1);
 
             foreach (InletViewModel inlet in operatorViewModel.Inlets)
             {

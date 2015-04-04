@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Warnings
             {
                 if (inlet.InputOutlet == null)
                 {
-                    ValidationMessages.Add(() => Object.Inlets[i].InputOutlet, MessagesFormatter.InletNotSet(Object.OperatorTypeName, Object.Name, inlet.Name));
+                    ValidationMessages.Add(() => Object.Inlets[i].InputOutlet, MessageFormatter.InletNotSet(Object.OperatorTypeName, Object.Name, inlet.Name));
                 }
                 i++;
             }

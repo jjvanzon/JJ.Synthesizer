@@ -156,6 +156,7 @@
     <Compile Include="LinkTo\UnlinkExtensions.cs" />
     <Compile Include="Managers\AudioFileOutputManager.cs" />
     <Compile Include="Managers\EntityPositionManager.cs" />
+    <Compile Include="Managers\PatchManager.cs" />
     <Compile Include="Managers\SampleManager.cs" />
     <Compile Include="Managers\WavHeaderManager.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
@@ -163,7 +164,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Messages.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\MessagesFormatter.cs" />
+    <Compile Include="Resources\MessageFormatter.cs" />
     <Compile Include="Calculation\Operators\InterpretedOperatorCalculator.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
@@ -174,6 +175,7 @@
     <Compile Include="Validation\Entities\SampleValidator.cs" />
     <Compile Include="Validation\Entities\AudioFileOutputValidator.cs" />
     <Compile Include="Validation\NonSpecializedOperatorValidatorBase.cs" />
+    <Compile Include="Validation\RecursiveOperatorIsOfSamePatchOrPatchIsNullValidator.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
     <Compile Include="Calculation\Operators\OptimizedOperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\OperatorVisitorBase.cs" />

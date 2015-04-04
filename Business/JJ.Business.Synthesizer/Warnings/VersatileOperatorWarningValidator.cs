@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Warnings
             Type validatorType;
             if (!_validatorTypeDictionary.TryGetValue(Object.OperatorTypeName, out validatorType))
             {
-                ValidationMessages.Add(() => Object.OperatorTypeName, MessagesFormatter.UnsupportedOperatorTypeName(Object.OperatorTypeName));
+                ValidationMessages.Add(() => Object.OperatorTypeName, MessageFormatter.UnsupportedOperatorTypeName(Object.OperatorTypeName));
             }
             else
             {
