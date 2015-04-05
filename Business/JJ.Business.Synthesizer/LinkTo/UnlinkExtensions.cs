@@ -23,5 +23,12 @@ namespace JJ.Business.Synthesizer.LinkTo
 
             audioFileOutputChannel.LinkTo((Outlet)null);
         }
+
+        public static void UnlinkOutlet(this Inlet inlet)
+        {
+            if (inlet == null) throw new NullException(() => inlet);
+
+            inlet.LinkTo((Outlet)null);
+        }
     }
 }

@@ -85,45 +85,53 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Singular Form
 
-        private static PatchViewModel ToViewModel(this Patch patch)
+        public static PatchViewModel ToViewModel(this Patch entity)
         {
+            if (entity == null) throw new NullException(() => entity);
+
             var viewModel = new PatchViewModel
             {
-                ID = patch.ID,
-                PatchName = patch.Name
+                ID = entity.ID,
+                PatchName = entity.Name
             };
 
             return viewModel;
         }
 
-        private static OperatorViewModel ToViewModel(this Operator op)
+        public static OperatorViewModel ToViewModel(this Operator entity)
         {
+            if (entity == null) throw new NullException(() => entity);
+
             var viewModel = new OperatorViewModel
             {
-                ID = op.ID,
-                Name = op.Name,
+                ID = entity.ID,
+                Name = entity.Name,
             };
 
             return viewModel;
         }
 
-        private static InletViewModel ToViewModel(this Inlet inlet)
+        public static InletViewModel ToViewModel(this Inlet entity)
         {
+            if (entity == null) throw new NullException(() => entity);
+
             var viewModel = new InletViewModel
             {
-                ID = inlet.ID,
-                Name = inlet.Name
+                ID = entity.ID,
+                Name = entity.Name
             };
 
             return viewModel;
         }
 
-        private static OutletViewModel ToViewModel(this Outlet outlet)
+        public static OutletViewModel ToViewModel(this Outlet entity)
         {
+            if (entity == null) throw new NullException(() => entity);
+
             var viewModel = new OutletViewModel
             {
-                ID = outlet.ID,
-                Name = outlet.Name
+                ID = entity.ID,
+                Name = entity.Name
             };
 
             return viewModel;

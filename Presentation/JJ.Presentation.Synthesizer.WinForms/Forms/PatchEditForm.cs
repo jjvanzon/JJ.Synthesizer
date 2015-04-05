@@ -52,17 +52,35 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Render();
         }
 
+        private void MoveOperator(int operatorID, float centerX, float centerY)
+        {
+            _viewModel = _presenter.MoveOperator(_viewModel, operatorID, centerX, centerY);
+
+            Render();
+        }
+
         // Events
 
-        private void DropGesture_OnDragDrop(object sender, DragDropEventArgs e)
+        private void DropGesture_OnDrop(object sender, DropEventArgs e)
         {
-            // TODO: Temporarily (2015-04-04) disabled. Enable again
-            return;
-
             int inletID = Int32.Parse(e.DroppedOnElement.Tag);
             int outletID = Int32.Parse(e.DraggedElement.Tag);
 
             ChangeInputOutlet(inletID, outletID);
+        }
+
+        private void MoveGesture_Moved(object sender, MoveEventArgs e)
+        {
+            int operatorID = Int32.Parse(e.Element.Tag);
+            float centerX = e.Element.X + e.Element.Width / 2f;
+            float centerY = e.Element.Y + e.Element.Height / 2f;
+
+            MoveOperator(operatorID, centerX, centerY);
+        }
+
+        private void DragGesture_OnDragging(object sender, DraggingEventArgs e)
+        {
+            //throw new NotImplementedException();
         }
 
         // Other
@@ -80,17 +98,25 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void Render()
         {
-            if (_svg != null)
-            {
-                _svg.DropGesture.OnDragDrop -= DropGesture_OnDragDrop;
-            }
+            TryUnbindSvgEvents();
 
             var converter = new ViewModelToDiagramConverter();
             _svg = converter.Execute(_viewModel.Patch);
-
             diagramControl1.Diagram = _svg.Diagram;
 
-            _svg.DropGesture.OnDragDrop += DropGesture_OnDragDrop;
+            _svg.DropGesture.OnDrop += DropGesture_OnDrop;
+            _svg.DragGesture.OnDragging += DragGesture_OnDragging;
+            _svg.MoveGesture.Moved += MoveGesture_Moved;
+        }
+        
+        private void TryUnbindSvgEvents()
+        {
+            if (_svg != null)
+            {
+                _svg.DropGesture.OnDrop -= DropGesture_OnDrop;
+                _svg.DragGesture.OnDragging -= DragGesture_OnDragging;
+                _svg.MoveGesture.Moved -= MoveGesture_Moved;
+            }
         }
 
         private Patch CreateMockPatch()

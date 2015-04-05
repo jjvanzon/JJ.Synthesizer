@@ -17,7 +17,10 @@
             {
                 components.Dispose();
             }
+
             base.Dispose(disposing);
+
+            TryUnbindSvgEvents();
         }
 
         #region Windows Form Designer generated code
@@ -56,4 +59,3 @@
         private Framework.Presentation.WinForms.DiagramControl diagramControl1;
     }
 }
-

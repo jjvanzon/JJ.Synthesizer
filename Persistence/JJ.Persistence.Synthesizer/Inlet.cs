@@ -16,7 +16,7 @@ namespace JJ.Persistence.Synthesizer
         /// <summary> parent </summary>
         public virtual Operator Operator { get; set; }
 
-        /// <summary> Nullable. TODO: Rename to InputOutlet, to reflect the entity type better?</summary>
+        /// <summary> nullable </summary>
         public virtual Outlet InputOutlet { get; set; }
 
         private string DebuggerDisplay

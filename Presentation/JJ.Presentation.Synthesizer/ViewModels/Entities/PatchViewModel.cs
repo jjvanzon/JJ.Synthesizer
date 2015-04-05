@@ -10,10 +10,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     {
         public int ID { get; set; }
         public string PatchName { get; set; }
-
-        [Obsolete("", true)]
-        public IList<OperatorViewModel> RootOperators { get; set; }
-
         public IList<OperatorViewModel> Operators { get; set; }
     }
 }

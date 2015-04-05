@@ -18,7 +18,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     public class PatchEditPresenter
     {
         private IPatchRepository _patchRepository;
-        private IOperatorRepository _operatorRepository; // TODO: See if this repository is even used anymore.
+        private IOperatorRepository _operatorRepository;
         private IInletRepository _inletRepository;
         private IOutletRepository _outletRepository;
         private IEntityPositionRepository _entityPositionRepository;
@@ -65,35 +65,45 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             foreach (OperatorViewModel operatorViewModel in viewModel.Patch.Operators)
             {
-                SetPosition(operatorViewModel);
+                SetViewModelPosition(operatorViewModel);
             }
 
             return viewModel;
-        }
-
-        private void SetPosition(OperatorViewModel operatorViewModel)
-        {
-            EntityPosition entityPosition = _entityPositionManager.GetOrCreateOperatorPosition(operatorViewModel.ID);
-            operatorViewModel.CenterX = entityPosition.X;
-            operatorViewModel.CenterY = entityPosition.Y;
         }
 
         public PatchEditViewModel Save(PatchEditViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _entityPositionRepository);
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+
+            // TODO: Make a patch validator.
+            //IValidator validator = new PatchValidator
 
             throw new NotImplementedException();
+        }
+
+        public PatchEditViewModel MoveOperator(PatchEditViewModel viewModel, int operatorID, float centerX, float centerY)
+        {
+            Operator op = _operatorRepository.Get(operatorID);
+
+            EntityPosition entityPosition = _entityPositionManager.SetOrCreateOperatorPosition(operatorID, centerX, centerY);
+
+            OperatorViewModel operatorViewModel = viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single();
+            operatorViewModel.CenterX = centerX;
+            operatorViewModel.CenterY = centerY;
+
+            // TODO: Make it work statelessly too.
+
+            return viewModel;
         }
 
         public PatchEditViewModel ChangeInputOutlet(PatchEditViewModel viewModel, int inletID, int inputOutletID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            // TODO: Program the real ToEntity method.
-            //Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _entityPositionRepository);
-            Patch patch = _patchRepository.Get(viewModel.Patch.ID);
+            // TODO: This would be so much simpler statefully.
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             Inlet inlet = _inletRepository.Get(inletID);
             Outlet outlet = _outletRepository.Get(inputOutletID);
@@ -101,13 +111,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             PatchEditViewModel viewModel2 = patch.ToPatchEditViewModel();
 
-            return viewModel;
+            // TODO: I got very confused about having to do this separately,
+            // so it should belong in the main ToViewModel procedure
+            foreach (OperatorViewModel operatorViewModel in viewModel2.Patch.Operators)
+            {
+                SetViewModelPosition(operatorViewModel);
+            }
+
+            return viewModel2;
         }
 
-        // TODO: StartMoveOperator and EndMoveOperator?
-        //public OperatorViewModel MoveOperator(PatchEditViewModel viewModel, int operatorID, float newX, float newY)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        // Helpers
+
+        private void SetViewModelPosition(OperatorViewModel operatorViewModel)
+        {
+            EntityPosition entityPosition = _entityPositionManager.GetOrCreateOperatorPosition(operatorViewModel.ID);
+            operatorViewModel.CenterX = entityPosition.X;
+            operatorViewModel.CenterY = entityPosition.Y;
+        }
     }
 }

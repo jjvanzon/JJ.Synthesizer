@@ -33,15 +33,15 @@ namespace JJ.Business.Synthesizer.Managers
             if (op == null) throw new NullException(() => op);
 
             return GetOrCreateOperatorPosition(op.ID);
-
         }
+
         public EntityPosition GetOrCreateOperatorPosition(int operatorID)
         {
             EntityPosition entityPosition;
             if (!_operatorPositionDictionary.TryGetValue(operatorID, out entityPosition))
             {
-                int entityID = operatorID;
                 string entityTypeName = typeof(Operator).Name;
+                int entityID = operatorID;
 
                 entityPosition = _entityPositionRepository.TryGetByEntityTypeNameAndID(entityTypeName, entityID);
                 if (entityPosition == null)
@@ -56,6 +56,31 @@ namespace JJ.Business.Synthesizer.Managers
                 _operatorPositionDictionary.Add(entityID, entityPosition);
             }
             
+            return entityPosition;
+        }
+
+        public EntityPosition SetOrCreateOperatorPosition(int operatorID, float x, float y)
+        {
+            EntityPosition entityPosition;
+            if (!_operatorPositionDictionary.TryGetValue(operatorID, out entityPosition))
+            {
+                string entityTypeName = typeof(Operator).Name;
+                int entityID = operatorID;
+
+                entityPosition = _entityPositionRepository.TryGetByEntityTypeNameAndID(entityTypeName, entityID);
+                if (entityPosition == null)
+                {
+                    entityPosition = _entityPositionRepository.Create();
+                    entityPosition.EntityTypeName = entityTypeName;
+                    entityPosition.EntityID = entityID;
+                }
+
+                _operatorPositionDictionary.Add(operatorID, entityPosition);
+            }
+
+            entityPosition.X = x;
+            entityPosition.Y = y;
+
             return entityPosition;
         }
     }

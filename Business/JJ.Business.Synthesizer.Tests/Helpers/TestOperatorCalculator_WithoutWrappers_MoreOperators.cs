@@ -219,7 +219,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             Outlet signalOutlet = op.Inlets[OperatorConstants.TIME_MULTIPLY_SIGNAL_INDEX].InputOutlet;
             if (signalOutlet == null)
             {
-                // TODO: This seesm useless. Origin is a time variable, while we have to return an x.
+                // TODO: This seems useless. Origin is a time variable, while we have to return an x.
                 return origin;
             }
 

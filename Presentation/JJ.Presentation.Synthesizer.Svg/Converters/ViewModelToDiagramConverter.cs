@@ -19,16 +19,18 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
     {
         public class Result
         {
-            public Result(Diagram diagram, DragDropGesture dragGesture, DragDropGesture dropGesture)
+            public Result(Diagram diagram, MoveGesture moveGesture, DragGesture dragGesture, DropGesture dropGesture)
             {
                 Diagram = diagram;
+                MoveGesture = moveGesture;
                 DragGesture = dragGesture;
                 DropGesture = dropGesture;
             }
 
             public Diagram Diagram { get; private set; }
-            public DragDropGesture DragGesture { get; private set; }
-            public DragDropGesture DropGesture { get; private set; }
+            public MoveGesture MoveGesture { get; private set; }
+            public DragGesture DragGesture { get; private set; }
+            public DropGesture DropGesture { get; private set; }
         }
 
         private class OperatorSvgElements
@@ -51,9 +53,9 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         private static BackStyle _invisibleBackStyle;
         private static LineStyle _invisibleLineStyle;
 
-        // TODO: In the fugure drag gesture and drop gesture should be two different gesture types.
-        private DragDropGesture _dragGesture;
-        private DragDropGesture _dropGesture;
+        private MoveGesture _moveGesture;
+        private DragGesture _dragGesture;
+        private DropGesture _dropGesture;
 
         private Dictionary<OperatorViewModel, OperatorSvgElements> _dictionary;
 
@@ -122,17 +124,17 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             _dictionary = new Dictionary<OperatorViewModel, OperatorSvgElements>();
 
             var diagram = new Diagram();
-            _dragGesture = new DragDropGesture();
-            // TODO: Change again when the drag gesture and the drop gesture are different Gestures.
-            //_dropGesture = new DragDropGesture();
-            _dropGesture = _dragGesture;
+
+            _moveGesture = new MoveGesture();
+            _dragGesture = new DragGesture();
+            _dropGesture = new DropGesture(_dragGesture);
 
             foreach (OperatorViewModel operatorViewModel in patchViewModel.Operators)
             {
                 OperatorSvgElements rectangle = ConvertToRectanglesAndLinesRecursive(operatorViewModel, diagram);
             }
 
-            return new Result(diagram, _dragGesture, _dropGesture);
+            return new Result(diagram, _moveGesture, _dragGesture, _dropGesture);
         }
 
         private OperatorSvgElements ConvertToRectanglesAndLinesRecursive(OperatorViewModel operatorViewModel, Diagram diagram)
@@ -160,7 +162,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                     line.Diagram = diagram;
                     line.PointA = operatorSvgElements1.InletPoints[i];
 
-                    // TODO: This does not work for multiple outlets. A lot of code doesn't.
+                    // TODO: This does not work for multiple outlets.
                     if (operatorSvgElements2.OutletPoints.Count > 0)
                     {
                         line.PointB = operatorSvgElements2.OutletPoints[0];
@@ -205,6 +207,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             }
 
             // Tags
+            rectangle.Tag = operatorViewModel.ID.ToString();
+
             for (int i = 0; i < operatorViewModel.Inlets.Count; i++)
             {
                 InletViewModel inletViewModel = operatorViewModel.Inlets[i];
@@ -220,7 +224,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             }
 
             // Gestures
-            rectangle.Gestures.Add(new MoveGesture());
+            rectangle.Gestures.Add(_moveGesture);
 
             foreach (Element outletElement in positionerResult.OutletRectangles)
             {
