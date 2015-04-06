@@ -136,7 +136,6 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             _moveGesture = new MoveGesture();
             _dragGesture = new DragGesture();
             _dropGesture = new DropGesture(_dragGesture);
-
             _lineGesture = new LineGesture(diagram, _lineStyle, lineZIndex: -1);
 
             foreach (OperatorViewModel operatorViewModel in patchViewModel.Operators)
@@ -237,19 +236,17 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             }
 
             // Gestures
-            rectangle.Gestures.Add(_moveGesture);
+            rectangle.ElementGestures.Add(_moveGesture);
 
             foreach (Element outletElement in positionerResult.OutletRectangles)
             {
-                outletElement.Gestures.Add(_dragGesture);
-                outletElement.Gestures.Add(_lineGesture);
-                outletElement.Bubble = false;
+                outletElement.ElementGestures.Add(_dragGesture, mustBubble: false);
+                outletElement.ElementGestures.Add(_lineGesture, mustBubble: false);
             }
 
             foreach (Element inletElement in positionerResult.InletRectangles)
             {
-                inletElement.Gestures.Add(_dropGesture);
-                inletElement.Bubble = false;
+                inletElement.ElementGestures.Add(_dropGesture);
             }
 
             // Return result

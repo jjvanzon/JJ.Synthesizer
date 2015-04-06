@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace JJ.Presentation.Synthesizer.Svg.Gestures
 {
     // TODO: Make this internal if it proves we are never going to expose this type.
-    public class LineGesture : IGesture, IDisposable
+    public class LineGesture : GestureBase, IDisposable
     {
         private Diagram _diagram;
         private Line _line;
@@ -56,11 +56,11 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 
             _canvasMouseMoveGesture = new MouseMoveGesture();
             _canvasMouseMoveGesture.MouseMove += _canvasMouseMoveGesture_MouseMove;
-            _diagram.RootRectangle.Gestures.Add(_canvasMouseMoveGesture);
+            _diagram.RootRectangle.ElementGestures.Add(_canvasMouseMoveGesture);
 
             _canvasMouseUpGesture = new MouseUpGesture();
             _canvasMouseUpGesture.OnMouseUp += _canvasMouseUpGesture_OnMouseUp;
-            _diagram.RootRectangle.Gestures.Add(_canvasMouseUpGesture);
+            _diagram.RootRectangle.ElementGestures.Add(_canvasMouseUpGesture);
         }
 
         ~LineGesture()
@@ -79,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
             {
                 if (_diagram != null)
                 {
-                    _diagram.RootRectangle.Gestures.Remove(_canvasMouseMoveGesture);
+                    _diagram.RootRectangle.ElementGestures.Remove(_canvasMouseMoveGesture);
                 }
                 _canvasMouseMoveGesture.MouseMove -= _canvasMouseMoveGesture_MouseMove;
             }
@@ -89,16 +89,11 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 
         // IGesture
 
-        bool IGesture.MouseCaptureRequired
-        {
-            get { return false; }
-        }
-
-        void IGesture.MouseDown(object sender, MouseEventArgs e)
+        public override void FireMouseDown(object sender, MouseEventArgs e)
         {
             foreach (IGesture baseGesture in _baseGestures)
             {
-                baseGesture.MouseDown(sender, e);
+                baseGesture.FireMouseDown(sender, e);
             }
 
             if (e.Element != null)
@@ -108,19 +103,19 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
             }
         }
 
-        void IGesture.MouseMove(object sender, MouseEventArgs e)
+        public override void FireMouseMove(object sender, MouseEventArgs e)
         {
             foreach (IGesture baseGesture in _baseGestures)
             {
-                baseGesture.MouseMove(sender, e);
+                baseGesture.FireMouseMove(sender, e);
             }
         }
 
-        void IGesture.MouseUp(object sender, MouseEventArgs e)
+        public override void FireMouseUp(object sender, MouseEventArgs e)
         {
             foreach (IGesture baseGesture in _baseGestures)
             {
-                baseGesture.MouseUp(sender, e);
+                baseGesture.FireMouseUp(sender, e);
             }
 
             _line.Visible = false;
