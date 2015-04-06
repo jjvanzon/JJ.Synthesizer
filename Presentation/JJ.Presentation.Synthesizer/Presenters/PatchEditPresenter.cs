@@ -25,6 +25,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private EntityPositionManager _entityPositionManager;
 
+        private Patch _entity;
+        private PatchEditViewModel _viewModel;
+
         public PatchEditPresenter(
             IPatchRepository patchRepository,
             IOperatorRepository operatorRepository,
@@ -50,50 +53,64 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public PatchEditViewModel Create()
         {
-            Patch entity = _patchRepository.Create();
+            _entity = _patchRepository.Create();
 
-            PatchEditViewModel viewModel = entity.ToPatchEditViewModel();
+            _viewModel = _entity.ToPatchEditViewModel();
 
-            return viewModel;
+            return _viewModel;
         }
 
         public PatchEditViewModel Edit(int patchID)
         {
-            Patch entity = _patchRepository.Get(patchID);
+            _entity = _patchRepository.Get(patchID);
 
-            PatchEditViewModel viewModel = entity.ToPatchEditViewModel();
+            _viewModel = CreateViewModel(_entity);
 
-            foreach (OperatorViewModel operatorViewModel in viewModel.Patch.Operators)
-            {
-                SetViewModelPosition(operatorViewModel);
-            }
-
-            return viewModel;
+            return _viewModel;
         }
 
         public PatchEditViewModel Save(PatchEditViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            if (_entity == null)
+            {
+                _entity = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            }
 
             // TODO: Make a patch validator.
             //IValidator validator = new PatchValidator
+
+            if (_viewModel == null)
+            {
+                _viewModel = CreateViewModel(_entity);
+            }
 
             throw new NotImplementedException();
         }
 
         public PatchEditViewModel MoveOperator(PatchEditViewModel viewModel, int operatorID, float centerX, float centerY)
         {
-            Operator op = _operatorRepository.Get(operatorID);
+            if (viewModel == null) throw new NullException(() => viewModel);
 
+            if (_entity == null)
+            {
+                _entity = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            }
+
+            Operator op = _operatorRepository.Get(operatorID); // This is just to check that the entity exists. TODO: But that's weird. You should be doing that in the entity position manager if anywhere.
             EntityPosition entityPosition = _entityPositionManager.SetOrCreateOperatorPosition(operatorID, centerX, centerY);
 
-            OperatorViewModel operatorViewModel = viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single();
-            operatorViewModel.CenterX = centerX;
-            operatorViewModel.CenterY = centerY;
-
-            // TODO: Make it work statelessly too.
+            if (_viewModel == null)
+            {
+                _viewModel = CreateViewModel(_entity);
+            }
+            else
+            {
+                OperatorViewModel operatorViewModel = _viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single();
+                operatorViewModel.CenterX = centerX;
+                operatorViewModel.CenterY = centerY;
+            }
 
             return viewModel;
         }
@@ -102,26 +119,36 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            // TODO: This would be so much simpler statefully.
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            if (_entity == null)
+            {
+                _entity = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            }
 
             Inlet inlet = _inletRepository.Get(inletID);
             Outlet outlet = _outletRepository.Get(inputOutletID);
             inlet.LinkTo(outlet);
 
-            PatchEditViewModel viewModel2 = patch.ToPatchEditViewModel();
+            // TODO: In a stateful situation you might just adjust a small part of the view model.
+            _viewModel = CreateViewModel(_entity);
+
+            return _viewModel;
+        }
+
+        // Helpers
+
+        private PatchEditViewModel CreateViewModel(Patch entity)
+        {
+            PatchEditViewModel viewModel = entity.ToPatchEditViewModel();
 
             // TODO: I got very confused about having to do this separately,
             // so it should belong in the main ToViewModel procedure
-            foreach (OperatorViewModel operatorViewModel in viewModel2.Patch.Operators)
+            foreach (OperatorViewModel operatorViewModel in viewModel.Patch.Operators)
             {
                 SetViewModelPosition(operatorViewModel);
             }
 
-            return viewModel2;
+            return viewModel;
         }
-
-        // Helpers
 
         private void SetViewModelPosition(OperatorViewModel operatorViewModel)
         {
