@@ -1,6 +1,7 @@
 ﻿using JJ.Framework.Presentation.Svg.EventArg;
 using JJ.Framework.Presentation.Svg.Gestures;
 using JJ.Framework.Presentation.Svg.Models.Elements;
+using JJ.Framework.Presentation.Svg.Models.Styling;
 using JJ.Framework.Reflection.Exceptions;
 using System;
 using System.Collections.Generic;
@@ -13,15 +14,19 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
     // TODO: Make this internal if it proves we are never going to expose this type.
     public class LineGesture : IGesture, IDisposable
     {
-        private DragGesture _dragGesture;
-        private DropGesture _dropGesture;
-
-        private IList<IGesture> _baseGestures;
-
+        private Diagram _diagram;
         private Line _line;
 
         private float _mouseDownX;
         private float _mouseDownY;
+
+        // TODO: If the DragGesture and DropGesture do not really add any functionality
+        // that I almost programmed myself here, then remove them?
+        private DragGesture _dragGesture;
+        private DropGesture _dropGesture;
+        private IList<IGesture> _baseGestures;
+        private MouseMoveGesture _canvasMouseMoveGesture;
+        private MouseUpGesture _canvasMouseUpGesture;
 
         // TODO: Don't I need multiple drag gestures and drop gestures?
         // TODO: I hoped I could encapsulate drag and drop gestures, and create them
@@ -35,61 +40,39 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
         // I am very much in doubt about turning Drag and Drop into a single
         // Gesture again (because of the polymorphic smell).
 
-        public LineGesture(DragGesture dragGesture, DropGesture dropGesture, Diagram diagram)
+        public LineGesture(Diagram diagram, LineStyle lineStyle = null, int lineZIndex = 0)
         {
-            if (dragGesture == null) throw new NullException(() => dragGesture);
-            if (dropGesture == null) throw new NullException(() => dropGesture);
             if (diagram == null) throw new NullException(() => diagram);
 
-            _dragGesture = dragGesture;
-            _dropGesture = dropGesture;
+            _diagram = diagram;
 
-            _line = InitializeLine(diagram);
+            _line = new Line
+            { 
+                Diagram = _diagram,
+                ZIndex = lineZIndex,
+                Visible = false,
+                Tag = "THIS IS THE LINE GESTURE LINE!"
+            };
 
-            _baseGestures = InitializeGestures(_dragGesture, _dropGesture);
-        }
+            if (lineStyle != null)
+            {
+                _line.LineStyle = lineStyle;
+            };
 
-        public LineGesture(DragGesture dragGesture, DropGesture dropGesture, Line line)
-        {
-            if (dragGesture == null) throw new NullException(() => dragGesture);
-            if (dropGesture == null) throw new NullException(() => dropGesture);
-            if (line == null) throw new NullException(() => line);
+            _dragGesture = new DragGesture();
+            _dropGesture = new DropGesture();
 
-            _dragGesture = dragGesture;
-            _dropGesture = dropGesture;
-            _line = line;
+            _baseGestures = new IGesture[] { _dragGesture, _dropGesture };
 
-            InitializeLine(_line);
+            _dragGesture.OnDragging += _dragGesture_OnDragging;
 
-            _baseGestures = InitializeGestures(_dragGesture, _dropGesture);
-        }
+            _canvasMouseMoveGesture = new MouseMoveGesture();
+            _canvasMouseMoveGesture.MouseMove += _canvasMouseMoveGesture_MouseMove;
+            _diagram.RootRectangle.Gestures.Add(_canvasMouseMoveGesture);
 
-        private IList<IGesture> InitializeGestures(DragGesture dragGesture, DropGesture dropGesture)
-        {
-            IList<IGesture> baseGestures = new IGesture[] { dragGesture, dropGesture };
-            dragGesture.OnDragging += _dragGesture_OnDragging;
-            return baseGestures;
-        }
-
-        private Line InitializeLine(Diagram diagram)
-        {
-            Line line = new Line();
-            line.Diagram = diagram;
-            line.PointA.Diagram = diagram;
-            line.PointB.Diagram = diagram;
-            InitializeLine(line);
-            return line;
-        }
-
-        private void InitializeLine(Line line)
-        {
-            if (line.Diagram == null) throw new NullException(() => line.Diagram);
-
-            //line.LineStyle.Visible = false;
-            line.PointA.Parent = line.Diagram.RootRectangle;
-            line.PointB.Parent = line.Diagram.RootRectangle;
-
-            line.Tag = "THIS IS THE LINE GESTURE LINE!";
+            _canvasMouseUpGesture = new MouseUpGesture();
+            _canvasMouseUpGesture.OnMouseUp += _canvasMouseUpGesture_OnMouseUp;
+            _diagram.RootRectangle.Gestures.Add(_canvasMouseUpGesture);
         }
 
         ~LineGesture()
@@ -104,6 +87,15 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
                 _dragGesture.OnDragging -= _dragGesture_OnDragging;
             }
 
+            if (_canvasMouseMoveGesture != null)
+            {
+                if (_diagram != null)
+                {
+                    _diagram.RootRectangle.Gestures.Remove(_canvasMouseMoveGesture);
+                }
+                _canvasMouseMoveGesture.MouseMove -= _canvasMouseMoveGesture_MouseMove;
+            }
+
             GC.SuppressFinalize(this);
         }
 
@@ -111,13 +103,11 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 
         bool IGesture.MouseCaptureRequired
         {
-            get { return true; }
+            get { return false; }
         }
 
         void IGesture.MouseDown(object sender, MouseEventArgs e)
         {
-            // I should only do this if I own the base events,
-            // which I don't. Now the base events go off twice.
             foreach (IGesture baseGesture in _baseGestures)
             {
                 baseGesture.MouseDown(sender, e);
@@ -145,10 +135,26 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
                 baseGesture.MouseUp(sender, e);
             }
 
-            //_line.Visible = false;
+            _line.Visible = false;
         }
 
         // Events
+
+        private void _canvasMouseMoveGesture_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_dragGesture.DraggedElement != null)
+            {
+                _line.Visible = false;
+
+                _line.PointA.X = _mouseDownX;
+                _line.PointA.Y = _mouseDownY;
+
+                _line.PointB.X = e.X;
+                _line.PointB.Y = e.Y;
+
+                _line.Visible = true;
+            }
+        }
 
         private void _dragGesture_OnDragging(object sender, DraggingEventArgs e)
         {
@@ -159,6 +165,11 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
             _line.PointB.Y = e.Y;
 
             _line.Visible = true;
+        }
+
+        void _canvasMouseUpGesture_OnMouseUp(object sender, MouseEventArgs e)
+        {
+            _line.Visible = false;
         }
     }
 }

@@ -52,9 +52,9 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         private const float DEFAULT_HEIGHT = 60;
 
         private static Font _defaultFont;
-        private static TextStyle _defaultTextStyle;
-        private static BackStyle _defaultBackStyle;
-        private static LineStyle _defaultLineStyle;
+        private static TextStyle _textStyle;
+        private static BackStyle _backStyle;
+        private static LineStyle _lineStyle;
         private static PointStyle _invisiblePointStyle;
         private static BackStyle _invisibleBackStyle;
         private static LineStyle _invisibleLineStyle;
@@ -69,13 +69,13 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
 
         static ViewModelToDiagramConverter()
         {
-            _defaultBackStyle = new BackStyle
+            _backStyle = new BackStyle
             {
                 Visible = true,
                 Color = ColorHelper.GetColor(220, 220, 220)
             };
 
-            _defaultLineStyle = new LineStyle
+            _lineStyle = new LineStyle
             {
                 Width = 2,
                 Color = ColorHelper.GetColor(45, 45, 45)
@@ -88,7 +88,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 Size = 13,
             };
 
-            _defaultTextStyle = new TextStyle
+            _textStyle = new TextStyle
             {
                 HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
                 VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
@@ -137,13 +137,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             _dragGesture = new DragGesture();
             _dropGesture = new DropGesture(_dragGesture);
 
-            //var line = new Line
-            //{
-            //    LineStyle = new LineStyle { Color = ColorHelper.Black, Visible = true, Width = 2, DashStyleEnum = DashStyleEnum.Solid },
-            //    ZIndex = 1000
-            //};
-            //line.Diagram = diagram;
-            //_lineGesture = new LineGesture(_dragGesture, _dropGesture, line);
+            _lineGesture = new LineGesture(diagram, _lineStyle, lineZIndex: -1);
 
             foreach (OperatorViewModel operatorViewModel in patchViewModel.Operators)
             {
@@ -248,7 +242,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             foreach (Element outletElement in positionerResult.OutletRectangles)
             {
                 outletElement.Gestures.Add(_dragGesture);
-                //outletElement.Gestures.Add(_lineGesture);
+                outletElement.Gestures.Add(_lineGesture);
                 outletElement.Bubble = false;
             }
 
@@ -275,8 +269,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             {
                 Width = DEFAULT_WIDTH,
                 Height = DEFAULT_HEIGHT,
-                BackStyle = _defaultBackStyle,
-                LineStyle = _defaultLineStyle,
+                BackStyle = _backStyle,
+                LineStyle = _lineStyle,
                 X = operatorViewModel.CenterX - DEFAULT_WIDTH / 2f,
                 Y = operatorViewModel.CenterY - DEFAULT_HEIGHT / 2f
             };
@@ -291,7 +285,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 Text = operatorViewModel.Name,
                 Width = DEFAULT_WIDTH,
                 Height = DEFAULT_HEIGHT,
-                TextStyle = _defaultTextStyle
+                TextStyle = _textStyle
             };
 
             return label;
@@ -313,7 +307,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         {
             var line = new Line
             {
-                LineStyle = _defaultLineStyle,
+                LineStyle = _lineStyle,
                 ZIndex = -1
             };
 
