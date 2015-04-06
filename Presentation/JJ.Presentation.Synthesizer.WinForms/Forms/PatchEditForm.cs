@@ -61,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Events
 
-        private void DropGesture_OnDrop(object sender, DropEventArgs e)
+        private void DropGesture_Dropped(object sender, DroppedEventArgs e)
         {
             int inletID = Int32.Parse(e.DroppedOnElement.Tag);
             int outletID = Int32.Parse(e.DraggedElement.Tag);
@@ -78,7 +78,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             MoveOperator(operatorID, centerX, centerY);
         }
 
-        private void DragGesture_OnDragging(object sender, DraggingEventArgs e)
+        private void DragGesture_Dragging(object sender, DraggingEventArgs e)
         {
             //throw new NotImplementedException();
         }
@@ -104,8 +104,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _svg = converter.Execute(_viewModel.Patch);
             diagramControl1.Diagram = _svg.Diagram;
 
-            _svg.DropGesture.Dropped += DropGesture_OnDrop;
-            _svg.DragGesture.Dragging += DragGesture_OnDragging;
+            _svg.DropGesture.Dropped += DropGesture_Dropped;
+            _svg.DragGesture.Dragging += DragGesture_Dragging;
+
+            //_svg.LineGesture.Dropped += DropGesture_Dropped;
+            //_svg.LineGesture.Dragging += DragGesture_Dragging;
+
             _svg.MoveGesture.Moved += MoveGesture_Moved;
         }
         
@@ -113,8 +117,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             if (_svg != null)
             {
-                _svg.DropGesture.Dropped -= DropGesture_OnDrop;
-                _svg.DragGesture.Dragging -= DragGesture_OnDragging;
+                _svg.DropGesture.Dropped -= DropGesture_Dropped;
+                _svg.DragGesture.Dragging -= DragGesture_Dragging;
+
+                //_svg.LineGesture.Dropped -= DropGesture_Dropped;
+                //_svg.LineGesture.Dragging -= DragGesture_Dragging;
+
                 _svg.MoveGesture.Moved -= MoveGesture_Moved;
             }
         }

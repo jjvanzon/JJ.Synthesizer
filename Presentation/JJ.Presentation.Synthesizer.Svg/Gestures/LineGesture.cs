@@ -16,17 +16,27 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
     {
         private Diagram _diagram;
         private Line _line;
-
         private float _mouseDownX;
         private float _mouseDownY;
 
-        // TODO: If the DragGesture and DropGesture do not really add any functionality
-        // that I almost programmed myself here, then remove them?
         private DragGesture _dragGesture;
         private DropGesture _dropGesture;
         private IList<IGesture> _baseGestures;
-        private MouseMoveGesture _canvasMouseMoveGesture;
-        private MouseUpGesture _canvasMouseUpGesture;
+
+        // TODO: This does not work. You would have to have two gestures:
+        // one for Line dragging and one for Line dropping,
+        // because they are applied to different elements.
+        public event EventHandler<DraggingEventArgs> Dragging
+        {
+            add { _dragGesture.Dragging += value; }
+            remove { _dragGesture.Dragging -= value; }
+        }
+
+        public event EventHandler<DroppedEventArgs> Dropped
+        {
+            add { _dropGesture.Dropped += value; }
+            remove { _dropGesture.Dropped -= value; }
+        }
 
         public LineGesture(Diagram diagram, LineStyle lineStyle = null, int lineZIndex = 0)
         {
@@ -52,15 +62,9 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 
             _baseGestures = new IGesture[] { _dragGesture, _dropGesture };
 
-            _dragGesture.Dragging += _dragGesture_OnDragging;
-
-            _canvasMouseMoveGesture = new MouseMoveGesture();
-            _canvasMouseMoveGesture.MouseMove += _canvasMouseMoveGesture_MouseMove;
-            _diagram.Canvas.ElementGestures.Add(_canvasMouseMoveGesture);
-
-            _canvasMouseUpGesture = new MouseUpGesture();
-            _canvasMouseUpGesture.OnMouseUp += _canvasMouseUpGesture_OnMouseUp;
-            _diagram.Canvas.ElementGestures.Add(_canvasMouseUpGesture);
+            _dragGesture.Dragging += _dragGesture_Dragging;
+            _dragGesture.DragCancelled += _dragGesture_DragCancelled;
+            _dropGesture.Dropped += _dropGesture_Dropped;
         }
 
         ~LineGesture()
@@ -72,16 +76,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
         {
             if (_dragGesture != null)
             {
-                _dragGesture.Dragging -= _dragGesture_OnDragging;
-            }
-
-            if (_canvasMouseMoveGesture != null)
-            {
-                if (_diagram != null)
-                {
-                    _diagram.Canvas.ElementGestures.Remove(_canvasMouseMoveGesture);
-                }
-                _canvasMouseMoveGesture.MouseMove -= _canvasMouseMoveGesture_MouseMove;
+                _dragGesture.Dragging -= _dragGesture_Dragging;
+                _dropGesture.Dropped -= _dropGesture_Dropped;
             }
 
             GC.SuppressFinalize(this);
@@ -123,7 +119,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 
         // Events
 
-        private void _dragGesture_OnDragging(object sender, DraggingEventArgs e)
+        private void _dragGesture_Dragging(object sender, DraggingEventArgs e)
         {
             _line.PointA.X = _mouseDownX;
             _line.PointA.Y = _mouseDownY;
@@ -134,23 +130,12 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
             _line.Visible = true;
         }
 
-        private void _canvasMouseMoveGesture_MouseMove(object sender, MouseEventArgs e)
+        void _dropGesture_Dropped(object sender, DroppedEventArgs e)
         {
-            if (_dragGesture.DraggedElement != null)
-            {
-                _line.Visible = false;
-
-                _line.PointA.X = _mouseDownX;
-                _line.PointA.Y = _mouseDownY;
-
-                _line.PointB.X = e.X;
-                _line.PointB.Y = e.Y;
-
-                _line.Visible = true;
-            }
+            _line.Visible = false;
         }
 
-        void _canvasMouseUpGesture_OnMouseUp(object sender, MouseEventArgs e)
+        private void _dragGesture_DragCancelled(object sender, EventArgs e)
         {
             _line.Visible = false;
         }
