@@ -37,6 +37,7 @@
     <Compile Include="Converters\ViewModelToDiagramConverter.cs" />
     <Compile Include="Gestures\AddLineGesture.cs" />
     <Compile Include="Gestures\ChangeLineGesture.cs" />
+    <Compile Include="Gestures\LineGesture.cs" />
     <Compile Include="Positioners\OperatorElementsPositioner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

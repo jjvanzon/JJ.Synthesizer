@@ -12,6 +12,7 @@ using JJ.Framework.Presentation.Svg.Models.Styling;
 using JJ.Framework.Presentation.Svg.Gestures;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.Svg.Positioners;
+using JJ.Presentation.Synthesizer.Svg.Gestures;
 
 namespace JJ.Presentation.Synthesizer.Svg.Converters
 {
@@ -19,18 +20,23 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
     {
         public class Result
         {
-            public Result(Diagram diagram, MoveGesture moveGesture, DragGesture dragGesture, DropGesture dropGesture)
+            public Result(Diagram diagram, MoveGesture moveGesture, DragGesture dragGesture, DropGesture dropGesture, LineGesture lineGesture)
             {
                 Diagram = diagram;
                 MoveGesture = moveGesture;
                 DragGesture = dragGesture;
                 DropGesture = dropGesture;
+                LineGesture = lineGesture;
             }
 
             public Diagram Diagram { get; private set; }
             public MoveGesture MoveGesture { get; private set; }
             public DragGesture DragGesture { get; private set; }
             public DropGesture DropGesture { get; private set; }
+
+            // TODO: Figure out if you actually use this exterally.
+
+            public LineGesture LineGesture { get; private set; }
         }
 
         private class OperatorSvgElements
@@ -56,6 +62,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         private MoveGesture _moveGesture;
         private DragGesture _dragGesture;
         private DropGesture _dropGesture;
+        // TODO: Figure out if you actually use this exterally.
+        private LineGesture _lineGesture;
 
         private Dictionary<OperatorViewModel, OperatorSvgElements> _dictionary;
 
@@ -129,15 +137,23 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             _dragGesture = new DragGesture();
             _dropGesture = new DropGesture(_dragGesture);
 
+            //var line = new Line
+            //{
+            //    LineStyle = new LineStyle { Color = ColorHelper.Black, Visible = true, Width = 2, DashStyleEnum = DashStyleEnum.Solid },
+            //    ZIndex = 1000
+            //};
+            //line.Diagram = diagram;
+            //_lineGesture = new LineGesture(_dragGesture, _dropGesture, line);
+
             foreach (OperatorViewModel operatorViewModel in patchViewModel.Operators)
             {
-                OperatorSvgElements rectangle = ConvertToRectanglesAndLinesRecursive(operatorViewModel, diagram);
+                OperatorSvgElements rectangle = ConvertToRectangles_WithRelatedObject_Recursive(operatorViewModel, diagram);
             }
 
-            return new Result(diagram, _moveGesture, _dragGesture, _dropGesture);
+            return new Result(diagram, _moveGesture, _dragGesture, _dropGesture, _lineGesture);
         }
 
-        private OperatorSvgElements ConvertToRectanglesAndLinesRecursive(OperatorViewModel operatorViewModel, Diagram diagram)
+        private OperatorSvgElements ConvertToRectangles_WithRelatedObject_Recursive(OperatorViewModel operatorViewModel, Diagram diagram)
         {
             OperatorSvgElements operatorSvgElements1;
             if (_dictionary.TryGetValue(operatorViewModel, out operatorSvgElements1))
@@ -145,7 +161,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 return operatorSvgElements1;
             }
 
-            operatorSvgElements1 = ConvertToRectangleWithRelatedEntities(operatorViewModel, diagram);
+            operatorSvgElements1 = ConvertToRectangle_WithRelatedObjects(operatorViewModel, diagram);
 
             _dictionary.Add(operatorViewModel, operatorSvgElements1);
 
@@ -156,7 +172,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 if (inlet.InputOutlet != null)
                 {
                     // Recursive call
-                    OperatorSvgElements operatorSvgElements2 = ConvertToRectanglesAndLinesRecursive(inlet.InputOutlet.Operator, diagram);
+                    OperatorSvgElements operatorSvgElements2 = ConvertToRectangles_WithRelatedObject_Recursive(inlet.InputOutlet.Operator, diagram);
 
                     Line line = CreateLine();
                     line.Diagram = diagram;
@@ -173,7 +189,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             return operatorSvgElements1;
         }
 
-        private OperatorSvgElements ConvertToRectangleWithRelatedEntities(OperatorViewModel operatorViewModel, Diagram diagram)
+        private OperatorSvgElements ConvertToRectangle_WithRelatedObjects(OperatorViewModel operatorViewModel, Diagram diagram)
         {
             Rectangle rectangle = ConvertToRectangle(operatorViewModel);
             rectangle.Diagram = diagram;
@@ -183,7 +199,10 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             label.Parent = rectangle;
 
             // Add invisible elements to diagram
-            OperatorElementsPositioner.Result positionerResult = OperatorElementsPositioner.Execute(rectangle, operatorViewModel.Inlets.Count, operatorViewModel.Outlets.Count);
+            OperatorElementsPositioner.Result positionerResult = OperatorElementsPositioner.Execute(
+                rectangle, 
+                operatorViewModel.Inlets.Count, 
+                operatorViewModel.Outlets.Count);
 
             IEnumerable<Rectangle> inletAndOutletRectangles = Enumerable.Union(positionerResult.InletRectangles,
                                                                                positionerResult.OutletRectangles);
@@ -229,6 +248,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             foreach (Element outletElement in positionerResult.OutletRectangles)
             {
                 outletElement.Gestures.Add(_dragGesture);
+                //outletElement.Gestures.Add(_lineGesture);
                 outletElement.Bubble = false;
             }
 
