@@ -55,6 +55,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         private static TextStyle _textStyle;
         private static BackStyle _backStyle;
         private static LineStyle _lineStyle;
+        private static LineStyle _lightLineStyle;
         private static PointStyle _invisiblePointStyle;
         private static BackStyle _invisibleBackStyle;
         private static LineStyle _invisibleLineStyle;
@@ -79,6 +80,13 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             {
                 Width = 2,
                 Color = ColorHelper.GetColor(45, 45, 45)
+            };
+
+            _lightLineStyle = new LineStyle
+            {
+                Width = 3,
+                Color = ColorHelper.GetColor(128, 45, 45, 45),
+                DashStyleEnum = DashStyleEnum.Dotted
             };
 
             _defaultFont = new Font
@@ -136,7 +144,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             _moveGesture = new MoveGesture();
             _dragGesture = new DragGesture();
             _dropGesture = new DropGesture(_dragGesture);
-            _lineGesture = new LineGesture(diagram, _lineStyle, lineZIndex: -1);
+            _lineGesture = new LineGesture(diagram, _lightLineStyle, lineZIndex: -1);
 
             foreach (OperatorViewModel operatorViewModel in patchViewModel.Operators)
             {
