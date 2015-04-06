@@ -28,18 +28,6 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
         private MouseMoveGesture _canvasMouseMoveGesture;
         private MouseUpGesture _canvasMouseUpGesture;
 
-        // TODO: Don't I need multiple drag gestures and drop gestures?
-        // TODO: I hoped I could encapsulate drag and drop gestures, and create them
-        // privately, but the drags and drops involve different elements,
-        // so maybe I need a DragLine and DropLine gesture?
-        // I am having difficulty managing drag and drop as separate gestures
-        // anyway, so maybe I should make it a little less polymorphic and
-        // make drag and drop a single gesture with booleans CanDrag and CanDropOn?
-        // Anyway, to make this gesture stand on its own, you would have to 
-        // first get rid of the bugs in drag and drop.
-        // I am very much in doubt about turning Drag and Drop into a single
-        // Gesture again (because of the polymorphic smell).
-
         public LineGesture(Diagram diagram, LineStyle lineStyle = null, int lineZIndex = 0)
         {
             if (diagram == null) throw new NullException(() => diagram);
