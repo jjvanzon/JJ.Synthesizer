@@ -52,15 +52,15 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 
             _baseGestures = new IGesture[] { _dragGesture, _dropGesture };
 
-            _dragGesture.OnDragging += _dragGesture_OnDragging;
+            _dragGesture.Dragging += _dragGesture_OnDragging;
 
             _canvasMouseMoveGesture = new MouseMoveGesture();
             _canvasMouseMoveGesture.MouseMove += _canvasMouseMoveGesture_MouseMove;
-            _diagram.RootRectangle.ElementGestures.Add(_canvasMouseMoveGesture);
+            _diagram.Canvas.ElementGestures.Add(_canvasMouseMoveGesture);
 
             _canvasMouseUpGesture = new MouseUpGesture();
             _canvasMouseUpGesture.OnMouseUp += _canvasMouseUpGesture_OnMouseUp;
-            _diagram.RootRectangle.ElementGestures.Add(_canvasMouseUpGesture);
+            _diagram.Canvas.ElementGestures.Add(_canvasMouseUpGesture);
         }
 
         ~LineGesture()
@@ -72,14 +72,14 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
         {
             if (_dragGesture != null)
             {
-                _dragGesture.OnDragging -= _dragGesture_OnDragging;
+                _dragGesture.Dragging -= _dragGesture_OnDragging;
             }
 
             if (_canvasMouseMoveGesture != null)
             {
                 if (_diagram != null)
                 {
-                    _diagram.RootRectangle.ElementGestures.Remove(_canvasMouseMoveGesture);
+                    _diagram.Canvas.ElementGestures.Remove(_canvasMouseMoveGesture);
                 }
                 _canvasMouseMoveGesture.MouseMove -= _canvasMouseMoveGesture_MouseMove;
             }
@@ -123,6 +123,17 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 
         // Events
 
+        private void _dragGesture_OnDragging(object sender, DraggingEventArgs e)
+        {
+            _line.PointA.X = _mouseDownX;
+            _line.PointA.Y = _mouseDownY;
+
+            _line.PointB.X = e.X;
+            _line.PointB.Y = e.Y;
+
+            _line.Visible = true;
+        }
+
         private void _canvasMouseMoveGesture_MouseMove(object sender, MouseEventArgs e)
         {
             if (_dragGesture.DraggedElement != null)
@@ -137,17 +148,6 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 
                 _line.Visible = true;
             }
-        }
-
-        private void _dragGesture_OnDragging(object sender, DraggingEventArgs e)
-        {
-            _line.PointA.X = _mouseDownX;
-            _line.PointA.Y = _mouseDownY;
-
-            _line.PointB.X = e.X;
-            _line.PointB.Y = e.Y;
-
-            _line.Visible = true;
         }
 
         void _canvasMouseUpGesture_OnMouseUp(object sender, MouseEventArgs e)

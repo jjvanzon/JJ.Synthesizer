@@ -104,8 +104,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _svg = converter.Execute(_viewModel.Patch);
             diagramControl1.Diagram = _svg.Diagram;
 
-            _svg.DropGesture.OnDrop += DropGesture_OnDrop;
-            _svg.DragGesture.OnDragging += DragGesture_OnDragging;
+            _svg.DropGesture.Dropped += DropGesture_OnDrop;
+            _svg.DragGesture.Dragging += DragGesture_OnDragging;
             _svg.MoveGesture.Moved += MoveGesture_Moved;
         }
         
@@ -113,8 +113,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             if (_svg != null)
             {
-                _svg.DropGesture.OnDrop -= DropGesture_OnDrop;
-                _svg.DragGesture.OnDragging -= DragGesture_OnDragging;
+                _svg.DropGesture.Dropped -= DropGesture_OnDrop;
+                _svg.DragGesture.Dragging -= DragGesture_OnDragging;
                 _svg.MoveGesture.Moved -= MoveGesture_Moved;
             }
         }
