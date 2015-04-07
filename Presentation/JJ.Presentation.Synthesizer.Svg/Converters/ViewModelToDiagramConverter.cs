@@ -250,17 +250,18 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             }
 
             // Gestures
-            rectangle.ElementGestures.Add(_moveGesture);
+            rectangle.Gestures.Add(_moveGesture);
 
             foreach (Element outletElement in positionerResult.OutletRectangles)
             {
-                outletElement.ElementGestures.Add(_dragGesture, mustBubble: false);
-                outletElement.ElementGestures.Add(_lineGesture, mustBubble: false);
+                outletElement.MustBubble = false;
+                outletElement.Gestures.Add(_dragGesture);
+                outletElement.Gestures.Add(_lineGesture);
             }
 
             foreach (Element inletElement in positionerResult.InletRectangles)
             {
-                inletElement.ElementGestures.Add(_dropGesture);
+                inletElement.Gestures.Add(_dropGesture);
             }
 
             // Return result
