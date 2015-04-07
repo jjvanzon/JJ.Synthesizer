@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation.Entities
     public class TimeSubstractValidator : NonSpecializedOperatorValidatorBase
     {
         public TimeSubstractValidator(Operator obj)
-            : base(obj, PropertyNames.Divide, 2, PropertyNames.Signal, PropertyNames.TimeDifference, PropertyNames.Result)
+            : base(obj, PropertyNames.TimeSubstract, 2, PropertyNames.TimeSubstract, PropertyNames.TimeDifference, PropertyNames.Result)
         { }
     }
 }

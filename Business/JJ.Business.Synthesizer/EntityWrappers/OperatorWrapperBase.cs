@@ -52,5 +52,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             }
             return _operator.Outlets[index];
         }
+
+        public static implicit operator Operator(OperatorWrapperBase wrapper)
+        {
+            return wrapper.Operator;
+        }
     }
 }

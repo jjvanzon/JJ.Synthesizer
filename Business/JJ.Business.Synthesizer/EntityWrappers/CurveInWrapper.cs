@@ -43,5 +43,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             return wrapper.Result;
         }
+
+        //public static implicit operator CurveIn(CurveInWrapper wrapper)
+        //{
+        //    return wrapper._curveIn;
+        //}
+
+        public static implicit operator Operator(CurveInWrapper wrapper)
+        {
+            return wrapper._curveIn.Operator;
+        }
     }
 }

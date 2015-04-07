@@ -277,7 +277,7 @@ namespace JJ.Business.Synthesizer.Factories
         public TimeSubstractWrapper TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
         {
             Operator op = CreateOperator(
-                PropertyNames.Divide, PropertyDisplayNames.Divide, 2, 
+                PropertyNames.TimeSubstract, PropertyDisplayNames.TimeSubstract, 2, 
                 PropertyNames.Signal, PropertyNames.TimeDifference, 
                 PropertyNames.Result);
 

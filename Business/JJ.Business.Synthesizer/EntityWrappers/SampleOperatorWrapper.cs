@@ -44,5 +44,15 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             return wrapper.Result;
         }
+
+        //public static implicit operator SampleOperator(SampleOperatorWrapper wrapper)
+        //{
+        //    return wrapper._sampleOperator;
+        //}
+
+        public static implicit operator Operator(SampleOperatorWrapper wrapper)
+        {
+            return wrapper._sampleOperator.Operator;
+        }
     }
 }

@@ -25,6 +25,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ValidationMessages = new List<ValidationMessage>()
             };
 
+            viewModel.OperatorTypeToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel();
+
             return viewModel;
         }
 
@@ -59,6 +61,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             viewModel.Inlets = op.Inlets.Select(x => x.ToViewModelRecursive(dictionary)).ToArray();
             viewModel.Outlets = op.Outlets.Select(x => x.ToViewModelRecursive(dictionary)).ToArray();
+
+            return viewModel;
+        }
+
+
+        // Do not reuse this in ToViewModelRecursive, because you have to do a dictionary.Add there right in the middle of things.
+        /// <summary>
+        /// Includes its inlets and outlets.
+        /// </summary>
+        public static OperatorViewModel ToViewModelWithRelatedEntities(this Operator op)
+        {
+            OperatorViewModel viewModel = op.ToViewModel();
+
+            viewModel.Inlets = op.Inlets.Select(x => x.ToViewModel()).ToArray();
+            viewModel.Outlets = op.Outlets.Select(x => x.ToViewModel()).ToArray();
 
             return viewModel;
         }

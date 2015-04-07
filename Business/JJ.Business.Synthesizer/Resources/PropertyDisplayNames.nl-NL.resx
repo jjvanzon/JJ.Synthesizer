@@ -240,4 +240,7 @@
   <data name="Patch" xml:space="preserve">
     <value>Patch</value>
   </data>
+  <data name="TimeSubstract" xml:space="preserve">
+    <value>Tijd aftrekken</value>
+  </data>
 </root>

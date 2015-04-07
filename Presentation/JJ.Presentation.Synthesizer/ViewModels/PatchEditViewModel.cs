@@ -15,5 +15,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public List<ValidationMessage> ValidationMessages { get; set; }
 
         public bool SavedMessageVisible { get; set; }
+
+        public IList<OperatorTypeViewModel> OperatorTypeToolboxItems { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Configuration;
 using JJ.Framework.Persistence;
 using JJ.Framework.Presentation.Resources;
@@ -8,6 +9,7 @@ using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.Svg.Converters;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using System;
@@ -89,6 +91,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void AddOperator(string operatorTypeName)
+        {
+            _viewModel = _presenter.AddOperator(_viewModel, operatorTypeName);
+
+            ApplyViewModel();
+        }
+
         // Events
 
         private void DropGesture_Dropped(object sender, DroppedEventArgs e)
@@ -113,6 +122,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Save();
         }
 
+        private void toolStripLabel_Click(object sender, EventArgs e)
+        {
+            ToolStripLabel control = (ToolStripLabel)sender;
+            string operatorTypeName = (string)control.Tag;
+
+            AddOperator(operatorTypeName);
+        }
+
         // Other
 
         private PatchEditPresenter CreatePresenter(IContext context)
@@ -122,7 +139,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
             IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
             IEntityPositionRepository entityPositionRepository = PersistenceHelper.CreateRepository<IEntityPositionRepository>(context);
-            var presenter = new PatchEditPresenter(patchRepository, operatorRepository, inletRepository, outletRepository, entityPositionRepository);
+            ICurveInRepository curveInRepository = PersistenceHelper.CreateRepository<ICurveInRepository>(context);
+            IValueOperatorRepository valueOperatorRepository = PersistenceHelper.CreateRepository<IValueOperatorRepository>(context);
+            ISampleOperatorRepository sampleOperatorRepository = PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context);
+            var presenter = new PatchEditPresenter(patchRepository, operatorRepository, inletRepository, outletRepository, entityPositionRepository, curveInRepository, valueOperatorRepository, sampleOperatorRepository);
             return presenter;
         }
 
@@ -141,6 +161,43 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _svg.MoveGesture.Moved += MoveGesture_Moved;
 
             labelSavedMessage.Visible = _viewModel.SavedMessageVisible;
+
+            ApplyOperatorToolboxItemsViewModel(_viewModel.OperatorTypeToolboxItems);
+        }
+
+        private static Size _defaultToolStripLabelSize = new Size(86, 22);
+
+        // TODO: This is a dirty way to only apply it once.
+        private bool _operatorToolboxItemsViewModelApplied = false;
+
+        private void ApplyOperatorToolboxItemsViewModel(IList<OperatorTypeViewModel> operatorTypeToolboxItems)
+        {
+            if (_operatorToolboxItemsViewModelApplied)
+            {
+                return;
+            }
+            _operatorToolboxItemsViewModelApplied = true;
+
+            int i = 1;
+
+            foreach (OperatorTypeViewModel config in operatorTypeToolboxItems)
+            {
+                ToolStripItem toolStripItem = new ToolStripButton
+                {
+                    Name = "toolStripButton" + i,
+                    Size = _defaultToolStripLabelSize,
+                    Text = config.Symbol,
+                    DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text,
+                    Tag = config.OperatorTypeName
+                };
+
+                // TODO: Clean up the event handlers too somewhere.
+                toolStripItem.Click += toolStripLabel_Click;
+
+                toolStrip1.Items.Add(toolStripItem);
+
+                i++;
+            }
         }
         
         private void TryUnbindSvgEvents()
@@ -161,6 +218,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Patch patch = EntityFactory.CreateTestPatch2(persistenceWrapper);
             persistenceWrapper.Flush(); // Flush to get the ID.
             return patch;
+        }
+
+        private void labelSavedMessage_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
         }
     }
 }
