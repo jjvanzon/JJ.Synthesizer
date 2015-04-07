@@ -238,4 +238,7 @@
   <data name="AudioFileOutput" xml:space="preserve">
     <value>Audio File Output</value>
   </data>
+  <data name="Patch" xml:space="preserve">
+    <value>Patch</value>
+  </data>
 </root>

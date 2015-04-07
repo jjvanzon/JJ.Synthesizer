@@ -32,6 +32,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Antlr3.Runtime">
@@ -62,6 +64,7 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\IAppSettings.cs" />
     <Compile Include="Forms\PatchEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -126,6 +129,10 @@
     <ProjectReference Include="..\..\Framework\JJ.Framework.Persistence\JJ.Framework.Persistence.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Persistence</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation.Resources\JJ.Framework.Presentation.Resources.csproj">
+      <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
+      <Name>JJ.Framework.Presentation.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation.Svg\JJ.Framework.Presentation.Svg.csproj">
       <Project>{52e03e08-331a-4ca7-8d8f-6f598c94eed4}</Project>

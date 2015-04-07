@@ -31,6 +31,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             Outlet multiply = x.Multiply(signal, x.Value(1.5));
             Outlet echo = CreateEcho(x, multiply);
+            //Outlet myOutlet = x.Add(x.Sample(sample1), x.Multiply(x.Sample(sample2), x.Value(0.5)));
             return echo;
         }
 

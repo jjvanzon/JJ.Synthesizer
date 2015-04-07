@@ -270,7 +270,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
-                string message = String.Format("Ratio: {0:0.0000}, {1}ms.", ratio, sw.ElapsedMilliseconds);
+                string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
                 Assert.Inconclusive(message);
             }
         }
@@ -307,7 +307,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
-                string message = String.Format("Ratio: {0:0.0000}, {1}ms.", ratio, sw.ElapsedMilliseconds);
+                string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
                 Assert.Inconclusive(message);
             }
         }
@@ -365,7 +365,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / seconds;
-                string message = String.Format("Ratio: {0:0.0000}, {1}ms.", ratio, sw.ElapsedMilliseconds);
+                string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
                 Assert.Inconclusive(message);
             }
         }
@@ -422,7 +422,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / seconds;
-                string message = String.Format("Ratio: {0:0.0000}, {1}ms.", ratio, sw.ElapsedMilliseconds);
+                string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
                 Assert.Inconclusive(message);
             }
         }

@@ -1,10 +1,14 @@
-﻿using JJ.Framework.Persistence;
+﻿using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Configuration;
+using JJ.Framework.Persistence;
+using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Presentation.Svg.EventArg;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.Svg.Converters;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using System;
 using System.Collections.Generic;
@@ -28,12 +32,31 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             InitializeComponent();
 
+            SetTitles();
+
             _context = PersistenceHelper.CreateContext();
             _presenter = CreatePresenter(_context);
 
-            Patch patch = CreateMockPatch();
+            Patch patch;
+
+            bool mustCreateMockPatch = AppSettings<IAppSettings>.Get(x => x.MustCreateMockPatch);
+            if (mustCreateMockPatch)
+            {
+                patch = CreateMockPatch();
+            }
+            else
+            {
+                int patchID = AppSettings<IAppSettings>.Get(x => x.TestPatchID);
+                patch = PersistenceHelper.CreateRepository<IPatchRepository>(_context).Get(patchID);
+            }
 
             Edit(patch.ID);
+        }
+
+        private void SetTitles()
+        {
+            buttonSave.Text = CommonTitles.Save;
+            Text = CommonTitlesFormatter.EditObject(PropertyDisplayNames.Patch);
         }
 
         // Actions
@@ -42,21 +65,28 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             _viewModel = _presenter.Edit(patchID);
 
-            Render();
+            ApplyViewModel();
         }
 
         private void ChangeInputOutlet(int inletID, int inputOutletID)
         {
             _viewModel = _presenter.ChangeInputOutlet(_viewModel, inletID, inputOutletID);
 
-            Render();
+            ApplyViewModel();
         }
 
         private void MoveOperator(int operatorID, float centerX, float centerY)
         {
             _viewModel = _presenter.MoveOperator(_viewModel, operatorID, centerX, centerY);
 
-            Render();
+            ApplyViewModel();
+        }
+
+        private void Save()
+        {
+            _viewModel = _presenter.Save(_viewModel);
+
+            ApplyViewModel();
         }
 
         // Events
@@ -78,9 +108,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             MoveOperator(operatorID, centerX, centerY);
         }
 
-        private void DragGesture_Dragging(object sender, DraggingEventArgs e)
+        private void buttonSave_Click(object sender, EventArgs e)
         {
-            //throw new NotImplementedException();
+            Save();
         }
 
         // Other
@@ -96,21 +126,21 @@ namespace JJ.Presentation.Synthesizer.WinForms
             return presenter;
         }
 
-        private void Render()
+        private void ApplyViewModel()
         {
             TryUnbindSvgEvents();
 
-            var converter = new ViewModelToDiagramConverter();
+            bool mustShowInvisibleElements = AppSettings<IAppSettings>.Get(x => x.MustShowInvisibleElements);
+
+            ViewModelToDiagramConverter converter = new ViewModelToDiagramConverter(mustShowInvisibleElements);
             _svg = converter.Execute(_viewModel.Patch);
             diagramControl1.Diagram = _svg.Diagram;
 
             _svg.DropGesture.Dropped += DropGesture_Dropped;
-            _svg.DragGesture.Dragging += DragGesture_Dragging;
-
             //_svg.LineGesture.Dropped += DropGesture_Dropped;
-            //_svg.LineGesture.Dragging += DragGesture_Dragging;
-
             _svg.MoveGesture.Moved += MoveGesture_Moved;
+
+            labelSavedMessage.Visible = _viewModel.SavedMessageVisible;
         }
         
         private void TryUnbindSvgEvents()
@@ -118,10 +148,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (_svg != null)
             {
                 _svg.DropGesture.Dropped -= DropGesture_Dropped;
-                _svg.DragGesture.Dragging -= DragGesture_Dragging;
 
                 //_svg.LineGesture.Dropped -= DropGesture_Dropped;
-                //_svg.LineGesture.Dragging -= DragGesture_Dragging;
 
                 _svg.MoveGesture.Moved -= MoveGesture_Moved;
             }

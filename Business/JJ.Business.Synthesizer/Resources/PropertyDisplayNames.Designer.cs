@@ -277,6 +277,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Patch.
+        /// </summary>
+        public static string Patch {
+            get {
+                return ResourceManager.GetString("Patch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Patch Inlet.
         /// </summary>
         public static string PatchInlet {

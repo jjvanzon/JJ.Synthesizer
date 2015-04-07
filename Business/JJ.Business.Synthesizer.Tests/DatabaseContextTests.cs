@@ -28,8 +28,6 @@ namespace JJ.Business.Synthesizer.Tests
                 var valueOperatorRepository = PersistenceHelper.CreateRepository<IValueOperatorRepository>(context);
                 ValueOperator valueOperator = valueOperatorRepository.Create();
                 valueOperator.LinkTo(op);
-
-                context.Commit();
             }
         }
     }

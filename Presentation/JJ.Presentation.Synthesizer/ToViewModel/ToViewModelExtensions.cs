@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Managers;
+﻿using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
@@ -20,7 +21,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new PatchEditViewModel
             {
-                Patch = patch.ToViewModelRecursive()
+                Patch = patch.ToViewModelRecursive(),
+                ValidationMessages = new List<ValidationMessage>()
             };
 
             return viewModel;

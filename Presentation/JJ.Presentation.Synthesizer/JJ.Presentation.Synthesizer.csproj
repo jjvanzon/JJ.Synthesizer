@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\RecursiveViewModelToEntityConverter.cs" />
+    <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Presenters\PatchEditPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToEntity\ToEntityExtensions.cs" />
@@ -46,6 +47,10 @@
     <Compile Include="ViewModels\PatchEditViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
+      <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
+      <Name>JJ.Business.CanonicalModel</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer\JJ.Business.Synthesizer.csproj">
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
       <Name>JJ.Business.Synthesizer</Name>
@@ -61,6 +66,10 @@
     <ProjectReference Include="..\..\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
       <Name>JJ.Framework.Reflection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Validation\JJ.Framework.Validation.csproj">
+      <Project>{59ddc853-62af-4f86-a803-3d4dd491e978}</Project>
+      <Name>JJ.Framework.Validation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Persistence\JJ.Persistence.Synthesizer.DefaultRepositories\JJ.Persistence.Synthesizer.DefaultRepositories.csproj">
       <Project>{31660f5f-6141-4da5-b364-6c0717b8f0a9}</Project>

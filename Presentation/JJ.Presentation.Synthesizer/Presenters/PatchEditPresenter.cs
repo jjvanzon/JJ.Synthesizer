@@ -9,9 +9,12 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ToEntity;
+using JJ.Presentation.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Validation;
+using JJ.Framework.Validation;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -55,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             _entity = _patchRepository.Create();
 
-            _viewModel = _entity.ToPatchEditViewModel();
+            _viewModel = CreateViewModel(_entity);
 
             return _viewModel;
         }
@@ -67,26 +70,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel = CreateViewModel(_entity);
 
             return _viewModel;
-        }
-
-        public PatchEditViewModel Save(PatchEditViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            if (_entity == null)
-            {
-                _entity = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
-            }
-
-            // TODO: Make a patch validator.
-            //IValidator validator = new PatchValidator
-
-            if (_viewModel == null)
-            {
-                _viewModel = CreateViewModel(_entity);
-            }
-
-            throw new NotImplementedException();
         }
 
         public PatchEditViewModel MoveOperator(PatchEditViewModel viewModel, int operatorID, float centerX, float centerY)
@@ -110,9 +93,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorViewModel operatorViewModel = _viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single();
                 operatorViewModel.CenterX = centerX;
                 operatorViewModel.CenterY = centerY;
+
+                _viewModel.SavedMessageVisible = false;
             }
 
-            return viewModel;
+            return _viewModel;
         }
 
         public PatchEditViewModel ChangeInputOutlet(PatchEditViewModel viewModel, int inletID, int inputOutletID)
@@ -132,6 +117,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel = CreateViewModel(_entity);
 
             return _viewModel;
+        }
+
+        public PatchEditViewModel Save(PatchEditViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            if (_entity == null)
+            {
+                _entity = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            }
+
+            if (_viewModel == null)
+            {
+                _viewModel = CreateViewModel(_entity);
+            }
+
+            IValidator validator = new PatchValidator(_entity);
+            if (!validator.IsValid)
+            {
+                _viewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                _viewModel.SavedMessageVisible = false;
+                return _viewModel;
+            }
+            else
+            {
+                _patchRepository.Commit();
+                _viewModel.SavedMessageVisible = true;
+                return _viewModel;
+            }
         }
 
         // Helpers

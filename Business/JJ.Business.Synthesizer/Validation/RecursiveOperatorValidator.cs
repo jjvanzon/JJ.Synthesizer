@@ -36,7 +36,10 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            if (_alreadyDone.Contains(Object)) return;
+            if (_alreadyDone.Contains(Object))
+            {
+                return;
+            }
             _alreadyDone.Add(Object);
 
             string messagePrefix = String.Format("{0} '{1}': ", Object.OperatorTypeName, Object.Name);

@@ -175,6 +175,7 @@
     <Compile Include="Validation\Entities\SampleValidator.cs" />
     <Compile Include="Validation\Entities\AudioFileOutputValidator.cs" />
     <Compile Include="Validation\NonSpecializedOperatorValidatorBase.cs" />
+    <Compile Include="Validation\PatchValidator.cs" />
     <Compile Include="Validation\RecursiveOperatorIsOfSamePatchOrPatchIsNullValidator.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
     <Compile Include="Calculation\Operators\OptimizedOperatorCalculatorVisitor.cs" />

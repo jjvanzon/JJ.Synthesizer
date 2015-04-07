@@ -118,19 +118,25 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             {
                  Visible = false 
             };
+        }
 
-            // Temporary (2015-04-02) for debugging: Show invisible elements.
-            _invisiblePointStyle.Visible = true;
-            _invisiblePointStyle.Color = ColorHelper.GetColor(128, 40, 128, 192);
-            _invisiblePointStyle.Width = 10;
+        /// <param name="mustShowInvisibleElements">for debugging</param>
+        public ViewModelToDiagramConverter(bool mustShowInvisibleElements = false)
+        {
+            if (mustShowInvisibleElements)
+            {
+                _invisiblePointStyle.Visible = true;
+                _invisiblePointStyle.Color = ColorHelper.GetColor(128, 40, 128, 192);
+                _invisiblePointStyle.Width = 10;
 
-            _invisibleBackStyle.Visible = true;
-            _invisibleBackStyle.Color = ColorHelper.GetColor(64, 40, 128, 192);
+                _invisibleBackStyle.Visible = true;
+                _invisibleBackStyle.Color = ColorHelper.GetColor(64, 40, 128, 192);
 
-            _invisibleLineStyle.Visible = true;
-            _invisibleLineStyle.Color = ColorHelper.GetColor(128, 40, 128, 192);
-            _invisibleLineStyle.Width = 2;
-            _invisibleLineStyle.DashStyleEnum = DashStyleEnum.Dotted;
+                _invisibleLineStyle.Visible = true;
+                _invisibleLineStyle.Color = ColorHelper.GetColor(128, 40, 128, 192);
+                _invisibleLineStyle.Width = 2;
+                _invisibleLineStyle.DashStyleEnum = DashStyleEnum.Dotted;
+            }
         }
 
         public Result Execute(PatchViewModel patchViewModel)
