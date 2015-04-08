@@ -61,7 +61,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchRepository = patchRepository;
             _operatorRepository = operatorRepository;
             _inletRepository = inletRepository;
-            _operatorRepository = operatorRepository;
             _outletRepository = outletRepository;
             _entityPositionRepository = entityPositionRepository;
             _curveInRepository = curveInRepository;
@@ -212,14 +211,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        // TODO: This should be more dynamic in the future.
-        //private IDictionary<string, Type> _operatorTypeName_To_WrapperTypeDictionary = new Dictionary<string, Type>
-        //{
-        //    { "ValueOperator", typeof(ValueOperatorWrapper) },
-        //    { "Add", typeof(AddWrapper) },
-        //    { "Substract", typeof(SubstractWrapper) }
-        //};
-
         public PatchEditViewModel MoveOperator(PatchEditViewModel viewModel, int operatorID, float centerX, float centerY)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -296,11 +287,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        public PatchEditViewModel SelectOperator(PatchEditViewModel viewModel, int operatorID)
+        {
+            if (_patch == null)
+            {
+                _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            }
+
+            if (_viewModel == null)
+            {
+                _viewModel = _patch.ToEditViewModel();
+            }
+
+            _viewModel.SelectedOperator = _viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single();
+
+            return _viewModel;
+        }
+
         // Helpers
 
         private PatchEditViewModel CreateViewModel(Patch entity)
         {
-            PatchEditViewModel viewModel = entity.ToPatchEditViewModel();
+            PatchEditViewModel viewModel = entity.ToEditViewModel();
 
             // TODO: I got very confused about having to do this separately,
             // so it should belong in the main ToViewModel procedure

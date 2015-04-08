@@ -17,5 +17,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public bool SavedMessageVisible { get; set; }
 
         public IList<OperatorTypeViewModel> OperatorTypeToolboxItems { get; set; }
+
+        public OperatorViewModel SelectedOperator { get; set; }
     }
 }

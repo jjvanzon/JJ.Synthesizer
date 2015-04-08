@@ -20,23 +20,28 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
     {
         public class Result
         {
-            public Result(Diagram diagram, MoveGesture moveGesture, DragGesture dragGesture, DropGesture dropGesture, LineGesture lineGesture)
+            public Result(
+                Diagram diagram, 
+                MoveGesture moveGesture, 
+                DragGesture dragGesture, 
+                DropGesture dropGesture, 
+                LineGesture lineGesture,
+                SelectOperatorGesture selectOperatorGesture)
             {
                 Diagram = diagram;
                 MoveGesture = moveGesture;
                 DragGesture = dragGesture;
                 DropGesture = dropGesture;
                 LineGesture = lineGesture;
+                SelectOperatorGesture = selectOperatorGesture;
             }
 
             public Diagram Diagram { get; private set; }
             public MoveGesture MoveGesture { get; private set; }
             public DragGesture DragGesture { get; private set; }
             public DropGesture DropGesture { get; private set; }
-
-            // TODO: Figure out if you actually use this exterally.
-
             public LineGesture LineGesture { get; private set; }
+            public SelectOperatorGesture SelectOperatorGesture { get; private set; }
         }
 
         private class OperatorSvgElements
@@ -48,76 +53,19 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             public IList<Point> OutletPoints { get; set; }
         }
 
-        private const float DEFAULT_WIDTH = 125;
-        private const float DEFAULT_HEIGHT = 60;
-
-        private static Font _defaultFont;
-        private static TextStyle _textStyle;
-        private static BackStyle _backStyle;
-        private static LineStyle _lineStyle;
-        private static LineStyle _lightLineStyle;
-        private static PointStyle _invisiblePointStyle;
-        private static BackStyle _invisibleBackStyle;
-        private static LineStyle _invisibleLineStyle;
-
         private MoveGesture _moveGesture;
         private DragGesture _dragGesture;
         private DropGesture _dropGesture;
-        // TODO: Figure out if you actually use this exterally.
         private LineGesture _lineGesture;
+        private SelectOperatorGesture _selectOperatorGesture;
 
         private Dictionary<OperatorViewModel, OperatorSvgElements> _dictionary;
 
+        private OperatorViewModel _selectedOperatorViewModel;
+
         static ViewModelToDiagramConverter()
         {
-            _backStyle = new BackStyle
-            {
-                Visible = true,
-                Color = ColorHelper.GetColor(220, 220, 220)
-            };
-
-            _lineStyle = new LineStyle
-            {
-                Width = 2,
-                Color = ColorHelper.GetColor(45, 45, 45)
-            };
-
-            _lightLineStyle = new LineStyle
-            {
-                Width = 3,
-                Color = ColorHelper.GetColor(128, 45, 45, 45),
-                DashStyleEnum = DashStyleEnum.Dotted
-            };
-
-            _defaultFont = new Font
-            {
-                Bold = true,
-                Name = "Verdana",
-                Size = 13,
-            };
-
-            _textStyle = new TextStyle
-            {
-                HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
-                VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
-                Font = _defaultFont,
-                Color = ColorHelper.GetColor(20, 20, 20)
-            };
-
-            _invisiblePointStyle = new PointStyle
-            {
-                Visible = false,
-            };
-
-            _invisibleBackStyle = new BackStyle
-            {
-                Visible = false 
-            };
-
-            _invisibleLineStyle = new LineStyle
-            {
-                 Visible = false 
-            };
+            InitializeStyling();
         }
 
         /// <param name="mustShowInvisibleElements">for debugging</param>
@@ -139,9 +87,11 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             }
         }
 
-        public Result Execute(PatchViewModel patchViewModel)
+        public Result Execute(PatchViewModel patchViewModel, OperatorViewModel selectedOperatorViewModel)
         {
             if (patchViewModel == null) throw new NullException(() => patchViewModel);
+
+            _selectedOperatorViewModel = selectedOperatorViewModel;
 
             _dictionary = new Dictionary<OperatorViewModel, OperatorSvgElements>();
 
@@ -151,13 +101,14 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             _dragGesture = new DragGesture();
             _dropGesture = new DropGesture(_dragGesture);
             _lineGesture = new LineGesture(diagram, _lightLineStyle, lineZIndex: -1);
+            _selectOperatorGesture = new SelectOperatorGesture();
 
             foreach (OperatorViewModel operatorViewModel in patchViewModel.Operators)
             {
                 OperatorSvgElements rectangle = ConvertToRectangles_WithRelatedObject_Recursive(operatorViewModel, diagram);
             }
 
-            return new Result(diagram, _moveGesture, _dragGesture, _dropGesture, _lineGesture);
+            return new Result(diagram, _moveGesture, _dragGesture, _dropGesture, _lineGesture, _selectOperatorGesture);
         }
 
         private OperatorSvgElements ConvertToRectangles_WithRelatedObject_Recursive(OperatorViewModel operatorViewModel, Diagram diagram)
@@ -205,6 +156,14 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             label.Diagram = diagram;
             label.Parent = rectangle;
 
+            // TODO: This seems out of place here.
+            if (_selectedOperatorViewModel != null &&
+                _selectedOperatorViewModel.ID == operatorViewModel.ID)
+            {
+                rectangle.BackStyle = _selectedBackStyle;
+                rectangle.LineStyle = _selectedLineStyle;
+            }
+
             // Add invisible elements to diagram
             OperatorElementsPositioner.Result positionerResult = OperatorElementsPositioner.Execute(
                 rectangle, 
@@ -229,28 +188,29 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             {
                 inletOrOutletPoint.Diagram = diagram;
                 inletOrOutletPoint.Parent = rectangle;
-                inletOrOutletPoint.PointStyle = _invisiblePointStyle;
+                inletOrOutletPoint.PointStyle = _pointStyle;
             }
 
             // Tags
-            rectangle.Tag = operatorViewModel.ID.ToString();
+            rectangle.Tag = operatorViewModel.ID;
 
             for (int i = 0; i < operatorViewModel.Inlets.Count; i++)
             {
                 InletViewModel inletViewModel = operatorViewModel.Inlets[i];
                 Element inletElement = positionerResult.InletRectangles[i];
-                inletElement.Tag = inletViewModel.ID.ToString();
+                inletElement.Tag = inletViewModel.ID;
             }
 
             for (int i = 0; i < operatorViewModel.Outlets.Count; i++)
             {
                 OutletViewModel outletViewModel = operatorViewModel.Outlets[i];
                 Element outletElement = positionerResult.OutletRectangles[i];
-                outletElement.Tag = outletViewModel.ID.ToString();
+                outletElement.Tag = outletViewModel.ID;
             }
 
             // Gestures
             rectangle.Gestures.Add(_moveGesture);
+            rectangle.Gestures.Add(_selectOperatorGesture);
 
             foreach (Element outletElement in positionerResult.OutletRectangles)
             {
@@ -324,6 +284,91 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             };
 
             return line;
+        }
+
+        // Styling
+
+        private const float DEFAULT_WIDTH = 125;
+        private const float DEFAULT_HEIGHT = 60;
+
+        private static Font _defaultFont;
+        private static TextStyle _textStyle;
+        private static BackStyle _backStyle;
+        private static LineStyle _lineStyle;
+        private static PointStyle _pointStyle;
+        private static LineStyle _lightLineStyle;
+        private static PointStyle _invisiblePointStyle;
+        private static BackStyle _invisibleBackStyle;
+        private static LineStyle _invisibleLineStyle;
+        private static LineStyle _selectedLineStyle;
+        private static BackStyle _selectedBackStyle;
+
+        private static void InitializeStyling()
+        {
+            _pointStyle = new PointStyle
+            {
+                Color = ColorHelper.GetColor(45, 45, 45),
+                Width = 8
+            };
+
+            _backStyle = new BackStyle
+            {
+                Color = ColorHelper.GetColor(220, 220, 220)
+            };
+
+            _selectedBackStyle = new BackStyle
+            {
+                Color = ColorHelper.GetColor(195, 224, 253)
+            };
+
+            _lineStyle = new LineStyle
+            {
+                Width = 2,
+                Color = ColorHelper.GetColor(45, 45, 45)
+            };
+
+            _selectedLineStyle = new LineStyle
+            {
+                Width = 2,
+                Color = ColorHelper.GetColor(0, 0, 0)
+            };
+
+            _lightLineStyle = new LineStyle
+            {
+                Width = 3,
+                Color = ColorHelper.GetColor(128, 45, 45, 45),
+                DashStyleEnum = DashStyleEnum.Dotted
+            };
+
+            _defaultFont = new Font
+            {
+                Bold = true,
+                Name = "Verdana",
+                Size = 13,
+            };
+
+            _textStyle = new TextStyle
+            {
+                HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
+                VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
+                Font = _defaultFont,
+                Color = ColorHelper.GetColor(20, 20, 20)
+            };
+
+            _invisiblePointStyle = new PointStyle
+            {
+                Visible = false,
+            };
+
+            _invisibleBackStyle = new BackStyle
+            {
+                Visible = false
+            };
+
+            _invisibleLineStyle = new LineStyle
+            {
+                Visible = false
+            };
         }
     }
 }

@@ -15,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToViewModelExtensions
     {
-        public static PatchEditViewModel ToPatchEditViewModel(this Patch patch)
+        public static PatchEditViewModel ToEditViewModel(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
