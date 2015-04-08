@@ -26,7 +26,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 DragGesture dragGesture, 
                 DropGesture dropGesture, 
                 LineGesture lineGesture,
-                SelectOperatorGesture selectOperatorGesture)
+                SelectOperatorGesture selectOperatorGesture,
+                DeleteOperatorGesture deleteOperatorGesture)
             {
                 Diagram = diagram;
                 MoveGesture = moveGesture;
@@ -34,6 +35,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 DropGesture = dropGesture;
                 LineGesture = lineGesture;
                 SelectOperatorGesture = selectOperatorGesture;
+                DeleteOperatorGesture = deleteOperatorGesture;
             }
 
             public Diagram Diagram { get; private set; }
@@ -42,6 +44,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             public DropGesture DropGesture { get; private set; }
             public LineGesture LineGesture { get; private set; }
             public SelectOperatorGesture SelectOperatorGesture { get; private set; }
+            public DeleteOperatorGesture DeleteOperatorGesture { get; private set; }
         }
 
         private class OperatorSvgElements
@@ -58,10 +61,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         private DropGesture _dropGesture;
         private LineGesture _lineGesture;
         private SelectOperatorGesture _selectOperatorGesture;
-
+        private DeleteOperatorGesture _deleteOperatorGesture;
         private Dictionary<OperatorViewModel, OperatorSvgElements> _dictionary;
-
-        private OperatorViewModel _selectedOperatorViewModel;
 
         static ViewModelToDiagramConverter()
         {
@@ -73,25 +74,13 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         {
             if (mustShowInvisibleElements)
             {
-                _invisiblePointStyle.Visible = true;
-                _invisiblePointStyle.Color = ColorHelper.GetColor(128, 40, 128, 192);
-                _invisiblePointStyle.Width = 10;
-
-                _invisibleBackStyle.Visible = true;
-                _invisibleBackStyle.Color = ColorHelper.GetColor(64, 40, 128, 192);
-
-                _invisibleLineStyle.Visible = true;
-                _invisibleLineStyle.Color = ColorHelper.GetColor(128, 40, 128, 192);
-                _invisibleLineStyle.Width = 2;
-                _invisibleLineStyle.DashStyleEnum = DashStyleEnum.Dotted;
+                MakeHiddenStylesVisible();
             }
         }
 
-        public Result Execute(PatchViewModel patchViewModel, OperatorViewModel selectedOperatorViewModel)
+        public Result Execute(PatchViewModel patchViewModel)
         {
             if (patchViewModel == null) throw new NullException(() => patchViewModel);
-
-            _selectedOperatorViewModel = selectedOperatorViewModel;
 
             _dictionary = new Dictionary<OperatorViewModel, OperatorSvgElements>();
 
@@ -102,13 +91,16 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             _dropGesture = new DropGesture(_dragGesture);
             _lineGesture = new LineGesture(diagram, _lightLineStyle, lineZIndex: -1);
             _selectOperatorGesture = new SelectOperatorGesture();
+            _deleteOperatorGesture = new DeleteOperatorGesture();
+
+            diagram.Canvas.Gestures.Add(_deleteOperatorGesture);
 
             foreach (OperatorViewModel operatorViewModel in patchViewModel.Operators)
             {
                 OperatorSvgElements rectangle = ConvertToRectangles_WithRelatedObject_Recursive(operatorViewModel, diagram);
             }
 
-            return new Result(diagram, _moveGesture, _dragGesture, _dropGesture, _lineGesture, _selectOperatorGesture);
+            return new Result(diagram, _moveGesture, _dragGesture, _dropGesture, _lineGesture, _selectOperatorGesture, _deleteOperatorGesture);
         }
 
         private OperatorSvgElements ConvertToRectangles_WithRelatedObject_Recursive(OperatorViewModel operatorViewModel, Diagram diagram)
@@ -155,14 +147,6 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             Label label = ConvertToLabel(operatorViewModel);
             label.Diagram = diagram;
             label.Parent = rectangle;
-
-            // TODO: This seems out of place here.
-            if (_selectedOperatorViewModel != null &&
-                _selectedOperatorViewModel.ID == operatorViewModel.ID)
-            {
-                rectangle.BackStyle = _selectedBackStyle;
-                rectangle.LineStyle = _selectedLineStyle;
-            }
 
             // Add invisible elements to diagram
             OperatorElementsPositioner.Result positionerResult = OperatorElementsPositioner.Execute(
@@ -241,11 +225,20 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             {
                 Width = DEFAULT_WIDTH,
                 Height = DEFAULT_HEIGHT,
-                BackStyle = _backStyle,
-                LineStyle = _lineStyle,
                 X = operatorViewModel.CenterX - DEFAULT_WIDTH / 2f,
                 Y = operatorViewModel.CenterY - DEFAULT_HEIGHT / 2f
             };
+
+            if (operatorViewModel.IsSelected)
+            {
+                rectangle.BackStyle = _selectedBackStyle;
+                rectangle.LineStyle = _selectedLineStyle;
+            }
+            else
+            {
+                rectangle.BackStyle = _backStyle;
+                rectangle.LineStyle = _lineStyle;
+            }
 
             return rectangle;
         }
@@ -318,7 +311,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
 
             _selectedBackStyle = new BackStyle
             {
-                Color = ColorHelper.GetColor(195, 224, 253)
+                Color = ColorHelper.GetColor(122, 189, 254)
             };
 
             _lineStyle = new LineStyle
@@ -369,6 +362,21 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             {
                 Visible = false
             };
+        }
+
+        private void MakeHiddenStylesVisible()
+        {
+            _invisiblePointStyle.Visible = true;
+            _invisiblePointStyle.Color = ColorHelper.GetColor(128, 40, 128, 192);
+            _invisiblePointStyle.Width = 10;
+
+            _invisibleBackStyle.Visible = true;
+            _invisibleBackStyle.Color = ColorHelper.GetColor(64, 40, 128, 192);
+
+            _invisibleLineStyle.Visible = true;
+            _invisibleLineStyle.Color = ColorHelper.GetColor(128, 40, 128, 192);
+            _invisibleLineStyle.Width = 2;
+            _invisibleLineStyle.DashStyleEnum = DashStyleEnum.Dotted;
         }
     }
 }

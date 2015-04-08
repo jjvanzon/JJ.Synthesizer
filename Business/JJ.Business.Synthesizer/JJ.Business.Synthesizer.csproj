@@ -129,6 +129,7 @@
     <Compile Include="Enums\InterpolationTypeEnum.cs" />
     <Compile Include="Enums\SampleDataTypeEnum.cs" />
     <Compile Include="Extensions\AudioFileOutputExtensions.cs" />
+    <Compile Include="Extensions\DeleteRelatedEntitiesExtensions.cs" />
     <Compile Include="Extensions\UnlinkRelatedEntitiesExtensions.cs" />
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Factories\CurveFactory.cs" />

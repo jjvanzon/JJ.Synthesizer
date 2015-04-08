@@ -105,6 +105,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void DeleteOperator(int operatorID)
+        {
+            _viewModel = _presenter.DeleteOperator(_viewModel, operatorID);
+
+            ApplyViewModel();
+        }
+
         // Events
 
         private void DropGesture_Dropped(object sender, DroppedEventArgs e)
@@ -144,6 +151,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             SelectOperator(operatorID);
         }
 
+        private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
+        {
+            if (_viewModel.SelectedOperator != null)
+            {
+                DeleteOperator(_viewModel.SelectedOperator.ID);                
+            }
+        }
+
         // ApplyViewModel
 
         private void ApplyViewModel()
@@ -153,12 +168,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             bool mustShowInvisibleElements = AppSettings<IAppSettings>.Get(x => x.MustShowInvisibleElements);
 
             ViewModelToDiagramConverter converter = new ViewModelToDiagramConverter(mustShowInvisibleElements);
-            _svg = converter.Execute(_viewModel.Patch, _viewModel.SelectedOperator);
+            _svg = converter.Execute(_viewModel.Patch);
             diagramControl1.Diagram = _svg.Diagram;
 
             _svg.DropGesture.Dropped += DropGesture_Dropped;
             _svg.MoveGesture.Moved += MoveGesture_Moved;
             _svg.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
+            _svg.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
             //_svg.LineGesture.Dropped += DropGesture_Dropped;
 
             labelSavedMessage.Visible = _viewModel.SavedMessageVisible;

@@ -19,6 +19,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Framework.Mathematics;
 using JJ.Business.Synthesizer.Names;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -77,7 +78,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             _patch = _patchRepository.Create();
 
-            _viewModel = CreateViewModel(_patch);
+            _viewModel = _patch.ToEditViewModel(_entityPositionManager);
 
             return _viewModel;
         }
@@ -86,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             _patch = _patchRepository.Get(patchID);
 
-            _viewModel = CreateViewModel(_patch);
+            _viewModel = _patch.ToEditViewModel(_entityPositionManager);
 
             return _viewModel;
         }
@@ -195,7 +196,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (_viewModel == null)
             {
-                _viewModel = CreateViewModel(_patch);
+                _viewModel = _patch.ToEditViewModel(_entityPositionManager);
             }
             else
             {
@@ -225,7 +226,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (_viewModel == null)
             {
-                _viewModel = CreateViewModel(_patch);
+                _viewModel = _patch.ToEditViewModel(_entityPositionManager);
             }
             else
             {
@@ -253,7 +254,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             inlet.LinkTo(outlet);
 
             // TODO: In a stateful situation you might just adjust a small part of the view model.
-            _viewModel = CreateViewModel(_patch);
+            _viewModel = _patch.ToEditViewModel(_entityPositionManager);
 
             return _viewModel;
         }
@@ -269,7 +270,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (_viewModel == null)
             {
-                _viewModel = CreateViewModel(_patch);
+                _viewModel = _patch.ToEditViewModel(_entityPositionManager);
             }
 
             IValidator validator = new PatchValidator(_patch);
@@ -289,6 +290,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public PatchEditViewModel SelectOperator(PatchEditViewModel viewModel, int operatorID)
         {
+            if (viewModel == null) throw new NullException(() => viewModel);
             if (_patch == null)
             {
                 _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
@@ -296,35 +298,54 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (_viewModel == null)
             {
-                _viewModel = _patch.ToEditViewModel();
+                _viewModel = _patch.ToEditViewModel(_entityPositionManager);
             }
 
-            _viewModel.SelectedOperator = _viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single();
+            // The non-persisted operator selection data.
+            foreach (OperatorViewModel operatorViewModel in _viewModel.Patch.Operators)
+            {
+                if (operatorViewModel.ID == operatorID)
+                {
+                    operatorViewModel.IsSelected = true;
+                    _viewModel.SelectedOperator = operatorViewModel;
+                }
+                else
+                {
+                    operatorViewModel.IsSelected = false;
+                }
+            }
 
             return _viewModel;
         }
 
-        // Helpers
-
-        private PatchEditViewModel CreateViewModel(Patch entity)
+        public PatchEditViewModel DeleteOperator(PatchEditViewModel viewModel, int operatorID)
         {
-            PatchEditViewModel viewModel = entity.ToEditViewModel();
-
-            // TODO: I got very confused about having to do this separately,
-            // so it should belong in the main ToViewModel procedure
-            foreach (OperatorViewModel operatorViewModel in viewModel.Patch.Operators)
+            if (_patch == null)
             {
-                SetViewModelPosition(operatorViewModel);
+                _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
             }
 
-            return viewModel;
-        }
+            Operator op = _patch.Operators.Where(x => x.ID == operatorID).SingleOrDefault();
+            if (op != null)
+            {
+                op.UnlinkRelatedEntities();
+                op.DeleteRelatedEntities(_inletRepository, _outletRepository);
+                _operatorRepository.Delete(op);
+            }
 
-        private void SetViewModelPosition(OperatorViewModel operatorViewModel)
-        {
-            EntityPosition entityPosition = _entityPositionManager.GetOrCreateOperatorPosition(operatorViewModel.ID);
-            operatorViewModel.CenterX = entityPosition.X;
-            operatorViewModel.CenterY = entityPosition.Y;
+            //if (_viewModel == null)
+            //{
+                _viewModel = _patch.ToEditViewModel(_entityPositionManager);
+            //}
+            //else
+            //{
+            //    // TODO: This is not enough because the connected inlets and outlets keep the operator viewModel alive.
+            //    OperatorViewModel operatorViewModel = _viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single();
+            //    _viewModel.Patch.Operators.Remove(operatorViewModel);
+            //    _viewModel.SelectedOperator = null;
+            //}
+
+            return _viewModel;
         }
     }
 }

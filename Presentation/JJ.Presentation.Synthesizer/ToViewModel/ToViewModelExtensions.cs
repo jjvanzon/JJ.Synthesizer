@@ -15,9 +15,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToViewModelExtensions
     {
-        public static PatchEditViewModel ToEditViewModel(this Patch patch)
+        public static PatchEditViewModel ToEditViewModel(this Patch patch, EntityPositionManager entityPositionManager)
         {
             if (patch == null) throw new NullException(() => patch);
+            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
 
             var viewModel = new PatchEditViewModel
             {
@@ -27,7 +28,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             viewModel.OperatorTypeToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel();
 
+            foreach (OperatorViewModel operatorViewModel in viewModel.Patch.Operators)
+            {
+                SetViewModelPosition(operatorViewModel, entityPositionManager);
+            }
+
             return viewModel;
+        }
+
+        private static void SetViewModelPosition(OperatorViewModel operatorViewModel, EntityPositionManager entityPositionManager)
+        {
+            EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(operatorViewModel.ID);
+            operatorViewModel.CenterX = entityPosition.X;
+            operatorViewModel.CenterY = entityPosition.Y;
         }
 
         private static PatchViewModel ToViewModelRecursive(this Patch patch)

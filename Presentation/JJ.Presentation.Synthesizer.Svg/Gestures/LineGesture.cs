@@ -85,11 +85,11 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 
         // IGesture
 
-        public override void FireMouseDown(object sender, MouseEventArgs e)
+        public override void HandleMouseDown(object sender, MouseEventArgs e)
         {
             foreach (IGesture baseGesture in _baseGestures)
             {
-                baseGesture.FireMouseDown(sender, e);
+                baseGesture.HandleMouseDown(sender, e);
             }
 
             if (e.Element != null)
@@ -99,19 +99,19 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
             }
         }
 
-        public override void FireMouseMove(object sender, MouseEventArgs e)
+        public override void HandleMouseMove(object sender, MouseEventArgs e)
         {
             foreach (IGesture baseGesture in _baseGestures)
             {
-                baseGesture.FireMouseMove(sender, e);
+                baseGesture.HandleMouseMove(sender, e);
             }
         }
 
-        public override void FireMouseUp(object sender, MouseEventArgs e)
+        public override void HandleMouseUp(object sender, MouseEventArgs e)
         {
             foreach (IGesture baseGesture in _baseGestures)
             {
-                baseGesture.FireMouseUp(sender, e);
+                baseGesture.HandleMouseUp(sender, e);
             }
 
             _line.Visible = false;

@@ -18,5 +18,29 @@ namespace JJ.Business.Synthesizer.Extensions
             audioFileOutputChannel.UnlinkAudioFileOutput();
             audioFileOutputChannel.UnlinkOutlet();
         }
+
+        public static void UnlinkRelatedEntities(this Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            op.UnlinkPatch();
+        }
+
+        public static void UnlinkRelatedEntities(this Inlet inlet)
+        {
+            if (inlet == null) throw new NullException(() => inlet);
+
+            inlet.UnlinkOutlet();
+        }
+
+        public static void UnlinkRelatedEntities(this Outlet outlet)
+        {
+            if (outlet == null) throw new NullException(() => outlet);
+
+            foreach (Inlet connectedInlet in outlet.ConnectedInlets.ToArray())
+            {
+                connectedInlet.UnlinkOutlet();
+            }
+        }
     }
 }

@@ -12,9 +12,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public string Name { get; set; }
         public float CenterX { get; set; }
         public float CenterY { get; set; }
+        public bool IsSelected { get; set; }
 
         public IList<InletViewModel> Inlets { get; set; }
-
         public IList<OutletViewModel> Outlets { get; set; }
     }
 }

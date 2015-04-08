@@ -38,6 +38,7 @@
     <Compile Include="EventArg\OperatorSelectedEventArgs.cs" />
     <Compile Include="Gestures\AddLineGesture.cs" />
     <Compile Include="Gestures\ChangeLineGesture.cs" />
+    <Compile Include="Gestures\DeleteOperatorGesture.cs" />
     <Compile Include="Gestures\LineGesture.cs" />
     <Compile Include="Gestures\SelectOperatorGesture.cs" />
     <Compile Include="Positioners\OperatorElementsPositioner.cs" />

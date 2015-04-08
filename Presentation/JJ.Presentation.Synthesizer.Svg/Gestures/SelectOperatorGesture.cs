@@ -13,13 +13,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
     {
         public event EventHandler<OperatorSelectedEventArgs> OperatorSelected;
 
-        public override void FireMouseDown(object sender, MouseEventArgs e)
-        { }
-
-        public override void FireMouseMove(object sender, MouseEventArgs e)
-        { }
-
-        public override void FireMouseUp(object sender, MouseEventArgs e)
+        public override void HandleMouseUp(object sender, MouseEventArgs e)
         {
             if (OperatorSelected != null)
             {
