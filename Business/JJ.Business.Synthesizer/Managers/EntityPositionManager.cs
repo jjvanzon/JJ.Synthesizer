@@ -51,6 +51,9 @@ namespace JJ.Business.Synthesizer.Managers
                     entityPosition.EntityID = entityID;
                     entityPosition.X = Randomizer.GetInt32(MIN_RANDOM_X, MAX_RANDOM_X);
                     entityPosition.Y = Randomizer.GetInt32(MIN_RANDOM_Y, MAX_RANDOM_Y);
+
+                    // Flush to make the next TryGetByEntityTypeNameAndID work.
+                    _entityPositionRepository.Flush();
                 }
 
                 _operatorPositionDictionary.Add(entityID, entityPosition);
@@ -73,6 +76,9 @@ namespace JJ.Business.Synthesizer.Managers
                     entityPosition = _entityPositionRepository.Create();
                     entityPosition.EntityTypeName = entityTypeName;
                     entityPosition.EntityID = entityID;
+
+                    // Flush to make the next TryGetByEntityTypeNameAndID work.
+                    _entityPositionRepository.Flush();
                 }
 
                 _operatorPositionDictionary.Add(operatorID, entityPosition);

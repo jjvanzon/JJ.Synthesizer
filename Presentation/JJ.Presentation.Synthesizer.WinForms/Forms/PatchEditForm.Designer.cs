@@ -21,6 +21,12 @@
             base.Dispose(disposing);
 
             UnbindSvgEvents();
+
+            // TODO: This probably does not work if you have more views all connected to the same context.
+            if (_context != null)
+            {
+                _context.Dispose();
+            }
         }
 
         #region Windows Form Designer generated code

@@ -26,7 +26,16 @@ namespace JJ.Persistence.Synthesizer.DefaultRepositories
 
         public virtual EntityPosition TryGetByEntityTypeNameAndID(string entityTypeName, int entityID)
         {
-            throw new NotSupportedException();
+            return _context.Query<EntityPosition>()
+                           .Where(x => x.EntityTypeName == entityTypeName)
+                           .Where(x => x.EntityID == entityID)
+                           .SingleOrDefault();
+        }
+
+        public virtual void DeleteByEntityTypeAndEntityID(string entityTypeName, int id)
+        {
+            EntityPosition entity = GetByEntityTypeNameAndID(entityTypeName, id);
+            Delete(entity);
         }
     }
 }

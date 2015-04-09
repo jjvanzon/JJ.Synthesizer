@@ -9,6 +9,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     public class OutletViewModel
     {
         public int ID { get; set; }
+        public Guid TemporaryID { get; set; }
         public string Name { get; set; }
 
         public OperatorViewModel Operator { get; set; }

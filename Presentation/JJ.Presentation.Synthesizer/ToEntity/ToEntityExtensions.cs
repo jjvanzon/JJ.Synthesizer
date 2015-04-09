@@ -3,6 +3,7 @@ using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using System;
 using System.Collections.Generic;
@@ -48,10 +49,22 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             RecursiveViewModelToEntityConverter converter = new RecursiveViewModelToEntityConverter(operatorRepository, inletRepository, outletRepository, entityPositionRepository);
 
+            var convertedOperators = new HashSet<Operator>();
+
             foreach (OperatorViewModel operatorViewModel in viewModel.Operators)
             {
                 Operator op = converter.Convert(operatorViewModel);
                 op.LinkTo(patch);
+
+                convertedOperators.Add(op);
+            }
+
+            IList<Operator> operatorsToDelete = patch.Operators.Except(convertedOperators).ToArray();
+            foreach (Operator op in operatorsToDelete)
+            {
+                op.UnlinkRelatedEntities();
+                op.DeleteRelatedEntities(inletRepository, outletRepository, entityPositionRepository);
+                operatorRepository.Delete(op);
             }
 
             return patch;
@@ -82,6 +95,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity = repository.Create();
             }
             entity.Name = viewModel.Name;
+            entity.OperatorTypeName = viewModel.OperatorTypeName;
             return entity;
         }
 
@@ -120,7 +134,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             var manager = new EntityPositionManager(repository);
             EntityPosition entityPosition = manager.SetOrCreateOperatorPosition(viewModel.ID, viewModel.CenterX, viewModel.CenterY);
-
             return entityPosition;
         }
     }

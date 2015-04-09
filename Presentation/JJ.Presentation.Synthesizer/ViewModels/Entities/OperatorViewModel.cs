@@ -9,6 +9,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     public sealed class OperatorViewModel
     {
         public int ID { get; set; }
+        public Guid TemporaryID { get; set; }
+
         public string Name { get; set; }
         public float CenterX { get; set; }
         public float CenterY { get; set; }
@@ -16,5 +18,10 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 
         public IList<InletViewModel> Inlets { get; set; }
         public IList<OutletViewModel> Outlets { get; set; }
+
+        /// <summary>
+        /// For persistence. Does not need to be displayed.
+        /// </summary>
+        public string OperatorTypeName { get; set; }
     }
 }

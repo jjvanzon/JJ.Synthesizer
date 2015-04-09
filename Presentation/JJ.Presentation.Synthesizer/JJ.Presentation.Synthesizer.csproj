@@ -34,6 +34,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\IAppSettings.cs" />
     <Compile Include="Converters\RecursiveViewModelToEntityConverter.cs" />
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Presenters\PatchEditPresenter.cs" />
@@ -60,6 +61,10 @@
     <ProjectReference Include="..\..\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
       <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
       <Name>JJ.Framework.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Configuration\JJ.Framework.Configuration.csproj">
+      <Project>{805a8237-05ed-40ae-8d1a-9288373ea5e0}</Project>
+      <Name>JJ.Framework.Configuration</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Mathematics\JJ.Framework.Mathematics.csproj">
       <Project>{810b90b9-f501-4b91-b019-2ad5aad63304}</Project>

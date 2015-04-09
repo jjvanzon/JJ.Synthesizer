@@ -19,8 +19,8 @@ namespace JJ.Presentation.Synthesizer.Converters
         private readonly IOutletRepository _outletRepository;
         private readonly IEntityPositionRepository _entityPositionRepository;
 
-        private readonly Dictionary<int, Operator> _operatorDictionary = new Dictionary<int, Operator>();
-        private readonly Dictionary<int, Outlet> _outletDictionary = new Dictionary<int, Outlet>();
+        private readonly Dictionary<Guid, Operator> _operatorDictionary = new Dictionary<Guid, Operator>();
+        private readonly Dictionary<Guid, Outlet> _outletDictionary = new Dictionary<Guid, Outlet>();
 
         public RecursiveViewModelToEntityConverter(
             IOperatorRepository operatorRepository,
@@ -51,14 +51,14 @@ namespace JJ.Presentation.Synthesizer.Converters
         private Operator ToEntityRecursive(OperatorViewModel viewModel)
         {
             Operator op;
-            if (_operatorDictionary.TryGetValue(viewModel.ID, out op))
+            if (_operatorDictionary.TryGetValue(viewModel.TemporaryID, out op))
             {
                 return op;
             }
 
             op = viewModel.ToEntity(_operatorRepository);
 
-            _operatorDictionary.Add(op.ID, op);
+            _operatorDictionary.Add(viewModel.TemporaryID, op);
 
             EntityPosition entityPosition = viewModel.ToEntityPosition(_entityPositionRepository);
 
@@ -97,14 +97,14 @@ namespace JJ.Presentation.Synthesizer.Converters
         private Outlet ToEntityRecursive(OutletViewModel outletViewModel)
         {
             Outlet outlet;
-            if (_outletDictionary.TryGetValue(outletViewModel.ID, out outlet))
+            if (_outletDictionary.TryGetValue(outletViewModel.TemporaryID, out outlet))
             {
                 return outlet;
             }
 
             outlet = outletViewModel.ToEntity(_outletRepository);
 
-            _outletDictionary.Add(outlet.ID, outlet);
+            _outletDictionary.Add(outletViewModel.TemporaryID, outlet);
 
             Operator op = ToEntityRecursive(outletViewModel.Operator);
             outlet.LinkTo(op);

@@ -137,7 +137,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorViewModel
             {
                 ID = entity.ID,
+                TemporaryID = Guid.NewGuid(),
                 Name = entity.Name,
+                OperatorTypeName = entity.OperatorTypeName
             };
 
             return viewModel;
@@ -163,7 +165,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OutletViewModel
             {
                 ID = entity.ID,
-                Name = entity.Name
+                Name = entity.Name,
+                TemporaryID = Guid.NewGuid()
             };
 
             return viewModel;

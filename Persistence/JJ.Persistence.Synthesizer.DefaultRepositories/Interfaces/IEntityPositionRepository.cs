@@ -11,5 +11,6 @@ namespace JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces
     {
         EntityPosition TryGetByEntityTypeNameAndID(string entityTypeName, int id);
         EntityPosition GetByEntityTypeNameAndID(string entityTypeName, int id);
+        void DeleteByEntityTypeAndEntityID(string entityTypeName, int id);
     }
 }

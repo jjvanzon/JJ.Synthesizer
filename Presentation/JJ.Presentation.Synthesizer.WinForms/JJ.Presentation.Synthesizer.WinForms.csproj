@@ -114,6 +114,10 @@
       <Project>{805a8237-05ed-40ae-8d1a-9288373ea5e0}</Project>
       <Name>JJ.Framework.Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Logging\JJ.Framework.Logging.csproj">
+      <Project>{ceeb755d-de12-4e70-816e-546c429b44b7}</Project>
+      <Name>JJ.Framework.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Persistence.Memory\JJ.Framework.Persistence.Memory.csproj">
       <Project>{86348b50-eca9-4849-a221-73f0ed31713b}</Project>
       <Name>JJ.Framework.Persistence.Memory</Name>

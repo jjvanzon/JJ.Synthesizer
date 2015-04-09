@@ -29,14 +29,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private PatchEditPresenter _presenter;
         private PatchEditViewModel _viewModel;
         private ViewModelToDiagramConverter.Result _svg;
+        
+        private bool _forceStateless;
 
         public PatchEditForm()
         {
             InitializeComponent();
 
+
+            _forceStateless = AppSettings<IAppSettings>.Get(x => x.ForceStateless);
             SetTitles();
 
-            _context = PersistenceHelper.CreateContext();
+            _context = CreateContext();
             _presenter = CreatePresenter(_context);
 
             Patch patch;
@@ -65,6 +69,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         public void Edit(int patchID)
         {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
             _viewModel = _presenter.Edit(patchID);
 
             ApplyViewModel();
@@ -72,6 +82,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void AddOperator(string operatorTypeName)
         {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
             _viewModel = _presenter.AddOperator(_viewModel, operatorTypeName);
 
             ApplyViewModel();
@@ -79,6 +95,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void MoveOperator(int operatorID, float centerX, float centerY)
         {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
             _viewModel = _presenter.MoveOperator(_viewModel, operatorID, centerX, centerY);
 
             ApplyViewModel();
@@ -86,6 +108,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void ChangeInputOutlet(int inletID, int inputOutletID)
         {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
             _viewModel = _presenter.ChangeInputOutlet(_viewModel, inletID, inputOutletID);
 
             ApplyViewModel();
@@ -93,6 +121,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void Save()
         {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
             _viewModel = _presenter.Save(_viewModel);
 
             ApplyViewModel();
@@ -100,6 +134,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void SelectOperator(int operatorID)
         {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
             _viewModel = _presenter.SelectOperator(_viewModel, operatorID);
 
             ApplyViewModel();
@@ -107,6 +147,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void DeleteOperator(int operatorID)
         {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
             _viewModel = _presenter.DeleteOperator(_viewModel, operatorID);
 
             ApplyViewModel();
@@ -229,6 +275,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
         }
 
         // Helpers
+
+        private IContext CreateContext()
+        {
+            if (_context != null)
+            {
+                _context.Dispose();
+            }
+
+            _context = PersistenceHelper.CreateContext();
+            return _context;
+        }
 
         private PatchEditPresenter CreatePresenter(IContext context)
         {

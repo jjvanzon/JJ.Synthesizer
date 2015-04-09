@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Presentation.Synthesizer.WinForms.Configuration
+namespace JJ.Presentation.Synthesizer.Configuration
 {
     internal interface IAppSettings
     {
-        bool MustCreateMockPatch { get; }
-        int TestPatchID { get; }
-        bool MustShowInvisibleElements { get; }
         bool ForceStateless { get; }
     }
 }
