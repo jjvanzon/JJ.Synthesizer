@@ -11,13 +11,13 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 {
     public class SelectOperatorGesture : GestureBase
     {
-        public event EventHandler<OperatorSelectedEventArgs> OperatorSelected;
+        public event EventHandler<ElementEventArgs> OperatorSelected;
 
         public override void HandleMouseUp(object sender, MouseEventArgs e)
         {
             if (OperatorSelected != null)
             {
-                OperatorSelected(sender, new OperatorSelectedEventArgs(e.Element));
+                OperatorSelected(sender, new ElementEventArgs(e.Element));
             }
         }
     }

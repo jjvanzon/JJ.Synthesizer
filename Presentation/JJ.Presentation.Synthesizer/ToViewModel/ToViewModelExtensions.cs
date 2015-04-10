@@ -1,5 +1,6 @@
 ﻿using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Names;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
@@ -72,19 +73,33 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             dictionary.Add(op, viewModel);
 
-            viewModel.Inlets = op.Inlets.Select(x => x.ToViewModelRecursive(dictionary)).ToArray();
-            viewModel.Outlets = op.Outlets.Select(x => x.ToViewModelRecursive(dictionary)).ToArray();
+            if (!String.Equals(op.OperatorTypeName, PropertyNames.PatchInlet))
+            {
+                viewModel.Inlets = op.Inlets.Select(x => x.ToViewModelRecursive(dictionary)).ToArray();
+            }
+            else
+            {
+                viewModel.Inlets = new List<InletViewModel>();
+            }
+
+            if (!String.Equals(op.OperatorTypeName, PropertyNames.PatchOutlet))
+            {
+                viewModel.Outlets = op.Outlets.Select(x => x.ToViewModelRecursive(dictionary)).ToArray();
+            }
+            else
+            {
+                viewModel.Outlets = new List<OutletViewModel>();
+            }
 
             return viewModel;
         }
 
-
-        // Do not reuse this in ToViewModelRecursive, because you have to do a dictionary.Add there right in the middle of things.
         /// <summary>
         /// Includes its inlets and outlets.
         /// </summary>
         public static OperatorViewModel ToViewModelWithRelatedEntities(this Operator op)
         {
+            // Do not reuse this in ToViewModelRecursive, because there you have to do a dictionary.Add there right in the middle of things.
             OperatorViewModel viewModel = op.ToViewModel();
 
             viewModel.Inlets = op.Inlets.Select(x => x.ToViewModel()).ToArray();

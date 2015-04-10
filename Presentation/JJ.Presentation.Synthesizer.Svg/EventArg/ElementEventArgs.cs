@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.Svg.EventArg
 {
-    public class OperatorSelectedEventArgs : EventArgs
+    public class ElementEventArgs : EventArgs
     {
         public Element Element { get; private set; }
 
-        public OperatorSelectedEventArgs(Element element)
+        public ElementEventArgs(Element element)
         {
             if (element == null) throw new NullException(() => element);
 

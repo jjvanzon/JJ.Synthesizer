@@ -49,7 +49,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
                 Diagram = _diagram,
                 ZIndex = lineZIndex,
                 Visible = false,
-                Tag = "THIS IS THE LINE GESTURE LINE!"
+                Tag = "LineGesture Line"
             };
 
             if (lineStyle != null)

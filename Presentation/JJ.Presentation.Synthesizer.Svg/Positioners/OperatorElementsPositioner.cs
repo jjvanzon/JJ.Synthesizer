@@ -24,7 +24,10 @@ namespace JJ.Presentation.Synthesizer.Svg.Positioners
 
         private const float ROW_COUNT = 3f;
 
-        public static Result Execute(Rectangle parentRectangle, int inletCount, int outletCount)
+        /// <param name="inletOutletHeightOverflow">
+        /// Says how much the inlet and outlet regions should go outside the parent rectangle,
+        /// </param>
+        public static Result Execute(Rectangle parentRectangle, int inletCount, int outletCount, float inletOutletHeightOverflow)
         {
             if (parentRectangle == null) throw new NullException(() => parentRectangle);
             if (inletCount < 0) throw new LessThanException(() => inletCount, 0);
@@ -45,9 +48,9 @@ namespace JJ.Presentation.Synthesizer.Svg.Positioners
                     inletRectangles[i] = new Rectangle
                     {
                         X = x,
-                        Y = 0,
+                        Y = -inletOutletHeightOverflow,
                         Width = inletWidth,
-                        Height = rowHeight
+                        Height = rowHeight + inletOutletHeightOverflow
                     };
 
                     inletPoints[i] = new Point
@@ -74,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Positioners
                         X = x,
                         Y = y,
                         Width = outletWidth,
-                        Height = rowHeight
+                        Height = rowHeight + inletOutletHeightOverflow
                     };
 
                     outletPoints[i] = new Point

@@ -27,7 +27,10 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 DropGesture dropGesture, 
                 LineGesture lineGesture,
                 SelectOperatorGesture selectOperatorGesture,
-                DeleteOperatorGesture deleteOperatorGesture)
+                DeleteOperatorGesture deleteOperatorGesture,
+                ToolTipGesture operatorToolTipGesture,
+                ToolTipGesture inletToolTipGesture,
+                ToolTipGesture outletToolTipGesture)
             {
                 Diagram = diagram;
                 MoveGesture = moveGesture;
@@ -36,6 +39,10 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 LineGesture = lineGesture;
                 SelectOperatorGesture = selectOperatorGesture;
                 DeleteOperatorGesture = deleteOperatorGesture;
+                DeleteOperatorGesture = deleteOperatorGesture;
+                OperatorToolTipGesture = operatorToolTipGesture;
+                InletToolTipGesture = inletToolTipGesture;
+                OutletToolTipGesture = outletToolTipGesture;
             }
 
             public Diagram Diagram { get; private set; }
@@ -45,6 +52,9 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             public LineGesture LineGesture { get; private set; }
             public SelectOperatorGesture SelectOperatorGesture { get; private set; }
             public DeleteOperatorGesture DeleteOperatorGesture { get; private set; }
+            public ToolTipGesture OperatorToolTipGesture { get; private set; }
+            public ToolTipGesture InletToolTipGesture { get; private set; }
+            public ToolTipGesture OutletToolTipGesture { get; private set; }
         }
 
         private class OperatorSvgElements
@@ -56,12 +66,18 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             public IList<Point> OutletPoints { get; set; }
         }
 
+        private const float DEFAULT_WIDTH = 85; // 125;
+        private const float DEFAULT_HEIGHT = 40; // 60;
+
         private MoveGesture _moveGesture;
         private DragGesture _dragGesture;
         private DropGesture _dropGesture;
         private LineGesture _lineGesture;
         private SelectOperatorGesture _selectOperatorGesture;
         private DeleteOperatorGesture _deleteOperatorGesture;
+        private ToolTipGesture _operatorToolTipGesture;
+        private ToolTipGesture _inletToolTipGesture;
+        private ToolTipGesture _outletToolTipGesture;
         private Dictionary<OperatorViewModel, OperatorSvgElements> _dictionary;
 
         static ViewModelToDiagramConverter()
@@ -93,6 +109,11 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             _selectOperatorGesture = new SelectOperatorGesture();
             _deleteOperatorGesture = new DeleteOperatorGesture();
 
+            // TODO: Give tool tips their own styles.
+            _operatorToolTipGesture = new ToolTipGesture(diagram, _backStyle, _lineStyle, _textStyle, zIndex: 1000);
+            _inletToolTipGesture = new ToolTipGesture(diagram, _backStyle, _lineStyle, _textStyle, zIndex: 1000);
+            _outletToolTipGesture = new ToolTipGesture(diagram, _backStyle, _lineStyle, _textStyle, zIndex: 1000);
+
             diagram.Canvas.Gestures.Add(_deleteOperatorGesture);
 
             foreach (OperatorViewModel operatorViewModel in patchViewModel.Operators)
@@ -100,7 +121,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 OperatorSvgElements rectangle = ConvertToRectangles_WithRelatedObject_Recursive(operatorViewModel, diagram);
             }
 
-            return new Result(diagram, _moveGesture, _dragGesture, _dropGesture, _lineGesture, _selectOperatorGesture, _deleteOperatorGesture);
+            return new Result(diagram, _moveGesture, _dragGesture, _dropGesture, _lineGesture, _selectOperatorGesture, _deleteOperatorGesture, _operatorToolTipGesture, _inletToolTipGesture, _outletToolTipGesture);
         }
 
         private OperatorSvgElements ConvertToRectangles_WithRelatedObject_Recursive(OperatorViewModel operatorViewModel, Diagram diagram)
@@ -152,7 +173,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             OperatorElementsPositioner.Result positionerResult = OperatorElementsPositioner.Execute(
                 rectangle, 
                 operatorViewModel.Inlets.Count, 
-                operatorViewModel.Outlets.Count);
+                operatorViewModel.Outlets.Count,
+                inletOutletHeightOverflow: _pointStyle.Width / 2f);
 
             IEnumerable<Rectangle> inletAndOutletRectangles = Enumerable.Union(positionerResult.InletRectangles,
                                                                                positionerResult.OutletRectangles);
@@ -195,17 +217,23 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             // Gestures
             rectangle.Gestures.Add(_moveGesture);
             rectangle.Gestures.Add(_selectOperatorGesture);
+            //rectangle.Gestures.Add(_operatorToolTipGesture);
+
+            foreach (Element inletElement in positionerResult.InletRectangles)
+            {
+                inletElement.Gestures.Add(_dropGesture);
+                //inletElement.Gestures.Add(_inletToolTipGesture);
+
+                // The is only done to make the tooltip work, so if the tooltip uses another region, it is not necessary anymore.
+                inletElement.MustBubble = false;
+            }
 
             foreach (Element outletElement in positionerResult.OutletRectangles)
             {
                 outletElement.MustBubble = false;
                 outletElement.Gestures.Add(_dragGesture);
                 outletElement.Gestures.Add(_lineGesture);
-            }
-
-            foreach (Element inletElement in positionerResult.InletRectangles)
-            {
-                inletElement.Gestures.Add(_dropGesture);
+                //outletElement.Gestures.Add(_outletToolTipGesture);
             }
 
             // Return result
@@ -281,9 +309,6 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
 
         // Styling
 
-        private const float DEFAULT_WIDTH = 125;
-        private const float DEFAULT_HEIGHT = 60;
-
         private static Font _defaultFont;
         private static TextStyle _textStyle;
         private static BackStyle _backStyle;
@@ -336,8 +361,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             _defaultFont = new Font
             {
                 Bold = true,
-                Name = "Verdana",
-                Size = 13,
+                Name = "Microsoft Sans Serif",
+                Size = 11,
             };
 
             _textStyle = new TextStyle

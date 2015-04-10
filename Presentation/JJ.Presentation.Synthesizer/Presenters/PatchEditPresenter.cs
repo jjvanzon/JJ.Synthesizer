@@ -21,14 +21,11 @@ using JJ.Framework.Mathematics;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Configuration;
-using JJ.Presentation.Synthesizer.Configuration;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     public class PatchEditPresenter
     {
-        private static bool _forceStateless;
-         
         private IPatchRepository _patchRepository;
         private IOperatorRepository _operatorRepository;
         private IInletRepository _inletRepository;
@@ -43,11 +40,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private Patch _patch;
         private PatchEditViewModel _viewModel;
-
-        static PatchEditPresenter()
-        {
-            _forceStateless = AppSettings<IAppSettings>.Get(x => x.ForceStateless);
-        }
 
         public PatchEditPresenter(
             IPatchRepository patchRepository,
@@ -103,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            if (_patch == null || _forceStateless)
+            if (_patch == null)
             {
                 _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
             }
@@ -201,7 +193,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // TODO: I never used to need it. Why do I need that now? Am I doing it right?
             _operatorRepository.Flush();
 
-            if (_viewModel == null || _forceStateless)
+            if (_viewModel == null)
             {
                 _viewModel = _patch.ToEditViewModel(_entityPositionManager);
             }
@@ -223,7 +215,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            if (_patch == null || _forceStateless)
+            if (_patch == null)
             {
                 _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
             }
@@ -231,7 +223,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Operator op = _operatorRepository.Get(operatorID); // This is just to check that the entity exists. TODO: But that's weird. You should be doing that in the entity position manager if anywhere.
             EntityPosition entityPosition = _entityPositionManager.SetOrCreateOperatorPosition(operatorID, centerX, centerY);
 
-            if (_viewModel == null || _forceStateless)
+            if (_viewModel == null)
             {
                 _viewModel = _patch.ToEditViewModel(_entityPositionManager);
             }
@@ -251,7 +243,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            if (_patch == null || _forceStateless)
+            if (_patch == null)
             {
                 _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
             }
@@ -270,12 +262,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            if (_patch == null || _forceStateless)
+            if (_patch == null)
             {
                 _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
             }
 
-            if (_viewModel == null || _forceStateless)
+            if (_viewModel == null)
             {
                 _viewModel = _patch.ToEditViewModel(_entityPositionManager);
             }
@@ -299,12 +291,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            if (_patch == null || _forceStateless)
+            if (_patch == null)
             {
                 _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
             }
 
-            if (_viewModel == null || _forceStateless)
+            if (_viewModel == null)
             {
                 _viewModel = _patch.ToEditViewModel(_entityPositionManager);
             }
@@ -330,7 +322,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            if (_patch == null || _forceStateless)
+            if (_patch == null)
             {
                 _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
             }

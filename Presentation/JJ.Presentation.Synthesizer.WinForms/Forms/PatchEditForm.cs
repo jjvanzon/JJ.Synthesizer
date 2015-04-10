@@ -190,7 +190,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             AddOperator(operatorTypeName);
         }
 
-        private void SelectOperatorGesture_OperatorSelected(object sender, OperatorSelectedEventArgs e)
+        private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)
         {
             int operatorID = (int)e.Element.Tag;
 
@@ -203,6 +203,32 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 DeleteOperator(_viewModel.SelectedOperator.ID);                
             }
+        }
+
+        private void OperatorToolTipGesture_ShowToolTipRequested(object sender, ToolTipTextEventArgs e)
+        {
+            int operatorID = (int)e.Element.Tag;
+
+            // TODO: You might want to do this in the presenter.
+            e.ToolTipText = _viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single().Name;
+        }
+
+        private void OutletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
+        {
+            int outletID = (int)e.Element.Tag;
+
+            // TODO: You might want to do this in the presenter.
+            OutletViewModel outletViewModel = _viewModel.Patch.Operators.SelectMany(x => x.Outlets).Where(x => x.ID == outletID).Single();
+            e.ToolTipText = outletViewModel.Name;
+        }
+
+        private void InletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
+        {
+            int inletID = (int)e.Element.Tag;
+
+            // TODO: You might want to do this in the presenter.
+            InletViewModel inketViewModel = _viewModel.Patch.Operators.SelectMany(x => x.Inlets).Where(x => x.ID == inletID).Single();
+            e.ToolTipText = inketViewModel.Name;
         }
 
         // ApplyViewModel
@@ -221,6 +247,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _svg.MoveGesture.Moved += MoveGesture_Moved;
             _svg.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
             _svg.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
+            _svg.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
+            _svg.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
+            _svg.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
+
             //_svg.LineGesture.Dropped += DropGesture_Dropped;
 
             labelSavedMessage.Visible = _viewModel.SavedMessageVisible;
@@ -235,14 +265,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _svg.DropGesture.Dropped -= DropGesture_Dropped;
                 _svg.MoveGesture.Moved -= MoveGesture_Moved;
                 _svg.SelectOperatorGesture.OperatorSelected -= SelectOperatorGesture_OperatorSelected;
+                _svg.OperatorToolTipGesture.ToolTipTextRequested -= OperatorToolTipGesture_ShowToolTipRequested;
+                _svg.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
+                _svg.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
                 //_svg.LineGesture.Dropped -= DropGesture_Dropped;
             }
         }
 
         private static Size _defaultToolStripLabelSize = new Size(86, 22);
 
-        // TODO: This is a dirty way to only apply it once.
-        private bool _operatorToolboxItemsViewModelApplied = false;
+        private bool _operatorToolboxItemsViewModelApplied = false; // Dirty way to only apply it once.
 
         private void ApplyOperatorToolboxItemsViewModel(IList<OperatorTypeViewModel> operatorTypeToolboxItems)
         {

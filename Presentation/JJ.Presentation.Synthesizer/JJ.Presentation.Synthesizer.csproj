@@ -34,7 +34,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\IAppSettings.cs" />
     <Compile Include="Converters\RecursiveViewModelToEntityConverter.cs" />
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Presenters\PatchEditPresenter.cs" />
