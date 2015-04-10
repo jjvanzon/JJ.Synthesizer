@@ -43,7 +43,6 @@
     <Compile Include="Gestures\LineGesture.cs" />
     <Compile Include="Gestures\SelectOperatorGesture.cs" />
     <Compile Include="Gestures\ToolTipGesture.cs" />
-    <Compile Include="Positioners\OperatorElementsPositioner.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
