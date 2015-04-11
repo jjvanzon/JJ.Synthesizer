@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Configuration;
 using JJ.Framework.Persistence;
 using JJ.Framework.Presentation.Resources;
@@ -7,7 +6,7 @@ using JJ.Framework.Presentation.Svg.EventArg;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.Presenters;
-using JJ.Presentation.Synthesizer.Svg.Converters;
+using JJ.Presentation.Synthesizer.Svg;
 using JJ.Presentation.Synthesizer.Svg.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
@@ -15,10 +14,9 @@ using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms
@@ -30,14 +28,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private PatchEditViewModel _viewModel;
         private ViewModelToDiagramConverter.Result _svg;
         
-        private bool _forceStateless;
+        private static bool _forceStateless;
+        private static bool _alwaysRecreateDiagram;
+
+        static PatchEditForm()
+        {
+            _forceStateless = AppSettings<IAppSettings>.Get(x => x.ForceStateless);
+            _alwaysRecreateDiagram = AppSettings<IAppSettings>.Get(x => x.AlwaysRecreateDiagram);
+        }
 
         public PatchEditForm()
         {
             InitializeComponent();
 
-
-            _forceStateless = AppSettings<IAppSettings>.Get(x => x.ForceStateless);
             SetTitles();
 
             _context = CreateContext();
@@ -63,6 +66,162 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             buttonSave.Text = CommonTitles.Save;
             Text = CommonTitlesFormatter.EditObject(PropertyDisplayNames.Patch);
+        }
+
+        // ApplyViewModel
+
+        private void ApplyViewModel()
+        {
+            bool mustShowInvisibleElements = AppSettings<IAppSettings>.Get(x => x.MustShowInvisibleElements);
+
+            ViewModelToDiagramConverter converter = new ViewModelToDiagramConverter(mustShowInvisibleElements);
+            if (_svg == null || _alwaysRecreateDiagram)
+            {
+                UnbindSvgEvents();
+
+                _svg = converter.Execute(_viewModel.Patch);
+
+                _svg.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
+                _svg.MoveGesture.Moved += MoveGesture_Moved;
+                _svg.DropGesture.Dropped += DropGesture_Dropped;
+                _svg.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
+                ////_svg.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
+                ////_svg.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
+                ////_svg.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
+                ////_svg.LineGesture.Dropped += DropGesture_Dropped;
+            }
+            else
+            {
+                _svg = converter.Execute(_viewModel.Patch, _svg);
+            }
+
+            diagramControl1.Diagram = _svg.Diagram;
+
+            labelSavedMessage.Visible = _viewModel.SavedMessageVisible;
+
+            ApplyOperatorToolboxItemsViewModel(_viewModel.OperatorTypeToolboxItems);
+        }
+
+        private void UnbindSvgEvents()
+        {
+            if (_svg != null)
+            {
+                _svg.SelectOperatorGesture.OperatorSelected -= SelectOperatorGesture_OperatorSelected;
+                _svg.MoveGesture.Moved -= MoveGesture_Moved;
+                _svg.DropGesture.Dropped -= DropGesture_Dropped;
+                _svg.DeleteOperatorGesture.DeleteRequested -= DeleteOperatorGesture_DeleteRequested;
+                ////_svg.OperatorToolTipGesture.ToolTipTextRequested -= OperatorToolTipGesture_ShowToolTipRequested;
+                ////_svg.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
+                ////_svg.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
+                ////_svg.LineGesture.Dropped -= DropGesture_Dropped;
+            }
+        }
+
+        private static Size _defaultToolStripLabelSize = new Size(86, 22);
+
+        private bool _operatorToolboxItemsViewModelApplied = false; // Dirty way to only apply it once.
+
+        private void ApplyOperatorToolboxItemsViewModel(IList<OperatorTypeViewModel> operatorTypeToolboxItems)
+        {
+            if (_operatorToolboxItemsViewModelApplied)
+            {
+                return;
+            }
+            _operatorToolboxItemsViewModelApplied = true;
+
+            int i = 1;
+
+            foreach (OperatorTypeViewModel config in operatorTypeToolboxItems)
+            {
+                ToolStripItem toolStripItem = new ToolStripButton
+                {
+                    Name = "toolStripButton" + i,
+                    Size = _defaultToolStripLabelSize,
+                    Text = config.Symbol,
+                    DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text,
+                    Tag = config.OperatorTypeName
+                };
+
+                // TODO: Clean up the event handlers too somewhere.
+                toolStripItem.Click += toolStripLabel_Click;
+
+                toolStrip1.Items.Add(toolStripItem);
+
+                i++;
+            }
+        }
+
+        // Events
+
+        private void DropGesture_Dropped(object sender, DroppedEventArgs e)
+        {
+            int inletID = (int)e.DroppedOnElement.Tag;
+            int outletID = (int)e.DraggedElement.Tag;
+
+            ChangeInputOutlet(inletID, outletID);
+        }
+
+        private void MoveGesture_Moved(object sender, MoveEventArgs e)
+        {
+            int operatorID = (int)e.Element.Tag;
+            float centerX = e.Element.X + e.Element.Width / 2f;
+            float centerY = e.Element.Y + e.Element.Height / 2f;
+
+            MoveOperator(operatorID, centerX, centerY);
+        }
+
+        private void buttonSave_Click(object sender, EventArgs e)
+        {
+            Save();
+        }
+
+        private void toolStripLabel_Click(object sender, EventArgs e)
+        {
+            ToolStripItem control = (ToolStripItem)sender;
+            string operatorTypeName = (string)control.Tag;
+
+            AddOperator(operatorTypeName);
+        }
+
+        private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)
+        {
+            int operatorID = (int)e.Element.Tag;
+
+            SelectOperator(operatorID);
+        }
+
+        private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
+        {
+            if (_viewModel.SelectedOperator != null)
+            {
+                DeleteOperator(_viewModel.SelectedOperator.ID);                
+            }
+        }
+
+        private void OperatorToolTipGesture_ShowToolTipRequested(object sender, ToolTipTextEventArgs e)
+        {
+            int operatorID = (int)e.Element.Tag;
+
+            // TODO: You might want to do this in the presenter.
+            e.ToolTipText = _viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single().Name;
+        }
+
+        private void OutletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
+        {
+            int outletID = (int)e.Element.Tag;
+
+            // TODO: You might want to do this in the presenter.
+            OutletViewModel outletViewModel = _viewModel.Patch.Operators.SelectMany(x => x.Outlets).Where(x => x.ID == outletID).Single();
+            e.ToolTipText = outletViewModel.Name;
+        }
+
+        private void InletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
+        {
+            int inletID = (int)e.Element.Tag;
+
+            // TODO: You might want to do this in the presenter.
+            InletViewModel inketViewModel = _viewModel.Patch.Operators.SelectMany(x => x.Inlets).Where(x => x.ID == inletID).Single();
+            e.ToolTipText = inketViewModel.Name;
         }
 
         // Actions
@@ -156,154 +315,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _viewModel = _presenter.DeleteOperator(_viewModel, operatorID);
 
             ApplyViewModel();
-        }
-
-        // Events
-
-        private void DropGesture_Dropped(object sender, DroppedEventArgs e)
-        {
-            int inletID = (int)e.DroppedOnElement.Tag;
-            int outletID = (int)e.DraggedElement.Tag;
-
-            ChangeInputOutlet(inletID, outletID);
-        }
-
-        private void MoveGesture_Moved(object sender, MoveEventArgs e)
-        {
-            int operatorID = (int)e.Element.Tag;
-            float centerX = e.Element.X + e.Element.Width / 2f;
-            float centerY = e.Element.Y + e.Element.Height / 2f;
-
-            MoveOperator(operatorID, centerX, centerY);
-        }
-
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            Save();
-        }
-
-        private void toolStripLabel_Click(object sender, EventArgs e)
-        {
-            ToolStripItem control = (ToolStripItem)sender;
-            string operatorTypeName = (string)control.Tag;
-
-            AddOperator(operatorTypeName);
-        }
-
-        private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)
-        {
-            int operatorID = (int)e.Element.Tag;
-
-            SelectOperator(operatorID);
-        }
-
-        private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
-        {
-            if (_viewModel.SelectedOperator != null)
-            {
-                DeleteOperator(_viewModel.SelectedOperator.ID);                
-            }
-        }
-
-        private void OperatorToolTipGesture_ShowToolTipRequested(object sender, ToolTipTextEventArgs e)
-        {
-            int operatorID = (int)e.Element.Tag;
-
-            // TODO: You might want to do this in the presenter.
-            e.ToolTipText = _viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single().Name;
-        }
-
-        private void OutletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
-        {
-            int outletID = (int)e.Element.Tag;
-
-            // TODO: You might want to do this in the presenter.
-            OutletViewModel outletViewModel = _viewModel.Patch.Operators.SelectMany(x => x.Outlets).Where(x => x.ID == outletID).Single();
-            e.ToolTipText = outletViewModel.Name;
-        }
-
-        private void InletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
-        {
-            int inletID = (int)e.Element.Tag;
-
-            // TODO: You might want to do this in the presenter.
-            InletViewModel inketViewModel = _viewModel.Patch.Operators.SelectMany(x => x.Inlets).Where(x => x.ID == inletID).Single();
-            e.ToolTipText = inketViewModel.Name;
-        }
-
-        // ApplyViewModel
-
-        private void ApplyViewModel()
-        {
-            UnbindSvgEvents();
-
-            bool mustShowInvisibleElements = AppSettings<IAppSettings>.Get(x => x.MustShowInvisibleElements);
-
-            ViewModelToDiagramConverter converter = new ViewModelToDiagramConverter(mustShowInvisibleElements);
-            _svg = converter.Execute(_viewModel.Patch);
-            diagramControl1.Diagram = _svg.Diagram;
-
-            _svg.DropGesture.Dropped += DropGesture_Dropped;
-            _svg.MoveGesture.Moved += MoveGesture_Moved;
-            _svg.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
-            _svg.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
-            _svg.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
-            _svg.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
-            _svg.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
-
-            //_svg.LineGesture.Dropped += DropGesture_Dropped;
-
-            labelSavedMessage.Visible = _viewModel.SavedMessageVisible;
-
-            ApplyOperatorToolboxItemsViewModel(_viewModel.OperatorTypeToolboxItems);
-        }
-
-        private void UnbindSvgEvents()
-        {
-            if (_svg != null)
-            {
-                _svg.DropGesture.Dropped -= DropGesture_Dropped;
-                _svg.MoveGesture.Moved -= MoveGesture_Moved;
-                _svg.SelectOperatorGesture.OperatorSelected -= SelectOperatorGesture_OperatorSelected;
-                _svg.OperatorToolTipGesture.ToolTipTextRequested -= OperatorToolTipGesture_ShowToolTipRequested;
-                _svg.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
-                _svg.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
-                //_svg.LineGesture.Dropped -= DropGesture_Dropped;
-            }
-        }
-
-        private static Size _defaultToolStripLabelSize = new Size(86, 22);
-
-        private bool _operatorToolboxItemsViewModelApplied = false; // Dirty way to only apply it once.
-
-        private void ApplyOperatorToolboxItemsViewModel(IList<OperatorTypeViewModel> operatorTypeToolboxItems)
-        {
-            if (_operatorToolboxItemsViewModelApplied)
-            {
-                return;
-            }
-            _operatorToolboxItemsViewModelApplied = true;
-
-            int i = 1;
-
-            foreach (OperatorTypeViewModel config in operatorTypeToolboxItems)
-            {
-                ToolStripItem toolStripItem = new ToolStripButton
-                {
-                    Name = "toolStripButton" + i,
-                    Size = _defaultToolStripLabelSize,
-                    Text = config.Symbol,
-                    DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text,
-                    Tag = config.OperatorTypeName
-                };
-
-                // TODO: Clean up the event handlers too somewhere.
-                toolStripItem.Click += toolStripLabel_Click;
-
-                toolStrip1.Items.Add(toolStripItem);
-
-                i++;
-            }
         }
 
         // Helpers

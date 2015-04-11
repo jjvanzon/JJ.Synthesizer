@@ -13,7 +13,7 @@ using JJ.Framework.Presentation.Svg.Gestures;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.Svg.Gestures;
 
-namespace JJ.Presentation.Synthesizer.Svg.Converters
+namespace JJ.Presentation.Synthesizer.Svg
 {
     public class ViewModelToDiagramConverter
     {
@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
 
         private class OperatorSvgElements
         {
-            public Rectangle Rectangle { get; set; }
+            public Rectangle OperatorRectangle { get; set; }
             public IList<Point> InletPoints { get; set; }
             public IList<Point> OutletPoints { get; set; }
             public IList<Rectangle> InletRectangles { get; set; }
@@ -70,6 +70,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
 
         private Result _result;
         private Dictionary<OperatorViewModel, OperatorSvgElements> _convertedOperatorDictionary;
+        private IList<Line> _convertedLines;
 
         static ViewModelToDiagramConverter()
         {
@@ -84,46 +85,81 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 MakeHiddenStylesVisible();
             }
         }
-
-        public Result Execute(PatchViewModel sourcePatchViewModel)
-        {
-            var destDiagram = new Diagram();
-            var moveGesture = new MoveGesture();
-            var dragGesture = new DragGesture();
-            var dropGesture = new DropGesture(dragGesture);
-            var lineGesture = new LineGesture(destDiagram, _lineStyleLight, lineZIndex: -1);
-            var selectOperatorGesture = new SelectOperatorGesture();
-            var deleteOperatorGesture = new DeleteOperatorGesture();
-
-            // TODO: Give tool tips their own styles.
-            var operatorToolTipGesture = new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
-            var inletToolTipGesture = new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
-            var outletToolTipGesture = new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
-
-            _result = new Result(destDiagram, moveGesture, dragGesture, dropGesture, lineGesture, selectOperatorGesture, deleteOperatorGesture, operatorToolTipGesture, inletToolTipGesture, outletToolTipGesture);
-
-            _convertedOperatorDictionary = new Dictionary<OperatorViewModel, OperatorSvgElements>();
-
-            return Execute(sourcePatchViewModel, _result);
-        }
         
-        public Result Execute(PatchViewModel sourcePatchViewModel, Result result)
+        public Result Execute(PatchViewModel sourcePatchViewModel, Result result = null)
         {
             if (sourcePatchViewModel == null) throw new NullException(() => sourcePatchViewModel);
-            if (result == null) throw new NullException(() => result);
 
+            if (result == null)
+            {
+                var destDiagram = new Diagram();
+                var moveGesture = new MoveGesture();
+                var dragGesture = new DragGesture();
+                var dropGesture = new DropGesture(dragGesture);
+                var lineGesture = new LineGesture(destDiagram, _lineStyleLight, lineZIndex: -1);
+                var selectOperatorGesture = new SelectOperatorGesture();
+                var deleteOperatorGesture = new DeleteOperatorGesture();
+
+                // TODO: Give tool tips their own styles.
+                var operatorToolTipGesture = new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
+                var inletToolTipGesture = new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
+                var outletToolTipGesture = new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
+
+                result = new Result(destDiagram, moveGesture, dragGesture, dropGesture, lineGesture, selectOperatorGesture, deleteOperatorGesture, operatorToolTipGesture, inletToolTipGesture, outletToolTipGesture);
+            }
+
+            _convertedOperatorDictionary = new Dictionary<OperatorViewModel, OperatorSvgElements>();
+            _convertedLines = new List<Line>();
+
+            // ASSUMPTION: All rectangle children of the canvas, that have a tag that is int (an OperatorID) are operator rectangles.
+            IList<Rectangle> destExistingOperatorRectangles = result.Diagram.Canvas.Children
+                                                                                   .OfType<Rectangle>()
+                                                                                   .Where(x => x.Tag is int)
+                                                                                   .ToArray();
+            // ASSUMPTION: All line children of the canvas, that have a tag that is int (InletID) are lines connecting operators.
+            IList<Line> destExistingLines = result.Diagram.Canvas.Children
+                                                                 .OfType<Line>()
+                                                                 .Where(x => x.Tag is int)
+                                                                 .ToArray();
             _result = result;
 
-            DeleteOperatorGesture deleteOperatorGesture = _result.Diagram.Canvas.Gestures.OfType<DeleteOperatorGesture>().SingleOrDefault();
-            if (deleteOperatorGesture == null)
-            {
-                _result.Diagram.Canvas.Gestures.Add(_result.DeleteOperatorGesture);
-            }
+            _result.Diagram.Canvas.Gestures.Clear();
+            _result.Diagram.Canvas.Gestures.Add(_result.DeleteOperatorGesture);
 
             foreach (OperatorViewModel sourceOperatorViewModel in sourcePatchViewModel.Operators)
             {
-                OperatorSvgElements destRectangle = ConvertToRectangles_WithRelatedObject_Recursive(sourceOperatorViewModel, result.Diagram);
+                ConvertToRectangles_WithRelatedObject_Recursive(sourceOperatorViewModel, result.Diagram);
             }
+
+            // Delete operator rectangles + children
+            IList<Rectangle> destConvertedOperatorRectangles = _convertedOperatorDictionary.Select(x => x.Value.OperatorRectangle).ToArray();
+            IList<Rectangle> destOperatorRectanglesToDelete = destExistingOperatorRectangles.Except(destConvertedOperatorRectangles).ToArray();
+
+            foreach (Rectangle destOperatorRectangleToDelete in destOperatorRectanglesToDelete)
+            {
+                IList<Element> destDescendantElements = destOperatorRectanglesToDelete.SelectMany(x => x.Children)
+                                                                                      .UnionRecursive(x => x.Children)
+                                                                                      .ToArray();
+                foreach (Element destDescendantElement in destDescendantElements)
+                {
+                    destDescendantElement.Parent = null;
+                    destDescendantElement.Diagram = null;
+                }
+
+                destOperatorRectangleToDelete.Parent = null;
+                destOperatorRectangleToDelete.Diagram = null;
+            }
+
+            // Delete lines
+            IList<Line> destLinesToDelete = destExistingLines.Except(_convertedLines).ToArray();
+            foreach (Line destLineToDelete in destLinesToDelete)
+            {
+                destLineToDelete.Parent = null;
+                destLineToDelete.Diagram = null;
+            }
+
+            _convertedOperatorDictionary = null;
+            _convertedLines = null;
 
             return _result;
         }
@@ -163,6 +199,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
 
                     line.PointA = operatorSvgElements1.InletPoints[i];
 
+                    _convertedLines.Add(line);
+
                     if (operatorSvgElements2.OutletPoints.Count > 0) // TODO: This does not work for multiple outlets.
                     {
                         line.PointB = operatorSvgElements2.OutletPoints[0];
@@ -199,7 +237,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             // Return result
             return new OperatorSvgElements
             {
-                Rectangle = destOperatorRectangle,
+                OperatorRectangle = destOperatorRectangle,
                 InletRectangles = destInletRectangles,
                 InletPoints = destInletPoints,
                 OutletRectangles = destOutletRectangles,
@@ -212,7 +250,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             Rectangle destOperatorRectangle = destDiagram.Elements
                                                          .OfType<Rectangle>()
                                                          .Where(x => Equals(x.Tag, sourceOperatorViewModel.ID))
-                                                         .SingleOrDefault();
+                                                         .FirstOrDefault();
             if (destOperatorRectangle == null)
             {
                 destOperatorRectangle = new Rectangle();
@@ -224,9 +262,6 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             destOperatorRectangle.Height = DEFAULT_HEIGHT;
             destOperatorRectangle.X = sourceOperatorViewModel.CenterX - DEFAULT_WIDTH / 2f;
             destOperatorRectangle.Y = sourceOperatorViewModel.CenterY - DEFAULT_HEIGHT / 2f;
-            destOperatorRectangle.Gestures.Add(_result.MoveGesture);
-            destOperatorRectangle.Gestures.Add(_result.SelectOperatorGesture);
-            //destRectangle.Gestures.Add(_operatorToolTipGesture);
 
             if (sourceOperatorViewModel.IsSelected)
             {
@@ -238,6 +273,10 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 destOperatorRectangle.BackStyle = _backStyle;
                 destOperatorRectangle.LineStyle = _lineStyle;
             }
+
+            destOperatorRectangle.Gestures.Clear();
+            destOperatorRectangle.Gestures.Add(_result.MoveGesture);
+            destOperatorRectangle.Gestures.Add(_result.SelectOperatorGesture);
 
             return destOperatorRectangle;
         }
@@ -309,9 +348,12 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             destInletRectangle.BackStyle = _backStyleInvisible;
             destInletRectangle.LineStyle = _lineStyleInvisible;
             destInletRectangle.Parent = destOperatorRectangle;
+
+            destInletRectangle.Gestures.Clear();
             destInletRectangle.Gestures.Add(_result.DropGesture);
             //destInletRectangle.Gestures.Add(_inletToolTipGesture);
             //destInletRectangle.MustBubble = false; // The is only done to make the tooltip work, so if the tooltip uses another region, it is not necessary anymore.
+
             return destInletRectangle;
         }
 
@@ -409,10 +451,13 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
 
             destOutletRectangle.BackStyle = _backStyleInvisible;
             destOutletRectangle.LineStyle = _lineStyleInvisible;
-            destOutletRectangle.MustBubble = false;
+
+            destOutletRectangle.Gestures.Clear();
             destOutletRectangle.Gestures.Add(_result.DragGesture);
             destOutletRectangle.Gestures.Add(_result.LineGesture);
             //destOutletRectangle.Gestures.Add(_outletToolTipGesture);
+            destOutletRectangle.MustBubble = false;
+
             destOutletRectangle.Parent = destOperatorRectangle;
 
             return destOutletRectangle;

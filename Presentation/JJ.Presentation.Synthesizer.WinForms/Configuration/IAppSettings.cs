@@ -12,5 +12,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Configuration
         int TestPatchID { get; }
         bool MustShowInvisibleElements { get; }
         bool ForceStateless { get; }
+        bool AlwaysRecreateDiagram { get; set; }
     }
 }
