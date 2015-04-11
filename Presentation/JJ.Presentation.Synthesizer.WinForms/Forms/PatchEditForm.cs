@@ -18,6 +18,7 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -28,16 +29,26 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private PatchEditViewModel _viewModel;
         private ViewModelToDiagramConverter _converter;
         private ViewModelToDiagramConverter.Result _svg;
-        
+
+        /// <summary>
+        /// For testing.
+        /// </summary>
+        private Patch _patch;
+
         private static bool _forceStateless;
         private static bool _alwaysRecreateDiagram;
         private static bool _mustShowInvisibleElements;
+        private static bool _mustCreateMockPatch;
+        private static int _testPatchID;
 
         static PatchEditForm()
         {
-            _forceStateless = AppSettings<IAppSettings>.Get(x => x.ForceStateless);
-            _alwaysRecreateDiagram = AppSettings<IAppSettings>.Get(x => x.AlwaysRecreateDiagram);
-            _mustShowInvisibleElements = AppSettings<IAppSettings>.Get(x => x.MustShowInvisibleElements);
+            ConfigurationSection config = CustomConfigurationManager.GetSection<ConfigurationSection>();
+            _forceStateless = config.Testing.ForceStateless;
+            _alwaysRecreateDiagram = config.Testing.AlwaysRecreateDiagram;
+            _mustShowInvisibleElements = config.Testing.MustShowInvisibleElements;
+            _mustCreateMockPatch = config.Testing.MustCreateMockPatch;
+            _testPatchID = config.Testing.TestPatchID;
         }
 
         public PatchEditForm()
@@ -49,20 +60,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _context = CreateContext();
             _presenter = CreatePresenter(_context);
 
-            Patch patch;
-
-            bool mustCreateMockPatch = AppSettings<IAppSettings>.Get(x => x.MustCreateMockPatch);
-            if (mustCreateMockPatch)
+            if (_mustCreateMockPatch)
             {
-                patch = CreateMockPatch();
+                _patch = CreateMockPatch();
             }
             else
             {
-                int patchID = AppSettings<IAppSettings>.Get(x => x.TestPatchID);
-                patch = PersistenceHelper.CreateRepository<IPatchRepository>(_context).Get(patchID);
+                _patch = PersistenceHelper.CreateRepository<IPatchRepository>(_context).Get(_testPatchID);
             }
 
-            Edit(patch.ID);
+            Edit(_patch.ID);
         }
 
         private void SetTitles()
@@ -86,10 +93,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _svg.MoveGesture.Moved += MoveGesture_Moved;
                 _svg.DropGesture.Dropped += DropGesture_Dropped;
                 _svg.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
-                ////_svg.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
-                ////_svg.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
-                ////_svg.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
-                ////_svg.LineGesture.Dropped += DropGesture_Dropped;
+                //_svg.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
+                //_svg.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
+                //_svg.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
+                //_svg.LineGesture.Dropped += DropGesture_Dropped;
             }
             else
             {
@@ -101,6 +108,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             labelSavedMessage.Visible = _viewModel.SavedMessageVisible;
 
             ApplyOperatorToolboxItemsViewModel(_viewModel.OperatorTypeToolboxItems);
+
+            textBoxValue.Text = _viewModel.SelectedValue;
         }
 
         private void UnbindSvgEvents()
@@ -111,10 +120,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _svg.MoveGesture.Moved -= MoveGesture_Moved;
                 _svg.DropGesture.Dropped -= DropGesture_Dropped;
                 _svg.DeleteOperatorGesture.DeleteRequested -= DeleteOperatorGesture_DeleteRequested;
-                ////_svg.OperatorToolTipGesture.ToolTipTextRequested -= OperatorToolTipGesture_ShowToolTipRequested;
-                ////_svg.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
-                ////_svg.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
-                ////_svg.LineGesture.Dropped -= DropGesture_Dropped;
+                //_svg.OperatorToolTipGesture.ToolTipTextRequested -= OperatorToolTipGesture_ShowToolTipRequested;
+                //_svg.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
+                //_svg.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
+                //_svg.LineGesture.Dropped -= DropGesture_Dropped;
             }
         }
 
@@ -193,25 +202,39 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
         {
+            // TODO: The 'if' belongs in the presenter.
             if (_viewModel.SelectedOperator != null)
             {
                 DeleteOperator(_viewModel.SelectedOperator.ID);                
             }
         }
 
+        private void textBoxValue_TextChanged(object sender, EventArgs e)
+        {
+            SetValue(textBoxValue.Text);
+        }
+
+        private void buttonPlay_Click(object sender, EventArgs e)
+        {
+            VoidResult result = PlayHelper.Play(_patch);
+            if (!result.Successful)
+            {
+                string messages = String.Join(Environment.NewLine, result.ValidationMessages.Select(x => x.Text));
+                MessageBox.Show(messages);
+            }
+        }
+
+        // TODO: You might want to use the presenter for the the following 3 things.
+
         private void OperatorToolTipGesture_ShowToolTipRequested(object sender, ToolTipTextEventArgs e)
         {
             int operatorID = TagHelper.GetOperatorID(e.Element.Tag);
-
-            // TODO: You might want to do this in the presenter.
             e.ToolTipText = _viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single().Name;
         }
 
         private void InletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
         {
             int inletID = TagHelper.GetInletID(e.Element.Tag);
-
-            // TODO: You might want to do this in the presenter.
             InletViewModel inketViewModel = _viewModel.Patch.Operators.SelectMany(x => x.Inlets).Where(x => x.ID == inletID).Single();
             e.ToolTipText = inketViewModel.Name;
         }
@@ -219,8 +242,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void OutletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
         {
             int outletID = TagHelper.GetOutletID(e.Element.Tag);
-
-            // TODO: You might want to do this in the presenter.
             OutletViewModel outletViewModel = _viewModel.Patch.Operators.SelectMany(x => x.Outlets).Where(x => x.ID == outletID).Single();
             e.ToolTipText = outletViewModel.Name;
         }
@@ -318,6 +339,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void SetValue(string value)
+        {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
+            _viewModel = _presenter.SetValue(_viewModel, value);
+
+            ApplyViewModel();
+        }
+
         // Helpers
 
         private IContext CreateContext()
@@ -348,7 +382,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private Patch CreateMockPatch()
         {
             PersistenceWrapper persistenceWrapper = PersistenceHelper.CreatePersistenceWrapper(_context);
-            Patch patch = EntityFactory.CreateTestPatch2(persistenceWrapper);
+            Patch patch = EntityFactory.CreateTestPatch1(persistenceWrapper);
             persistenceWrapper.Flush(); // Flush to get the ID.
             return patch;
         }

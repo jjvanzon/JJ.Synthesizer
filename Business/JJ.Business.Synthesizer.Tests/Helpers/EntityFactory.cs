@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    internal class EntityFactory
+    public class EntityFactory
     {
         public static Outlet CreateMockOperatorStructure(OperatorFactory x)
         {

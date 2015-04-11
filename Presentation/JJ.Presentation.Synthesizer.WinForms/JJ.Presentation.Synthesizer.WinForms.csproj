@@ -62,9 +62,13 @@
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\IAppSettings.cs" />
+    <Compile Include="Configuration\ConfigurationSection.cs" />
+    <Compile Include="Configuration\FilePathsConfiguration.cs" />
+    <Compile Include="Configuration\~IAppSettings.cs" />
+    <Compile Include="Configuration\TestingConfiguration.cs" />
     <Compile Include="Forms\PatchEditForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,6 +78,7 @@
     <Compile Include="Helpers\EntityFactory.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\PersistenceWrapper.cs" />
+    <Compile Include="Helpers\PlayHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\PatchEditForm.resx">
@@ -106,9 +111,17 @@
       <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
       <Name>JJ.Business.CanonicalModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer.Tests\JJ.Business.Synthesizer.Tests.csproj">
+      <Project>{5c26af7b-1c83-49bd-9ed1-6a880103d293}</Project>
+      <Name>JJ.Business.Synthesizer.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer\JJ.Business.Synthesizer.csproj">
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
       <Name>JJ.Business.Synthesizer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
+      <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
+      <Name>JJ.Framework.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Configuration\JJ.Framework.Configuration.csproj">
       <Project>{805a8237-05ed-40ae-8d1a-9288373ea5e0}</Project>

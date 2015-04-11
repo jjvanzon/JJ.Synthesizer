@@ -149,11 +149,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
+            string name;
+            if (String.Equals(entity.OperatorTypeName, PropertyNames.ValueOperator))
+            {
+                name = entity.AsValueOperator.Value.ToString("0.####");
+            }
+            else
+            {
+                name = entity.Name;
+            }
+
             var viewModel = new OperatorViewModel
             {
                 ID = entity.ID,
                 TemporaryID = Guid.NewGuid(),
-                Name = entity.Name,
+                Name = name,
                 OperatorTypeName = entity.OperatorTypeName
             };
 

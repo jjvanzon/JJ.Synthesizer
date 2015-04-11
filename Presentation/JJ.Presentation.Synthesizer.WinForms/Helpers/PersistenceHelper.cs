@@ -1,5 +1,7 @@
-﻿using JJ.Framework.Persistence;
+﻿using JJ.Framework.Configuration;
+using JJ.Framework.Persistence;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {
     internal class PersistenceHelper
     {
+        static PersistenceConfiguration _memoryPersistenceConfiguration;
+
+        static PersistenceHelper()
+        {
+            ConfigurationSection config = CustomConfigurationManager.GetSection<ConfigurationSection>();
+            _memoryPersistenceConfiguration = config.MemoryPersistence;
+        }
+
         public static IContext CreateContext()
         {
             return ContextFactory.CreateContextFromConfiguration();
@@ -20,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             return RepositoryFactory.CreateRepositoryFromConfiguration<TRepository>(context);
         }
 
-        internal static PersistenceWrapper CreatePersistenceWrapper(IContext context)
+        public static PersistenceWrapper CreatePersistenceWrapper(IContext context)
         {
             return new PersistenceWrapper(
                 CreateRepository<IPatchRepository>(context), 
@@ -30,6 +40,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                 CreateRepository<ICurveInRepository>(context), 
                 CreateRepository<IValueOperatorRepository>(context), 
                 CreateRepository<ISampleOperatorRepository>(context));
+        }
+
+        public static IContext CreateMemoryContext()
+        {
+            return ContextFactory.CreateContextFromConfiguration(_memoryPersistenceConfiguration);
+        }
+
+        public static TRepository CreateMemoryRepository<TRepository>(IContext context)
+        {
+            return RepositoryFactory.CreateRepositoryFromConfiguration<TRepository>(context, _memoryPersistenceConfiguration);
         }
     }
 }

@@ -19,5 +19,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public IList<OperatorTypeViewModel> OperatorTypeToolboxItems { get; set; }
 
         public OperatorViewModel SelectedOperator { get; set; }
+        public string SelectedValue { get; set; }
     }
 }

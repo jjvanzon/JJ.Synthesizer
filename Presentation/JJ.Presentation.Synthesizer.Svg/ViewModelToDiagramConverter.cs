@@ -99,14 +99,14 @@ namespace JJ.Presentation.Synthesizer.Svg
                 var moveGesture = new MoveGesture();
                 var dragGesture = new DragGesture();
                 var dropGesture = new DropGesture(dragGesture);
-                var lineGesture = new LineGesture(destDiagram, _lineStyleLight, lineZIndex: -1);
+                var lineGesture = new LineGesture(destDiagram, _lineStyleDashed, lineZIndex: -1);
                 var selectOperatorGesture = new SelectOperatorGesture();
                 var deleteOperatorGesture = new DeleteOperatorGesture();
 
                 // TODO: Give tool tips their own styles.
-                var operatorToolTipGesture = new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
-                var inletToolTipGesture = new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
-                var outletToolTipGesture = new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
+                ToolTipGesture operatorToolTipGesture = null; //= new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
+                ToolTipGesture inletToolTipGesture = null; //= new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
+                ToolTipGesture outletToolTipGesture = null; //= new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
 
                 result = new Result(destDiagram, moveGesture, dragGesture, dropGesture, lineGesture, selectOperatorGesture, deleteOperatorGesture, operatorToolTipGesture, inletToolTipGesture, outletToolTipGesture);
             }
@@ -123,7 +123,6 @@ namespace JJ.Presentation.Synthesizer.Svg
                                                                  .Where(x => TagHelper.IsInletTag(x.Tag))
                                                                  .ToArray();
             _result = result;
-
             _result.Diagram.Canvas.Gestures.Clear();
             _result.Diagram.Canvas.Gestures.Add(_result.DeleteOperatorGesture);
 
@@ -132,7 +131,7 @@ namespace JJ.Presentation.Synthesizer.Svg
                 ConvertToRectangles_WithRelatedObject_Recursive(sourceOperatorViewModel, result.Diagram);
             }
 
-            // Delete operator rectangles + children
+            // Delete operator rectangles + descendants
             IList<Rectangle> destConvertedOperatorRectangles = _convertedOperatorDictionary.Select(x => x.Value.OperatorRectangle).ToArray();
             IList<Rectangle> destOperatorRectanglesToDelete = destExistingOperatorRectangles.Except(destConvertedOperatorRectangles).ToArray();
 
@@ -235,7 +234,7 @@ namespace JJ.Presentation.Synthesizer.Svg
         {
             var destLine = new Line
             {
-                LineStyle = _lineStyle,
+                LineStyle = _lineStyleThin,
                 ZIndex = -1
             };
 
@@ -354,6 +353,8 @@ namespace JJ.Presentation.Synthesizer.Svg
             return destLabel;
         }
 
+        // Inlet Rectangles
+
         private IList<Rectangle> ConvertToInletRectangles(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
         {
             if (sourceOperatorViewModel.Inlets.Count == 0)
@@ -363,7 +364,7 @@ namespace JJ.Presentation.Synthesizer.Svg
 
             IList<Rectangle> destInletRectangles = new List<Rectangle>(sourceOperatorViewModel.Inlets.Count);
 
-            float rowHeight = destOperatorRectangle.Height / 3;
+            float rowHeight = destOperatorRectangle.Height / 4;
             float heightOverflow = _pointStyle.Width / 2;
             float inletWidth = destOperatorRectangle.Width / sourceOperatorViewModel.Inlets.Count;
             float x = 0;
@@ -384,8 +385,6 @@ namespace JJ.Presentation.Synthesizer.Svg
 
             return destInletRectangles;
         }
-
-        // Inlet Rectangles
 
         /// <summary> Converts everything but its coordinates. </summary>
         private Rectangle ConvertToInletRectangle(InletViewModel sourceInletViewModel, Rectangle destOperatorRectangle)
@@ -514,10 +513,10 @@ namespace JJ.Presentation.Synthesizer.Svg
             IList<Rectangle> destOutletRectangles = new List<Rectangle>(sourceOperatorViewModel.Inlets.Count);
 
             float outletWidth = destOperatorRectangle.Width / sourceOperatorViewModel.Outlets.Count;
-            float rowHeight = destOperatorRectangle.Height / 3;
+            float rowHeight = destOperatorRectangle.Height / 4;
             float heightOverflow = _pointStyle.Width / 2;
             float x = 0;
-            float y = 2f * rowHeight;
+            float y = rowHeight * 3;
 
             foreach (OutletViewModel sourceOutletViewModel in sourceOperatorViewModel.Outlets)
             {
@@ -658,14 +657,15 @@ namespace JJ.Presentation.Synthesizer.Svg
         private static Font _defaultFont;
         private static TextStyle _textStyle;
         private static BackStyle _backStyle;
-        private static LineStyle _lineStyle;
-        private static PointStyle _pointStyle;
-        private static LineStyle _lineStyleLight;
-        private static PointStyle _pointStyleInvisible;
-        private static BackStyle _backStyleInvisible;
-        private static LineStyle _lineStyleInvisible;
-        private static LineStyle _lineStyleSelected;
         private static BackStyle _backStyleSelected;
+        private static BackStyle _backStyleInvisible;
+        private static LineStyle _lineStyle;
+        private static LineStyle _lineStyleDashed;
+        private static LineStyle _lineStyleSelected;
+        private static LineStyle _lineStyleInvisible;
+        private static LineStyle _lineStyleThin;
+        private static PointStyle _pointStyle;
+        private static PointStyle _pointStyleInvisible;
 
         private static void InitializeStyling()
         {
@@ -691,13 +691,19 @@ namespace JJ.Presentation.Synthesizer.Svg
                 Color = ColorHelper.GetColor(45, 45, 45)
             };
 
+            _lineStyleThin = new LineStyle
+            {
+                Width = 1,
+                Color = ColorHelper.GetColor(45, 45, 45)
+            };
+
             _lineStyleSelected = new LineStyle
             {
                 Width = 2,
                 Color = ColorHelper.GetColor(0, 0, 0)
             };
 
-            _lineStyleLight = new LineStyle
+            _lineStyleDashed = new LineStyle
             {
                 Width = 3,
                 Color = ColorHelper.GetColor(128, 45, 45, 45),

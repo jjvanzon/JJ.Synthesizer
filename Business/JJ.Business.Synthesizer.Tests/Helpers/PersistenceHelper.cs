@@ -21,22 +21,22 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         public static IContext CreateMemoryContext()
         {
-            return ContextFactory.CreateContextFromConfiguration(_config.MemoryPersistenceConfiguration);
+            return ContextFactory.CreateContextFromConfiguration(_config.MemoryPersistence);
         }
 
         public static IContext CreateDatabaseContext()
         {
-            return ContextFactory.CreateContextFromConfiguration(_config.DatabasePersistenceConfiguration);
+            return ContextFactory.CreateContextFromConfiguration(_config.DatabasePersistence);
         }
 
         public static TRepositoryInterface CreateRepository<TRepositoryInterface>(IContext context)
         {
             if (context is MemoryContext)
             {
-                return RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context, _config.MemoryPersistenceConfiguration);
+                return RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context, _config.MemoryPersistence);
             }
 
-            return RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context, _config.DatabasePersistenceConfiguration);
+            return RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context, _config.DatabasePersistence);
         }
     }
 }

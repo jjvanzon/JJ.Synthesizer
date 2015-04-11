@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Managers
         /// If one of the related operators has a different patch assigned to it,
         /// a validation message is returned.
         /// </summary>
-        public static VoidResult AddToPatch(Operator op, Patch patch)
+        public static VoidResult AddToPatchRecursive(Operator op, Patch patch)
         {
             if (op == null) throw new NullException(() => op);
             if (patch == null) throw new NullException(() => patch);

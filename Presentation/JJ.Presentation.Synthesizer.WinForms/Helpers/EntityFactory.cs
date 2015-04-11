@@ -1,14 +1,17 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
+using JJ.Framework.Persistence;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Persistence.Synthesizer;
 using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestEntityFactory = JJ.Business.Synthesizer.Tests.Helpers.EntityFactory;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {
@@ -22,8 +25,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 
             Outlet outlet = x.Add();
 
-            Patch patch = new Patch();
-            PatchManager.AddToPatch(outlet.Operator, patch);
+            Patch patch = persistenceWrapper.PatchRepository.Create();
+            PatchManager.AddToPatchRecursive(outlet.Operator, patch);
             return patch;
         }
 
@@ -36,7 +39,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             Outlet outlet = x.Substract(x.Add(x.Value(1), x.Value(2)), x.Value(3));
 
             Patch patch = persistenceWrapper.PatchRepository.Create();
-            PatchManager.AddToPatch(outlet.Operator, patch);
+            PatchManager.AddToPatchRecursive(outlet.Operator, patch);
+            return patch;
+        }
+
+        public static Patch CreateEchoPatch(PersistenceWrapper persistenceWrapper)
+        {
+            if (persistenceWrapper == null) throw new NullException(() => persistenceWrapper);
+
+            OperatorFactory operatorFactory = CreateOperatorFactory(persistenceWrapper);
+            Patch patch = persistenceWrapper.PatchRepository.Create();
+
+            Outlet outlet = operatorFactory.Sample();
+            Outlet outlet2 = TestEntityFactory.CreateEcho(operatorFactory, outlet);
+            Outlet outlet3 = operatorFactory.PatchOutlet(outlet2);
+
+            PatchManager.AddToPatchRecursive(outlet3.Operator, patch);
+
             return patch;
         }
 

@@ -301,19 +301,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _viewModel = _patch.ToEditViewModel(_entityPositionManager);
             }
 
-            // The non-persisted operator selection data.
-            foreach (OperatorViewModel operatorViewModel in _viewModel.Patch.Operators)
-            {
-                if (operatorViewModel.ID == operatorID)
-                {
-                    operatorViewModel.IsSelected = true;
-                    _viewModel.SelectedOperator = operatorViewModel;
-                }
-                else
-                {
-                    operatorViewModel.IsSelected = false;
-                }
-            }
+            SetSelectedOperator(_viewModel, operatorID);
 
             return _viewModel;
         }
@@ -349,5 +337,64 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             return _viewModel;
         }
+
+        public PatchEditViewModel SetValue(PatchEditViewModel viewModel, string value)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            if (_patch == null)
+            {
+                _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            }
+
+            // TODO: Validation messages for incorrect situations.
+            double d;
+            if (Double.TryParse(value, out d))
+            {
+                if (viewModel.SelectedOperator != null)
+                {
+                    Operator op = _patch.Operators.Where(x => x.ID == viewModel.SelectedOperator.ID).Single();
+                    if (op.AsValueOperator != null)
+                    {
+                        op.AsValueOperator.Value = d;
+                    }
+                }
+            }
+
+            // TODO: See if you can do it more efficiently for stateful situations.
+            _viewModel = _patch.ToEditViewModel(_entityPositionManager);
+
+            // TODO: You are not supposed to transform the view model based on information in that viewmodel.
+            if (viewModel.SelectedOperator != null)
+            {
+                SetSelectedOperator(_viewModel, viewModel.SelectedOperator.ID);
+            }
+
+            return _viewModel;
+        }
+
+
+        private void SetSelectedOperator(PatchEditViewModel viewModel, int operatorID)
+        {
+            // The non-persisted operator selection data.
+            foreach (OperatorViewModel operatorViewModel in viewModel.Patch.Operators)
+            {
+                if (operatorViewModel.ID == operatorID)
+                {
+                    operatorViewModel.IsSelected = true;
+                    viewModel.SelectedOperator = operatorViewModel;
+                    if (operatorViewModel.OperatorTypeName == PropertyNames.ValueOperator)
+                    {
+                        // Kind of dirty: this depends on the value being filled in as the name for value operators.
+                        _viewModel.SelectedValue = operatorViewModel.Name;
+                    }
+                }
+                else
+                {
+                    operatorViewModel.IsSelected = false;
+                }
+            }
+        }
+
     }
 }
