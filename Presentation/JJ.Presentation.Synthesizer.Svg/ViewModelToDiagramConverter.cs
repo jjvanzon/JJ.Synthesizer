@@ -71,6 +71,8 @@ namespace JJ.Presentation.Synthesizer.Svg
         private Dictionary<OperatorViewModel, OperatorSvgElements> _convertedOperatorDictionary;
         private IList<Line> _convertedLines;
 
+        // Constructors
+
         static ViewModelToDiagramConverter()
         {
             InitializeStyling();
@@ -85,6 +87,8 @@ namespace JJ.Presentation.Synthesizer.Svg
             }
         }
         
+        // General
+
         public Result Execute(PatchViewModel sourcePatchViewModel, Result result = null)
         {
             if (sourcePatchViewModel == null) throw new NullException(() => sourcePatchViewModel);
@@ -183,29 +187,59 @@ namespace JJ.Presentation.Synthesizer.Svg
                     // Recursive call
                     OperatorSvgElements operatorSvgElements2 = ConvertToRectangles_WithRelatedObject_Recursive(inletViewModel.InputOutlet.Operator, destDiagram);
 
-                    Line line = destDiagram.Canvas.Children
-                                                  .OfType<Line>()
-                                                  .Where(x => TagHelper.TryGetInletID(x.Tag) == inletViewModel.ID)
-                                                  .FirstOrDefault();
-                    if (line == null)
+                    Line destLine = TryGetInletLine(inletViewModel.ID);
+                    if (destLine == null)
                     {
-                        line = CreateLine();
-                        line.Tag = TagHelper.GetInletTag(inletViewModel.ID);
-                        line.Diagram = destDiagram;
+                        destLine = CreateLine();
+                        destLine.Tag = TagHelper.GetInletTag(inletViewModel.ID);
+                        destLine.Diagram = destDiagram;
+                        _inletLineDictionary.Add(inletViewModel.ID, destLine);
                     }
 
-                    line.PointA = operatorSvgElements1.InletPoints[i];
+                    destLine.PointA = operatorSvgElements1.InletPoints[i];
 
-                    _convertedLines.Add(line);
+                    _convertedLines.Add(destLine);
 
                     if (operatorSvgElements2.OutletPoints.Count > 0) // TODO: This does not work for multiple outlets.
                     {
-                        line.PointB = operatorSvgElements2.OutletPoints[0];
+                        destLine.PointB = operatorSvgElements2.OutletPoints[0];
                     }
                 }
             }
 
             return operatorSvgElements1;
+        }
+
+        private Dictionary<int, Line> _inletLineDictionary = new Dictionary<int, Line>();
+
+        private Line TryGetInletLine(int inletID)
+        {
+            Line line;
+            if (!_inletLineDictionary.TryGetValue(inletID, out line))
+            {
+                line = _result.Diagram.Canvas.Children
+                                             .OfType<Line>()
+                                             .Where(x => TagHelper.TryGetInletID(x.Tag) == inletID)
+                                             .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
+
+                if (line != null)
+                {
+                    _inletLineDictionary.Add(inletID, line);
+                }
+            }
+
+            return line;
+        }
+
+        private Line CreateLine()
+        {
+            var destLine = new Line
+            {
+                LineStyle = _lineStyle,
+                ZIndex = -1
+            };
+
+            return destLine;
         }
 
         private OperatorSvgElements ConvertToRectangle_WithRelatedObjects(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
@@ -242,17 +276,18 @@ namespace JJ.Presentation.Synthesizer.Svg
             };
         }
 
+        // Operator Rectangles
+
         private Rectangle ConvertToOperatorRectangle(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
         {
-            Rectangle destOperatorRectangle = destDiagram.Elements
-                                                         .OfType<Rectangle>()
-                                                         .Where(x => TagHelper.TryGetOperatorID(x.Tag) == sourceOperatorViewModel.ID)
-                                                         .FirstOrDefault();
+            Rectangle destOperatorRectangle = TryGetOperatorRectangle(sourceOperatorViewModel.ID);
             if (destOperatorRectangle == null)
             {
                 destOperatorRectangle = new Rectangle();
                 destOperatorRectangle.Diagram = destDiagram;
                 destOperatorRectangle.Tag = TagHelper.GetOperatorTag(sourceOperatorViewModel.ID);
+
+                _destOperatorRectangleDictionary.Add(sourceOperatorViewModel.ID, destOperatorRectangle);
             }
 
             destOperatorRectangle.Width = DEFAULT_WIDTH;
@@ -278,9 +313,32 @@ namespace JJ.Presentation.Synthesizer.Svg
             return destOperatorRectangle;
         }
 
+        private Dictionary<int, Rectangle> _destOperatorRectangleDictionary = new Dictionary<int, Rectangle>();
+
+        private Rectangle TryGetOperatorRectangle(int operatorID)
+        {
+            Rectangle destRectangle;
+            if (!_destOperatorRectangleDictionary.TryGetValue(operatorID, out destRectangle))
+            {
+                destRectangle = _result.Diagram.Elements
+                                               .OfType<Rectangle>()
+                                               .Where(x => TagHelper.TryGetOperatorID(x.Tag) == operatorID)
+                                               .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
+
+                if (destRectangle != null)
+                {
+                    _destOperatorRectangleDictionary.Add(operatorID, destRectangle);
+                }
+            }
+
+            return destRectangle;
+        }
+
+        // Operator Labels
+
         private Label ConvertToOperatorLabel(OperatorViewModel sourceOperatorViewModel, Rectangle destRectangle)
         {
-            Label destLabel = destRectangle.Children.OfType<Label>().FirstOrDefault();
+            Label destLabel = destRectangle.Children.OfType<Label>().FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
             if (destLabel == null)
             {
                 destLabel = new Label();
@@ -327,19 +385,20 @@ namespace JJ.Presentation.Synthesizer.Svg
             return destInletRectangles;
         }
 
+        // Inlet Rectangles
+
         /// <summary> Converts everything but its coordinates. </summary>
         private Rectangle ConvertToInletRectangle(InletViewModel sourceInletViewModel, Rectangle destOperatorRectangle)
         {
             // Convert to Inlet Rectangle
-            Rectangle destInletRectangle = destOperatorRectangle.Children
-                                                                .OfType<Rectangle>()
-                                                                .Where(x => TagHelper.TryGetInletID(x.Tag) == sourceInletViewModel.ID)
-                                                                .FirstOrDefault();
+            Rectangle destInletRectangle = TryGetInletRectangle(destOperatorRectangle, sourceInletViewModel.ID);
             if (destInletRectangle == null)
             {
                 destInletRectangle = new Rectangle();
                 destInletRectangle.Diagram = destOperatorRectangle.Diagram;
                 destInletRectangle.Tag = TagHelper.GetInletTag(sourceInletViewModel.ID);
+
+                _destInletRectangleDictionary.Add(sourceInletViewModel.ID, destInletRectangle);
             }
 
             destInletRectangle.BackStyle = _backStyleInvisible;
@@ -353,6 +412,29 @@ namespace JJ.Presentation.Synthesizer.Svg
 
             return destInletRectangle;
         }
+
+        private Dictionary<int, Rectangle> _destInletRectangleDictionary = new Dictionary<int, Rectangle>();
+
+        private Rectangle TryGetInletRectangle(Element destParent, int inletID)
+        {
+            Rectangle destRectangle;
+            if (!_destInletRectangleDictionary.TryGetValue(inletID, out destRectangle))
+            {
+                destRectangle = destParent.Children
+                                          .OfType<Rectangle>()
+                                          .Where(x => TagHelper.TryGetInletID(x.Tag) == inletID)
+                                          .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
+
+                if (destRectangle != null)
+                {
+                    _destInletRectangleDictionary.Add(inletID, destRectangle);
+                }
+            }
+
+            return destRectangle;
+        }
+
+        // Inlet Points
 
         private IList<Point> ConvertToInletPoints(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
         {
@@ -383,15 +465,14 @@ namespace JJ.Presentation.Synthesizer.Svg
         /// <summary> Converts everything but its coordinates. </summary>
         private Point ConvertToInletPoint(InletViewModel sourceInletViewModel, Rectangle destOperatorRectangle)
         {
-            Point destInletPoint = destOperatorRectangle.Children
-                                                        .OfType<Point>()
-                                                        .Where(x =>  TagHelper.TryGetInletID(x.Tag) == sourceInletViewModel.ID)
-                                                        .FirstOrDefault();
+            Point destInletPoint = TryGetInletPoint(destOperatorRectangle, sourceInletViewModel.ID);
             if (destInletPoint == null)
             {
                 destInletPoint = new Point();
                 destInletPoint.Diagram = destOperatorRectangle.Diagram;
                 destInletPoint.Tag = TagHelper.GetInletTag(sourceInletViewModel.ID);
+
+                _destInletPointDictionary.Add(sourceInletViewModel.ID, destInletPoint);
             }
 
             destInletPoint.PointStyle = _pointStyle;
@@ -399,6 +480,29 @@ namespace JJ.Presentation.Synthesizer.Svg
 
             return destInletPoint;
         }
+
+        private Dictionary<int, Point> _destInletPointDictionary = new Dictionary<int, Point>();
+
+        private Point TryGetInletPoint(Element destParent, int inletID)
+        {
+            Point destPoint;
+            if (!_destInletPointDictionary.TryGetValue(inletID, out destPoint))
+            {
+                destPoint = destParent.Children
+                                      .OfType<Point>()
+                                      .Where(x => TagHelper.TryGetInletID(x.Tag) == inletID)
+                                      .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
+
+                if (destPoint != null)
+                {
+                    _destInletPointDictionary.Add(inletID, destPoint);
+                }
+            }
+
+            return destPoint;
+        }
+
+        // Outlet Rectangles
 
         private IList<Rectangle> ConvertToOutletRectangles(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
         {
@@ -435,15 +539,14 @@ namespace JJ.Presentation.Synthesizer.Svg
         /// <summary> Converts everything but its coordinates. </summary>
         private Rectangle ConvertToOutletRectangle(OutletViewModel sourceOutletViewModel, Rectangle destOperatorRectangle)
         {
-            Rectangle destOutletRectangle = destOperatorRectangle.Children
-                                                                 .OfType<Rectangle>()
-                                                                 .Where(x => TagHelper.TryGetOutletID(x.Tag) == sourceOutletViewModel.ID)
-                                                                 .FirstOrDefault();
+            Rectangle destOutletRectangle = TryGetOutletRectangle(destOperatorRectangle, sourceOutletViewModel.ID);
             if (destOutletRectangle == null)
             {
                 destOutletRectangle = new Rectangle();
                 destOutletRectangle.Diagram = destOperatorRectangle.Diagram;
                 destOutletRectangle.Tag = TagHelper.GetOutletTag(sourceOutletViewModel.ID);
+
+                _destOutletRectangleDictionary.Add(sourceOutletViewModel.ID, destOutletRectangle);
             }
 
             destOutletRectangle.BackStyle = _backStyleInvisible;
@@ -459,6 +562,29 @@ namespace JJ.Presentation.Synthesizer.Svg
 
             return destOutletRectangle;
         }
+
+        private Dictionary<int, Rectangle> _destOutletRectangleDictionary = new Dictionary<int, Rectangle>();
+
+        private Rectangle TryGetOutletRectangle(Element destParent, int outletID)
+        {
+            Rectangle destRectangle;
+            if (!_destOutletRectangleDictionary.TryGetValue(outletID, out destRectangle))
+            {
+                destRectangle = destParent.Children
+                                          .OfType<Rectangle>()
+                                          .Where(x => TagHelper.TryGetOutletID(x.Tag) == outletID)
+                                          .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
+
+                if (destRectangle != null)
+                {
+                    _destOutletRectangleDictionary.Add(outletID, destRectangle);
+                }
+            }
+
+            return destRectangle;
+        }
+
+        // Outlet Points
 
         private IList<Point> ConvertToOutletPoints(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
         {
@@ -490,15 +616,14 @@ namespace JJ.Presentation.Synthesizer.Svg
         /// <summary> Converts everything but its coordinates. </summary>
         private Point ConvertToOutletPoint(OutletViewModel sourceOutletViewModel, Rectangle destOperatorRectangle)
         {
-            Point destOutletPoint = destOperatorRectangle.Children
-                                                         .OfType<Point>()
-                                                         .Where(x => TagHelper.TryGetOutletID(x.Tag) == sourceOutletViewModel.ID)
-                                                         .FirstOrDefault();
+            Point destOutletPoint = TryGetOutletPoint(destOperatorRectangle, sourceOutletViewModel.ID);
             if (destOutletPoint == null)
             {
                 destOutletPoint = new Point();
                 destOutletPoint.Diagram = destOperatorRectangle.Diagram;
                 destOutletPoint.Tag = TagHelper.GetOutletTag(sourceOutletViewModel.ID);
+
+                _destOutletPointDictionary.Add(sourceOutletViewModel.ID, destOutletPoint);
             }
 
             destOutletPoint.PointStyle = _pointStyle;
@@ -507,15 +632,25 @@ namespace JJ.Presentation.Synthesizer.Svg
             return destOutletPoint;
         }
 
-        private Line CreateLine()
-        {
-            var destLine = new Line
-            {
-                LineStyle = _lineStyle,
-                ZIndex = -1
-            };
+        private Dictionary<int, Point> _destOutletPointDictionary = new Dictionary<int, Point>();
 
-            return destLine;
+        private Point TryGetOutletPoint(Element destParent, int outletID)
+        {
+            Point destPoint;
+            if (!_destOutletPointDictionary.TryGetValue(outletID, out destPoint))
+            {
+                destPoint = destParent.Children
+                                      .OfType<Point>()
+                                      .Where(x => TagHelper.TryGetOutletID(x.Tag) == outletID)
+                                      .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
+
+                if (destPoint != null)
+                {
+                    _destOutletPointDictionary.Add(outletID, destPoint);
+                }
+            }
+
+            return destPoint;
         }
 
         // Styling

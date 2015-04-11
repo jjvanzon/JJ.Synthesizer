@@ -26,15 +26,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private IContext _context;
         private PatchEditPresenter _presenter;
         private PatchEditViewModel _viewModel;
+        private ViewModelToDiagramConverter _converter;
         private ViewModelToDiagramConverter.Result _svg;
         
         private static bool _forceStateless;
         private static bool _alwaysRecreateDiagram;
+        private static bool _mustShowInvisibleElements;
 
         static PatchEditForm()
         {
             _forceStateless = AppSettings<IAppSettings>.Get(x => x.ForceStateless);
             _alwaysRecreateDiagram = AppSettings<IAppSettings>.Get(x => x.AlwaysRecreateDiagram);
+            _mustShowInvisibleElements = AppSettings<IAppSettings>.Get(x => x.MustShowInvisibleElements);
         }
 
         public PatchEditForm()
@@ -72,14 +75,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void ApplyViewModel()
         {
-            bool mustShowInvisibleElements = AppSettings<IAppSettings>.Get(x => x.MustShowInvisibleElements);
-
-            ViewModelToDiagramConverter converter = new ViewModelToDiagramConverter(mustShowInvisibleElements);
             if (_svg == null || _alwaysRecreateDiagram)
             {
                 UnbindSvgEvents();
 
-                _svg = converter.Execute(_viewModel.Patch);
+                _converter = new ViewModelToDiagramConverter(_mustShowInvisibleElements);
+                _svg = _converter.Execute(_viewModel.Patch);
 
                 _svg.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
                 _svg.MoveGesture.Moved += MoveGesture_Moved;
@@ -92,7 +93,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
             else
             {
-                _svg = converter.Execute(_viewModel.Patch, _svg);
+                _svg = _converter.Execute(_viewModel.Patch, _svg);
             }
 
             diagramControl1.Diagram = _svg.Diagram;
