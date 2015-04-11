@@ -155,15 +155,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void DropGesture_Dropped(object sender, DroppedEventArgs e)
         {
-            int inletID = (int)e.DroppedOnElement.Tag;
-            int outletID = (int)e.DraggedElement.Tag;
+            int inletID =  TagHelper.GetInletID(e.DroppedOnElement.Tag);
+            int outletID = TagHelper.GetOutletID(e.DraggedElement.Tag);
 
             ChangeInputOutlet(inletID, outletID);
         }
 
         private void MoveGesture_Moved(object sender, MoveEventArgs e)
         {
-            int operatorID = (int)e.Element.Tag;
+            int operatorID = TagHelper.GetOperatorID(e.Element.Tag);
             float centerX = e.Element.X + e.Element.Width / 2f;
             float centerY = e.Element.Y + e.Element.Height / 2f;
 
@@ -185,7 +185,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)
         {
-            int operatorID = (int)e.Element.Tag;
+            int operatorID = TagHelper.GetOperatorID(e.Element.Tag);
 
             SelectOperator(operatorID);
         }
@@ -200,28 +200,28 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void OperatorToolTipGesture_ShowToolTipRequested(object sender, ToolTipTextEventArgs e)
         {
-            int operatorID = (int)e.Element.Tag;
+            int operatorID = TagHelper.GetOperatorID(e.Element.Tag);
 
             // TODO: You might want to do this in the presenter.
             e.ToolTipText = _viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single().Name;
         }
 
-        private void OutletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
-        {
-            int outletID = (int)e.Element.Tag;
-
-            // TODO: You might want to do this in the presenter.
-            OutletViewModel outletViewModel = _viewModel.Patch.Operators.SelectMany(x => x.Outlets).Where(x => x.ID == outletID).Single();
-            e.ToolTipText = outletViewModel.Name;
-        }
-
         private void InletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
         {
-            int inletID = (int)e.Element.Tag;
+            int inletID = TagHelper.GetInletID(e.Element.Tag);
 
             // TODO: You might want to do this in the presenter.
             InletViewModel inketViewModel = _viewModel.Patch.Operators.SelectMany(x => x.Inlets).Where(x => x.ID == inletID).Single();
             e.ToolTipText = inketViewModel.Name;
+        }
+
+        private void OutletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
+        {
+            int outletID = TagHelper.GetOutletID(e.Element.Tag);
+
+            // TODO: You might want to do this in the presenter.
+            OutletViewModel outletViewModel = _viewModel.Patch.Operators.SelectMany(x => x.Outlets).Where(x => x.ID == outletID).Single();
+            e.ToolTipText = outletViewModel.Name;
         }
 
         // Actions
