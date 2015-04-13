@@ -21,13 +21,15 @@ namespace JJ.Business.Synthesizer.Warnings.Entities
         {
             if (Object == null) throw new NullException(() => Object);
 
-            if (Object.AsValueOperator != null) // For warnings I need null-tollerance.
+            double value;
+            if (Double.TryParse(Object.Data, out value))
             {
-                if (Object.AsValueOperator.Value == 0)
+                if (value == 0)
                 {
-                    ValidationMessages.Add(() => Object.AsValueOperator.Value, MessageFormatter.ValueOperatorValueIs0(Object.Name));
+                    ValidationMessages.Add(() => Object.Data, MessageFormatter.ValueOperatorValueIs0(Object.Name));
                 }
             }
+
         }
     }
 }

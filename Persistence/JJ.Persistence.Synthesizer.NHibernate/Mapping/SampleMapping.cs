@@ -27,7 +27,8 @@ namespace JJ.Persistence.Synthesizer.NHibernate.Mapping
             References(x => x.AudioFileFormat, ColumnNames.AudioFileFormatID);
             References(x => x.InterpolationType, ColumnNames.InterpolationTypeID);
 
-            HasMany(x => x.SampleOperators).KeyColumn(ColumnNames.SampleID).Inverse();
+            // TODO: Remove outcommented code.
+            //HasMany(x => x.SampleOperators).KeyColumn(ColumnNames.SampleID).Inverse();
         }
     }
 }

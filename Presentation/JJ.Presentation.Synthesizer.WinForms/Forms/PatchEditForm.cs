@@ -372,10 +372,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
             IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
             IEntityPositionRepository entityPositionRepository = PersistenceHelper.CreateRepository<IEntityPositionRepository>(context);
-            ICurveInRepository curveInRepository = PersistenceHelper.CreateRepository<ICurveInRepository>(context);
-            IValueOperatorRepository valueOperatorRepository = PersistenceHelper.CreateRepository<IValueOperatorRepository>(context);
-            ISampleOperatorRepository sampleOperatorRepository = PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context);
-            var presenter = new PatchEditPresenter(patchRepository, operatorRepository, inletRepository, outletRepository, entityPositionRepository, curveInRepository, valueOperatorRepository, sampleOperatorRepository);
+            ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
+            ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
+            var presenter = new PatchEditPresenter(patchRepository, operatorRepository, inletRepository, outletRepository, entityPositionRepository, curveRepository, sampleRepository);
             return presenter;
         }
 

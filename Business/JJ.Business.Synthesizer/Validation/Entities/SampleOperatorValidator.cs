@@ -22,14 +22,8 @@ namespace JJ.Business.Synthesizer.Validation.Entities
         {
             base.Execute();
 
-            For(() => Object.AsCurveIn, PropertyDisplayNames.AsCurveIn)
-                .IsNull();
-
-            For(() => Object.AsSampleOperator, PropertyDisplayNames.AsSampleOperator)
-                .NotNull();
-
-            For(() => Object.AsValueOperator, PropertyDisplayNames.AsValueOperator)
-                .IsNull();
+            For(() => Object.Data, PropertyDisplayNames.Data)
+                .IsInteger();
         }
     }
 }

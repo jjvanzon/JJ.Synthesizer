@@ -89,6 +89,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
+                ISampleRepository sampleRepository = PersistenceHelper.CreateMemoryRepository<ISampleRepository>(context);
+                ICurveRepository curveRepository = PersistenceHelper.CreateMemoryRepository<ICurveRepository>(context);
+
                 SampleManager sampleManager = CreateSampleManager(context);
                 AudioFileOutputManager audioFileOutputManager = CreateAudioFileOutputManager(context);
 
@@ -96,7 +99,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                 {
                     Sample sample = sampleManager.CreateSample(sampleStream);
 
-                    var sampleOperatorWrapper = new SampleOperatorWrapper(sampleOperator.AsSampleOperator);
+                    var sampleOperatorWrapper = new SampleOperatorWrapper(sampleOperator, sampleRepository);
                     sampleOperatorWrapper.Sample = sample;
 
                     AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
@@ -107,7 +110,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                     Outlet outlet = patchOutletWrapper.Result;
                     audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
-                    IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
+                    IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(curveRepository, sampleRepository, audioFileOutput);
                     audioFileOutputCalculator.Execute();
 
                     SoundPlayer soundPlayer = new SoundPlayer(_outputFilePath);

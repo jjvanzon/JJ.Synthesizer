@@ -76,14 +76,9 @@
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\HardCodedOperatorCalculator.cs" />
-    <Compile Include="Helpers\TestOperatorCalculator_WithWrappersAndNullChecks_MoreOperators.cs" />
-    <Compile Include="Helpers\TestOperatorCalculator_WithoutWrappers_MoreOperators.cs" />
     <Compile Include="Helpers\ITestOperatorCalculator.cs" />
     <Compile Include="Helpers\EntityFactory.cs" />
-    <Compile Include="Helpers\TestOperatorCalculator_WithWrappersAndNullChecks.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
-    <Compile Include="Helpers\TestOperatorCalculator_WithoutWrappers.cs" />
-    <Compile Include="Helpers\TestOperatorCalculator_WithoutWrappersOrNullChecks.cs" />
     <Compile Include="Helpers\TestHelper.cs" />
     <Compile Include="DatabaseContextTests.cs" />
     <Compile Include="SampleTests.cs" />

@@ -13,22 +13,30 @@ using JJ.Business.Synthesizer.Calculation.Operators.Entities;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Visitors;
+using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal partial class OptimizedOperatorCalculatorVisitor : OperatorVisitorBase
     {
+        private ICurveRepository _curveRepository;
+        private ISampleRepository _sampleRepository;
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
         private Dictionary<int, OperatorCalculatorBase> _dictionary = new Dictionary<int, OperatorCalculatorBase>();
 
-        public IList<OperatorCalculatorBase> Execute(IList<Outlet> channelOutlets)
+        public IList<OperatorCalculatorBase> Execute(IList<Outlet> channelOutlets, ICurveRepository curveRepository, ISampleRepository sampleRepository)
         {
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
+
+            _curveRepository = curveRepository;
+            _sampleRepository = sampleRepository;
 
             foreach (Outlet channelOutlet in channelOutlets)
             {
-                IValidator validator = new RecursiveOperatorValidator(channelOutlet.Operator);
+                IValidator validator = new RecursiveOperatorValidator(channelOutlet.Operator, _curveRepository, _sampleRepository);
                 validator.Verify();
             }
 
@@ -74,7 +82,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         protected override void VisitValueOperator(Operator op)
         {
-            double value = op.AsValueOperator.Value;
+            var wrapper = new ValueOperatorWrapper(op);
+            double value = wrapper.Value;
 
             var calculator = new Value_Calculator(value);
             _stack.Push(calculator);
@@ -727,13 +736,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorBase calculator;
 
-            if (op.AsCurveIn.Curve == null)
+            var wrapper = new CurveInWrapper(op, _curveRepository);
+
+            if (wrapper.Curve == null)
             {
                 calculator = new Value_Calculator(0);
             }
             else
             {
-                calculator = new CurveIn_Calculator(op.AsCurveIn.Curve);
+                calculator = new CurveIn_Calculator(wrapper.Curve);
             }
 
             _stack.Push(calculator);
@@ -743,24 +754,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             OperatorCalculatorBase calculator;
 
-            if (op.AsSampleOperator.Sample == null)
+            var wrapper = new SampleOperatorWrapper(op, _sampleRepository);
+
+            Sample sample = wrapper.Sample;
+            if (sample == null)
             {
                 calculator = new Value_Calculator(0);
             }
             else
             {
-                int sampleChannelCount = op.AsSampleOperator.Sample.GetChannelCount();
+                int sampleChannelCount = sample.GetChannelCount();
                 if (sampleChannelCount == _channelCount)
                 {
-                    calculator = new SampleOperator_Calculator(op.AsSampleOperator.Sample);
+                    calculator = new SampleOperator_Calculator(sample);
                 }
                 else if (sampleChannelCount == 1 && _channelCount == 2)
                 {
-                    calculator = new SampleOperator_MonoToStereo_Calculator(op.AsSampleOperator.Sample);
+                    calculator = new SampleOperator_MonoToStereo_Calculator(sample);
                 }
                 else if (sampleChannelCount == 2 && _channelCount == 1)
                 {
-                    calculator = new SampleOperator_StereoToMono_Calculator(op.AsSampleOperator.Sample);
+                    calculator = new SampleOperator_StereoToMono_Calculator(sample);
                 }
                 else
                 {

@@ -41,14 +41,14 @@
     <Compile Include="Mappings\AudioFileOutputChannelMapping.cs" />
     <Compile Include="Mappings\EntityPositionMapping.cs" />
     <Compile Include="Mappings\SpeakerSetupChannelMapping.cs" />
-    <Compile Include="Mappings\ValueOperatorMapping.cs" />
+    <Compile Include="Mappings\~ValueOperatorMapping.cs" />
     <Compile Include="Mappings\SampleDataTypeMapping.cs" />
     <Compile Include="Mappings\SampleMapping.cs" />
-    <Compile Include="Mappings\SampleOperatorMapping.cs" />
+    <Compile Include="Mappings\~SampleOperatorMapping.cs" />
     <Compile Include="Mappings\AudioFileFormatMapping.cs" />
     <Compile Include="Mappings\SpeakerSetupMapping.cs" />
     <Compile Include="Mappings\InterpolationTypeMapping.cs" />
-    <Compile Include="Mappings\CurveInMapping.cs" />
+    <Compile Include="Mappings\~CurveInMapping.cs" />
     <Compile Include="Mappings\CurveMapping.cs" />
     <Compile Include="Mappings\InletMappings.cs" />
     <Compile Include="Mappings\NodeMappings.cs" />

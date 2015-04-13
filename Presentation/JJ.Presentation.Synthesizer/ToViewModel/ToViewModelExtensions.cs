@@ -1,4 +1,5 @@
 ﻿using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Names;
 using JJ.Framework.Reflection.Exceptions;
@@ -152,7 +153,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             string name;
             if (String.Equals(entity.OperatorTypeName, PropertyNames.ValueOperator))
             {
-                name = entity.AsValueOperator.Value.ToString("0.####");
+                var wrapper = new ValueOperatorWrapper(entity);
+                name = wrapper.Value.ToString("0.####");
             }
             else
             {

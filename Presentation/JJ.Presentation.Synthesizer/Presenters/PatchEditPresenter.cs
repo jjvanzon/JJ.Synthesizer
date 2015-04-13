@@ -30,9 +30,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private IOperatorRepository _operatorRepository;
         private IInletRepository _inletRepository;
         private IOutletRepository _outletRepository;
-        private ICurveInRepository _curveInRepository;
-        private IValueOperatorRepository _valueOperatorRepository;
-        private ISampleOperatorRepository _sampleOperatorRepository;
+        private ICurveRepository _curveRepository;
+        private ISampleRepository _sampleRepository;
+        // TODO: Remove outcommented code.
+        //private ICurveInRepository _curveInRepository;
+        //private IValueOperatorRepository _valueOperatorRepository;
+        //private ISampleOperatorRepository _sampleOperatorRepository;
         private IEntityPositionRepository _entityPositionRepository;
 
         private OperatorFactory _operatorFactory;
@@ -47,30 +50,38 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
             IEntityPositionRepository entityPositionRepository, 
-            ICurveInRepository curveInRepository,
-            IValueOperatorRepository valueOperatorRepository,
-            ISampleOperatorRepository sampleOperatorRepository)
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository)
+            // TODO: Remove outcommented code.
+            //ICurveInRepository curveInRepository,
+            //IValueOperatorRepository valueOperatorRepository,
+            //ISampleOperatorRepository sampleOperatorRepository)
         {
             if (patchRepository == null) throw new NullException(() => patchRepository);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
-            if (curveInRepository == null) throw new NullException(() => curveInRepository);
-            if (valueOperatorRepository == null) throw new NullException(() => valueOperatorRepository);
-            if (sampleOperatorRepository == null) throw new NullException(() => sampleOperatorRepository);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            // TODO: Remove outcommented code.
+            //if (curveInRepository == null) throw new NullException(() => curveInRepository);
+            //if (valueOperatorRepository == null) throw new NullException(() => valueOperatorRepository);
+            //if (sampleOperatorRepository == null) throw new NullException(() => sampleOperatorRepository);
 
             _patchRepository = patchRepository;
             _operatorRepository = operatorRepository;
             _inletRepository = inletRepository;
             _outletRepository = outletRepository;
             _entityPositionRepository = entityPositionRepository;
-            _curveInRepository = curveInRepository;
-            _valueOperatorRepository = valueOperatorRepository;
-            _sampleOperatorRepository = sampleOperatorRepository;
+            _curveRepository = curveRepository;
+            _sampleRepository = sampleRepository;
+            //_curveInRepository = curveInRepository;
+            //_valueOperatorRepository = valueOperatorRepository;
+            //_sampleOperatorRepository = sampleOperatorRepository;
 
             _entityPositionManager = new EntityPositionManager(_entityPositionRepository);
-            _operatorFactory = new OperatorFactory(_operatorRepository, _inletRepository, _outletRepository, _curveInRepository, _valueOperatorRepository, _sampleOperatorRepository);
+            _operatorFactory = new OperatorFactory(_operatorRepository, _inletRepository, _outletRepository, _curveRepository, _sampleRepository);
         }
 
         public PatchEditViewModel Create()
@@ -272,7 +283,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _viewModel = _patch.ToEditViewModel(_entityPositionManager);
             }
 
-            IValidator validator = new PatchValidator(_patch);
+            IValidator validator = new PatchValidator(_patch, _curveRepository, _sampleRepository);
             if (!validator.IsValid)
             {
                 _viewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
@@ -354,9 +365,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (viewModel.SelectedOperator != null)
                 {
                     Operator op = _patch.Operators.Where(x => x.ID == viewModel.SelectedOperator.ID).Single();
-                    if (op.AsValueOperator != null)
+                    if (String.Equals(op.OperatorTypeName, PropertyNames.ValueOperator))
                     {
-                        op.AsValueOperator.Value = d;
+                        var wrapper = new ValueOperatorWrapper(op);
+                        wrapper.Value = d;
                     }
                 }
             }

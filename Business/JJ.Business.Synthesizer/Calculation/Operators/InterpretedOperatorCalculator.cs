@@ -14,35 +14,39 @@ using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Constants;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     public class InterpretedOperatorCalculator : IOperatorCalculator
     {
+        private ICurveRepository _curveRepository;
+        private ISampleRepository _sampleRepository;
+
         /// <summary>
         /// Is set in the Calculate method
         /// and used in other methods.
         /// </summary>
         private int _channelIndex;
-
         private Outlet[] _channelOutlets;
-
         private Dictionary<string, Func<Operator, double, double>> _funcDictionary;
 
-        private Dictionary<int, ISampleCalculator> _sampleCalculatorDictionary =
-            new Dictionary<int, ISampleCalculator>();
-
-        public InterpretedOperatorCalculator(params Outlet[] channelOutlets)
-            : this((IList<Outlet>)channelOutlets)
+        public InterpretedOperatorCalculator(ICurveRepository curveRepository, ISampleRepository sampleRepository, params Outlet[] channelOutlets)
+            : this((IList<Outlet>)channelOutlets, curveRepository, sampleRepository)
         { }
 
-        public InterpretedOperatorCalculator(IList<Outlet> channelOutlets)
+        public InterpretedOperatorCalculator(IList<Outlet> channelOutlets, ICurveRepository curveRepository, ISampleRepository sampleRepository)
         {
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+
+            _curveRepository = curveRepository;
+            _sampleRepository = sampleRepository;
 
             foreach (Outlet channelOutlet in channelOutlets)
             {
-                IValidator validator = new RecursiveOperatorValidator(channelOutlet.Operator);
+                IValidator validator = new RecursiveOperatorValidator(channelOutlet.Operator, _curveRepository, _sampleRepository);
                 validator.Verify();
             }
 
@@ -84,9 +88,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return value;
         }
 
+        private Dictionary<Operator, double> _valueOperatorValueDictionary = new Dictionary<Operator, double>();
+
         private double CalculateValueOperator(Operator op, double time)
         {
-            return op.AsValueOperator.Value;
+            double value;
+            if (!_valueOperatorValueDictionary.TryGetValue(op, out value))
+            {
+                var wrapper = new ValueOperatorWrapper(op);
+                value = wrapper.Value;
+                _valueOperatorValueDictionary.Add(op, value);
+            }
+            return value;
         }
 
         private double CalculateAdd(Operator op, double time)
@@ -439,11 +452,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return result;
         }
 
+        private Dictionary<Operator, Curve> _curveInCurveDictionary = new Dictionary<Operator, Curve>();
+
         private double CalculateCurveIn(Operator op, double time)
         {
-            if (op.AsCurveIn.Curve == null) return 0;
+            Curve curve;
+            if (!_curveInCurveDictionary.TryGetValue(op, out curve))
+            {
+                var wrapper = new CurveInWrapper(op, _curveRepository);
+                curve = wrapper.Curve;
+                _curveInCurveDictionary.Add(op, curve);
+            }
 
-            Curve curve = op.AsCurveIn.Curve;
+            if (curve == null) return 0;
 
             // TODO: Cache CurveCalculators?
             var curveCalculator = new CurveCalculator(curve);
@@ -451,9 +472,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return result;
         }
 
+        private Dictionary<Operator, Sample> _sampleOperatorSampleDictionary = new Dictionary<Operator, Sample>();
+        private Dictionary<int, ISampleCalculator> _sampleCalculatorDictionary =
+            new Dictionary<int, ISampleCalculator>();
+
         private double CalculateSampleOperator(Operator op, double time)
         {
-            Sample sample = op.AsSampleOperator.Sample;
+            Sample sample;
+            if (!_sampleOperatorSampleDictionary.TryGetValue(op, out sample))
+            {
+                var wrapper = new SampleOperatorWrapper(op, _sampleRepository);
+                sample = wrapper.Sample;
+                _sampleOperatorSampleDictionary.Add(op, sample);
+            }
 
             if (sample == null) return 0;
 

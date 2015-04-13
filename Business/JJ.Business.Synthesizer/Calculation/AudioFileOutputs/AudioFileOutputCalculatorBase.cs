@@ -16,6 +16,7 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
@@ -31,9 +32,11 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
         Outlet[] _outlets;
         IOperatorCalculator[] _operatorCalculators;
 
-        public AudioFileOutputCalculatorBase(AudioFileOutput audioFileOutput, string filePath)
+        public AudioFileOutputCalculatorBase(AudioFileOutput audioFileOutput, string filePath, ICurveRepository curveRepository, ISampleRepository sampleRepository)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             IValidator validator = new AudioFileOutputValidator(audioFileOutput);
             validator.Verify();
@@ -55,7 +58,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             _operatorCalculators = new IOperatorCalculator[channelCount];
             for (int i = 0; i < channelCount; i++)
             {
-                IOperatorCalculator operatorCalculator = new OptimizedOperatorCalculator(_outlets);
+                IOperatorCalculator operatorCalculator = new OptimizedOperatorCalculator(_outlets, curveRepository, sampleRepository);
                 _operatorCalculators[i] = operatorCalculator;
             }
         }

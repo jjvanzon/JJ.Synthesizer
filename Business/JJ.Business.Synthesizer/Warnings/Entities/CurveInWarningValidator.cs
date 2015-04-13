@@ -20,11 +20,8 @@ namespace JJ.Business.Synthesizer.Warnings.Entities
         {
             if (Object == null) throw new NullException(() => Object);
 
-            if (Object.AsCurveIn != null) // For warnings I need null-tollerance.
-            {
-                For(() => Object.AsCurveIn.Curve, PropertyDisplayNames.Curve)
-                    .NotNull();
-            }
+            For(() => Object.Data, PropertyDisplayNames.Data)
+                .NotNull();
         }
     }
 }

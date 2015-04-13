@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
     internal class Int16AudioFileOutputCalculator : AudioFileOutputCalculatorBase
     {
-        public Int16AudioFileOutputCalculator(AudioFileOutput audioFileOutput, string filePath)
-            : base(audioFileOutput, filePath)
+        public Int16AudioFileOutputCalculator(AudioFileOutput audioFileOutput, string filePath, ICurveRepository curveRepository, ISampleRepository sampleRepository)
+            : base(audioFileOutput, filePath, curveRepository, sampleRepository)
         { }
 
         protected override void WriteValue(BinaryWriter binaryWriter, double value)

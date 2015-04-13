@@ -23,10 +23,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
             IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
             IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
-            ICurveInRepository curveInRepository = PersistenceHelper.CreateRepository<ICurveInRepository>(context);
-            IValueOperatorRepository valueOperatorRepository = PersistenceHelper.CreateRepository<IValueOperatorRepository>(context);
-            ISampleOperatorRepository sampleOperatorRepository = PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context);
-            var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository, curveInRepository, valueOperatorRepository, sampleOperatorRepository);
+            // TODO: Remove outcommented code
+            //ICurveInRepository curveInRepository = PersistenceHelper.CreateRepository<ICurveInRepository>(context);
+            //IValueOperatorRepository valueOperatorRepository = PersistenceHelper.CreateRepository<IValueOperatorRepository>(context);
+            //ISampleOperatorRepository sampleOperatorRepository = PersistenceHelper.CreateRepository<ISampleOperatorRepository>(context);
+            ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
+            ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
+            var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository, curveRepository, sampleRepository);
             return factory;
         }
 

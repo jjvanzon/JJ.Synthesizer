@@ -1,7 +1,9 @@
 ﻿using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Warnings.Entities;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Persistence.Synthesizer;
+using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +14,15 @@ namespace JJ.Business.Synthesizer.Warnings
 {
     public class RecursiveOperatorWarningValidator : ValidatorBase<Operator>
     {
+        private ISampleRepository _sampleRepository;
         private ISet<object> _alreadyDone;
 
-        public RecursiveOperatorWarningValidator(Operator obj, ISet<object> alreadyDone = null)
+        public RecursiveOperatorWarningValidator(Operator obj, ISampleRepository sampleRepository, ISet<object> alreadyDone = null)
             : base(obj, postponeExecute: true)
         {
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+
+            _sampleRepository = sampleRepository;
             _alreadyDone = alreadyDone ?? new HashSet<object>();
 
             Execute();
@@ -29,25 +35,44 @@ namespace JJ.Business.Synthesizer.Warnings
 
             Execute<VersatileOperatorWarningValidator>();
 
-            SampleOperator sampleOperator = Object.AsSampleOperator;
-            if (sampleOperator != null)
+            // TODO: Remove outcommented code.
+            //SampleOperator sampleOperator = Object.AsSampleOperator;
+            //if (sampleOperator != null)
+            //{
+            //    Sample sample = sampleOperator.Sample;
+            //    if (sample != null)
+            //    {
+            //        if (!_alreadyDone.Contains(sample))
+            //        {
+            //            _alreadyDone.Add(sample);
+            //            Execute(new SampleWarningValidator(sample));
+            //        }
+            //    }
+            //}
+
+            if (String.Equals(Object.OperatorTypeName, PropertyNames.SampleOperator))
             {
-                Sample sample = sampleOperator.Sample;
-                if (sample != null)
+                int sampleID;
+                if (Int32.TryParse(Object.Data, out sampleID))
                 {
-                    if (!_alreadyDone.Contains(sample))
+                    Sample sample = _sampleRepository.TryGet(sampleID);
+                    if (sample != null)
                     {
-                        _alreadyDone.Add(sample);
-                        Execute(new SampleWarningValidator(sample));
+                        if (!_alreadyDone.Contains(sample))
+                        {
+                            _alreadyDone.Add(sample);
+                            Execute(new SampleWarningValidator(sample));
+                        }
                     }
                 }
             }
+
 
             foreach (Inlet inlet in Object.Inlets)
             {
                 if (inlet.InputOutlet != null)
                 {
-                    Execute(new RecursiveOperatorWarningValidator(inlet.InputOutlet.Operator, _alreadyDone));
+                    Execute(new RecursiveOperatorWarningValidator(inlet.InputOutlet.Operator, _sampleRepository, _alreadyDone));
                 }
             }
         }

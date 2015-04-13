@@ -15,7 +15,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 
         public override void HandleKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == KeyCodeEnum.Delete)
+            if (e.KeyCode == KeyCodeEnum.Delete ||
+                e.KeyCode == KeyCodeEnum.Back)
             {
                 if (DeleteRequested != null)
                 {

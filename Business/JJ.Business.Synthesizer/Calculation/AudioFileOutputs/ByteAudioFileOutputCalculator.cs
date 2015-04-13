@@ -12,13 +12,14 @@ using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
+using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
     internal class ByteAudioFileOutputCalculator : AudioFileOutputCalculatorBase
     {
-        public ByteAudioFileOutputCalculator(AudioFileOutput audioFileOutput, string filePath)
-            : base(audioFileOutput, filePath)
+        public ByteAudioFileOutputCalculator(AudioFileOutput audioFileOutput, string filePath, ICurveRepository curveRepository, ISampleRepository sampleRepository)
+            : base(audioFileOutput, filePath, curveRepository, sampleRepository)
         { }
 
         protected override void WriteValue(BinaryWriter binaryWriter, double value)

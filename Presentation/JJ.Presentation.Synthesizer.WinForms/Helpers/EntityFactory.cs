@@ -65,9 +65,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                 persistenceWrapper.OperatorRepository,
                 persistenceWrapper.InletRepository,
                 persistenceWrapper.OutletRepository,
-                persistenceWrapper.CurveInRepository,
-                persistenceWrapper.ValueOperatorRepository,
-                persistenceWrapper.SampleOperatorRepository);
+                persistenceWrapper.CurveRepository,
+                persistenceWrapper.SampleRepository);
 
             return operatorFactory;
         }

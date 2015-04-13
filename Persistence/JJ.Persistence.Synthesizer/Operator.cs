@@ -23,10 +23,12 @@ namespace JJ.Persistence.Synthesizer
         /// <summary> parent </summary>
         public virtual Patch Patch { get; set; }
 
+        public virtual string Data { get; set; }
+
         // TODO: Smells like polymorphism.
-        public virtual CurveIn AsCurveIn { get; set; }
-        public virtual SampleOperator AsSampleOperator { get; set; }
-        public virtual ValueOperator AsValueOperator { get; set; }
+        //public virtual CurveIn AsCurveIn { get; set; }
+        //public virtual SampleOperator AsSampleOperator { get; set; }
+        //public virtual ValueOperator AsValueOperator { get; set; }
 
         public virtual IList<Inlet> Inlets { get; set; }
         public virtual IList<Outlet> Outlets { get; set; }

@@ -35,6 +35,9 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
+                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
+                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
+
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 Stream stream = TestHelper.GetViolin16BitMonoRawStream();
                 Sample sample = sampleManager.CreateSample(stream, AudioFileFormatEnum.Raw);
@@ -57,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests
                 IValidator audioFileOutputValidator = audioFileOutputManager.ValidateAudioFileOutput(audioFileOutput);
                 audioFileOutputValidator.Verify();
 
-                IAudioFileOutputCalculator calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(audioFileOutput);
+                IAudioFileOutputCalculator calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(curveRepository, sampleRepository, audioFileOutput);
                 calculator.Execute();
             }
         }
@@ -67,6 +70,8 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
+                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
+                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
                 IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
 
                 Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
@@ -78,7 +83,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet outlet = x.Sample(sample);
 
                 // Trigger SampleCalculation
-                IOperatorCalculator calculator = new InterpretedOperatorCalculator(outlet);
+                IOperatorCalculator calculator = new InterpretedOperatorCalculator(curveRepository, sampleRepository, outlet);
                 double value = calculator.Calculate(0, 0);
             }
         }

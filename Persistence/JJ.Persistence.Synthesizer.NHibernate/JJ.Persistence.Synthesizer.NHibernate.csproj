@@ -57,7 +57,7 @@
     <Compile Include="Mapping\AudioFileOutputMapping.cs" />
     <Compile Include="Mapping\ChannelMapping.cs" />
     <Compile Include="Mapping\CurveMapping.cs" />
-    <Compile Include="Mapping\CurveInMapping.cs" />
+    <Compile Include="Mapping\~CurveInMapping.cs" />
     <Compile Include="Mapping\EntityPositionMapping.cs" />
     <Compile Include="Mapping\InletMapping.cs" />
     <Compile Include="Mapping\InterpolatonTypeMapping.cs" />
@@ -68,10 +68,10 @@
     <Compile Include="Mapping\PatchMapping.cs" />
     <Compile Include="Mapping\SampleDataTypeMapping.cs" />
     <Compile Include="Mapping\SampleMapping.cs" />
-    <Compile Include="Mapping\SampleOperatorMapping.cs" />
+    <Compile Include="Mapping\~SampleOperatorMapping.cs" />
     <Compile Include="Mapping\SpeakerSetupChannelMapping.cs" />
     <Compile Include="Mapping\SpeakerSetupMapping.cs" />
-    <Compile Include="Mapping\ValueOperatorMapping.cs" />
+    <Compile Include="Mapping\~ValueOperatorMapping.cs" />
     <Compile Include="Names\ColumnNames.cs" />
     <Compile Include="Names\PropertyNames.cs" />
     <Compile Include="Names\TableNames.cs" />

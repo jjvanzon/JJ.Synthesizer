@@ -15,7 +15,9 @@ namespace JJ.Persistence.Synthesizer.NHibernate.Mapping
             Id(x => x.ID);
             Map(x => x.Name);
             HasMany(x => x.Nodes).KeyColumn(ColumnNames.CurveID).Inverse();
-            HasMany(x => x.CurvesIn).KeyColumn(ColumnNames.CurveID).Inverse();
+
+            // TODO: Remove outcommented code.
+            //HasMany(x => x.CurvesInOperators).KeyColumn(ColumnNames.CurveID).Inverse();
         }
     }
 }

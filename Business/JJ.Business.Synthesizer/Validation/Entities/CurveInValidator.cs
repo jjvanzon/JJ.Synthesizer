@@ -24,14 +24,8 @@ namespace JJ.Business.Synthesizer.Validation.Entities
 
             Operator op = Object;
 
-            For(() => op.AsCurveIn, PropertyDisplayNames.AsCurveIn)
-                .NotNull();
-
-            For(() => op.AsSampleOperator, PropertyDisplayNames.AsSampleOperator)
-                .IsNull();
-
-            For(() => op.AsValueOperator, PropertyDisplayNames.AsValueOperator)
-                .IsNull();
+            For(() => op.Data, PropertyDisplayNames.Data)
+                .IsInteger();
         }
     }
 }

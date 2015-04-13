@@ -243,4 +243,7 @@
   <data name="TimeSubstract" xml:space="preserve">
     <value>Tijd aftrekken</value>
   </data>
+  <data name="Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
 </root>

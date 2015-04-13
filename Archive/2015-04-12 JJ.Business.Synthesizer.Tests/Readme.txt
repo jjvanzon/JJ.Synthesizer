@@ -1,0 +1,2 @@
+Jan-Joost van Zon, 2015-04-12:
+This code tested variations of InterpretedOperatorCalculators for performance, but the the performance of the OptimizedOperatorCalculator was so much better, that it did not matter anymore. The code is put here in the archive, because it is not worth adapting them to changes anymore.

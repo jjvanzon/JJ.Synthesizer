@@ -37,9 +37,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                 CreateRepository<IOperatorRepository>(context),
                 CreateRepository<IInletRepository>(context), 
                 CreateRepository<IOutletRepository>(context), 
-                CreateRepository<ICurveInRepository>(context), 
-                CreateRepository<IValueOperatorRepository>(context), 
-                CreateRepository<ISampleOperatorRepository>(context));
+                CreateRepository<ICurveRepository>(context), 
+                CreateRepository<ISampleRepository>(context));
         }
 
         public static IContext CreateMemoryContext()

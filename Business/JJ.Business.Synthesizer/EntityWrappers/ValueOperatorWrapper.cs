@@ -24,8 +24,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public double Value
         {
-            get { return Operator.AsValueOperator.Value; }
-            set { Operator.AsValueOperator.Value = value; }
+            get { return Double.Parse(Operator.Data); }
+            set { Operator.Data = value.ToString(); }
         }
 
         public static implicit operator Outlet(ValueOperatorWrapper wrapper)
