@@ -16,8 +16,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 {
     public class ToolTipGesture : GestureBase
     {
-        private const int RECTANGLE_WIDTH = 125;
-        private const int RECTANGLE_HEIGHT = 50;
+        private const int RECTANGLE_WIDTH = 70;
+        private const int RECTANGLE_HEIGHT = 20;
 
         private Diagram _diagram;
         private Rectangle _rectangle;
@@ -43,6 +43,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
             _rectangle = new Rectangle
             {
                 Diagram = diagram,
+                Parent = diagram.Canvas,
                 BackStyle = backStyle,
                 LineStyle = lineStyle,
                 Width = RECTANGLE_WIDTH,
@@ -84,26 +85,14 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
             if (!String.IsNullOrEmpty(e2.ToolTipText))
             {
                 // TODO: Adapt width to text width.
-                _rectangle.Visible = false;
-
+                _rectangle.Diagram = _diagram;
                 _rectangle.Parent = e.Element;
                 _rectangle.X = e.X - e.Element.CalculatedX;
                 _rectangle.Y = e.Y - e.Element.CalculatedY;
 
-                //_rectangle.X = e.X;
-                //_rectangle.Y = e.Y;
-
                 _label.Text = e2.ToolTipText;
-                // HACK: Something is off with the inverse property management, it seems,
-                // which messes up the label parent. Perhaps this hack will work.
-                _label.Parent = _rectangle;
 
                 _rectangle.Visible = true;
-
-                IList<Element> occurrences = _diagram.Canvas.Children
-                                                            .UnionRecursive(x => x.Children)
-                                                            .Where(x => String.Equals(x.Tag, _rectangle.Tag))
-                                                            .ToArray();
 
                 _diagram.Recalculate();
             }

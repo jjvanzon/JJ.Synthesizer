@@ -103,10 +103,9 @@ namespace JJ.Presentation.Synthesizer.Svg
                 var selectOperatorGesture = new SelectOperatorGesture();
                 var deleteOperatorGesture = new DeleteOperatorGesture();
 
-                // TODO: Give tool tips their own styles.
-                ToolTipGesture operatorToolTipGesture = null; //= new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
-                ToolTipGesture inletToolTipGesture = null; //= new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
-                ToolTipGesture outletToolTipGesture = null; //= new ToolTipGesture(destDiagram, _backStyle, _lineStyle, _textStyle, zIndex: 2);
+                ToolTipGesture operatorToolTipGesture = null; //= new ToolTipGesture(destDiagram, _toolTipBackStyle, _toolTipLineStyle, _toolTipTextStyle, zIndex: 2);
+                ToolTipGesture inletToolTipGesture = null; // new ToolTipGesture(destDiagram, _toolTipBackStyle, _toolTipLineStyle, _toolTipTextStyle, zIndex: 2);
+                ToolTipGesture outletToolTipGesture = null; //= new ToolTipGesture(destDiagram, _toolTipBackStyle, _toolTipLineStyle, _toolTipTextStyle, zIndex: 2);
 
                 result = new Result(destDiagram, moveGesture, dragGesture, dropGesture, lineGesture, selectOperatorGesture, deleteOperatorGesture, operatorToolTipGesture, inletToolTipGesture, outletToolTipGesture);
             }
@@ -192,6 +191,7 @@ namespace JJ.Presentation.Synthesizer.Svg
                         destLine = CreateLine();
                         destLine.Tag = TagHelper.GetInletTag(inletViewModel.ID);
                         destLine.Diagram = destDiagram;
+                        destLine.Parent = destDiagram.Canvas;
                         _inletLineDictionary.Add(inletViewModel.ID, destLine);
                     }
 
@@ -259,6 +259,13 @@ namespace JJ.Presentation.Synthesizer.Svg
                                                                    .ToArray();
             foreach (Element childToDelete in childrenToDelete)
             {
+                // TODO: This is pretty dirty.
+                bool isToolTipElement = childToDelete.Tag != null  && !childToDelete.Tag.ToString().Contains("Tooltip");
+                if (isToolTipElement)
+                {
+                    continue;
+                }
+
                 childToDelete.Children.Clear();
                 childToDelete.Parent = null;
                 childToDelete.Diagram = null;
@@ -282,9 +289,12 @@ namespace JJ.Presentation.Synthesizer.Svg
             Rectangle destOperatorRectangle = TryGetOperatorRectangle(sourceOperatorViewModel.ID);
             if (destOperatorRectangle == null)
             {
-                destOperatorRectangle = new Rectangle();
-                destOperatorRectangle.Diagram = destDiagram;
-                destOperatorRectangle.Tag = TagHelper.GetOperatorTag(sourceOperatorViewModel.ID);
+                destOperatorRectangle = new Rectangle
+                {
+                    Diagram = destDiagram,
+                    Parent = destDiagram.Canvas,
+                    Tag = TagHelper.GetOperatorTag(sourceOperatorViewModel.ID)
+                };
 
                 _destOperatorRectangleDictionary.Add(sourceOperatorViewModel.ID, destOperatorRectangle);
             }
@@ -308,6 +318,7 @@ namespace JJ.Presentation.Synthesizer.Svg
             destOperatorRectangle.Gestures.Clear();
             destOperatorRectangle.Gestures.Add(_result.MoveGesture);
             destOperatorRectangle.Gestures.Add(_result.SelectOperatorGesture);
+            //destOperatorRectangle.Gestures.Add(_result.OperatorToolTipGesture);
 
             return destOperatorRectangle;
         }
@@ -342,13 +353,13 @@ namespace JJ.Presentation.Synthesizer.Svg
             {
                 destLabel = new Label();
                 destLabel.Diagram = destRectangle.Diagram;
+                destLabel.Parent = destRectangle;
             }
 
             destLabel.Text = sourceOperatorViewModel.Name;
             destLabel.Width = DEFAULT_WIDTH;
             destLabel.Height = DEFAULT_HEIGHT;
             destLabel.TextStyle = _textStyle;
-            destLabel.Parent = destRectangle;
 
             return destLabel;
         }
@@ -395,6 +406,7 @@ namespace JJ.Presentation.Synthesizer.Svg
             {
                 destInletRectangle = new Rectangle();
                 destInletRectangle.Diagram = destOperatorRectangle.Diagram;
+                destInletRectangle.Parent = destOperatorRectangle;
                 destInletRectangle.Tag = TagHelper.GetInletTag(sourceInletViewModel.ID);
 
                 _destInletRectangleDictionary.Add(sourceInletViewModel.ID, destInletRectangle);
@@ -402,11 +414,10 @@ namespace JJ.Presentation.Synthesizer.Svg
 
             destInletRectangle.BackStyle = _backStyleInvisible;
             destInletRectangle.LineStyle = _lineStyleInvisible;
-            destInletRectangle.Parent = destOperatorRectangle;
 
             destInletRectangle.Gestures.Clear();
             destInletRectangle.Gestures.Add(_result.DropGesture);
-            //destInletRectangle.Gestures.Add(_inletToolTipGesture);
+            //destInletRectangle.Gestures.Add(_result.InletToolTipGesture);
             //destInletRectangle.MustBubble = false; // The is only done to make the tooltip work, so if the tooltip uses another region, it is not necessary anymore.
 
             return destInletRectangle;
@@ -469,13 +480,13 @@ namespace JJ.Presentation.Synthesizer.Svg
             {
                 destInletPoint = new Point();
                 destInletPoint.Diagram = destOperatorRectangle.Diagram;
+                destInletPoint.Parent = destOperatorRectangle;
                 destInletPoint.Tag = TagHelper.GetInletTag(sourceInletViewModel.ID);
 
                 _destInletPointDictionary.Add(sourceInletViewModel.ID, destInletPoint);
             }
 
             destInletPoint.PointStyle = _pointStyle;
-            destInletPoint.Parent = destOperatorRectangle;
 
             return destInletPoint;
         }
@@ -543,6 +554,7 @@ namespace JJ.Presentation.Synthesizer.Svg
             {
                 destOutletRectangle = new Rectangle();
                 destOutletRectangle.Diagram = destOperatorRectangle.Diagram;
+                destOutletRectangle.Parent = destOperatorRectangle;
                 destOutletRectangle.Tag = TagHelper.GetOutletTag(sourceOutletViewModel.ID);
 
                 _destOutletRectangleDictionary.Add(sourceOutletViewModel.ID, destOutletRectangle);
@@ -554,10 +566,8 @@ namespace JJ.Presentation.Synthesizer.Svg
             destOutletRectangle.Gestures.Clear();
             destOutletRectangle.Gestures.Add(_result.DragGesture);
             destOutletRectangle.Gestures.Add(_result.LineGesture);
-            //destOutletRectangle.Gestures.Add(_outletToolTipGesture);
-            destOutletRectangle.MustBubble = false;
-
-            destOutletRectangle.Parent = destOperatorRectangle;
+            //destOutletRectangle.Gestures.Add(_result.OutletToolTipGesture);
+            destOutletRectangle.MustBubble = false; // So drag does not result in a move.
 
             return destOutletRectangle;
         }
@@ -620,13 +630,13 @@ namespace JJ.Presentation.Synthesizer.Svg
             {
                 destOutletPoint = new Point();
                 destOutletPoint.Diagram = destOperatorRectangle.Diagram;
+                destOutletPoint.Parent = destOperatorRectangle;
                 destOutletPoint.Tag = TagHelper.GetOutletTag(sourceOutletViewModel.ID);
 
                 _destOutletPointDictionary.Add(sourceOutletViewModel.ID, destOutletPoint);
             }
 
             destOutletPoint.PointStyle = _pointStyle;
-            destOutletPoint.Parent = destOperatorRectangle;
 
             return destOutletPoint;
         }
@@ -666,6 +676,10 @@ namespace JJ.Presentation.Synthesizer.Svg
         private static LineStyle _lineStyleThin;
         private static PointStyle _pointStyle;
         private static PointStyle _pointStyleInvisible;
+
+        private static BackStyle _toolTipBackStyle;
+        private static LineStyle _toolTipLineStyle;
+        private static TextStyle _toolTipTextStyle;
 
         private static void InitializeStyling()
         {
@@ -739,6 +753,31 @@ namespace JJ.Presentation.Synthesizer.Svg
             {
                 Visible = false
             };
+
+            // Tool Tip
+
+            _toolTipBackStyle = new BackStyle
+            {
+                Color = ColorHelper.GetColor(0xDDFEFEFE)
+            };
+
+            _toolTipTextStyle = new TextStyle
+            {
+                Color = ColorHelper.GetColor(0xFF575757),
+                Font = new Font
+                {
+                    Name = "Microsoft Sans Serif",
+                    Size = 9,
+                },
+                HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
+                VerticalAlignmentEnum = VerticalAlignmentEnum.Center
+            };
+
+            _toolTipLineStyle = new LineStyle
+            {
+                Color = ColorHelper.GetColor(0xFF575757)
+            };
+
         }
 
         private void MakeHiddenStylesVisible()
