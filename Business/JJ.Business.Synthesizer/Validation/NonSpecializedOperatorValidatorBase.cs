@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Validation
     /// <summary>
     /// Base class for operator validators that
     /// do not have a specialized entity.
-    /// Verifies that the properties AsCurveIn, AsSampleOperator and AsValueOperator are null.
+    /// Verifies that the Data property is null.
     /// </summary>
     public abstract class NonSpecializedOperatorValidatorBase : OperatorValidatorBase
     {

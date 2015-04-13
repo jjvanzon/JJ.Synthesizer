@@ -199,15 +199,6 @@
   <data name="Operator" xml:space="preserve">
     <value>Operator</value>
   </data>
-  <data name="AsCurveIn" xml:space="preserve">
-    <value>As a Curve In</value>
-  </data>
-  <data name="AsSampleOperator" xml:space="preserve">
-    <value>As a Sample Operator</value>
-  </data>
-  <data name="AsValueOperator" xml:space="preserve">
-    <value>As a Value Operator</value>
-  </data>
   <data name="SamplingRate" xml:space="preserve">
     <value>Sampling Rate</value>
   </data>

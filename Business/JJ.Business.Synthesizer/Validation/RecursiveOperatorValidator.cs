@@ -88,20 +88,6 @@ namespace JJ.Business.Synthesizer.Validation
                     }
                 }
             }
-
-            //SampleOperator sampleOperator = Object.AsSampleOperator;
-            //if (sampleOperator != null)
-            //{
-            //    Sample sample = sampleOperator.Sample;
-            //    if (sample != null)
-            //    {
-            //        if (!_alreadyDone.Contains(sample))
-            //        {
-            //            _alreadyDone.Add(sample);
-            //            Execute(new SampleValidator(sample));
-            //        }
-            //    }
-            //}
             
             foreach (Inlet inlet in Object.Inlets)
             {

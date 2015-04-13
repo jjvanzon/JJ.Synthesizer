@@ -20,6 +20,5 @@ namespace JJ.Persistence.Synthesizer.NHibernate.Names
         public const string NodeTypeID = "NodeTypeID";
         public const string PatchID = "PatchID";
         public const string InterpolationTypeID = "InterpolationTypeID";
-        public const string SampleID = "SampleID";
     }
 }

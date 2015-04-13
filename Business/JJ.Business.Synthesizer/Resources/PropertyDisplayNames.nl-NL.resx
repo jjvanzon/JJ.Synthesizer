@@ -198,15 +198,6 @@
   <data name="Operator" xml:space="preserve">
     <value>Operator</value>
   </data>
-  <data name="AsCurveIn" xml:space="preserve">
-    <value>In de vorm van een curve in</value>
-  </data>
-  <data name="AsSampleOperator" xml:space="preserve">
-    <value>In de vorm van een geluidsfragment operator</value>
-  </data>
-  <data name="AsValueOperator" xml:space="preserve">
-    <value>In de vorm van een waarde</value>
-  </data>
   <data name="SamplingRate" xml:space="preserve">
     <value>Sampling rate</value>
   </data>

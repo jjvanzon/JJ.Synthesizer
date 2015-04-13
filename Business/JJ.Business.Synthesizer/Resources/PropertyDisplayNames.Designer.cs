@@ -79,33 +79,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to As a Curve In.
-        /// </summary>
-        public static string AsCurveIn {
-            get {
-                return ResourceManager.GetString("AsCurveIn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to As a Sample Operator.
-        /// </summary>
-        public static string AsSampleOperator {
-            get {
-                return ResourceManager.GetString("AsSampleOperator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to As a Value Operator.
-        /// </summary>
-        public static string AsValueOperator {
-            get {
-                return ResourceManager.GetString("AsValueOperator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Audio File Format.
         /// </summary>
         public static string AudioFileFormat {
