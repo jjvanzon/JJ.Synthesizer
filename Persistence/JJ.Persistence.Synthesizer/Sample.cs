@@ -8,11 +8,6 @@ namespace JJ.Persistence.Synthesizer
 {
     public class Sample
     {
-        public Sample ()
-	    {
-            // TODO: Remove outcommented code.
-            //SampleOperators = new List<Operator>();
-	    }
 
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
@@ -42,9 +37,6 @@ namespace JJ.Persistence.Synthesizer
 
         /// <summary> not nullable </summary>
         public virtual InterpolationType InterpolationType { get; set; }
-
-        // TODO: Remove outcommented code.
-        //public virtual IList<Operator> SampleOperators { get; set; }
 
         public virtual byte[] Bytes { get; set; }
     }

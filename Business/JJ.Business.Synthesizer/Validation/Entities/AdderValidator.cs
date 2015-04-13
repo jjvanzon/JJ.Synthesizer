@@ -42,11 +42,6 @@ namespace JJ.Business.Synthesizer.Validation.Entities
             }
 
             For(() => op.Data, PropertyDisplayNames.Data).IsNull();
-
-            // TODO: Remove outcommented code.
-            //For(() => op.AsCurveIn, PropertyDisplayNames.AsCurveIn).IsNull();
-            //For(() => op.AsSampleOperator, PropertyDisplayNames.AsSampleOperator).IsNull();
-            //For(() => op.AsValueOperator, PropertyDisplayNames.AsValueOperator).IsNull();
         }
 
         private string GetPropertyDisplayName_ForInletName(int index)

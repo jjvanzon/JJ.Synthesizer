@@ -35,21 +35,6 @@ namespace JJ.Business.Synthesizer.Warnings
 
             Execute<VersatileOperatorWarningValidator>();
 
-            // TODO: Remove outcommented code.
-            //SampleOperator sampleOperator = Object.AsSampleOperator;
-            //if (sampleOperator != null)
-            //{
-            //    Sample sample = sampleOperator.Sample;
-            //    if (sample != null)
-            //    {
-            //        if (!_alreadyDone.Contains(sample))
-            //        {
-            //            _alreadyDone.Add(sample);
-            //            Execute(new SampleWarningValidator(sample));
-            //        }
-            //    }
-            //}
-
             if (String.Equals(Object.OperatorTypeName, PropertyNames.SampleOperator))
             {
                 int sampleID;

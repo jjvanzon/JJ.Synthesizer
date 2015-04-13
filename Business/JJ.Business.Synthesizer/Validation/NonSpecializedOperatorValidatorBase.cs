@@ -28,11 +28,6 @@ namespace JJ.Business.Synthesizer.Validation
             base.Execute();
 
             For(() => Object.Data, PropertyDisplayNames.Data).IsNull();
-
-            // TODO: Remove outcommented code.
-            //For(() => Object.AsCurveIn, PropertyDisplayNames.AsCurveIn).IsNull();
-            //For(() => Object.AsSampleOperator, PropertyDisplayNames.AsSampleOperator).IsNull();
-            //For(() => Object.AsValueOperator, PropertyDisplayNames.AsValueOperator).IsNull();
         }
     }
 }

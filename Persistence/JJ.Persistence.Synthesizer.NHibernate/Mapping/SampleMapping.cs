@@ -26,9 +26,6 @@ namespace JJ.Persistence.Synthesizer.NHibernate.Mapping
             References(x => x.SpeakerSetup, ColumnNames.SpeakerSetupID);
             References(x => x.AudioFileFormat, ColumnNames.AudioFileFormatID);
             References(x => x.InterpolationType, ColumnNames.InterpolationTypeID);
-
-            // TODO: Remove outcommented code.
-            //HasMany(x => x.SampleOperators).KeyColumn(ColumnNames.SampleID).Inverse();
         }
     }
 }

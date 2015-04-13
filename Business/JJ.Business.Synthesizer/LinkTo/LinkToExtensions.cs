@@ -102,83 +102,12 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        // TODO: Remove outcommented code.
-        //public static void LinkTo(this CurveIn curveIn, Operator op)
-        //{
-        //    if (curveIn == null) throw new NullException(() => curveIn);
-
-        //    curveIn.Operator = op;
-        //    op.AsCurveIn = curveIn;
-        //}
-        
-        //public static void LinkTo(this CurveIn curveIn, Curve curve)
-        //{
-        //    if (curveIn == null) throw new NullException(() => curveIn);
-
-        //    if (curveIn.Curve != null)
-        //    {
-        //        if (curveIn.Curve.CurvesIn.Contains(curveIn))
-        //        {
-        //            curveIn.Curve.CurvesIn.Remove(curveIn);
-        //        }
-        //    }
-
-        //    curveIn.Curve = curve;
-
-        //    if (curveIn.Curve != null)
-        //    {
-        //        if (!curveIn.Curve.CurvesIn.Contains(curveIn))
-        //        {
-        //            curveIn.Curve.CurvesIn.Add(curveIn);
-        //        }
-        //    }
-        //}
-
-        //public static void LinkTo(this SampleOperator sampleOperator, Operator op)
-        //{
-        //    if (sampleOperator == null) throw new NullException(() => sampleOperator);
-
-        //    sampleOperator.Operator = op;
-        //    op.AsSampleOperator = sampleOperator;
-        //}
-
-        //public static void LinkTo(this SampleOperator sampleOperator, Sample sample)
-        //{
-        //    if (sampleOperator == null) throw new NullException(() => sampleOperator);
-
-        //    if (sampleOperator.Sample != null)
-        //    {
-        //        if (sampleOperator.Sample.SampleOperators.Contains(sampleOperator))
-        //        {
-        //            sampleOperator.Sample.SampleOperators.Remove(sampleOperator);
-        //        }
-        //    }
-
-        //    sampleOperator.Sample = sample;
-
-        //    if (sampleOperator.Sample != null)
-        //    {
-        //        if (!sampleOperator.Sample.SampleOperators.Contains(sampleOperator))
-        //        {
-        //            sampleOperator.Sample.SampleOperators.Add(sampleOperator);
-        //        }
-        //    }
-        //}
-
         public static void LinkTo(this Sample sample, SpeakerSetup speakerSetup)
         {
             sample.SpeakerSetup = speakerSetup;
 
             // No inverse property
         }
-
-        //public static void LinkTo(this ValueOperator valueOperator, Operator op)
-        //{
-        //    if (valueOperator == null) throw new NullException(() => valueOperator);
-
-        //    valueOperator.Operator = op;
-        //    op.AsValueOperator = valueOperator;
-        //}
 
         public static void LinkTo(this AudioFileOutput audioFileOutput, SpeakerSetup speakerSetup)
         {

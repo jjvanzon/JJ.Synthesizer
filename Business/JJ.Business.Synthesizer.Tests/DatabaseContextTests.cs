@@ -24,11 +24,6 @@ namespace JJ.Business.Synthesizer.Tests
                 Operator op = operatorRepository.Create();
                 op.Name = "Test Operator";
                 op.OperatorTypeName = "TestOperatorType";
-
-                // TODO: Remove outcommented code.
-                //var valueOperatorRepository = PersistenceHelper.CreateRepository<IValueOperatorRepository>(context);
-                //ValueOperator valueOperator = valueOperatorRepository.Create();
-                //valueOperator.LinkTo(op);
             }
         }
     }

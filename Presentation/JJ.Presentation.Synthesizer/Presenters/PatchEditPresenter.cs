@@ -32,10 +32,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private IOutletRepository _outletRepository;
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
-        // TODO: Remove outcommented code.
-        //private ICurveInRepository _curveInRepository;
-        //private IValueOperatorRepository _valueOperatorRepository;
-        //private ISampleOperatorRepository _sampleOperatorRepository;
         private IEntityPositionRepository _entityPositionRepository;
 
         private OperatorFactory _operatorFactory;
@@ -52,10 +48,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IEntityPositionRepository entityPositionRepository, 
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository)
-            // TODO: Remove outcommented code.
-            //ICurveInRepository curveInRepository,
-            //IValueOperatorRepository valueOperatorRepository,
-            //ISampleOperatorRepository sampleOperatorRepository)
         {
             if (patchRepository == null) throw new NullException(() => patchRepository);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -64,10 +56,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            // TODO: Remove outcommented code.
-            //if (curveInRepository == null) throw new NullException(() => curveInRepository);
-            //if (valueOperatorRepository == null) throw new NullException(() => valueOperatorRepository);
-            //if (sampleOperatorRepository == null) throw new NullException(() => sampleOperatorRepository);
 
             _patchRepository = patchRepository;
             _operatorRepository = operatorRepository;
@@ -76,9 +64,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _entityPositionRepository = entityPositionRepository;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
-            //_curveInRepository = curveInRepository;
-            //_valueOperatorRepository = valueOperatorRepository;
-            //_sampleOperatorRepository = sampleOperatorRepository;
 
             _entityPositionManager = new EntityPositionManager(_entityPositionRepository);
             _operatorFactory = new OperatorFactory(_operatorRepository, _inletRepository, _outletRepository, _curveRepository, _sampleRepository);

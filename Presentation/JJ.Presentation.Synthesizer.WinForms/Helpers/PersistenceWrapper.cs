@@ -16,10 +16,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
         public IOutletRepository OutletRepository { get; private set; }
         public ICurveRepository CurveRepository { get; private set; }
         public ISampleRepository SampleRepository { get; private set; }
-        // TODO: Remove outcommented code
-        //public ICurveInRepository CurveInRepository { get; private set; }
-        //public IValueOperatorRepository ValueOperatorRepository { get; private set; }
-        //public ISampleOperatorRepository SampleOperatorRepository { get; private set; }
 
         public PersistenceWrapper(
             IPatchRepository patchRepository,
@@ -28,10 +24,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             IOutletRepository outletRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository)
-            // TODO: Remove outcommented code
-            //ICurveInRepository curveInRepository,
-            //IValueOperatorRepository valueOperatorRepository,
-            //ISampleOperatorRepository sampleOperatorRepository)
         {
             if (patchRepository == null) throw new NullException(() => patchRepository);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -39,10 +31,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            // TODO: Remove outcommented code
-            //if (curveInRepository == null) throw new NullException(() => curveInRepository);
-            //if (valueOperatorRepository == null) throw new NullException(() => valueOperatorRepository);
-            //if (sampleOperatorRepository == null) throw new NullException(() => sampleOperatorRepository);
 
             PatchRepository = patchRepository;
             OperatorRepository = operatorRepository;
@@ -50,10 +38,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             OutletRepository = outletRepository;
             CurveRepository = curveRepository;
             SampleRepository = sampleRepository;
-            // TODO: Remove outcommented code
-            //CurveInRepository = curveInRepository;
-            //ValueOperatorRepository = valueOperatorRepository;
-            //SampleOperatorRepository = sampleOperatorRepository;
         }
 
         public void Flush()

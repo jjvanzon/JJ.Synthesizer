@@ -11,14 +11,10 @@ namespace JJ.Persistence.Synthesizer
         public Curve()
         {
             Nodes = new List<Node>();
-            // TODO: Remove outcommented code.
-            //CurvesInOperators = new List<Operator>();
         }
 
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
         public virtual IList<Node> Nodes { get; set; }
-        // TODO: Remove outcommented code.
-        //public virtual IList<Operator> CurvesInOperators { get; set; }
     }
 }

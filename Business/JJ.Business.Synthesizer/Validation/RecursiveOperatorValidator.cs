@@ -72,21 +72,6 @@ namespace JJ.Business.Synthesizer.Validation
                 }
             }
 
-            // TODO: Remove outcommented code.
-            //CurveIn curveIn = Object.AsCurveIn;
-            //if (curveIn != null)
-            //{
-            //    Curve curve = curveIn.Curve;
-            //    if (curve != null)
-            //    {
-            //        if (!_alreadyDone.Contains(curve))
-            //        {
-            //            _alreadyDone.Add(curve);
-            //            Execute(new CurveValidator(curve));
-            //        }
-            //    }
-            //}
-
             if (String.Equals(Object.OperatorTypeName, PropertyNames.SampleOperator))
             {
                 int sampleID;

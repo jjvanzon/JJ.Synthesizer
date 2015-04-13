@@ -122,9 +122,6 @@
     <Compile Include="Constants\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
     <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />
-    <Compile Include="EntityWrappers\~ValueOperatorWrapper_Org.cs" />
-    <Compile Include="EntityWrappers\~SampleOperatorWrapper_Org.cs" />
-    <Compile Include="EntityWrappers\~CurveInWrapper_Org.cs" />
     <Compile Include="EntityWrappers\SampleOperatorWrapper.cs" />
     <Compile Include="Enums\SpeakerSetupEnum.cs" />
     <Compile Include="Enums\ChannelEnum.cs" />
@@ -174,9 +171,6 @@
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Structs\WavHeaderStruct.cs" />
     <Compile Include="Validation\Entities\AdderValidator.cs" />
-    <Compile Include="Validation\Entities\~ValueOperatorValidator_Org.cs" />
-    <Compile Include="Validation\Entities\~SampleOperatorValidator_Org.cs" />
-    <Compile Include="Validation\Entities\~CurveInValidator_Org.cs" />
     <Compile Include="Validation\Entities\SampleOperatorValidator.cs" />
     <Compile Include="Validation\Entities\CurveInValidator.cs" />
     <Compile Include="Validation\Entities\SampleValidator.cs" />
@@ -189,9 +183,6 @@
     <Compile Include="Visitors\OperatorVisitorBase.cs" />
     <Compile Include="Warnings\Entities\AudioFileOutputChannelWarningValidator.cs" />
     <Compile Include="Warnings\Entities\AudioFileOutputWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\~SampleOperatorWarningValidator_Org.cs" />
-    <Compile Include="Warnings\Entities\~CurveInWarningValidator_Org.cs" />
-    <Compile Include="Warnings\Entities\~ValueOperatorWarningValidator_Org.cs" />
     <Compile Include="Warnings\Entities\SampleWarningValidator.cs" />
     <Compile Include="Warnings\OperatorWarningValidatorBase.cs" />
     <Compile Include="Warnings\Entities\SampleOperatorWarningValidator.cs" />

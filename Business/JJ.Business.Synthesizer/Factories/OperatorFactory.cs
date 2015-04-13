@@ -21,10 +21,6 @@ namespace JJ.Business.Synthesizer.Factories
         private IOutletRepository _outletRepository;
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
-        // TODO: Remove outcommented code, also from other parts of this code file.
-        //private ICurveInRepository _curveInRepository;
-        //private IValueOperatorRepository _valueOperatorRepository;
-        //private ISampleOperatorRepository _sampleOperatorRepository;
 
         public OperatorFactory(
             IOperatorRepository operatorRepository, 
@@ -32,27 +28,18 @@ namespace JJ.Business.Synthesizer.Factories
             IOutletRepository outletRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository)
-            //ICurveInRepository curveInRepository,
-            //IValueOperatorRepository valueOperatorRepository,
-            //ISampleOperatorRepository sampleOperatorRepository
         {
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            //if (curveInRepository == null) throw new NullException(() => curveInRepository);
-            //if (valueOperatorRepository == null) throw new NullException(() => valueOperatorRepository);
-            //if (sampleOperatorRepository == null) throw new NullException(() => sampleOperatorRepository);
 
             _operatorRepository = operatorRepository;
             _inletRepository = inletRepository;
             _outletRepository = outletRepository;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
-            //_curveInRepository = curveInRepository;
-            //_valueOperatorRepository = valueOperatorRepository;
-            //_sampleOperatorRepository = sampleOperatorRepository;
         }
 
         public AddWrapper Add(Outlet operandA = null, Outlet operandB = null)
@@ -305,9 +292,6 @@ namespace JJ.Business.Synthesizer.Factories
                 PropertyNames.ValueOperator, PropertyDisplayNames.ValueOperator, 0,
                 PropertyNames.Result);
 
-            //ValueOperator valueOperator = _valueOperatorRepository.Create();
-            //valueOperator.LinkTo(op);
-
             var wrapper = new ValueOperatorWrapper(op)
             {
                 Value = value
@@ -321,10 +305,6 @@ namespace JJ.Business.Synthesizer.Factories
             Operator op = CreateOperator(
                 PropertyNames.CurveIn,PropertyDisplayNames.CurveIn, 0,
                 PropertyNames.Result);
-
-            //CurveIn curveIn = _curveInRepository.Create();
-            //curveIn.LinkTo(op);
-            //curveIn.LinkTo(curve);
 
             var wrapper = new CurveInWrapper(op, _curveRepository);
 
@@ -341,10 +321,6 @@ namespace JJ.Business.Synthesizer.Factories
             Operator op = CreateOperator(
                 PropertyNames.SampleOperator, PropertyDisplayNames.SampleOperator, 0,
                 PropertyNames.Result);
-
-            //SampleOperator sampleOperator = _sampleOperatorRepository.Create();
-            //sampleOperator.LinkTo(op);
-            //sampleOperator.LinkTo(sample);
 
             var wrapper = new SampleOperatorWrapper(op, _sampleRepository);
             if (sample != null)

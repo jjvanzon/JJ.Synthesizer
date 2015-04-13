@@ -67,7 +67,6 @@
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Configuration\FilePathsConfiguration.cs" />
-    <Compile Include="Configuration\~IAppSettings.cs" />
     <Compile Include="Configuration\TestingConfiguration.cs" />
     <Compile Include="Forms\PatchEditForm.cs">
       <SubType>Form</SubType>
