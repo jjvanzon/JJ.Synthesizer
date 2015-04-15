@@ -19,6 +19,7 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using JJ.Business.CanonicalModel;
+using JJ.Presentation.Synthesizer.Svg.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -28,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private PatchEditPresenter _presenter;
         private PatchEditViewModel _viewModel;
         private ViewModelToDiagramConverter _converter;
-        private ViewModelToDiagramConverter.Result _svg;
+        private ViewModelToDiagramConverterResult _svg;
 
         /// <summary>
         /// For testing.
@@ -40,6 +41,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private static bool _mustShowInvisibleElements;
         private static bool _mustCreateMockPatch;
         private static int _testPatchID;
+        private static bool _toolTipFeatureEnabled;
 
         static PatchEditForm()
         {
@@ -49,6 +51,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _mustShowInvisibleElements = config.Testing.MustShowInvisibleElements;
             _mustCreateMockPatch = config.Testing.MustCreateMockPatch;
             _testPatchID = config.Testing.TestPatchID;
+            _toolTipFeatureEnabled = config.Testing.ToolTipsFeatureEnabled;
         }
 
         public PatchEditForm()
@@ -86,16 +89,21 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 UnbindSvgEvents();
 
-                _converter = new ViewModelToDiagramConverter(_mustShowInvisibleElements);
+                _converter = new ViewModelToDiagramConverter(_mustShowInvisibleElements, _toolTipFeatureEnabled);
                 _svg = _converter.Execute(_viewModel.Patch);
 
                 _svg.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
                 _svg.MoveGesture.Moved += MoveGesture_Moved;
                 _svg.DropGesture.Dropped += DropGesture_Dropped;
                 _svg.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
-                //_svg.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
-                //_svg.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
-                //_svg.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
+
+                if (_toolTipFeatureEnabled)
+                {
+                    _svg.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
+                    _svg.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
+                    _svg.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
+                }
+
                 //_svg.LineGesture.Dropped += DropGesture_Dropped;
             }
             else
@@ -120,9 +128,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _svg.MoveGesture.Moved -= MoveGesture_Moved;
                 _svg.DropGesture.Dropped -= DropGesture_Dropped;
                 _svg.DeleteOperatorGesture.DeleteRequested -= DeleteOperatorGesture_DeleteRequested;
-                //_svg.OperatorToolTipGesture.ToolTipTextRequested -= OperatorToolTipGesture_ShowToolTipRequested;
-                //_svg.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
-                //_svg.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
+
+                if (_toolTipFeatureEnabled)
+                {
+                    _svg.OperatorToolTipGesture.ToolTipTextRequested -= OperatorToolTipGesture_ShowToolTipRequested;
+                    _svg.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
+                    _svg.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
+                }
+
                 //_svg.LineGesture.Dropped -= DropGesture_Dropped;
             }
         }

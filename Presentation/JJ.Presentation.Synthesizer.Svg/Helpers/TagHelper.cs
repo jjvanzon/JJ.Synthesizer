@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Presentation.Synthesizer.Svg
+namespace JJ.Presentation.Synthesizer.Svg.Helpers
 {
     public static class TagHelper
     {

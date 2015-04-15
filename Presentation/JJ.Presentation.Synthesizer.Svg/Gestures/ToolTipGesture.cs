@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Framework.Common;
+using JJ.Framework.Presentation.Svg.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Svg.Gestures
 {
@@ -26,9 +27,9 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
         private TextStyle _textStyle;
         private int _zIndex;
 
-        public event EventHandler<ToolTipTextEventArgs> ToolTipTextRequested;
+        private MouseLeaveGesture _mouseLeaveGesture;
 
-        // TODO: I must implement mouse leave for this.
+        public event EventHandler<ToolTipTextEventArgs> ToolTipTextRequested;
         //public event EventHandler<ElementEventArgs> HideToolTip;
 
         public ToolTipGesture(Diagram diagram, BackStyle backStyle, LineStyle lineStyle, TextStyle textStyle, int zIndex = Int32.MaxValue / 2)
@@ -63,6 +64,17 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
                 ZIndex = zIndex + 1,
                 Tag = "ToolTip Label"
             };
+
+            _mouseLeaveGesture = new MouseLeaveGesture();
+            _mouseLeaveGesture.MouseLeave += _mouseLeaveGesture_MouseLeave;
+        }
+
+        ~ToolTipGesture()
+        {
+            if (_mouseLeaveGesture != null)
+            {
+                _mouseLeaveGesture.MouseLeave -= _mouseLeaveGesture_MouseLeave;
+            }
         }
 
         public override void HandleMouseMove(object sender, MouseEventArgs e)
@@ -84,18 +96,31 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 
             if (!String.IsNullOrEmpty(e2.ToolTipText))
             {
-                // TODO: Adapt width to text width.
+                // Set text width
+                float margin = 3f;
+                float textWidth = TextHelper.GetTextWidth(e2.ToolTipText, _label.TextStyle.Font);
+                float width = margin * 2f + textWidth;
+                _rectangle.Width = width;
+                _label.Width = width; 
+
                 _rectangle.Diagram = _diagram;
                 _rectangle.Parent = e.Element;
-                _rectangle.X = e.X - e.Element.CalculatedX;
-                _rectangle.Y = e.Y - e.Element.CalculatedY;
-
+                _rectangle.X = e.X - e.Element.CalculatedX - margin; // The relative coordinate, move some distance to the left.
+                _rectangle.Y = e.Y - e.Element.CalculatedY - _rectangle.Height - margin; // The relative coordinate, transposed to above the mouse arrow, plus some distance upward.
                 _label.Text = e2.ToolTipText;
-
                 _rectangle.Visible = true;
+                _label.Visible = true;
 
-                _diagram.Recalculate();
+                e.Element.Gestures.Add(_mouseLeaveGesture);
             }
+        }
+
+        private void _mouseLeaveGesture_MouseLeave(object sender, MouseEventArgs e)
+        {
+            _rectangle.Visible = false;
+            _label.Visible = false;
+            
+            e.Element.Gestures.Remove(_mouseLeaveGesture);
         }
     }
 }

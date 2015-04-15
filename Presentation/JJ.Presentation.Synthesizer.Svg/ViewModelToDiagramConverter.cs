@@ -12,50 +12,14 @@ using JJ.Framework.Presentation.Svg.Models.Styling;
 using JJ.Framework.Presentation.Svg.Gestures;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.Svg.Gestures;
+using JJ.Presentation.Synthesizer.Svg.Converters;
+using JJ.Presentation.Synthesizer.Svg.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Svg
 {
     public class ViewModelToDiagramConverter
     {
-        public class Result
-        {
-            public Result(
-                Diagram diagram, 
-                MoveGesture moveGesture, 
-                DragGesture dragGesture, 
-                DropGesture dropGesture, 
-                LineGesture lineGesture,
-                SelectOperatorGesture selectOperatorGesture,
-                DeleteOperatorGesture deleteOperatorGesture,
-                ToolTipGesture operatorToolTipGesture,
-                ToolTipGesture inletToolTipGesture,
-                ToolTipGesture outletToolTipGesture)
-            {
-                Diagram = diagram;
-                MoveGesture = moveGesture;
-                DragGesture = dragGesture;
-                DropGesture = dropGesture;
-                LineGesture = lineGesture;
-                SelectOperatorGesture = selectOperatorGesture;
-                DeleteOperatorGesture = deleteOperatorGesture;
-                OperatorToolTipGesture = operatorToolTipGesture;
-                InletToolTipGesture = inletToolTipGesture;
-                OutletToolTipGesture = outletToolTipGesture;
-            }
-
-            public Diagram Diagram { get; private set; }
-            public MoveGesture MoveGesture { get; private set; }
-            public DragGesture DragGesture { get; private set; }
-            public DropGesture DropGesture { get; private set; }
-            public LineGesture LineGesture { get; private set; }
-            public SelectOperatorGesture SelectOperatorGesture { get; private set; }
-            public DeleteOperatorGesture DeleteOperatorGesture { get; private set; }
-            public ToolTipGesture OperatorToolTipGesture { get; private set; }
-            public ToolTipGesture InletToolTipGesture { get; private set; }
-            public ToolTipGesture OutletToolTipGesture { get; private set; }
-        }
-
-        private class OperatorSvgElements
+        private class OperatorElements
         {
             public Rectangle OperatorRectangle { get; set; }
             public IList<Point> InletPoints { get; set; }
@@ -64,32 +28,33 @@ namespace JJ.Presentation.Synthesizer.Svg
             public IList<Rectangle> OutletRectangles { get; set; }
         }
 
-        private const float DEFAULT_WIDTH = 85; // 125;
-        private const float DEFAULT_HEIGHT = 40; // 60;
-
-        private Result _result;
-        private Dictionary<OperatorViewModel, OperatorSvgElements> _convertedOperatorDictionary;
+        private bool _tooltipFeatureEnabled;
+        private ViewModelToDiagramConverterResult _result;
+        private Dictionary<OperatorViewModel, OperatorElements> _convertedOperatorDictionary;
         private IList<Line> _convertedLines;
 
-        // Constructors
-
-        static ViewModelToDiagramConverter()
-        {
-            InitializeStyling();
-        }
+        private OperatorRectangleConverter _operatorToRectangleConverter;
+        private OperatorLabelConverter _operatorToLabelConverter;
+        private InletRectangleConverter _inletRectangleConverter;
+        private InletPointConverter _inletPointConverter;
+        private OutletRectangleConverter _outletRectangleConverter;
+        private OutletPointConverter _outletPointConverter;
 
         /// <param name="mustShowInvisibleElements">for debugging</param>
-        public ViewModelToDiagramConverter(bool mustShowInvisibleElements = false)
+        public ViewModelToDiagramConverter(bool mustShowInvisibleElements = false, bool tooltipFeatureEnabled = true)
         {
+            _tooltipFeatureEnabled = tooltipFeatureEnabled;
+
             if (mustShowInvisibleElements)
             {
-                MakeHiddenStylesVisible();
+                StyleHelper.MakeHiddenStylesVisible();
             }
         }
         
         // General
 
-        public Result Execute(PatchViewModel sourcePatchViewModel, Result result = null)
+        /// <param name="result">Pass an existing result to update an existing diagram.</param>
+        public ViewModelToDiagramConverterResult Execute(PatchViewModel sourcePatchViewModel, ViewModelToDiagramConverterResult result = null)
         {
             if (sourcePatchViewModel == null) throw new NullException(() => sourcePatchViewModel);
 
@@ -99,18 +64,31 @@ namespace JJ.Presentation.Synthesizer.Svg
                 var moveGesture = new MoveGesture();
                 var dragGesture = new DragGesture();
                 var dropGesture = new DropGesture(dragGesture);
-                var lineGesture = new LineGesture(destDiagram, _lineStyleDashed, lineZIndex: -1);
+                var lineGesture = new LineGesture(destDiagram, StyleHelper.LineStyleDashed, lineZIndex: -1);
                 var selectOperatorGesture = new SelectOperatorGesture();
                 var deleteOperatorGesture = new DeleteOperatorGesture();
 
-                ToolTipGesture operatorToolTipGesture = null; //= new ToolTipGesture(destDiagram, _toolTipBackStyle, _toolTipLineStyle, _toolTipTextStyle, zIndex: 2);
-                ToolTipGesture inletToolTipGesture = null; // new ToolTipGesture(destDiagram, _toolTipBackStyle, _toolTipLineStyle, _toolTipTextStyle, zIndex: 2);
-                ToolTipGesture outletToolTipGesture = null; //= new ToolTipGesture(destDiagram, _toolTipBackStyle, _toolTipLineStyle, _toolTipTextStyle, zIndex: 2);
+                ToolTipGesture operatorToolTipGesture = null;
+                ToolTipGesture inletToolTipGesture = null;
+                ToolTipGesture outletToolTipGesture = null;
+                if (_tooltipFeatureEnabled)
+                {
+                    operatorToolTipGesture = new ToolTipGesture(destDiagram, StyleHelper.ToolTipBackStyle, StyleHelper.ToolTipLineStyle, StyleHelper.ToolTipTextStyle, zIndex: 2);
+                    inletToolTipGesture = new ToolTipGesture(destDiagram, StyleHelper.ToolTipBackStyle, StyleHelper.ToolTipLineStyle, StyleHelper.ToolTipTextStyle, zIndex: 2);
+                    outletToolTipGesture = new ToolTipGesture(destDiagram, StyleHelper.ToolTipBackStyle, StyleHelper.ToolTipLineStyle, StyleHelper.ToolTipTextStyle, zIndex: 2);
+                }
 
-                result = new Result(destDiagram, moveGesture, dragGesture, dropGesture, lineGesture, selectOperatorGesture, deleteOperatorGesture, operatorToolTipGesture, inletToolTipGesture, outletToolTipGesture);
+                _operatorToRectangleConverter = new OperatorRectangleConverter(destDiagram, moveGesture, selectOperatorGesture, operatorToolTipGesture);
+                _operatorToLabelConverter = new OperatorLabelConverter();
+                _inletRectangleConverter = new InletRectangleConverter(dropGesture, inletToolTipGesture);
+                _inletPointConverter = new InletPointConverter();
+                _outletRectangleConverter = new OutletRectangleConverter(dragGesture, lineGesture, outletToolTipGesture);
+                _outletPointConverter = new OutletPointConverter();
+
+                result = new ViewModelToDiagramConverterResult(destDiagram, moveGesture, dragGesture, dropGesture, lineGesture, selectOperatorGesture, deleteOperatorGesture, operatorToolTipGesture, inletToolTipGesture, outletToolTipGesture);
             }
 
-            _convertedOperatorDictionary = new Dictionary<OperatorViewModel, OperatorSvgElements>();
+            _convertedOperatorDictionary = new Dictionary<OperatorViewModel, OperatorElements>();
             _convertedLines = new List<Line>();
 
             IList<Rectangle> destExistingOperatorRectangles = result.Diagram.Canvas.Children
@@ -124,7 +102,6 @@ namespace JJ.Presentation.Synthesizer.Svg
             _result = result;
             _result.Diagram.Canvas.Gestures.Clear();
             _result.Diagram.Canvas.Gestures.Add(_result.DeleteOperatorGesture);
-
             foreach (OperatorViewModel sourceOperatorViewModel in sourcePatchViewModel.Operators)
             {
                 ConvertToRectangles_WithRelatedObject_Recursive(sourceOperatorViewModel, result.Diagram);
@@ -163,9 +140,9 @@ namespace JJ.Presentation.Synthesizer.Svg
             return _result;
         }
 
-        private OperatorSvgElements ConvertToRectangles_WithRelatedObject_Recursive(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
+        private OperatorElements ConvertToRectangles_WithRelatedObject_Recursive(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
         {
-            OperatorSvgElements operatorSvgElements1;
+            OperatorElements operatorSvgElements1;
             if (_convertedOperatorDictionary.TryGetValue(sourceOperatorViewModel, out operatorSvgElements1))
             {
                 return operatorSvgElements1;
@@ -183,7 +160,7 @@ namespace JJ.Presentation.Synthesizer.Svg
                 if (inletViewModel.InputOutlet != null)
                 {
                     // Recursive call
-                    OperatorSvgElements operatorSvgElements2 = ConvertToRectangles_WithRelatedObject_Recursive(inletViewModel.InputOutlet.Operator, destDiagram);
+                    OperatorElements operatorSvgElements2 = ConvertToRectangles_WithRelatedObject_Recursive(inletViewModel.InputOutlet.Operator, destDiagram);
 
                     Line destLine = TryGetInletLine(inletViewModel.ID);
                     if (destLine == null)
@@ -234,21 +211,21 @@ namespace JJ.Presentation.Synthesizer.Svg
         {
             var destLine = new Line
             {
-                LineStyle = _lineStyleThin,
+                LineStyle = StyleHelper.LineStyleThin,
                 ZIndex = -1
             };
 
             return destLine;
         }
 
-        private OperatorSvgElements ConvertToRectangle_WithRelatedObjects(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
+        private OperatorElements ConvertToRectangle_WithRelatedObjects(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
         {
-            Rectangle destOperatorRectangle = ConvertToOperatorRectangle(sourceOperatorViewModel, destDiagram);
-            Label destLabel = ConvertToOperatorLabel(sourceOperatorViewModel, destOperatorRectangle);
-            IList<Rectangle> destInletRectangles = ConvertToInletRectangles(sourceOperatorViewModel, destOperatorRectangle);
-            IList<Point> destInletPoints = ConvertToInletPoints(sourceOperatorViewModel, destOperatorRectangle);
-            IList<Rectangle> destOutletRectangles = ConvertToOutletRectangles(sourceOperatorViewModel, destOperatorRectangle);
-            IList<Point> destOutletPoints = ConvertToOutletPoints(sourceOperatorViewModel, destOperatorRectangle);
+            Rectangle destOperatorRectangle = _operatorToRectangleConverter.ConvertToOperatorRectangle(sourceOperatorViewModel, destDiagram);
+            Label destLabel = _operatorToLabelConverter.ConvertToOperatorLabel(sourceOperatorViewModel, destOperatorRectangle);
+            IList<Rectangle> destInletRectangles = _inletRectangleConverter.ConvertToInletRectangles(sourceOperatorViewModel, destOperatorRectangle);
+            IList<Point> destInletPoints = _inletPointConverter.ConvertToInletPoints(sourceOperatorViewModel, destOperatorRectangle);
+            IList<Rectangle> destOutletRectangles = _outletRectangleConverter.ConvertToOutletRectangles(sourceOperatorViewModel, destOperatorRectangle);
+            IList<Point> destOutletPoints = _outletPointConverter.ConvertToOutletPoints(sourceOperatorViewModel, destOperatorRectangle);
 
             IList<Element> childrenToDelete = destOperatorRectangle.Children
                                                                    .Except(destLabel)
@@ -272,7 +249,7 @@ namespace JJ.Presentation.Synthesizer.Svg
             }
 
             // Return result
-            return new OperatorSvgElements
+            return new OperatorElements
             {
                 OperatorRectangle = destOperatorRectangle,
                 InletRectangles = destInletRectangles,
@@ -280,519 +257,6 @@ namespace JJ.Presentation.Synthesizer.Svg
                 OutletRectangles = destOutletRectangles,
                 OutletPoints = destOutletPoints
             };
-        }
-
-        // Operator Rectangles
-
-        private Rectangle ConvertToOperatorRectangle(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
-        {
-            Rectangle destOperatorRectangle = TryGetOperatorRectangle(sourceOperatorViewModel.ID);
-            if (destOperatorRectangle == null)
-            {
-                destOperatorRectangle = new Rectangle
-                {
-                    Diagram = destDiagram,
-                    Parent = destDiagram.Canvas,
-                    Tag = TagHelper.GetOperatorTag(sourceOperatorViewModel.ID)
-                };
-
-                _destOperatorRectangleDictionary.Add(sourceOperatorViewModel.ID, destOperatorRectangle);
-            }
-
-            destOperatorRectangle.Width = DEFAULT_WIDTH;
-            destOperatorRectangle.Height = DEFAULT_HEIGHT;
-            destOperatorRectangle.X = sourceOperatorViewModel.CenterX - DEFAULT_WIDTH / 2f;
-            destOperatorRectangle.Y = sourceOperatorViewModel.CenterY - DEFAULT_HEIGHT / 2f;
-
-            if (sourceOperatorViewModel.IsSelected)
-            {
-                destOperatorRectangle.BackStyle = _backStyleSelected;
-                destOperatorRectangle.LineStyle = _lineStyleSelected;
-            }
-            else
-            {
-                destOperatorRectangle.BackStyle = _backStyle;
-                destOperatorRectangle.LineStyle = _lineStyle;
-            }
-
-            destOperatorRectangle.Gestures.Clear();
-            destOperatorRectangle.Gestures.Add(_result.MoveGesture);
-            destOperatorRectangle.Gestures.Add(_result.SelectOperatorGesture);
-            //destOperatorRectangle.Gestures.Add(_result.OperatorToolTipGesture);
-
-            return destOperatorRectangle;
-        }
-
-        private Dictionary<int, Rectangle> _destOperatorRectangleDictionary = new Dictionary<int, Rectangle>();
-
-        private Rectangle TryGetOperatorRectangle(int operatorID)
-        {
-            Rectangle destRectangle;
-            if (!_destOperatorRectangleDictionary.TryGetValue(operatorID, out destRectangle))
-            {
-                destRectangle = _result.Diagram.Elements
-                                               .OfType<Rectangle>()
-                                               .Where(x => TagHelper.TryGetOperatorID(x.Tag) == operatorID)
-                                               .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
-
-                if (destRectangle != null)
-                {
-                    _destOperatorRectangleDictionary.Add(operatorID, destRectangle);
-                }
-            }
-
-            return destRectangle;
-        }
-
-        // Operator Labels
-
-        private Label ConvertToOperatorLabel(OperatorViewModel sourceOperatorViewModel, Rectangle destRectangle)
-        {
-            Label destLabel = destRectangle.Children.OfType<Label>().FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
-            if (destLabel == null)
-            {
-                destLabel = new Label();
-                destLabel.Diagram = destRectangle.Diagram;
-                destLabel.Parent = destRectangle;
-            }
-
-            destLabel.Text = sourceOperatorViewModel.Name;
-            destLabel.Width = DEFAULT_WIDTH;
-            destLabel.Height = DEFAULT_HEIGHT;
-            destLabel.TextStyle = _textStyle;
-
-            return destLabel;
-        }
-
-        // Inlet Rectangles
-
-        private IList<Rectangle> ConvertToInletRectangles(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
-        {
-            if (sourceOperatorViewModel.Inlets.Count == 0)
-            {
-                return new Rectangle[0];
-            }
-
-            IList<Rectangle> destInletRectangles = new List<Rectangle>(sourceOperatorViewModel.Inlets.Count);
-
-            float rowHeight = destOperatorRectangle.Height / 4;
-            float heightOverflow = _pointStyle.Width / 2;
-            float inletWidth = destOperatorRectangle.Width / sourceOperatorViewModel.Inlets.Count;
-            float x = 0;
-
-            foreach (InletViewModel sourceInletViewModel in sourceOperatorViewModel.Inlets)
-            {
-                Rectangle destInletRectangle = ConvertToInletRectangle(sourceInletViewModel, destOperatorRectangle);
-
-                destInletRectangle.X = x;
-                destInletRectangle.Y = -heightOverflow;
-                destInletRectangle.Width = inletWidth;
-                destInletRectangle.Height = rowHeight + heightOverflow;
-
-                destInletRectangles.Add(destInletRectangle);
-
-                x += inletWidth;
-            }
-
-            return destInletRectangles;
-        }
-
-        /// <summary> Converts everything but its coordinates. </summary>
-        private Rectangle ConvertToInletRectangle(InletViewModel sourceInletViewModel, Rectangle destOperatorRectangle)
-        {
-            // Convert to Inlet Rectangle
-            Rectangle destInletRectangle = TryGetInletRectangle(destOperatorRectangle, sourceInletViewModel.ID);
-            if (destInletRectangle == null)
-            {
-                destInletRectangle = new Rectangle();
-                destInletRectangle.Diagram = destOperatorRectangle.Diagram;
-                destInletRectangle.Parent = destOperatorRectangle;
-                destInletRectangle.Tag = TagHelper.GetInletTag(sourceInletViewModel.ID);
-
-                _destInletRectangleDictionary.Add(sourceInletViewModel.ID, destInletRectangle);
-            }
-
-            destInletRectangle.BackStyle = _backStyleInvisible;
-            destInletRectangle.LineStyle = _lineStyleInvisible;
-
-            destInletRectangle.Gestures.Clear();
-            destInletRectangle.Gestures.Add(_result.DropGesture);
-            //destInletRectangle.Gestures.Add(_result.InletToolTipGesture);
-            //destInletRectangle.MustBubble = false; // The is only done to make the tooltip work, so if the tooltip uses another region, it is not necessary anymore.
-
-            return destInletRectangle;
-        }
-
-        private Dictionary<int, Rectangle> _destInletRectangleDictionary = new Dictionary<int, Rectangle>();
-
-        private Rectangle TryGetInletRectangle(Element destParent, int inletID)
-        {
-            Rectangle destRectangle;
-            if (!_destInletRectangleDictionary.TryGetValue(inletID, out destRectangle))
-            {
-                destRectangle = destParent.Children
-                                          .OfType<Rectangle>()
-                                          .Where(x => TagHelper.TryGetInletID(x.Tag) == inletID)
-                                          .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
-
-                if (destRectangle != null)
-                {
-                    _destInletRectangleDictionary.Add(inletID, destRectangle);
-                }
-            }
-
-            return destRectangle;
-        }
-
-        // Inlet Points
-
-        private IList<Point> ConvertToInletPoints(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
-        {
-            if (sourceOperatorViewModel.Inlets.Count == 0)
-            {
-                return new Point[0];
-            }
-
-            IList<Point> destInletPoints = new List<Point>(sourceOperatorViewModel.Inlets.Count);
-
-            float inletWidth = destOperatorRectangle.Width / sourceOperatorViewModel.Inlets.Count;
-            float x = 0;
-            foreach (InletViewModel sourceInletViewModel in sourceOperatorViewModel.Inlets)
-            {
-                Point destInletPoint = ConvertToInletPoint(sourceInletViewModel, destOperatorRectangle);
-
-                destInletPoint.X = x + inletWidth / 2f;
-                destInletPoint.Y = 0;
-
-                destInletPoints.Add(destInletPoint);
-
-                x += inletWidth;
-            }
-
-            return destInletPoints;
-        }
-
-        /// <summary> Converts everything but its coordinates. </summary>
-        private Point ConvertToInletPoint(InletViewModel sourceInletViewModel, Rectangle destOperatorRectangle)
-        {
-            Point destInletPoint = TryGetInletPoint(destOperatorRectangle, sourceInletViewModel.ID);
-            if (destInletPoint == null)
-            {
-                destInletPoint = new Point();
-                destInletPoint.Diagram = destOperatorRectangle.Diagram;
-                destInletPoint.Parent = destOperatorRectangle;
-                destInletPoint.Tag = TagHelper.GetInletTag(sourceInletViewModel.ID);
-
-                _destInletPointDictionary.Add(sourceInletViewModel.ID, destInletPoint);
-            }
-
-            destInletPoint.PointStyle = _pointStyle;
-
-            return destInletPoint;
-        }
-
-        private Dictionary<int, Point> _destInletPointDictionary = new Dictionary<int, Point>();
-
-        private Point TryGetInletPoint(Element destParent, int inletID)
-        {
-            Point destPoint;
-            if (!_destInletPointDictionary.TryGetValue(inletID, out destPoint))
-            {
-                destPoint = destParent.Children
-                                      .OfType<Point>()
-                                      .Where(x => TagHelper.TryGetInletID(x.Tag) == inletID)
-                                      .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
-
-                if (destPoint != null)
-                {
-                    _destInletPointDictionary.Add(inletID, destPoint);
-                }
-            }
-
-            return destPoint;
-        }
-
-        // Outlet Rectangles
-
-        private IList<Rectangle> ConvertToOutletRectangles(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
-        {
-            if (sourceOperatorViewModel.Outlets.Count == 0)
-            {
-                return new Rectangle[0];
-            }
-
-            IList<Rectangle> destOutletRectangles = new List<Rectangle>(sourceOperatorViewModel.Inlets.Count);
-
-            float outletWidth = destOperatorRectangle.Width / sourceOperatorViewModel.Outlets.Count;
-            float rowHeight = destOperatorRectangle.Height / 4;
-            float heightOverflow = _pointStyle.Width / 2;
-            float x = 0;
-            float y = rowHeight * 3;
-
-            foreach (OutletViewModel sourceOutletViewModel in sourceOperatorViewModel.Outlets)
-            {
-                Rectangle destOutletRectangle = ConvertToOutletRectangle(sourceOutletViewModel, destOperatorRectangle);
-
-                destOutletRectangle.X = x;
-                destOutletRectangle.Y = y;
-                destOutletRectangle.Width = outletWidth;
-                destOutletRectangle.Height = rowHeight + heightOverflow;
-
-                destOutletRectangles.Add(destOutletRectangle);
-
-                x += outletWidth;
-            }
-
-            return destOutletRectangles;
-        }
-
-        /// <summary> Converts everything but its coordinates. </summary>
-        private Rectangle ConvertToOutletRectangle(OutletViewModel sourceOutletViewModel, Rectangle destOperatorRectangle)
-        {
-            Rectangle destOutletRectangle = TryGetOutletRectangle(destOperatorRectangle, sourceOutletViewModel.ID);
-            if (destOutletRectangle == null)
-            {
-                destOutletRectangle = new Rectangle();
-                destOutletRectangle.Diagram = destOperatorRectangle.Diagram;
-                destOutletRectangle.Parent = destOperatorRectangle;
-                destOutletRectangle.Tag = TagHelper.GetOutletTag(sourceOutletViewModel.ID);
-
-                _destOutletRectangleDictionary.Add(sourceOutletViewModel.ID, destOutletRectangle);
-            }
-
-            destOutletRectangle.BackStyle = _backStyleInvisible;
-            destOutletRectangle.LineStyle = _lineStyleInvisible;
-
-            destOutletRectangle.Gestures.Clear();
-            destOutletRectangle.Gestures.Add(_result.DragGesture);
-            destOutletRectangle.Gestures.Add(_result.LineGesture);
-            //destOutletRectangle.Gestures.Add(_result.OutletToolTipGesture);
-            destOutletRectangle.MustBubble = false; // So drag does not result in a move.
-
-            return destOutletRectangle;
-        }
-
-        private Dictionary<int, Rectangle> _destOutletRectangleDictionary = new Dictionary<int, Rectangle>();
-
-        private Rectangle TryGetOutletRectangle(Element destParent, int outletID)
-        {
-            Rectangle destRectangle;
-            if (!_destOutletRectangleDictionary.TryGetValue(outletID, out destRectangle))
-            {
-                destRectangle = destParent.Children
-                                          .OfType<Rectangle>()
-                                          .Where(x => TagHelper.TryGetOutletID(x.Tag) == outletID)
-                                          .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
-
-                if (destRectangle != null)
-                {
-                    _destOutletRectangleDictionary.Add(outletID, destRectangle);
-                }
-            }
-
-            return destRectangle;
-        }
-
-        // Outlet Points
-
-        private IList<Point> ConvertToOutletPoints(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
-        {
-            if (sourceOperatorViewModel.Outlets.Count == 0)
-            {
-                return new Point[0];
-            }
-
-            IList<Point> destOutletPoints = new List<Point>(sourceOperatorViewModel.Outlets.Count);
-
-            float outletWidth = destOperatorRectangle.Width / sourceOperatorViewModel.Outlets.Count;
-            float x = 0;
-
-            foreach (OutletViewModel sourceOutletViewModel in sourceOperatorViewModel.Outlets)
-            {
-                Point destOutletPoint = ConvertToOutletPoint(sourceOutletViewModel, destOperatorRectangle);
-
-                destOutletPoint.X = x + outletWidth / 2f;
-                destOutletPoint.Y = destOperatorRectangle.Height;
-
-                destOutletPoints.Add(destOutletPoint);
-
-                x += outletWidth;
-            }
-
-            return destOutletPoints;
-        }
-
-        /// <summary> Converts everything but its coordinates. </summary>
-        private Point ConvertToOutletPoint(OutletViewModel sourceOutletViewModel, Rectangle destOperatorRectangle)
-        {
-            Point destOutletPoint = TryGetOutletPoint(destOperatorRectangle, sourceOutletViewModel.ID);
-            if (destOutletPoint == null)
-            {
-                destOutletPoint = new Point();
-                destOutletPoint.Diagram = destOperatorRectangle.Diagram;
-                destOutletPoint.Parent = destOperatorRectangle;
-                destOutletPoint.Tag = TagHelper.GetOutletTag(sourceOutletViewModel.ID);
-
-                _destOutletPointDictionary.Add(sourceOutletViewModel.ID, destOutletPoint);
-            }
-
-            destOutletPoint.PointStyle = _pointStyle;
-
-            return destOutletPoint;
-        }
-
-        private Dictionary<int, Point> _destOutletPointDictionary = new Dictionary<int, Point>();
-
-        private Point TryGetOutletPoint(Element destParent, int outletID)
-        {
-            Point destPoint;
-            if (!_destOutletPointDictionary.TryGetValue(outletID, out destPoint))
-            {
-                destPoint = destParent.Children
-                                      .OfType<Point>()
-                                      .Where(x => TagHelper.TryGetOutletID(x.Tag) == outletID)
-                                      .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
-
-                if (destPoint != null)
-                {
-                    _destOutletPointDictionary.Add(outletID, destPoint);
-                }
-            }
-
-            return destPoint;
-        }
-
-        // Styling
-
-        private static Font _defaultFont;
-        private static TextStyle _textStyle;
-        private static BackStyle _backStyle;
-        private static BackStyle _backStyleSelected;
-        private static BackStyle _backStyleInvisible;
-        private static LineStyle _lineStyle;
-        private static LineStyle _lineStyleDashed;
-        private static LineStyle _lineStyleSelected;
-        private static LineStyle _lineStyleInvisible;
-        private static LineStyle _lineStyleThin;
-        private static PointStyle _pointStyle;
-        private static PointStyle _pointStyleInvisible;
-
-        private static BackStyle _toolTipBackStyle;
-        private static LineStyle _toolTipLineStyle;
-        private static TextStyle _toolTipTextStyle;
-
-        private static void InitializeStyling()
-        {
-            _pointStyle = new PointStyle
-            {
-                Color = ColorHelper.GetColor(45, 45, 45),
-                Width = 8
-            };
-
-            _backStyle = new BackStyle
-            {
-                Color = ColorHelper.GetColor(220, 220, 220)
-            };
-
-            _backStyleSelected = new BackStyle
-            {
-                Color = ColorHelper.GetColor(122, 189, 254)
-            };
-
-            _lineStyle = new LineStyle
-            {
-                Width = 2,
-                Color = ColorHelper.GetColor(45, 45, 45)
-            };
-
-            _lineStyleThin = new LineStyle
-            {
-                Width = 1,
-                Color = ColorHelper.GetColor(45, 45, 45)
-            };
-
-            _lineStyleSelected = new LineStyle
-            {
-                Width = 2,
-                Color = ColorHelper.GetColor(0, 0, 0)
-            };
-
-            _lineStyleDashed = new LineStyle
-            {
-                Width = 3,
-                Color = ColorHelper.GetColor(128, 45, 45, 45),
-                DashStyleEnum = DashStyleEnum.Dotted
-            };
-
-            _defaultFont = new Font
-            {
-                Bold = true,
-                Name = "Microsoft Sans Serif",
-                Size = 11,
-            };
-
-            _textStyle = new TextStyle
-            {
-                HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
-                VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
-                Font = _defaultFont,
-                Color = ColorHelper.GetColor(20, 20, 20)
-            };
-
-            _pointStyleInvisible = new PointStyle
-            {
-                Visible = false,
-            };
-
-            _backStyleInvisible = new BackStyle
-            {
-                Visible = false
-            };
-
-            _lineStyleInvisible = new LineStyle
-            {
-                Visible = false
-            };
-
-            // Tool Tip
-
-            _toolTipBackStyle = new BackStyle
-            {
-                Color = ColorHelper.GetColor(0xDDFEFEFE)
-            };
-
-            _toolTipTextStyle = new TextStyle
-            {
-                Color = ColorHelper.GetColor(0xFF575757),
-                Font = new Font
-                {
-                    Name = "Microsoft Sans Serif",
-                    Size = 9,
-                },
-                HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
-                VerticalAlignmentEnum = VerticalAlignmentEnum.Center
-            };
-
-            _toolTipLineStyle = new LineStyle
-            {
-                Color = ColorHelper.GetColor(0xFF575757)
-            };
-
-        }
-
-        private void MakeHiddenStylesVisible()
-        {
-            _pointStyleInvisible.Visible = true;
-            _pointStyleInvisible.Color = ColorHelper.GetColor(128, 40, 128, 192);
-            _pointStyleInvisible.Width = 10;
-
-            _backStyleInvisible.Visible = true;
-            _backStyleInvisible.Color = ColorHelper.GetColor(64, 40, 128, 192);
-
-            _lineStyleInvisible.Visible = true;
-            _lineStyleInvisible.Color = ColorHelper.GetColor(128, 40, 128, 192);
-            _lineStyleInvisible.Width = 2;
-            _lineStyleInvisible.DashStyleEnum = DashStyleEnum.Dotted;
         }
     }
 }

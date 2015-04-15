@@ -23,5 +23,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Configuration
 
         [XmlAttribute]
         public bool AlwaysRecreateDiagram { get; set; }
+
+        [XmlAttribute]
+        public bool ToolTipsFeatureEnabled { get; set; }
     }
 }
