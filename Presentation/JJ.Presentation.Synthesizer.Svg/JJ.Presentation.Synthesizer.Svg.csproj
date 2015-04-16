@@ -36,12 +36,12 @@
   <ItemGroup>
     <Compile Include="Converters\InletPointConverter.cs" />
     <Compile Include="Converters\InletRectangleConverter.cs" />
-    <Compile Include="Converters\InletToolTipRectangleConverter.cs" />
     <Compile Include="Converters\OperatorLabelConverter.cs" />
     <Compile Include="Converters\OperatorRectangleConverter.cs" />
     <Compile Include="Converters\OperatorToolTipRectangleConverter.cs" />
     <Compile Include="Converters\OutletPointConverter.cs" />
     <Compile Include="Converters\OutletRectangleConverter.cs" />
+    <Compile Include="Helpers\PositionHelper.cs" />
     <Compile Include="Helpers\StyleHelper.cs" />
     <Compile Include="Helpers\TagHelper.cs" />
     <Compile Include="ViewModelToDiagramConverter.cs" />

@@ -17,14 +17,11 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         private Diagram _diagram;
         private MoveGesture _moveGesture;
         private SelectOperatorGesture _selectOperatorGesture;
-        private ToolTipGesture _operatorToolTipGesture;
 
-        /// <param name="operatorToolTipGesture">nullable</param>
         public OperatorRectangleConverter(
             Diagram diagram,
             MoveGesture moveGesture,
-            SelectOperatorGesture selectOperatorGesture,
-            ToolTipGesture operatorToolTipGesture)
+            SelectOperatorGesture selectOperatorGesture)
         {
             if (diagram == null) throw new NullException(() => diagram);
             if (moveGesture == null) throw new NullException(() => moveGesture);
@@ -33,7 +30,6 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             _diagram = diagram;
             _moveGesture = moveGesture;
             _selectOperatorGesture = selectOperatorGesture;
-            _operatorToolTipGesture = operatorToolTipGesture;
         }
 
         public Rectangle ConvertToOperatorRectangle(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
@@ -73,11 +69,6 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             destOperatorRectangle.Gestures.Clear();
             destOperatorRectangle.Gestures.Add(_moveGesture);
             destOperatorRectangle.Gestures.Add(_selectOperatorGesture);
-
-            if (_operatorToolTipGesture != null)
-            {
-                destOperatorRectangle.Gestures.Add(_operatorToolTipGesture);
-            }
 
             return destOperatorRectangle;
         }

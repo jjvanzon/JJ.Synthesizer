@@ -17,27 +17,18 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 {
     public class ToolTipGesture : GestureBase
     {
-        private const int RECTANGLE_WIDTH = 70;
         private const int RECTANGLE_HEIGHT = 20;
+
+        public event EventHandler<ToolTipTextEventArgs> ToolTipTextRequested;
 
         private Diagram _diagram;
         private Rectangle _rectangle;
         private Label _label;
-
-        private TextStyle _textStyle;
-        private int _zIndex;
-
         private MouseLeaveGesture _mouseLeaveGesture;
-
-        public event EventHandler<ToolTipTextEventArgs> ToolTipTextRequested;
-        //public event EventHandler<ElementEventArgs> HideToolTip;
 
         public ToolTipGesture(Diagram diagram, BackStyle backStyle, LineStyle lineStyle, TextStyle textStyle, int zIndex = Int32.MaxValue / 2)
         {
             if (diagram == null) throw new NullException(() => diagram);
-
-            _textStyle = textStyle;
-            _zIndex = zIndex;
 
             _diagram = diagram;
 
@@ -47,10 +38,10 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
                 Parent = diagram.Canvas,
                 BackStyle = backStyle,
                 LineStyle = lineStyle,
-                Width = RECTANGLE_WIDTH,
-                Height = RECTANGLE_HEIGHT,
                 Visible = false,
+                Enabled = false,
                 ZIndex = zIndex,
+                Height = RECTANGLE_HEIGHT,
                 Tag = "ToolTip Rectangle"
             };
 
@@ -59,9 +50,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
                 Diagram = diagram,
                 Parent = _rectangle,
                 TextStyle = textStyle,
-                Width = RECTANGLE_WIDTH,
-                Height = RECTANGLE_HEIGHT,
                 ZIndex = zIndex + 1,
+                Height = RECTANGLE_HEIGHT,
                 Tag = "ToolTip Label"
             };
 
@@ -109,16 +99,17 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
                 _rectangle.Y = e.Y - e.Element.CalculatedY - _rectangle.Height - margin; // The relative coordinate, transposed to above the mouse arrow, plus some distance upward.
                 _label.Text = e2.ToolTipText;
                 _rectangle.Visible = true;
-                _label.Visible = true;
 
-                e.Element.Gestures.Add(_mouseLeaveGesture);
+                if (!e.Element.Gestures.Contains(_mouseLeaveGesture))
+                {
+                    e.Element.Gestures.Add(_mouseLeaveGesture);
+                }
             }
         }
 
         private void _mouseLeaveGesture_MouseLeave(object sender, MouseEventArgs e)
         {
             _rectangle.Visible = false;
-            _label.Visible = false;
             
             e.Element.Gestures.Remove(_mouseLeaveGesture);
         }

@@ -24,8 +24,6 @@ namespace JJ.Presentation.Synthesizer.Svg
             public Rectangle OperatorRectangle { get; set; }
             public IList<Point> InletPoints { get; set; }
             public IList<Point> OutletPoints { get; set; }
-            public IList<Rectangle> InletRectangles { get; set; }
-            public IList<Rectangle> OutletRectangles { get; set; }
         }
 
         private bool _tooltipFeatureEnabled;
@@ -39,6 +37,7 @@ namespace JJ.Presentation.Synthesizer.Svg
         private InletPointConverter _inletPointConverter;
         private OutletRectangleConverter _outletRectangleConverter;
         private OutletPointConverter _outletPointConverter;
+        private OperatorToolTipRectangleConverter _operatorToolTipRectangleConverter;
 
         /// <param name="mustShowInvisibleElements">for debugging</param>
         public ViewModelToDiagramConverter(bool mustShowInvisibleElements = false, bool tooltipFeatureEnabled = true)
@@ -78,12 +77,16 @@ namespace JJ.Presentation.Synthesizer.Svg
                     outletToolTipGesture = new ToolTipGesture(destDiagram, StyleHelper.ToolTipBackStyle, StyleHelper.ToolTipLineStyle, StyleHelper.ToolTipTextStyle, zIndex: 2);
                 }
 
-                _operatorToRectangleConverter = new OperatorRectangleConverter(destDiagram, moveGesture, selectOperatorGesture, operatorToolTipGesture);
+                _operatorToRectangleConverter = new OperatorRectangleConverter(destDiagram, moveGesture, selectOperatorGesture);
                 _operatorToLabelConverter = new OperatorLabelConverter();
                 _inletRectangleConverter = new InletRectangleConverter(dropGesture, inletToolTipGesture);
                 _inletPointConverter = new InletPointConverter();
                 _outletRectangleConverter = new OutletRectangleConverter(dragGesture, lineGesture, outletToolTipGesture);
                 _outletPointConverter = new OutletPointConverter();
+                if (_tooltipFeatureEnabled)
+                {
+                    _operatorToolTipRectangleConverter = new OperatorToolTipRectangleConverter(operatorToolTipGesture);
+                }
 
                 result = new ViewModelToDiagramConverterResult(destDiagram, moveGesture, dragGesture, dropGesture, lineGesture, selectOperatorGesture, deleteOperatorGesture, operatorToolTipGesture, inletToolTipGesture, outletToolTipGesture);
             }
@@ -227,12 +230,19 @@ namespace JJ.Presentation.Synthesizer.Svg
             IList<Rectangle> destOutletRectangles = _outletRectangleConverter.ConvertToOutletRectangles(sourceOperatorViewModel, destOperatorRectangle);
             IList<Point> destOutletPoints = _outletPointConverter.ConvertToOutletPoints(sourceOperatorViewModel, destOperatorRectangle);
 
+            Rectangle destOperatorToolTipRectangle = null;
+            if (_tooltipFeatureEnabled)
+            {
+                destOperatorToolTipRectangle = _operatorToolTipRectangleConverter.ConvertToOperatorToolTipRectangle(sourceOperatorViewModel, destOperatorRectangle);
+            }
+
             IList<Element> childrenToDelete = destOperatorRectangle.Children
                                                                    .Except(destLabel)
                                                                    .Except(destInletRectangles)
                                                                    .Except(destInletPoints)
                                                                    .Except(destOutletRectangles)
                                                                    .Except(destOutletPoints)
+                                                                   .Except(destOperatorToolTipRectangle)
                                                                    .ToArray();
             foreach (Element childToDelete in childrenToDelete)
             {
@@ -252,9 +262,7 @@ namespace JJ.Presentation.Synthesizer.Svg
             return new OperatorElements
             {
                 OperatorRectangle = destOperatorRectangle,
-                InletRectangles = destInletRectangles,
                 InletPoints = destInletPoints,
-                OutletRectangles = destOutletRectangles,
                 OutletPoints = destOutletPoints
             };
         }

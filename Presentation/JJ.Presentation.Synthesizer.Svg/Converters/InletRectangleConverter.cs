@@ -84,7 +84,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             if (_inletToolTipGesture != null)
             {
                 destInletRectangle.Gestures.Add(_inletToolTipGesture);
-                destInletRectangle.MustBubble = false; // The is only done to make the tooltip work, so if the tooltip uses another region, it is not necessary anymore.
+                //destInletRectangle.MustBubble = false; // The is only done to make the tooltip work, so if the tooltip uses another region, it is not necessary anymore.
             }
 
             return destInletRectangle;
