@@ -1,4 +1,4 @@
-﻿using JJ.Framework.Persistence;
+﻿using JJ.Framework.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;

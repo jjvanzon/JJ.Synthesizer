@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Web
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{72857B67-3003-486C-9BB3-34AF5748BE95}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Persistence", "Framework\JJ.Framework.Persistence\JJ.Framework.Persistence.csproj", "{7ADEDDCE-6903-4A58-94F5-D0B39B21330F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data", "Framework\JJ.Framework.Data\JJ.Framework.Data.csproj", "{7ADEDDCE-6903-4A58-94F5-D0B39B21330F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Persistence.NHibernate", "Framework\JJ.Framework.Persistence.NHibernate\JJ.Framework.Persistence.NHibernate.csproj", "{DB783ED9-FDE6-458F-A094-457B7F4283A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.NHibernate", "Framework\JJ.Framework.Data.NHibernate\JJ.Framework.Data.NHibernate.csproj", "{DB783ED9-FDE6-458F-A094-457B7F4283A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Configuration", "Framework\JJ.Framework.Configuration\JJ.Framework.Configuration.csproj", "{805A8237-05ED-40AE-8D1A-9288373EA5E0}"
 EndProject
@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Reflection", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Common", "Framework\JJ.Framework.Common\JJ.Framework.Common.csproj", "{44FD9133-5FE7-4824-BD35-27273706D127}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Persistence.EntityFramework5", "Framework\JJ.Framework.Persistence.EntityFramework5\JJ.Framework.Persistence.EntityFramework5.csproj", "{9676E4C3-1A1F-45B8-8FFD-C398F14002E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.EntityFramework5", "Framework\JJ.Framework.Data.EntityFramework5\JJ.Framework.Data.EntityFramework5.csproj", "{9676E4C3-1A1F-45B8-8FFD-C398F14002E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Testing", "Framework\JJ.Framework.Testing\JJ.Framework.Testing.csproj", "{369D4E9E-4EFF-4699-83B3-C4951EE0A3C3}"
 EndProject
@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SgmlReaderDll", "External Components\SgmlReader\Source Code Adapted\sgmlreaderdll\SgmlReaderDll.csproj", "{499527FF-AE52-450F-B3E3-4AD53E1712AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Persistence.Memory", "Framework\JJ.Framework.Persistence.Memory\JJ.Framework.Persistence.Memory.csproj", "{86348B50-ECA9-4849-A221-73F0ED31713B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.Memory", "Framework\JJ.Framework.Data.Memory\JJ.Framework.Data.Memory.csproj", "{86348B50-ECA9-4849-A221-73F0ED31713B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.PlatformCompatibility", "Framework\JJ.Framework.PlatformCompatibility\JJ.Framework.PlatformCompatibility.csproj", "{59622A6E-A9AE-438C-A164-05DEA2FCF8CF}"
 EndProject
@@ -41,21 +41,21 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Business", "Framework\JJ.Framework.Business\JJ.Framework.Business.csproj", "{F44D03E8-FEEC-40D4-B866-A87799185B4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Persistence.SqlClient", "Framework\JJ.Framework.Persistence.SqlClient\JJ.Framework.Persistence.SqlClient.csproj", "{CEB85F8E-D429-4510-95A5-47CC3069D412}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Data.SqlClient", "Framework\JJ.Framework.Data.SqlClient\JJ.Framework.Data.SqlClient.csproj", "{CEB85F8E-D429-4510-95A5-47CC3069D412}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Persistence.Synthesizer", "Persistence\JJ.Persistence.Synthesizer\JJ.Persistence.Synthesizer.csproj", "{BFE8068F-E441-44D2-896D-30FBB67946BF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer", "Data\JJ.Data.Synthesizer\JJ.Data.Synthesizer.csproj", "{BFE8068F-E441-44D2-896D-30FBB67946BF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Synthesizer", "Business\JJ.Business.Synthesizer\JJ.Business.Synthesizer.csproj", "{A2A8E75D-1FDA-43FB-99F3-AFF9958F654A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Persistence.Synthesizer.DefaultRepositories", "Persistence\JJ.Persistence.Synthesizer.DefaultRepositories\JJ.Persistence.Synthesizer.DefaultRepositories.csproj", "{31660F5F-6141-4DA5-B364-6C0717B8F0A9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer.DefaultRepositories", "Data\JJ.Data.Synthesizer.DefaultRepositories\JJ.Data.Synthesizer.DefaultRepositories.csproj", "{31660F5F-6141-4DA5-B364-6C0717B8F0A9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Synthesizer.Tests", "Business\JJ.Business.Synthesizer.Tests\JJ.Business.Synthesizer.Tests.csproj", "{5C26AF7B-1C83-49BD-9ED1-6A880103D293}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Persistence.Synthesizer.Memory", "Persistence\JJ.Persistence.Synthesizer.Memory\JJ.Persistence.Synthesizer.Memory.csproj", "{BC3BE171-AD84-4EE4-8356-06A581BDCDF7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer.Memory", "Data\JJ.Data.Synthesizer.Memory\JJ.Data.Synthesizer.Memory.csproj", "{BC3BE171-AD84-4EE4-8356-06A581BDCDF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Persistence.Synthesizer.NHibernate", "Persistence\JJ.Persistence.Synthesizer.NHibernate\JJ.Persistence.Synthesizer.NHibernate.csproj", "{AFCF2122-DB43-461C-9FDF-41ADEC10A375}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer.NHibernate", "Data\JJ.Data.Synthesizer.NHibernate\JJ.Data.Synthesizer.NHibernate.csproj", "{AFCF2122-DB43-461C-9FDF-41ADEC10A375}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Persistence.Synthesizer.SqlClient", "Persistence\JJ.Persistence.Synthesizer.SqlClient\JJ.Persistence.Synthesizer.SqlClient.csproj", "{0DE125B6-B3ED-4459-8696-B5D851AD89A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer.SqlClient", "Data\JJ.Data.Synthesizer.SqlClient\JJ.Data.Synthesizer.SqlClient.csproj", "{0DE125B6-B3ED-4459-8696-B5D851AD89A0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer", "Presentation\JJ.Presentation.Synthesizer\JJ.Presentation.Synthesizer.csproj", "{919AE8A0-C964-4746-94A9-BC61A2546E78}"
 EndProject

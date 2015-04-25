@@ -2,7 +2,7 @@
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Persistence.Synthesizer;
+using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +14,7 @@ using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Business.Synthesizer.Constants;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

@@ -1,5 +1,5 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

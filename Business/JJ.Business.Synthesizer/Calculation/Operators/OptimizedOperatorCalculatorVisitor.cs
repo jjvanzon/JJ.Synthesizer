@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Persistence.Synthesizer;
+using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ using JJ.Business.Synthesizer.Calculation.Operators.Entities;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Visitors;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {

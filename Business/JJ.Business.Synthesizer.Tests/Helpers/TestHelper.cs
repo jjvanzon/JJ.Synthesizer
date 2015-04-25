@@ -2,8 +2,8 @@
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Common;
-using JJ.Framework.Persistence;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Data;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -1,6 +1,6 @@
 ﻿using JJ.Framework.Configuration;
-using JJ.Framework.Persistence;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Data;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using System;
 using System.Collections.Generic;

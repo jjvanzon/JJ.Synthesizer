@@ -1,10 +1,10 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Configuration;
-using JJ.Framework.Persistence;
+using JJ.Framework.Data;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Presentation.Svg.EventArg;
-using JJ.Persistence.Synthesizer;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.Svg;
 using JJ.Presentation.Synthesizer.Svg.EventArg;

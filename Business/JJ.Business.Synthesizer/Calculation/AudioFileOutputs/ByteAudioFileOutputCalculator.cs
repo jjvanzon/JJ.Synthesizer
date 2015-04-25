@@ -1,5 +1,5 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
-using JJ.Persistence.Synthesizer;
+using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Extensions;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {

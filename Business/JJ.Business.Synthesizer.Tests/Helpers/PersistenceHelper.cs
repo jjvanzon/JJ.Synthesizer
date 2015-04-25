@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Tests.Configuration;
 using JJ.Framework.Configuration;
-using JJ.Framework.Persistence;
-using JJ.Framework.Persistence.Memory;
+using JJ.Framework.Data;
+using JJ.Framework.Data.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;

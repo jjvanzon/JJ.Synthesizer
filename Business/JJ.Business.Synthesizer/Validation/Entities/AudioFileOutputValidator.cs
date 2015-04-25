@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;
-using JJ.Persistence.Synthesizer;
+using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

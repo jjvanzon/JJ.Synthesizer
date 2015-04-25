@@ -1,6 +1,6 @@
 ﻿using JJ.Framework.IO;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Persistence.Synthesizer;
+using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.IO;

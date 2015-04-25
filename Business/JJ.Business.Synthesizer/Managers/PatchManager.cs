@@ -2,7 +2,7 @@
 using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
-using JJ.Persistence.Synthesizer;
+using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

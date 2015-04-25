@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Persistence.Synthesizer;
+using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,10 +1,10 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Framework.Persistence;
+using JJ.Framework.Data;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Persistence.Synthesizer;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Common;
 using System;
 using System.Collections.Generic;

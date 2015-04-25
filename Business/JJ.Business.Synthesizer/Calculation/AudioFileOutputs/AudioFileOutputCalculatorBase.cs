@@ -3,7 +3,7 @@ using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
-using JJ.Persistence.Synthesizer;
+using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +16,7 @@ using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Calculation.Operators;
-using JJ.Persistence.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
