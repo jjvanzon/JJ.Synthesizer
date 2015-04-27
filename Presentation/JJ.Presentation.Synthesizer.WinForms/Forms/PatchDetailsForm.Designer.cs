@@ -42,8 +42,8 @@
             this.buttonSave = new System.Windows.Forms.Button();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.panelButtons = new System.Windows.Forms.Panel();
-            this.buttonPlay = new System.Windows.Forms.Button();
             this.textBoxValue = new System.Windows.Forms.TextBox();
+            this.buttonPlay = new System.Windows.Forms.Button();
             this.panelButtons.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,6 +109,14 @@
             this.panelButtons.Size = new System.Drawing.Size(1101, 36);
             this.panelButtons.TabIndex = 4;
             // 
+            // textBoxValue
+            // 
+            this.textBoxValue.Location = new System.Drawing.Point(562, 9);
+            this.textBoxValue.Name = "textBoxValue";
+            this.textBoxValue.Size = new System.Drawing.Size(100, 23);
+            this.textBoxValue.TabIndex = 4;
+            this.textBoxValue.TextChanged += new System.EventHandler(this.textBoxValue_TextChanged);
+            // 
             // buttonPlay
             // 
             this.buttonPlay.Location = new System.Drawing.Point(84, 3);
@@ -119,15 +127,7 @@
             this.buttonPlay.UseVisualStyleBackColor = true;
             this.buttonPlay.Click += new System.EventHandler(this.buttonPlay_Click);
             // 
-            // textBoxValue
-            // 
-            this.textBoxValue.Location = new System.Drawing.Point(562, 9);
-            this.textBoxValue.Name = "textBoxValue";
-            this.textBoxValue.Size = new System.Drawing.Size(100, 23);
-            this.textBoxValue.TabIndex = 4;
-            this.textBoxValue.TextChanged += new System.EventHandler(this.textBoxValue_TextChanged);
-            // 
-            // PatchEditForm
+            // PatchDetailsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -137,7 +137,8 @@
             this.Controls.Add(this.diagramControl1);
             this.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "PatchEditForm";
+            this.Name = "PatchDetailsForm";
+            this.Load += new System.EventHandler(this.PatchDetailsForm_Load);
             this.panelButtons.ResumeLayout(false);
             this.panelButtons.PerformLayout();
             this.ResumeLayout(false);

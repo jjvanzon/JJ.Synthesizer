@@ -18,11 +18,6 @@
                 components.Dispose();
             }
 
-            if (_context != null)
-            {
-                _context.Dispose();
-            }
-
             base.Dispose(disposing);
         }
 
@@ -55,7 +50,6 @@
             this.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "PatchListForm";
-            this.Load += new System.EventHandler(this.PatchListForm_Load);
             this.ResumeLayout(false);
 
         }
@@ -63,9 +57,5 @@
         #endregion
 
         private UserControls.PatchListUserControl patchListUserControl1;
-
-
-
-
     }
 }

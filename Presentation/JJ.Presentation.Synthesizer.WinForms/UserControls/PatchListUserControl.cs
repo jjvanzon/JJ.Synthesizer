@@ -30,7 +30,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         // Persistence
 
         private IContext _context;
-        private PatchListPresenter _presenter;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -41,20 +40,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 if (value == null) throw new NullException(() => value);
                 _context = value;
-                _presenter = CreatePresenter(_context);
-            }
-        }
-
-        private PatchListPresenter CreatePresenter(IContext context)
-        {
-            return new PatchListPresenter(PersistenceHelper.CreateRepository<IPatchRepository>(context));
-        }
-
-        private void EnsurePresenter()
-        {
-            if (_presenter == null)
-            {
-                throw new Exception("Assign Context first.");
             }
         }
 
@@ -62,12 +47,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public void Show(int pageNumber = 1)
         {
-            EnsurePresenter();
-
-            _viewModel = _presenter.Show(pageNumber);
+            PatchListPresenter presenter = CreatePresenter();
+            _viewModel = presenter.Show(pageNumber);
 
             ApplyViewModel();
         }
+
+        // ApplyViewModel
 
         private void ApplyViewModel()
         {
@@ -107,6 +93,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void pagerControl_GoToLastPageClicked(object sender, EventArgs e)
         {
             Show(_viewModel.Pager.PageCount - 1);
+        }
+
+        // Helpers
+
+        private PatchListPresenter CreatePresenter()
+        {
+            if (_context == null) throw new Exception("Assign Context first.");
+
+            return new PatchListPresenter(PersistenceHelper.CreateRepository<IPatchRepository>(_context));
         }
     }
 }

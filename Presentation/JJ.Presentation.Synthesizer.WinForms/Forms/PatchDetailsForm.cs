@@ -20,12 +20,13 @@ using System.Drawing;
 using System.Windows.Forms;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
+using System.ComponentModel;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
     public partial class PatchDetailsForm : Form
     {
-        private IContext _context;
         private PatchDetailsPresenter _presenter;
         private PatchDetailsViewModel _viewModel;
         private ViewModelToDiagramConverter _converter;
@@ -43,6 +44,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private static int _testPatchID;
         private static bool _toolTipFeatureEnabled;
 
+        // Constructors
+
         static PatchDetailsForm()
         {
             ConfigurationSection config = CustomConfigurationManager.GetSection<ConfigurationSection>();
@@ -59,10 +62,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             InitializeComponent();
 
             SetTitles();
+        }
 
-            _context = CreateContext();
-            _presenter = CreatePresenter(_context);
-
+        private void PatchDetailsForm_Load(object sender, EventArgs e)
+        {
             if (_mustCreateMockPatch)
             {
                 _patch = CreateMockPatch();
@@ -75,13 +78,136 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Edit(_patch.ID);
         }
 
+        // Persistence
+
+        private IContext _context;
+
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public IContext Context
+        {
+            get { return _context; }
+            set
+            {
+                if (value == null) throw new NullException(() => value);
+                _context = value;
+                _presenter = CreatePresenter(_context);
+            }
+        }
+
+        // Actions
+
+        public void Edit(int patchID)
+        {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
+            _viewModel = _presenter.Edit(patchID);
+
+            ApplyViewModel();
+        }
+
+        private void AddOperator(string operatorTypeName)
+        {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
+            _viewModel = _presenter.AddOperator(_viewModel, operatorTypeName);
+
+            ApplyViewModel();
+        }
+
+        private void MoveOperator(int operatorID, float centerX, float centerY)
+        {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
+            _viewModel = _presenter.MoveOperator(_viewModel, operatorID, centerX, centerY);
+
+            ApplyViewModel();
+        }
+
+        private void ChangeInputOutlet(int inletID, int inputOutletID)
+        {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
+            _viewModel = _presenter.ChangeInputOutlet(_viewModel, inletID, inputOutletID);
+
+            ApplyViewModel();
+        }
+
+        private void Save()
+        {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
+            _viewModel = _presenter.Save(_viewModel);
+
+            ApplyViewModel();
+        }
+
+        private void SelectOperator(int operatorID)
+        {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
+            _viewModel = _presenter.SelectOperator(_viewModel, operatorID);
+
+            ApplyViewModel();
+        }
+
+        private void DeleteOperator(int operatorID)
+        {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
+            _viewModel = _presenter.DeleteOperator(_viewModel, operatorID);
+
+            ApplyViewModel();
+        }
+
+        private void SetValue(string value)
+        {
+            if (_forceStateless)
+            {
+                _context = CreateContext();
+                _presenter = CreatePresenter(_context);
+            }
+
+            _viewModel = _presenter.SetValue(_viewModel, value);
+
+            ApplyViewModel();
+        }
+
+        // ApplyViewModel
+
         private void SetTitles()
         {
             buttonSave.Text = CommonTitles.Save;
             Text = CommonTitlesFormatter.EditObject(PropertyDisplayNames.Patch);
         }
-
-        // ApplyViewModel
 
         private void ApplyViewModel()
         {
@@ -257,112 +383,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             int outletID = TagHelper.GetOutletID(e.Element.Tag);
             OutletViewModel outletViewModel = _viewModel.Patch.Operators.SelectMany(x => x.Outlets).Where(x => x.ID == outletID).Single();
             e.ToolTipText = outletViewModel.Name;
-        }
-
-        // Actions
-
-        public void Edit(int patchID)
-        {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
-            _viewModel = _presenter.Edit(patchID);
-
-            ApplyViewModel();
-        }
-
-        private void AddOperator(string operatorTypeName)
-        {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
-            _viewModel = _presenter.AddOperator(_viewModel, operatorTypeName);
-
-            ApplyViewModel();
-        }
-
-        private void MoveOperator(int operatorID, float centerX, float centerY)
-        {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
-            _viewModel = _presenter.MoveOperator(_viewModel, operatorID, centerX, centerY);
-
-            ApplyViewModel();
-        }
-
-        private void ChangeInputOutlet(int inletID, int inputOutletID)
-        {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
-            _viewModel = _presenter.ChangeInputOutlet(_viewModel, inletID, inputOutletID);
-
-            ApplyViewModel();
-        }
-
-        private void Save()
-        {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
-            _viewModel = _presenter.Save(_viewModel);
-
-            ApplyViewModel();
-        }
-
-        private void SelectOperator(int operatorID)
-        {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
-            _viewModel = _presenter.SelectOperator(_viewModel, operatorID);
-
-            ApplyViewModel();
-        }
-
-        private void DeleteOperator(int operatorID)
-        {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
-            _viewModel = _presenter.DeleteOperator(_viewModel, operatorID);
-
-            ApplyViewModel();
-        }
-
-        private void SetValue(string value)
-        {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
-            _viewModel = _presenter.SetValue(_viewModel, value);
-
-            ApplyViewModel();
         }
 
         // Helpers

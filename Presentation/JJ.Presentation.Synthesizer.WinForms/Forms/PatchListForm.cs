@@ -25,25 +25,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 {
     public partial class PatchListForm : Form
     {
-        private IContext _context;
-
         public PatchListForm()
         {
             InitializeComponent();
-
-            _context = PersistenceHelper.CreateContext();
-
-            patchListUserControl1.Context = _context;
-            patchListUserControl1.Show(1);
         }
 
-        private void PatchListForm_Load(object sender, EventArgs e)
+        public IContext Context
         {
+            get { return patchListUserControl1.Context; }
+            set { patchListUserControl1.Context = value; }
         }
 
-        private void patchListUserControl1_Load(object sender, EventArgs e)
+        public void Show(int pageNumber = 1)
         {
+            patchListUserControl1.Show(pageNumber);
 
+            base.Show();
         }
     }
 }

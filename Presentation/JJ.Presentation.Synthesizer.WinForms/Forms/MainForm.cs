@@ -25,17 +25,51 @@ namespace JJ.Presentation.Synthesizer.WinForms
 {
     public partial class MainForm : Form
     {
+        private IContext _context;
+
         public MainForm()
         {
             InitializeComponent();
 
-            var patchDetailsForm = new PatchDetailsForm();
-            patchDetailsForm.MdiParent = this;
-            patchDetailsForm.Show();
+            _context = PersistenceHelper.CreateContext();
 
+            ShowPatchList();
+            ShowPatchDetails();
+        }
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && components != null)
+            {
+                components.Dispose();
+            }
+
+            if (_context != null)
+            {
+                _context.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
+
+        private void ShowPatchList()
+        {
             var patchListForm = new PatchListForm();
             patchListForm.MdiParent = this;
+            patchListForm.Context = _context;
             patchListForm.Show();
+        }
+
+        private void ShowPatchDetails()
+        {
+            var patchDetailsForm = new PatchDetailsForm();
+            patchDetailsForm.MdiParent = this;
+            patchDetailsForm.Context = _context;
+            patchDetailsForm.Show();
         }
     }
 }
