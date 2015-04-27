@@ -32,21 +32,41 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\RecursiveViewModelToEntityConverter.cs" />
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
-    <Compile Include="Presenters\PatchEditPresenter.cs" />
+    <Compile Include="Presenters\PatchDetailsPresenter.cs" />
+    <Compile Include="Presenters\PatchListPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ToEntity\ToEntityExtensions.cs" />
+    <Compile Include="ToViewModel\ToPatchDetailViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.cs" />
+    <Compile Include="ViewModels\AudioFileOutputDetailsViewModel.cs" />
+    <Compile Include="ViewModels\AudioFileOutputListViewModel.cs" />
+    <Compile Include="ViewModels\CurveDetailsViewModel.cs" />
+    <Compile Include="ViewModels\CurveListViewModel.cs" />
+    <Compile Include="ViewModels\DocumentListViewModel.cs" />
+    <Compile Include="ViewModels\Entities\AudioFileOutputChannelViewModel.cs" />
+    <Compile Include="ViewModels\Entities\AudioFileOutputListItemViewModel.cs" />
+    <Compile Include="ViewModels\Entities\AudioFileOutputViewModel.cs" />
+    <Compile Include="ViewModels\Entities\CurveViewModel.cs" />
+    <Compile Include="ViewModels\Entities\NodeViewModel.cs" />
+    <Compile Include="ViewModels\Entities\PatchListItemViewModel.cs" />
+    <Compile Include="ViewModels\Entities\SampleListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\InletViewModel.cs" />
     <Compile Include="ViewModels\Entities\OperatorViewModel.cs" />
     <Compile Include="ViewModels\Entities\OutletViewModel.cs" />
     <Compile Include="ViewModels\Entities\PatchViewModel.cs" />
     <Compile Include="ViewModels\Entities\OperatorTypeViewModel.cs" />
-    <Compile Include="ViewModels\PatchEditViewModel.cs" />
+    <Compile Include="ViewModels\Entities\SampleViewModel.cs" />
+    <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
+    <Compile Include="ViewModels\PatchListViewModel.cs" />
+    <Compile Include="ViewModels\SampleDetailsViewModel.cs" />
+    <Compile Include="ViewModels\SampleListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
@@ -72,6 +92,10 @@
     <ProjectReference Include="..\..\Framework\JJ.Framework.Data\JJ.Framework.Data.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation\JJ.Framework.Presentation.csproj">
+      <Project>{79b0eac3-5159-4fc8-b3d8-53315b205444}</Project>
+      <Name>JJ.Framework.Presentation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>

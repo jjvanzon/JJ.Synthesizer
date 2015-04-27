@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
-    public class OutletViewModel
+    public sealed class OutletViewModel
     {
         public int ID { get; set; }
         public Guid TemporaryID { get; set; }

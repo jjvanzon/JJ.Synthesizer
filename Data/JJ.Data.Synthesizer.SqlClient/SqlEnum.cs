@@ -8,6 +8,8 @@ namespace JJ.Data.Synthesizer.SqlClient
 {
     internal enum SqlEnum
     {
+        Patch_Count,
+        Patch_GetPageOfIDs,
         Sample_TryGetBinary,
         Sample_TrySetBinary
     }

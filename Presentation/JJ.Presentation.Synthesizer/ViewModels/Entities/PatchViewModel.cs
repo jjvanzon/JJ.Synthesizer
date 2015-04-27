@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
-    public class PatchViewModel
+    public sealed class PatchViewModel
     {
         public int ID { get; set; }
         public string PatchName { get; set; }

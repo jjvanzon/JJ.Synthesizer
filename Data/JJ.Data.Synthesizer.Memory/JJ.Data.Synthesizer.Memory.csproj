@@ -39,6 +39,8 @@
     <Compile Include="Mappings\ChannelMapping.cs" />
     <Compile Include="Mappings\AudioFileOutputMapping.cs" />
     <Compile Include="Mappings\AudioFileOutputChannelMapping.cs" />
+    <Compile Include="Mappings\DocumentMapping.cs" />
+    <Compile Include="Mappings\DocumentReferenceMapping.cs" />
     <Compile Include="Mappings\EntityPositionMapping.cs" />
     <Compile Include="Mappings\SpeakerSetupChannelMapping.cs" />
     <Compile Include="Mappings\SampleDataTypeMapping.cs" />

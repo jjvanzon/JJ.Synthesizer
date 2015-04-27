@@ -15,6 +15,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Id(x => x.ID);
             Map(x => x.Name);
             HasMany(x => x.Operators).KeyColumn(ColumnNames.PatchID).Inverse();
+            References(x => x.Document, ColumnNames.DocumentID);
         }
     }
 }

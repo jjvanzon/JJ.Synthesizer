@@ -27,5 +27,8 @@ namespace JJ.Data.Synthesizer
         public virtual SpeakerSetup SpeakerSetup { get; set; }
 
         public virtual IList<AudioFileOutputChannel> AudioFileOutputChannels { get; set; }
+
+        /// <summary> parent, nullable </summary>
+        public virtual Document Document { get; set; }
     }
 }

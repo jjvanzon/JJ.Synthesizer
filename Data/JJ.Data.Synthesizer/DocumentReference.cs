@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace JJ.Data.Synthesizer
+{
+    public class DocumentReference
+    {
+        public virtual int ID { get; set; }
+
+        /// <summary>
+        /// Used to disambiguates in case of name clashes between documents.
+        /// Even when things are referenced by ID, this can be useful in either the user interface,
+        /// so the user sees what he is picking, or in a type of persistence where
+        /// we do reference by name, e.g. a readable XML format.
+        /// </summary>
+        public virtual string Alias { get; set; }
+
+        public virtual Document ReferringDocument { get; set; }
+
+        /// <summary>
+        /// Has no inverse property.
+        /// </summary>
+        public virtual Document ReferencedDocument { get; set; }
+    }
+}

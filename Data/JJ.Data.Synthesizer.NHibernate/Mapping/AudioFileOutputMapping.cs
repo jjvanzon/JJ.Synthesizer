@@ -25,6 +25,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             References(x => x.AudioFileFormat, ColumnNames.AudioFileFormatID);
             References(x => x.SampleDataType, ColumnNames.SampleDataTypeID);
             References(x => x.SpeakerSetup, ColumnNames.SpeakerSetupID);
+            References(x => x.Document, ColumnNames.DocumentID);
 
             HasMany(x => x.AudioFileOutputChannels).KeyColumn(ColumnNames.AudioFileOutputID).Inverse();
         }

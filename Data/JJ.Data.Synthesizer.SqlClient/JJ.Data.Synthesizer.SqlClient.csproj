@@ -36,6 +36,8 @@
   <ItemGroup>
     <EmbeddedResource Include="Sample_TrySetBinary.sql" />
     <EmbeddedResource Include="Sample_TryGetBinary.sql" />
+    <EmbeddedResource Include="Patch_GetPageOfIDs.sql" />
+    <EmbeddedResource Include="Patch_Count.sql" />
     <Compile Include="SqlEnum.cs" />
     <Compile Include="SynthesizerSqlExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

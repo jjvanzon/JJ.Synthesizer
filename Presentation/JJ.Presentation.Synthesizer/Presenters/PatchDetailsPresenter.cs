@@ -24,7 +24,7 @@ using JJ.Framework.Configuration;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class PatchEditPresenter
+    public class PatchDetailsPresenter
     {
         private IPatchRepository _patchRepository;
         private IOperatorRepository _operatorRepository;
@@ -38,9 +38,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private EntityPositionManager _entityPositionManager;
 
         private Patch _patch;
-        private PatchEditViewModel _viewModel;
+        private PatchDetailsViewModel _viewModel;
 
-        public PatchEditPresenter(
+        public PatchDetailsPresenter(
             IPatchRepository patchRepository,
             IOperatorRepository operatorRepository,
             IInletRepository inletRepository,
@@ -69,25 +69,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorFactory = new OperatorFactory(_operatorRepository, _inletRepository, _outletRepository, _curveRepository, _sampleRepository);
         }
 
-        public PatchEditViewModel Create()
+        public PatchDetailsViewModel Create()
         {
             _patch = _patchRepository.Create();
 
-            _viewModel = _patch.ToEditViewModel(_entityPositionManager);
+            _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
 
             return _viewModel;
         }
 
-        public PatchEditViewModel Edit(int patchID)
+        public PatchDetailsViewModel Edit(int patchID)
         {
             _patch = _patchRepository.Get(patchID);
 
-            _viewModel = _patch.ToEditViewModel(_entityPositionManager);
+            _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
 
             return _viewModel;
         }
 
-        public PatchEditViewModel AddOperator(PatchEditViewModel viewModel, string operatorTypeName)
+        public PatchDetailsViewModel AddOperator(PatchDetailsViewModel viewModel, string operatorTypeName)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -191,7 +191,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (_viewModel == null)
             {
-                _viewModel = _patch.ToEditViewModel(_entityPositionManager);
+                _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
             }
             else
             {
@@ -207,7 +207,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public PatchEditViewModel MoveOperator(PatchEditViewModel viewModel, int operatorID, float centerX, float centerY)
+        public PatchDetailsViewModel MoveOperator(PatchDetailsViewModel viewModel, int operatorID, float centerX, float centerY)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -221,7 +221,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (_viewModel == null)
             {
-                _viewModel = _patch.ToEditViewModel(_entityPositionManager);
+                _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
             }
             else
             {
@@ -235,7 +235,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public PatchEditViewModel ChangeInputOutlet(PatchEditViewModel viewModel, int inletID, int inputOutletID)
+        public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel viewModel, int inletID, int inputOutletID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -249,12 +249,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             inlet.LinkTo(outlet);
 
             // TODO: In a stateful situation you might just adjust a small part of the view model.
-            _viewModel = _patch.ToEditViewModel(_entityPositionManager);
+            _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
 
             return _viewModel;
         }
 
-        public PatchEditViewModel Save(PatchEditViewModel viewModel)
+        public PatchDetailsViewModel Save(PatchDetailsViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -265,7 +265,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (_viewModel == null)
             {
-                _viewModel = _patch.ToEditViewModel(_entityPositionManager);
+                _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
             }
 
             IValidator validator = new PatchValidator(_patch, _curveRepository, _sampleRepository);
@@ -283,7 +283,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public PatchEditViewModel SelectOperator(PatchEditViewModel viewModel, int operatorID)
+        public PatchDetailsViewModel SelectOperator(PatchDetailsViewModel viewModel, int operatorID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -294,7 +294,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (_viewModel == null)
             {
-                _viewModel = _patch.ToEditViewModel(_entityPositionManager);
+                _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
             }
 
             SetSelectedOperator(_viewModel, operatorID);
@@ -302,7 +302,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public PatchEditViewModel DeleteOperator(PatchEditViewModel viewModel, int operatorID)
+        public PatchDetailsViewModel DeleteOperator(PatchDetailsViewModel viewModel, int operatorID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -321,7 +321,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             //if (_viewModel == null || FORCE_STATELESS)
             //{
-                _viewModel = _patch.ToEditViewModel(_entityPositionManager);
+                _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
             //}
             //else
             //{
@@ -334,7 +334,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public PatchEditViewModel SetValue(PatchEditViewModel viewModel, string value)
+        public PatchDetailsViewModel SetValue(PatchDetailsViewModel viewModel, string value)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -359,7 +359,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // TODO: See if you can do it more efficiently for stateful situations.
-            _viewModel = _patch.ToEditViewModel(_entityPositionManager);
+            _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
 
             // TODO: You are not supposed to transform the view model based on information in that viewmodel.
             if (viewModel.SelectedOperator != null)
@@ -371,7 +371,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
 
-        private void SetSelectedOperator(PatchEditViewModel viewModel, int operatorID)
+        private void SetSelectedOperator(PatchDetailsViewModel viewModel, int operatorID)
         {
             // The non-persisted operator selection data.
             foreach (OperatorViewModel operatorViewModel in viewModel.Patch.Operators)

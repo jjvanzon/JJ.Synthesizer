@@ -23,11 +23,11 @@ using JJ.Presentation.Synthesizer.Svg.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
-    public partial class PatchEditForm : Form
+    public partial class PatchDetailsForm : Form
     {
         private IContext _context;
-        private PatchEditPresenter _presenter;
-        private PatchEditViewModel _viewModel;
+        private PatchDetailsPresenter _presenter;
+        private PatchDetailsViewModel _viewModel;
         private ViewModelToDiagramConverter _converter;
         private ViewModelToDiagramConverterResult _svg;
 
@@ -43,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private static int _testPatchID;
         private static bool _toolTipFeatureEnabled;
 
-        static PatchEditForm()
+        static PatchDetailsForm()
         {
             ConfigurationSection config = CustomConfigurationManager.GetSection<ConfigurationSection>();
             _forceStateless = config.Testing.ForceStateless;
@@ -54,7 +54,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _toolTipFeatureEnabled = config.Testing.ToolTipsFeatureEnabled;
         }
 
-        public PatchEditForm()
+        public PatchDetailsForm()
         {
             InitializeComponent();
 
@@ -378,7 +378,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             return _context;
         }
 
-        private PatchEditPresenter CreatePresenter(IContext context)
+        private PatchDetailsPresenter CreatePresenter(IContext context)
         {
             IPatchRepository patchRepository = PersistenceHelper.CreateRepository<IPatchRepository>(context);
             IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
@@ -387,7 +387,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             IEntityPositionRepository entityPositionRepository = PersistenceHelper.CreateRepository<IEntityPositionRepository>(context);
             ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
             ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
-            var presenter = new PatchEditPresenter(patchRepository, operatorRepository, inletRepository, outletRepository, entityPositionRepository, curveRepository, sampleRepository);
+            var presenter = new PatchDetailsPresenter(patchRepository, operatorRepository, inletRepository, outletRepository, entityPositionRepository, curveRepository, sampleRepository);
             return presenter;
         }
 

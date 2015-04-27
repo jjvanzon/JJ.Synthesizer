@@ -36,6 +36,10 @@
   <ItemGroup>
     <Compile Include="AudioFileOutput.cs" />
     <Compile Include="AudioFileOutputChannel.cs" />
+    <Compile Include="Document.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DocumentReference.cs" />
     <Compile Include="EntityPosition.cs" />
     <Compile Include="SpeakerSetupChannel.cs" />
     <Compile Include="Channel.cs" />

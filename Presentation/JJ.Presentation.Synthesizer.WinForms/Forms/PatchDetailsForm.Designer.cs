@@ -1,6 +1,6 @@
 ﻿namespace JJ.Presentation.Synthesizer.WinForms
 {
-    partial class PatchEditForm
+    partial class PatchDetailsForm
     {
         /// <summary>
         /// Required designer variable.

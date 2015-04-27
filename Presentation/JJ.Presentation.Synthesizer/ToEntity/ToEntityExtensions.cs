@@ -18,7 +18,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
     internal static class ToEntityExtensions
     {
         public static Patch ToEntity(
-            this PatchEditViewModel viewModel,
+            this PatchDetailsViewModel viewModel,
             IPatchRepository patchRepository,
             IOperatorRepository operatorRepository,
             IInletRepository inletRepository,

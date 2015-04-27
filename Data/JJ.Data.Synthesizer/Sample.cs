@@ -8,7 +8,6 @@ namespace JJ.Data.Synthesizer
 {
     public class Sample
     {
-
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
         public virtual double Amplifier { get; set; }
@@ -27,17 +26,20 @@ namespace JJ.Data.Synthesizer
         public virtual string Location { get; set; }
 
         /// <summary> not nullable </summary>
-        public virtual SampleDataType SampleDataType { get; set; }
-
-        /// <summary> not nullable </summary>
-        public virtual SpeakerSetup SpeakerSetup { get; set; }
-
-        /// <summary> not nullable </summary>
         public virtual AudioFileFormat AudioFileFormat { get; set; }
 
         /// <summary> not nullable </summary>
         public virtual InterpolationType InterpolationType { get; set; }
 
+        /// <summary> not nullable </summary>
+        public virtual SampleDataType SampleDataType { get; set; }
+
+        /// <summary> not nullable </summary>
+        public virtual SpeakerSetup SpeakerSetup { get; set; }
+
         public virtual byte[] Bytes { get; set; }
+
+        /// <summary> nullable </summary>
+        public virtual Document Document { get; set; }
     }
 }

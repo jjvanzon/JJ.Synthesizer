@@ -1,4 +1,6 @@
-﻿using JJ.Framework.Logging;
+﻿using JJ.Framework.Common;
+using JJ.Framework.Configuration;
+using JJ.Framework.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +20,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            var config = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.Configuration.ConfigurationSection>();
+            ConfigurationHelper.SetSection(config);
+
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            var form = new PatchEditForm();
+            //var form = new PatchDetailsForm();
+            //var form = new PatchListForm();
+            var form = new MainForm();
 
             Application.Run(form);
         }

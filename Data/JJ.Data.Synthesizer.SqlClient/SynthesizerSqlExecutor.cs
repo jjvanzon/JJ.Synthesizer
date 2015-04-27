@@ -18,6 +18,16 @@ namespace JJ.Data.Synthesizer.SqlClient
             _sqlExecutor = sqlExecutor;
         }
 
+        public int Patch_Count()
+        {
+            return (int)_sqlExecutor.ExecuteScalar(SqlEnum.Patch_Count);
+        }
+
+        public IList<int> Patch_GetPageOfIDs(int firstIndex, int count)
+        {
+            return _sqlExecutor.ExecuteReader<int>(SqlEnum.Patch_GetPageOfIDs, new { firstIndex, count, }).ToArray();
+        }
+
         /// <summary>
         /// Beware that you could get null returned, which either means the database
         /// field is null or that the database record does not exist.

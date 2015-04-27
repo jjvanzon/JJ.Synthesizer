@@ -13,5 +13,15 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
         public PatchRepository(IContext context)
             : base(context)
         { }
+
+        public virtual IList<Patch> GetPage(int firstIndex, int count)
+        {
+            return _context.Query<Patch>().Skip(firstIndex).Take(count).ToArray();
+        }
+
+        public virtual int Count()
+        {
+            return _context.Query<Patch>().Count();
+        }
     }
 }

@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class PatchEditViewModel
+    public sealed class PatchDetailsViewModel
     {
         public PatchViewModel Patch { get; set; }
-
-        public List<ValidationMessage> ValidationMessages { get; set; }
-
-        public bool SavedMessageVisible { get; set; }
 
         public IList<OperatorTypeViewModel> OperatorTypeToolboxItems { get; set; }
 
         public OperatorViewModel SelectedOperator { get; set; }
         public string SelectedValue { get; set; }
+
+        public List<ValidationMessage> ValidationMessages { get; set; }
+
+        public bool SavedMessageVisible { get; set; }
     }
 }

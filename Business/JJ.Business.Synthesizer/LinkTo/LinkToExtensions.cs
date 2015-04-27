@@ -184,5 +184,182 @@ namespace JJ.Business.Synthesizer.LinkTo
                 }
             }
         }
+
+        public static void LinkTo(this Patch patch, Document document)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            if (patch.Document != null)
+            {
+                if (patch.Document.Patches.Contains(patch))
+                {
+                    patch.Document.Patches.Remove(patch);
+                }
+            }
+
+            patch.Document = document;
+
+            if (patch.Document != null)
+            {
+                if (!patch.Document.Patches.Contains(patch))
+                {
+                    patch.Document.Patches.Add(patch);
+                }
+            }
+        }
+
+        public static void LinkTo(this Curve curve, Document document)
+        {
+            if (curve == null) throw new NullException(() => curve);
+
+            if (curve.Document != null)
+            {
+                if (curve.Document.Curves.Contains(curve))
+                {
+                    curve.Document.Curves.Remove(curve);
+                }
+            }
+
+            curve.Document = document;
+
+            if (curve.Document != null)
+            {
+                if (!curve.Document.Curves.Contains(curve))
+                {
+                    curve.Document.Curves.Add(curve);
+                }
+            }
+        }
+
+        public static void LinkTo(this Sample sample, Document document)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            if (sample.Document != null)
+            {
+                if (sample.Document.Samples.Contains(sample))
+                {
+                    sample.Document.Samples.Remove(sample);
+                }
+            }
+
+            sample.Document = document;
+
+            if (sample.Document != null)
+            {
+                if (!sample.Document.Samples.Contains(sample))
+                {
+                    sample.Document.Samples.Add(sample);
+                }
+            }
+        }
+
+        public static void LinkTo(this AudioFileOutput audioFileOutput, Document document)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+
+            if (audioFileOutput.Document != null)
+            {
+                if (audioFileOutput.Document.AudioFileOutputs.Contains(audioFileOutput))
+                {
+                    audioFileOutput.Document.AudioFileOutputs.Remove(audioFileOutput);
+                }
+            }
+
+            audioFileOutput.Document = document;
+
+            if (audioFileOutput.Document != null)
+            {
+                if (!audioFileOutput.Document.AudioFileOutputs.Contains(audioFileOutput))
+                {
+                    audioFileOutput.Document.AudioFileOutputs.Add(audioFileOutput);
+                }
+            }
+        }
+
+        public static void LinkInstrumentToDocument(this Document instrument, Document document)
+        {
+            if (instrument == null) throw new NullException(() => instrument);
+
+            if (instrument.AsInstrumentInDocument != null)
+            {
+                if (instrument.AsInstrumentInDocument.Instruments.Contains(instrument))
+                {
+                    instrument.AsInstrumentInDocument.Instruments.Remove(instrument);
+                }
+            }
+
+            instrument.AsInstrumentInDocument = document;
+
+            if (instrument.AsInstrumentInDocument != null)
+            {
+                if (!instrument.AsInstrumentInDocument.Instruments.Contains(instrument))
+                {
+                    instrument.AsInstrumentInDocument.Instruments.Add(instrument);
+                }
+            }
+        }
+
+        public static void LinkEffectToDocument(this Document effect, Document document)
+        {
+            if (effect == null) throw new NullException(() => effect);
+
+            if (effect.AsEffectInDocument != null)
+            {
+                if (effect.AsEffectInDocument.Effects.Contains(effect))
+                {
+                    effect.AsEffectInDocument.Effects.Remove(effect);
+                }
+            }
+
+            effect.AsEffectInDocument = document;
+
+            if (effect.AsEffectInDocument != null)
+            {
+                if (!effect.AsEffectInDocument.Effects.Contains(effect))
+                {
+                    effect.AsEffectInDocument.Effects.Add(effect);
+                }
+            }
+        }
+
+        public static void LinkToReferringDocument(this DocumentReference documentReference, Document document)
+        {
+            if (documentReference == null) throw new NullException(() => documentReference);
+
+            if (documentReference.ReferringDocument != null)
+            {
+                if (documentReference.ReferringDocument.DocumentReferences.Contains(documentReference))
+                {
+                    documentReference.ReferringDocument.DocumentReferences.Remove(documentReference);
+                }
+            }
+
+            documentReference.ReferringDocument = document;
+
+            if (documentReference.ReferringDocument != null)
+            {
+                if (!documentReference.ReferringDocument.DocumentReferences.Contains(documentReference))
+                {
+                    documentReference.ReferringDocument.DocumentReferences.Add(documentReference);
+                }
+            }
+        }
+
+        public static void LinkToReferencedDocument(this DocumentReference documentReference, Document referencedDocument)
+        {
+            if (documentReference == null) throw new NullException(() => documentReference);
+
+            documentReference.ReferencedDocument = referencedDocument;
+            // No inverse property.
+        }
+
+        public static void LinkToMainPatch(this Document document, Patch mainPatch)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            document.MainPatch = mainPatch;
+            // No inverse property.
+        }
     }
 }

@@ -56,6 +56,8 @@
     <Compile Include="Mapping\AudioFileOutputChannelMapping.cs" />
     <Compile Include="Mapping\AudioFileOutputMapping.cs" />
     <Compile Include="Mapping\ChannelMapping.cs" />
+    <Compile Include="Mapping\DocumentMapping.cs" />
+    <Compile Include="Mapping\DocumentReferenceMapping.cs" />
     <Compile Include="Mapping\CurveMapping.cs" />
     <Compile Include="Mapping\EntityPositionMapping.cs" />
     <Compile Include="Mapping\InletMapping.cs" />
@@ -74,6 +76,7 @@
     <Compile Include="Names\TableNames.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\EntityPositionRepository.cs" />
+    <Compile Include="Repositories\PatchRepository.cs" />
     <Compile Include="Repositories\SampleRepository.cs" />
   </ItemGroup>
   <ItemGroup>

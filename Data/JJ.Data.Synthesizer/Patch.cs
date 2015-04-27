@@ -18,5 +18,8 @@ namespace JJ.Data.Synthesizer
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
         public virtual IList<Operator> Operators { get; set; }
+
+        /// <summary> nullable </summary>
+        public virtual Document Document { get; set; }
     }
 }
