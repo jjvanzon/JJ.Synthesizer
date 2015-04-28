@@ -13,5 +13,15 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
         public CurveRepository(IContext context)
             : base(context)
         { }
+
+        public virtual IList<Curve> GetPage(int firstIndex, int count)
+        {
+            return _context.Query<Curve>().Skip(firstIndex).Take(count).ToArray();
+        }
+
+        public virtual int Count()
+        {
+            return _context.Query<Curve>().Count();
+        }
     }
 }

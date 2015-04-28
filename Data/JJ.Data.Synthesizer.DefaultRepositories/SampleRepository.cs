@@ -23,5 +23,15 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
         {
             throw new NotSupportedException("Binary can only be accessed using a specialized repository.");
         }
+
+        public virtual IList<Sample> GetPage(int firstIndex, int count)
+        {
+            return _context.Query<Sample>().Skip(firstIndex).Take(count).ToArray();
+        }
+
+        public virtual int Count()
+        {
+            return _context.Query<Sample>().Count();
+        }
     }
 }

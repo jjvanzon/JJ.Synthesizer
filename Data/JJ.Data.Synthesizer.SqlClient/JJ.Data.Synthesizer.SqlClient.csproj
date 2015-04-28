@@ -56,6 +56,30 @@
       <Name>JJ.Framework.Reflection</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AudioFileOutput_Count.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AudioFileOutput_GetPageOfIDs.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Curve_Count.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Curve_GetPageOfIDs.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Document_GetPageOfIDs.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Document_Count.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Sample_Count.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Sample_GetPageOfIDs.sql" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -370,7 +370,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-
         private void SetSelectedOperator(PatchDetailsViewModel viewModel, int operatorID)
         {
             // The non-persisted operator selection data.
@@ -392,6 +391,5 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
         }
-
     }
 }

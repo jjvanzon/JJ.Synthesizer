@@ -15,6 +15,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public IList<IDName> AudioFileFormats { get; set; }
         public IList<IDName> InterpolationTypes { get; set; }
         public IList<IDName> SampleDataTypes { get; set; }
-        public IList<IDName> SpeakerSetup { get; set; }
+        public IList<IDName> SpeakerSetups { get; set; }
     }
 }

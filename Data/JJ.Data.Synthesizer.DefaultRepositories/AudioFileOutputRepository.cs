@@ -13,5 +13,15 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
         public AudioFileOutputRepository(IContext context)
             : base(context)
         { }
+
+        public virtual IList<AudioFileOutput> GetPage(int firstIndex, int count)
+        {
+            return _context.Query<AudioFileOutput>().Skip(firstIndex).Take(count).ToArray();
+        }
+
+        public virtual int Count()
+        {
+            return _context.Query<AudioFileOutput>().Count();
+        }
     }
 }

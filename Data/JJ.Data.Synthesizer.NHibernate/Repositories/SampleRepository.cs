@@ -38,5 +38,24 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 
             _synthesizerSqlExecutor.Sample_TrySetBinary(id, bytes);
         }
+
+        public override IList<Sample> GetPage(int firstIndex, int count)
+        {
+            IList<Sample> list = new List<Sample>(count);
+
+            IList<int> ids = _synthesizerSqlExecutor.Sample_GetPageOfIDs(firstIndex, count).ToArray();
+            foreach (int id in ids)
+            {
+                Sample entity = Get(id);
+                list.Add(entity);
+            }
+
+            return list;
+        }
+
+        public override int Count()
+        {
+            return _synthesizerSqlExecutor.Sample_Count();
+        }
     }
 }

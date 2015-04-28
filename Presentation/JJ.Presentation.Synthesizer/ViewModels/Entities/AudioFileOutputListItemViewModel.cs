@@ -11,9 +11,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public IDName AudioFileFormat { get; set; }
-        public IDName SampleDataType { get; set; }
-        public IDName SpeakerSetup { get; set; }
+        public string AudioFileFormat { get; set; }
+        public string SampleDataType { get; set; }
+        public string SpeakerSetup { get; set; }
         public int SamplingRate { get; set; }
     }
 }

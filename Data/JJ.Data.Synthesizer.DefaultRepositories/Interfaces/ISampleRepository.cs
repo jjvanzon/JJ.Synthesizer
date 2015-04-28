@@ -10,6 +10,8 @@ namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
 {
     public interface ISampleRepository : IRepository<Sample, int>
     {
+        IList<Sample> GetPage(int pageIndex, int pageSize);
+        int Count();
         void SetBinary(int id, byte[] bytes);
         byte[] GetBinary(int id);
     }

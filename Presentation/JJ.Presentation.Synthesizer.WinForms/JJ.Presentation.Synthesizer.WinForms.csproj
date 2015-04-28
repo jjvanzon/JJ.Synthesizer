@@ -69,6 +69,42 @@
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Configuration\FilePathsConfiguration.cs" />
     <Compile Include="Configuration\TestingConfiguration.cs" />
+    <Compile Include="Forms\AudioFileOutputListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AudioFileOutputListForm.Designer.cs">
+      <DependentUpon>AudioFileOutputListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AudioFileOutputDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AudioFileOutputDetailsForm.Designer.cs">
+      <DependentUpon>AudioFileOutputDetailsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SampleListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\SampleListForm.Designer.cs">
+      <DependentUpon>SampleListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\DocumentListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DocumentListForm.Designer.cs">
+      <DependentUpon>DocumentListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CurveListForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CurveListForm.Designer.cs">
+      <DependentUpon>CurveListForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\PatchDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PatchDetailsForm.Designer.cs">
+      <DependentUpon>PatchDetailsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,12 +117,6 @@
     <Compile Include="Forms\PatchListForm.Designer.cs">
       <DependentUpon>PatchListForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\PatchDetailsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\PatchDetailsForm.Designer.cs">
-      <DependentUpon>PatchDetailsForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Helpers\EntityFactory.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\PersistenceWrapper.cs" />
@@ -94,20 +124,71 @@
     <Compile Include="Helpers\WinFormsThemeHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserControls\AudioFileOutputListUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\AudioFileOutputListUserControl.Designer.cs">
+      <DependentUpon>AudioFileOutputListUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\AudioFileOutputDetailsUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\AudioFileOutputDetailsUserControl.Designer.cs">
+      <DependentUpon>AudioFileOutputDetailsUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SampleListUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\SampleListUserControl.Designer.cs">
+      <DependentUpon>SampleListUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DocumentListUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DocumentListUserControl.Designer.cs">
+      <DependentUpon>DocumentListUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CurveListUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CurveListUserControl.Designer.cs">
+      <DependentUpon>CurveListUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\PatchDetailsUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\PatchDetailsUserControl.Designer.cs">
+      <DependentUpon>PatchDetailsUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\PatchListUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\PatchListUserControl.Designer.cs">
       <DependentUpon>PatchListUserControl.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="Forms\AudioFileOutputListForm.resx">
+      <DependentUpon>AudioFileOutputListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AudioFileOutputDetailsForm.resx">
+      <DependentUpon>AudioFileOutputDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\SampleListForm.resx">
+      <DependentUpon>SampleListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DocumentListForm.resx">
+      <DependentUpon>DocumentListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CurveListForm.resx">
+      <DependentUpon>CurveListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PatchDetailsForm.resx">
+      <DependentUpon>PatchDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PatchListForm.resx">
       <DependentUpon>PatchListForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PatchDetailsForm.resx">
-      <DependentUpon>PatchDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -118,6 +199,24 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UserControls\AudioFileOutputListUserControl.resx">
+      <DependentUpon>AudioFileOutputListUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\AudioFileOutputDetailsUserControl.resx">
+      <DependentUpon>AudioFileOutputDetailsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\SampleListUserControl.resx">
+      <DependentUpon>SampleListUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\DocumentListUserControl.resx">
+      <DependentUpon>DocumentListUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CurveListUserControl.resx">
+      <DependentUpon>CurveListUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\PatchDetailsUserControl.resx">
+      <DependentUpon>PatchDetailsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\PatchListUserControl.resx">
       <DependentUpon>PatchListUserControl.cs</DependentUpon>
     </EmbeddedResource>

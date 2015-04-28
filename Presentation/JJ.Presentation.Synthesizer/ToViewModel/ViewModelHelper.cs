@@ -1,4 +1,8 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System;
 using System.Collections.Generic;
@@ -35,6 +39,56 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModels;
+        }
+
+        public static IList<IDName> CreateAudioFileFormatLookupViewModel(IAudioFileFormatRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            IList<AudioFileFormat> entities = repository.GetAll().ToArray();
+            IList<IDName> idNames = entities.Select(x => x.ToIDName()).ToArray();
+
+            return idNames;
+        }
+
+        public static IList<IDName> CreateSampleDataTypeLookupViewModel(ISampleDataTypeRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            IList<SampleDataType> entities = repository.GetAll().ToArray();
+            IList<IDName> idNames = entities.Select(x => x.ToIDName()).ToArray();
+
+            return idNames;
+        }
+
+        public static IList<IDName> CreateSpeakerSetupLookupViewModel(ISpeakerSetupRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            IList<SpeakerSetup> entities = repository.GetAll().ToArray();
+            IList<IDName> idNames = entities.Select(x => x.ToIDName()).ToArray();
+
+            return idNames;
+        }
+
+        public static IList<IDName> CreateNodeTypesLookupViewModel(INodeTypeRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            IList<NodeType> entities = repository.GetAll().ToArray();
+            IList<IDName> idNames = entities.Select(x => x.ToIDName()).ToArray();
+
+            return idNames;
+        }
+
+        public static IList<IDName> CreateInterpolationTypesLookupViewModel(IInterpolationTypeRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            IList<InterpolationType> entities = repository.GetAll().ToArray();
+            IList<IDName> idNames = entities.Select(x => x.ToIDName()).ToArray();
+
+            return idNames;
         }
     }
 }

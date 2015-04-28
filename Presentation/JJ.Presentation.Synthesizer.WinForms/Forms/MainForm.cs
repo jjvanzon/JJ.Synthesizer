@@ -21,7 +21,7 @@ using System.Windows.Forms;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
 
-namespace JJ.Presentation.Synthesizer.WinForms
+namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
     public partial class MainForm : Form
     {
@@ -33,7 +33,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             _context = PersistenceHelper.CreateContext();
 
+            ShowAudioFileOutputList();
+            ShowCurveList();
+            ShowDocumentList();
             ShowPatchList();
+            ShowSampleList();
+
+            ShowAudioFileOutputDetails();
             ShowPatchDetails();
         }
 
@@ -56,20 +62,60 @@ namespace JJ.Presentation.Synthesizer.WinForms
             base.Dispose(disposing);
         }
 
+        private void ShowAudioFileOutputList()
+        {
+            var form = new AudioFileOutputListForm();
+            form.MdiParent = this;
+            form.Context = _context;
+            form.Show();
+        }
+
+        private void ShowCurveList()
+        {
+            var form = new CurveListForm();
+            form.MdiParent = this;
+            form.Context = _context;
+            form.Show();
+        }
+
+        private void ShowDocumentList()
+        {
+            var form = new DocumentListForm();
+            form.MdiParent = this;
+            form.Context = _context;
+            form.Show();
+        }
+
         private void ShowPatchList()
         {
-            var patchListForm = new PatchListForm();
-            patchListForm.MdiParent = this;
-            patchListForm.Context = _context;
-            patchListForm.Show();
+            var form = new PatchListForm();
+            form.MdiParent = this;
+            form.Context = _context;
+            form.Show();
+        }
+
+        private void ShowSampleList()
+        {
+            var form = new SampleListForm();
+            form.MdiParent = this;
+            form.Context = _context;
+            form.Show();
+        }
+
+        private void ShowAudioFileOutputDetails()
+        {
+            var form = new AudioFileOutputDetailsForm();
+            form.MdiParent = this;
+            form.Context = _context;
+            form.Show();
         }
 
         private void ShowPatchDetails()
         {
-            var patchDetailsForm = new PatchDetailsForm();
-            patchDetailsForm.MdiParent = this;
-            patchDetailsForm.Context = _context;
-            patchDetailsForm.Show();
+            var form = new PatchDetailsForm();
+            form.MdiParent = this;
+            form.Context = _context;
+            form.Show();
         }
     }
 }

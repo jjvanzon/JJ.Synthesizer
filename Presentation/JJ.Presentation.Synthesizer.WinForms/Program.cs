@@ -1,6 +1,7 @@
 ﻿using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Logging;
+using JJ.Presentation.Synthesizer.WinForms.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;

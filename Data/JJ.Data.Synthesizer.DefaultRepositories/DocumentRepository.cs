@@ -13,5 +13,15 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
         public DocumentRepository(IContext context)
             : base(context)
         { }
+
+        public virtual IList<Document> GetPage(int firstIndex, int count)
+        {
+            return _context.Query<Document>().Skip(firstIndex).Take(count).ToArray();
+        }
+
+        public virtual int Count()
+        {
+            return _context.Query<Document>().Count();
+        }
     }
 }

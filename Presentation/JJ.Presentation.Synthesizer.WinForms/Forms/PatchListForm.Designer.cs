@@ -1,4 +1,4 @@
-﻿namespace JJ.Presentation.Synthesizer.WinForms
+﻿namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
     partial class PatchListForm
     {
@@ -36,16 +36,16 @@
             // 
             this.patchListUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.patchListUserControl1.Location = new System.Drawing.Point(0, 0);
-            this.patchListUserControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.patchListUserControl1.Margin = new System.Windows.Forms.Padding(4);
             this.patchListUserControl1.Name = "patchListUserControl1";
-            this.patchListUserControl1.Size = new System.Drawing.Size(750, 506);
+            this.patchListUserControl1.Size = new System.Drawing.Size(690, 502);
             this.patchListUserControl1.TabIndex = 0;
             // 
             // PatchListForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(750, 506);
+            this.ClientSize = new System.Drawing.Size(690, 502);
             this.Controls.Add(this.patchListUserControl1);
             this.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);

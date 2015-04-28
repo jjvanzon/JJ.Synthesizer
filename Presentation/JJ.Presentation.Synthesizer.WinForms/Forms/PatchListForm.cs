@@ -21,7 +21,7 @@ using System.Windows.Forms;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
 
-namespace JJ.Presentation.Synthesizer.WinForms
+namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
     public partial class PatchListForm : Form
     {

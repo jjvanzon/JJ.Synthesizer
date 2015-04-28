@@ -1,4 +1,4 @@
-﻿namespace JJ.Presentation.Synthesizer.WinForms
+﻿namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
     partial class MainForm
     {
