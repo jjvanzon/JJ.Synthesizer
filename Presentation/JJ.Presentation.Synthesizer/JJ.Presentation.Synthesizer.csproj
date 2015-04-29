@@ -80,6 +80,7 @@
     <Compile Include="ViewModels\Entities\SampleViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\Partials\MenuItemViewModel.cs" />
+    <Compile Include="ViewModels\Partials\ViewMenuViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
     <Compile Include="ViewModels\PatchListViewModel.cs" />
     <Compile Include="ViewModels\SampleDetailsViewModel.cs" />
@@ -134,7 +135,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Resources\Titles.nl-NL.resx" />
     <EmbeddedResource Include="Resources\Titles.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Titles.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

@@ -23,7 +23,7 @@ using JJ.Presentation.Synthesizer.Svg.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
-    public partial class CurveListForm : Form
+    internal partial class CurveListForm : Form
     {
         public CurveListForm()
         {

@@ -18,7 +18,7 @@ using JJ.Framework.Presentation;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    public partial class CurveListUserControl : UserControl
+    internal partial class CurveListUserControl : UserControl
     {
         private CurveListViewModel _viewModel;
 

@@ -18,7 +18,7 @@ using JJ.Framework.Presentation;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    public partial class DocumentListUserControl : UserControl
+    internal partial class DocumentListUserControl : UserControl
     {
         private DocumentListViewModel _viewModel;
 

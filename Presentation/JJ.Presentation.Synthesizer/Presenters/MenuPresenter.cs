@@ -16,29 +16,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var viewModel = new MenuViewModel
             {
-                MenuItems = new MenuItemViewModel[]
-                {
-                    CreateViewMenu()
-                }
+                ViewMenu = CreateViewMenu()
             };
 
             return viewModel;
         }
 
-        private MenuItemViewModel CreateViewMenu()
+        private ViewMenuViewModel CreateViewMenu()
         {
-            var viewModel = new MenuItemViewModel
+            var viewModel = new ViewMenuViewModel
             {
-                Text = Titles.View,
-                MenuItems = new MenuItemViewModel[]
-                {
-                    new MenuItemViewModel
-                    { 
-                        Text = PropertyDisplayNames.Documents
-                    }
-                }
+                DocumentMenuItem = CreateDocumentMenuItem()
             };
 
+            return viewModel;
+        }
+
+        private MenuItemViewModel CreateDocumentMenuItem()
+        {
+            var viewModel = new MenuItemViewModel();
             return viewModel;
         }
     }

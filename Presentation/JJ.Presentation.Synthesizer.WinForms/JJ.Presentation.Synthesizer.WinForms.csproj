@@ -136,6 +136,7 @@
     <Compile Include="UserControls\AudioFileOutputDetailsUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputDetailsUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MenuControl.cs" />
     <Compile Include="UserControls\SampleListUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -9,6 +9,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class MenuViewModel
     {
-        public ViewMenuViewModel ViewMenu { get; set; }
+        public IList<MenuItemViewModel> MenuItems { get; set; }
     }
 }

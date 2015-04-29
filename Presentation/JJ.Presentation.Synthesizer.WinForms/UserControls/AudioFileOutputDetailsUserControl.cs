@@ -16,7 +16,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    public partial class AudioFileOutputDetailsUserControl : UserControl
+    internal partial class AudioFileOutputDetailsUserControl : UserControl
     {
         private AudioFileOutputDetailsViewModel _viewModel;
 

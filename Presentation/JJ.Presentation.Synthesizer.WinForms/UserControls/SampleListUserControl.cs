@@ -18,7 +18,7 @@ using JJ.Framework.Presentation;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    public partial class SampleListUserControl : UserControl
+    internal partial class SampleListUserControl : UserControl
     {
         private SampleListViewModel _viewModel;
 

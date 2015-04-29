@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Partials
 {
-    public sealed class MenuItemViewModel
+    public sealed class ViewMenuViewModel
     {
-        //public string Text { get; set; }
+        public MenuItemViewModel DocumentMenuItem { get; set; }
     }
 }

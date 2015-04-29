@@ -23,7 +23,7 @@ using JJ.Presentation.Synthesizer.Svg.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
-    public partial class PatchListForm : Form
+    internal partial class PatchListForm : Form
     {
         public PatchListForm()
         {

@@ -23,7 +23,7 @@ using JJ.Presentation.Synthesizer.Svg.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
-    public partial class AudioFileOutputListForm : Form
+    internal partial class AudioFileOutputListForm : Form
     {
         public AudioFileOutputListForm()
         {

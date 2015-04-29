@@ -18,7 +18,7 @@ using JJ.Framework.Presentation;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    public partial class PatchListUserControl : UserControl
+    internal partial class PatchListUserControl : UserControl
     {
         private PatchListViewModel _viewModel;
 

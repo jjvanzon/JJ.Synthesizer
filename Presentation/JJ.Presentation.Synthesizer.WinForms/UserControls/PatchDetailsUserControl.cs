@@ -25,7 +25,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    public partial class PatchDetailsUserControl : UserControl
+    internal partial class PatchDetailsUserControl : UserControl
     {
         private PatchDetailsPresenter _presenter;
         private PatchDetailsViewModel _viewModel;

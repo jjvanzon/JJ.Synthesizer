@@ -18,7 +18,7 @@ using JJ.Framework.Presentation;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    public partial class AudioFileOutputListUserControl : UserControl
+    internal partial class AudioFileOutputListUserControl : UserControl
     {
         private AudioFileOutputListViewModel _viewModel;
 
