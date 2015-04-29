@@ -33,6 +33,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
             _context = PersistenceHelper.CreateContext();
 
+            BuildMenu();
+
             ShowAudioFileOutputList();
             ShowCurveList();
             ShowDocumentList();
@@ -41,6 +43,50 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
             ShowAudioFileOutputDetails();
             ShowPatchDetails();
+        }
+
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem viewToolStripMenuItem;
+        private ToolStripMenuItem documentsToolStripMenuItem;
+
+        private void BuildMenu()
+        {
+            // TODO: Derive this dynamically from the view model that comes out of the MenuPresenter.
+            // Perhaps put the whole code in the presentation framework,
+            // as well as the MenuViewModel and MenuItemViewModel.
+
+            menuStrip1 = new System.Windows.Forms.MenuStrip();
+
+            viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            documentsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {viewToolStripMenuItem});
+            menuStrip1.Location = new System.Drawing.Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new System.Drawing.Size(750, 24);
+            menuStrip1.TabIndex = 1;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // viewToolStripMenuItem
+            // 
+            viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            documentsToolStripMenuItem});
+            viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            viewToolStripMenuItem.Text = "&View";
+            // 
+            // documentsToolStripMenuItem
+            // 
+            documentsToolStripMenuItem.Name = "documentsToolStripMenuItem";
+            documentsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            documentsToolStripMenuItem.Text = "&Documents";
+            documentsToolStripMenuItem.Click += new System.EventHandler(documentsToolStripMenuItem_Click);
+
+            Controls.Add(menuStrip1);
+            MainMenuStrip = menuStrip1;
         }
 
         /// <summary>
@@ -116,6 +162,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             form.MdiParent = this;
             form.Context = _context;
             form.Show();
+        }
+
+        private void documentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

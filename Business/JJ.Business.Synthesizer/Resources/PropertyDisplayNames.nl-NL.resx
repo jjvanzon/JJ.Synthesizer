@@ -237,4 +237,7 @@
   <data name="Data" xml:space="preserve">
     <value>Data</value>
   </data>
+  <data name="Documents" xml:space="preserve">
+    <value>Documenten</value>
+  </data>
 </root>

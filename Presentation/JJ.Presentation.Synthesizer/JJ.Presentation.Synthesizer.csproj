@@ -40,6 +40,7 @@
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Presenters\AudioFileOutputDetailsPresenter.cs" />
     <Compile Include="Presenters\AudioFileOutputListPresenter.cs" />
+    <Compile Include="Presenters\MenuPresenter.cs" />
     <Compile Include="Presenters\SampleDetailsPresenter.cs" />
     <Compile Include="Presenters\CurveDetailsPresenter.cs" />
     <Compile Include="Presenters\SampleListPresenter.cs" />
@@ -48,6 +49,11 @@
     <Compile Include="Presenters\PatchDetailsPresenter.cs" />
     <Compile Include="Presenters\PatchListPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources\Titles.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Titles.resx</DependentUpon>
+    </Compile>
     <Compile Include="ToEntity\ToEntityExtensions.cs" />
     <Compile Include="ToViewModel\ToDetailsViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToIDNameExtensions.cs" />
@@ -72,6 +78,8 @@
     <Compile Include="ViewModels\Entities\PatchViewModel.cs" />
     <Compile Include="ViewModels\Entities\OperatorTypeViewModel.cs" />
     <Compile Include="ViewModels\Entities\SampleViewModel.cs" />
+    <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\Partials\MenuItemViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
     <Compile Include="ViewModels\PatchListViewModel.cs" />
     <Compile Include="ViewModels\SampleDetailsViewModel.cs" />
@@ -123,7 +131,13 @@
       <Name>JJ.Data.Synthesizer</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Titles.nl-NL.resx" />
+    <EmbeddedResource Include="Resources\Titles.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Titles.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
