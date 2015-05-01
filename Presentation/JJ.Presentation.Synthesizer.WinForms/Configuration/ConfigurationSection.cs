@@ -12,5 +12,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Configuration
         public TestingConfiguration Testing { get; set; }
         public FilePathsConfiguration FilePaths { get; set; }
         public PersistenceConfiguration MemoryPersistence { get; set; }
+        public GeneralConfiguration General { get; set; }
     }
 }

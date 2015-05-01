@@ -22,6 +22,7 @@ using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
@@ -35,70 +36,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
             _context = PersistenceHelper.CreateContext();
 
-            BuildMenu();
+            var config = CustomConfigurationManager.GetSection<ConfigurationSection>();
+            Text = Titles.ApplicationName + config.General.TitleBarExtraText;
 
-            ShowAudioFileOutputList();
-            ShowCurveList();
-            ShowPatchList();
-            ShowSampleList();
+            ShowDocumentList();
 
-            ShowAudioFileOutputDetails();
-            ShowPatchDetails();
+            //ShowAudioFileOutputList();
+            //ShowCurveList();
+            //ShowPatchList();
+            //ShowSampleList();
+            //ShowAudioFileOutputDetails();
+
+            //ShowPatchDetails();
         }
-
-        private void BuildMenu()
-        {
-            var presenter = new MenuPresenter();
-            MenuViewModel viewModel = presenter.Show();
-
-            MenuStrip menuStrip = CreateMenuStrip();
-            MainMenuStrip = menuStrip;
-            Controls.Add(menuStrip);
-
-            ToolStripMenuItem viewToolStripMenuItem = CreateViewToolStripMenuItem(viewModel.ViewMenu);
-            menuStrip.Items.Add(viewToolStripMenuItem);
-
-            ToolStripMenuItem documentsToolStripMenuItem = CreateDocumentsToolStripMenuItem(viewModel.ViewMenu.DocumentMenuItem);
-            documentsToolStripMenuItem.Click += documentsToolStripMenuItem_Click;
-            viewToolStripMenuItem.DropDownItems.Add(documentsToolStripMenuItem);
-        }
-
-        private MenuStrip CreateMenuStrip()
-        {
-            var menuStrip = new MenuStrip
-            {
-                Location = new Point(0, 0),
-                Name = "menuStrip",
-                Size = new Size(750, 24) // TODO: Do I need this? Does it not resize automatically?
-            };
-
-            return menuStrip;
-        }
-
-        private ToolStripMenuItem CreateViewToolStripMenuItem(ViewMenuViewModel viewModel)
-        {
-            var toolStripMenuItem = new ToolStripMenuItem
-            {
-                Name = "viewToolStripMenuItem",
-                Size = new Size(44, 20), // TODO: Do I need this? Does it not resize automatically?
-                Text = "&" + Titles.View
-            };
-
-            return toolStripMenuItem;
-        }
-
-        private ToolStripMenuItem CreateDocumentsToolStripMenuItem(MenuItemViewModel viewModel)
-        {
-            var toolStripMenuItem = new ToolStripMenuItem
-            {
-                Name = "documentsToolStripMenuItem",
-                Size = new Size(152, 22), // TODO: Do I need this? Does it not resize automatically?
-                Text = "&" + PropertyDisplayNames.Documents
-            };
-
-            return toolStripMenuItem;
-        }
-
 
         /// <summary>
         /// Clean up any resources being used.
@@ -119,6 +69,32 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             base.Dispose(disposing);
         }
 
+        // Actions
+
+        private void ShowDocumentList()
+        {
+            documentListUserControl.Context = _context;
+            documentListUserControl.Show();
+        }
+
+        private void CloseDocumentList()
+        {
+            documentListUserControl.Hide();
+        }
+
+        private void ShowDocumentDetails(DocumentDetailsViewModel documentDetailsViewModel)
+        {
+            documentDetailsUserControl1.Context = _context;
+            documentDetailsUserControl1.Show(documentDetailsViewModel);
+            documentDetailsUserControl1.BringToFront();
+        }
+
+        private void CloseDocumentDetails()
+        {
+            documentDetailsUserControl1.Hide();
+            documentListUserControl.Show();
+        }
+
         private void ShowAudioFileOutputList()
         {
             var form = new AudioFileOutputListForm();
@@ -130,14 +106,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         private void ShowCurveList()
         {
             var form = new CurveListForm();
-            form.MdiParent = this;
-            form.Context = _context;
-            form.Show();
-        }
-
-        private void ShowDocumentList()
-        {
-            var form = new DocumentListForm();
             form.MdiParent = this;
             form.Context = _context;
             form.Show();
@@ -175,9 +143,31 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             form.Show();
         }
 
-        private void documentsToolStripMenuItem_Click(object sender, EventArgs e)
+        // Events
+
+        private void menuUserControl_ShowDocumentListRequested(object sender, EventArgs e)
         {
             ShowDocumentList();
+        }
+
+        private void documentListUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            CloseDocumentList();
+        }
+
+        private void documentListUserControl_DetailsViewRequested(object sender, DocumentDetailsViewEventArgs e)
+        {
+            ShowDocumentDetails(e.ViewModel);
+        }
+
+        private void documentDetailsUserControl1_CloseRequested(object sender, EventArgs e)
+        {
+            CloseDocumentDetails();
+        }
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            // For debugging
         }
     }
 }

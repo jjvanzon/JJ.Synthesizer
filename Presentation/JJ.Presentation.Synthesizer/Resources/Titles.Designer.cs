@@ -61,11 +61,20 @@ namespace JJ.Presentation.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Synthesizer.
+        /// </summary>
+        public static string ApplicationName {
+            get {
+                return ResourceManager.GetString("ApplicationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View.
         /// </summary>
-        public static string View {
+        public static string ViewMenuItem {
             get {
-                return ResourceManager.GetString("View", resourceCulture);
+                return ResourceManager.GetString("ViewMenuItem", resourceCulture);
             }
         }
     }

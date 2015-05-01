@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Framework.Presentation;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -36,17 +37,33 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public DocumentListViewModel Show(int pageNumber)
         {
             int pageIndex = pageNumber - 1;
-            IList<Document> documentes = _documentRepository.GetPage(pageIndex * _pageSize, _pageSize);
+            IList<Document> documents = _documentRepository.GetPage(pageIndex * _pageSize, _pageSize);
 
             int count = _documentRepository.Count();
 
-            var viewModel = new DocumentListViewModel
+            DocumentListViewModel viewModel = new DocumentListViewModel
             {
-                List = documentes.Select(x => x.ToIDName()).ToArray(),
+                List = documents.Select(x => x.ToIDName()).ToArray(),
                 Pager = PagerViewModelFactory.Create(pageIndex, _pageSize, count, _maxVisiblePageNumbers)
             };
 
             return viewModel;
         }
+
+        public DocumentDetailsViewModel Create()
+        {
+            var presenter2 = new DocumentDetailsPresenter(_documentRepository);
+            DocumentDetailsViewModel viewModel2 = presenter2.Create();
+            return viewModel2;
+        }
+
+        //public DocumentListViewModel Add(DocumentListViewModel viewModel)
+        //{
+        //    if (viewModel == null) throw new NullException(() => viewModel);
+
+        //    foreach (
+            
+        //    throw new NotImplementedException();
+        //}
     }
 }

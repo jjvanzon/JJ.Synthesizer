@@ -17,14 +17,12 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Presentation;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class DocumentListUserControl : UserControl
     {
         public event EventHandler CloseRequested;
-        public event EventHandler<DocumentDetailsViewEventArgs> DetailsViewRequested;
 
         private DocumentListViewModel _viewModel;
 
@@ -65,16 +63,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void Add()
         {
             DocumentListPresenter presenter = CreatePresenter();
-            DocumentDetailsViewModel viewModel2 = presenter.Create();
-
-            // TODO: I would almost say you may want something like a controller.
-            // Perhaps it should control a giant view model with everything in it...
-
-            if (DetailsViewRequested != null)
-            {
-                var e = new DocumentDetailsViewEventArgs(viewModel2);
-                DetailsViewRequested(this, e);
-            }
+            _viewModel = presenter.Add();
+            ApplyViewModel();
         }
 
         private void Close()
@@ -102,9 +92,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = PropertyDisplayNames.Documents;
+            labelTitle.Text = PropertyDisplayNames.Documents;
             IDColumn.HeaderText = CommonTitles.ID;
-            NameColumn.HeaderText = CommonTitles.Name;
+            NameColumn.HeaderText = PropertyDisplayNames.Name;
+            toolStripButtonAdd.ToolTipText = CommonTitles.Add;
+            toolStripButtonDelete.ToolTipText = CommonTitles.Delete;
+            toolStripButtonClose.ToolTipText = CommonTitles.Close;
         }
 
         // Events
@@ -134,17 +127,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             Show(_viewModel.Pager.PageCount - 1);
         }
 
-        private void titleBarUserControl_AddClicked(object sender, EventArgs e)
+        private void toolStripButtonAdd_Click(object sender, EventArgs e)
         {
             Add();
         }
 
-        private void titleBarUserControl_RemoveClicked(object sender, EventArgs e)
+        private void toolStripButtonDelete_Click(object sender, EventArgs e)
         {
-            //Remove();
+            //Delete(
         }
 
-        private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
+        private void toolStripButtonClose_Click(object sender, EventArgs e)
         {
             Close();
         }

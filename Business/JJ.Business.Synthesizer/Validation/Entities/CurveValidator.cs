@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Validation.Entities
             
             Curve curve = Object;
 
-            For(() => curve.Name, PropertyDisplayNames.Name)
+            For(() => curve.Name, CommonTitles.Name)
                 .NotInteger();
 
             For(() => curve.Nodes.Count, CommonTitlesFormatter.EntityCount(PropertyDisplayNames.Nodes))

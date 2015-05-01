@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JJ.Presentation.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Managers;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
@@ -135,6 +136,30 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             var manager = new EntityPositionManager(repository);
             EntityPosition entityPosition = manager.SetOrCreateOperatorPosition(viewModel.ID, viewModel.CenterX, viewModel.CenterY);
             return entityPosition;
+        }
+
+        public static Document ToEntity(this DocumentDetailsViewModel viewModel, IDocumentRepository documentRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            Document document = viewModel.Document.ToEntity(documentRepository);
+            return document;
+        }
+
+        public static Document ToEntity(this IDName idName, IDocumentRepository documentRepository)
+        {
+            if (idName == null) throw new NullException(() => idName);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+
+            Document document = documentRepository.TryGet(idName.ID);
+            if (document == null)
+            {
+                document = documentRepository.Create();
+            }
+
+            document.Name = idName.Name;
+
+            return document;
         }
     }
 }

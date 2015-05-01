@@ -141,9 +141,6 @@
   <data name="Multiply" xml:space="preserve">
     <value>Vermenigvuldigen</value>
   </data>
-  <data name="Name" xml:space="preserve">
-    <value>Naam</value>
-  </data>
   <data name="Nodes" xml:space="preserve">
     <value>Knooppunten</value>
   </data>
@@ -239,5 +236,8 @@
   </data>
   <data name="Documents" xml:space="preserve">
     <value>Documenten</value>
+  </data>
+  <data name="Document" xml:space="preserve">
+    <value>Document</value>
   </data>
 </root>

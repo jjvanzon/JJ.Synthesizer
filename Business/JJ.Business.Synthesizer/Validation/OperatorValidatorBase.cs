@@ -86,12 +86,12 @@ namespace JJ.Business.Synthesizer.Validation
 
         private string GetPropertyDisplayName_ForInletName(int index)
         {
-            return String.Format("{0} {1}: {2}", PropertyDisplayNames.Inlet, index + 1, PropertyDisplayNames.Name);
+            return String.Format("{0} {1}: {2}", PropertyDisplayNames.Inlet, index + 1, CommonTitles.Name);
         }
 
         private string GetPropertyDisplayName_ForOutletName(int index)
         {
-            return String.Format("{0} {1}: {2}", PropertyDisplayNames.Outlet, index + 1, PropertyDisplayNames.Name);
+            return String.Format("{0} {1}: {2}", PropertyDisplayNames.Outlet, index + 1, CommonTitles.Name);
         }
     }
 }

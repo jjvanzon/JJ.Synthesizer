@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -20,7 +21,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (Object == null) throw new NullException(() => Object);
 
-            For(() => Object.Name, PropertyDisplayNames.Name)
+            For(() => Object.Name, CommonTitles.Name)
                 .NotInteger();
         }
     }

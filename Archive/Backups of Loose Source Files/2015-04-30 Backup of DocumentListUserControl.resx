@@ -117,128 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Add" xml:space="preserve">
-    <value>Add</value>
-    <comment>The arithmetic meaning, like "a + b".</comment>
-  </data>
-  <data name="Adder" xml:space="preserve">
-    <value>Adder</value>
-  </data>
-  <data name="Curve" xml:space="preserve">
-    <value>Curve</value>
-  </data>
-  <data name="CurveIn" xml:space="preserve">
-    <value>Curve In</value>
-  </data>
-  <data name="Divide" xml:space="preserve">
-    <value>Divide</value>
-  </data>
-  <data name="Inlet" xml:space="preserve">
-    <value>Inlet</value>
-  </data>
-  <data name="Inlets" xml:space="preserve">
-    <value>Inlets</value>
-  </data>
-  <data name="Multiply" xml:space="preserve">
-    <value>Multiply</value>
-  </data>
-  <data name="Nodes" xml:space="preserve">
-    <value>Nodes</value>
-  </data>
-  <data name="NodeType" xml:space="preserve">
-    <value>Node Type</value>
-  </data>
-  <data name="OperatorTypeName" xml:space="preserve">
-    <value>Operator Type</value>
-  </data>
-  <data name="Outlet" xml:space="preserve">
-    <value>Outlet</value>
-  </data>
-  <data name="Outlets" xml:space="preserve">
-    <value>Outlets</value>
-  </data>
-  <data name="PatchInlet" xml:space="preserve">
-    <value>Patch Inlet</value>
-  </data>
-  <data name="PatchOutlet" xml:space="preserve">
-    <value>Patch Outlet</value>
-  </data>
-  <data name="Power" xml:space="preserve">
-    <value>Power</value>
-  </data>
-  <data name="Sine" xml:space="preserve">
-    <value>Sine</value>
-  </data>
-  <data name="Substract" xml:space="preserve">
-    <value>Substract</value>
-  </data>
-  <data name="TimeAdd" xml:space="preserve">
-    <value>Time Add</value>
-  </data>
-  <data name="TimeDivide" xml:space="preserve">
-    <value>Time Divide</value>
-  </data>
-  <data name="TimeMultiply" xml:space="preserve">
-    <value>Time Multiply</value>
-  </data>
-  <data name="TimePower" xml:space="preserve">
-    <value>Time Power</value>
-  </data>
-  <data name="ValueOperator" xml:space="preserve">
-    <value>Value</value>
-  </data>
-  <data name="Node" xml:space="preserve">
-    <value>Node</value>
-  </data>
-  <data name="Sample" xml:space="preserve">
-    <value>Sample</value>
-  </data>
-  <data name="Operator" xml:space="preserve">
-    <value>Operator</value>
-  </data>
-  <data name="SamplingRate" xml:space="preserve">
-    <value>Sampling Rate</value>
-  </data>
-  <data name="AudioFileFormat" xml:space="preserve">
-    <value>Audio File Format</value>
-  </data>
-  <data name="SampleDataType" xml:space="preserve">
-    <value>Sample Data Type</value>
-  </data>
-  <data name="InterpolationType" xml:space="preserve">
-    <value>Interpolation Type</value>
-  </data>
-  <data name="SpeakerSetup" xml:space="preserve">
-    <value>Speaker Setup</value>
-  </data>
-  <data name="Channel" xml:space="preserve">
-    <value>Channel</value>
-  </data>
-  <data name="SampleOperator" xml:space="preserve">
-    <value>Sample Operator</value>
-  </data>
-  <data name="TimeMultiplier" xml:space="preserve">
-    <value>Time Multiplier</value>
-  </data>
-  <data name="Duration" xml:space="preserve">
-    <value>Duration</value>
-  </data>
-  <data name="AudioFileOutput" xml:space="preserve">
-    <value>Audio File Output</value>
-  </data>
-  <data name="Patch" xml:space="preserve">
-    <value>Patch</value>
-  </data>
-  <data name="TimeSubstract" xml:space="preserve">
-    <value>Time Subtract</value>
-  </data>
-  <data name="Data" xml:space="preserve">
-    <value>Data</value>
-  </data>
-  <data name="Documents" xml:space="preserve">
-    <value>Documents</value>
-  </data>
-  <data name="Document" xml:space="preserve">
-    <value>Document</value>
-  </data>
+  <metadata name="IDColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="NameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="IDColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="NameColumn.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
+  <metadata name="toolStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
 </root>

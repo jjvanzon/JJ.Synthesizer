@@ -77,5 +77,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return viewModel;
         }
+
+        public static DocumentDetailsViewModel ToDetailsViewModel(this Document document)
+        {
+            var viewModel = new DocumentDetailsViewModel
+            {
+                Document = document.ToIDName(),
+                Messages = new List<ValidationMessage>()
+            };
+
+            return viewModel;
+        }
     }
 }

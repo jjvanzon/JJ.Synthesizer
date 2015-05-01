@@ -170,6 +170,7 @@
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Structs\WavHeaderStruct.cs" />
+    <Compile Include="Validation\DocumentValidator.cs" />
     <Compile Include="Validation\Entities\AdderValidator.cs" />
     <Compile Include="Validation\Entities\SampleOperatorValidator.cs" />
     <Compile Include="Validation\Entities\CurveInValidator.cs" />

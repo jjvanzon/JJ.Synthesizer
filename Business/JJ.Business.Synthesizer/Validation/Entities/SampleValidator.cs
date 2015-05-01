@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation.Entities
 
             Sample sample = Object;
 
-            For(() => sample.Name, PropertyDisplayNames.Name).NotInteger();
+            For(() => sample.Name, CommonTitles.Name).NotInteger();
             For(() => sample.SamplingRate, PropertyDisplayNames.SamplingRate).Above(0);
             For(() => sample.TimeMultiplier, PropertyDisplayNames.TimeMultiplier).IsNot(0);
 
