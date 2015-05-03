@@ -23,6 +23,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         public event EventHandler CloseRequested;
 
+        private IContext _context;
+        private IDocumentRepository _documentRepository;
+        private DocumentDetailsPresenter _presenter;
+
         /// <summary>
         /// virtually not nullable
         /// </summary>
@@ -39,8 +43,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Persistence
 
-        private IContext _context;
-
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IContext Context
@@ -49,7 +51,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             set 
             {
                 if (value == null) throw new NullException(() => value);
+                if (_context == value) return;
+
                 _context = value;
+                _documentRepository = PersistenceHelper.CreateRepository<IDocumentRepository>(_context);
+                _presenter = new DocumentDetailsPresenter(_documentRepository);
+            }
+        }
+
+        private void AssertContext()
+        {
+            if (_context == null)
+            {
+                throw new Exception("Assign Context first.");
             }
         }
 
@@ -58,6 +72,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public void Show(DocumentDetailsViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
+
+            AssertContext();
+
             _viewModel = viewModel;
             ApplyViewModelToControls();
 
@@ -66,17 +83,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public void Create()
         {
-            DocumentDetailsPresenter presenter = CreatePresenter();
-            _viewModel = presenter.Create();
+            AssertContext();
+            _viewModel = _presenter.Create();
             ApplyViewModelToControls();
         }
 
         private void Save()
         {
+            AssertContext();
+
             ApplyControlsToViewModel();
 
-            DocumentDetailsPresenter presenter = CreatePresenter();
-            object viewModel = presenter.Save(_viewModel);
+            object viewModel = _presenter.Save(_viewModel);
 
             var detailsViewModel = viewModel as DocumentDetailsViewModel;
             if (detailsViewModel != null)
@@ -122,8 +140,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelIDValue.Text = _viewModel.Document.ID.ToString();
             textBoxName.Text = _viewModel.Document.Name;
 
-            // TODO: This is weird.
-
+            // TODO: This is weird. Because you would not know at what points (how many times) this method is called,
+            // yet every time we show a message box.
             if (_viewModel.Messages.Count > 0)
             {
                 MessageBox.Show(String.Join(Environment.NewLine, _viewModel.Messages.Select(x => x.Text)));
@@ -145,15 +163,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void buttonSave_Click(object sender, EventArgs e)
         {
             Save();
-        }
-
-        // Helpers
-
-        private DocumentDetailsPresenter CreatePresenter()
-        {
-            if (_context == null) throw new Exception("Assign Context first.");
-
-            return new DocumentDetailsPresenter(PersistenceHelper.CreateRepository<IDocumentRepository>(_context));
         }
     }
 }

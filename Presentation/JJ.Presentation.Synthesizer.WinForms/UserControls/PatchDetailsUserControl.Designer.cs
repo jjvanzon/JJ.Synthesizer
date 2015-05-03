@@ -138,7 +138,6 @@
             this.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "PatchDetailsForm";
-            this.Load += new System.EventHandler(this.PatchDetailsForm_Load);
             this.panelButtons.ResumeLayout(false);
             this.panelButtons.PerformLayout();
             this.ResumeLayout(false);

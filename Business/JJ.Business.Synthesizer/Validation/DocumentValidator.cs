@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Constants;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Reflection.Exceptions;
@@ -25,6 +26,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             For(() => document.Name, CommonTitles.Name)
                 .NotNullOrWhiteSpace()
+                .MaxLength(DefaultConstants.MAX_LENGTH_NAME)
                 .NotInteger();
         }
     }

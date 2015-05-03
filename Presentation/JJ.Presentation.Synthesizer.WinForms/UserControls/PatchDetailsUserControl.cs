@@ -27,14 +27,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class PatchDetailsUserControl : UserControl
     {
+        private IContext _context;
         private PatchDetailsPresenter _presenter;
         private PatchDetailsViewModel _viewModel;
         private ViewModelToDiagramConverter _converter;
         private ViewModelToDiagramConverterResult _svg;
-
-        /// <summary>
-        /// For testing.
-        /// </summary>
         private Patch _patch;
 
         private static bool _forceStateless;
@@ -67,13 +64,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             SetTitles();
         }
 
-        private void PatchDetailsForm_Load(object sender, EventArgs e)
-        {
-        }
-
         // Persistence
-
-        private IContext _context;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -83,9 +74,48 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             set
             {
                 if (value == null) throw new NullException(() => value);
+                if (_context == value) return;
+
                 _context = value;
-                _presenter = CreatePresenter(_context);
+                _presenter = new PatchDetailsPresenter(
+                    PersistenceHelper.CreateRepository<IPatchRepository>(_context),
+                    PersistenceHelper.CreateRepository<IOperatorRepository>(_context),
+                    PersistenceHelper.CreateRepository<IInletRepository>(_context),
+                    PersistenceHelper.CreateRepository<IOutletRepository>(_context),
+                    PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context),
+                    PersistenceHelper.CreateRepository<ICurveRepository>(_context),
+                    PersistenceHelper.CreateRepository<ISampleRepository>(_context));
             }
+        }
+
+        private void AssertContext()
+        {
+            // For debugging while statfulness does not work optimally yet.
+            if (_forceStateless)
+            {
+                Context = CreateContext();
+            }
+
+            if (_context == null)
+            {
+                throw new Exception("Assign Context first.");
+            }
+        }
+
+
+        /// <summary>
+        /// For debugging while statfulness does not work optimally yet.
+        /// </summary>
+        private IContext CreateContext()
+        {
+            if (_context != null)
+            {
+                _context.Dispose();
+            }
+
+            _context = PersistenceHelper.CreateContext();
+
+            return _context;
         }
 
         // Actions
@@ -95,6 +125,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         public new void Show()
         {
+            AssertContext();
+
             if (_mustCreateMockPatch)
             {
                 _patch = CreateMockPatch();
@@ -109,109 +141,61 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public void Edit(int patchID)
         {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
+            AssertContext();
             _viewModel = _presenter.Edit(patchID);
-
             ApplyViewModel();
         }
 
         private void AddOperator(string operatorTypeName)
         {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
+            AssertContext();
             _viewModel = _presenter.AddOperator(_viewModel, operatorTypeName);
-
             ApplyViewModel();
         }
 
         private void MoveOperator(int operatorID, float centerX, float centerY)
         {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
+            AssertContext();
             _viewModel = _presenter.MoveOperator(_viewModel, operatorID, centerX, centerY);
-
             ApplyViewModel();
         }
 
         private void ChangeInputOutlet(int inletID, int inputOutletID)
         {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
+            AssertContext();
             _viewModel = _presenter.ChangeInputOutlet(_viewModel, inletID, inputOutletID);
-
             ApplyViewModel();
         }
 
         private void Save()
         {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
+            AssertContext();
             _viewModel = _presenter.Save(_viewModel);
-
             ApplyViewModel();
         }
 
         private void SelectOperator(int operatorID)
         {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
+            AssertContext();
             _viewModel = _presenter.SelectOperator(_viewModel, operatorID);
-
             ApplyViewModel();
         }
 
         private void DeleteOperator(int operatorID)
         {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
+            AssertContext();
             _viewModel = _presenter.DeleteOperator(_viewModel, operatorID);
-
             ApplyViewModel();
         }
 
         private void SetValue(string value)
         {
-            if (_forceStateless)
-            {
-                _context = CreateContext();
-                _presenter = CreatePresenter(_context);
-            }
-
+            AssertContext();
             _viewModel = _presenter.SetValue(_viewModel, value);
-
             ApplyViewModel();
         }
 
-        // ApplyViewModel
+        // Gui
 
         private void SetTitles()
         {
@@ -396,30 +380,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // Helpers
-
-        private IContext CreateContext()
-        {
-            if (_context != null)
-            {
-                _context.Dispose();
-            }
-
-            _context = PersistenceHelper.CreateContext();
-            return _context;
-        }
-
-        private PatchDetailsPresenter CreatePresenter(IContext context)
-        {
-            IPatchRepository patchRepository = PersistenceHelper.CreateRepository<IPatchRepository>(context);
-            IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
-            IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
-            IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
-            IEntityPositionRepository entityPositionRepository = PersistenceHelper.CreateRepository<IEntityPositionRepository>(context);
-            ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-            ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
-            var presenter = new PatchDetailsPresenter(patchRepository, operatorRepository, inletRepository, outletRepository, entityPositionRepository, curveRepository, sampleRepository);
-            return presenter;
-        }
 
         private Patch CreateMockPatch()
         {

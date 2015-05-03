@@ -26,18 +26,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler<DocumentDetailsViewEventArgs> DetailsViewRequested;
 
+        private IContext _context;
+        private IDocumentRepository _documentRepository;
+        private DocumentListPresenter _presenter;
         private DocumentListViewModel _viewModel;
 
         public DocumentListUserControl()
         {
             InitializeComponent();
-
             SetTitles();
         }
 
         // Persistence
-
-        private IContext _context;
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -47,7 +47,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             set 
             {
                 if (value == null) throw new NullException(() => value);
+                if (_context == value) return;
+
                 _context = value;
+                _documentRepository = PersistenceHelper.CreateRepository<IDocumentRepository>(_context);
+                _presenter = new DocumentListPresenter(_documentRepository);
+            }
+        }
+
+        private void AssertContext()
+        {
+            if (_context == null)
+            {
+                throw new Exception("Assign Context first.");
             }
         }
 
@@ -55,17 +67,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public void Show(int pageNumber = 1)
         {
-            DocumentListPresenter presenter = CreatePresenter();
-            _viewModel = presenter.Show(pageNumber);
+            AssertContext();
+
+            _viewModel = _presenter.Show(pageNumber);
+
             ApplyViewModel();
 
             base.Show();
         }
 
-        private void Add()
+        private void Create()
         {
-            DocumentListPresenter presenter = CreatePresenter();
-            DocumentDetailsViewModel viewModel2 = presenter.Create();
+            DocumentDetailsViewModel viewModel2 = _presenter.Create();
 
             // TODO: I would almost say you may want something like a controller.
             // Perhaps it should control a giant view model with everything in it...
@@ -136,7 +149,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
         {
-            Add();
+            Create();
         }
 
         private void titleBarUserControl_RemoveClicked(object sender, EventArgs e)
@@ -147,15 +160,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
             Close();
-        }
-
-        // Helpers
-
-        private DocumentListPresenter CreatePresenter()
-        {
-            if (_context == null) throw new Exception("Assign Context first.");
-
-            return new DocumentListPresenter(PersistenceHelper.CreateRepository<IDocumentRepository>(_context));
         }
     }
 }

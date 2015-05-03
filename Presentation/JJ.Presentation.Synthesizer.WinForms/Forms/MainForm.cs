@@ -41,13 +41,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
             ShowDocumentList();
 
-            //ShowAudioFileOutputList();
-            //ShowCurveList();
-            //ShowPatchList();
-            //ShowSampleList();
-            //ShowAudioFileOutputDetails();
+            ShowAudioFileOutputList();
+            ShowCurveList();
+            ShowPatchList();
+            ShowSampleList();
+            ShowAudioFileOutputDetails();
 
-            //ShowPatchDetails();
+            ShowPatchDetails();
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         private void ShowAudioFileOutputList()
         {
             var form = new AudioFileOutputListForm();
-            form.MdiParent = this;
+            //form.MdiParent = this;
             form.Context = _context;
             form.Show();
         }
@@ -106,7 +106,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         private void ShowCurveList()
         {
             var form = new CurveListForm();
-            form.MdiParent = this;
+            //form.MdiParent = this;
             form.Context = _context;
             form.Show();
         }
@@ -114,7 +114,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         private void ShowPatchList()
         {
             var form = new PatchListForm();
-            form.MdiParent = this;
+            //form.MdiParent = this;
             form.Context = _context;
             form.Show();
         }
@@ -122,7 +122,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         private void ShowSampleList()
         {
             var form = new SampleListForm();
-            form.MdiParent = this;
+            //form.MdiParent = this;
             form.Context = _context;
             form.Show();
         }
@@ -130,7 +130,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         private void ShowAudioFileOutputDetails()
         {
             var form = new AudioFileOutputDetailsForm();
-            form.MdiParent = this;
+            //form.MdiParent = this;
             form.Context = _context;
             form.Show();
         }
@@ -138,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         private void ShowPatchDetails()
         {
             var form = new PatchDetailsForm();
-            form.MdiParent = this;
+            //form.MdiParent = this;
             form.Context = _context;
             form.Show();
         }

@@ -31,6 +31,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Document document = _documentRepository.Create();
             DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
+
+            _documentRepository.Rollback();
+
             return viewModel;
         }
 
@@ -48,10 +51,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // TODO: Be more stateful.
                 DocumentDetailsViewModel viewModel2 = document.ToDetailsViewModel();
                 viewModel2.Messages = validator.ValidationMessages.ToCanonical();
+
+                _documentRepository.Rollback();
+
                 return viewModel2;
             }
 
             _documentRepository.Commit();
+
             return new PreviousViewModel();
         }
     }

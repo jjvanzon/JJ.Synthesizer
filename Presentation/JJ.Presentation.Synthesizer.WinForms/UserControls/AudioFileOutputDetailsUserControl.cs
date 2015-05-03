@@ -18,6 +18,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class AudioFileOutputDetailsUserControl : UserControl
     {
+        private IContext _context;
+        private AudioFileOutputDetailsPresenter _presenter;
         private AudioFileOutputDetailsViewModel _viewModel;
 
         public AudioFileOutputDetailsUserControl()
@@ -29,8 +31,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Persistence
 
-        private IContext _context;
-
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IContext Context
@@ -39,7 +39,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             set 
             {
                 if (value == null) throw new NullException(() => value);
+                if (_context == value) return;
+
                 _context = value;
+                _presenter = new AudioFileOutputDetailsPresenter(
+                    PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(_context),
+                    PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(_context),
+                    PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(_context),
+                    PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(_context));
+            }
+        }
+
+        private void AssertContext()
+        {
+            if (_context == null)
+            {
+                throw new Exception("Assign Context first.");
             }
         }
 
@@ -47,9 +62,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public void Show(int id)
         {
-            AudioFileOutputDetailsPresenter presenter = CreatePresenter();
-            _viewModel = presenter.Edit(id);
-
+            AssertContext();
+            _viewModel = _presenter.Edit(id);
             ApplyViewModel();
         }
 
@@ -60,74 +74,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null)
             {
             }
-        }
-
-        // Helpers
-
-        private AudioFileOutputDetailsPresenter CreatePresenter()
-        {
-            if (_context == null) throw new Exception("Assign Context first.");
-
-            return new AudioFileOutputDetailsPresenter(
-                PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(_context),
-                PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(_context),
-                PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(_context),
-                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(_context));
-        }
-
-        private void labelSamplingRate_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void AudioFileOutputDetailsUserControl_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void labelIDValue_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBoxName_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void numericUpDownSamplingRate_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBoxAudioFileFormat_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBoxSampleDataType_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void comboBoxSpeakerSetup_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void numericUpDownStartTime_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void numericUpDownDuration_ValueChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

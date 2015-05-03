@@ -47,23 +47,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Pager = PagerViewModelFactory.Create(pageIndex, _pageSize, count, _maxVisiblePageNumbers)
             };
 
+            _documentRepository.Rollback();
+
             return viewModel;
         }
 
         public DocumentDetailsViewModel Create()
         {
-            var presenter2 = new DocumentDetailsPresenter(_documentRepository);
+            DocumentDetailsPresenter presenter2 = new DocumentDetailsPresenter(_documentRepository);
             DocumentDetailsViewModel viewModel2 = presenter2.Create();
             return viewModel2;
         }
-
-        //public DocumentListViewModel Add(DocumentListViewModel viewModel)
-        //{
-        //    if (viewModel == null) throw new NullException(() => viewModel);
-
-        //    foreach (
-            
-        //    throw new NotImplementedException();
-        //}
     }
 }

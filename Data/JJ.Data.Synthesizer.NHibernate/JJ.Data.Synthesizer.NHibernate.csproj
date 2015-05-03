@@ -52,6 +52,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\SqlExecutorHelper.cs" />
     <Compile Include="Mapping\AudioFileFormatMapping.cs" />
     <Compile Include="Mapping\AudioFileOutputChannelMapping.cs" />
     <Compile Include="Mapping\AudioFileOutputMapping.cs" />

@@ -235,7 +235,6 @@
             this.numericUpDownDuration.Name = "numericUpDownDuration";
             this.numericUpDownDuration.Size = new System.Drawing.Size(107, 20);
             this.numericUpDownDuration.TabIndex = 18;
-            this.numericUpDownDuration.ValueChanged += new System.EventHandler(this.numericUpDownDuration_ValueChanged);
             // 
             // labelName
             // 
@@ -257,7 +256,6 @@
             this.labelIDValue.TabIndex = 1;
             this.labelIDValue.Text = "Bla";
             this.labelIDValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.labelIDValue.Click += new System.EventHandler(this.labelIDValue_Click);
             // 
             // labelIDTitle
             // 
@@ -365,7 +363,6 @@
             this.textBoxName.Name = "textBoxName";
             this.textBoxName.Size = new System.Drawing.Size(107, 20);
             this.textBoxName.TabIndex = 11;
-            this.textBoxName.TextChanged += new System.EventHandler(this.textBoxName_TextChanged);
             // 
             // comboBoxAudioFileFormat
             // 
@@ -376,7 +373,6 @@
             this.comboBoxAudioFileFormat.Name = "comboBoxAudioFileFormat";
             this.comboBoxAudioFileFormat.Size = new System.Drawing.Size(107, 21);
             this.comboBoxAudioFileFormat.TabIndex = 13;
-            this.comboBoxAudioFileFormat.SelectedIndexChanged += new System.EventHandler(this.comboBoxAudioFileFormat_SelectedIndexChanged);
             // 
             // comboBoxSampleDataType
             // 
@@ -387,7 +383,6 @@
             this.comboBoxSampleDataType.Name = "comboBoxSampleDataType";
             this.comboBoxSampleDataType.Size = new System.Drawing.Size(107, 21);
             this.comboBoxSampleDataType.TabIndex = 14;
-            this.comboBoxSampleDataType.SelectedIndexChanged += new System.EventHandler(this.comboBoxSampleDataType_SelectedIndexChanged);
             // 
             // comboBoxSpeakerSetup
             // 
@@ -398,7 +393,6 @@
             this.comboBoxSpeakerSetup.Name = "comboBoxSpeakerSetup";
             this.comboBoxSpeakerSetup.Size = new System.Drawing.Size(107, 21);
             this.comboBoxSpeakerSetup.TabIndex = 15;
-            this.comboBoxSpeakerSetup.SelectedIndexChanged += new System.EventHandler(this.comboBoxSpeakerSetup_SelectedIndexChanged);
             // 
             // numericUpDownStartTime
             // 
@@ -414,7 +408,6 @@
             this.numericUpDownStartTime.Name = "numericUpDownStartTime";
             this.numericUpDownStartTime.Size = new System.Drawing.Size(107, 20);
             this.numericUpDownStartTime.TabIndex = 16;
-            this.numericUpDownStartTime.ValueChanged += new System.EventHandler(this.numericUpDownStartTime_ValueChanged);
             // 
             // numericUpDownSamplingRate
             // 
@@ -434,7 +427,6 @@
             this.numericUpDownSamplingRate.Name = "numericUpDownSamplingRate";
             this.numericUpDownSamplingRate.Size = new System.Drawing.Size(107, 20);
             this.numericUpDownSamplingRate.TabIndex = 17;
-            this.numericUpDownSamplingRate.ValueChanged += new System.EventHandler(this.numericUpDownSamplingRate_ValueChanged);
             // 
             // AudioFileOutputDetailsUserControl
             // 
@@ -443,7 +435,6 @@
             this.Controls.Add(this.tableLayoutPanel2);
             this.Name = "AudioFileOutputDetailsUserControl";
             this.Size = new System.Drawing.Size(218, 400);
-            this.Load += new System.EventHandler(this.AudioFileOutputDetailsUserControl_Load);
             this.groupBoxFilePath.ResumeLayout(false);
             this.groupBoxFilePath.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);

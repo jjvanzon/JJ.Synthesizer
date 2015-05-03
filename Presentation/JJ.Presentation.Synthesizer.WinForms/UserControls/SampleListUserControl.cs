@@ -20,6 +20,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class SampleListUserControl : UserControl
     {
+        private IContext _context;
+        private SampleListPresenter _presenter;
         private SampleListViewModel _viewModel;
 
         public SampleListUserControl()
@@ -29,17 +31,26 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Persistence
 
-        private IContext _context;
-
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IContext Context
         {
             get { return _context; }
-            set 
+            set
             {
                 if (value == null) throw new NullException(() => value);
+                if (_context == value) return;
+
                 _context = value;
+                _presenter = new SampleListPresenter(PersistenceHelper.CreateRepository<ISampleRepository>(_context));
+            }
+        }
+
+        private void AssertContext()
+        {
+            if (_context == null)
+            {
+                throw new Exception("Assign Context first.");
             }
         }
 
@@ -47,9 +58,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public void Show(int pageNumber = 1)
         {
-            SampleListPresenter presenter = CreatePresenter();
-            _viewModel = presenter.Show(pageNumber);
-
+            AssertContext();
+            _viewModel = _presenter.Show(pageNumber);
             ApplyViewModel();
         }
 
@@ -93,15 +103,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void pagerControl_GoToLastPageClicked(object sender, EventArgs e)
         {
             Show(_viewModel.Pager.PageCount - 1);
-        }
-
-        // Helpers
-
-        private SampleListPresenter CreatePresenter()
-        {
-            if (_context == null) throw new Exception("Assign Context first.");
-
-            return new SampleListPresenter(PersistenceHelper.CreateRepository<ISampleRepository>(_context));
         }
     }
 }

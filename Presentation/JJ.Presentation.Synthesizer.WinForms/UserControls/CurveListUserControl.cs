@@ -20,6 +20,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class CurveListUserControl : UserControl
     {
+        private IContext _context;
+        private CurveListPresenter _presenter;
         private CurveListViewModel _viewModel;
 
         public CurveListUserControl()
@@ -29,8 +31,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Persistence
 
-        private IContext _context;
-
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public IContext Context
@@ -39,7 +39,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             set 
             {
                 if (value == null) throw new NullException(() => value);
+                if (_context == value) return;
+
                 _context = value;
+                _presenter = new CurveListPresenter(PersistenceHelper.CreateRepository<ICurveRepository>(_context));
+            }
+        }
+
+        private void AssertContext()
+        {
+            if (_context == null)
+            {
+                throw new Exception("Assign Context first.");
             }
         }
 
@@ -47,13 +58,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public void Show(int pageNumber = 1)
         {
-            CurveListPresenter presenter = CreatePresenter();
-            _viewModel = presenter.Show(pageNumber);
-
+            AssertContext();
+            _viewModel = _presenter.Show(pageNumber);
             ApplyViewModel();
         }
 
-        // ApplyViewModel
+        // Gui
 
         private void ApplyViewModel()
         {
@@ -93,15 +103,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void pagerControl_GoToLastPageClicked(object sender, EventArgs e)
         {
             Show(_viewModel.Pager.PageCount - 1);
-        }
-
-        // Helpers
-
-        private CurveListPresenter CreatePresenter()
-        {
-            if (_context == null) throw new Exception("Assign Context first.");
-
-            return new CurveListPresenter(PersistenceHelper.CreateRepository<ICurveRepository>(_context));
         }
     }
 }

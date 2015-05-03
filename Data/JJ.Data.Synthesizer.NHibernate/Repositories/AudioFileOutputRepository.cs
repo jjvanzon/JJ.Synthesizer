@@ -1,4 +1,5 @@
-﻿using JJ.Data.Synthesizer.SqlClient;
+﻿using JJ.Data.Synthesizer.NHibernate.Helpers;
+using JJ.Data.Synthesizer.SqlClient;
 using JJ.Framework.Data;
 using JJ.Framework.Data.NHibernate;
 using JJ.Framework.Data.SqlClient;
@@ -12,21 +13,17 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
     public class AudioFileOutputRepository : JJ.Data.Synthesizer.DefaultRepositories.AudioFileOutputRepository
     {
-        private SynthesizerSqlExecutor _synthesizerSqlExecutor;
-
         public AudioFileOutputRepository(IContext context)
             : base(context)
-        {
-            NHibernateContext nhibernateContext = (NHibernateContext)context;
-            ISqlExecutor sqlExecutor = new NHibernateSqlExecutor(nhibernateContext.Session);
-            _synthesizerSqlExecutor = new SynthesizerSqlExecutor(sqlExecutor);
-        }
+        { }
 
         public override IList<AudioFileOutput> GetPage(int firstIndex, int count)
         {
             IList<AudioFileOutput> list = new List<AudioFileOutput>(count);
 
-            IList<int> ids = _synthesizerSqlExecutor.AudioFileOutput_GetPageOfIDs(firstIndex, count).ToArray();
+            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
+
+            IList<int> ids = sqlExecutor.AudioFileOutput_GetPageOfIDs(firstIndex, count).ToArray();
             foreach (int id in ids)
             {
                 AudioFileOutput entity = Get(id);
@@ -38,7 +35,8 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 
         public override int Count()
         {
-            return _synthesizerSqlExecutor.AudioFileOutput_Count();
+            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
+            return sqlExecutor.AudioFileOutput_Count();
         }
     }
 }

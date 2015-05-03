@@ -37,7 +37,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private OperatorFactory _operatorFactory;
         private EntityPositionManager _entityPositionManager;
 
-        private Patch _patch;
         private PatchDetailsViewModel _viewModel;
 
         public PatchDetailsPresenter(
@@ -71,18 +70,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public PatchDetailsViewModel Create()
         {
-            _patch = _patchRepository.Create();
+            Patch patch = _patchRepository.Create();
 
-            _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
+            _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
 
             return _viewModel;
         }
 
         public PatchDetailsViewModel Edit(int patchID)
         {
-            _patch = _patchRepository.Get(patchID);
+            Patch patch = _patchRepository.Get(patchID);
 
-            _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
+            _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
 
             return _viewModel;
         }
@@ -91,10 +90,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            if (_patch == null)
-            {
-                _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
-            }
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             //Type operatorWrapperType;
             //if (!_operatorTypeName_To_WrapperTypeDictionary.TryGetValue(operatorTypeName, out operatorWrapperType))
@@ -183,7 +179,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 throw new Exception(String.Format("Invalid operatorTypeName '{0}'.", operatorTypeName));
             }
 
-            op.LinkTo(_patch);
+            op.LinkTo(patch);
 
             // You need the ID in the MoveOperator action methods.
             // TODO: I never used to need it. Why do I need that now? Am I doing it right?
@@ -191,7 +187,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (_viewModel == null)
             {
-                _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
+                _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
             }
             else
             {
@@ -211,17 +207,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            if (_patch == null)
-            {
-                _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
-            }
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             Operator op = _operatorRepository.Get(operatorID); // This is just to check that the entity exists. TODO: But that's weird. You should be doing that in the entity position manager if anywhere.
             EntityPosition entityPosition = _entityPositionManager.SetOrCreateOperatorPosition(operatorID, centerX, centerY);
 
             if (_viewModel == null)
             {
-                _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
+                _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
             }
             else
             {
@@ -239,17 +232,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            if (_patch == null)
-            {
-                _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
-            }
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             Inlet inlet = _inletRepository.Get(inletID);
             Outlet outlet = _outletRepository.Get(inputOutletID);
             inlet.LinkTo(outlet);
 
             // TODO: In a stateful situation you might just adjust a small part of the view model.
-            _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
+            _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
 
             return _viewModel;
         }
@@ -257,18 +247,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public PatchDetailsViewModel Save(PatchDetailsViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-
-            if (_patch == null)
-            {
-                _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
-            }
+            
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             if (_viewModel == null)
             {
-                _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
+                _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
             }
 
-            IValidator validator = new PatchValidator(_patch, _curveRepository, _sampleRepository);
+            IValidator validator = new PatchValidator(patch, _curveRepository, _sampleRepository);
             if (!validator.IsValid)
             {
                 _viewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
@@ -287,14 +274,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            if (_patch == null)
-            {
-                _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
-            }
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             if (_viewModel == null)
             {
-                _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
+                _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
             }
 
             SetSelectedOperator(_viewModel, operatorID);
@@ -305,13 +289,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public PatchDetailsViewModel DeleteOperator(PatchDetailsViewModel viewModel, int operatorID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
+            
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
-            if (_patch == null)
-            {
-                _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
-            }
-
-            Operator op = _patch.Operators.Where(x => x.ID == operatorID).SingleOrDefault();
+            Operator op = patch.Operators.Where(x => x.ID == operatorID).SingleOrDefault();
             if (op != null)
             {
                 op.UnlinkRelatedEntities();
@@ -321,7 +302,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             //if (_viewModel == null || FORCE_STATELESS)
             //{
-                _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
+                _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
             //}
             //else
             //{
@@ -337,11 +318,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public PatchDetailsViewModel SetValue(PatchDetailsViewModel viewModel, string value)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-
-            if (_patch == null)
-            {
-                _patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
-            }
+            
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             // TODO: Validation messages for incorrect situations.
             double d;
@@ -349,7 +327,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 if (viewModel.SelectedOperator != null)
                 {
-                    Operator op = _patch.Operators.Where(x => x.ID == viewModel.SelectedOperator.ID).Single();
+                    Operator op = patch.Operators.Where(x => x.ID == viewModel.SelectedOperator.ID).Single();
                     if (String.Equals(op.OperatorTypeName, PropertyNames.ValueOperator))
                     {
                         var wrapper = new ValueOperatorWrapper(op);
@@ -359,7 +337,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // TODO: See if you can do it more efficiently for stateful situations.
-            _viewModel = _patch.ToDetailsViewModel(_entityPositionManager);
+            _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
 
             // TODO: You are not supposed to transform the view model based on information in that viewmodel.
             if (viewModel.SelectedOperator != null)
@@ -379,7 +357,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     operatorViewModel.IsSelected = true;
                     viewModel.SelectedOperator = operatorViewModel;
-                    if (operatorViewModel.OperatorTypeName == PropertyNames.ValueOperator)
+                    if (String.Equals(operatorViewModel.OperatorTypeName, PropertyNames.ValueOperator))
                     {
                         // Kind of dirty: this depends on the value being filled in as the name for value operators.
                         _viewModel.SelectedValue = operatorViewModel.Name;

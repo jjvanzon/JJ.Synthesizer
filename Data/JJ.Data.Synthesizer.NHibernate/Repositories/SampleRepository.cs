@@ -7,24 +7,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Data.Synthesizer.NHibernate.Helpers;
 
 namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
     public class SampleRepository : JJ.Data.Synthesizer.DefaultRepositories.SampleRepository
     {
-        private SynthesizerSqlExecutor _synthesizerSqlExecutor;
-
         public SampleRepository(IContext context)
             : base(context)
-        { 
-            NHibernateContext nhibernateContext = (NHibernateContext)context;
-            ISqlExecutor sqlExecutor = new NHibernateSqlExecutor(nhibernateContext.Session);
-            _synthesizerSqlExecutor = new SynthesizerSqlExecutor(sqlExecutor);
-        }
+        { }
 
         public override byte[] GetBinary(int id)
         {
-            byte[] binary = _synthesizerSqlExecutor.Sample_TryGetBinary(id);
+            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
+            byte[] binary = sqlExecutor.Sample_TryGetBinary(id);
             if (binary == null)
             {
                 throw new Exception(String.Format("Binary is null for Sample with id '{0}' or the Sample does not exist.", id));
@@ -34,16 +30,20 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 
         public override void SetBinary(int id, byte[] bytes)
         {
+            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
+
             Sample sample = Get(id); // Force an exception when the entity does not exist.
 
-            _synthesizerSqlExecutor.Sample_TrySetBinary(id, bytes);
+            sqlExecutor.Sample_TrySetBinary(id, bytes);
         }
 
         public override IList<Sample> GetPage(int firstIndex, int count)
         {
+            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
+
             IList<Sample> list = new List<Sample>(count);
 
-            IList<int> ids = _synthesizerSqlExecutor.Sample_GetPageOfIDs(firstIndex, count).ToArray();
+            IList<int> ids = sqlExecutor.Sample_GetPageOfIDs(firstIndex, count).ToArray();
             foreach (int id in ids)
             {
                 Sample entity = Get(id);
@@ -55,7 +55,9 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 
         public override int Count()
         {
-            return _synthesizerSqlExecutor.Sample_Count();
+            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
+
+            return sqlExecutor.Sample_Count();
         }
     }
 }
