@@ -26,26 +26,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         private const string COLUMN_NAME_ID = "IDColumn";
 
+        public event EventHandler<PageEventArgs> ShowRequested;
+        public event EventHandler CreateRequested;
         public event EventHandler CloseRequested;
-        public event EventHandler<DocumentDetailsEventArgs> DetailsRequested;
-        public event EventHandler<DocumentConfirmDeleteEventArgs> ConfirmDeleteRequested;
+        public event EventHandler<DeleteEventArgs> DeleteRequested;
 
-        private IContext _context;
-
-        private IDocumentRepository _documentRepository;
-        private ICurveRepository _curveRepository;
-        private IPatchRepository _patchRepository;
-        private ISampleRepository _sampleRepository;
-        private IAudioFileOutputRepository _audioFileOutputRepository;
-        private IDocumentReferenceRepository _documentReferenceRepository;
-        private INodeRepository _nodeRepository;
-        private IAudioFileOutputChannelRepository _audioFileOutputChannelRepository;
-        private IOperatorRepository _operatorRepository;
-        private IInletRepository _inletRepository;
-        private IOutletRepository _outletRepository;
-        private IEntityPositionRepository _entityPositionRepository;
-
-        private DocumentListPresenter _presenter;
         /// <summary> virtually not nullable </summary>
         private DocumentListViewModel _viewModel;
 
@@ -55,131 +40,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             SetTitles();
         }
 
-        // Persistence
-
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IContext Context
+        public DocumentListViewModel ViewModel
         {
-            get { return _context; }
-            set 
+            get { return _viewModel; }
+            set
             {
                 if (value == null) throw new NullException(() => value);
-                if (_context == value) return;
-
-                _context = value;
-
-                _documentRepository = PersistenceHelper.CreateRepository<IDocumentRepository>(_context);
-                _curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(_context);
-                _patchRepository = PersistenceHelper.CreateRepository<IPatchRepository>(_context);
-                _sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(_context);
-                _audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(_context);
-                _documentReferenceRepository = PersistenceHelper.CreateRepository<IDocumentReferenceRepository>(_context);
-                _nodeRepository = PersistenceHelper.CreateRepository<INodeRepository>(_context);
-                _audioFileOutputChannelRepository = PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(_context);
-                _operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(_context);
-                _inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(_context);
-                _outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(_context);
-                _entityPositionRepository = PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context);
-
-                _presenter = new DocumentListPresenter(_documentRepository);
-            }
-        }
-
-        private void AssertContext()
-        {
-            if (_context == null)
-            {
-                throw new Exception("Assign Context first.");
-            }
-        }
-
-        // Actions
-
-        public void Show(int pageNumber = 1)
-        {
-            AssertContext();
-
-            _viewModel = _presenter.Show(pageNumber);
-
-            ApplyViewModel();
-
-            base.Show();
-        }
-
-        private void Create()
-        {
-            DocumentDetailsViewModel viewModel2 = _presenter.Create();
-
-            // TODO: I would almost say you may want something like a controller.
-            // Perhaps it should control a giant view model with everything in it...
-
-            if (DetailsRequested != null)
-            {
-                var e = new DocumentDetailsEventArgs(viewModel2);
-                DetailsRequested(this, e);
-            }
-        }
-
-        private void Delete()
-        {
-            int id = GetSelectedID();
-
-            object viewModel2 = _presenter.Delete(
-                id,
-                _curveRepository,
-                _patchRepository,
-                _sampleRepository,
-                _audioFileOutputRepository,
-                _documentReferenceRepository,
-                _nodeRepository,
-                _audioFileOutputChannelRepository,
-                _operatorRepository,
-                _inletRepository,
-                _outletRepository,
-                _entityPositionRepository);
-
-            var notFoundViewModel = viewModel2 as NotFoundViewModel;
-            if (notFoundViewModel != null)
-            {
-                MessageBox.Show(notFoundViewModel.Message);
+                _viewModel = value;
                 ApplyViewModel();
-                return;
-            }
-
-            var cannotDeleteViewModel = viewModel2 as DocumentCannotDeleteViewModel;
-            if (cannotDeleteViewModel != null)
-            {
-                var form2 = new DocumentCannotDeleteForm();
-                form2.Show(cannotDeleteViewModel);
-                return;
-            }
-
-            var confirmDeleteViewModel = viewModel2 as DocumentConfirmDeleteViewModel;
-            if (confirmDeleteViewModel != null)
-            {
-                if (ConfirmDeleteRequested != null)
-                {
-                    var e = new DocumentConfirmDeleteEventArgs(confirmDeleteViewModel);
-                    ConfirmDeleteRequested(this, e);
-                }
-
-                ApplyViewModel();
-                return;
-            }
-
-            throw new UnexpectedViewModelTypeException(viewModel2);
-        }
-
-        private void Close()
-        {
-            if (CloseRequested != null)
-            {
-                CloseRequested(this, EventArgs.Empty);
             }
         }
 
         // Gui
+
+        private void SetTitles()
+        {
+            titleBarUserControl.Text = PropertyDisplayNames.Documents;
+            IDColumn.HeaderText = CommonTitles.ID;
+            NameColumn.HeaderText = CommonTitles.Name;
+        }
 
         private void ApplyViewModel()
         {
@@ -194,53 +75,78 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             dataGridView.DataSource = _viewModel.List;
         }
 
-        private void SetTitles()
-        {
-            titleBarUserControl.Text = PropertyDisplayNames.Documents;
-            IDColumn.HeaderText = CommonTitles.ID;
-            NameColumn.HeaderText = CommonTitles.Name;
-        }
-
         // Events
+
+        // TODO: It would probably look better if you add a method for each action and raise the event there.
 
         private void pagerControl_GoToFirstPageClicked(object sender, EventArgs e)
         {
-            Show(1);
+            if (ShowRequested != null)
+            {
+                int pageNumber = 1;
+                ShowRequested(this, new PageEventArgs(pageNumber));
+            }
         }
 
         private void pagerControl_GoToPreviousPageClicked(object sender, EventArgs e)
         {
-            Show(_viewModel.Pager.PageNumber - 1);
+            if (ShowRequested != null)
+            {
+                int pageNumber = _viewModel.Pager.PageNumber - 1;
+                ShowRequested(this, new PageEventArgs(pageNumber));
+            }
         }
 
         private void pagerControl_PageNumberClicked(object sender, PageNumberEventArgs e)
         {
-            Show(e.PageNumber);
+            if (ShowRequested != null)
+            {
+                int pageNumber = e.PageNumber;
+                ShowRequested(this, new PageEventArgs(pageNumber));
+            }
         }
 
         private void pagerControl_GoToNextPageClicked(object sender, EventArgs e)
         {
-            Show(_viewModel.Pager.PageNumber + 1);
+            if (ShowRequested != null)
+            {
+                int pageNumber = _viewModel.Pager.PageNumber + 1;
+                ShowRequested(this, new PageEventArgs(pageNumber));
+            }
         }
 
         private void pagerControl_GoToLastPageClicked(object sender, EventArgs e)
         {
-            Show(_viewModel.Pager.PageCount - 1);
+            if (ShowRequested != null)
+            {
+                int pageNumber = _viewModel.Pager.PageCount - 1;
+                ShowRequested(this, new PageEventArgs(pageNumber));
+            }
         }
 
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
         {
-            Create();
+            if (CreateRequested != null)
+            {
+                CreateRequested(this, EventArgs.Empty);
+            }
         }
 
         private void titleBarUserControl_RemoveClicked(object sender, EventArgs e)
         {
-            Delete();
+            if (DeleteRequested != null)
+            {
+                int id = GetSelectedID();
+                DeleteRequested(this, new DeleteEventArgs(id));
+            }
         }
 
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
-            Close();
+            if (CloseRequested != null)
+            {
+                CloseRequested(this, EventArgs.Empty);
+            }
         }
 
         // Helpers

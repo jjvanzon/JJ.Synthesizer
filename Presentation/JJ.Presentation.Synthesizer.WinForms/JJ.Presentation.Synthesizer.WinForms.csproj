@@ -70,8 +70,10 @@
     <Compile Include="Configuration\FilePathsConfiguration.cs" />
     <Compile Include="Configuration\GeneralConfiguration.cs" />
     <Compile Include="Configuration\TestingConfiguration.cs" />
+    <Compile Include="EventArg\DeleteEventArgs.cs" />
     <Compile Include="EventArg\DocumentConfirmDeleteEventArgs.cs" />
     <Compile Include="EventArg\DocumentDetailsEventArgs.cs" />
+    <Compile Include="EventArg\PageEventArgs.cs" />
     <Compile Include="EventArg\ViewModelEventArgs.cs" />
     <Compile Include="Forms\AudioFileOutputListForm.cs">
       <SubType>Form</SubType>

@@ -51,8 +51,6 @@
             this.documentListUserControl.TabIndex = 0;
             this.documentListUserControl.Visible = false;
             this.documentListUserControl.CloseRequested += new System.EventHandler(this.documentListUserControl_CloseRequested);
-            this.documentListUserControl.DetailsRequested += new System.EventHandler<JJ.Presentation.Synthesizer.WinForms.EventArg.DocumentDetailsEventArgs>(this.documentListUserControl_DetailsRequested);
-            this.documentListUserControl.ConfirmDeleteRequested += new System.EventHandler<JJ.Presentation.Synthesizer.WinForms.EventArg.DocumentConfirmDeleteEventArgs>(this.documentListUserControl_ConfirmDeleteRequested);
             // 
             // documentDetailsUserControl1
             // 
