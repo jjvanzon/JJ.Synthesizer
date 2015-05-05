@@ -45,6 +45,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         private IOutletRepository _outletRepository;
         private IEntityPositionRepository _entityPositionRepository;
 
+        private DocumentDetailsPresenter _documentDetailsPresenter;
         private DocumentListPresenter _documentListPresenter;
         private DocumentConfirmDeletePresenter _documentConfirmDeletePresenter;
 
@@ -67,6 +68,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             _outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(_context);
             _entityPositionRepository = PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context);
 
+            _documentDetailsPresenter = new DocumentDetailsPresenter(_documentRepository);
             _documentListPresenter = new DocumentListPresenter(_documentRepository);
             _documentConfirmDeletePresenter = new DocumentConfirmDeletePresenter(
                 _documentRepository, _curveRepository, _patchRepository, _sampleRepository,
@@ -76,6 +78,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             documentListUserControl.ShowRequested += documentListUserControl_ShowRequested;
             documentListUserControl.CreateRequested += documentListUserControl_CreateRequested;
             documentListUserControl.DeleteRequested += documentListUserControl_DeleteRequested;
+            documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;
+            documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
 
             SetTitles();
 
@@ -116,10 +120,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
         // Actions
 
+        // General Actions
+
         private void ShowNotFound(NotFoundViewModel viewModel)
         {
             MessageBox.Show(viewModel.Message);
         }
+
+        // Document List Actions
 
         private void ShowDocumentList(int pageNumber = 1)
         {
@@ -133,134 +141,58 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             documentListUserControl.Hide();
         }
 
+        // Document Details Actions
+
         private void ShowDocumentDetails(DocumentDetailsViewModel viewModel)
         {
-            documentDetailsUserControl1.Context = _context;
-            documentDetailsUserControl1.Show(viewModel);
-            documentDetailsUserControl1.BringToFront();
+            documentDetailsUserControl.ViewModel = viewModel;
+            documentDetailsUserControl.Show();
+            documentDetailsUserControl.BringToFront();
+
+            // TODO: This is kind of wierd.
+            if (viewModel.Messages.Count > 0)
+            {
+                MessageBox.Show(String.Join(Environment.NewLine, viewModel.Messages.Select(x => x.Text)));
+            }
         }
 
         private void CloseDocumentDetails()
         {
-            documentDetailsUserControl1.Hide();
+            documentDetailsUserControl.Hide();
 
             ShowDocumentList();
         }
 
-        private void ShowDocumentCannotDelete(DocumentCannotDeleteViewModel viewModel)
+        private void CreateDocument()
         {
-            var form = new DocumentCannotDeleteForm();
-            form.Show(viewModel);
-            return;
-        }
-
-        /// <summary>
-        /// This should not be this complex. It should just be boilerplate code.
-        /// </summary>
-        private void ShowDocumentConfirmDelete(DocumentConfirmDeleteViewModel viewModel)
-        {
-            string message = CommonMessageFormatter.ConfirmDeleteObjectWithName(PropertyDisplayNames.Document, viewModel.Object.Name);
-            if (MessageBox.Show(message, Titles.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {   
-                object viewModel2 = _documentConfirmDeletePresenter.Confirm(viewModel.Object.ID);
-
-                var notFoundViewModel = viewModel2 as NotFoundViewModel;
-                if (notFoundViewModel != null)
-                {
-                    MessageBox.Show(notFoundViewModel.Message);
-                    // TODO: Why does the presenter layer not tell us what action to undertake?
-                    //CloseConfirmDelete();
-                    ShowDocumentList();
-                    return;
-                }
-
-                var deleteConfirmedViewModel = viewModel2 as DocumentDeleteConfirmedViewModel;
-                if (deleteConfirmedViewModel != null)
-                {
-                    MessageBox.Show(CommonMessageFormatter.DeleteConfirmed(PropertyDisplayNames.Document));
-                    // TODO: Why does the presenter layer not tell us what action to undertake?
-                    //CloseConfirmDelete();
-                    ShowDocumentList();
-                    return;
-                }
-
-                throw new UnexpectedViewModelTypeException(viewModel2);
-            }
-        }
-
-        private void ShowAudioFileOutputList()
-        {
-            var form = new AudioFileOutputListForm();
-            //form.MdiParent = this;
-            form.Context = _context;
-            form.Show();
-        }
-
-        private void ShowCurveList()
-        {
-            var form = new CurveListForm();
-            //form.MdiParent = this;
-            form.Context = _context;
-            form.Show();
-        }
-
-        private void ShowPatchList()
-        {
-            var form = new PatchListForm();
-            //form.MdiParent = this;
-            form.Context = _context;
-            form.Show();
-        }
-
-        private void ShowSampleList()
-        {
-            var form = new SampleListForm();
-            //form.MdiParent = this;
-            form.Context = _context;
-            form.Show();
-        }
-
-        private void ShowAudioFileOutputDetails()
-        {
-            var form = new AudioFileOutputDetailsForm();
-            //form.MdiParent = this;
-            form.Context = _context;
-            form.Show();
-        }
-
-        private void ShowPatchDetails()
-        {
-            var form = new PatchDetailsForm();
-            //form.MdiParent = this;
-            form.Context = _context;
-            form.Show();
-        }
-
-        // Events
-
-        private void menuUserControl_ShowDocumentListRequested(object sender, EventArgs e)
-        {
-            ShowDocumentList();
-        }
-
-        private void documentListUserControl_ShowRequested(object sender, PageEventArgs e)
-        {
-            ShowDocumentList(e.PageNumber);
-        }
-
-        private void documentListUserControl_CreateRequested(object sender, EventArgs e)
-        {
-            DocumentDetailsViewModel viewModel = _documentListPresenter.Create();
+            DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Create();
             ShowDocumentDetails(viewModel);
         }
 
-        private void documentListUserControl_DeleteRequested(object sender, DeleteEventArgs e)
+        private void SaveDocument(DocumentDetailsViewModel viewModel)
         {
-            object viewModel2 = _documentListPresenter.Delete(
-                e.ID,
-                _curveRepository, _patchRepository, _sampleRepository, _audioFileOutputRepository,
-                _documentReferenceRepository, _nodeRepository, _audioFileOutputChannelRepository, _operatorRepository,
-                _inletRepository, _outletRepository, _entityPositionRepository);
+            object viewModel2 = _documentDetailsPresenter.Save(viewModel);
+
+            var detailsViewModel = viewModel2 as DocumentDetailsViewModel;
+            if (detailsViewModel != null)
+            {
+                ShowDocumentDetails(detailsViewModel);
+                return;
+            }
+
+            var previousViewModel = viewModel2 as PreviousViewModel;
+            if (previousViewModel != null)
+            {
+                CloseDocumentDetails();
+                return;
+            }
+
+            throw new UnexpectedViewModelTypeException(viewModel2);
+        }
+
+        private void DeleteDocument(int id)
+        {
+            object viewModel2 = _documentConfirmDeletePresenter.Show(id);
 
             var notFoundViewModel = viewModel2 as NotFoundViewModel;
             if (notFoundViewModel != null)
@@ -288,19 +220,130 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             throw new UnexpectedViewModelTypeException(viewModel2);
         }
 
+        private void ShowDocumentCannotDelete(DocumentCannotDeleteViewModel viewModel)
+        {
+            var form = new DocumentCannotDeleteForm();
+            form.Show(viewModel);
+            return;
+        }
+
+        private void ShowDocumentConfirmDelete(DocumentConfirmDeleteViewModel viewModel)
+        {
+            string message = CommonMessageFormatter.ConfirmDeleteObjectWithName(PropertyDisplayNames.Document, viewModel.Object.Name);
+            if (MessageBox.Show(message, Titles.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                ConfirmDeleteDocument(viewModel.Object.ID);
+            }
+        }
+
+        private void ConfirmDeleteDocument(int id)
+        {
+            object viewModel2 = _documentConfirmDeletePresenter.Confirm(id);
+
+            var notFoundViewModel = viewModel2 as NotFoundViewModel;
+            if (notFoundViewModel != null)
+            {
+                MessageBox.Show(notFoundViewModel.Message);
+                ShowDocumentList();
+                return;
+            }
+
+            var deleteConfirmedViewModel = viewModel2 as DocumentDeleteConfirmedViewModel;
+            if (deleteConfirmedViewModel != null)
+            {
+                MessageBox.Show(CommonMessageFormatter.DeleteConfirmed(PropertyDisplayNames.Document));
+                ShowDocumentList();
+                return;
+            }
+
+            throw new UnexpectedViewModelTypeException(viewModel2);
+        }
+
+        // Other Actions
+
+        private void ShowAudioFileOutputList()
+        {
+            var form = new AudioFileOutputListForm();
+            form.Context = _context;
+            form.Show();
+        }
+
+        private void ShowCurveList()
+        {
+            var form = new CurveListForm();
+            form.Context = _context;
+            form.Show();
+        }
+
+        private void ShowPatchList()
+        {
+            var form = new PatchListForm();
+            form.Context = _context;
+            form.Show();
+        }
+
+        private void ShowSampleList()
+        {
+            var form = new SampleListForm();
+            form.Context = _context;
+            form.Show();
+        }
+
+        private void ShowAudioFileOutputDetails()
+        {
+            var form = new AudioFileOutputDetailsForm();
+            form.Context = _context;
+            form.Show();
+        }
+
+        private void ShowPatchDetails()
+        {
+            var form = new PatchDetailsForm();
+            form.Context = _context;
+            form.Show();
+        }
+
+        // Events
+
+        // Menu Events
+
+        private void menuUserControl_ShowDocumentListRequested(object sender, EventArgs e)
+        {
+            ShowDocumentList();
+        }
+
+        // Document List Events
+
+        private void documentListUserControl_ShowRequested(object sender, PageEventArgs e)
+        {
+            ShowDocumentList(e.PageNumber);
+        }
+
+        private void documentListUserControl_CreateRequested(object sender, EventArgs e)
+        {
+            CreateDocument();
+        }
+
+        private void documentListUserControl_DeleteRequested(object sender, DeleteEventArgs e)
+        {
+            DeleteDocument(e.ID);
+        }
+
         private void documentListUserControl_CloseRequested(object sender, EventArgs e)
         {
             CloseDocumentList();
         }
 
-        private void documentDetailsUserControl1_CloseRequested(object sender, EventArgs e)
+        // Document Details Events
+
+        private void documentDetailsUserControl_SaveRequested(object sender, EventArgs e)
         {
-            CloseDocumentDetails();
+            SaveDocument(documentDetailsUserControl.ViewModel);
         }
 
-        private void MainForm_Resize(object sender, EventArgs e)
+        private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e)
         {
-            // For debugging
+            CloseDocumentDetails();
         }
     }
 }

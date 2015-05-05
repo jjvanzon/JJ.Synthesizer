@@ -17,7 +17,7 @@
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.documentListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentListUserControl();
-            this.documentDetailsUserControl1 = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
+            this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -34,7 +34,7 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.documentListUserControl);
-            this.splitContainer1.Panel2.Controls.Add(this.documentDetailsUserControl1);
+            this.splitContainer1.Panel2.Controls.Add(this.documentDetailsUserControl);
             this.splitContainer1.Size = new System.Drawing.Size(1094, 657);
             this.splitContainer1.SplitterDistance = 242;
             this.splitContainer1.TabIndex = 5;
@@ -54,17 +54,16 @@
             // 
             // documentDetailsUserControl1
             // 
-            this.documentDetailsUserControl1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.documentDetailsUserControl1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.documentDetailsUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.documentDetailsUserControl1.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.documentDetailsUserControl1.Location = new System.Drawing.Point(0, 0);
-            this.documentDetailsUserControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.documentDetailsUserControl1.Name = "documentDetailsUserControl1";
-            this.documentDetailsUserControl1.Size = new System.Drawing.Size(848, 657);
-            this.documentDetailsUserControl1.TabIndex = 1;
-            this.documentDetailsUserControl1.Visible = false;
-            this.documentDetailsUserControl1.CloseRequested += new System.EventHandler(this.documentDetailsUserControl1_CloseRequested);
+            this.documentDetailsUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.documentDetailsUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.documentDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.documentDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.documentDetailsUserControl.Location = new System.Drawing.Point(0, 0);
+            this.documentDetailsUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.documentDetailsUserControl.Name = "documentDetailsUserControl1";
+            this.documentDetailsUserControl.Size = new System.Drawing.Size(848, 657);
+            this.documentDetailsUserControl.TabIndex = 1;
+            this.documentDetailsUserControl.Visible = false;
             // 
             // menuUserControl
             // 
@@ -87,7 +86,6 @@
             this.IsMdiContainer = true;
             this.Name = "MainForm";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
@@ -100,7 +98,7 @@
         private JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl menuUserControl;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private UserControls.DocumentListUserControl documentListUserControl;
-        private UserControls.DocumentDetailsUserControl documentDetailsUserControl1;
+        private UserControls.DocumentDetailsUserControl documentDetailsUserControl;
 
     }
 }
