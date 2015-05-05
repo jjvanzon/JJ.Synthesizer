@@ -57,5 +57,10 @@ namespace JJ.Business.Synthesizer.Resources
         {
             return String.Format(Messages.OperatorPatchIsNotTheExpectedPatch, operatorName, expectedPatchName);
         }
+
+        public static string DocumentIsDependentOnDocument(string dependentDocumentName, string dependentOnDocumentName)
+        {
+            return String.Format(Messages.DocumentIsDependentOnDocument, dependentDocumentName, dependentOnDocumentName);
+        }
     }
 }

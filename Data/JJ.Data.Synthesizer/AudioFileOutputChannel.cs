@@ -10,12 +10,12 @@ namespace JJ.Data.Synthesizer
     {
         public virtual int ID { get; set; }
 
+        public virtual int IndexNumber { get; set; }
+
         /// <summary>
         /// nullable
         /// </summary>
         public virtual Outlet Outlet { get; set; }
-
-        public virtual int IndexNumber { get; set; }
 
         /// <summary>
         /// parent, not nullable

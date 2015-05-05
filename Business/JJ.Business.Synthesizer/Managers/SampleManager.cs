@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ValidationMessage = JJ.Business.CanonicalModel.ValidationMessage;
+using ValidationMessage = JJ.Business.CanonicalModel.Message;
 using JJ.Business.Synthesizer.Helpers;
 using System.IO;
 using JJ.Framework.Common;

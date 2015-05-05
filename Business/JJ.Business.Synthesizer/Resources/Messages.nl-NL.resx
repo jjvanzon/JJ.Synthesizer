@@ -123,6 +123,10 @@
   <data name="ChannelIndexNumberDoesNotMatchSpeakerSetup" xml:space="preserve">
     <value>Kanaalnummer komt niet overeen met luidspreker opstelling.</value>
   </data>
+  <data name="DocumentIsDependentOnDocument" xml:space="preserve">
+    <value>Document '{0}' is afhankelijk van document '{1}'.</value>
+    <comment>{0} = dependent document, {1} = dependent on document</comment>
+  </data>
   <data name="InletNotSet" xml:space="preserve">
     <value>{2} is niet ingevuld voor {0} operator genaamd '{1}'.</value>
   </data>

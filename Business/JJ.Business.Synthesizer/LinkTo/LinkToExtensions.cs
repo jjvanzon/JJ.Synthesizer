@@ -102,20 +102,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo(this Sample sample, SpeakerSetup speakerSetup)
-        {
-            sample.SpeakerSetup = speakerSetup;
-
-            // No inverse property
-        }
-
-        public static void LinkTo(this AudioFileOutput audioFileOutput, SpeakerSetup speakerSetup)
-        {
-            audioFileOutput.SpeakerSetup = speakerSetup;
-
-            // No inverse property
-        }
-
         public static void LinkTo(this AudioFileOutputChannel audioFileOutputChannel, AudioFileOutput audioFileOutput)
         {
             if (audioFileOutputChannel == null) throw new NullException(() => audioFileOutputChannel);
@@ -323,42 +309,137 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkToReferringDocument(this DocumentReference documentReference, Document document)
+        public static void LinkToDependentDocument(this DocumentReference documentReference, Document dependentDocument)
         {
+            // DocumentReference -> DependentDocument
+            // Document -> DependentDocuments
+
             if (documentReference == null) throw new NullException(() => documentReference);
 
-            if (documentReference.ReferringDocument != null)
+            if (documentReference.DependentDocument != null)
             {
-                if (documentReference.ReferringDocument.DocumentReferences.Contains(documentReference))
+                if (documentReference.DependentDocument.DependentDocuments.Contains(documentReference))
                 {
-                    documentReference.ReferringDocument.DocumentReferences.Remove(documentReference);
+                    documentReference.DependentDocument.DependentDocuments.Remove(documentReference);
                 }
             }
 
-            documentReference.ReferringDocument = document;
+            documentReference.DependentDocument = dependentDocument;
 
-            if (documentReference.ReferringDocument != null)
+            if (documentReference.DependentDocument != null)
             {
-                if (!documentReference.ReferringDocument.DocumentReferences.Contains(documentReference))
+                if (!documentReference.DependentDocument.DependentDocuments.Contains(documentReference))
                 {
-                    documentReference.ReferringDocument.DocumentReferences.Add(documentReference);
+                    documentReference.DependentDocument.DependentDocuments.Add(documentReference);
                 }
             }
         }
 
-        public static void LinkToReferencedDocument(this DocumentReference documentReference, Document referencedDocument)
+        public static void LinkToDependentOnDocument(this DocumentReference documentReference, Document dependentOnDocument)
         {
+            // DocumentReference -> DependentOnDocument
+            // Document -> DependentOnDocuments
+
             if (documentReference == null) throw new NullException(() => documentReference);
 
-            documentReference.ReferencedDocument = referencedDocument;
-            // No inverse property.
-        }
+            if (documentReference.DependentOnDocument != null)
+            {
+                if (documentReference.DependentOnDocument.DependentOnDocuments.Contains(documentReference))
+                {
+                    documentReference.DependentOnDocument.DependentOnDocuments.Remove(documentReference);
+                }
+            }
 
+            documentReference.DependentOnDocument = dependentOnDocument;
+
+            if (documentReference.DependentOnDocument != null)
+            {
+                if (!documentReference.DependentOnDocument.DependentOnDocuments.Contains(documentReference))
+                {
+                    documentReference.DependentOnDocument.DependentOnDocuments.Add(documentReference);
+                }
+            }
+        }
+        
         public static void LinkToMainPatch(this Document document, Patch mainPatch)
         {
             if (document == null) throw new NullException(() => document);
 
             document.MainPatch = mainPatch;
+            // No inverse property.
+        }
+
+        // Enum-Like Entities
+
+        public static void LinkTo(this Node node, NodeType nodeType)
+        {
+            if (node == null) throw new NullException(() => node);
+
+            node.NodeType = nodeType;
+
+            // No inverse property.
+        }
+
+        public static void LinkTo(this Sample sample, SpeakerSetup speakerSetup)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            sample.SpeakerSetup = speakerSetup;
+
+            // No inverse property.
+        }
+
+        public static void LinkTo(this Sample sample, InterpolationType interpolationType)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            sample.InterpolationType = interpolationType;
+
+            // No inverse property.
+        }
+
+        public static void LinkTo(this Sample sample, SampleDataType sampleDataType)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            sample.SampleDataType = sampleDataType;
+
+            // No inverse property.
+        }
+
+        public static void LinkTo(this Sample sample, AudioFileFormat audioFileFormat)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            sample.AudioFileFormat = audioFileFormat;
+
+            // No inverse property.
+        }
+
+        public static void LinkTo(this AudioFileOutput audioFileOutput, SpeakerSetup speakerSetup)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+
+            audioFileOutput.SpeakerSetup = speakerSetup;
+
+            // No inverse property.
+        }
+
+        public static void LinkTo(this AudioFileOutput audioFileOutput, SampleDataType sampleDataType)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+
+            audioFileOutput.SampleDataType = sampleDataType;
+
+            // No inverse property.
+        }
+
+        public static void LinkTo(this AudioFileOutput audioFileOutput, AudioFileFormat audioFileFormat)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+
+            audioFileOutput.AudioFileFormat = audioFileFormat;
+
             // No inverse property.
         }
     }

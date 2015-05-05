@@ -10,9 +10,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.EventArg
     /// <summary>
     /// Requred because an event with a generic EventArgs does not show up in the WinForms designer.
     /// </summary>
-    internal class DocumentDetailsViewEventArgs : ViewModelEventArgs<DocumentDetailsViewModel>
+    internal class DocumentDetailsEventArgs : ViewModelEventArgs<DocumentDetailsViewModel>
     {
-        public DocumentDetailsViewEventArgs(DocumentDetailsViewModel viewModel)
+        public DocumentDetailsEventArgs(DocumentDetailsViewModel viewModel)
             : base(viewModel)
         { }
     }

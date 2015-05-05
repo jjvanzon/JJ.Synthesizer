@@ -15,8 +15,8 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Id(x => x.ID);
             Map(x => x.Alias);
 
-            References(x => x.ReferringDocument, ColumnNames.ReferringDocumentID);
-            References(x => x.ReferencedDocument, ColumnNames.ReferencedDocumentID);
+            References(x => x.DependentDocument, ColumnNames.DependentDocumentID);
+            References(x => x.DependentOnDocument, ColumnNames.DependentOnDocumentID);
         }
     }
 }

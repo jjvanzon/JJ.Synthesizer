@@ -23,6 +23,8 @@ using JJ.Presentation.Synthesizer.Svg.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Presentation.Synthesizer.ViewModel;
+using JJ.Framework.Presentation;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
@@ -41,13 +43,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
             ShowDocumentList();
 
-            ShowAudioFileOutputList();
-            ShowCurveList();
-            ShowPatchList();
-            ShowSampleList();
-            ShowAudioFileOutputDetails();
-
-            ShowPatchDetails();
+            //ShowAudioFileOutputList();
+            //ShowCurveList();
+            //ShowPatchList();
+            //ShowSampleList();
+            //ShowAudioFileOutputDetails();
+            //ShowPatchDetails();
         }
 
         /// <summary>
@@ -82,10 +83,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             documentListUserControl.Hide();
         }
 
-        private void ShowDocumentDetails(DocumentDetailsViewModel documentDetailsViewModel)
+        private void ShowDocumentDetails(DocumentDetailsViewModel viewModel)
         {
             documentDetailsUserControl1.Context = _context;
-            documentDetailsUserControl1.Show(documentDetailsViewModel);
+            documentDetailsUserControl1.Show(viewModel);
             documentDetailsUserControl1.BringToFront();
         }
 
@@ -93,6 +94,66 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         {
             documentDetailsUserControl1.Hide();
             documentListUserControl.Show();
+        }
+
+        private void ShowConfirmDelete(DocumentConfirmDeleteViewModel viewModel)
+        {
+            string message = CommonMessageFormatter.ConfirmDeleteObjectWithName(PropertyDisplayNames.Document, viewModel.Object.Name);
+            if (MessageBox.Show(message, Titles.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {   
+                DocumentConfirmDeletePresenter presenter = CreateDocumentConfirmDeletePresenter(_context);
+                object viewModel2 = presenter.Confirm(viewModel.Object.ID);
+
+                var notFoundViewModel = viewModel2 as NotFoundViewModel;
+                if (notFoundViewModel != null)
+                {
+                    MessageBox.Show(notFoundViewModel.Message);
+                    // TODO: Why does the presenter layer not tell us what action to undertake?
+                    //CloseConfirmDelete();
+                    ShowDocumentList();
+                    return;
+                }
+
+                var deleteConfirmedViewModel = viewModel2 as DocumentDeleteConfirmedViewModel;
+                if (deleteConfirmedViewModel != null)
+                {
+                    MessageBox.Show(CommonMessageFormatter.DeleteConfirmed(PropertyDisplayNames.Document));
+                    // TODO: Why does the presenter layer not tell us what action to undertake?
+                    //CloseConfirmDelete();
+                    ShowDocumentList();
+                    return;
+                }
+
+                throw new UnexpectedViewModelTypeException(viewModel2);
+            }
+            else
+            {
+                //CloseConfirmDelete();
+            }
+        }
+
+        //private void CloseConfirmDelete()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        private DocumentConfirmDeletePresenter CreateDocumentConfirmDeletePresenter(IContext context)
+        {
+            var presenter = new DocumentConfirmDeletePresenter(
+                PersistenceHelper.CreateRepository<IDocumentRepository>(context),
+                PersistenceHelper.CreateRepository<ICurveRepository>(context),
+                PersistenceHelper.CreateRepository<IPatchRepository>(context), 
+                PersistenceHelper.CreateRepository<ISampleRepository>(context),
+                PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(context),
+                PersistenceHelper.CreateRepository<IDocumentReferenceRepository>(context),
+                PersistenceHelper.CreateRepository<INodeRepository>(context),
+                PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(context),
+                PersistenceHelper.CreateRepository<IOperatorRepository>(context),
+                PersistenceHelper.CreateRepository<IInletRepository>(context),
+                PersistenceHelper.CreateRepository<IOutletRepository>(context),
+                PersistenceHelper.CreateRepository<IEntityPositionRepository>(context));
+
+            return presenter;
         }
 
         private void ShowAudioFileOutputList()
@@ -155,7 +216,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             CloseDocumentList();
         }
 
-        private void documentListUserControl_DetailsViewRequested(object sender, DocumentDetailsViewEventArgs e)
+        private void documentListUserControl_DetailsRequested(object sender, DocumentDetailsEventArgs e)
         {
             ShowDocumentDetails(e.ViewModel);
         }
@@ -163,6 +224,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         private void documentDetailsUserControl1_CloseRequested(object sender, EventArgs e)
         {
             CloseDocumentDetails();
+        }
+
+        private void documentListUserControl_ConfirmDeleteRequested(object sender, DocumentConfirmDeleteEventArgs e)
+        {
+            ShowConfirmDelete(e.ViewModel);
         }
 
         private void MainForm_Resize(object sender, EventArgs e)

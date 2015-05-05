@@ -23,8 +23,8 @@ namespace JJ.Data.Synthesizer.NHibernate.Names
         public const string AsInstrumentInDocumentID = "AsInstrumentInDocumentID";
         public const string AsEffectInDocumentID = "AsEffectInDocumentID";
         public const string DocumentID = "DocumentID";
-        public const string ReferringDocumentID = "ReferringDocumentID";
+        public const string DependentDocumentID = "DependentDocumentID";
         public const string MainPatchID = "MainPatchID";
-        public const string ReferencedDocumentID = "ReferencedDocumentID";
+        public const string DependentOnDocumentID = "DependentOnDocumentID";
     }
 }

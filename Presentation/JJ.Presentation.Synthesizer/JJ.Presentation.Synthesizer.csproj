@@ -40,8 +40,16 @@
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Presenters\AudioFileOutputDetailsPresenter.cs" />
     <Compile Include="Presenters\AudioFileOutputListPresenter.cs" />
+    <Compile Include="Presenters\~CannotDeletePresenter.cs" />
+    <Compile Include="Presenters\DocumentCannotDeletePresenter.cs" />
+    <Compile Include="Presenters\DocumentConfirmDeletePresenter.cs" />
+    <Compile Include="Presenters\DocumentDeleteConfirmedPresenter.cs" />
+    <Compile Include="ViewModels\~CannotDeleteViewModel.cs" />
+    <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />
+    <Compile Include="ViewModels\DocumentDeleteConfirmedViewModel.cs" />
     <Compile Include="Presenters\DocumentDetailsPresenter.cs" />
     <Compile Include="Presenters\MenuPresenter.cs" />
+    <Compile Include="Presenters\NotFoundPresenter.cs" />
     <Compile Include="Presenters\SampleDetailsPresenter.cs" />
     <Compile Include="Presenters\CurveDetailsPresenter.cs" />
     <Compile Include="Presenters\SampleListPresenter.cs" />
@@ -56,6 +64,7 @@
       <DependentUpon>Titles.resx</DependentUpon>
     </Compile>
     <Compile Include="ToEntity\ToEntityExtensions.cs" />
+    <Compile Include="ToViewModel\ToConfirmDeleteViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToDetailsViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToIDNameExtensions.cs" />
     <Compile Include="ToViewModel\ToPatchDetailsViewModelExtensions.cs" />
@@ -65,6 +74,7 @@
     <Compile Include="ViewModels\AudioFileOutputListViewModel.cs" />
     <Compile Include="ViewModels\CurveDetailsViewModel.cs" />
     <Compile Include="ViewModels\CurveListViewModel.cs" />
+    <Compile Include="ViewModels\DocumentConfirmDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentDetailsViewModel.cs" />
     <Compile Include="ViewModels\DocumentListViewModel.cs" />
     <Compile Include="ViewModels\Entities\AudioFileOutputChannelViewModel.cs" />
@@ -81,6 +91,7 @@
     <Compile Include="ViewModels\Entities\OperatorTypeViewModel.cs" />
     <Compile Include="ViewModels\Entities\SampleViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\NotFoundViewModel.cs" />
     <Compile Include="ViewModels\Partials\MenuItemViewModel.cs" />
     <Compile Include="ViewModels\Partials\ViewMenuViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
@@ -112,6 +123,10 @@
     <ProjectReference Include="..\..\Framework\JJ.Framework.Data\JJ.Framework.Data.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation.Resources\JJ.Framework.Presentation.Resources.csproj">
+      <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
+      <Name>JJ.Framework.Presentation.Resources</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation\JJ.Framework.Presentation.csproj">
       <Project>{79b0eac3-5159-4fc8-b3d8-53315b205444}</Project>

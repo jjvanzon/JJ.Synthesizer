@@ -352,7 +352,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             VoidResult result = PlayHelper.Play(_patch);
             if (!result.Successful)
             {
-                string messages = String.Join(Environment.NewLine, result.ValidationMessages.Select(x => x.Text));
+                string messages = String.Join(Environment.NewLine, result.Messages.Select(x => x.Text));
                 MessageBox.Show(messages);
             }
         }

@@ -18,11 +18,7 @@ namespace JJ.Data.Synthesizer
         /// </summary>
         public virtual string Alias { get; set; }
 
-        public virtual Document ReferringDocument { get; set; }
-
-        /// <summary>
-        /// Has no inverse property.
-        /// </summary>
-        public virtual Document ReferencedDocument { get; set; }
+        public virtual Document DependentDocument { get; set; }
+        public virtual Document DependentOnDocument { get; set; }
     }
 }

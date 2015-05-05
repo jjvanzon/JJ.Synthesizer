@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public OperatorViewModel SelectedOperator { get; set; }
         public string SelectedValue { get; set; }
 
-        public List<ValidationMessage> ValidationMessages { get; set; }
+        public List<Message> ValidationMessages { get; set; }
 
         public bool SavedMessageVisible { get; set; }
     }

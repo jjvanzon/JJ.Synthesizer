@@ -58,5 +58,40 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentDetailsViewModel viewModel2 = presenter2.Create();
             return viewModel2;
         }
+
+        /// <summary>
+        /// Can return DocumentConfirmDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel.
+        /// </summary>
+        public object Delete(
+            int id,
+            ICurveRepository curveRepository,
+            IPatchRepository patchRepository,
+            ISampleRepository sampleRepository,
+            IAudioFileOutputRepository audioFileOutputRepository,
+            IDocumentReferenceRepository documentReferenceRepository,
+            INodeRepository nodeRepository,
+            IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
+            IOperatorRepository operatorRepository,
+            IInletRepository inletRepository,
+            IOutletRepository outletRepository,
+            IEntityPositionRepository entityPositionRepository)
+        {
+            DocumentConfirmDeletePresenter presenter2 = new DocumentConfirmDeletePresenter(
+                _documentRepository,
+                curveRepository,
+                patchRepository,
+                sampleRepository,
+                audioFileOutputRepository,
+                documentReferenceRepository,
+                nodeRepository,
+                audioFileOutputChannelRepository,
+                operatorRepository,
+                inletRepository,
+                outletRepository,
+                entityPositionRepository);
+
+            object viewModel2 = presenter2.Show(id);
+            return viewModel2;
+        }
     }
 }

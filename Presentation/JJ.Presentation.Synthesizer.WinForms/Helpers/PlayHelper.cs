@@ -40,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 
             var result = new VoidResult
             {
-                ValidationMessages = new List<ValidationMessage>()
+                Messages = new List<Message>()
             };
 
             Operator patchOutlet = patch.Operators
@@ -54,7 +54,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             if (patchOutlet == null)
             {
                 result.Successful = false;
-                result.ValidationMessages.Add(new ValidationMessage
+                result.Messages.Add(new Message
                 {
                     // TODO: Use string resources.
                     PropertyKey = PropertyNames.PatchOutlet,
@@ -66,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             if (sampleOperator == null)
             {
                 result.Successful = false;
-                result.ValidationMessages.Add(new ValidationMessage
+                result.Messages.Add(new Message
                 {
                     // TODO: Use string resources.
                     PropertyKey = PropertyNames.SampleOperator,
@@ -78,7 +78,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             if (!File.Exists(_sampleFilePath))
             {
                 result.Successful = false;
-                result.ValidationMessages.Add(new ValidationMessage
+                result.Messages.Add(new Message
                 {
                     // TODO: Use string resources.
                     PropertyKey = PropertyNames.Patch,
@@ -121,7 +121,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                     return new VoidResult
                     {
                         Successful = true,
-                        ValidationMessages = new ValidationMessage[0]
+                        Messages = new Message[0]
                     };
                 }
             }

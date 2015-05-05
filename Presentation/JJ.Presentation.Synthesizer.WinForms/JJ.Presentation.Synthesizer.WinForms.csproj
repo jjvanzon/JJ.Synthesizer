@@ -70,7 +70,8 @@
     <Compile Include="Configuration\FilePathsConfiguration.cs" />
     <Compile Include="Configuration\GeneralConfiguration.cs" />
     <Compile Include="Configuration\TestingConfiguration.cs" />
-    <Compile Include="EventArg\DocumentDetailsViewEventArgs.cs" />
+    <Compile Include="EventArg\DocumentConfirmDeleteEventArgs.cs" />
+    <Compile Include="EventArg\DocumentDetailsEventArgs.cs" />
     <Compile Include="EventArg\ViewModelEventArgs.cs" />
     <Compile Include="Forms\AudioFileOutputListForm.cs">
       <SubType>Form</SubType>
@@ -84,17 +85,17 @@
     <Compile Include="Forms\AudioFileOutputDetailsForm.Designer.cs">
       <DependentUpon>AudioFileOutputDetailsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\DocumentCannotDeleteForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DocumentCannotDeleteForm.Designer.cs">
+      <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\SampleListForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\SampleListForm.Designer.cs">
       <DependentUpon>SampleListForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\~DocumentListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\~DocumentListForm.Designer.cs">
-      <DependentUpon>~DocumentListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\CurveListForm.cs">
       <SubType>Form</SubType>
@@ -143,6 +144,12 @@
     </Compile>
     <Compile Include="UserControls\AudioFileOutputDetailsUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputDetailsUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DocumentCannotDeleteUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DocumentCannotDeleteUserControl.Designer.cs">
+      <DependentUpon>DocumentCannotDeleteUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\DocumentDetailsUserControl.cs">
       <SubType>UserControl</SubType>
@@ -198,11 +205,11 @@
     <EmbeddedResource Include="Forms\AudioFileOutputDetailsForm.resx">
       <DependentUpon>AudioFileOutputDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DocumentCannotDeleteForm.resx">
+      <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\SampleListForm.resx">
       <DependentUpon>SampleListForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\~DocumentListForm.resx">
-      <DependentUpon>~DocumentListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CurveListForm.resx">
       <DependentUpon>CurveListForm.cs</DependentUpon>
@@ -225,6 +232,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputDetailsUserControl.resx">
       <DependentUpon>AudioFileOutputDetailsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\DocumentCannotDeleteUserControl.resx">
+      <DependentUpon>DocumentCannotDeleteUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DocumentDetailsUserControl.resx">
       <DependentUpon>DocumentDetailsUserControl.cs</DependentUpon>

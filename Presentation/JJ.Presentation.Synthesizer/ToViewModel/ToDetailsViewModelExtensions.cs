@@ -83,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentDetailsViewModel
             {
                 Document = document.ToIDName(),
-                Messages = new List<ValidationMessage>()
+                Messages = new List<Message>()
             };
 
             return viewModel;

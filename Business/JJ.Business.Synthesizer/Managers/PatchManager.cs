@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Managers
                 return new VoidResult
                 {
                     Successful = false,
-                    ValidationMessages = validator.ValidationMessages.ToCanonical()
+                    Messages = validator.ValidationMessages.ToCanonical()
                 };
             }
 
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Managers
             return new VoidResult
             {
                 Successful = true,
-                ValidationMessages = new JJ.Business.CanonicalModel.ValidationMessage[0]
+                Messages = new JJ.Business.CanonicalModel.Message[0]
             };
         }
 

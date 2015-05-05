@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -6,12 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
     public static class EntityEnumExtensions
     {
+        // Node
+
         public static NodeTypeEnum GetNodeTypeEnum(this Node node)
         {
             if (node.NodeType == null) return NodeTypeEnum.Undefined;
@@ -23,7 +25,9 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
 
-            node.NodeType = nodeTypeRepository.Get((int)nodeTypeEnum);
+            NodeType nodeType = nodeTypeRepository.Get((int)nodeTypeEnum);
+
+            node.LinkTo(nodeType);
         }
 
         // Sample
@@ -39,7 +43,9 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
 
-            sample.SpeakerSetup = speakerSetupRepository.GetWithRelatedEntities((int)speakerSetupEnum);
+            SpeakerSetup speakerSetup = speakerSetupRepository.GetWithRelatedEntities((int)speakerSetupEnum);
+
+            sample.LinkTo(speakerSetup);
         }
 
         public static InterpolationTypeEnum GetInterpolationTypeEnum(this Sample sample)
@@ -53,7 +59,9 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
 
-            sample.InterpolationType = interpolationTypeRepository.Get((int)interpolationTypeEnum);
+            InterpolationType interpolationType = interpolationTypeRepository.Get((int)interpolationTypeEnum);
+
+            sample.LinkTo(interpolationType);
         }
 
         public static SampleDataTypeEnum GetSampleDataTypeEnum(this Sample sample)
@@ -67,7 +75,9 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
 
-            sample.SampleDataType = sampleDataTypeRepository.Get((int)sampleDataTypeEnum);
+            SampleDataType sampleDataType = sampleDataTypeRepository.Get((int)sampleDataTypeEnum);
+
+            sample.LinkTo(sampleDataType);
         }
 
         public static AudioFileFormatEnum GetAudioFileFormatEnum(this Sample sample)
@@ -81,7 +91,9 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
 
-            sample.AudioFileFormat = audioFileFormatRepository.Get((int)audioFileFormatEnum);
+            AudioFileFormat audioFileFormat = audioFileFormatRepository.Get((int)audioFileFormatEnum);
+
+            sample.LinkTo(audioFileFormat);
         }
 
         // AudioFileOutput
@@ -97,7 +109,9 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
 
-            audioFileOutput.SpeakerSetup = speakerSetupRepository.GetWithRelatedEntities((int)speakerSetupEnum);
+            SpeakerSetup speakerSetup = speakerSetupRepository.GetWithRelatedEntities((int)speakerSetupEnum);
+
+            audioFileOutput.LinkTo(speakerSetup);
         }
 
         public static SampleDataTypeEnum GetSampleDataTypeEnum(this AudioFileOutput audioFileOutput)
@@ -111,7 +125,9 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
 
-            audioFileOutput.SampleDataType = sampleDataTypeRepository.Get((int)sampleDataTypeEnum);
+            SampleDataType sampleDataType = sampleDataTypeRepository.Get((int)sampleDataTypeEnum);
+
+            audioFileOutput.LinkTo(sampleDataType);
         }
 
         public static AudioFileFormatEnum GetAudioFileFormatEnum(this AudioFileOutput audioFileOutput)
@@ -125,7 +141,9 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
 
-            audioFileOutput.AudioFileFormat = audioFileFormatRepository.Get((int)audioFileFormatEnum);
+            AudioFileFormat audioFileFormat = audioFileFormatRepository.Get((int)audioFileFormatEnum);;
+
+            audioFileOutput.LinkTo(audioFileFormat);
         }
     }
 }

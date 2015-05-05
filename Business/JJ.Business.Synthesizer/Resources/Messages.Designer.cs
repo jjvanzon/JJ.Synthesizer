@@ -79,6 +79,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Document &apos;{0}&apos; is dependent on document &apos;{1}&apos;..
+        /// </summary>
+        internal static string DocumentIsDependentOnDocument {
+            get {
+                return ResourceManager.GetString("DocumentIsDependentOnDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} operator named &apos;{1}&apos; does not have {2} filled in..
         /// </summary>
         internal static string InletNotSet {

@@ -157,6 +157,7 @@
     <Compile Include="Infos\NodeInfo.cs" />
     <Compile Include="LinkTo\UnlinkExtensions.cs" />
     <Compile Include="Managers\AudioFileOutputManager.cs" />
+    <Compile Include="Managers\DocumentManager.cs" />
     <Compile Include="Managers\EntityPositionManager.cs" />
     <Compile Include="Managers\PatchManager.cs" />
     <Compile Include="Managers\SampleManager.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Structs\WavHeaderStruct.cs" />
+    <Compile Include="Validation\DocumentDeleteValidator.cs" />
     <Compile Include="Validation\DocumentValidator.cs" />
     <Compile Include="Validation\Entities\AdderValidator.cs" />
     <Compile Include="Validation\Entities\SampleOperatorValidator.cs" />
