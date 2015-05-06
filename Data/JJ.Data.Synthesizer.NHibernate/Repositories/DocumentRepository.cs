@@ -17,13 +17,13 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
             : base(context)
         { }
 
-        public override IList<Document> GetPage(int firstIndex, int count)
+        public override IList<Document> GetPageOfRootDocuments(int firstIndex, int count)
         {
             SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
 
             IList<Document> list = new List<Document>(count);
 
-            IList<int> ids = sqlExecutor.Document_GetPageOfIDs(firstIndex, count).ToArray();
+            IList<int> ids = sqlExecutor.Document_GetPageOfRootDocumentIDs(firstIndex, count).ToArray();
             foreach (int id in ids)
             {
                 Document entity = Get(id);
@@ -33,10 +33,10 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
             return list;
         }
 
-        public override int Count()
+        public override int CountRootDocuments()
         {
             SynthesizerSqlExecutor synthesizerSqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
-            return synthesizerSqlExecutor.Document_Count();
+            return synthesizerSqlExecutor.Document_CountRootDocuments();
         }
     }
 }

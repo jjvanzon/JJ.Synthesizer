@@ -77,8 +77,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
             documentListUserControl.ShowRequested += documentListUserControl_ShowRequested;
             documentListUserControl.CreateRequested += documentListUserControl_CreateRequested;
+            documentListUserControl.EditRequested += documentListUserControl_EditRequested;
             documentListUserControl.DeleteRequested += documentListUserControl_DeleteRequested;
             documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;
+            documentDetailsUserControl.DeleteRequested += documentDetailsUserControl_DeleteRequested;
             documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
 
             SetTitles();
@@ -136,6 +138,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             documentListUserControl.Show();
         }
 
+        private void RefreshDocumentList()
+        {
+            int pageNumber = 1;
+            if (documentDetailsUserControl.ViewModel != null)
+            {
+                pageNumber = documentListUserControl.ViewModel.Pager.PageNumber;
+            }
+
+            DocumentListViewModel viewModel = _documentListPresenter.Show(pageNumber);
+            documentListUserControl.ViewModel = viewModel;
+        }
+
         private void CloseDocumentList()
         {
             documentListUserControl.Hide();
@@ -159,14 +173,34 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         private void CloseDocumentDetails()
         {
             documentDetailsUserControl.Hide();
-
-            ShowDocumentList();
         }
 
         private void CreateDocument()
         {
             DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Create();
             ShowDocumentDetails(viewModel);
+        }
+
+        private void EditDocument(int id)
+        {
+            object viewModel = _documentDetailsPresenter.Edit(id);
+
+            var notFoundViewModel = viewModel as NotFoundViewModel;
+            if (notFoundViewModel != null)
+            {
+                ShowNotFound(notFoundViewModel);
+                ShowDocumentList();
+                return;
+            }
+
+            var detailsViewModel = viewModel as DocumentDetailsViewModel;
+            if (detailsViewModel != null)
+            {
+                ShowDocumentDetails(detailsViewModel);
+                return;
+            }
+
+            throw new UnexpectedViewModelTypeException(viewModel);
         }
 
         private void SaveDocument(DocumentDetailsViewModel viewModel)
@@ -184,6 +218,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             if (previousViewModel != null)
             {
                 CloseDocumentDetails();
+                RefreshDocumentList();
                 return;
             }
 
@@ -198,7 +233,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             if (notFoundViewModel != null)
             {
                 ShowNotFound(notFoundViewModel);
-                ShowDocumentList();
+                RefreshDocumentList();
                 return;
             }
 
@@ -213,7 +248,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             if (confirmDeleteViewModel != null)
             {
                 ShowDocumentConfirmDelete(confirmDeleteViewModel);
-                ShowDocumentList();
+                RefreshDocumentList();
                 return;
             }
 
@@ -244,15 +279,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             if (notFoundViewModel != null)
             {
                 MessageBox.Show(notFoundViewModel.Message);
-                ShowDocumentList();
+                RefreshDocumentList();
                 return;
             }
 
             var deleteConfirmedViewModel = viewModel2 as DocumentDeleteConfirmedViewModel;
             if (deleteConfirmedViewModel != null)
             {
+                CloseDocumentDetails();
                 MessageBox.Show(CommonMessageFormatter.DeleteConfirmed(PropertyDisplayNames.Document));
-                ShowDocumentList();
+                RefreshDocumentList();
                 return;
             }
 
@@ -324,7 +360,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             CreateDocument();
         }
 
-        private void documentListUserControl_DeleteRequested(object sender, DeleteEventArgs e)
+        private void documentListUserControl_EditRequested(object sender, IDEventArgs e)
+        {
+            EditDocument(e.ID);
+        }
+
+        private void documentListUserControl_DeleteRequested(object sender, IDEventArgs e)
         {
             DeleteDocument(e.ID);
         }
@@ -339,6 +380,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         private void documentDetailsUserControl_SaveRequested(object sender, EventArgs e)
         {
             SaveDocument(documentDetailsUserControl.ViewModel);
+        }
+
+        private void documentDetailsUserControl_DeleteRequested(object sender, IDEventArgs e)
+        {
+            DeleteDocument(e.ID);
         }
 
         private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e)

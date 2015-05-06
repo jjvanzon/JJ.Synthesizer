@@ -16,12 +16,14 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class DocumentDetailsUserControl : UserControl
     {
         public event EventHandler SaveRequested;
+        public event EventHandler<IDEventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
 
         /// <summary> virtually not nullable </summary>
@@ -34,6 +36,30 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             SetTitles();
 
             this.AutomaticallyAssignTabIndexes();
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                buttonSave.PerformClick();
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void DocumentDetailsUserControl_VisibleChanged(object sender, EventArgs e)
+        {
+            if (Visible)
+            {
+                textBoxName.Focus();
+            }
+        }
+
+        private void DocumentDetailsUserControl_Enter(object sender, EventArgs e)
+        {
+            //textBoxName.Focus();
         }
 
         [Browsable(false)]
@@ -57,12 +83,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelIDTitle.Text = CommonTitles.ID;
             labelName.Text = CommonTitles.Name;
             buttonSave.Text = CommonTitles.Save;
+            buttonDelete.Text = CommonTitles.Delete;
         }
 
         private void ApplyViewModelToControls()
         {
             labelIDValue.Text = _viewModel.Document.ID.ToString();
             textBoxName.Text = _viewModel.Document.Name;
+
+            labelIDTitle.Visible = _viewModel.IDVisible;
+            labelIDValue.Visible = _viewModel.IDVisible;
+
+            buttonDelete.Visible = _viewModel.CanDelete;
         }
 
         private void ApplyControlsToViewModel()
@@ -89,6 +121,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
+        private void Delete()
+        {
+            if (DeleteRequested != null)
+            {
+                var e = new IDEventArgs(_viewModel.Document.ID);
+                DeleteRequested(this, e);
+            }
+        }
+
         // Events
 
         private void titleBarUserControl1_CloseClicked(object sender, EventArgs e)
@@ -99,6 +140,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void buttonSave_Click(object sender, EventArgs e)
         {
             Save();
+        }
+
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            Delete();
         }
     }
 }

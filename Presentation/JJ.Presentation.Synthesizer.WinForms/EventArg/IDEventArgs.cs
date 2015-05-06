@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.WinForms.EventArg
 {
-    internal class DeleteEventArgs : EventArgs
+    internal class IDEventArgs : EventArgs
     {
         public int ID { get; private set; }
 
-        public DeleteEventArgs(int id)
+        public IDEventArgs(int id)
         {
             ID = id;
         }

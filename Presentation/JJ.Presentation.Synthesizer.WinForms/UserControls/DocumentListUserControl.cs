@@ -28,8 +28,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public event EventHandler<PageEventArgs> ShowRequested;
         public event EventHandler CreateRequested;
+        public event EventHandler<IDEventArgs> EditRequested;
+        public event EventHandler<IDEventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
-        public event EventHandler<DeleteEventArgs> DeleteRequested;
 
         /// <summary> virtually not nullable </summary>
         private DocumentListViewModel _viewModel;
@@ -86,12 +87,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
+        private void Edit()
+        {
+            if (EditRequested != null)
+            {
+                int? id = TryGetSelectedID();
+                if (id.HasValue)
+                {
+                    EditRequested(this, new IDEventArgs(id.Value));
+                }
+            }
+        }
+
         private void Delete()
         {
             if (DeleteRequested != null)
             {
-                int id = GetSelectedID();
-                DeleteRequested(this, new DeleteEventArgs(id));
+                int? id = TryGetSelectedID();
+                if (id.HasValue)
+                {
+                    DeleteRequested(this, new IDEventArgs(id.Value));
+                }
             }
         }
 
@@ -127,7 +143,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void pagerControl_GoToLastPageClicked(object sender, EventArgs e)
         {
-            Show(_viewModel.Pager.PageCount - 1);
+            Show(_viewModel.Pager.PageCount);
         }
 
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
@@ -145,13 +161,37 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             Close();
         }
 
+        private void dataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Delete:
+                    Delete();
+                    break;
+
+                case Keys.Enter:
+                    Edit();
+                    break;
+            }
+        }
+
+        private void dataGridView_DoubleClick(object sender, EventArgs e)
+        {
+            Edit();
+        }
+
         // Helpers
 
-        private int GetSelectedID()
+        private int? TryGetSelectedID()
         {
-            DataGridViewCell cell = dataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
-            int id = Convert.ToInt32(cell.Value);
-            return id;
+            if (dataGridView.CurrentRow != null)
+            {
+                DataGridViewCell cell = dataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
+                int id = Convert.ToInt32(cell.Value);
+                return id;
+            }
+
+            return null;
         }
     }
 }

@@ -8,7 +8,7 @@ namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
 {
     public interface IDocumentRepository : IRepository<Document, int>
     {
-        IList<Document> GetPage(int pageIndex, int pageSize);
-        int Count();
+        IList<Document> GetPageOfRootDocuments(int pageIndex, int pageSize);
+        int CountRootDocuments();
     }
 }

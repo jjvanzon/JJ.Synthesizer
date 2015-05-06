@@ -40,11 +40,9 @@
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Presenters\AudioFileOutputDetailsPresenter.cs" />
     <Compile Include="Presenters\AudioFileOutputListPresenter.cs" />
-    <Compile Include="Presenters\~CannotDeletePresenter.cs" />
     <Compile Include="Presenters\DocumentCannotDeletePresenter.cs" />
     <Compile Include="Presenters\DocumentConfirmDeletePresenter.cs" />
     <Compile Include="Presenters\DocumentDeleteConfirmedPresenter.cs" />
-    <Compile Include="ViewModels\~CannotDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentDeleteConfirmedViewModel.cs" />
     <Compile Include="Presenters\DocumentDetailsPresenter.cs" />

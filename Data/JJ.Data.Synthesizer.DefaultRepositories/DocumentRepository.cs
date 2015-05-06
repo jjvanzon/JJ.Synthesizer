@@ -14,12 +14,12 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             : base(context)
         { }
 
-        public virtual IList<Document> GetPage(int firstIndex, int count)
+        public virtual IList<Document> GetPageOfRootDocuments(int firstIndex, int count)
         {
             return _context.Query<Document>().Skip(firstIndex).Take(count).ToArray();
         }
 
-        public virtual int Count()
+        public virtual int CountRootDocuments()
         {
             return _context.Query<Document>().Count();
         }

@@ -37,9 +37,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public DocumentListViewModel Show(int pageNumber)
         {
             int pageIndex = pageNumber - 1;
-            IList<Document> documents = _documentRepository.GetPage(pageIndex * _pageSize, _pageSize);
+            IList<Document> documents = _documentRepository.GetPageOfRootDocuments(pageIndex * _pageSize, _pageSize);
 
-            int count = _documentRepository.Count();
+            int count = _documentRepository.CountRootDocuments();
 
             DocumentListViewModel viewModel = new DocumentListViewModel
             {
@@ -56,6 +56,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             DocumentDetailsPresenter presenter2 = new DocumentDetailsPresenter(_documentRepository);
             DocumentDetailsViewModel viewModel2 = presenter2.Create();
+            return viewModel2;
+        }
+
+        /// <summary>
+        /// Can return DocumentDetailsViewModel or NotFoundViewModel.
+        /// </summary>
+        public object Edit(int id)
+        {
+            DocumentDetailsPresenter presenter2 = new DocumentDetailsPresenter(_documentRepository);
+            object viewModel2 = presenter2.Edit(id);
             return viewModel2;
         }
 

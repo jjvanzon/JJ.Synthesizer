@@ -55,6 +55,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.Size = new System.Drawing.Size(851, 380);
             this.dataGridView.TabIndex = 0;
+            this.dataGridView.DoubleClick += new System.EventHandler(this.dataGridView_DoubleClick);
+            this.dataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
             // 
             // IDColumn
             // 

@@ -13,6 +13,7 @@ using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Extensions;
 using JJ.Framework.Presentation;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -31,10 +32,36 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Document document = _documentRepository.Create();
             DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
+            viewModel.IDVisible = false;
+            viewModel.CanDelete = false;
 
             _documentRepository.Rollback();
 
             return viewModel;
+        }
+
+        /// <summary>
+        /// Can return DocumentDetailsViewModel or NotFoundViewModel.
+        /// </summary>
+        public object Edit(int id)
+        {
+            Document document = _documentRepository.TryGet(id);
+            if (document == null)
+            {
+                var presenter2 = new NotFoundPresenter();
+                NotFoundViewModel viewModel = presenter2.Show(PropertyDisplayNames.Document);
+                return viewModel;
+            }
+            else
+            {
+                DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
+                viewModel.IDVisible = true;
+                viewModel.CanDelete = true;
+
+                _documentRepository.Rollback();
+
+                return viewModel;
+            }
         }
 
         /// <summary>
@@ -51,6 +78,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // TODO: Be more stateful.
                 DocumentDetailsViewModel viewModel2 = document.ToDetailsViewModel();
                 viewModel2.Messages = validator.ValidationMessages.ToCanonical();
+
+                viewModel2.IDVisible = viewModel.IDVisible;
+                viewModel2.CanDelete = viewModel.CanDelete;
 
                 _documentRepository.Rollback();
 

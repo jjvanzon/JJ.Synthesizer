@@ -6,4 +6,4 @@ from
 		ROW_NUMBER() over (order by ID) as RowNumber 
 	from Curve
 ) as x
-where x.RowNumber > @firstIndex - 1;
+where x.RowNumber >= @firstIndex + 1;

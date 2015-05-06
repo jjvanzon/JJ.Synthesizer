@@ -38,14 +38,14 @@ namespace JJ.Data.Synthesizer.SqlClient
             return _sqlExecutor.ExecuteReader<int>(SqlEnum.Curve_GetPageOfIDs, new { firstIndex, count, }).ToArray();
         }
 
-        public int Document_Count()
+        public int Document_CountRootDocuments()
         {
-            return (int)_sqlExecutor.ExecuteScalar(SqlEnum.Document_Count);
+            return (int)_sqlExecutor.ExecuteScalar(SqlEnum.Document_CountRootDocuments);
         }
 
-        public IList<int> Document_GetPageOfIDs(int firstIndex, int count)
+        public IList<int> Document_GetPageOfRootDocumentIDs(int firstIndex, int count)
         {
-            return _sqlExecutor.ExecuteReader<int>(SqlEnum.Document_GetPageOfIDs, new { firstIndex, count, }).ToArray();
+            return _sqlExecutor.ExecuteReader<int>(SqlEnum.Document_GetPageOfRootDocumentIDs, new { firstIndex, count, }).ToArray();
         }
 
         public int Patch_Count()

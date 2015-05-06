@@ -69,10 +69,10 @@
     <EmbeddedResource Include="Curve_GetPageOfIDs.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Document_GetPageOfIDs.sql" />
+    <EmbeddedResource Include="Document_GetPageOfRootDocumentIDs.sql" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Document_Count.sql" />
+    <EmbeddedResource Include="Document_CountRootDocuments.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Sample_Count.sql" />
