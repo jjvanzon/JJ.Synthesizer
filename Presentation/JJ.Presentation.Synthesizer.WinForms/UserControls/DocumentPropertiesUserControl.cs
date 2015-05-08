@@ -20,16 +20,15 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class DocumentDetailsUserControl : UserControl
+    internal partial class DocumentPropertiesUserControl : UserControl
     {
-        public event EventHandler SaveRequested;
-        public event EventHandler<IDEventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
+        public event EventHandler LoseFocusRequested;
 
         /// <summary> virtually not nullable </summary>
-        private DocumentDetailsViewModel _viewModel;
+        private DocumentPropertiesViewModel _viewModel;
 
-        public DocumentDetailsUserControl()
+        public DocumentPropertiesUserControl()
         {
             InitializeComponent();
 
@@ -40,10 +39,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public DocumentDetailsViewModel ViewModel
+        public DocumentPropertiesViewModel ViewModel
         {
             get { return _viewModel; }
-            set 
+            set
             {
                 if (value == null) throw new NullException(() => value);
                 _viewModel = value;
@@ -55,22 +54,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl1.Text = PropertyDisplayNames.Document;
+            titleBarUserControl1.Text = CommonTitlesFormatter.ObjectProperties(PropertyDisplayNames.Document);
             labelIDTitle.Text = CommonTitles.ID;
             labelName.Text = CommonTitles.Name;
-            buttonSave.Text = CommonTitles.Save;
-            buttonDelete.Text = CommonTitles.Delete;
         }
 
         private void ApplyViewModelToControls()
         {
             labelIDValue.Text = _viewModel.Document.ID.ToString();
             textBoxName.Text = _viewModel.Document.Name;
-
-            labelIDTitle.Visible = _viewModel.IDVisible;
-            labelIDValue.Visible = _viewModel.IDVisible;
-
-            buttonDelete.Visible = _viewModel.CanDelete;
         }
 
         private void ApplyControlsToViewModel()
@@ -80,29 +72,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Actions
 
-        private void Save()
-        {
-            if (SaveRequested != null)
-            {
-                ApplyControlsToViewModel();
-                SaveRequested(this, EventArgs.Empty);
-            }
-        }
-
         private void Close()
         {
             if (CloseRequested != null)
             {
+                ApplyControlsToViewModel();
                 CloseRequested(this, EventArgs.Empty);
             }
         }
 
-        private void Delete()
+
+        private void LoseFocus()
         {
-            if (DeleteRequested != null)
+            if (LoseFocusRequested != null)
             {
-                var e = new IDEventArgs(_viewModel.Document.ID);
-                DeleteRequested(this, e);
+                ApplyControlsToViewModel();
+                LoseFocusRequested(this, EventArgs.Empty);
             }
         }
 
@@ -113,16 +98,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             Close();
         }
 
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            Save();
-        }
-
-        private void buttonDelete_Click(object sender, EventArgs e)
-        {
-            Delete();
-        }
-
         private void DocumentDetailsUserControl_VisibleChanged(object sender, EventArgs e)
         {
             if (Visible)
@@ -131,15 +106,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        // This event goes off when I call DocumentPropertiesUserControl.SetFocus after clicking on a DataGridView,
+        // but does not go off when I call DocumentPropertiesUserControl.SetFocus after clicking on a TreeView.
+        // Thanks, WinForms...
+        private void DocumentPropertiesUserControl_Enter(object sender, EventArgs e)
         {
-            if (keyData == Keys.Enter)
-            {
-                buttonSave.PerformClick();
-                return true;
-            }
+            textBoxName.Focus();
+        }
 
-            return base.ProcessCmdKey(ref msg, keyData);
+        // This event does not go off, if not clicked on a control that according to WinForms can get focus.
+        private void DocumentPropertiesUserControl_Leave(object sender, EventArgs e)
+        {
+            LoseFocus();
         }
     }
 }

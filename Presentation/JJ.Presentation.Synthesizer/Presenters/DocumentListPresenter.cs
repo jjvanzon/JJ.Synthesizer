@@ -39,12 +39,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             int pageIndex = pageNumber - 1;
             IList<Document> documents = _documentRepository.GetPageOfRootDocuments(pageIndex * _pageSize, _pageSize);
 
-            int count = _documentRepository.CountRootDocuments();
+            int totalCount = _documentRepository.CountRootDocuments();
 
             DocumentListViewModel viewModel = new DocumentListViewModel
             {
                 List = documents.Select(x => x.ToIDName()).ToArray(),
-                Pager = PagerViewModelFactory.Create(pageIndex, _pageSize, count, _maxVisiblePageNumbers)
+                Pager = PagerViewModelFactory.Create(pageIndex, _pageSize, totalCount, _maxVisiblePageNumbers)
             };
 
             _documentRepository.Rollback();
@@ -54,18 +54,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public DocumentDetailsViewModel Create()
         {
-            DocumentDetailsPresenter presenter2 = new DocumentDetailsPresenter(_documentRepository);
+            var presenter2 = new DocumentDetailsPresenter(_documentRepository);
             DocumentDetailsViewModel viewModel2 = presenter2.Create();
             return viewModel2;
         }
 
         /// <summary>
-        /// Can return DocumentDetailsViewModel or NotFoundViewModel.
+        /// Can return DocumentTreeViewModel or NotFoundViewModel.
         /// </summary>
-        public object Edit(int id)
+        public object Open(int id)
         {
-            DocumentDetailsPresenter presenter2 = new DocumentDetailsPresenter(_documentRepository);
-            object viewModel2 = presenter2.Edit(id);
+            var presenter2 = new DocumentTreePresenter(_documentRepository);
+            object viewModel2 = presenter2.Show(id);
             return viewModel2;
         }
 

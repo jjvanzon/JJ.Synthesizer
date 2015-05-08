@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public class DocumentDetailsViewModel
+    public sealed class DocumentDetailsViewModel
     {
-        public IDName Document { get; set; }
+        public IDAndName Document { get; set; }
         public IList<Message> Messages { get; set; }
         public bool CanDelete { get; set; }
         public bool IDVisible { get; set; }

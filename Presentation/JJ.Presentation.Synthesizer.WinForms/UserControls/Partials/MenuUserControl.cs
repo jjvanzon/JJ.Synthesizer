@@ -24,6 +24,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
     internal partial class MenuUserControl : UserControl
     {
         public event EventHandler ShowDocumentListRequested;
+        public event EventHandler ShowDocumentTreeRequested;
 
         public MenuUserControl()
         {
@@ -64,9 +65,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             ToolStripMenuItem viewToolStripMenuItem = CreateViewToolStripMenuItem(viewModel.ViewMenu);
             menuStrip.Items.Add(viewToolStripMenuItem);
 
-            ToolStripMenuItem documentsToolStripMenuItem = CreateDocumentsToolStripMenuItem(viewModel.ViewMenu.DocumentMenuItem);
+            ToolStripMenuItem documentsToolStripMenuItem = CreateDocumentsToolStripMenuItem(viewModel.ViewMenu.DocumentsMenuItem);
             documentsToolStripMenuItem.Click += documentsToolStripMenuItem_Click;
             viewToolStripMenuItem.DropDownItems.Add(documentsToolStripMenuItem);
+
+            ToolStripMenuItem documentTreeToolStripMenuItem = CreateDocumentTreeToolStripMenuItem(viewModel.ViewMenu.DocumentTreeMenuItem);
+            documentTreeToolStripMenuItem.Click += documentTreeToolStripMenuItem_Click;
+            viewToolStripMenuItem.DropDownItems.Add(documentTreeToolStripMenuItem);
 
             base.Show();
         }
@@ -95,11 +100,31 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             return toolStripMenuItem;
         }
 
+        private ToolStripMenuItem CreateDocumentTreeToolStripMenuItem(MenuItemViewModel menuItemViewModel)
+        {
+            var toolStripMenuItem = new ToolStripMenuItem
+            {
+                Name = "documentTreeToolStripMenuItem",
+                //Size = new Size(152, 22), // TODO: Do I need this? Does it not resize automatically?
+                Text = "&" + Titles.DocumentTree
+            };
+
+            return toolStripMenuItem;
+        }
+
         private void documentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (ShowDocumentListRequested != null)
             {
                 ShowDocumentListRequested(sender, EventArgs.Empty);
+            }
+        }
+
+        private void documentTreeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ShowDocumentTreeRequested != null)
+            {
+                ShowDocumentTreeRequested(sender, EventArgs.Empty);
             }
         }
     }

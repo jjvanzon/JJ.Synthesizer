@@ -8,6 +8,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Partials
 {
     public sealed class ViewMenuViewModel
     {
-        public MenuItemViewModel DocumentMenuItem { get; set; }
+        public MenuItemViewModel DocumentsMenuItem { get; set; }
+        public MenuItemViewModel DocumentTreeMenuItem { get; set; }
     }
 }

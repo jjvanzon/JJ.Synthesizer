@@ -157,10 +157,10 @@
     <value>Uitgangen</value>
   </data>
   <data name="PatchInlet" xml:space="preserve">
-    <value>Patch ingang</value>
+    <value>Schakeling ingang</value>
   </data>
   <data name="PatchOutlet" xml:space="preserve">
-    <value>Patch uitgang</value>
+    <value>Schakeling uitgang</value>
   </data>
   <data name="Power" xml:space="preserve">
     <value>Macht</value>
@@ -226,7 +226,7 @@
     <value>Geluidsbestand uitvoer</value>
   </data>
   <data name="Patch" xml:space="preserve">
-    <value>Patch</value>
+    <value>Schakeling</value>
   </data>
   <data name="TimeSubstract" xml:space="preserve">
     <value>Tijd aftrekken</value>
@@ -239,5 +239,26 @@
   </data>
   <data name="Document" xml:space="preserve">
     <value>Document</value>
+  </data>
+  <data name="Curves" xml:space="preserve">
+    <value>Curves</value>
+  </data>
+  <data name="Samples" xml:space="preserve">
+    <value>Geluidsfragmenten</value>
+  </data>
+  <data name="AudioFileOutputs" xml:space="preserve">
+    <value>Geluidsbestand uitvoer </value>
+  </data>
+  <data name="Patches" xml:space="preserve">
+    <value>Schakelingen</value>
+  </data>
+  <data name="Instruments" xml:space="preserve">
+    <value>Instrumenten</value>
+  </data>
+  <data name="ReferencedDocuments" xml:space="preserve">
+    <value>Bibliotheken</value>
+  </data>
+  <data name="Effects" xml:space="preserve">
+    <value>Effecten</value>
   </data>
 </root>

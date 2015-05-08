@@ -12,6 +12,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public double Time { get; set; }
         public double Value { get; set; }
         public double Direction { get; set; }
-        public IDName NodeType { get; set; }
+        public IDAndName NodeType { get; set; }
     }
 }

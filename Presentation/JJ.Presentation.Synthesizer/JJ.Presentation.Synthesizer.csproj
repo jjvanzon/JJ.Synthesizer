@@ -43,6 +43,9 @@
     <Compile Include="Presenters\DocumentCannotDeletePresenter.cs" />
     <Compile Include="Presenters\DocumentConfirmDeletePresenter.cs" />
     <Compile Include="Presenters\DocumentDeleteConfirmedPresenter.cs" />
+    <Compile Include="Presenters\DocumentPropertiesPresenter.cs" />
+    <Compile Include="Presenters\DocumentTreePresenter.cs" />
+    <Compile Include="ToViewModel\ToDocumentTreeViewModelExtensions.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentDeleteConfirmedViewModel.cs" />
     <Compile Include="Presenters\DocumentDetailsPresenter.cs" />
@@ -63,7 +66,7 @@
     </Compile>
     <Compile Include="ToEntity\ToEntityExtensions.cs" />
     <Compile Include="ToViewModel\ToConfirmDeleteViewModelExtensions.cs" />
-    <Compile Include="ToViewModel\ToDetailsViewModelExtensions.cs" />
+    <Compile Include="ToViewModel\ToViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToIDNameExtensions.cs" />
     <Compile Include="ToViewModel\ToPatchDetailsViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToEntityViewModelExtensions.cs" />
@@ -75,10 +78,13 @@
     <Compile Include="ViewModels\DocumentConfirmDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentDetailsViewModel.cs" />
     <Compile Include="ViewModels\DocumentListViewModel.cs" />
+    <Compile Include="ViewModels\DocumentPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\DocumentTreeViewModel.cs" />
     <Compile Include="ViewModels\Entities\AudioFileOutputChannelViewModel.cs" />
     <Compile Include="ViewModels\Entities\AudioFileOutputListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\AudioFileOutputViewModel.cs" />
     <Compile Include="ViewModels\Entities\CurveViewModel.cs" />
+    <Compile Include="ViewModels\Entities\~DocumentViewModel.cs" />
     <Compile Include="ViewModels\Entities\NodeViewModel.cs" />
     <Compile Include="ViewModels\Entities\PatchListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\SampleListItemViewModel.cs" />
@@ -90,7 +96,10 @@
     <Compile Include="ViewModels\Entities\SampleViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\NotFoundViewModel.cs" />
+    <Compile Include="ViewModels\Partials\DummyViewModel.cs" />
     <Compile Include="ViewModels\Partials\MenuItemViewModel.cs" />
+    <Compile Include="ViewModels\Entities\ReferencedDocumentViewModel.cs" />
+    <Compile Include="ViewModels\Partials\ReferencedDocumentsNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\ViewMenuViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
     <Compile Include="ViewModels\PatchListViewModel.cs" />

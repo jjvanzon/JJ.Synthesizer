@@ -272,5 +272,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return viewModel;
         }
+
+        public static ReferencedDocumentViewModel ToReferencedDocumentViewModelWithRelatedEntities(this Document entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new ReferencedDocumentViewModel
+            {
+                ID = entity.ID,
+                Name = entity.Name,
+                Instruments = entity.Instruments.Select(x => x.ToIDName()).ToList(),
+                Effects = entity.Effects.Select(x => x.ToIDName()).ToList()
+            };
+
+            return viewModel;
+        }
     }
 }

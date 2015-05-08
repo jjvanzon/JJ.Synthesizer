@@ -17,9 +17,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public int SamplingRate { get; set; }
         public int BytesToSkip { get; set; }
         public string Location { get; set; }
-        public IDName SampleDataType { get; set; }
-        public IDName SpeakerSetup { get; set; }
-        public IDName AudioFileFormat { get; set; }
-        public IDName InterpolationType { get; set; }
+        public IDAndName SampleDataType { get; set; }
+        public IDAndName SpeakerSetup { get; set; }
+        public IDAndName AudioFileFormat { get; set; }
+        public IDAndName InterpolationType { get; set; }
     }
 }

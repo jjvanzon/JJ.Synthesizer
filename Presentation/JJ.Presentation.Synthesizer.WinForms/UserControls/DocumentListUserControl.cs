@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public event EventHandler<PageEventArgs> ShowRequested;
         public event EventHandler CreateRequested;
-        public event EventHandler<IDEventArgs> EditRequested;
+        public event EventHandler<IDEventArgs> OpenRequested;
         public event EventHandler<IDEventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
 
@@ -87,14 +87,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void Edit()
+        private void Open()
         {
-            if (EditRequested != null)
+            if (OpenRequested != null)
             {
                 int? id = TryGetSelectedID();
                 if (id.HasValue)
                 {
-                    EditRequested(this, new IDEventArgs(id.Value));
+                    OpenRequested(this, new IDEventArgs(id.Value));
                 }
             }
         }
@@ -170,14 +170,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     break;
 
                 case Keys.Enter:
-                    Edit();
+                    Open();
                     break;
             }
         }
 
         private void dataGridView_DoubleClick(object sender, EventArgs e)
         {
-            Edit();
+            Open();
         }
 
         // Helpers

@@ -97,6 +97,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to AudioFileOutputs.
+        /// </summary>
+        public static string AudioFileOutputs {
+            get {
+                return ResourceManager.GetString("AudioFileOutputs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Channel.
         /// </summary>
         public static string Channel {
@@ -120,6 +129,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string CurveIn {
             get {
                 return ResourceManager.GetString("CurveIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Curves.
+        /// </summary>
+        public static string Curves {
+            get {
+                return ResourceManager.GetString("Curves", resourceCulture);
             }
         }
         
@@ -169,6 +187,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Effects.
+        /// </summary>
+        public static string Effects {
+            get {
+                return ResourceManager.GetString("Effects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inlet.
         /// </summary>
         public static string Inlet {
@@ -183,6 +210,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Inlets {
             get {
                 return ResourceManager.GetString("Inlets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instruments.
+        /// </summary>
+        public static string Instruments {
+            get {
+                return ResourceManager.GetString("Instruments", resourceCulture);
             }
         }
         
@@ -277,6 +313,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Patches.
+        /// </summary>
+        public static string Patches {
+            get {
+                return ResourceManager.GetString("Patches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Patch Inlet.
         /// </summary>
         public static string PatchInlet {
@@ -304,6 +349,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Libraries.
+        /// </summary>
+        public static string ReferencedDocuments {
+            get {
+                return ResourceManager.GetString("ReferencedDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sample.
         /// </summary>
         public static string Sample {
@@ -327,6 +381,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string SampleOperator {
             get {
                 return ResourceManager.GetString("SampleOperator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Samples.
+        /// </summary>
+        public static string Samples {
+            get {
+                return ResourceManager.GetString("Samples", resourceCulture);
             }
         }
         

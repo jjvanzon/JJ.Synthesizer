@@ -1,7 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    partial class DocumentDetailsUserControl
+    partial class DocumentPropertiesUserControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -36,12 +36,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.labelIDValue = new System.Windows.Forms.Label();
             this.titleBarUserControl1 = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
-            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.buttonDelete = new System.Windows.Forms.Button();
-            this.buttonSave = new System.Windows.Forms.Button();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel2
@@ -50,16 +46,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.titleBarUserControl1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel1, 0, 2);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(430, 336);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(55, 46);
             this.tableLayoutPanel2.TabIndex = 8;
             // 
             // tableLayoutPanel
@@ -78,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.Size = new System.Drawing.Size(424, 276);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(49, 16);
             this.tableLayoutPanel.TabIndex = 8;
             // 
             // labelName
@@ -109,7 +103,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.textBoxName.Location = new System.Drawing.Point(80, 24);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(344, 20);
+            this.textBoxName.Size = new System.Drawing.Size(10, 20);
             this.textBoxName.TabIndex = 11;
             // 
             // labelIDValue
@@ -118,76 +112,41 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelIDValue.Location = new System.Drawing.Point(80, 0);
             this.labelIDValue.Margin = new System.Windows.Forms.Padding(0);
             this.labelIDValue.Name = "labelIDValue";
-            this.labelIDValue.Size = new System.Drawing.Size(344, 24);
+            this.labelIDValue.Size = new System.Drawing.Size(10, 24);
             this.labelIDValue.TabIndex = 1;
-            this.labelIDValue.Text = "Bla";
+            this.labelIDValue.Text = "labelIDValue";
             this.labelIDValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // titleBarUserControl1
             // 
             this.titleBarUserControl1.AddButtonVisible = false;
             this.titleBarUserControl1.BackColor = System.Drawing.SystemColors.Control;
+            this.titleBarUserControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.titleBarUserControl1.CloseButtonVisible = true;
             this.titleBarUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.titleBarUserControl1.Location = new System.Drawing.Point(0, 0);
             this.titleBarUserControl1.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl1.Name = "titleBarUserControl1";
             this.titleBarUserControl1.RemoveButtonVisible = false;
-            this.titleBarUserControl1.Size = new System.Drawing.Size(430, 24);
+            this.titleBarUserControl1.Size = new System.Drawing.Size(55, 24);
             this.titleBarUserControl1.TabIndex = 7;
             this.titleBarUserControl1.CloseClicked += new System.EventHandler(this.titleBarUserControl1_CloseClicked);
             // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel1.Controls.Add(this.buttonDelete, 1, 0);
-            this.tableLayoutPanel1.Controls.Add(this.buttonSave, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 306);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(430, 30);
-            this.tableLayoutPanel1.TabIndex = 9;
-            // 
-            // buttonDelete
-            // 
-            this.buttonDelete.Location = new System.Drawing.Point(83, 3);
-            this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(74, 23);
-            this.buttonDelete.TabIndex = 10;
-            this.buttonDelete.Text = "buttonDelete";
-            this.buttonDelete.UseVisualStyleBackColor = true;
-            this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
-            // 
-            // buttonSave
-            // 
-            this.buttonSave.Location = new System.Drawing.Point(3, 3);
-            this.buttonSave.Name = "buttonSave";
-            this.buttonSave.Size = new System.Drawing.Size(74, 23);
-            this.buttonSave.TabIndex = 9;
-            this.buttonSave.Text = "buttonSave";
-            this.buttonSave.UseVisualStyleBackColor = true;
-            this.buttonSave.Click += new System.EventHandler(this.buttonSave_Click);
-            // 
-            // DocumentDetailsUserControl
+            // DocumentPropertiesUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanel2);
-            this.Name = "DocumentDetailsUserControl";
-            this.Size = new System.Drawing.Size(430, 336);
+            this.Name = "DocumentPropertiesUserControl";
+            this.Size = new System.Drawing.Size(55, 46);
             this.VisibleChanged += new System.EventHandler(this.DocumentDetailsUserControl_VisibleChanged);
+            this.Enter += new System.EventHandler(this.DocumentPropertiesUserControl_Enter);
+            this.Leave += new System.EventHandler(this.DocumentPropertiesUserControl_Leave);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
-            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -201,8 +160,5 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.Label labelIDValue;
         private System.Windows.Forms.Label labelIDTitle;
         private System.Windows.Forms.TextBox textBoxName;
-        private System.Windows.Forms.Button buttonSave;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
-        private System.Windows.Forms.Button buttonDelete;
     }
 }

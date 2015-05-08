@@ -41,52 +41,52 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModels;
         }
 
-        public static IList<IDName> CreateAudioFileFormatLookupViewModel(IAudioFileFormatRepository repository)
+        public static IList<IDAndName> CreateAudioFileFormatLookupViewModel(IAudioFileFormatRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
             IList<AudioFileFormat> entities = repository.GetAll().ToArray();
-            IList<IDName> idNames = entities.Select(x => x.ToIDName()).ToArray();
+            IList<IDAndName> idNames = entities.Select(x => x.ToIDName()).ToArray();
 
             return idNames;
         }
 
-        public static IList<IDName> CreateSampleDataTypeLookupViewModel(ISampleDataTypeRepository repository)
+        public static IList<IDAndName> CreateSampleDataTypeLookupViewModel(ISampleDataTypeRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
             IList<SampleDataType> entities = repository.GetAll().ToArray();
-            IList<IDName> idNames = entities.Select(x => x.ToIDName()).ToArray();
+            IList<IDAndName> idNames = entities.Select(x => x.ToIDName()).ToArray();
 
             return idNames;
         }
 
-        public static IList<IDName> CreateSpeakerSetupLookupViewModel(ISpeakerSetupRepository repository)
+        public static IList<IDAndName> CreateSpeakerSetupLookupViewModel(ISpeakerSetupRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
             IList<SpeakerSetup> entities = repository.GetAll().ToArray();
-            IList<IDName> idNames = entities.Select(x => x.ToIDName()).ToArray();
+            IList<IDAndName> idNames = entities.Select(x => x.ToIDName()).ToArray();
 
             return idNames;
         }
 
-        public static IList<IDName> CreateNodeTypesLookupViewModel(INodeTypeRepository repository)
+        public static IList<IDAndName> CreateNodeTypesLookupViewModel(INodeTypeRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
             IList<NodeType> entities = repository.GetAll().ToArray();
-            IList<IDName> idNames = entities.Select(x => x.ToIDName()).ToArray();
+            IList<IDAndName> idNames = entities.Select(x => x.ToIDName()).ToArray();
 
             return idNames;
         }
 
-        public static IList<IDName> CreateInterpolationTypesLookupViewModel(IInterpolationTypeRepository repository)
+        public static IList<IDAndName> CreateInterpolationTypesLookupViewModel(IInterpolationTypeRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
             IList<InterpolationType> entities = repository.GetAll().ToArray();
-            IList<IDName> idNames = entities.Select(x => x.ToIDName()).ToArray();
+            IList<IDAndName> idNames = entities.Select(x => x.ToIDName()).ToArray();
 
             return idNames;
         }

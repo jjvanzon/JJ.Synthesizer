@@ -12,9 +12,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     {
         public SampleViewModel Sample { get; set; }
 
-        public IList<IDName> AudioFileFormats { get; set; }
-        public IList<IDName> InterpolationTypes { get; set; }
-        public IList<IDName> SampleDataTypes { get; set; }
-        public IList<IDName> SpeakerSetups { get; set; }
+        public IList<IDAndName> AudioFileFormats { get; set; }
+        public IList<IDAndName> InterpolationTypes { get; set; }
+        public IList<IDAndName> SampleDataTypes { get; set; }
+        public IList<IDAndName> SpeakerSetups { get; set; }
     }
 }

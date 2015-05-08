@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
-    public static class ToConfirmDeleteViewModelExtensions
+    internal static class ToConfirmDeleteViewModelExtensions
     {
         // TODO: Consider doing this direct in the presenters instead.
         public static DocumentConfirmDeleteViewModel ToConfirmDeleteViewModel(this Document entity)
@@ -19,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new DocumentConfirmDeleteViewModel
             {
-                Object = new IDName
+                Object = new IDAndName
                 {
                     ID = entity.ID,
                     Name = entity.Name,

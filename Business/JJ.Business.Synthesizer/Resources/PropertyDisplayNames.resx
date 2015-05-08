@@ -241,4 +241,25 @@
   <data name="Document" xml:space="preserve">
     <value>Document</value>
   </data>
+  <data name="Curves" xml:space="preserve">
+    <value>Curves</value>
+  </data>
+  <data name="Samples" xml:space="preserve">
+    <value>Samples</value>
+  </data>
+  <data name="AudioFileOutputs" xml:space="preserve">
+    <value>AudioFileOutputs</value>
+  </data>
+  <data name="Patches" xml:space="preserve">
+    <value>Patches</value>
+  </data>
+  <data name="Instruments" xml:space="preserve">
+    <value>Instruments</value>
+  </data>
+  <data name="ReferencedDocuments" xml:space="preserve">
+    <value>Libraries</value>
+  </data>
+  <data name="Effects" xml:space="preserve">
+    <value>Effects</value>
+  </data>
 </root>

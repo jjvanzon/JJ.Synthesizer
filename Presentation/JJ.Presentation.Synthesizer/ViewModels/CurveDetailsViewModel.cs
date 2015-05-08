@@ -11,6 +11,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     public sealed class CurveDetailsViewModel
     {
         public CurveViewModel Curve { get; set; }
-        public IList<IDName> NodeTypes { get; set; }
+        public IList<IDAndName> NodeTypes { get; set; }
     }
 }

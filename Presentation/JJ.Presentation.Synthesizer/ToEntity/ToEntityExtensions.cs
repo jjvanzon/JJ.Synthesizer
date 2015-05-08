@@ -138,6 +138,14 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entityPosition;
         }
 
+        public static Document ToEntity(this DocumentPropertiesViewModel viewModel, IDocumentRepository documentRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            Document document = viewModel.Document.ToEntity(documentRepository);
+            return document;
+        }
+
         public static Document ToEntity(this DocumentDetailsViewModel viewModel, IDocumentRepository documentRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -146,18 +154,18 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return document;
         }
 
-        public static Document ToEntity(this IDName idName, IDocumentRepository documentRepository)
+        public static Document ToEntity(this IDAndName idAndName, IDocumentRepository documentRepository)
         {
-            if (idName == null) throw new NullException(() => idName);
+            if (idAndName == null) throw new NullException(() => idAndName);
             if (documentRepository == null) throw new NullException(() => documentRepository);
 
-            Document document = documentRepository.TryGet(idName.ID);
+            Document document = documentRepository.TryGet(idAndName.ID);
             if (document == null)
             {
                 document = documentRepository.Create();
             }
 
-            document.Name = idName.Name;
+            document.Name = idAndName.Name;
 
             return document;
         }

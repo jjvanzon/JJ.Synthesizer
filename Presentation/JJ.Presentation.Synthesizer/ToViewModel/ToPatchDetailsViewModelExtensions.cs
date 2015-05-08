@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
-    public static class ToPatchDetailsViewModelExtensions
+    internal static class ToPatchDetailsViewModelExtensions
     {
         public static PatchDetailsViewModel ToDetailsViewModel(this Patch patch, EntityPositionManager entityPositionManager)
         {

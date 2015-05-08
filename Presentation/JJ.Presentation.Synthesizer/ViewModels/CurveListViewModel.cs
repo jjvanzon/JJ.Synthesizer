@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class CurveListViewModel
     {
-        public IList<IDName> List { get; set; }
+        public IList<IDAndName> List { get; set; }
         public PagerViewModel Pager { get; set; }
     }
 }

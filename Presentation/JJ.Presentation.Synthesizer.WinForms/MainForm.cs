@@ -25,8 +25,10 @@ using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.ViewModel;
 using JJ.Framework.Presentation;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.WinForms.Forms;
 
-namespace JJ.Presentation.Synthesizer.WinForms.Forms
+namespace JJ.Presentation.Synthesizer.WinForms
 {
     internal partial class MainForm : Form
     {
@@ -45,8 +47,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         private IOutletRepository _outletRepository;
         private IEntityPositionRepository _entityPositionRepository;
 
-        private DocumentDetailsPresenter _documentDetailsPresenter;
         private DocumentListPresenter _documentListPresenter;
+        private DocumentDetailsPresenter _documentDetailsPresenter;
+        private DocumentPropertiesPresenter _documentPropertiesPresenter;
+        private DocumentTreePresenter _documentTreePresenter;
         private DocumentConfirmDeletePresenter _documentConfirmDeletePresenter;
 
         public MainForm()
@@ -68,8 +72,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             _outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(_context);
             _entityPositionRepository = PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context);
 
-            _documentDetailsPresenter = new DocumentDetailsPresenter(_documentRepository);
             _documentListPresenter = new DocumentListPresenter(_documentRepository);
+            _documentDetailsPresenter = new DocumentDetailsPresenter(_documentRepository);
+            _documentPropertiesPresenter = new DocumentPropertiesPresenter(_documentRepository);
+            _documentTreePresenter = new DocumentTreePresenter(_documentRepository);
             _documentConfirmDeletePresenter = new DocumentConfirmDeletePresenter(
                 _documentRepository, _curveRepository, _patchRepository, _sampleRepository,
                 _audioFileOutputRepository, _documentReferenceRepository, _nodeRepository, _audioFileOutputChannelRepository,
@@ -77,13 +83,21 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
             documentListUserControl.ShowRequested += documentListUserControl_ShowRequested;
             documentListUserControl.CreateRequested += documentListUserControl_CreateRequested;
-            documentListUserControl.EditRequested += documentListUserControl_EditRequested;
+            documentListUserControl.OpenRequested += documentListUserControl_OpenRequested;
             documentListUserControl.DeleteRequested += documentListUserControl_DeleteRequested;
             documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;
             documentDetailsUserControl.DeleteRequested += documentDetailsUserControl_DeleteRequested;
             documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
+            documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
+            documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
 
+            documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
+            documentTreeUserControl.DocumentPropertiesRequested += documentTreeUserControl_DocumentPropertiesRequested;
+            
             SetTitles();
+
+            HideTreePanel();
+            HidePropertiesPanel();
 
             ShowDocumentList();
 
@@ -150,7 +164,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             documentListUserControl.ViewModel = viewModel;
         }
 
-        private void CloseDocumentList()
+        private void HideDocumentList()
         {
             documentListUserControl.Hide();
         }
@@ -170,7 +184,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             }
         }
 
-        private void CloseDocumentDetails()
+        private void HideDocumentDetails()
         {
             documentDetailsUserControl.Hide();
         }
@@ -203,6 +217,38 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             throw new UnexpectedViewModelTypeException(viewModel);
         }
 
+        private void OpenDocument(int id)
+        {
+            object viewModel = _documentTreePresenter.Show(id);
+
+            var notFoundViewModel = viewModel as NotFoundViewModel;
+            if (notFoundViewModel != null)
+            {
+                ShowNotFound(notFoundViewModel);
+                ShowDocumentList();
+                return;
+            }
+
+            var treeViewModel = viewModel as DocumentTreeViewModel;
+            if (treeViewModel != null)
+            {
+                OpenDocument(treeViewModel);
+                HideDocumentList();
+                return;
+            }
+
+            throw new UnexpectedViewModelTypeException(viewModel);
+        }
+
+        private void OpenDocument(DocumentTreeViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            documentTreeUserControl.ViewModel = viewModel;
+            documentTreeUserControl.Show();
+            ShowTreePanel();
+        }
+
         private void SaveDocument(DocumentDetailsViewModel viewModel)
         {
             object viewModel2 = _documentDetailsPresenter.Save(viewModel);
@@ -217,7 +263,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             var previousViewModel = viewModel2 as PreviousViewModel;
             if (previousViewModel != null)
             {
-                CloseDocumentDetails();
+                HideDocumentDetails();
                 RefreshDocumentList();
                 return;
             }
@@ -286,13 +332,126 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             var deleteConfirmedViewModel = viewModel2 as DocumentDeleteConfirmedViewModel;
             if (deleteConfirmedViewModel != null)
             {
-                CloseDocumentDetails();
+                HideDocumentDetails();
                 MessageBox.Show(CommonMessageFormatter.DeleteConfirmed(PropertyDisplayNames.Document));
                 RefreshDocumentList();
                 return;
             }
 
             throw new UnexpectedViewModelTypeException(viewModel2);
+        }
+
+        // Document Tree Actions
+
+        private void HideDocumentTree()
+        {
+            documentTreeUserControl.Hide();
+            HideTreePanel();
+        }
+
+        private void RefreshDocumentTree(int id)
+        {
+            object viewModel = _documentTreePresenter.Show(id);
+
+            var notFoundViewModel = viewModel as NotFoundViewModel;
+            if (notFoundViewModel != null)
+            {
+                ShowNotFound(notFoundViewModel);
+                return;
+            }
+
+            var treeViewModel = viewModel as DocumentTreeViewModel;
+            if (treeViewModel != null)
+            {
+                documentTreeUserControl.ViewModel = treeViewModel;
+                return;
+            }
+
+            throw new UnexpectedViewModelTypeException(viewModel);
+        }
+
+        // Document Properties Actions
+
+        private void ShowDocumentProperties(int id)
+        {
+            object viewModel = _documentPropertiesPresenter.Show(id);
+
+            var notFoundViewModel = viewModel as NotFoundViewModel;
+            if (notFoundViewModel != null)
+            {
+                ShowNotFound(notFoundViewModel);
+                ShowDocumentList();
+                return;
+            }
+
+            var propertiesViewModel = viewModel as DocumentPropertiesViewModel;
+            if (propertiesViewModel != null)
+            {
+                ShowDocumentProperties(propertiesViewModel);
+                return;
+            }
+
+            throw new UnexpectedViewModelTypeException(viewModel);
+        }
+
+        private void ShowDocumentProperties(DocumentPropertiesViewModel viewModel)
+        {
+            documentPropertiesUserControl.ViewModel = viewModel;
+            documentPropertiesUserControl.Show();
+            documentPropertiesUserControl.BringToFront();
+
+            ShowPropertiesPanel();
+
+            // TODO: This 'if' is a major hack.
+            if (viewModel.Messages.Count != 0)
+            {
+                documentPropertiesUserControl.Focus();
+            }
+
+            // TODO: ValidationMessages should be shown in a separate panel.
+            if (viewModel.Messages.Count > 0)
+            {
+                MessageBox.Show(String.Join(Environment.NewLine, viewModel.Messages.Select(x => x.Text)));
+            }
+        }
+
+        private void CloseDocumentProperties(DocumentPropertiesViewModel viewModel)
+        {
+            object viewModel2 = _documentPropertiesPresenter.Close(viewModel);
+
+            var propertiesViewModel = viewModel2 as DocumentPropertiesViewModel;
+            if (propertiesViewModel != null)
+            {
+                ShowDocumentProperties(propertiesViewModel);
+                return;
+            }
+
+            var noViewModel = viewModel2 as NoViewModel;
+            if (noViewModel != null)
+            {
+                HideDocumentProperties();
+                RefreshDocumentList();
+                RefreshDocumentTree(viewModel.Document.ID);
+                return;
+            }
+
+            throw new UnexpectedViewModelTypeException(viewModel2);
+        }
+
+        private void DocumentPropertiesLoseFocus(DocumentPropertiesViewModel viewModel)
+        {
+            DocumentPropertiesViewModel viewModel2 = _documentPropertiesPresenter.LooseFocus(viewModel);
+
+            RefreshDocumentList();
+            RefreshDocumentTree(viewModel.Document.ID);
+
+            ShowDocumentProperties(viewModel2);
+        }
+
+        private void HideDocumentProperties()
+        {
+            documentPropertiesUserControl.Hide();
+            HidePropertiesPanel();
         }
 
         // Other Actions
@@ -348,6 +507,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             ShowDocumentList();
         }
 
+        private void menuUserControl_ShowDocumentTreeRequested(object sender, EventArgs e)
+        {
+            // TODO: You cannot know which document to open without a MainPresenter and MainViewModel.
+            throw new NotImplementedException();
+        }
+
         // Document List Events
 
         private void documentListUserControl_ShowRequested(object sender, PageEventArgs e)
@@ -360,9 +525,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             CreateDocument();
         }
 
-        private void documentListUserControl_EditRequested(object sender, IDEventArgs e)
+        private void documentListUserControl_OpenRequested(object sender, IDEventArgs e)
         {
-            EditDocument(e.ID);
+            OpenDocument(e.ID);
         }
 
         private void documentListUserControl_DeleteRequested(object sender, IDEventArgs e)
@@ -372,7 +537,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
         private void documentListUserControl_CloseRequested(object sender, EventArgs e)
         {
-            CloseDocumentList();
+            HideDocumentList();
         }
 
         // Document Details Events
@@ -389,7 +554,53 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
         private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e)
         {
-            CloseDocumentDetails();
+            HideDocumentDetails();
+        }
+
+        // Document Tree Events
+
+        private void documentTreeUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            HideDocumentTree();
+        }
+
+        private void documentTreeUserControl_DocumentPropertiesRequested(object sender, IDEventArgs e)
+        {
+            ShowDocumentProperties(e.ID);
+        }
+
+        // Document Properties Events
+
+        private void documentPropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            CloseDocumentProperties(documentPropertiesUserControl.ViewModel);
+        }
+
+        private void documentPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        {
+            DocumentPropertiesLoseFocus(documentPropertiesUserControl.ViewModel);
+        }
+
+        // Helpers
+
+        private void ShowTreePanel()
+        {
+            splitContainerTree.Panel1Collapsed = false;
+        }
+
+        private void HideTreePanel()
+        {
+            splitContainerTree.Panel1Collapsed = true;
+        }
+
+        private void ShowPropertiesPanel()
+        {
+            splitContainerProperties.Panel2Collapsed = false;
+        }
+
+        private void HidePropertiesPanel()
+        {
+            splitContainerProperties.Panel2Collapsed = true;
         }
     }
 }

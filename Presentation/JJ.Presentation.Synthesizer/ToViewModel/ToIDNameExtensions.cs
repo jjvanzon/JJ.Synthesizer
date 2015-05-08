@@ -11,88 +11,88 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToIDNameExtensions
     {
-        public static IDName ToIDName(this AudioFileFormat entity)
+        public static IDAndName ToIDName(this AudioFileFormat entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            return new IDName
+            return new IDAndName
             {
                 ID = entity.ID,
                 Name = entity.Name
             };
         }
 
-        public static IDName ToIDName(this SampleDataType entity)
+        public static IDAndName ToIDName(this SampleDataType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            return new IDName
+            return new IDAndName
             {
                 ID = entity.ID,
                 Name = entity.Name
             };
         }
 
-        public static IDName ToIDName(this SpeakerSetup entity)
+        public static IDAndName ToIDName(this SpeakerSetup entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            return new IDName
+            return new IDAndName
             {
                 ID = entity.ID,
                 Name = entity.Name
             };
         }
 
-        public static IDName ToIDName(this Curve entity)
+        public static IDAndName ToIDName(this Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            return new IDName
+            return new IDAndName
             {
                 ID = entity.ID,
                 Name = entity.Name
             };
         }
 
-        public static IDName ToIDName(this Document entity)
+        public static IDAndName ToIDName(this Document entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            return new IDName
+            return new IDAndName
             {
                 ID = entity.ID,
                 Name = entity.Name
             };
         }
 
-        public static IDName ToIDName(this Outlet entity)
+        public static IDAndName ToIDName(this Outlet entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            return new IDName
+            return new IDAndName
             {
                 ID = entity.ID,
                 Name = entity.Name
             };
         }
 
-        public static IDName ToIDName(this NodeType entity)
+        public static IDAndName ToIDName(this NodeType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            return new IDName
+            return new IDAndName
             {
                 ID = entity.ID,
                 Name = entity.Name
             };
         }
 
-        public static IDName ToIDName(this InterpolationType entity)
+        public static IDAndName ToIDName(this InterpolationType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            return new IDName
+            return new IDAndName
             {
                 ID = entity.ID,
                 Name = entity.Name

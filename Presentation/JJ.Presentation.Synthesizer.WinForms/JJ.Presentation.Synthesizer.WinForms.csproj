@@ -109,10 +109,10 @@
     <Compile Include="Forms\PatchDetailsForm.Designer.cs">
       <DependentUpon>PatchDetailsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\MainForm.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MainForm.Designer.cs">
+    <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\PatchListForm.cs">
@@ -144,6 +144,18 @@
     </Compile>
     <Compile Include="UserControls\AudioFileOutputDetailsUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputDetailsUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DocumentPropertiesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DocumentPropertiesUserControl.Designer.cs">
+      <DependentUpon>DocumentPropertiesUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\DocumentTreeUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\DocumentTreeUserControl.Designer.cs">
+      <DependentUpon>DocumentTreeUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\DocumentCannotDeleteUserControl.cs">
       <SubType>UserControl</SubType>
@@ -217,7 +229,7 @@
     <EmbeddedResource Include="Forms\PatchDetailsForm.resx">
       <DependentUpon>PatchDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForm.resx">
+    <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\PatchListForm.resx">
@@ -232,6 +244,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputDetailsUserControl.resx">
       <DependentUpon>AudioFileOutputDetailsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\DocumentPropertiesUserControl.resx">
+      <DependentUpon>DocumentPropertiesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\DocumentTreeUserControl.resx">
+      <DependentUpon>DocumentTreeUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DocumentCannotDeleteUserControl.resx">
       <DependentUpon>DocumentCannotDeleteUserControl.cs</DependentUpon>
