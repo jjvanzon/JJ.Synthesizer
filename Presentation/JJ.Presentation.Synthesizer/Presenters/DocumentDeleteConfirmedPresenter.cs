@@ -1,4 +1,6 @@
-﻿using JJ.Presentation.Synthesizer.ViewModel;
+﻿using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         public DocumentDeleteConfirmedViewModel Show()
         {
-            return new DocumentDeleteConfirmedViewModel();
+            DocumentDeleteConfirmedViewModel viewModel = ViewModelHelper.CreateDocumentDeleteConfirmedViewModel();
+            return viewModel;
+        }
+
+        public DocumentDeleteConfirmedViewModel OK()
+        {
+            DocumentDeleteConfirmedViewModel viewModel = ViewModelHelper.CreateDocumentDeleteConfirmedViewModel();
+            viewModel.Visible = false;
+            return viewModel;
         }
     }
 }

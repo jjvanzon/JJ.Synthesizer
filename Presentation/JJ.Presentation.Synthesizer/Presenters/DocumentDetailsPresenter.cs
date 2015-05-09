@@ -14,6 +14,7 @@ using JJ.Presentation.Synthesizer.Extensions;
 using JJ.Framework.Presentation;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -95,34 +96,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return DocumentConfirmDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel.
         /// </summary>
-        public object Delete(
-            int id,
-            ICurveRepository curveRepository,
-            IPatchRepository patchRepository,
-            ISampleRepository sampleRepository,
-            IAudioFileOutputRepository audioFileOutputRepository,
-            IDocumentReferenceRepository documentReferenceRepository,
-            INodeRepository nodeRepository,
-            IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
-            IOperatorRepository operatorRepository,
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository,
-            IEntityPositionRepository entityPositionRepository)
+        public object Delete(int id, RepositoryWrapper repositoryWrapper)
         {
-            DocumentConfirmDeletePresenter presenter2 = new DocumentConfirmDeletePresenter(
-                _documentRepository,
-                curveRepository,
-                patchRepository,
-                sampleRepository,
-                audioFileOutputRepository,
-                documentReferenceRepository,
-                nodeRepository,
-                audioFileOutputChannelRepository,
-                operatorRepository,
-                inletRepository,
-                outletRepository,
-                entityPositionRepository);
-
+            var presenter2 = new DocumentConfirmDeletePresenter(repositoryWrapper);
             object viewModel2 = presenter2.Show(id);
             return viewModel2;
         }

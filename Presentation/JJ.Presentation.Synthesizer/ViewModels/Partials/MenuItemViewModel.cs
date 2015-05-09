@@ -7,7 +7,5 @@ using System.Threading.Tasks;
 namespace JJ.Presentation.Synthesizer.ViewModels.Partials
 {
     public sealed class MenuItemViewModel
-    {
-        //public string Text { get; set; }
-    }
+    { }
 }

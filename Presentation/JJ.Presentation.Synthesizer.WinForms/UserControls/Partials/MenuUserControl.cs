@@ -57,10 +57,28 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             _resizeBusy = false;
         }
 
+        public void Show(MenuViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            ApplyViewModel(viewModel);
+
+            base.Show();
+        }
+
         private new void Show()
         {
             var presenter = new MenuPresenter();
             MenuViewModel viewModel = presenter.Show();
+
+            ApplyViewModel(viewModel);
+
+            base.Show();
+        }
+
+        private void ApplyViewModel(MenuViewModel viewModel)
+        {
+            menuStrip.Items.Clear();
 
             ToolStripMenuItem viewToolStripMenuItem = CreateViewToolStripMenuItem(viewModel.ViewMenu);
             menuStrip.Items.Add(viewToolStripMenuItem);
@@ -72,8 +90,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             ToolStripMenuItem documentTreeToolStripMenuItem = CreateDocumentTreeToolStripMenuItem(viewModel.ViewMenu.DocumentTreeMenuItem);
             documentTreeToolStripMenuItem.Click += documentTreeToolStripMenuItem_Click;
             viewToolStripMenuItem.DropDownItems.Add(documentTreeToolStripMenuItem);
-
-            base.Show();
         }
 
         private ToolStripMenuItem CreateViewToolStripMenuItem(ViewMenuViewModel viewModel)

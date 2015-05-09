@@ -20,7 +20,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private IAudioFileOutputRepository _audioFileOutputRepository;
 
         private static int _pageSize;
-        private static int _maxVisiblePageNumbers;
 
         public AudioFileOutputListPresenter(IAudioFileOutputRepository audioFileOutputRepository)
         {
@@ -30,21 +29,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
             _pageSize = config.PageSize;
-            _maxVisiblePageNumbers = config.MaxVisiblePageNumbers;
         }
 
         public AudioFileOutputListViewModel Show(int pageNumber)
         {
             int pageIndex = pageNumber - 1;
-            IList<AudioFileOutput> audioFileOutputes = _audioFileOutputRepository.GetPage(pageIndex * _pageSize, _pageSize);
 
-            int count = _audioFileOutputRepository.Count();
+            IList<AudioFileOutput> audioFileOutputs = _audioFileOutputRepository.GetPage(pageIndex * _pageSize, _pageSize);
+            int totalCount = _audioFileOutputRepository.Count();
 
-            var viewModel = new AudioFileOutputListViewModel
-            {
-                List = audioFileOutputes.Select(x => x.ToListItemViewModel()).ToArray(),
-                Pager = PagerViewModelFactory.Create(pageIndex, _pageSize, count, _maxVisiblePageNumbers)
-            };
+            AudioFileOutputListViewModel viewModel = audioFileOutputs.ToListViewModel(pageIndex, _pageSize, totalCount);
 
             return viewModel;
         }

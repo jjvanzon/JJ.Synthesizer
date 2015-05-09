@@ -8,10 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JJ.Framework.Presentation;
-using JJ.Presentation.Synthesizer.ViewModel;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -20,36 +20,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private IDocumentRepository _documentRepository;
         private DocumentManager _documentManager;
 
-        public DocumentConfirmDeletePresenter(
-            IDocumentRepository documentRepository,
-            ICurveRepository curveRepository,
-            IPatchRepository patchRepository,
-            ISampleRepository sampleRepository,
-            IAudioFileOutputRepository audioFileOutputRepository,
-            IDocumentReferenceRepository documentReferenceRepository,
-            INodeRepository nodeRepository,
-            IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
-            IOperatorRepository operatorRepository,
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository,
-            IEntityPositionRepository entityPositionRepository)
+        public DocumentConfirmDeletePresenter(RepositoryWrapper repositoryWrapper)
         {
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
-            _documentRepository = documentRepository;
-            _documentManager = new DocumentManager(
-                documentRepository,
-                curveRepository,
-                patchRepository,
-                sampleRepository,
-                audioFileOutputRepository,
-                documentReferenceRepository,
-                nodeRepository,
-                audioFileOutputChannelRepository,
-                operatorRepository,
-                inletRepository,
-                outletRepository,
-                entityPositionRepository);
+            _documentRepository = repositoryWrapper.DocumentRepository;
+            _documentManager = new DocumentManager(repositoryWrapper);
         }
 
         /// <summary>
@@ -60,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _documentRepository.TryGet(id);
             if (document == null)
             {
-                NotFoundPresenter presenter2 = new NotFoundPresenter();
+                var presenter2 = new NotFoundPresenter();
                 NotFoundViewModel viewModel2 = presenter2.Show(typeof(Document).Name);
                 return viewModel2;
             }
@@ -70,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (!result.Successful)
                 {
-                    DocumentCannotDeletePresenter presenter2 = new DocumentCannotDeletePresenter();
+                    var presenter2 = new DocumentCannotDeletePresenter();
                     DocumentCannotDeleteViewModel viewModel2 = presenter2.Show(document, result.Messages);
                     return viewModel2;
                 }
@@ -85,12 +61,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return DocumentDeleteConfirmedViewModel or NotFoundViewModel.
         /// </summary>
-        public object Confirm(int id)
+        public object Confirm(DocumentConfirmDeleteViewModel viewModel)
         {
-            Document document = _documentRepository.TryGet(id);
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            Document document = _documentRepository.TryGet(viewModel.Document.ID);
             if (document == null)
             {
-                NotFoundPresenter presenter2 = new NotFoundPresenter();
+                var presenter2 = new NotFoundPresenter();
                 NotFoundViewModel viewModel2 = presenter2.Show(typeof(Document).Name);
                 return viewModel2;
             }
@@ -98,15 +76,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 _documentManager.Delete(document);
 
-                DocumentDeleteConfirmedPresenter presenter2 = new DocumentDeleteConfirmedPresenter();
+                var presenter2 = new DocumentDeleteConfirmedPresenter();
                 DocumentDeleteConfirmedViewModel viewModel2 = presenter2.Show();
                 return viewModel2;
             }
         }
 
-        public PreviousViewModel Cancel()
+        public DocumentConfirmDeleteViewModel Cancel(DocumentConfirmDeleteViewModel viewModel)
         {
-            return new PreviousViewModel();
+            if (viewModel == null) throw new NullException(() => viewModel);
+            viewModel.Visible = false;
+            return viewModel;
         }
     }
 }

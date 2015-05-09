@@ -15,15 +15,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public DocumentCannotDeleteViewModel Show(Document document, IList<Message> messages)
         {
             if (document == null) throw new NullException(() => document);
-            if (messages == null) throw new NullException(() => messages);
 
-            var viewModel = new DocumentCannotDeleteViewModel
-            {
-                Document= document.ToIDName(),
-                Messages = messages
-            };
+            DocumentCannotDeleteViewModel viewModel = document.ToCannotDeleteViewModel(messages);
+            return viewModel;
+        }
 
-            return viewModel; 
+        public DocumentCannotDeleteViewModel OK(DocumentCannotDeleteViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            viewModel.Visible = false;
+            return viewModel;
         }
     }
 }

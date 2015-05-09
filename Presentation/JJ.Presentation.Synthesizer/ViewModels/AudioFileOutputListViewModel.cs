@@ -10,6 +10,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class AudioFileOutputListViewModel
     {
+        public bool Visible { get; set; }
+
         public IList<AudioFileOutputListItemViewModel> List { get; set; }
         public PagerViewModel Pager { get; set; }
     }

@@ -10,6 +10,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class SampleDetailsViewModel
     {
+        public bool Visible { get; set; }
+
         public SampleViewModel Sample { get; set; }
 
         public IList<IDAndName> AudioFileFormats { get; set; }

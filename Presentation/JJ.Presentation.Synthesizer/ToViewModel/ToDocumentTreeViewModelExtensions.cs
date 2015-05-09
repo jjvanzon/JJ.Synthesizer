@@ -19,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new DocumentTreeViewModel
             {
+                Visible = true,
                 ID = document.ID,
                 Name = document.Name,
                 CurvesNode = new DummyViewModel(),

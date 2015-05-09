@@ -151,6 +151,7 @@
     <Compile Include="EntityWrappers\MultiplyWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
     <Compile Include="EntityWrappers\SubstractWrapper.cs" />
+    <Compile Include="Helpers\RepositoryWrapper.cs" />
     <Compile Include="Helpers\SampleDataTypeHelper.cs" />
     <Compile Include="Extensions\SampleExtensions.cs" />
     <Compile Include="Infos\AudioFileInfo.cs" />

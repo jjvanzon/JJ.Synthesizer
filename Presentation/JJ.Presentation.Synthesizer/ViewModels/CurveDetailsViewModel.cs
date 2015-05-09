@@ -10,6 +10,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class CurveDetailsViewModel
     {
+        public bool Visible { get; set; }
+
         public CurveViewModel Curve { get; set; }
         public IList<IDAndName> NodeTypes { get; set; }
     }

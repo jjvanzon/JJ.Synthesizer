@@ -6,81 +6,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
     public static class DeleteRelatedEntitiesExtensions
     {
-        public static void DeleteRelatedEntities(
-            this Document document,
-            IDocumentRepository documentRepository,
-            ICurveRepository curveRepository,
-            IPatchRepository patchRepository,
-            ISampleRepository sampleRepository,
-            IAudioFileOutputRepository audioFileOutputRepository,
-            IDocumentReferenceRepository documentReferenceRepository,
-            INodeRepository nodeRepository,
-            IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
-            IOperatorRepository operatorRepository,
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository,
-            IEntityPositionRepository entityPositionRepository)
+        public static void DeleteRelatedEntities(this Document document, RepositoryWrapper repositoryWrapper)
         {
-            if (document == null) throw new NullException(() => document);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
-            if (documentReferenceRepository == null) throw new NullException(() => documentReferenceRepository);
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
             foreach (Document instrument in document.Instruments)
             {
                 // Recursive call
-                instrument.DeleteRelatedEntities(documentRepository, curveRepository, patchRepository, sampleRepository, audioFileOutputRepository, documentReferenceRepository, nodeRepository, audioFileOutputChannelRepository, operatorRepository, inletRepository, outletRepository, entityPositionRepository);
+                instrument.DeleteRelatedEntities(repositoryWrapper);
                 instrument.UnlinkRelatedEntities();
-                documentRepository.Delete(instrument);
+                repositoryWrapper.DocumentRepository.Delete(instrument);
             }
 
             foreach (Document effect in document.Effects)
             {
                 // Recursive call
-                effect.DeleteRelatedEntities(documentRepository, curveRepository, patchRepository, sampleRepository, audioFileOutputRepository, documentReferenceRepository, nodeRepository, audioFileOutputChannelRepository, operatorRepository, inletRepository, outletRepository, entityPositionRepository);
+                effect.DeleteRelatedEntities(repositoryWrapper);
                 effect.UnlinkRelatedEntities();
-                documentRepository.Delete(effect);
+                repositoryWrapper.DocumentRepository.Delete(effect);
             }
 
             foreach (Curve curve in document.Curves)
             {
-                curve.DeleteRelatedEntities(nodeRepository);
+                curve.DeleteRelatedEntities(repositoryWrapper.NodeRepository);
                 curve.UnlinkRelatedEntities();
-                curveRepository.Delete(curve);
+                repositoryWrapper.CurveRepository.Delete(curve);
             }
 
             foreach (Sample sample in document.Samples)
             {
                 sample.UnlinkRelatedEntities();
-                sampleRepository.Delete(sample);
+                repositoryWrapper.SampleRepository.Delete(sample);
             }
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
             {
-                audioFileOutput.DeleteRelatedEntities(audioFileOutputChannelRepository);
+                audioFileOutput.DeleteRelatedEntities(repositoryWrapper.AudioFileOutputChannelRepository);
                 audioFileOutput.UnlinkRelatedEntities();
-                audioFileOutputRepository.Delete(audioFileOutput);
+                repositoryWrapper.AudioFileOutputRepository.Delete(audioFileOutput);
             }
 
             foreach (Patch patch in document.Patches)
             {
-                patch.DeleteRelatedEntities(operatorRepository, inletRepository, outletRepository, entityPositionRepository);
+                patch.DeleteRelatedEntities(repositoryWrapper.OperatorRepository, repositoryWrapper.InletRepository, repositoryWrapper.OutletRepository, repositoryWrapper.EntityPositionRepository);
                 patch.UnlinkRelatedEntities();
-                patchRepository.Delete(patch);
+                repositoryWrapper.PatchRepository.Delete(patch);
             }
 
             foreach (DocumentReference documentReference in document.DependentOnDocuments)
             {
                 documentReference.UnlinkRelatedEntities();
-                documentReferenceRepository.Delete(documentReference);
+                repositoryWrapper.DocumentReferenceRepository.Delete(documentReference);
             }
         }
 

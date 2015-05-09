@@ -10,6 +10,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class PatchListViewModel
     {
+        public bool Visible { get; set; }
+
         public IList<PatchListItemViewModel> List { get; set; }
         public PagerViewModel Pager { get; set; }
     }

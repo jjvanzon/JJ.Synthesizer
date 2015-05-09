@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
-    internal static class ToViewModelExtensions
+    internal static class ToDetailsOrPropertiesViewModelExtensions
     {
         public static AudioFileOutputDetailsViewModel ToDetailsViewModel(
             this AudioFileOutput entity,
@@ -82,6 +82,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DocumentDetailsViewModel
             {
+                Visible = true,
                 Document = document.ToIDName(),
                 Messages = new List<Message>()
             };
@@ -93,6 +94,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DocumentPropertiesViewModel
             {
+                Visible = true,
                 Document = document.ToIDName(),
                 Messages = new List<Message>()
             };

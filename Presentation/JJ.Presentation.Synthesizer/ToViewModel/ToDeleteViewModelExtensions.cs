@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
-    internal static class ToConfirmDeleteViewModelExtensions
+    internal static class ToDeleteViewModelExtensions
     {
-        // TODO: Consider doing this direct in the presenters instead.
         public static DocumentConfirmDeleteViewModel ToConfirmDeleteViewModel(this Document entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             var viewModel = new DocumentConfirmDeleteViewModel
             {
-                Object = new IDAndName
+                Visible = true,
+                Document = new IDAndName
                 {
                     ID = entity.ID,
                     Name = entity.Name,
@@ -27,6 +27,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
+        }
+
+        public static DocumentCannotDeleteViewModel ToCannotDeleteViewModel(this Document entity, IList<Message> messages)
+        {
+            if (messages == null) throw new NullException(() => messages);
+
+            var viewModel = new DocumentCannotDeleteViewModel
+            {
+                Visible = true,
+                Document = entity.ToIDName(),
+                Messages = messages
+            };
+
+            return viewModel; 
         }
     }
 }

@@ -61,7 +61,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IValidator validator = new DocumentValidator(document);
             if (!validator.IsValid)
             {
-                // TODO: Be more stateful.
                 DocumentPropertiesViewModel viewModel2 = document.ToPropertiesViewModel();
                 viewModel2.Messages = validator.ValidationMessages.ToCanonical();
 
@@ -84,7 +83,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IValidator validator = new DocumentValidator(document);
             if (!validator.IsValid)
             {
-                // TODO: Be more stateful.
                 DocumentPropertiesViewModel viewModel2 = document.ToPropertiesViewModel();
                 viewModel2.Messages = validator.ValidationMessages.ToCanonical();
 

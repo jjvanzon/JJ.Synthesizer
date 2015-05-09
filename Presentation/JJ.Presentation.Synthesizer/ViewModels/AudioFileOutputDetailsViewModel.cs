@@ -10,6 +10,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class AudioFileOutputDetailsViewModel
     {
+        public bool Visible { get; set; }
+
         public AudioFileOutputViewModel AudioFileOutput { get; set; }
 
         public IList<IDAndName> AudioFileFormats { get; set; }

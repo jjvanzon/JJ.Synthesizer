@@ -20,7 +20,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private IPatchRepository _patchRepository;
 
         private static int _pageSize;
-        private static int _maxVisiblePageNumbers;
 
         public PatchListPresenter(IPatchRepository patchRepository)
         {
@@ -30,21 +29,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
             _pageSize = config.PageSize;
-            _maxVisiblePageNumbers = config.MaxVisiblePageNumbers;
         }
 
         public PatchListViewModel Show(int pageNumber)
         {
             int pageIndex = pageNumber - 1;
+
             IList<Patch> patches = _patchRepository.GetPage(pageIndex * _pageSize, _pageSize);
+            int totalCount = _patchRepository.Count();
 
-            int count = _patchRepository.Count();
-
-            var viewModel = new PatchListViewModel
-            {
-                List = patches.Select(x => x.ToListItemViewModel()).ToArray(),
-                Pager = PagerViewModelFactory.Create(pageIndex, _pageSize, count, _maxVisiblePageNumbers)
-            };
+            PatchListViewModel viewModel = patches.ToListViewModel(pageIndex, _pageSize, totalCount);
 
             return viewModel;
         }

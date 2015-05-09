@@ -9,6 +9,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class DocumentPropertiesViewModel
     {
+        public bool Visible { get; set; }
         public IDAndName Document { get; set; }
         public IList<Message> Messages { get; set; }
     }

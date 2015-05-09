@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JJ.Framework.Presentation;
 using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -21,7 +22,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private IDocumentRepository _documentRepository;
 
         private static int _pageSize;
-        private static int _maxVisiblePageNumbers;
 
         public DocumentListPresenter(IDocumentRepository documentRepository)
         {
@@ -31,21 +31,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
             _pageSize = config.PageSize;
-            _maxVisiblePageNumbers = config.MaxVisiblePageNumbers;
         }
 
         public DocumentListViewModel Show(int pageNumber)
         {
             int pageIndex = pageNumber - 1;
-            IList<Document> documents = _documentRepository.GetPageOfRootDocuments(pageIndex * _pageSize, _pageSize);
 
+            IList<Document> documents = _documentRepository.GetPageOfRootDocuments(pageIndex * _pageSize, _pageSize);
             int totalCount = _documentRepository.CountRootDocuments();
 
-            DocumentListViewModel viewModel = new DocumentListViewModel
-            {
-                List = documents.Select(x => x.ToIDName()).ToArray(),
-                Pager = PagerViewModelFactory.Create(pageIndex, _pageSize, totalCount, _maxVisiblePageNumbers)
-            };
+            DocumentListViewModel viewModel = documents.ToListViewModel(pageIndex, _pageSize, totalCount);
 
             _documentRepository.Rollback();
 
@@ -72,34 +67,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return DocumentConfirmDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel.
         /// </summary>
-        public object Delete(
-            int id,
-            ICurveRepository curveRepository,
-            IPatchRepository patchRepository,
-            ISampleRepository sampleRepository,
-            IAudioFileOutputRepository audioFileOutputRepository,
-            IDocumentReferenceRepository documentReferenceRepository,
-            INodeRepository nodeRepository,
-            IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
-            IOperatorRepository operatorRepository,
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository,
-            IEntityPositionRepository entityPositionRepository)
+        public object Delete(int id, RepositoryWrapper repositoryWrapper)
         {
-            DocumentConfirmDeletePresenter presenter2 = new DocumentConfirmDeletePresenter(
-                _documentRepository,
-                curveRepository,
-                patchRepository,
-                sampleRepository,
-                audioFileOutputRepository,
-                documentReferenceRepository,
-                nodeRepository,
-                audioFileOutputChannelRepository,
-                operatorRepository,
-                inletRepository,
-                outletRepository,
-                entityPositionRepository);
-
+            var presenter2 = new DocumentConfirmDeletePresenter(repositoryWrapper);
             object viewModel2 = presenter2.Show(id);
             return viewModel2;
         }

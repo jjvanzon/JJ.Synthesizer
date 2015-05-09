@@ -45,7 +45,11 @@
     <Compile Include="Presenters\DocumentDeleteConfirmedPresenter.cs" />
     <Compile Include="Presenters\DocumentPropertiesPresenter.cs" />
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
+    <Compile Include="Presenters\MainPresenter.cs" />
+    <Compile Include="ToViewModel\ViewModelHelper_Other.cs" />
+    <Compile Include="ToViewModel\ViewModelHelper_Lookups.cs" />
     <Compile Include="ToViewModel\ToDocumentTreeViewModelExtensions.cs" />
+    <Compile Include="ToViewModel\ToListViewModelExtensions.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentDeleteConfirmedViewModel.cs" />
     <Compile Include="Presenters\DocumentDetailsPresenter.cs" />
@@ -65,12 +69,12 @@
       <DependentUpon>Titles.resx</DependentUpon>
     </Compile>
     <Compile Include="ToEntity\ToEntityExtensions.cs" />
-    <Compile Include="ToViewModel\ToConfirmDeleteViewModelExtensions.cs" />
-    <Compile Include="ToViewModel\ToViewModelExtensions.cs" />
+    <Compile Include="ToViewModel\ToDeleteViewModelExtensions.cs" />
+    <Compile Include="ToViewModel\ToDetailsOrPropertiesViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToIDNameExtensions.cs" />
     <Compile Include="ToViewModel\ToPatchDetailsViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToEntityViewModelExtensions.cs" />
-    <Compile Include="ToViewModel\ViewModelHelper.cs" />
+    <Compile Include="ToViewModel\ViewModelHelper_EmptyViewModels.cs" />
     <Compile Include="ViewModels\AudioFileOutputDetailsViewModel.cs" />
     <Compile Include="ViewModels\AudioFileOutputListViewModel.cs" />
     <Compile Include="ViewModels\CurveDetailsViewModel.cs" />
@@ -84,7 +88,6 @@
     <Compile Include="ViewModels\Entities\AudioFileOutputListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\AudioFileOutputViewModel.cs" />
     <Compile Include="ViewModels\Entities\CurveViewModel.cs" />
-    <Compile Include="ViewModels\Entities\~DocumentViewModel.cs" />
     <Compile Include="ViewModels\Entities\NodeViewModel.cs" />
     <Compile Include="ViewModels\Entities\PatchListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\SampleListItemViewModel.cs" />
@@ -94,6 +97,7 @@
     <Compile Include="ViewModels\Entities\PatchViewModel.cs" />
     <Compile Include="ViewModels\Entities\OperatorTypeViewModel.cs" />
     <Compile Include="ViewModels\Entities\SampleViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\NotFoundViewModel.cs" />
     <Compile Include="ViewModels\Partials\DummyViewModel.cs" />
@@ -163,6 +167,7 @@
       <LastGenOutput>Titles.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

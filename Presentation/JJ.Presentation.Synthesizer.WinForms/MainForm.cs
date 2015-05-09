@@ -23,10 +23,11 @@ using JJ.Presentation.Synthesizer.Svg.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
-using JJ.Presentation.Synthesizer.ViewModel;
 using JJ.Framework.Presentation;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.Forms;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -34,54 +35,34 @@ namespace JJ.Presentation.Synthesizer.WinForms
     {
         private IContext _context;
 
-        private IDocumentRepository _documentRepository;
-        private ICurveRepository _curveRepository;
-        private IPatchRepository _patchRepository;
-        private ISampleRepository _sampleRepository;
-        private IAudioFileOutputRepository _audioFileOutputRepository;
-        private IDocumentReferenceRepository _documentReferenceRepository;
-        private INodeRepository _nodeRepository;
-        private IAudioFileOutputChannelRepository _audioFileOutputChannelRepository;
-        private IOperatorRepository _operatorRepository;
-        private IInletRepository _inletRepository;
-        private IOutletRepository _outletRepository;
-        private IEntityPositionRepository _entityPositionRepository;
+        private RepositoryWrapper _repositoryWrapper;
 
+        private MainPresenter _presenter;
         private DocumentListPresenter _documentListPresenter;
         private DocumentDetailsPresenter _documentDetailsPresenter;
         private DocumentPropertiesPresenter _documentPropertiesPresenter;
         private DocumentTreePresenter _documentTreePresenter;
         private DocumentConfirmDeletePresenter _documentConfirmDeletePresenter;
 
+        private MainViewModel _viewModel;
+
         public MainForm()
         {
             InitializeComponent();
 
             _context = PersistenceHelper.CreateContext();
+            _repositoryWrapper = CreateRepositoryWrapper();
 
-            _documentRepository = PersistenceHelper.CreateRepository<IDocumentRepository>(_context);
-            _curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(_context);
-            _patchRepository = PersistenceHelper.CreateRepository<IPatchRepository>(_context);
-            _sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(_context);
-            _audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(_context);
-            _documentReferenceRepository = PersistenceHelper.CreateRepository<IDocumentReferenceRepository>(_context);
-            _nodeRepository = PersistenceHelper.CreateRepository<INodeRepository>(_context);
-            _audioFileOutputChannelRepository = PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(_context);
-            _operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(_context);
-            _inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(_context);
-            _outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(_context);
-            _entityPositionRepository = PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context);
+            _presenter = new MainPresenter(_repositoryWrapper);
 
-            _documentListPresenter = new DocumentListPresenter(_documentRepository);
-            _documentDetailsPresenter = new DocumentDetailsPresenter(_documentRepository);
-            _documentPropertiesPresenter = new DocumentPropertiesPresenter(_documentRepository);
-            _documentTreePresenter = new DocumentTreePresenter(_documentRepository);
-            _documentConfirmDeletePresenter = new DocumentConfirmDeletePresenter(
-                _documentRepository, _curveRepository, _patchRepository, _sampleRepository,
-                _audioFileOutputRepository, _documentReferenceRepository, _nodeRepository, _audioFileOutputChannelRepository,
-                _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            _documentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
+            _documentDetailsPresenter = new DocumentDetailsPresenter(_repositoryWrapper.DocumentRepository);
+            _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositoryWrapper.DocumentRepository);
+            _documentTreePresenter = new DocumentTreePresenter(_repositoryWrapper.DocumentRepository);
+            _documentConfirmDeletePresenter = new DocumentConfirmDeletePresenter(_repositoryWrapper);
 
             documentListUserControl.ShowRequested += documentListUserControl_ShowRequested;
+            documentListUserControl.CloseRequested += documentListUserControl_CloseRequested;
             documentListUserControl.CreateRequested += documentListUserControl_CreateRequested;
             documentListUserControl.OpenRequested += documentListUserControl_OpenRequested;
             documentListUserControl.DeleteRequested += documentListUserControl_DeleteRequested;
@@ -96,10 +77,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             
             SetTitles();
 
-            HideTreePanel();
-            HidePropertiesPanel();
+            //HideTreePanel();
+            //HidePropertiesPanel();
 
-            ShowDocumentList();
+            Open();
+
+            //ShowDocumentList();
 
             //ShowAudioFileOutputList();
             //ShowCurveList();
@@ -107,6 +90,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
             //ShowSampleList();
             //ShowAudioFileOutputDetails();
             //ShowPatchDetails();
+        }
+
+        private RepositoryWrapper CreateRepositoryWrapper()
+        {
+            var repositoryWrapper = new RepositoryWrapper
+            (
+                PersistenceHelper.CreateRepository<IDocumentRepository>(_context),
+                PersistenceHelper.CreateRepository<ICurveRepository>(_context),
+                PersistenceHelper.CreateRepository<IPatchRepository>(_context),
+                PersistenceHelper.CreateRepository<ISampleRepository>(_context),
+                PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(_context),
+                PersistenceHelper.CreateRepository<IDocumentReferenceRepository>(_context),
+                PersistenceHelper.CreateRepository<INodeRepository>(_context),
+                PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(_context),
+                PersistenceHelper.CreateRepository<IOperatorRepository>(_context),
+                PersistenceHelper.CreateRepository<IInletRepository>(_context),
+                PersistenceHelper.CreateRepository<IOutletRepository>(_context),
+                PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context)
+            );
+
+            return repositoryWrapper;
         }
 
         /// <summary>
@@ -138,20 +142,30 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // General Actions
 
-        private void ShowNotFound(NotFoundViewModel viewModel)
+        private void Open()
         {
-            MessageBox.Show(viewModel.Message);
+            MainViewModel viewModel = _presenter.Open();
+            SetViewModel(viewModel);
         }
 
         // Document List Actions
 
+        // Done
         private void ShowDocumentList(int pageNumber = 1)
         {
-            DocumentListViewModel viewModel = _documentListPresenter.Show(pageNumber);
-            documentListUserControl.ViewModel = viewModel;
-            documentListUserControl.Show();
+            MainViewModel viewModel2 = _presenter.ShowDocumentList(_viewModel, pageNumber);
+            SetViewModel(viewModel2);
         }
 
+        // Done
+        private void CloseDocumentList()
+        {
+            MainViewModel viewModel2 = _presenter.CloseDocumentList(_viewModel);
+            SetViewModel(viewModel2);
+        }
+
+        // Done
+        [Obsolete("Will become obsolete once everything is properly managed through the main presenter.")]
         private void RefreshDocumentList()
         {
             int pageNumber = 1;
@@ -164,6 +178,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentListUserControl.ViewModel = viewModel;
         }
 
+        // Done
+        [Obsolete("Will become obsolete once everything is properly managed through the main presenter.")]
         private void HideDocumentList()
         {
             documentListUserControl.Hide();
@@ -171,6 +187,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Document Details Actions
 
+        // Done
+        [Obsolete("Will become obsolete once everything is properly managed through the main presenter.")]
         private void ShowDocumentDetails(DocumentDetailsViewModel viewModel)
         {
             documentDetailsUserControl.ViewModel = viewModel;
@@ -184,161 +202,86 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
         }
 
+        // Done
+        [Obsolete("Will become obsolete once everything is properly managed through the main presenter.")]
         private void HideDocumentDetails()
         {
             documentDetailsUserControl.Hide();
         }
 
+        // Done
         private void CreateDocument()
         {
-            DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Create();
-            ShowDocumentDetails(viewModel);
+            MainViewModel viewModel2 = _presenter.CreateDocument(_viewModel);
+            SetViewModel(viewModel2);
         }
 
-        private void EditDocument(int id)
-        {
-            object viewModel = _documentDetailsPresenter.Edit(id);
-
-            var notFoundViewModel = viewModel as NotFoundViewModel;
-            if (notFoundViewModel != null)
-            {
-                ShowNotFound(notFoundViewModel);
-                ShowDocumentList();
-                return;
-            }
-
-            var detailsViewModel = viewModel as DocumentDetailsViewModel;
-            if (detailsViewModel != null)
-            {
-                ShowDocumentDetails(detailsViewModel);
-                return;
-            }
-
-            throw new UnexpectedViewModelTypeException(viewModel);
-        }
-
+        // Done
         private void OpenDocument(int id)
         {
-            object viewModel = _documentTreePresenter.Show(id);
-
-            var notFoundViewModel = viewModel as NotFoundViewModel;
-            if (notFoundViewModel != null)
-            {
-                ShowNotFound(notFoundViewModel);
-                ShowDocumentList();
-                return;
-            }
-
-            var treeViewModel = viewModel as DocumentTreeViewModel;
-            if (treeViewModel != null)
-            {
-                OpenDocument(treeViewModel);
-                HideDocumentList();
-                return;
-            }
-
-            throw new UnexpectedViewModelTypeException(viewModel);
+            MainViewModel viewModel2 = _presenter.OpenDocument(_viewModel, id);
+            SetViewModel(viewModel2);
         }
 
-        private void OpenDocument(DocumentTreeViewModel viewModel)
+        // Done
+        private void SaveDocumentDetails(DocumentDetailsViewModel viewModel)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
+            // TODO: Not sure how much this will still work in a stateless environment.
+            _viewModel.DocumentDetails = viewModel;
 
-            documentTreeUserControl.ViewModel = viewModel;
-            documentTreeUserControl.Show();
-            ShowTreePanel();
+            MainViewModel viewModel2 = _presenter.SaveDocumentDetails(_viewModel);
+            SetViewModel(viewModel2);
         }
 
-        private void SaveDocument(DocumentDetailsViewModel viewModel)
+        // Done
+        private void DocumentCannotDeleteOK()
         {
-            object viewModel2 = _documentDetailsPresenter.Save(viewModel);
-
-            var detailsViewModel = viewModel2 as DocumentDetailsViewModel;
-            if (detailsViewModel != null)
-            {
-                ShowDocumentDetails(detailsViewModel);
-                return;
-            }
-
-            var previousViewModel = viewModel2 as PreviousViewModel;
-            if (previousViewModel != null)
-            {
-                HideDocumentDetails();
-                RefreshDocumentList();
-                return;
-            }
-
-            throw new UnexpectedViewModelTypeException(viewModel2);
+            MainViewModel viewModel2 = _presenter.DocumentCannotDeleteOK(_viewModel);
+            SetViewModel(viewModel2);
         }
 
+        // Done
+        private void NotFoundOK()
+        {
+            MainViewModel viewModel2 = _presenter.NotFoundOK(_viewModel);
+            SetViewModel(viewModel2);
+        }
+
+        // Done
         private void DeleteDocument(int id)
         {
-            object viewModel2 = _documentConfirmDeletePresenter.Show(id);
-
-            var notFoundViewModel = viewModel2 as NotFoundViewModel;
-            if (notFoundViewModel != null)
-            {
-                ShowNotFound(notFoundViewModel);
-                RefreshDocumentList();
-                return;
-            }
-
-            var cannotDeleteViewModel = viewModel2 as DocumentCannotDeleteViewModel;
-            if (cannotDeleteViewModel != null)
-            {
-                ShowDocumentCannotDelete(cannotDeleteViewModel);
-                return;
-            }
-
-            var confirmDeleteViewModel = viewModel2 as DocumentConfirmDeleteViewModel;
-            if (confirmDeleteViewModel != null)
-            {
-                ShowDocumentConfirmDelete(confirmDeleteViewModel);
-                RefreshDocumentList();
-                return;
-            }
-
-            throw new UnexpectedViewModelTypeException(viewModel2);
+            MainViewModel viewModel2 = _presenter.DeleteDocument(_viewModel, id);
+            SetViewModel(viewModel2);
         }
 
-        private void ShowDocumentCannotDelete(DocumentCannotDeleteViewModel viewModel)
-        {
-            var form = new DocumentCannotDeleteForm();
-            form.Show(viewModel);
-            return;
-        }
-
-        private void ShowDocumentConfirmDelete(DocumentConfirmDeleteViewModel viewModel)
-        {
-            string message = CommonMessageFormatter.ConfirmDeleteObjectWithName(PropertyDisplayNames.Document, viewModel.Object.Name);
-            if (MessageBox.Show(message, Titles.ApplicationName, MessageBoxButtons.YesNo) == DialogResult.Yes)
-            {
-                ConfirmDeleteDocument(viewModel.Object.ID);
-            }
-        }
-
+        // Done
         private void ConfirmDeleteDocument(int id)
         {
-            object viewModel2 = _documentConfirmDeletePresenter.Confirm(id);
+            MainViewModel viewModel2 = _presenter.ConfirmDeleteDocument(_viewModel, id);
+            SetViewModel(viewModel2);
+        }
 
-            var notFoundViewModel = viewModel2 as NotFoundViewModel;
-            if (notFoundViewModel != null)
-            {
-                MessageBox.Show(notFoundViewModel.Message);
-                RefreshDocumentList();
-                return;
-            }
+        // Done
+        private void DocumentDeleteConfirmedOK()
+        {
+            MainViewModel viewModel2 = _presenter.DocumentDeleteConfirmedOK(_viewModel);
+            SetViewModel(viewModel2);
+        }
 
-            var deleteConfirmedViewModel = viewModel2 as DocumentDeleteConfirmedViewModel;
-            if (deleteConfirmedViewModel != null)
-            {
-                HideDocumentDetails();
-                MessageBox.Show(CommonMessageFormatter.DeleteConfirmed(PropertyDisplayNames.Document));
-                RefreshDocumentList();
-                return;
-            }
+        // Done
+        private void CancelConfirmDeleteDocument()
+        {
+            MainViewModel viewModel2 = _presenter.CancelConfirmDeleteDocument(_viewModel);
+            SetViewModel(viewModel2);
+        }
 
-            throw new UnexpectedViewModelTypeException(viewModel2);
+        // Done
+        private void CloseDocumentDetails()
+        {
+            MainViewModel viewModel2 = _presenter.CloseDocumentDetails(_viewModel);
+            SetViewModel(viewModel2);
+            
+            //HideDocumentDetails();
         }
 
         // Document Tree Actions
@@ -346,7 +289,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void HideDocumentTree()
         {
             documentTreeUserControl.Hide();
-            HideTreePanel();
+            SetTreePanelVisible(false);
         }
 
         private void RefreshDocumentTree(int id)
@@ -400,7 +343,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentPropertiesUserControl.Show();
             documentPropertiesUserControl.BringToFront();
 
-            ShowPropertiesPanel();
+            SetPropertiesPanelVisible(true);
 
             // TODO: This 'if' is a major hack.
             if (viewModel.Messages.Count != 0)
@@ -451,7 +394,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void HideDocumentProperties()
         {
             documentPropertiesUserControl.Hide();
-            HidePropertiesPanel();
+            SetPropertiesPanelVisible(false);
         }
 
         // Other Actions
@@ -537,14 +480,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentListUserControl_CloseRequested(object sender, EventArgs e)
         {
-            HideDocumentList();
+            CloseDocumentList();
         }
 
         // Document Details Events
 
         private void documentDetailsUserControl_SaveRequested(object sender, EventArgs e)
         {
-            SaveDocument(documentDetailsUserControl.ViewModel);
+            SaveDocumentDetails(documentDetailsUserControl.ViewModel);
         }
 
         private void documentDetailsUserControl_DeleteRequested(object sender, IDEventArgs e)
@@ -554,7 +497,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e)
         {
-            HideDocumentDetails();
+            CloseDocumentDetails();
         }
 
         // Document Tree Events
@@ -583,24 +526,97 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Helpers
 
-        private void ShowTreePanel()
+        // TODO: Maybe SetViewModel should simply become ApplyViewModel without a viewModel parameter,
+        // just using the _viewModel field and in the MainForm action methods the _viewModel field
+        // is simply overwritten without an extra local variable.
+
+        private void SetViewModel(MainViewModel viewModel)
         {
-            splitContainerTree.Panel1Collapsed = false;
+            _viewModel = viewModel;
+
+            menuUserControl.Show(viewModel.Menu);
+
+            documentListUserControl.ViewModel = viewModel.DocumentList;
+            documentListUserControl.Visible = viewModel.DocumentList.Visible;
+
+            documentDetailsUserControl.ViewModel = viewModel.DocumentDetails;
+            documentDetailsUserControl.Visible = viewModel.DocumentDetails.Visible;
+
+            documentTreeUserControl.ViewModel = viewModel.DocumentTree;
+            documentTreeUserControl.Visible = viewModel.DocumentTree.Visible;
+
+            bool treePanelMustBeVisible = viewModel.DocumentTree.Visible;
+            SetTreePanelVisible(treePanelMustBeVisible);
+
+            bool propertiesPanelMustBeVisible = viewModel.DocumentProperties.Visible;
+            SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
+
+            if (viewModel.NotFound.Visible)
+            {
+                ShowNotFound(viewModel.NotFound);
+            }
+
+            if (viewModel.DocumentCannotDelete.Visible)
+            {
+                var form = new DocumentCannotDeleteForm();
+                form.ShowDialog(viewModel.DocumentCannotDelete);
+                DocumentCannotDeleteOK();
+            }
+
+            if (viewModel.DocumentConfirmDelete.Visible)
+            {
+                ShowDocumentConfirmDelete(viewModel.DocumentConfirmDelete);
+            }
+
+            if (viewModel.DocumentDeleteConfirmed.Visible)
+            {
+                MessageBox.Show(CommonMessageFormatter.ObjectIsDeleted(PropertyDisplayNames.Document));
+                DocumentDeleteConfirmedOK();
+            }
+
+            // TODO: Set other parts of the view.
+            // TODO: Make panel visibility dependent on more things.
         }
 
-        private void HideTreePanel()
+        private void ShowDocumentConfirmDelete(DocumentConfirmDeleteViewModel viewModel)
         {
-            splitContainerTree.Panel1Collapsed = true;
+            string message = CommonMessageFormatter.AreYouSureYouWishToDeleteWithName(PropertyDisplayNames.Document, viewModel.Document.Name);
+
+            DialogResult dialogResult = MessageBox.Show(message, Titles.ApplicationName, MessageBoxButtons.YesNo);
+            switch (dialogResult)
+            {
+                case DialogResult.Yes:
+                    ConfirmDeleteDocument(viewModel.Document.ID);
+                    break;
+
+                case DialogResult.No:
+                    CancelConfirmDeleteDocument();
+                    break;
+
+                default:
+                    throw new ValueNotSupportedException(dialogResult);
+            }
         }
 
-        private void ShowPropertiesPanel()
+        /// <summary>
+        /// Eventually ShowNotFound will only be called in SetMainViewModel,
+        /// after refactoring so that everything uses MainPresenter.
+        /// Then you might not need a separate ShowNotFound method anymore.
+        /// </summary>
+        private void ShowNotFound(NotFoundViewModel viewModel)
         {
-            splitContainerProperties.Panel2Collapsed = false;
+            MessageBox.Show(viewModel.Message);
+            NotFoundOK();
         }
 
-        private void HidePropertiesPanel()
+        private void SetTreePanelVisible(bool visible)
         {
-            splitContainerProperties.Panel2Collapsed = true;
+            splitContainerTree.Panel1Collapsed = !visible;
+        }
+
+        private void SetPropertiesPanelVisible(bool visible)
+        {
+            splitContainerProperties.Panel2Collapsed = !visible;
         }
     }
 }

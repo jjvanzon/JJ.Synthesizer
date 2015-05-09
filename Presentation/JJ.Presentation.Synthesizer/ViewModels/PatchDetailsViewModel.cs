@@ -10,6 +10,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class PatchDetailsViewModel
     {
+        public bool Visible { get; set; }
+
         public PatchViewModel Patch { get; set; }
 
         public IList<OperatorTypeViewModel> OperatorTypeToolboxItems { get; set; }

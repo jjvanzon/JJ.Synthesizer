@@ -9,6 +9,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class DocumentConfirmDeleteViewModel
     {
-        public IDAndName Object { get; set; }
+        public bool Visible { get; set; }
+        public IDAndName Document { get; set; }
     }
 }

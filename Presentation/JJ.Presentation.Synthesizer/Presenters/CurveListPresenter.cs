@@ -20,7 +20,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ICurveRepository _curveRepository;
 
         private static int _pageSize;
-        private static int _maxVisiblePageNumbers;
 
         public CurveListPresenter(ICurveRepository curveRepository)
         {
@@ -30,21 +29,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
             _pageSize = config.PageSize;
-            _maxVisiblePageNumbers = config.MaxVisiblePageNumbers;
         }
 
         public CurveListViewModel Show(int pageNumber)
         {
             int pageIndex = pageNumber - 1;
-            IList<Curve> curvees = _curveRepository.GetPage(pageIndex * _pageSize, _pageSize);
 
-            int count = _curveRepository.Count();
+            IList<Curve> curves = _curveRepository.GetPage(pageIndex * _pageSize, _pageSize);
+            int totalCount = _curveRepository.Count();
 
-            var viewModel = new CurveListViewModel
-            {
-                List = curvees.Select(x => x.ToIDName()).ToArray(),
-                Pager = PagerViewModelFactory.Create(pageIndex, _pageSize, count, _maxVisiblePageNumbers)
-            };
+            CurveListViewModel viewModel = curves.ToListViewModel(pageIndex, _pageSize, totalCount);
 
             return viewModel;
         }

@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             Text = Titles.ApplicationName;
         }
 
-        public void Show(DocumentCannotDeleteViewModel viewModel)
+        public void ShowDialog(DocumentCannotDeleteViewModel viewModel)
         {
             documentCannotDeleteUserControl1.Show(viewModel);
 

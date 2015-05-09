@@ -20,7 +20,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ISampleRepository _sampleRepository;
 
         private static int _pageSize;
-        private static int _maxVisiblePageNumbers;
 
         public SampleListPresenter(ISampleRepository sampleRepository)
         {
@@ -30,21 +29,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
             _pageSize = config.PageSize;
-            _maxVisiblePageNumbers = config.MaxVisiblePageNumbers;
         }
 
         public SampleListViewModel Show(int pageNumber)
         {
             int pageIndex = pageNumber - 1;
-            IList<Sample> samplees = _sampleRepository.GetPage(pageIndex * _pageSize, _pageSize);
 
-            int count = _sampleRepository.Count();
+            IList<Sample> samples = _sampleRepository.GetPage(pageIndex * _pageSize, _pageSize);
+            int totalCount = _sampleRepository.Count();
 
-            var viewModel = new SampleListViewModel
-            {
-                List = samplees.Select(x => x.ToListItemViewModel()).ToArray(),
-                Pager = PagerViewModelFactory.Create(pageIndex, _pageSize, count, _maxVisiblePageNumbers)
-            };
+            SampleListViewModel viewModel = samples.ToListViewModel(pageIndex, _pageSize, totalCount);
 
             return viewModel;
         }
