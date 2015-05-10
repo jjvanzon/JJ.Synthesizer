@@ -8,17 +8,17 @@ using System.Text;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class DocumentDeleteConfirmedPresenter
+    public class DocumentDeletedPresenter
     {
-        public DocumentDeleteConfirmedViewModel Show()
+        public DocumentDeletedViewModel Show()
         {
-            DocumentDeleteConfirmedViewModel viewModel = ViewModelHelper.CreateDocumentDeleteConfirmedViewModel();
+            DocumentDeletedViewModel viewModel = ViewModelHelper.CreateDocumentDeletedViewModel();
             return viewModel;
         }
 
-        public DocumentDeleteConfirmedViewModel OK()
+        public DocumentDeletedViewModel OK()
         {
-            DocumentDeleteConfirmedViewModel viewModel = ViewModelHelper.CreateDocumentDeleteConfirmedViewModel();
+            DocumentDeletedViewModel viewModel = ViewModelHelper.CreateDocumentDeletedViewModel();
             viewModel.Visible = false;
             return viewModel;
         }

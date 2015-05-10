@@ -43,9 +43,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static DocumentDeleteConfirmedViewModel CreateDocumentDeleteConfirmedViewModel()
+        public static DocumentDeletedViewModel CreateDocumentDeletedViewModel()
         {
-            var viewModel = new DocumentDeleteConfirmedViewModel
+            var viewModel = new DocumentDeletedViewModel
             {
                 Visible = true
             };

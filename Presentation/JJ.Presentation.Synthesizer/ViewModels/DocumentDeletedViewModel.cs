@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public class DocumentDeleteConfirmedViewModel
+    public class DocumentDeletedViewModel
     {
         public bool Visible { get; set; }
     }

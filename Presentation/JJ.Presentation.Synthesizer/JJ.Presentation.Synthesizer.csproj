@@ -41,8 +41,8 @@
     <Compile Include="Presenters\AudioFileOutputDetailsPresenter.cs" />
     <Compile Include="Presenters\AudioFileOutputListPresenter.cs" />
     <Compile Include="Presenters\DocumentCannotDeletePresenter.cs" />
-    <Compile Include="Presenters\DocumentConfirmDeletePresenter.cs" />
-    <Compile Include="Presenters\DocumentDeleteConfirmedPresenter.cs" />
+    <Compile Include="Presenters\DocumentDeletePresenter.cs" />
+    <Compile Include="Presenters\DocumentDeletedPresenter.cs" />
     <Compile Include="Presenters\DocumentPropertiesPresenter.cs" />
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
@@ -51,7 +51,7 @@
     <Compile Include="ToViewModel\ToDocumentTreeViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListViewModelExtensions.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />
-    <Compile Include="ViewModels\DocumentDeleteConfirmedViewModel.cs" />
+    <Compile Include="ViewModels\DocumentDeletedViewModel.cs" />
     <Compile Include="Presenters\DocumentDetailsPresenter.cs" />
     <Compile Include="Presenters\MenuPresenter.cs" />
     <Compile Include="Presenters\NotFoundPresenter.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="ViewModels\AudioFileOutputListViewModel.cs" />
     <Compile Include="ViewModels\CurveDetailsViewModel.cs" />
     <Compile Include="ViewModels\CurveListViewModel.cs" />
-    <Compile Include="ViewModels\DocumentConfirmDeleteViewModel.cs" />
+    <Compile Include="ViewModels\DocumentDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentDetailsViewModel.cs" />
     <Compile Include="ViewModels\DocumentListViewModel.cs" />
     <Compile Include="ViewModels\DocumentPropertiesViewModel.cs" />

@@ -69,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// </summary>
         public object Delete(int id, RepositoryWrapper repositoryWrapper)
         {
-            var presenter2 = new DocumentConfirmDeletePresenter(repositoryWrapper);
+            var presenter2 = new DocumentDeletePresenter(repositoryWrapper);
             object viewModel2 = presenter2.Show(id);
             return viewModel2;
         }

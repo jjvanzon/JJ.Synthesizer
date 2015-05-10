@@ -23,10 +23,10 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public DocumentCannotDeleteViewModel DocumentCannotDelete { get; set; }
 
         /// <summary> It is suggested you show this as a modal window. </summary>
-        public DocumentConfirmDeleteViewModel DocumentConfirmDelete { get; set; }
+        public DocumentDeleteViewModel DocumentDelete { get; set; }
 
         /// <summary> It is suggested you show this as a modal window. </summary>
-        public DocumentDeleteConfirmedViewModel DocumentDeleteConfirmed { get; set; }
+        public DocumentDeletedViewModel DocumentDeleted { get; set; }
 
         /// <summary> It is suggested you show this as a modal window. </summary>
         public NotFoundViewModel NotFound { get; set; }

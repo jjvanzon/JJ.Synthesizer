@@ -76,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Document 
 
-        public MainViewModel ShowDocumentList(MainViewModel viewModel, int pageNumber)
+        public MainViewModel DocumentShowList(MainViewModel viewModel, int pageNumber)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -88,7 +88,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel CloseDocumentList(MainViewModel viewModel)
+        public MainViewModel DocumentCloseList(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -99,7 +99,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel CreateDocument(MainViewModel viewModel)
+        public MainViewModel DocumentCreate(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -111,7 +111,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel CloseDocumentDetails(MainViewModel viewModel)
+        public MainViewModel DocumentCloseDetails(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -122,7 +122,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel SaveDocumentDetails(MainViewModel viewModel)
+        public MainViewModel DocumentSaveDetails(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -149,7 +149,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             throw new UnexpectedViewModelTypeException(viewModel2);
         }
 
-        public MainViewModel OpenDocument(MainViewModel viewModel, int id)
+        public MainViewModel DocumentOpen(MainViewModel viewModel, int id)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -180,13 +180,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             throw new UnexpectedViewModelTypeException(viewModel2);
         }
 
-        public MainViewModel DeleteDocument(MainViewModel viewModel, int id)
+        public MainViewModel DocumentDelete(MainViewModel viewModel, int id)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentConfirmDeletePresenter(_repositoryWrapper);
+            var presenter2 = new DocumentDeletePresenter(_repositoryWrapper);
             object viewModel2 = presenter2.Show(id);
 
             var notFoundViewModel = viewModel2 as NotFoundViewModel;
@@ -204,10 +204,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return _viewModel;
             }
 
-            var confirmDeleteViewModel = viewModel2 as DocumentConfirmDeleteViewModel;
+            var confirmDeleteViewModel = viewModel2 as DocumentDeleteViewModel;
             if (confirmDeleteViewModel != null)
             {
-                _viewModel.DocumentConfirmDelete = confirmDeleteViewModel;
+                _viewModel.DocumentDelete = confirmDeleteViewModel;
                 return _viewModel;
             }
 
@@ -227,14 +227,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel ConfirmDeleteDocument(MainViewModel viewModel, int id)
+        public MainViewModel DocumentConfirmDelete(MainViewModel viewModel, int id)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentConfirmDeletePresenter(_repositoryWrapper);
-            object viewModel2 = presenter2.Confirm(_viewModel.DocumentConfirmDelete);
+            var presenter2 = new DocumentDeletePresenter(_repositoryWrapper);
+            object viewModel2 = presenter2.Confirm(_viewModel.DocumentDelete);
 
             var notFoundViewModel = viewModel2 as NotFoundViewModel;
             if (notFoundViewModel != null)
@@ -244,11 +244,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return _viewModel;
             }
 
-            var deleteConfirmedViewModel = viewModel2 as DocumentDeleteConfirmedViewModel;
+            var deleteConfirmedViewModel = viewModel2 as DocumentDeletedViewModel;
             if (deleteConfirmedViewModel != null)
             {
-                _viewModel.DocumentDeleteConfirmed = deleteConfirmedViewModel;
-                _viewModel.DocumentConfirmDelete.Visible = false;
+                _viewModel.DocumentDeleted = deleteConfirmedViewModel;
+                _viewModel.DocumentDelete.Visible = false;
                 _viewModel.DocumentDetails.Visible = false;
                 return _viewModel;
             }
@@ -256,27 +256,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
             throw new UnexpectedViewModelTypeException(viewModel2);
         }
 
-        public MainViewModel DocumentDeleteConfirmedOK(MainViewModel viewModel)
+        public MainViewModel DocumentCancelDelete(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentDeleteConfirmedPresenter();
-            _viewModel.DocumentDeleteConfirmed = presenter2.OK();
-
-            RefreshDocumentList();
+            var presenter2 = new DocumentDeletePresenter(_repositoryWrapper);
+            DocumentDeleteViewModel viewModel2 = presenter2.Cancel(_viewModel.DocumentDelete);
+            _viewModel.DocumentDelete = viewModel2;
 
             return _viewModel;
         }
 
-        public MainViewModel CancelConfirmDeleteDocument(MainViewModel viewModel)
+        public MainViewModel DocumentDeletedOK(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentConfirmDeletePresenter(_repositoryWrapper);
-            DocumentConfirmDeleteViewModel viewModel2 = presenter2.Cancel(_viewModel.DocumentConfirmDelete);
-            _viewModel.DocumentConfirmDelete = viewModel2;
+            var presenter2 = new DocumentDeletedPresenter();
+            DocumentDeletedViewModel viewModel2 = presenter2.OK();
+            _viewModel.DocumentDeleted = viewModel2;
+
+            RefreshDocumentList();
 
             return _viewModel;
         }

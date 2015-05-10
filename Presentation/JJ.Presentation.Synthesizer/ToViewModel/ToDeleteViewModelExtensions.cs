@@ -12,11 +12,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToDeleteViewModelExtensions
     {
-        public static DocumentConfirmDeleteViewModel ToConfirmDeleteViewModel(this Document entity)
+        public static DocumentDeleteViewModel ToDeleteViewModel(this Document entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = new DocumentConfirmDeleteViewModel
+            var viewModel = new DocumentDeleteViewModel
             {
                 Visible = true,
                 Document = new IDAndName

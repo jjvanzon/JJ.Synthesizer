@@ -24,8 +24,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return new MainViewModel
             {
                 DocumentCannotDelete = CreateEmptyDocumentCannotDeleteViewModel(),
-                DocumentConfirmDelete = CreateEmptyDocumentConfirmDeleteViewModel(),
-                DocumentDeleteConfirmed = CreateEmptyDocumentDeleteConfirmedViewModel(),
+                DocumentDelete = CreateEmptyDocumentConfirmDeleteViewModel(),
+                DocumentDeleted = CreateEmptyDocumentDeleteConfirmedViewModel(),
                 DocumentDetails = CreateEmptyDocumentDetailsViewModel(),
                 DocumentList = CreateEmptyDocumentListViewModel(),
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
@@ -47,9 +47,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private static DocumentConfirmDeleteViewModel CreateEmptyDocumentConfirmDeleteViewModel()
+        private static DocumentDeleteViewModel CreateEmptyDocumentConfirmDeleteViewModel()
         {
-            var viewModel = new DocumentConfirmDeleteViewModel
+            var viewModel = new DocumentDeleteViewModel
             {
                 Document = new IDAndName()
             };
@@ -57,9 +57,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private static DocumentDeleteConfirmedViewModel CreateEmptyDocumentDeleteConfirmedViewModel()
+        private static DocumentDeletedViewModel CreateEmptyDocumentDeleteConfirmedViewModel()
         {
-            var viewModel = new DocumentDeleteConfirmedViewModel();
+            var viewModel = new DocumentDeletedViewModel();
 
             return viewModel;
         }

@@ -27,6 +27,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
     internal partial class DocumentCannotDeleteForm : Form
     {
+        public event EventHandler OKClicked;
+
         public DocumentCannotDeleteForm()
         {
             InitializeComponent();
@@ -44,6 +46,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
         private void documentCannotDeleteUserControl1_CloseRequested(object sender, EventArgs e)
         {
             Close();
+
+            if (OKClicked != null)
+            {
+                OKClicked(this, EventArgs.Empty);
+            }
         }
     }
 }

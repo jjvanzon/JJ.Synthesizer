@@ -109,6 +109,7 @@
     <Compile Include="Forms\PatchDetailsForm.Designer.cs">
       <DependentUpon>PatchDetailsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\MessageBoxHelper.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

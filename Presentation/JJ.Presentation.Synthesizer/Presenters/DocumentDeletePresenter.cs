@@ -15,12 +15,12 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class DocumentConfirmDeletePresenter
+    public class DocumentDeletePresenter
     {
         private IDocumentRepository _documentRepository;
         private DocumentManager _documentManager;
 
-        public DocumentConfirmDeletePresenter(RepositoryWrapper repositoryWrapper)
+        public DocumentDeletePresenter(RepositoryWrapper repositoryWrapper)
         {
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
@@ -52,7 +52,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
                 else
                 {
-                    DocumentConfirmDeleteViewModel viewModel2 = document.ToConfirmDeleteViewModel();
+                    DocumentDeleteViewModel viewModel2 = document.ToDeleteViewModel();
                     return viewModel2;
                 }
             }
@@ -61,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return DocumentDeleteConfirmedViewModel or NotFoundViewModel.
         /// </summary>
-        public object Confirm(DocumentConfirmDeleteViewModel viewModel)
+        public object Confirm(DocumentDeleteViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -76,13 +76,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 _documentManager.Delete(document);
 
-                var presenter2 = new DocumentDeleteConfirmedPresenter();
-                DocumentDeleteConfirmedViewModel viewModel2 = presenter2.Show();
+                var presenter2 = new DocumentDeletedPresenter();
+                DocumentDeletedViewModel viewModel2 = presenter2.Show();
                 return viewModel2;
             }
         }
 
-        public DocumentConfirmDeleteViewModel Cancel(DocumentConfirmDeleteViewModel viewModel)
+        public DocumentDeleteViewModel Cancel(DocumentDeleteViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             viewModel.Visible = false;
