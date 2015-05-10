@@ -65,10 +65,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        /// <summary>
-        /// Can return DocumentDetailsViewModel or PreviousViewModel.
-        /// </summary>
-        public object Save(DocumentDetailsViewModel viewModel)
+        public DocumentDetailsViewModel Save(DocumentDetailsViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             Document document = viewModel.ToEntity(_documentRepository);
@@ -87,10 +84,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 return viewModel2;
             }
+            else
+            {
+                _documentRepository.Commit();
 
-            _documentRepository.Commit();
-
-            return new PreviousViewModel();
+                DocumentDetailsViewModel viewModel2 = ViewModelHelper.CreateEmptyDocumentDetailsViewModel();
+                viewModel2.Visible = false;
+                return viewModel2;
+            }
         }
 
         /// <summary>
@@ -101,6 +102,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var presenter2 = new DocumentDeletePresenter(repositoryWrapper);
             object viewModel2 = presenter2.Show(id);
             return viewModel2;
+        }
+
+        public object Close()
+        {
+            DocumentDetailsViewModel viewModel = ViewModelHelper.CreateEmptyDocumentDetailsViewModel();
+            viewModel.Visible = false;
+            return viewModel;
         }
     }
 }

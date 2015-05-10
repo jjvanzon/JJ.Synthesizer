@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        private static DocumentCannotDeleteViewModel CreateEmptyDocumentCannotDeleteViewModel()
+        public static DocumentCannotDeleteViewModel CreateEmptyDocumentCannotDeleteViewModel()
         {
             var viewModel = new DocumentCannotDeleteViewModel
             {
@@ -47,7 +47,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private static DocumentDeleteViewModel CreateEmptyDocumentConfirmDeleteViewModel()
+        public static DocumentDeleteViewModel CreateEmptyDocumentConfirmDeleteViewModel()
         {
             var viewModel = new DocumentDeleteViewModel
             {
@@ -57,14 +57,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private static DocumentDeletedViewModel CreateEmptyDocumentDeleteConfirmedViewModel()
+        public static DocumentDeletedViewModel CreateEmptyDocumentDeleteConfirmedViewModel()
         {
             var viewModel = new DocumentDeletedViewModel();
 
             return viewModel;
         }
 
-        private static DocumentDetailsViewModel CreateEmptyDocumentDetailsViewModel()
+        public static DocumentDetailsViewModel CreateEmptyDocumentDetailsViewModel()
         {
             var viewModel = new DocumentDetailsViewModel
             {
@@ -75,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private static DocumentListViewModel CreateEmptyDocumentListViewModel()
+        public static DocumentListViewModel CreateEmptyDocumentListViewModel()
         {
             var viewModel = new DocumentListViewModel
             {
@@ -86,7 +86,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private static DocumentPropertiesViewModel CreateEmptyDocumentPropertiesViewModel()
+        public static DocumentPropertiesViewModel CreateEmptyDocumentPropertiesViewModel()
         {
             var viewModel = new DocumentPropertiesViewModel
             {
@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private static DocumentTreeViewModel CreateEmptyDocumentTreeViewModel()
+        public static DocumentTreeViewModel CreateEmptyDocumentTreeViewModel()
         {
             var viewModel = new DocumentTreeViewModel
             {
@@ -116,7 +116,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private static MenuViewModel CreateEmptyMenuViewModel()
+        public static MenuViewModel CreateEmptyMenuViewModel()
         {
             // TODO: Low priority: I am not sure I need this, because I will probably always fill the MenuViewModel with real data.
             var viewModel = new MenuViewModel
@@ -131,12 +131,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private static NotFoundViewModel CreateEmptyNotFoundViewModel()
+        public static NotFoundViewModel CreateEmptyNotFoundViewModel()
         {
             return new NotFoundViewModel();
         }
 
-        private static PagerViewModel CreateEmptyPagerViewModel()
+        public static PagerViewModel CreateEmptyPagerViewModel()
         {
             var viewModel = new PagerViewModel
             {

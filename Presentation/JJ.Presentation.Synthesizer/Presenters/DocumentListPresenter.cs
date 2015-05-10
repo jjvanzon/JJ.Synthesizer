@@ -64,6 +64,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel2;
         }
 
+
+        public object Close()
+        {
+            DocumentListViewModel viewModel = ViewModelHelper.CreateEmptyDocumentListViewModel();
+            viewModel.Visible = false;
+            return viewModel;
+        }
+
         /// <summary>
         /// Can return DocumentConfirmDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel.
         /// </summary>
