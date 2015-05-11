@@ -120,6 +120,9 @@
   <data name="ApplicationName" xml:space="preserve">
     <value>Synthesizer</value>
   </data>
+  <data name="DocumentName" xml:space="preserve">
+    <value>Document Name</value>
+  </data>
   <data name="DocumentTree" xml:space="preserve">
     <value>Document Explorer</value>
   </data>

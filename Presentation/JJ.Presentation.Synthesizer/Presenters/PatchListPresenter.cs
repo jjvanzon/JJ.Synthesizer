@@ -42,5 +42,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             return viewModel;
         }
+
+        public PatchListViewModel Close()
+        {
+            PatchListViewModel viewModel = ViewModelHelper.CreateEmptyPatchListViewModel();
+            viewModel.Visible = false;
+            return viewModel;
+        }
     }
 }

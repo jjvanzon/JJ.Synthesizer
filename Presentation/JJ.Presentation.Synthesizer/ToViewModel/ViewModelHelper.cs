@@ -37,7 +37,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ViewMenuViewModel
             {
                 DocumentsMenuItem = new MenuItemViewModel(),
-                DocumentTreeMenuItem = new MenuItemViewModel()
+                DocumentTreeMenuItem = new MenuItemViewModel(),
+                AudioFileOutputsMenuItem = new MenuItemViewModel(),
+                CurvesMenuItem = new MenuItemViewModel(),
+                PatchesMenuItem = new MenuItemViewModel(),
+                SamplesMenuItem = new MenuItemViewModel(),
+                AudioFileOutputDetailsMenuItem = new MenuItemViewModel(),
+                PatchDetailsMenuItem = new MenuItemViewModel()
             };
 
             return viewModel;

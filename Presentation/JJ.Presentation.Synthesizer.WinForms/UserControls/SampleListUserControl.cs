@@ -15,55 +15,53 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Presentation;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class SampleListUserControl : UserControl
     {
-        private IContext _context;
-        private SampleListPresenter _presenter;
+        public event EventHandler<PageEventArgs> ShowRequested;
+
+        /// <summary> virtually not nullable </summary>
         private SampleListViewModel _viewModel;
 
         public SampleListUserControl()
         {
             InitializeComponent();
+            SetTitles();
         }
 
         // Persistence
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IContext Context
+        public SampleListViewModel ViewModel
         {
-            get { return _context; }
+            get { return _viewModel; }
             set
             {
                 if (value == null) throw new NullException(() => value);
-                if (_context == value) return;
-
-                _context = value;
-                _presenter = new SampleListPresenter(PersistenceHelper.CreateRepository<ISampleRepository>(_context));
+                _viewModel = value;
+                ApplyViewModel();
             }
         }
 
-        private void AssertContext()
+        // Gui
+
+        private void SetTitles()
         {
-            if (_context == null)
-            {
-                throw new Exception("Assign Context first.");
-            }
+            labelTitle.Text = PropertyDisplayNames.Samples;
+            IDColumn.HeaderText = CommonTitles.ID;
+            NameColumn.HeaderText = CommonTitles.Name;
+            AudioFileFormatColumn.HeaderText = PropertyDisplayNames.AudioFileOutput;
+            SampleDataTypeColumn.HeaderText = PropertyDisplayNames.SampleDataType;
+            SpeakerSetupColumn.HeaderText = PropertyDisplayNames.SpeakerSetup;
+            SamplingRateColumn.HeaderText = PropertyDisplayNames.SamplingRate;
+            IsActiveColumn.HeaderText = PropertyDisplayNames.IsActive;
         }
-
-        // Actions
-
-        public void Show(int pageNumber = 1)
-        {
-            AssertContext();
-            _viewModel = _presenter.Show(pageNumber);
-            ApplyViewModel();
-        }
-
-        // ApplyViewModel
 
         private void ApplyViewModel()
         {
@@ -76,6 +74,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             pagerControl.PagerViewModel = _viewModel.Pager;
 
             dataGridView.DataSource = _viewModel.List;
+        }
+
+        // Actions
+
+        public void Show(int pageNumber)
+        {
+            if (ShowRequested != null)
+            {
+                ShowRequested(this, new PageEventArgs(pageNumber));
+            }
         }
 
         // Events

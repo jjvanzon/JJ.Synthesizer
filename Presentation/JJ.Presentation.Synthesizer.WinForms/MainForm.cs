@@ -48,6 +48,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
 
+        private AudioFileOutputListForm _audioFileOutputListForm = new AudioFileOutputListForm();
+        private CurveListForm _curveListForm = new CurveListForm();
+        private PatchListForm _patchListForm = new PatchListForm();
+        private SampleListForm _sampleListForm = new SampleListForm();
+        private AudioFileOutputDetailsForm _audioFileOutputDetailsForm = new AudioFileOutputDetailsForm();
+        private PatchDetailsForm _patchDetailsForm = new PatchDetailsForm();
+
         public MainForm()
         {
             InitializeComponent();
@@ -63,6 +70,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _documentTreePresenter = new DocumentTreePresenter(_repositoryWrapper.DocumentRepository);
             _documentConfirmDeletePresenter = new DocumentDeletePresenter(_repositoryWrapper);
 
+            menuUserControl.ShowDocumentListRequested += menuUserControl_ShowDocumentListRequested;
+            menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
+            menuUserControl.ShowAudioFileOutputListRequested += menuUserControl_ShowAudioFileOutputListRequested;
+            menuUserControl.CurveListRequested += menuUserControl_CurveListRequested;
+            menuUserControl.PatchListRequested += menuUserControl_PatchListRequested;
+            menuUserControl.SampleListRequested += menuUserControl_SampleListRequested;
+            menuUserControl.AudioFileOutputDetailsRequested += menuUserControl_AudioFileOutputDetailsRequested;
+            menuUserControl.PatchDetailsRequested += menuUserControl_PatchDetailsRequested;
+
             documentListUserControl.ShowRequested += documentListUserControl_ShowRequested;
             documentListUserControl.CloseRequested += documentListUserControl_CloseRequested;
             documentListUserControl.CreateRequested += documentListUserControl_CreateRequested;
@@ -77,6 +93,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.DocumentPropertiesRequested += documentTreeUserControl_DocumentPropertiesRequested;
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
+
+            _audioFileOutputListForm.ShowRequested += _audioFileOutputListForm_ShowRequested;
+            _audioFileOutputListForm.CloseRequested += _audioFileOutputListForm_CloseRequested;
+            _audioFileOutputDetailsForm.CloseRequested += _audioFileOutputDetailsForm_CloseRequested;
+            _curveListForm.ShowRequested += _curveListForm_ShowRequested;
+            _curveListForm.CloseRequested += _curveListForm_CloseRequested;
+            _patchListForm.ShowRequested += _patchListForm_ShowRequested;
+            _patchListForm.CloseRequested += _patchListForm_CloseRequested;
+            _sampleListForm.ShowRequested += _sampleListForm_ShowRequested;
+            _sampleListForm.CloseRequested += _sampleListForm_CloseRequested;
+            _patchDetailsForm.CloseRequested += _patchDetailsForm_CloseRequested;
+
+            _patchDetailsForm.Context = _context;
 
             MessageBoxHelper.NotFoundOK += MessageBoxHelper_NotFoundOK;
             MessageBoxHelper.DocumentDeleteConfirmed += MessageBoxHelper_DocumentDeleteConfirmed;
@@ -153,286 +182,192 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Document List Actions
 
-        // Done
-        private void DocumentShowList(int pageNumber = 1)
+        private void DocumentListShow(int pageNumber = 1)
         {
-            _viewModel = _presenter.DocumentShowList(_viewModel, pageNumber);
+            _viewModel = _presenter.DocumentListShow(_viewModel, pageNumber);
             ApplyViewModel();
         }
 
-        // Done
         private void DocumentListClose()
         {
-            _viewModel = _presenter.DocumentCloseList(_viewModel);
+            _viewModel = _presenter.DocumentListClose(_viewModel);
             ApplyViewModel();
-        }
-
-        // Done
-        [Obsolete("Will become obsolete once everything is properly managed through the main presenter.")]
-        private void DocumentRefreshList()
-        {
-            int pageNumber = 1;
-            if (documentDetailsUserControl.ViewModel != null)
-            {
-                pageNumber = documentListUserControl.ViewModel.Pager.PageNumber;
-            }
-
-            DocumentListViewModel viewModel = _documentListPresenter.Show(pageNumber);
-            documentListUserControl.ViewModel = viewModel;
-        }
-
-        // Done
-        [Obsolete("Will become obsolete once everything is properly managed through the main presenter.")]
-        private void DocumentHideList()
-        {
-            documentListUserControl.Hide();
         }
 
         // Document Details Actions
 
-        // Done
-        [Obsolete("Will become obsolete once everything is properly managed through the main presenter.")]
-        private void DocumentShowDetails(DocumentDetailsViewModel viewModel)
+        private void DocumentDetailsCreate()
         {
-            documentDetailsUserControl.ViewModel = viewModel;
-            documentDetailsUserControl.Show();
-            documentDetailsUserControl.BringToFront();
-
-            // TODO: This is kind of wierd.
-            if (viewModel.Messages.Count > 0)
-            {
-                MessageBox.Show(String.Join(Environment.NewLine, viewModel.Messages.Select(x => x.Text)));
-            }
-        }
-
-        // Done
-        private void DocumentCreate()
-        {
-            _viewModel = _presenter.DocumentCreate(_viewModel);
+            _viewModel = _presenter.DocumentDetailsCreate(_viewModel);
             ApplyViewModel();
         }
 
-        // Done
+        private void DocumentDetailsSave(DocumentDetailsViewModel viewModel)
+        {
+            // TODO: Not sure how much this will still work in a stateless environment.
+            _viewModel.DocumentDetails = viewModel;
+
+            _viewModel = _presenter.DocumentDetailsSave(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void DocumentDetailsClose()
+        {
+            _viewModel = _presenter.DocumentDetailsClose(_viewModel);
+            ApplyViewModel();
+        }
+
         private void DocumentOpen(int id)
         {
             _viewModel = _presenter.DocumentOpen(_viewModel, id);
             ApplyViewModel();
         }
 
-        // Done
-        private void DocumentSaveDetails(DocumentDetailsViewModel viewModel)
-        {
-            // TODO: Not sure how much this will still work in a stateless environment.
-            _viewModel.DocumentDetails = viewModel;
-
-            _viewModel = _presenter.DocumentSaveDetails(_viewModel);
-            ApplyViewModel();
-        }
-
-        // Done
         private void DocumentCannotDeleteOK()
         {
             _viewModel = _presenter.DocumentCannotDeleteOK(_viewModel);
             ApplyViewModel();
         }
 
-        // Done
         private void NotFoundOK()
         {
             _viewModel = _presenter.NotFoundOK(_viewModel);
             ApplyViewModel();
         }
 
-        // Done
         private void DocumentDelete(int id)
         {
             _viewModel = _presenter.DocumentDelete(_viewModel, id);
             ApplyViewModel();
         }
 
-        // Done
         private void DocumentConfirmDelete(int id)
         {
             _viewModel = _presenter.DocumentConfirmDelete(_viewModel, id);
             ApplyViewModel();
         }
 
-        // Done
         private void DocumentDeletedOK()
         {
             _viewModel = _presenter.DocumentDeletedOK(_viewModel);
             ApplyViewModel();
         }
 
-        // Done
         private void DocumentCancelDelete()
         {
             _viewModel = _presenter.DocumentCancelDelete(_viewModel);
             ApplyViewModel();
         }
 
-        // Done
-        private void DocumentCloseDetails()
+        // Document Properties Actions
+
+        private void DocumentPropertiesShow(int id)
         {
-            _viewModel = _presenter.DocumentCloseDetails(_viewModel);
+            _viewModel = _presenter.DocumentPropertiesShow(_viewModel, id);
+            ApplyViewModel();
+        }
+
+        private void DocumentPropertiesClose()
+        {
+            _viewModel = _presenter.DocumentPropertiesClose(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void DocumentPropertiesLoseFocus(DocumentPropertiesViewModel viewModel)
+        {
+            _viewModel = _presenter.DocumentPropertiesLoseFocus(_viewModel);
             ApplyViewModel();
         }
 
         // Document Tree Actions
 
-        private void DocumentHideTree()
+        private void DocumentTreeClose()
         {
-            documentTreeUserControl.Hide();
-            SetTreePanelVisible(false);
-        }
-
-        private void DocumentRefreshTree(int id)
-        {
-            object viewModel = _documentTreePresenter.Show(id);
-
-            var notFoundViewModel = viewModel as NotFoundViewModel;
-            if (notFoundViewModel != null)
-            {
-                MessageBoxHelper.ShowNotFound(notFoundViewModel);
-                return;
-            }
-
-            var treeViewModel = viewModel as DocumentTreeViewModel;
-            if (treeViewModel != null)
-            {
-                documentTreeUserControl.ViewModel = treeViewModel;
-                return;
-            }
-
-            throw new UnexpectedViewModelTypeException(viewModel);
-        }
-
-        // Document Properties Actions
-
-        private void DocumentShowProperties(int id)
-        {
-            object viewModel = _documentPropertiesPresenter.Show(id);
-
-            var notFoundViewModel = viewModel as NotFoundViewModel;
-            if (notFoundViewModel != null)
-            {
-                MessageBoxHelper.ShowNotFound(notFoundViewModel);
-                DocumentShowList();
-                return;
-            }
-
-            var propertiesViewModel = viewModel as DocumentPropertiesViewModel;
-            if (propertiesViewModel != null)
-            {
-                DocumentShowProperties(propertiesViewModel);
-                return;
-            }
-
-            throw new UnexpectedViewModelTypeException(viewModel);
-        }
-
-        private void DocumentShowProperties(DocumentPropertiesViewModel viewModel)
-        {
-            documentPropertiesUserControl.ViewModel = viewModel;
-            documentPropertiesUserControl.Show();
-            documentPropertiesUserControl.BringToFront();
-
-            SetPropertiesPanelVisible(true);
-
-            // TODO: This 'if' is a major hack.
-            if (viewModel.Messages.Count != 0)
-            {
-                documentPropertiesUserControl.Focus();
-            }
-
-            // TODO: ValidationMessages should be shown in a separate panel.
-            if (viewModel.Messages.Count > 0)
-            {
-                MessageBox.Show(String.Join(Environment.NewLine, viewModel.Messages.Select(x => x.Text)));
-            }
-        }
-
-        private void DocumentCloseProperties(DocumentPropertiesViewModel viewModel)
-        {
-            object viewModel2 = _documentPropertiesPresenter.Close(viewModel);
-
-            var propertiesViewModel = viewModel2 as DocumentPropertiesViewModel;
-            if (propertiesViewModel != null)
-            {
-                DocumentShowProperties(propertiesViewModel);
-                return;
-            }
-
-            var noViewModel = viewModel2 as NoViewModel;
-            if (noViewModel != null)
-            {
-                DocumentHideProperties();
-                DocumentRefreshList();
-                DocumentRefreshTree(viewModel.Document.ID);
-                return;
-            }
-
-            throw new UnexpectedViewModelTypeException(viewModel2);
-        }
-
-        private void DocumentPropertiesLoseFocus(DocumentPropertiesViewModel viewModel)
-        {
-            DocumentPropertiesViewModel viewModel2 = _documentPropertiesPresenter.LooseFocus(viewModel);
-
-            DocumentRefreshList();
-            DocumentRefreshTree(viewModel.Document.ID);
-
-            DocumentShowProperties(viewModel2);
-        }
-
-        private void DocumentHideProperties()
-        {
-            documentPropertiesUserControl.Hide();
-            SetPropertiesPanelVisible(false);
+            _viewModel = _presenter.DocumentTreeClose(_viewModel);
+            ApplyViewModel();
         }
 
         // Other Actions
 
-        private void AudioFileOutputListShow()
+        private void AudioFileOutputListShow(int pageNumber)
         {
-            var form = new AudioFileOutputListForm();
-            form.Context = _context;
-            form.Show();
+            _viewModel = _presenter.AudioFileOutputListShow(_viewModel, pageNumber);
+            ApplyViewModel();
         }
 
-        private void CurveListShow()
+        private void CurveListShow(int pageNumber)
         {
-            var form = new CurveListForm();
-            form.Context = _context;
-            form.Show();
+            _viewModel = _presenter.CurveListShow(_viewModel, pageNumber);
+            ApplyViewModel();
         }
 
-        private void PatchListShow()
+        private void PatchListShow(int pageNumber)
         {
-            var form = new PatchListForm();
-            form.Context = _context;
-            form.Show();
+            _viewModel = _presenter.PatchListShow(_viewModel, pageNumber);
+            ApplyViewModel();
         }
 
-        private void SampleListShow()
+        private void SampleListShow(int pageNumber)
         {
-            var form = new SampleListForm();
-            form.Context = _context;
-            form.Show();
+            _viewModel = _presenter.SampleListShow(_viewModel, pageNumber);
+            ApplyViewModel();
         }
 
-        private void AudioFileOutputDetailsShow()
+        private void AudioFileOutputDetailsShow(int id)
         {
-            var form = new AudioFileOutputDetailsForm();
-            form.Context = _context;
-            form.Show();
+            _viewModel = _presenter.AudioFileOutputDetailsShow(_viewModel, id);
+            ApplyViewModel();
         }
 
         private void PatchDetailsShow()
         {
-            var form = new PatchDetailsForm();
-            form.Context = _context;
-            form.Show();
+            // Changing this one to the new structure is postponed,
+            // because it is complicated, it works now and I only want to change it once it becomes
+            // part of the program navigation.
+            _patchDetailsForm.Context = _context;
+            _patchDetailsForm.Show();
+        }
+
+        private void AudioFileOutputDetailsClose()
+        {
+            _viewModel = _presenter.AudioFileOutputDetailsClose(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void AudioFileOutputListClose()
+        {
+            _viewModel = _presenter.AudioFileOutputListClose(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void CurveListClose()
+        {
+            _viewModel = _presenter.CurveListClose(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void PatchListClose()
+        {
+            _viewModel = _presenter.PatchListClose(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void SampleListClose()
+        {
+            _viewModel = _presenter.SampleListClose(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void PatchDetailsEdit(int id)
+        {
+            _viewModel = _presenter.PatchDetailsEdit(_viewModel, id);
+            ApplyViewModel();
+        }
+
+        private void PatchDetailsClose()
+        {
+            _viewModel = _presenter.PatchDetailsClose(_viewModel);
+            ApplyViewModel();
         }
 
         // Events
@@ -441,7 +376,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void menuUserControl_ShowDocumentListRequested(object sender, EventArgs e)
         {
-            DocumentShowList();
+            DocumentListShow();
         }
 
         private void menuUserControl_ShowDocumentTreeRequested(object sender, EventArgs e)
@@ -450,16 +385,50 @@ namespace JJ.Presentation.Synthesizer.WinForms
             throw new NotImplementedException();
         }
 
+        private void menuUserControl_ShowAudioFileOutputListRequested(object sender, EventArgs e)
+        {
+            AudioFileOutputListShow(1);
+        }
+
+        private void menuUserControl_CurveListRequested(object sender, EventArgs e)
+        {
+            CurveListShow(1);
+        }
+
+        private void menuUserControl_PatchListRequested(object sender, EventArgs e)
+        {
+            PatchListShow(1);
+        }
+
+        private void menuUserControl_SampleListRequested(object sender, EventArgs e)
+        {
+            SampleListShow(1);
+        }
+
+        private void menuUserControl_AudioFileOutputDetailsRequested(object sender, EventArgs e)
+        {
+            int dummyID = 0;
+            AudioFileOutputDetailsShow(dummyID);
+        }
+
+        private void menuUserControl_PatchDetailsRequested(object sender, EventArgs e)
+        {
+            ConfigurationSection config = CustomConfigurationManager.GetSection<ConfigurationSection>();
+            int testPatchID = config.Testing.TestPatchID;
+
+            PatchDetailsEdit(testPatchID);
+        }
+
         // Document List Events
 
         private void documentListUserControl_ShowRequested(object sender, PageEventArgs e)
         {
-            DocumentShowList(e.PageNumber);
+            DocumentListShow(e.PageNumber);
         }
 
         private void documentListUserControl_CreateRequested(object sender, EventArgs e)
         {
-            DocumentCreate();
+            DocumentDetailsCreate();
         }
 
         private void documentListUserControl_OpenRequested(object sender, IDEventArgs e)
@@ -481,7 +450,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentDetailsUserControl_SaveRequested(object sender, EventArgs e)
         {
-            DocumentSaveDetails(documentDetailsUserControl.ViewModel);
+            DocumentDetailsSave(documentDetailsUserControl.ViewModel);
         }
 
         private void documentDetailsUserControl_DeleteRequested(object sender, IDEventArgs e)
@@ -491,26 +460,26 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e)
         {
-            DocumentCloseDetails();
+            DocumentDetailsClose();
         }
 
         // Document Tree Events
 
         private void documentTreeUserControl_CloseRequested(object sender, EventArgs e)
         {
-            DocumentHideTree();
+            DocumentTreeClose();
         }
 
         private void documentTreeUserControl_DocumentPropertiesRequested(object sender, IDEventArgs e)
         {
-            DocumentShowProperties(e.ID);
+            DocumentPropertiesShow(e.ID);
         }
 
         // Document Properties Events
 
         private void documentPropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            DocumentCloseProperties(documentPropertiesUserControl.ViewModel);
+            DocumentPropertiesClose();
         }
 
         private void documentPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
@@ -547,6 +516,58 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentCannotDeleteOK();
         }
 
+        // Temporary (List) Form Events
+
+        private void _audioFileOutputListForm_ShowRequested(object sender, PageEventArgs e)
+        {
+            AudioFileOutputListShow(e.PageNumber);
+        }
+
+        private void _sampleListForm_ShowRequested(object sender, PageEventArgs e)
+        {
+            SampleListShow(e.PageNumber);
+        }
+
+        private void _patchListForm_ShowRequested(object sender, PageEventArgs e)
+        {
+            PatchListShow(e.PageNumber);
+        }
+
+        private void _curveListForm_ShowRequested(object sender, PageEventArgs e)
+        {
+            CurveListShow(e.PageNumber);
+        }
+
+        private void _audioFileOutputDetailsForm_CloseRequested(object sender, EventArgs e)
+        {
+            AudioFileOutputDetailsClose();
+        }
+
+        private void _audioFileOutputListForm_CloseRequested(object sender, EventArgs e)
+        {
+            AudioFileOutputListClose();
+        }
+
+        private void _curveListForm_CloseRequested(object sender, EventArgs e)
+        {
+            CurveListClose();
+        }
+
+        private void _patchListForm_CloseRequested(object sender, EventArgs e)
+        {
+            PatchListClose();
+        }
+
+        private void _sampleListForm_CloseRequested(object sender, EventArgs e)
+        {
+            SampleListClose();
+        }
+
+        private void _patchDetailsForm_CloseRequested(object sender, EventArgs e)
+        {
+            PatchDetailsClose();
+        }
+
         // Helpers
 
         // TODO: Maybe SetViewModel should simply become ApplyViewModel without a viewModel parameter,
@@ -565,6 +586,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             documentTreeUserControl.ViewModel = _viewModel.DocumentTree;
             documentTreeUserControl.Visible = _viewModel.DocumentTree.Visible;
+
+            documentPropertiesUserControl.ViewModel = _viewModel.DocumentProperties;
+            documentPropertiesUserControl.Visible = _viewModel.DocumentProperties.Visible;
+
+            _audioFileOutputListForm.ViewModel = _viewModel.AudioFileOutputList;
+            _audioFileOutputListForm.Visible = _viewModel.AudioFileOutputList.Visible;
+
+            _curveListForm.ViewModel = _viewModel.CurveList;
+            _curveListForm.Visible = _viewModel.CurveList.Visible;
+
+            _patchListForm.ViewModel = _viewModel.PatchList;
+            _patchListForm.Visible = _viewModel.PatchList.Visible;
+
+            _sampleListForm.ViewModel = _viewModel.SampleList;
+            _sampleListForm.Visible = _viewModel.SampleList.Visible;
+
+            _audioFileOutputDetailsForm.ViewModel = _viewModel.AudioFileOutputDetails;
+            _audioFileOutputDetailsForm.Visible = _viewModel.AudioFileOutputDetails.Visible;
+
+            _patchDetailsForm.ViewModel = _viewModel.PatchDetails;
+            _patchDetailsForm.Visible = _viewModel.PatchDetails.Visible;
 
             bool treePanelMustBeVisible = _viewModel.DocumentTree.Visible;
             SetTreePanelVisible(treePanelMustBeVisible);
@@ -595,6 +637,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (_viewModel.DocumentDetails.Messages.Count != 0)
             {
                 MessageBox.Show(String.Join(Environment.NewLine, _viewModel.DocumentDetails.Messages.Select(x => x.Text)));
+            }
+
+            if (_viewModel.DocumentProperties.Messages.Count > 0)
+            {
+                MessageBox.Show(String.Join(Environment.NewLine, _viewModel.DocumentProperties.Messages.Select(x => x.Text)));
+            }
+
+            // TODO: This 'if' is a major hack.
+            if (_viewModel.DocumentProperties.Messages.Count != 0)
+            {
+                documentPropertiesUserControl.Focus();
             }
 
             // TODO: Set other parts of the view.

@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Validation.Entities
 
         private string GetPropertyDisplayName_ForOutletCount()
         {
-            return CommonTitlesFormatter.EntityCount(PropertyDisplayNames.Inlets);
+            return CommonTitleFormatter.EntityCount(PropertyDisplayNames.Inlets);
         }
 
         private string GetPropertyDisplayName_ForOutletName()

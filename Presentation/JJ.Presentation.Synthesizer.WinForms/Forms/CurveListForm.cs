@@ -20,27 +20,39 @@ using System.Drawing;
 using System.Windows.Forms;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
     internal partial class CurveListForm : Form
     {
+        public event EventHandler CloseRequested;
+
         public CurveListForm()
         {
             InitializeComponent();
         }
 
-        public IContext Context
+        public event EventHandler<PageEventArgs> ShowRequested
         {
-            get { return curveListUserControl1.Context; }
-            set { curveListUserControl1.Context = value; }
+            add { curveListUserControl1.ShowRequested += value; }
+            remove { curveListUserControl1.ShowRequested -= value; }
         }
 
-        public void Show(int pageNumber = 1)
+        public CurveListViewModel ViewModel
         {
-            curveListUserControl1.Show(pageNumber);
+            get { return curveListUserControl1.ViewModel; }
+            set { curveListUserControl1.ViewModel = value; }
+        }
 
-            base.Show();
+        private void CurveListForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+
+            if (CloseRequested != null)
+            {
+                CloseRequested(this, EventArgs.Empty);
+            }
         }
     }
 }

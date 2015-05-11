@@ -369,5 +369,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
         }
+
+        public object Close()
+        {
+            PatchDetailsViewModel viewModel = ViewModelHelper.CreateEmptyPatchDetailsViewModel();
+            viewModel.Visible = false;
+            return viewModel;
+        }
     }
 }

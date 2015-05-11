@@ -88,6 +88,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public PatchDetailsViewModel ViewModel
+        {
+            get { return _viewModel; }
+            set
+            {
+                if (value == null) throw new NullException(() => value);
+                _viewModel = value;
+                ApplyViewModel();
+            }
+        }
+
         private void AssertContext()
         {
             // For debugging while statfulness does not work optimally yet.
@@ -101,7 +114,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 throw new Exception("Assign Context first.");
             }
         }
-
 
         /// <summary>
         /// For debugging while statfulness does not work optimally yet.
@@ -200,7 +212,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             buttonSave.Text = CommonTitles.Save;
-            Text = CommonTitlesFormatter.EditObject(PropertyDisplayNames.Patch);
+            Text = CommonTitleFormatter.EditObject(PropertyDisplayNames.Patch);
         }
 
         private void ApplyViewModel()

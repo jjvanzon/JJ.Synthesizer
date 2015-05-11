@@ -54,7 +54,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl1.Text = CommonTitlesFormatter.ObjectProperties(PropertyDisplayNames.Document);
+            titleBarUserControl1.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Document);
             labelIDTitle.Text = CommonTitles.ID;
             labelName.Text = CommonTitles.Name;
         }

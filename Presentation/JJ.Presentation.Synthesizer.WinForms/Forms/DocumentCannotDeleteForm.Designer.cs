@@ -38,7 +38,7 @@
             this.documentCannotDeleteUserControl1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.documentCannotDeleteUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.documentCannotDeleteUserControl1.Location = new System.Drawing.Point(0, 0);
-            this.documentCannotDeleteUserControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.documentCannotDeleteUserControl1.Margin = new System.Windows.Forms.Padding(4);
             this.documentCannotDeleteUserControl1.Name = "documentCannotDeleteUserControl1";
             this.documentCannotDeleteUserControl1.Size = new System.Drawing.Size(690, 502);
             this.documentCannotDeleteUserControl1.TabIndex = 1;
@@ -53,6 +53,7 @@
             this.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "DocumentCannotDeleteForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DocumentCannotDeleteForm_FormClosing);
             this.ResumeLayout(false);
 
         }

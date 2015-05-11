@@ -25,22 +25,42 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
     internal partial class PatchDetailsForm : Form
     {
+        public event EventHandler CloseRequested;
+
         public PatchDetailsForm()
         {
             InitializeComponent();
         }
 
+        [Obsolete("")]
         public IContext Context
         {
             get { return patchDetailsUserControl.Context; }
             set { patchDetailsUserControl.Context = value; }
         }
 
+        public PatchDetailsViewModel ViewModel 
+        {
+            get { return patchDetailsUserControl.ViewModel; }
+            set { patchDetailsUserControl.ViewModel = value; }
+        }
+
+        [Obsolete("")]
         public new void Show()
         {
             patchDetailsUserControl.Show();
 
             base.Show();
+        }
+
+        private void PatchDetailsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+
+            if (CloseRequested != null)
+            {
+                CloseRequested(this, EventArgs.Empty);
+            }
         }
     }
 }

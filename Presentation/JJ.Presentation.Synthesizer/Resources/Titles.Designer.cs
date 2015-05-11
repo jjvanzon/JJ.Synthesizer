@@ -70,6 +70,15 @@ namespace JJ.Presentation.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Document Name.
+        /// </summary>
+        public static string DocumentName {
+            get {
+                return ResourceManager.GetString("DocumentName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Document Explorer.
         /// </summary>
         public static string DocumentTree {

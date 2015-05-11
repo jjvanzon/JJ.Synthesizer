@@ -42,6 +42,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        public object Close(int id)
+        {
+            // TODO: Handle view model better (stateless / stateful hybrid).
+
+            Document document = _documentRepository.Get(id);
+            if (document == null)
+            {
+                var notFoundPresenter = new NotFoundPresenter();
+                NotFoundViewModel viewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);
+                return viewModel;
+            }
+            else
+            {
+                DocumentTreeViewModel viewModel = document.ToTreeViewModel();
+                viewModel.Visible = false;
+                return viewModel;
+            }
+        }
+
         /// <summary>
         /// Can return DocumentPropertiesViewModel or NotFoundViewModel.
         /// </summary>

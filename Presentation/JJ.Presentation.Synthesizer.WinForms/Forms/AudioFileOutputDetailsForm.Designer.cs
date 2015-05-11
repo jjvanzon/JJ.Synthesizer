@@ -47,6 +47,7 @@
             this.ClientSize = new System.Drawing.Size(231, 394);
             this.Controls.Add(this.audioFileOutputDetailsUserControl1);
             this.Name = "AudioFileOutputDetailsForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AudioFileOutputDetailsForm_FormClosing);
             this.ResumeLayout(false);
 
         }

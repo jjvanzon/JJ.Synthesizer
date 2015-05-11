@@ -9,7 +9,14 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public class MainViewModel
     {
+        //public int DocumentID { get; set; }
+
         public MenuViewModel Menu { get; set; }
+
+        /// <summary> It is suggested you show this as a modal window. </summary>
+        public NotFoundViewModel NotFound { get; set; }
+
+        public IList<Message> Messages { get; set; }
 
         public DocumentListViewModel DocumentList { get; set; }
 
@@ -28,9 +35,19 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         /// <summary> It is suggested you show this as a modal window. </summary>
         public DocumentDeletedViewModel DocumentDeleted { get; set; }
 
-        /// <summary> It is suggested you show this as a modal window. </summary>
-        public NotFoundViewModel NotFound { get; set; }
+        public AudioFileOutputListViewModel AudioFileOutputList { get; set; }
 
-        public IList<Message> Messages { get; set; }
+        public CurveListViewModel CurveList { get; set; }
+
+        public PatchListViewModel PatchList { get; set; }
+
+        public SampleListViewModel SampleList { get; set; }
+
+        /// <summary>
+        /// Temporary. It will be a list of AudioFileOutputDetailsViewModels later.
+        /// </summary>
+        public AudioFileOutputDetailsViewModel AudioFileOutputDetails { get; set; }
+
+        public PatchDetailsViewModel PatchDetails { get; set; }
     }
 }

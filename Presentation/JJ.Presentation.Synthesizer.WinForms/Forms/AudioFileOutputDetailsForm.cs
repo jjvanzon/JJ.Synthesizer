@@ -25,22 +25,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
     internal partial class AudioFileOutputDetailsForm : Form
     {
+        public event EventHandler CloseRequested;
+
         public AudioFileOutputDetailsForm()
         {
             InitializeComponent();
         }
 
-        public IContext Context 
+        public AudioFileOutputDetailsViewModel ViewModel 
         {
-            get { return audioFileOutputDetailsUserControl1.Context; }
-            set { audioFileOutputDetailsUserControl1.Context = value; }
+            get { return audioFileOutputDetailsUserControl1.ViewModel; }
+            set { audioFileOutputDetailsUserControl1.ViewModel = value; }
         }
 
-        //public void Show(int pageNumber = 1)
-        //{
-        //    audioFileOutputListUserControl1.Show(pageNumber);
+        private void AudioFileOutputDetailsForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
 
-        //    base.Show();
-        //}
+            if (CloseRequested != null)
+            {
+                CloseRequested(this, EventArgs.Empty);
+            }
+        }
     }
 }

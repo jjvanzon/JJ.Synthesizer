@@ -23,6 +23,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             return new MainViewModel
             {
+                Menu = CreateEmptyMenuViewModel(),
+                Messages = new List<Message>(),
+                NotFound = CreateEmptyNotFoundViewModel(),
                 DocumentCannotDelete = CreateEmptyDocumentCannotDeleteViewModel(),
                 DocumentDelete = CreateEmptyDocumentConfirmDeleteViewModel(),
                 DocumentDeleted = CreateEmptyDocumentDeleteConfirmedViewModel(),
@@ -30,9 +33,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentList = CreateEmptyDocumentListViewModel(),
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
                 DocumentTree = CreateEmptyDocumentTreeViewModel(),
-                Menu = CreateEmptyMenuViewModel(),
-                Messages = new List<Message>(),
-                NotFound = CreateEmptyNotFoundViewModel()
+                AudioFileOutputList = CreateEmptyAudioFileOutputListViewModel(),
+                CurveList = CreateEmptyCurveListViewModel(),
+                PatchList = CreateEmptyPatchListViewModel(),
+                SampleList = CreateEmptySampleListViewModel(),
+                AudioFileOutputDetails = CreateEmptyAudioFileOutputDetailsViewModel(),
+                PatchDetails = CreateEmptyPatchDetailsViewModel()
             };
         }
 
@@ -141,6 +147,86 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new PagerViewModel
             {
                 VisiblePageNumbers = new int[0]
+            };
+
+            return viewModel;
+        }
+
+        public static AudioFileOutputListViewModel CreateEmptyAudioFileOutputListViewModel()
+        {
+            var viewModel = new AudioFileOutputListViewModel
+            {
+                List = new List<AudioFileOutputListItemViewModel>(),
+                Pager = CreateEmptyPagerViewModel()
+            };
+
+            return viewModel;
+        }
+
+        public static CurveListViewModel CreateEmptyCurveListViewModel()
+        {
+            var viewModel = new CurveListViewModel
+            {
+                List = new List<IDAndName>(),
+                Pager = CreateEmptyPagerViewModel()
+            };
+
+            return viewModel;
+        }
+
+        public static PatchListViewModel CreateEmptyPatchListViewModel()
+        {
+            var viewModel = new PatchListViewModel
+            {
+                List = new List<PatchListItemViewModel>(),
+                Pager = CreateEmptyPagerViewModel()
+            };
+
+            return viewModel;
+        }
+
+        public static SampleListViewModel CreateEmptySampleListViewModel()
+        {
+            var viewModel = new SampleListViewModel
+            {
+                List = new List<SampleListItemViewModel>(),
+                Pager = CreateEmptyPagerViewModel()
+            };
+
+            return viewModel;
+        }
+
+        public static AudioFileOutputDetailsViewModel CreateEmptyAudioFileOutputDetailsViewModel()
+        {
+            var viewModel = new AudioFileOutputDetailsViewModel
+            {
+                // TODO: Need more repositories for this.
+                //AudioFileFormats
+                //OutletLookup
+                //SampleDataTypes
+                //SpeakerSetups
+            };
+
+            return viewModel;
+        }
+
+        public static PatchDetailsViewModel CreateEmptyPatchDetailsViewModel()
+        {
+            var viewModel = new PatchDetailsViewModel
+            {
+                OperatorTypeToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel(),
+                Patch = CreateEmptyPatchViewModel(),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
+        private static PatchViewModel CreateEmptyPatchViewModel()
+        {
+            var viewModel = new PatchViewModel
+            {
+                Operators = new List<OperatorViewModel>()
             };
 
             return viewModel;

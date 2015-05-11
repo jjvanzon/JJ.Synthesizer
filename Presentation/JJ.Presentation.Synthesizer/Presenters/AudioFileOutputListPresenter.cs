@@ -42,5 +42,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             return viewModel;
         }
+
+        public AudioFileOutputListViewModel Close()
+        {
+            AudioFileOutputListViewModel viewModel = ViewModelHelper.CreateEmptyAudioFileOutputListViewModel();
+            viewModel.Visible = false;
+            return viewModel;
+        }
     }
 }

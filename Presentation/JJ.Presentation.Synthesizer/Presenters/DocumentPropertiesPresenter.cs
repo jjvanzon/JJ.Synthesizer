@@ -50,10 +50,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        /// <summary>
-        /// Can return DocumentPropertiesViewModel or NoViewModel.
-        /// </summary>
-        public object Close(DocumentPropertiesViewModel viewModel)
+        public DocumentPropertiesViewModel Close(DocumentPropertiesViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             Document document = viewModel.ToEntity(_documentRepository);
@@ -68,11 +65,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 return viewModel2;
             }
+            else
+            {
+                // For now close is save. In the future a giant view model will retain state, until the user says 'save'.
+                _documentRepository.Commit();
 
-            // For now close is save. In the future a giant view model will retain state, until the user says 'save'.
-            _documentRepository.Commit();
-
-            return new NoViewModel();
+                // TODO: It might be better to create a view model that is not empty,
+                // but made invisible.
+                DocumentPropertiesViewModel viewModel2 = ViewModelHelper.CreateEmptyDocumentPropertiesViewModel();
+                viewModel2.Visible = false;
+                return viewModel2;
+            }
         }
 
         public DocumentPropertiesViewModel LooseFocus(DocumentPropertiesViewModel viewModel)

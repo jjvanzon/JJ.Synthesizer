@@ -15,55 +15,48 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Presentation;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class CurveListUserControl : UserControl
     {
-        private IContext _context;
-        private CurveListPresenter _presenter;
+        public event EventHandler<PageEventArgs> ShowRequested;
+
+        /// <summary> virtually not nullable </summary>
         private CurveListViewModel _viewModel;
 
         public CurveListUserControl()
         {
             InitializeComponent();
+            SetTitles();
         }
 
         // Persistence
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IContext Context
+        public CurveListViewModel ViewModel
         {
-            get { return _context; }
-            set 
+            get { return _viewModel; }
+            set
             {
                 if (value == null) throw new NullException(() => value);
-                if (_context == value) return;
-
-                _context = value;
-                _presenter = new CurveListPresenter(PersistenceHelper.CreateRepository<ICurveRepository>(_context));
+                _viewModel = value;
+                ApplyViewModel();
             }
-        }
-
-        private void AssertContext()
-        {
-            if (_context == null)
-            {
-                throw new Exception("Assign Context first.");
-            }
-        }
-
-        // Actions
-
-        public void Show(int pageNumber = 1)
-        {
-            AssertContext();
-            _viewModel = _presenter.Show(pageNumber);
-            ApplyViewModel();
         }
 
         // Gui
+
+        private void SetTitles()
+        {
+            labelTitle.Text = PropertyDisplayNames.Curves;
+            IDColumn.HeaderText = CommonTitles.ID;
+            NameColumn.HeaderText = CommonTitles.Name;
+        }
 
         private void ApplyViewModel()
         {
@@ -76,6 +69,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             pagerControl.PagerViewModel = _viewModel.Pager;
 
             dataGridView.DataSource = _viewModel.List;
+        }
+
+        // Actions
+
+        public void Show(int pageNumber)
+        {
+            if (ShowRequested != null)
+            {
+                ShowRequested(this, new PageEventArgs(pageNumber));
+            }
         }
 
         // Events

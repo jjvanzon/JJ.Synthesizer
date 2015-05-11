@@ -76,12 +76,12 @@ namespace JJ.Business.Synthesizer.Validation
 
         private string GetPropertyDisplayName_ForInletCount()
         {
-            return CommonTitlesFormatter.EntityCount(PropertyDisplayNames.Inlets);
+            return CommonTitleFormatter.EntityCount(PropertyDisplayNames.Inlets);
         }
 
         private string GetPropertyDisplayName_ForOutletCount()
         {
-            return CommonTitlesFormatter.EntityCount(PropertyDisplayNames.Inlets);
+            return CommonTitleFormatter.EntityCount(PropertyDisplayNames.Inlets);
         }
 
         private string GetPropertyDisplayName_ForInletName(int index)

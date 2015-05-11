@@ -42,5 +42,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             return viewModel;
         }
+
+        public CurveListViewModel Close()
+        {
+            CurveListViewModel viewModel = ViewModelHelper.CreateEmptyCurveListViewModel();
+            viewModel.Visible = false;
+            return viewModel;
+        }
     }
 }

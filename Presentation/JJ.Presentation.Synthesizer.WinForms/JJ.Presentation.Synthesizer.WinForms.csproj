@@ -170,16 +170,16 @@
     <Compile Include="UserControls\DocumentDetailsUserControl.Designer.cs">
       <DependentUpon>DocumentDetailsUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Partials\TitleBarUserControl.cs">
+    <Compile Include="UserControls\TitleBarUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\Partials\TitleBarUserControl.Designer.cs">
+    <Compile Include="UserControls\TitleBarUserControl.Designer.cs">
       <DependentUpon>TitleBarUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\Partials\MenuUserControl.cs">
+    <Compile Include="UserControls\MenuUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\Partials\MenuUserControl.Designer.cs">
+    <Compile Include="UserControls\MenuUserControl.Designer.cs">
       <DependentUpon>MenuUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\SampleListUserControl.cs">
@@ -258,10 +258,10 @@
     <EmbeddedResource Include="UserControls\DocumentDetailsUserControl.resx">
       <DependentUpon>DocumentDetailsUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Partials\TitleBarUserControl.resx">
+    <EmbeddedResource Include="UserControls\TitleBarUserControl.resx">
       <DependentUpon>TitleBarUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\Partials\MenuUserControl.resx">
+    <EmbeddedResource Include="UserControls\MenuUserControl.resx">
       <DependentUpon>MenuUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\SampleListUserControl.resx">
@@ -390,6 +390,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\CloseIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="UserControls\Partials\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

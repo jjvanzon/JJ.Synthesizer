@@ -262,4 +262,7 @@
   <data name="Effects" xml:space="preserve">
     <value>Effects</value>
   </data>
+  <data name="IsActive" xml:space="preserve">
+    <value>Active</value>
+  </data>
 </root>

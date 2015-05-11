@@ -20,27 +20,39 @@ using System.Drawing;
 using System.Windows.Forms;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
     internal partial class AudioFileOutputListForm : Form
     {
+        public event EventHandler CloseRequested;
+
         public AudioFileOutputListForm()
         {
             InitializeComponent();
         }
 
-        public IContext Context
+        public event EventHandler<PageEventArgs> ShowRequested
         {
-            get { return audioFileOutputListUserControl1.Context; }
-            set { audioFileOutputListUserControl1.Context = value; }
+            add { audioFileOutputListUserControl1.ShowRequested += value; }
+            remove { audioFileOutputListUserControl1.ShowRequested -= value; }
         }
 
-        public void Show(int pageNumber = 1)
+        public AudioFileOutputListViewModel ViewModel
         {
-            audioFileOutputListUserControl1.Show(pageNumber);
+            get { return audioFileOutputListUserControl1.ViewModel; }
+            set { audioFileOutputListUserControl1.ViewModel = value; }
+        }
 
-            base.Show();
+        private void AudioFileOutputListForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+
+            if (CloseRequested != null)
+            {
+                CloseRequested(this, EventArgs.Empty);
+            }
         }
     }
 }

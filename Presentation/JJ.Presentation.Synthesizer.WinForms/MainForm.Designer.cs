@@ -112,8 +112,6 @@
             this.menuUserControl.Name = "menuUserControl";
             this.menuUserControl.Size = new System.Drawing.Size(1094, 24);
             this.menuUserControl.TabIndex = 3;
-            this.menuUserControl.ShowDocumentListRequested += new System.EventHandler(this.menuUserControl_ShowDocumentListRequested);
-            this.menuUserControl.ShowDocumentTreeRequested += new System.EventHandler(this.menuUserControl_ShowDocumentTreeRequested);
             // 
             // documentPropertiesUserControl
             // 

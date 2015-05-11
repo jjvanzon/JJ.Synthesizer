@@ -46,7 +46,7 @@
     <Compile Include="Presenters\DocumentPropertiesPresenter.cs" />
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
-    <Compile Include="ToViewModel\ViewModelHelper_Other.cs" />
+    <Compile Include="ToViewModel\ViewModelHelper.cs" />
     <Compile Include="ToViewModel\ViewModelHelper_Lookups.cs" />
     <Compile Include="ToViewModel\ToDocumentTreeViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListViewModelExtensions.cs" />

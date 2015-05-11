@@ -52,5 +52,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
                 OKClicked(this, EventArgs.Empty);
             }
         }
+
+        private void DocumentCannotDeleteForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            Visible = false;
+        }
     }
 }

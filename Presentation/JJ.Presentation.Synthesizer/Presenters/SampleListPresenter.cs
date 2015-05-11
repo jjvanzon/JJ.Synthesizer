@@ -42,5 +42,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             return viewModel;
         }
+
+        public SampleListViewModel Close()
+        {
+            SampleListViewModel viewModel = ViewModelHelper.CreateEmptySampleListViewModel();
+            viewModel.Visible = false;
+            return viewModel;
+        }
     }
 }

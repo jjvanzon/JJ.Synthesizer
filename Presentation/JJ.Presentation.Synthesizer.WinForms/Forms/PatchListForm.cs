@@ -20,27 +20,39 @@ using System.Drawing;
 using System.Windows.Forms;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
     internal partial class PatchListForm : Form
     {
+        public event EventHandler CloseRequested;
+
         public PatchListForm()
         {
             InitializeComponent();
         }
 
-        public IContext Context
+        public event EventHandler<PageEventArgs> ShowRequested
         {
-            get { return patchListUserControl1.Context; }
-            set { patchListUserControl1.Context = value; }
+            add { patchListUserControl1.ShowRequested += value; }
+            remove { patchListUserControl1.ShowRequested -= value; }
         }
 
-        public void Show(int pageNumber = 1)
+        public PatchListViewModel ViewModel
         {
-            patchListUserControl1.Show(pageNumber);
+            get { return patchListUserControl1.ViewModel; }
+            set { patchListUserControl1.ViewModel = value; }
+        }
 
-            base.Show();
+        private void PatchListForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+
+            if (CloseRequested != null)
+            {
+                CloseRequested(this, EventArgs.Empty);
+            }
         }
     }
 }

@@ -20,27 +20,39 @@ using System.Drawing;
 using System.Windows.Forms;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Forms
 {
     internal partial class SampleListForm : Form
     {
+        public event EventHandler CloseRequested;
+
         public SampleListForm()
         {
             InitializeComponent();
         }
 
-        public IContext Context
+        public event EventHandler<PageEventArgs> ShowRequested
         {
-            get { return sampleListUserControl1.Context; }
-            set { sampleListUserControl1.Context = value; }
+            add { sampleListUserControl1.ShowRequested += value; }
+            remove { sampleListUserControl1.ShowRequested -= value; }
         }
 
-        public void Show(int pageNumber = 1)
+        public SampleListViewModel ViewModel
         {
-            sampleListUserControl1.Show(pageNumber);
+            get { return sampleListUserControl1.ViewModel; }
+            set { sampleListUserControl1.ViewModel = value; }
+        }
 
-            base.Show();
+        private void SampleListForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+
+            if (CloseRequested != null)
+            {
+                CloseRequested(this, EventArgs.Empty);
+            }
         }
     }
 }

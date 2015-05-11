@@ -65,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
 
-        public object Close()
+        public DocumentListViewModel Close()
         {
             DocumentListViewModel viewModel = ViewModelHelper.CreateEmptyDocumentListViewModel();
             viewModel.Visible = false;

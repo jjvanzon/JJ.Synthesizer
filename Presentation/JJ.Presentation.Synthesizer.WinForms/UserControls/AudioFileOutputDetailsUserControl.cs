@@ -18,62 +18,39 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class AudioFileOutputDetailsUserControl : UserControl
     {
-        private IContext _context;
-        private AudioFileOutputDetailsPresenter _presenter;
         private AudioFileOutputDetailsViewModel _viewModel;
 
         public AudioFileOutputDetailsUserControl()
         {
             InitializeComponent();
+            SetTitles();
 
             this.AutomaticallyAssignTabIndexes();
         }
 
-        // Persistence
-
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IContext Context
+        public AudioFileOutputDetailsViewModel ViewModel
         {
-            get { return _context; }
-            set 
+            get { return _viewModel; }
+            set
             {
                 if (value == null) throw new NullException(() => value);
-                if (_context == value) return;
-
-                _context = value;
-                _presenter = new AudioFileOutputDetailsPresenter(
-                    PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(_context),
-                    PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(_context),
-                    PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(_context),
-                    PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(_context));
+                _viewModel = value;
+                ApplyViewModel();
             }
         }
 
-        private void AssertContext()
+        // Gui
+
+        private void SetTitles()
         {
-            if (_context == null)
-            {
-                throw new Exception("Assign Context first.");
-            }
+            // TODO: Program this.
         }
-
-        // Actions
-
-        public void Show(int id)
-        {
-            AssertContext();
-            _viewModel = _presenter.Edit(id);
-            ApplyViewModel();
-        }
-
-        // ApplyViewModel
 
         private void ApplyViewModel()
         {
-            if (_viewModel == null)
-            {
-            }
+            // TODO: Program this.
         }
     }
 }

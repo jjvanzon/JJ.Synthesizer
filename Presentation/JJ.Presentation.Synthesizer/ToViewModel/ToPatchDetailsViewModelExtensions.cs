@@ -25,7 +25,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new PatchDetailsViewModel
             {
                 Patch = patch.ToViewModelRecursive(),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<Message>(),
+                Visible = true
             };
 
             viewModel.OperatorTypeToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel();
