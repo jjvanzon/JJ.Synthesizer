@@ -23,6 +23,12 @@ namespace JJ.Business.Synthesizer.Helpers
         public IOutletRepository OutletRepository { get; set; }
         public IEntityPositionRepository EntityPositionRepository { get; set; }
 
+        public IAudioFileFormatRepository AudioFileFormatRepository { get; set; }
+        public IInterpolationTypeRepository InterpolationTypeRepository { get; set; }
+        public INodeTypeRepository NodeTypeRepository { get; set; }
+        public ISampleDataTypeRepository SampleDataTypeRepository { get; set; }
+        public ISpeakerSetupRepository SpeakerSetupRepository { get; set; }
+
         public RepositoryWrapper(
             IDocumentRepository documentRepository,
             ICurveRepository curveRepository,
@@ -35,7 +41,13 @@ namespace JJ.Business.Synthesizer.Helpers
             IOperatorRepository operatorRepository,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
-            IEntityPositionRepository entityPositionRepository)
+            IEntityPositionRepository entityPositionRepository,
+
+            IAudioFileFormatRepository audioFileFormatRepository,
+            IInterpolationTypeRepository interpolationTypeRepository,
+            INodeTypeRepository nodeTypeRepository,
+            ISampleDataTypeRepository sampleDataTypeRepository,
+            ISpeakerSetupRepository speakerSetupRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -50,6 +62,12 @@ namespace JJ.Business.Synthesizer.Helpers
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
 
+            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
+            if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
+            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
+            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
+            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
+
             DocumentRepository = documentRepository;
             CurveRepository = curveRepository;
             PatchRepository = patchRepository;
@@ -62,6 +80,12 @@ namespace JJ.Business.Synthesizer.Helpers
             InletRepository = inletRepository;
             OutletRepository = outletRepository;
             EntityPositionRepository = entityPositionRepository;
+
+            AudioFileFormatRepository = audioFileFormatRepository;
+            InterpolationTypeRepository = interpolationTypeRepository;
+            NodeTypeRepository = nodeTypeRepository;
+            SampleDataTypeRepository = sampleDataTypeRepository;
+            SpeakerSetupRepository = speakerSetupRepository;
         }
 
         public void Commit()

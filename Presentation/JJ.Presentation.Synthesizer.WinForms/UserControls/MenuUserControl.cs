@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         public event EventHandler CurveListRequested;
         public event EventHandler PatchListRequested;
         public event EventHandler SampleListRequested;
-        public event EventHandler AudioFileOutputDetailsRequested;
+        public event EventHandler AudioFileOutputEditRequested;
         public event EventHandler PatchDetailsRequested;
 
         public MenuUserControl()
@@ -123,8 +123,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
 
             // AudioFileOutputDetails
-            toolStripMenuItem = CreateAudioFileOutputDetailsToolStripMenuItem();
-            toolStripMenuItem.Click += audioFileOutputDetailsToolStripMenuItem_Click;
+            toolStripMenuItem = CreateAudioFileOutputEditToolStripMenuItem();
+            toolStripMenuItem.Click += audioFileOutputEditToolStripMenuItem_Click;
             viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
 
             // AudioFileOutputDetails
@@ -210,12 +210,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             return toolStripMenuItem;
         }
 
-        private ToolStripMenuItem CreateAudioFileOutputDetailsToolStripMenuItem()
+        private ToolStripMenuItem CreateAudioFileOutputEditToolStripMenuItem()
         {
             var toolStripMenuItem = new ToolStripMenuItem
             {
                 Name = "audioFileOutputDetailsToolStripMenuItem",
-                Text = "&" + CommonTitleFormatter.ObjectDetails(PropertyDisplayNames.AudioFileOutput)
+                Text = "&" + CommonTitleFormatter.EditObject(PropertyDisplayNames.AudioFileOutput)
             };
 
             return toolStripMenuItem;
@@ -282,11 +282,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
         }
 
-        private void audioFileOutputDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void audioFileOutputEditToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (AudioFileOutputDetailsRequested != null)
+            if (AudioFileOutputEditRequested != null)
             {
-                AudioFileOutputDetailsRequested(sender, EventArgs.Empty);
+                AudioFileOutputEditRequested(sender, EventArgs.Empty);
             }
         }
 

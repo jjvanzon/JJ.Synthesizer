@@ -76,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             menuUserControl.CurveListRequested += menuUserControl_CurveListRequested;
             menuUserControl.PatchListRequested += menuUserControl_PatchListRequested;
             menuUserControl.SampleListRequested += menuUserControl_SampleListRequested;
-            menuUserControl.AudioFileOutputDetailsRequested += menuUserControl_AudioFileOutputDetailsRequested;
+            menuUserControl.AudioFileOutputEditRequested += menuUserControl_AudioFileOutputEditRequested;
             menuUserControl.PatchDetailsRequested += menuUserControl_PatchDetailsRequested;
 
             documentListUserControl.ShowRequested += documentListUserControl_ShowRequested;
@@ -139,7 +139,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 PersistenceHelper.CreateRepository<IOperatorRepository>(_context),
                 PersistenceHelper.CreateRepository<IInletRepository>(_context),
                 PersistenceHelper.CreateRepository<IOutletRepository>(_context),
-                PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context)
+                PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context),
+                PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(_context),
+                PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(_context),
+                PersistenceHelper.CreateRepository<INodeTypeRepository>(_context),
+                PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(_context),
+                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(_context)
             );
 
             return repositoryWrapper;
@@ -313,9 +318,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void AudioFileOutputDetailsShow(int id)
+        private void AudioFileOutputDetailsEdit(int id)
         {
-            _viewModel = _presenter.AudioFileOutputDetailsShow(_viewModel, id);
+            _viewModel = _presenter.AudioFileOutputDetailsEdit(_viewModel, id);
             ApplyViewModel();
         }
 
@@ -405,10 +410,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             SampleListShow(1);
         }
 
-        private void menuUserControl_AudioFileOutputDetailsRequested(object sender, EventArgs e)
+        private void menuUserControl_AudioFileOutputEditRequested(object sender, EventArgs e)
         {
             int dummyID = 0;
-            AudioFileOutputDetailsShow(dummyID);
+            AudioFileOutputDetailsEdit(dummyID);
         }
 
         private void menuUserControl_PatchDetailsRequested(object sender, EventArgs e)

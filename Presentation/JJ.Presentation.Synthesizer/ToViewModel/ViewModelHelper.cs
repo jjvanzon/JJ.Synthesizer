@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
+    /// <summary>
+    /// Empty view models start out with Visible = false.
+    /// </summary>
     internal static partial class ViewModelHelper
     {
         public static NotFoundViewModel CreateNotFoundViewModel(string entityTypeName)

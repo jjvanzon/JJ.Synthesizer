@@ -246,7 +246,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             DispatchViewModel(viewModel2);
 
-            bool isValid = !viewModel2.Visible; // TODO: It seems a bit dirty to check success this way.
+            bool isValid = !viewModel2.Visible; // TODO: It seems dirty to check success this way.
             if (isValid) 
             {
                 RefreshDocumentList();
@@ -304,52 +304,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel CurveListShow(MainViewModel viewModel, int pageNumber)
+        public MainViewModel AudioFileOutputListClose(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new CurveListPresenter(_repositoryWrapper.CurveRepository);
-            object viewModel2 = presenter2.Show(pageNumber);
+            var presenter2 = new AudioFileOutputListPresenter(_repositoryWrapper.AudioFileOutputRepository);
+            object viewModel2 = presenter2.Close();
 
             DispatchViewModel(viewModel2);
 
             return _viewModel;
         }
 
-        public MainViewModel PatchListShow(MainViewModel viewModel, int pageNumber)
+        public MainViewModel AudioFileOutputDetailsEdit(MainViewModel viewModel, int id)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new PatchListPresenter(_repositoryWrapper.PatchRepository);
-            object viewModel2 = presenter2.Show(pageNumber);
+            AudioFileOutputDetailsPresenter presenter2 = CreateAudioFileOutputDetailsPresenter();
+            object viewModel2 = presenter2.Edit(id);
 
             DispatchViewModel(viewModel2);
-
-            return _viewModel;
-        }
-
-        public MainViewModel SampleListShow(MainViewModel viewModel, int pageNumber)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            TemporarilyAssertViewModelField();
-
-            var presenter2 = new SampleListPresenter(_repositoryWrapper.SampleRepository);
-            object viewModel2 = presenter2.Show(pageNumber);
-
-            DispatchViewModel(viewModel2);
-
-            return _viewModel;
-        }
-
-        public MainViewModel AudioFileOutputDetailsShow(MainViewModel viewModel, int id)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            TemporarilyAssertViewModelField();
-
-            // TODO: Repository wrapper does not have all the necessary repositories yet.
-            throw new NotImplementedException();
 
             return _viewModel;
         }
@@ -359,19 +335,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            // TODO: Repository wrapper does not have all the necessary repositories yet.
-            throw new NotImplementedException();
+            AudioFileOutputDetailsPresenter presenter2 = CreateAudioFileOutputDetailsPresenter();
+            object viewModel2 = presenter2.Close();
+
+            DispatchViewModel(viewModel2);
 
             return _viewModel;
         }
 
-        public MainViewModel AudioFileOutputListClose(MainViewModel viewModel)
+        public MainViewModel CurveListShow(MainViewModel viewModel, int pageNumber)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new AudioFileOutputListPresenter(_repositoryWrapper.AudioFileOutputRepository);
-            object viewModel2 = presenter2.Close();
+            var presenter2 = new CurveListPresenter(_repositoryWrapper.CurveRepository);
+            object viewModel2 = presenter2.Show(pageNumber);
 
             DispatchViewModel(viewModel2);
 
@@ -391,25 +369,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel PatchListClose(MainViewModel viewModel)
+        public MainViewModel PatchListShow(MainViewModel viewModel, int pageNumber)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
             var presenter2 = new PatchListPresenter(_repositoryWrapper.PatchRepository);
-            object viewModel2 = presenter2.Close();
+            object viewModel2 = presenter2.Show(pageNumber);
 
             DispatchViewModel(viewModel2);
 
             return _viewModel;
         }
 
-        public MainViewModel SampleListClose(MainViewModel viewModel)
+        public MainViewModel PatchListClose(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new SampleListPresenter(_repositoryWrapper.SampleRepository);
+            var presenter2 = new PatchListPresenter(_repositoryWrapper.PatchRepository);
             object viewModel2 = presenter2.Close();
 
             DispatchViewModel(viewModel2);
@@ -431,20 +409,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        private PatchDetailsPresenter CreatePatchDetailsPresenter()
-        {
-            var presenter2 = new PatchDetailsPresenter(
-                _repositoryWrapper.PatchRepository,
-                _repositoryWrapper.OperatorRepository,
-                _repositoryWrapper.InletRepository,
-                _repositoryWrapper.OutletRepository,
-                _repositoryWrapper.EntityPositionRepository,
-                _repositoryWrapper.CurveRepository,
-                _repositoryWrapper.SampleRepository);
-
-            return presenter2;
-        }
-
         public MainViewModel PatchDetailsClose(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -452,6 +416,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             PatchDetailsPresenter presenter2 = CreatePatchDetailsPresenter();
 
+            object viewModel2 = presenter2.Close();
+
+            DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel SampleListShow(MainViewModel viewModel, int pageNumber)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            TemporarilyAssertViewModelField();
+
+            var presenter2 = new SampleListPresenter(_repositoryWrapper.SampleRepository);
+            object viewModel2 = presenter2.Show(pageNumber);
+
+            DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel SampleListClose(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            TemporarilyAssertViewModelField();
+
+            var presenter2 = new SampleListPresenter(_repositoryWrapper.SampleRepository);
             object viewModel2 = presenter2.Close();
 
             DispatchViewModel(viewModel2);
@@ -648,6 +638,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // to work in a stateless environment.
                 throw new Exception("_viewModel field is not assigned and code is not adapted to work in a stateless environment.");
             }
+        }
+
+        private PatchDetailsPresenter CreatePatchDetailsPresenter()
+        {
+            var presenter2 = new PatchDetailsPresenter(
+                _repositoryWrapper.PatchRepository,
+                _repositoryWrapper.OperatorRepository,
+                _repositoryWrapper.InletRepository,
+                _repositoryWrapper.OutletRepository,
+                _repositoryWrapper.EntityPositionRepository,
+                _repositoryWrapper.CurveRepository,
+                _repositoryWrapper.SampleRepository);
+
+            return presenter2;
+        }
+
+        private AudioFileOutputDetailsPresenter CreateAudioFileOutputDetailsPresenter()
+        {
+            var presenter2 = new AudioFileOutputDetailsPresenter(
+                _repositoryWrapper.AudioFileOutputRepository,
+                _repositoryWrapper.AudioFileFormatRepository,
+                _repositoryWrapper.SampleDataTypeRepository,
+                _repositoryWrapper.SpeakerSetupRepository);
+
+            return presenter2;
         }
     }
 }

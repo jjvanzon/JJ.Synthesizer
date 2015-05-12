@@ -130,7 +130,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ViewMenu = new ViewMenuViewModel
                 {
                     DocumentsMenuItem = new MenuItemViewModel(),
-                    DocumentTreeMenuItem = new MenuItemViewModel()
+                    DocumentTreeMenuItem = new MenuItemViewModel(),
+                    AudioFileOutputsMenuItem = new MenuItemViewModel(),
+                    CurvesMenuItem = new MenuItemViewModel(),
+                    PatchesMenuItem = new MenuItemViewModel(),
+                    SamplesMenuItem = new MenuItemViewModel(),
+                    AudioFileOutputDetailsMenuItem = new MenuItemViewModel(),
+                    PatchDetailsMenuItem = new MenuItemViewModel()
                 }
             };
 
@@ -196,15 +202,34 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static AudioFileOutputDetailsViewModel CreateEmptyAudioFileOutputDetailsViewModelWithLookups(
+            IAudioFileFormatRepository audioFileFormatRepository,
+            ISampleDataTypeRepository sampleDataTypeRepository,
+            ISpeakerSetupRepository speakerSetupRepository)
+        {
+            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
+            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
+            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
+
+            var viewModel = new AudioFileOutputDetailsViewModel
+            {
+                AudioFileFormats = ViewModelHelper.CreateAudioFileFormatLookupViewModel(audioFileFormatRepository),
+                SampleDataTypes = ViewModelHelper.CreateSampleDataTypeLookupViewModel(sampleDataTypeRepository),
+                SpeakerSetups = ViewModelHelper.CreateSpeakerSetupLookupViewModel(speakerSetupRepository),
+                OutletLookup = new List<IDAndName>()
+            };
+
+            return viewModel;
+        }
+
         public static AudioFileOutputDetailsViewModel CreateEmptyAudioFileOutputDetailsViewModel()
         {
             var viewModel = new AudioFileOutputDetailsViewModel
             {
-                // TODO: Need more repositories for this.
-                //AudioFileFormats
-                //OutletLookup
-                //SampleDataTypes
-                //SpeakerSetups
+                AudioFileFormats = new List<IDAndName>(),
+                SampleDataTypes = new List<IDAndName>(),
+                SpeakerSetups = new List<IDAndName>(),
+                OutletLookup = new List<IDAndName>(),
             };
 
             return viewModel;

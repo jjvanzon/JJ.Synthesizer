@@ -37,8 +37,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public AudioFileOutputDetailsViewModel Edit(int id)
         {
-            AudioFileOutput entity = _audioFileOutputRepository.Get(id);
-            AudioFileOutputDetailsViewModel viewModel = entity.ToDetailsViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository);
+            // Temporarily (2015-05-12) replaced by empty view model,
+            // until this view is used in the right place in the application navigation.
+            //AudioFileOutput entity = _audioFileOutputRepository.Get(id);
+            //AudioFileOutputDetailsViewModel viewModel = entity.ToDetailsViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository);
+            //return viewModel;
+
+            AudioFileOutputDetailsViewModel viewModel = ViewModelHelper.CreateEmptyAudioFileOutputDetailsViewModel();
+            viewModel.Visible = true;
+            return viewModel;
+        }
+
+        public AudioFileOutputDetailsViewModel Close()
+        {
+            AudioFileOutputDetailsViewModel viewModel = ViewModelHelper.CreateEmptyAudioFileOutputDetailsViewModel();
+            viewModel.Visible = false;
             return viewModel;
         }
     }
