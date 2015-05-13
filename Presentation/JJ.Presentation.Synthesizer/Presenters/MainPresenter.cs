@@ -35,6 +35,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
             _repositoryWrapper = repositoryWrapper;
+
+            _dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
         }
 
         // A lot of times nothing is done with viewModel parameter.
@@ -50,17 +52,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             _viewModel = ViewModelHelper.CreateEmptyMainViewModel();
 
-            object viewModel2;
-
             var menuPresenter = new MenuPresenter();
-            viewModel2 = menuPresenter.Show();
-
-            DispatchViewModel(viewModel2);
+            MenuViewModel menuViewModel = menuPresenter.Show();
+            DispatchViewModel(menuViewModel);
 
             var documentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
-            viewModel2 = documentListPresenter.Show(1);
-
-            DispatchViewModel(viewModel2);
+            DocumentListViewModel documentListViewModel = documentListPresenter.Show(1);
+            DispatchViewModel(documentListViewModel);
 
             return _viewModel;
         }
@@ -68,10 +66,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public MainViewModel NotFoundOK(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
+
             TemporarilyAssertViewModelField();
 
             var presenter2 = new NotFoundPresenter();
-            object viewModel2 = presenter2.OK(_viewModel.NotFound);
+            object viewModel2 = presenter2.OK();
 
             DispatchViewModel(viewModel2);
 
@@ -141,6 +140,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             object viewModel2 = presenter2.Save(viewModel.DocumentDetails);
 
             DispatchViewModel(viewModel2);
+
+            RefreshDocumentList();
 
             return _viewModel;
         }
@@ -454,147 +455,149 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Private Methods
 
+        private Dictionary<Type, Action<object>> _dispatchDelegateDictionary;
+
+        private Dictionary<Type, Action<object>> CreateDispatchDelegateDictionary()
+        {
+            var dictionary = new Dictionary<Type, Action<object>>
+            {
+                 { typeof(MenuViewModel), TryDispatchMenuViewModel },
+                 { typeof(DocumentListViewModel), TryDispatchDocumentListViewModel },
+                 { typeof(DocumentCannotDeleteViewModel), TryDispatchDocumentCannotDeleteViewModel },
+                 { typeof(DocumentDeleteViewModel), TryDispatchDocumentDeleteViewModel },
+                 { typeof(DocumentTreeViewModel), TryDispatchDocumentTreeViewModel },
+                 { typeof(DocumentPropertiesViewModel), TryDispatchDocumentPropertiesViewModel },
+                 { typeof(AudioFileOutputListViewModel), TryDispatchAudioFileOutputListViewModel },
+                 { typeof(CurveListViewModel), TryDispatchCurveListViewModel },
+                 { typeof(PatchListViewModel), TryDispatchPatchListViewModel },
+                 { typeof(SampleListViewModel), TryDispatchSampleListViewModel },
+                 { typeof(AudioFileOutputDetailsViewModel), TryDispatchAudioFileOutputDetailsViewModel },
+                 { typeof(PatchDetailsViewModel), TryDispatchPatchDetailsViewModel },
+                 { typeof(NotFoundViewModel), DispatchNotFoundViewModel },
+                 { typeof(DocumentDeletedViewModel), DispatchDocumentDeletedViewModel },
+                 { typeof(DocumentDetailsViewModel), DispatchDocumentDetailsViewModel }
+            };
+
+            return dictionary;
+        }
+
         /// <summary>
         /// Applies a view model from a sub-presenter in the right way
         /// to the main view model.
         /// </summary>
         private void DispatchViewModel(object viewModel2)
         {
-            // TODO: Low priority: Create a dictionary of delegates to make dispatching faster?
+            if (viewModel2 == null) throw new NullException(() => viewModel2);
 
-            var menuViewModel = viewModel2 as MenuViewModel;
-            if (menuViewModel != null)
+            Type viewModelType = viewModel2.GetType();
+
+            Action<object> dispatchDelegate;
+            if (!_dispatchDelegateDictionary.TryGetValue(viewModelType, out dispatchDelegate))
             {
-                _viewModel.Menu = menuViewModel;
-                return;
+                throw new UnexpectedViewModelTypeException(viewModel2);
             }
 
-            var documentListViewModel = viewModel2 as DocumentListViewModel;
-            if (documentListViewModel != null)
+            dispatchDelegate(viewModel2);
+        }
+
+        private void DispatchDocumentDetailsViewModel(object viewModel2)
+        {
+            _viewModel.DocumentDetails = (DocumentDetailsViewModel)viewModel2;
+        }
+        
+        private void TryDispatchMenuViewModel(object viewModel2)
+        {
+            _viewModel.Menu = (MenuViewModel)viewModel2;
+        }
+
+        private void TryDispatchDocumentListViewModel(object viewModel2)
+        {
+            _viewModel.DocumentList = (DocumentListViewModel)viewModel2;
+        }
+
+        private void TryDispatchDocumentCannotDeleteViewModel(object viewModel2)
+        {
+            _viewModel.DocumentCannotDelete = (DocumentCannotDeleteViewModel)viewModel2;
+        }
+
+        private void TryDispatchDocumentDeleteViewModel(object viewModel2)
+        {
+            _viewModel.DocumentDelete = (DocumentDeleteViewModel)viewModel2;
+        }
+
+        private void TryDispatchDocumentTreeViewModel(object viewModel2)
+        {
+            _viewModel.DocumentTree = (DocumentTreeViewModel)viewModel2;
+        }
+
+        private void TryDispatchDocumentPropertiesViewModel(object viewModel2)
+        {
+            _viewModel.DocumentProperties = (DocumentPropertiesViewModel)viewModel2;
+        }
+
+        private void TryDispatchAudioFileOutputListViewModel(object viewModel2)
+        {
+            _viewModel.AudioFileOutputList = (AudioFileOutputListViewModel)viewModel2;
+        }
+
+        private void TryDispatchCurveListViewModel(object viewModel2)
+        {
+            _viewModel.CurveList = (CurveListViewModel)viewModel2;
+        }
+
+        private void TryDispatchPatchListViewModel(object viewModel2)
+        {
+            _viewModel.PatchList = (PatchListViewModel)viewModel2;
+        }
+
+        private void TryDispatchSampleListViewModel(object viewModel2)
+        {
+            _viewModel.SampleList = (SampleListViewModel)viewModel2;
+        }
+
+        private void TryDispatchAudioFileOutputDetailsViewModel(object viewModel2)
+        {
+            _viewModel.AudioFileOutputDetails = (AudioFileOutputDetailsViewModel)viewModel2;
+        }
+
+        private void TryDispatchPatchDetailsViewModel(object viewModel2)
+        {
+            _viewModel.PatchDetails = (PatchDetailsViewModel)viewModel2;
+        }
+
+        private void DispatchDocumentDeletedViewModel(object viewModel2)
+        {
+            var documentDeletedViewModel = (DocumentDeletedViewModel)viewModel2;
+
+            _viewModel.DocumentDeleted = documentDeletedViewModel;
+
+            _viewModel.DocumentDelete.Visible = false;
+            _viewModel.DocumentDetails.Visible = false;
+
+            if (!documentDeletedViewModel.Visible)
             {
-                _viewModel.DocumentList = documentListViewModel;
-                return;
+                RefreshDocumentList();
             }
+        }
 
-            var notFoundViewModel = viewModel2 as NotFoundViewModel;
-            if (notFoundViewModel != null)
+        private void DispatchNotFoundViewModel(object viewModel2)
+        {
+            var notFoundViewModel = (NotFoundViewModel)viewModel2;
+
+            _viewModel.NotFound = notFoundViewModel;
+
+            // HACK: Checking visibility of the NotFound view model
+            // prevents refreshing the DocumentList twice:
+            // once when showing the NotFound view model,
+            // a second time when clicking OK on it.
+
+            // TODO: Low priority: Eventually the NotFoundViewModel will create even more ambiguity,
+            // when it is reused for multiple entity types.
+
+            if (notFoundViewModel.Visible)
             {
-                _viewModel.NotFound = notFoundViewModel;
-
-                // HACK: Checking visibility of the NotFound view model
-                // prevents refreshing the DocumentList twice:
-                // once when showing the NotFound view model,
-                // a second time when clicking OK on it.
-
-                // TODO: Low priority: Eventually the NotFoundViewModel will create even more ambiguity,
-                // when it is reused for multiple entity types.
-
-                if (notFoundViewModel.Visible)
-                {
-                    RefreshDocumentList();
-                }
-                return;
+                RefreshDocumentList();
             }
-
-            var documentDeletedViewModel = viewModel2 as DocumentDeletedViewModel;
-            if (documentDeletedViewModel != null)
-            {
-                _viewModel.DocumentDeleted = documentDeletedViewModel;
-                _viewModel.DocumentDelete.Visible = false;
-                _viewModel.DocumentDetails.Visible = false;
-
-                if (!documentDeletedViewModel.Visible)
-                {
-                    RefreshDocumentList();
-                }
-
-                return;
-            }
-
-            var documentCannotDeleteViewModel = viewModel2 as DocumentCannotDeleteViewModel;
-            if (documentCannotDeleteViewModel != null)
-            {
-                _viewModel.DocumentCannotDelete = documentCannotDeleteViewModel;
-                return;
-            }
-
-            var documentDeleteViewModel = viewModel2 as DocumentDeleteViewModel;
-            if (documentDeleteViewModel != null)
-            {
-                _viewModel.DocumentDelete = documentDeleteViewModel;
-                return;
-            }
-
-            var documentDetailsViewModel = viewModel2 as DocumentDetailsViewModel;
-            if (documentDetailsViewModel != null)
-            {
-                _viewModel.DocumentDetails = documentDetailsViewModel;
-
-                if (!_viewModel.DocumentDetails.Visible) // Refresh uppon close.
-                {
-                    RefreshDocumentList();
-                }
-
-                return;
-            }
-
-            var treeViewModel = viewModel2 as DocumentTreeViewModel;
-            if (treeViewModel != null)
-            {
-                _viewModel.DocumentTree = treeViewModel;
-                return;
-            }
-
-            var documentPropertiesViewModel = viewModel2 as DocumentPropertiesViewModel;
-            if (documentPropertiesViewModel != null)
-            {
-                _viewModel.DocumentProperties = documentPropertiesViewModel;
-                return;
-            }
-
-            var audioFileOutputListViewModel = viewModel2 as AudioFileOutputListViewModel;
-            if (audioFileOutputListViewModel != null)
-            {
-                _viewModel.AudioFileOutputList = audioFileOutputListViewModel;
-                return;
-            }
-
-            var curveListViewModel = viewModel2 as CurveListViewModel;
-            if (curveListViewModel != null)
-            {
-                _viewModel.CurveList = curveListViewModel;
-                return;
-            }
-
-            var patchListViewModel = viewModel2 as PatchListViewModel;
-            if (patchListViewModel != null)
-            {
-                _viewModel.PatchList = patchListViewModel;
-                return;
-            }
-
-            var sampleListViewModel = viewModel2 as SampleListViewModel;
-            if (sampleListViewModel != null)
-            {
-                _viewModel.SampleList = sampleListViewModel;
-                return;
-            }
-
-            var audioFileOutputDetailsViewModel = viewModel2 as AudioFileOutputDetailsViewModel;
-            if (audioFileOutputDetailsViewModel != null)
-            {
-                _viewModel.AudioFileOutputDetails = audioFileOutputDetailsViewModel;
-                return;
-            }
-
-            var patchDetailsViewModel = viewModel2 as PatchDetailsViewModel;
-            if (patchDetailsViewModel != null)
-            {
-                _viewModel.PatchDetails = patchDetailsViewModel;
-                return;
-            }
-
-            throw new UnexpectedViewModelTypeException(viewModel2);
         }
 
         private void RefreshDocumentList()

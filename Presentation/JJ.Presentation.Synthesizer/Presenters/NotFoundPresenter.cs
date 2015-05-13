@@ -20,15 +20,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public NotFoundViewModel OK(NotFoundViewModel viewModel)
+        public NotFoundViewModel OK()
         {
-            // TODO: This looks wierd. The stateless-stateful hybrid pattern starts falling apart.
             if (_viewModel == null)
             {
-                _viewModel = viewModel;
+                _viewModel = ViewModelHelper.CreateEmptyNotFoundViewModel();
             }
-
-            if (_viewModel == null) throw new NullException(() => viewModel);
 
             _viewModel.Visible = false;
 
