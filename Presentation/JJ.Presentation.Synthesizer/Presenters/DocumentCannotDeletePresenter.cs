@@ -7,27 +7,53 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     public class DocumentCannotDeletePresenter
     {
-        // TODO: An entity cannot be a parameter for a presenter.
-        public DocumentCannotDeleteViewModel Show(Document document, IList<Message> messages)
-        {
-            if (document == null) throw new NullException(() => document);
+        private IDocumentRepository _documentRepository;
 
-            DocumentCannotDeleteViewModel viewModel = document.ToCannotDeleteViewModel(messages);
-            return viewModel;
+        private DocumentCannotDeleteViewModel _viewModel;
+
+        public DocumentCannotDeletePresenter(IDocumentRepository documentRepository)
+        {
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+
+            _documentRepository = documentRepository;
         }
 
-        // TODO: Do you really need to pass along a viewModel, just for an OK that does nothing?
-        public DocumentCannotDeleteViewModel OK(DocumentCannotDeleteViewModel viewModel)
+        /// <summary>
+        /// Can return NotFoundViewModel or DocumentCannotDeleteViewModel.
+        /// </summary>
+        public object Show(int id, IList<Message> messages)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
+            Document document = _documentRepository.TryGet(id);
+            if (document == null)
+            {
+                var presenter2 = new NotFoundPresenter();
+                NotFoundViewModel viewModel2 = presenter2.Show(PropertyDisplayNames.Document);
+                return viewModel2;
+            }
+            else
+            {
+                _viewModel = document.ToCannotDeleteViewModel(messages);
+                return _viewModel;
+            }
+        }
 
-            viewModel.Visible = false;
-            return viewModel;
+        public DocumentCannotDeleteViewModel OK()
+        {
+            if (_viewModel == null)
+            {
+                _viewModel = ViewModelHelper.CreateEmptyDocumentCannotDeleteViewModel();
+            }
+
+            _viewModel.Visible = false;
+
+            return _viewModel;
         }
     }
 }

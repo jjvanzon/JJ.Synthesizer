@@ -27,8 +27,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Messages = new List<Message>(),
                 NotFound = CreateEmptyNotFoundViewModel(),
                 DocumentCannotDelete = CreateEmptyDocumentCannotDeleteViewModel(),
-                DocumentDelete = CreateEmptyDocumentConfirmDeleteViewModel(),
-                DocumentDeleted = CreateEmptyDocumentDeleteConfirmedViewModel(),
+                DocumentDelete = CreateEmptyDocumentDeleteViewModel(),
+                DocumentDeleted = CreateEmptyDocumentDeletedViewModel(),
                 DocumentDetails = CreateEmptyDocumentDetailsViewModel(),
                 DocumentList = CreateEmptyDocumentListViewModel(),
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
@@ -53,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static DocumentDeleteViewModel CreateEmptyDocumentConfirmDeleteViewModel()
+        public static DocumentDeleteViewModel CreateEmptyDocumentDeleteViewModel()
         {
             var viewModel = new DocumentDeleteViewModel
             {
@@ -63,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static DocumentDeletedViewModel CreateEmptyDocumentDeleteConfirmedViewModel()
+        public static DocumentDeletedViewModel CreateEmptyDocumentDeletedViewModel()
         {
             var viewModel = new DocumentDeletedViewModel();
 

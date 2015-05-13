@@ -13,10 +13,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     public class MenuPresenter
     {
+        private MenuViewModel _viewModel;
+
         public MenuViewModel Show()
         {
-            MenuViewModel viewModel = ViewModelHelper.CreateMenuViewModel();
-            return viewModel;
+            _viewModel = ViewModelHelper.CreateMenuViewModel();
+            return _viewModel;
         }
     }
 }

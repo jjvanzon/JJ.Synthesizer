@@ -21,6 +21,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private static int _pageSize;
 
+        private CurveListViewModel _viewModel;
+
         public CurveListPresenter(ICurveRepository curveRepository)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -38,16 +40,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<Curve> curves = _curveRepository.GetPage(pageIndex * _pageSize, _pageSize);
             int totalCount = _curveRepository.Count();
 
-            CurveListViewModel viewModel = curves.ToListViewModel(pageIndex, _pageSize, totalCount);
+            _viewModel = curves.ToListViewModel(pageIndex, _pageSize, totalCount);
 
-            return viewModel;
+            return _viewModel;
         }
 
         public CurveListViewModel Close()
         {
-            CurveListViewModel viewModel = ViewModelHelper.CreateEmptyCurveListViewModel();
-            viewModel.Visible = false;
-            return viewModel;
+            if (_viewModel == null)
+            {
+                _viewModel = ViewModelHelper.CreateEmptyCurveListViewModel();
+            }
+
+            _viewModel.Visible = false;
+
+            return _viewModel;
         }
     }
 }

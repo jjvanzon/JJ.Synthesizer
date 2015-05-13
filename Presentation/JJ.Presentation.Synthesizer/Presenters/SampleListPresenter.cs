@@ -19,6 +19,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private ISampleRepository _sampleRepository;
 
+        private SampleListViewModel _viewModel;
+
         private static int _pageSize;
 
         public SampleListPresenter(ISampleRepository sampleRepository)
@@ -38,16 +40,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<Sample> samples = _sampleRepository.GetPage(pageIndex * _pageSize, _pageSize);
             int totalCount = _sampleRepository.Count();
 
-            SampleListViewModel viewModel = samples.ToListViewModel(pageIndex, _pageSize, totalCount);
+            _viewModel = samples.ToListViewModel(pageIndex, _pageSize, totalCount);
 
-            return viewModel;
+            return _viewModel;
         }
 
         public SampleListViewModel Close()
         {
-            SampleListViewModel viewModel = ViewModelHelper.CreateEmptySampleListViewModel();
-            viewModel.Visible = false;
-            return viewModel;
+            if (_viewModel == null)
+            {
+                _viewModel = ViewModelHelper.CreateEmptySampleListViewModel();
+            }
+
+            _viewModel.Visible = false;
+
+            return _viewModel;
         }
     }
 }

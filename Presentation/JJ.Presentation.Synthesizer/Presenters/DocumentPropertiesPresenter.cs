@@ -21,6 +21,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IDocumentRepository _documentRepository;
 
+        private DocumentPropertiesViewModel _viewModel;
+
         public DocumentPropertiesPresenter(IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
@@ -42,64 +44,84 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                DocumentPropertiesViewModel viewModel = document.ToPropertiesViewModel();
+                _viewModel = document.ToPropertiesViewModel();
 
                 _documentRepository.Rollback();
 
-                return viewModel;
+                return _viewModel;
             }
         }
 
-        public DocumentPropertiesViewModel Close(DocumentPropertiesViewModel viewModel)
+        // TODO: In both Close and LoseFocus you might want to check if the ID is filled,
+        // because you might not be supposed to create a new entity with a Properties box.
+
+        public DocumentPropertiesViewModel Close(DocumentPropertiesViewModel userInput)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            Document document = viewModel.ToEntity(_documentRepository);
+            if (userInput == null) throw new NullException(() => userInput);
+
+            Document document = userInput.ToEntity(_documentRepository);
 
             IValidator validator = new DocumentValidator(document);
             if (!validator.IsValid)
             {
-                DocumentPropertiesViewModel viewModel2 = document.ToPropertiesViewModel();
-                viewModel2.Messages = validator.ValidationMessages.ToCanonical();
+                if (_viewModel == null)
+                {
+                    _viewModel = document.ToPropertiesViewModel();
+                }
+
+                _viewModel.Messages = validator.ValidationMessages.ToCanonical();
 
                 _documentRepository.Rollback();
 
-                return viewModel2;
+                return _viewModel;
             }
             else
             {
                 // For now close is save. In the future a giant view model will retain state, until the user says 'save'.
                 _documentRepository.Commit();
 
-                // TODO: It might be better to create a view model that is not empty,
-                // but made invisible.
-                DocumentPropertiesViewModel viewModel2 = ViewModelHelper.CreateEmptyDocumentPropertiesViewModel();
-                viewModel2.Visible = false;
-                return viewModel2;
+                if (_viewModel == null)
+                {
+                    _viewModel = ViewModelHelper.CreateEmptyDocumentPropertiesViewModel();
+                }
+
+                _viewModel.Visible = false;
+
+                return _viewModel;
             }
         }
 
-        public DocumentPropertiesViewModel LooseFocus(DocumentPropertiesViewModel viewModel)
+        public DocumentPropertiesViewModel LooseFocus(DocumentPropertiesViewModel userInput)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            Document document = viewModel.ToEntity(_documentRepository);
+            if (userInput == null) throw new NullException(() => userInput);
+
+            Document document = userInput.ToEntity(_documentRepository);
 
             IValidator validator = new DocumentValidator(document);
             if (!validator.IsValid)
             {
-                DocumentPropertiesViewModel viewModel2 = document.ToPropertiesViewModel();
-                viewModel2.Messages = validator.ValidationMessages.ToCanonical();
+                if (_viewModel == null)
+                {
+                    _viewModel = document.ToPropertiesViewModel();
+                }
+
+                _viewModel.Messages = validator.ValidationMessages.ToCanonical();
 
                 _documentRepository.Rollback();
 
-                return viewModel2;
+                return _viewModel;
             }
             else
             {
                 // For now loose focus is save. In the future a giant view model will retain state, until the user says 'save'.
                 _documentRepository.Commit();
 
-                DocumentPropertiesViewModel viewModel2 = document.ToPropertiesViewModel();
-                return viewModel2;
+                if (_viewModel == null)
+                {
+                    _viewModel = document.ToPropertiesViewModel();
+                }
+
+                return _viewModel;
             }
         }
     }

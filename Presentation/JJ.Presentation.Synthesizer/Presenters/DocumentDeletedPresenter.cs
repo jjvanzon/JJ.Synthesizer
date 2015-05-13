@@ -10,17 +10,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     public class DocumentDeletedPresenter
     {
+        private DocumentDeletedViewModel _viewModel;
+
         public DocumentDeletedViewModel Show()
         {
-            DocumentDeletedViewModel viewModel = ViewModelHelper.CreateDocumentDeletedViewModel();
-            return viewModel;
+            _viewModel = ViewModelHelper.CreateDocumentDeletedViewModel();
+
+            return _viewModel;
         }
 
         public DocumentDeletedViewModel OK()
         {
-            DocumentDeletedViewModel viewModel = ViewModelHelper.CreateDocumentDeletedViewModel();
-            viewModel.Visible = false;
-            return viewModel;
+            if (_viewModel == null)
+            {
+                _viewModel = ViewModelHelper.CreateDocumentDeletedViewModel();
+            }
+
+            _viewModel.Visible = false;
+
+            return _viewModel;
         }
     }
 }

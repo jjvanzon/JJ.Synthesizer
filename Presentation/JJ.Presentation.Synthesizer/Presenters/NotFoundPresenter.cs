@@ -11,19 +11,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     public class NotFoundPresenter
     {
-        public NotFoundViewModel Show(string entityTypeName)
+        private NotFoundViewModel _viewModel;
+
+        public NotFoundViewModel Show(string entityTypeDisplayName)
         {
-            NotFoundViewModel viewModel = ViewModelHelper.CreateNotFoundViewModel(entityTypeName);
-            return viewModel;
+            _viewModel = ViewModelHelper.CreateNotFoundViewModel(entityTypeDisplayName);
+
+            return _viewModel;
         }
 
         public NotFoundViewModel OK(NotFoundViewModel viewModel)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
+            // TODO: This looks wierd. The stateless-stateful hybrid pattern starts falling apart.
+            if (_viewModel == null)
+            {
+                _viewModel = viewModel;
+            }
 
-            viewModel.Visible = false;
+            if (_viewModel == null) throw new NullException(() => viewModel);
 
-            return viewModel;
+            _viewModel.Visible = false;
+
+            return _viewModel;
         }
     }
 }

@@ -117,7 +117,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
         private void DocumentPropertiesUserControl_Leave(object sender, EventArgs e)
         {
-            LoseFocus();
+            // This Visible check is there because the leave event (lose focus) goes off after I closed, 
+            // making it want to save again, even though view model is empty
+            // which makes it say that Name is required.
+            if (Visible) 
+            {
+                LoseFocus();
+            }
         }
     }
 }

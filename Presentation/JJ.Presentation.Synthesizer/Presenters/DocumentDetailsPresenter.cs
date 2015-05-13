@@ -22,6 +22,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IDocumentRepository _documentRepository;
 
+        DocumentDetailsViewModel _viewModel;
+
         public DocumentDetailsPresenter(IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
@@ -32,13 +34,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public DocumentDetailsViewModel Create()
         {
             Document document = _documentRepository.Create();
-            DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
-            viewModel.IDVisible = false;
-            viewModel.CanDelete = false;
+
+            _viewModel = document.ToDetailsViewModel();
+            _viewModel.IDVisible = false;
+            _viewModel.CanDelete = false;
 
             _documentRepository.Rollback();
 
-            return viewModel;
+            return _viewModel;
         }
 
         /// <summary>
@@ -50,47 +53,55 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (document == null)
             {
                 var presenter2 = new NotFoundPresenter();
-                NotFoundViewModel viewModel = presenter2.Show(PropertyDisplayNames.Document);
-                return viewModel;
+                NotFoundViewModel viewModel2 = presenter2.Show(PropertyDisplayNames.Document);
+                return viewModel2;
             }
             else
             {
-                DocumentDetailsViewModel viewModel = document.ToDetailsViewModel();
-                viewModel.IDVisible = true;
-                viewModel.CanDelete = true;
+                _viewModel = document.ToDetailsViewModel();
+                _viewModel.IDVisible = true;
+                _viewModel.CanDelete = true;
 
                 _documentRepository.Rollback();
 
-                return viewModel;
+                return _viewModel;
             }
         }
 
-        public DocumentDetailsViewModel Save(DocumentDetailsViewModel viewModel)
+        public DocumentDetailsViewModel Save(DocumentDetailsViewModel userInput)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            Document document = viewModel.ToEntity(_documentRepository);
+            if (userInput == null) throw new NullException(() => userInput);
+
+            Document document = userInput.ToEntity(_documentRepository);
 
             IValidator validator = new DocumentValidator(document);
             if (!validator.IsValid)
             {
-                // TODO: Be more stateful.
-                DocumentDetailsViewModel viewModel2 = document.ToDetailsViewModel();
-                viewModel2.Messages = validator.ValidationMessages.ToCanonical();
+                if (_viewModel == null)
+                {
+                    _viewModel = document.ToDetailsViewModel();
+                    _viewModel.IDVisible = userInput.IDVisible;
+                    _viewModel.CanDelete = userInput.CanDelete;
+                }
 
-                viewModel2.IDVisible = viewModel.IDVisible;
-                viewModel2.CanDelete = viewModel.CanDelete;
+                _viewModel.Messages = validator.ValidationMessages.ToCanonical();
 
                 _documentRepository.Rollback();
 
-                return viewModel2;
+                return _viewModel;
             }
             else
             {
                 _documentRepository.Commit();
 
-                DocumentDetailsViewModel viewModel2 = ViewModelHelper.CreateEmptyDocumentDetailsViewModel();
-                viewModel2.Visible = false;
-                return viewModel2;
+                if (_viewModel == null)
+                {
+                    _viewModel = ViewModelHelper.CreateEmptyDocumentDetailsViewModel();
+                }
+
+                _viewModel.Visible = false;
+
+                return _viewModel;
             }
         }
 
@@ -106,9 +117,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public object Close()
         {
-            DocumentDetailsViewModel viewModel = ViewModelHelper.CreateEmptyDocumentDetailsViewModel();
-            viewModel.Visible = false;
-            return viewModel;
+            if (_viewModel == null)
+            {
+                _viewModel = ViewModelHelper.CreateEmptyDocumentDetailsViewModel();
+            }
+
+            _viewModel.Visible = false;
+
+            return _viewModel;
         }
     }
 }

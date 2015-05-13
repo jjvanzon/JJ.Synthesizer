@@ -17,9 +17,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     public class AudioFileOutputListPresenter
     {
+        private static int _pageSize;
+
         private IAudioFileOutputRepository _audioFileOutputRepository;
 
-        private static int _pageSize;
+        private AudioFileOutputListViewModel _viewModel;
 
         public AudioFileOutputListPresenter(IAudioFileOutputRepository audioFileOutputRepository)
         {
@@ -38,16 +40,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<AudioFileOutput> audioFileOutputs = _audioFileOutputRepository.GetPage(pageIndex * _pageSize, _pageSize);
             int totalCount = _audioFileOutputRepository.Count();
 
-            AudioFileOutputListViewModel viewModel = audioFileOutputs.ToListViewModel(pageIndex, _pageSize, totalCount);
+            _viewModel = audioFileOutputs.ToListViewModel(pageIndex, _pageSize, totalCount);
 
-            return viewModel;
+            return _viewModel;
         }
 
         public AudioFileOutputListViewModel Close()
         {
-            AudioFileOutputListViewModel viewModel = ViewModelHelper.CreateEmptyAudioFileOutputListViewModel();
-            viewModel.Visible = false;
-            return viewModel;
+            if (_viewModel == null)
+            {
+                _viewModel = ViewModelHelper.CreateEmptyAudioFileOutputListViewModel();
+            }
+
+            _viewModel.Visible = false;
+
+            return _viewModel;
         }
     }
 }

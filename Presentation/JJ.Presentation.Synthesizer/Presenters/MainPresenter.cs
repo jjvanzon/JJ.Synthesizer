@@ -155,6 +155,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             DispatchViewModel(viewModel2);
 
+            // TODO: This would only work if in a stateful situation, when the _viewModel is not null.
+            _viewModel.DocumentList.Visible = false;
+
             return _viewModel;
         }
 
@@ -176,8 +179,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentCannotDeletePresenter();
-            var viewModel2 = presenter2.OK(_viewModel.DocumentCannotDelete);
+            var presenter2 = new DocumentCannotDeletePresenter(_repositoryWrapper.DocumentRepository);
+            var viewModel2 = presenter2.OK();
 
             DispatchViewModel(viewModel2);
 
@@ -190,7 +193,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemporarilyAssertViewModelField();
 
             var presenter2 = new DocumentDeletePresenter(_repositoryWrapper);
-            object viewModel2 = presenter2.Confirm(_viewModel.DocumentDelete);
+            object viewModel2 = presenter2.Confirm(id);
 
             DispatchViewModel(viewModel2);
 
@@ -203,7 +206,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemporarilyAssertViewModelField();
 
             var presenter2 = new DocumentDeletePresenter(_repositoryWrapper);
-            object viewModel2 = presenter2.Cancel(_viewModel.DocumentDelete);
+            object viewModel2 = presenter2.Cancel();
 
             DispatchViewModel(viewModel2);
 
@@ -282,7 +285,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemporarilyAssertViewModelField();
 
             var presenter2 = new DocumentTreePresenter(_repositoryWrapper.DocumentRepository);
-            object viewModel2 = presenter2.Close(_viewModel.DocumentTree.ID);
+            object viewModel2 = presenter2.Close();
 
             DispatchViewModel(viewModel2);
 
@@ -539,14 +542,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (treeViewModel != null)
             {
                 _viewModel.DocumentTree = treeViewModel;
-                //_viewModel.DocumentID = treeViewModel.ID;
-
-                // TODO: This is where generlized dispatching is going wrong.
-                _viewModel.DocumentList.Visible = false;
                 return;
-
-                // TODO: I probably need to fill in more data in the view model,
-                // since all state of the document must be in the view model.
             }
 
             var documentPropertiesViewModel = viewModel2 as DocumentPropertiesViewModel;
@@ -622,7 +618,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             object viewModel2 = presenter2.Show(originalID);
 
             var treeViewModel = viewModel2 as DocumentTreeViewModel;
-            if (treeViewModel == null)
+            if (treeViewModel != null)
             {
                 treeViewModel.Visible = originalVisible;
             }

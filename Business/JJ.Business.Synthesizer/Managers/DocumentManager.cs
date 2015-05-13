@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Managers
             }
         }
 
-        public void Delete(Document document)
+        public void DeleteWithRelatedEntities(Document document)
         {
             if (document == null) throw new NullException(() => document);
 

@@ -18,6 +18,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ISampleDataTypeRepository _sampleDataTypeRepository;
         private ISpeakerSetupRepository _speakerSetupRepository;
 
+        private AudioFileOutputDetailsViewModel _viewModel;
+
         public AudioFileOutputDetailsPresenter(
             IAudioFileOutputRepository audioFileOutputRepository,
             IAudioFileFormatRepository audioFileFormatRepository,
@@ -43,16 +45,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             //AudioFileOutputDetailsViewModel viewModel = entity.ToDetailsViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository);
             //return viewModel;
 
-            AudioFileOutputDetailsViewModel viewModel = ViewModelHelper.CreateEmptyAudioFileOutputDetailsViewModel();
-            viewModel.Visible = true;
-            return viewModel;
+            _viewModel = ViewModelHelper.CreateEmptyAudioFileOutputDetailsViewModel();
+            _viewModel.Visible = true;
+            return _viewModel;
         }
 
         public AudioFileOutputDetailsViewModel Close()
         {
-            AudioFileOutputDetailsViewModel viewModel = ViewModelHelper.CreateEmptyAudioFileOutputDetailsViewModel();
-            viewModel.Visible = false;
-            return viewModel;
+            if (_viewModel == null)
+            {
+                _viewModel = ViewModelHelper.CreateEmptyAudioFileOutputDetailsViewModel();
+            }
+
+            _viewModel.Visible = false;
+            return _viewModel;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IDocumentRepository _documentRepository;
         private DocumentManager _documentManager;
+        private DocumentDeleteViewModel _viewModel;
 
         public DocumentDeletePresenter(RepositoryWrapper repositoryWrapper)
         {
@@ -29,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary>
-        /// Can return DocumentConfirmDeleteViewModel, DocumentNotFoundViewModel or DocumentCannotDeleteViewModel.
+        /// Can return DocumentConfirmDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel.
         /// </summary>
         public object Show(int id)
         {
@@ -37,7 +38,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (document == null)
             {
                 var presenter2 = new NotFoundPresenter();
-                NotFoundViewModel viewModel2 = presenter2.Show(typeof(Document).Name);
+                NotFoundViewModel viewModel2 = presenter2.Show(PropertyDisplayNames.Document);
                 return viewModel2;
             }
             else
@@ -46,14 +47,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (!result.Successful)
                 {
-                    var presenter2 = new DocumentCannotDeletePresenter();
-                    DocumentCannotDeleteViewModel viewModel2 = presenter2.Show(document, result.Messages);
+                    var presenter2 = new DocumentCannotDeletePresenter(_documentRepository);
+                    object viewModel2 = presenter2.Show(id, result.Messages);
                     return viewModel2;
                 }
                 else
                 {
-                    DocumentDeleteViewModel viewModel2 = document.ToDeleteViewModel();
-                    return viewModel2;
+                    _viewModel = document.ToDeleteViewModel();
+                    return _viewModel;
                 }
             }
         }
@@ -61,20 +62,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return DocumentDeleteConfirmedViewModel or NotFoundViewModel.
         /// </summary>
-        public object Confirm(DocumentDeleteViewModel viewModel)
+        public object Confirm(int id)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            Document document = _documentRepository.TryGet(viewModel.Document.ID);
+            Document document = _documentRepository.TryGet(id);
             if (document == null)
             {
                 var presenter2 = new NotFoundPresenter();
-                NotFoundViewModel viewModel2 = presenter2.Show(typeof(Document).Name);
+                NotFoundViewModel viewModel2 = presenter2.Show(PropertyDisplayNames.Document);
                 return viewModel2;
             }
             else
             {
-                _documentManager.Delete(document);
+                _documentManager.DeleteWithRelatedEntities(document);
 
                 var presenter2 = new DocumentDeletedPresenter();
                 DocumentDeletedViewModel viewModel2 = presenter2.Show();
@@ -82,11 +81,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public DocumentDeleteViewModel Cancel(DocumentDeleteViewModel viewModel)
+        public DocumentDeleteViewModel Cancel()
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            viewModel.Visible = false;
-            return viewModel;
+            if (_viewModel == null)
+            {
+                _viewModel = ViewModelHelper.CreateEmptyDocumentDeleteViewModel();
+            }
+
+            _viewModel.Visible = false;
+
+            return _viewModel;
         }
     }
 }

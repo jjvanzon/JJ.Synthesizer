@@ -21,6 +21,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IDocumentRepository _documentRepository;
 
+        private DocumentListViewModel _viewModel;
+
         private static int _pageSize;
 
         public DocumentListPresenter(IDocumentRepository documentRepository)
@@ -64,12 +66,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel2;
         }
 
-
         public DocumentListViewModel Close()
         {
-            DocumentListViewModel viewModel = ViewModelHelper.CreateEmptyDocumentListViewModel();
-            viewModel.Visible = false;
-            return viewModel;
+            if (_viewModel == null)
+            {
+                _viewModel = ViewModelHelper.CreateEmptyDocumentListViewModel();
+            }
+
+            _viewModel.Visible = false;
+
+            return _viewModel;
         }
 
         /// <summary>

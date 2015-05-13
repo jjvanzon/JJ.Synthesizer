@@ -19,6 +19,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IPatchRepository _patchRepository;
 
+        private PatchListViewModel _viewModel;
+
         private static int _pageSize;
 
         public PatchListPresenter(IPatchRepository patchRepository)
@@ -38,16 +40,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<Patch> patches = _patchRepository.GetPage(pageIndex * _pageSize, _pageSize);
             int totalCount = _patchRepository.Count();
 
-            PatchListViewModel viewModel = patches.ToListViewModel(pageIndex, _pageSize, totalCount);
+            _viewModel = patches.ToListViewModel(pageIndex, _pageSize, totalCount);
 
-            return viewModel;
+            return _viewModel;
         }
 
         public PatchListViewModel Close()
         {
-            PatchListViewModel viewModel = ViewModelHelper.CreateEmptyPatchListViewModel();
-            viewModel.Visible = false;
-            return viewModel;
+            if (_viewModel == null)
+            {
+                _viewModel = ViewModelHelper.CreateEmptyPatchListViewModel();
+            }
+
+            _viewModel.Visible = false;
+
+            return _viewModel;
         }
     }
 }

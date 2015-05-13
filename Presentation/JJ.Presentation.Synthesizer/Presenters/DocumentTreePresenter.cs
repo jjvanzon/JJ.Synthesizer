@@ -16,6 +16,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IDocumentRepository _documentRepository;
 
+        private DocumentTreeViewModel _viewModel;
+
         public DocumentTreePresenter(IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
@@ -37,39 +39,30 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                DocumentTreeViewModel viewModel = document.ToTreeViewModel();
-                return viewModel;
+                _viewModel = document.ToTreeViewModel();
+                return _viewModel;
             }
         }
 
-        public object Close(int id)
+        public object Close()
         {
-            // TODO: Handle view model better (stateless / stateful hybrid).
+            if (_viewModel == null)
+            {
+                _viewModel = ViewModelHelper.CreateEmptyDocumentTreeViewModel();
+            }
 
-            Document document = _documentRepository.Get(id);
-            if (document == null)
-            {
-                var notFoundPresenter = new NotFoundPresenter();
-                NotFoundViewModel viewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);
-                return viewModel;
-            }
-            else
-            {
-                DocumentTreeViewModel viewModel = document.ToTreeViewModel();
-                viewModel.Visible = false;
-                return viewModel;
-            }
+            _viewModel.Visible = false;
+
+            return _viewModel;
         }
 
         /// <summary>
         /// Can return DocumentPropertiesViewModel or NotFoundViewModel.
         /// </summary>
-        public object ShowDocumentProperties(DocumentTreeViewModel viewModel)
+        public object ShowDocumentProperties(int id)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
             var presenter2 = new DocumentPropertiesPresenter(_documentRepository);
-            object viewModel2 = presenter2.Show(viewModel.ID);
+            object viewModel2 = presenter2.Show(id);
             return viewModel2;
         }
     }

@@ -16,6 +16,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ICurveRepository _curveRepository;
         private INodeTypeRepository _nodeTypeRepository;
 
+        private CurveDetailsViewModel _viewModel;
+
         public CurveDetailsPresenter(
             ICurveRepository curveRepository,
             INodeTypeRepository nodeTypeRepository)
@@ -30,8 +32,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public CurveDetailsViewModel Show(int id)
         {
             Curve entity = _curveRepository.Get(id);
-            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel(_nodeTypeRepository);
-            return viewModel;
+            _viewModel = entity.ToDetailsViewModel(_nodeTypeRepository);
+            return _viewModel;
         }
     }
 }

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -18,6 +19,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ISampleDataTypeRepository _sampleDataTypeRepository;
         private ISpeakerSetupRepository _speakerSetupRepository;
         private IInterpolationTypeRepository _interpolationTypeRepository;
+
+        private SampleDetailsViewModel _viewModel;
 
         public SampleDetailsPresenter(
             ISampleRepository sampleRepository,
@@ -39,11 +42,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _interpolationTypeRepository = interpolationTypeRepository;
         }
 
-        public SampleDetailsViewModel Show(int id)
+        /// <summary>
+        /// Can return SampleDetailsViewModel or NotFoundViewModel.
+        /// </summary>
+        public object Show(int id)
         {
-            Sample entity = _sampleRepository.Get(id);
-            SampleDetailsViewModel viewModel = entity.ToDetailsViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository, _interpolationTypeRepository);
-            return viewModel;
+            Sample entity = _sampleRepository.TryGet(id);
+            if (entity == null)
+            {
+                var presenter2 = new NotFoundPresenter();
+                NotFoundViewModel viewModel2 = presenter2.Show(PropertyDisplayNames.Sample);
+                return viewModel2;
+            }
+            else
+            {
+                _viewModel = entity.ToDetailsViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository, _interpolationTypeRepository);
+                return _viewModel;
+            }
         }
     }
 }
