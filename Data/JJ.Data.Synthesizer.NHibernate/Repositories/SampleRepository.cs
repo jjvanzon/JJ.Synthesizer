@@ -13,9 +13,13 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
     public class SampleRepository : JJ.Data.Synthesizer.DefaultRepositories.SampleRepository
     {
+        private new NHibernateContext _context;
+
         public SampleRepository(IContext context)
             : base(context)
-        { }
+        {
+            _context = (NHibernateContext)context;
+        }
 
         public override byte[] GetBinary(int id)
         {
@@ -37,27 +41,12 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
             sqlExecutor.Sample_TrySetBinary(id, bytes);
         }
 
-        public override IList<Sample> GetPage(int firstIndex, int count)
+        public override IList<Sample> GetManyByDocumentID(int documentID)
         {
-            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
-
-            IList<Sample> list = new List<Sample>(count);
-
-            IList<int> ids = sqlExecutor.Sample_GetPageOfIDs(firstIndex, count).ToArray();
-            foreach (int id in ids)
-            {
-                Sample entity = Get(id);
-                list.Add(entity);
-            }
-
-            return list;
-        }
-
-        public override int Count()
-        {
-            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
-
-            return sqlExecutor.Sample_Count();
+            IList<Sample> entities = _context.Session.QueryOver<Sample>()
+                                                     .Where(x => x.Document.ID == documentID)
+                                                     .List();
+            return entities;
         }
     }
 }

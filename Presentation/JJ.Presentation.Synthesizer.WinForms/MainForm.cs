@@ -55,6 +55,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private AudioFileOutputDetailsForm _audioFileOutputDetailsForm = new AudioFileOutputDetailsForm();
         private PatchDetailsForm _patchDetailsForm = new PatchDetailsForm();
 
+        private static string _titleBarExtraText;
+
+        static MainForm()
+        {
+            var config = CustomConfigurationManager.GetSection<ConfigurationSection>();
+            _titleBarExtraText = config.General.TitleBarExtraText;
+        }
+
         public MainForm()
         {
             InitializeComponent();
@@ -94,14 +102,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
 
-            _audioFileOutputListForm.ShowRequested += _audioFileOutputListForm_ShowRequested;
             _audioFileOutputListForm.CloseRequested += _audioFileOutputListForm_CloseRequested;
             _audioFileOutputDetailsForm.CloseRequested += _audioFileOutputDetailsForm_CloseRequested;
-            _curveListForm.ShowRequested += _curveListForm_ShowRequested;
             _curveListForm.CloseRequested += _curveListForm_CloseRequested;
-            _patchListForm.ShowRequested += _patchListForm_ShowRequested;
             _patchListForm.CloseRequested += _patchListForm_CloseRequested;
-            _sampleListForm.ShowRequested += _sampleListForm_ShowRequested;
             _sampleListForm.CloseRequested += _sampleListForm_CloseRequested;
             _patchDetailsForm.CloseRequested += _patchDetailsForm_CloseRequested;
 
@@ -111,8 +115,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             MessageBoxHelper.DocumentDeleteConfirmed += MessageBoxHelper_DocumentDeleteConfirmed;
             MessageBoxHelper.DocumentDeleteCanceled += MessageBoxHelper_DocumentDeleteCanceled;
             MessageBoxHelper.DocumentDeletedOK += MessageBoxHelper_DocumentDeletedOK;
-
-            SetTitles();
 
             Open();
 
@@ -167,12 +169,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
 
             base.Dispose(disposing);
-        }
-
-        private void SetTitles()
-        {
-            var config = CustomConfigurationManager.GetSection<ConfigurationSection>();
-            Text = Titles.ApplicationName + config.General.TitleBarExtraText;
         }
 
         // Actions
@@ -581,6 +577,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void ApplyViewModel()
         {
+            Text = _viewModel.Title + _titleBarExtraText;
+
             menuUserControl.Show(_viewModel.Menu);
 
             documentListUserControl.ViewModel = _viewModel.DocumentList;
@@ -595,23 +593,23 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentPropertiesUserControl.ViewModel = _viewModel.DocumentProperties;
             documentPropertiesUserControl.Visible = _viewModel.DocumentProperties.Visible;
 
-            _audioFileOutputListForm.ViewModel = _viewModel.AudioFileOutputList;
-            _audioFileOutputListForm.Visible = _viewModel.AudioFileOutputList.Visible;
+            _audioFileOutputListForm.ViewModel = _viewModel.AudioFileOutputs;
+            _audioFileOutputListForm.Visible = _viewModel.AudioFileOutputs.Visible;
 
-            _curveListForm.ViewModel = _viewModel.CurveList;
-            _curveListForm.Visible = _viewModel.CurveList.Visible;
+            _curveListForm.ViewModel = _viewModel.Curves;
+            _curveListForm.Visible = _viewModel.Curves.Visible;
 
-            _patchListForm.ViewModel = _viewModel.PatchList;
-            _patchListForm.Visible = _viewModel.PatchList.Visible;
+            _patchListForm.ViewModel = _viewModel.Patches;
+            _patchListForm.Visible = _viewModel.Patches.Visible;
 
-            _sampleListForm.ViewModel = _viewModel.SampleList;
-            _sampleListForm.Visible = _viewModel.SampleList.Visible;
+            _sampleListForm.ViewModel = _viewModel.Samples;
+            _sampleListForm.Visible = _viewModel.Samples.Visible;
 
-            _audioFileOutputDetailsForm.ViewModel = _viewModel.AudioFileOutputDetails;
-            _audioFileOutputDetailsForm.Visible = _viewModel.AudioFileOutputDetails.Visible;
+            _audioFileOutputDetailsForm.ViewModel = _viewModel.TemporaryAudioFileOutputDetails;
+            _audioFileOutputDetailsForm.Visible = _viewModel.TemporaryAudioFileOutputDetails.Visible;
 
-            _patchDetailsForm.ViewModel = _viewModel.PatchDetails;
-            _patchDetailsForm.Visible = _viewModel.PatchDetails.Visible;
+            _patchDetailsForm.ViewModel = _viewModel.TemporaryPatchDetails;
+            _patchDetailsForm.Visible = _viewModel.TemporaryPatchDetails.Visible;
 
             bool treePanelMustBeVisible = _viewModel.DocumentTree.Visible;
             SetTreePanelVisible(treePanelMustBeVisible);

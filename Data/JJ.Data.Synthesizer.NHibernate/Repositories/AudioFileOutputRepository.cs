@@ -13,30 +13,19 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
     public class AudioFileOutputRepository : JJ.Data.Synthesizer.DefaultRepositories.AudioFileOutputRepository
     {
+        private new NHibernateContext _context;
+
         public AudioFileOutputRepository(IContext context)
             : base(context)
-        { }
-
-        public override IList<AudioFileOutput> GetPage(int firstIndex, int count)
         {
-            IList<AudioFileOutput> list = new List<AudioFileOutput>(count);
-
-            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
-
-            IList<int> ids = sqlExecutor.AudioFileOutput_GetPageOfIDs(firstIndex, count).ToArray();
-            foreach (int id in ids)
-            {
-                AudioFileOutput entity = Get(id);
-                list.Add(entity);
-            }
-
-            return list;
+            _context = (NHibernateContext)context;
         }
 
-        public override int Count()
+        public override IList<AudioFileOutput> GetManyByDocumentID(int documentID)
         {
-            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
-            return sqlExecutor.AudioFileOutput_Count();
+            return _context.Session.QueryOver<AudioFileOutput>()
+                                   .Where(x => x.Document.ID == documentID)
+                                   .List();
         }
     }
 }

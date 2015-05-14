@@ -16,12 +16,29 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
 
         public virtual IList<Document> GetPageOfRootDocuments(int firstIndex, int count)
         {
-            return _context.Query<Document>().Skip(firstIndex).Take(count).ToArray();
+            return _context.Query<Document>()
+                           .Skip(firstIndex)
+                           .Take(count)
+                           .ToArray();
         }
 
         public virtual int CountRootDocuments()
         {
             return _context.Query<Document>().Count();
+        }
+
+        public virtual IList<Document> GetInstruments(int documentID)
+        {
+            return _context.Query<Document>()
+                           .Where(x => x.AsInstrumentInDocument.ID == documentID)
+                           .ToArray();
+        }
+
+        public virtual IList<Document> GetEffects(int documentID)
+        {
+            return _context.Query<Document>()
+                           .Where(x => x.AsEffectInDocument.ID == documentID)
+                           .ToArray();
         }
     }
 }

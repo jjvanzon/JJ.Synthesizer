@@ -33,12 +33,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentList = CreateEmptyDocumentListViewModel(),
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
                 DocumentTree = CreateEmptyDocumentTreeViewModel(),
-                AudioFileOutputList = CreateEmptyAudioFileOutputListViewModel(),
-                CurveList = CreateEmptyCurveListViewModel(),
-                PatchList = CreateEmptyPatchListViewModel(),
-                SampleList = CreateEmptySampleListViewModel(),
-                AudioFileOutputDetails = CreateEmptyAudioFileOutputDetailsViewModel(),
-                PatchDetails = CreateEmptyPatchDetailsViewModel()
+                AudioFileOutputs = CreateEmptyAudioFileOutputListViewModel(),
+                Curves = CreateEmptyCurveListViewModel(),
+                Patches = CreateEmptyPatchListViewModel(),
+                Samples = CreateEmptySampleListViewModel(),
+                TemporaryAudioFileOutputDetails = CreateEmptyAudioFileOutputDetailsViewModel(),
+                TemporaryPatchDetails = CreateEmptyPatchDetailsViewModel()
             };
         }
 
@@ -162,8 +162,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new AudioFileOutputListViewModel
             {
-                List = new List<AudioFileOutputListItemViewModel>(),
-                Pager = CreateEmptyPagerViewModel()
+                List = new List<AudioFileOutputListItemViewModel>()
             };
 
             return viewModel;
@@ -173,8 +172,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new CurveListViewModel
             {
-                List = new List<IDAndName>(),
-                Pager = CreateEmptyPagerViewModel()
+                List = new List<IDAndName>()
             };
 
             return viewModel;
@@ -184,8 +182,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchListViewModel
             {
-                List = new List<PatchListItemViewModel>(),
-                Pager = CreateEmptyPagerViewModel()
+                List = new List<PatchListItemViewModel>()
             };
 
             return viewModel;
@@ -195,8 +192,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new SampleListViewModel
             {
-                List = new List<SampleListItemViewModel>(),
-                Pager = CreateEmptyPagerViewModel()
+                List = new List<SampleListItemViewModel>()
             };
 
             return viewModel;

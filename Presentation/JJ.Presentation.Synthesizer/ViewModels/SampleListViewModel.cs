@@ -10,9 +10,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class SampleListViewModel
     {
+        public int DocumentID { get; set; }
         public bool Visible { get; set; }
-
         public IList<SampleListItemViewModel> List { get; set; }
-        public PagerViewModel Pager { get; set; }
     }
 }

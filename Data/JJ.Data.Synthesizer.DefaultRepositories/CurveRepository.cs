@@ -14,14 +14,11 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             : base(context)
         { }
 
-        public virtual IList<Curve> GetPage(int firstIndex, int count)
+        public virtual IList<Curve> GetManyByDocumentID(int documentID)
         {
-            return _context.Query<Curve>().Skip(firstIndex).Take(count).ToArray();
-        }
-
-        public virtual int Count()
-        {
-            return _context.Query<Curve>().Count();
+            return _context.Query<Curve>()
+                           .Where(x => x.Document.ID == documentID)
+                           .ToArray();
         }
     }
 }

@@ -23,8 +23,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class AudioFileOutputListUserControl : UserControl
     {
-        public event EventHandler<PageEventArgs> ShowRequested;
-
         /// <summary> virtually not nullable </summary>
         private AudioFileOutputListViewModel _viewModel;
 
@@ -64,50 +62,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (_viewModel == null)
             {
-                pagerControl.PagerViewModel = null;
                 dataGridView.DataSource = null;
             }
 
-            pagerControl.PagerViewModel = _viewModel.Pager;
-
             dataGridView.DataSource = _viewModel.List;
-        }
-
-        // Actions
-
-        private void Show(int pageNumber)
-        {
-            if (ShowRequested != null)
-            {
-                ShowRequested(this, new PageEventArgs(pageNumber));
-            }
-        }
-
-        // Events
-
-        private void pagerControl_GoToFirstPageClicked(object sender, EventArgs e)
-        {
-            Show(1);
-        }
-
-        private void pagerControl_GoToPreviousPageClicked(object sender, EventArgs e)
-        {
-            Show(_viewModel.Pager.PageNumber - 1);
-        }
-
-        private void pagerControl_PageNumberClicked(object sender, PageNumberEventArgs e)
-        {
-            Show(e.PageNumber);
-        }
-
-        private void pagerControl_GoToNextPageClicked(object sender, EventArgs e)
-        {
-            Show(_viewModel.Pager.PageNumber + 1);
-        }
-
-        private void pagerControl_GoToLastPageClicked(object sender, EventArgs e)
-        {
-            Show(_viewModel.Pager.PageCount - 1);
         }
     }
 }

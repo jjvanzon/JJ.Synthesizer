@@ -33,14 +33,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _pageSize = config.PageSize;
         }
 
-        public SampleListViewModel Show(int pageNumber)
+        public SampleListViewModel Show(int documentID)
         {
-            int pageIndex = pageNumber - 1;
+            IList<Sample> samples = _sampleRepository.GetManyByDocumentID(documentID);
 
-            IList<Sample> samples = _sampleRepository.GetPage(pageIndex * _pageSize, _pageSize);
-            int totalCount = _sampleRepository.Count();
-
-            _viewModel = samples.ToListViewModel(pageIndex, _pageSize, totalCount);
+            _viewModel = samples.ToListViewModel();
+            _viewModel.DocumentID = documentID;
 
             return _viewModel;
         }

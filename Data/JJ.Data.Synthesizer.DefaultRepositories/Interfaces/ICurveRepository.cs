@@ -10,7 +10,6 @@ namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
 {
     public interface ICurveRepository : IRepository<Curve, int>
     {
-        IList<Curve> GetPage(int pageIndex, int pageSize);
-        int Count();
+        IList<Curve> GetManyByDocumentID(int documentID);
     }
 }

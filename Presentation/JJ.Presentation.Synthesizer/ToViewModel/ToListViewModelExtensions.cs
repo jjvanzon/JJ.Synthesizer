@@ -21,25 +21,35 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             _maxVisiblePageNumbers = config.MaxVisiblePageNumbers;
         }
 
-        public static AudioFileOutputListViewModel ToListViewModel(this IList<AudioFileOutput> pageOfEntities, int pageIndex, int pageSize, int totalCount)
+        public static AudioFileOutputListViewModel ToListViewModel(this IList<AudioFileOutput> entities)
         {
             var viewModel = new AudioFileOutputListViewModel
             {
                 Visible = true,
-                List = pageOfEntities.Select(x => x.ToListItemViewModel()).ToArray(),
-                Pager = PagerViewModelFactory.Create(pageIndex, pageSize, totalCount, _maxVisiblePageNumbers)
+                List = entities.Select(x => x.ToListItemViewModel()).ToArray(),
             };
 
             return viewModel;
         }
 
-        public static CurveListViewModel ToListViewModel(this IList<Curve> pageOfEntities, int pageIndex, int pageSize, int totalCount)
+        public static CurveListViewModel ToListViewModel(this IList<Curve> entities)
         {
             var viewModel = new CurveListViewModel
             {
                 Visible = true,
-                List = pageOfEntities.Select(x => x.ToIDName()).ToArray(),
-                Pager = PagerViewModelFactory.Create(pageIndex, pageSize, totalCount, _maxVisiblePageNumbers)
+                List = entities.Select(x => x.ToIDName()).ToArray()
+            };
+
+            return viewModel;
+        }
+
+        public static DocumentListViewModel ToListViewModel(this IList<Document> entities)
+        {
+            var viewModel = new DocumentListViewModel
+            {
+                Visible = true,
+                List = entities.Select(x => x.ToIDName()).ToArray(),
+                Pager = ViewModelHelper.CreateEmptyPagerViewModel()
             };
 
             return viewModel;
@@ -57,25 +67,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static PatchListViewModel ToListViewModel(this IList<Patch> pageOfEntities, int pageIndex, int pageSize, int totalCount)
+        public static PatchListViewModel ToListViewModel(this IList<Patch> entities)
         {
             var viewModel = new PatchListViewModel
             {
                 Visible = true,
-                List = pageOfEntities.Select(x => x.ToListItemViewModel()).ToArray(),
-                Pager = PagerViewModelFactory.Create(pageIndex, pageSize, totalCount, _maxVisiblePageNumbers)
+                List = entities.Select(x => x.ToListItemViewModel()).ToArray()
             };
 
             return viewModel;
         }
 
-        public static SampleListViewModel ToListViewModel(this IList<Sample> pageOfEntities, int pageIndex, int pageSize, int totalCount)
+        public static SampleListViewModel ToListViewModel(this IList<Sample> entities)
         {
             var viewModel = new SampleListViewModel
             {
                 Visible = true,
-                List = pageOfEntities.Select(x => x.ToListItemViewModel()).ToArray(),
-                Pager = PagerViewModelFactory.Create(pageIndex, pageSize, totalCount, _maxVisiblePageNumbers)
+                List = entities.Select(x => x.ToListItemViewModel()).ToArray(),
             };
 
             return viewModel;

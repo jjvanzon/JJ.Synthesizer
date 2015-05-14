@@ -33,14 +33,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _pageSize = config.PageSize;
         }
 
-        public CurveListViewModel Show(int pageNumber)
+        public CurveListViewModel Show(int documentID)
         {
-            int pageIndex = pageNumber - 1;
+            IList<Curve> curves = _curveRepository.GetManyByDocumentID(documentID);
 
-            IList<Curve> curves = _curveRepository.GetPage(pageIndex * _pageSize, _pageSize);
-            int totalCount = _curveRepository.Count();
-
-            _viewModel = curves.ToListViewModel(pageIndex, _pageSize, totalCount);
+            _viewModel = curves.ToListViewModel();
+            _viewModel.DocumentID = documentID;
 
             return _viewModel;
         }

@@ -33,14 +33,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _pageSize = config.PageSize;
         }
 
-        public PatchListViewModel Show(int pageNumber)
+        public PatchListViewModel Show(int documentID)
         {
-            int pageIndex = pageNumber - 1;
+            IList<Patch> patches = _patchRepository.GetByDocumentID(documentID);
 
-            IList<Patch> patches = _patchRepository.GetPage(pageIndex * _pageSize, _pageSize);
-            int totalCount = _patchRepository.Count();
-
-            _viewModel = patches.ToListViewModel(pageIndex, _pageSize, totalCount);
+            _viewModel = patches.ToListViewModel();
+            _viewModel.DocumentID = documentID;
 
             return _viewModel;
         }

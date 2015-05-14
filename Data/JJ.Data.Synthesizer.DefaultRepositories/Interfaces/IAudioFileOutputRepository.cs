@@ -10,7 +10,6 @@ namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
 {
     public interface IAudioFileOutputRepository : IRepository<AudioFileOutput, int>
     {
-        IList<AudioFileOutput> GetPage(int pageIndex, int pageSize);
-        int Count();
+        IList<AudioFileOutput> GetManyByDocumentID(int documentID);
     }
 }

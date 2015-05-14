@@ -13,31 +13,20 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
     public class CurveRepository : JJ.Data.Synthesizer.DefaultRepositories.CurveRepository
     {
+        private new NHibernateContext _context;
+
         public CurveRepository(IContext context)
             : base(context)
-        { }
-
-        public override IList<Curve> GetPage(int firstIndex, int count)
         {
-            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
-
-            IList<Curve> list = new List<Curve>(count);
-
-            IList<int> ids = sqlExecutor.Curve_GetPageOfIDs(firstIndex, count).ToArray();
-            foreach (int id in ids)
-            {
-                Curve entity = Get(id);
-                list.Add(entity);
-            }
-
-            return list;
+            _context = (NHibernateContext)context;
         }
 
-        public override int Count()
+        public override IList<Curve> GetManyByDocumentID(int documentID)
         {
-            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
-
-            return sqlExecutor.Curve_Count();
+            IList<Curve> entities = _context.Session.QueryOver<Curve>()
+                                                    .Where(x => x.Document.ID == documentID)
+                                                    .List();
+            return entities;
         }
     }
 }

@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return DocumentPropertiesViewModel or NotFoundViewModel.
         /// </summary>
-        public object ShowDocumentProperties(int id)
+        public object Properties(int id)
         {
             var presenter2 = new DocumentPropertiesPresenter(_documentRepository);
             object viewModel2 = presenter2.Show(id);

@@ -14,14 +14,11 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             : base(context)
         { }
 
-        public virtual IList<AudioFileOutput> GetPage(int firstIndex, int count)
+        public virtual IList<AudioFileOutput> GetManyByDocumentID(int documentID)
         {
-            return _context.Query<AudioFileOutput>().Skip(firstIndex).Take(count).ToArray();
-        }
-
-        public virtual int Count()
-        {
-            return _context.Query<AudioFileOutput>().Count();
+            return _context.Query<AudioFileOutput>()
+                           .Where(x => x.Document.ID == documentID)
+                           .ToArray();
         }
     }
 }

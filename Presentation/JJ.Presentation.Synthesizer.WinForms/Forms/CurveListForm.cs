@@ -33,12 +33,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             InitializeComponent();
         }
 
-        public event EventHandler<PageEventArgs> ShowRequested
-        {
-            add { curveListUserControl1.ShowRequested += value; }
-            remove { curveListUserControl1.ShowRequested -= value; }
-        }
-
         public CurveListViewModel ViewModel
         {
             get { return curveListUserControl1.ViewModel; }

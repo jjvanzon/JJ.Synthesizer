@@ -33,12 +33,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             InitializeComponent();
         }
 
-        public event EventHandler<PageEventArgs> ShowRequested
-        {
-            add { patchListUserControl1.ShowRequested += value; }
-            remove { patchListUserControl1.ShowRequested -= value; }
-        }
-
         public PatchListViewModel ViewModel
         {
             get { return patchListUserControl1.ViewModel; }

@@ -13,30 +13,20 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
     public class PatchRepository : JJ.Data.Synthesizer.DefaultRepositories.PatchRepository
     {
+        private new NHibernateContext _context;
+
         public PatchRepository(IContext context)
             : base(context)
-        { }
-
-        public override IList<Patch> GetPage(int firstIndex, int count)
         {
-            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
-
-            IList<Patch> list = new List<Patch>(count);
-
-            IList<int> ids = sqlExecutor.Patch_GetPageOfIDs(firstIndex, count).ToArray();
-            foreach (int id in ids)
-            {
-                Patch entity = Get(id);
-                list.Add(entity);
-            }
-
-            return list;
+            _context = (NHibernateContext)context;
         }
 
-        public override int Count()
+        public override IList<Patch> GetByDocumentID(int documentID)
         {
-            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
-            return sqlExecutor.Patch_Count();
+            IList<Patch> entities = _context.Session.QueryOver<Patch>()
+                                                    .Where(x => x.Document.ID == documentID)
+                                                    .List();
+            return entities;
         }
     }
 }

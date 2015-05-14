@@ -9,22 +9,31 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public class MainViewModel
     {
-        //public int DocumentID { get; set; }
+        // General
 
         public MenuViewModel Menu { get; set; }
+        public IList<Message> Messages { get; set; }
 
         /// <summary> It is suggested you show this as a modal window. </summary>
         public NotFoundViewModel NotFound { get; set; }
 
-        public IList<Message> Messages { get; set; }
+        // The Open Document
+
+        public int DocumentID { get; set; }
+        public string Title { get; set; }
+        public DocumentTreeViewModel DocumentTree { get; set; }
+        public DocumentPropertiesViewModel DocumentProperties { get; set; }
+        public DocumentListViewModel Instruments { get; set; }
+        public SampleListViewModel Samples { get; set; }
+        public DocumentListViewModel Effects { get; set; }
+        public CurveListViewModel Curves { get; set; }
+        public PatchListViewModel Patches { get; set; }
+        public AudioFileOutputListViewModel AudioFileOutputs { get; set; }
+
+        // The Document List
 
         public DocumentListViewModel DocumentList { get; set; }
-
-        public DocumentTreeViewModel DocumentTree { get; set; }
-
         public DocumentDetailsViewModel DocumentDetails { get; set; }
-
-        public DocumentPropertiesViewModel DocumentProperties { get; set; }
 
         /// <summary> It is suggested you show this as a modal window. </summary>
         public DocumentCannotDeleteViewModel DocumentCannotDelete { get; set; }
@@ -35,19 +44,12 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         /// <summary> It is suggested you show this as a modal window. </summary>
         public DocumentDeletedViewModel DocumentDeleted { get; set; }
 
-        public AudioFileOutputListViewModel AudioFileOutputList { get; set; }
+        // Temporary View Models
 
-        public CurveListViewModel CurveList { get; set; }
+        /// <summary> Temporary. It will be a list of AudioFileOutputDetailsViewModels later. </summary>
+        public AudioFileOutputDetailsViewModel TemporaryAudioFileOutputDetails { get; set; }
 
-        public PatchListViewModel PatchList { get; set; }
-
-        public SampleListViewModel SampleList { get; set; }
-
-        /// <summary>
-        /// Temporary. It will be a list of AudioFileOutputDetailsViewModels later.
-        /// </summary>
-        public AudioFileOutputDetailsViewModel AudioFileOutputDetails { get; set; }
-
-        public PatchDetailsViewModel PatchDetails { get; set; }
+        /// <summary> Temporary. It will be a list of PatchDetailsViewModels later. </summary>
+        public PatchDetailsViewModel TemporaryPatchDetails { get; set; }
     }
 }

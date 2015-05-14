@@ -36,7 +36,6 @@
             this.SpeakerSetupColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SamplingRateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.labelTitle = new System.Windows.Forms.Label();
-            this.pagerControl = new JJ.Framework.Presentation.WinForms.PagerControl();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,7 +55,7 @@
             this.SamplingRateColumn});
             this.dataGridView.Location = new System.Drawing.Point(0, 24);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(796, 346);
+            this.dataGridView.Size = new System.Drawing.Size(796, 376);
             this.dataGridView.TabIndex = 0;
             // 
             // IDColumn
@@ -120,24 +119,10 @@
             this.labelTitle.TabIndex = 1;
             this.labelTitle.Text = "Audio File Outputs";
             // 
-            // pagerControl
-            // 
-            this.pagerControl.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pagerControl.Location = new System.Drawing.Point(0, 387);
-            this.pagerControl.Name = "pagerControl";
-            this.pagerControl.Size = new System.Drawing.Size(796, 13);
-            this.pagerControl.TabIndex = 2;
-            this.pagerControl.GoToFirstPageClicked += new System.EventHandler(this.pagerControl_GoToFirstPageClicked);
-            this.pagerControl.GoToPreviousPageClicked += new System.EventHandler(this.pagerControl_GoToPreviousPageClicked);
-            this.pagerControl.PageNumberClicked += new System.EventHandler<JJ.Framework.Presentation.WinForms.PageNumberEventArgs>(this.pagerControl_PageNumberClicked);
-            this.pagerControl.GoToNextPageClicked += new System.EventHandler(this.pagerControl_GoToNextPageClicked);
-            this.pagerControl.GoToLastPageClicked += new System.EventHandler(this.pagerControl_GoToLastPageClicked);
-            // 
             // AudioFileOutputListUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.pagerControl);
             this.Controls.Add(this.labelTitle);
             this.Controls.Add(this.dataGridView);
             this.Name = "AudioFileOutputListUserControl";
@@ -151,7 +136,6 @@
 
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Label labelTitle;
-        private Framework.Presentation.WinForms.PagerControl pagerControl;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn AudioFileFormatColumn;

@@ -42,11 +42,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IList<Document> documents = _documentRepository.GetPageOfRootDocuments(pageIndex * _pageSize, _pageSize);
             int totalCount = _documentRepository.CountRootDocuments();
 
-            DocumentListViewModel viewModel = documents.ToListViewModel(pageIndex, _pageSize, totalCount);
+            _viewModel = documents.ToListViewModel(pageIndex, _pageSize, totalCount);
 
             _documentRepository.Rollback();
 
-            return viewModel;
+            return _viewModel;
+        }
+
+        public DocumentListViewModel ShowInstruments(int documentID)
+        {
+            IList<Document> documents = _documentRepository.GetInstruments(documentID);
+
+            _viewModel = documents.ToListViewModel();
+            _viewModel.ParentDocumentID = documentID;
+
+            _documentRepository.Rollback();
+
+            return _viewModel;
+        }
+
+        public DocumentListViewModel ShowEfects(int documentID)
+        {
+            IList<Document> documents = _documentRepository.GetEffects(documentID);
+
+            _viewModel = documents.ToListViewModel();
+            _viewModel.ParentDocumentID = documentID;
+
+            _documentRepository.Rollback();
+
+            return _viewModel;
         }
 
         public DocumentDetailsViewModel Create()

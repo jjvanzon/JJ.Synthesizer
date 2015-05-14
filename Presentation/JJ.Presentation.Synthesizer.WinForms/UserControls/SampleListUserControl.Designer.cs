@@ -37,7 +37,6 @@
             this.SamplingRateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IsActiveColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.labelTitle = new System.Windows.Forms.Label();
-            this.pagerControl = new JJ.Framework.Presentation.WinForms.PagerControl();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,7 +57,7 @@
             this.IsActiveColumn});
             this.dataGridView.Location = new System.Drawing.Point(0, 24);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(978, 418);
+            this.dataGridView.Size = new System.Drawing.Size(978, 448);
             this.dataGridView.TabIndex = 0;
             // 
             // IDColumn
@@ -129,24 +128,10 @@
             this.labelTitle.TabIndex = 1;
             this.labelTitle.Text = "Samples";
             // 
-            // pagerControl
-            // 
-            this.pagerControl.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pagerControl.Location = new System.Drawing.Point(0, 445);
-            this.pagerControl.Name = "pagerControl";
-            this.pagerControl.Size = new System.Drawing.Size(978, 27);
-            this.pagerControl.TabIndex = 2;
-            this.pagerControl.GoToFirstPageClicked += new System.EventHandler(this.pagerControl_GoToFirstPageClicked);
-            this.pagerControl.GoToPreviousPageClicked += new System.EventHandler(this.pagerControl_GoToPreviousPageClicked);
-            this.pagerControl.PageNumberClicked += new System.EventHandler<JJ.Framework.Presentation.WinForms.PageNumberEventArgs>(this.pagerControl_PageNumberClicked);
-            this.pagerControl.GoToNextPageClicked += new System.EventHandler(this.pagerControl_GoToNextPageClicked);
-            this.pagerControl.GoToLastPageClicked += new System.EventHandler(this.pagerControl_GoToLastPageClicked);
-            // 
             // SampleListUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.pagerControl);
             this.Controls.Add(this.labelTitle);
             this.Controls.Add(this.dataGridView);
             this.Name = "SampleListUserControl";
@@ -160,7 +145,6 @@
 
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Label labelTitle;
-        private Framework.Presentation.WinForms.PagerControl pagerControl;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn AudioFileFormatColumn;

@@ -29,11 +29,10 @@
         private void InitializeComponent()
         {
             this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.labelTitle = new System.Windows.Forms.Label();
-            this.pagerControl = new JJ.Framework.Presentation.WinForms.PagerControl();
             this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DocumentNameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.labelTitle = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,34 +49,8 @@
             this.DocumentNameColumn});
             this.dataGridView.Location = new System.Drawing.Point(0, 24);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(796, 346);
+            this.dataGridView.Size = new System.Drawing.Size(796, 376);
             this.dataGridView.TabIndex = 0;
-            // 
-            // labelTitle
-            // 
-            this.labelTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTitle.Location = new System.Drawing.Point(-3, 0);
-            this.labelTitle.Margin = new System.Windows.Forms.Padding(0);
-            this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Padding = new System.Windows.Forms.Padding(3);
-            this.labelTitle.Size = new System.Drawing.Size(799, 24);
-            this.labelTitle.TabIndex = 1;
-            this.labelTitle.Text = "Patches";
-            // 
-            // pagerControl
-            // 
-            this.pagerControl.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pagerControl.Location = new System.Drawing.Point(0, 373);
-            this.pagerControl.Name = "pagerControl";
-            this.pagerControl.Size = new System.Drawing.Size(796, 27);
-            this.pagerControl.TabIndex = 2;
-            this.pagerControl.GoToFirstPageClicked += new System.EventHandler(this.pagerControl_GoToFirstPageClicked);
-            this.pagerControl.GoToPreviousPageClicked += new System.EventHandler(this.pagerControl_GoToPreviousPageClicked);
-            this.pagerControl.PageNumberClicked += new System.EventHandler<JJ.Framework.Presentation.WinForms.PageNumberEventArgs>(this.pagerControl_PageNumberClicked);
-            this.pagerControl.GoToNextPageClicked += new System.EventHandler(this.pagerControl_GoToNextPageClicked);
-            this.pagerControl.GoToLastPageClicked += new System.EventHandler(this.pagerControl_GoToLastPageClicked);
             // 
             // IDColumn
             // 
@@ -103,11 +76,23 @@
             this.DocumentNameColumn.ReadOnly = true;
             this.DocumentNameColumn.Width = 250;
             // 
+            // labelTitle
+            // 
+            this.labelTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.labelTitle.Location = new System.Drawing.Point(-3, 0);
+            this.labelTitle.Margin = new System.Windows.Forms.Padding(0);
+            this.labelTitle.Name = "labelTitle";
+            this.labelTitle.Padding = new System.Windows.Forms.Padding(3);
+            this.labelTitle.Size = new System.Drawing.Size(799, 24);
+            this.labelTitle.TabIndex = 1;
+            this.labelTitle.Text = "Patches";
+            // 
             // PatchListUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.pagerControl);
             this.Controls.Add(this.labelTitle);
             this.Controls.Add(this.dataGridView);
             this.Name = "PatchListUserControl";
@@ -121,7 +106,6 @@
 
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Label labelTitle;
-        private Framework.Presentation.WinForms.PagerControl pagerControl;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn DocumentNameColumn;

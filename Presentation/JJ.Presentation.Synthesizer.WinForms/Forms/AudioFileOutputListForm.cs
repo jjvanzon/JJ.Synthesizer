@@ -33,12 +33,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             InitializeComponent();
         }
 
-        public event EventHandler<PageEventArgs> ShowRequested
-        {
-            add { audioFileOutputListUserControl1.ShowRequested += value; }
-            remove { audioFileOutputListUserControl1.ShowRequested -= value; }
-        }
-
         public AudioFileOutputListViewModel ViewModel
         {
             get { return audioFileOutputListUserControl1.ViewModel; }

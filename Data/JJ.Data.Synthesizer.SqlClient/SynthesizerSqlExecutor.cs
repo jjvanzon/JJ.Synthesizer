@@ -18,54 +18,9 @@ namespace JJ.Data.Synthesizer.SqlClient
             _sqlExecutor = sqlExecutor;
         }
 
-        public int AudioFileOutput_Count()
-        {
-            return (int)_sqlExecutor.ExecuteScalar(SqlEnum.AudioFileOutput_Count);
-        }
-
-        public IList<int> AudioFileOutput_GetPageOfIDs(int firstIndex, int count)
-        {
-            return _sqlExecutor.ExecuteReader<int>(SqlEnum.AudioFileOutput_GetPageOfIDs, new { firstIndex, count, }).ToArray();
-        }
-
-        public int Curve_Count()
-        {
-            return (int)_sqlExecutor.ExecuteScalar(SqlEnum.Curve_Count);
-        }
-
-        public IList<int> Curve_GetPageOfIDs(int firstIndex, int count)
-        {
-            return _sqlExecutor.ExecuteReader<int>(SqlEnum.Curve_GetPageOfIDs, new { firstIndex, count, }).ToArray();
-        }
-
-        public int Document_CountRootDocuments()
-        {
-            return (int)_sqlExecutor.ExecuteScalar(SqlEnum.Document_CountRootDocuments);
-        }
-
         public IList<int> Document_GetPageOfRootDocumentIDs(int firstIndex, int count)
         {
             return _sqlExecutor.ExecuteReader<int>(SqlEnum.Document_GetPageOfRootDocumentIDs, new { firstIndex, count, }).ToArray();
-        }
-
-        public int Patch_Count()
-        {
-            return (int)_sqlExecutor.ExecuteScalar(SqlEnum.Patch_Count);
-        }
-
-        public IList<int> Patch_GetPageOfIDs(int firstIndex, int count)
-        {
-            return _sqlExecutor.ExecuteReader<int>(SqlEnum.Patch_GetPageOfIDs, new { firstIndex, count, }).ToArray();
-        }
-
-        public int Sample_Count()
-        {
-            return (int)_sqlExecutor.ExecuteScalar(SqlEnum.Sample_Count);
-        }
-
-        public IList<int> Sample_GetPageOfIDs(int firstIndex, int count)
-        {
-            return _sqlExecutor.ExecuteReader<int>(SqlEnum.Sample_GetPageOfIDs, new { firstIndex, count, }).ToArray();
         }
 
         /// <summary>

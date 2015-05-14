@@ -33,14 +33,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _pageSize = config.PageSize;
         }
 
-        public AudioFileOutputListViewModel Show(int pageNumber)
+        public AudioFileOutputListViewModel Show(int documentID)
         {
-            int pageIndex = pageNumber - 1;
+            IList<AudioFileOutput> audioFileOutputs = _audioFileOutputRepository.GetManyByDocumentID(documentID);
 
-            IList<AudioFileOutput> audioFileOutputs = _audioFileOutputRepository.GetPage(pageIndex * _pageSize, _pageSize);
-            int totalCount = _audioFileOutputRepository.Count();
-
-            _viewModel = audioFileOutputs.ToListViewModel(pageIndex, _pageSize, totalCount);
+            _viewModel = audioFileOutputs.ToListViewModel();
+            _viewModel.DocumentID = documentID;
 
             return _viewModel;
         }
