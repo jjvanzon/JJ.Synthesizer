@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using JJ.Framework.Presentation;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -35,28 +36,103 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _pageSize = config.PageSize;
         }
 
-        public DocumentListViewModel Show(int pageNumber)
+        public DocumentListViewModel Show(int pageNumber = 1)
         {
-            int pageIndex = pageNumber - 1;
+            bool mustCreateViewModel = _viewModel == null ||
+                                       _viewModel.ParentDocumentID.HasValue || // _viewModel is currently Instrument or Effect List.
+                                       _viewModel.Pager.PageNumber != pageNumber;
+
+            if (mustCreateViewModel)
+            {
+                int pageIndex = pageNumber - 1;
+
+                IList<Document> documents = _documentRepository.GetPageOfRootDocuments(pageIndex * _pageSize, _pageSize);
+                int totalCount = _documentRepository.CountRootDocuments();
+
+                _viewModel = documents.ToListViewModel(pageIndex, _pageSize, totalCount);
+
+                _documentRepository.Rollback();
+            }
+            else
+            {
+                _viewModel.Visible = true;
+            }
+
+            return _viewModel;
+        }
+
+        public DocumentListViewModel Refresh(DocumentListViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            int pageIndex = viewModel.Pager.PageNumber - 1;
 
             IList<Document> documents = _documentRepository.GetPageOfRootDocuments(pageIndex * _pageSize, _pageSize);
             int totalCount = _documentRepository.CountRootDocuments();
 
             _viewModel = documents.ToListViewModel(pageIndex, _pageSize, totalCount);
 
+            _viewModel.Visible = viewModel.Visible;
+
             _documentRepository.Rollback();
 
             return _viewModel;
         }
 
-        public DocumentListViewModel ShowInstruments(int documentID)
+        /// <summary>
+        /// Can return NotFoundViewModel or DocumentListViewModel.
+        /// </summary>
+        public object ShowInstruments(int documentID)
         {
-            IList<Document> documents = _documentRepository.GetInstruments(documentID);
+            bool mustCreateViewModel = _viewModel == null ||
+                                       !_viewModel.ParentDocumentID.HasValue || // _viewModel is currently a Root Document List.
+                                       _viewModel.ParentDocumentID.Value != documentID;
 
-            _viewModel = documents.ToListViewModel();
-            _viewModel.ParentDocumentID = documentID;
+            if (mustCreateViewModel)
+            {
+                Document document = _documentRepository.TryGet(documentID);
 
-            _documentRepository.Rollback();
+                if (document == null)
+                {
+                    var notFoundPresenter = new NotFoundPresenter();
+                    NotFoundViewModel notFoundViewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);
+                    return notFoundViewModel;
+                }
+
+                _viewModel = document.Instruments.ToListViewModel();
+                _viewModel.ParentDocumentID = document.ID;
+
+                _documentRepository.Rollback();
+            }
+            else
+            {
+                _viewModel.Visible = true;
+            }
+
+            return _viewModel;
+        }
+
+        /// <summary>
+        /// Can return NotFoundViewModel or DocumentListViewModel.
+        /// </summary>
+        public object RefreshInstruments(DocumentListViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (!viewModel.ParentDocumentID.HasValue) throw new NullException(() => viewModel.ParentDocumentID);
+
+            Document document = _documentRepository.TryGet(viewModel.ParentDocumentID.Value);
+
+            if (document == null)
+            {
+                var notFoundPresenter = new NotFoundPresenter();
+                NotFoundViewModel notFoundViewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);
+                return notFoundViewModel;
+            }
+
+            _viewModel = document.Instruments.ToListViewModel();
+
+            _viewModel.ParentDocumentID = document.ID;
+            _viewModel.Visible = viewModel.Visible;
 
             return _viewModel;
         }

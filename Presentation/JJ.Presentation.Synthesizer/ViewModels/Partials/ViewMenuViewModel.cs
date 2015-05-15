@@ -10,6 +10,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Partials
     {
         public MenuItemViewModel DocumentsMenuItem { get; set; }
         public MenuItemViewModel DocumentTreeMenuItem { get; set; }
+        public MenuItemViewModel InstrumentsMenuItem { get; set; }
 
         public MenuItemViewModel AudioFileOutputsMenuItem { get; set; }
         public MenuItemViewModel CurvesMenuItem { get; set; }
@@ -17,5 +18,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Partials
         public MenuItemViewModel SamplesMenuItem { get; set; }
         public MenuItemViewModel AudioFileOutputDetailsMenuItem { get; set; }
         public MenuItemViewModel PatchDetailsMenuItem { get; set; }
+
     }
 }

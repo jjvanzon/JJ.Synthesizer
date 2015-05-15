@@ -18,10 +18,12 @@
             this.splitContainerTree = new System.Windows.Forms.SplitContainer();
             this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
             this.splitContainerProperties = new System.Windows.Forms.SplitContainer();
+            this.effectListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentListUserControl();
+            this.instrumentListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentListUserControl();
             this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
             this.documentListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentListUserControl();
-            this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
             this.documentPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentPropertiesUserControl();
+            this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -69,6 +71,8 @@
             // 
             // splitContainerProperties.Panel1
             // 
+            this.splitContainerProperties.Panel1.Controls.Add(this.effectListUserControl);
+            this.splitContainerProperties.Panel1.Controls.Add(this.instrumentListUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.documentDetailsUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.documentListUserControl);
             // 
@@ -78,6 +82,28 @@
             this.splitContainerProperties.Size = new System.Drawing.Size(848, 657);
             this.splitContainerProperties.SplitterDistance = 604;
             this.splitContainerProperties.TabIndex = 2;
+            // 
+            // effectListUserControl
+            // 
+            this.effectListUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.effectListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.effectListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.effectListUserControl.Location = new System.Drawing.Point(0, 0);
+            this.effectListUserControl.Name = "effectListUserControl";
+            this.effectListUserControl.Size = new System.Drawing.Size(604, 657);
+            this.effectListUserControl.TabIndex = 3;
+            this.effectListUserControl.Visible = false;
+            // 
+            // instrumentListUserControl
+            // 
+            this.instrumentListUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.instrumentListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.instrumentListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.instrumentListUserControl.Location = new System.Drawing.Point(0, 0);
+            this.instrumentListUserControl.Name = "instrumentListUserControl";
+            this.instrumentListUserControl.Size = new System.Drawing.Size(604, 657);
+            this.instrumentListUserControl.TabIndex = 2;
+            this.instrumentListUserControl.Visible = false;
             // 
             // documentDetailsUserControl
             // 
@@ -104,15 +130,6 @@
             this.documentListUserControl.TabIndex = 0;
             this.documentListUserControl.Visible = false;
             // 
-            // menuUserControl
-            // 
-            this.menuUserControl.Dock = System.Windows.Forms.DockStyle.Top;
-            this.menuUserControl.Location = new System.Drawing.Point(0, 0);
-            this.menuUserControl.Margin = new System.Windows.Forms.Padding(2);
-            this.menuUserControl.Name = "menuUserControl";
-            this.menuUserControl.Size = new System.Drawing.Size(1094, 24);
-            this.menuUserControl.TabIndex = 3;
-            // 
             // documentPropertiesUserControl
             // 
             this.documentPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -124,6 +141,15 @@
             this.documentPropertiesUserControl.Name = "documentPropertiesUserControl";
             this.documentPropertiesUserControl.Size = new System.Drawing.Size(240, 657);
             this.documentPropertiesUserControl.TabIndex = 1;
+            // 
+            // menuUserControl
+            // 
+            this.menuUserControl.Dock = System.Windows.Forms.DockStyle.Top;
+            this.menuUserControl.Location = new System.Drawing.Point(0, 0);
+            this.menuUserControl.Margin = new System.Windows.Forms.Padding(2);
+            this.menuUserControl.Name = "menuUserControl";
+            this.menuUserControl.Size = new System.Drawing.Size(1094, 24);
+            this.menuUserControl.TabIndex = 3;
             // 
             // MainForm
             // 
@@ -157,6 +183,8 @@
         private System.Windows.Forms.SplitContainer splitContainerProperties;
         private UserControls.DocumentDetailsUserControl documentDetailsUserControl;
         private UserControls.DocumentPropertiesUserControl documentPropertiesUserControl;
+        private UserControls.DocumentListUserControl effectListUserControl;
+        private UserControls.DocumentListUserControl instrumentListUserControl;
 
     }
 }

@@ -30,18 +30,50 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// </summary>
         public object Show(int id)
         {
-            Document document = _documentRepository.Get(id);
+            bool mustCreateViewModel = _viewModel == null ||
+                                       _viewModel.ID != id;
+
+            if (mustCreateViewModel)
+            {
+                Document document = _documentRepository.TryGet(id);
+                if (document == null)
+                {
+                    var notFoundPresenter = new NotFoundPresenter();
+                    NotFoundViewModel viewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);
+                    return viewModel;
+                }
+                else
+                {
+                    _viewModel = document.ToTreeViewModel();
+                }
+            }
+            else
+            {
+                _viewModel.Visible = true;
+            }
+
+            return _viewModel;
+        }
+
+        public object Refresh(DocumentTreeViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            Document document = _documentRepository.TryGet(viewModel.ID);
             if (document == null)
             {
                 var notFoundPresenter = new NotFoundPresenter();
-                NotFoundViewModel viewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);
-                return viewModel;
+                NotFoundViewModel viewModel2 = notFoundPresenter.Show(PropertyDisplayNames.Document);
+                return viewModel2;
             }
             else
             {
                 _viewModel = document.ToTreeViewModel();
-                return _viewModel;
+
+                _viewModel.Visible = viewModel.Visible;
             }
+
+            return _viewModel;
         }
 
         public object Close()

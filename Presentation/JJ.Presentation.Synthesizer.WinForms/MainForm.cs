@@ -80,6 +80,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             menuUserControl.ShowDocumentListRequested += menuUserControl_ShowDocumentListRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
+            menuUserControl.ShowInstrumentsRequested += menuUserControl_ShowInstrumentsRequested;
             menuUserControl.ShowAudioFileOutputListRequested += menuUserControl_ShowAudioFileOutputListRequested;
             menuUserControl.CurveListRequested += menuUserControl_CurveListRequested;
             menuUserControl.PatchListRequested += menuUserControl_PatchListRequested;
@@ -95,10 +96,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;
             documentDetailsUserControl.DeleteRequested += documentDetailsUserControl_DeleteRequested;
             documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
-            documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
-            documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
+
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
             documentTreeUserControl.DocumentPropertiesRequested += documentTreeUserControl_DocumentPropertiesRequested;
+            documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
+            documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
+            instrumentListUserControl.CloseRequested += instrumentListUserControl_CloseRequested;
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
 
@@ -116,6 +119,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             MessageBoxHelper.DocumentDeleteCanceled += MessageBoxHelper_DocumentDeleteCanceled;
             MessageBoxHelper.DocumentDeletedOK += MessageBoxHelper_DocumentDeletedOK;
 
+            SetTitles();
+
             Open();
 
             //ShowAudioFileOutputList();
@@ -124,6 +129,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             //ShowSampleList();
             //ShowAudioFileOutputDetails();
             //ShowPatchDetails();
+        }
+
+        private void SetTitles()
+        {
+            documentListUserControl.Text = PropertyDisplayNames.Documents;
+            instrumentListUserControl.Text = PropertyDisplayNames.Instruments;
+            effectListUserControl.Text = PropertyDisplayNames.Effects;
         }
 
         private RepositoryWrapper CreateRepositoryWrapper()
@@ -177,7 +189,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void Open()
         {
-            _viewModel = _presenter.Open();
+            _viewModel = _presenter.Show();
             ApplyViewModel();
         }
 
@@ -192,6 +204,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void DocumentListClose()
         {
             _viewModel = _presenter.DocumentListClose(_viewModel);
+            ApplyViewModel();
+        }
+
+        // Document Actions
+
+        private void DocumentTreeShow()
+        {
+            _viewModel = _presenter.DocumentTreeShow(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void InstrumentListShow()
+        {
+            _viewModel = _presenter.InstrumentListShow(_viewModel);
             ApplyViewModel();
         }
 
@@ -260,6 +286,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        // Document Tree Actions
+
+        private void DocumentTreeClose()
+        {
+            _viewModel = _presenter.DocumentTreeClose(_viewModel);
+            ApplyViewModel();
+        }
+
         // Document Properties Actions
 
         private void DocumentPropertiesShow(int id)
@@ -274,17 +308,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void DocumentPropertiesLoseFocus(DocumentPropertiesViewModel viewModel)
+        private void DocumentPropertiesLoseFocus()
         {
             _viewModel = _presenter.DocumentPropertiesLoseFocus(_viewModel);
             ApplyViewModel();
         }
 
-        // Document Tree Actions
+        // Other Open Document Actions
 
-        private void DocumentTreeClose()
+        private void InstrumentListClose()
         {
-            _viewModel = _presenter.DocumentTreeClose(_viewModel);
+            _viewModel = _presenter.InstrumentListClose(_viewModel);
             ApplyViewModel();
         }
 
@@ -382,8 +416,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void menuUserControl_ShowDocumentTreeRequested(object sender, EventArgs e)
         {
-            // TODO: You cannot know which document to open without a MainPresenter and MainViewModel.
-            throw new NotImplementedException();
+            DocumentTreeShow();
+        }
+
+        private void menuUserControl_ShowInstrumentsRequested(object sender, EventArgs e)
+        {
+            InstrumentListShow();
         }
 
         private void menuUserControl_ShowAudioFileOutputListRequested(object sender, EventArgs e)
@@ -485,7 +523,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            DocumentPropertiesLoseFocus(documentPropertiesUserControl.ViewModel);
+            DocumentPropertiesLoseFocus();
+        }
+
+        // Other Open Document Events
+
+        private void instrumentListUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            InstrumentListClose();
         }
 
         // Message Box Events
@@ -592,6 +637,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             documentPropertiesUserControl.ViewModel = _viewModel.DocumentProperties;
             documentPropertiesUserControl.Visible = _viewModel.DocumentProperties.Visible;
+
+            instrumentListUserControl.ViewModel = _viewModel.Instruments;
+            instrumentListUserControl.Visible = _viewModel.Instruments.Visible;
+
+            effectListUserControl.ViewModel = _viewModel.Effects;
+            effectListUserControl.Visible = _viewModel.Effects.Visible;
 
             _audioFileOutputListForm.ViewModel = _viewModel.AudioFileOutputs;
             _audioFileOutputListForm.Visible = _viewModel.AudioFileOutputs.Visible;

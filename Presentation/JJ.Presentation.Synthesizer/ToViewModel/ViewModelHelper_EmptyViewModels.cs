@@ -37,6 +37,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Curves = CreateEmptyCurveListViewModel(),
                 Patches = CreateEmptyPatchListViewModel(),
                 Samples = CreateEmptySampleListViewModel(),
+                Instruments = CreateEmptyDocumentListViewModel(),
+                Effects = CreateEmptyDocumentListViewModel(),
                 TemporaryAudioFileOutputDetails = CreateEmptyAudioFileOutputDetailsViewModel(),
                 TemporaryPatchDetails = CreateEmptyPatchDetailsViewModel()
             };

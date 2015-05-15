@@ -54,11 +54,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
+        public override string Text
+        {
+            get { return titleBarUserControl.Text; }
+            set { titleBarUserControl.Text = value; }
+        }
+
         // Gui
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = PropertyDisplayNames.Documents;
             IDColumn.HeaderText = CommonTitles.ID;
             NameColumn.HeaderText = CommonTitles.Name;
         }

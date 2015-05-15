@@ -26,6 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
     {
         public event EventHandler ShowDocumentListRequested;
         public event EventHandler ShowDocumentTreeRequested;
+        public event EventHandler ShowInstrumentsRequested;
         public event EventHandler ShowAudioFileOutputListRequested;
         public event EventHandler CurveListRequested;
         public event EventHandler PatchListRequested;
@@ -102,6 +103,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             toolStripMenuItem.Click += documentTreeToolStripMenuItem_Click;
             viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
 
+            // Instruments
+            toolStripMenuItem = CreateInstrumentsToolStripMenuItem();
+            toolStripMenuItem.Click += instrumentsToolStripMenuItem_Click;
+            viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
+
             // AudioFileOutputs
             toolStripMenuItem = CreateAudioFileOutputsToolStripMenuItem();
             toolStripMenuItem.Click += audioFileOutputsToolStripMenuItem_Click;
@@ -161,6 +167,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 Name = "documentTreeToolStripMenuItem",
                 Text = "&" + Titles.DocumentTree
+            };
+
+            return toolStripMenuItem;
+        }
+
+        private ToolStripMenuItem CreateInstrumentsToolStripMenuItem()
+        {
+            var toolStripMenuItem = new ToolStripMenuItem
+            {
+                Name = "instrumentsToolStripMenuItem",
+                Text = "&" + PropertyDisplayNames.Instruments
             };
 
             return toolStripMenuItem;
@@ -247,6 +264,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             if (ShowDocumentTreeRequested != null)
             {
                 ShowDocumentTreeRequested(sender, EventArgs.Empty);
+            }
+        }
+
+        private void instrumentsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ShowInstrumentsRequested != null)
+            {
+                ShowInstrumentsRequested(sender, EventArgs.Empty);
             }
         }
 

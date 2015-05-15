@@ -30,6 +30,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
     public class MainPresenter
     {
         private RepositoryWrapper _repositoryWrapper;
+
+        private AudioFileOutputDetailsPresenter _audioFileOutputDetailsPresenter;
+        private AudioFileOutputListPresenter _audioFileOutputListPresenter;
+        private CurveListPresenter _curveListPresenter;
+        private DocumentCannotDeletePresenter _documentCannotDeletePresenter;
+        private DocumentDeletedPresenter _documentDeletedPresenter;
+        private DocumentDeletePresenter _documentDeletePresenter;
+        private DocumentDetailsPresenter _documentDetailsPresenter;
+        private DocumentListPresenter _documentListPresenter;
+        private DocumentListPresenter _effectListPresenter;
+        private DocumentListPresenter _instrumentListPresenter;
+        private DocumentPropertiesPresenter _documentPropertiesPresenter;
+        private DocumentTreePresenter _documentTreePresenter;
+        private MenuPresenter _menuPresenter;
+        private NotFoundPresenter _notFoundPresenter;
+        private PatchDetailsPresenter _patchDetailsPresenter;
+        private PatchListPresenter _patchListPresenter;
+        private SampleListPresenter _sampleListPresenter;
+
         private MainViewModel _viewModel;
 
         public MainPresenter(RepositoryWrapper repositoryWrapper)
@@ -37,6 +56,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
             _repositoryWrapper = repositoryWrapper;
+
+            _audioFileOutputDetailsPresenter = CreateAudioFileOutputDetailsPresenter();
+            _audioFileOutputListPresenter = new AudioFileOutputListPresenter(_repositoryWrapper.AudioFileOutputRepository);
+            _curveListPresenter = new CurveListPresenter(_repositoryWrapper.CurveRepository);
+            _documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositoryWrapper.DocumentRepository);
+            _documentDeletedPresenter = new DocumentDeletedPresenter();
+            _documentDeletePresenter = new DocumentDeletePresenter(_repositoryWrapper);
+            _documentDetailsPresenter = new DocumentDetailsPresenter(_repositoryWrapper.DocumentRepository);
+            _documentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
+            _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositoryWrapper.DocumentRepository);
+            _documentTreePresenter = new DocumentTreePresenter(_repositoryWrapper.DocumentRepository);
+            _effectListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
+            _instrumentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
+            _menuPresenter = new MenuPresenter();
+            _notFoundPresenter = new NotFoundPresenter();
+            _patchDetailsPresenter = CreatePatchDetailsPresenter();
+            _patchListPresenter = new PatchListPresenter(_repositoryWrapper.PatchRepository);
+            _sampleListPresenter = new SampleListPresenter(_repositoryWrapper.SampleRepository);
 
             _dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
         }
@@ -50,16 +87,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // General
 
-        public MainViewModel Open()
+        public MainViewModel Show()
         {
             _viewModel = ViewModelHelper.CreateEmptyMainViewModel();
 
-            var menuPresenter = new MenuPresenter();
-            MenuViewModel menuViewModel = menuPresenter.Show();
+            MenuViewModel menuViewModel = _menuPresenter.Show();
             DispatchViewModel(menuViewModel);
 
-            var documentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
-            DocumentListViewModel documentListViewModel = documentListPresenter.Show(1);
+            DocumentListViewModel documentListViewModel = _documentListPresenter.Show();
             DispatchViewModel(documentListViewModel);
 
             _viewModel.Title = Titles.ApplicationName;
@@ -73,23 +108,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new NotFoundPresenter();
-            object viewModel2 = presenter2.OK();
+            object viewModel2 = _notFoundPresenter.OK();
 
             DispatchViewModel(viewModel2);
 
             return _viewModel;
         }
 
-        // Document 
+        // Document List
 
         public MainViewModel DocumentListShow(MainViewModel viewModel, int pageNumber)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
-            var viewModel2 = presenter2.Show(pageNumber);
+            var viewModel2 = _documentListPresenter.Show(pageNumber);
 
             DispatchViewModel(viewModel2);
 
@@ -101,8 +134,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
-            var viewModel2 = presenter2.Close();
+            var viewModel2 = _documentListPresenter.Close();
 
             DispatchViewModel(viewModel2);
 
@@ -114,8 +146,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentDetailsPresenter(_repositoryWrapper.DocumentRepository);
-            object viewModel2 = presenter2.Create();
+            object viewModel2 = _documentDetailsPresenter.Create();
 
             DispatchViewModel(viewModel2);
 
@@ -127,8 +158,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentDetailsPresenter(_repositoryWrapper.DocumentRepository);
-            object viewModel2 = presenter2.Close();
+            object viewModel2 = _documentDetailsPresenter.Close();
 
             DispatchViewModel(viewModel2);
 
@@ -140,8 +170,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentDetailsPresenter(_repositoryWrapper.DocumentRepository);
-            object viewModel2 = presenter2.Save(viewModel.DocumentDetails);
+            object viewModel2 = _documentDetailsPresenter.Save(viewModel.DocumentDetails);
 
             DispatchViewModel(viewModel2);
 
@@ -150,14 +179,75 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
+        public MainViewModel DocumentDelete(MainViewModel viewModel, int id)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            TemporarilyAssertViewModelField();
+
+            object viewModel2 = _documentDeletePresenter.Show(id);
+
+            DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel DocumentCannotDeleteOK(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            TemporarilyAssertViewModelField();
+
+            var viewModel2 = _documentCannotDeletePresenter.OK();
+
+            DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel DocumentConfirmDelete(MainViewModel viewModel, int id)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            TemporarilyAssertViewModelField();
+
+            object viewModel2 = _documentDeletePresenter.Confirm(id);
+
+            DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel DocumentCancelDelete(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            TemporarilyAssertViewModelField();
+
+            object viewModel2 = _documentDeletePresenter.Cancel();
+
+            DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel DocumentDeletedOK(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            TemporarilyAssertViewModelField();
+
+            object viewModel2 = _documentDeletedPresenter.OK();
+
+            DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        // The Open Document
+
         public MainViewModel DocumentOpen(MainViewModel viewModel, int documentID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentTreePresenter(_repositoryWrapper.DocumentRepository);
-            object viewModel2 = presenter2.Show(documentID);
+            object viewModel2 = _documentTreePresenter.Show(documentID);
 
             var treeViewModel = viewModel2 as DocumentTreeViewModel;
             if (treeViewModel == null)
@@ -173,51 +263,83 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _repositoryWrapper.DocumentRepository.Get(documentID);
             _viewModel.Title = String.Format("{0} - {1}", document.Name, Titles.ApplicationName);
 
-            var documentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
+            DocumentPropertiesViewModel documentPropertiesViewModel = (DocumentPropertiesViewModel)_documentPropertiesPresenter.Show(documentID);
+            documentPropertiesViewModel.Visible = false;
+            _viewModel.DocumentProperties = documentPropertiesViewModel;
 
-            DocumentListViewModel instrumentsViewModel = documentListPresenter.ShowInstruments(documentID);
+            DocumentListViewModel instrumentsViewModel = (DocumentListViewModel)_instrumentListPresenter.ShowInstruments(documentID);
             instrumentsViewModel.Visible = false;
             _viewModel.Instruments = instrumentsViewModel;
-
-            DocumentListViewModel effectsViewModel = documentListPresenter.ShowEfects(documentID);
+            
+            DocumentListViewModel effectsViewModel = _effectListPresenter.ShowEfects(documentID);
             effectsViewModel.Visible = false;
             _viewModel.Effects = effectsViewModel;
 
-            SampleListPresenter sampleListPresenter = new SampleListPresenter(_repositoryWrapper.SampleRepository);
-            SampleListViewModel sampleListViewModel = sampleListPresenter.Show(documentID);
+            SampleListViewModel sampleListViewModel = _sampleListPresenter.Show(documentID);
             sampleListViewModel.Visible = false;
             _viewModel.Samples = sampleListViewModel;
 
-            CurveListPresenter curveListPresenter = new CurveListPresenter(_repositoryWrapper.CurveRepository);
-            CurveListViewModel curveListViewModel = curveListPresenter.Show(documentID);
+            CurveListViewModel curveListViewModel = _curveListPresenter.Show(documentID);
             curveListViewModel.Visible = false;
             _viewModel.Curves = curveListViewModel;
 
-            PatchListPresenter patchListPresenter = new PatchListPresenter(_repositoryWrapper.PatchRepository);
-            PatchListViewModel patchListViewModel = patchListPresenter.Show(documentID);
+            PatchListViewModel patchListViewModel = _patchListPresenter.Show(documentID);
             patchListViewModel.Visible = false;
             _viewModel.Patches = patchListViewModel;
 
-            AudioFileOutputListPresenter audioFileOutputListPresenter = new AudioFileOutputListPresenter(_repositoryWrapper.AudioFileOutputRepository);
-            AudioFileOutputListViewModel audioFileOutputListViewModel = audioFileOutputListPresenter.Show(documentID);
+            AudioFileOutputListViewModel audioFileOutputListViewModel = _audioFileOutputListPresenter.Show(documentID);
             audioFileOutputListViewModel.Visible = false;
             _viewModel.AudioFileOutputs = audioFileOutputListViewModel;
 
             return _viewModel;
         }
 
-        public MainViewModel InstrumentListShow(MainViewModel viewModel)
+        public MainViewModel DocumentTreeShow(MainViewModel viewModel)
         {
-            throw new NotImplementedException();
-
             if (viewModel == null) throw new NullException(() => viewModel);
 
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
-            var viewModel2 = presenter2.ShowInstruments(viewModel.DocumentID);
+            object viewModel2 = _documentTreePresenter.Show(_viewModel.DocumentID);
 
             DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel InstrumentListShow(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            object viewModel2 = _instrumentListPresenter.ShowInstruments(viewModel.DocumentID);
+
+            var notFoundViewModel = viewModel2 as NotFoundViewModel;
+            if (notFoundViewModel != null)
+            {
+                _viewModel.NotFound = notFoundViewModel;
+                return _viewModel;
+            }
+
+            var listViewModel = viewModel2 as DocumentListViewModel;
+            if (listViewModel != null)
+            {
+                _viewModel.Instruments = listViewModel;
+                return _viewModel;
+            }
+
+            throw new UnexpectedViewModelTypeException(viewModel2);
+        }
+
+        public MainViewModel InstrumentListClose(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            DocumentListViewModel viewModel2 = _instrumentListPresenter.Close();
+            _viewModel.Instruments = viewModel2;
 
             return _viewModel;
         }
@@ -227,73 +349,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentTreePresenter(_repositoryWrapper.DocumentRepository);
-            object viewModel2 = presenter2.Close();
-
-            DispatchViewModel(viewModel2);
-
-            return _viewModel;
-        }
-
-        public MainViewModel DocumentDelete(MainViewModel viewModel, int id)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            TemporarilyAssertViewModelField();
-
-            var presenter2 = new DocumentDeletePresenter(_repositoryWrapper);
-            object viewModel2 = presenter2.Show(id);
-
-            DispatchViewModel(viewModel2);
-
-            return _viewModel;
-        }
-
-        public MainViewModel DocumentCannotDeleteOK(MainViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            TemporarilyAssertViewModelField();
-
-            var presenter2 = new DocumentCannotDeletePresenter(_repositoryWrapper.DocumentRepository);
-            var viewModel2 = presenter2.OK();
-
-            DispatchViewModel(viewModel2);
-
-            return _viewModel;
-        }
-
-        public MainViewModel DocumentConfirmDelete(MainViewModel viewModel, int id)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            TemporarilyAssertViewModelField();
-
-            var presenter2 = new DocumentDeletePresenter(_repositoryWrapper);
-            object viewModel2 = presenter2.Confirm(id);
-
-            DispatchViewModel(viewModel2);
-
-            return _viewModel;
-        }
-
-        public MainViewModel DocumentCancelDelete(MainViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            TemporarilyAssertViewModelField();
-
-            var presenter2 = new DocumentDeletePresenter(_repositoryWrapper);
-            object viewModel2 = presenter2.Cancel();
-
-            DispatchViewModel(viewModel2);
-
-            return _viewModel;
-        }
-
-        public MainViewModel DocumentDeletedOK(MainViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            TemporarilyAssertViewModelField();
-
-            var presenter2 = new DocumentDeletedPresenter();
-            object viewModel2 = presenter2.OK();
+            object viewModel2 = _documentTreePresenter.Close();
 
             DispatchViewModel(viewModel2);
 
@@ -305,8 +361,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentPropertiesPresenter(_repositoryWrapper.DocumentRepository);
-            object viewModel2 = presenter2.Show(id);
+            object viewModel2 = _documentPropertiesPresenter.Show(id);
 
             DispatchViewModel(viewModel2);
 
@@ -318,8 +373,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentPropertiesPresenter(_repositoryWrapper.DocumentRepository);
-            DocumentPropertiesViewModel viewModel2 = presenter2.Close(_viewModel.DocumentProperties);
+            DocumentPropertiesViewModel viewModel2 = _documentPropertiesPresenter.Close(_viewModel.DocumentProperties);
 
             DispatchViewModel(viewModel2);
 
@@ -338,14 +392,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new DocumentPropertiesPresenter(_repositoryWrapper.DocumentRepository);
-            DocumentPropertiesViewModel viewModel2 = presenter2.LooseFocus(_viewModel.DocumentProperties);
+            DocumentPropertiesViewModel viewModel2 = _documentPropertiesPresenter.LooseFocus(_viewModel.DocumentProperties);
 
             DispatchViewModel(viewModel2);
 
             // TODO: You might only refresh if viewModel2 is valid and if they are visible.
-            // TODO: I might yield over visibility of panes and other non-persisted things.
-            // But that requires a structural solution for all actions.
             
             RefreshDocumentList();
             RefreshDocumentTree();
@@ -360,8 +411,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new AudioFileOutputListPresenter(_repositoryWrapper.AudioFileOutputRepository);
-            object viewModel2 = presenter2.Show(pageNumber);
+            object viewModel2 = _audioFileOutputListPresenter.Show(pageNumber);
 
             DispatchViewModel(viewModel2);
 
@@ -373,8 +423,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new AudioFileOutputListPresenter(_repositoryWrapper.AudioFileOutputRepository);
-            object viewModel2 = presenter2.Close();
+            object viewModel2 = _audioFileOutputListPresenter.Close();
 
             DispatchViewModel(viewModel2);
 
@@ -386,8 +435,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            AudioFileOutputDetailsPresenter presenter2 = CreateAudioFileOutputDetailsPresenter();
-            object viewModel2 = presenter2.Edit(id);
+            object viewModel2 = _audioFileOutputDetailsPresenter.Edit(id);
 
             DispatchViewModel(viewModel2);
 
@@ -399,8 +447,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            AudioFileOutputDetailsPresenter presenter2 = CreateAudioFileOutputDetailsPresenter();
-            object viewModel2 = presenter2.Close();
+            object viewModel2 = _audioFileOutputDetailsPresenter.Close();
 
             DispatchViewModel(viewModel2);
 
@@ -412,8 +459,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new CurveListPresenter(_repositoryWrapper.CurveRepository);
-            object viewModel2 = presenter2.Show(pageNumber);
+            object viewModel2 = _curveListPresenter.Show(pageNumber);
 
             DispatchViewModel(viewModel2);
 
@@ -425,8 +471,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new CurveListPresenter(_repositoryWrapper.CurveRepository);
-            object viewModel2 = presenter2.Close();
+            object viewModel2 = _curveListPresenter.Close();
 
             DispatchViewModel(viewModel2);
 
@@ -438,8 +483,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new PatchListPresenter(_repositoryWrapper.PatchRepository);
-            object viewModel2 = presenter2.Show(pageNumber);
+            object viewModel2 = _patchListPresenter.Show(pageNumber);
 
             DispatchViewModel(viewModel2);
 
@@ -451,8 +495,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new PatchListPresenter(_repositoryWrapper.PatchRepository);
-            object viewModel2 = presenter2.Close();
+            object viewModel2 = _patchListPresenter.Close();
 
             DispatchViewModel(viewModel2);
 
@@ -464,9 +507,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            PatchDetailsPresenter presenter2 = CreatePatchDetailsPresenter();
-
-            object viewModel2 = presenter2.Edit(id);
+            object viewModel2 = _patchDetailsPresenter.Edit(id);
 
             DispatchViewModel(viewModel2);
 
@@ -478,9 +519,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            PatchDetailsPresenter presenter2 = CreatePatchDetailsPresenter();
-
-            object viewModel2 = presenter2.Close();
+            object viewModel2 = _patchDetailsPresenter.Close();
 
             DispatchViewModel(viewModel2);
 
@@ -492,8 +531,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new SampleListPresenter(_repositoryWrapper.SampleRepository);
-            object viewModel2 = presenter2.Show(pageNumber);
+            object viewModel2 = _sampleListPresenter.Show(pageNumber);
 
             DispatchViewModel(viewModel2);
 
@@ -505,8 +543,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            var presenter2 = new SampleListPresenter(_repositoryWrapper.SampleRepository);
-            object viewModel2 = presenter2.Close();
+            object viewModel2 = _sampleListPresenter.Close();
 
             DispatchViewModel(viewModel2);
 
@@ -662,30 +699,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void RefreshDocumentList()
         {
-            var presenter2 = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
-
-            bool originalVisible = _viewModel.DocumentList.Visible;
-            int originalPageNumber = _viewModel.DocumentList.Pager.PageNumber;
-
-            _viewModel.DocumentList = presenter2.Show(originalPageNumber);
-            _viewModel.DocumentList.Visible = originalVisible;
+            _viewModel.DocumentList = _documentListPresenter.Refresh(_viewModel.DocumentList);
         }
 
         private void RefreshDocumentTree()
         {
-            var presenter2 = new DocumentTreePresenter(_repositoryWrapper.DocumentRepository);
-
-            bool originalVisible = _viewModel.DocumentTree.Visible;
-            int originalID = _viewModel.DocumentTree.ID;
-
-            object viewModel2 = presenter2.Show(originalID);
-
-            var treeViewModel = viewModel2 as DocumentTreeViewModel;
-            if (treeViewModel != null)
-            {
-                treeViewModel.Visible = originalVisible;
-            }
-
+            object viewModel2 = _documentTreePresenter.Refresh(_viewModel.DocumentTree);
             DispatchViewModel(viewModel2);
         }
 
