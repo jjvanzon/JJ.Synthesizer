@@ -45,11 +45,15 @@
     <Compile Include="Presenters\DocumentDeletedPresenter.cs" />
     <Compile Include="Presenters\DocumentPropertiesPresenter.cs" />
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
+    <Compile Include="Presenters\EffectListPresenter.cs" />
+    <Compile Include="Presenters\InstrumentListPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.cs" />
     <Compile Include="ToViewModel\ViewModelHelper_Lookups.cs" />
     <Compile Include="ToViewModel\ToDocumentTreeViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListViewModelExtensions.cs" />
+    <Compile Include="ViewModels\EffectListViewModel.cs" />
+    <Compile Include="ViewModels\InstrumentListViewModel.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentDeletedViewModel.cs" />
     <Compile Include="Presenters\DocumentDetailsPresenter.cs" />
@@ -71,7 +75,7 @@
     <Compile Include="ToEntity\ToEntityExtensions.cs" />
     <Compile Include="ToViewModel\ToDeleteViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToDetailsOrPropertiesViewModelExtensions.cs" />
-    <Compile Include="ToViewModel\ToIDNameExtensions.cs" />
+    <Compile Include="ToViewModel\ToIDAndNameExtensions.cs" />
     <Compile Include="ToViewModel\ToPatchDetailsViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToEntityViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper_EmptyViewModels.cs" />
@@ -100,7 +104,9 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\NotFoundViewModel.cs" />
+    <Compile Include="ViewModels\Partials\ChildDocumentTreeViewModel.cs" />
     <Compile Include="ViewModels\Partials\DummyViewModel.cs" />
+    <Compile Include="ViewModels\Partials\IDNameAndTemporaryID.cs" />
     <Compile Include="ViewModels\Partials\MenuItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\ReferencedDocumentViewModel.cs" />
     <Compile Include="ViewModels\Partials\ReferencedDocumentsNodeViewModel.cs" />

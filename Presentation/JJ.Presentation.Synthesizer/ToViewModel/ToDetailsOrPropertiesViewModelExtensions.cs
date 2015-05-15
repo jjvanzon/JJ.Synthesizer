@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                        .SelectMany(x => x.Outlets)
                                                        .ToArray();
 
-                viewModel.OutletLookup = outlets.Select(x => x.ToIDName()).ToArray();
+                viewModel.OutletLookup = outlets.Select(x => x.ToIDAndName()).ToArray();
             }
             else
             {
@@ -83,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentDetailsViewModel
             {
                 Visible = true,
-                Document = document.ToIDName(),
+                Document = document.ToIDAndName(),
                 Messages = new List<Message>()
             };
 
@@ -95,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentPropertiesViewModel
             {
                 Visible = true,
-                Document = document.ToIDName(),
+                Document = document.ToIDAndName(),
                 Messages = new List<Message>()
             };
 

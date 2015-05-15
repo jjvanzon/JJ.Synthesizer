@@ -102,6 +102,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
             instrumentListUserControl.CloseRequested += instrumentListUserControl_CloseRequested;
+            instrumentListUserControl.CreateRequested += instrumentListUserControl_CreateRequested;
+            instrumentListUserControl.DeleteRequested += instrumentListUserControl_DeleteRequested;
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
 
@@ -133,9 +135,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void SetTitles()
         {
-            documentListUserControl.Text = PropertyDisplayNames.Documents;
-            instrumentListUserControl.Text = PropertyDisplayNames.Instruments;
-            effectListUserControl.Text = PropertyDisplayNames.Effects;
+            // Does nothing for now, but keep it in there, because I keep refactoring it in and out of the code.
         }
 
         private RepositoryWrapper CreateRepositoryWrapper()
@@ -212,12 +212,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void DocumentTreeShow()
         {
             _viewModel = _presenter.DocumentTreeShow(_viewModel);
-            ApplyViewModel();
-        }
-
-        private void InstrumentListShow()
-        {
-            _viewModel = _presenter.InstrumentListShow(_viewModel);
             ApplyViewModel();
         }
 
@@ -316,10 +310,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Other Open Document Actions
 
+        private void InstrumentListShow()
+        {
+            _viewModel = _presenter.InstrumentListShow(_viewModel);
+            ApplyViewModel();
+        }
+
         private void InstrumentListClose()
         {
             _viewModel = _presenter.InstrumentListClose(_viewModel);
             ApplyViewModel();
+        }
+
+        private void InstrumentCreate()
+        {
+            _viewModel = _presenter.InstrumentListCreate(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void InstrumentListDelete(Guid temporaryID)
+        {
+            throw new NotImplementedException();
         }
 
         // Other Actions
@@ -533,6 +544,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
             InstrumentListClose();
         }
 
+        private void instrumentListUserControl_CreateRequested(object sender, EventArgs e)
+        {
+            InstrumentCreate();
+        }
+
+        private void instrumentListUserControl_DeleteRequested(object sender, TemporaryIDEventArgs e)
+        {
+            InstrumentListDelete(e.TemporaryID);
+        }
+
         // Message Box Events
 
         private void MessageBoxHelper_NotFoundOK(object sender, EventArgs e)
@@ -641,8 +662,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             instrumentListUserControl.ViewModel = _viewModel.Instruments;
             instrumentListUserControl.Visible = _viewModel.Instruments.Visible;
 
-            effectListUserControl.ViewModel = _viewModel.Effects;
-            effectListUserControl.Visible = _viewModel.Effects.Visible;
+            //throw new NotImplementedException();
+
+            //effectListUserControl.ViewModel = _viewModel.Effects;
+            //effectListUserControl.Visible = _viewModel.Effects.Visible;
 
             _audioFileOutputListForm.ViewModel = _viewModel.AudioFileOutputs;
             _audioFileOutputListForm.Visible = _viewModel.AudioFileOutputs.Visible;

@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class DocumentListViewModel
+    public sealed class EffectListViewModel
     {
+        public int ParentDocumentID { get; set; }
         public bool Visible { get; set; }
         public IList<IDAndName> List { get; set; }
-        public PagerViewModel Pager { get; set; }
     }
 }

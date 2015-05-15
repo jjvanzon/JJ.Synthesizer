@@ -2,6 +2,8 @@
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.SideEffects;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
@@ -12,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Business;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -63,6 +66,26 @@ namespace JJ.Business.Synthesizer.Managers
             _repositoryWrapper.DocumentRepository.Delete(document);
 
             _repositoryWrapper.Commit();
+        }
+
+        public Document CreateInstrument(int parentDocumentID)
+        {
+            Document parentDocument = _repositoryWrapper.DocumentRepository.Get(parentDocumentID);
+            Document instrument = CreateInstrument(parentDocument);
+            return instrument;
+        }
+
+        public Document CreateInstrument(Document parentDocument)
+        {
+            if (parentDocument == null) throw new NullException(() => parentDocument);
+
+            Document instrument = _repositoryWrapper.DocumentRepository.Create();
+            instrument.LinkInstrumentToDocument(parentDocument);
+
+            ISideEffect sideEffect = new Instrument_SideEffect_GenerateName(instrument);
+            sideEffect.Execute();
+
+            return instrument;
         }
     }
 }

@@ -21,7 +21,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     public class DocumentListPresenter
     {
         private IDocumentRepository _documentRepository;
-
         private DocumentListViewModel _viewModel;
 
         private static int _pageSize;
@@ -39,7 +38,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public DocumentListViewModel Show(int pageNumber = 1)
         {
             bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.ParentDocumentID.HasValue || // _viewModel is currently Instrument or Effect List.
                                        _viewModel.Pager.PageNumber != pageNumber;
 
             if (mustCreateViewModel)
@@ -79,76 +77,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        /// <summary>
-        /// Can return NotFoundViewModel or DocumentListViewModel.
-        /// </summary>
-        public object ShowInstruments(int documentID)
-        {
-            bool mustCreateViewModel = _viewModel == null ||
-                                       !_viewModel.ParentDocumentID.HasValue || // _viewModel is currently a Root Document List.
-                                       _viewModel.ParentDocumentID.Value != documentID;
-
-            if (mustCreateViewModel)
-            {
-                Document document = _documentRepository.TryGet(documentID);
-
-                if (document == null)
-                {
-                    var notFoundPresenter = new NotFoundPresenter();
-                    NotFoundViewModel notFoundViewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);
-                    return notFoundViewModel;
-                }
-
-                _viewModel = document.Instruments.ToListViewModel();
-                _viewModel.ParentDocumentID = document.ID;
-
-                _documentRepository.Rollback();
-            }
-            else
-            {
-                _viewModel.Visible = true;
-            }
-
-            return _viewModel;
-        }
-
-        /// <summary>
-        /// Can return NotFoundViewModel or DocumentListViewModel.
-        /// </summary>
-        public object RefreshInstruments(DocumentListViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (!viewModel.ParentDocumentID.HasValue) throw new NullException(() => viewModel.ParentDocumentID);
-
-            Document document = _documentRepository.TryGet(viewModel.ParentDocumentID.Value);
-
-            if (document == null)
-            {
-                var notFoundPresenter = new NotFoundPresenter();
-                NotFoundViewModel notFoundViewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);
-                return notFoundViewModel;
-            }
-
-            _viewModel = document.Instruments.ToListViewModel();
-
-            _viewModel.ParentDocumentID = document.ID;
-            _viewModel.Visible = viewModel.Visible;
-
-            return _viewModel;
-        }
-
-        public DocumentListViewModel ShowEfects(int documentID)
-        {
-            IList<Document> documents = _documentRepository.GetEffects(documentID);
-
-            _viewModel = documents.ToListViewModel();
-            _viewModel.ParentDocumentID = documentID;
-
-            _documentRepository.Rollback();
-
-            return _viewModel;
-        }
-
         public DocumentDetailsViewModel Create()
         {
             var presenter2 = new DocumentDetailsPresenter(_documentRepository);
@@ -159,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return DocumentTreeViewModel or NotFoundViewModel.
         /// </summary>
-        public object Open(int id)
+        public object OpenDocument(int id)
         {
             var presenter2 = new DocumentTreePresenter(_documentRepository);
             object viewModel2 = presenter2.Show(id);

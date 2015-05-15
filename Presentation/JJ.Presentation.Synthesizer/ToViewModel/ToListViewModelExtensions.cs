@@ -37,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurveListViewModel
             {
                 Visible = true,
-                List = entities.Select(x => x.ToIDName()).ToArray()
+                List = entities.Select(x => x.ToIDAndName()).ToArray()
             };
 
             return viewModel;
@@ -48,8 +48,30 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentListViewModel
             {
                 Visible = true,
-                List = entities.Select(x => x.ToIDName()).ToArray(),
+                List = entities.Select(x => x.ToIDAndName()).ToArray(),
                 Pager = ViewModelHelper.CreateEmptyPagerViewModel()
+            };
+
+            return viewModel;
+        }
+
+        public static InstrumentListViewModel ToInstrumentListViewModel(this IList<Document> entities)
+        {
+            var viewModel = new InstrumentListViewModel
+            {
+                Visible = true,
+                List = entities.Select(x => x.ToIDNameAndTemporaryID()).ToArray()
+            };
+
+            return viewModel;
+        }
+
+        public static EffectListViewModel ToEffectListViewModel(this IList<Document> entities)
+        {
+            var viewModel = new EffectListViewModel
+            {
+                Visible = true,
+                List = entities.Select(x => x.ToIDAndName()).ToArray()
             };
 
             return viewModel;
@@ -60,7 +82,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentListViewModel
             {
                 Visible = true,
-                List = pageOfEntities.Select(x => x.ToIDName()).ToArray(),
+                List = pageOfEntities.Select(x => x.ToIDAndName()).ToArray(),
                 Pager = PagerViewModelFactory.Create(pageIndex, pageSize, totalCount, _maxVisiblePageNumbers)
             };
 

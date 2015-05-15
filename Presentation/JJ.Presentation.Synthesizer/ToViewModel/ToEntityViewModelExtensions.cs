@@ -124,7 +124,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 Time = entity.Time,
                 Value = entity.Value,
-                NodeType = entity.NodeType.ToIDName(),
+                NodeType = entity.NodeType.ToIDAndName(),
                 Direction = entity.Direction
             };
 
@@ -144,17 +144,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (entity.AudioFileFormat != null)
             {
-                viewModel.AudioFileFormat = entity.AudioFileFormat.ToIDName();
+                viewModel.AudioFileFormat = entity.AudioFileFormat.ToIDAndName();
             }
 
             if (entity.SampleDataType != null)
             {
-                viewModel.SampleDataType = entity.SampleDataType.ToIDName();
+                viewModel.SampleDataType = entity.SampleDataType.ToIDAndName();
             }
 
             if (entity.SpeakerSetup != null)
             {
-                viewModel.SpeakerSetup = entity.SpeakerSetup.ToIDName();
+                viewModel.SpeakerSetup = entity.SpeakerSetup.ToIDAndName();
             }
 
             viewModel.Channels = entity.AudioFileOutputChannels.Select(x => x.ToViewModelWithRelatedEntities()).ToArray();
@@ -174,7 +174,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (entity.Outlet != null)
             {
-                viewModel.Outlet = entity.Outlet.ToIDName();
+                viewModel.Outlet = entity.Outlet.ToIDAndName();
             }
 
             return viewModel;
@@ -252,22 +252,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (entity.AudioFileFormat != null)
             {
-                viewModel.AudioFileFormat = entity.AudioFileFormat.ToIDName();
+                viewModel.AudioFileFormat = entity.AudioFileFormat.ToIDAndName();
             }
 
             if (entity.SampleDataType != null)
             {
-                viewModel.SampleDataType = entity.SampleDataType.ToIDName();
+                viewModel.SampleDataType = entity.SampleDataType.ToIDAndName();
             }
 
             if (entity.SpeakerSetup != null)
             {
-                viewModel.SpeakerSetup = entity.SpeakerSetup.ToIDName();
+                viewModel.SpeakerSetup = entity.SpeakerSetup.ToIDAndName();
             }
 
             if (entity.InterpolationType != null)
             {
-                viewModel.InterpolationType = entity.InterpolationType.ToIDName();
+                viewModel.InterpolationType = entity.InterpolationType.ToIDAndName();
             }
 
             return viewModel;
@@ -281,8 +281,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                Instruments = entity.Instruments.Select(x => x.ToIDName()).ToList(),
-                Effects = entity.Effects.Select(x => x.ToIDName()).ToList()
+                Instruments = entity.Instruments.Select(x => x.ToIDAndName()).ToList(),
+                Effects = entity.Effects.Select(x => x.ToIDAndName()).ToList()
             };
 
             return viewModel;

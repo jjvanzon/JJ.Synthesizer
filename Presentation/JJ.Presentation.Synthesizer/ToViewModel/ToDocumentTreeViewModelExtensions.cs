@@ -26,8 +26,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SamplesNode = new DummyViewModel(),
                 AudioFileOutputsNode = new DummyViewModel(),
                 PatchesNode = new DummyViewModel(),
-                Instruments = new List<DocumentTreeViewModel>(),
-                Effects = new List<DocumentTreeViewModel>(),
+                Instruments = new List<ChildDocumentTreeViewModel>(),
+                Effects = new List<ChildDocumentTreeViewModel>(),
                 ReferencedDocuments = new ReferencedDocumentsNodeViewModel
                 {
                     List = new List<ReferencedDocumentViewModel>()
@@ -43,15 +43,31 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             foreach (Document instrument in document.Instruments)
             {
-                DocumentTreeViewModel instrumentTreeViewModel = instrument.ToTreeViewModel();
+                ChildDocumentTreeViewModel instrumentTreeViewModel = instrument.ToChildDocumentTreeViewModel();
                 viewModel.Instruments.Add(instrumentTreeViewModel);
             }
 
             foreach (Document effect in document.Effects)
             {
-                DocumentTreeViewModel effectTreeViewModel = effect.ToTreeViewModel();
+                ChildDocumentTreeViewModel effectTreeViewModel = effect.ToChildDocumentTreeViewModel();
                 viewModel.Effects.Add(effectTreeViewModel);
             }
+
+            return viewModel;
+        }
+
+        private static ChildDocumentTreeViewModel ToChildDocumentTreeViewModel(this Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            var viewModel = new ChildDocumentTreeViewModel
+            {
+                ID = document.ID,
+                Name = document.Name,
+                CurvesNode = new DummyViewModel(),
+                SamplesNode = new DummyViewModel(),
+                PatchesNode = new DummyViewModel(),
+            };
 
             return viewModel;
         }

@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentCannotDeleteViewModel
             {
                 Visible = true,
-                Document = entity.ToIDName(),
+                Document = entity.ToIDAndName(),
                 Messages = messages
             };
 

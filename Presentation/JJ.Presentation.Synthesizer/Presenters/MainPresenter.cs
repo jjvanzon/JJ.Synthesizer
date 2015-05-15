@@ -39,8 +39,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private DocumentDeletePresenter _documentDeletePresenter;
         private DocumentDetailsPresenter _documentDetailsPresenter;
         private DocumentListPresenter _documentListPresenter;
-        private DocumentListPresenter _effectListPresenter;
-        private DocumentListPresenter _instrumentListPresenter;
+        private EffectListPresenter _effectListPresenter;
+        private InstrumentListPresenter _instrumentListPresenter;
         private DocumentPropertiesPresenter _documentPropertiesPresenter;
         private DocumentTreePresenter _documentTreePresenter;
         private MenuPresenter _menuPresenter;
@@ -67,8 +67,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositoryWrapper.DocumentRepository);
             _documentTreePresenter = new DocumentTreePresenter(_repositoryWrapper.DocumentRepository);
-            _effectListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
-            _instrumentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
+            _effectListPresenter = new EffectListPresenter(_repositoryWrapper.DocumentRepository);
+            _instrumentListPresenter = new InstrumentListPresenter(_repositoryWrapper);
             _menuPresenter = new MenuPresenter();
             _notFoundPresenter = new NotFoundPresenter();
             _patchDetailsPresenter = CreatePatchDetailsPresenter();
@@ -267,11 +267,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             documentPropertiesViewModel.Visible = false;
             _viewModel.DocumentProperties = documentPropertiesViewModel;
 
-            DocumentListViewModel instrumentsViewModel = (DocumentListViewModel)_instrumentListPresenter.ShowInstruments(documentID);
+            InstrumentListViewModel instrumentsViewModel = (InstrumentListViewModel)_instrumentListPresenter.Show(documentID);
             instrumentsViewModel.Visible = false;
             _viewModel.Instruments = instrumentsViewModel;
             
-            DocumentListViewModel effectsViewModel = _effectListPresenter.ShowEfects(documentID);
+            EffectListViewModel effectsViewModel = _effectListPresenter.Show(documentID);
             effectsViewModel.Visible = false;
             _viewModel.Effects = effectsViewModel;
 
@@ -313,23 +313,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             TemporarilyAssertViewModelField();
 
-            object viewModel2 = _instrumentListPresenter.ShowInstruments(viewModel.DocumentID);
+            object viewModel2 = _instrumentListPresenter.Show(viewModel.DocumentID);
+            DispatchViewModel(viewModel2);
 
-            var notFoundViewModel = viewModel2 as NotFoundViewModel;
-            if (notFoundViewModel != null)
-            {
-                _viewModel.NotFound = notFoundViewModel;
-                return _viewModel;
-            }
-
-            var listViewModel = viewModel2 as DocumentListViewModel;
-            if (listViewModel != null)
-            {
-                _viewModel.Instruments = listViewModel;
-                return _viewModel;
-            }
-
-            throw new UnexpectedViewModelTypeException(viewModel2);
+            return _viewModel;
         }
 
         public MainViewModel InstrumentListClose(MainViewModel viewModel)
@@ -338,8 +325,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             TemporarilyAssertViewModelField();
 
-            DocumentListViewModel viewModel2 = _instrumentListPresenter.Close();
-            _viewModel.Instruments = viewModel2;
+            object viewModel2 = _instrumentListPresenter.Close();
+            DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel InstrumentListCreate(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            TemporarilyAssertViewModelField();
+
+            object viewModel2 = _instrumentListPresenter.Create(_viewModel.DocumentID);
+            DispatchViewModel(viewModel2);
+
+            RefreshDocumentTree();
 
             return _viewModel;
         }
@@ -572,7 +572,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                  { typeof(PatchDetailsViewModel), TryDispatchPatchDetailsViewModel },
                  { typeof(NotFoundViewModel), DispatchNotFoundViewModel },
                  { typeof(DocumentDeletedViewModel), DispatchDocumentDeletedViewModel },
-                 { typeof(DocumentDetailsViewModel), DispatchDocumentDetailsViewModel }
+                 { typeof(DocumentDetailsViewModel), DispatchDocumentDetailsViewModel },
+                 { typeof(InstrumentListViewModel), DispatchInstrumentListViewModel }
             };
 
             return dictionary;
@@ -595,6 +596,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             dispatchDelegate(viewModel2);
+        }
+
+        private void DispatchInstrumentListViewModel(object viewModel2)
+        {
+            _viewModel.Instruments = (InstrumentListViewModel)viewModel2;
         }
 
         private void DispatchDocumentDetailsViewModel(object viewModel2)

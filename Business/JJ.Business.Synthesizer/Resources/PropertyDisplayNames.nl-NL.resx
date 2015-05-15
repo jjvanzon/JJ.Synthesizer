@@ -264,4 +264,7 @@
   <data name="IsActive" xml:space="preserve">
     <value>Actief</value>
   </data>
+  <data name="Instrument" xml:space="preserve">
+    <value>Instrument</value>
+  </data>
 </root>

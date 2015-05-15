@@ -171,6 +171,7 @@
     <Compile Include="Resources\MessageFormatter.cs" />
     <Compile Include="Calculation\Operators\InterpretedOperatorCalculator.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
+    <Compile Include="SideEffects\Instrument_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Structs\WavHeaderStruct.cs" />
     <Compile Include="Validation\DocumentDeleteValidator.cs" />

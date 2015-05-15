@@ -127,7 +127,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             var instrumentsTreeNode = new TreeNode(PropertyDisplayNames.Instruments);
             parentNode.Nodes.Add(instrumentsTreeNode);
 
-            foreach (DocumentTreeViewModel instrumentViewModel in parentViewModel.Instruments)
+            foreach (ChildDocumentTreeViewModel instrumentViewModel in parentViewModel.Instruments)
             {
                 var instrumentTreeNode = new TreeNode(instrumentViewModel.Name);
                 instrumentsTreeNode.Tag = instrumentViewModel.ID;
@@ -139,7 +139,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             var effectsTreeNode = new TreeNode(PropertyDisplayNames.Effects);
             parentNode.Nodes.Add(effectsTreeNode);
 
-            foreach (DocumentTreeViewModel effectViewModel in parentViewModel.Effects)
+            foreach (ChildDocumentTreeViewModel effectViewModel in parentViewModel.Effects)
             {
                 var effectTreeNode = new TreeNode(effectViewModel.Name);
                 effectTreeNode.Tag = effectViewModel.ID;
@@ -159,6 +159,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             var audioFileOutputsTreeNode = new TreeNode(PropertyDisplayNames.AudioFileOutputs);
             parentNode.Nodes.Add(audioFileOutputsTreeNode);
+        }
+
+        private void AddChildNodesRecursive(TreeNode parentNode, ChildDocumentTreeViewModel parentViewModel)
+        {
+            var samplesTreeNode = new TreeNode(PropertyDisplayNames.Samples);
+            parentNode.Nodes.Add(samplesTreeNode);
+
+            var curvesTreeNode = new TreeNode(PropertyDisplayNames.Curves);
+            parentNode.Nodes.Add(curvesTreeNode);
+
+            var patchesTreeNode = new TreeNode(PropertyDisplayNames.Patches);
+            parentNode.Nodes.Add(patchesTreeNode);
         }
 
         // Actions

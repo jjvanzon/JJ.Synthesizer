@@ -70,6 +70,7 @@
     <Compile Include="Configuration\FilePathsConfiguration.cs" />
     <Compile Include="Configuration\GeneralConfiguration.cs" />
     <Compile Include="Configuration\TestingConfiguration.cs" />
+    <Compile Include="EventArg\TemporaryIDEventArgs.cs" />
     <Compile Include="EventArg\DocumentIDEventArgs.cs" />
     <Compile Include="EventArg\IDEventArgs.cs" />
     <Compile Include="EventArg\PageEventArgs.cs" />
@@ -147,6 +148,24 @@
     <Compile Include="UserControls\AudioFileOutputDetailsUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputDetailsUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\TestListUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\TestListUserControl.Designer.cs">
+      <DependentUpon>TestListUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\EffectListUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\EffectListUserControl.Designer.cs">
+      <DependentUpon>EffectListUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\InstrumentListUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\InstrumentListUserControl.Designer.cs">
+      <DependentUpon>InstrumentListUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\DocumentPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -170,6 +189,9 @@
     </Compile>
     <Compile Include="UserControls\DocumentDetailsUserControl.Designer.cs">
       <DependentUpon>DocumentDetailsUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SpecializedDataGridView.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="UserControls\TitleBarUserControl.cs">
       <SubType>UserControl</SubType>
@@ -246,6 +268,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputDetailsUserControl.resx">
       <DependentUpon>AudioFileOutputDetailsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\TestListUserControl.resx">
+      <DependentUpon>TestListUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\EffectListUserControl.resx">
+      <DependentUpon>EffectListUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\InstrumentListUserControl.resx">
+      <DependentUpon>InstrumentListUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DocumentPropertiesUserControl.resx">
       <DependentUpon>DocumentPropertiesUserControl.cs</DependentUpon>

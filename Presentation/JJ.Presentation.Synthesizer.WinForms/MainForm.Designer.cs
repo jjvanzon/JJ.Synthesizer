@@ -18,8 +18,8 @@
             this.splitContainerTree = new System.Windows.Forms.SplitContainer();
             this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
             this.splitContainerProperties = new System.Windows.Forms.SplitContainer();
+            this.instrumentListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.InstrumentListUserControl();
             this.effectListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentListUserControl();
-            this.instrumentListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentListUserControl();
             this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
             this.documentListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentListUserControl();
             this.documentPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentPropertiesUserControl();
@@ -71,8 +71,8 @@
             // 
             // splitContainerProperties.Panel1
             // 
-            this.splitContainerProperties.Panel1.Controls.Add(this.effectListUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.instrumentListUserControl);
+            this.splitContainerProperties.Panel1.Controls.Add(this.effectListUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.documentDetailsUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.documentListUserControl);
             // 
@@ -82,6 +82,17 @@
             this.splitContainerProperties.Size = new System.Drawing.Size(848, 657);
             this.splitContainerProperties.SplitterDistance = 604;
             this.splitContainerProperties.TabIndex = 2;
+            // 
+            // instrumentListUserControl
+            // 
+            this.instrumentListUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.instrumentListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.instrumentListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.instrumentListUserControl.Location = new System.Drawing.Point(0, 0);
+            this.instrumentListUserControl.Name = "instrumentListUserControl";
+            this.instrumentListUserControl.Size = new System.Drawing.Size(604, 657);
+            this.instrumentListUserControl.TabIndex = 4;
+            this.instrumentListUserControl.Visible = false;
             // 
             // effectListUserControl
             // 
@@ -93,17 +104,6 @@
             this.effectListUserControl.Size = new System.Drawing.Size(604, 657);
             this.effectListUserControl.TabIndex = 3;
             this.effectListUserControl.Visible = false;
-            // 
-            // instrumentListUserControl
-            // 
-            this.instrumentListUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.instrumentListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.instrumentListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.instrumentListUserControl.Location = new System.Drawing.Point(0, 0);
-            this.instrumentListUserControl.Name = "instrumentListUserControl";
-            this.instrumentListUserControl.Size = new System.Drawing.Size(604, 657);
-            this.instrumentListUserControl.TabIndex = 2;
-            this.instrumentListUserControl.Visible = false;
             // 
             // documentDetailsUserControl
             // 
@@ -184,7 +184,7 @@
         private UserControls.DocumentDetailsUserControl documentDetailsUserControl;
         private UserControls.DocumentPropertiesUserControl documentPropertiesUserControl;
         private UserControls.DocumentListUserControl effectListUserControl;
-        private UserControls.DocumentListUserControl instrumentListUserControl;
+        private UserControls.InstrumentListUserControl instrumentListUserControl;
 
     }
 }

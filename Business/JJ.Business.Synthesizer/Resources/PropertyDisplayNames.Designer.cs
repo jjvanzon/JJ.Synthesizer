@@ -214,6 +214,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Instrument.
+        /// </summary>
+        public static string Instrument {
+            get {
+                return ResourceManager.GetString("Instrument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Instruments.
         /// </summary>
         public static string Instruments {

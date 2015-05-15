@@ -1,6 +1,7 @@
 ﻿using JJ.Business.CanonicalModel;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,9 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
-    internal static class ToIDNameExtensions
+    internal static class ToIDAndNameExtensions
     {
-        public static IDAndName ToIDName(this AudioFileFormat entity)
+        public static IDAndName ToIDAndName(this AudioFileFormat entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -22,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDName(this SampleDataType entity)
+        public static IDAndName ToIDAndName(this SampleDataType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -33,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDName(this SpeakerSetup entity)
+        public static IDAndName ToIDAndName(this SpeakerSetup entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -44,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDName(this Curve entity)
+        public static IDAndName ToIDAndName(this Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -55,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDName(this Document entity)
+        public static IDAndName ToIDAndName(this Document entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -66,7 +67,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDName(this Outlet entity)
+        public static IDNameAndTemporaryID ToIDNameAndTemporaryID(this Document entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return new IDNameAndTemporaryID
+            {
+                ID = entity.ID,
+                Name = entity.Name,
+                TemporaryID = Guid.NewGuid()
+            };
+        }
+
+        public static IDAndName ToIDAndName(this Outlet entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -77,7 +90,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDName(this NodeType entity)
+        public static IDAndName ToIDAndName(this NodeType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -88,7 +101,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDName(this InterpolationType entity)
+        public static IDAndName ToIDAndName(this InterpolationType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 

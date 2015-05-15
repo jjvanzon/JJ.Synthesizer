@@ -37,8 +37,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Curves = CreateEmptyCurveListViewModel(),
                 Patches = CreateEmptyPatchListViewModel(),
                 Samples = CreateEmptySampleListViewModel(),
-                Instruments = CreateEmptyDocumentListViewModel(),
-                Effects = CreateEmptyDocumentListViewModel(),
+                Instruments = CreateEmptyInstrumentListViewModel(),
+                Effects = CreateEmptyEffectListViewModel(),
                 TemporaryAudioFileOutputDetails = CreateEmptyAudioFileOutputDetailsViewModel(),
                 TemporaryPatchDetails = CreateEmptyPatchDetailsViewModel()
             };
@@ -94,6 +94,26 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static InstrumentListViewModel CreateEmptyInstrumentListViewModel()
+        {
+            var viewModel = new InstrumentListViewModel
+            {
+                List = new List<IDNameAndTemporaryID>()
+            };
+
+            return viewModel;
+        }
+
+        public static EffectListViewModel CreateEmptyEffectListViewModel()
+        {
+            var viewModel = new EffectListViewModel
+            {
+                List = new List<IDAndName>()
+            };
+
+            return viewModel;
+        }
+
         public static DocumentPropertiesViewModel CreateEmptyDocumentPropertiesViewModel()
         {
             var viewModel = new DocumentPropertiesViewModel
@@ -111,8 +131,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 AudioFileOutputsNode = new DummyViewModel(),
                 CurvesNode = new DummyViewModel(),
-                Effects = new List<DocumentTreeViewModel>(),
-                Instruments = new List<DocumentTreeViewModel>(),
+                Effects = new List<ChildDocumentTreeViewModel>(),
+                Instruments = new List<ChildDocumentTreeViewModel>(),
                 PatchesNode = new DummyViewModel(),
                 ReferencedDocuments = new ReferencedDocumentsNodeViewModel
                 {
