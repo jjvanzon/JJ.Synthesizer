@@ -64,6 +64,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = document.ID,
                 Name = document.Name,
+                TemporaryID = Guid.NewGuid(),
                 CurvesNode = new DummyViewModel(),
                 SamplesNode = new DummyViewModel(),
                 PatchesNode = new DummyViewModel(),

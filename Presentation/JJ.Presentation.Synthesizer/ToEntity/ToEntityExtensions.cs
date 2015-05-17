@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using JJ.Presentation.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.CanonicalModel;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
@@ -168,6 +170,44 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             document.Name = idAndName.Name;
 
             return document;
+        }
+
+        public static Document ToEntity(this InstrumentListViewModel viewModel, RepositoryWrapper repositoryWrapper)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+
+            Document destDocument = repositoryWrapper.DocumentRepository.Get(viewModel.ParentDocumentID);
+
+            // TODO: Use the DocumentManager to do the CRUD operations?
+
+            foreach (IDNameAndTemporaryID sourceListItemViewModel in viewModel.List)
+            {
+                Document destInstrument = repositoryWrapper.DocumentRepository.TryGet(sourceListItemViewModel.ID);
+                if (destInstrument == null)
+                {
+                    destInstrument = repositoryWrapper.DocumentRepository.Create();
+                    destInstrument.LinkInstrumentToDocument(destDocument);
+                }
+
+                destInstrument.Name = sourceListItemViewModel.Name;
+            }
+
+            var entityIDs = new HashSet<int>(destDocument.Instruments.Where(x => x.ID != 0).Select(x => x.ID));
+            var viewModelIDs = new HashSet<int>(viewModel.List.Where(x => x.ID != 0).Select(x => x.ID));
+
+            IList<int> idsToDelete = entityIDs.Except(viewModelIDs).ToArray();
+
+            foreach (int idToDelete in idsToDelete)
+            {
+                Document instrumentToDelete = repositoryWrapper.DocumentRepository.Get(idToDelete);
+                instrumentToDelete.DeleteRelatedEntities(repositoryWrapper);
+                instrumentToDelete.UnlinkRelatedEntities();
+
+                repositoryWrapper.DocumentRepository.Delete(instrumentToDelete);
+            }
+
+            return destDocument;
         }
     }
 }

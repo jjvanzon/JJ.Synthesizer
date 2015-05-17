@@ -60,6 +60,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // 
             this.titleBarUserControl.AddButtonVisible = false;
             this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
+            this.titleBarUserControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.titleBarUserControl.CloseButtonVisible = true;
             this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
@@ -78,18 +79,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.treeView.Name = "treeView";
             this.treeView.Size = new System.Drawing.Size(269, 468);
             this.treeView.TabIndex = 4;
+            this.treeView.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterCollapse);
+            this.treeView.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterExpand);
             // 
             // contextMenuStripDocument
             // 
             this.contextMenuStripDocument.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.propertiesToolStripMenuItemDocumentProperties});
             this.contextMenuStripDocument.Name = "contextMenuStripDocument";
-            this.contextMenuStripDocument.Size = new System.Drawing.Size(153, 48);
+            this.contextMenuStripDocument.Size = new System.Drawing.Size(128, 26);
             // 
             // propertiesToolStripMenuItemDocumentProperties
             // 
             this.propertiesToolStripMenuItemDocumentProperties.Name = "propertiesToolStripMenuItemDocumentProperties";
-            this.propertiesToolStripMenuItemDocumentProperties.Size = new System.Drawing.Size(152, 22);
+            this.propertiesToolStripMenuItemDocumentProperties.Size = new System.Drawing.Size(127, 22);
             this.propertiesToolStripMenuItemDocumentProperties.Text = "Properties";
             this.propertiesToolStripMenuItemDocumentProperties.Click += new System.EventHandler(this.propertiesToolStripMenuItem_Click);
             // 

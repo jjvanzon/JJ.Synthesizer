@@ -30,6 +30,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         public event EventHandler CloseRequested;
         public event EventHandler<IDEventArgs> DocumentPropertiesRequested;
+        public event EventHandler<TemporaryIDEventArgs> ExpandNodeRequested;
+        public event EventHandler<TemporaryIDEventArgs> CollapseNodeRequested;
 
         /// <summary> virtually not nullable </summary>
         private DocumentTreeViewModel _viewModel;
@@ -61,8 +63,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             propertiesToolStripMenuItemDocumentProperties.Text = "&" + CommonTitles.Properties;
         }
 
+        private bool applyViewModelIsBusy = false;
+
         private void ApplyViewModel()
         {
+            applyViewModelIsBusy = true;
+
             // TODO: I will probably run into the problem that
             // I cannot recreated the tree view every time,
             // but need to update it, because otherwise
@@ -80,7 +86,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            TreeNode documentTreeNode = CreateDocumentTreeNode();
+            var documentTreeNode = new TreeNode(_viewModel.Name);
+            documentTreeNode.Tag = _viewModel.ID;
+            documentTreeNode.ContextMenuStrip = contextMenuStripDocument;
             treeView.Nodes.Add(documentTreeNode);
 
             AddChildNodesRecursive(documentTreeNode, _viewModel);
@@ -107,19 +115,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     effectTreeNode.Tag = effectViewModel.ID;
                     referencedDocumentTreeNode.Nodes.Add(effectTreeNode);
                 }
+
+                referencedDocumentTreeNode.Expand();
             }
 
-            documentTreeNode.ExpandAll();
+            referencedDocumentsTreeNode.Expand();
+
+            documentTreeNode.Expand();
 
             treeView.ResumeLayout();
-        }
 
-        private TreeNode CreateDocumentTreeNode()
-        {
-            var treeNode = new TreeNode(_viewModel.Name);
-            treeNode.Tag = _viewModel.ID;
-            treeNode.ContextMenuStrip = contextMenuStripDocument;
-            return treeNode;
+            applyViewModelIsBusy = false;
         }
 
         private void AddChildNodesRecursive(TreeNode parentNode, DocumentTreeViewModel parentViewModel)
@@ -130,11 +136,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             foreach (ChildDocumentTreeViewModel instrumentViewModel in parentViewModel.Instruments)
             {
                 var instrumentTreeNode = new TreeNode(instrumentViewModel.Name);
-                instrumentsTreeNode.Tag = instrumentViewModel.ID;
+                instrumentTreeNode.Tag = instrumentViewModel.TemporaryID;
                 instrumentsTreeNode.Nodes.Add(instrumentTreeNode);
 
-                AddChildNodesRecursive(instrumentTreeNode, instrumentViewModel);
+                AddChildDocumentChildNodesRecursive(instrumentTreeNode, instrumentViewModel);
+
+                if (instrumentViewModel.IsExpanded)
+                {
+                    instrumentTreeNode.Expand();
+                }
+                else
+                {
+                    instrumentTreeNode.Collapse();
+                }
             }
+
+            instrumentsTreeNode.Expand();
 
             var effectsTreeNode = new TreeNode(PropertyDisplayNames.Effects);
             parentNode.Nodes.Add(effectsTreeNode);
@@ -142,11 +159,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             foreach (ChildDocumentTreeViewModel effectViewModel in parentViewModel.Effects)
             {
                 var effectTreeNode = new TreeNode(effectViewModel.Name);
-                effectTreeNode.Tag = effectViewModel.ID;
+                effectTreeNode.Tag = effectViewModel.TemporaryID;
                 effectsTreeNode.Nodes.Add(effectTreeNode);
 
-                AddChildNodesRecursive(effectTreeNode, effectViewModel);
+                AddChildDocumentChildNodesRecursive(effectTreeNode, effectViewModel);
+
+                if (effectViewModel.IsExpanded)
+                {
+                    effectTreeNode.Expand();
+                }
+                else
+                {
+                    effectTreeNode.Collapse();
+                }
             }
+
+            effectsTreeNode.Expand();
 
             var samplesTreeNode = new TreeNode(PropertyDisplayNames.Samples);
             parentNode.Nodes.Add(samplesTreeNode);
@@ -161,7 +189,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             parentNode.Nodes.Add(audioFileOutputsTreeNode);
         }
 
-        private void AddChildNodesRecursive(TreeNode parentNode, ChildDocumentTreeViewModel parentViewModel)
+        private void AddChildDocumentChildNodesRecursive(TreeNode parentNode, ChildDocumentTreeViewModel parentViewModel)
         {
             var samplesTreeNode = new TreeNode(PropertyDisplayNames.Samples);
             parentNode.Nodes.Add(samplesTreeNode);
@@ -201,6 +229,42 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void propertiesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ShowDocumentProperties();
+        }
+
+        private void treeView_AfterExpand(object sender, TreeViewEventArgs e)
+        {
+            if (applyViewModelIsBusy)
+            {
+                return;
+            }
+
+            Guid temporaryID;
+            bool isChildDocumentNode = Guid.TryParse(Convert.ToString(e.Node.Tag), out temporaryID);
+            if (isChildDocumentNode)
+            {
+                if (ExpandNodeRequested != null)
+                {
+                    ExpandNodeRequested(this, new TemporaryIDEventArgs(temporaryID));
+                }
+            }
+        }
+
+        private void treeView_AfterCollapse(object sender, TreeViewEventArgs e)
+        {
+            if (applyViewModelIsBusy)
+            {
+                return;
+            }
+
+            Guid temporaryID;
+            bool isChildDocumentNode = Guid.TryParse(Convert.ToString(e.Node.Tag), out temporaryID);
+            if (isChildDocumentNode)
+            {
+                if (CollapseNodeRequested != null)
+                {
+                    CollapseNodeRequested(this, new TemporaryIDEventArgs(temporaryID));
+                }
+            }
         }
     }
 }

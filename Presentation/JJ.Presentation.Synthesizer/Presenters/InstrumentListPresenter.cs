@@ -5,7 +5,9 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +18,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     public class InstrumentListPresenter
     {
-        private IDocumentRepository _documentRepository;
+        private RepositoryWrapper _repositoryWrapper;
         private DocumentManager _documentManager;
         private InstrumentListViewModel _viewModel;
 
@@ -24,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
-            _documentRepository = repositoryWrapper.DocumentRepository;
+            _repositoryWrapper = repositoryWrapper;
             _documentManager = new DocumentManager(repositoryWrapper);
         }
 
@@ -38,19 +40,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (mustCreateViewModel)
             {
-                Document document = _documentRepository.TryGet(documentID);
+                Document document = _repositoryWrapper.DocumentRepository.TryGet(documentID);
 
                 if (document == null)
                 {
-                    var notFoundPresenter = new NotFoundPresenter();
-                    NotFoundViewModel notFoundViewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);
-                    return notFoundViewModel;
+                    return CreateDocumentNotFoundViewModel();
                 }
 
                 _viewModel = document.Instruments.ToInstrumentListViewModel();
                 _viewModel.ParentDocumentID = document.ID;
 
-                _documentRepository.Rollback();
+                _repositoryWrapper.Rollback();
             }
             else
             {
@@ -67,13 +67,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Document document = _documentRepository.TryGet(viewModel.ParentDocumentID);
+            Document document = _repositoryWrapper.DocumentRepository.TryGet(viewModel.ParentDocumentID);
 
             if (document == null)
             {
-                var notFoundPresenter = new NotFoundPresenter();
-                NotFoundViewModel notFoundViewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);
-                return notFoundViewModel;
+                return CreateDocumentNotFoundViewModel();
             }
 
             _viewModel = document.Instruments.ToInstrumentListViewModel();
@@ -87,22 +85,46 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return InstrumentListViewModel or NotFoundViewModel.
         /// </summary>
-        public object Create(int parentDocumentID)
+        public object Create(InstrumentListViewModel viewModel)
         {
-            Document document = _documentRepository.TryGet(parentDocumentID);
+            // ToEntity
+            Document document = viewModel.ToEntity(_repositoryWrapper);
 
-            if (document == null)
-            {
-                var notFoundPresenter = new NotFoundPresenter();
-                NotFoundViewModel notFoundViewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);
-                return notFoundViewModel;
-            }
-
+            // Business
             Document instrument = _documentManager.CreateInstrument(document);
 
+            // ToViewModel
             _viewModel = document.Instruments.ToInstrumentListViewModel();
 
+            // Non-Persisted Properties
             _viewModel.ParentDocumentID = document.ID;
+
+            return _viewModel;
+        }
+
+        public object Delete(InstrumentListViewModel viewModel, Guid temporaryID)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            // 'Business'
+            IDNameAndTemporaryID listItemViewModel = viewModel.List.Where(x => x.TemporaryID == temporaryID).SingleOrDefault();
+            if (listItemViewModel == null)
+            {
+                throw new Exception(String.Format("viewModel.List item with TemporaryID '{0}' not found.", temporaryID));
+            }
+            viewModel.List.Remove(listItemViewModel);
+
+            // ToEntity
+            Document document = viewModel.ToEntity(_repositoryWrapper);
+
+            if (_viewModel == null)
+            {
+                // ToViewModel
+                _viewModel = document.Instruments.ToInstrumentListViewModel();
+
+                // Non-persisted properties
+                _viewModel.Visible = viewModel.Visible;
+            }
 
             return _viewModel;
         }
@@ -117,6 +139,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel.Visible = false;
 
             return _viewModel;
+        }
+
+        // Helpers
+
+        private object CreateDocumentNotFoundViewModel()
+        {
+            var notFoundPresenter = new NotFoundPresenter();
+            NotFoundViewModel viewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);
+            return viewModel;
         }
     }
 }

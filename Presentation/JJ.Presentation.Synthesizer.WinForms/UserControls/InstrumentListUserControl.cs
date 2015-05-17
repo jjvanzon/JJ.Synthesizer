@@ -37,8 +37,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             InitializeComponent();
             SetTitles();
-
-            dataGridView.AutoGenerateColumns = false;
         }
 
         [Browsable(false)]
@@ -63,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModel()
         {
-            dataGridView.DataSource = _viewModel.List;
+            specializedDataGridView.DataSource = _viewModel.List;
         }
 
         // Actions
@@ -125,9 +123,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private Guid? TryGetSelectedTemporaryID()
         {
-            if (dataGridView.CurrentRow != null)
+            if (specializedDataGridView.CurrentRow != null)
             {
-                DataGridViewCell cell = dataGridView.CurrentRow.Cells[TEMPORARY_ID_COLUMN_NAME];
+                DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[TEMPORARY_ID_COLUMN_NAME];
                 Guid temporaryID = Guid.Parse(Convert.ToString(cell.Value));
                 return temporaryID;
             }

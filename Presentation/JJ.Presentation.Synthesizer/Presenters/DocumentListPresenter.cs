@@ -94,6 +94,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return viewModel2;
         }
 
+        /// <summary>
+        /// Can return DocumentConfirmDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel.
+        /// </summary>
+        public object Delete(int id, RepositoryWrapper repositoryWrapper)
+        {
+            var presenter2 = new DocumentDeletePresenter(repositoryWrapper);
+            object viewModel2 = presenter2.Show(id);
+            return viewModel2;
+        }
+
         public DocumentListViewModel Close()
         {
             if (_viewModel == null)
@@ -104,16 +114,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel.Visible = false;
 
             return _viewModel;
-        }
-
-        /// <summary>
-        /// Can return DocumentConfirmDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel.
-        /// </summary>
-        public object Delete(int id, RepositoryWrapper repositoryWrapper)
-        {
-            var presenter2 = new DocumentDeletePresenter(repositoryWrapper);
-            object viewModel2 = presenter2.Show(id);
-            return viewModel2;
         }
     }
 }

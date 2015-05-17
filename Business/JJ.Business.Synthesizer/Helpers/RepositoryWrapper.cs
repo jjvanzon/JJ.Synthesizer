@@ -92,5 +92,10 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             DocumentRepository.Commit();
         }
+
+        public void Rollback()
+        {
+            DocumentRepository.Rollback();
+        }
     }
 }

@@ -99,6 +99,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
             documentTreeUserControl.DocumentPropertiesRequested += documentTreeUserControl_DocumentPropertiesRequested;
+            documentTreeUserControl.ExpandNodeRequested += documentTreeUserControl_ExpandNodeRequested;
+            documentTreeUserControl.CollapseNodeRequested += documentTreeUserControl_CollapseNodeRequested;
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
             instrumentListUserControl.CloseRequested += instrumentListUserControl_CloseRequested;
@@ -288,6 +290,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void DocumentTreeExpandNode(Guid temporaryID)
+        {
+            _viewModel = _presenter.DocumentTreeExpandNode(_viewModel, temporaryID);
+            // I can get away not applying view model, because the TreeView control already expanded the node.
+            // We just need to remember it in the view model. That's why we have to call the presenter.
+            ApplyViewModel();
+        }
+
+        private void DocumentTreeCollapseNode(Guid temporaryID)
+        {
+            _viewModel = _presenter.DocumentTreeCollapseNode(_viewModel, temporaryID);
+            // I can get away not applying view model, because the TreeView control already expanded the node.
+            // We just need to remember it in the view model. That's why we have to call the presenter.
+            ApplyViewModel();
+        }
+
         // Document Properties Actions
 
         private void DocumentPropertiesShow(int id)
@@ -330,7 +348,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void InstrumentListDelete(Guid temporaryID)
         {
-            throw new NotImplementedException();
+            _viewModel = _presenter.InstrumentListDelete(_viewModel, temporaryID);
+            ApplyViewModel();
         }
 
         // Other Actions
@@ -523,6 +542,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void documentTreeUserControl_DocumentPropertiesRequested(object sender, IDEventArgs e)
         {
             DocumentPropertiesShow(e.ID);
+        }
+
+        private void documentTreeUserControl_ExpandNodeRequested(object sender, TemporaryIDEventArgs e)
+        {
+            DocumentTreeExpandNode(e.TemporaryID);
+        }
+
+        private void documentTreeUserControl_CollapseNodeRequested(object sender, TemporaryIDEventArgs e)
+        {
+            DocumentTreeCollapseNode(e.TemporaryID);
         }
 
         // Document Properties Events

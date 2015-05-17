@@ -20,6 +20,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             base.BorderStyle = BorderStyle.None;
             base.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             base.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+
+            base.Margin = new Padding(0);
+        }
+
+        public new object DataSource
+        {
+            get { return base.DataSource; }
+            set
+            {
+                // DataGridView screws up if you do not first assign null
+                // (possibly only when the data source is the same object, but with the data in it changed).
+                base.DataSource = null;
+                base.DataSource = value;
+            }
         }
     }
 }

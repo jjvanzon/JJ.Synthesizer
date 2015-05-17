@@ -307,6 +307,42 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
+        public MainViewModel DocumentTreeExpandNode(MainViewModel viewModel, Guid temporaryID)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            TemporarilyAssertViewModelField();
+
+            object viewModel2 = _documentTreePresenter.ExpandNode(viewModel.DocumentTree, temporaryID);
+
+            DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel DocumentTreeCollapseNode(MainViewModel viewModel, Guid temporaryID)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            TemporarilyAssertViewModelField();
+
+            object viewModel2 = _documentTreePresenter.CollapseNode(viewModel.DocumentTree, temporaryID);
+
+            DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel DocumentTreeClose(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            TemporarilyAssertViewModelField();
+
+            object viewModel2 = _documentTreePresenter.Close();
+
+            DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
         public MainViewModel InstrumentListShow(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -319,6 +355,36 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
+        public MainViewModel InstrumentListCreate(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            TemporarilyAssertViewModelField();
+
+            object viewModel2 = _instrumentListPresenter.Create(_viewModel.Instruments);
+            DispatchViewModel(viewModel2);
+
+            RefreshDocumentTree();
+
+            _repositoryWrapper.Rollback();
+
+            return _viewModel;
+        }
+
+        public MainViewModel InstrumentListDelete(MainViewModel viewModel, Guid temporaryID)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            TemporarilyAssertViewModelField();
+
+            object viewModel2 = _instrumentListPresenter.Delete(_viewModel.Instruments, temporaryID);
+            DispatchViewModel(viewModel2);
+
+            RefreshDocumentTree();
+
+            _repositoryWrapper.Rollback();
+
+            return _viewModel;
+        }
+
         public MainViewModel InstrumentListClose(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -326,31 +392,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemporarilyAssertViewModelField();
 
             object viewModel2 = _instrumentListPresenter.Close();
-            DispatchViewModel(viewModel2);
-
-            return _viewModel;
-        }
-
-        public MainViewModel InstrumentListCreate(MainViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            TemporarilyAssertViewModelField();
-
-            object viewModel2 = _instrumentListPresenter.Create(_viewModel.DocumentID);
-            DispatchViewModel(viewModel2);
-
-            RefreshDocumentTree();
-
-            return _viewModel;
-        }
-
-        public MainViewModel DocumentTreeClose(MainViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            TemporarilyAssertViewModelField();
-
-            object viewModel2 = _documentTreePresenter.Close();
-
             DispatchViewModel(viewModel2);
 
             return _viewModel;
@@ -601,11 +642,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DispatchInstrumentListViewModel(object viewModel2)
         {
             _viewModel.Instruments = (InstrumentListViewModel)viewModel2;
+
+            if (_viewModel.Instruments.Visible)
+            {
+                HideAllListAndDetailViewModels();
+                _viewModel.Instruments.Visible = true;
+            }
         }
 
         private void DispatchDocumentDetailsViewModel(object viewModel2)
         {
             _viewModel.DocumentDetails = (DocumentDetailsViewModel)viewModel2;
+
+            if (_viewModel.DocumentDetails.Visible)
+            {
+                HideAllListAndDetailViewModels();
+                _viewModel.DocumentDetails.Visible = true;
+            }
         }
         
         private void TryDispatchMenuViewModel(object viewModel2)
@@ -616,6 +669,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void TryDispatchDocumentListViewModel(object viewModel2)
         {
             _viewModel.DocumentList = (DocumentListViewModel)viewModel2;
+
+            if (_viewModel.DocumentList.Visible)
+            {
+                HideAllListAndDetailViewModels();
+                _viewModel.DocumentList.Visible = true;
+            }
         }
 
         private void TryDispatchDocumentCannotDeleteViewModel(object viewModel2)
@@ -666,6 +725,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void TryDispatchPatchDetailsViewModel(object viewModel2)
         {
             _viewModel.TemporaryPatchDetails = (PatchDetailsViewModel)viewModel2;
+        }
+
+        private void HideAllListAndDetailViewModels()
+        {
+            _viewModel.Instruments.Visible = false;
+            //_viewModel.Samples.Visible = false;
+            //_viewModel.Effects.Visible = false;
+            //_viewModel.Curves.Visible = false;
+            //_viewModel.Patches.Visible = false;
+            //_viewModel.AudioFileOutputs.Visible = false;
+            _viewModel.DocumentList.Visible = false;
+            _viewModel.DocumentDetails.Visible = false;
         }
 
         private void DispatchDocumentDeletedViewModel(object viewModel2)
