@@ -16,8 +16,8 @@
         private void InitializeComponent()
         {
             this.splitContainerTree = new System.Windows.Forms.SplitContainer();
-            this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
             this.splitContainerProperties = new System.Windows.Forms.SplitContainer();
+            this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
             this.instrumentListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.InstrumentListUserControl();
             this.effectListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentListUserControl();
             this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
@@ -52,17 +52,6 @@
             this.splitContainerTree.SplitterDistance = 242;
             this.splitContainerTree.TabIndex = 5;
             // 
-            // documentTreeUserControl
-            // 
-            this.documentTreeUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.documentTreeUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.documentTreeUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.documentTreeUserControl.Location = new System.Drawing.Point(0, 0);
-            this.documentTreeUserControl.Name = "documentTreeUserControl";
-            this.documentTreeUserControl.Size = new System.Drawing.Size(242, 657);
-            this.documentTreeUserControl.TabIndex = 0;
-            this.documentTreeUserControl.Visible = false;
-            // 
             // splitContainerProperties
             // 
             this.splitContainerProperties.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -82,6 +71,18 @@
             this.splitContainerProperties.Size = new System.Drawing.Size(848, 657);
             this.splitContainerProperties.SplitterDistance = 604;
             this.splitContainerProperties.TabIndex = 2;
+            // 
+            // documentTreeUserControl
+            // 
+            this.documentTreeUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.documentTreeUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.documentTreeUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.documentTreeUserControl.Location = new System.Drawing.Point(0, 0);
+            this.documentTreeUserControl.Name = "documentTreeUserControl";
+            this.documentTreeUserControl.Size = new System.Drawing.Size(242, 657);
+            this.documentTreeUserControl.TabIndex = 0;
+            this.documentTreeUserControl.Visible = false;
+            this.documentTreeUserControl.ShowInstrumentsRequested += new System.EventHandler(this.documentTreeUserControl_ShowInstrumentsRequested);
             // 
             // instrumentListUserControl
             // 

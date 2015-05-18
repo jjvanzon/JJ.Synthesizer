@@ -80,7 +80,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             menuUserControl.ShowDocumentListRequested += menuUserControl_ShowDocumentListRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
-            menuUserControl.ShowInstrumentsRequested += menuUserControl_ShowInstrumentsRequested;
             menuUserControl.ShowAudioFileOutputListRequested += menuUserControl_ShowAudioFileOutputListRequested;
             menuUserControl.CurveListRequested += menuUserControl_CurveListRequested;
             menuUserControl.PatchListRequested += menuUserControl_PatchListRequested;
@@ -449,11 +448,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentTreeShow();
         }
 
-        private void menuUserControl_ShowInstrumentsRequested(object sender, EventArgs e)
-        {
-            InstrumentListShow();
-        }
-
         private void menuUserControl_ShowAudioFileOutputListRequested(object sender, EventArgs e)
         {
             AudioFileOutputListShow(1);
@@ -552,6 +546,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void documentTreeUserControl_CollapseNodeRequested(object sender, TemporaryIDEventArgs e)
         {
             DocumentTreeCollapseNode(e.TemporaryID);
+        }
+
+        private void documentTreeUserControl_ShowInstrumentsRequested(object sender, EventArgs e)
+        {
+            InstrumentListShow();
         }
 
         // Document Properties Events
@@ -672,7 +671,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void ApplyViewModel()
         {
-            Text = _viewModel.Title + _titleBarExtraText;
+            Text = _viewModel.WindowTitle + _titleBarExtraText;
 
             menuUserControl.Show(_viewModel.Menu);
 

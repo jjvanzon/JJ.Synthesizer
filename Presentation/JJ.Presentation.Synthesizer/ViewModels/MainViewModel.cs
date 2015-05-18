@@ -20,12 +20,13 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         // The Open Document
 
         public int DocumentID { get; set; }
-        public string Title { get; set; }
+        public string WindowTitle { get; set; }
         public DocumentTreeViewModel DocumentTree { get; set; }
         public DocumentPropertiesViewModel DocumentProperties { get; set; }
         public InstrumentListViewModel Instruments { get; set; }
-        public SampleListViewModel Samples { get; set; }
+
         public EffectListViewModel Effects { get; set; }
+        public SampleListViewModel Samples { get; set; }
         public CurveListViewModel Curves { get; set; }
         public PatchListViewModel Patches { get; set; }
         public AudioFileOutputListViewModel AudioFileOutputs { get; set; }

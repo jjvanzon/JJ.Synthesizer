@@ -32,9 +32,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<IDEventArgs> DocumentPropertiesRequested;
         public event EventHandler<TemporaryIDEventArgs> ExpandNodeRequested;
         public event EventHandler<TemporaryIDEventArgs> CollapseNodeRequested;
+        public event EventHandler ShowInstrumentsRequested;
 
         /// <summary> virtually not nullable </summary>
         private DocumentTreeViewModel _viewModel;
+
+        private TreeNode _instrumentsTreeNode;
 
         public DocumentTreeUserControl()
         {
@@ -130,14 +133,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void AddChildNodesRecursive(TreeNode parentNode, DocumentTreeViewModel parentViewModel)
         {
-            var instrumentsTreeNode = new TreeNode(PropertyDisplayNames.Instruments);
-            parentNode.Nodes.Add(instrumentsTreeNode);
+            _instrumentsTreeNode = new TreeNode(PropertyDisplayNames.Instruments);
+            parentNode.Nodes.Add(_instrumentsTreeNode);
 
             foreach (ChildDocumentTreeViewModel instrumentViewModel in parentViewModel.Instruments)
             {
                 var instrumentTreeNode = new TreeNode(instrumentViewModel.Name);
                 instrumentTreeNode.Tag = instrumentViewModel.TemporaryID;
-                instrumentsTreeNode.Nodes.Add(instrumentTreeNode);
+                _instrumentsTreeNode.Nodes.Add(instrumentTreeNode);
 
                 AddChildDocumentChildNodesRecursive(instrumentTreeNode, instrumentViewModel);
 
@@ -151,7 +154,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 }
             }
 
-            instrumentsTreeNode.Expand();
+            _instrumentsTreeNode.Expand();
 
             var effectsTreeNode = new TreeNode(PropertyDisplayNames.Effects);
             parentNode.Nodes.Add(effectsTreeNode);
@@ -263,6 +266,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 if (CollapseNodeRequested != null)
                 {
                     CollapseNodeRequested(this, new TemporaryIDEventArgs(temporaryID));
+                }
+            }
+        }
+
+        private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node == _instrumentsTreeNode)
+            {
+                if (ShowInstrumentsRequested != null)
+                {
+                    ShowInstrumentsRequested(this, EventArgs.Empty);
                 }
             }
         }

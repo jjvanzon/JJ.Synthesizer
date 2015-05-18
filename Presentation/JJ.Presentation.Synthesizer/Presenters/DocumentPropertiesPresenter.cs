@@ -71,15 +71,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 _viewModel.Messages = validator.ValidationMessages.ToCanonical();
 
-                _documentRepository.Rollback();
-
                 return _viewModel;
             }
             else
             {
-                // For now close is save. In the future a giant view model will retain state, until the user says 'save'.
-                _documentRepository.Commit();
-
                 if (_viewModel == null)
                 {
                     _viewModel = ViewModelHelper.CreateEmptyDocumentPropertiesViewModel();
@@ -107,15 +102,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 _viewModel.Messages = validator.ValidationMessages.ToCanonical();
 
-                _documentRepository.Rollback();
-
                 return _viewModel;
             }
             else
             {
-                // For now loose focus is save. In the future a giant view model will retain state, until the user says 'save'.
-                _documentRepository.Commit();
-
                 if (_viewModel == null)
                 {
                     _viewModel = document.ToPropertiesViewModel();

@@ -98,8 +98,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         /// <summary>
         /// Includes its inlets and outlets.
+        /// But does not include the inverse properties OutletViewModel.Operator and InletViewModel.Operator.
+        /// These view models are one of the few with inverse properties.
         /// </summary>
-        public static OperatorViewModel ToViewModelWithRelatedEntities(this Operator op)
+        private static OperatorViewModel ToViewModelWithRelatedEntities(this Operator op)
         {
             // Do not reuse this in ToViewModelRecursive, because there you have to do a dictionary.Add there right in the middle of things.
             OperatorViewModel viewModel = op.ToViewModel();
@@ -108,6 +110,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.Outlets = op.Outlets.Select(x => x.ToViewModel()).ToArray();
 
             return viewModel;
+        }
+
+        /// <summary>
+        /// Includes its inlets and outlets.
+        /// Also includes the inverse property OutletViewModel.Operator.
+        /// That view model is one the few with an inverse property.
+        /// </summary>
+        public static OperatorViewModel ToViewModelWithRelatedEntitiesAndInverseProperties(this Operator op)
+        {
+            OperatorViewModel operatorViewModel = op.ToViewModel();
+
+            operatorViewModel.Inlets = op.Inlets.Select(x => x.ToViewModel()).ToArray();
+
+            operatorViewModel.Outlets = new List<OutletViewModel>();
+            foreach (Outlet outlet in op.Outlets)
+            {
+                OutletViewModel outletViewModel = outlet.ToViewModel();
+                operatorViewModel.Outlets.Add(outletViewModel);
+                outletViewModel.Operator = operatorViewModel; // This is the inverse property in the view model!
+            }
+
+            return operatorViewModel;
         }
 
         private static InletViewModel ToViewModelRecursive(this Inlet inlet, IDictionary<Operator, OperatorViewModel> dictionary)

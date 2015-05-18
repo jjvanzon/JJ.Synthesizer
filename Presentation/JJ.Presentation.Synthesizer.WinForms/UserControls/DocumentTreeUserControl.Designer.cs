@@ -81,6 +81,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.treeView.TabIndex = 4;
             this.treeView.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterCollapse);
             this.treeView.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterExpand);
+            this.treeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseDoubleClick);
             // 
             // contextMenuStripDocument
             // 

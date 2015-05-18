@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DocumentListViewModel documentListViewModel = _documentListPresenter.Show();
             DispatchViewModel(documentListViewModel);
 
-            _viewModel.Title = Titles.ApplicationName;
+            _viewModel.WindowTitle = Titles.ApplicationName;
 
             return _viewModel;
         }
@@ -261,7 +261,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel.DocumentID = documentID;
 
             Document document = _repositoryWrapper.DocumentRepository.Get(documentID);
-            _viewModel.Title = String.Format("{0} - {1}", document.Name, Titles.ApplicationName);
+            _viewModel.WindowTitle = String.Format("{0} - {1}", document.Name, Titles.ApplicationName);
 
             DocumentPropertiesViewModel documentPropertiesViewModel = (DocumentPropertiesViewModel)_documentPropertiesPresenter.Show(documentID);
             documentPropertiesViewModel.Visible = false;
@@ -425,6 +425,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 RefreshDocumentTree();
             }
 
+            //_repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -441,6 +443,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             
             RefreshDocumentList();
             RefreshDocumentTree();
+
+            //_repositoryWrapper.Rollback();
 
             return _viewModel;
         }

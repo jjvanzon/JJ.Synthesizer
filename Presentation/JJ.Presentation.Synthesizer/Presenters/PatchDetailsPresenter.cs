@@ -191,7 +191,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntities();
+                OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties();
                 // TODO: Should these coordinates should be set in business logic? And randomized the same way as in other parts of the code?
                 operatorViewModel.CenterX = 100;
                 operatorViewModel.CenterY = 100;

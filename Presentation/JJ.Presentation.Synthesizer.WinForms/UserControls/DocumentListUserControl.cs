@@ -59,8 +59,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             titleBarUserControl.Text = PropertyDisplayNames.Documents;
-            IDColumn.HeaderText = CommonTitles.ID;
-            NameColumn.HeaderText = CommonTitles.Name;
         }
 
         private void ApplyViewModel()

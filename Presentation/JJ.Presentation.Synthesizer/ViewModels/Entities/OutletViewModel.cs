@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
+    /// <summary>
+    /// NOTE: This is one of the few view models with an inverse property.
+    /// OutletViewModel.Operator <=> Operator.Outlets
+    /// </summary>
     public sealed class OutletViewModel
     {
         public int ID { get; set; }

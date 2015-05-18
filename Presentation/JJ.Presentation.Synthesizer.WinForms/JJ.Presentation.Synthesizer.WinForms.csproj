@@ -148,12 +148,6 @@
     <Compile Include="UserControls\AudioFileOutputDetailsUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputDetailsUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\TestListUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\TestListUserControl.Designer.cs">
-      <DependentUpon>TestListUserControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\EffectListUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -268,9 +262,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputDetailsUserControl.resx">
       <DependentUpon>AudioFileOutputDetailsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\TestListUserControl.resx">
-      <DependentUpon>TestListUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\EffectListUserControl.resx">
       <DependentUpon>EffectListUserControl.cs</DependentUpon>
