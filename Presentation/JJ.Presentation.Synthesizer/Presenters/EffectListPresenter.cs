@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     public class EffectListPresenter
     {
         private IDocumentRepository _documentRepository;
-        private EffectListViewModel _viewModel;
+        private ChildDocumentListViewModel _viewModel;
 
         public EffectListPresenter(IDocumentRepository documentRepository)
         {
@@ -23,19 +23,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository;
         }
 
-        public EffectListViewModel Show(int documentID)
+        public ChildDocumentListViewModel Show(int documentID)
         {
             IList<Document> documents = _documentRepository.GetEffects(documentID);
 
-            _viewModel = documents.ToEffectListViewModel();
+            _viewModel = documents.ToChildDocumentListViewModel();
             _viewModel.ParentDocumentID = documentID;
+            _viewModel.Visible = true;
 
             _documentRepository.Rollback();
 
             return _viewModel;
         }
 
-        public EffectListViewModel Close()
+        public ChildDocumentListViewModel Close()
         {
             if (_viewModel == null)
             {

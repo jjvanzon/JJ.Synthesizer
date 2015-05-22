@@ -54,6 +54,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 else
                 {
                     _viewModel = document.ToDeleteViewModel();
+                    _viewModel.Visible = true;
                     return _viewModel;
                 }
             }

@@ -45,6 +45,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             else
             {
                 _viewModel = document.ToPropertiesViewModel();
+                _viewModel.Visible = true;
 
                 _documentRepository.Rollback();
 
@@ -61,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Document document = userInput.ToEntity(_documentRepository);
 
-            IValidator validator = new DocumentValidator(document);
+            IValidator validator = new DocumentValidator_Basic(document);
             if (!validator.IsValid)
             {
                 if (_viewModel == null)
@@ -92,7 +93,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Document document = userInput.ToEntity(_documentRepository);
 
-            IValidator validator = new DocumentValidator(document);
+            IValidator validator = new DocumentValidator_Basic(document);
             if (!validator.IsValid)
             {
                 if (_viewModel == null)

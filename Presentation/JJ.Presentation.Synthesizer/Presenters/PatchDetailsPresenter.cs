@@ -73,6 +73,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch patch = _patchRepository.Create();
 
             _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
+            _viewModel.Visible = true;
 
             return _viewModel;
         }
@@ -82,6 +83,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch patch = _patchRepository.Get(patchID);
 
             _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
+            _viewModel.Visible = true;
 
             return _viewModel;
         }
@@ -255,7 +257,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
             }
 
-            IValidator validator = new PatchValidator(patch, _curveRepository, _sampleRepository);
+            IValidator validator = new PatchValidator_Recursive(patch, _curveRepository, _sampleRepository, alreadyDone: new HashSet<object>());
             if (!validator.IsValid)
             {
                 _viewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();

@@ -39,6 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             _viewModel = patches.ToListViewModel();
             _viewModel.DocumentID = documentID;
+            _viewModel.Visible = true;
 
             return _viewModel;
         }

@@ -14,13 +14,14 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 
         public PatchViewModel Patch { get; set; }
 
-        public IList<OperatorTypeViewModel> OperatorTypeToolboxItems { get; set; }
+        public IList<OperatorTypeViewModel> OperatorToolboxItems { get; set; }
 
         public OperatorViewModel SelectedOperator { get; set; }
         public string SelectedValue { get; set; }
 
         public List<Message> ValidationMessages { get; set; }
 
+        [Obsolete]
         public bool SavedMessageVisible { get; set; }
     }
 }

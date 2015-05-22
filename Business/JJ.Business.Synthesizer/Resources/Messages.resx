@@ -135,6 +135,9 @@
     <value>Amplifier of '{0}' named '{1}' is 0.</value>
     <comment>{0} = Object type name. {1} = Object name.</comment>
   </data>
+  <data name="OperatorIsCircular" xml:space="preserve">
+    <value>Operator named '{0}' has a circular reference.</value>
+  </data>
   <data name="OperatorPatchIsNotTheExpectedPatch" xml:space="preserve">
     <value>The patch of operator '{0}' is filled in, but it is not the expected patch '{1}'.</value>
     <comment>{0} = operator name, {1} = patch name</comment>

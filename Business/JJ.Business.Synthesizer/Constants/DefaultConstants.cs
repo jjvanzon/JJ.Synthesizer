@@ -8,6 +8,6 @@ namespace JJ.Business.Synthesizer.Constants
 {
     internal class DefaultConstants
     {
-        public const int MAX_LENGTH_NAME = 255;
+        public const int NAME_MAX_LENGTH = 255;
     }
 }

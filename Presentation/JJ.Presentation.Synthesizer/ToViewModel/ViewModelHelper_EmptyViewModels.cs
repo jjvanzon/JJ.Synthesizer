@@ -17,31 +17,48 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static partial class ViewModelHelper
     {
-        // TODO: Low priority: consider if all the empty lists could be replaced by empty arrays in the CreateEmptyViewModel methods.
-
         public static MainViewModel CreateEmptyMainViewModel()
         {
             return new MainViewModel
             {
                 Menu = CreateEmptyMenuViewModel(),
-                Messages = new List<Message>(),
+                ValidationMessages = new List<Message>(),
+                WarningMessages = new List<Message>(),
                 NotFound = CreateEmptyNotFoundViewModel(),
+                Document = CreateEmptyDocumentViewModel(),
                 DocumentCannotDelete = CreateEmptyDocumentCannotDeleteViewModel(),
                 DocumentDelete = CreateEmptyDocumentDeleteViewModel(),
                 DocumentDeleted = CreateEmptyDocumentDeletedViewModel(),
                 DocumentDetails = CreateEmptyDocumentDetailsViewModel(),
                 DocumentList = CreateEmptyDocumentListViewModel(),
-                DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
-                DocumentTree = CreateEmptyDocumentTreeViewModel(),
-                AudioFileOutputs = CreateEmptyAudioFileOutputListViewModel(),
-                Curves = CreateEmptyCurveListViewModel(),
-                Patches = CreateEmptyPatchListViewModel(),
-                Samples = CreateEmptySampleListViewModel(),
-                Instruments = CreateEmptyInstrumentListViewModel(),
-                Effects = CreateEmptyEffectListViewModel(),
-                TemporaryAudioFileOutputDetails = CreateEmptyAudioFileOutputDetailsViewModel(),
+                TemporaryAudioFileOutputProperties = CreateEmptyAudioFileOutputPropertiesViewModel(),
                 TemporaryPatchDetails = CreateEmptyPatchDetailsViewModel()
             };
+        }
+
+        public static DocumentViewModel CreateEmptyDocumentViewModel()
+        {
+            var viewModel = new DocumentViewModel
+            {
+                DocumentTree = CreateEmptyDocumentTreeViewModel(),
+                DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
+                InstrumentList = CreateEmptyInstrumentListViewModel(),
+                InstrumentPropertiesList = new List<ChildDocumentPropertiesViewModel>(),
+                Instruments = new List<ChildDocumentViewModel>(),
+                EffectList = CreateEmptyEffectListViewModel(),
+                EffectPropertiesList = new List<ChildDocumentPropertiesViewModel>(),
+                Effects = new List<ChildDocumentViewModel>(),
+                SampleList = CreateEmptySampleListViewModel(),
+                SamplePropertiesList = new List<SamplePropertiesViewModel>(),
+                CurveList = CreateEmptyCurveListViewModel(),
+                CurveDetailsList = new List<CurveDetailsViewModel>(),
+                PatchList = CreateEmptyPatchListViewModel(),
+                PatchDetailsList = new List<PatchDetailsViewModel>(),
+                AudioFileOutputList = CreateEmptyAudioFileOutputListViewModel(),
+                AudioFileOutputPropertiesList = new List<AudioFileOutputPropertiesViewModel>()
+            };
+
+            return viewModel;
         }
 
         public static DocumentCannotDeleteViewModel CreateEmptyDocumentCannotDeleteViewModel()
@@ -94,9 +111,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static InstrumentListViewModel CreateEmptyInstrumentListViewModel()
+        public static ChildDocumentListViewModel CreateEmptyInstrumentListViewModel()
         {
-            var viewModel = new InstrumentListViewModel
+            var viewModel = new ChildDocumentListViewModel
             {
                 List = new List<IDNameAndTemporaryID>()
             };
@@ -104,11 +121,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static EffectListViewModel CreateEmptyEffectListViewModel()
+        public static ChildDocumentListViewModel CreateEmptyEffectListViewModel()
         {
-            var viewModel = new EffectListViewModel
+            var viewModel = new ChildDocumentListViewModel
             {
-                List = new List<IDAndName>()
+                List = new List<IDNameAndTemporaryID>()
             };
 
             return viewModel;
@@ -134,7 +151,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Effects = new List<ChildDocumentTreeViewModel>(),
                 Instruments = new List<ChildDocumentTreeViewModel>(),
                 PatchesNode = new DummyViewModel(),
-                ReferencedDocuments = new ReferencedDocumentsNodeViewModel
+                ReferencedDocuments = new ReferencedDocumentsTreeNodeViewModel
                 {
                     List = new List<ReferencedDocumentViewModel>()
                 },
@@ -157,7 +174,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     CurvesMenuItem = new MenuItemViewModel(),
                     PatchesMenuItem = new MenuItemViewModel(),
                     SamplesMenuItem = new MenuItemViewModel(),
-                    AudioFileOutputDetailsMenuItem = new MenuItemViewModel(),
+                    AudioFileOutputPropertiesMenuItem = new MenuItemViewModel(),
                     PatchDetailsMenuItem = new MenuItemViewModel()
                 }
             };
@@ -220,7 +237,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static AudioFileOutputDetailsViewModel CreateEmptyAudioFileOutputDetailsViewModelWithLookups(
+        public static AudioFileOutputPropertiesViewModel CreateEmptyAudioFileOutputPropertiesViewModelWithLookups(
             IAudioFileFormatRepository audioFileFormatRepository,
             ISampleDataTypeRepository sampleDataTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository)
@@ -229,7 +246,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
 
-            var viewModel = new AudioFileOutputDetailsViewModel
+            var viewModel = new AudioFileOutputPropertiesViewModel
             {
                 AudioFileFormats = ViewModelHelper.CreateAudioFileFormatLookupViewModel(audioFileFormatRepository),
                 SampleDataTypes = ViewModelHelper.CreateSampleDataTypeLookupViewModel(sampleDataTypeRepository),
@@ -240,9 +257,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static AudioFileOutputDetailsViewModel CreateEmptyAudioFileOutputDetailsViewModel()
+        public static AudioFileOutputPropertiesViewModel CreateEmptyAudioFileOutputPropertiesViewModel()
         {
-            var viewModel = new AudioFileOutputDetailsViewModel
+            var viewModel = new AudioFileOutputPropertiesViewModel
             {
                 AudioFileFormats = new List<IDAndName>(),
                 SampleDataTypes = new List<IDAndName>(),
@@ -257,7 +274,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchDetailsViewModel
             {
-                OperatorTypeToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel(),
+                OperatorToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel(),
                 Patch = CreateEmptyPatchViewModel(),
                 ValidationMessages = new List<Message>()
             };

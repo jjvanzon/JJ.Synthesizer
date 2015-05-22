@@ -247,7 +247,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelSavedMessage.Visible = _viewModel.SavedMessageVisible;
 
-            ApplyOperatorToolboxItemsViewModel(_viewModel.OperatorTypeToolboxItems);
+            ApplyOperatorToolboxItemsViewModel(_viewModel.OperatorToolboxItems);
 
             textBoxValue.Text = _viewModel.SelectedValue;
         }

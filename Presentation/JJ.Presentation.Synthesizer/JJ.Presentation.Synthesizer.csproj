@@ -38,7 +38,7 @@
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\RecursiveViewModelToEntityConverter.cs" />
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
-    <Compile Include="Presenters\AudioFileOutputDetailsPresenter.cs" />
+    <Compile Include="Presenters\AudioFileOutputPropertiesPresenter.cs" />
     <Compile Include="Presenters\AudioFileOutputListPresenter.cs" />
     <Compile Include="Presenters\DocumentCannotDeletePresenter.cs" />
     <Compile Include="Presenters\DocumentDeletePresenter.cs" />
@@ -48,18 +48,19 @@
     <Compile Include="Presenters\EffectListPresenter.cs" />
     <Compile Include="Presenters\InstrumentListPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
+    <Compile Include="ToViewModel\ToViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.cs" />
     <Compile Include="ToViewModel\ViewModelHelper_Lookups.cs" />
-    <Compile Include="ToViewModel\ToDocumentTreeViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListViewModelExtensions.cs" />
-    <Compile Include="ViewModels\EffectListViewModel.cs" />
-    <Compile Include="ViewModels\InstrumentListViewModel.cs" />
+    <Compile Include="ViewModels\Entities\ChildDocumentViewModel.cs" />
+    <Compile Include="ViewModels\ChildDocumentPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\ChildDocumentListViewModel.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentDeletedViewModel.cs" />
     <Compile Include="Presenters\DocumentDetailsPresenter.cs" />
     <Compile Include="Presenters\MenuPresenter.cs" />
     <Compile Include="Presenters\NotFoundPresenter.cs" />
-    <Compile Include="Presenters\SampleDetailsPresenter.cs" />
+    <Compile Include="Presenters\SamplePropertiesPresenter.cs" />
     <Compile Include="Presenters\CurveDetailsPresenter.cs" />
     <Compile Include="Presenters\SampleListPresenter.cs" />
     <Compile Include="Presenters\DocumentListPresenter.cs" />
@@ -73,8 +74,6 @@
       <DependentUpon>Titles.resx</DependentUpon>
     </Compile>
     <Compile Include="ToEntity\ToEntityExtensions.cs" />
-    <Compile Include="ToViewModel\ToDeleteViewModelExtensions.cs" />
-    <Compile Include="ToViewModel\ToDetailsOrPropertiesViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToIDAndNameExtensions.cs" />
     <Compile Include="ToViewModel\ToPatchDetailsViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToEntityViewModelExtensions.cs" />
@@ -92,6 +91,7 @@
     <Compile Include="ViewModels\Entities\AudioFileOutputListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\AudioFileOutputViewModel.cs" />
     <Compile Include="ViewModels\Entities\CurveViewModel.cs" />
+    <Compile Include="ViewModels\Entities\DocumentViewModel.cs" />
     <Compile Include="ViewModels\Entities\NodeViewModel.cs" />
     <Compile Include="ViewModels\Entities\PatchListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\SampleListItemViewModel.cs" />
@@ -109,11 +109,11 @@
     <Compile Include="ViewModels\Partials\IDNameAndTemporaryID.cs" />
     <Compile Include="ViewModels\Partials\MenuItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\ReferencedDocumentViewModel.cs" />
-    <Compile Include="ViewModels\Partials\ReferencedDocumentsNodeViewModel.cs" />
+    <Compile Include="ViewModels\Partials\ReferencedDocumentsTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\ViewMenuViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
     <Compile Include="ViewModels\PatchListViewModel.cs" />
-    <Compile Include="ViewModels\SampleDetailsViewModel.cs" />
+    <Compile Include="ViewModels\SamplePropertiesViewModel.cs" />
     <Compile Include="ViewModels\SampleListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>

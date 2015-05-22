@@ -9,6 +9,9 @@ using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
+    /// <summary>
+    /// Unlinks related entities that are not intrinsically part of the entity.
+    /// </summary>
     public static class UnlinkRelatedEntitiesExtensions
     {
         public static void UnlinkRelatedEntities(this Document document)

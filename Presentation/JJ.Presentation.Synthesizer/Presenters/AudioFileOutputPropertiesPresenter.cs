@@ -1,0 +1,64 @@
+﻿using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace JJ.Presentation.Synthesizer.Presenters
+{
+    public class AudioFileOutputPropertiesPresenter
+    {
+        private IAudioFileOutputRepository _audioFileOutputRepository;
+        private IAudioFileFormatRepository _audioFileFormatRepository;
+        private ISampleDataTypeRepository _sampleDataTypeRepository;
+        private ISpeakerSetupRepository _speakerSetupRepository;
+
+        private AudioFileOutputPropertiesViewModel _viewModel;
+
+        public AudioFileOutputPropertiesPresenter(
+            IAudioFileOutputRepository audioFileOutputRepository,
+            IAudioFileFormatRepository audioFileFormatRepository,
+            ISampleDataTypeRepository sampleDataTypeRepository,
+            ISpeakerSetupRepository speakerSetupRepository)
+        {
+            if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
+            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
+            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
+            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
+
+            _audioFileOutputRepository = audioFileOutputRepository;
+            _audioFileFormatRepository = audioFileFormatRepository;
+            _sampleDataTypeRepository = sampleDataTypeRepository;
+            _speakerSetupRepository = speakerSetupRepository;
+        }
+
+        public AudioFileOutputPropertiesViewModel Edit(int id)
+        {
+            // Temporarily (2015-05-12) replaced by empty view model,
+            // until this view is used in the right place in the application navigation.
+            //AudioFileOutput entity = _audioFileOutputRepository.Get(id);
+            //AudioFileOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository);
+            //return viewModel;
+
+            _viewModel = ViewModelHelper.CreateEmptyAudioFileOutputPropertiesViewModel();
+            _viewModel.Visible = true;
+            return _viewModel;
+        }
+
+        public AudioFileOutputPropertiesViewModel Close()
+        {
+            if (_viewModel == null)
+            {
+                _viewModel = ViewModelHelper.CreateEmptyAudioFileOutputPropertiesViewModel();
+            }
+
+            _viewModel.Visible = false;
+            return _viewModel;
+        }
+    }
+}

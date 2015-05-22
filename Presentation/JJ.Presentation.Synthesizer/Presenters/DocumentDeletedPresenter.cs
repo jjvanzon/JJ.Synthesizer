@@ -15,6 +15,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public DocumentDeletedViewModel Show()
         {
             _viewModel = ViewModelHelper.CreateDocumentDeletedViewModel();
+            _viewModel.Visible = true;
 
             return _viewModel;
         }

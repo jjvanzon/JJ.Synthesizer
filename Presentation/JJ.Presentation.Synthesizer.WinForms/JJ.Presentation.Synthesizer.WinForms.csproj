@@ -81,11 +81,11 @@
     <Compile Include="Forms\AudioFileOutputListForm.Designer.cs">
       <DependentUpon>AudioFileOutputListForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AudioFileOutputDetailsForm.cs">
+    <Compile Include="Forms\AudioFileOutputPropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\AudioFileOutputDetailsForm.Designer.cs">
-      <DependentUpon>AudioFileOutputDetailsForm.cs</DependentUpon>
+    <Compile Include="Forms\AudioFileOutputPropertiesForm.Designer.cs">
+      <DependentUpon>AudioFileOutputPropertiesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\DocumentCannotDeleteForm.cs">
       <SubType>Form</SubType>
@@ -142,11 +142,11 @@
     <Compile Include="UserControls\AudioFileOutputListUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputListUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\AudioFileOutputDetailsUserControl.cs">
+    <Compile Include="UserControls\AudioFileOutputPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\AudioFileOutputDetailsUserControl.Designer.cs">
-      <DependentUpon>AudioFileOutputDetailsUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\AudioFileOutputPropertiesUserControl.Designer.cs">
+      <DependentUpon>AudioFileOutputPropertiesUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\EffectListUserControl.cs">
       <SubType>UserControl</SubType>
@@ -232,8 +232,8 @@
     <EmbeddedResource Include="Forms\AudioFileOutputListForm.resx">
       <DependentUpon>AudioFileOutputListForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\AudioFileOutputDetailsForm.resx">
-      <DependentUpon>AudioFileOutputDetailsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\AudioFileOutputPropertiesForm.resx">
+      <DependentUpon>AudioFileOutputPropertiesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DocumentCannotDeleteForm.resx">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
@@ -260,8 +260,8 @@
     <EmbeddedResource Include="UserControls\AudioFileOutputListUserControl.resx">
       <DependentUpon>AudioFileOutputListUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\AudioFileOutputDetailsUserControl.resx">
-      <DependentUpon>AudioFileOutputDetailsUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\AudioFileOutputPropertiesUserControl.resx">
+      <DependentUpon>AudioFileOutputPropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\EffectListUserControl.resx">
       <DependentUpon>EffectListUserControl.cs</DependentUpon>

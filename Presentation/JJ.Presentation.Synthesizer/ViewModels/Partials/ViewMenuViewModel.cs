@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Partials
         public MenuItemViewModel CurvesMenuItem { get; set; }
         public MenuItemViewModel PatchesMenuItem { get; set; }
         public MenuItemViewModel SamplesMenuItem { get; set; }
-        public MenuItemViewModel AudioFileOutputDetailsMenuItem { get; set; }
+        public MenuItemViewModel AudioFileOutputPropertiesMenuItem { get; set; }
         public MenuItemViewModel PatchDetailsMenuItem { get; set; }
 
     }

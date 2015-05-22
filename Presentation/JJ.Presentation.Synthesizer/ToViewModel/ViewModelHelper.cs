@@ -18,7 +18,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new NotFoundViewModel
             {
-                Visible = true,
                 Message = CommonMessageFormatter.ObjectNotFound(entityTypeName)
             };
 
@@ -45,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurvesMenuItem = new MenuItemViewModel(),
                 PatchesMenuItem = new MenuItemViewModel(),
                 SamplesMenuItem = new MenuItemViewModel(),
-                AudioFileOutputDetailsMenuItem = new MenuItemViewModel(),
+                AudioFileOutputPropertiesMenuItem = new MenuItemViewModel(),
                 PatchDetailsMenuItem = new MenuItemViewModel()
             };
 
@@ -54,10 +53,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static DocumentDeletedViewModel CreateDocumentDeletedViewModel()
         {
-            var viewModel = new DocumentDeletedViewModel
-            {
-                Visible = true
-            };
+            var viewModel = new DocumentDeletedViewModel();
 
             return viewModel;
         }

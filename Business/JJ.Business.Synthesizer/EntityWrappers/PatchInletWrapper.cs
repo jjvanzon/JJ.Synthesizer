@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Constants;
-using JJ.Business.Synthesizer.Validation.Entities;
+using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.EntityWrappers

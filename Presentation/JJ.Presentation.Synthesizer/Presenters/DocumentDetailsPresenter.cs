@@ -38,6 +38,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel = document.ToDetailsViewModel();
             _viewModel.IDVisible = false;
             _viewModel.CanDelete = false;
+            _viewModel.Visible = true;
 
             _documentRepository.Rollback();
 
@@ -61,6 +62,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _viewModel = document.ToDetailsViewModel();
                 _viewModel.IDVisible = true;
                 _viewModel.CanDelete = true;
+                _viewModel.Visible = true;
 
                 _documentRepository.Rollback();
 
@@ -74,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Document document = userInput.ToEntity(_documentRepository);
 
-            IValidator validator = new DocumentValidator(document);
+            IValidator validator = new DocumentValidator_Basic(document);
             if (!validator.IsValid)
             {
                 if (_viewModel == null)

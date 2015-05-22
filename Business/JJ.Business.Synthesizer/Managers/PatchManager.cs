@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Managers
             if (op == null) throw new NullException(() => op);
             if (patch == null) throw new NullException(() => patch);
 
-            IValidator validator = new RecursiveOperatorIsOfSamePatchOrPatchIsNullValidator(op, patch);
+            IValidator validator = new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(op, patch);
             if (!validator.IsValid)
             {
                 return new VoidResult

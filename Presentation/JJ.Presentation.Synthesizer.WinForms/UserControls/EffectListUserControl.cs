@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
 
         /// <summary> virtually not nullable </summary>
-        private EffectListViewModel _viewModel;
+        private ChildDocumentListViewModel _viewModel;
 
         public EffectListUserControl()
         {
@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public EffectListViewModel ViewModel
+        public ChildDocumentListViewModel ViewModel
         {
             get { return _viewModel; }
             set

@@ -106,6 +106,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operator named &apos;{0}&apos; has a circular reference..
+        /// </summary>
+        internal static string OperatorIsCircular {
+            get {
+                return ResourceManager.GetString("OperatorIsCircular", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The patch of operator &apos;{0}&apos; is filled in, but it is not the expected patch &apos;{1}&apos;..
         /// </summary>
         internal static string OperatorPatchIsNotTheExpectedPatch {

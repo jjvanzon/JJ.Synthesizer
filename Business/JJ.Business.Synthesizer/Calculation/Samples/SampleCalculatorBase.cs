@@ -13,7 +13,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Constants;
 using JJ.Framework.Common;
 using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Validation.Entities;
+using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
             if (sample == null) throw new NullException(() => sample);
             if (sample.TimeMultiplier == 0) throw new Exception("sample.TimeMultiplier cannot be 0.");
 
-            IValidator validator = new SampleValidator(sample);
+            IValidator validator = new SampleValidator(sample, alreadyDone: new HashSet<object>());
             validator.Verify();
 
             _sample = sample;

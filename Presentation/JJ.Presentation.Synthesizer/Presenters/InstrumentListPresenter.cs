@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private RepositoryWrapper _repositoryWrapper;
         private DocumentManager _documentManager;
-        private InstrumentListViewModel _viewModel;
+        private ChildDocumentListViewModel _viewModel;
 
         public InstrumentListPresenter(RepositoryWrapper repositoryWrapper)
         {
@@ -47,15 +47,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     return CreateDocumentNotFoundViewModel();
                 }
 
-                _viewModel = document.Instruments.ToInstrumentListViewModel();
+                _viewModel = document.Instruments.ToChildDocumentListViewModel();
                 _viewModel.ParentDocumentID = document.ID;
 
                 _repositoryWrapper.Rollback();
             }
-            else
-            {
-                _viewModel.Visible = true;
-            }
+
+            _viewModel.Visible = true;
 
             return _viewModel;
         }
@@ -63,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return InstrumentListViewModel or NotFoundViewModel.
         /// </summary>
-        public object Refresh(InstrumentListViewModel viewModel)
+        public object Refresh(ChildDocumentListViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -74,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return CreateDocumentNotFoundViewModel();
             }
 
-            _viewModel = document.Instruments.ToInstrumentListViewModel();
+            _viewModel = document.Instruments.ToChildDocumentListViewModel();
 
             _viewModel.ParentDocumentID = document.ID;
             _viewModel.Visible = viewModel.Visible;
@@ -85,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return InstrumentListViewModel or NotFoundViewModel.
         /// </summary>
-        public object Create(InstrumentListViewModel viewModel)
+        public object Create(ChildDocumentListViewModel viewModel)
         {
             // ToEntity
             Document document = viewModel.ToEntity(_repositoryWrapper);
@@ -94,15 +92,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document instrument = _documentManager.CreateInstrument(document);
 
             // ToViewModel
-            _viewModel = document.Instruments.ToInstrumentListViewModel();
+            _viewModel = document.Instruments.ToChildDocumentListViewModel();
 
             // Non-Persisted Properties
-            _viewModel.ParentDocumentID = document.ID;
+            // TODO: This first property does not seem to be a non-persisted property.
+            _viewModel.ParentDocumentID = viewModel.ParentDocumentID;
+            _viewModel.Visible = viewModel.Visible;
 
             return _viewModel;
         }
 
-        public object Delete(InstrumentListViewModel viewModel, Guid temporaryID)
+        public object Delete(ChildDocumentListViewModel viewModel, Guid temporaryID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -120,7 +120,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (_viewModel == null)
             {
                 // ToViewModel
-                _viewModel = document.Instruments.ToInstrumentListViewModel();
+                _viewModel = document.Instruments.ToChildDocumentListViewModel();
 
                 // Non-persisted properties
                 _viewModel.Visible = viewModel.Visible;
@@ -129,7 +129,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public InstrumentListViewModel Close()
+        public ChildDocumentListViewModel Close()
         {
             if (_viewModel == null)
             {

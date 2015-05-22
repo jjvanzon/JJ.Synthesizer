@@ -25,7 +25,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new AudioFileOutputListViewModel
             {
-                Visible = true,
                 List = entities.Select(x => x.ToListItemViewModel()).ToList()
             };
 
@@ -36,7 +35,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new CurveListViewModel
             {
-                Visible = true,
                 List = entities.Select(x => x.ToIDAndName()).ToList()
             };
 
@@ -47,7 +45,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DocumentListViewModel
             {
-                Visible = true,
                 List = entities.Select(x => x.ToIDAndName()).ToList(),
                 Pager = ViewModelHelper.CreateEmptyPagerViewModel()
             };
@@ -55,23 +52,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static InstrumentListViewModel ToInstrumentListViewModel(this IList<Document> entities)
+        public static ChildDocumentListViewModel ToChildDocumentListViewModel(this IList<Document> entities)
         {
-            var viewModel = new InstrumentListViewModel
+            var viewModel = new ChildDocumentListViewModel
             {
-                Visible = true,
                 List = entities.Select(x => x.ToIDNameAndTemporaryID()).ToList()
-            };
-
-            return viewModel;
-        }
-
-        public static EffectListViewModel ToEffectListViewModel(this IList<Document> entities)
-        {
-            var viewModel = new EffectListViewModel
-            {
-                Visible = true,
-                List = entities.Select(x => x.ToIDAndName()).ToList()
             };
 
             return viewModel;
@@ -81,7 +66,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DocumentListViewModel
             {
-                Visible = true,
                 List = pageOfEntities.Select(x => x.ToIDAndName()).ToList(),
                 Pager = PagerViewModelFactory.Create(pageIndex, pageSize, totalCount, _maxVisiblePageNumbers)
             };
@@ -93,7 +77,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchListViewModel
             {
-                Visible = true,
                 List = entities.Select(x => x.ToListItemViewModel()).ToList()
             };
 
@@ -104,7 +87,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new SampleListViewModel
             {
-                Visible = true,
                 List = entities.Select(x => x.ToListItemViewModel()).ToList(),
             };
 

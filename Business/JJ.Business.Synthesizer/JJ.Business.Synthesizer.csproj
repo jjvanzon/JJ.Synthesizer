@@ -129,8 +129,10 @@
     <Compile Include="Enums\AudioFileFormatEnum.cs" />
     <Compile Include="Enums\InterpolationTypeEnum.cs" />
     <Compile Include="Enums\SampleDataTypeEnum.cs" />
+    <Compile Include="Exceptions\AlreadyDoneIsNullException.cs" />
     <Compile Include="Extensions\AudioFileOutputExtensions.cs" />
     <Compile Include="Extensions\DeleteRelatedEntitiesExtensions.cs" />
+    <Compile Include="Extensions\RecursionExtensions.cs" />
     <Compile Include="Extensions\UnlinkRelatedEntitiesExtensions.cs" />
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Factories\CurveFactory.cs" />
@@ -147,7 +149,7 @@
     <Compile Include="EntityWrappers\PatchInletWrapper.cs" />
     <Compile Include="EntityWrappers\DivideWrapper.cs" />
     <Compile Include="Enums\NodeTypeEnum.cs" />
-    <Compile Include="Extensions\EntityEnumExtensions.cs" />
+    <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="EntityWrappers\MultiplyWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
     <Compile Include="EntityWrappers\SubstractWrapper.cs" />
@@ -174,41 +176,45 @@
     <Compile Include="SideEffects\Instrument_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Structs\WavHeaderStruct.cs" />
-    <Compile Include="Validation\DocumentDeleteValidator.cs" />
-    <Compile Include="Validation\DocumentValidator.cs" />
-    <Compile Include="Validation\Entities\AdderValidator.cs" />
-    <Compile Include="Validation\Entities\SampleOperatorValidator.cs" />
-    <Compile Include="Validation\Entities\CurveInValidator.cs" />
-    <Compile Include="Validation\Entities\SampleValidator.cs" />
-    <Compile Include="Validation\Entities\AudioFileOutputValidator.cs" />
-    <Compile Include="Validation\NonSpecializedOperatorValidatorBase.cs" />
-    <Compile Include="Validation\PatchValidator.cs" />
-    <Compile Include="Validation\RecursiveOperatorIsOfSamePatchOrPatchIsNullValidator.cs" />
+    <Compile Include="Validation\DocumentValidator_Delete.cs" />
+    <Compile Include="Validation\DocumentValidator_Basic.cs" />
+    <Compile Include="Validation\OperatorValidator_IsCircular.cs" />
+    <Compile Include="Validation\PatchValidator_InDocument.cs" />
+    <Compile Include="Validation\DocumentValidator_Recursive.cs" />
+    <Compile Include="Validation\OperatorValidator_Adder.cs" />
+    <Compile Include="Validation\OperatorValidator_SampleOperator.cs" />
+    <Compile Include="Validation\OperatorValidator_CurveIn.cs" />
+    <Compile Include="Validation\SampleValidator.cs" />
+    <Compile Include="Validation\AudioFileOutputValidator.cs" />
+    <Compile Include="Validation\OperatorValidator_Base_NonSpecialized.cs" />
+    <Compile Include="Validation\PatchValidator_Recursive.cs" />
+    <Compile Include="Validation\ValidationHelper.cs" />
+    <Compile Include="Validation\OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
     <Compile Include="Calculation\Operators\OptimizedOperatorCalculatorVisitor.cs" />
     <Compile Include="Visitors\OperatorVisitorBase.cs" />
-    <Compile Include="Warnings\Entities\AudioFileOutputChannelWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\AudioFileOutputWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\SampleWarningValidator.cs" />
-    <Compile Include="Warnings\OperatorWarningValidatorBase.cs" />
-    <Compile Include="Warnings\Entities\SampleOperatorWarningValidator.cs" />
-    <Compile Include="Validation\Entities\CurveValidator.cs" />
-    <Compile Include="Validation\Entities\NodeValidator.cs" />
-    <Compile Include="Validation\Entities\TimeMultiplyValidator.cs" />
-    <Compile Include="Validation\Entities\TimeSubstractValidator.cs" />
-    <Compile Include="Validation\Entities\TimePowerValidator.cs" />
-    <Compile Include="Validation\Entities\TimeDivideValidator.cs" />
-    <Compile Include="Validation\Entities\TimeAddValidator.cs" />
-    <Compile Include="Validation\Entities\SineValidator.cs" />
-    <Compile Include="Validation\Entities\PowerValidator.cs" />
-    <Compile Include="Validation\Entities\PatchOutletValidator.cs" />
-    <Compile Include="Validation\Entities\PatchInletValidator.cs" />
-    <Compile Include="Validation\Entities\DivideValidator.cs" />
-    <Compile Include="Validation\Entities\ValueOperatorValidator.cs" />
-    <Compile Include="Validation\Entities\MultiplyValidator.cs" />
-    <Compile Include="Validation\RecursiveOperatorValidator.cs" />
-    <Compile Include="Validation\Entities\SubstractValidator.cs" />
-    <Compile Include="Validation\OperatorValidatorBase.cs" />
+    <Compile Include="Warnings\AudioFileOutputChannelWarningValidator.cs" />
+    <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
+    <Compile Include="Warnings\SampleWarningValidator.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Base.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_SampleOperator.cs" />
+    <Compile Include="Validation\CurveValidator.cs" />
+    <Compile Include="Validation\NodeValidator.cs" />
+    <Compile Include="Validation\OperatorValidator_TimeMultiply.cs" />
+    <Compile Include="Validation\OperatorValidator_TimeSubstract.cs" />
+    <Compile Include="Validation\OperatorValidator_TimePower.cs" />
+    <Compile Include="Validation\OperatorValidator_TimeDivide.cs" />
+    <Compile Include="Validation\OperatorValidator_TimeAdd.cs" />
+    <Compile Include="Validation\OperatorValidator_Sine.cs" />
+    <Compile Include="Validation\OperatorValidator_Power.cs" />
+    <Compile Include="Validation\OperatorValidator_PatchOutlet.cs" />
+    <Compile Include="Validation\OperatorValidator_PatchInlet.cs" />
+    <Compile Include="Validation\OperatorValidator_Divide.cs" />
+    <Compile Include="Validation\OperatorValidator_ValueOperator.cs" />
+    <Compile Include="Validation\OperatorValidator_Multiply.cs" />
+    <Compile Include="Validation\OperatorValidator_Recursive.cs" />
+    <Compile Include="Validation\OperatorValidator_Substract.cs" />
+    <Compile Include="Validation\OperatorValidator_Base.cs" />
     <Compile Include="EntityWrappers\AddWrapper.cs" />
     <Compile Include="EntityWrappers\ValueOperatorWrapper.cs" />
     <Compile Include="LinkTo\LinkToExtensions.cs" />
@@ -220,27 +226,28 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PropertyDisplayNames.resx</DependentUpon>
     </Compile>
-    <Compile Include="Validation\Entities\AddValidator.cs" />
-    <Compile Include="Validation\BasicOperatorValidator.cs" />
-    <Compile Include="Validation\VersatileOperatorValidator.cs" />
-    <Compile Include="Warnings\Entities\CurveInWarningValidator.cs" />
-    <Compile Include="Warnings\VersatileOperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\AdderWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\AddWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\TimeSubstractWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\TimePowerWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\TimeMultiplyWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\TimeDivideWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\TimeAddWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\SineWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\PowerWarningValidator.cs" />
-    <Compile Include="Warnings\FirstXInletsNotFilledInWarningValidatorBase.cs" />
-    <Compile Include="Warnings\Entities\PatchOutletWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\DivideWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\MultiplyWarningValidator.cs" />
-    <Compile Include="Warnings\RecursiveOperatorWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\SubstractWarningValidator.cs" />
-    <Compile Include="Warnings\Entities\ValueOperatorWarningValidator.cs" />
+    <Compile Include="Validation\OperatorValidator_Add.cs" />
+    <Compile Include="Validation\OperatorValidator_Basic.cs" />
+    <Compile Include="Validation\OperatorValidator_Versatile.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_CurveIn.cs" />
+    <Compile Include="Warnings\DocumentWarningValidator_Recursive.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Versatile.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Adder.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Add.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_TimeSubstract.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_TimePower.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_TimeMultiply.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_TimeDivide.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_TimeAdd.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Sine.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Power.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Base_FirstXInletsNotFilledIn.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_PatchOutlet.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Divide.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Multiply.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Recursive.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Substract.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_ValueOperator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Business\JJ.Framework.Business.csproj">
@@ -318,6 +325,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

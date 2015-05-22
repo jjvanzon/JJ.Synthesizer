@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             foreach (Outlet channelOutlet in channelOutlets)
             {
-                IValidator validator = new RecursiveOperatorValidator(channelOutlet.Operator, _curveRepository, _sampleRepository);
+                IValidator validator = new OperatorValidator_Recursive(channelOutlet.Operator, _curveRepository, _sampleRepository, alreadyDone: new HashSet<object>());
                 validator.Verify();
             }
 

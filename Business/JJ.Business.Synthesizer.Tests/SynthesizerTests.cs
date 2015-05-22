@@ -14,9 +14,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
-using JJ.Business.Synthesizer.Validation.Entities;
 using JJ.Business.Synthesizer.Warnings;
-using JJ.Business.Synthesizer.Warnings.Entities;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Calculation;
@@ -49,7 +47,7 @@ namespace JJ.Business.Synthesizer.Tests
                 AddWrapper add = x.Add(x.Value(2), x.Value(3));
                 SubstractWrapper substract = x.Substract(add, x.Value(1));
 
-                IValidator validator = new RecursiveOperatorValidator(substract.Operator, curveRepository, sampleRepository);
+                IValidator validator = new OperatorValidator_Recursive(substract.Operator, curveRepository, sampleRepository, alreadyDone: new HashSet<object>());
                 validator.Verify();
 
                 IOperatorCalculator calculator1 = new OptimizedOperatorCalculator(curveRepository, sampleRepository, add);
@@ -68,15 +66,15 @@ namespace JJ.Business.Synthesizer.Tests
                 valueOperatorWrapper.Value = 0;
                 substract.Operator.Inlets[0].Name = "134";
 
-                IValidator validator2 = new RecursiveOperatorValidator(substract.Operator, curveRepository, sampleRepository);
-                IValidator warningValidator = new RecursiveOperatorWarningValidator(substract.Operator, sampleRepository);
+                IValidator validator2 = new OperatorValidator_Recursive(substract.Operator, curveRepository, sampleRepository, alreadyDone: new HashSet<object>());
+                IValidator warningValidator = new OperatorWarningValidator_Recursive(substract.Operator, sampleRepository);
             }
         }
 
         [TestMethod]
         public void Test_Synthesizer_AddValidator()
         {
-            IValidator validator1 = new AddValidator(new Operator
+            IValidator validator1 = new OperatorValidator_Add(new Operator
             {
                 Inlets = new Inlet[]
                 { 
@@ -89,7 +87,7 @@ namespace JJ.Business.Synthesizer.Tests
                 }
             });
 
-            IValidator validator2 = new AddValidator(new Operator());
+            IValidator validator2 = new OperatorValidator_Add(new Operator());
 
             bool isValid = validator1.IsValid &&
                            validator2.IsValid;
@@ -102,8 +100,8 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
 
-                IValidator validator1 = new AddWarningValidator(factory.Add().Operator);
-                IValidator validator2 = new ValueOperatorWarningValidator(factory.Value().Operator);
+                IValidator validator1 = new OperatorWarningValidator_Add(factory.Add().Operator);
+                IValidator validator2 = new OperatorWarningValidator_ValueOperator(factory.Value().Operator);
 
                 bool isValid = validator1.IsValid &&
                                validator2.IsValid;
@@ -125,14 +123,14 @@ namespace JJ.Business.Synthesizer.Tests
                 ValueOperatorWrapper val3 = factory.Value(3);
                 AdderWrapper adder = factory.Adder(val1, val2, val3);
 
-                IValidator validator = new AdderValidator(adder.Operator);
+                IValidator validator = new OperatorValidator_Adder(adder.Operator);
                 validator.Verify();
 
                 var calculator = new InterpretedOperatorCalculator(curveRepository, sampleRepository, adder);
                 double value = calculator.Calculate(0, 0);
 
                 adder.Operator.Inlets[0].Name = "qwer";
-                IValidator validator2 = new AdderValidator(adder.Operator);
+                IValidator validator2 = new OperatorValidator_Adder(adder.Operator);
                 //validator2.Verify();
             }
         }
@@ -175,9 +173,9 @@ namespace JJ.Business.Synthesizer.Tests
                 CultureHelper.SetThreadCulture("nl-NL");
                 IValidator[] validators = 
                 {
-                    new CurveValidator(curve), 
-                    new VersatileOperatorValidator(sine.Operator),
-                    new VersatileOperatorWarningValidator(sine.Operator)
+                    new CurveValidator(curve, alreadyDone: new HashSet<object>()), 
+                    new OperatorValidator_Versatile(sine.Operator),
+                    new OperatorWarningValidator_Versatile(sine.Operator)
                 };
                 validators.ForEach(x => x.Verify());
 

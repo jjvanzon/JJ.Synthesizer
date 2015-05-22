@@ -25,11 +25,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new PatchDetailsViewModel
             {
                 Patch = patch.ToViewModelRecursive(),
-                ValidationMessages = new List<Message>(),
-                Visible = true
+                ValidationMessages = new List<Message>()
             };
 
-            viewModel.OperatorTypeToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel();
+            viewModel.OperatorToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel();
 
             foreach (OperatorViewModel operatorViewModel in viewModel.Patch.Operators)
             {

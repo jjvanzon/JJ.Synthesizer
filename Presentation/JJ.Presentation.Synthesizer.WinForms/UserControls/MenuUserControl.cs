@@ -122,12 +122,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             toolStripMenuItem.Click += samplesToolStripMenuItem_Click;
             viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
 
-            // AudioFileOutputDetails
+            // AudioFileOutputProperties
             toolStripMenuItem = CreateAudioFileOutputEditToolStripMenuItem();
             toolStripMenuItem.Click += audioFileOutputEditToolStripMenuItem_Click;
             viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
 
-            // AudioFileOutputDetails
+            // PatchDetails
             toolStripMenuItem = CreatePatchDetailsToolStripMenuItem();
             toolStripMenuItem.Click += patchDetailsToolStripMenuItem_Click;
             viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
@@ -225,8 +225,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         {
             var toolStripMenuItem = new ToolStripMenuItem
             {
-                Name = "audioFileOutputDetailsToolStripMenuItem",
-                Text = "&" + CommonTitleFormatter.EditObject(PropertyDisplayNames.AudioFileOutput)
+                Name = "audioFileOutputPropertiesToolStripMenuItem",
+                Text = "&" + CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.AudioFileOutput)
             };
 
             return toolStripMenuItem;

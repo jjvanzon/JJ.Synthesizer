@@ -33,6 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Curve entity = _curveRepository.Get(id);
             _viewModel = entity.ToDetailsViewModel(_nodeTypeRepository);
+            _viewModel.Visible = true;
             return _viewModel;
         }
     }

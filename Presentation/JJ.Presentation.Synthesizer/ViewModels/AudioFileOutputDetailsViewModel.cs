@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class AudioFileOutputDetailsViewModel
+    public sealed class AudioFileOutputPropertiesViewModel
     {
         public bool Visible { get; set; }
 

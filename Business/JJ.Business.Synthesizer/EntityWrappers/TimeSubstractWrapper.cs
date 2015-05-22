@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Constants;
 using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Validation.Entities;
+using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {

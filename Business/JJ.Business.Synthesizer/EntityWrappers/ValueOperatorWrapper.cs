@@ -1,5 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Constants;
-using JJ.Business.Synthesizer.Validation.Entities;
+using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;

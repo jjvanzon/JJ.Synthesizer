@@ -51,10 +51,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 _documentRepository.Rollback();
             }
-            else
-            {
-                _viewModel.Visible = true;
-            }
+
+            _viewModel.Visible = true;
 
             return _viewModel;
         }

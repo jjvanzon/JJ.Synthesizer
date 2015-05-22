@@ -40,6 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             else
             {
                 _viewModel = document.ToCannotDeleteViewModel(messages);
+                _viewModel.Visible = true;
                 return _viewModel;
             }
         }

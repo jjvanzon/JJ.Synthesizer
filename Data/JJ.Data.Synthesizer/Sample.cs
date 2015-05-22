@@ -39,7 +39,7 @@ namespace JJ.Data.Synthesizer
 
         public virtual byte[] Bytes { get; set; }
 
-        /// <summary> nullable </summary>
+        /// <summary> parent, nullable </summary>
         public virtual Document Document { get; set; }
     }
 }

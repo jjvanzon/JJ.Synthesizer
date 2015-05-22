@@ -1,6 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Validation.Entities;
+using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation
             if (curve == null) throw new NullException(() => curve);
             _curve = curve;
 
-            IValidator validator = new CurveValidator(_curve);
+            IValidator validator = new CurveValidator(_curve, alreadyDone: new HashSet<object>());
             validator.Verify();
         }
 

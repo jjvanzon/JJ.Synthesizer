@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.Managers
         {
             if (document == null) throw new NullException(() => document);
 
-            IValidator validator = new DocumentDeleteValidator(document);
+            IValidator validator = new DocumentValidator_Delete(document);
 
             if (!validator.IsValid)
             {
@@ -53,6 +53,12 @@ namespace JJ.Business.Synthesizer.Managers
                 };
                 return result;
             }
+        }
+
+        public void DeleteWithRelatedEntities(int documentID)
+        {
+            Document document = _repositoryWrapper.DocumentRepository.Get(documentID);
+            DeleteWithRelatedEntities(document);
         }
 
         public void DeleteWithRelatedEntities(Document document)

@@ -16,6 +16,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public NotFoundViewModel Show(string entityTypeDisplayName)
         {
             _viewModel = ViewModelHelper.CreateNotFoundViewModel(entityTypeDisplayName);
+            _viewModel.Visible = true;
 
             return _viewModel;
         }
