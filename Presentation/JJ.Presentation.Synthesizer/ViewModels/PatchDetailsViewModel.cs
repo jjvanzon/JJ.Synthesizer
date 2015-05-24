@@ -21,7 +21,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 
         public List<Message> ValidationMessages { get; set; }
 
-        [Obsolete]
         public bool SavedMessageVisible { get; set; }
     }
 }

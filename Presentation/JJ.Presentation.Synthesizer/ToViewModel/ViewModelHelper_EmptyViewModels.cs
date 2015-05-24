@@ -4,6 +4,7 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Presentation;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.Enums;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
@@ -44,10 +45,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
                 InstrumentList = CreateEmptyInstrumentListViewModel(),
                 InstrumentPropertiesList = new List<ChildDocumentPropertiesViewModel>(),
-                Instruments = new List<ChildDocumentViewModel>(),
+                InstrumentDocumentList = new List<ChildDocumentViewModel>(),
                 EffectList = CreateEmptyEffectListViewModel(),
                 EffectPropertiesList = new List<ChildDocumentPropertiesViewModel>(),
-                Effects = new List<ChildDocumentViewModel>(),
+                EffectDocumentList = new List<ChildDocumentViewModel>(),
                 SampleList = CreateEmptySampleListViewModel(),
                 SamplePropertiesList = new List<SamplePropertiesViewModel>(),
                 CurveList = CreateEmptyCurveListViewModel(),
@@ -115,7 +116,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new ChildDocumentListViewModel
             {
-                List = new List<IDNameAndTemporaryID>()
+                List = new List<IDNameAndTemporaryID>(),
+                ChildDocumentType = ChildDocumentTypeEnum.Instrument
             };
 
             return viewModel;
@@ -125,7 +127,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new ChildDocumentListViewModel
             {
-                List = new List<IDNameAndTemporaryID>()
+                List = new List<IDNameAndTemporaryID>(),
+                ChildDocumentType = ChildDocumentTypeEnum.Effect
             };
 
             return viewModel;

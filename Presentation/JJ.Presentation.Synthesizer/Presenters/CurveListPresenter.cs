@@ -12,33 +12,61 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Framework.Presentation;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     public class CurveListPresenter
     {
-        private ICurveRepository _curveRepository;
-
-        private static int _pageSize;
-
+        private IDocumentRepository _documentRepository;
         private CurveListViewModel _viewModel;
 
-        public CurveListPresenter(ICurveRepository curveRepository)
+        public CurveListPresenter(IDocumentRepository documentRepository)
         {
-            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
 
-            _curveRepository = curveRepository;
-
-            ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
-            _pageSize = config.PageSize;
+            _documentRepository = documentRepository;
         }
 
-        public CurveListViewModel Show(int documentID)
+        /// <summary>
+        /// Can return CurveListViewModel or NotFoundViewModel.
+        /// </summary>
+        public object Show(int documentID)
         {
-            IList<Curve> curves = _curveRepository.GetManyByDocumentID(documentID);
+            bool mustCreateViewModel = _viewModel == null ||
+                                       _viewModel.DocumentID != documentID;
 
-            _viewModel = curves.ToListViewModel();
-            _viewModel.DocumentID = documentID;
+            if (mustCreateViewModel)
+            {
+                Document document = _documentRepository.TryGet(documentID);
+                if (document == null)
+                {
+                    return CreateDocumentNotFoundViewModel();
+                }
+
+                _viewModel = document.Curves.ToListViewModel();
+                _viewModel.DocumentID = documentID;
+            }
+
+            _viewModel.Visible = true;
+
+            return _viewModel;
+        }
+
+        /// <summary>
+        /// Can return CurveListViewModel or NotFoundViewModel.
+        /// </summary>
+        public object Refresh(int documentID)
+        {
+            Document document = _documentRepository.TryGet(documentID);
+            if (document == null)
+            {
+                return CreateDocumentNotFoundViewModel();
+            }
+
+            _viewModel = document.Curves.ToListViewModel();
+            _viewModel.DocumentID = document.ID;
+
             _viewModel.Visible = true;
 
             return _viewModel;
@@ -54,6 +82,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel.Visible = false;
 
             return _viewModel;
+        }
+
+        // Helpers
+
+        private NotFoundViewModel CreateDocumentNotFoundViewModel()
+        {
+            NotFoundViewModel viewModel = new NotFoundPresenter().Show(PropertyDisplayNames.Document);
+            return viewModel;
         }
     }
 }

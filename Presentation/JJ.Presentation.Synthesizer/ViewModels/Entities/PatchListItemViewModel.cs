@@ -10,8 +10,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     {
         public int ID { get; set; }
         public string Name { get; set; }
-
-        [Obsolete]
         public string DocumentName { get; set; }
     }
 }

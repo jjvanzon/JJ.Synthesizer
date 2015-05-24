@@ -13,12 +13,5 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
         public AudioFileOutputRepository(IContext context)
             : base(context)
         { }
-
-        public virtual IList<AudioFileOutput> GetManyByDocumentID(int documentID)
-        {
-            return _context.Query<AudioFileOutput>()
-                           .Where(x => x.Document.ID == documentID)
-                           .ToArray();
-        }
     }
 }

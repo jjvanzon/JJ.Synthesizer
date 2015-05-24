@@ -13,12 +13,5 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
         public CurveRepository(IContext context)
             : base(context)
         { }
-
-        public virtual IList<Curve> GetManyByDocumentID(int documentID)
-        {
-            return _context.Query<Curve>()
-                           .Where(x => x.Document.ID == documentID)
-                           .ToArray();
-        }
     }
 }

@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Presentation.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -31,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary>
-        /// Can return InstrumentListViewModel or NotFoundViewModel.
+        /// Can return ChildDocumentListViewModel or NotFoundViewModel.
         /// </summary>
         public object Show(int documentID)
         {
@@ -48,9 +49,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 _viewModel = document.Instruments.ToChildDocumentListViewModel();
-                _viewModel.ParentDocumentID = document.ID;
 
-                _repositoryWrapper.Rollback();
+                _viewModel.ParentDocumentID = document.ID;
+                _viewModel.Visible = true;
+                _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Instrument;
             }
 
             _viewModel.Visible = true;
@@ -59,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary>
-        /// Can return InstrumentListViewModel or NotFoundViewModel.
+        /// Can return ChildDocumentListViewModel or NotFoundViewModel.
         /// </summary>
         public object Refresh(ChildDocumentListViewModel viewModel)
         {
@@ -73,31 +75,38 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             _viewModel = document.Instruments.ToChildDocumentListViewModel();
-
             _viewModel.ParentDocumentID = document.ID;
+
             _viewModel.Visible = viewModel.Visible;
+            _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Instrument;
 
             return _viewModel;
         }
 
         /// <summary>
-        /// Can return InstrumentListViewModel or NotFoundViewModel.
+        /// Can return ChildDocumentListViewModel or NotFoundViewModel.
         /// </summary>
         public object Create(ChildDocumentListViewModel viewModel)
         {
             // ToEntity
-            Document document = viewModel.ToEntity(_repositoryWrapper);
+            Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.ParentDocumentID);
+            if (parentDocument == null)
+            {
+                NotFoundViewModel notFoundViewModel = CreateDocumentNotFoundViewModel();
+                return notFoundViewModel;
+            }
+            parentDocument = viewModel.InstrumentListViewModelToParentDocument(_repositoryWrapper);
 
             // Business
-            Document instrument = _documentManager.CreateInstrument(document);
+            Document instrument = _documentManager.CreateInstrument(parentDocument);
 
             // ToViewModel
-            _viewModel = document.Instruments.ToChildDocumentListViewModel();
+            _viewModel = parentDocument.Instruments.ToChildDocumentListViewModel();
+            _viewModel.ParentDocumentID = parentDocument.ID;
 
             // Non-Persisted Properties
-            // TODO: This first property does not seem to be a non-persisted property.
-            _viewModel.ParentDocumentID = viewModel.ParentDocumentID;
             _viewModel.Visible = viewModel.Visible;
+            _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Instrument;
 
             return _viewModel;
         }
@@ -115,15 +124,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
             viewModel.List.Remove(listItemViewModel);
 
             // ToEntity
-            Document document = viewModel.ToEntity(_repositoryWrapper);
+            Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.ParentDocumentID);
+            if (parentDocument == null)
+            {
+                NotFoundViewModel notFoundViewModel = CreateDocumentNotFoundViewModel();
+                return notFoundViewModel;
+            }
+            parentDocument = viewModel.InstrumentListViewModelToParentDocument(_repositoryWrapper);
 
             if (_viewModel == null)
             {
                 // ToViewModel
-                _viewModel = document.Instruments.ToChildDocumentListViewModel();
+                _viewModel = parentDocument.Instruments.ToChildDocumentListViewModel();
+                _viewModel.ParentDocumentID = parentDocument.ID;
 
                 // Non-persisted properties
                 _viewModel.Visible = viewModel.Visible;
+                _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Instrument;
             }
 
             return _viewModel;
@@ -143,7 +160,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Helpers
 
-        private object CreateDocumentNotFoundViewModel()
+        private NotFoundViewModel CreateDocumentNotFoundViewModel()
         {
             var notFoundPresenter = new NotFoundPresenter();
             NotFoundViewModel viewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);

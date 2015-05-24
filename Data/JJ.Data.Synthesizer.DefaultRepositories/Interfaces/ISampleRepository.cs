@@ -10,7 +10,6 @@ namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
 {
     public interface ISampleRepository : IRepository<Sample, int>
     {
-        IList<Sample> GetManyByDocumentID(int documentID);
         void SetBinary(int id, byte[] bytes);
         byte[] GetBinary(int id);
     }

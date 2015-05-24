@@ -6,39 +6,69 @@ using JJ.Presentation.Synthesizer.Configuration;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ToEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Framework.Presentation;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     public class AudioFileOutputListPresenter
     {
-        private static int _pageSize;
-
-        private IAudioFileOutputRepository _audioFileOutputRepository;
-
+        private IDocumentRepository _documentRepository;
         private AudioFileOutputListViewModel _viewModel;
 
-        public AudioFileOutputListPresenter(IAudioFileOutputRepository audioFileOutputRepository)
+        public AudioFileOutputListPresenter(IDocumentRepository documentRepository)
         {
-            if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
 
-            _audioFileOutputRepository = audioFileOutputRepository;
-
-            ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
-            _pageSize = config.PageSize;
+            _documentRepository = documentRepository;
         }
 
-        public AudioFileOutputListViewModel Show(int documentID)
+        /// <summary>
+        /// Can return AudioFileOutputListViewModel or NotFoundViewModel.
+        /// </summary>
+        public object Show(int documentID)
         {
-            IList<AudioFileOutput> audioFileOutputs = _audioFileOutputRepository.GetManyByDocumentID(documentID);
+            bool mustCreateViewModel = _viewModel == null ||
+                                       _viewModel.DocumentID != documentID;
 
-            _viewModel = audioFileOutputs.ToListViewModel();
-            _viewModel.DocumentID = documentID;
+            if (mustCreateViewModel)
+            {
+                Document document = _documentRepository.TryGet(documentID);
+                if (document == null)
+                {
+                    return CreateDocumentNotFoundViewModel();
+                }
+
+                _viewModel = document.AudioFileOutputs.ToListViewModel();
+                _viewModel.DocumentID = documentID;
+            }
+
+            _viewModel.Visible = true;
+
+            return _viewModel;
+        }
+
+        /// <summary>
+        /// Can return AudioFileOutputListViewModel or NotFoundViewModel.
+        /// </summary>
+        public object Refresh(int documentID)
+        {
+            Document document = _documentRepository.TryGet(documentID);
+            if (document == null)
+            {
+                return CreateDocumentNotFoundViewModel();
+            }
+
+            _viewModel = document.AudioFileOutputs.ToListViewModel();
+            _viewModel.DocumentID = document.ID;
+
             _viewModel.Visible = true;
 
             return _viewModel;
@@ -54,6 +84,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel.Visible = false;
 
             return _viewModel;
+        }
+
+        // Helpers
+
+        private NotFoundViewModel CreateDocumentNotFoundViewModel()
+        {
+            NotFoundViewModel viewModel = new NotFoundPresenter().Show(PropertyDisplayNames.Document);
+            return viewModel;
         }
     }
 }

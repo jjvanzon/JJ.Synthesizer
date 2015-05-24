@@ -355,25 +355,25 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void AudioFileOutputListShow(int pageNumber)
         {
-            _viewModel = _presenter.AudioFileOutputListShow(_viewModel, pageNumber);
+            _viewModel = _presenter.AudioFileOutputListShow(_viewModel);
             ApplyViewModel();
         }
 
         private void CurveListShow(int pageNumber)
         {
-            _viewModel = _presenter.CurveListShow(_viewModel, pageNumber);
+            _viewModel = _presenter.CurveListShow(_viewModel);
             ApplyViewModel();
         }
 
         private void PatchListShow(int pageNumber)
         {
-            _viewModel = _presenter.PatchListShow(_viewModel, pageNumber);
+            _viewModel = _presenter.PatchListShow(_viewModel);
             ApplyViewModel();
         }
 
         private void SampleListShow(int pageNumber)
         {
-            _viewModel = _presenter.SampleListShow(_viewModel, pageNumber);
+            _viewModel = _presenter.SampleListShow(_viewModel);
             ApplyViewModel();
         }
 
@@ -479,7 +479,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ConfigurationSection config = CustomConfigurationManager.GetSection<ConfigurationSection>();
             int testPatchID = config.Testing.TestPatchID;
 
-            PatchDetailsEdit(testPatchID);
+            // TODO: Use the outcommented code line again once patch details becomes part of regular program navigation.
+            _patchDetailsForm.Show();
+            //PatchDetailsEdit(testPatchID);
         }
 
         // Document List Events

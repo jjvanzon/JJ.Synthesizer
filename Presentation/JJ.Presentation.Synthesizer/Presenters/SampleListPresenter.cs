@@ -1,44 +1,70 @@
-﻿using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Common;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Configuration;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.ToViewModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Common;
 using JJ.Framework.Presentation;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     public class SampleListPresenter
     {
-        private ISampleRepository _sampleRepository;
-
+        private IDocumentRepository _documentRepository;
         private SampleListViewModel _viewModel;
 
-        private static int _pageSize;
-
-        public SampleListPresenter(ISampleRepository sampleRepository)
+        public SampleListPresenter(IDocumentRepository documentRepository)
         {
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
 
-            _sampleRepository = sampleRepository;
-
-            ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
-            _pageSize = config.PageSize;
+            _documentRepository = documentRepository;
         }
 
-        public SampleListViewModel Show(int documentID)
+        /// <summary>
+        /// Can return SampleListViewModel or NotFoundViewModel.
+        /// </summary>
+        public object Show(int documentID)
         {
-            IList<Sample> samples = _sampleRepository.GetManyByDocumentID(documentID);
+            bool mustCreateViewModel = _viewModel == null ||
+                                       _viewModel.DocumentID != documentID;
 
-            _viewModel = samples.ToListViewModel();
-            _viewModel.DocumentID = documentID;
+            if (mustCreateViewModel)
+            {
+                Document document = _documentRepository.TryGet(documentID);
+                if (document == null)
+                {
+                    return CreateDocumentNotFoundViewModel();
+                }
+
+                _viewModel = document.Samples.ToListViewModel();
+                _viewModel.DocumentID = documentID;
+            }
+
+            _viewModel.Visible = true;
+
+            return _viewModel;
+        }
+
+        /// <summary>
+        /// Can return SampleListViewModel or NotFoundViewModel.
+        /// </summary>
+        public object Refresh(int documentID)
+        {
+            Document document = _documentRepository.TryGet(documentID);
+            if (document == null)
+            {
+                return CreateDocumentNotFoundViewModel();
+            }
+
+            _viewModel = document.Samples.ToListViewModel();
+            _viewModel.DocumentID = document.ID;
+
             _viewModel.Visible = true;
 
             return _viewModel;
@@ -54,6 +80,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel.Visible = false;
 
             return _viewModel;
+        }
+
+        // Helpers
+
+        private NotFoundViewModel CreateDocumentNotFoundViewModel()
+        {
+            NotFoundViewModel viewModel = new NotFoundPresenter().Show(PropertyDisplayNames.Document);
+            return viewModel;
         }
     }
 }

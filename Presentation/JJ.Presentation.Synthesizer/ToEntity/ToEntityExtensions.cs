@@ -49,6 +49,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return document;
         }
 
+        /// <summary>
+        /// Converts the InstrumentPropertiesList and then Instrument(Document)s to entities.
+        /// </summary>
         private static void ConvertToInstrumentsWithRelatedEntities(DocumentViewModel sourceViewModel, Document destDocument, RepositoryWrapper repositoryWrapper)
         {
             var idsToKeep = new HashSet<int>();
@@ -65,9 +68,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 }
             }
 
-            foreach (ChildDocumentViewModel instrumentViewModel in sourceViewModel.Instruments)
+            foreach (ChildDocumentViewModel instrumentDocumentViewModel in sourceViewModel.InstrumentDocumentList)
             {
-                Document entity = instrumentViewModel.ToEntityWithRelatedEntities(repositoryWrapper);
+                Document entity = instrumentDocumentViewModel.ToEntityWithRelatedEntities(repositoryWrapper);
 
                 entity.LinkInstrumentToDocument(destDocument);
 
@@ -87,6 +90,50 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
+        /// <summary>
+        /// Converts the InstrumentList to entities.
+        /// </summary>
+        public static Document InstrumentListViewModelToParentDocument(this ChildDocumentListViewModel viewModel, RepositoryWrapper repositoryWrapper)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+
+            Document destDocument = repositoryWrapper.DocumentRepository.Get(viewModel.ParentDocumentID);
+
+            // TODO: Use the DocumentManager to do the CRUD operations?
+
+            foreach (IDNameAndTemporaryID sourceListItemViewModel in viewModel.List)
+            {
+                Document destInstrument = repositoryWrapper.DocumentRepository.TryGet(sourceListItemViewModel.ID);
+                if (destInstrument == null)
+                {
+                    destInstrument = repositoryWrapper.DocumentRepository.Create();
+                    destInstrument.LinkInstrumentToDocument(destDocument);
+                }
+
+                destInstrument.Name = sourceListItemViewModel.Name;
+            }
+
+            var entityIDs = new HashSet<int>(destDocument.Instruments.Where(x => x.ID != 0).Select(x => x.ID));
+            var viewModelIDs = new HashSet<int>(viewModel.List.Where(x => x.ID != 0).Select(x => x.ID));
+
+            IList<int> idsToDelete = entityIDs.Except(viewModelIDs).ToArray();
+
+            foreach (int idToDelete in idsToDelete)
+            {
+                Document instrumentToDelete = repositoryWrapper.DocumentRepository.Get(idToDelete);
+                instrumentToDelete.DeleteRelatedEntities(repositoryWrapper);
+                instrumentToDelete.UnlinkRelatedEntities();
+
+                repositoryWrapper.DocumentRepository.Delete(instrumentToDelete);
+            }
+
+            return destDocument;
+        }
+
+        /// <summary>
+        /// Converts the InstrumentPropertiesList and then Instrument(Document)s to entities.
+        /// </summary>
         private static void ConvertToEffectsWithRelatedEntities(DocumentViewModel sourceViewModel, Document destDocument, RepositoryWrapper repositoryWrapper)
         {
             var idsToKeep = new HashSet<int>();
@@ -102,9 +149,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 }
             }
 
-            foreach (ChildDocumentViewModel effectViewModel in sourceViewModel.Effects)
+            foreach (ChildDocumentViewModel effectDocumentViewModel in sourceViewModel.EffectDocumentList)
             {
-                Document entity = effectViewModel.ToEntityWithRelatedEntities(repositoryWrapper);
+                Document entity = effectDocumentViewModel.ToEntityWithRelatedEntities(repositoryWrapper);
                 entity.LinkEffectToDocument(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -121,6 +168,47 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             {
                 documentManager.DeleteWithRelatedEntities(idToDelete);
             }
+        }
+
+        /// <summary>
+        /// Converts the InstrumentList to entities.
+        /// </summary>
+        public static Document EffectListViewModelToParentDocument(this ChildDocumentListViewModel viewModel, RepositoryWrapper repositoryWrapper)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+
+            Document destDocument = repositoryWrapper.DocumentRepository.Get(viewModel.ParentDocumentID);
+
+            // TODO: Use the DocumentManager to do the CRUD operations?
+
+            foreach (IDNameAndTemporaryID sourceListItemViewModel in viewModel.List)
+            {
+                Document destEffect = repositoryWrapper.DocumentRepository.TryGet(sourceListItemViewModel.ID);
+                if (destEffect == null)
+                {
+                    destEffect = repositoryWrapper.DocumentRepository.Create();
+                    destEffect.LinkEffectToDocument(destDocument);
+                }
+
+                destEffect.Name = sourceListItemViewModel.Name;
+            }
+
+            var entityIDs = new HashSet<int>(destDocument.Effects.Where(x => x.ID != 0).Select(x => x.ID));
+            var viewModelIDs = new HashSet<int>(viewModel.List.Where(x => x.ID != 0).Select(x => x.ID));
+
+            IList<int> idsToDelete = entityIDs.Except(viewModelIDs).ToArray();
+
+            foreach (int idToDelete in idsToDelete)
+            {
+                Document effectToDelete = repositoryWrapper.DocumentRepository.Get(idToDelete);
+                effectToDelete.DeleteRelatedEntities(repositoryWrapper);
+                effectToDelete.UnlinkRelatedEntities();
+
+                repositoryWrapper.DocumentRepository.Delete(effectToDelete);
+            }
+
+            return destDocument;
         }
 
         public static Document ToEntity(this ChildDocumentPropertiesViewModel viewModel, IDocumentRepository documentRepository)
@@ -358,10 +446,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
+        // TODO: Move ConvertToAudioFileOutputsWithRelatedEntities and other such metods to ToEntityHelper if it proves to be used publically.
+
         /// <summary>
         /// TODO: Does not use all repositories out of the RepositoryWrapper.
         /// </summary>
-        private static void ConvertToAudioFileOutputsWithRelatedEntities(IList<AudioFileOutputPropertiesViewModel> viewModelList, Document destDocument, RepositoryWrapper repositoryWrapper)
+        public static void ConvertToAudioFileOutputsWithRelatedEntities(IList<AudioFileOutputPropertiesViewModel> viewModelList, Document destDocument, RepositoryWrapper repositoryWrapper)
         {
             var idsToKeep = new HashSet<int>();
 
@@ -637,44 +727,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             document.Name = idAndName.Name;
 
             return document;
-        }
-
-        public static Document ToEntity(this ChildDocumentListViewModel viewModel, RepositoryWrapper repositoryWrapper)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
-
-            Document destDocument = repositoryWrapper.DocumentRepository.Get(viewModel.ParentDocumentID);
-
-            // TODO: Use the DocumentManager to do the CRUD operations?
-
-            foreach (IDNameAndTemporaryID sourceListItemViewModel in viewModel.List)
-            {
-                Document destInstrument = repositoryWrapper.DocumentRepository.TryGet(sourceListItemViewModel.ID);
-                if (destInstrument == null)
-                {
-                    destInstrument = repositoryWrapper.DocumentRepository.Create();
-                    destInstrument.LinkInstrumentToDocument(destDocument);
-                }
-
-                destInstrument.Name = sourceListItemViewModel.Name;
-            }
-
-            var entityIDs = new HashSet<int>(destDocument.Instruments.Where(x => x.ID != 0).Select(x => x.ID));
-            var viewModelIDs = new HashSet<int>(viewModel.List.Where(x => x.ID != 0).Select(x => x.ID));
-
-            IList<int> idsToDelete = entityIDs.Except(viewModelIDs).ToArray();
-
-            foreach (int idToDelete in idsToDelete)
-            {
-                Document instrumentToDelete = repositoryWrapper.DocumentRepository.Get(idToDelete);
-                instrumentToDelete.DeleteRelatedEntities(repositoryWrapper);
-                instrumentToDelete.UnlinkRelatedEntities();
-
-                repositoryWrapper.DocumentRepository.Delete(instrumentToDelete);
-            }
-
-            return destDocument;
         }
     }
 }

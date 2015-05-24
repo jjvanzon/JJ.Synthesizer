@@ -93,5 +93,18 @@ namespace JJ.Business.Synthesizer.Managers
 
             return instrument;
         }
+
+        public Document CreateEffect(Document parentDocument)
+        {
+            if (parentDocument == null) throw new NullException(() => parentDocument);
+
+            Document effect = _repositoryWrapper.DocumentRepository.Create();
+            effect.LinkEffectToDocument(parentDocument);
+
+            ISideEffect sideEffect = new Effect_SideEffect_GenerateName(effect);
+            sideEffect.Execute();
+
+            return effect;
+        }
     }
 }

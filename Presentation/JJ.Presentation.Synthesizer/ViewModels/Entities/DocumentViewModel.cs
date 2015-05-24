@@ -14,11 +14,11 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 
         public ChildDocumentListViewModel InstrumentList { get; set; }
         public IList<ChildDocumentPropertiesViewModel> InstrumentPropertiesList { get; set; }
-        public IList<ChildDocumentViewModel> Instruments { get; set; }
+        public IList<ChildDocumentViewModel> InstrumentDocumentList { get; set; }
 
         public ChildDocumentListViewModel EffectList { get; set; }
         public IList<ChildDocumentPropertiesViewModel> EffectPropertiesList { get; set; }
-        public IList<ChildDocumentViewModel> Effects { get; set; }
+        public IList<ChildDocumentViewModel> EffectDocumentList { get; set; }
 
         public SampleListViewModel SampleList { get; set; }
         public IList<SamplePropertiesViewModel> SamplePropertiesList { get; set; }

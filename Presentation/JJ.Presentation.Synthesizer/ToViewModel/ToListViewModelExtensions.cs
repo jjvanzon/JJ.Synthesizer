@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static AudioFileOutputListViewModel ToListViewModel(this IList<AudioFileOutput> entities)
-        {
+        {                                                                             
             var viewModel = new AudioFileOutputListViewModel
             {
                 List = entities.Select(x => x.ToListItemViewModel()).ToList()

@@ -267,4 +267,7 @@
   <data name="Instrument" xml:space="preserve">
     <value>Instrument</value>
   </data>
+  <data name="Effect" xml:space="preserve">
+    <value>Effect</value>
+  </data>
 </root>

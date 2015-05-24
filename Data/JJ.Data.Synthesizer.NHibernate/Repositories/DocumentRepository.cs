@@ -40,22 +40,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
             return count;
         }
 
-        public override IList<Document> GetInstruments(int documentID)
-        {
-            IList<Document> entities = _context.Session.QueryOver<Document>()
-                                                       .Where(x => x.AsInstrumentInDocument.ID == documentID)
-                                                       .List();
-            return entities;
-        }
-
-        public override IList<Document> GetEffects(int documentID)
-        {
-            IList<Document> entities = _context.Session.QueryOver<Document>()
-                                                       .Where(x => x.AsEffectInDocument.ID == documentID)
-                                                       .List();
-            return entities;
-        }
-
         private IList<Document> GetManyByID(IList<int> ids)
         {
             if (ids == null) throw new NullException(() => ids);

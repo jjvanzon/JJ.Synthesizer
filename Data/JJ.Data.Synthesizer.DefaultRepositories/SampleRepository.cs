@@ -23,13 +23,5 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
         {
             throw new NotSupportedException("Binary can only be accessed using a specialized repository.");
         }
-
-        public virtual IList<Sample> GetManyByDocumentID(int documentID)
-        {
-            IList<Sample> entities = _context.Query<Sample>()
-                                             .Where(x => x.Document.ID == documentID)
-                                             .ToArray();
-            return entities;
-        }
     }
 }

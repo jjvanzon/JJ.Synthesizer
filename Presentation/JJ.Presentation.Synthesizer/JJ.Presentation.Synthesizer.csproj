@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\RecursiveViewModelToEntityConverter.cs" />
+    <Compile Include="Enums\ChildDocumentTypeEnum.cs" />
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Presenters\AudioFileOutputPropertiesPresenter.cs" />
     <Compile Include="Presenters\AudioFileOutputListPresenter.cs" />

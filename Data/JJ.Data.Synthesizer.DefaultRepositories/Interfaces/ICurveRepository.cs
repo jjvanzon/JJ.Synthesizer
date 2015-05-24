@@ -9,7 +9,5 @@ using System.Text;
 namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
 {
     public interface ICurveRepository : IRepository<Curve, int>
-    {
-        IList<Curve> GetManyByDocumentID(int documentID);
-    }
+    { }
 }

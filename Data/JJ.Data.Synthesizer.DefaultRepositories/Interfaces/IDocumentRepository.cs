@@ -10,8 +10,5 @@ namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
     {
         IList<Document> GetPageOfRootDocuments(int pageIndex, int pageSize);
         int CountRootDocuments();
-
-        IList<Document> GetInstruments(int documentID);
-        IList<Document> GetEffects(int documentID);
     }
 }

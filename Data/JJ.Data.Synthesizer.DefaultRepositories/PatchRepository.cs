@@ -13,12 +13,5 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
         public PatchRepository(IContext context)
             : base(context)
         { }
-
-        public virtual IList<Patch> GetByDocumentID(int documentID)
-        {
-            return _context.Query<Patch>()
-                           .Where(x => x.Document.ID == documentID)
-                           .ToArray();
-        }
     }
 }

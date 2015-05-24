@@ -26,19 +26,5 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
         {
             return _context.Query<Document>().Count();
         }
-
-        public virtual IList<Document> GetInstruments(int documentID)
-        {
-            return _context.Query<Document>()
-                           .Where(x => x.AsInstrumentInDocument.ID == documentID)
-                           .ToArray();
-        }
-
-        public virtual IList<Document> GetEffects(int documentID)
-        {
-            return _context.Query<Document>()
-                           .Where(x => x.AsEffectInDocument.ID == documentID)
-                           .ToArray();
-        }
     }
 }

@@ -40,13 +40,5 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
 
             sqlExecutor.Sample_TrySetBinary(id, bytes);
         }
-
-        public override IList<Sample> GetManyByDocumentID(int documentID)
-        {
-            IList<Sample> entities = _context.Session.QueryOver<Sample>()
-                                                     .Where(x => x.Document.ID == documentID)
-                                                     .List();
-            return entities;
-        }
     }
 }
