@@ -67,7 +67,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public object ExpandNode(DocumentTreeViewModel viewModel, Guid temporaryID)
+        public object ExpandNode(DocumentTreeViewModel viewModel, int temporaryID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
@@ -104,7 +104,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public object CollapseNode(DocumentTreeViewModel viewModel, Guid temporaryID)
+        public object CollapseNode(DocumentTreeViewModel viewModel, int temporaryID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 

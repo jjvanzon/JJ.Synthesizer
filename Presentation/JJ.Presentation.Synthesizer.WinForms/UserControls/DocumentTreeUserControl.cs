@@ -30,14 +30,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         public event EventHandler CloseRequested;
         public event EventHandler<IDEventArgs> DocumentPropertiesRequested;
-        public event EventHandler<TemporaryIDEventArgs> ExpandNodeRequested;
-        public event EventHandler<TemporaryIDEventArgs> CollapseNodeRequested;
+        public event EventHandler<Int32EventArgs> ExpandNodeRequested;
+        public event EventHandler<Int32EventArgs> CollapseNodeRequested;
         public event EventHandler ShowInstrumentsRequested;
+        public event EventHandler ShowAudioFileOutputsRequested;
 
         /// <summary> virtually not nullable </summary>
         private DocumentTreeViewModel _viewModel;
 
         private TreeNode _instrumentsTreeNode;
+        private TreeNode _audioFileOutputsTreeNode;
 
         public DocumentTreeUserControl()
         {
@@ -90,7 +92,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             var documentTreeNode = new TreeNode(_viewModel.Name);
-            documentTreeNode.Tag = _viewModel.ID;
+            // Temporarily (2015-05-25) outcommented to make isChildDocumentNode work (see further down in the code).
+            //documentTreeNode.Tag = _viewModel.ID;
             documentTreeNode.ContextMenuStrip = contextMenuStripDocument;
             treeView.Nodes.Add(documentTreeNode);
 
@@ -188,8 +191,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             var patchesTreeNode = new TreeNode(PropertyDisplayNames.Patches);
             parentNode.Nodes.Add(patchesTreeNode);
 
-            var audioFileOutputsTreeNode = new TreeNode(PropertyDisplayNames.AudioFileOutputs);
-            parentNode.Nodes.Add(audioFileOutputsTreeNode);
+            _audioFileOutputsTreeNode = new TreeNode(PropertyDisplayNames.AudioFileOutputs);
+            parentNode.Nodes.Add(_audioFileOutputsTreeNode);
         }
 
         private void AddChildDocumentChildNodesRecursive(TreeNode parentNode, ChildDocumentTreeViewModel parentViewModel)
@@ -241,13 +244,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            Guid temporaryID;
-            bool isChildDocumentNode = Guid.TryParse(Convert.ToString(e.Node.Tag), out temporaryID);
+            int temporaryID;
+            // TODO: This is a bad assumption. Refactor that later.
+            bool isChildDocumentNode = Int32.TryParse(Convert.ToString(e.Node.Tag), out temporaryID);
             if (isChildDocumentNode)
             {
                 if (ExpandNodeRequested != null)
                 {
-                    ExpandNodeRequested(this, new TemporaryIDEventArgs(temporaryID));
+                    ExpandNodeRequested(this, new Int32EventArgs(temporaryID));
                 }
             }
         }
@@ -259,13 +263,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            Guid temporaryID;
-            bool isChildDocumentNode = Guid.TryParse(Convert.ToString(e.Node.Tag), out temporaryID);
+            int temporaryID;
+            // TODO: This is a bad assumption. Refactor that later.
+            bool isChildDocumentNode = Int32.TryParse(Convert.ToString(e.Node.Tag), out temporaryID);
             if (isChildDocumentNode)
             {
                 if (CollapseNodeRequested != null)
                 {
-                    CollapseNodeRequested(this, new TemporaryIDEventArgs(temporaryID));
+                    CollapseNodeRequested(this, new Int32EventArgs(temporaryID));
                 }
             }
         }
@@ -277,6 +282,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 if (ShowInstrumentsRequested != null)
                 {
                     ShowInstrumentsRequested(this, EventArgs.Empty);
+                }
+            }
+
+            if (e.Node == _audioFileOutputsTreeNode)
+            {
+                if (ShowAudioFileOutputsRequested != null)
+                {
+                    ShowAudioFileOutputsRequested(this, EventArgs.Empty);
                 }
             }
         }

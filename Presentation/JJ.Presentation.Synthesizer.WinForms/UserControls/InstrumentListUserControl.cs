@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private const string TEMPORARY_ID_COLUMN_NAME = "TemporaryIDColumn";
 
         public event EventHandler CreateRequested;
-        public event EventHandler<TemporaryIDEventArgs> DeleteRequested;
+        public event EventHandler<Int32EventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
 
         /// <summary> virtually not nullable </summary>
@@ -78,10 +78,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (DeleteRequested != null)
             {
-                Guid? id = TryGetSelectedTemporaryID();
+                int? id = TryGetSelectedTemporaryID();
                 if (id.HasValue)
                 {
-                    DeleteRequested(this, new TemporaryIDEventArgs(id.Value));
+                    DeleteRequested(this, new Int32EventArgs(id.Value));
                 }
             }
         }
@@ -93,6 +93,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 CloseRequested(this, EventArgs.Empty);
             }
         }
+
+        // Events
 
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
         {
@@ -109,7 +111,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             Close();
         }
 
-        private void dataGridView_KeyDown(object sender, KeyEventArgs e)
+        private void specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -121,12 +123,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Helpers
 
-        private Guid? TryGetSelectedTemporaryID()
+        private int? TryGetSelectedTemporaryID()
         {
             if (specializedDataGridView.CurrentRow != null)
             {
                 DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[TEMPORARY_ID_COLUMN_NAME];
-                Guid temporaryID = Guid.Parse(Convert.ToString(cell.Value));
+                int temporaryID = Int32.Parse(Convert.ToString(cell.Value));
                 return temporaryID;
             }
 

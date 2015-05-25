@@ -44,7 +44,7 @@ namespace JJ.Business.Synthesizer.Managers
             _audioFileFormatRepository = audioFileFormatRepository;
         }
 
-        public AudioFileOutput CreateAudioFileOutput()
+        public AudioFileOutput CreateWithRelatedEntities()
         {
             AudioFileOutput audioFileOutput = _audioFileOutputRepository.Create();
 
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Managers
             return audioFileOutput;
         }
 
-        public IValidator ValidateAudioFileOutput(AudioFileOutput audioFileOutput)
+        public IValidator Validate(AudioFileOutput audioFileOutput)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 

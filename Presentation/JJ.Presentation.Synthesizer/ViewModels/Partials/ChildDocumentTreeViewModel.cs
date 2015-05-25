@@ -11,7 +11,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Partials
         public int ID { get; set; }
         public string Name { get; set; }
         public bool IsExpanded { get; set; }
-        public Guid TemporaryID { get; set; }
+        public int TemporaryID { get; set; }
 
         public DummyViewModel CurvesNode { get; set; }
         public DummyViewModel SamplesNode { get; set; }

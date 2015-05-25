@@ -52,12 +52,12 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet outlet = x.TimeMultiply(x.Sample(sample), x.Value(timeMultiplier));
 
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
-                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
+                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
                 audioFileOutput.FilePath = OUTPUT_FILE_NAME;
                 audioFileOutput.AudioFileOutputChannels[0].LinkTo(outlet);
 
-                IValidator audioFileOutputValidator = audioFileOutputManager.ValidateAudioFileOutput(audioFileOutput);
+                IValidator audioFileOutputValidator = audioFileOutputManager.Validate(audioFileOutput);
                 audioFileOutputValidator.Verify();
 
                 IAudioFileOutputCalculator calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(curveRepository, sampleRepository, audioFileOutput);

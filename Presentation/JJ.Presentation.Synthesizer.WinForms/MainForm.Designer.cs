@@ -16,8 +16,9 @@
         private void InitializeComponent()
         {
             this.splitContainerTree = new System.Windows.Forms.SplitContainer();
-            this.splitContainerProperties = new System.Windows.Forms.SplitContainer();
             this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
+            this.splitContainerProperties = new System.Windows.Forms.SplitContainer();
+            this.audioFileOutputListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputListUserControl();
             this.instrumentListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.InstrumentListUserControl();
             this.effectListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentListUserControl();
             this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
@@ -52,6 +53,17 @@
             this.splitContainerTree.SplitterDistance = 242;
             this.splitContainerTree.TabIndex = 5;
             // 
+            // documentTreeUserControl
+            // 
+            this.documentTreeUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.documentTreeUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.documentTreeUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.documentTreeUserControl.Location = new System.Drawing.Point(0, 0);
+            this.documentTreeUserControl.Name = "documentTreeUserControl";
+            this.documentTreeUserControl.Size = new System.Drawing.Size(242, 657);
+            this.documentTreeUserControl.TabIndex = 0;
+            this.documentTreeUserControl.Visible = false;
+            // 
             // splitContainerProperties
             // 
             this.splitContainerProperties.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -60,6 +72,7 @@
             // 
             // splitContainerProperties.Panel1
             // 
+            this.splitContainerProperties.Panel1.Controls.Add(this.audioFileOutputListUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.instrumentListUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.effectListUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.documentDetailsUserControl);
@@ -72,17 +85,15 @@
             this.splitContainerProperties.SplitterDistance = 604;
             this.splitContainerProperties.TabIndex = 2;
             // 
-            // documentTreeUserControl
+            // audioFileOutputListUserControl
             // 
-            this.documentTreeUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.documentTreeUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.documentTreeUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.documentTreeUserControl.Location = new System.Drawing.Point(0, 0);
-            this.documentTreeUserControl.Name = "documentTreeUserControl";
-            this.documentTreeUserControl.Size = new System.Drawing.Size(242, 657);
-            this.documentTreeUserControl.TabIndex = 0;
-            this.documentTreeUserControl.Visible = false;
-            this.documentTreeUserControl.ShowInstrumentsRequested += new System.EventHandler(this.documentTreeUserControl_ShowInstrumentsRequested);
+            this.audioFileOutputListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.audioFileOutputListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.audioFileOutputListUserControl.Location = new System.Drawing.Point(0, 0);
+            this.audioFileOutputListUserControl.Name = "audioFileOutputListUserControl";
+            this.audioFileOutputListUserControl.Size = new System.Drawing.Size(604, 657);
+            this.audioFileOutputListUserControl.TabIndex = 5;
+            this.audioFileOutputListUserControl.Visible = false;
             // 
             // instrumentListUserControl
             // 
@@ -186,6 +197,7 @@
         private UserControls.DocumentPropertiesUserControl documentPropertiesUserControl;
         private UserControls.DocumentListUserControl effectListUserControl;
         private UserControls.InstrumentListUserControl instrumentListUserControl;
+        private UserControls.AudioFileOutputListUserControl audioFileOutputListUserControl;
 
     }
 }

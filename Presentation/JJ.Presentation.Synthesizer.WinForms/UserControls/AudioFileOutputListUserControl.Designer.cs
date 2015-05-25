@@ -28,43 +28,88 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.dataGridView = new System.Windows.Forms.DataGridView();
-            this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
+            this.specializedDataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.SpecializedDataGridView();
+            this.ListIndexColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AudioFileFormatColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SampleDataTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SpeakerSetupColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SamplingRateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.labelTitle = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
+            this.tableLayoutPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
-            // dataGridView
+            // tableLayoutPanel
             // 
-            this.dataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tableLayoutPanel.ColumnCount = 1;
+            this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel.Controls.Add(this.titleBarUserControl, 0, 0);
+            this.tableLayoutPanel.Controls.Add(this.specializedDataGridView, 0, 1);
+            this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel.Name = "tableLayoutPanel";
+            this.tableLayoutPanel.RowCount = 2;
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel.Size = new System.Drawing.Size(796, 400);
+            this.tableLayoutPanel.TabIndex = 4;
+            // 
+            // titleBarUserControl
+            // 
+            this.titleBarUserControl.AddButtonVisible = true;
+            this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
+            this.titleBarUserControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.titleBarUserControl.CloseButtonVisible = true;
+            this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
+            this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
+            this.titleBarUserControl.Name = "titleBarUserControl";
+            this.titleBarUserControl.RemoveButtonVisible = true;
+            this.titleBarUserControl.Size = new System.Drawing.Size(796, 26);
+            this.titleBarUserControl.TabIndex = 3;
+            this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
+            this.titleBarUserControl.RemoveClicked += new System.EventHandler(this.titleBarUserControl_RemoveClicked);
+            this.titleBarUserControl.AddClicked += new System.EventHandler(this.titleBarUserControl_AddClicked);
+            // 
+            // specializedDataGridView
+            // 
+            this.specializedDataGridView.AllowUserToAddRows = false;
+            this.specializedDataGridView.AllowUserToDeleteRows = false;
+            this.specializedDataGridView.AllowUserToResizeRows = false;
+            this.specializedDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
-            this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.IDColumn,
+            this.specializedDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.specializedDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.specializedDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.specializedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.specializedDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ListIndexColumn,
             this.NameColumn,
             this.AudioFileFormatColumn,
             this.SampleDataTypeColumn,
             this.SpeakerSetupColumn,
             this.SamplingRateColumn});
-            this.dataGridView.Location = new System.Drawing.Point(0, 24);
-            this.dataGridView.Name = "dataGridView";
-            this.dataGridView.Size = new System.Drawing.Size(796, 376);
-            this.dataGridView.TabIndex = 0;
+            this.specializedDataGridView.Location = new System.Drawing.Point(0, 26);
+            this.specializedDataGridView.Margin = new System.Windows.Forms.Padding(0);
+            this.specializedDataGridView.Name = "specializedDataGridView";
+            this.specializedDataGridView.RowHeadersVisible = false;
+            this.specializedDataGridView.Size = new System.Drawing.Size(796, 374);
+            this.specializedDataGridView.TabIndex = 0;
+            this.specializedDataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.specializedDataGridView_KeyDown);
             // 
-            // IDColumn
+            // ListIndexColumn
             // 
-            this.IDColumn.DataPropertyName = "ID";
-            this.IDColumn.HeaderText = "ID";
-            this.IDColumn.Name = "IDColumn";
-            this.IDColumn.ReadOnly = true;
-            this.IDColumn.Width = 80;
+            this.ListIndexColumn.DataPropertyName = "ListIndex";
+            this.ListIndexColumn.HeaderText = "ListIndex";
+            this.ListIndexColumn.Name = "ListIndexColumn";
+            this.ListIndexColumn.ReadOnly = true;
+            this.ListIndexColumn.Visible = false;
+            this.ListIndexColumn.Width = 80;
             // 
             // NameColumn
             // 
@@ -106,37 +151,25 @@
             this.SamplingRateColumn.ReadOnly = true;
             this.SamplingRateColumn.Width = 120;
             // 
-            // labelTitle
-            // 
-            this.labelTitle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.labelTitle.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.labelTitle.Location = new System.Drawing.Point(-3, 0);
-            this.labelTitle.Margin = new System.Windows.Forms.Padding(0);
-            this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Padding = new System.Windows.Forms.Padding(3);
-            this.labelTitle.Size = new System.Drawing.Size(799, 24);
-            this.labelTitle.TabIndex = 1;
-            this.labelTitle.Text = "Audio File Outputs";
-            // 
             // AudioFileOutputListUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.labelTitle);
-            this.Controls.Add(this.dataGridView);
+            this.Controls.Add(this.tableLayoutPanel);
             this.Name = "AudioFileOutputListUserControl";
             this.Size = new System.Drawing.Size(796, 400);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
+            this.tableLayoutPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.DataGridView dataGridView;
-        private System.Windows.Forms.Label labelTitle;
-        private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
+        private SpecializedDataGridView specializedDataGridView;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
+        private Partials.TitleBarUserControl titleBarUserControl;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ListIndexColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn AudioFileFormatColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn SampleDataTypeColumn;

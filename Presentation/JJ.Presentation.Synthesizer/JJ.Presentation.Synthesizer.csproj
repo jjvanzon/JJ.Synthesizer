@@ -107,7 +107,7 @@
     <Compile Include="ViewModels\NotFoundViewModel.cs" />
     <Compile Include="ViewModels\Partials\ChildDocumentTreeViewModel.cs" />
     <Compile Include="ViewModels\Partials\DummyViewModel.cs" />
-    <Compile Include="ViewModels\Partials\IDNameAndTemporaryID.cs" />
+    <Compile Include="ViewModels\Partials\IDNameAndTemporaryIDViewModel.cs" />
     <Compile Include="ViewModels\Partials\MenuItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\ReferencedDocumentViewModel.cs" />
     <Compile Include="ViewModels\Partials\ReferencedDocumentsTreeNodeViewModel.cs" />

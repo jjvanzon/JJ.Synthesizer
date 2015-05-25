@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -286,6 +287,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
+        }
+
+        public static IDNameAndTemporaryIDViewModel ToListItemViewModel(this Document entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return new IDNameAndTemporaryIDViewModel
+            {
+                ID = entity.ID,
+                Name = entity.Name
+            };
         }
     }
 }

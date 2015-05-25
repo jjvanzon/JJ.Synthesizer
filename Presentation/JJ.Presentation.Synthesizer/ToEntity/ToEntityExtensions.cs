@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             // TODO: Use the DocumentManager to do the CRUD operations?
 
-            foreach (IDNameAndTemporaryID sourceListItemViewModel in viewModel.List)
+            foreach (IDNameAndTemporaryIDViewModel sourceListItemViewModel in viewModel.List)
             {
                 Document destInstrument = repositoryWrapper.DocumentRepository.TryGet(sourceListItemViewModel.ID);
                 if (destInstrument == null)
@@ -182,7 +182,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             // TODO: Use the DocumentManager to do the CRUD operations?
 
-            foreach (IDNameAndTemporaryID sourceListItemViewModel in viewModel.List)
+            foreach (IDNameAndTemporaryIDViewModel sourceListItemViewModel in viewModel.List)
             {
                 Document destEffect = repositoryWrapper.DocumentRepository.TryGet(sourceListItemViewModel.ID);
                 if (destEffect == null)
@@ -561,10 +561,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
 
-            AudioFileOutputChannel entity = audioFileOutputChannelRepository.Get(viewModel.ID);
+            AudioFileOutputChannel entity = audioFileOutputChannelRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                audioFileOutputChannelRepository.Create();
+                entity = audioFileOutputChannelRepository.Create();
             }
 
             entity.IndexNumber = viewModel.IndexNumber;

@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                     var sampleOperatorWrapper = new SampleOperatorWrapper(sampleOperator, sampleRepository);
                     sampleOperatorWrapper.Sample = sample;
 
-                    AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
+                    AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                     audioFileOutput.FilePath = _outputFilePath;
                     audioFileOutput.Duration = DEFAULT_DURATION;
 

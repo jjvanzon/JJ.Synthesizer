@@ -67,18 +67,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDNameAndTemporaryID ToIDNameAndTemporaryID(this Document entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            return new IDNameAndTemporaryID
-            {
-                ID = entity.ID,
-                Name = entity.Name,
-                TemporaryID = Guid.NewGuid()
-            };
-        }
-
         public static IDAndName ToIDAndName(this Outlet entity)
         {
             if (entity == null) throw new NullException(() => entity);

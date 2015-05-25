@@ -48,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
 
-        private AudioFileOutputListForm _audioFileOutputListForm = new AudioFileOutputListForm();
+        //private AudioFileOutputListForm _audioFileOutputListForm = new AudioFileOutputListForm();
         private CurveListForm _curveListForm = new CurveListForm();
         private PatchListForm _patchListForm = new PatchListForm();
         private SampleListForm _sampleListForm = new SampleListForm();
@@ -97,18 +97,23 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
 
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
-            documentTreeUserControl.DocumentPropertiesRequested += documentTreeUserControl_DocumentPropertiesRequested;
             documentTreeUserControl.ExpandNodeRequested += documentTreeUserControl_ExpandNodeRequested;
             documentTreeUserControl.CollapseNodeRequested += documentTreeUserControl_CollapseNodeRequested;
+            documentTreeUserControl.DocumentPropertiesRequested += documentTreeUserControl_DocumentPropertiesRequested;
+            documentTreeUserControl.ShowInstrumentsRequested += documentTreeUserControl_ShowInstrumentsRequested;
+            documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
+            audioFileOutputListUserControl.CloseRequested += audioFileOutputListUserControl_CloseRequested;
+            audioFileOutputListUserControl.CreateRequested += audioFileOutputListUserControl_CreateRequested;
+            audioFileOutputListUserControl.DeleteRequested += audioFileOutputListUserControl_DeleteRequested;
             instrumentListUserControl.CloseRequested += instrumentListUserControl_CloseRequested;
             instrumentListUserControl.CreateRequested += instrumentListUserControl_CreateRequested;
             instrumentListUserControl.DeleteRequested += instrumentListUserControl_DeleteRequested;
 
+
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
 
-            _audioFileOutputListForm.CloseRequested += _audioFileOutputListForm_CloseRequested;
             _audioFileOutputPropertiesForm.CloseRequested += _audioFileOutputPropertiesForm_CloseRequested;
             _curveListForm.CloseRequested += _curveListForm_CloseRequested;
             _patchListForm.CloseRequested += _patchListForm_CloseRequested;
@@ -289,7 +294,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void DocumentTreeExpandNode(Guid temporaryID)
+        private void DocumentTreeExpandNode(int temporaryID)
         {
             _viewModel = _presenter.DocumentTreeExpandNode(_viewModel, temporaryID);
             // I can get away not applying view model, because the TreeView control already expanded the node.
@@ -297,7 +302,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void DocumentTreeCollapseNode(Guid temporaryID)
+        private void DocumentTreeCollapseNode(int temporaryID)
         {
             _viewModel = _presenter.DocumentTreeCollapseNode(_viewModel, temporaryID);
             // I can get away not applying view model, because the TreeView control already expanded the node.
@@ -327,6 +332,30 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Other Open Document Actions
 
+        private void AudioFileOutputListShow()
+        {
+            _viewModel = _presenter.AudioFileOutputListShow(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void AudioFileOutputDelete(int temporaryID)
+        {
+            _viewModel = _presenter.AudioFileOutputDelete(_viewModel, temporaryID);
+            ApplyViewModel();
+        }
+
+        private void AudioFileOutputCreate()
+        {
+            _viewModel = _presenter.AudioFileOutputCreate(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void AudioFileOutputListClose()
+        {
+            _viewModel = _presenter.AudioFileOutputListClose(_viewModel);
+            ApplyViewModel();
+        }
+
         private void InstrumentListShow()
         {
             _viewModel = _presenter.InstrumentListShow(_viewModel);
@@ -345,19 +374,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void InstrumentListDelete(Guid temporaryID)
+        private void InstrumentListDelete(int temporaryID)
         {
             _viewModel = _presenter.InstrumentListDelete(_viewModel, temporaryID);
             ApplyViewModel();
         }
 
         // Other Actions
-
-        private void AudioFileOutputListShow(int pageNumber)
-        {
-            _viewModel = _presenter.AudioFileOutputListShow(_viewModel);
-            ApplyViewModel();
-        }
 
         private void CurveListShow(int pageNumber)
         {
@@ -395,12 +418,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void AudioFileOutputPropertiesClose()
         {
             _viewModel = _presenter.AudioFileOutputPropertiesClose(_viewModel);
-            ApplyViewModel();
-        }
-
-        private void AudioFileOutputListClose()
-        {
-            _viewModel = _presenter.AudioFileOutputListClose(_viewModel);
             ApplyViewModel();
         }
 
@@ -450,7 +467,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void menuUserControl_ShowAudioFileOutputListRequested(object sender, EventArgs e)
         {
-            AudioFileOutputListShow(1);
+            AudioFileOutputListShow();
         }
 
         private void menuUserControl_CurveListRequested(object sender, EventArgs e)
@@ -540,19 +557,24 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentPropertiesShow(e.ID);
         }
 
-        private void documentTreeUserControl_ExpandNodeRequested(object sender, TemporaryIDEventArgs e)
+        private void documentTreeUserControl_ExpandNodeRequested(object sender, Int32EventArgs e)
         {
-            DocumentTreeExpandNode(e.TemporaryID);
+            DocumentTreeExpandNode(e.Int32);
         }
 
-        private void documentTreeUserControl_CollapseNodeRequested(object sender, TemporaryIDEventArgs e)
+        private void documentTreeUserControl_CollapseNodeRequested(object sender, Int32EventArgs e)
         {
-            DocumentTreeCollapseNode(e.TemporaryID);
+            DocumentTreeCollapseNode(e.Int32);
         }
 
         private void documentTreeUserControl_ShowInstrumentsRequested(object sender, EventArgs e)
         {
             InstrumentListShow();
+        }
+
+        private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
+        {
+            AudioFileOutputListShow();
         }
 
         // Document Properties Events
@@ -569,9 +591,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Other Open Document Events
 
-        private void instrumentListUserControl_CloseRequested(object sender, EventArgs e)
+        private void audioFileOutputListUserControl_CreateRequested(object sender, EventArgs e)
         {
-            InstrumentListClose();
+            AudioFileOutputCreate();
+        }
+
+        private void audioFileOutputListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            AudioFileOutputDelete(e.Int32);
+        }
+
+        private void audioFileOutputListUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            AudioFileOutputListClose();
         }
 
         private void instrumentListUserControl_CreateRequested(object sender, EventArgs e)
@@ -579,9 +611,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             InstrumentCreate();
         }
 
-        private void instrumentListUserControl_DeleteRequested(object sender, TemporaryIDEventArgs e)
+        private void instrumentListUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            InstrumentListDelete(e.TemporaryID);
+            InstrumentListDelete(e.Int32);
+        }
+
+        private void instrumentListUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            InstrumentListClose();
         }
 
         // Message Box Events
@@ -615,11 +652,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Temporary (List) Form Events
 
-        private void _audioFileOutputListForm_ShowRequested(object sender, PageEventArgs e)
-        {
-            AudioFileOutputListShow(e.PageNumber);
-        }
-
         private void _sampleListForm_ShowRequested(object sender, PageEventArgs e)
         {
             SampleListShow(e.PageNumber);
@@ -638,11 +670,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void _audioFileOutputPropertiesForm_CloseRequested(object sender, EventArgs e)
         {
             AudioFileOutputPropertiesClose();
-        }
-
-        private void _audioFileOutputListForm_CloseRequested(object sender, EventArgs e)
-        {
-            AudioFileOutputListClose();
         }
 
         private void _curveListForm_CloseRequested(object sender, EventArgs e)
@@ -689,16 +716,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentPropertiesUserControl.ViewModel = _viewModel.Document.DocumentProperties;
             documentPropertiesUserControl.Visible = _viewModel.Document.DocumentProperties.Visible;
 
+            audioFileOutputListUserControl.ViewModel = _viewModel.Document.AudioFileOutputList;
+            audioFileOutputListUserControl.Visible = _viewModel.Document.AudioFileOutputList.Visible;
+
             instrumentListUserControl.ViewModel = _viewModel.Document.InstrumentList;
             instrumentListUserControl.Visible = _viewModel.Document.InstrumentList.Visible;
 
-            //throw new NotImplementedException();
-
             //effectListUserControl.ViewModel = _viewModel.Effects;
             //effectListUserControl.Visible = _viewModel.Effects.Visible;
-
-            _audioFileOutputListForm.ViewModel = _viewModel.Document.AudioFileOutputList;
-            _audioFileOutputListForm.Visible = _viewModel.Document.AudioFileOutputList.Visible;
 
             _curveListForm.ViewModel = _viewModel.Document.CurveList;
             _curveListForm.Visible = _viewModel.Document.CurveList.Visible;

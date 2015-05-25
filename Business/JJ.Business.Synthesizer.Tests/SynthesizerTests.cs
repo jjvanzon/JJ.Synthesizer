@@ -227,7 +227,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet sampleOperator = operatorFactory.Sample(sample);
                 Outlet effect = EntityFactory.CreateTimePowerEffectWithEcho(operatorFactory, sampleOperator);
 
-                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
+                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = effect;
                 audioFileOutput.FilePath = "Test_Synthesizer_TimePowerWithEcho.wav";
                 audioFileOutput.Duration = 6.5;
@@ -267,7 +267,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet sampleOperator = operatorFactory.Sample(sample);
                 Outlet effect = EntityFactory.CreateMultiplyWithEcho(operatorFactory, sampleOperator);
 
-                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateAudioFileOutput();
+                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = effect;
                 audioFileOutput.FilePath = "Test_Synthesizer_MultiplyWithEcho.wav";
                 audioFileOutput.Duration = 6.5;

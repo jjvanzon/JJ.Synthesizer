@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.specializedDataGridView.RowHeadersVisible = false;
             this.specializedDataGridView.Size = new System.Drawing.Size(310, 315);
             this.specializedDataGridView.TabIndex = 0;
-            this.specializedDataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.dataGridView_KeyDown);
+            this.specializedDataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.specializedDataGridView_KeyDown);
             // 
             // tableLayoutPanel
             // 

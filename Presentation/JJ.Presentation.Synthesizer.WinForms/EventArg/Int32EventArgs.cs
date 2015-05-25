@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.WinForms.EventArg
 {
-    internal class TemporaryIDEventArgs : EventArgs
+    internal class Int32EventArgs : EventArgs
     {
-        public Guid TemporaryID { get; private set; }
+        public int Int32 { get; private set; }
 
-        public TemporaryIDEventArgs(Guid temporaryID)
+        public Int32EventArgs(int int32)
         {
-            TemporaryID = temporaryID;
+            Int32 = int32;
         }
     }
 }

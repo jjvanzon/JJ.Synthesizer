@@ -18,6 +18,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.Extensions;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.Enums;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -325,7 +326,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel DocumentTreeExpandNode(MainViewModel viewModel, Guid temporaryID)
+        public MainViewModel DocumentTreeExpandNode(MainViewModel viewModel, int temporaryID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
@@ -337,7 +338,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel DocumentTreeCollapseNode(MainViewModel viewModel, Guid temporaryID)
+        public MainViewModel DocumentTreeCollapseNode(MainViewModel viewModel, int temporaryID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
@@ -425,27 +426,33 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Document document = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
 
-            AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateAudioFileOutput();
+            AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
             audioFileOutput.LinkTo(document);
 
-            RefreshDocumentTree();
-            RefreshAudioFileOutputList();
+            AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel(_repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository);
+            propertiesViewModel.AudioFileOutput.ListIndex = _viewModel.Document.AudioFileOutputPropertiesList.Count;
+            _viewModel.Document.AudioFileOutputPropertiesList.Add(propertiesViewModel);
+
+            AudioFileOutputListItemViewModel listItemViewModel = audioFileOutput.ToListItemViewModel();
+            listItemViewModel.ListIndex = _viewModel.Document.AudioFileOutputList.List.Count;
+            _viewModel.Document.AudioFileOutputList.List.Add(listItemViewModel);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
 
-        public MainViewModel AudioFileOutputDelete(MainViewModel viewModel, Guid temporaryID)
+        public MainViewModel AudioFileOutputDelete(MainViewModel viewModel, int temporaryID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
             TemporarilyAssertViewModelField();
 
-            // TODO: Temporary ID problem...
+            viewModel.Document.AudioFileOutputPropertiesList.RemoveAt(temporaryID);
+            viewModel.Document.AudioFileOutputList.List.RemoveAt(temporaryID);
 
-            throw new NotImplementedException();
+            return _viewModel;
         }
-
-        // AudioFileOutput List
 
         public MainViewModel AudioFileOutputListShow(MainViewModel viewModel)
         {
@@ -466,6 +473,52 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemporarilyAssertViewModelField();
 
             object viewModel2 = _audioFileOutputListPresenter.Close();
+            DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        // AudioFileOutput Properties
+
+        public MainViewModel AudioFileOutputPropertiesEdit(MainViewModel viewModel, int id)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            object viewModel2 = _audioFileOutputPropertiesPresenter.Edit(id);
+
+            DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        // TODO: Refresh for details / properties views is probably not necessary.
+        public MainViewModel AudioFileOutputPropertiesRefresh(MainViewModel viewModel, int temporaryID)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+            
+            AudioFileOutputPropertiesViewModel userInput = viewModel.Document.AudioFileOutputPropertiesList
+                                                                             .Where(x => x.AudioFileOutput.ID == temporaryID) // TODO: Must use temporary ID.
+                                                                             .SingleOrDefault();
+
+            object viewModel2 = _audioFileOutputPropertiesPresenter.Refresh(userInput);
+
+            DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel AudioFileOutputPropertiesClose(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            object viewModel2 = _audioFileOutputPropertiesPresenter.Close();
+
             DispatchViewModel(viewModel2);
 
             return _viewModel;
@@ -527,7 +580,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel EffectListDelete(MainViewModel viewModel, Guid temporaryID)
+        public MainViewModel EffectListDelete(MainViewModel viewModel, int temporaryID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
@@ -583,7 +636,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel InstrumentListDelete(MainViewModel viewModel, Guid temporaryID)
+        public MainViewModel InstrumentListDelete(MainViewModel viewModel, int temporaryID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
@@ -688,30 +741,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel AudioFileOutputPropertiesEdit(MainViewModel viewModel, int id)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            TemporarilyAssertViewModelField();
-
-            object viewModel2 = _audioFileOutputPropertiesPresenter.Edit(id);
-
-            DispatchViewModel(viewModel2);
-
-            return _viewModel;
-        }
-
-        public MainViewModel AudioFileOutputPropertiesClose(MainViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            TemporarilyAssertViewModelField();
-
-            object viewModel2 = _audioFileOutputPropertiesPresenter.Close();
-
-            DispatchViewModel(viewModel2);
-
-            return _viewModel;
-        }
-
         // DispatchViewModel
 
         private Dictionary<Type, Action<object>> _dispatchDelegateDictionary;
@@ -720,22 +749,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var dictionary = new Dictionary<Type, Action<object>>
             {
-                 { typeof(MenuViewModel), TryDispatchMenuViewModel },
-                 { typeof(DocumentListViewModel), TryDispatchDocumentListViewModel },
-                 { typeof(DocumentCannotDeleteViewModel), TryDispatchDocumentCannotDeleteViewModel },
-                 { typeof(DocumentDeleteViewModel), TryDispatchDocumentDeleteViewModel },
-                 { typeof(DocumentTreeViewModel), TryDispatchDocumentTreeViewModel },
-                 { typeof(DocumentPropertiesViewModel), TryDispatchDocumentPropertiesViewModel },
-                 { typeof(AudioFileOutputListViewModel), TryDispatchAudioFileOutputListViewModel },
-                 { typeof(CurveListViewModel), TryDispatchCurveListViewModel },
-                 { typeof(PatchListViewModel), TryDispatchPatchListViewModel },
-                 { typeof(SampleListViewModel), TryDispatchSampleListViewModel },
-                 { typeof(AudioFileOutputPropertiesViewModel), TryDispatchAudioFileOutputPropertiesViewModel },
-                 { typeof(PatchDetailsViewModel), TryDispatchPatchDetailsViewModel },
-                 { typeof(NotFoundViewModel), DispatchNotFoundViewModel },
+                 { typeof(AudioFileOutputPropertiesViewModel), DispatchAudioFileOutputPropertiesViewModel },
+                 { typeof(AudioFileOutputListViewModel), DispatchAudioFileOutputListViewModel },
+                 { typeof(ChildDocumentListViewModel), DispatchChildDocumentListViewModel },
+                 //{ typeof(ChildDocumentPropertiesViewModel), DispatchChildDocumentPropertiesViewModel },
+                 //{ typeof(CurveDetailsListViewModel), DispatchCurveDetailsViewModel },
+                 { typeof(CurveListViewModel), DispatchCurveListViewModel },
+                 { typeof(DocumentListViewModel), DispatchDocumentListViewModel },
+                 { typeof(DocumentCannotDeleteViewModel), DispatchDocumentCannotDeleteViewModel },
+                 { typeof(DocumentDeleteViewModel), DispatchDocumentDeleteViewModel },
+                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
+                 { typeof(DocumentPropertiesViewModel), DispatchDocumentPropertiesViewModel },
                  { typeof(DocumentDeletedViewModel), DispatchDocumentDeletedViewModel },
                  { typeof(DocumentDetailsViewModel), DispatchDocumentDetailsViewModel },
-                 { typeof(ChildDocumentListViewModel), DispatchChildDocumentListViewModel }
+                 { typeof(MenuViewModel), DispatchMenuViewModel },
+                 { typeof(NotFoundViewModel), DispatchNotFoundViewModel },
+                 { typeof(PatchListViewModel), DispatchPatchListViewModel },
+                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
+                 { typeof(SampleListViewModel), DispatchSampleListViewModel },
             };
 
             return dictionary;
@@ -787,6 +818,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
 
                     break;
+
+                default:
+                    throw new ValueNotSupportedException(viewModel2);
             }
         }
 
@@ -801,12 +835,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
         
-        private void TryDispatchMenuViewModel(object viewModel2)
+        private void DispatchMenuViewModel(object viewModel2)
         {
             _viewModel.Menu = (MenuViewModel)viewModel2;
         }
 
-        private void TryDispatchDocumentListViewModel(object viewModel2)
+        private void DispatchDocumentListViewModel(object viewModel2)
         {
             _viewModel.DocumentList = (DocumentListViewModel)viewModel2;
 
@@ -817,54 +851,97 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void TryDispatchDocumentCannotDeleteViewModel(object viewModel2)
+        private void DispatchDocumentCannotDeleteViewModel(object viewModel2)
         {
             _viewModel.DocumentCannotDelete = (DocumentCannotDeleteViewModel)viewModel2;
         }
 
-        private void TryDispatchDocumentDeleteViewModel(object viewModel2)
+        private void DispatchDocumentDeleteViewModel(object viewModel2)
         {
             _viewModel.DocumentDelete = (DocumentDeleteViewModel)viewModel2;
         }
 
-        private void TryDispatchDocumentTreeViewModel(object viewModel2)
+        private void DispatchDocumentTreeViewModel(object viewModel2)
         {
             _viewModel.Document.DocumentTree = (DocumentTreeViewModel)viewModel2;
         }
 
-        private void TryDispatchDocumentPropertiesViewModel(object viewModel2)
+        private void DispatchDocumentPropertiesViewModel(object viewModel2)
         {
             _viewModel.Document.DocumentProperties = (DocumentPropertiesViewModel)viewModel2;
         }
 
-        private void TryDispatchAudioFileOutputListViewModel(object viewModel2)
+        private void DispatchAudioFileOutputListViewModel(object viewModel2)
         {
             _viewModel.Document.AudioFileOutputList = (AudioFileOutputListViewModel)viewModel2;
+
+            if (_viewModel.Document.AudioFileOutputList.Visible)
+            {
+                HideAllListAndDetailViewModels();
+                _viewModel.Document.AudioFileOutputList.Visible = true;
+            }
         }
 
-        private void TryDispatchCurveListViewModel(object viewModel2)
+        private void DispatchCurveListViewModel(object viewModel2)
         {
             _viewModel.Document.CurveList = (CurveListViewModel)viewModel2;
         }
 
-        private void TryDispatchPatchListViewModel(object viewModel2)
+        private void DispatchPatchListViewModel(object viewModel2)
         {
             _viewModel.Document.PatchList = (PatchListViewModel)viewModel2;
         }
 
-        private void TryDispatchSampleListViewModel(object viewModel2)
+        private void DispatchSampleListViewModel(object viewModel2)
         {
             _viewModel.Document.SampleList = (SampleListViewModel)viewModel2;
         }
 
-        private void TryDispatchAudioFileOutputPropertiesViewModel(object viewModel2)
+        private void DispatchAudioFileOutputPropertiesViewModel(object viewModel2)
         {
-            _viewModel.TemporaryAudioFileOutputProperties = (AudioFileOutputPropertiesViewModel)viewModel2;
+            var audioFileOutputPropertiesViewModel = (AudioFileOutputPropertiesViewModel)viewModel2;
+
+            _viewModel.Document.AudioFileOutputPropertiesList[audioFileOutputPropertiesViewModel.AudioFileOutput.ListIndex] = audioFileOutputPropertiesViewModel;
         }
 
-        private void TryDispatchPatchDetailsViewModel(object viewModel2)
+        private void DispatchPatchDetailsViewModel(object viewModel2)
         {
             _viewModel.TemporaryPatchDetails = (PatchDetailsViewModel)viewModel2;
+        }
+
+        private void DispatchDocumentDeletedViewModel(object viewModel2)
+        {
+            var documentDeletedViewModel = (DocumentDeletedViewModel)viewModel2;
+
+            _viewModel.DocumentDeleted = documentDeletedViewModel;
+
+            _viewModel.DocumentDelete.Visible = false;
+            _viewModel.DocumentDetails.Visible = false;
+
+            if (!documentDeletedViewModel.Visible)
+            {
+                RefreshDocumentList();
+            }
+        }
+
+        private void DispatchNotFoundViewModel(object viewModel2)
+        {
+            var notFoundViewModel = (NotFoundViewModel)viewModel2;
+
+            _viewModel.NotFound = notFoundViewModel;
+
+            // HACK: Checking visibility of the NotFound view model
+            // prevents refreshing the DocumentList twice:
+            // once when showing the NotFound view model,
+            // a second time when clicking OK on it.
+
+            // TODO: Low priority: Eventually the NotFoundViewModel will create even more ambiguity,
+            // when it is reused for multiple entity types.
+
+            if (notFoundViewModel.Visible)
+            {
+                RefreshDocumentList();
+            }
         }
 
         private void HideAllListAndDetailViewModels()
@@ -901,41 +978,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 childDocumentViewModel.SampleList.Visible = false;
                 childDocumentViewModel.CurveList.Visible = false;
                 childDocumentViewModel.PatchList.Visible = false;
-            }
-        }
-
-        private void DispatchDocumentDeletedViewModel(object viewModel2)
-        {
-            var documentDeletedViewModel = (DocumentDeletedViewModel)viewModel2;
-
-            _viewModel.DocumentDeleted = documentDeletedViewModel;
-
-            _viewModel.DocumentDelete.Visible = false;
-            _viewModel.DocumentDetails.Visible = false;
-
-            if (!documentDeletedViewModel.Visible)
-            {
-                RefreshDocumentList();
-            }
-        }
-
-        private void DispatchNotFoundViewModel(object viewModel2)
-        {
-            var notFoundViewModel = (NotFoundViewModel)viewModel2;
-
-            _viewModel.NotFound = notFoundViewModel;
-
-            // HACK: Checking visibility of the NotFound view model
-            // prevents refreshing the DocumentList twice:
-            // once when showing the NotFound view model,
-            // a second time when clicking OK on it.
-
-            // TODO: Low priority: Eventually the NotFoundViewModel will create even more ambiguity,
-            // when it is reused for multiple entity types.
-
-            if (notFoundViewModel.Visible)
-            {
-                RefreshDocumentList();
             }
         }
 

@@ -18,7 +18,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ISampleDataTypeRepository _sampleDataTypeRepository;
         private ISpeakerSetupRepository _speakerSetupRepository;
 
-        private AudioFileOutputPropertiesViewModel _viewModel;
+        public AudioFileOutputPropertiesViewModel ViewModel { get; set; }
 
         public AudioFileOutputPropertiesPresenter(
             IAudioFileOutputRepository audioFileOutputRepository,
@@ -39,26 +39,46 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public AudioFileOutputPropertiesViewModel Edit(int id)
         {
-            // Temporarily (2015-05-12) replaced by empty view model,
-            // until this view is used in the right place in the application navigation.
-            //AudioFileOutput entity = _audioFileOutputRepository.Get(id);
-            //AudioFileOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository);
-            //return viewModel;
+            //// Temporarily (2015-05-12) replaced by empty view model,
+            //// until this view is used in the right place in the application navigation.
+            //_viewModel = ViewModelHelper.CreateEmptyAudioFileOutputPropertiesViewModel();
+            //_viewModel.Visible = true;
+            //return _viewModel;
 
-            _viewModel = ViewModelHelper.CreateEmptyAudioFileOutputPropertiesViewModel();
-            _viewModel.Visible = true;
-            return _viewModel;
+            bool mustCreateViewModel = ViewModel == null ||
+                                       ViewModel.AudioFileOutput.ID != id;
+
+            if (mustCreateViewModel)
+            {
+                AudioFileOutput entity = _audioFileOutputRepository.Get(id);
+                ViewModel = entity.ToPropertiesViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository);
+            }
+
+            return ViewModel;
+        }
+
+        // TODO: Refresh for details / properties views is probably not necessary.
+        public AudioFileOutputPropertiesViewModel Refresh(AudioFileOutputPropertiesViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            AudioFileOutput entity = _audioFileOutputRepository.Get(viewModel.AudioFileOutput.ID);
+            ViewModel = entity.ToPropertiesViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository);
+
+            ViewModel.Visible = viewModel.Visible;
+
+            return ViewModel;
         }
 
         public AudioFileOutputPropertiesViewModel Close()
         {
-            if (_viewModel == null)
+            if (ViewModel == null)
             {
-                _viewModel = ViewModelHelper.CreateEmptyAudioFileOutputPropertiesViewModel();
+                ViewModel = ViewModelHelper.CreateEmptyAudioFileOutputPropertiesViewModel();
             }
 
-            _viewModel.Visible = false;
-            return _viewModel;
+            ViewModel.Visible = false;
+            return ViewModel;
         }
     }
 }

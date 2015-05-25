@@ -1,6 +1,7 @@
 ﻿using JJ.Business.CanonicalModel;
 using JJ.Framework.Presentation;
 using JJ.Presentation.Synthesizer.Enums;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 
         public int ParentDocumentID { get; set; }
         public bool Visible { get; set; }
-        public IList<IDNameAndTemporaryID> List { get; set; }
+        public IList<IDNameAndTemporaryIDViewModel> List { get; set; }
     }
 }

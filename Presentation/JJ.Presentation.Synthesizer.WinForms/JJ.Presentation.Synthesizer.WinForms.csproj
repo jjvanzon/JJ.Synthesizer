@@ -70,7 +70,8 @@
     <Compile Include="Configuration\FilePathsConfiguration.cs" />
     <Compile Include="Configuration\GeneralConfiguration.cs" />
     <Compile Include="Configuration\TestingConfiguration.cs" />
-    <Compile Include="EventArg\TemporaryIDEventArgs.cs" />
+    <Compile Include="EventArg\GuidEventArgs.cs" />
+    <Compile Include="EventArg\Int32EventArgs.cs" />
     <Compile Include="EventArg\DocumentIDEventArgs.cs" />
     <Compile Include="EventArg\IDEventArgs.cs" />
     <Compile Include="EventArg\PageEventArgs.cs" />

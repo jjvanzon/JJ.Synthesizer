@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -29,10 +30,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             get { return base.DataSource; }
             set
             {
+                // DataGridView screws up if you do assign a data source that has 0 items.
+                IList ilist = value as IList;
+                if (ilist == null)
+                {
+                    throw new Exception("value must be IList.");
+                }
+
                 // DataGridView screws up if you do not first assign null
                 // (possibly only when the data source is the same object, but with the data in it changed).
                 base.DataSource = null;
-                base.DataSource = value;
+
+                // DataGridView screws up if you do assign a data source that has 0 items.
+                if (ilist.Count != 0)
+                {
+                    base.DataSource = value;
+                }
             }
         }
     }

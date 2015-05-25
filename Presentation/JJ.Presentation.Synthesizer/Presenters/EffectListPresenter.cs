@@ -14,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Presentation.Synthesizer.Enums;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -110,12 +111,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public object Delete(ChildDocumentListViewModel viewModel, Guid temporaryID)
+        public object Delete(ChildDocumentListViewModel viewModel, int temporaryID)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
             // 'Business'
-            IDNameAndTemporaryID listItemViewModel = viewModel.List.Where(x => x.TemporaryID == temporaryID).SingleOrDefault();
+            IDNameAndTemporaryIDViewModel listItemViewModel = viewModel.List.Where(x => x.TemporaryID == temporaryID).SingleOrDefault();
             if (listItemViewModel == null)
             {
                 throw new Exception(String.Format("viewModel.List item with TemporaryID '{0}' not found.", temporaryID));
