@@ -58,18 +58,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return AudioFileOutputListViewModel or NotFoundViewModel.
         /// </summary>
-        public object Refresh(int documentID)
+        public object Refresh(AudioFileOutputListViewModel viewModel)
         {
-            Document document = _documentRepository.TryGet(documentID);
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            Document document = _documentRepository.TryGet(viewModel.DocumentID);
             if (document == null)
             {
                 return CreateDocumentNotFoundViewModel();
             }
 
             _viewModel = document.AudioFileOutputs.ToListViewModel();
-            _viewModel.DocumentID = document.ID;
 
-            _viewModel.Visible = true;
+            _viewModel.DocumentID = document.ID;
+            _viewModel.Visible = viewModel.Visible;
 
             return _viewModel;
         }

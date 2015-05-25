@@ -176,75 +176,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static DocumentTreeViewModel ToTreeViewModel(this Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            var viewModel = new DocumentTreeViewModel
-            {
-                ID = document.ID,
-                Name = document.Name,
-                CurvesNode = new DummyViewModel(),
-                SamplesNode = new DummyViewModel(),
-                AudioFileOutputsNode = new DummyViewModel(),
-                PatchesNode = new DummyViewModel(),
-                Instruments = new List<ChildDocumentTreeViewModel>(),
-                Effects = new List<ChildDocumentTreeViewModel>(),
-                ReferencedDocuments = new ReferencedDocumentsTreeNodeViewModel
-                {
-                    List = new List<ReferencedDocumentViewModel>()
-                }
-            };
-
-            IList<Document> dependentOnDocuments = document.DependentOnDocuments.Select(x => x.DependentOnDocument).ToArray();
-            foreach (Document dependentOnDocument in dependentOnDocuments)
-            {
-                ReferencedDocumentViewModel referencedDocumentViewModel = dependentOnDocument.ToReferencedDocumentViewModelWithRelatedEntities();
-                viewModel.ReferencedDocuments.List.Add(referencedDocumentViewModel);
-            }
-
-            for (int i = 0; i < document.Instruments.Count; i++)
-            {
-                Document instrument = document.Instruments[i];
-
-                ChildDocumentTreeViewModel instrumentTreeViewModel = instrument.ToChildDocumentTreeViewModel();
-                instrumentTreeViewModel.TemporaryID = i;
-
-                viewModel.Instruments.Add(instrumentTreeViewModel);
-            }
-
-            for (int i = 0; i < document.Effects.Count; i++)
-            {
-                Document effect = document.Effects[i];
-                
-                ChildDocumentTreeViewModel effectTreeViewModel = effect.ToChildDocumentTreeViewModel();
-                effectTreeViewModel.TemporaryID = i;
-
-                viewModel.Effects.Add(effectTreeViewModel);
-            }
-
-            return viewModel;
-        }
-
-        /// <summary>
-        /// TemporaryID is not assigned.
-        /// </summary>
-        private static ChildDocumentTreeViewModel ToChildDocumentTreeViewModel(this Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            var viewModel = new ChildDocumentTreeViewModel
-            {
-                ID = document.ID,
-                Name = document.Name,
-                CurvesNode = new DummyViewModel(),
-                SamplesNode = new DummyViewModel(),
-                PatchesNode = new DummyViewModel(),
-            };
-
-            return viewModel;
-        }
-
         public static DocumentDeleteViewModel ToDeleteViewModel(this Document entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -273,6 +204,5 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return viewModel;
         }
-
     }
 }

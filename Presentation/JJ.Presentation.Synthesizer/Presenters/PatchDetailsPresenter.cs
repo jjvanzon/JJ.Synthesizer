@@ -37,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private OperatorFactory _operatorFactory;
         private EntityPositionManager _entityPositionManager;
 
-        private PatchDetailsViewModel _viewModel;
+        public PatchDetailsViewModel ViewModel { get; set; }
 
         public PatchDetailsPresenter(
             IPatchRepository patchRepository,
@@ -72,20 +72,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Patch patch = _patchRepository.Create();
 
-            _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
-            _viewModel.Visible = true;
+            ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
+            ViewModel.Visible = true;
 
-            return _viewModel;
+            return ViewModel;
         }
 
         public PatchDetailsViewModel Edit(int patchID)
         {
             Patch patch = _patchRepository.Get(patchID);
 
-            _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
-            _viewModel.Visible = true;
+            ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
+            ViewModel.Visible = true;
 
-            return _viewModel;
+            return ViewModel;
         }
 
         public PatchDetailsViewModel AddOperator(PatchDetailsViewModel viewModel, string operatorTypeName)
@@ -187,9 +187,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // TODO: I never used to need it. Why do I need that now? Am I doing it right?
             _operatorRepository.Flush();
 
-            if (_viewModel == null)
+            if (ViewModel == null)
             {
-                _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
+                ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
             }
             else
             {
@@ -197,12 +197,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // TODO: Should these coordinates should be set in business logic? And randomized the same way as in other parts of the code?
                 operatorViewModel.CenterX = 100;
                 operatorViewModel.CenterY = 100;
-                _viewModel.Patch.Operators.Add(operatorViewModel);
+                ViewModel.Patch.Operators.Add(operatorViewModel);
 
-                _viewModel.SavedMessageVisible = false;
+                ViewModel.SavedMessageVisible = false;
             }
 
-            return _viewModel;
+            return ViewModel;
         }
 
         public PatchDetailsViewModel MoveOperator(PatchDetailsViewModel viewModel, int operatorID, float centerX, float centerY)
@@ -214,20 +214,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Operator op = _operatorRepository.Get(operatorID); // This is just to check that the entity exists. TODO: But that's weird. You should be doing that in the entity position manager if anywhere.
             EntityPosition entityPosition = _entityPositionManager.SetOrCreateOperatorPosition(operatorID, centerX, centerY);
 
-            if (_viewModel == null)
+            if (ViewModel == null)
             {
-                _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
+                ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
             }
             else
             {
-                OperatorViewModel operatorViewModel = _viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single();
+                OperatorViewModel operatorViewModel = ViewModel.Patch.Operators.Where(x => x.ID == operatorID).Single();
                 operatorViewModel.CenterX = centerX;
                 operatorViewModel.CenterY = centerY;
 
-                _viewModel.SavedMessageVisible = false;
+                ViewModel.SavedMessageVisible = false;
             }
 
-            return _viewModel;
+            return ViewModel;
         }
 
         public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel viewModel, int inletID, int inputOutletID)
@@ -241,9 +241,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             inlet.LinkTo(outlet);
 
             // TODO: In a stateful situation you might just adjust a small part of the view model.
-            _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
+            ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
 
-            return _viewModel;
+            return ViewModel;
         }
 
         public PatchDetailsViewModel Save(PatchDetailsViewModel viewModel)
@@ -252,23 +252,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
             
             Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
-            if (_viewModel == null)
+            if (ViewModel == null)
             {
-                _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
+                ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
             }
 
             IValidator validator = new PatchValidator_Recursive(patch, _curveRepository, _sampleRepository, alreadyDone: new HashSet<object>());
             if (!validator.IsValid)
             {
-                _viewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
-                _viewModel.SavedMessageVisible = false;
-                return _viewModel;
+                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                ViewModel.SavedMessageVisible = false;
+                return ViewModel;
             }
             else
             {
                 _patchRepository.Commit();
-                _viewModel.SavedMessageVisible = true;
-                return _viewModel;
+                ViewModel.SavedMessageVisible = true;
+                return ViewModel;
             }
         }
 
@@ -278,14 +278,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
-            if (_viewModel == null)
+            if (ViewModel == null)
             {
-                _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
+                ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
             }
 
-            SetSelectedOperator(_viewModel, operatorID);
+            SetSelectedOperator(ViewModel, operatorID);
 
-            return _viewModel;
+            return ViewModel;
         }
 
         public PatchDetailsViewModel DeleteOperator(PatchDetailsViewModel viewModel, int operatorID)
@@ -304,7 +304,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             //if (_viewModel == null || FORCE_STATELESS)
             //{
-                _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
+                ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
             //}
             //else
             //{
@@ -314,7 +314,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             //    _viewModel.SelectedOperator = null;
             //}
 
-            return _viewModel;
+            return ViewModel;
         }
 
         public PatchDetailsViewModel SetValue(PatchDetailsViewModel viewModel, string value)
@@ -339,15 +339,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // TODO: See if you can do it more efficiently for stateful situations.
-            _viewModel = patch.ToDetailsViewModel(_entityPositionManager);
+            ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
 
             // TODO: You are not supposed to transform the view model based on information in that viewmodel.
             if (viewModel.SelectedOperator != null)
             {
-                SetSelectedOperator(_viewModel, viewModel.SelectedOperator.ID);
+                SetSelectedOperator(ViewModel, viewModel.SelectedOperator.ID);
             }
 
-            return _viewModel;
+            return ViewModel;
         }
 
         private void SetSelectedOperator(PatchDetailsViewModel viewModel, int operatorID)
@@ -362,7 +362,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     if (String.Equals(operatorViewModel.OperatorTypeName, PropertyNames.ValueOperator))
                     {
                         // Kind of dirty: this depends on the value being filled in as the name for value operators.
-                        _viewModel.SelectedValue = operatorViewModel.Name;
+                        ViewModel.SelectedValue = operatorViewModel.Name;
                     }
                 }
                 else

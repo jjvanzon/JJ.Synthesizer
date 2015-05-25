@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ISpeakerSetupRepository _speakerSetupRepository;
         private IInterpolationTypeRepository _interpolationTypeRepository;
 
-        private SamplePropertiesViewModel _viewModel;
+        public SamplePropertiesViewModel ViewModel { get; set; }
 
         public SamplePropertiesPresenter(
             ISampleRepository sampleRepository,
@@ -56,9 +56,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                _viewModel = entity.ToPropertiesViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository, _interpolationTypeRepository);
-                _viewModel.Visible = true;
-                return _viewModel;
+                ViewModel = entity.ToPropertiesViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository, _interpolationTypeRepository);
+                ViewModel.Visible = true;
+                return ViewModel;
             }
         }
     }

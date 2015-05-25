@@ -39,6 +39,7 @@
     <Compile Include="Converters\RecursiveViewModelToEntityConverter.cs" />
     <Compile Include="Enums\ChildDocumentTypeEnum.cs" />
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
+    <Compile Include="Helpers\ListIndexHelper.cs" />
     <Compile Include="Presenters\AudioFileOutputPropertiesPresenter.cs" />
     <Compile Include="Presenters\AudioFileOutputListPresenter.cs" />
     <Compile Include="Presenters\DocumentCannotDeletePresenter.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Presenters\EffectListPresenter.cs" />
     <Compile Include="Presenters\InstrumentListPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
+    <Compile Include="ToViewModel\ToDocumentTreeViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.cs" />
     <Compile Include="ToViewModel\ViewModelHelper_Lookups.cs" />
@@ -107,7 +109,7 @@
     <Compile Include="ViewModels\NotFoundViewModel.cs" />
     <Compile Include="ViewModels\Partials\ChildDocumentTreeViewModel.cs" />
     <Compile Include="ViewModels\Partials\DummyViewModel.cs" />
-    <Compile Include="ViewModels\Partials\IDNameAndTemporaryIDViewModel.cs" />
+    <Compile Include="ViewModels\Partials\IDNameAndListIndexViewModel.cs" />
     <Compile Include="ViewModels\Partials\MenuItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\ReferencedDocumentViewModel.cs" />
     <Compile Include="ViewModels\Partials\ReferencedDocumentsTreeNodeViewModel.cs" />

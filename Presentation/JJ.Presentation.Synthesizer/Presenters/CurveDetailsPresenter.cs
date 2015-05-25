@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ICurveRepository _curveRepository;
         private INodeTypeRepository _nodeTypeRepository;
 
-        private CurveDetailsViewModel _viewModel;
+        public CurveDetailsViewModel ViewModel { get; set; }
 
         public CurveDetailsPresenter(
             ICurveRepository curveRepository,
@@ -32,9 +32,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public CurveDetailsViewModel Show(int id)
         {
             Curve entity = _curveRepository.Get(id);
-            _viewModel = entity.ToDetailsViewModel(_nodeTypeRepository);
-            _viewModel.Visible = true;
-            return _viewModel;
+            ViewModel = entity.ToDetailsViewModel(_nodeTypeRepository);
+            ViewModel.Visible = true;
+            return ViewModel;
         }
     }
 }

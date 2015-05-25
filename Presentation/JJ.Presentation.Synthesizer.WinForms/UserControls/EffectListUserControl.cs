@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private const string ID_COLUMN_NAME = "IDColumn";
 
         public event EventHandler CreateRequested;
-        public event EventHandler<IDEventArgs> DeleteRequested;
+        public event EventHandler<Int32EventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
 
         /// <summary> virtually not nullable </summary>
@@ -83,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 int? id = TryGetSelectedID();
                 if (id.HasValue)
                 {
-                    DeleteRequested(this, new IDEventArgs(id.Value));
+                    DeleteRequested(this, new Int32EventArgs(id.Value));
                 }
             }
         }

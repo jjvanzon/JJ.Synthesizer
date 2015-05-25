@@ -67,20 +67,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public object ExpandNode(DocumentTreeViewModel viewModel, int temporaryID)
+        public object ExpandNode(DocumentTreeViewModel viewModel, int nodeIndex)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
             // 'Business'
             ChildDocumentTreeViewModel nodeViewModel = 
-                viewModel.Instruments.Where(x => x.TemporaryID == temporaryID).SingleOrDefault() ??
-                viewModel.Effects.Where(x => x.TemporaryID == temporaryID).SingleOrDefault();
+                viewModel.Instruments.Where(x => x.NodeIndex == nodeIndex).SingleOrDefault() ??
+                viewModel.Effects.Where(x => x.NodeIndex == nodeIndex).SingleOrDefault();
 
             if (nodeViewModel == null)
             {
                 throw new Exception(String.Format(
-                    "temporaryID '{0}' does not match with any ChildDocumentTreeViewModel in viewModel.Instruments not viewModel.Effects.",
-                    temporaryID));
+                    "nodeIndex '{0}' does not match with any ChildDocumentTreeViewModel in viewModel.Instruments not viewModel.Effects.",
+                    nodeIndex));
             }
 
             nodeViewModel.IsExpanded = true;
@@ -104,20 +104,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public object CollapseNode(DocumentTreeViewModel viewModel, int temporaryID)
+        public object CollapseNode(DocumentTreeViewModel viewModel, int nodeIndex)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
             // 'Business'
             ChildDocumentTreeViewModel nodeViewModel =
-                viewModel.Instruments.Where(x => x.TemporaryID == temporaryID).SingleOrDefault() ??
-                viewModel.Effects.Where(x => x.TemporaryID == temporaryID).SingleOrDefault();
+                viewModel.Instruments.Where(x => x.NodeIndex == nodeIndex).SingleOrDefault() ??
+                viewModel.Effects.Where(x => x.NodeIndex == nodeIndex).SingleOrDefault();
 
             if (nodeViewModel == null)
             {
                 throw new Exception(String.Format(
-                    "temporaryID '{0}' does not match with any ChildDocumentTreeViewModel in viewModel.Instruments not viewModel.Effects.",
-                    temporaryID));
+                    "nodeIndex '{0}' does not match with any ChildDocumentTreeViewModel in viewModel.Instruments not viewModel.Effects.",
+                    nodeIndex));
             }
 
             nodeViewModel.IsExpanded = false;
@@ -174,10 +174,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         /// <summary>
         /// Copies the Visible and the IsExpanded properties.
-        /// TODO: Copying the IsExpanded properties does not work,
-        /// because it tries to match by TemporaryID, which
-        /// is so temporary it is not the same in the source and dest
-        /// view models. A solution is yet to be found.
+        /// It matches source and dest nodex by the NodeIndex properties,
+        /// so it is important to keep those unique and (relatively) constant.
         /// </summary>
         private void CopyNonPersistedProperties(DocumentTreeViewModel sourceViewModel, DocumentTreeViewModel destViewModel)
         {
@@ -187,8 +185,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             destViewModel.Visible = sourceViewModel.Visible;
 
             var join1 = from sourceInstrumentViewModel in sourceViewModel.Instruments
-                        join destInstrumentViewModel in destViewModel.Instruments 
-                        on sourceInstrumentViewModel.TemporaryID equals destInstrumentViewModel.TemporaryID
+                        join destInstrumentViewModel in destViewModel.Instruments
+                        on sourceInstrumentViewModel.NodeIndex equals destInstrumentViewModel.NodeIndex
                         select new { sourceInstrumentViewModel, destInstrumentViewModel };
 
             foreach (var tuple in join1)
@@ -198,7 +196,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             var join2 = from sourceEffectViewModel in sourceViewModel.Effects
                         join destEffectViewModel in destViewModel.Effects 
-                        on sourceEffectViewModel.TemporaryID equals destEffectViewModel.TemporaryID
+                        on sourceEffectViewModel.NodeIndex equals destEffectViewModel.NodeIndex
                         select new { sourceEffectViewModel, destEffectViewModel };
 
             foreach (var tuple in join2)

@@ -103,17 +103,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static IList<IDNameAndTemporaryIDViewModel> ToChildDocumentLisItemsViewModel(this IList<Document> sourceEntities)
+        public static IList<IDNameAndListIndexViewModel> ToChildDocumentLisItemsViewModel(this IList<Document> sourceEntities)
         {
             if (sourceEntities == null) throw new NullException(() => sourceEntities);
 
-            IList<IDNameAndTemporaryIDViewModel> destList = new List<IDNameAndTemporaryIDViewModel>(sourceEntities.Count);
+            IList<IDNameAndListIndexViewModel> destList = new List<IDNameAndListIndexViewModel>(sourceEntities.Count);
 
             for (int i = 0; i < sourceEntities.Count; i++)
             {
                 Document sourceEntity = sourceEntities[i];
-                IDNameAndTemporaryIDViewModel destListItem = sourceEntity.ToListItemViewModel();
-                destListItem.TemporaryID = i;
+                IDNameAndListIndexViewModel destListItem = sourceEntity.ToListItemViewModel();
+                destListItem.ListIndex = i;
                 destList.Add(destListItem);
             }
 

@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class DocumentDetailsUserControl : UserControl
     {
         public event EventHandler SaveRequested;
-        public event EventHandler<IDEventArgs> DeleteRequested;
+        public event EventHandler<Int32EventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
 
         /// <summary> virtually not nullable </summary>
@@ -101,7 +101,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (DeleteRequested != null)
             {
-                var e = new IDEventArgs(_viewModel.Document.ID);
+                var e = new Int32EventArgs(_viewModel.Document.ID);
                 DeleteRequested(this, e);
             }
         }

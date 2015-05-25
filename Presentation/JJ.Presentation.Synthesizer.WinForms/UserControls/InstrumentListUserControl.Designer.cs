@@ -29,24 +29,32 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.specializedDataGridView = new SpecializedDataGridView();
+            this.specializedDataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.SpecializedDataGridView();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
-            this.TemporaryIDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ListIndexColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).BeginInit();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dataGridView
+            // specializedDataGridView
             // 
+            this.specializedDataGridView.AllowUserToAddRows = false;
+            this.specializedDataGridView.AllowUserToDeleteRows = false;
+            this.specializedDataGridView.AllowUserToResizeRows = false;
+            this.specializedDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.specializedDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.specializedDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.specializedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.specializedDataGridView.ColumnHeadersVisible = false;
             this.specializedDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.TemporaryIDColumn,
+            this.ListIndexColumn,
             this.NameColumn});
             this.specializedDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.specializedDataGridView.Location = new System.Drawing.Point(0, 26);
-            this.specializedDataGridView.Name = "dataGridView";
+            this.specializedDataGridView.Margin = new System.Windows.Forms.Padding(0);
+            this.specializedDataGridView.Name = "specializedDataGridView";
             this.specializedDataGridView.RowHeadersVisible = false;
             this.specializedDataGridView.Size = new System.Drawing.Size(310, 315);
             this.specializedDataGridView.TabIndex = 0;
@@ -86,14 +94,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.RemoveClicked += new System.EventHandler(this.titleBarUserControl_RemoveClicked);
             this.titleBarUserControl.AddClicked += new System.EventHandler(this.titleBarUserControl_AddClicked);
             // 
-            // TemporaryIDColumn
+            // ListIndexColumn
             // 
-            this.TemporaryIDColumn.DataPropertyName = "TemporaryID";
-            this.TemporaryIDColumn.HeaderText = "TemporaryID";
-            this.TemporaryIDColumn.Name = "TemporaryIDColumn";
-            this.TemporaryIDColumn.ReadOnly = true;
-            this.TemporaryIDColumn.Visible = false;
-            this.TemporaryIDColumn.Width = 80;
+            this.ListIndexColumn.DataPropertyName = "ListIndex";
+            this.ListIndexColumn.HeaderText = "ListIndex";
+            this.ListIndexColumn.Name = "ListIndexColumn";
+            this.ListIndexColumn.ReadOnly = true;
+            this.ListIndexColumn.Visible = false;
+            this.ListIndexColumn.Width = 80;
             // 
             // NameColumn
             // 
@@ -121,7 +129,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private SpecializedDataGridView specializedDataGridView;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private TitleBarUserControl titleBarUserControl;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TemporaryIDColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ListIndexColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
     }
 }

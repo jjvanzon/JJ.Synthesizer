@@ -294,17 +294,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void DocumentTreeExpandNode(int temporaryID)
+        private void DocumentTreeExpandNode(int listIndex)
         {
-            _viewModel = _presenter.DocumentTreeExpandNode(_viewModel, temporaryID);
+            _viewModel = _presenter.DocumentTreeExpandNode(_viewModel, listIndex);
             // I can get away not applying view model, because the TreeView control already expanded the node.
             // We just need to remember it in the view model. That's why we have to call the presenter.
             ApplyViewModel();
         }
 
-        private void DocumentTreeCollapseNode(int temporaryID)
+        private void DocumentTreeCollapseNode(int listIndex)
         {
-            _viewModel = _presenter.DocumentTreeCollapseNode(_viewModel, temporaryID);
+            _viewModel = _presenter.DocumentTreeCollapseNode(_viewModel, listIndex);
             // I can get away not applying view model, because the TreeView control already expanded the node.
             // We just need to remember it in the view model. That's why we have to call the presenter.
             ApplyViewModel();
@@ -338,9 +338,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void AudioFileOutputDelete(int temporaryID)
+        private void AudioFileOutputDelete(int listIndex)
         {
-            _viewModel = _presenter.AudioFileOutputDelete(_viewModel, temporaryID);
+            _viewModel = _presenter.AudioFileOutputDelete(_viewModel, listIndex);
             ApplyViewModel();
         }
 
@@ -374,9 +374,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void InstrumentListDelete(int temporaryID)
+        private void InstrumentListDelete(int listIndex)
         {
-            _viewModel = _presenter.InstrumentListDelete(_viewModel, temporaryID);
+            _viewModel = _presenter.InstrumentListDelete(_viewModel, listIndex);
             ApplyViewModel();
         }
 
@@ -503,9 +503,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Document List Events
 
-        private void documentListUserControl_ShowRequested(object sender, PageEventArgs e)
+        private void documentListUserControl_ShowRequested(object sender, Int32EventArgs e)
         {
-            DocumentListShow(e.PageNumber);
+            DocumentListShow(e.Int32);
         }
 
         private void documentListUserControl_CreateRequested(object sender, EventArgs e)
@@ -513,14 +513,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentDetailsCreate();
         }
 
-        private void documentListUserControl_OpenRequested(object sender, IDEventArgs e)
+        private void documentListUserControl_OpenRequested(object sender, Int32EventArgs e)
         {
-            DocumentOpen(e.ID);
+            DocumentOpen(e.Int32);
         }
 
-        private void documentListUserControl_DeleteRequested(object sender, IDEventArgs e)
+        private void documentListUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            DocumentDelete(e.ID);
+            DocumentDelete(e.Int32);
         }
 
         private void documentListUserControl_CloseRequested(object sender, EventArgs e)
@@ -535,9 +535,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentDetailsSave(documentDetailsUserControl.ViewModel);
         }
 
-        private void documentDetailsUserControl_DeleteRequested(object sender, IDEventArgs e)
+        private void documentDetailsUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            DocumentDelete(e.ID);
+            DocumentDelete(e.Int32);
         }
 
         private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e)
@@ -552,9 +552,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentTreeClose();
         }
 
-        private void documentTreeUserControl_DocumentPropertiesRequested(object sender, IDEventArgs e)
+        private void documentTreeUserControl_DocumentPropertiesRequested(object sender, Int32EventArgs e)
         {
-            DocumentPropertiesShow(e.ID);
+            DocumentPropertiesShow(e.Int32);
         }
 
         private void documentTreeUserControl_ExpandNodeRequested(object sender, Int32EventArgs e)
@@ -633,9 +633,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentCancelDelete();
         }
 
-        private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, IDEventArgs e)
+        private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, Int32EventArgs e)
         {
-            DocumentConfirmDelete(e.ID);
+            DocumentConfirmDelete(e.Int32);
         }
 
         private void MessageBoxHelper_DocumentDeletedOK(object sender, EventArgs e)
@@ -652,19 +652,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Temporary (List) Form Events
 
-        private void _sampleListForm_ShowRequested(object sender, PageEventArgs e)
+        private void _sampleListForm_ShowRequested(object sender, Int32EventArgs e)
         {
-            SampleListShow(e.PageNumber);
+            SampleListShow(e.Int32);
         }
 
-        private void _patchListForm_ShowRequested(object sender, PageEventArgs e)
+        private void _patchListForm_ShowRequested(object sender, Int32EventArgs e)
         {
-            PatchListShow(e.PageNumber);
+            PatchListShow(e.Int32);
         }
 
-        private void _curveListForm_ShowRequested(object sender, PageEventArgs e)
+        private void _curveListForm_ShowRequested(object sender, Int32EventArgs e)
         {
-            CurveListShow(e.PageNumber);
+            CurveListShow(e.Int32);
         }
 
         private void _audioFileOutputPropertiesForm_CloseRequested(object sender, EventArgs e)

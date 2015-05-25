@@ -116,7 +116,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new ChildDocumentListViewModel
             {
-                List = new List<IDNameAndTemporaryIDViewModel>(),
+                List = new List<IDNameAndListIndexViewModel>(),
                 ChildDocumentType = ChildDocumentTypeEnum.Instrument
             };
 
@@ -127,7 +127,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new ChildDocumentListViewModel
             {
-                List = new List<IDNameAndTemporaryIDViewModel>(),
+                List = new List<IDNameAndListIndexViewModel>(),
                 ChildDocumentType = ChildDocumentTypeEnum.Effect
             };
 

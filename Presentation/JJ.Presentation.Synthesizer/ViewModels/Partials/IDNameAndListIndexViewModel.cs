@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Partials
 {
-    public class IDNameAndTemporaryIDViewModel
+    public class IDNameAndListIndexViewModel
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public int TemporaryID { get; set; }
+        public int ListIndex { get; set; }
     }
 }

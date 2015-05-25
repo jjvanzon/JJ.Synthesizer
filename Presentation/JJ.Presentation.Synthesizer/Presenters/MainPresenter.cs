@@ -19,6 +19,7 @@ using JJ.Presentation.Synthesizer.Extensions;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.Enums;
 using JJ.Framework.Common;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -326,24 +327,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel DocumentTreeExpandNode(MainViewModel viewModel, int temporaryID)
+        public MainViewModel DocumentTreeExpandNode(MainViewModel viewModel, int listIndex)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            object viewModel2 = _documentTreePresenter.ExpandNode(viewModel.Document.DocumentTree, temporaryID);
+            object viewModel2 = _documentTreePresenter.ExpandNode(viewModel.Document.DocumentTree, listIndex);
 
             DispatchViewModel(viewModel2);
 
             return _viewModel;
         }
 
-        public MainViewModel DocumentTreeCollapseNode(MainViewModel viewModel, int temporaryID)
+        public MainViewModel DocumentTreeCollapseNode(MainViewModel viewModel, int listIndex)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            object viewModel2 = _documentTreePresenter.CollapseNode(viewModel.Document.DocumentTree, temporaryID);
+            object viewModel2 = _documentTreePresenter.CollapseNode(viewModel.Document.DocumentTree, listIndex);
 
             DispatchViewModel(viewModel2);
 
@@ -424,11 +425,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             TemporarilyAssertViewModelField();
 
+            // ToEntity
             Document document = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
 
+            // Business
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
             audioFileOutput.LinkTo(document);
 
+            // ToVieWModel
             AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel(_repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository);
             propertiesViewModel.AudioFileOutput.ListIndex = _viewModel.Document.AudioFileOutputPropertiesList.Count;
             _viewModel.Document.AudioFileOutputPropertiesList.Add(propertiesViewModel);
@@ -442,14 +446,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel AudioFileOutputDelete(MainViewModel viewModel, int temporaryID)
+        public MainViewModel AudioFileOutputDelete(MainViewModel viewModel, int listIndex)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
             TemporarilyAssertViewModelField();
 
-            viewModel.Document.AudioFileOutputPropertiesList.RemoveAt(temporaryID);
-            viewModel.Document.AudioFileOutputList.List.RemoveAt(temporaryID);
+            _viewModel.Document.AudioFileOutputPropertiesList.RemoveAt(listIndex);
+            _viewModel.Document.AudioFileOutputList.List.RemoveAt(listIndex);
+
+            ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputList.List, listIndex);
 
             return _viewModel;
         }
@@ -494,15 +500,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         // TODO: Refresh for details / properties views is probably not necessary.
-        public MainViewModel AudioFileOutputPropertiesRefresh(MainViewModel viewModel, int temporaryID)
+        public MainViewModel AudioFileOutputPropertiesRefresh(MainViewModel viewModel, int listIndex)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
             TemporarilyAssertViewModelField();
             
-            AudioFileOutputPropertiesViewModel userInput = viewModel.Document.AudioFileOutputPropertiesList
-                                                                             .Where(x => x.AudioFileOutput.ID == temporaryID) // TODO: Must use temporary ID.
-                                                                             .SingleOrDefault();
+            AudioFileOutputPropertiesViewModel userInput = viewModel.Document.AudioFileOutputPropertiesList[listIndex];
 
             object viewModel2 = _audioFileOutputPropertiesPresenter.Refresh(userInput);
 
@@ -580,12 +584,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel EffectListDelete(MainViewModel viewModel, int temporaryID)
+        public MainViewModel EffectListDelete(MainViewModel viewModel, int listIndex)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            object viewModel2 = _effectListPresenter.Delete(_viewModel.Document.EffectList, temporaryID);
+            object viewModel2 = _effectListPresenter.Delete(_viewModel.Document.EffectList, listIndex);
             DispatchViewModel(viewModel2);
 
             RefreshDocumentTree();
@@ -636,12 +640,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel InstrumentListDelete(MainViewModel viewModel, int temporaryID)
+        public MainViewModel InstrumentListDelete(MainViewModel viewModel, int listIndex)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            object viewModel2 = _instrumentListPresenter.Delete(_viewModel.Document.InstrumentList, temporaryID);
+            object viewModel2 = _instrumentListPresenter.Delete(_viewModel.Document.InstrumentList, listIndex);
             DispatchViewModel(viewModel2);
 
             RefreshDocumentTree();
@@ -996,7 +1000,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void RefreshAudioFileOutputList()
         {
-            object viewModel2 = _audioFileOutputListPresenter.Refresh(_viewModel.Document.ID);
+            object viewModel2 = _audioFileOutputListPresenter.Refresh(_viewModel.Document.AudioFileOutputList);
             DispatchViewModel(viewModel2);
         }
 

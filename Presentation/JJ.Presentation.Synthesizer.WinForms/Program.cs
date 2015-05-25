@@ -24,6 +24,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             var config = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.Configuration.ConfigurationSection>();
             ConfigurationHelper.SetSection(config);
 
+            var config2 = CustomConfigurationManager.GetSection<JJ.Business.Synthesizer.Configuration.ConfigurationSection>();
+            ConfigurationHelper.SetSection(config2);
+
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 

@@ -1,5 +1,8 @@
-﻿using JJ.Business.Synthesizer.Constants;
+﻿using JJ.Business.Synthesizer.Configuration;
+using JJ.Business.Synthesizer.Constants;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Common;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
@@ -23,10 +26,9 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (document == null) throw new NullException(() => document);
 
-            For(() => document.Name, CommonTitles.Name)
-                .NotNullOrWhiteSpace()
-                .MaxLength(DefaultConstants.NAME_MAX_LENGTH)
-                .NotInteger();
+            string messagePrefix = PropertyDisplayNames.Document + ": ";
+
+            Execute(new NameValidator(document.Name), messagePrefix);
         }
     }
 }

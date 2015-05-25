@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JJ.Presentation.Synthesizer.Enums;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -52,7 +53,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _viewModel = document.Instruments.ToChildDocumentListViewModel();
 
                 _viewModel.ParentDocumentID = document.ID;
-                _viewModel.Visible = true;
                 _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Instrument;
             }
 
@@ -69,15 +69,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
 
             Document document = _repositoryWrapper.DocumentRepository.TryGet(viewModel.ParentDocumentID);
-
             if (document == null)
             {
                 return CreateDocumentNotFoundViewModel();
             }
 
             _viewModel = document.Instruments.ToChildDocumentListViewModel();
-            _viewModel.ParentDocumentID = document.ID;
 
+            _viewModel.ParentDocumentID = document.ID;
             _viewModel.Visible = viewModel.Visible;
             _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Instrument;
 
@@ -112,17 +111,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public object Delete(ChildDocumentListViewModel viewModel, int temporaryID)
+        public object Delete(ChildDocumentListViewModel viewModel, int listIndex)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
             // 'Business'
-            IDNameAndTemporaryIDViewModel listItemViewModel = viewModel.List.Where(x => x.TemporaryID == temporaryID).SingleOrDefault();
-            if (listItemViewModel == null)
-            {
-                throw new Exception(String.Format("viewModel.List item with TemporaryID '{0}' not found.", temporaryID));
-            }
-            viewModel.List.Remove(listItemViewModel);
+            viewModel.List.RemoveAt(listIndex);
 
             // ToEntity
             Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.ParentDocumentID);
@@ -142,6 +136,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Non-persisted properties
                 _viewModel.Visible = viewModel.Visible;
                 _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Instrument;
+            }
+            else
+            {
+                ListIndexHelper.RenumberListIndexes(_viewModel.List, listIndex);
             }
 
             return _viewModel;

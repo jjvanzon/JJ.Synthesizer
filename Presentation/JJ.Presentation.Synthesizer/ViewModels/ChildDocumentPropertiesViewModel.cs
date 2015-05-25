@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public bool Visible { get; set; }
 
         // TODO: Use different view model type, because in this context it is not a list item.
-        public IDNameAndTemporaryIDViewModel Document { get; set; }
+        public IDNameAndListIndexViewModel Document { get; set; }
 
         public IList<Message> Messages { get; set; }
     }

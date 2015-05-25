@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Calculation\AudioFileOutputs\AudioFileOutputCalculatorFactory.cs" />
@@ -118,7 +119,7 @@
     <Compile Include="Calculation\Samples\Int16_BlockInterpolation_SampleCalculator.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorFactory.cs" />
-    <Compile Include="Constants\DefaultConstants.cs" />
+    <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Constants\OperatorConstants.cs" />
     <Compile Include="Constants\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Structs\WavHeaderStruct.cs" />
     <Compile Include="Validation\DocumentValidator_Delete.cs" />
     <Compile Include="Validation\DocumentValidator_Basic.cs" />
+    <Compile Include="Validation\NameValidator.cs" />
     <Compile Include="Validation\OperatorValidator_IsCircular.cs" />
     <Compile Include="Validation\PatchValidator_InDocument.cs" />
     <Compile Include="Validation\DocumentValidator_Recursive.cs" />

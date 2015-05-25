@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class DocumentTreeUserControl : UserControl
     {
         public event EventHandler CloseRequested;
-        public event EventHandler<IDEventArgs> DocumentPropertiesRequested;
+        public event EventHandler<Int32EventArgs> DocumentPropertiesRequested;
         public event EventHandler<Int32EventArgs> ExpandNodeRequested;
         public event EventHandler<Int32EventArgs> CollapseNodeRequested;
         public event EventHandler ShowInstrumentsRequested;
@@ -142,7 +142,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             foreach (ChildDocumentTreeViewModel instrumentViewModel in parentViewModel.Instruments)
             {
                 var instrumentTreeNode = new TreeNode(instrumentViewModel.Name);
-                instrumentTreeNode.Tag = instrumentViewModel.TemporaryID;
+                instrumentTreeNode.Tag = instrumentViewModel.ListIndex;
                 _instrumentsTreeNode.Nodes.Add(instrumentTreeNode);
 
                 AddChildDocumentChildNodesRecursive(instrumentTreeNode, instrumentViewModel);
@@ -165,7 +165,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             foreach (ChildDocumentTreeViewModel effectViewModel in parentViewModel.Effects)
             {
                 var effectTreeNode = new TreeNode(effectViewModel.Name);
-                effectTreeNode.Tag = effectViewModel.TemporaryID;
+                effectTreeNode.Tag = effectViewModel.ListIndex;
                 effectsTreeNode.Nodes.Add(effectTreeNode);
 
                 AddChildDocumentChildNodesRecursive(effectTreeNode, effectViewModel);
@@ -221,7 +221,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (DocumentPropertiesRequested != null)
             {
-                DocumentPropertiesRequested(this, new IDEventArgs(_viewModel.ID)); // TODO: At some point I am going to have to get it from the TreeNode.Tag, instead of the ViewModel.
+                DocumentPropertiesRequested(this, new Int32EventArgs(_viewModel.ID)); // TODO: At some point I am going to have to get it from the TreeNode.Tag, instead of the ViewModel.
             }
         }
 
@@ -244,14 +244,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            int temporaryID;
+            int listIndex;
             // TODO: This is a bad assumption. Refactor that later.
-            bool isChildDocumentNode = Int32.TryParse(Convert.ToString(e.Node.Tag), out temporaryID);
+            bool isChildDocumentNode = Int32.TryParse(Convert.ToString(e.Node.Tag), out listIndex);
             if (isChildDocumentNode)
             {
                 if (ExpandNodeRequested != null)
                 {
-                    ExpandNodeRequested(this, new Int32EventArgs(temporaryID));
+                    ExpandNodeRequested(this, new Int32EventArgs(listIndex));
                 }
             }
         }
@@ -263,14 +263,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            int temporaryID;
+            int listIndex;
             // TODO: This is a bad assumption. Refactor that later.
-            bool isChildDocumentNode = Int32.TryParse(Convert.ToString(e.Node.Tag), out temporaryID);
+            bool isChildDocumentNode = Int32.TryParse(Convert.ToString(e.Node.Tag), out listIndex);
             if (isChildDocumentNode)
             {
                 if (CollapseNodeRequested != null)
                 {
-                    CollapseNodeRequested(this, new Int32EventArgs(temporaryID));
+                    CollapseNodeRequested(this, new Int32EventArgs(listIndex));
                 }
             }
         }

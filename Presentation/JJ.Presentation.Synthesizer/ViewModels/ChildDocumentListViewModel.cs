@@ -22,6 +22,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 
         public int ParentDocumentID { get; set; }
         public bool Visible { get; set; }
-        public IList<IDNameAndTemporaryIDViewModel> List { get; set; }
+        public IList<IDNameAndListIndexViewModel> List { get; set; }
     }
 }

@@ -27,13 +27,9 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (patch == null) throw new NullException(() => patch);
 
-            For(() => patch.Name, CommonTitles.Name)
-                .NotNullOrWhiteSpace()
-                .MaxLength(DefaultConstants.NAME_MAX_LENGTH)
-                .NotInteger();
+            For(() => patch.Document, PropertyDisplayNames.Document).NotNull();
 
-            For(() => patch.Document, PropertyDisplayNames.Document)
-                .NotNull();
+            Execute(new NameValidator(patch.Name));
         }
     }
 }
