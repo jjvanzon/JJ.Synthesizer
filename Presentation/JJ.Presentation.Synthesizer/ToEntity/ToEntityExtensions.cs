@@ -28,12 +28,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Document destDocument = sourceViewModel.ToEntity(repositoryWrapper.DocumentRepository);
 
-            ConvertToInstrumentsWithRelatedEntities(sourceViewModel, destDocument, repositoryWrapper);
-            ConvertToEffectsWithRelatedEntities(sourceViewModel, destDocument, repositoryWrapper);
-            ConvertToSamples(sourceViewModel.SamplePropertiesList, destDocument, repositoryWrapper);
-            ConvertToCurvesWithRelatedEntities(sourceViewModel.CurveDetailsList, destDocument, repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
-            ConvertToPatchesWithRelatedEntities(sourceViewModel.PatchDetailsList, destDocument, repositoryWrapper);
-            ConvertToAudioFileOutputsWithRelatedEntities(sourceViewModel.AudioFileOutputPropertiesList, destDocument, repositoryWrapper);
+            ToEntityHelper.ConvertToInstrumentsWithRelatedEntities(sourceViewModel, destDocument, repositoryWrapper);
+            ToEntityHelper.ConvertToEffectsWithRelatedEntities(sourceViewModel, destDocument, repositoryWrapper);
+            ToEntityHelper.ConvertToSamples(sourceViewModel.SamplePropertiesList, destDocument, repositoryWrapper);
+            ToEntityHelper.ConvertToCurvesWithRelatedEntities(sourceViewModel.CurveDetailsList, destDocument, repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
+            ToEntityHelper.ConvertToPatchesWithRelatedEntities(sourceViewModel.PatchDetailsList, destDocument, repositoryWrapper);
+            ToEntityHelper.ConvertToAudioFileOutputsWithRelatedEntities(sourceViewModel.AudioFileOutputPropertiesList, destDocument, repositoryWrapper);
 
             return destDocument;
         }
@@ -49,47 +49,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return document;
         }
 
-        /// <summary>
-        /// Converts the InstrumentPropertiesList and then Instrument(Document)s to entities.
-        /// </summary>
-        private static void ConvertToInstrumentsWithRelatedEntities(DocumentViewModel sourceViewModel, Document destDocument, RepositoryWrapper repositoryWrapper)
-        {
-            var idsToKeep = new HashSet<int>();
-
-            foreach (ChildDocumentPropertiesViewModel instrumentPropertiesViewModel in sourceViewModel.InstrumentPropertiesList)
-            {
-                Document entity = instrumentPropertiesViewModel.ToEntity(repositoryWrapper.DocumentRepository);
-
-                entity.LinkInstrumentToDocument(destDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            foreach (ChildDocumentViewModel instrumentDocumentViewModel in sourceViewModel.InstrumentDocumentList)
-            {
-                Document entity = instrumentDocumentViewModel.ToEntityWithRelatedEntities(repositoryWrapper);
-
-                entity.LinkInstrumentToDocument(destDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            DocumentManager documentManager = new DocumentManager(repositoryWrapper);
-
-            IList<int> existingIDs = destDocument.Instruments.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                documentManager.DeleteWithRelatedEntities(idToDelete);
-            }
-        }
-
+        [Obsolete("Use ToEntityHelper.ConvertToInstrumentsWithRelatedEntities instead.", true)]
         /// <summary>
         /// Converts the InstrumentList to entities.
         /// </summary>
@@ -99,8 +59,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
             Document destDocument = repositoryWrapper.DocumentRepository.Get(viewModel.ParentDocumentID);
-
-            // TODO: Use the DocumentManager to do the CRUD operations?
 
             foreach (IDNameAndListIndexViewModel sourceListItemViewModel in viewModel.List)
             {
@@ -114,62 +72,21 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 destInstrument.Name = sourceListItemViewModel.Name;
             }
 
-            var entityIDs = new HashSet<int>(destDocument.Instruments.Where(x => x.ID != 0).Select(x => x.ID));
-            var viewModelIDs = new HashSet<int>(viewModel.List.Where(x => x.ID != 0).Select(x => x.ID));
+            DocumentManager documentManager = new DocumentManager(repositoryWrapper);
 
+            var entityIDs = new HashSet<int>(destDocument.Instruments.Select(x => x.ID));
+            var viewModelIDs = new HashSet<int>(viewModel.List.Select(x => x.ID));
             IList<int> idsToDelete = entityIDs.Except(viewModelIDs).ToArray();
 
             foreach (int idToDelete in idsToDelete)
             {
-                Document instrumentToDelete = repositoryWrapper.DocumentRepository.Get(idToDelete);
-                instrumentToDelete.DeleteRelatedEntities(repositoryWrapper);
-                instrumentToDelete.UnlinkRelatedEntities();
-
-                repositoryWrapper.DocumentRepository.Delete(instrumentToDelete);
+                documentManager.DeleteWithRelatedEntities(idToDelete);
             }
 
             return destDocument;
         }
 
-        /// <summary>
-        /// Converts the InstrumentPropertiesList and then Instrument(Document)s to entities.
-        /// </summary>
-        private static void ConvertToEffectsWithRelatedEntities(DocumentViewModel sourceViewModel, Document destDocument, RepositoryWrapper repositoryWrapper)
-        {
-            var idsToKeep = new HashSet<int>();
-
-            foreach (ChildDocumentPropertiesViewModel effectPropertiesViewModel in sourceViewModel.EffectPropertiesList)
-            {
-                Document entity = effectPropertiesViewModel.ToEntity(repositoryWrapper.DocumentRepository);
-                entity.LinkEffectToDocument(destDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            foreach (ChildDocumentViewModel effectDocumentViewModel in sourceViewModel.EffectDocumentList)
-            {
-                Document entity = effectDocumentViewModel.ToEntityWithRelatedEntities(repositoryWrapper);
-                entity.LinkEffectToDocument(destDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            var documentManager = new DocumentManager(repositoryWrapper);
-
-            IEnumerable<int> existingIDs = destDocument.Effects.Select(x => x.ID).ToArray();
-            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                documentManager.DeleteWithRelatedEntities(idToDelete);
-            }
-        }
-
+        [Obsolete("Use ToEntityHelper.ConvertToEffectsWithRelatedEntities instead.", true)]
         /// <summary>
         /// Converts the InstrumentList to entities.
         /// </summary>
@@ -231,42 +148,29 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
-            Document destDocument = sourceViewModel.DocumentProperties.ToEntity(repositoryWrapper.DocumentRepository);
+            Document destDocument = sourceViewModel.Document.ToEntity(repositoryWrapper.DocumentRepository);
 
-            ConvertToSamples(sourceViewModel.SamplePropertiesList, destDocument, repositoryWrapper);
-            ConvertToCurvesWithRelatedEntities(sourceViewModel.CurveDetailsList, destDocument, repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
-            ConvertToPatchesWithRelatedEntities(sourceViewModel.PatchDetailsList, destDocument, repositoryWrapper);
+            ToEntityHelper.ConvertToSamples(sourceViewModel.SamplePropertiesList, destDocument, repositoryWrapper);
+            ToEntityHelper.ConvertToCurvesWithRelatedEntities(sourceViewModel.CurveDetailsList, destDocument, repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
+            ToEntityHelper.ConvertToPatchesWithRelatedEntities(sourceViewModel.PatchDetailsList, destDocument, repositoryWrapper);
 
             return destDocument;
         }
 
-        /// <summary>
-        /// TODO: Does not use all repositories out of the RepositoryWrapper.
-        /// </summary>
-        private static void ConvertToSamples(IList<SamplePropertiesViewModel> viewModelList, Document destDocument, RepositoryWrapper repositoryWrapper)
+        public static Document ToEntity(this IDNameAndListIndexViewModel idNameAndListIndex, IDocumentRepository documentRepository)
         {
-            var idsToKeep = new HashSet<int>();
+            if (idNameAndListIndex == null) throw new NullException(() => idNameAndListIndex);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
 
-            foreach (SamplePropertiesViewModel viewModel in viewModelList)
+            Document document = documentRepository.TryGet(idNameAndListIndex.ID);
+            if (document == null)
             {
-                Sample entity = viewModel.Sample.ToEntity(repositoryWrapper);
-                entity.LinkTo(destDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
+                document = documentRepository.Create();
             }
 
-            // Delete
-            IList<int> existingIDs = destDocument.Samples.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                Sample entityToDelete = repositoryWrapper.SampleRepository.Get(idToDelete);
-                entityToDelete.UnlinkRelatedEntities();
-                repositoryWrapper.SampleRepository.Delete(entityToDelete);
-            }
+            document.Name = idNameAndListIndex.Name;
+
+            return document;
         }
 
         /// <summary>
@@ -313,32 +217,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return sample;
         }
 
-        private static void ConvertToCurvesWithRelatedEntities(IList<CurveDetailsViewModel> viewModelList, Document destDocument, ICurveRepository curveRepository, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
-        {
-            var idsToKeep = new HashSet<int>();
-
-            foreach (CurveDetailsViewModel viewModel in viewModelList)
-            {
-                Curve entity = viewModel.Curve.ToEntityWithRelatedEntities(curveRepository, nodeRepository, nodeTypeRepository);
-                entity.LinkTo(destDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            IList<int> existingIDs = destDocument.Samples.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                Curve entityToDelete = curveRepository.Get(idToDelete);
-                entityToDelete.UnlinkRelatedEntities();
-                entityToDelete.DeleteRelatedEntities(nodeRepository);
-                curveRepository.Delete(entityToDelete);
-            }
-        }
-
         public static Curve ToEntityWithRelatedEntities(this CurveViewModel viewModel, ICurveRepository curveRepository, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -348,7 +226,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Curve curve = viewModel.ToEntity(curveRepository);
 
-            ConvertToNodes(viewModel.Nodes, curve, nodeRepository, nodeTypeRepository);
+            ToEntityHelper.ConvertToNodes(viewModel.Nodes, curve, nodeRepository, nodeTypeRepository);
 
             return curve;
         }
@@ -366,31 +244,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             curve.Name = viewModel.Name;
 
             return curve;
-        }
-
-        private static void ConvertToNodes(IList<NodeViewModel> viewModelList, Curve destCurve, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
-        {
-            var idsToKeep = new HashSet<int>();
-
-            foreach (NodeViewModel viewModel in viewModelList)
-            {
-                Node entity = viewModel.ToEntity(nodeRepository, nodeTypeRepository);
-                entity.LinkTo(destCurve);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            IList<int> existingIDs = destCurve.Nodes.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                Node entityToDelete = nodeRepository.Get(idToDelete);
-                entityToDelete.UnlinkRelatedEntities();
-                nodeRepository.Delete(entityToDelete);
-            }
         }
 
         public static Node ToEntity(this NodeViewModel viewModel, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
@@ -417,66 +270,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         /// <summary>
-        /// TODO: You might want to pass repositories explicitly,
-        /// since you do not need all of the ones in RepositoryWrapper.
-        /// </summary>
-        private static void ConvertToPatchesWithRelatedEntities(IList<PatchDetailsViewModel> viewModelList, Document destDocument, RepositoryWrapper repositoryWrapper)
-        {
-            var idsToKeep = new HashSet<int>();
-
-            foreach (PatchDetailsViewModel viewModel in viewModelList)
-            {
-                Patch entity = viewModel.Patch.ToEntityWithRelatedEntities(repositoryWrapper.PatchRepository, repositoryWrapper.OperatorRepository, repositoryWrapper.InletRepository, repositoryWrapper.OutletRepository, repositoryWrapper.EntityPositionRepository);
-                entity.LinkTo(destDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            IList<int> existingIDs = destDocument.Samples.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                Patch entityToDelete = repositoryWrapper.PatchRepository.Get(idToDelete);
-                entityToDelete.UnlinkRelatedEntities();
-                entityToDelete.DeleteRelatedEntities(repositoryWrapper.OperatorRepository, repositoryWrapper.InletRepository, repositoryWrapper.OutletRepository, repositoryWrapper.EntityPositionRepository);
-                repositoryWrapper.PatchRepository.Delete(entityToDelete);
-            }
-        }
-
-        // TODO: Move ConvertToAudioFileOutputsWithRelatedEntities and other such metods to ToEntityHelper if it proves to be used publically.
-
-        /// <summary>
-        /// TODO: Does not use all repositories out of the RepositoryWrapper.
-        /// </summary>
-        public static void ConvertToAudioFileOutputsWithRelatedEntities(IList<AudioFileOutputPropertiesViewModel> viewModelList, Document destDocument, RepositoryWrapper repositoryWrapper)
-        {
-            var idsToKeep = new HashSet<int>();
-
-            foreach (AudioFileOutputPropertiesViewModel viewModel in viewModelList)
-            {
-                AudioFileOutput entity = viewModel.AudioFileOutput.ToEntityWithRelatedEntities(repositoryWrapper);
-                entity.LinkTo(destDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            IList<int> existingIDs = destDocument.AudioFileOutputs.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                AudioFileOutput entityToDelete = repositoryWrapper.AudioFileOutputRepository.Get(idToDelete);
-                entityToDelete.UnlinkRelatedEntities();
-                repositoryWrapper.AudioFileOutputRepository.Delete(entityToDelete);
-            }
-        }
-
-        /// <summary>
         /// TODO: We do not need all the repositories in repositoryWrapper.
         /// </summary>
         public static AudioFileOutput ToEntityWithRelatedEntities(this AudioFileOutputViewModel sourceViewModel, RepositoryWrapper repositoryWrapper)
@@ -486,7 +279,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             AudioFileOutput destAudioFileOutput = sourceViewModel.ToEntity(repositoryWrapper);
 
-            ConvertAudioFileOutputChannels(sourceViewModel.Channels, destAudioFileOutput, repositoryWrapper.AudioFileOutputChannelRepository, repositoryWrapper.OutletRepository);
+            ToEntityHelper.ConvertAudioFileOutputChannels(sourceViewModel.Channels, destAudioFileOutput, repositoryWrapper.AudioFileOutputChannelRepository, repositoryWrapper.OutletRepository);
 
             return destAudioFileOutput;
         }
@@ -528,31 +321,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             return audioFileOutput;
-        }
-
-        private static void ConvertAudioFileOutputChannels(IList<AudioFileOutputChannelViewModel> viewModelList, AudioFileOutput destAudioFileOutput, IAudioFileOutputChannelRepository audioFileOutputChannelRepository, IOutletRepository outletRepository)
-        {
-            var idsToKeep = new HashSet<int>();
-
-            foreach (AudioFileOutputChannelViewModel viewModel in viewModelList)
-            {
-                AudioFileOutputChannel entity = viewModel.ToEntity(audioFileOutputChannelRepository, outletRepository);
-                entity.LinkTo(destAudioFileOutput);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            IList<int> existingIDs = destAudioFileOutput.AudioFileOutputChannels.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                AudioFileOutputChannel entityToDelete = audioFileOutputChannelRepository.Get(idToDelete);
-                entityToDelete.UnlinkRelatedEntities();
-                audioFileOutputChannelRepository.Delete(entityToDelete);
-            }
         }
 
         public static AudioFileOutputChannel ToEntity(this AudioFileOutputChannelViewModel viewModel, IAudioFileOutputChannelRepository audioFileOutputChannelRepository, IOutletRepository outletRepository)

@@ -112,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             for (int i = 0; i < sourceEntities.Count; i++)
             {
                 Document sourceEntity = sourceEntities[i];
-                IDNameAndListIndexViewModel destListItem = sourceEntity.ToListItemViewModel();
+                IDNameAndListIndexViewModel destListItem = sourceEntity.ToIDNameAndListIndex();
                 destListItem.ListIndex = i;
                 destList.Add(destListItem);
             }

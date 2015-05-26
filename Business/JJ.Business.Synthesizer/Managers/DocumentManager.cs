@@ -70,8 +70,6 @@ namespace JJ.Business.Synthesizer.Managers
             document.UnlinkRelatedEntities();
 
             _repositoryWrapper.DocumentRepository.Delete(document);
-
-            _repositoryWrapper.Commit();
         }
 
         public Document CreateInstrument(int parentDocumentID)

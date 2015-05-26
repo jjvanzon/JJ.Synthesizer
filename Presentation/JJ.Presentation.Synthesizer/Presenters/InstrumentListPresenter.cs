@@ -83,68 +83,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        /// <summary>
-        /// Can return ChildDocumentListViewModel or NotFoundViewModel.
-        /// </summary>
-        public object Create(ChildDocumentListViewModel viewModel)
-        {
-            // ToEntity
-            Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.ParentDocumentID);
-            if (parentDocument == null)
-            {
-                NotFoundViewModel notFoundViewModel = CreateDocumentNotFoundViewModel();
-                return notFoundViewModel;
-            }
-            parentDocument = viewModel.InstrumentListViewModelToParentDocument(_repositoryWrapper);
-
-            // Business
-            Document instrument = _documentManager.CreateInstrument(parentDocument);
-
-            // ToViewModel
-            _viewModel = parentDocument.Instruments.ToChildDocumentListViewModel();
-            _viewModel.ParentDocumentID = parentDocument.ID;
-
-            // Non-Persisted Properties
-            _viewModel.Visible = viewModel.Visible;
-            _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Instrument;
-
-            return _viewModel;
-        }
-
-        public object Delete(ChildDocumentListViewModel viewModel, int listIndex)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            // 'Business'
-            viewModel.List.RemoveAt(listIndex);
-
-            // ToEntity
-            Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.ParentDocumentID);
-            if (parentDocument == null)
-            {
-                NotFoundViewModel notFoundViewModel = CreateDocumentNotFoundViewModel();
-                return notFoundViewModel;
-            }
-            parentDocument = viewModel.InstrumentListViewModelToParentDocument(_repositoryWrapper);
-
-            if (_viewModel == null)
-            {
-                // ToViewModel
-                _viewModel = parentDocument.Instruments.ToChildDocumentListViewModel();
-                _viewModel.ParentDocumentID = parentDocument.ID;
-
-                // Non-persisted properties
-                _viewModel.Visible = viewModel.Visible;
-                _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Instrument;
-            }
-            else
-            {
-                ListIndexHelper.RenumberListIndexes(_viewModel.List, listIndex);
-            }
-
-            return _viewModel;
-        }
-
         public ChildDocumentListViewModel Close()
         {
             if (_viewModel == null)

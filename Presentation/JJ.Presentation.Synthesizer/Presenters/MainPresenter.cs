@@ -20,6 +20,8 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.Enums;
 using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -64,6 +66,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private MainViewModel _viewModel;
 
         private EntityPositionManager _entityPositionManager;
+        private DocumentManager _documentManager;
         private AudioFileOutputManager _audioFileOutputManager;
 
         public MainPresenter(RepositoryWrapper repositoryWrapper)
@@ -93,6 +96,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _samplePropertiesPresenter = new SamplePropertiesPresenter(_repositoryWrapper.SampleRepository, _repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.SampleDataTypeRepository, repositoryWrapper.SpeakerSetupRepository, _repositoryWrapper.InterpolationTypeRepository);
 
             _entityPositionManager = new EntityPositionManager(_repositoryWrapper.EntityPositionRepository);
+            _documentManager = new DocumentManager(repositoryWrapper);
             _audioFileOutputManager = new AudioFileOutputManager(_repositoryWrapper.AudioFileOutputRepository, _repositoryWrapper.AudioFileOutputChannelRepository, repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository, _repositoryWrapper.AudioFileFormatRepository);
 
             _dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
@@ -419,47 +423,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // AudioFileOutput Actions
 
-        public MainViewModel AudioFileOutputCreate(MainViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            TemporarilyAssertViewModelField();
-
-            // ToEntity
-            Document document = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
-
-            // Business
-            AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
-            audioFileOutput.LinkTo(document);
-
-            // ToVieWModel
-            AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel(_repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository);
-            propertiesViewModel.AudioFileOutput.ListIndex = _viewModel.Document.AudioFileOutputPropertiesList.Count;
-            _viewModel.Document.AudioFileOutputPropertiesList.Add(propertiesViewModel);
-
-            AudioFileOutputListItemViewModel listItemViewModel = audioFileOutput.ToListItemViewModel();
-            listItemViewModel.ListIndex = _viewModel.Document.AudioFileOutputList.List.Count;
-            _viewModel.Document.AudioFileOutputList.List.Add(listItemViewModel);
-
-            _repositoryWrapper.Rollback();
-
-            return _viewModel;
-        }
-
-        public MainViewModel AudioFileOutputDelete(MainViewModel viewModel, int listIndex)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            TemporarilyAssertViewModelField();
-
-            _viewModel.Document.AudioFileOutputPropertiesList.RemoveAt(listIndex);
-            _viewModel.Document.AudioFileOutputList.List.RemoveAt(listIndex);
-
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputList.List, listIndex);
-
-            return _viewModel;
-        }
-
         public MainViewModel AudioFileOutputListShow(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -480,6 +443,49 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             object viewModel2 = _audioFileOutputListPresenter.Close();
             DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel AudioFileOutputCreate(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            // ToEntity
+            Document document = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+            // Business
+            AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
+            audioFileOutput.LinkTo(document);
+
+            // ToVieWModel
+            int listIndex = _viewModel.Document.AudioFileOutputPropertiesList.Count;
+
+            AudioFileOutputListItemViewModel listItemViewModel = audioFileOutput.ToListItemViewModel();
+            listItemViewModel.ListIndex = listIndex;
+            _viewModel.Document.AudioFileOutputList.List.Add(listItemViewModel);
+
+            AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel(_repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository);
+            propertiesViewModel.AudioFileOutput.ListIndex = listIndex;
+            _viewModel.Document.AudioFileOutputPropertiesList.Add(propertiesViewModel);
+
+            _repositoryWrapper.Rollback();
+
+            return _viewModel;
+        }
+
+        public MainViewModel AudioFileOutputDelete(MainViewModel viewModel, int listIndex)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            _viewModel.Document.AudioFileOutputPropertiesList.RemoveAt(listIndex);
+            _viewModel.Document.AudioFileOutputList.List.RemoveAt(listIndex);
+
+            ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputList.List, listIndex);
 
             return _viewModel;
         }
@@ -568,37 +574,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel EffectListCreate(MainViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            TemporarilyAssertViewModelField();
-
-            object viewModel2 = _effectListPresenter.Create(_viewModel.Document.EffectList);
-            DispatchViewModel(viewModel2);
-
-            RefreshDocumentTree();
-
-            _repositoryWrapper.Rollback();
-
-            return _viewModel;
-        }
-
-        public MainViewModel EffectListDelete(MainViewModel viewModel, int listIndex)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            TemporarilyAssertViewModelField();
-
-            object viewModel2 = _effectListPresenter.Delete(_viewModel.Document.EffectList, listIndex);
-            DispatchViewModel(viewModel2);
-
-            RefreshDocumentTree();
-
-            _repositoryWrapper.Rollback();
-
-            return _viewModel;
-        }
-
         public MainViewModel EffectListClose(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -607,6 +582,59 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             object viewModel2 = _effectListPresenter.Close();
             DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel EffectCreate(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            // ToEntity
+            Document parentDocument = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+            // Business
+            Document effect = _documentManager.CreateEffect(parentDocument);
+
+            // ToViewModel
+            int listIndex = _viewModel.Document.EffectList.List.Count;
+
+            IDNameAndListIndexViewModel listItemViewModel = effect.ToIDNameAndListIndex();
+            listItemViewModel.ListIndex = listIndex;
+            _viewModel.Document.EffectList.List.Add(listItemViewModel);
+
+            ChildDocumentPropertiesViewModel propertiesViewModel = effect.ToChildDocumentPropertiesViewModel();
+            propertiesViewModel.Document.ListIndex = listIndex;
+            _viewModel.Document.EffectPropertiesList.Add(propertiesViewModel);
+
+            ChildDocumentViewModel documentViewModel = effect.ToChildDocumentViewModel(_repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository, _repositoryWrapper.InterpolationTypeRepository, _repositoryWrapper.NodeTypeRepository, _entityPositionManager);
+            documentViewModel.Document.ListIndex = listIndex;
+            _viewModel.Document.EffectDocumentList.Add(documentViewModel);
+
+            RefreshDocumentTree();
+
+            _repositoryWrapper.Rollback();
+
+            return _viewModel;
+        }
+
+        public MainViewModel EffectDelete(MainViewModel viewModel, int listIndex)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            
+            TemporarilyAssertViewModelField();
+
+            _viewModel.Document.EffectList.List.RemoveAt(listIndex);
+            _viewModel.Document.EffectPropertiesList.RemoveAt(listIndex);
+            _viewModel.Document.EffectDocumentList.RemoveAt(listIndex);
+
+            ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectList.List, listIndex);
+
+            RefreshDocumentTree();
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -625,36 +653,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel InstrumentListCreate(MainViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            TemporarilyAssertViewModelField();
-
-            object viewModel2 = _instrumentListPresenter.Create(_viewModel.Document.InstrumentList);
-            DispatchViewModel(viewModel2);
-
-            RefreshDocumentTree();
-
-            _repositoryWrapper.Rollback();
-
-            return _viewModel;
-        }
-
-        public MainViewModel InstrumentListDelete(MainViewModel viewModel, int listIndex)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            TemporarilyAssertViewModelField();
-
-            object viewModel2 = _instrumentListPresenter.Delete(_viewModel.Document.InstrumentList, listIndex);
-            DispatchViewModel(viewModel2);
-
-            RefreshDocumentTree();
-
-            _repositoryWrapper.Rollback();
-
-            return _viewModel;
-        }
-
         public MainViewModel InstrumentListClose(MainViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -663,6 +661,72 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             object viewModel2 = _instrumentListPresenter.Close();
             DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel InstrumentCreate(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            // ToEntity
+            Document parentDocument = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+            // Business
+            Document instrument = _documentManager.CreateInstrument(parentDocument);
+
+            // ToViewModel
+            int listIndex = _viewModel.Document.InstrumentList.List.Count;
+
+            IDNameAndListIndexViewModel listItemViewModel = instrument.ToIDNameAndListIndex();
+            listItemViewModel.ListIndex = listIndex;
+            _viewModel.Document.InstrumentList.List.Add(listItemViewModel);
+
+            ChildDocumentPropertiesViewModel propertiesViewModel = instrument.ToChildDocumentPropertiesViewModel();
+            propertiesViewModel.Document.ListIndex = listIndex;
+            _viewModel.Document.InstrumentPropertiesList.Add(propertiesViewModel);
+
+            ChildDocumentViewModel documentViewModel = instrument.ToChildDocumentViewModel(_repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository, _repositoryWrapper.InterpolationTypeRepository, _repositoryWrapper.NodeTypeRepository, _entityPositionManager);
+            documentViewModel.Document.ListIndex = listIndex;
+            _viewModel.Document.InstrumentDocumentList.Add(documentViewModel);
+
+            RefreshDocumentTree();
+
+            _repositoryWrapper.Rollback();
+
+            return _viewModel;
+        }
+
+        public MainViewModel InstrumentDelete(MainViewModel viewModel, int listIndex)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            // 'Business' / ToViewModel
+            _viewModel.Document.InstrumentList.List.RemoveAt(listIndex);
+            _viewModel.Document.InstrumentPropertiesList.RemoveAt(listIndex);
+            _viewModel.Document.InstrumentDocumentList.RemoveAt(listIndex);
+
+            ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentList.List, listIndex);
+            ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentPropertiesList, listIndex);
+            ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentDocumentList, listIndex);
+
+            // ToEntity
+            Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.Document.ID);
+            if (parentDocument == null)
+            {
+                NotFoundViewModel notFoundViewModel = CreateDocumentNotFoundViewModel();
+                DispatchViewModel(notFoundViewModel);
+                return _viewModel;
+            }
+            ToEntityHelper.ConvertToInstrumentsWithRelatedEntities(_viewModel.Document, parentDocument, _repositoryWrapper);
+
+            RefreshDocumentTree();
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -1012,6 +1076,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // to work in a stateless environment.
                 throw new Exception("_viewModel field is not assigned and code is not adapted to work in a stateless environment.");
             }
+        }
+
+        private NotFoundViewModel CreateDocumentNotFoundViewModel()
+        {
+            NotFoundViewModel viewModel = new NotFoundPresenter().Show(PropertyDisplayNames.Document);
+            return viewModel;
         }
 
         private PatchDetailsPresenter CreatePatchDetailsPresenter()

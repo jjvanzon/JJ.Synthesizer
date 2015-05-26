@@ -22,7 +22,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     public class EffectListPresenter
     {
         private RepositoryWrapper _repositoryWrapper;
-        private DocumentManager _documentManager;
         private ChildDocumentListViewModel _viewModel;
 
         public EffectListPresenter(RepositoryWrapper repositoryWrapper)
@@ -30,7 +29,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
             _repositoryWrapper = repositoryWrapper;
-            _documentManager = new DocumentManager(repositoryWrapper);
         }
 
         /// <summary>
@@ -78,70 +76,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel.ParentDocumentID = document.ID;
             _viewModel.Visible = viewModel.Visible;
             _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Effect;
-
-            return _viewModel;
-        }
-
-        /// <summary>
-        /// Can return ChildDocumentListViewModel or NotFoundViewModel.
-        /// </summary>
-        public object Create(ChildDocumentListViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            // ToEntity
-            Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.ParentDocumentID);
-            if (parentDocument == null)
-            {
-                NotFoundViewModel notFoundViewModel = CreateDocumentNotFoundViewModel();
-                return notFoundViewModel;
-            }
-            parentDocument = viewModel.EffectListViewModelToParentDocument(_repositoryWrapper);
-
-            // Business
-            Document effect = _documentManager.CreateEffect(parentDocument);
-
-            // ToViewModel
-            _viewModel = parentDocument.Effects.ToChildDocumentListViewModel();
-            _viewModel.ParentDocumentID = parentDocument.ID;
-
-            // Non-Persisted Properties
-            _viewModel.Visible = viewModel.Visible;
-            _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Effect;
-
-            return _viewModel;
-        }
-
-        public object Delete(ChildDocumentListViewModel viewModel, int listIndex)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            // 'Business'
-            viewModel.List.RemoveAt(listIndex);
-
-            // ToEntity
-            Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.ParentDocumentID);
-            if (parentDocument == null)
-            {
-                NotFoundViewModel notFoundViewModel = CreateDocumentNotFoundViewModel();
-                return notFoundViewModel;
-            }
-            parentDocument = viewModel.EffectListViewModelToParentDocument(_repositoryWrapper);
-
-            if (_viewModel == null)
-            {
-                // ToViewModel
-                _viewModel = parentDocument.Effects.ToChildDocumentListViewModel();
-                _viewModel.ParentDocumentID = parentDocument.ID;
-
-                // Non-persisted properties
-                _viewModel.Visible = viewModel.Visible;
-                _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Effect;
-            }
-            else
-            {
-                ListIndexHelper.RenumberListIndexes(_viewModel.List, listIndex);
-            }
 
             return _viewModel;
         }

@@ -34,11 +34,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentTree = document.ToTreeViewModel(),
                 DocumentProperties = document.ToPropertiesViewModel(),
                 InstrumentList = document.Instruments.ToChildDocumentListViewModel(),
-                InstrumentPropertiesList = document.Instruments.Select(x => x.ToChildDocumentPropertiesViewModel()).ToList(),
-                InstrumentDocumentList = document.Instruments.Select(x => x.ToChildDocumentViewModel(audioFileFormatRepository, sampleDataTypeRepository, speakerSetupRepository, interpolationTypeRepository, nodeTypeRepository, entityPositionManager)).ToList(),
+                InstrumentPropertiesList = document.Instruments.ToChildDocumentPropertiesViewModels(),
+                InstrumentDocumentList = document.Instruments.ToChildDocumentViewModels(audioFileFormatRepository, sampleDataTypeRepository, speakerSetupRepository, interpolationTypeRepository, nodeTypeRepository, entityPositionManager),
                 EffectList = document.Effects.ToChildDocumentListViewModel(),
-                EffectPropertiesList = document.Effects.Select(x => x.ToChildDocumentPropertiesViewModel()).ToList(),
-                EffectDocumentList = document.Effects.Select(x => x.ToChildDocumentViewModel(audioFileFormatRepository, sampleDataTypeRepository, speakerSetupRepository, interpolationTypeRepository, nodeTypeRepository, entityPositionManager)).ToList(),
+                EffectPropertiesList = document.Effects.ToChildDocumentPropertiesViewModels(),
+                EffectDocumentList = document.Effects.ToChildDocumentViewModels(audioFileFormatRepository, sampleDataTypeRepository, speakerSetupRepository, interpolationTypeRepository, nodeTypeRepository, entityPositionManager),
                 SampleList = document.Samples.ToListViewModel(),
                 SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(audioFileFormatRepository, sampleDataTypeRepository, speakerSetupRepository, interpolationTypeRepository)).ToList(),
                 CurveList = document.Curves.ToListViewModel(),
@@ -50,6 +50,55 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
+        }
+
+        public static IList<ChildDocumentPropertiesViewModel> ToChildDocumentPropertiesViewModels(this IList<Document> entities)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            IList<ChildDocumentPropertiesViewModel> viewModels = new List<ChildDocumentPropertiesViewModel>(entities.Count);
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Document entity = entities[i];
+                ChildDocumentPropertiesViewModel viewModel = entity.ToChildDocumentPropertiesViewModel();
+                viewModel.Document.ListIndex = i;
+                viewModels.Add(viewModel);
+            }
+
+            return viewModels;
+        }
+
+        public static IList<ChildDocumentViewModel> ToChildDocumentViewModels(
+            this IList<Document> entities,
+            IAudioFileFormatRepository audioFileFormatRepository,
+            ISampleDataTypeRepository sampleDataTypeRepository,
+            ISpeakerSetupRepository speakerSetupRepository,
+            IInterpolationTypeRepository interpolationTypeRepository,
+            INodeTypeRepository nodeTypeRepository,
+            EntityPositionManager entityPositionManager)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            IList<ChildDocumentViewModel> viewModels = new List<ChildDocumentViewModel>(entities.Count);
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Document entity = entities[i];
+
+                ChildDocumentViewModel viewModel = entity.ToChildDocumentViewModel(
+                    audioFileFormatRepository, 
+                    sampleDataTypeRepository, 
+                    speakerSetupRepository, 
+                    interpolationTypeRepository, 
+                    nodeTypeRepository, 
+                    entityPositionManager);
+
+                viewModel.Document.ListIndex = i;
+                viewModels.Add(viewModel);
+            }
+
+            return viewModels;
         }
 
         public static ChildDocumentViewModel ToChildDocumentViewModel(
@@ -65,7 +114,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new ChildDocumentViewModel
             {
-                DocumentProperties = document.ToPropertiesViewModel(),
+                Document = document.ToIDNameAndListIndex(),
                 SampleList = document.Samples.ToListViewModel(),
                 SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(audioFileFormatRepository, sampleDataTypeRepository, speakerSetupRepository, interpolationTypeRepository)).ToList(),
                 CurveList = document.Curves.ToListViewModel(),
@@ -83,7 +132,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new ChildDocumentPropertiesViewModel
             {
-                Document = document.ToListItemViewModel(),
+                Document = document.ToIDNameAndListIndex(),
                 Messages = new List<Message>()
             };
 

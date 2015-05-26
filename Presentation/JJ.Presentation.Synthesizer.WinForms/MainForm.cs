@@ -370,13 +370,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void InstrumentCreate()
         {
-            _viewModel = _presenter.InstrumentListCreate(_viewModel);
+            _viewModel = _presenter.InstrumentCreate(_viewModel);
             ApplyViewModel();
         }
 
         private void InstrumentListDelete(int listIndex)
         {
-            _viewModel = _presenter.InstrumentListDelete(_viewModel, listIndex);
+            _viewModel = _presenter.InstrumentDelete(_viewModel, listIndex);
             ApplyViewModel();
         }
 

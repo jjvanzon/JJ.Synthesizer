@@ -289,7 +289,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static IDNameAndListIndexViewModel ToListItemViewModel(this Document entity)
+        public static IDNameAndListIndexViewModel ToIDNameAndListIndex(this Document entity)
         {
             if (entity == null) throw new NullException(() => entity);
 

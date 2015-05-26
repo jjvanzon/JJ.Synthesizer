@@ -50,6 +50,7 @@
     <Compile Include="Presenters\EffectListPresenter.cs" />
     <Compile Include="Presenters\InstrumentListPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
+    <Compile Include="ToEntity\ToEntityHelper.cs" />
     <Compile Include="ToViewModel\ToDocumentTreeViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.cs" />

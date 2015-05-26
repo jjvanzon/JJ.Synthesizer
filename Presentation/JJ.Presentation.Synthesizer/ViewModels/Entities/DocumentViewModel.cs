@@ -14,10 +14,12 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 
         public ChildDocumentListViewModel InstrumentList { get; set; }
         public IList<ChildDocumentPropertiesViewModel> InstrumentPropertiesList { get; set; }
+        /// <summary> Leading for data saving. </summary>
         public IList<ChildDocumentViewModel> InstrumentDocumentList { get; set; }
 
         public ChildDocumentListViewModel EffectList { get; set; }
         public IList<ChildDocumentPropertiesViewModel> EffectPropertiesList { get; set; }
+        /// <summary> Leading for data saving. </summary>
         public IList<ChildDocumentViewModel> EffectDocumentList { get; set; }
 
         public SampleListViewModel SampleList { get; set; }
