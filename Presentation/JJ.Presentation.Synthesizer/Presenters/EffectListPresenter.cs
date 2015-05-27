@@ -48,8 +48,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 _viewModel = document.Effects.ToChildDocumentListViewModel();
-                _viewModel.ParentDocumentID = document.ID;
 
+                _viewModel.ParentDocumentID = document.ID;
                 _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Effect;
             }
 

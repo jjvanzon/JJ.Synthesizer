@@ -17,7 +17,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public MenuViewModel Show()
         {
-            _viewModel = ViewModelHelper.CreateMenuViewModel();
+            if (_viewModel == null)
+            {
+                _viewModel = ViewModelHelper.CreateMenuViewModel();
+            }
+
             return _viewModel;
         }
     }

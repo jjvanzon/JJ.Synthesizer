@@ -22,7 +22,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     public class InstrumentListPresenter
     {
         private RepositoryWrapper _repositoryWrapper;
-        private DocumentManager _documentManager;
         private ChildDocumentListViewModel _viewModel;
 
         public InstrumentListPresenter(RepositoryWrapper repositoryWrapper)
@@ -30,7 +29,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
             _repositoryWrapper = repositoryWrapper;
-            _documentManager = new DocumentManager(repositoryWrapper);
         }
 
         /// <summary>
@@ -44,7 +42,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (mustCreateViewModel)
             {
                 Document document = _repositoryWrapper.DocumentRepository.TryGet(documentID);
-
                 if (document == null)
                 {
                     return CreateDocumentNotFoundViewModel();
@@ -99,8 +96,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private NotFoundViewModel CreateDocumentNotFoundViewModel()
         {
-            var notFoundPresenter = new NotFoundPresenter();
-            NotFoundViewModel viewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);
+            NotFoundViewModel viewModel = new NotFoundPresenter().Show(PropertyDisplayNames.Document);
             return viewModel;
         }
     }

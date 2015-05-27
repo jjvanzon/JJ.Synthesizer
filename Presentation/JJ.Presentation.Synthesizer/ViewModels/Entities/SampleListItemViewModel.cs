@@ -10,6 +10,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     public sealed class SampleListItemViewModel
     {
         public int ID { get; set; }
+        public int ListIndex { get; set; }
         public string Name { get; set; }
         public bool IsActive { get; set; }
         public int SamplingRate { get; set; }

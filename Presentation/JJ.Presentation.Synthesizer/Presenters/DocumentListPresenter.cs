@@ -75,6 +75,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
+        // TODO: Either make a Create and a Delete action or neither, but not just a Create action.
         public DocumentDetailsViewModel Create()
         {
             var presenter2 = new DocumentDetailsPresenter(_documentRepository);

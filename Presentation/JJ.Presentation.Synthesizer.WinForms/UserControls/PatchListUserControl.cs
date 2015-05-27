@@ -53,9 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             labelTitle.Text = PropertyDisplayNames.Patches;
-            IDColumn.HeaderText = CommonTitles.ID;
             NameColumn.HeaderText = CommonTitles.Name;
-            DocumentNameColumn.HeaderText = Titles.DocumentName;
         }
         
         private void ApplyViewModel()

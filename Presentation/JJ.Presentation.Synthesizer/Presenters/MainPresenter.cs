@@ -460,7 +460,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
             audioFileOutput.LinkTo(document);
 
-            // ToVieWModel
+            // ToViewModel
             int listIndex = _viewModel.Document.AudioFileOutputPropertiesList.Count;
 
             AudioFileOutputListItemViewModel listItemViewModel = audioFileOutput.ToListItemViewModel();
@@ -482,10 +482,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             TemporarilyAssertViewModelField();
 
+            // 'Business' / ToViewModel
             _viewModel.Document.AudioFileOutputPropertiesList.RemoveAt(listIndex);
             _viewModel.Document.AudioFileOutputList.List.RemoveAt(listIndex);
 
+            ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputPropertiesList, listIndex);
             ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputList.List, listIndex);
+
+            // No need to do ToEntity, 
+            // because we are not executing any additional business logic or refreshing 
+            // that uses the entity models.
 
             return _viewModel;
         }
@@ -560,6 +566,55 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
+        public MainViewModel CurveCreate(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            // ToEntity
+            Document document = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+            // Business
+            Curve curve = _repositoryWrapper.CurveRepository.Create();
+            curve.LinkTo(document);
+
+            // ToViewModel
+            int listIndex = _viewModel.Document.CurveDetailsList.Count;
+
+            IDNameAndListIndexViewModel listItemViewModel = curve.ToIDNameAndListIndex();
+            listItemViewModel.ListIndex = listIndex;
+            _viewModel.Document.CurveList.List.Add(listItemViewModel);
+
+            CurveDetailsViewModel detailsViewModel = curve.ToDetailsViewModel(_repositoryWrapper.NodeTypeRepository);
+            detailsViewModel.Curve.ListIndex = listIndex;
+            _viewModel.Document.CurveDetailsList.Add(detailsViewModel);
+
+            _repositoryWrapper.Rollback();
+
+            return _viewModel;
+        }
+
+        public MainViewModel CurveDelete(MainViewModel viewModel, int listIndex)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            // 'Business' / ToViewModel
+            _viewModel.Document.CurveDetailsList.RemoveAt(listIndex);
+            _viewModel.Document.CurveList.List.RemoveAt(listIndex);
+
+            ListIndexHelper.RenumberListIndexes(_viewModel.Document.CurveDetailsList, listIndex);
+            ListIndexHelper.RenumberListIndexes(_viewModel.Document.CurveList.List, listIndex);
+
+            // No need to do ToEntity, 
+            // because we are not executing any additional business logic or refreshing 
+            // that uses the entity models.
+
+            return _viewModel;
+        }
+
         // Effect List
 
         public MainViewModel EffectListShow(MainViewModel viewModel)
@@ -623,14 +678,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public MainViewModel EffectDelete(MainViewModel viewModel, int listIndex)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            
+
             TemporarilyAssertViewModelField();
 
+            // 'Business' / ToViewModel
             _viewModel.Document.EffectList.List.RemoveAt(listIndex);
             _viewModel.Document.EffectPropertiesList.RemoveAt(listIndex);
             _viewModel.Document.EffectDocumentList.RemoveAt(listIndex);
 
             ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectList.List, listIndex);
+            ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectPropertiesList, listIndex);
+            ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectDocumentList, listIndex);
+
+            // ToEntity
+            Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.Document.ID);
+            if (parentDocument == null)
+            {
+                NotFoundViewModel notFoundViewModel = CreateDocumentNotFoundViewModel();
+                DispatchViewModel(notFoundViewModel);
+                return _viewModel;
+            }
+            ToEntityHelper.ToEffectsWithRelatedEntities(_viewModel.Document.EffectDocumentList, parentDocument, _repositoryWrapper);
 
             RefreshDocumentTree();
 
@@ -722,7 +790,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DispatchViewModel(notFoundViewModel);
                 return _viewModel;
             }
-            ToEntityHelper.ConvertToInstrumentsWithRelatedEntities(_viewModel.Document, parentDocument, _repositoryWrapper);
+            ToEntityHelper.ToInstrumentsWithRelatedEntities(_viewModel.Document.InstrumentDocumentList, parentDocument, _repositoryWrapper);
 
             RefreshDocumentTree();
 
@@ -888,7 +956,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     break;
 
                 default:
-                    throw new ValueNotSupportedException(viewModel2);
+                    throw new ValueNotSupportedException(childDocumentListViewModel.ChildDocumentType);
             }
         }
 

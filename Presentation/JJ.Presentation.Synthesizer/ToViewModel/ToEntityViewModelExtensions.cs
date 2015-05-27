@@ -18,24 +18,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToEntityViewModelExtensions
     {
-        public static PatchListItemViewModel ToListItemViewModel(this Patch entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var viewModel = new PatchListItemViewModel
-            {
-                ID = entity.ID,
-                Name = entity.Name,
-            };
-
-            if (entity.Document != null)
-            {
-                viewModel.DocumentName = entity.Document.Name;
-            }
-
-            return viewModel;
-        }
-
         public static PatchViewModel ToViewModel(this Patch entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -75,6 +57,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static IList<InletViewModel> ToViewModels(this IList<Inlet> entities)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            IList<InletViewModel> viewModels = new List<InletViewModel>(entities.Count);
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Inlet entity = entities[i];
+                InletViewModel viewModel = entity.ToViewModel();
+                viewModel.ListIndex = i;
+                viewModels.Add(viewModel);
+            }
+
+            return viewModels;
+        }
+
         public static InletViewModel ToViewModel(this Inlet entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -86,6 +85,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
+        }
+
+        public static IList<OutletViewModel> ToViewModels(this IList<Outlet> entities)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            IList<OutletViewModel> viewModels = new List<OutletViewModel>(entities.Count);
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Outlet entity = entities[i];
+                OutletViewModel viewModel = entity.ToViewModel();
+                viewModel.ListIndex = i;
+                viewModels.Add(viewModel);
+            }
+
+            return viewModels;
         }
 
         public static OutletViewModel ToViewModel(this Outlet entity)
@@ -110,10 +126,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                Nodes = entity.Nodes.Select(x => x.ToViewModel()).ToArray()
+                Nodes = entity.Nodes.ToViewModels()
             };
 
             return viewModel;
+        }
+
+        public static IList<NodeViewModel> ToViewModels(this IList<Node> entities)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            IList<NodeViewModel> viewModels = new List<NodeViewModel>(entities.Count);
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Node entity = entities[i];
+                NodeViewModel viewModel = entity.ToViewModel();
+                viewModel.ListIndex = i;
+                viewModels.Add(viewModel);
+            }
+
+            return viewModels;
         }
 
         public static NodeViewModel ToViewModel(this Node entity)
@@ -240,6 +273,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static IList<SampleListItemViewModel> ToListItemViewModels(this IList<Sample> entities)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            var viewModels = new List<SampleListItemViewModel>(entities.Count);
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Sample entity = entities[i];
+                SampleListItemViewModel viewModel = entity.ToListItemViewModel();
+                viewModel.ListIndex = i;
+                viewModels.Add(viewModel);
+            }
+
+            return viewModels;
+        }
+
         public static SampleViewModel ToViewModel(this Sample entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -287,17 +337,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
-        }
-
-        public static IDNameAndListIndexViewModel ToIDNameAndListIndex(this Document entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            return new IDNameAndListIndexViewModel
-            {
-                ID = entity.ID,
-                Name = entity.Name
-            };
         }
     }
 }

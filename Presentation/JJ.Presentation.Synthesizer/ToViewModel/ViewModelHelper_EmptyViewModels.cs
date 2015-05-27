@@ -214,7 +214,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new CurveListViewModel
             {
-                List = new List<IDAndName>()
+                List = new List<IDNameAndListIndexViewModel>()
             };
 
             return viewModel;
@@ -224,7 +224,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchListViewModel
             {
-                List = new List<PatchListItemViewModel>()
+                List = new List<IDNameAndListIndexViewModel>()
             };
 
             return viewModel;

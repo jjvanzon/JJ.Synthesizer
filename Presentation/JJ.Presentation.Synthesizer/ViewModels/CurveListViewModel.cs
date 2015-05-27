@@ -1,5 +1,6 @@
 ﻿using JJ.Business.CanonicalModel;
 using JJ.Framework.Presentation;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     {
         public int DocumentID { get; set; }
         public bool Visible { get; set; }
-        public IList<IDAndName> List { get; set; }
+        public IList<IDNameAndListIndexViewModel> List { get; set; }
     }
 }

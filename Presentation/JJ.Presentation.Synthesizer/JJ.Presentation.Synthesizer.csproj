@@ -97,7 +97,7 @@
     <Compile Include="ViewModels\Entities\CurveViewModel.cs" />
     <Compile Include="ViewModels\Entities\DocumentViewModel.cs" />
     <Compile Include="ViewModels\Entities\NodeViewModel.cs" />
-    <Compile Include="ViewModels\Entities\PatchListItemViewModel.cs" />
+    <Compile Include="ViewModels\Entities\~PatchListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\SampleListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\InletViewModel.cs" />
     <Compile Include="ViewModels\Entities\OperatorViewModel.cs" />

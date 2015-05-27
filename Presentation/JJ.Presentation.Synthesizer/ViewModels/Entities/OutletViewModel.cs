@@ -13,7 +13,11 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     public sealed class OutletViewModel
     {
         public int ID { get; set; }
+        public int ListIndex { get; set; }
+
+        [Obsolete("Use ListIndex instead.")]
         public Guid TemporaryID { get; set; }
+
         public string Name { get; set; }
 
         public OperatorViewModel Operator { get; set; }

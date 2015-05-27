@@ -17,6 +17,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToPatchDetailsViewModelExtensions
     {
+        public static IList<PatchDetailsViewModel> ToDetailsViewModels(this IList<Patch> entities, EntityPositionManager entityPositionManager)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            var viewModels = new List<PatchDetailsViewModel>(entities.Count);
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Patch entity = entities[i];
+                PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(entityPositionManager);
+                viewModel.Patch.ListIndex = i;
+                viewModels.Add(viewModel);
+            }
+
+            return viewModels;
+        }
+
         public static PatchDetailsViewModel ToDetailsViewModel(this Patch patch, EntityPositionManager entityPositionManager)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -53,9 +70,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             viewModel.Operators = new List<OperatorViewModel>(patch.Operators.Count);
 
-            foreach (Operator op in patch.Operators)
+            for (int i = 0; i < patch.Operators.Count; i++)
             {
+                Operator op = patch.Operators[i];
+            
                 OperatorViewModel operatorViewModel = op.ToViewModelRecursive(dictionary);
+                operatorViewModel.ListIndex = i;
                 viewModel.Operators.Add(operatorViewModel);
             }
 
@@ -76,7 +96,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (!String.Equals(op.OperatorTypeName, PropertyNames.PatchInlet))
             {
-                viewModel.Inlets = op.Inlets.Select(x => x.ToViewModelRecursive(dictionary)).ToArray();
+                viewModel.Inlets = op.Inlets.ToViewModelsRecursive(dictionary);
             }
             else
             {
@@ -85,7 +105,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (!String.Equals(op.OperatorTypeName, PropertyNames.PatchOutlet))
             {
-                viewModel.Outlets = op.Outlets.Select(x => x.ToViewModelRecursive(dictionary)).ToArray();
+                viewModel.Outlets = op.Outlets.ToViewModelsRecursive(dictionary);
             }
             else
             {
@@ -105,8 +125,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Do not reuse this in ToViewModelRecursive, because there you have to do a dictionary.Add there right in the middle of things.
             OperatorViewModel viewModel = op.ToViewModel();
 
-            viewModel.Inlets = op.Inlets.Select(x => x.ToViewModel()).ToArray();
-            viewModel.Outlets = op.Outlets.Select(x => x.ToViewModel()).ToArray();
+            viewModel.Inlets = op.Inlets.ToViewModels();
+            viewModel.Outlets = op.Outlets.ToViewModels();
 
             return viewModel;
         }
@@ -120,17 +140,36 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             OperatorViewModel operatorViewModel = op.ToViewModel();
 
-            operatorViewModel.Inlets = op.Inlets.Select(x => x.ToViewModel()).ToArray();
+            operatorViewModel.Inlets = op.Inlets.ToViewModels();
 
             operatorViewModel.Outlets = new List<OutletViewModel>();
-            foreach (Outlet outlet in op.Outlets)
+
+            for (int i = 0; i < op.Outlets.Count; i++)
             {
+                Outlet outlet = op.Outlets[i];
+
                 OutletViewModel outletViewModel = outlet.ToViewModel();
+                outletViewModel.ListIndex = i;
                 operatorViewModel.Outlets.Add(outletViewModel);
                 outletViewModel.Operator = operatorViewModel; // This is the inverse property in the view model!
             }
 
             return operatorViewModel;
+        }
+
+        private static IList<InletViewModel> ToViewModelsRecursive(this IList<Inlet> entities, IDictionary<Operator, OperatorViewModel> dictionary)
+        {
+            var viewModels = new List<InletViewModel>(entities.Count);
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Inlet entity = entities[i];
+                InletViewModel viewModel = entity.ToViewModelRecursive(dictionary);
+                viewModel.ListIndex = i;
+                viewModels.Add(viewModel);
+            }
+
+            return viewModels;
         }
 
         private static InletViewModel ToViewModelRecursive(this Inlet inlet, IDictionary<Operator, OperatorViewModel> dictionary)
@@ -143,6 +182,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             return viewModel;
+        }
+
+        private static IList<OutletViewModel> ToViewModelsRecursive(this IList<Outlet> entities, IDictionary<Operator, OperatorViewModel> dictionary)
+        {
+            var viewModels = new List<OutletViewModel>(entities.Count);
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Outlet entity = entities[i];
+                OutletViewModel viewModel = entity.ToViewModelRecursive(dictionary);
+                viewModel.ListIndex = i;
+                viewModels.Add(viewModel);
+            }
+
+            return viewModels;
         }
 
         private static OutletViewModel ToViewModelRecursive(this Outlet outlet, IDictionary<Operator, OperatorViewModel> dictionary)

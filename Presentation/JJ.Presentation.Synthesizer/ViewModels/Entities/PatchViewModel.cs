@@ -9,6 +9,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     public sealed class PatchViewModel
     {
         public int ID { get; set; }
+        public int ListIndex { get; set; }
         public string PatchName { get; set; }
         public IList<OperatorViewModel> Operators { get; set; }
     }

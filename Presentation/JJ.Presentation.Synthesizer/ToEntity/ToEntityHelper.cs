@@ -21,29 +21,18 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 {
     internal static class ToEntityHelper
     {
-        /// <summary>
-        /// Converts the InstrumentPropertiesList and then Instrument(Document)s to entities.
-        /// </summary>
-        public static void ConvertToInstrumentsWithRelatedEntities(DocumentViewModel sourceParentDocumentViewModel, Document destParentDocument, RepositoryWrapper repositoryWrapper)
+        public static void ToInstrumentsWithRelatedEntities(
+            IList<ChildDocumentViewModel> sourceViewModelList,
+            Document destParentDocument, 
+            RepositoryWrapper repositoryWrapper)
         {
+            if (sourceViewModelList == null) throw new NullException(() => sourceViewModelList);
+            if (destParentDocument == null) throw new NullException(() => destParentDocument);
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+
             var idsToKeep = new HashSet<int>();
 
-            // TODO: Remove outcommented code if it proves that just using the InstrumentDocumentList
-            // for saving is a good solution.
-
-            //foreach (ChildDocumentPropertiesViewModel instrumentPropertiesViewModel in sourceViewModel.InstrumentPropertiesList)
-            //{
-            //    Document entity = instrumentPropertiesViewModel.ToEntity(repositoryWrapper.DocumentRepository);
-
-            //    entity.LinkInstrumentToDocument(destDocument);
-
-            //    if (!idsToKeep.Contains(entity.ID))
-            //    {
-            //        idsToKeep.Add(entity.ID);
-            //    }
-            //}
-
-            foreach (ChildDocumentViewModel instrumentDocumentViewModel in sourceParentDocumentViewModel.InstrumentDocumentList)
+            foreach (ChildDocumentViewModel instrumentDocumentViewModel in sourceViewModelList)
             {
                 Document entity = instrumentDocumentViewModel.ToEntityWithRelatedEntities(repositoryWrapper);
 
@@ -65,27 +54,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
-        /// <summary>
-        /// Converts the InstrumentPropertiesList and then Instrument(Document)s to entities.
-        /// </summary>
-        public static void ConvertToEffectsWithRelatedEntities(DocumentViewModel sourceParentDocumentViewModel, Document destParentDocument, RepositoryWrapper repositoryWrapper)
+        public static void ToEffectsWithRelatedEntities(IList<ChildDocumentViewModel> sourceViewModelList, Document destParentDocument, RepositoryWrapper repositoryWrapper)
         {
+            if (sourceViewModelList == null) throw new NullException(() => sourceViewModelList);
+            if (destParentDocument == null) throw new NullException(() => destParentDocument);
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+
             var idsToKeep = new HashSet<int>();
 
-            foreach (ChildDocumentPropertiesViewModel effectPropertiesViewModel in sourceParentDocumentViewModel.EffectPropertiesList)
+            foreach (ChildDocumentViewModel sourceViewModelListItem in sourceViewModelList)
             {
-                Document entity = effectPropertiesViewModel.ToEntity(repositoryWrapper.DocumentRepository);
-                entity.LinkEffectToDocument(destParentDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            foreach (ChildDocumentViewModel effectDocumentViewModel in sourceParentDocumentViewModel.EffectDocumentList)
-            {
-                Document entity = effectDocumentViewModel.ToEntityWithRelatedEntities(repositoryWrapper);
+                Document entity = sourceViewModelListItem.ToEntityWithRelatedEntities(repositoryWrapper);
                 entity.LinkEffectToDocument(destParentDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -107,8 +86,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         /// <summary>
         /// TODO: Does not use all repositories out of the RepositoryWrapper.
         /// </summary>
-        public static void ConvertToSamples(IList<SamplePropertiesViewModel> viewModelList, Document destDocument, RepositoryWrapper repositoryWrapper)
+        public static void ToSamples(IList<SamplePropertiesViewModel> viewModelList, Document destDocument, RepositoryWrapper repositoryWrapper)
         {
+            if (viewModelList == null) throw new NullException(() => viewModelList);
+            if (destDocument == null) throw new NullException(() => destDocument);
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+
             var idsToKeep = new HashSet<int>();
 
             foreach (SamplePropertiesViewModel viewModel in viewModelList)
@@ -121,7 +104,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                     idsToKeep.Add(entity.ID);
                 }
             }
-
+            
             // Delete
             IList<int> existingIDs = destDocument.Samples.Select(x => x.ID).ToArray();
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
@@ -133,8 +116,19 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
-        public static void ConvertToCurvesWithRelatedEntities(IList<CurveDetailsViewModel> viewModelList, Document destDocument, ICurveRepository curveRepository, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
+        public static void ToCurvesWithRelatedEntities(
+            IList<CurveDetailsViewModel> viewModelList, 
+            Document destDocument, 
+            ICurveRepository curveRepository,
+            INodeRepository nodeRepository, 
+            INodeTypeRepository nodeTypeRepository)
         {
+            if (viewModelList == null) throw new NullException(() => viewModelList);
+            if (destDocument == null) throw new NullException(() => destDocument);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (nodeRepository == null) throw new NullException(() => nodeRepository);
+            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
+
             var idsToKeep = new HashSet<int>();
 
             foreach (CurveDetailsViewModel viewModel in viewModelList)
@@ -163,8 +157,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         /// TODO: You might want to pass repositories explicitly,
         /// since you do not need all of the ones in RepositoryWrapper.
         /// </summary>
-        public static void ConvertToPatchesWithRelatedEntities(IList<PatchDetailsViewModel> viewModelList, Document destDocument, RepositoryWrapper repositoryWrapper)
+        public static void ToPatchesWithRelatedEntities(
+            IList<PatchDetailsViewModel> viewModelList, 
+            Document destDocument, 
+            RepositoryWrapper repositoryWrapper)
         {
+            if (viewModelList == null) throw new NullException(() => viewModelList);
+            if (destDocument == null) throw new NullException(() => destDocument);
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+
             var idsToKeep = new HashSet<int>();
 
             foreach (PatchDetailsViewModel viewModel in viewModelList)
@@ -192,8 +193,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         /// <summary>
         /// TODO: Does not use all repositories out of the RepositoryWrapper.
         /// </summary>
-        public static void ConvertToAudioFileOutputsWithRelatedEntities(IList<AudioFileOutputPropertiesViewModel> viewModelList, Document destDocument, RepositoryWrapper repositoryWrapper)
+        public static void ToAudioFileOutputsWithRelatedEntities(
+            IList<AudioFileOutputPropertiesViewModel> viewModelList, 
+            Document destDocument, 
+            RepositoryWrapper repositoryWrapper)
         {
+            if (viewModelList == null) throw new NullException(() => viewModelList);
+            if (destDocument == null) throw new NullException(() => destDocument);
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+
             var idsToKeep = new HashSet<int>();
 
             foreach (AudioFileOutputPropertiesViewModel viewModel in viewModelList)
@@ -217,8 +225,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
-        public static void ConvertAudioFileOutputChannels(IList<AudioFileOutputChannelViewModel> viewModelList, AudioFileOutput destAudioFileOutput, IAudioFileOutputChannelRepository audioFileOutputChannelRepository, IOutletRepository outletRepository)
+        public static void ToAudioFileOutputChannels(
+            IList<AudioFileOutputChannelViewModel> viewModelList, 
+            AudioFileOutput destAudioFileOutput, 
+            IAudioFileOutputChannelRepository audioFileOutputChannelRepository, 
+            IOutletRepository outletRepository)
         {
+            if (viewModelList == null) throw new NullException(() => viewModelList);
+            if (destAudioFileOutput == null) throw new NullException(() => destAudioFileOutput);
+            if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
+            if (outletRepository == null) throw new NullException(() => outletRepository);
+
             var idsToKeep = new HashSet<int>();
 
             foreach (AudioFileOutputChannelViewModel viewModel in viewModelList)
@@ -242,8 +259,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
-        public static void ConvertToNodes(IList<NodeViewModel> viewModelList, Curve destCurve, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
+        public static void ToNodes(
+            IList<NodeViewModel> viewModelList, 
+            Curve destCurve, 
+            INodeRepository nodeRepository, 
+            INodeTypeRepository nodeTypeRepository)
         {
+            if (viewModelList == null) throw new NullException(() => viewModelList);
+            if (destCurve == null) throw new NullException(() => destCurve);
+            if (nodeRepository == null) throw new NullException(() => nodeRepository);
+            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
+
             var idsToKeep = new HashSet<int>();
 
             foreach (NodeViewModel viewModel in viewModelList)

@@ -72,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new CurveListViewModel
             {
-                List = entities.Select(x => x.ToIDAndName()).ToList()
+                List = entities.ToIDNameAndListIndexes()
             };
 
             return viewModel;
@@ -139,7 +139,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new PatchListViewModel
             {
-                List = entities.Select(x => x.ToListItemViewModel()).ToList()
+                List = entities.ToIDNameAndListIndexes()
             };
 
             return viewModel;
@@ -151,7 +151,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new SampleListViewModel
             {
-                List = entities.Select(x => x.ToListItemViewModel()).ToList(),
+                List = entities.ToListItemViewModels()
             };
 
             return viewModel;

@@ -34,9 +34,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             IList<Document> dependentOnDocuments = document.DependentOnDocuments.Select(x => x.DependentOnDocument).ToArray();
-            foreach (Document dependentOnDocument in dependentOnDocuments)
+            for (int i = 0; i < dependentOnDocuments.Count; i++)
             {
+                Document dependentOnDocument = dependentOnDocuments[i];
+
                 ReferencedDocumentViewModel referencedDocumentViewModel = dependentOnDocument.ToReferencedDocumentViewModelWithRelatedEntities();
+                referencedDocumentViewModel.ListIndex = i;
                 viewModel.ReferencedDocuments.List.Add(referencedDocumentViewModel);
             }
 
