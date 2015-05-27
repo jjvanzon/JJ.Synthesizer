@@ -138,6 +138,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return sample;
         }
 
+        public static Curve ToEntityWithRelatedEntities(this CurveDetailsViewModel viewModel, ICurveRepository curveRepository, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
+        {
+            return viewModel.Curve.ToEntityWithRelatedEntities(curveRepository, nodeRepository, nodeTypeRepository);
+        }
+
         public static Curve ToEntityWithRelatedEntities(this CurveViewModel viewModel, ICurveRepository curveRepository, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);

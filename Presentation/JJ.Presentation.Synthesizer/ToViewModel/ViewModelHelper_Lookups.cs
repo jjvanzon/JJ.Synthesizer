@@ -48,7 +48,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<AudioFileFormat> entities = repository.GetAll().ToArray();
+            IList<AudioFileFormat> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
+
             IList<IDAndName> idNames = entities.Select(x => x.ToIDAndName()).ToArray();
 
             return idNames;
@@ -58,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<SampleDataType> entities = repository.GetAll().ToArray();
+            IList<SampleDataType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
             IList<IDAndName> idNames = entities.Select(x => x.ToIDAndName()).ToArray();
 
             return idNames;
@@ -68,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<SpeakerSetup> entities = repository.GetAll().ToArray();
+            IList<SpeakerSetup> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
             IList<IDAndName> idNames = entities.Select(x => x.ToIDAndName()).ToArray();
 
             return idNames;
@@ -78,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<NodeType> entities = repository.GetAll().ToArray();
+            IList<NodeType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
             IList<IDAndName> idNames = entities.Select(x => x.ToIDAndName()).ToArray();
 
             return idNames;
@@ -88,7 +89,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<InterpolationType> entities = repository.GetAll().ToArray();
+            IList<InterpolationType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
             IList<IDAndName> idNames = entities.Select(x => x.ToIDAndName()).ToArray();
 
             return idNames;

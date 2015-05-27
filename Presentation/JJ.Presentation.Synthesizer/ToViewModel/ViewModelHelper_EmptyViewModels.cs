@@ -25,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Menu = CreateEmptyMenuViewModel(),
                 ValidationMessages = new List<Message>(),
                 WarningMessages = new List<Message>(),
+                PopupMessages = new List<Message>(),
                 NotFound = CreateEmptyNotFoundViewModel(),
                 Document = CreateEmptyDocumentViewModel(),
                 DocumentCannotDelete = CreateEmptyDocumentCannotDeleteViewModel(),

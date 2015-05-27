@@ -66,5 +66,7 @@ namespace JJ.Business.Synthesizer.Names
         // Other
         public const string Patch = "Patch";
         public const string DocumentReference = "DocumentReference";
+        public const string Curve = "Curve";
+        public const string Sample = "Sample";
     }
 }

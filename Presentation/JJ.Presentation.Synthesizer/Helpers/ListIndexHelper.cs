@@ -77,5 +77,38 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 list[i].Curve.ListIndex = i;
             }
         }
+
+        public static void RenumberListIndexes(IList<PatchDetailsViewModel> list, int startIndex)
+        {
+            if (list == null) throw new NullException(() => list);
+            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+
+            for (int i = startIndex; i < list.Count; i++)
+            {
+                list[i].Patch.ListIndex = i;
+            }
+        }
+
+        public static void RenumberListIndexes(IList<SamplePropertiesViewModel> list, int startIndex)
+        {
+            if (list == null) throw new NullException(() => list);
+            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+
+            for (int i = startIndex; i < list.Count; i++)
+            {
+                list[i].Sample.ListIndex = i;
+            }
+        }
+
+        public static void RenumberListIndexes(IList<SampleListItemViewModel> list, int startIndex)
+        {
+            if (list == null) throw new NullException(() => list);
+            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+
+            for (int i = startIndex; i < list.Count; i++)
+            {
+                list[i].ListIndex = i;
+            }
+        }
     }
 }

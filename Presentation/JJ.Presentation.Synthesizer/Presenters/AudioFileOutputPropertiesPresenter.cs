@@ -57,19 +57,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return ViewModel;
         }
 
-        // TODO: Refresh for details / properties views is probably not necessary.
-        public AudioFileOutputPropertiesViewModel Refresh(AudioFileOutputPropertiesViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            AudioFileOutput entity = _audioFileOutputRepository.Get(viewModel.AudioFileOutput.ID);
-            ViewModel = entity.ToPropertiesViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository);
-
-            ViewModel.Visible = viewModel.Visible;
-
-            return ViewModel;
-        }
-
         public AudioFileOutputPropertiesViewModel Close()
         {
             if (ViewModel == null)

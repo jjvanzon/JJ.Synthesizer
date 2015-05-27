@@ -23,6 +23,10 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Constants;
+using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Names;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -190,6 +194,53 @@ namespace JJ.Business.Synthesizer.Managers
             if (sample == null) throw new NullException(() => sample);
             IValidator sampleValidator = new SampleValidator(sample, alreadyDone: new HashSet<object>());
             return sampleValidator;
+        }
+
+        public VoidResult DeleteWithRelatedEntities(Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            bool canDelete = EnumerateSampleOperators(sample).Any();
+            if (!canDelete)
+            {
+                var message = new Message { PropertyKey = PropertyNames.Sample, Text = MessageFormatter.CannotDeleteSample(sample.Name) };
+                return new VoidResult
+                {
+                    Successful = false,
+                    Messages = new Message[] { message }
+                };
+            }
+            else
+            {
+                sample.UnlinkRelatedEntities();
+                _sampleRepository.Delete(sample);
+
+                return new VoidResult
+                {
+                    Successful = true
+                };
+            }
+        }
+
+        private IEnumerable<Operator> EnumerateSampleOperators(Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            foreach (Operator op in sample.Document.Patches.SelectMany(x => x.Operators))
+            {
+                if (!String.Equals(op.OperatorTypeName, PropertyNames.SampleOperator))
+                {
+                    continue;
+                }
+
+                SampleOperatorWrapper wrapper = new SampleOperatorWrapper(op, _sampleRepository);
+
+                if (wrapper.Sample == sample ||
+                    wrapper.SampleID == sample.ID)
+                {
+                    yield return op;
+                }
+            }
         }
     }
 }

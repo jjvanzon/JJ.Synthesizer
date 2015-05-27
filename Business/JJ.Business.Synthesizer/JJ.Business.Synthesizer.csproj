@@ -161,6 +161,7 @@
     <Compile Include="Infos\NodeInfo.cs" />
     <Compile Include="LinkTo\UnlinkExtensions.cs" />
     <Compile Include="Managers\AudioFileOutputManager.cs" />
+    <Compile Include="Managers\CurveManager.cs" />
     <Compile Include="Managers\DocumentManager.cs" />
     <Compile Include="Managers\EntityPositionManager.cs" />
     <Compile Include="Managers\PatchManager.cs" />

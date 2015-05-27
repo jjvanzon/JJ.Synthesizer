@@ -61,6 +61,33 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Curve &apos;{0}&apos; cannot be deleted..
+        /// </summary>
+        internal static string CannotDeleteCurve {
+            get {
+                return ResourceManager.GetString("CannotDeleteCurve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Patch &apos;{0}&apos; cannot be deleted, because it is the main patch of the document..
+        /// </summary>
+        internal static string CannotDeletePatchBecauseIsMainPatch {
+            get {
+                return ResourceManager.GetString("CannotDeletePatchBecauseIsMainPatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sample &apos;{0}&apos; cannot be deleted..
+        /// </summary>
+        internal static string CannotDeleteSample {
+            get {
+                return ResourceManager.GetString("CannotDeleteSample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Channel count does not match speaker setup..
         /// </summary>
         internal static string ChannelCountDoesNotMatchSpeakerSetup {

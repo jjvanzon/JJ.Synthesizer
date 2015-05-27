@@ -61,6 +61,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
+            // TODO: Introduce SortOrder property and then sort.
+            //entities = entities.OrderBy(x => x.SortOrder).ToArray();
+
             IList<InletViewModel> viewModels = new List<InletViewModel>(entities.Count);
 
             for (int i = 0; i < entities.Count; i++)
@@ -90,6 +93,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static IList<OutletViewModel> ToViewModels(this IList<Outlet> entities)
         {
             if (entities == null) throw new NullException(() => entities);
+
+            // TODO: Introduce SortOrder property and then sort.
+            //entities = entities.OrderBy(x => x.SortOrder).ToArray();
 
             IList<OutletViewModel> viewModels = new List<OutletViewModel>(entities.Count);
 
@@ -135,6 +141,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static IList<NodeViewModel> ToViewModels(this IList<Node> entities)
         {
             if (entities == null) throw new NullException(() => entities);
+
+            entities = entities.OrderBy(x => x.Time).ToArray();
 
             IList<NodeViewModel> viewModels = new List<NodeViewModel>(entities.Count);
 
@@ -277,6 +285,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
+            entities = entities.OrderBy(x => x.Name).ToArray();
+
             var viewModels = new List<SampleListItemViewModel>(entities.Count);
 
             for (int i = 0; i < entities.Count; i++)
@@ -332,8 +342,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                Instruments = entity.Instruments.Select(x => x.ToIDAndName()).ToList(),
-                Effects = entity.Effects.Select(x => x.ToIDAndName()).ToList()
+                Instruments = entity.Instruments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList(),
+                Effects = entity.Effects.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList()
             };
 
             return viewModel;

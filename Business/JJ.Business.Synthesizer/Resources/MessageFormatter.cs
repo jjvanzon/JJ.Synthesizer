@@ -62,5 +62,20 @@ namespace JJ.Business.Synthesizer.Resources
         {
             return String.Format(Messages.DocumentIsDependentOnDocument, dependentDocumentName, dependentOnDocumentName);
         }
+
+        public static string CannotDeleteCurve(string name)
+        {
+            return String.Format(Messages.CannotDeleteCurve, name);
+        }
+
+        public static string CannotDeleteSample(string name)
+        {
+            return String.Format(Messages.CannotDeleteSample, name);
+        }
+
+        public static string CannotDeletePatchBecauseIsMainPatch(string name)
+        {
+            return String.Format(Messages.CannotDeletePatchBecauseIsMainPatch, name);
+        }
     }
 }

@@ -44,5 +44,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
         {
             OperatorRepository.Flush();
         }
+
+        public IEntityPositionRepository EntityPositionRepository { get; set; }
     }
 }

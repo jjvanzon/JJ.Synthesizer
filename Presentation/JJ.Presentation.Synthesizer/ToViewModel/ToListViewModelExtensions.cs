@@ -29,6 +29,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
+            entities = entities.OrderBy(x => x.Name).ToArray();
+
             var viewModel = new AudioFileOutputListViewModel
             {
                 List = new List<AudioFileOutputListItemViewModel>(entities.Count)
@@ -52,6 +54,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             ISpeakerSetupRepository speakerSetupRepository)
         {
             if (entities == null) throw new NullException(() => entities);
+
+            entities = entities.OrderBy(x => x.Name).ToArray();
 
             IList<AudioFileOutputPropertiesViewModel> viewModels = new List<AudioFileOutputPropertiesViewModel>(entities.Count);
 
@@ -106,6 +110,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static IList<IDNameAndListIndexViewModel> ToChildDocumentLisItemsViewModel(this IList<Document> sourceEntities)
         {
             if (sourceEntities == null) throw new NullException(() => sourceEntities);
+
+            sourceEntities = sourceEntities.OrderBy(x => x.Name).ToArray();
 
             IList<IDNameAndListIndexViewModel> destList = new List<IDNameAndListIndexViewModel>(sourceEntities.Count);
 

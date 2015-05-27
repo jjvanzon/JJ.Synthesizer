@@ -58,6 +58,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             IList<ChildDocumentPropertiesViewModel> viewModels = new List<ChildDocumentPropertiesViewModel>(entities.Count);
 
+            entities = entities.OrderBy(x => x.Name).ToArray();
+
             for (int i = 0; i < entities.Count; i++)
             {
                 Document entity = entities[i];
@@ -81,6 +83,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (entities == null) throw new NullException(() => entities);
 
             IList<ChildDocumentViewModel> viewModels = new List<ChildDocumentViewModel>(entities.Count);
+
+            entities = entities.OrderBy(x => x.Name).ToArray();
 
             for (int i = 0; i < entities.Count; i++)
             {
@@ -161,7 +165,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                        .SelectMany(x => x.Outlets)
                                                        .ToArray();
 
+                // TODO: This will not cut it, because you only see the operator name, not the patch name.
                 viewModel.OutletLookup = outlets.Select(x => x.ToIDAndName()).ToArray();
+
+                // TODO: Sort by something.
             }
             else
             {
@@ -178,6 +185,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (entities == null) throw new NullException(() => entities);
 
             var viewModels = new List<CurveDetailsViewModel>(entities.Count);
+
+            entities = entities.OrderBy(x => x.Name).ToArray();
 
             for (int i = 0; i < entities.Count; i++)
             {
@@ -213,6 +222,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (entities == null) throw new NullException(() => entities);
 
             var viewModels = new List<SamplePropertiesViewModel>(entities.Count);
+
+            entities = entities.OrderBy(x => x.Name).ToArray();
 
             for (int i = 0; i < entities.Count; i++)
             {

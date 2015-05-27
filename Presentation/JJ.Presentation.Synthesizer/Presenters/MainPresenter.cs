@@ -22,6 +22,7 @@ using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -67,6 +68,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private EntityPositionManager _entityPositionManager;
         private DocumentManager _documentManager;
+        private PatchManager _patchManager;
+        private CurveManager _curveManager;
+        private SampleManager _sampleManager;
         private AudioFileOutputManager _audioFileOutputManager;
 
         public MainPresenter(RepositoryWrapper repositoryWrapper)
@@ -95,9 +99,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _sampleListPresenter = new SampleListPresenter(_repositoryWrapper.DocumentRepository);
             _samplePropertiesPresenter = new SamplePropertiesPresenter(_repositoryWrapper.SampleRepository, _repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.SampleDataTypeRepository, repositoryWrapper.SpeakerSetupRepository, _repositoryWrapper.InterpolationTypeRepository);
 
-            _entityPositionManager = new EntityPositionManager(_repositoryWrapper.EntityPositionRepository);
             _documentManager = new DocumentManager(repositoryWrapper);
+            _patchManager = new PatchManager(_repositoryWrapper.PatchRepository, _repositoryWrapper.OperatorRepository, _repositoryWrapper.InletRepository, _repositoryWrapper.OutletRepository, _repositoryWrapper.EntityPositionRepository);
+            _curveManager = new CurveManager(_repositoryWrapper.CurveRepository, _repositoryWrapper.NodeRepository);
+            _sampleManager = new SampleManager(_repositoryWrapper.SampleRepository, _repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository, _repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.InterpolationTypeRepository);
             _audioFileOutputManager = new AudioFileOutputManager(_repositoryWrapper.AudioFileOutputRepository, _repositoryWrapper.AudioFileOutputChannelRepository, repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository, _repositoryWrapper.AudioFileFormatRepository);
+            _entityPositionManager = new EntityPositionManager(_repositoryWrapper.EntityPositionRepository);
 
             _dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
         }
@@ -496,8 +503,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        // AudioFileOutput Properties
-
         public MainViewModel AudioFileOutputPropertiesEdit(MainViewModel viewModel, int id)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -505,22 +510,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemporarilyAssertViewModelField();
 
             object viewModel2 = _audioFileOutputPropertiesPresenter.Edit(id);
-
-            DispatchViewModel(viewModel2);
-
-            return _viewModel;
-        }
-
-        // TODO: Refresh for details / properties views is probably not necessary.
-        public MainViewModel AudioFileOutputPropertiesRefresh(MainViewModel viewModel, int listIndex)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            TemporarilyAssertViewModelField();
-            
-            AudioFileOutputPropertiesViewModel userInput = viewModel.Document.AudioFileOutputPropertiesList[listIndex];
-
-            object viewModel2 = _audioFileOutputPropertiesPresenter.Refresh(userInput);
 
             DispatchViewModel(viewModel2);
 
@@ -540,7 +529,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        // Curve List
+        // Curve Actions
 
         public MainViewModel CurveListShow(MainViewModel viewModel)
         {
@@ -601,21 +590,33 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             TemporarilyAssertViewModelField();
 
-            // 'Business' / ToViewModel
-            _viewModel.Document.CurveDetailsList.RemoveAt(listIndex);
-            _viewModel.Document.CurveList.List.RemoveAt(listIndex);
+            // ToEntity
+            Document document = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
+            Curve curve = document.Curves[listIndex];
 
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.CurveDetailsList, listIndex);
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.CurveList.List, listIndex);
+            // Business
+            VoidResult result = _curveManager.DeleteWithRelatedEntities(curve);
+            if (result.Successful)
+            {
+                // ToViewModel
+                _viewModel.Document.CurveDetailsList.RemoveAt(listIndex);
+                _viewModel.Document.CurveList.List.RemoveAt(listIndex);
 
-            // No need to do ToEntity, 
-            // because we are not executing any additional business logic or refreshing 
-            // that uses the entity models.
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.CurveDetailsList, listIndex);
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.CurveList.List, listIndex);
+            }
+            else
+            {
+                // ToViewModel
+                _viewModel.PopupMessages = result.Messages;
+            }
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
 
-        // Effect List
+        // Effect Actions
 
         public MainViewModel EffectListShow(MainViewModel viewModel)
         {
@@ -707,7 +708,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        // Instrument List
+        // Instrument Actions
 
         public MainViewModel InstrumentListShow(MainViewModel viewModel)
         {
@@ -799,7 +800,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        // Patch List
+        // Patch Actions
 
         public MainViewModel PatchListShow(MainViewModel viewModel)
         {
@@ -821,6 +822,67 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             object viewModel2 = _patchListPresenter.Close();
             DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel PatchCreate(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            // ToEntity
+            Document document = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+            // Business
+            Patch patch = _repositoryWrapper.PatchRepository.Create();
+            patch.LinkTo(document);
+
+            // ToViewModel
+            int listIndex = _viewModel.Document.PatchDetailsList.Count;
+
+            IDNameAndListIndexViewModel listItemViewModel = patch.ToIDNameAndListIndex();
+            listItemViewModel.ListIndex = listIndex;
+            _viewModel.Document.PatchList.List.Add(listItemViewModel);
+
+            PatchDetailsViewModel detailsViewModel = patch.ToDetailsViewModel(_entityPositionManager);
+            detailsViewModel.Patch.ListIndex = listIndex;
+            _viewModel.Document.PatchDetailsList.Add(detailsViewModel);
+
+            _repositoryWrapper.Rollback();
+
+            return _viewModel;
+        }
+
+        public MainViewModel PatchDelete(MainViewModel viewModel, int listIndex)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            // ToEntity
+            Document document = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
+            Patch patch = document.Patches[listIndex];
+
+            // Business
+            VoidResult result = _patchManager.DeletePatchWithRelatedEntities(patch);
+            if (result.Successful)
+            {
+                // ToViewModel
+                _viewModel.Document.PatchDetailsList.RemoveAt(listIndex);
+                _viewModel.Document.PatchList.List.RemoveAt(listIndex);
+
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.PatchDetailsList, listIndex);
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.PatchList.List, listIndex);
+            }
+            else
+            {
+                // ToViewModel
+                _viewModel.PopupMessages = result.Messages;
+            }
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -847,6 +909,71 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             object viewModel2 = _sampleListPresenter.Close();
             DispatchViewModel(viewModel2);
+
+            return _viewModel;
+        }
+
+        public MainViewModel SampleCreate(MainViewModel viewModel)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            // ToEntity
+            Document document = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+            // Business
+            Sample sample = _sampleManager.CreateSample();
+            sample.LinkTo(document);
+
+            // ToViewModel
+            int listIndex = _viewModel.Document.SamplePropertiesList.Count;
+
+            SampleListItemViewModel listItemViewModel = sample.ToListItemViewModel();
+            listItemViewModel.ListIndex = listIndex;
+            _viewModel.Document.SampleList.List.Add(listItemViewModel);
+
+            SamplePropertiesViewModel detailsViewModel = sample.ToPropertiesViewModel(
+                _repositoryWrapper.AudioFileFormatRepository, 
+                _repositoryWrapper.SampleDataTypeRepository, 
+                _repositoryWrapper.SpeakerSetupRepository, 
+                _repositoryWrapper.InterpolationTypeRepository);
+            detailsViewModel.Sample.ListIndex = listIndex;
+            _viewModel.Document.SamplePropertiesList.Add(detailsViewModel);
+
+            _repositoryWrapper.Rollback();
+
+            return _viewModel;
+        }
+
+        public MainViewModel SampleDelete(MainViewModel viewModel, int listIndex)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            TemporarilyAssertViewModelField();
+
+            // ToEntity
+            Document document = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
+            Sample sample = document.Samples[listIndex];
+
+            // Business
+            VoidResult result = _sampleManager.DeleteWithRelatedEntities(sample);
+            if (result.Successful)
+            {
+                // ToViewModel
+                _viewModel.Document.SamplePropertiesList.RemoveAt(listIndex);
+                _viewModel.Document.SampleList.List.RemoveAt(listIndex);
+
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.SamplePropertiesList, listIndex);
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.SampleList.List, listIndex);
+            }
+            else
+            {
+                // ToViewModel
+                _viewModel.PopupMessages = result.Messages;
+            }
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }

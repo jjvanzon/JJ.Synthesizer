@@ -40,6 +40,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
+            entities = entities.OrderBy(x => x.Name).ToArray();
+
             var viewModels = new List<IDNameAndListIndexViewModel>(entities.Count);
 
             for (int i = 0; i < entities.Count; i++)
@@ -100,6 +102,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static IList<IDNameAndListIndexViewModel> ToIDNameAndListIndexes(this IList<Curve> entities)
         {
             if (entities == null) throw new NullException(() => entities);
+
+            entities = entities.OrderBy(x => x.Name).ToArray();
 
             var viewModels = new List<IDNameAndListIndexViewModel>(entities.Count);
 

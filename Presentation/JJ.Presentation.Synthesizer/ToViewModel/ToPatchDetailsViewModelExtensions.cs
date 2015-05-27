@@ -21,6 +21,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
+            entities = entities.OrderBy(x => x.Name).ToArray();
+
             var viewModels = new List<PatchDetailsViewModel>(entities.Count);
 
             for (int i = 0; i < entities.Count; i++)
@@ -70,9 +72,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             viewModel.Operators = new List<OperatorViewModel>(patch.Operators.Count);
 
-            for (int i = 0; i < patch.Operators.Count; i++)
+            IList<Operator> sortedOperators = patch.Operators.OrderBy(x => x.Name).ToArray();
+
+            for (int i = 0; i < sortedOperators.Count; i++)
             {
-                Operator op = patch.Operators[i];
+                Operator op = sortedOperators[i];
             
                 OperatorViewModel operatorViewModel = op.ToViewModelRecursive(dictionary);
                 operatorViewModel.ListIndex = i;
@@ -142,11 +146,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             operatorViewModel.Inlets = op.Inlets.ToViewModels();
 
-            operatorViewModel.Outlets = new List<OutletViewModel>();
+            operatorViewModel.Outlets = new List<OutletViewModel>(op.Outlets.Count);
 
-            for (int i = 0; i < op.Outlets.Count; i++)
+            IList<Outlet> sortedOutlets = op.Outlets;
+            // TODO: Introduce SortOrder property and then sort.
+            //sortedOutlets = sortedOutlets.OrderBy(x => x.SortOrder).ToArray();
+
+            for (int i = 0; i < sortedOutlets.Count; i++)
             {
-                Outlet outlet = op.Outlets[i];
+                Outlet outlet = sortedOutlets[i];
 
                 OutletViewModel outletViewModel = outlet.ToViewModel();
                 outletViewModel.ListIndex = i;
@@ -160,6 +168,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static IList<InletViewModel> ToViewModelsRecursive(this IList<Inlet> entities, IDictionary<Operator, OperatorViewModel> dictionary)
         {
             var viewModels = new List<InletViewModel>(entities.Count);
+
+            // TODO: Introduce SortOrder property and then sort by it.
 
             for (int i = 0; i < entities.Count; i++)
             {
@@ -187,6 +197,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static IList<OutletViewModel> ToViewModelsRecursive(this IList<Outlet> entities, IDictionary<Operator, OperatorViewModel> dictionary)
         {
             var viewModels = new List<OutletViewModel>(entities.Count);
+
+            // TODO: Introduce SortOrder property and then sort by it.
 
             for (int i = 0; i < entities.Count; i++)
             {

@@ -26,7 +26,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             Outlet outlet = x.Add();
 
             Patch patch = persistenceWrapper.PatchRepository.Create();
-            PatchManager.AddToPatchRecursive(outlet.Operator, patch);
+            PatchManager patchManager = CreatePatchManager(persistenceWrapper);
+            patchManager.AddToPatchRecursive(outlet.Operator, patch);
             return patch;
         }
 
@@ -39,7 +40,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             Outlet outlet = x.Substract(x.Add(x.Value(1), x.Value(2)), x.Value(3));
 
             Patch patch = persistenceWrapper.PatchRepository.Create();
-            PatchManager.AddToPatchRecursive(outlet.Operator, patch);
+            PatchManager patchManager = CreatePatchManager(persistenceWrapper);
+            patchManager.AddToPatchRecursive(outlet.Operator, patch);
             return patch;
         }
 
@@ -54,9 +56,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             Outlet outlet2 = TestEntityFactory.CreateEcho(operatorFactory, outlet);
             Outlet outlet3 = operatorFactory.PatchOutlet(outlet2);
 
-            PatchManager.AddToPatchRecursive(outlet3.Operator, patch);
+            PatchManager patchManager = CreatePatchManager(persistenceWrapper);
+            patchManager.AddToPatchRecursive(outlet3.Operator, patch);
 
             return patch;
+        }
+
+        private static PatchManager CreatePatchManager(PersistenceWrapper persistenceWrapper)
+        {
+            var patchManager = new PatchManager(
+                persistenceWrapper.PatchRepository, 
+                persistenceWrapper.OperatorRepository, 
+                persistenceWrapper.InletRepository, 
+                persistenceWrapper.OutletRepository, 
+                persistenceWrapper.EntityPositionRepository);
+
+            return patchManager;
         }
 
         private static OperatorFactory CreateOperatorFactory(PersistenceWrapper persistenceWrapper)
