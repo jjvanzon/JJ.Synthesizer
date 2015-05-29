@@ -48,7 +48,7 @@
             this.pictureBoxClose.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxClose.TabIndex = 8;
             this.pictureBoxClose.TabStop = false;
-            this.pictureBoxClose.Click += new System.EventHandler(this.pictureBoxClose_Click);
+            this.pictureBoxClose.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxClose_MouseDown);
             // 
             // pictureBoxRemove
             // 
@@ -61,7 +61,7 @@
             this.pictureBoxRemove.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxRemove.TabIndex = 9;
             this.pictureBoxRemove.TabStop = false;
-            this.pictureBoxRemove.Click += new System.EventHandler(this.pictureBoxRemove_Click);
+            this.pictureBoxRemove.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxRemove_MouseDown);
             // 
             // pictureBoxAdd
             // 
@@ -74,7 +74,7 @@
             this.pictureBoxAdd.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.pictureBoxAdd.TabIndex = 10;
             this.pictureBoxAdd.TabStop = false;
-            this.pictureBoxAdd.Click += new System.EventHandler(this.pictureBoxAdd_Click);
+            this.pictureBoxAdd.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxAdd_MouseDown);
             // 
             // labelTitle
             // 
@@ -83,7 +83,7 @@
             this.labelTitle.Margin = new System.Windows.Forms.Padding(0);
             this.labelTitle.Name = "labelTitle";
             this.labelTitle.Padding = new System.Windows.Forms.Padding(3);
-            this.labelTitle.Size = new System.Drawing.Size(30, 26);
+            this.labelTitle.Size = new System.Drawing.Size(30, 24);
             this.labelTitle.TabIndex = 7;
             this.labelTitle.Text = "Title";
             this.labelTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

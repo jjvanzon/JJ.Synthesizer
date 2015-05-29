@@ -140,15 +140,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         // Events
 
-        private void pictureBoxClose_Click(object sender, EventArgs e)
+        private void pictureBoxAdd_MouseDown(object sender, MouseEventArgs e)
         {
-            if (CloseClicked != null)
+            if (AddClicked != null)
             {
-                CloseClicked(sender, EventArgs.Empty);
+                AddClicked(sender, EventArgs.Empty);
             }
         }
 
-        private void pictureBoxRemove_Click(object sender, EventArgs e)
+        private void pictureBoxRemove_MouseDown(object sender, MouseEventArgs e)
         {
             if (RemoveClicked != null)
             {
@@ -156,11 +156,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
         }
 
-        private void pictureBoxAdd_Click(object sender, EventArgs e)
+        private void pictureBoxClose_MouseDown(object sender, MouseEventArgs e)
         {
-            if (AddClicked != null)
+            if (CloseClicked != null)
             {
-                AddClicked(sender, EventArgs.Empty);
+                CloseClicked(sender, EventArgs.Empty);
             }
         }
     }

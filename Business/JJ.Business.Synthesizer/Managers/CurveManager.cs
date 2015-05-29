@@ -12,6 +12,9 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.LinkTo;
+using JJ.Framework.Business;
+using JJ.Business.Synthesizer.SideEffects;
 
 namespace JJ.Business.Synthesizer.Managers
 {

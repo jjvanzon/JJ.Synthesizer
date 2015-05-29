@@ -140,7 +140,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentPropertiesViewModel
             {
                 Document = new IDAndName(),
-                Messages = new List<Message>()
+                Messages = new List<Message>(),
+                Successful = true
             };
 
             return viewModel;

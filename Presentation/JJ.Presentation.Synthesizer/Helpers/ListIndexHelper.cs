@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 {
     internal static class ListIndexHelper
     {
-        public static void RenumberListIndexes(IList<IDNameAndListIndexViewModel> list, int startIndex)
+        public static void RenumberListIndexes(IList<IDNameAndListIndexViewModel> list, int startIndex = 0)
         {
             if (list == null) throw new NullException(() => list);
             if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
-        public static void RenumberListIndexes(IList<AudioFileOutputListItemViewModel> list, int startIndex)
+        public static void RenumberListIndexes(IList<AudioFileOutputListItemViewModel> list, int startIndex = 0)
         {
             if (list == null) throw new NullException(() => list);
             if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
-        public static void RenumberListIndexes(IList<ChildDocumentPropertiesViewModel> list, int startIndex)
+        public static void RenumberListIndexes(IList<ChildDocumentPropertiesViewModel> list, int startIndex = 0)
         {
             if (list == null) throw new NullException(() => list);
             if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
@@ -45,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
-        public static void RenumberListIndexes(IList<ChildDocumentViewModel> list, int startIndex)
+        public static void RenumberListIndexes(IList<ChildDocumentViewModel> list, int startIndex = 0 )
         {
             if (list == null) throw new NullException(() => list);
             if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
@@ -56,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
-        public static void RenumberListIndexes(IList<AudioFileOutputPropertiesViewModel> list, int startIndex)
+        public static void RenumberListIndexes(IList<AudioFileOutputPropertiesViewModel> list, int startIndex = 0)
         {
             if (list == null) throw new NullException(() => list);
             if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
@@ -67,7 +67,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
-        public static void RenumberListIndexes(IList<CurveDetailsViewModel> list, int startIndex)
+        public static void RenumberListIndexes(IList<CurveDetailsViewModel> list, int startIndex = 0)
         {
             if (list == null) throw new NullException(() => list);
             if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
@@ -78,7 +78,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
-        public static void RenumberListIndexes(IList<PatchDetailsViewModel> list, int startIndex)
+        public static void RenumberListIndexes(IList<PatchDetailsViewModel> list, int startIndex = 0)
         {
             if (list == null) throw new NullException(() => list);
             if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
@@ -89,7 +89,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
-        public static void RenumberListIndexes(IList<SamplePropertiesViewModel> list, int startIndex)
+        public static void RenumberListIndexes(IList<SamplePropertiesViewModel> list, int startIndex = 0)
         {
             if (list == null) throw new NullException(() => list);
             if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
@@ -100,7 +100,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
-        public static void RenumberListIndexes(IList<SampleListItemViewModel> list, int startIndex)
+        public static void RenumberListIndexes(IList<SampleListItemViewModel> list, int startIndex = 0)
         {
             if (list == null) throw new NullException(() => list);
             if (startIndex < 0) throw new LessThanException(() => startIndex, 0);

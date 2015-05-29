@@ -159,6 +159,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (entity.Document != null)
             {
+                // TODO: Delegate to something in ViewModelHelper_Lookups.cs?
                 IList<Outlet> outlets = entity.Document.Patches
                                                        .SelectMany(x => x.Operators)
                                                        .Where(x => String.Equals(x.OperatorTypeName, PropertyNames.PatchOutlet))
@@ -271,7 +272,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentPropertiesViewModel
             {
                 Document = document.ToIDAndName(),
-                Messages = new List<Message>()
+                Messages = new List<Message>(),
+                Successful = true
             };
 
             return viewModel;

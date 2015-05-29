@@ -48,8 +48,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 int totalCount = _documentRepository.CountRootDocuments();
 
                 _viewModel = documents.ToListViewModel(pageIndex, _pageSize, totalCount);
-
-                _documentRepository.Rollback();
             }
 
             _viewModel.Visible = true;
@@ -69,8 +67,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel = documents.ToListViewModel(pageIndex, _pageSize, totalCount);
 
             _viewModel.Visible = viewModel.Visible;
-
-            _documentRepository.Rollback();
 
             return _viewModel;
         }

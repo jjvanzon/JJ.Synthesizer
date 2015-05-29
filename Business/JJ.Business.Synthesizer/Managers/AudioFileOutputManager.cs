@@ -48,8 +48,8 @@ namespace JJ.Business.Synthesizer.Managers
         {
             AudioFileOutput audioFileOutput = _audioFileOutputRepository.Create();
 
-            ISideEffect sideEffect = new AudioFileOutput_SideEffect_SetDefaults(audioFileOutput, _sampleDataTypeRepository, _speakerSetupRepository, _audioFileFormatRepository);
-            sideEffect.Execute();
+            ISideEffect sideEffect1 = new AudioFileOutput_SideEffect_SetDefaults(audioFileOutput, _sampleDataTypeRepository, _speakerSetupRepository, _audioFileFormatRepository);
+            sideEffect1.Execute();
 
             // Adjust channels according to speaker setup.
             SetSpeakerSetup(audioFileOutput, audioFileOutput.SpeakerSetup);

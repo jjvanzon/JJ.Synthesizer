@@ -11,6 +11,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     public sealed class AudioFileOutputPropertiesViewModel
     {
         public bool Visible { get; set; }
+        public bool Successful { get; set; }
+        public IList<Message> Messages { get; set; }
 
         public AudioFileOutputViewModel AudioFileOutput { get; set; }
 

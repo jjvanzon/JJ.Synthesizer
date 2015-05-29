@@ -417,7 +417,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void AudioFileOutputPropertiesClose()
         {
-            _viewModel = _presenter.AudioFileOutputPropertiesClose(_viewModel);
+            _viewModel = _presenter.AudioFileOutputPropertiesClose(_viewModel, listIndex: 0); // TODO: Use the right ListIndex.
             ApplyViewModel();
         }
 

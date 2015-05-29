@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using JJ.Framework.Presentation;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Validation;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -35,85 +36,75 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// </summary>
         public object Show(int id)
         {
-            Document document = _documentRepository.TryGet(id);
-            if (document == null)
+            bool mustCreateViewModel = _viewModel == null ||
+                                       _viewModel.Document.ID != id;
+            if (mustCreateViewModel)
             {
-                var presenter2 = new NotFoundPresenter();
-                NotFoundViewModel viewModel = presenter2.Show(PropertyDisplayNames.Document);
-                return viewModel;
-            }
-            else
-            {
+                Document document = _documentRepository.TryGet(id);
+                if (document == null)
+                {
+                    return CreateDocumentNotFoundViewModel();
+                }
+
                 _viewModel = document.ToPropertiesViewModel();
-                _viewModel.Visible = true;
-
-                _documentRepository.Rollback();
-
-                return _viewModel;
             }
-        }
 
-        // TODO: In both Close and LoseFocus you might want to check if the ID is filled,
-        // because you might not be supposed to create a new entity with a Properties box.
+            _viewModel.Visible = true;
+
+            return _viewModel;
+        }
 
         public DocumentPropertiesViewModel Close(DocumentPropertiesViewModel userInput)
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            _viewModel = Update(userInput);
 
-            Document document = userInput.ToEntity(_documentRepository);
-
-            IValidator validator = new DocumentValidator_Basic(document);
-            if (!validator.IsValid)
+            if (_viewModel.Successful)
             {
-                if (_viewModel == null)
-                {
-                    _viewModel = document.ToPropertiesViewModel();
-                }
-
-                _viewModel.Messages = validator.ValidationMessages.ToCanonical();
-
-                return _viewModel;
-            }
-            else
-            {
-                if (_viewModel == null)
-                {
-                    _viewModel = ViewModelHelper.CreateEmptyDocumentPropertiesViewModel();
-                }
-
                 _viewModel.Visible = false;
-
-                return _viewModel;
             }
+
+            return _viewModel;
         }
 
         public DocumentPropertiesViewModel LooseFocus(DocumentPropertiesViewModel userInput)
         {
+            _viewModel = Update(userInput);
+
+            return _viewModel;
+        }
+
+        private DocumentPropertiesViewModel Update(DocumentPropertiesViewModel userInput)
+        {
             if (userInput == null) throw new NullException(() => userInput);
 
             Document document = userInput.ToEntity(_documentRepository);
 
+            if (_viewModel == null)
+            {
+                _viewModel = document.ToPropertiesViewModel();
+            }
+
             IValidator validator = new DocumentValidator_Basic(document);
             if (!validator.IsValid)
             {
-                if (_viewModel == null)
-                {
-                    _viewModel = document.ToPropertiesViewModel();
-                }
-
+                _viewModel.Successful = false;
                 _viewModel.Messages = validator.ValidationMessages.ToCanonical();
-
-                return _viewModel;
             }
             else
             {
-                if (_viewModel == null)
-                {
-                    _viewModel = document.ToPropertiesViewModel();
-                }
-
-                return _viewModel;
+                _viewModel.Messages = new Message[0];
+                _viewModel.Successful = true;
             }
+
+            return _viewModel;
+        }
+
+        // Helpers
+
+        private NotFoundViewModel CreateDocumentNotFoundViewModel()
+        {
+            NotFoundViewModel viewModel = new NotFoundPresenter().Show(PropertyDisplayNames.Document);
+            return viewModel;
         }
     }
 }

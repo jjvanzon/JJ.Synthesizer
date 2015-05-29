@@ -3,11 +3,16 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ToEntity;
+using JJ.Presentation.Synthesizer.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Framework.Validation;
+using JJ.Business.Synthesizer.Validation;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -17,6 +22,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private IAudioFileFormatRepository _audioFileFormatRepository;
         private ISampleDataTypeRepository _sampleDataTypeRepository;
         private ISpeakerSetupRepository _speakerSetupRepository;
+        private IAudioFileOutputChannelRepository _audioFileOutputChannelRepository;
+        private IOutletRepository _outletRepository;
 
         public AudioFileOutputPropertiesViewModel ViewModel { get; set; }
 
@@ -24,48 +31,90 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IAudioFileOutputRepository audioFileOutputRepository,
             IAudioFileFormatRepository audioFileFormatRepository,
             ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository)
+            ISpeakerSetupRepository speakerSetupRepository,
+            IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
+            IOutletRepository outletRepository)
         {
             if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
             if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
+            if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
+            if (outletRepository == null) throw new NullException(() => outletRepository);
 
             _audioFileOutputRepository = audioFileOutputRepository;
             _audioFileFormatRepository = audioFileFormatRepository;
             _sampleDataTypeRepository = sampleDataTypeRepository;
             _speakerSetupRepository = speakerSetupRepository;
+            _audioFileOutputChannelRepository = audioFileOutputChannelRepository;
+            _outletRepository = outletRepository;
         }
 
-        public AudioFileOutputPropertiesViewModel Edit(int id)
+        public AudioFileOutputPropertiesViewModel Show(AudioFileOutputPropertiesViewModel userInput)
         {
-            //// Temporarily (2015-05-12) replaced by empty view model,
-            //// until this view is used in the right place in the application navigation.
-            //_viewModel = ViewModelHelper.CreateEmptyAudioFileOutputPropertiesViewModel();
-            //_viewModel.Visible = true;
-            //return _viewModel;
+            if (userInput == null) throw new NullException(() => userInput);
 
-            bool mustCreateViewModel = ViewModel == null ||
-                                       ViewModel.AudioFileOutput.ID != id;
-
-            if (mustCreateViewModel)
+            if (MustCreateViewModel(ViewModel, userInput))
             {
-                AudioFileOutput entity = _audioFileOutputRepository.Get(id);
+                AudioFileOutput entity = userInput.ToEntityWithRelatedEntities(_audioFileOutputRepository, _audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository, _audioFileOutputChannelRepository, _outletRepository);
                 ViewModel = entity.ToPropertiesViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository);
             }
 
+            ViewModel.Visible = true;
+
             return ViewModel;
         }
 
-        public AudioFileOutputPropertiesViewModel Close()
+        public AudioFileOutputPropertiesViewModel Close(AudioFileOutputPropertiesViewModel userInput)
         {
-            if (ViewModel == null)
+            Update(userInput);
+
+            if (ViewModel.Successful)
             {
-                ViewModel = ViewModelHelper.CreateEmptyAudioFileOutputPropertiesViewModel();
+                ViewModel.Visible = false;
             }
 
-            ViewModel.Visible = false;
             return ViewModel;
+        }
+
+        public AudioFileOutputPropertiesViewModel LooseFocus(AudioFileOutputPropertiesViewModel userInput)
+        {
+            ViewModel = Update(userInput);
+
+            return ViewModel;
+        }
+
+        private AudioFileOutputPropertiesViewModel Update(AudioFileOutputPropertiesViewModel userInput)
+        {
+            AudioFileOutput entity = userInput.ToEntityWithRelatedEntities(_audioFileOutputRepository, _audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository, _audioFileOutputChannelRepository, _outletRepository);
+
+            if (MustCreateViewModel(ViewModel, userInput))
+            {
+                ViewModel = entity.ToPropertiesViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository);
+            }
+
+            IValidator validator = new AudioFileOutputValidator(entity);
+            if (!validator.IsValid)
+            {
+                ViewModel.Successful = false;
+                ViewModel.Messages = validator.ValidationMessages.ToCanonical();
+            }
+            else
+            {
+                ViewModel.Messages = new Message[0];
+                ViewModel.Successful = false;
+            }
+
+            return ViewModel;
+        }
+
+        private bool MustCreateViewModel(AudioFileOutputPropertiesViewModel existingViewModel, AudioFileOutputPropertiesViewModel userInput)
+        {
+            bool mustCreateViewModel = existingViewModel == null ||
+                                       existingViewModel.AudioFileOutput.DocumentID != userInput.AudioFileOutput.DocumentID ||
+                                       existingViewModel.AudioFileOutput.ListIndex != userInput.AudioFileOutput.ListIndex;
+
+            return mustCreateViewModel;
         }
     }
 }

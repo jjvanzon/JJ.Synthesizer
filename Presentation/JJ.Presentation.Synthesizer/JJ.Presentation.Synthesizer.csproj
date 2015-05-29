@@ -82,7 +82,7 @@
     <Compile Include="ToViewModel\ToPatchDetailsViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToEntityViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper_EmptyViewModels.cs" />
-    <Compile Include="ViewModels\AudioFileOutputDetailsViewModel.cs" />
+    <Compile Include="ViewModels\AudioFileOutputPropertiesViewModel.cs" />
     <Compile Include="ViewModels\AudioFileOutputListViewModel.cs" />
     <Compile Include="ViewModels\CurveDetailsViewModel.cs" />
     <Compile Include="ViewModels\CurveListViewModel.cs" />
@@ -97,7 +97,6 @@
     <Compile Include="ViewModels\Entities\CurveViewModel.cs" />
     <Compile Include="ViewModels\Entities\DocumentViewModel.cs" />
     <Compile Include="ViewModels\Entities\NodeViewModel.cs" />
-    <Compile Include="ViewModels\Entities\~PatchListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\SampleListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\InletViewModel.cs" />
     <Compile Include="ViewModels\Entities\OperatorViewModel.cs" />
@@ -128,6 +127,10 @@
     <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer\JJ.Business.Synthesizer.csproj">
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
       <Name>JJ.Business.Synthesizer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Business\JJ.Framework.Business.csproj">
+      <Project>{f44d03e8-feec-40d4-b866-a87799185b4c}</Project>
+      <Name>JJ.Framework.Business</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
       <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>

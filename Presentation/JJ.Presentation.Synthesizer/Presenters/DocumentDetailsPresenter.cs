@@ -40,14 +40,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel.CanDelete = false;
             _viewModel.Visible = true;
 
-            _documentRepository.Rollback();
-
             return _viewModel;
         }
 
         /// <summary>
         /// Can return DocumentDetailsViewModel or NotFoundViewModel.
         /// </summary>
+        [Obsolete("", true)]
         public object Edit(int id)
         {
             Document document = _documentRepository.TryGet(id);
@@ -63,8 +62,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _viewModel.IDVisible = true;
                 _viewModel.CanDelete = true;
                 _viewModel.Visible = true;
-
-                _documentRepository.Rollback();
 
                 return _viewModel;
             }
@@ -88,12 +85,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 _viewModel.Messages = validator.ValidationMessages.ToCanonical();
 
-                _documentRepository.Rollback();
-
                 return _viewModel;
             }
             else
             {
+                // TODO: Perhaps report success and leave Committing to the MainPresenter.
                 _documentRepository.Commit();
 
                 if (_viewModel == null)

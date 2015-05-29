@@ -176,10 +176,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static AudioFileOutputViewModel ToViewModelWithRelatedEntities(this AudioFileOutput entity)
         {
             if (entity == null) throw new NullException(() => entity);
+            if (entity.Document == null) throw new NullException(() => entity.Document);
 
             var viewModel = new AudioFileOutputViewModel
             {
                 ID = entity.ID,
+                DocumentID = entity.Document.ID,
                 Name = entity.Name,
                 SamplingRate = entity.SamplingRate
             };

@@ -71,38 +71,5 @@ namespace JJ.Business.Synthesizer.Managers
 
             _repositoryWrapper.DocumentRepository.Delete(document);
         }
-
-        public Document CreateInstrument(int parentDocumentID)
-        {
-            Document parentDocument = _repositoryWrapper.DocumentRepository.Get(parentDocumentID);
-            Document instrument = CreateInstrument(parentDocument);
-            return instrument;
-        }
-
-        public Document CreateInstrument(Document parentDocument)
-        {
-            if (parentDocument == null) throw new NullException(() => parentDocument);
-
-            Document instrument = _repositoryWrapper.DocumentRepository.Create();
-            instrument.LinkInstrumentToDocument(parentDocument);
-
-            ISideEffect sideEffect = new Instrument_SideEffect_GenerateName(instrument);
-            sideEffect.Execute();
-
-            return instrument;
-        }
-
-        public Document CreateEffect(Document parentDocument)
-        {
-            if (parentDocument == null) throw new NullException(() => parentDocument);
-
-            Document effect = _repositoryWrapper.DocumentRepository.Create();
-            effect.LinkEffectToDocument(parentDocument);
-
-            ISideEffect sideEffect = new Effect_SideEffect_GenerateName(effect);
-            sideEffect.Execute();
-
-            return effect;
-        }
     }
 }
