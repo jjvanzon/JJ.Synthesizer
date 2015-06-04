@@ -21,7 +21,6 @@ using JJ.Framework.Mathematics;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Configuration;
-using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -70,14 +69,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         public PatchDetailsViewModel Create(
-            int documentID,
             int listIndex,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex)
         {
             Patch patch = _patchRepository.Create();
 
-            ViewModel = patch.ToDetailsViewModel(documentID, listIndex, childDocumentTypeEnum, childDocumentListIndex, _entityPositionManager);
+            ViewModel = patch.ToDetailsViewModel(listIndex, childDocumentListIndex, _entityPositionManager);
             ViewModel.Visible = true;
 
             return ViewModel;
@@ -85,16 +82,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public PatchDetailsViewModel Edit(
             int patchID,
-            int documentID,
             int listIndex,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex)
         {
             // TODO: This action should receive a view model with user input.
 
             Patch patch = _patchRepository.Get(patchID);
 
-            ViewModel = patch.ToDetailsViewModel(documentID, listIndex, childDocumentTypeEnum, childDocumentListIndex, _entityPositionManager);
+            ViewModel = patch.ToDetailsViewModel(listIndex, childDocumentListIndex, _entityPositionManager);
 
             ViewModel.Visible = true;
 
@@ -397,9 +392,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private PatchDetailsViewModel CreateViewModel(Patch entity, PatchDetailsViewModel userInput)
         {
             PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
-                userInput.Patch.Keys.DocumentID,
                 userInput.Patch.Keys.ListIndex,
-                userInput.Patch.Keys.ChildDocumentTypeEnum,
                 userInput.Patch.Keys.ChildDocumentListIndex,
                 _entityPositionManager);
 

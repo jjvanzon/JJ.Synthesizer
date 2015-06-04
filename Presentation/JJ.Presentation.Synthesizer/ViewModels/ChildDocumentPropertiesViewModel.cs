@@ -15,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public bool Visible { get; set; }
         public ChildDocumentKeysViewModel Keys { get; set; }
         public string Name { get; set; }
-        public IList<Message> Messages { get; set; }
+        public IList<Message> ValidationMessages { get; set; }
         public bool Successful { get; set; }
     }
 }

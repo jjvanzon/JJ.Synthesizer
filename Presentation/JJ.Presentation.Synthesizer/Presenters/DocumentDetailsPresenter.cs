@@ -83,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     _viewModel.CanDelete = userInput.CanDelete;
                 }
 
-                _viewModel.Messages = validator.ValidationMessages.ToCanonical();
+                _viewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
 
                 return _viewModel;
             }

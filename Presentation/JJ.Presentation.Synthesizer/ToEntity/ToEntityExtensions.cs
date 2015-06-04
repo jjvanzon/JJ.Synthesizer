@@ -22,6 +22,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 {
     internal static class ToEntityExtensions
     {
+        // Document
+
         public static Document ToEntityWithRelatedEntities(this DocumentViewModel sourceViewModel, RepositoryWrapper repositoryWrapper)
         {
             if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
@@ -49,6 +51,40 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             document.Name = viewModel.DocumentProperties.Document.Name;
             return document;
         }
+
+        public static Document ToEntity(this DocumentPropertiesViewModel viewModel, IDocumentRepository documentRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            Document document = viewModel.Document.ToDocument(documentRepository);
+            return document;
+        }
+
+        public static Document ToEntity(this DocumentDetailsViewModel viewModel, IDocumentRepository documentRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            Document document = viewModel.Document.ToDocument(documentRepository);
+            return document;
+        }
+
+        public static Document ToDocument(this IDAndName idAndName, IDocumentRepository documentRepository)
+        {
+            if (idAndName == null) throw new NullException(() => idAndName);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+
+            Document document = documentRepository.TryGet(idAndName.ID);
+            if (document == null)
+            {
+                document = documentRepository.Create();
+            }
+
+            document.Name = idAndName.Name;
+
+            return document;
+        }
+ 
+        // Child Document
 
         public static Document ToEntity(this ChildDocumentPropertiesViewModel viewModel, IDocumentRepository documentRepository)
         {
@@ -94,6 +130,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             return document;
         }
+
+        // Sample
 
         public static Sample ToEntity(this SamplePropertiesViewModel viewModel, SampleRepositories sampleRepositories)
         {
@@ -143,6 +181,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             return sample;
         }
+
+        // Curve
 
         public static Curve ToEntityWithRelatedEntities(this CurveDetailsViewModel viewModel, ICurveRepository curveRepository, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
         {
@@ -200,6 +240,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             return entity;
         }
+
+        // AudioFileOutput
 
         public static AudioFileOutput ToEntityWithRelatedEntities(this AudioFileOutputPropertiesViewModel viewModel, AudioFileOutputRepositories audioFileOutputRepositories)
         {
@@ -275,6 +317,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             return entity;
         }
+
+        // Patch
 
         public static Patch ToEntity(
             this PatchDetailsViewModel viewModel,
@@ -395,37 +439,5 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             EntityPosition entityPosition = manager.SetOrCreateOperatorPosition(viewModel.ID, viewModel.CenterX, viewModel.CenterY);
             return entityPosition;
         }
-
-        public static Document ToEntity(this DocumentPropertiesViewModel viewModel, IDocumentRepository documentRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            Document document = viewModel.Document.ToDocument(documentRepository);
-            return document;
-        }
-
-        public static Document ToEntity(this DocumentDetailsViewModel viewModel, IDocumentRepository documentRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            Document document = viewModel.Document.ToDocument(documentRepository);
-            return document;
-        }
-
-        public static Document ToDocument(this IDAndName idAndName, IDocumentRepository documentRepository)
-        {
-            if (idAndName == null) throw new NullException(() => idAndName);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-
-            Document document = documentRepository.TryGet(idAndName.ID);
-            if (document == null)
-            {
-                document = documentRepository.Create();
-            }
-
-            document.Name = idAndName.Name;
-
-            return document;
-        }
-    }
+   }
 }

@@ -766,18 +766,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _documentCannotDeleteForm.ShowDialog(_viewModel.DocumentCannotDelete);
             }
 
-            if (_viewModel.DocumentDetails.Messages.Count != 0)
+            if (_viewModel.DocumentDetails.ValidationMessages.Count != 0)
             {
-                MessageBox.Show(String.Join(Environment.NewLine, _viewModel.DocumentDetails.Messages.Select(x => x.Text)));
+                MessageBox.Show(String.Join(Environment.NewLine, _viewModel.DocumentDetails.ValidationMessages.Select(x => x.Text)));
             }
 
-            if (_viewModel.Document.DocumentProperties.Messages.Count > 0)
+            if (_viewModel.Document.DocumentProperties.ValidationMessages.Count > 0)
             {
-                MessageBox.Show(String.Join(Environment.NewLine, _viewModel.Document.DocumentProperties.Messages.Select(x => x.Text)));
+                MessageBox.Show(String.Join(Environment.NewLine, _viewModel.Document.DocumentProperties.ValidationMessages.Select(x => x.Text)));
             }
 
             // TODO: This 'if' is a major hack.
-            if (_viewModel.Document.DocumentProperties.Messages.Count != 0)
+            if (_viewModel.Document.DocumentProperties.ValidationMessages.Count != 0)
             {
                 documentPropertiesUserControl.Focus();
             }

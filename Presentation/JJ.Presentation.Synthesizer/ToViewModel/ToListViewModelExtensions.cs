@@ -4,7 +4,6 @@ using JJ.Framework.Common;
 using JJ.Framework.Presentation;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Keys;
@@ -31,51 +30,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (document == null) throw new NullException(() => document);
 
-            AudioFileOutputListViewModel viewModel = document.AudioFileOutputs.ToListViewModel(document.ID);
-
-            return viewModel;
-        }
-
-        // TODO: Inline this method, so you cannot accidently call it separately?
-        private static AudioFileOutputListViewModel ToListViewModel(this IList<AudioFileOutput> entities, int documentID)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            entities = entities.OrderBy(x => x.Name).ToArray();
+            IList<AudioFileOutput> sortedEntities = document.AudioFileOutputs.OrderBy(x => x.Name).ToArray();
 
             var viewModel = new AudioFileOutputListViewModel
             {
-                List = entities.ToListItemViewModels(),
+                List = sortedEntities.ToListItemViewModels(),
                 Keys = new AudioFileOutputListKeysViewModel
                 {
-                    DocumentID = documentID
+                    DocumentID = document.ID
                 }
             };
 
             return viewModel;
-        }
-
-        public static IList<AudioFileOutputPropertiesViewModel> ToPropertiesListViewModel(
-            this IList<AudioFileOutput> entities,
-            IAudioFileFormatRepository audioFileFormatRepository,
-            ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            entities = entities.OrderBy(x => x.Name).ToArray();
-
-            IList<AudioFileOutputPropertiesViewModel> viewModels = new List<AudioFileOutputPropertiesViewModel>(entities.Count);
-
-            for (int i = 0; i < entities.Count; i++)
-            {
-                AudioFileOutput entity = entities[i];
-                AudioFileOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel(i, audioFileFormatRepository, sampleDataTypeRepository, speakerSetupRepository);
-
-                viewModels.Add(viewModel);
-            }
-
-            return viewModels;
         }
 
         public static DocumentListViewModel ToListViewModel(this IList<Document> entities)
@@ -91,26 +57,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        // TODO: Generalize ToInstrumentListViewModel and ToEffectListViewModel.
-        public static ChildDocumentListViewModel ToInstrumentListViewModel(this Document parentDocument)
-        {
-            if (parentDocument == null) throw new NullException(() => parentDocument);
-
-            ChildDocumentListViewModel viewModel = parentDocument.Instruments.ToChildDocumentListViewModel(parentDocument.ID, ChildDocumentTypeEnum.Instrument);
-
-            return viewModel;
-        }
-
-        public static ChildDocumentListViewModel ToEffectListViewModel(this Document parentDocument)
-        {
-            if (parentDocument == null) throw new NullException(() => parentDocument);
-
-            ChildDocumentListViewModel viewModel = parentDocument.Effects.ToChildDocumentListViewModel(parentDocument.ID, ChildDocumentTypeEnum.Effect);
-
-            return viewModel;
-        }
-
-        private static ChildDocumentListViewModel ToChildDocumentListViewModel(
+        public static ChildDocumentListViewModel ToChildDocumentListViewModel(
             this IList<Document> entities,
             int parentDocumentID,
             ChildDocumentTypeEnum childDocumentTypeEnum)
@@ -130,22 +77,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        // TODO: Remove outcommented code.
-        //public static CurveListViewModel ToCurveListViewModel(
-        //    this Document document,
-        //    int documentID,
-        //    ChildDocumentTypeEnum? childDocumentTypeEnum,
-        //    int? childDocumentListIndex)
-        //{
-        //    if (document == null) throw new NullException(() => document);
-        //
-        //    CurveListViewModel viewModel = document.Curves.ToListViewModel();
-        //
-        //    viewModel.DocumentID = document.ID;
-        //
-        //    return viewModel;
-        //}
-
         public static CurveListViewModel ToListViewModel(
             this IList<Curve> entities,
             int documentID,
@@ -156,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new CurveListViewModel
             {
-                List = entities.ToListItemViewModels(documentID, childDocumentTypeEnum, childDocumentListIndex),
+                List = entities.ToListItemViewModels(childDocumentListIndex),
                 Keys = new CurveListKeysViewModel
                 {
                     DocumentID = documentID,
@@ -191,7 +122,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new PatchListViewModel
             {
-                List = entities.ToListItemViewModels(documentID, childDocumentTypeEnum, childDocumentListIndex),
+                List = entities.ToListItemViewModels(childDocumentListIndex),
                 Keys = new PatchListKeysViewModel
                 {
                     DocumentID = documentID,

@@ -45,10 +45,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 DocumentTree = CreateEmptyDocumentTreeViewModel(),
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
-                InstrumentList = CreateEmptyInstrumentListViewModel(),
+                InstrumentList = CreateEmptyChildDocumentListViewModel(ChildDocumentTypeEnum.Instrument),
                 InstrumentPropertiesList = new List<ChildDocumentPropertiesViewModel>(),
                 InstrumentDocumentList = new List<ChildDocumentViewModel>(),
-                EffectList = CreateEmptyEffectListViewModel(),
+                EffectList = CreateEmptyChildDocumentListViewModel(ChildDocumentTypeEnum.Effect),
                 EffectPropertiesList = new List<ChildDocumentPropertiesViewModel>(),
                 EffectDocumentList = new List<ChildDocumentViewModel>(),
                 SampleList = CreateEmptySampleListViewModel(),
@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentDetailsViewModel
             {
                 Document = new IDAndName(),
-                Messages = new List<Message>()
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -114,7 +114,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static ChildDocumentListViewModel CreateEmptyInstrumentListViewModel()
+        public static ChildDocumentListViewModel CreateEmptyChildDocumentListViewModel(ChildDocumentTypeEnum childDocumentTypeEnum)
         {
             var viewModel = new ChildDocumentListViewModel
             {
@@ -122,22 +122,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Keys = new ChildDocumentListKeysViewModel
                 {
                     ParentDocumentID = 0,
-                    ChildDocumentTypeEnum = ChildDocumentTypeEnum.Instrument
-                }
-            };
-
-            return viewModel;
-        }
-
-        public static ChildDocumentListViewModel CreateEmptyEffectListViewModel()
-        {
-            var viewModel = new ChildDocumentListViewModel
-            {
-                List = new List<ChildDocumentListItemViewModel>(),
-                Keys = new ChildDocumentListKeysViewModel
-                {
-                    ParentDocumentID = 0,
-                    ChildDocumentTypeEnum = ChildDocumentTypeEnum.Effect
+                    ChildDocumentTypeEnum = childDocumentTypeEnum
                 }
             };
 
@@ -149,7 +134,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentPropertiesViewModel
             {
                 Document = new IDAndName(),
-                Messages = new List<Message>(),
+                ValidationMessages = new List<Message>(),
                 Successful = true
             };
 
@@ -296,7 +281,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private static PatchViewModel CreateEmptyPatchViewModel()
+        public static PatchViewModel CreateEmptyPatchViewModel()
         {
             var viewModel = new PatchViewModel
             {

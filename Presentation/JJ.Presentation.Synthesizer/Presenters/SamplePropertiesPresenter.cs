@@ -80,11 +80,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!validator.IsValid)
             {
                 ViewModel.Successful = true;
-                ViewModel.Messages = validator.ValidationMessages.ToCanonical();
+                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
             }
             else
             {
-                ViewModel.Messages = new Message[0];
+                ViewModel.ValidationMessages = new Message[0];
                 ViewModel.Successful = false;
             }
 
@@ -103,9 +103,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private SamplePropertiesViewModel CreateViewModel(Sample entity, SamplePropertiesViewModel userInput)
         {
             SamplePropertiesViewModel viewModel = entity.ToPropertiesViewModel(
-                userInput.Sample.Keys.DocumentID,
                 userInput.Sample.Keys.ListIndex,
-                userInput.Sample.Keys.ChildDocumentTypeEnum,
                 userInput.Sample.Keys.ChildDocumentListIndex,
                 _sampleRepositories);
 

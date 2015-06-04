@@ -88,11 +88,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!validator.IsValid)
             {
                 ViewModel.Successful = true;
-                ViewModel.Messages = validator.ValidationMessages.ToCanonical();
+                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
             }
             else
             {
-                ViewModel.Messages = new Message[0];
+                ViewModel.ValidationMessages = new Message[0];
                 ViewModel.Successful = false;
             }
 
@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private bool MustCreateViewModel(CurveDetailsViewModel existingViewModel, CurveDetailsViewModel userInput)
         {
             return existingViewModel == null ||
-                   existingViewModel.Curve.Keys.DocumentID != userInput.Curve.Keys.DocumentID ||
+                   existingViewModel.Curve.Keys.RootDocumentID != userInput.Curve.Keys.RootDocumentID ||
                    existingViewModel.Curve.Keys.ListIndex != userInput.Curve.Keys.ListIndex ||
                    existingViewModel.Curve.Keys.ChildDocumentTypeEnum != userInput.Curve.Keys.ChildDocumentTypeEnum ||
                    existingViewModel.Curve.Keys.ChildDocumentListIndex != userInput.Curve.Keys.ChildDocumentListIndex;
@@ -111,9 +111,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private CurveDetailsViewModel CreateViewModel(Curve entity, CurveDetailsViewModel userInput)
         {
             CurveDetailsViewModel viewModel = entity.ToDetailsViewModel(
-                userInput.Curve.Keys.DocumentID,
                 userInput.Curve.Keys.ListIndex,
-                userInput.Curve.Keys.ChildDocumentTypeEnum,
                 userInput.Curve.Keys.ChildDocumentListIndex,
                 _nodeTypeRepository);
 

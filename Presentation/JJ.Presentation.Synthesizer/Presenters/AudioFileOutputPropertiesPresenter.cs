@@ -88,11 +88,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!validator.IsValid)
             {
                 ViewModel.Successful = false;
-                ViewModel.Messages = validator.ValidationMessages.ToCanonical();
+                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
             }
             else
             {
-                ViewModel.Messages = new Message[0];
+                ViewModel.ValidationMessages = new Message[0];
                 ViewModel.Successful = true;
             }
 

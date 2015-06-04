@@ -15,16 +15,16 @@ using System.Text;
 using System.Threading.Tasks;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class InstrumentListPresenter
+    [Obsolete("Use ChildDocumentListPresenter instead.", true)]
+    public class EffectListPresenter
     {
         private RepositoryWrapper _repositoryWrapper;
         private ChildDocumentListViewModel _viewModel;
 
-        public InstrumentListPresenter(RepositoryWrapper repositoryWrapper)
+        public EffectListPresenter(RepositoryWrapper repositoryWrapper)
         {
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
@@ -47,7 +47,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     return CreateDocumentNotFoundViewModel();
                 }
 
-                _viewModel = parentDocument.ToInstrumentListViewModel();
+                _viewModel = parentDocument.Effects.ToChildDocumentListViewModel(parentDocument.ID, ChildDocumentTypeEnum.Effect);
             }
 
             _viewModel.Visible = true;
@@ -68,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return CreateDocumentNotFoundViewModel();
             }
 
-            _viewModel = parentDocument.ToInstrumentListViewModel();
+            _viewModel = parentDocument.Effects.ToChildDocumentListViewModel(parentDocument.ID, ChildDocumentTypeEnum.Effect);
 
             _viewModel.Visible = viewModel.Visible;
 
@@ -79,7 +79,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (_viewModel == null)
             {
-                _viewModel = ViewModelHelper.CreateEmptyInstrumentListViewModel();
+                _viewModel = ViewModelHelper.CreateEmptyChildDocumentListViewModel(ChildDocumentTypeEnum.Effect);
             }
 
             _viewModel.Visible = false;

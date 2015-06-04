@@ -36,6 +36,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ConfigurationSection.cs" />
+    <Compile Include="Presenters\ChildDocumentListPresenter.cs" />
     <Compile Include="ToViewModel\RecursiveViewModelToEntityConverter.cs" />
     <Compile Include="Helpers\ChildDocumentTypeEnum.cs" />
     <Compile Include="Helpers\ValidationMessageExtensions.cs" />
@@ -49,8 +50,6 @@
     <Compile Include="Presenters\DocumentDeletedPresenter.cs" />
     <Compile Include="Presenters\DocumentPropertiesPresenter.cs" />
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
-    <Compile Include="Presenters\EffectListPresenter.cs" />
-    <Compile Include="Presenters\InstrumentListPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="ToEntity\ToEntityHelper.cs" />
     <Compile Include="ToViewModel\ToDocumentTreeViewModelExtensions.cs" />

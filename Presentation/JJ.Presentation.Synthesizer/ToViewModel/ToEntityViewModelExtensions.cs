@@ -15,7 +15,6 @@ using System.Threading.Tasks;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.ViewModels.Keys;
 using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -67,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static AudioFileOutputChannelViewModel ToViewModelWithRelatedEntities(
-            this AudioFileOutputChannel entity,
+            this AudioFileOutputChannel entity, 
             int audioFileOutputListIndex, 
             int listIndex)
         {
@@ -96,14 +95,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Curve
 
-        public static CurveViewModel ToViewModelWithRelatedEntities(
-            this Curve entity,
-            int documentID,
-            int curveListIndex,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
-            int? childDocumentListIndex)
+        public static CurveViewModel ToViewModelWithRelatedEntities(this Curve entity, int curveListIndex, int? childDocumentListIndex)
         {
             if (entity == null) throw new NullException(() => entity);
+
+            Document rootDocument = ChildDocumentHelper.GetRootDocument(entity.Document);
+            ChildDocumentTypeEnum? childDocumentTypeEnum = ChildDocumentHelper.TryGetChildDocumentTypeEnum(entity.Document);
 
             var viewModel = new CurveViewModel
             {
@@ -111,8 +108,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Nodes = entity.Nodes.ToViewModels(curveListIndex, childDocumentListIndex),
                 Keys = new CurveKeysViewModel
                 {
-                    ID = entity.ID, 
-                    DocumentID = documentID,
+                    ID = entity.ID,
+                    RootDocumentID = rootDocument.ID,
                     ListIndex = curveListIndex,
                     ChildDocumentTypeEnum = childDocumentTypeEnum,
                     ChildDocumentListIndex = childDocumentListIndex
@@ -172,29 +169,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (entity.Curve == null) throw new NullException(() => entity.Curve);
             if (entity.Curve.Document == null) throw new NullException(() => entity.Curve.Document);
 
+            Document rootDocument = ChildDocumentHelper.GetRootDocument(entity.Curve.Document);
+            ChildDocumentTypeEnum? childDocumentTypeEnum = ChildDocumentHelper.TryGetChildDocumentTypeEnum(entity.Curve.Document);
+
             var viewModel = new NodeKeysViewModel
             {
                 ID = entity.ID,
-                ListIndex = listIndex,
-                TemporaryID = Guid.NewGuid(),
-                CurveListIndex = curveListIndex,
+                RootDocumentID = rootDocument.ID,
+                ChildDocumentTypeEnum = childDocumentTypeEnum,
                 ChildDocumentListIndex = childDocumentListIndex,
+                CurveListIndex = curveListIndex,
+                ListIndex = listIndex,
+                TemporaryID = Guid.NewGuid()
             };
-
-            if (entity.Curve.Document.AsInstrumentInDocument != null)
-            {
-                viewModel.DocumentID = ChildDocumentHelper.GetParentDocumentID(entity.Curve.Document);
-                viewModel.ChildDocumentTypeEnum = ChildDocumentTypeEnum.Instrument;
-            }
-            else if (entity.Curve.Document.AsEffectInDocument != null)
-            {
-                viewModel.DocumentID = ChildDocumentHelper.GetParentDocumentID(entity.Curve.Document);
-                viewModel.ChildDocumentTypeEnum = ChildDocumentTypeEnum.Instrument;
-            }
-            else
-            {
-                viewModel.DocumentID = entity.Curve.Document.ID;
-            }
 
             return viewModel;
         }
@@ -224,12 +211,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static PatchViewModel ToViewModel(
             this Patch entity,
-            int documentID, 
             int listIndex, 
-            ChildDocumentTypeEnum? childDocumentTypeEnum, 
             int? childDocumentListIndex)
         {
             if (entity == null) throw new NullException(() => entity);
+
+            Document rootDocument = ChildDocumentHelper.GetRootDocument(entity.Document);
+            ChildDocumentTypeEnum? childDocumentTypeEnum = ChildDocumentHelper.TryGetChildDocumentTypeEnum(entity.Document);
 
             var viewModel = new PatchViewModel
             {
@@ -237,7 +225,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Keys = new PatchKeysViewModel
                 {
                     ID = entity.ID,
-                    DocumentID = documentID,
+                    RootDocumentID = rootDocument.ID,
                     ListIndex = listIndex,
                     ChildDocumentTypeEnum = childDocumentTypeEnum,
                     ChildDocumentListIndex = childDocumentListIndex
@@ -344,12 +332,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static SampleViewModel ToViewModel(
             this Sample entity, 
-            int documentID, 
             int listIndex, 
-            ChildDocumentTypeEnum? childDocumentTypeEnum, 
             int? childDocumentListIndex)
         {
             if (entity == null) throw new NullException(() => entity);
+
+            Document rootDocument = ChildDocumentHelper.GetRootDocument(entity.Document);
+            ChildDocumentTypeEnum? childDocumentTypeEnum = ChildDocumentHelper.TryGetChildDocumentTypeEnum(entity.Document);
 
             var viewModel = new SampleViewModel
             {
@@ -358,7 +347,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Keys = new SampleKeysViewModel
                 {
                     ID = entity.ID,
-                    DocumentID = documentID,
+                    DocumentID = rootDocument.ID,
                     ListIndex = listIndex,
                     ChildDocumentTypeEnum = childDocumentTypeEnum,
                     ChildDocumentListIndex = childDocumentListIndex

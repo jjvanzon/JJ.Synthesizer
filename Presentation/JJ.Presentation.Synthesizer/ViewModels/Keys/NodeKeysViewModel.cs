@@ -11,7 +11,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Keys
     {
         public int ID { get; set; }
 
-        public int DocumentID { get; set; }
+        public int RootDocumentID { get; set; }
         public ChildDocumentTypeEnum? ChildDocumentTypeEnum { get; set; }
         public int? ChildDocumentListIndex { get; set; }
         public int CurveListIndex { get; set; }

@@ -11,7 +11,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     {
         public bool Visible { get; set; }
         public IDAndName Document { get; set; }
-        public IList<Message> Messages { get; set; }
+        public IList<Message> ValidationMessages { get; set; }
         public bool CanDelete { get; set; }
         public bool IDVisible { get; set; }
     }

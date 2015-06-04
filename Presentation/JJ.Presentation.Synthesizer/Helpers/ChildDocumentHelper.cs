@@ -13,6 +13,13 @@ namespace JJ.Presentation.Synthesizer.Helpers
 {
     internal static class ChildDocumentHelper
     {
+        public static Document GetRootDocument(Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            return document.AsInstrumentInDocument ?? document.AsEffectInDocument ?? document;
+        }
+
         public static Document TryGetParentDocument(Document document)
         {
             if (document == null) throw new NullException(() => document);
@@ -36,22 +43,49 @@ namespace JJ.Presentation.Synthesizer.Helpers
             throw new Exception("Either document.AsInstrumentInDocument or document.AsEffectInDocument must be filled in.");
         }
 
-        public static ChildDocumentTypeEnum GetChildDocumentTypeEnum(Document childDocument)
+        public static ChildDocumentTypeEnum? TryGetChildDocumentTypeEnum(Document document)
         {
-            if (childDocument == null) throw new NullException(() => childDocument);
+            if (document == null) throw new NullException(() => document);
 
-            if (childDocument.AsInstrumentInDocument != null)
+            if (document.AsInstrumentInDocument != null)
             {
                 return ChildDocumentTypeEnum.Instrument;
             }
-            else if (childDocument.AsEffectInDocument != null)
+            else if (document.AsEffectInDocument != null)
             {
                 return ChildDocumentTypeEnum.Effect;
             }
 
-            throw new Exception("Either document.AsInstrumentInDocument or document.AsEffectInDocument must be filled in.");
+            return null;
         }
 
+        public static ChildDocumentTypeEnum GetChildDocumentTypeEnum(Document childDocument)
+        {
+            ChildDocumentTypeEnum? value = TryGetChildDocumentTypeEnum(childDocument);
+
+            if (!value.HasValue)
+            {
+                throw new Exception("Either document.AsInstrumentInDocument or document.AsEffectInDocument must be filled in.");
+            }
+
+            return value.Value;
+        }
+
+        public static IList<Document> GetChildDocuments(Document parentDocument, ChildDocumentTypeEnum childDocumentTypeEnum)
+        {
+            switch (childDocumentTypeEnum)
+            {
+                case ChildDocumentTypeEnum.Instrument:
+                    return parentDocument.Instruments;
+
+                case ChildDocumentTypeEnum.Effect:
+                    return parentDocument.Effects;
+
+                default:
+                    throw new ValueNotSupportedException(childDocumentTypeEnum);
+            }
+        }
+ 
         public static Document GetDocument(int documentID, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex, IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
@@ -87,5 +121,5 @@ namespace JJ.Presentation.Synthesizer.Helpers
                     throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
             }
         }
-    }
+   }
 }

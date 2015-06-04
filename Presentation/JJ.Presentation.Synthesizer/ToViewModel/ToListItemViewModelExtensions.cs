@@ -1,7 +1,6 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Keys;
 using System;
@@ -73,8 +72,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IList<CurveListItemViewModel> ToListItemViewModels(
             this IList<Curve> entities,
-            int documentID,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex)
         {
             if (entities == null) throw new NullException(() => entities);
@@ -86,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             for (int i = 0; i < entities.Count; i++)
             {
                 Curve entity = entities[i];
-                CurveListItemViewModel viewModel = entity.ToListItemViewModel(documentID, i, childDocumentTypeEnum, childDocumentListIndex);
+                CurveListItemViewModel viewModel = entity.ToListItemViewModel(i, childDocumentListIndex);
                 viewModels.Add(viewModel);
             }
 
@@ -95,12 +92,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static CurveListItemViewModel ToListItemViewModel(
             this Curve entity,
-            int documentID,
             int listIndex,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex)
         {
             if (entity == null) throw new NullException(() => entity);
+
+            Document rootDocument = ChildDocumentHelper.GetRootDocument(entity.Document);
+            ChildDocumentTypeEnum? childDocumentTypeEnum = ChildDocumentHelper.TryGetChildDocumentTypeEnum(entity.Document);
 
             return new CurveListItemViewModel
             {
@@ -108,7 +106,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Keys = new CurveKeysViewModel
                 {
                     ID = entity.ID,
-                    DocumentID = documentID,
+                    RootDocumentID = rootDocument.ID,
                     ListIndex = listIndex,
                     ChildDocumentTypeEnum = childDocumentTypeEnum,
                     ChildDocumentListIndex = childDocumentListIndex
@@ -157,8 +155,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static IList<PatchListItemViewModel> ToListItemViewModels(
             this IList<Patch> entities,
-            int documentID,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex)
         {
             if (entities == null) throw new NullException(() => entities);
@@ -170,7 +166,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             for (int i = 0; i < entities.Count; i++)
             {
                 Patch entity = entities[i];
-                PatchListItemViewModel viewModel = entity.ToListItemViewModel(documentID, i, childDocumentTypeEnum, childDocumentListIndex);
+                PatchListItemViewModel viewModel = entity.ToListItemViewModel(i, childDocumentListIndex);
                 viewModels.Add(viewModel);
             }
 
@@ -179,12 +175,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static PatchListItemViewModel ToListItemViewModel(
             this Patch entity,
-            int documentID,
             int listIndex,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex)
         {
             if (entity == null) throw new NullException(() => entity);
+
+            Document rootDocument = ChildDocumentHelper.GetRootDocument(entity.Document);
+            ChildDocumentTypeEnum? childDocumentTypeEnum = ChildDocumentHelper.TryGetChildDocumentTypeEnum(entity.Document);
 
             var viewModel = new PatchListItemViewModel
             {
@@ -192,7 +189,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Keys = new PatchKeysViewModel
                 {
                     ID = entity.ID,
-                    DocumentID = documentID,
+                    RootDocumentID = rootDocument.ID,
                     ListIndex = listIndex,
                     ChildDocumentTypeEnum = childDocumentTypeEnum,
                     ChildDocumentListIndex = childDocumentListIndex
@@ -219,7 +216,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             for (int i = 0; i < entities.Count; i++)
             {
                 Sample entity = entities[i];
-                SampleListItemViewModel viewModel = entity.ToListItemViewModel(documentID, i, childDocumentTypeEnum, childDocumentListIndex);
+                SampleListItemViewModel viewModel = entity.ToListItemViewModel(i, childDocumentListIndex);
                 viewModels.Add(viewModel);
             }
 
@@ -228,12 +225,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static SampleListItemViewModel ToListItemViewModel(
             this Sample entity, 
-            int documentID,
             int listIndex,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex)
         {
             if (entity == null) throw new NullException(() => entity);
+
+            Document rootDocument = ChildDocumentHelper.GetRootDocument(entity.Document);
+            ChildDocumentTypeEnum? childDocumentTypeEnum = ChildDocumentHelper.TryGetChildDocumentTypeEnum(entity.Document);
 
             var viewModel = new SampleListItemViewModel
             {
@@ -243,7 +241,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Keys = new SampleKeysViewModel
                 {
                     ID = entity.ID,
-                    DocumentID = documentID,
+                    DocumentID = rootDocument.ID,
                     ListIndex = listIndex,
                     ChildDocumentTypeEnum = childDocumentTypeEnum,
                     ChildDocumentListIndex = childDocumentListIndex
