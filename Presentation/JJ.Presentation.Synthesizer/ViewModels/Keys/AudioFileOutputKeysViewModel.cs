@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Presentation.Synthesizer.ViewModels.Partials
+namespace JJ.Presentation.Synthesizer.ViewModels.Keys
 {
-    public class IDNameAndListIndexViewModel
+    public sealed class AudioFileOutputKeysViewModel
     {
         public int ID { get; set; }
-        public string Name { get; set; }
+
+        public int DocumentID { get; set; }
+
         public int ListIndex { get; set; }
     }
 }

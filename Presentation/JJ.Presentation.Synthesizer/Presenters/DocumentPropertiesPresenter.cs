@@ -5,7 +5,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ToEntity;
-using JJ.Presentation.Synthesizer.Extensions;
+using JJ.Presentation.Synthesizer.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

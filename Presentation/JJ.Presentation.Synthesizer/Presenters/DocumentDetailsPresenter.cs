@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Framework.Validation;
-using JJ.Presentation.Synthesizer.Extensions;
+using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Framework.Presentation;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Resources;

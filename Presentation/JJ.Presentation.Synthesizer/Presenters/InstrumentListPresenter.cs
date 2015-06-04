@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JJ.Presentation.Synthesizer.Enums;
+using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.Helpers;
 
@@ -34,23 +34,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return ChildDocumentListViewModel or NotFoundViewModel.
         /// </summary>
-        public object Show(int documentID)
+        public object Show(int parentDocumentID)
         {
             bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.ParentDocumentID != documentID;
+                                       _viewModel.Keys.ParentDocumentID != parentDocumentID;
 
             if (mustCreateViewModel)
             {
-                Document document = _repositoryWrapper.DocumentRepository.TryGet(documentID);
-                if (document == null)
+                Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(parentDocumentID);
+                if (parentDocument == null)
                 {
                     return CreateDocumentNotFoundViewModel();
                 }
 
-                _viewModel = document.Instruments.ToChildDocumentListViewModel();
-
-                _viewModel.ParentDocumentID = document.ID;
-                _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Instrument;
+                _viewModel = parentDocument.ToInstrumentListViewModel();
             }
 
             _viewModel.Visible = true;
@@ -65,17 +62,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Document document = _repositoryWrapper.DocumentRepository.TryGet(viewModel.ParentDocumentID);
-            if (document == null)
+            Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.Keys.ParentDocumentID);
+            if (parentDocument == null)
             {
                 return CreateDocumentNotFoundViewModel();
             }
 
-            _viewModel = document.Instruments.ToChildDocumentListViewModel();
+            _viewModel = parentDocument.ToInstrumentListViewModel();
 
-            _viewModel.ParentDocumentID = document.ID;
             _viewModel.Visible = viewModel.Visible;
-            _viewModel.ChildDocumentType = ChildDocumentTypeEnum.Instrument;
 
             return _viewModel;
         }

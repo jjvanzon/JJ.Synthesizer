@@ -2,6 +2,7 @@
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Keys;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
@@ -25,8 +26,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SamplesNode = new DummyViewModel(),
                 AudioFileOutputsNode = new DummyViewModel(),
                 PatchesNode = new DummyViewModel(),
-                Instruments = new List<ChildDocumentTreeViewModel>(),
-                Effects = new List<ChildDocumentTreeViewModel>(),
+                Instruments = new List<ChildDocumentTreeNodeViewModel>(),
+                Effects = new List<ChildDocumentTreeNodeViewModel>(),
                 ReferencedDocuments = new ReferencedDocumentsTreeNodeViewModel
                 {
                     List = new List<ReferencedDocumentViewModel>()
@@ -38,8 +39,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Document dependentOnDocument = dependentOnDocuments[i];
 
-                ReferencedDocumentViewModel referencedDocumentViewModel = dependentOnDocument.ToReferencedDocumentViewModelWithRelatedEntities();
-                referencedDocumentViewModel.ListIndex = i;
+                ReferencedDocumentViewModel referencedDocumentViewModel = dependentOnDocument.ToReferencedDocumentViewModelWithRelatedEntities(i);
                 viewModel.ReferencedDocuments.List.Add(referencedDocumentViewModel);
             }
 
@@ -50,9 +50,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Document instrument = sortedInstruments[i];
 
-                ChildDocumentTreeViewModel instrumentTreeViewModel = instrument.ToChildDocumentTreeViewModel();
-                instrumentTreeViewModel.ListIndex = i;
-                instrumentTreeViewModel.NodeIndex = nodeIndex++;
+                ChildDocumentTreeNodeViewModel instrumentTreeViewModel = instrument.ToChildDocumentTreeViewModel(i, nodeIndex++);
 
                 viewModel.Instruments.Add(instrumentTreeViewModel);
             }
@@ -62,9 +60,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Document effect = sortedEffects[i];
 
-                ChildDocumentTreeViewModel effectTreeViewModel = effect.ToChildDocumentTreeViewModel();
-                effectTreeViewModel.ListIndex = i;
-                effectTreeViewModel.NodeIndex = nodeIndex++;
+                ChildDocumentTreeNodeViewModel effectTreeViewModel = effect.ToChildDocumentTreeViewModel(i, nodeIndex++);
 
                 viewModel.Effects.Add(effectTreeViewModel);
             }
@@ -72,20 +68,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        /// <summary>
-        /// ListIndex and NodeIndex are not assigned.
-        /// </summary>
-        private static ChildDocumentTreeViewModel ToChildDocumentTreeViewModel(this Document document)
+        private static ChildDocumentTreeNodeViewModel ToChildDocumentTreeViewModel(this Document document, int listIndex, int nodeIndex)
         {
             if (document == null) throw new NullException(() => document);
 
-            var viewModel = new ChildDocumentTreeViewModel
+            var viewModel = new ChildDocumentTreeNodeViewModel
             {
-                ID = document.ID,
                 Name = document.Name,
                 CurvesNode = new DummyViewModel(),
                 SamplesNode = new DummyViewModel(),
-                PatchesNode = new DummyViewModel()
+                PatchesNode = new DummyViewModel(),
+                Keys = new ChildDocumentTreeNodeKeysViewModel
+                {
+                    ID = document.ID,
+                    ListIndex = listIndex,
+                    NodeIndex = nodeIndex
+                }
             };
 
             return viewModel;

@@ -1,4 +1,6 @@
-﻿using JJ.Presentation.Synthesizer.ViewModels.Partials;
+﻿using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ViewModels.Keys;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +10,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
     public sealed class ChildDocumentViewModel
     {
-        public IDNameAndListIndexViewModel Document { get; set; }
+        public ChildDocumentKeysViewModel Keys { get; set; }
+
+        public string Name { get; set; }
 
         public SampleListViewModel SampleList { get; set; }
         public IList<SamplePropertiesViewModel> SamplePropertiesList { get; set; }

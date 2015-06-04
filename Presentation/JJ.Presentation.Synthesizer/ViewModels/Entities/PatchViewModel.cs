@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JJ.Presentation.Synthesizer.ViewModels.Keys;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,9 +9,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
     public sealed class PatchViewModel
     {
-        public int ID { get; set; }
-        public int ListIndex { get; set; }
-        public string PatchName { get; set; }
+        public PatchKeysViewModel Keys { get; set; }
+        public string Name { get; set; }
         public IList<OperatorViewModel> Operators { get; set; }
     }
 }

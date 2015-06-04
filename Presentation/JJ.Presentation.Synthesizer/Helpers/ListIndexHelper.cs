@@ -12,14 +12,36 @@ namespace JJ.Presentation.Synthesizer.Helpers
 {
     internal static class ListIndexHelper
     {
-        public static void RenumberListIndexes(IList<IDNameAndListIndexViewModel> list, int startIndex = 0)
+        public static void RenumberListIndexes(IList<CurveListItemViewModel> list, int startIndex = 0)
         {
             if (list == null) throw new NullException(() => list);
             if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
 
             for (int i = startIndex; i < list.Count; i++)
             {
-                list[i].ListIndex = i;
+                list[i].Keys.ListIndex = i;
+            }
+        }
+
+        public static void RenumberListIndexes(IList<ChildDocumentListItemViewModel> list, int startIndex = 0)
+        {
+            if (list == null) throw new NullException(() => list);
+            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+
+            for (int i = startIndex; i < list.Count; i++)
+            {
+                list[i].Keys.ListIndex = i;
+            }
+        }
+
+        public static void RenumberListIndexes(IList<PatchListItemViewModel> list, int startIndex = 0)
+        {
+            if (list == null) throw new NullException(() => list);
+            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+
+            for (int i = startIndex; i < list.Count; i++)
+            {
+                list[i].Keys.ListIndex = i;
             }
         }
 
@@ -30,7 +52,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             for (int i = startIndex; i < list.Count; i++)
             {
-                list[i].ListIndex = i;
+                list[i].Keys.ListIndex = i;
             }
         }
 
@@ -41,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             for (int i = startIndex; i < list.Count; i++)
             {
-                list[i].Document.ListIndex = i;
+                list[i].Keys.ListIndex = i;
             }
         }
 
@@ -52,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             for (int i = startIndex; i < list.Count; i++)
             {
-                list[i].Document.ListIndex = i;
+                list[i].Keys.ListIndex = i;
             }
         }
 
@@ -63,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             for (int i = startIndex; i < list.Count; i++)
             {
-                list[i].AudioFileOutput.ListIndex = i;
+                list[i].AudioFileOutput.Keys.ListIndex = i;
             }
         }
 
@@ -74,7 +96,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             for (int i = startIndex; i < list.Count; i++)
             {
-                list[i].Curve.ListIndex = i;
+                list[i].Curve.Keys.ListIndex = i;
             }
         }
 
@@ -85,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             for (int i = startIndex; i < list.Count; i++)
             {
-                list[i].Patch.ListIndex = i;
+                list[i].Patch.Keys.ListIndex = i;
             }
         }
 
@@ -96,7 +118,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             for (int i = startIndex; i < list.Count; i++)
             {
-                list[i].Sample.ListIndex = i;
+                list[i].Sample.Keys.ListIndex = i;
             }
         }
 
@@ -107,7 +129,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             for (int i = startIndex; i < list.Count; i++)
             {
-                list[i].ListIndex = i;
+                list[i].Keys.ListIndex = i;
             }
         }
     }

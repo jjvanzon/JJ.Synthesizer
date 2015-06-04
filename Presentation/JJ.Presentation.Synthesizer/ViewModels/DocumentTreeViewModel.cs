@@ -18,8 +18,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         /// <summary> Only filled in for the root node. </summary>
         public ReferencedDocumentsTreeNodeViewModel ReferencedDocuments { get; set; }
 
-        public IList<ChildDocumentTreeViewModel> Instruments { get; set; }
-        public IList<ChildDocumentTreeViewModel> Effects { get; set; }
+        public IList<ChildDocumentTreeNodeViewModel> Instruments { get; set; }
+        public IList<ChildDocumentTreeNodeViewModel> Effects { get; set; }
 
         public DummyViewModel CurvesNode { get; set; }
         public DummyViewModel SamplesNode { get; set; }

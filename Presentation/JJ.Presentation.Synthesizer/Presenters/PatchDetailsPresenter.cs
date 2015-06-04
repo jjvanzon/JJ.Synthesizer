@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ToEntity;
-using JJ.Presentation.Synthesizer.Extensions;
+using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Common;
@@ -21,6 +21,7 @@ using JJ.Framework.Mathematics;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Configuration;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -68,21 +69,33 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorFactory = new OperatorFactory(_operatorRepository, _inletRepository, _outletRepository, _curveRepository, _sampleRepository);
         }
 
-        public PatchDetailsViewModel Create()
+        public PatchDetailsViewModel Create(
+            int documentID,
+            int listIndex,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex)
         {
             Patch patch = _patchRepository.Create();
 
-            ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
+            ViewModel = patch.ToDetailsViewModel(documentID, listIndex, childDocumentTypeEnum, childDocumentListIndex, _entityPositionManager);
             ViewModel.Visible = true;
 
             return ViewModel;
         }
 
-        public PatchDetailsViewModel Edit(int patchID)
+        public PatchDetailsViewModel Edit(
+            int patchID,
+            int documentID,
+            int listIndex,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex)
         {
+            // TODO: This action should receive a view model with user input.
+
             Patch patch = _patchRepository.Get(patchID);
 
-            ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
+            ViewModel = patch.ToDetailsViewModel(documentID, listIndex, childDocumentTypeEnum, childDocumentListIndex, _entityPositionManager);
+
             ViewModel.Visible = true;
 
             return ViewModel;
@@ -189,7 +202,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (ViewModel == null)
             {
-                ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
+                ViewModel = CreateViewModel(patch, viewModel);
             }
             else
             {
@@ -216,7 +229,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (ViewModel == null)
             {
-                ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
+                ViewModel = CreateViewModel(patch, viewModel);
             }
             else
             {
@@ -241,7 +254,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             inlet.LinkTo(outlet);
 
             // TODO: In a stateful situation you might just adjust a small part of the view model.
-            ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
+            ViewModel = CreateViewModel(patch, viewModel);
 
             return ViewModel;
         }
@@ -254,7 +267,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (ViewModel == null)
             {
-                ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
+                ViewModel = CreateViewModel(patch, viewModel);
             }
 
             IValidator validator = new PatchValidator_Recursive(patch, _curveRepository, _sampleRepository, alreadyDone: new HashSet<object>());
@@ -280,7 +293,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (ViewModel == null)
             {
-                ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
+                ViewModel = CreateViewModel(patch, viewModel);
             }
 
             SetSelectedOperator(ViewModel, operatorID);
@@ -304,7 +317,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             //if (_viewModel == null || FORCE_STATELESS)
             //{
-                ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
+                ViewModel = CreateViewModel(patch, viewModel);
             //}
             //else
             //{
@@ -339,7 +352,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // TODO: See if you can do it more efficiently for stateful situations.
-            ViewModel = patch.ToDetailsViewModel(_entityPositionManager);
+            ViewModel = CreateViewModel(patch, viewModel);
 
             // TODO: You are not supposed to transform the view model based on information in that viewmodel.
             if (viewModel.SelectedOperator != null)
@@ -376,6 +389,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             PatchDetailsViewModel viewModel = ViewModelHelper.CreateEmptyPatchDetailsViewModel();
             viewModel.Visible = false;
+            return viewModel;
+        }
+
+        // Helpers
+
+        private PatchDetailsViewModel CreateViewModel(Patch entity, PatchDetailsViewModel userInput)
+        {
+            PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
+                userInput.Patch.Keys.DocumentID,
+                userInput.Patch.Keys.ListIndex,
+                userInput.Patch.Keys.ChildDocumentTypeEnum,
+                userInput.Patch.Keys.ChildDocumentListIndex,
+                _entityPositionManager);
+
             return viewModel;
         }
     }

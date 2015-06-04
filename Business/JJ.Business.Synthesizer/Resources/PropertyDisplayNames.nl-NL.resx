@@ -270,4 +270,7 @@
   <data name="Effect" xml:space="preserve">
     <value>Effect</value>
   </data>
+  <data name="ParentDocument" xml:space="preserve">
+    <value>Hoofddocument</value>
+  </data>
 </root>

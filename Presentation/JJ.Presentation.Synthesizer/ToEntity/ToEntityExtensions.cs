@@ -11,11 +11,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JJ.Presentation.Synthesizer.Converters;
+using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
@@ -30,10 +31,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             ToEntityHelper.ToInstrumentsWithRelatedEntities(sourceViewModel.InstrumentDocumentList, destDocument, repositoryWrapper);
             ToEntityHelper.ToEffectsWithRelatedEntities(sourceViewModel.EffectDocumentList, destDocument, repositoryWrapper);
-            ToEntityHelper.ToSamples(sourceViewModel.SamplePropertiesList, destDocument, repositoryWrapper);
+            ToEntityHelper.ToSamples(sourceViewModel.SamplePropertiesList, destDocument, new SampleRepositories(repositoryWrapper));
             ToEntityHelper.ToCurvesWithRelatedEntities(sourceViewModel.CurveDetailsList, destDocument, repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
             ToEntityHelper.ToPatchesWithRelatedEntities(sourceViewModel.PatchDetailsList, destDocument, repositoryWrapper);
-            ToEntityHelper.ToAudioFileOutputsWithRelatedEntities(sourceViewModel.AudioFileOutputPropertiesList, destDocument, repositoryWrapper.AudioFileOutputRepository, repositoryWrapper.AudioFileFormatRepository, repositoryWrapper.SampleDataTypeRepository, repositoryWrapper.SpeakerSetupRepository, repositoryWrapper.AudioFileOutputChannelRepository, repositoryWrapper.OutletRepository);
+            ToEntityHelper.ToAudioFileOutputsWithRelatedEntities(sourceViewModel.AudioFileOutputPropertiesList, destDocument, new AudioFileOutputRepositories(repositoryWrapper));
 
             return destDocument;
         }
@@ -54,12 +55,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (documentRepository == null) throw new NullException(() => documentRepository);
 
-            Document entity = documentRepository.TryGet(viewModel.Document.ID);
+            Document entity = documentRepository.TryGet(viewModel.Keys.ID);
             if (entity == null)
             {
                 entity = documentRepository.Create();
             }
-            entity.Name = viewModel.Document.Name;
+            entity.Name = viewModel.Name;
 
             return entity;
         }
@@ -69,43 +70,48 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
-            Document destDocument = sourceViewModel.Document.ToEntity(repositoryWrapper.DocumentRepository);
+            Document destDocument = sourceViewModel.ToEntity(repositoryWrapper.DocumentRepository);
 
-            ToEntityHelper.ToSamples(sourceViewModel.SamplePropertiesList, destDocument, repositoryWrapper);
+            ToEntityHelper.ToSamples(sourceViewModel.SamplePropertiesList, destDocument, new SampleRepositories(repositoryWrapper));
             ToEntityHelper.ToCurvesWithRelatedEntities(sourceViewModel.CurveDetailsList, destDocument, repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
             ToEntityHelper.ToPatchesWithRelatedEntities(sourceViewModel.PatchDetailsList, destDocument, repositoryWrapper);
 
             return destDocument;
         }
 
-        public static Document ToEntity(this IDNameAndListIndexViewModel idNameAndListIndex, IDocumentRepository documentRepository)
+        public static Document ToEntity(this ChildDocumentViewModel viewModel, IDocumentRepository documentRepository)
         {
-            if (idNameAndListIndex == null) throw new NullException(() => idNameAndListIndex);
+            if (viewModel == null) throw new NullException(() => viewModel);
             if (documentRepository == null) throw new NullException(() => documentRepository);
 
-            Document document = documentRepository.TryGet(idNameAndListIndex.ID);
+            Document document = documentRepository.TryGet(viewModel.Keys.ID);
             if (document == null)
             {
                 document = documentRepository.Create();
             }
 
-            document.Name = idNameAndListIndex.Name;
+            document.Name = viewModel.Name;
 
             return document;
         }
 
-        /// <summary>
-        /// TODO: We do not need all the repositories in repositoryWrapper, just 5.
-        /// </summary>
-        public static Sample ToEntity(this SampleViewModel viewModel, RepositoryWrapper repositoryWrapper)
+        public static Sample ToEntity(this SamplePropertiesViewModel viewModel, SampleRepositories sampleRepositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
 
-            Sample sample = repositoryWrapper.SampleRepository.TryGet(viewModel.ID);
+            return viewModel.Sample.ToEntity(sampleRepositories);
+        }
+
+        public static Sample ToEntity(this SampleViewModel viewModel, SampleRepositories sampleRepositories)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
+
+            Sample sample = sampleRepositories.SampleRepository.TryGet(viewModel.Keys.ID);
             if (sample == null)
             {
-                sample = repositoryWrapper.SampleRepository.Create();
+                sample = sampleRepositories.SampleRepository.Create();
             }
             sample.Name = viewModel.Name;
             sample.Amplifier = viewModel.Amplifier;
@@ -117,22 +123,22 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             if (viewModel.AudioFileFormat != null)
             {
-                sample.AudioFileFormat = repositoryWrapper.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
+                sample.AudioFileFormat = sampleRepositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
             }
 
             if (viewModel.InterpolationType != null)
             {
-                sample.InterpolationType = repositoryWrapper.InterpolationTypeRepository.Get(viewModel.InterpolationType.ID);
+                sample.InterpolationType = sampleRepositories.InterpolationTypeRepository.Get(viewModel.InterpolationType.ID);
             }
 
             if (viewModel.SampleDataType != null)
             {
-                sample.SampleDataType = repositoryWrapper.SampleDataTypeRepository.Get(viewModel.SampleDataType.ID);
+                sample.SampleDataType = sampleRepositories.SampleDataTypeRepository.Get(viewModel.SampleDataType.ID);
             }
 
             if (viewModel.SpeakerSetup != null)
             {
-                sample.SpeakerSetup = repositoryWrapper.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
+                sample.SpeakerSetup = sampleRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
             }
 
             return sample;
@@ -162,7 +168,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (curveRepository == null) throw new NullException(() => viewModel);
 
-            Curve curve = curveRepository.TryGet(viewModel.ID);
+            Curve curve = curveRepository.TryGet(viewModel.Keys.ID);
             if (curve == null)
             {
                 curve = curveRepository.Create();
@@ -178,7 +184,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (nodeRepository == null) throw new NullException(() => nodeRepository);
             if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
 
-            Node entity = nodeRepository.TryGet(viewModel.ID);
+            Node entity = nodeRepository.TryGet(viewModel.Keys.ID);
             if (entity == null)
             {
                 entity = nodeRepository.Create();
@@ -195,59 +201,32 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static AudioFileOutput ToEntityWithRelatedEntities(
-            this AudioFileOutputPropertiesViewModel viewModel,
-            IAudioFileOutputRepository audioFileOutputRepository,
-            IAudioFileFormatRepository audioFileFormatRepository,
-            ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository,
-            IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
-            IOutletRepository outletRepository)
+        public static AudioFileOutput ToEntityWithRelatedEntities(this AudioFileOutputPropertiesViewModel viewModel, AudioFileOutputRepositories audioFileOutputRepositories)
         {
-            return viewModel.AudioFileOutput.ToEntityWithRelatedEntities(audioFileOutputRepository, audioFileFormatRepository, sampleDataTypeRepository, speakerSetupRepository, audioFileOutputChannelRepository, outletRepository);
+            return viewModel.AudioFileOutput.ToEntityWithRelatedEntities(audioFileOutputRepositories);
         }
 
-        public static AudioFileOutput ToEntityWithRelatedEntities(
-            this AudioFileOutputViewModel sourceViewModel,
-            IAudioFileOutputRepository audioFileOutputRepository,
-            IAudioFileFormatRepository audioFileFormatRepository,
-            ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository,
-            IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
-            IOutletRepository outletRepository)
+        public static AudioFileOutput ToEntityWithRelatedEntities(this AudioFileOutputViewModel sourceViewModel, AudioFileOutputRepositories audioFileOutputRepositories)
         {
             if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
-            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
-            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
+            if (audioFileOutputRepositories == null) throw new NullException(() => audioFileOutputRepositories);
 
-            AudioFileOutput destAudioFileOutput = sourceViewModel.ToEntity(audioFileOutputRepository, audioFileFormatRepository, sampleDataTypeRepository, speakerSetupRepository);
+            AudioFileOutput destAudioFileOutput = sourceViewModel.ToEntity(audioFileOutputRepositories);
 
-            ToEntityHelper.ToAudioFileOutputChannels(sourceViewModel.Channels, destAudioFileOutput, audioFileOutputChannelRepository, outletRepository);
+            ToEntityHelper.ToAudioFileOutputChannels(sourceViewModel.Channels, destAudioFileOutput, audioFileOutputRepositories.AudioFileOutputChannelRepository, audioFileOutputRepositories.OutletRepository);
 
             return destAudioFileOutput;
         }
 
-        public static AudioFileOutput ToEntity(
-            this AudioFileOutputViewModel viewModel,
-            IAudioFileOutputRepository audioFileOutputRepository,
-            IAudioFileFormatRepository audioFileFormatRepository,
-            ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository)
+        public static AudioFileOutput ToEntity(this AudioFileOutputViewModel viewModel, AudioFileOutputRepositories audioFileOutputRepositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
-            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
-            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
+            if (audioFileOutputRepositories == null) throw new NullException(() => audioFileOutputRepositories);
 
-            AudioFileOutput audioFileOutput = audioFileOutputRepository.TryGet(viewModel.ID);
+            AudioFileOutput audioFileOutput = audioFileOutputRepositories.AudioFileOutputRepository.TryGet(viewModel.Keys.ID);
             if (audioFileOutput == null)
             {
-                audioFileOutput = audioFileOutputRepository.Create();
+                audioFileOutput = audioFileOutputRepositories.AudioFileOutputRepository.Create();
             }
             audioFileOutput.Name = viewModel.Name;
             audioFileOutput.Amplifier = viewModel.Amplifier;
@@ -259,17 +238,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             if (viewModel.AudioFileFormat != null)
             {
-                audioFileOutput.AudioFileFormat = audioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
+                audioFileOutput.AudioFileFormat = audioFileOutputRepositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
             }
 
             if (viewModel.SampleDataType != null)
             {
-                audioFileOutput.SampleDataType = sampleDataTypeRepository.Get(viewModel.SampleDataType.ID);
+                audioFileOutput.SampleDataType = audioFileOutputRepositories.SampleDataTypeRepository.Get(viewModel.SampleDataType.ID);
             }
 
             if (viewModel.SpeakerSetup != null)
             {
-                audioFileOutput.SpeakerSetup = speakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
+                audioFileOutput.SpeakerSetup = audioFileOutputRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
             }
 
             return audioFileOutput;
@@ -281,13 +260,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
 
-            AudioFileOutputChannel entity = audioFileOutputChannelRepository.TryGet(viewModel.ID);
+            AudioFileOutputChannel entity = audioFileOutputChannelRepository.TryGet(viewModel.Keys.ID);
             if (entity == null)
             {
                 entity = audioFileOutputChannelRepository.Create();
             }
 
-            entity.IndexNumber = viewModel.IndexNumber;
+            entity.IndexNumber = viewModel.Keys.IndexNumber;
 
             if (viewModel.Outlet != null)
             {
@@ -354,12 +333,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Patch entity = patchRepository.TryGet(viewModel.ID);
+            Patch entity = patchRepository.TryGet(viewModel.Keys.ID);
             if (entity == null)
             {
                 entity = patchRepository.Create();
             }
-            entity.Name = viewModel.PatchName;
+            entity.Name = viewModel.Name;
 
             return entity;
         }

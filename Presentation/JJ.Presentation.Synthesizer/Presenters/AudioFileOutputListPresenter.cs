@@ -2,7 +2,7 @@
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Configuration;
+using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public object Show(int documentID)
         {
             bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.DocumentID != documentID;
+                                       _viewModel.Keys.DocumentID != documentID;
 
             if (mustCreateViewModel)
             {
@@ -46,8 +46,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     return CreateDocumentNotFoundViewModel();
                 }
 
-                _viewModel = document.AudioFileOutputs.ToListViewModel();
-                _viewModel.DocumentID = documentID;
+                _viewModel = document.ToAudioFileOutputListViewModel();
             }
 
             _viewModel.Visible = true;
@@ -62,15 +61,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Document document = _documentRepository.TryGet(viewModel.DocumentID);
+            Document document = _documentRepository.TryGet(viewModel.Keys.DocumentID);
             if (document == null)
             {
                 return CreateDocumentNotFoundViewModel();
             }
 
-            _viewModel = document.AudioFileOutputs.ToListViewModel();
+            _viewModel = document.ToAudioFileOutputListViewModel();
 
-            _viewModel.DocumentID = document.ID;
             _viewModel.Visible = viewModel.Visible;
 
             return _viewModel;

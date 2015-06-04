@@ -8,6 +8,9 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Framework.Common;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -26,21 +29,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return PatchListViewModel or NotFoundViewModel.
         /// </summary>
-        public object Show(int documentID)
+        public object Show(int documentID, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
             bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.DocumentID != documentID;
+                                       _viewModel.Keys.DocumentID != documentID ||
+                                       _viewModel.Keys.ChildDocumentTypeEnum != childDocumentTypeEnum ||
+                                       _viewModel.Keys.ChildDocumentListIndex != childDocumentListIndex;
 
             if (mustCreateViewModel)
             {
-                Document document = _documentRepository.TryGet(documentID);
+                Document document = ChildDocumentHelper.GetDocument(documentID, childDocumentTypeEnum, childDocumentListIndex, _documentRepository);
+
                 if (document == null)
                 {
                     return CreateDocumentNotFoundViewModel();
                 }
 
-                _viewModel = document.Patches.ToListViewModel();
-                _viewModel.DocumentID = documentID;
+                _viewModel = document.Patches.ToListViewModel(documentID, childDocumentTypeEnum, childDocumentListIndex);
             }
 
             _viewModel.Visible = true;
@@ -55,15 +60,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Document document = _documentRepository.TryGet(viewModel.DocumentID);
+            Document document = ChildDocumentHelper.GetDocument(viewModel.Keys.DocumentID, viewModel.Keys.ChildDocumentTypeEnum, viewModel.Keys.ChildDocumentListIndex, _documentRepository); 
+            
             if (document == null)
             {
                 return CreateDocumentNotFoundViewModel();
             }
 
-            _viewModel = document.Patches.ToListViewModel();
+            _viewModel = document.Patches.ToListViewModel(viewModel.Keys.DocumentID, viewModel.Keys.ChildDocumentTypeEnum, viewModel.Keys.ChildDocumentListIndex);
 
-            _viewModel.DocumentID = document.ID;
             _viewModel.Visible = viewModel.Visible;
 
             return _viewModel;

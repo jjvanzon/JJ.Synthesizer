@@ -384,19 +384,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void CurveListShow(int pageNumber)
         {
-            _viewModel = _presenter.CurveListShow(_viewModel);
+            _viewModel = _presenter.CurveListShow(_viewModel, null, null); // TODO: Also use _presenter.CurveListShow for showing CurveLists of ChildDocuments.
             ApplyViewModel();
         }
 
         private void PatchListShow(int pageNumber)
         {
-            _viewModel = _presenter.PatchListShow(_viewModel);
+            _viewModel = _presenter.PatchListShow(_viewModel, null, null); // TODO: Also use _presenter.PatchListShow for showing PatchLists of ChildDocuments.
             ApplyViewModel();
         }
 
         private void SampleListShow(int pageNumber)
         {
-            _viewModel = _presenter.SampleListShow(_viewModel);
+            _viewModel = _presenter.SampleListShow(_viewModel, null, null); // TODO: Also use _presenter.SampleListShow for showing SampleLists of ChildDocuments.
             ApplyViewModel();
         }
 

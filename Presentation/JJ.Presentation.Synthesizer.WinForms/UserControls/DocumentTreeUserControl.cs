@@ -105,7 +105,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             foreach (ReferencedDocumentViewModel referencedDocumentViewModel in _viewModel.ReferencedDocuments.List)
             {
                 var referencedDocumentTreeNode = new TreeNode(referencedDocumentViewModel.Name);
-                referencedDocumentTreeNode.Tag = referencedDocumentViewModel.ID;
+                referencedDocumentTreeNode.Tag = referencedDocumentViewModel.Keys.ID;
                 referencedDocumentsTreeNode.Nodes.Add(referencedDocumentTreeNode);
 
                 foreach (IDAndName instrumentViewModel in referencedDocumentViewModel.Instruments)
@@ -139,10 +139,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _instrumentsTreeNode = new TreeNode(PropertyDisplayNames.Instruments);
             parentNode.Nodes.Add(_instrumentsTreeNode);
 
-            foreach (ChildDocumentTreeViewModel instrumentViewModel in parentViewModel.Instruments)
+            foreach (ChildDocumentTreeNodeViewModel instrumentViewModel in parentViewModel.Instruments)
             {
                 var instrumentTreeNode = new TreeNode(instrumentViewModel.Name);
-                instrumentTreeNode.Tag = instrumentViewModel.ListIndex;
+                instrumentTreeNode.Tag = instrumentViewModel.Keys.ListIndex;
                 _instrumentsTreeNode.Nodes.Add(instrumentTreeNode);
 
                 AddChildDocumentChildNodesRecursive(instrumentTreeNode, instrumentViewModel);
@@ -162,10 +162,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             var effectsTreeNode = new TreeNode(PropertyDisplayNames.Effects);
             parentNode.Nodes.Add(effectsTreeNode);
 
-            foreach (ChildDocumentTreeViewModel effectViewModel in parentViewModel.Effects)
+            foreach (ChildDocumentTreeNodeViewModel effectViewModel in parentViewModel.Effects)
             {
                 var effectTreeNode = new TreeNode(effectViewModel.Name);
-                effectTreeNode.Tag = effectViewModel.ListIndex;
+                effectTreeNode.Tag = effectViewModel.Keys.ListIndex;
                 effectsTreeNode.Nodes.Add(effectTreeNode);
 
                 AddChildDocumentChildNodesRecursive(effectTreeNode, effectViewModel);
@@ -195,7 +195,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             parentNode.Nodes.Add(_audioFileOutputsTreeNode);
         }
 
-        private void AddChildDocumentChildNodesRecursive(TreeNode parentNode, ChildDocumentTreeViewModel parentViewModel)
+        private void AddChildDocumentChildNodesRecursive(TreeNode parentNode, ChildDocumentTreeNodeViewModel parentViewModel)
         {
             var samplesTreeNode = new TreeNode(PropertyDisplayNames.Samples);
             parentNode.Nodes.Add(samplesTreeNode);

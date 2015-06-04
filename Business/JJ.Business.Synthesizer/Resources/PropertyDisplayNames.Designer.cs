@@ -331,6 +331,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parent Document.
+        /// </summary>
+        public static string ParentDocument {
+            get {
+                return ResourceManager.GetString("ParentDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Patch.
         /// </summary>
         public static string Patch {

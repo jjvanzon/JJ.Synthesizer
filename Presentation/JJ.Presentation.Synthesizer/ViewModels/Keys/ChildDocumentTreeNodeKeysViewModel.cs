@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Presentation.Synthesizer.ViewModels.Partials
+namespace JJ.Presentation.Synthesizer.ViewModels.Keys
 {
-    public sealed class ChildDocumentTreeViewModel
+    public sealed class ChildDocumentTreeNodeKeysViewModel
     {
         public int ID { get; set; }
-        public string Name { get; set; }
-        public bool IsExpanded { get; set; }
 
         /// <summary>
         /// Can be used to uniquely identify entities of a type throughout the view models,
@@ -24,9 +22,5 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Partials
         /// even when refreshing / recreating the view model.
         /// </summary>
         public int NodeIndex { get; set; }
-
-        public DummyViewModel CurvesNode { get; set; }
-        public DummyViewModel SamplesNode { get; set; }
-        public DummyViewModel PatchesNode { get; set; }
     }
 }

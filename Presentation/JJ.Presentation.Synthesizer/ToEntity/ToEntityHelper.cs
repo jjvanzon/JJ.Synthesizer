@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JJ.Presentation.Synthesizer.Converters;
+using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
@@ -86,17 +86,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         /// <summary>
         /// TODO: Does not use all repositories out of the RepositoryWrapper.
         /// </summary>
-        public static void ToSamples(IList<SamplePropertiesViewModel> viewModelList, Document destDocument, RepositoryWrapper repositoryWrapper)
+        public static void ToSamples(IList<SamplePropertiesViewModel> viewModelList, Document destDocument, SampleRepositories sampleRepositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destDocument == null) throw new NullException(() => destDocument);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
 
             var idsToKeep = new HashSet<int>();
 
             foreach (SamplePropertiesViewModel viewModel in viewModelList)
             {
-                Sample entity = viewModel.Sample.ToEntity(repositoryWrapper);
+                Sample entity = viewModel.Sample.ToEntity(sampleRepositories);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -110,9 +110,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                Sample entityToDelete = repositoryWrapper.SampleRepository.Get(idToDelete);
+                Sample entityToDelete = sampleRepositories.SampleRepository.Get(idToDelete);
                 entityToDelete.UnlinkRelatedEntities();
-                repositoryWrapper.SampleRepository.Delete(entityToDelete);
+                sampleRepositories.SampleRepository.Delete(entityToDelete);
             }
         }
 
@@ -196,28 +196,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static void ToAudioFileOutputsWithRelatedEntities(
             IList<AudioFileOutputPropertiesViewModel> viewModelList, 
             Document destDocument, 
-            IAudioFileOutputRepository audioFileOutputRepository,
-            IAudioFileFormatRepository audioFileFormatRepository,
-            ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository,
-            IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
-            IOutletRepository outletRepository)
+            AudioFileOutputRepositories audioFileOutputRepositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destDocument == null) throw new NullException(() => destDocument);
-            if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
+            if (audioFileOutputRepositories == null) throw new NullException(() => audioFileOutputRepositories);
 
             var idsToKeep = new HashSet<int>();
 
             foreach (AudioFileOutputPropertiesViewModel viewModel in viewModelList)
             {
-                AudioFileOutput entity = viewModel.AudioFileOutput.ToEntityWithRelatedEntities(
-                    audioFileOutputRepository,
-                    audioFileFormatRepository,
-                    sampleDataTypeRepository,
-                    speakerSetupRepository,
-                    audioFileOutputChannelRepository,
-                    outletRepository);
+                AudioFileOutput entity = viewModel.AudioFileOutput.ToEntityWithRelatedEntities(audioFileOutputRepositories);
 
                 entity.LinkTo(destDocument);
 
@@ -231,9 +220,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                AudioFileOutput entityToDelete = audioFileOutputRepository.Get(idToDelete);
+                AudioFileOutput entityToDelete = audioFileOutputRepositories.AudioFileOutputRepository.Get(idToDelete);
                 entityToDelete.UnlinkRelatedEntities();
-                audioFileOutputRepository.Delete(entityToDelete);
+                audioFileOutputRepositories.AudioFileOutputRepository.Delete(entityToDelete);
             }
         }
 

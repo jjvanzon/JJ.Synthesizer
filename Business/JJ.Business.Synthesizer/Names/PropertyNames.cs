@@ -68,5 +68,6 @@ namespace JJ.Business.Synthesizer.Names
         public const string DocumentReference = "DocumentReference";
         public const string Curve = "Curve";
         public const string Sample = "Sample";
+        public const string ParentDocument = "ParentDocument";
     }
 }

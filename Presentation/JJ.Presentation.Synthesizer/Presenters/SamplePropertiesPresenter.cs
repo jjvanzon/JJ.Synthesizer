@@ -1,65 +1,115 @@
 ﻿using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Validation;
+using JJ.Business.Synthesizer.Validation;
+using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     public class SamplePropertiesPresenter
     {
-        private ISampleRepository _sampleRepository;
-        private IAudioFileFormatRepository _audioFileFormatRepository;
-        private ISampleDataTypeRepository _sampleDataTypeRepository;
-        private ISpeakerSetupRepository _speakerSetupRepository;
-        private IInterpolationTypeRepository _interpolationTypeRepository;
+        private SampleRepositories _sampleRepositories;
 
         public SamplePropertiesViewModel ViewModel { get; set; }
 
-        public SamplePropertiesPresenter(
-            ISampleRepository sampleRepository,
-            IAudioFileFormatRepository audioFileFormatRepository,
-            ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository,
-            IInterpolationTypeRepository interpolationTypeRepository)
+        public SamplePropertiesPresenter(SampleRepositories samplesRepositories)
         {
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
-            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
+            if (samplesRepositories == null) throw new NullException(() => samplesRepositories);
 
-            _sampleRepository = sampleRepository;
-            _audioFileFormatRepository = audioFileFormatRepository;
-            _sampleDataTypeRepository = sampleDataTypeRepository;
-            _speakerSetupRepository = speakerSetupRepository;
-            _interpolationTypeRepository = interpolationTypeRepository;
+            _sampleRepositories = samplesRepositories;
         }
 
-        /// <summary>
-        /// Can return SamplePropertiesViewModel or NotFoundViewModel.
-        /// </summary>
-        public object Show(int id)
+        public SamplePropertiesViewModel Show(SamplePropertiesViewModel userInput)
         {
-            Sample entity = _sampleRepository.TryGet(id);
-            if (entity == null)
+            if (userInput == null) throw new NullException(() => userInput);
+
+            if (MustCreateViewModel(ViewModel, userInput))
             {
-                var presenter2 = new NotFoundPresenter();
-                NotFoundViewModel viewModel2 = presenter2.Show(PropertyDisplayNames.Sample);
-                return viewModel2;
+                Sample entity = userInput.ToEntity(_sampleRepositories);
+
+                ViewModel = CreateViewModel(entity, userInput);
+            }
+
+            ViewModel.Visible = true;
+
+            return ViewModel;
+        }
+
+        public SamplePropertiesViewModel Close(SamplePropertiesViewModel userInput)
+        {
+            ViewModel = Update(userInput);
+
+            if (ViewModel.Successful)
+            {
+                ViewModel.Visible = false;
+            }
+
+            return ViewModel;
+        }
+
+        public SamplePropertiesViewModel LooseFocus(SamplePropertiesViewModel userInput)
+        {
+            ViewModel = Update(userInput);
+
+            return ViewModel;
+        }
+
+        private SamplePropertiesViewModel Update(SamplePropertiesViewModel userInput)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            Sample entity = userInput.ToEntity(_sampleRepositories);
+
+            if (MustCreateViewModel(ViewModel, userInput))
+            {
+                ViewModel = CreateViewModel(entity, userInput);
+            }
+
+            IValidator validator = new SampleValidator(entity, new HashSet<object>());
+            if (!validator.IsValid)
+            {
+                ViewModel.Successful = true;
+                ViewModel.Messages = validator.ValidationMessages.ToCanonical();
             }
             else
             {
-                ViewModel = entity.ToPropertiesViewModel(_audioFileFormatRepository, _sampleDataTypeRepository, _speakerSetupRepository, _interpolationTypeRepository);
-                ViewModel.Visible = true;
-                return ViewModel;
+                ViewModel.Messages = new Message[0];
+                ViewModel.Successful = false;
             }
+
+            return ViewModel;
+        }
+
+        private bool MustCreateViewModel(SamplePropertiesViewModel existingViewModel, SamplePropertiesViewModel userInput)
+        {
+            return existingViewModel == null ||
+                   existingViewModel.Sample.Keys.DocumentID != userInput.Sample.Keys.DocumentID ||
+                   existingViewModel.Sample.Keys.ListIndex != userInput.Sample.Keys.ListIndex ||
+                   existingViewModel.Sample.Keys.ChildDocumentTypeEnum != userInput.Sample.Keys.ChildDocumentTypeEnum ||
+                   existingViewModel.Sample.Keys.ChildDocumentListIndex != userInput.Sample.Keys.ChildDocumentListIndex;
+        }
+
+        private SamplePropertiesViewModel CreateViewModel(Sample entity, SamplePropertiesViewModel userInput)
+        {
+            SamplePropertiesViewModel viewModel = entity.ToPropertiesViewModel(
+                userInput.Sample.Keys.DocumentID,
+                userInput.Sample.Keys.ListIndex,
+                userInput.Sample.Keys.ChildDocumentTypeEnum,
+                userInput.Sample.Keys.ChildDocumentListIndex,
+                _sampleRepositories);
+
+            return viewModel;
         }
     }
 }

@@ -154,7 +154,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public void Edit(int patchID)
         {
             AssertContext();
-            _viewModel = _presenter.Edit(patchID);
+            // TODO: Statefulness and non-commitedness until save will work different in the future, which will change this call.
+            _viewModel = _presenter.Edit(patchID, 0, 0, null, null);
             ApplyViewModel();
         }
 

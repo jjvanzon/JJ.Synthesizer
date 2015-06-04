@@ -1,4 +1,4 @@
-﻿namespace JJ.Presentation.Synthesizer.Enums
+﻿namespace JJ.Presentation.Synthesizer.Helpers
 {
     public enum ChildDocumentTypeEnum
     {

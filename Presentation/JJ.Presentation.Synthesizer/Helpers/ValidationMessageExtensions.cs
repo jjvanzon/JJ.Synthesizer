@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Presentation.Synthesizer.Extensions
+namespace JJ.Presentation.Synthesizer.Helpers
 {
     internal static class ValidationMessageExtensions
     {

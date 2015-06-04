@@ -4,9 +4,10 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Presentation;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Enums;
+using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Keys;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
@@ -117,8 +118,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new ChildDocumentListViewModel
             {
-                List = new List<IDNameAndListIndexViewModel>(),
-                ChildDocumentType = ChildDocumentTypeEnum.Instrument
+                List = new List<ChildDocumentListItemViewModel>(),
+                Keys = new ChildDocumentListKeysViewModel
+                {
+                    ParentDocumentID = 0,
+                    ChildDocumentTypeEnum = ChildDocumentTypeEnum.Instrument
+                }
             };
 
             return viewModel;
@@ -128,8 +133,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new ChildDocumentListViewModel
             {
-                List = new List<IDNameAndListIndexViewModel>(),
-                ChildDocumentType = ChildDocumentTypeEnum.Effect
+                List = new List<ChildDocumentListItemViewModel>(),
+                Keys = new ChildDocumentListKeysViewModel
+                {
+                    ParentDocumentID = 0,
+                    ChildDocumentTypeEnum = ChildDocumentTypeEnum.Effect
+                }
             };
 
             return viewModel;
@@ -153,8 +162,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 AudioFileOutputsNode = new DummyViewModel(),
                 CurvesNode = new DummyViewModel(),
-                Effects = new List<ChildDocumentTreeViewModel>(),
-                Instruments = new List<ChildDocumentTreeViewModel>(),
+                Effects = new List<ChildDocumentTreeNodeViewModel>(),
+                Instruments = new List<ChildDocumentTreeNodeViewModel>(),
                 PatchesNode = new DummyViewModel(),
                 ReferencedDocuments = new ReferencedDocumentsTreeNodeViewModel
                 {
@@ -216,7 +225,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new CurveListViewModel
             {
-                List = new List<IDNameAndListIndexViewModel>()
+                List = new List<CurveListItemViewModel>()
             };
 
             return viewModel;
@@ -226,7 +235,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchListViewModel
             {
-                List = new List<IDNameAndListIndexViewModel>()
+                List = new List<PatchListItemViewModel>()
             };
 
             return viewModel;

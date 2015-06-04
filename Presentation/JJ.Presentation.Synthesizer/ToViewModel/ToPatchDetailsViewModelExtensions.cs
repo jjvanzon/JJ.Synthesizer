@@ -12,12 +12,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToPatchDetailsViewModelExtensions
     {
-        public static IList<PatchDetailsViewModel> ToDetailsViewModels(this IList<Patch> entities, EntityPositionManager entityPositionManager)
+        public static IList<PatchDetailsViewModel> ToDetailsViewModels(
+            this IList<Patch> entities,
+            int documentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            EntityPositionManager entityPositionManager)
         {
             if (entities == null) throw new NullException(() => entities);
 
@@ -28,22 +34,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             for (int i = 0; i < entities.Count; i++)
             {
                 Patch entity = entities[i];
-                PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(entityPositionManager);
-                viewModel.Patch.ListIndex = i;
+                PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(documentID, i, childDocumentTypeEnum, childDocumentListIndex, entityPositionManager);
                 viewModels.Add(viewModel);
             }
 
             return viewModels;
         }
 
-        public static PatchDetailsViewModel ToDetailsViewModel(this Patch patch, EntityPositionManager entityPositionManager)
+        public static PatchDetailsViewModel ToDetailsViewModel(
+            this Patch patch,
+            int documentID,
+            int listIndex,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            EntityPositionManager entityPositionManager)
         {
             if (patch == null) throw new NullException(() => patch);
             if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
 
             var viewModel = new PatchDetailsViewModel
             {
-                Patch = patch.ToViewModelRecursive(),
+                Patch = patch.ToViewModelRecursive(documentID, listIndex, childDocumentTypeEnum, childDocumentListIndex),
                 ValidationMessages = new List<Message>()
             };
 
@@ -64,9 +75,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             operatorViewModel.CenterY = entityPosition.Y;
         }
 
-        private static PatchViewModel ToViewModelRecursive(this Patch patch)
+        private static PatchViewModel ToViewModelRecursive(
+            this Patch patch,
+            int documentID,
+            int listIndex,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex)
         {
-            PatchViewModel viewModel = patch.ToViewModel();
+            PatchViewModel viewModel = patch.ToViewModel(documentID, listIndex, childDocumentTypeEnum, childDocumentListIndex);
 
             var dictionary = new Dictionary<Operator, OperatorViewModel>();
 

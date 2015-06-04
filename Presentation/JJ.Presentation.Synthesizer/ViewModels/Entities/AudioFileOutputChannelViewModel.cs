@@ -1,4 +1,5 @@
 ﻿using JJ.Business.CanonicalModel;
+using JJ.Presentation.Synthesizer.ViewModels.Keys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
     public sealed class AudioFileOutputChannelViewModel
     {
-        public int ID { get; set; }
-        public int IndexNumber { get; set; }
+        public AudioFileOutputChannelKeysViewModel Keys { get; set; }
 
         /// <summary> nullable </summary>
         public IDAndName Outlet { get; set; }

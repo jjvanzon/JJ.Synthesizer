@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 
-namespace JJ.Presentation.Synthesizer.Configuration
+namespace JJ.Presentation.Synthesizer.Helpers
 {
     public class ConfigurationSection
     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JJ.Presentation.Synthesizer.ViewModels.Keys;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     /// </summary>
     public sealed class OutletViewModel
     {
+        //public OutletKeyViewModel Keys { get; set; }
+
         public int ID { get; set; }
         public int ListIndex { get; set; }
 

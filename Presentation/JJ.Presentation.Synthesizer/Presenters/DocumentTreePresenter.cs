@@ -72,9 +72,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
 
             // 'Business'
-            ChildDocumentTreeViewModel nodeViewModel = 
-                viewModel.Instruments.Where(x => x.NodeIndex == nodeIndex).SingleOrDefault() ??
-                viewModel.Effects.Where(x => x.NodeIndex == nodeIndex).SingleOrDefault();
+            ChildDocumentTreeNodeViewModel nodeViewModel =
+                viewModel.Instruments.Where(x => x.Keys.NodeIndex == nodeIndex).SingleOrDefault() ??
+                viewModel.Effects.Where(x => x.Keys.NodeIndex == nodeIndex).SingleOrDefault();
 
             if (nodeViewModel == null)
             {
@@ -109,9 +109,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (viewModel == null) throw new NullException(() => viewModel);
 
             // 'Business'
-            ChildDocumentTreeViewModel nodeViewModel =
-                viewModel.Instruments.Where(x => x.NodeIndex == nodeIndex).SingleOrDefault() ??
-                viewModel.Effects.Where(x => x.NodeIndex == nodeIndex).SingleOrDefault();
+            ChildDocumentTreeNodeViewModel nodeViewModel =
+                viewModel.Instruments.Where(x => x.Keys.NodeIndex == nodeIndex).SingleOrDefault() ??
+                viewModel.Effects.Where(x => x.Keys.NodeIndex == nodeIndex).SingleOrDefault();
 
             if (nodeViewModel == null)
             {
@@ -186,7 +186,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             var join1 = from sourceInstrumentViewModel in sourceViewModel.Instruments
                         join destInstrumentViewModel in destViewModel.Instruments
-                        on sourceInstrumentViewModel.NodeIndex equals destInstrumentViewModel.NodeIndex
+                        on sourceInstrumentViewModel.Keys.NodeIndex equals destInstrumentViewModel.Keys.NodeIndex
                         select new { sourceInstrumentViewModel, destInstrumentViewModel };
 
             foreach (var tuple in join1)
@@ -195,8 +195,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             var join2 = from sourceEffectViewModel in sourceViewModel.Effects
-                        join destEffectViewModel in destViewModel.Effects 
-                        on sourceEffectViewModel.NodeIndex equals destEffectViewModel.NodeIndex
+                        join destEffectViewModel in destViewModel.Effects
+                        on sourceEffectViewModel.Keys.NodeIndex equals destEffectViewModel.Keys.NodeIndex
                         select new { sourceEffectViewModel, destEffectViewModel };
 
             foreach (var tuple in join2)
