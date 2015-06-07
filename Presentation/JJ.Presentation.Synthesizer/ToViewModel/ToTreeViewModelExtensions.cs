@@ -1,5 +1,6 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Keys;
@@ -50,9 +51,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Document instrument = sortedInstruments[i];
 
-                ChildDocumentTreeNodeViewModel instrumentTreeViewModel = instrument.ToChildDocumentTreeViewModel(i, nodeIndex++);
+                ChildDocumentTreeNodeViewModel instrumentTreeNodeViewModel = instrument.ToChildDocumentTreeNodeViewModel(ChildDocumentTypeEnum.Instrument, i, nodeIndex++);
 
-                viewModel.Instruments.Add(instrumentTreeViewModel);
+                viewModel.Instruments.Add(instrumentTreeNodeViewModel);
             }
 
             IList<Document> sortedEffects = document.Effects.OrderBy(x => x.Name).ToArray();
@@ -60,15 +61,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Document effect = sortedEffects[i];
 
-                ChildDocumentTreeNodeViewModel effectTreeViewModel = effect.ToChildDocumentTreeViewModel(i, nodeIndex++);
+                ChildDocumentTreeNodeViewModel effectTreeViewNodeModel = effect.ToChildDocumentTreeNodeViewModel(ChildDocumentTypeEnum.Effect, i, nodeIndex++);
 
-                viewModel.Effects.Add(effectTreeViewModel);
+                viewModel.Effects.Add(effectTreeViewNodeModel);
             }
 
             return viewModel;
         }
 
-        private static ChildDocumentTreeNodeViewModel ToChildDocumentTreeViewModel(this Document document, int listIndex, int nodeIndex)
+        public static ChildDocumentTreeNodeViewModel ToChildDocumentTreeNodeViewModel(this Document document, ChildDocumentTypeEnum childDocumentTypeEnum, int listIndex, int nodeIndex)
         {
             if (document == null) throw new NullException(() => document);
 
@@ -81,6 +82,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Keys = new ChildDocumentTreeNodeKeysViewModel
                 {
                     ID = document.ID,
+                    ChildDocumentTypeEnum = childDocumentTypeEnum,
                     ListIndex = listIndex,
                     NodeIndex = nodeIndex
                 }

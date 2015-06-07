@@ -10,24 +10,24 @@ namespace JJ.Presentation.Synthesizer.Svg.Helpers
 {
     public static class TagHelper
     {
-        // The the shorter the prefixes, the faster it is.
+        // The the shorter the prefixes, the faster it will be.
         private const string OPERATOR_TAG_PREFIX = "op ";
         private const string INLET_TAG_PREFIX = "in ";
         private const string OUTLET_TAG_PREFIX = "out ";
 
         // Get Tag
 
-        internal static object GetOperatorTag(int operatorID)
+        public static object GetOperatorTag(int operatorID)
         {
             return String.Format("{0}{1}", OPERATOR_TAG_PREFIX, operatorID);
         }
 
-        internal static object GetInletTag(int inletID)
+        public static object GetInletTag(int inletID)
         {
             return String.Format("{0}{1}", INLET_TAG_PREFIX, inletID);
         }
 
-        internal static object GetOutletTag(int outletID)
+        public static object GetOutletTag(int outletID)
         {
             return String.Format("{0}{1}", OUTLET_TAG_PREFIX, outletID);
         }

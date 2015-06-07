@@ -10,7 +10,7 @@ using JJ.Presentation.Synthesizer.Svg;
 using JJ.Presentation.Synthesizer.Svg.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.WinForms.Configuration;
+using ConfigurationSection = JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using System;
 using System.Collections.Generic;
@@ -28,6 +28,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.Forms;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -335,9 +336,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Curve Actions
 
-        private void CurveListShow()
+        private void CurveListShow(ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
-            _viewModel = _presenter.CurveListShow(_viewModel, null, null);
+            _viewModel = _presenter.CurveListShow(_viewModel, childDocumentTypeEnum, childDocumentListIndex);
             ApplyViewModel();
         }
 
@@ -413,9 +414,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Patch Actions
 
-        private void PatchListShow()
+        private void PatchListShow(ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
-            _viewModel = _presenter.PatchListShow(_viewModel, null, null); // TODO: Also allow executing the action on a child document's lists.
+            _viewModel = _presenter.PatchListShow(_viewModel, childDocumentTypeEnum, childDocumentListIndex);
             ApplyViewModel();
         }
 
@@ -460,9 +461,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Sample Actions
 
-        private void SampleListShow()
+        private void SampleListShow(ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
-            _viewModel = _presenter.SampleListShow(_viewModel, null, null); // TODO: Also allow executing the action on a child document's lists.
+            _viewModel = _presenter.SampleListShow(_viewModel, childDocumentTypeEnum, childDocumentListIndex);
             ApplyViewModel();
         }
 
@@ -590,19 +591,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             EffectListShow();
         }
 
-        private void documentTreeUserControl_ShowSamplesRequested(object sender, EventArgs e)
+        private void documentTreeUserControl_ShowSamplesRequested(object sender, ChildDocumentEventArgs e)
         {
-            SampleListShow();
+            SampleListShow(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
         }
 
-        private void documentTreeUserControl_ShowCurvesRequested(object sender, EventArgs e)
+        private void documentTreeUserControl_ShowCurvesRequested(object sender, ChildDocumentEventArgs e)
         {
-            CurveListShow();
+            CurveListShow(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
         }
 
-        private void documentTreeUserControl_ShowPatchesRequested(object sender, EventArgs e)
+        private void documentTreeUserControl_ShowPatchesRequested(object sender, ChildDocumentEventArgs e)
         {
-            PatchListShow();
+            PatchListShow(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
         }
 
         private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
@@ -769,89 +770,149 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void ApplyViewModel()
         {
-            Text = _viewModel.WindowTitle + _titleBarExtraText;
+            SuspendLayout();
 
-            menuUserControl.Show(_viewModel.Menu);
-
-            documentListUserControl.ViewModel = _viewModel.DocumentList;
-            documentListUserControl.Visible = _viewModel.DocumentList.Visible;
-
-            documentDetailsUserControl.ViewModel = _viewModel.DocumentDetails;
-            documentDetailsUserControl.Visible = _viewModel.DocumentDetails.Visible;
-
-            documentTreeUserControl.ViewModel = _viewModel.Document.DocumentTree;
-            documentTreeUserControl.Visible = _viewModel.Document.DocumentTree.Visible;
-
-            documentPropertiesUserControl.ViewModel = _viewModel.Document.DocumentProperties;
-            documentPropertiesUserControl.Visible = _viewModel.Document.DocumentProperties.Visible;
-
-            audioFileOutputListUserControl.ViewModel = _viewModel.Document.AudioFileOutputList;
-            audioFileOutputListUserControl.Visible = _viewModel.Document.AudioFileOutputList.Visible;
-
-            curveListUserControl.ViewModel = _viewModel.Document.CurveList;
-            curveListUserControl.Visible = _viewModel.Document.CurveList.Visible;
-
-            instrumentListUserControl.ViewModel = _viewModel.Document.InstrumentList;
-            instrumentListUserControl.Visible = _viewModel.Document.InstrumentList.Visible;
-
-            effectListUserControl.ViewModel = _viewModel.Document.EffectList;
-            effectListUserControl.Visible = _viewModel.Document.EffectList.Visible;
-
-            curveListUserControl.ViewModel = _viewModel.Document.CurveList;
-            curveListUserControl.Visible = _viewModel.Document.CurveList.Visible;
-
-            patchListUserControl.ViewModel = _viewModel.Document.PatchList;
-            patchListUserControl.Visible = _viewModel.Document.PatchList.Visible;
-
-            sampleListUserControl.ViewModel = _viewModel.Document.SampleList;
-            sampleListUserControl.Visible = _viewModel.Document.SampleList.Visible;
-
-            _audioFileOutputPropertiesForm.ViewModel = _viewModel.TemporaryAudioFileOutputProperties;
-            _audioFileOutputPropertiesForm.Visible = _viewModel.TemporaryAudioFileOutputProperties.Visible;
-
-            _patchDetailsForm.ViewModel = _viewModel.TemporaryPatchDetails;
-            _patchDetailsForm.Visible = _viewModel.TemporaryPatchDetails.Visible;
-
-            bool treePanelMustBeVisible = _viewModel.Document.DocumentTree.Visible;
-            SetTreePanelVisible(treePanelMustBeVisible);
-
-            bool propertiesPanelMustBeVisible = _viewModel.Document.DocumentProperties.Visible;
-            SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
-
-            if (_viewModel.NotFound.Visible)
+            try
             {
-                MessageBoxHelper.ShowNotFound(_viewModel.NotFound);
+                Text = _viewModel.WindowTitle + _titleBarExtraText;
+
+                menuUserControl.Show(_viewModel.Menu);
+
+                documentListUserControl.ViewModel = _viewModel.DocumentList;
+                documentListUserControl.Visible = _viewModel.DocumentList.Visible;
+
+                documentDetailsUserControl.ViewModel = _viewModel.DocumentDetails;
+                documentDetailsUserControl.Visible = _viewModel.DocumentDetails.Visible;
+
+                documentTreeUserControl.ViewModel = _viewModel.Document.DocumentTree;
+                documentTreeUserControl.Visible = _viewModel.Document.DocumentTree.Visible;
+
+                documentPropertiesUserControl.ViewModel = _viewModel.Document.DocumentProperties;
+                documentPropertiesUserControl.Visible = _viewModel.Document.DocumentProperties.Visible;
+
+                audioFileOutputListUserControl.ViewModel = _viewModel.Document.AudioFileOutputList;
+                audioFileOutputListUserControl.Visible = _viewModel.Document.AudioFileOutputList.Visible;
+
+                // CurveListViewModel
+                bool curveListUserControlMustBeVisible = false;
+                if (_viewModel.Document.CurveList.Visible)
+                {
+                    curveListUserControl.ViewModel = _viewModel.Document.CurveList;
+                    curveListUserControlMustBeVisible = true;
+                }
+                else
+                {
+                    CurveListViewModel visibleCurveListViewModel = Enumerable.Union(_viewModel.Document.InstrumentDocumentList.Select(x => x.CurveList),
+                                                                                    _viewModel.Document.EffectDocumentList.Select(x => x.CurveList))
+                                                                             .Where(x => x.Visible)
+                                                                             .FirstOrDefault();
+                    if (visibleCurveListViewModel != null)
+                    {
+                        curveListUserControl.ViewModel = visibleCurveListViewModel;
+                        curveListUserControlMustBeVisible = true;
+                    }
+                }
+                curveListUserControl.Visible = curveListUserControlMustBeVisible;
+
+                instrumentListUserControl.ViewModel = _viewModel.Document.InstrumentList;
+                instrumentListUserControl.Visible = _viewModel.Document.InstrumentList.Visible;
+
+                effectListUserControl.ViewModel = _viewModel.Document.EffectList;
+                effectListUserControl.Visible = _viewModel.Document.EffectList.Visible;
+
+                // PatchListViewModel
+                bool patchListUserControlMustBeVisible = false;
+                if (_viewModel.Document.PatchList.Visible)
+                {
+                    patchListUserControl.ViewModel = _viewModel.Document.PatchList;
+                    patchListUserControlMustBeVisible = true;
+                }
+                else
+                {
+                    PatchListViewModel visiblePatchListViewModel = Enumerable.Union(_viewModel.Document.InstrumentDocumentList.Select(x => x.PatchList),
+                                                                                    _viewModel.Document.EffectDocumentList.Select(x => x.PatchList))
+                                                                             .Where(x => x.Visible)
+                                                                             .FirstOrDefault();
+                    if (visiblePatchListViewModel != null)
+                    {
+                        patchListUserControl.ViewModel = visiblePatchListViewModel;
+                        patchListUserControlMustBeVisible = true;
+                    }
+                }
+                patchListUserControl.Visible = patchListUserControlMustBeVisible;
+
+                // SampleListViewModel
+                bool sampleListUserControlMustBeVisible = false;
+                if (_viewModel.Document.SampleList.Visible)
+                {
+                    sampleListUserControl.ViewModel = _viewModel.Document.SampleList;
+                    sampleListUserControlMustBeVisible = true;
+                }
+                else
+                {
+                    SampleListViewModel visibleSampleListViewModel = Enumerable.Union(_viewModel.Document.InstrumentDocumentList.Select(x => x.SampleList),
+                                                                                    _viewModel.Document.EffectDocumentList.Select(x => x.SampleList))
+                                                                             .Where(x => x.Visible)
+                                                                             .FirstOrDefault();
+                    if (visibleSampleListViewModel != null)
+                    {
+                        sampleListUserControl.ViewModel = visibleSampleListViewModel;
+                        sampleListUserControlMustBeVisible = true;
+                    }
+                }
+                sampleListUserControl.Visible = sampleListUserControlMustBeVisible;
+
+                _audioFileOutputPropertiesForm.ViewModel = _viewModel.TemporaryAudioFileOutputProperties;
+                _audioFileOutputPropertiesForm.Visible = _viewModel.TemporaryAudioFileOutputProperties.Visible;
+
+                _patchDetailsForm.ViewModel = _viewModel.TemporaryPatchDetails;
+                _patchDetailsForm.Visible = _viewModel.TemporaryPatchDetails.Visible;
+
+                bool treePanelMustBeVisible = _viewModel.Document.DocumentTree.Visible;
+                SetTreePanelVisible(treePanelMustBeVisible);
+
+                bool propertiesPanelMustBeVisible = _viewModel.Document.DocumentProperties.Visible;
+                SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
+
+                if (_viewModel.NotFound.Visible)
+                {
+                    MessageBoxHelper.ShowNotFound(_viewModel.NotFound);
+                }
+
+                if (_viewModel.DocumentDelete.Visible)
+                {
+                    MessageBoxHelper.ShowDocumentConfirmDelete(_viewModel.DocumentDelete);
+                }
+
+                if (_viewModel.DocumentDeleted.Visible)
+                {
+                    MessageBoxHelper.ShowDocumentIsDeleted();
+                }
+
+                if (_viewModel.DocumentCannotDelete.Visible)
+                {
+                    _documentCannotDeleteForm.ShowDialog(_viewModel.DocumentCannotDelete);
+                }
+
+                if (_viewModel.ValidationMessages.Count != 0)
+                {
+                    MessageBox.Show(String.Join(Environment.NewLine, _viewModel.ValidationMessages.Select(x => x.Text)));
+                }
+
+                if (_viewModel.PopupMessages.Count != 0)
+                {
+                    MessageBoxHelper.ShowPopupMessages(_viewModel.PopupMessages);
+                }
+
+                // TODO: This 'if' is kind of a hack.
+                if (!_viewModel.Document.DocumentProperties.Successful)
+                {
+                    documentPropertiesUserControl.Focus();
+                }
             }
-
-            if (_viewModel.DocumentDelete.Visible)
+            finally
             {
-                MessageBoxHelper.ShowDocumentConfirmDelete(_viewModel.DocumentDelete);
-            }
-
-            if (_viewModel.DocumentDeleted.Visible)
-            {
-                MessageBoxHelper.ShowDocumentIsDeleted();
-            }
-
-            if (_viewModel.DocumentCannotDelete.Visible)
-            {
-                _documentCannotDeleteForm.ShowDialog(_viewModel.DocumentCannotDelete);
-            }
-
-            if (_viewModel.ValidationMessages.Count != 0)
-            {
-                MessageBox.Show(String.Join(Environment.NewLine, _viewModel.ValidationMessages.Select(x => x.Text)));
-            }
-
-            if (_viewModel.PopupMessages.Count != 0)
-            {
-                MessageBoxHelper.ShowPopupMessages(_viewModel.PopupMessages);
-            }
-
-            // TODO: This 'if' is kind of a hack.
-            if (!_viewModel.Document.DocumentProperties.Successful)
-            {
-                documentPropertiesUserControl.Focus();
+                ResumeLayout();
             }
 
             // TODO: Set other parts of the view.

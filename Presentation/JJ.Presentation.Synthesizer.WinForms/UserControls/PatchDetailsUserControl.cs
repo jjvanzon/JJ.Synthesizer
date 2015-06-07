@@ -22,6 +22,7 @@ using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
 using System.ComponentModel;
 using JJ.Framework.Reflection.Exceptions;
+using TagHelper = JJ.Presentation.Synthesizer.Svg.Helpers.TagHelper;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {

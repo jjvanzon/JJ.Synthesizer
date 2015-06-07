@@ -70,6 +70,7 @@
     <Compile Include="Configuration\FilePathsConfiguration.cs" />
     <Compile Include="Configuration\GeneralConfiguration.cs" />
     <Compile Include="Configuration\TestingConfiguration.cs" />
+    <Compile Include="EventArg\ChildDocumentEventArgs.cs" />
     <Compile Include="EventArg\GuidEventArgs.cs" />
     <Compile Include="EventArg\Int32EventArgs.cs" />
     <Compile Include="EventArg\ViewModelEventArgs.cs" />
@@ -92,6 +93,7 @@
       <DependentUpon>PatchDetailsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\MessageBoxHelper.cs" />
+    <Compile Include="Helpers\TagHelper.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

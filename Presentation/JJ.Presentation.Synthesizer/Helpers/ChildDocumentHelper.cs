@@ -86,7 +86,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
  
-        public static Document GetDocument(int documentID, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex, IDocumentRepository documentRepository)
+        public static Document TryGetDocument(int documentID, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex, IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
 

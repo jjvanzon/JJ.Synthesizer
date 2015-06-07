@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JJ.Presentation.Synthesizer.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,5 +23,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Keys
         /// even when refreshing / recreating the view model.
         /// </summary>
         public int NodeIndex { get; set; }
+
+        public ChildDocumentTypeEnum ChildDocumentTypeEnum { get; set; }
     }
 }

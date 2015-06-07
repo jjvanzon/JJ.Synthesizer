@@ -43,6 +43,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     public class MainPresenter
     {
         private const int DUMMY_LIST_INDEX = 0;
+        private const int DUMMY_NODE_INDEX = 0;
 
         private RepositoryWrapper _repositoryWrapper;
 
@@ -132,6 +133,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             _viewModel.WindowTitle = Titles.ApplicationName;
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -145,6 +148,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -155,6 +160,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             TemporarilyAssertViewModelField();
 
             _viewModel.PopupMessages = new List<Message> { };
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -242,6 +249,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -253,6 +262,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var viewModel2 = _documentCannotDeletePresenter.OK();
 
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -266,6 +277,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -278,6 +291,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -289,6 +304,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             object viewModel2 = _documentDeletedPresenter.OK();
 
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -309,6 +326,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             _viewModel.DocumentList.Visible = false;
             _viewModel.Document.DocumentTree.Visible = true;
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -404,6 +423,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -415,6 +436,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             object viewModel2 = _documentTreePresenter.ExpandNode(viewModel.Document.DocumentTree, nodeIndex);
 
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -428,6 +451,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -439,6 +464,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             object viewModel2 = _documentTreePresenter.Close();
 
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -454,6 +481,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             object viewModel2 = _audioFileOutputListPresenter.Show(viewModel.Document.ID);
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -465,6 +494,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             object viewModel2 = _audioFileOutputListPresenter.Close();
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -518,6 +549,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // because we are not executing any additional business logic or refreshing 
             // that uses the entity models.
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -530,6 +563,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             object viewModel2 = _audioFileOutputPropertiesPresenter.Show(viewModel.Document.AudioFileOutputPropertiesList[listIndex]);
 
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -544,6 +579,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -557,6 +594,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -568,8 +607,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             TemporarilyAssertViewModelField();
 
+            Document document = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
+
             object viewModel2 = _curveListPresenter.Show(viewModel.Document.ID, childDocumentTypeEnum, childDocumentListIndex);
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -582,6 +625,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             object viewModel2 = _curveListPresenter.Close();
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -663,6 +708,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -678,6 +725,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             object viewModel2 = _curveDetailsPresenter.Close(item);
 
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -695,6 +744,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -709,6 +760,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             object viewModel2 = _effectListPresenter.Show(viewModel.Document.ID, ChildDocumentTypeEnum.Effect);
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -720,6 +773,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             object viewModel2 = _effectListPresenter.Close();
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -769,26 +824,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             TemporarilyAssertViewModelField();
 
-            // 'Business' / ToViewModel
+            // ToViewModel Only
             _viewModel.Document.EffectList.List.RemoveAt(listIndex);
             _viewModel.Document.EffectPropertiesList.RemoveAt(listIndex);
             _viewModel.Document.EffectDocumentList.RemoveAt(listIndex);
+            _viewModel.Document.DocumentTree.Effects.RemoveAt(listIndex);
 
             ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectList.List, listIndex);
             ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectPropertiesList, listIndex);
             ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectDocumentList, listIndex);
-
-            // ToEntity
-            Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.Document.ID);
-            if (parentDocument == null)
-            {
-                NotFoundViewModel notFoundViewModel = CreateDocumentNotFoundViewModel();
-                DispatchViewModel(notFoundViewModel);
-                return _viewModel;
-            }
-            ToEntityHelper.ToEffectsWithRelatedEntities(_viewModel.Document.EffectDocumentList, parentDocument, _repositoryWrapper);
-
-            RefreshDocumentTree();
 
             _repositoryWrapper.Rollback();
 
@@ -806,6 +850,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             object viewModel2 = _instrumentListPresenter.Show(viewModel.Document.ID, ChildDocumentTypeEnum.Instrument);
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -817,6 +863,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             object viewModel2 = _instrumentListPresenter.Close();
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -866,26 +914,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             TemporarilyAssertViewModelField();
 
-            // 'Business' / ToViewModel
+            // ToViewModel Only
             _viewModel.Document.InstrumentList.List.RemoveAt(listIndex);
             _viewModel.Document.InstrumentPropertiesList.RemoveAt(listIndex);
             _viewModel.Document.InstrumentDocumentList.RemoveAt(listIndex);
+            _viewModel.Document.DocumentTree.Instruments.RemoveAt(listIndex);
 
             ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentList.List, listIndex);
             ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentPropertiesList, listIndex);
             ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentDocumentList, listIndex);
-
-            // ToEntity
-            Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.Document.ID);
-            if (parentDocument == null)
-            {
-                NotFoundViewModel notFoundViewModel = CreateDocumentNotFoundViewModel();
-                DispatchViewModel(notFoundViewModel);
-                return _viewModel;
-            }
-            ToEntityHelper.ToInstrumentsWithRelatedEntities(_viewModel.Document.InstrumentDocumentList, parentDocument, _repositoryWrapper);
-
-            RefreshDocumentTree();
 
             _repositoryWrapper.Rollback();
 
@@ -900,8 +937,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             TemporarilyAssertViewModelField();
 
+            Document document = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
+
             object viewModel2 = _patchListPresenter.Show(viewModel.Document.ID, childDocumentTypeEnum, childDocumentListIndex);
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -914,6 +955,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             object viewModel2 = _patchListPresenter.Close();
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -1016,8 +1059,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             TemporarilyAssertViewModelField();
 
+            Document document = viewModel.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
+
             object viewModel2 = _sampleListPresenter.Show(viewModel.Document.ID, childDocumentTypeEnum, childDocumentListIndex);
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -1030,6 +1077,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             object viewModel2 = _sampleListPresenter.Close();
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -1111,6 +1160,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -1127,6 +1178,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             DispatchViewModel(viewModel2);
 
+            _repositoryWrapper.Rollback();
+
             return _viewModel;
         }
 
@@ -1142,6 +1195,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             object viewModel2 = _samplePropertiesPresenter.LooseFocus(item);
 
             DispatchViewModel(viewModel2);
+
+            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
