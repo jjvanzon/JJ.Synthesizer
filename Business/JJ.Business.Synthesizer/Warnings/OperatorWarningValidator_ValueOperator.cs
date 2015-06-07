@@ -19,8 +19,6 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            if (Object == null) throw new NullException(() => Object);
-
             double value;
             if (Double.TryParse(Object.Data, out value))
             {

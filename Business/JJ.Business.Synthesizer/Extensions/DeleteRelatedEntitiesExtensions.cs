@@ -109,8 +109,6 @@ namespace JJ.Business.Synthesizer.Extensions
                 op.UnlinkRelatedEntities();
                 operatorRepository.Delete(op);
             }
-            
-            throw new NotImplementedException();
         }
 
         public static void DeleteRelatedEntities(

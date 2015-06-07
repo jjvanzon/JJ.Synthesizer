@@ -15,6 +15,8 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Framework.Business;
 using JJ.Business.Synthesizer.SideEffects;
+using JJ.Framework.Validation;
+using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -36,14 +38,13 @@ namespace JJ.Business.Synthesizer.Managers
         {
             if (curve == null) throw new NullException(() => curve);
 
-            bool canDelete = EnumerateCurveInOperators(curve).Any();
-            if (!canDelete)
+            IValidator validator = new CurveValidator_Delete(curve, _curveRepository);
+            if (!validator.IsValid)
             {
-                var message = new Message { PropertyKey = PropertyNames.Curve, Text = MessageFormatter.CannotDeleteCurve(curve.Name) };
                 return new VoidResult
                 {
                     Successful = false,
-                    Messages = new Message[] { message }
+                    Messages = validator.ValidationMessages.ToCanonical()
                 };
             }
             else
@@ -56,27 +57,6 @@ namespace JJ.Business.Synthesizer.Managers
                 {
                     Successful = true
                 };
-            }
-        }
-
-        private IEnumerable<Operator> EnumerateCurveInOperators(Curve curve)
-        {
-            if (curve == null) throw new NullException(() => curve);
-
-            foreach (Operator op in curve.Document.Patches.SelectMany(x => x.Operators))
-            {
-                if (!String.Equals(op.OperatorTypeName, PropertyNames.CurveIn))
-                {
-                    continue;
-                }
-
-                CurveInWrapper wrapper = new CurveInWrapper(op, _curveRepository);
-
-                if (wrapper.Curve == curve ||
-                    wrapper.CurveID == curve.ID)
-                {
-                    yield return op;
-                }
             }
         }
     }

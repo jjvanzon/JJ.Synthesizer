@@ -52,7 +52,6 @@ namespace JJ.Business.Synthesizer.Warnings
                 }
             }
 
-
             foreach (Inlet inlet in Object.Inlets)
             {
                 if (inlet.InputOutlet != null)

@@ -142,7 +142,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 }
             }
 
-            IList<int> existingIDs = destDocument.Samples.Select(x => x.ID).ToArray();
+            IList<int> existingIDs = destDocument.Curves.Select(x => x.ID).ToArray();
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
@@ -179,7 +179,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 }
             }
 
-            IList<int> existingIDs = destDocument.Samples.Select(x => x.ID).ToArray();
+            IList<int> existingIDs = destDocument.Patches.Select(x => x.ID).ToArray();
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {

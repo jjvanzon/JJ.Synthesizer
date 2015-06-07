@@ -26,10 +26,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
     {
         public event EventHandler ShowDocumentListRequested;
         public event EventHandler ShowDocumentTreeRequested;
-        public event EventHandler ShowAudioFileOutputListRequested;
-        public event EventHandler CurveListRequested;
-        public event EventHandler PatchListRequested;
-        public event EventHandler SampleListRequested;
         public event EventHandler AudioFileOutputEditRequested;
         public event EventHandler PatchDetailsRequested;
 
@@ -102,26 +98,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             toolStripMenuItem.Click += documentTreeToolStripMenuItem_Click;
             viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
 
-            // AudioFileOutputs
-            toolStripMenuItem = CreateAudioFileOutputsToolStripMenuItem();
-            toolStripMenuItem.Click += audioFileOutputsToolStripMenuItem_Click;
-            viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
-
-            // Curves
-            toolStripMenuItem = CreateCurvesToolStripMenuItem();
-            toolStripMenuItem.Click += curvesToolStripMenuItem_Click;
-            viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
-
-            // Patches
-            toolStripMenuItem = CreatePatchesToolStripMenuItem();
-            toolStripMenuItem.Click += patchesToolStripMenuItem_Click;
-            viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
-
-            // Samples
-            toolStripMenuItem = CreateSamplesToolStripMenuItem();
-            toolStripMenuItem.Click += samplesToolStripMenuItem_Click;
-            viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
-
             // AudioFileOutputProperties
             toolStripMenuItem = CreateAudioFileOutputEditToolStripMenuItem();
             toolStripMenuItem.Click += audioFileOutputEditToolStripMenuItem_Click;
@@ -166,61 +142,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             return toolStripMenuItem;
         }
 
-        private ToolStripMenuItem CreateInstrumentsToolStripMenuItem()
-        {
-            var toolStripMenuItem = new ToolStripMenuItem
-            {
-                Name = "instrumentsToolStripMenuItem",
-                Text = "&" + PropertyDisplayNames.Instruments
-            };
-
-            return toolStripMenuItem;
-        }
-
-        private ToolStripMenuItem CreateAudioFileOutputsToolStripMenuItem()
-        {
-            var toolStripMenuItem = new ToolStripMenuItem
-            {
-                Name = "audioFileOutputsToolStripMenuItem",
-                Text = "&" + PropertyDisplayNames.AudioFileOutputs
-            };
-
-            return toolStripMenuItem;
-        }
-
-        private ToolStripMenuItem CreateCurvesToolStripMenuItem()
-        {
-            var toolStripMenuItem = new ToolStripMenuItem
-            {
-                Name = "curvesToolStripMenuItem",
-                Text = "&" + PropertyDisplayNames.Curves
-            };
-
-            return toolStripMenuItem;
-        }
-
-        private ToolStripMenuItem CreatePatchesToolStripMenuItem()
-        {
-            var toolStripMenuItem = new ToolStripMenuItem
-            {
-                Name = "patchesToolStripMenuItem",
-                Text = "&" + PropertyDisplayNames.Patches
-            };
-
-            return toolStripMenuItem;
-        }
-
-        private ToolStripMenuItem CreateSamplesToolStripMenuItem()
-        {
-            var toolStripMenuItem = new ToolStripMenuItem
-            {
-                Name = "samplesToolStripMenuItem",
-                Text = "&" + PropertyDisplayNames.Samples
-            };
-
-            return toolStripMenuItem;
-        }
-
         private ToolStripMenuItem CreateAudioFileOutputEditToolStripMenuItem()
         {
             var toolStripMenuItem = new ToolStripMenuItem
@@ -258,38 +179,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             if (ShowDocumentTreeRequested != null)
             {
                 ShowDocumentTreeRequested(sender, EventArgs.Empty);
-            }
-        }
-
-        private void audioFileOutputsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (ShowAudioFileOutputListRequested != null)
-            {
-                ShowAudioFileOutputListRequested(sender, EventArgs.Empty);
-            }
-        }
-
-        private void curvesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (CurveListRequested != null)
-            {
-                CurveListRequested(sender, EventArgs.Empty);
-            }
-        }
-
-        private void patchesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (PatchListRequested != null)
-            {
-                PatchListRequested(sender, EventArgs.Empty);
-            }
-        }
-
-        private void samplesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (SampleListRequested != null)
-            {
-                SampleListRequested(sender, EventArgs.Empty);
             }
         }
 

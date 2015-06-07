@@ -42,7 +42,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Stream stream = TestHelper.GetViolin16BitMonoRawStream();
                 Sample sample = sampleManager.CreateSample(stream, AudioFileFormatEnum.Raw);
 
-                IValidator sampleValidator = sampleManager.ValidateSample(sample);
+                IValidator sampleValidator = sampleManager.Validate(sample);
                 sampleValidator.Verify();
 
                 double timeMultiplier = 1;

@@ -23,6 +23,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class CurveListUserControl : UserControl
     {
+        private const string LIST_INDEX_COLUMN_NAME = "ListIndexColumn";
+
+        public event EventHandler CreateRequested;
+        public event EventHandler<Int32EventArgs> DeleteRequested;
+        public event EventHandler CloseRequested;
+
         /// <summary> virtually not nullable </summary>
         private CurveListViewModel _viewModel;
 
@@ -31,8 +37,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             InitializeComponent();
             SetTitles();
         }
-
-        // Persistence
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -51,19 +55,83 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            labelTitle.Text = PropertyDisplayNames.Curves;
-            IDColumn.HeaderText = CommonTitles.ID;
-            NameColumn.HeaderText = CommonTitles.Name;
+            titleBarUserControl.Text = PropertyDisplayNames.Curves;
         }
 
         private void ApplyViewModel()
         {
-            if (_viewModel == null)
+            specializedDataGridView.DataSource = _viewModel.List.Select(x => new { x.Name, x.Keys.ListIndex }).ToArray();
+        }
+
+        // Actions
+
+        private void Create()
+        {
+            if (CreateRequested != null)
             {
-                dataGridView.DataSource = null;
+                CreateRequested(this, EventArgs.Empty);
+            }
+        }
+
+        private void Delete()
+        {
+            if (DeleteRequested != null)
+            {
+                int? id = TryGetSelectedID();
+                if (id.HasValue)
+                {
+                    DeleteRequested(this, new Int32EventArgs(id.Value));
+                }
+            }
+        }
+
+        private void Close()
+        {
+            if (CloseRequested != null)
+            {
+                CloseRequested(this, EventArgs.Empty);
+            }
+        }
+
+        // Events
+
+        private void titleBarUserControl_AddClicked(object sender, EventArgs e)
+        {
+            Create();
+        }
+
+        private void titleBarUserControl_RemoveClicked(object sender, EventArgs e)
+        {
+            Delete();
+        }
+
+        private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        private void specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Delete:
+                    Delete();
+                    break;
+            }
+        }
+
+        // Helpers
+
+        private int? TryGetSelectedID()
+        {
+            if (specializedDataGridView.CurrentRow != null)
+            {
+                DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[LIST_INDEX_COLUMN_NAME];
+                int listIndex = Convert.ToInt32(cell.Value);
+                return listIndex;
             }
 
-            dataGridView.DataSource = _viewModel.List;
+            return null;
         }
     }
 }

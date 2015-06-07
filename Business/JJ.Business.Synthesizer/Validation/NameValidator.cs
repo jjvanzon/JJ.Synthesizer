@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class NameValidator : FluentValidator<string>
+    public class NameValidator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
     {
         private static int? _nameMaxLength;
 

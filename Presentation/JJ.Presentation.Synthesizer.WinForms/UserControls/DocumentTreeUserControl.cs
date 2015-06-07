@@ -33,12 +33,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> ExpandNodeRequested;
         public event EventHandler<Int32EventArgs> CollapseNodeRequested;
         public event EventHandler ShowInstrumentsRequested;
+        public event EventHandler ShowEffectsRequested;
+        public event EventHandler ShowSamplesRequested;
+        public event EventHandler ShowCurvesRequested;
+        public event EventHandler ShowPatchesRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
 
         /// <summary> virtually not nullable </summary>
         private DocumentTreeViewModel _viewModel;
 
         private TreeNode _instrumentsTreeNode;
+        private TreeNode _effectsTreeNode;
+        private TreeNode _samplesTreeNode;
+        private TreeNode _curvesTreeNode;
+        private TreeNode _patchesTreeNode;
         private TreeNode _audioFileOutputsTreeNode;
 
         public DocumentTreeUserControl()
@@ -74,13 +82,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             applyViewModelIsBusy = true;
 
-            // TODO: I will probably run into the problem that
-            // I cannot recreated the tree view every time,
-            // but need to update it, because otherwise
-            // all nodes are collapsed again after I update.
-            // Another alternative might be to let the view model
-            // decide if a node is open or not.
-
             treeView.SuspendLayout();
 
             treeView.Nodes.Clear();
@@ -99,33 +100,34 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             AddChildNodesRecursive(documentTreeNode, _viewModel);
 
-            var referencedDocumentsTreeNode = new TreeNode(PropertyDisplayNames.ReferencedDocuments);
-            documentTreeNode.Nodes.Add(referencedDocumentsTreeNode);
+            // TODO: Uncomment when the referenced documents functionality is programmed.
+            //var referencedDocumentsTreeNode = new TreeNode(PropertyDisplayNames.ReferencedDocuments);
+            //documentTreeNode.Nodes.Add(referencedDocumentsTreeNode);
 
-            foreach (ReferencedDocumentViewModel referencedDocumentViewModel in _viewModel.ReferencedDocuments.List)
-            {
-                var referencedDocumentTreeNode = new TreeNode(referencedDocumentViewModel.Name);
-                referencedDocumentTreeNode.Tag = referencedDocumentViewModel.Keys.ID;
-                referencedDocumentsTreeNode.Nodes.Add(referencedDocumentTreeNode);
+            //foreach (ReferencedDocumentViewModel referencedDocumentViewModel in _viewModel.ReferencedDocuments.List)
+            //{
+            //    var referencedDocumentTreeNode = new TreeNode(referencedDocumentViewModel.Name);
+            //    referencedDocumentTreeNode.Tag = referencedDocumentViewModel.Keys.ID;
+            //    referencedDocumentsTreeNode.Nodes.Add(referencedDocumentTreeNode);
 
-                foreach (IDAndName instrumentViewModel in referencedDocumentViewModel.Instruments)
-                {
-                    var instrumentTreeNode = new TreeNode(instrumentViewModel.Name);
-                    instrumentTreeNode.Tag = instrumentViewModel.ID;
-                    referencedDocumentTreeNode.Nodes.Add(instrumentTreeNode);
-                }
+            //    foreach (IDAndName instrumentViewModel in referencedDocumentViewModel.Instruments)
+            //    {
+            //        var instrumentTreeNode = new TreeNode(instrumentViewModel.Name);
+            //        instrumentTreeNode.Tag = instrumentViewModel.ID;
+            //        referencedDocumentTreeNode.Nodes.Add(instrumentTreeNode);
+            //    }
 
-                foreach (IDAndName effectViewModel in referencedDocumentViewModel.Effects)
-                {
-                    var effectTreeNode = new TreeNode(effectViewModel.Name);
-                    effectTreeNode.Tag = effectViewModel.ID;
-                    referencedDocumentTreeNode.Nodes.Add(effectTreeNode);
-                }
+            //    foreach (IDAndName effectViewModel in referencedDocumentViewModel.Effects)
+            //    {
+            //        var effectTreeNode = new TreeNode(effectViewModel.Name);
+            //        effectTreeNode.Tag = effectViewModel.ID;
+            //        referencedDocumentTreeNode.Nodes.Add(effectTreeNode);
+            //    }
 
-                referencedDocumentTreeNode.Expand();
-            }
+            //    referencedDocumentTreeNode.Expand();
+            //}
 
-            referencedDocumentsTreeNode.Expand();
+            //referencedDocumentsTreeNode.Expand();
 
             documentTreeNode.Expand();
 
@@ -142,7 +144,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             foreach (ChildDocumentTreeNodeViewModel instrumentViewModel in parentViewModel.Instruments)
             {
                 var instrumentTreeNode = new TreeNode(instrumentViewModel.Name);
-                instrumentTreeNode.Tag = instrumentViewModel.Keys.ListIndex;
+                instrumentTreeNode.Tag = instrumentViewModel.Keys.NodeIndex;
                 _instrumentsTreeNode.Nodes.Add(instrumentTreeNode);
 
                 AddChildDocumentChildNodesRecursive(instrumentTreeNode, instrumentViewModel);
@@ -159,14 +161,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             _instrumentsTreeNode.Expand();
 
-            var effectsTreeNode = new TreeNode(PropertyDisplayNames.Effects);
-            parentNode.Nodes.Add(effectsTreeNode);
+            _effectsTreeNode = new TreeNode(PropertyDisplayNames.Effects);
+            parentNode.Nodes.Add(_effectsTreeNode);
 
             foreach (ChildDocumentTreeNodeViewModel effectViewModel in parentViewModel.Effects)
             {
                 var effectTreeNode = new TreeNode(effectViewModel.Name);
-                effectTreeNode.Tag = effectViewModel.Keys.ListIndex;
-                effectsTreeNode.Nodes.Add(effectTreeNode);
+                effectTreeNode.Tag = effectViewModel.Keys.NodeIndex;
+                _effectsTreeNode.Nodes.Add(effectTreeNode);
 
                 AddChildDocumentChildNodesRecursive(effectTreeNode, effectViewModel);
 
@@ -180,16 +182,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 }
             }
 
-            effectsTreeNode.Expand();
+            _effectsTreeNode.Expand();
 
-            var samplesTreeNode = new TreeNode(PropertyDisplayNames.Samples);
-            parentNode.Nodes.Add(samplesTreeNode);
+            _samplesTreeNode = new TreeNode(PropertyDisplayNames.Samples);
+            parentNode.Nodes.Add(_samplesTreeNode);
 
-            var curvesTreeNode = new TreeNode(PropertyDisplayNames.Curves);
-            parentNode.Nodes.Add(curvesTreeNode);
+            _curvesTreeNode = new TreeNode(PropertyDisplayNames.Curves);
+            parentNode.Nodes.Add(_curvesTreeNode);
 
-            var patchesTreeNode = new TreeNode(PropertyDisplayNames.Patches);
-            parentNode.Nodes.Add(patchesTreeNode);
+            _patchesTreeNode = new TreeNode(PropertyDisplayNames.Patches);
+            parentNode.Nodes.Add(_patchesTreeNode);
 
             _audioFileOutputsTreeNode = new TreeNode(PropertyDisplayNames.AudioFileOutputs);
             parentNode.Nodes.Add(_audioFileOutputsTreeNode);
@@ -244,14 +246,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            int listIndex;
+            int nodeIndex;
             // TODO: This is a bad assumption. Refactor that later.
-            bool isChildDocumentNode = Int32.TryParse(Convert.ToString(e.Node.Tag), out listIndex);
+            bool isChildDocumentNode = Int32.TryParse(Convert.ToString(e.Node.Tag), out nodeIndex);
             if (isChildDocumentNode)
             {
                 if (ExpandNodeRequested != null)
                 {
-                    ExpandNodeRequested(this, new Int32EventArgs(listIndex));
+                    ExpandNodeRequested(this, new Int32EventArgs(nodeIndex));
                 }
             }
         }
@@ -263,14 +265,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            int listIndex;
+            int nodeIndex;
             // TODO: This is a bad assumption. Refactor that later.
-            bool isChildDocumentNode = Int32.TryParse(Convert.ToString(e.Node.Tag), out listIndex);
+            bool isChildDocumentNode = Int32.TryParse(Convert.ToString(e.Node.Tag), out nodeIndex);
             if (isChildDocumentNode)
             {
                 if (CollapseNodeRequested != null)
                 {
-                    CollapseNodeRequested(this, new Int32EventArgs(listIndex));
+                    CollapseNodeRequested(this, new Int32EventArgs(nodeIndex));
                 }
             }
         }
@@ -285,6 +287,38 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 }
             }
 
+            if (e.Node == _effectsTreeNode)
+            {
+                if (ShowEffectsRequested != null)
+                {
+                    ShowEffectsRequested(this, EventArgs.Empty);
+                }
+            }
+
+            if (e.Node == _samplesTreeNode)
+            {
+                if (ShowSamplesRequested != null)
+                {
+                    ShowSamplesRequested(this, EventArgs.Empty);
+                }
+            }
+
+            if (e.Node == _curvesTreeNode)
+            {
+                if (ShowCurvesRequested != null)
+                {
+                    ShowCurvesRequested(this, EventArgs.Empty);
+                }
+            }
+
+            if (e.Node == _patchesTreeNode)
+            {
+                if (ShowPatchesRequested != null)
+                {
+                    ShowPatchesRequested(this, EventArgs.Empty);
+                }
+            }
+            
             if (e.Node == _audioFileOutputsTreeNode)
             {
                 if (ShowAudioFileOutputsRequested != null)

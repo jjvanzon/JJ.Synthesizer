@@ -117,16 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CannotDeleteCurve" xml:space="preserve">
-    <value>Curve '{0}' kan niet worden verwijderd.</value>
+  <data name="CannotDeleteCurveBecauseHasOperators" xml:space="preserve">
+    <value>Curve '{0}' kan niet worden verwijderd, omdat het in gebruik is door operators.</value>
     <comment>{0} = name</comment>
   </data>
   <data name="CannotDeletePatchBecauseIsMainPatch" xml:space="preserve">
     <value>Schakeling '{0}' kan niet worden verwijderd, omdat het de hoofdschakeling is van het document.</value>
     <comment>{0} = name</comment>
   </data>
-  <data name="CannotDeleteSample" xml:space="preserve">
-    <value>Geluidsfragment '{0}' kan niet worden verwijderd.</value>
+  <data name="CannotDeleteSampleBecauseHasOperators" xml:space="preserve">
+    <value>Geluidsfragment '{0}' kan niet worden verwijderd, omdat het in gebruik is door operators.</value>
     <comment>{0} = name</comment>
   </data>
   <data name="ChannelCountDoesNotMatchSpeakerSetup" xml:space="preserve">

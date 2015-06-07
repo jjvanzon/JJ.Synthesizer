@@ -29,8 +29,6 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            if (Object == null) throw new NullException(() => Object);
-
             if (_alreadyDone.Contains(Object))
             {
                 return;

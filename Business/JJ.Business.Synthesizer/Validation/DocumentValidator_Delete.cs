@@ -21,8 +21,6 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Document document = Object;
 
-            if (document == null) throw new NullException(() => document);
-
             foreach (DocumentReference dependentDocument in document.DependentDocuments)
             {
                 string message = MessageFormatter.DocumentIsDependentOnDocument(dependentDocument.DependentDocument.Name, dependentDocument.DependentOnDocument.Name);

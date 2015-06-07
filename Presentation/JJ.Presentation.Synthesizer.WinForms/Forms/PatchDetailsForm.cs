@@ -32,7 +32,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             InitializeComponent();
         }
 
-        [Obsolete]
         public IContext Context
         {
             get { return patchDetailsUserControl.Context; }
@@ -45,7 +44,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             set { patchDetailsUserControl.ViewModel = value; }
         }
 
-        [Obsolete]
         public new void Show()
         {
             patchDetailsUserControl.Show();

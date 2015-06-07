@@ -5,6 +5,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using CanonicalModel = JJ.Business.CanonicalModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
         public static event EventHandler<Int32EventArgs> DocumentDeleteConfirmed;
         public static event EventHandler DocumentDeleteCanceled;
         public static event EventHandler DocumentDeletedOK;
+        public static event EventHandler PopupMessagesOK;
 
         public static void ShowNotFound(NotFoundViewModel viewModel)
         {
@@ -70,6 +72,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             if (DocumentDeletedOK != null)
             {
                 DocumentDeletedOK(_dummySender, EventArgs.Empty);
+            }
+        }
+
+        public static void ShowPopupMessages(IList<CanonicalModel.Message> popupMessages)
+        {
+            if (popupMessages == null) throw new NullException(() => popupMessages);
+
+            MessageBox.Show(String.Join(Environment.NewLine, popupMessages.Select(x => x.Text)));
+
+            if (PopupMessagesOK != null)
+            {
+                PopupMessagesOK(_dummySender, EventArgs.Empty);
             }
         }
     }

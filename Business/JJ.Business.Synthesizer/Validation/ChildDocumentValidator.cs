@@ -22,8 +22,6 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Document document = Object;
 
-            if (document == null) throw new NullException(() => document);
-
             if (document.AsEffectInDocument == null ||
                 document.AsInstrumentInDocument == null)
             {

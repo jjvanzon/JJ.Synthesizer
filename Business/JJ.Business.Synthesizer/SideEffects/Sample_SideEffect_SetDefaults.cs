@@ -9,35 +9,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
     internal class Sample_SideEffect_SetDefaults : ISideEffect
     {
         private Sample _entity;
-        private ISampleDataTypeRepository _sampleDataTypeRepository;
-        private ISpeakerSetupRepository _speakerSetupRepository;
-        private IInterpolationTypeRepository _interpolationTypeRepository;
-        private IAudioFileFormatRepository _audioFileFormatRepository;
+        private SampleRepositories _repositories;
 
-        public Sample_SideEffect_SetDefaults(
-            Sample entity,
-            ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository,
-            IInterpolationTypeRepository interpolationTypeRepository,
-            IAudioFileFormatRepository audioFileFormatRepository)
+        public Sample_SideEffect_SetDefaults(Sample entity, SampleRepositories repositories)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
-            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
             _entity = entity;
-            _sampleDataTypeRepository = sampleDataTypeRepository;
-            _speakerSetupRepository = speakerSetupRepository;
-            _interpolationTypeRepository = interpolationTypeRepository;
-            _audioFileFormatRepository = audioFileFormatRepository;
+            _repositories = repositories;
         }
 
         public void Execute()
@@ -46,10 +33,10 @@ namespace JJ.Business.Synthesizer.SideEffects
             _entity.TimeMultiplier = 1;
             _entity.IsActive = true;
             _entity.SamplingRate = 44100;
-            _entity.SetAudioFileFormatEnum(AudioFileFormatEnum.Raw, _audioFileFormatRepository);
-            _entity.SetSampleDataTypeEnum(SampleDataTypeEnum.Int16, _sampleDataTypeRepository);
-            _entity.SetSpeakerSetupEnum(SpeakerSetupEnum.Mono, _speakerSetupRepository);
-            _entity.SetInterpolationTypeEnum(InterpolationTypeEnum.Line, _interpolationTypeRepository);
+            _entity.SetAudioFileFormatEnum(AudioFileFormatEnum.Raw, _repositories.AudioFileFormatRepository);
+            _entity.SetSampleDataTypeEnum(SampleDataTypeEnum.Int16, _repositories.SampleDataTypeRepository);
+            _entity.SetSpeakerSetupEnum(SpeakerSetupEnum.Mono, _repositories.SpeakerSetupRepository);
+            _entity.SetInterpolationTypeEnum(InterpolationTypeEnum.Line, _repositories.InterpolationTypeRepository);
         }
     }
 }

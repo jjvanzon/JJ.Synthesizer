@@ -28,8 +28,6 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            if (Object == null) throw new NullException(() => Object);
-
             if (_alreadyDone.Contains(Object))
             {
                 return;
@@ -40,7 +38,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             For(() => curve.Name, CommonTitles.Name).NotInteger();
 
-            For(() => curve.Nodes.Count, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Nodes)).Min(2);
+            For(() => curve.Nodes.Count, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Nodes)).MinValue(2);
 
             int i = 1;
             foreach (Node node in curve.Nodes)

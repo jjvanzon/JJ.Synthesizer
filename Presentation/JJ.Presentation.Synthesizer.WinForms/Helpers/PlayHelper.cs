@@ -17,6 +17,7 @@ using System.Linq;
 using System.Media;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {
@@ -129,13 +130,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 
         private static SampleManager CreateSampleManager(IContext context)
         {
-            ISampleRepository sampleRepository = PersistenceHelper.CreateMemoryRepository<ISampleRepository>(context);
-            ISampleDataTypeRepository sampleDataTypeRepository = PersistenceHelper.CreateMemoryRepository<ISampleDataTypeRepository>(context);
-            ISpeakerSetupRepository speakerSetupRepository = PersistenceHelper.CreateMemoryRepository<ISpeakerSetupRepository>(context);
-            IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateMemoryRepository<IAudioFileFormatRepository>(context);
-            IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateMemoryRepository<IInterpolationTypeRepository>(context);
+            var sampleRepositories = new SampleRepositories(
+                PersistenceHelper.CreateRepository<ISampleRepository>(context),
+                PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context),
+                PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context),
+                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context),
+                PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context));
 
-            var manager = new SampleManager(sampleRepository, sampleDataTypeRepository, speakerSetupRepository, audioFileFormatRepository, interpolationTypeRepository);
+            var manager = new SampleManager(sampleRepositories);
             return manager;
         }
 

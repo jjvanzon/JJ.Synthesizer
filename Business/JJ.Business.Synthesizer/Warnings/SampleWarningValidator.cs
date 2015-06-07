@@ -18,8 +18,6 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            if (Object == null) throw new NullException(() => Object);
-
             if (Object.Amplifier == 0)
             {
                 ValidationMessages.Add(() => Object.Amplifier, MessageFormatter.ObjectAmplifier0(PropertyDisplayNames.Sample, Object.Name));

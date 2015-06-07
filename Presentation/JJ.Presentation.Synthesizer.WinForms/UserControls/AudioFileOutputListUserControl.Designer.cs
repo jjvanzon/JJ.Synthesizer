@@ -86,7 +86,7 @@
             this.specializedDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
             this.specializedDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.specializedDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            this.specializedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.specializedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.specializedDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ListIndexColumn,
             this.NameColumn,
@@ -113,11 +113,11 @@
             // 
             // NameColumn
             // 
+            this.NameColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.NameColumn.DataPropertyName = "Name";
             this.NameColumn.HeaderText = "Name";
             this.NameColumn.Name = "NameColumn";
             this.NameColumn.ReadOnly = true;
-            this.NameColumn.Width = 250;
             // 
             // AudioFileFormatColumn
             // 
@@ -153,8 +153,7 @@
             // 
             // AudioFileOutputListUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.tableLayoutPanel);
             this.Name = "AudioFileOutputListUserControl";
             this.Size = new System.Drawing.Size(796, 400);

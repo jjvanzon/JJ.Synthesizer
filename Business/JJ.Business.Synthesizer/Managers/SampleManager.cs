@@ -32,30 +32,13 @@ namespace JJ.Business.Synthesizer.Managers
 {
     public class SampleManager
     {
-        private ISampleRepository _sampleRepository;
-        private ISampleDataTypeRepository _sampleDataTypeRepository;
-        private ISpeakerSetupRepository _speakerSetupRepository;
-        private IAudioFileFormatRepository _audioFileFormatRepository;
-        private IInterpolationTypeRepository _interpolationTypeRepository;
+        private SampleRepositories _repositories;
 
-        public SampleManager(
-            ISampleRepository sampleRepository,
-            ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository,
-            IAudioFileFormatRepository audioFileFormatRepository,
-            IInterpolationTypeRepository interpolationTypeRepository)
+        public SampleManager(SampleRepositories repositories)
         {
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
-            if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            _sampleRepository = sampleRepository;
-            _sampleDataTypeRepository = sampleDataTypeRepository;
-            _speakerSetupRepository = speakerSetupRepository;
-            _audioFileFormatRepository = audioFileFormatRepository;
-            _interpolationTypeRepository = interpolationTypeRepository;
+            _repositories = repositories;
         }
 
         /// <summary>
@@ -63,9 +46,9 @@ namespace JJ.Business.Synthesizer.Managers
         /// </summary>
         public Sample CreateSample()
         {
-            Sample sample = _sampleRepository.Create();
+            Sample sample = _repositories.SampleRepository.Create();
 
-            ISideEffect sideEffect = new Sample_SideEffect_SetDefaults(sample, _sampleDataTypeRepository, _speakerSetupRepository, _interpolationTypeRepository, _audioFileFormatRepository);
+            ISideEffect sideEffect = new Sample_SideEffect_SetDefaults(sample, _repositories);
             sideEffect.Execute();
 
             return sample;
@@ -152,11 +135,11 @@ namespace JJ.Business.Synthesizer.Managers
             switch (audioFileInfo.ChannelCount)
             {
                 case 1:
-                    sample.SetSpeakerSetupEnum(SpeakerSetupEnum.Mono, _speakerSetupRepository);
+                    sample.SetSpeakerSetupEnum(SpeakerSetupEnum.Mono, _repositories.SpeakerSetupRepository);
                     break;
 
                 case 2:
-                    sample.SetSpeakerSetupEnum(SpeakerSetupEnum.Stereo, _speakerSetupRepository);
+                    sample.SetSpeakerSetupEnum(SpeakerSetupEnum.Stereo, _repositories.SpeakerSetupRepository);
                     break;
 
                 default:
@@ -166,11 +149,11 @@ namespace JJ.Business.Synthesizer.Managers
             switch (audioFileInfo.BytesPerValue)
             {
                 case 1:
-                    sample.SetSampleDataTypeEnum(SampleDataTypeEnum.Byte, _sampleDataTypeRepository);
+                    sample.SetSampleDataTypeEnum(SampleDataTypeEnum.Byte, _repositories.SampleDataTypeRepository);
                     break;
 
                 case 2:
-                    sample.SetSampleDataTypeEnum(SampleDataTypeEnum.Int16, _sampleDataTypeRepository);
+                    sample.SetSampleDataTypeEnum(SampleDataTypeEnum.Int16, _repositories.SampleDataTypeRepository);
                     break;
 
                 default:
@@ -183,13 +166,13 @@ namespace JJ.Business.Synthesizer.Managers
         private Sample CreateRawSample(Stream stream)
         {
             Sample sample = CreateSample();
-            sample.SetAudioFileFormatEnum(AudioFileFormatEnum.Raw, _audioFileFormatRepository);
+            sample.SetAudioFileFormatEnum(AudioFileFormatEnum.Raw, _repositories.AudioFileFormatRepository);
             stream.Position = 0;
             sample.Bytes = StreamHelper.StreamToBytes(stream);
             return sample;
         }
 
-        public IValidator ValidateSample(Sample sample)
+        public IValidator Validate(Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
             IValidator sampleValidator = new SampleValidator(sample, alreadyDone: new HashSet<object>());
@@ -200,46 +183,25 @@ namespace JJ.Business.Synthesizer.Managers
         {
             if (sample == null) throw new NullException(() => sample);
 
-            bool canDelete = EnumerateSampleOperators(sample).Any();
-            if (!canDelete)
+            IValidator validator = new SampleValidator_Delete(sample, _repositories.SampleRepository);
+
+            if (!validator.IsValid)
             {
-                var message = new Message { PropertyKey = PropertyNames.Sample, Text = MessageFormatter.CannotDeleteSample(sample.Name) };
                 return new VoidResult
                 {
                     Successful = false,
-                    Messages = new Message[] { message }
+                    Messages = validator.ValidationMessages.ToCanonical()
                 };
             }
             else
             {
                 sample.UnlinkRelatedEntities();
-                _sampleRepository.Delete(sample);
+                _repositories.SampleRepository.Delete(sample);
 
                 return new VoidResult
                 {
                     Successful = true
                 };
-            }
-        }
-
-        private IEnumerable<Operator> EnumerateSampleOperators(Sample sample)
-        {
-            if (sample == null) throw new NullException(() => sample);
-
-            foreach (Operator op in sample.Document.Patches.SelectMany(x => x.Operators))
-            {
-                if (!String.Equals(op.OperatorTypeName, PropertyNames.SampleOperator))
-                {
-                    continue;
-                }
-
-                SampleOperatorWrapper wrapper = new SampleOperatorWrapper(op, _sampleRepository);
-
-                if (wrapper.Sample == sample ||
-                    wrapper.SampleID == sample.ID)
-                {
-                    yield return op;
-                }
             }
         }
     }

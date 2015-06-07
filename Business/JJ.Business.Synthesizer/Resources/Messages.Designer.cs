@@ -61,11 +61,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Curve &apos;{0}&apos; cannot be deleted..
+        ///   Looks up a localized string similar to Curve &apos;{0}&apos; cannot be deleted, because it is being used by operators..
         /// </summary>
-        internal static string CannotDeleteCurve {
+        internal static string CannotDeleteCurveBecauseHasOperators {
             get {
-                return ResourceManager.GetString("CannotDeleteCurve", resourceCulture);
+                return ResourceManager.GetString("CannotDeleteCurveBecauseHasOperators", resourceCulture);
             }
         }
         
@@ -79,11 +79,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Sample &apos;{0}&apos; cannot be deleted..
+        ///   Looks up a localized string similar to Sample &apos;{0}&apos; cannot be deleted, because it is being used by operators..
         /// </summary>
-        internal static string CannotDeleteSample {
+        internal static string CannotDeleteSampleBecauseHasOperators {
             get {
-                return ResourceManager.GetString("CannotDeleteSample", resourceCulture);
+                return ResourceManager.GetString("CannotDeleteSampleBecauseHasOperators", resourceCulture);
             }
         }
         

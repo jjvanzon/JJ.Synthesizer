@@ -37,8 +37,6 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Document document = Object;
 
-            if (document == null) throw new NullException(() => document);
-
             if (_alreadyDone.Contains(document))
             {
                 return;

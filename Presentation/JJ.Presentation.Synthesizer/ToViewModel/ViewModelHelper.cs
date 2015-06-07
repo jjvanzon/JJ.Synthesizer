@@ -40,10 +40,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 DocumentsMenuItem = new MenuItemViewModel(),
                 DocumentTreeMenuItem = new MenuItemViewModel(),
-                AudioFileOutputsMenuItem = new MenuItemViewModel(),
-                CurvesMenuItem = new MenuItemViewModel(),
-                PatchesMenuItem = new MenuItemViewModel(),
-                SamplesMenuItem = new MenuItemViewModel(),
                 AudioFileOutputPropertiesMenuItem = new MenuItemViewModel(),
                 PatchDetailsMenuItem = new MenuItemViewModel()
             };

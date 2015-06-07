@@ -40,13 +40,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         public static SampleManager CreateSampleManager(IContext context)
         {
-            ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
-            ISampleDataTypeRepository sampleDataTypeRepository = PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context);
-            ISpeakerSetupRepository speakerSetupRepository = PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context);
-            IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
-            IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
+            var sampleRepositories = new SampleRepositories(
+                PersistenceHelper.CreateRepository<ISampleRepository>(context),
+                PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context),
+                PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context),
+                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context),
+                PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context));
 
-            var manager = new SampleManager(sampleRepository, sampleDataTypeRepository, speakerSetupRepository, audioFileFormatRepository, interpolationTypeRepository);
+            var manager = new SampleManager(sampleRepositories);
             return manager;
         }
 

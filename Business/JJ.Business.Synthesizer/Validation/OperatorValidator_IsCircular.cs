@@ -20,8 +20,6 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Operator op = Object;
 
-            if (op == null) throw new NullException(() => op);
-
             if (op.IsCircular())
             {
                 ValidationMessages.Add(() => op, Messages.OperatorIsCircular);

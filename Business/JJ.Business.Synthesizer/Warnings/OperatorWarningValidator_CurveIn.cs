@@ -18,8 +18,6 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            if (Object == null) throw new NullException(() => Object);
-
             For(() => Object.Data, PropertyDisplayNames.Data)
                 .NotNull();
         }

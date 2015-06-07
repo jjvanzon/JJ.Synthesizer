@@ -73,12 +73,6 @@
     <Compile Include="EventArg\GuidEventArgs.cs" />
     <Compile Include="EventArg\Int32EventArgs.cs" />
     <Compile Include="EventArg\ViewModelEventArgs.cs" />
-    <Compile Include="Forms\AudioFileOutputListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\AudioFileOutputListForm.Designer.cs">
-      <DependentUpon>AudioFileOutputListForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\AudioFileOutputPropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,18 +84,6 @@
     </Compile>
     <Compile Include="Forms\DocumentCannotDeleteForm.Designer.cs">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\SampleListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\SampleListForm.Designer.cs">
-      <DependentUpon>SampleListForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\CurveListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\CurveListForm.Designer.cs">
-      <DependentUpon>CurveListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\PatchDetailsForm.cs">
       <SubType>Form</SubType>
@@ -115,12 +97,6 @@
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\PatchListForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\PatchListForm.Designer.cs">
-      <DependentUpon>PatchListForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\EntityFactory.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
@@ -227,29 +203,17 @@
     <Compile Include="UserControls\PatchListUserControl.Designer.cs">
       <DependentUpon>PatchListUserControl.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Forms\AudioFileOutputListForm.resx">
-      <DependentUpon>AudioFileOutputListForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AudioFileOutputPropertiesForm.resx">
       <DependentUpon>AudioFileOutputPropertiesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\DocumentCannotDeleteForm.resx">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\SampleListForm.resx">
-      <DependentUpon>SampleListForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CurveListForm.resx">
-      <DependentUpon>CurveListForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Forms\PatchDetailsForm.resx">
       <DependentUpon>PatchDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\PatchListForm.resx">
-      <DependentUpon>PatchListForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

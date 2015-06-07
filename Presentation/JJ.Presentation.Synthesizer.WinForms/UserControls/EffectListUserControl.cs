@@ -24,7 +24,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class EffectListUserControl : UserControl
     {
-        private const string ID_COLUMN_NAME = "IDColumn";
+        private const string LIST_INDEX_COLUMN_NAME = "ListIndexColumn";
 
         public event EventHandler CreateRequested;
         public event EventHandler<Int32EventArgs> DeleteRequested;
@@ -57,13 +57,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             titleBarUserControl.Text = PropertyDisplayNames.Effects;
-            IDColumn.HeaderText = CommonTitles.ID;
-            NameColumn.HeaderText = CommonTitles.Name;
         }
 
         private void ApplyViewModel()
         {
-            dataGridView.DataSource = _viewModel.List;
+            specializedDataGridView.DataSource = _viewModel.List;
         }
 
         // Actions
@@ -96,6 +94,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
+        // Events
+
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
         {
             Create();
@@ -111,7 +111,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             Close();
         }
 
-        private void dataGridView_KeyDown(object sender, KeyEventArgs e)
+        private void specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
         {
             switch (e.KeyCode)
             {
@@ -125,11 +125,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private int? TryGetSelectedID()
         {
-            if (dataGridView.CurrentRow != null)
+            if (specializedDataGridView.CurrentRow != null)
             {
-                DataGridViewCell cell = dataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
-                int id = Convert.ToInt32(cell.Value);
-                return id;
+                DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[LIST_INDEX_COLUMN_NAME];
+                int listIndex = Convert.ToInt32(cell.Value);
+                return listIndex;
             }
 
             return null;

@@ -25,8 +25,6 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Patch patch = Object;
 
-            if (patch == null) throw new NullException(() => patch);
-
             For(() => patch.Document, PropertyDisplayNames.Document).NotNull();
 
             Execute(new NameValidator(patch.Name));

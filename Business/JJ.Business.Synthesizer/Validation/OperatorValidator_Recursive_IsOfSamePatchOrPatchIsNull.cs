@@ -21,6 +21,7 @@ namespace JJ.Business.Synthesizer.Validation
             if (patch == null) throw new NullException(() => patch);
 
             _patch = patch;
+
             Execute();
         }
 

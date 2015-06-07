@@ -19,8 +19,6 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            if (Object == null) throw new NullException(() => Object);
-
             For(() => Object.Curve, PropertyDisplayNames.Curve).NotNull();
             For(() => Object.NodeType, PropertyDisplayNames.NodeType).NotNull();
 

@@ -47,11 +47,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private MainViewModel _viewModel;
 
         private DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
-
-        //private AudioFileOutputListForm _audioFileOutputListForm = new AudioFileOutputListForm();
-        private CurveListForm _curveListForm = new CurveListForm();
-        private PatchListForm _patchListForm = new PatchListForm();
-        private SampleListForm _sampleListForm = new SampleListForm();
         private AudioFileOutputPropertiesForm _audioFileOutputPropertiesForm = new AudioFileOutputPropertiesForm();
         private PatchDetailsForm _patchDetailsForm = new PatchDetailsForm();
 
@@ -69,7 +64,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             _context = PersistenceHelper.CreateContext();
             _repositoryWrapper = CreateRepositoryWrapper();
-
             _presenter = new MainPresenter(_repositoryWrapper);
 
             _documentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
@@ -80,10 +74,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             menuUserControl.ShowDocumentListRequested += menuUserControl_ShowDocumentListRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
-            menuUserControl.ShowAudioFileOutputListRequested += menuUserControl_ShowAudioFileOutputListRequested;
-            menuUserControl.CurveListRequested += menuUserControl_CurveListRequested;
-            menuUserControl.PatchListRequested += menuUserControl_PatchListRequested;
-            menuUserControl.SampleListRequested += menuUserControl_SampleListRequested;
             menuUserControl.AudioFileOutputEditRequested += menuUserControl_AudioFileOutputEditRequested;
             menuUserControl.PatchDetailsRequested += menuUserControl_PatchDetailsRequested;
 
@@ -101,23 +91,35 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.CollapseNodeRequested += documentTreeUserControl_CollapseNodeRequested;
             documentTreeUserControl.DocumentPropertiesRequested += documentTreeUserControl_DocumentPropertiesRequested;
             documentTreeUserControl.ShowInstrumentsRequested += documentTreeUserControl_ShowInstrumentsRequested;
+            documentTreeUserControl.ShowEffectsRequested += documentTreeUserControl_ShowEffectsRequested;
+            documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
+            documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
+            documentTreeUserControl.ShowPatchesRequested += documentTreeUserControl_ShowPatchesRequested;
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
+
             audioFileOutputListUserControl.CloseRequested += audioFileOutputListUserControl_CloseRequested;
             audioFileOutputListUserControl.CreateRequested += audioFileOutputListUserControl_CreateRequested;
             audioFileOutputListUserControl.DeleteRequested += audioFileOutputListUserControl_DeleteRequested;
+            curveListUserControl.CloseRequested += curveListUserControl_CloseRequested;
+            curveListUserControl.CreateRequested += curveListUserControl_CreateRequested;
+            curveListUserControl.DeleteRequested += curveListUserControl_DeleteRequested;
             instrumentListUserControl.CloseRequested += instrumentListUserControl_CloseRequested;
             instrumentListUserControl.CreateRequested += instrumentListUserControl_CreateRequested;
             instrumentListUserControl.DeleteRequested += instrumentListUserControl_DeleteRequested;
-
+            effectListUserControl.CloseRequested += effectListUserControl_CloseRequested;
+            effectListUserControl.CreateRequested += effectListUserControl_CreateRequested;
+            effectListUserControl.DeleteRequested += effectListUserControl_DeleteRequested;
+            patchListUserControl.CloseRequested += patchListUserControl_CloseRequested;
+            patchListUserControl.CreateRequested += patchListUserControl_CreateRequested;
+            patchListUserControl.DeleteRequested += patchListUserControl_DeleteRequested;
+            sampleListUserControl.CloseRequested += sampleListUserControl_CloseRequested;
+            sampleListUserControl.CreateRequested += sampleListUserControl_CreateRequested;
+            sampleListUserControl.DeleteRequested += sampleListUserControl_DeleteRequested;
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
 
-            _audioFileOutputPropertiesForm.CloseRequested += _audioFileOutputPropertiesForm_CloseRequested;
-            _curveListForm.CloseRequested += _curveListForm_CloseRequested;
-            _patchListForm.CloseRequested += _patchListForm_CloseRequested;
-            _sampleListForm.CloseRequested += _sampleListForm_CloseRequested;
             _patchDetailsForm.CloseRequested += _patchDetailsForm_CloseRequested;
 
             _patchDetailsForm.Context = _context;
@@ -126,48 +128,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             MessageBoxHelper.DocumentDeleteConfirmed += MessageBoxHelper_DocumentDeleteConfirmed;
             MessageBoxHelper.DocumentDeleteCanceled += MessageBoxHelper_DocumentDeleteCanceled;
             MessageBoxHelper.DocumentDeletedOK += MessageBoxHelper_DocumentDeletedOK;
-
-            SetTitles();
+            MessageBoxHelper.PopupMessagesOK += MessageBoxHelper_PopupMessagesOK;
 
             Open();
-
-            //ShowAudioFileOutputList();
-            //ShowCurveList();
-            //ShowPatchList();
-            //ShowSampleList();
-            //ShowAudioFileOutputProperties();
-            //ShowPatchDetails();
-        }
-
-        private void SetTitles()
-        {
-            // Does nothing for now, but keep it in there, because I keep refactoring it in and out of the code.
-        }
-
-        private RepositoryWrapper CreateRepositoryWrapper()
-        {
-            var repositoryWrapper = new RepositoryWrapper
-            (
-                PersistenceHelper.CreateRepository<IDocumentRepository>(_context),
-                PersistenceHelper.CreateRepository<ICurveRepository>(_context),
-                PersistenceHelper.CreateRepository<IPatchRepository>(_context),
-                PersistenceHelper.CreateRepository<ISampleRepository>(_context),
-                PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(_context),
-                PersistenceHelper.CreateRepository<IDocumentReferenceRepository>(_context),
-                PersistenceHelper.CreateRepository<INodeRepository>(_context),
-                PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(_context),
-                PersistenceHelper.CreateRepository<IOperatorRepository>(_context),
-                PersistenceHelper.CreateRepository<IInletRepository>(_context),
-                PersistenceHelper.CreateRepository<IOutletRepository>(_context),
-                PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context),
-                PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(_context),
-                PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(_context),
-                PersistenceHelper.CreateRepository<INodeTypeRepository>(_context),
-                PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(_context),
-                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(_context)
-            );
-
-            return repositoryWrapper;
         }
 
         /// <summary>
@@ -199,6 +162,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void NotFoundOK()
+        {
+            _viewModel = _presenter.NotFoundOK(_viewModel);
+            ApplyViewModel();
+        }
+
         // Document List Actions
 
         private void DocumentListShow(int pageNumber = 1)
@@ -210,14 +179,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void DocumentListClose()
         {
             _viewModel = _presenter.DocumentListClose(_viewModel);
-            ApplyViewModel();
-        }
-
-        // Document Actions
-
-        private void DocumentTreeShow()
-        {
-            _viewModel = _presenter.DocumentTreeShow(_viewModel);
             ApplyViewModel();
         }
 
@@ -244,24 +205,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void DocumentOpen(int id)
-        {
-            _viewModel = _presenter.DocumentOpen(_viewModel, id);
-            ApplyViewModel();
-        }
-
         private void DocumentCannotDeleteOK()
         {
             _viewModel = _presenter.DocumentCannotDeleteOK(_viewModel);
             ApplyViewModel();
         }
 
-        private void NotFoundOK()
+        // Document Actions
+
+        private void DocumentOpen(int id)
         {
-            _viewModel = _presenter.NotFoundOK(_viewModel);
+            _viewModel = _presenter.DocumentOpen(_viewModel, id);
             ApplyViewModel();
         }
-
+        
         private void DocumentDelete(int id)
         {
             _viewModel = _presenter.DocumentDelete(_viewModel, id);
@@ -280,6 +237,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void PopupMessagesOK()
+        {
+            _viewModel = _presenter.PopupMessagesOK(_viewModel);
+            ApplyViewModel();
+        }
+
         private void DocumentCancelDelete()
         {
             _viewModel = _presenter.DocumentCancelDelete(_viewModel);
@@ -288,25 +251,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Document Tree Actions
 
+        private void DocumentTreeShow()
+        {
+            _viewModel = _presenter.DocumentTreeShow(_viewModel);
+            ApplyViewModel();
+        }
+
         private void DocumentTreeClose()
         {
             _viewModel = _presenter.DocumentTreeClose(_viewModel);
             ApplyViewModel();
         }
 
-        private void DocumentTreeExpandNode(int listIndex)
+        private void DocumentTreeExpandNode(int nodeIndex)
         {
-            _viewModel = _presenter.DocumentTreeExpandNode(_viewModel, listIndex);
-            // I can get away not applying view model, because the TreeView control already expanded the node.
-            // We just need to remember it in the view model. That's why we have to call the presenter.
+            _viewModel = _presenter.DocumentTreeExpandNode(_viewModel, nodeIndex);
             ApplyViewModel();
         }
 
-        private void DocumentTreeCollapseNode(int listIndex)
+        private void DocumentTreeCollapseNode(int nodeIndex)
         {
-            _viewModel = _presenter.DocumentTreeCollapseNode(_viewModel, listIndex);
-            // I can get away not applying view model, because the TreeView control already expanded the node.
-            // We just need to remember it in the view model. That's why we have to call the presenter.
+            _viewModel = _presenter.DocumentTreeCollapseNode(_viewModel, nodeIndex);
             ApplyViewModel();
         }
 
@@ -330,11 +295,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // Other Open Document Actions
+        // AudioFileOutput Actions
 
         private void AudioFileOutputListShow()
         {
             _viewModel = _presenter.AudioFileOutputListShow(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void AudioFileOutputListClose()
+        {
+            _viewModel = _presenter.AudioFileOutputListClose(_viewModel);
             ApplyViewModel();
         }
 
@@ -350,11 +321,45 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void AudioFileOutputListClose()
+        private void AudioFileOutputPropertiesEdit(int id)
         {
-            _viewModel = _presenter.AudioFileOutputListClose(_viewModel);
+            _viewModel = _presenter.AudioFileOutputPropertiesEdit(_viewModel, id);
             ApplyViewModel();
         }
+
+        private void AudioFileOutputPropertiesClose()
+        {
+            _viewModel = _presenter.AudioFileOutputPropertiesClose(_viewModel, listIndex: 0); // TODO: Use the right ListIndex.
+            ApplyViewModel();
+        }
+
+        // Curve Actions
+
+        private void CurveListShow()
+        {
+            _viewModel = _presenter.CurveListShow(_viewModel, null, null);
+            ApplyViewModel();
+        }
+
+        private void CurveListClose()
+        {
+            _viewModel = _presenter.CurveListClose(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void CurveDelete(int listIndex)
+        {
+            _viewModel = _presenter.CurveDelete(_viewModel, listIndex);
+            ApplyViewModel();
+        }
+
+        private void CurveCreate()
+        {
+            _viewModel = _presenter.CurveCreate(_viewModel, null, null);
+            ApplyViewModel();
+        }
+
+        // Instrument Actions
 
         private void InstrumentListShow()
         {
@@ -374,35 +379,61 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void InstrumentListDelete(int listIndex)
+        private void InstrumentDelete(int listIndex)
         {
             _viewModel = _presenter.InstrumentDelete(_viewModel, listIndex);
             ApplyViewModel();
         }
 
-        // Other Actions
+        // Effect Actions
 
-        private void CurveListShow(int pageNumber)
+        private void EffectListShow()
         {
-            _viewModel = _presenter.CurveListShow(_viewModel, null, null); // TODO: Also use _presenter.CurveListShow for showing CurveLists of ChildDocuments.
+            _viewModel = _presenter.EffectListShow(_viewModel);
             ApplyViewModel();
         }
 
-        private void PatchListShow(int pageNumber)
+        private void EffectListClose()
         {
-            _viewModel = _presenter.PatchListShow(_viewModel, null, null); // TODO: Also use _presenter.PatchListShow for showing PatchLists of ChildDocuments.
+            _viewModel = _presenter.EffectListClose(_viewModel);
             ApplyViewModel();
         }
 
-        private void SampleListShow(int pageNumber)
+        private void EffectCreate()
         {
-            _viewModel = _presenter.SampleListShow(_viewModel, null, null); // TODO: Also use _presenter.SampleListShow for showing SampleLists of ChildDocuments.
+            _viewModel = _presenter.EffectCreate(_viewModel);
             ApplyViewModel();
         }
 
-        private void AudioFileOutputPropertiesEdit(int id)
+        private void EffectDelete(int listIndex)
         {
-            _viewModel = _presenter.AudioFileOutputPropertiesEdit(_viewModel, id);
+            _viewModel = _presenter.EffectDelete(_viewModel, listIndex);
+            ApplyViewModel();
+        }
+
+        // Patch Actions
+
+        private void PatchListShow()
+        {
+            _viewModel = _presenter.PatchListShow(_viewModel, null, null); // TODO: Also allow executing the action on a child document's lists.
+            ApplyViewModel();
+        }
+
+        private void PatchListClose()
+        {
+            _viewModel = _presenter.PatchListClose(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void PatchCreate()
+        {
+            _viewModel = _presenter.PatchCreate(_viewModel, null, null); // TODO: Also allow executing the action on a child document's lists.
+            ApplyViewModel();
+        }
+
+        private void PatchDelete(int listIndex)
+        {
+            _viewModel = _presenter.PatchDelete(_viewModel, listIndex);
             ApplyViewModel();
         }
 
@@ -415,30 +446,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _patchDetailsForm.Show();
         }
 
-        private void AudioFileOutputPropertiesClose()
-        {
-            _viewModel = _presenter.AudioFileOutputPropertiesClose(_viewModel, listIndex: 0); // TODO: Use the right ListIndex.
-            ApplyViewModel();
-        }
-
-        private void CurveListClose()
-        {
-            _viewModel = _presenter.CurveListClose(_viewModel);
-            ApplyViewModel();
-        }
-
-        private void PatchListClose()
-        {
-            _viewModel = _presenter.PatchListClose(_viewModel);
-            ApplyViewModel();
-        }
-
-        private void SampleListClose()
-        {
-            _viewModel = _presenter.SampleListClose(_viewModel);
-            ApplyViewModel();
-        }
-
         private void PatchDetailsEdit(int id)
         {
             _viewModel = _presenter.PatchDetailsEdit(_viewModel, id);
@@ -448,6 +455,32 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void PatchDetailsClose()
         {
             _viewModel = _presenter.PatchDetailsClose(_viewModel);
+            ApplyViewModel();
+        }
+
+        // Sample Actions
+
+        private void SampleListShow()
+        {
+            _viewModel = _presenter.SampleListShow(_viewModel, null, null); // TODO: Also allow executing the action on a child document's lists.
+            ApplyViewModel();
+        }
+
+        private void SampleListClose()
+        {
+            _viewModel = _presenter.SampleListClose(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void SampleCreate()
+        {
+            _viewModel = _presenter.SampleCreate(_viewModel, null, null); // TODO: Also allow executing the action on a child document's lists.
+            ApplyViewModel();
+        }
+
+        private void SampleDelete(int listIndex)
+        {
+            _viewModel = _presenter.SampleDelete(_viewModel, listIndex);
             ApplyViewModel();
         }
 
@@ -463,26 +496,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void menuUserControl_ShowDocumentTreeRequested(object sender, EventArgs e)
         {
             DocumentTreeShow();
-        }
-
-        private void menuUserControl_ShowAudioFileOutputListRequested(object sender, EventArgs e)
-        {
-            AudioFileOutputListShow();
-        }
-
-        private void menuUserControl_CurveListRequested(object sender, EventArgs e)
-        {
-            CurveListShow(1);
-        }
-
-        private void menuUserControl_PatchListRequested(object sender, EventArgs e)
-        {
-            PatchListShow(1);
-        }
-
-        private void menuUserControl_SampleListRequested(object sender, EventArgs e)
-        {
-            SampleListShow(1);
         }
 
         private void menuUserControl_AudioFileOutputEditRequested(object sender, EventArgs e)
@@ -572,6 +585,26 @@ namespace JJ.Presentation.Synthesizer.WinForms
             InstrumentListShow();
         }
 
+        private void documentTreeUserControl_ShowEffectsRequested(object sender, EventArgs e)
+        {
+            EffectListShow();
+        }
+
+        private void documentTreeUserControl_ShowSamplesRequested(object sender, EventArgs e)
+        {
+            SampleListShow();
+        }
+
+        private void documentTreeUserControl_ShowCurvesRequested(object sender, EventArgs e)
+        {
+            CurveListShow();
+        }
+
+        private void documentTreeUserControl_ShowPatchesRequested(object sender, EventArgs e)
+        {
+            PatchListShow();
+        }
+
         private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
         {
             AudioFileOutputListShow();
@@ -589,7 +622,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentPropertiesLoseFocus();
         }
 
-        // Other Open Document Events
+        // AudioFileOutput Events
 
         private void audioFileOutputListUserControl_CreateRequested(object sender, EventArgs e)
         {
@@ -606,6 +639,25 @@ namespace JJ.Presentation.Synthesizer.WinForms
             AudioFileOutputListClose();
         }
 
+        // Curve Events
+
+        private void curveListUserControl_CreateRequested(object sender, EventArgs e)
+        {
+            CurveCreate();
+        }
+
+        private void curveListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            CurveDelete(e.Int32);
+        }
+
+        private void curveListUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            CurveListClose();
+        }
+
+        // Instrument Events
+
         private void instrumentListUserControl_CreateRequested(object sender, EventArgs e)
         {
             InstrumentCreate();
@@ -613,12 +665,63 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void instrumentListUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            InstrumentListDelete(e.Int32);
+            InstrumentDelete(e.Int32);
         }
 
         private void instrumentListUserControl_CloseRequested(object sender, EventArgs e)
         {
             InstrumentListClose();
+        }
+
+        // Effect Events
+
+        private void effectListUserControl_CreateRequested(object sender, EventArgs e)
+        {
+            EffectCreate();
+        }
+
+        private void effectListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            EffectDelete(e.Int32);
+        }
+
+        private void effectListUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            EffectListClose();
+        }
+
+        // Sample Events
+
+        private void sampleListUserControl_CreateRequested(object sender, EventArgs e)
+        {
+            SampleCreate();
+        }
+
+        private void sampleListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            SampleDelete(e.Int32);
+        }
+
+        private void sampleListUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            SampleListClose();
+        }
+
+        // Patch Events
+
+        private void patchListUserControl_CreateRequested(object sender, EventArgs e)
+        {
+            PatchCreate();
+        }
+
+        private void patchListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            PatchDelete(e.Int32);
+        }
+
+        private void patchListUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            PatchListClose();
         }
 
         // Message Box Events
@@ -643,6 +746,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentDeletedOK();
         }
 
+        private void MessageBoxHelper_PopupMessagesOK(object sender, EventArgs e)
+        {
+            PopupMessagesOK();
+        }
+
         // DocumentCannotDeleteForm Events
 
         private void _documentCannotDeleteForm_OKClicked(object sender, EventArgs e)
@@ -650,42 +758,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentCannotDeleteOK();
         }
 
-        // Temporary (List) Form Events
-
-        private void _sampleListForm_ShowRequested(object sender, Int32EventArgs e)
-        {
-            SampleListShow(e.Int32);
-        }
-
-        private void _patchListForm_ShowRequested(object sender, Int32EventArgs e)
-        {
-            PatchListShow(e.Int32);
-        }
-
-        private void _curveListForm_ShowRequested(object sender, Int32EventArgs e)
-        {
-            CurveListShow(e.Int32);
-        }
-
-        private void _audioFileOutputPropertiesForm_CloseRequested(object sender, EventArgs e)
-        {
-            AudioFileOutputPropertiesClose();
-        }
-
-        private void _curveListForm_CloseRequested(object sender, EventArgs e)
-        {
-            CurveListClose();
-        }
-
-        private void _patchListForm_CloseRequested(object sender, EventArgs e)
-        {
-            PatchListClose();
-        }
-
-        private void _sampleListForm_CloseRequested(object sender, EventArgs e)
-        {
-            SampleListClose();
-        }
+        // Temporary Form Events
 
         private void _patchDetailsForm_CloseRequested(object sender, EventArgs e)
         {
@@ -693,10 +766,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         }
 
         // Helpers
-
-        // TODO: Maybe SetViewModel should simply become ApplyViewModel without a viewModel parameter,
-        // just using the _viewModel field and in the MainForm action methods the _viewModel field
-        // is simply overwritten without an extra local variable.
 
         private void ApplyViewModel()
         {
@@ -719,20 +788,23 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioFileOutputListUserControl.ViewModel = _viewModel.Document.AudioFileOutputList;
             audioFileOutputListUserControl.Visible = _viewModel.Document.AudioFileOutputList.Visible;
 
+            curveListUserControl.ViewModel = _viewModel.Document.CurveList;
+            curveListUserControl.Visible = _viewModel.Document.CurveList.Visible;
+
             instrumentListUserControl.ViewModel = _viewModel.Document.InstrumentList;
             instrumentListUserControl.Visible = _viewModel.Document.InstrumentList.Visible;
 
-            //effectListUserControl.ViewModel = _viewModel.Effects;
-            //effectListUserControl.Visible = _viewModel.Effects.Visible;
+            effectListUserControl.ViewModel = _viewModel.Document.EffectList;
+            effectListUserControl.Visible = _viewModel.Document.EffectList.Visible;
 
-            _curveListForm.ViewModel = _viewModel.Document.CurveList;
-            _curveListForm.Visible = _viewModel.Document.CurveList.Visible;
+            curveListUserControl.ViewModel = _viewModel.Document.CurveList;
+            curveListUserControl.Visible = _viewModel.Document.CurveList.Visible;
 
-            _patchListForm.ViewModel = _viewModel.Document.PatchList;
-            _patchListForm.Visible = _viewModel.Document.PatchList.Visible;
+            patchListUserControl.ViewModel = _viewModel.Document.PatchList;
+            patchListUserControl.Visible = _viewModel.Document.PatchList.Visible;
 
-            _sampleListForm.ViewModel = _viewModel.Document.SampleList;
-            _sampleListForm.Visible = _viewModel.Document.SampleList.Visible;
+            sampleListUserControl.ViewModel = _viewModel.Document.SampleList;
+            sampleListUserControl.Visible = _viewModel.Document.SampleList.Visible;
 
             _audioFileOutputPropertiesForm.ViewModel = _viewModel.TemporaryAudioFileOutputProperties;
             _audioFileOutputPropertiesForm.Visible = _viewModel.TemporaryAudioFileOutputProperties.Visible;
@@ -766,18 +838,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _documentCannotDeleteForm.ShowDialog(_viewModel.DocumentCannotDelete);
             }
 
-            if (_viewModel.DocumentDetails.ValidationMessages.Count != 0)
+            if (_viewModel.ValidationMessages.Count != 0)
             {
-                MessageBox.Show(String.Join(Environment.NewLine, _viewModel.DocumentDetails.ValidationMessages.Select(x => x.Text)));
+                MessageBox.Show(String.Join(Environment.NewLine, _viewModel.ValidationMessages.Select(x => x.Text)));
             }
 
-            if (_viewModel.Document.DocumentProperties.ValidationMessages.Count > 0)
+            if (_viewModel.PopupMessages.Count != 0)
             {
-                MessageBox.Show(String.Join(Environment.NewLine, _viewModel.Document.DocumentProperties.ValidationMessages.Select(x => x.Text)));
+                MessageBoxHelper.ShowPopupMessages(_viewModel.PopupMessages);
             }
 
-            // TODO: This 'if' is a major hack.
-            if (_viewModel.Document.DocumentProperties.ValidationMessages.Count != 0)
+            // TODO: This 'if' is kind of a hack.
+            if (!_viewModel.Document.DocumentProperties.Successful)
             {
                 documentPropertiesUserControl.Focus();
             }
@@ -794,6 +866,32 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void SetPropertiesPanelVisible(bool visible)
         {
             splitContainerProperties.Panel2Collapsed = !visible;
+        }
+
+        private RepositoryWrapper CreateRepositoryWrapper()
+        {
+            var repositoryWrapper = new RepositoryWrapper
+            (
+                PersistenceHelper.CreateRepository<IDocumentRepository>(_context),
+                PersistenceHelper.CreateRepository<ICurveRepository>(_context),
+                PersistenceHelper.CreateRepository<IPatchRepository>(_context),
+                PersistenceHelper.CreateRepository<ISampleRepository>(_context),
+                PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(_context),
+                PersistenceHelper.CreateRepository<IDocumentReferenceRepository>(_context),
+                PersistenceHelper.CreateRepository<INodeRepository>(_context),
+                PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(_context),
+                PersistenceHelper.CreateRepository<IOperatorRepository>(_context),
+                PersistenceHelper.CreateRepository<IInletRepository>(_context),
+                PersistenceHelper.CreateRepository<IOutletRepository>(_context),
+                PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context),
+                PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(_context),
+                PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(_context),
+                PersistenceHelper.CreateRepository<INodeTypeRepository>(_context),
+                PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(_context),
+                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(_context)
+            );
+
+            return repositoryWrapper;
         }
     }
 }

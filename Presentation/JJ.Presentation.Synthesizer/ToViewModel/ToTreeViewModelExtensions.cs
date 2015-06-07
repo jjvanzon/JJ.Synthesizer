@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
-    internal static class ToDocumentTreeViewModelExtensions
+    internal static class ToTreeViewModelExtensions
     {
         public static DocumentTreeViewModel ToTreeViewModel(this Document document)
         {

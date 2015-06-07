@@ -60,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.SampleDataType = entity.SampleDataType.Name;
             }
 
-            if (viewModel.SpeakerSetup != null)
+            if (entity.SpeakerSetup != null)
             {
                 viewModel.SpeakerSetup = entity.SpeakerSetup.Name;
             }
@@ -258,7 +258,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.SampleDataType = entity.SampleDataType.Name;
             }
 
-            if (viewModel.SpeakerSetup != null)
+            if (entity.SpeakerSetup != null)
             {
                 viewModel.SpeakerSetup = entity.SpeakerSetup.Name;
             }

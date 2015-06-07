@@ -63,14 +63,14 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.DocumentIsDependentOnDocument, dependentDocumentName, dependentOnDocumentName);
         }
 
-        public static string CannotDeleteCurve(string name)
+        public static string CannotDeleteCurveBecauseHasOperators(string name)
         {
-            return String.Format(Messages.CannotDeleteCurve, name);
+            return String.Format(Messages.CannotDeleteCurveBecauseHasOperators, name);
         }
 
-        public static string CannotDeleteSample(string name)
+        public static string CannotDeleteSampleBecauseHasOperators(string name)
         {
-            return String.Format(Messages.CannotDeleteSample, name);
+            return String.Format(Messages.CannotDeleteSampleBecauseHasOperators, name);
         }
 
         public static string CannotDeletePatchBecauseIsMainPatch(string name)

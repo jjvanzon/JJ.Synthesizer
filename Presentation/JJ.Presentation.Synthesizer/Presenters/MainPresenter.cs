@@ -104,7 +104,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentManager = new DocumentManager(repositoryWrapper);
             _patchManager = new PatchManager(_repositoryWrapper.PatchRepository, _repositoryWrapper.OperatorRepository, _repositoryWrapper.InletRepository, _repositoryWrapper.OutletRepository, _repositoryWrapper.EntityPositionRepository);
             _curveManager = new CurveManager(_repositoryWrapper.CurveRepository, _repositoryWrapper.NodeRepository);
-            _sampleManager = new SampleManager(_repositoryWrapper.SampleRepository, _repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository, _repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.InterpolationTypeRepository);
+            _sampleManager = new SampleManager(new SampleRepositories(_repositoryWrapper));
             _audioFileOutputManager = new AudioFileOutputManager(_repositoryWrapper.AudioFileOutputRepository, _repositoryWrapper.AudioFileOutputChannelRepository, repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository, _repositoryWrapper.AudioFileFormatRepository);
             _entityPositionManager = new EntityPositionManager(_repositoryWrapper.EntityPositionRepository);
 
@@ -154,7 +154,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             TemporarilyAssertViewModelField();
 
-            _viewModel.PopupMessages.Clear();
+            _viewModel.PopupMessages = new List<Message> { };
 
             return _viewModel;
         }
@@ -407,24 +407,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return _viewModel;
         }
 
-        public MainViewModel DocumentTreeExpandNode(MainViewModel viewModel, int listIndex)
+        public MainViewModel DocumentTreeExpandNode(MainViewModel viewModel, int nodeIndex)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            object viewModel2 = _documentTreePresenter.ExpandNode(viewModel.Document.DocumentTree, listIndex);
+            object viewModel2 = _documentTreePresenter.ExpandNode(viewModel.Document.DocumentTree, nodeIndex);
 
             DispatchViewModel(viewModel2);
 
             return _viewModel;
         }
 
-        public MainViewModel DocumentTreeCollapseNode(MainViewModel viewModel, int listIndex)
+        public MainViewModel DocumentTreeCollapseNode(MainViewModel viewModel, int nodeIndex)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             TemporarilyAssertViewModelField();
 
-            object viewModel2 = _documentTreePresenter.CollapseNode(viewModel.Document.DocumentTree, listIndex);
+            object viewModel2 = _documentTreePresenter.CollapseNode(viewModel.Document.DocumentTree, nodeIndex);
 
             DispatchViewModel(viewModel2);
 
