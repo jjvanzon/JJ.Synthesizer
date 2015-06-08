@@ -78,10 +78,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (DeleteRequested != null)
             {
-                int? id = TryGetSelectedID();
-                if (id.HasValue)
+                int? listIndex = TryGetSelectedListIndex();
+                if (listIndex.HasValue)
                 {
-                    DeleteRequested(this, new Int32EventArgs(id.Value));
+                    DeleteRequested(this, new Int32EventArgs(listIndex.Value));
                 }
             }
         }
@@ -123,7 +123,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Helpers
 
-        private int? TryGetSelectedID()
+        private int? TryGetSelectedListIndex()
         {
             if (specializedDataGridView.CurrentRow != null)
             {

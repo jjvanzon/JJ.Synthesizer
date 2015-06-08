@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         private const string LIST_INDEX_COLUMN_NAME = "ListIndexColumn";
 
-        public event EventHandler CreateRequested;
+        public event EventHandler<ChildDocumentEventArgs> CreateRequested;
         public event EventHandler<Int32EventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
 
@@ -69,7 +69,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (CreateRequested != null)
             {
-                CreateRequested(this, EventArgs.Empty);
+                var e = new ChildDocumentEventArgs(ViewModel.Keys.ChildDocumentTypeEnum, ViewModel.Keys.ChildDocumentListIndex);
+                CreateRequested(this, e);
             }
         }
 
@@ -77,10 +78,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (DeleteRequested != null)
             {
-                int? id = TryGetSelectedID();
-                if (id.HasValue)
+                int? listIndex = TryGetSelectedListIndex();
+                if (listIndex.HasValue)
                 {
-                    DeleteRequested(this, new Int32EventArgs(id.Value));
+                    DeleteRequested(this, new Int32EventArgs(listIndex.Value));
                 }
             }
         }
@@ -122,7 +123,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Helpers
 
-        private int? TryGetSelectedID()
+        private int? TryGetSelectedListIndex()
         {
             if (specializedDataGridView.CurrentRow != null)
             {

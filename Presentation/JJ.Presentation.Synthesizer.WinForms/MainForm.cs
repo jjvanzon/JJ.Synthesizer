@@ -354,9 +354,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void CurveCreate()
+        private void CurveCreate(ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
-            _viewModel = _presenter.CurveCreate(_viewModel, null, null);
+            _viewModel = _presenter.CurveCreate(_viewModel, childDocumentTypeEnum, childDocumentListIndex);
             ApplyViewModel();
         }
 
@@ -426,9 +426,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void PatchCreate()
+        private void PatchCreate(ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
-            _viewModel = _presenter.PatchCreate(_viewModel, null, null); // TODO: Also allow executing the action on a child document's lists.
+            _viewModel = _presenter.PatchCreate(_viewModel, childDocumentTypeEnum, childDocumentListIndex);
             ApplyViewModel();
         }
 
@@ -473,9 +473,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void SampleCreate()
+        private void SampleCreate(ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
-            _viewModel = _presenter.SampleCreate(_viewModel, null, null); // TODO: Also allow executing the action on a child document's lists.
+            _viewModel = _presenter.SampleCreate(_viewModel, childDocumentTypeEnum, childDocumentListIndex);
             ApplyViewModel();
         }
 
@@ -484,8 +484,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _viewModel = _presenter.SampleDelete(_viewModel, listIndex);
             ApplyViewModel();
         }
-
-        // Events
 
         // Menu Events
 
@@ -642,9 +640,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Curve Events
 
-        private void curveListUserControl_CreateRequested(object sender, EventArgs e)
+        private void curveListUserControl_CreateRequested(object sender, ChildDocumentEventArgs e)
         {
-            CurveCreate();
+            CurveCreate(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
         }
 
         private void curveListUserControl_DeleteRequested(object sender, Int32EventArgs e)
@@ -693,9 +691,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Sample Events
 
-        private void sampleListUserControl_CreateRequested(object sender, EventArgs e)
+        private void sampleListUserControl_CreateRequested(object sender, ChildDocumentEventArgs e)
         {
-            SampleCreate();
+            SampleCreate(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
         }
 
         private void sampleListUserControl_DeleteRequested(object sender, Int32EventArgs e)
@@ -710,9 +708,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Patch Events
 
-        private void patchListUserControl_CreateRequested(object sender, EventArgs e)
+        private void patchListUserControl_CreateRequested(object sender, ChildDocumentEventArgs e)
         {
-            PatchCreate();
+            PatchCreate(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
         }
 
         private void patchListUserControl_DeleteRequested(object sender, Int32EventArgs e)
@@ -805,7 +803,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     CurveListViewModel visibleCurveListViewModel = Enumerable.Union(_viewModel.Document.InstrumentDocumentList.Select(x => x.CurveList),
                                                                                     _viewModel.Document.EffectDocumentList.Select(x => x.CurveList))
                                                                              .Where(x => x.Visible)
-                                                                             .FirstOrDefault();
+                                                                             .SingleOrDefault();
                     if (visibleCurveListViewModel != null)
                     {
                         curveListUserControl.ViewModel = visibleCurveListViewModel;
@@ -832,7 +830,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     PatchListViewModel visiblePatchListViewModel = Enumerable.Union(_viewModel.Document.InstrumentDocumentList.Select(x => x.PatchList),
                                                                                     _viewModel.Document.EffectDocumentList.Select(x => x.PatchList))
                                                                              .Where(x => x.Visible)
-                                                                             .FirstOrDefault();
+                                                                             .SingleOrDefault();
                     if (visiblePatchListViewModel != null)
                     {
                         patchListUserControl.ViewModel = visiblePatchListViewModel;
@@ -852,8 +850,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 {
                     SampleListViewModel visibleSampleListViewModel = Enumerable.Union(_viewModel.Document.InstrumentDocumentList.Select(x => x.SampleList),
                                                                                     _viewModel.Document.EffectDocumentList.Select(x => x.SampleList))
-                                                                             .Where(x => x.Visible)
-                                                                             .FirstOrDefault();
+                                                                               .Where(x => x.Visible)
+                                                                               .SingleOrDefault();
                     if (visibleSampleListViewModel != null)
                     {
                         sampleListUserControl.ViewModel = visibleSampleListViewModel;

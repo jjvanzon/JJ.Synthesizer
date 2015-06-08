@@ -3,6 +3,8 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,27 +22,40 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return document.AsInstrumentInDocument ?? document.AsEffectInDocument ?? document;
         }
 
-        public static Document TryGetParentDocument(Document document)
+        public static Document GetParentDocument(Document childDocument)
         {
-            if (document == null) throw new NullException(() => document);
+            Document parentDocument = TryGetParentDocument(childDocument);
+            if (parentDocument == null)
+            {
+                throw new Exception("Either document.AsInstrumentInDocument or document.AsEffectInDocument must be filled in.");
+            }
+            return parentDocument;
+        }
 
-            return document.AsInstrumentInDocument ?? document.AsEffectInDocument;
+        public static Document TryGetParentDocument(Document childDocument)
+        {
+            if (childDocument == null) throw new NullException(() => childDocument);
+
+            return childDocument.AsInstrumentInDocument ?? childDocument.AsEffectInDocument;
         }
 
         public static int GetParentDocumentID(Document childDocument)
         {
             if (childDocument == null) throw new NullException(() => childDocument);
 
-            if (childDocument.AsInstrumentInDocument != null)
+            return GetParentDocument(childDocument).ID;
+        }
+
+        public static ChildDocumentTypeEnum GetChildDocumentTypeEnum(Document childDocument)
+        {
+            ChildDocumentTypeEnum? value = TryGetChildDocumentTypeEnum(childDocument);
+
+            if (!value.HasValue)
             {
-                return childDocument.AsInstrumentInDocument.ID;
-            }
-            else if (childDocument.AsEffectInDocument != null)
-            {
-                return childDocument.AsEffectInDocument.ID;
+                throw new Exception("Either document.AsInstrumentInDocument or document.AsEffectInDocument must be filled in.");
             }
 
-            throw new Exception("Either document.AsInstrumentInDocument or document.AsEffectInDocument must be filled in.");
+            return value.Value;
         }
 
         public static ChildDocumentTypeEnum? TryGetChildDocumentTypeEnum(Document document)
@@ -59,18 +74,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return null;
         }
 
-        public static ChildDocumentTypeEnum GetChildDocumentTypeEnum(Document childDocument)
-        {
-            ChildDocumentTypeEnum? value = TryGetChildDocumentTypeEnum(childDocument);
-
-            if (!value.HasValue)
-            {
-                throw new Exception("Either document.AsInstrumentInDocument or document.AsEffectInDocument must be filled in.");
-            }
-
-            return value.Value;
-        }
-
         public static IList<Document> GetChildDocuments(Document parentDocument, ChildDocumentTypeEnum childDocumentTypeEnum)
         {
             switch (childDocumentTypeEnum)
@@ -85,7 +88,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                     throw new ValueNotSupportedException(childDocumentTypeEnum);
             }
         }
- 
+
         public static Document TryGetDocument(int documentID, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex, IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
@@ -121,5 +124,167 @@ namespace JJ.Presentation.Synthesizer.Helpers
                     throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
             }
         }
-   }
+
+        public static SampleListViewModel GetSampleListViewModel(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            if (childDocumentTypeEnum.HasValue != childDocumentListIndex.HasValue)
+            {
+                throw new Exception("Both childDocumentTypeEnum and childDocumentListIndex must be filled in or both should not be filled in.");
+            }
+
+            if (!childDocumentTypeEnum.HasValue)
+            {
+                return documentViewModel.SampleList;
+            }
+            else
+            {
+                switch (childDocumentTypeEnum.Value)
+                {
+                    case ChildDocumentTypeEnum.Instrument:
+                        return documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].SampleList;
+
+                    case ChildDocumentTypeEnum.Effect:
+                        return documentViewModel.EffectDocumentList[childDocumentListIndex.Value].SampleList;
+
+                    default:
+                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
+                }
+            }
+        }
+
+        public static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            if (childDocumentTypeEnum.HasValue != childDocumentListIndex.HasValue)
+            {
+                throw new Exception("Both childDocumentTypeEnum and childDocumentListIndex must be filled in or both should not be filled in.");
+            }
+
+            if (!childDocumentTypeEnum.HasValue)
+            {
+                return documentViewModel.SamplePropertiesList;
+            }
+            else
+            {
+                switch (childDocumentTypeEnum.Value)
+                {
+                    case ChildDocumentTypeEnum.Instrument:
+                        return documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].SamplePropertiesList;
+
+                    case ChildDocumentTypeEnum.Effect:
+                        return documentViewModel.EffectDocumentList[childDocumentListIndex.Value].SamplePropertiesList;
+
+                    default:
+                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
+                }
+            }
+        }
+
+        public static CurveListViewModel GetCurveListViewModel(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            if (childDocumentTypeEnum.HasValue != childDocumentListIndex.HasValue)
+            {
+                throw new Exception("Both childDocumentTypeEnum and childDocumentListIndex must be filled in or both should not be filled in.");
+            }
+
+            if (!childDocumentTypeEnum.HasValue)
+            {
+                return documentViewModel.CurveList;
+            }
+            else
+            {
+                switch (childDocumentTypeEnum.Value)
+                {
+                    case ChildDocumentTypeEnum.Instrument:
+                        return documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].CurveList;
+
+                    case ChildDocumentTypeEnum.Effect:
+                        return documentViewModel.EffectDocumentList[childDocumentListIndex.Value].CurveList;
+
+                    default:
+                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
+                }
+            }
+        }
+
+        public static IList<CurveDetailsViewModel> GetCurveDetailsViewModels(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            if (childDocumentTypeEnum.HasValue != childDocumentListIndex.HasValue)
+            {
+                throw new Exception("Both childDocumentTypeEnum and childDocumentListIndex must be filled in or both should not be filled in.");
+            }
+
+            if (!childDocumentTypeEnum.HasValue)
+            {
+                return documentViewModel.CurveDetailsList;
+            }
+            else
+            {
+                switch (childDocumentTypeEnum.Value)
+                {
+                    case ChildDocumentTypeEnum.Instrument:
+                        return documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].CurveDetailsList;
+
+                    case ChildDocumentTypeEnum.Effect:
+                        return documentViewModel.EffectDocumentList[childDocumentListIndex.Value].CurveDetailsList;
+
+                    default:
+                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
+                }
+            }
+        }
+
+        public static PatchListViewModel GetPatchListViewModel(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            if (childDocumentTypeEnum.HasValue != childDocumentListIndex.HasValue)
+            {
+                throw new Exception("Both childDocumentTypeEnum and childDocumentListIndex must be filled in or both should not be filled in.");
+            }
+
+            if (!childDocumentTypeEnum.HasValue)
+            {
+                return documentViewModel.PatchList;
+            }
+            else
+            {
+                switch (childDocumentTypeEnum.Value)
+                {
+                    case ChildDocumentTypeEnum.Instrument:
+                        return documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].PatchList;
+
+                    case ChildDocumentTypeEnum.Effect:
+                        return documentViewModel.EffectDocumentList[childDocumentListIndex.Value].PatchList;
+
+                    default:
+                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
+                }
+            }
+        }
+
+        public static IList<PatchDetailsViewModel> GetPatchDetailsViewModels(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            if (childDocumentTypeEnum.HasValue != childDocumentListIndex.HasValue)
+            {
+                throw new Exception("Both childDocumentTypeEnum and childDocumentListIndex must be filled in or both should not be filled in.");
+            }
+
+            if (!childDocumentTypeEnum.HasValue)
+            {
+                return documentViewModel.PatchDetailsList;
+            }
+            else
+            {
+                switch (childDocumentTypeEnum.Value)
+                {
+                    case ChildDocumentTypeEnum.Instrument:
+                        return documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].PatchDetailsList;
+
+                    case ChildDocumentTypeEnum.Effect:
+                        return documentViewModel.EffectDocumentList[childDocumentListIndex.Value].PatchDetailsList;
+
+                    default:
+                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
+                }
+            }
+        }
+    }
 }
