@@ -241,7 +241,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Keys = new SampleKeysViewModel
                 {
                     ID = entity.ID,
-                    DocumentID = rootDocument.ID,
+                    RootDocumentID = rootDocument.ID,
                     ListIndex = listIndex,
                     ChildDocumentTypeEnum = childDocumentTypeEnum,
                     ChildDocumentListIndex = childDocumentListIndex

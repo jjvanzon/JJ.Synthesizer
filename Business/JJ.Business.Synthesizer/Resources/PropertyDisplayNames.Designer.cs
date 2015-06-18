@@ -79,6 +79,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Amplifier.
+        /// </summary>
+        public static string Amplifier {
+            get {
+                return ResourceManager.GetString("Amplifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Audio File Format.
         /// </summary>
         public static string AudioFileFormat {
@@ -106,11 +115,29 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bytes to Skip.
+        /// </summary>
+        public static string BytesToSkip {
+            get {
+                return ResourceManager.GetString("BytesToSkip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Channel.
         /// </summary>
         public static string Channel {
             get {
                 return ResourceManager.GetString("Channel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Channels.
+        /// </summary>
+        public static string Channels {
+            get {
+                return ResourceManager.GetString("Channels", resourceCulture);
             }
         }
         
@@ -255,6 +282,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string IsActive {
             get {
                 return ResourceManager.GetString("IsActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Location.
+        /// </summary>
+        public static string Location {
+            get {
+                return ResourceManager.GetString("Location", resourceCulture);
             }
         }
         
@@ -453,6 +489,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string SpeakerSetup {
             get {
                 return ResourceManager.GetString("SpeakerSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Time.
+        /// </summary>
+        public static string StartTime {
+            get {
+                return ResourceManager.GetString("StartTime", resourceCulture);
             }
         }
         

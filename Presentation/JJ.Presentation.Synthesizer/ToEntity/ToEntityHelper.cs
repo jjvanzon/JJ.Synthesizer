@@ -83,9 +83,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
-        /// <summary>
-        /// TODO: Does not use all repositories out of the RepositoryWrapper.
-        /// </summary>
         public static void ToSamples(IList<SamplePropertiesViewModel> viewModelList, Document destDocument, SampleRepositories sampleRepositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
@@ -96,7 +93,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (SamplePropertiesViewModel viewModel in viewModelList)
             {
-                Sample entity = viewModel.Sample.ToEntity(sampleRepositories);
+                Sample entity = viewModel.Entity.ToEntity(sampleRepositories);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -206,8 +203,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (AudioFileOutputPropertiesViewModel viewModel in viewModelList)
             {
-                AudioFileOutput entity = viewModel.AudioFileOutput.ToEntityWithRelatedEntities(audioFileOutputRepositories);
-
+                AudioFileOutput entity = viewModel.Entity.ToEntityWithRelatedEntities(audioFileOutputRepositories);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))

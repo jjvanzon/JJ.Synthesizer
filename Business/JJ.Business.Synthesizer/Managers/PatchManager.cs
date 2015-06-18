@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Managers
             }
         }
 
-        public VoidResult DeletePatchWithRelatedEntities(Patch patch)
+        public VoidResult DeleteWithRelatedEntities(Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 

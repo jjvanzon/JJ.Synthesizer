@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             for (int i = startIndex; i < list.Count; i++)
             {
-                list[i].AudioFileOutput.Keys.ListIndex = i;
+                list[i].Entity.Keys.ListIndex = i;
             }
         }
 
@@ -118,7 +118,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             for (int i = startIndex; i < list.Count; i++)
             {
-                list[i].Sample.Keys.ListIndex = i;
+                list[i].Entity.Keys.ListIndex = i;
             }
         }
 

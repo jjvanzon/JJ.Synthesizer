@@ -81,7 +81,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-
         private void LoseFocus()
         {
             if (LoseFocusRequested != null)
@@ -98,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             Close();
         }
 
-        private void DocumentDetailsUserControl_VisibleChanged(object sender, EventArgs e)
+        private void DocumentPropertiesUserControl_VisibleChanged(object sender, EventArgs e)
         {
             if (Visible)
             {
@@ -119,7 +118,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             // This Visible check is there because the leave event (lose focus) goes off after I closed, 
             // making it want to save again, even though view model is empty
-            // which makes it say that Name is required.
+            // which makes it say that now clear fields are required.
             if (Visible) 
             {
                 LoseFocus();

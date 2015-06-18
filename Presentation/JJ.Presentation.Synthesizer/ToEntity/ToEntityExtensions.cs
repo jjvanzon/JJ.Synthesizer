@@ -24,19 +24,19 @@ namespace JJ.Presentation.Synthesizer.ToEntity
     {
         // Document
 
-        public static Document ToEntityWithRelatedEntities(this DocumentViewModel sourceViewModel, RepositoryWrapper repositoryWrapper)
+        public static Document ToEntityWithRelatedEntities(this DocumentViewModel userInput, RepositoryWrapper repositoryWrapper)
         {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (userInput == null) throw new NullException(() => userInput);
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
-            Document destDocument = sourceViewModel.ToEntity(repositoryWrapper.DocumentRepository);
+            Document destDocument = userInput.ToEntity(repositoryWrapper.DocumentRepository);
 
-            ToEntityHelper.ToInstrumentsWithRelatedEntities(sourceViewModel.InstrumentDocumentList, destDocument, repositoryWrapper);
-            ToEntityHelper.ToEffectsWithRelatedEntities(sourceViewModel.EffectDocumentList, destDocument, repositoryWrapper);
-            ToEntityHelper.ToSamples(sourceViewModel.SamplePropertiesList, destDocument, new SampleRepositories(repositoryWrapper));
-            ToEntityHelper.ToCurvesWithRelatedEntities(sourceViewModel.CurveDetailsList, destDocument, repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
-            ToEntityHelper.ToPatchesWithRelatedEntities(sourceViewModel.PatchDetailsList, destDocument, repositoryWrapper);
-            ToEntityHelper.ToAudioFileOutputsWithRelatedEntities(sourceViewModel.AudioFileOutputPropertiesList, destDocument, new AudioFileOutputRepositories(repositoryWrapper));
+            ToEntityHelper.ToInstrumentsWithRelatedEntities(userInput.InstrumentDocumentList, destDocument, repositoryWrapper);
+            ToEntityHelper.ToEffectsWithRelatedEntities(userInput.EffectDocumentList, destDocument, repositoryWrapper);
+            ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositoryWrapper));
+            ToEntityHelper.ToCurvesWithRelatedEntities(userInput.CurveDetailsList, destDocument, repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
+            ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, repositoryWrapper);
+            ToEntityHelper.ToAudioFileOutputsWithRelatedEntities(userInput.AudioFileOutputPropertiesList, destDocument, new AudioFileOutputRepositories(repositoryWrapper));
 
             return destDocument;
         }
@@ -120,15 +120,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (documentRepository == null) throw new NullException(() => documentRepository);
 
-            Document document = documentRepository.TryGet(viewModel.Keys.ID);
-            if (document == null)
+            Document childDocument = documentRepository.TryGet(viewModel.Keys.ID);
+            if (childDocument == null)
             {
-                document = documentRepository.Create();
+                childDocument = documentRepository.Create();
             }
 
-            document.Name = viewModel.Name;
+            childDocument.Name = viewModel.Name;
 
-            return document;
+            return childDocument;
         }
 
         // Sample
@@ -138,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
 
-            return viewModel.Sample.ToEntity(sampleRepositories);
+            return viewModel.Entity.ToEntity(sampleRepositories);
         }
 
         public static Sample ToEntity(this SampleViewModel viewModel, SampleRepositories sampleRepositories)
@@ -178,6 +178,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             {
                 sample.SpeakerSetup = sampleRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
             }
+
+            // TODO: This is not right, but the outcommented code does not work either.
+            //sample.Document = sampleRepositories.DocumentRepository.TryGet(viewModel.Keys.DocumentID);
+
+            //Document document = ChildDocumentHelper.GetRootDocumentOrChildDocument(viewModel.Keys.DocumentID, viewModel.Keys.ChildDocumentTypeEnum, viewModel.Keys.ChildDocumentListIndex, sampleRepositories.DocumentRepository);
+            //sample.LinkTo(document);
 
             return sample;
         }
@@ -245,7 +251,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static AudioFileOutput ToEntityWithRelatedEntities(this AudioFileOutputPropertiesViewModel viewModel, AudioFileOutputRepositories audioFileOutputRepositories)
         {
-            return viewModel.AudioFileOutput.ToEntityWithRelatedEntities(audioFileOutputRepositories);
+            return viewModel.Entity.ToEntityWithRelatedEntities(audioFileOutputRepositories);
         }
 
         public static AudioFileOutput ToEntityWithRelatedEntities(this AudioFileOutputViewModel sourceViewModel, AudioFileOutputRepositories audioFileOutputRepositories)
@@ -292,6 +298,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             {
                 audioFileOutput.SpeakerSetup = audioFileOutputRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
             }
+
+            //audioFileOutput.Document = audioFileOutputRepositories.DocumentRepository.TryGet(viewModel.Keys.DocumentID);
 
             return audioFileOutput;
         }

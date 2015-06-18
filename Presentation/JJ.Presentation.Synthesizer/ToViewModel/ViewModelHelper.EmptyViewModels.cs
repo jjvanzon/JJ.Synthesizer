@@ -34,7 +34,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentDeleted = CreateEmptyDocumentDeletedViewModel(),
                 DocumentDetails = CreateEmptyDocumentDetailsViewModel(),
                 DocumentList = CreateEmptyDocumentListViewModel(),
-                TemporaryAudioFileOutputProperties = CreateEmptyAudioFileOutputPropertiesViewModel(),
                 TemporaryPatchDetails = CreateEmptyPatchDetailsViewModel()
             };
         }
@@ -250,7 +249,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioFileFormats = ViewModelHelper.CreateAudioFileFormatLookupViewModel(audioFileFormatRepository),
                 SampleDataTypes = ViewModelHelper.CreateSampleDataTypeLookupViewModel(sampleDataTypeRepository),
                 SpeakerSetups = ViewModelHelper.CreateSpeakerSetupLookupViewModel(speakerSetupRepository),
-                OutletLookup = new List<IDAndName>()
+                OutletLookup = new List<IDAndName>(),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -264,6 +264,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SampleDataTypes = new List<IDAndName>(),
                 SpeakerSetups = new List<IDAndName>(),
                 OutletLookup = new List<IDAndName>(),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;

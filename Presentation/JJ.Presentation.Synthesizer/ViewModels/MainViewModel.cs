@@ -38,8 +38,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 
         // Temporary View Models
 
-        /// <summary> Temporary. It will be a list of AudioFileOutputPropertiesViewModels later. </summary>
-        public AudioFileOutputPropertiesViewModel TemporaryAudioFileOutputProperties { get; set; }
         /// <summary> Temporary. It will be a list of PatchDetailsViewModels later. </summary>
         public PatchDetailsViewModel TemporaryPatchDetails { get; set; }
     }

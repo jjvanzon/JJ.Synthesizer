@@ -10,6 +10,7 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public class AudioFileOutputRepositories
     {
+        public IDocumentRepository DocumentRepository { get; private set; }
         public IAudioFileOutputRepository AudioFileOutputRepository { get; private set; }
         public IAudioFileFormatRepository AudioFileFormatRepository { get; private set; }
         public ISampleDataTypeRepository SampleDataTypeRepository { get; private set; }
@@ -21,6 +22,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
+            DocumentRepository = repositoryWrapper.DocumentRepository;
             AudioFileOutputRepository = repositoryWrapper.AudioFileOutputRepository;
             AudioFileFormatRepository = repositoryWrapper.AudioFileFormatRepository;
             SampleDataTypeRepository = repositoryWrapper.SampleDataTypeRepository;
@@ -30,6 +32,7 @@ namespace JJ.Business.Synthesizer.Helpers
         }
 
         public AudioFileOutputRepositories(
+            IDocumentRepository documentRepository,
             IAudioFileOutputRepository audioFileOutputRepository,
             IAudioFileFormatRepository audioFileFormatRepository,
             ISampleDataTypeRepository sampleDataTypeRepository,
@@ -37,6 +40,7 @@ namespace JJ.Business.Synthesizer.Helpers
             IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
             IOutletRepository outletRepository)
         {
+            if (documentRepository == null) throw new NullException(() => documentRepository);
             if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
             if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
@@ -44,6 +48,8 @@ namespace JJ.Business.Synthesizer.Helpers
             if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
 
+            DocumentRepository = documentRepository;
+            AudioFileOutputRepository = audioFileOutputRepository;
             AudioFileOutputRepository = audioFileOutputRepository;
             AudioFileFormatRepository = audioFileFormatRepository;
             SampleDataTypeRepository = sampleDataTypeRepository;

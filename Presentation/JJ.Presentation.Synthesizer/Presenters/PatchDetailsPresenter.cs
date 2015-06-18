@@ -69,12 +69,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         public PatchDetailsViewModel Create(
-            int listIndex,
-            int? childDocumentListIndex)
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int listIndex)
         {
             Patch patch = _patchRepository.Create();
 
-            ViewModel = patch.ToDetailsViewModel(listIndex, childDocumentListIndex, _entityPositionManager);
+            ViewModel = patch.ToDetailsViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, listIndex, _entityPositionManager);
             ViewModel.Visible = true;
 
             return ViewModel;
@@ -82,14 +84,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public PatchDetailsViewModel Edit(
             int patchID,
-            int listIndex,
-            int? childDocumentListIndex)
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int listIndex)
         {
             // TODO: This action should receive a view model with user input.
 
             Patch patch = _patchRepository.Get(patchID);
 
-            ViewModel = patch.ToDetailsViewModel(listIndex, childDocumentListIndex, _entityPositionManager);
+            ViewModel = patch.ToDetailsViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, listIndex, _entityPositionManager);
 
             ViewModel.Visible = true;
 
@@ -392,8 +396,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private PatchDetailsViewModel CreateViewModel(Patch entity, PatchDetailsViewModel userInput)
         {
             PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
-                userInput.Patch.Keys.ListIndex,
+                userInput.Patch.Keys.RootDocumentID,
+                userInput.Patch.Keys.ChildDocumentTypeEnum,
                 userInput.Patch.Keys.ChildDocumentListIndex,
+                userInput.Patch.Keys.ListIndex,
                 _entityPositionManager);
 
             return viewModel;

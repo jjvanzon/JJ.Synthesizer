@@ -57,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return ViewModel;
         }
 
-        public ChildDocumentPropertiesViewModel LooseFocus(ChildDocumentPropertiesViewModel userInput)
+        public ChildDocumentPropertiesViewModel LoseFocus(ChildDocumentPropertiesViewModel userInput)
         {
             ViewModel = Update(userInput);
 
@@ -83,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                ViewModel.ValidationMessages = new Message[0];
+                ViewModel.ValidationMessages = new List<Message>();
                 ViewModel.Successful = false;
             }
 

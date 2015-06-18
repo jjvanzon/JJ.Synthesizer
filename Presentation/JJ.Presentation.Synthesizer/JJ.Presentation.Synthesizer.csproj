@@ -54,7 +54,7 @@
     <Compile Include="ToEntity\ToEntityHelper.cs" />
     <Compile Include="ToViewModel\ToTreeViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListItemViewModelExtensions.cs" />
-    <Compile Include="ToViewModel\ToViewModelExtensions.cs" />
+    <Compile Include="ToViewModel\ToScreenViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.Lookups.cs" />
     <Compile Include="ToViewModel\ToListViewModelExtensions.cs" />
@@ -83,7 +83,7 @@
     <Compile Include="ToEntity\ToEntityExtensions.cs" />
     <Compile Include="ToViewModel\ToIDAndNameExtensions.cs" />
     <Compile Include="ToViewModel\ToPatchDetailsViewModelExtensions.cs" />
-    <Compile Include="ToViewModel\ToEntityViewModelExtensions.cs" />
+    <Compile Include="ToViewModel\ToViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.EmptyViewModels.cs" />
     <Compile Include="ViewModels\AudioFileOutputPropertiesViewModel.cs" />
     <Compile Include="ViewModels\AudioFileOutputListViewModel.cs" />

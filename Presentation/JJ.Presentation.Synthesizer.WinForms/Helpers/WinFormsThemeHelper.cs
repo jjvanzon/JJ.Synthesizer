@@ -13,13 +13,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 
         static WinFormsThemeHelper()
         {
-            _defaultFont = new Font("Verdana", 12);
+            DefaultFont = new Font("Verdana", 12);
+            DefaultSpacing = 4;
         }
 
-        private static Font _defaultFont;
-        public static Font DefaultFont
-        {
-            get { return _defaultFont; }
-        }
+        public static Font DefaultFont { get; private set; }
+        public static int DefaultSpacing { get; private set; }
     }
 }

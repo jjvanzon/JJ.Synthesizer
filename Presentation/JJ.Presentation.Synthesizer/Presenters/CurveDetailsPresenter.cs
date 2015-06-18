@@ -66,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return ViewModel;
         }
 
-        public CurveDetailsViewModel LooseFocus(CurveDetailsViewModel userInput)
+        public CurveDetailsViewModel LoseFocus(CurveDetailsViewModel userInput)
         {
             ViewModel = Update(userInput);
 
@@ -92,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                ViewModel.ValidationMessages = new Message[0];
+                ViewModel.ValidationMessages = new List<Message>();
                 ViewModel.Successful = false;
             }
 
@@ -111,8 +111,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private CurveDetailsViewModel CreateViewModel(Curve entity, CurveDetailsViewModel userInput)
         {
             CurveDetailsViewModel viewModel = entity.ToDetailsViewModel(
-                userInput.Curve.Keys.ListIndex,
+                userInput.Curve.Keys.RootDocumentID,
+                userInput.Curve.Keys.ChildDocumentTypeEnum,
                 userInput.Curve.Keys.ChildDocumentListIndex,
+                userInput.Curve.Keys.ListIndex,
                 _nodeTypeRepository);
 
             return viewModel;

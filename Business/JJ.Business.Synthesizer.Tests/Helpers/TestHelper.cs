@@ -41,6 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public static SampleManager CreateSampleManager(IContext context)
         {
             var sampleRepositories = new SampleRepositories(
+                PersistenceHelper.CreateRepository<IDocumentRepository>(context),
                 PersistenceHelper.CreateRepository<ISampleRepository>(context),
                 PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context),
                 PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context),

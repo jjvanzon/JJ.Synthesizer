@@ -26,8 +26,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private const string LIST_INDEX_COLUMN_NAME = "ListIndexColumn";
 
         public event EventHandler<ChildDocumentEventArgs> CreateRequested;
-        public event EventHandler<Int32EventArgs> DeleteRequested;
+        public event EventHandler<ChildDocumentSubListItemEventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
+        public event EventHandler<ChildDocumentSubListItemEventArgs> ShowPropertiesRequested;
 
         /// <summary> virtually not nullable </summary>
         private SampleListViewModel _viewModel;
@@ -66,7 +67,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModel()
         {
-            specializedDataGridView.DataSource = _viewModel.List.Select(x => new 
+            specializedDataGridView.DataSource = _viewModel.List.Select(x => new
             {
                 x.Keys.ListIndex,
                 x.Name,
@@ -96,7 +97,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 int? listIndex = TryGetSelectedListIndex();
                 if (listIndex.HasValue)
                 {
-                    DeleteRequested(this, new Int32EventArgs(listIndex.Value));
+                    var e = new ChildDocumentSubListItemEventArgs(listIndex.Value, ViewModel.Keys.ChildDocumentTypeEnum, ViewModel.Keys.ChildDocumentListIndex);
+                    DeleteRequested(this, e);
                 }
             }
         }
@@ -106,6 +108,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (CloseRequested != null)
             {
                 CloseRequested(this, EventArgs.Empty);
+            }
+        }
+
+        private void ShowProperties()
+        {
+            if (ShowPropertiesRequested != null)
+            {
+                int? listIndex = TryGetSelectedListIndex();
+                if (listIndex.HasValue)
+                {
+                    var e = new ChildDocumentSubListItemEventArgs(listIndex.Value, ViewModel.Keys.ChildDocumentTypeEnum, ViewModel.Keys.ChildDocumentListIndex);
+                    ShowPropertiesRequested(this, e);
+                }
             }
         }
 
@@ -134,6 +149,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     Delete();
                     break;
             }
+        }
+
+        private void specializedDataGridView_DoubleClick(object sender, EventArgs e)
+        {
+            ShowProperties();
         }
 
         // Helpers

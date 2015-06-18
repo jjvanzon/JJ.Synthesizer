@@ -48,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private MainViewModel _viewModel;
 
         private DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
-        private AudioFileOutputPropertiesForm _audioFileOutputPropertiesForm = new AudioFileOutputPropertiesForm();
+        //private AudioFileOutputPropertiesForm _audioFileOutputPropertiesForm = new AudioFileOutputPropertiesForm();
         private PatchDetailsForm _patchDetailsForm = new PatchDetailsForm();
 
         private static string _titleBarExtraText;
@@ -103,6 +103,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioFileOutputListUserControl.CloseRequested += audioFileOutputListUserControl_CloseRequested;
             audioFileOutputListUserControl.CreateRequested += audioFileOutputListUserControl_CreateRequested;
             audioFileOutputListUserControl.DeleteRequested += audioFileOutputListUserControl_DeleteRequested;
+            audioFileOutputListUserControl.ShowPropertiesRequested += audioFileOutputListUserControl_ShowPropertiesRequested;
+            audioFileOutputPropertiesUserControl.CloseRequested += audioFileOutputPropertiesUserControl_CloseRequested;
+            audioFileOutputPropertiesUserControl.LoseFocusRequested += audioFileOutputPropertiesUserControl_LoseFocusRequested;
             curveListUserControl.CloseRequested += curveListUserControl_CloseRequested;
             curveListUserControl.CreateRequested += curveListUserControl_CreateRequested;
             curveListUserControl.DeleteRequested += curveListUserControl_DeleteRequested;
@@ -118,6 +121,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             sampleListUserControl.CloseRequested += sampleListUserControl_CloseRequested;
             sampleListUserControl.CreateRequested += sampleListUserControl_CreateRequested;
             sampleListUserControl.DeleteRequested += sampleListUserControl_DeleteRequested;
+            sampleListUserControl.ShowPropertiesRequested += sampleListUserControl_ShowPropertiesRequested;
+            samplePropertiesUserControl.CloseRequested += samplePropertiesUserControl_CloseRequested;
+            samplePropertiesUserControl.LoseFocusRequested += samplePropertiesUserControl_LoseFocusRequested;
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
 
@@ -130,6 +136,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             MessageBoxHelper.DocumentDeleteCanceled += MessageBoxHelper_DocumentDeleteCanceled;
             MessageBoxHelper.DocumentDeletedOK += MessageBoxHelper_DocumentDeletedOK;
             MessageBoxHelper.PopupMessagesOK += MessageBoxHelper_PopupMessagesOK;
+
+            ApplyStyling();
 
             Open();
         }
@@ -322,15 +330,21 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void AudioFileOutputPropertiesEdit(int id)
+        private void AudioFileOutputPropertiesShow(int listIndex)
         {
-            _viewModel = _presenter.AudioFileOutputPropertiesEdit(_viewModel, id);
+            _viewModel = _presenter.AudioFileOutputPropertiesShow(_viewModel, listIndex);
             ApplyViewModel();
         }
 
-        private void AudioFileOutputPropertiesClose()
+        private void AudioFileOutputPropertiesClose(int listIndex)
         {
-            _viewModel = _presenter.AudioFileOutputPropertiesClose(_viewModel, listIndex: 0); // TODO: Use the right ListIndex.
+            _viewModel = _presenter.AudioFileOutputPropertiesClose(_viewModel, listIndex);
+            ApplyViewModel();
+        }
+
+        private void AudioFileOutputPropertiesLoseFocus(int listIndex)
+        {
+            _viewModel = _presenter.AudioFileOutputPropertiesLoseFocus(_viewModel, listIndex);
             ApplyViewModel();
         }
 
@@ -348,15 +362,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void CurveDelete(int listIndex)
-        {
-            _viewModel = _presenter.CurveDelete(_viewModel, listIndex);
-            ApplyViewModel();
-        }
-
         private void CurveCreate(ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
             _viewModel = _presenter.CurveCreate(_viewModel, childDocumentTypeEnum, childDocumentListIndex);
+            ApplyViewModel();
+        }
+
+        private void CurveDelete(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            _viewModel = _presenter.CurveDelete(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
             ApplyViewModel();
         }
 
@@ -432,9 +446,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void PatchDelete(int listIndex)
+        private void PatchDelete(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
-            _viewModel = _presenter.PatchDelete(_viewModel, listIndex);
+            _viewModel = _presenter.PatchDelete(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
             ApplyViewModel();
         }
 
@@ -479,9 +493,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void SampleDelete(int listIndex)
+        private void SampleDelete(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
-            _viewModel = _presenter.SampleDelete(_viewModel, listIndex);
+            _viewModel = _presenter.SampleDelete(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
+            ApplyViewModel();
+        }
+
+        private void SamplePropertiesShow(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            _viewModel = _presenter.SamplePropertiesShow(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
+            ApplyViewModel();
+        }
+
+        private void SamplePropertiesClose(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            _viewModel = _presenter.SamplePropertiesClose(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
+            ApplyViewModel();
+        }
+
+        private void SamplePropertiesLoseFocus(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            _viewModel = _presenter.SamplePropertiesLoseFocus(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
             ApplyViewModel();
         }
 
@@ -500,7 +532,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void menuUserControl_AudioFileOutputEditRequested(object sender, EventArgs e)
         {
             int dummyID = 0;
-            AudioFileOutputPropertiesEdit(dummyID);
+            AudioFileOutputPropertiesShow(dummyID);
         }
 
         private void menuUserControl_PatchDetailsRequested(object sender, EventArgs e)
@@ -638,6 +670,21 @@ namespace JJ.Presentation.Synthesizer.WinForms
             AudioFileOutputListClose();
         }
 
+        private void audioFileOutputListUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
+        {
+            AudioFileOutputPropertiesShow(e.Int32);
+        }
+
+        private void audioFileOutputPropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
+        {
+            AudioFileOutputPropertiesClose(e.Int32);
+        }
+
+        private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        {
+            AudioFileOutputPropertiesLoseFocus(e.Int32);
+        }
+
         // Curve Events
 
         private void curveListUserControl_CreateRequested(object sender, ChildDocumentEventArgs e)
@@ -645,9 +692,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             CurveCreate(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
         }
 
-        private void curveListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void curveListUserControl_DeleteRequested(object sender, ChildDocumentSubListItemEventArgs e)
         {
-            CurveDelete(e.Int32);
+            CurveDelete(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
         }
 
         private void curveListUserControl_CloseRequested(object sender, EventArgs e)
@@ -696,14 +743,29 @@ namespace JJ.Presentation.Synthesizer.WinForms
             SampleCreate(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
         }
 
-        private void sampleListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void sampleListUserControl_DeleteRequested(object sender, ChildDocumentSubListItemEventArgs e)
         {
-            SampleDelete(e.Int32);
+            SampleDelete(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
         }
 
         private void sampleListUserControl_CloseRequested(object sender, EventArgs e)
         {
             SampleListClose();
+        }
+
+        private void sampleListUserControl_ShowPropertiesRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        {
+            SamplePropertiesShow(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+        }
+
+        private void samplePropertiesUserControl_LoseFocusRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        {
+            SamplePropertiesLoseFocus(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+        }
+
+        private void samplePropertiesUserControl_CloseRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        {
+            SamplePropertiesClose(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
         }
 
         // Patch Events
@@ -713,9 +775,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             PatchCreate(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
         }
 
-        private void patchListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void patchListUserControl_DeleteRequested(object sender, ChildDocumentSubListItemEventArgs e)
         {
-            PatchDelete(e.Int32);
+            PatchDelete(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
         }
 
         private void patchListUserControl_CloseRequested(object sender, EventArgs e)
@@ -791,12 +853,23 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 audioFileOutputListUserControl.ViewModel = _viewModel.Document.AudioFileOutputList;
                 audioFileOutputListUserControl.Visible = _viewModel.Document.AudioFileOutputList.Visible;
 
+                // AudioFileOutputPropertiesViewModel
+                bool audioFileOutputPropertiesVisible = false;
+                AudioFileOutputPropertiesViewModel visibleAudioFileOutputPropertiesViewModel =
+                    _viewModel.Document.AudioFileOutputPropertiesList.Where(x => x.Visible).SingleOrDefault();
+                if (visibleAudioFileOutputPropertiesViewModel != null)
+                {
+                    audioFileOutputPropertiesUserControl.ViewModel = visibleAudioFileOutputPropertiesViewModel;
+                    audioFileOutputPropertiesVisible = true;
+                }
+                audioFileOutputPropertiesUserControl.Visible = audioFileOutputPropertiesVisible;
+
                 // CurveListViewModel
-                bool curveListUserControlMustBeVisible = false;
+                bool curveListVisible = false;
                 if (_viewModel.Document.CurveList.Visible)
                 {
                     curveListUserControl.ViewModel = _viewModel.Document.CurveList;
-                    curveListUserControlMustBeVisible = true;
+                    curveListVisible = true;
                 }
                 else
                 {
@@ -807,10 +880,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     if (visibleCurveListViewModel != null)
                     {
                         curveListUserControl.ViewModel = visibleCurveListViewModel;
-                        curveListUserControlMustBeVisible = true;
+                        curveListVisible = true;
                     }
                 }
-                curveListUserControl.Visible = curveListUserControlMustBeVisible;
+                curveListUserControl.Visible = curveListVisible;
 
                 instrumentListUserControl.ViewModel = _viewModel.Document.InstrumentList;
                 instrumentListUserControl.Visible = _viewModel.Document.InstrumentList.Visible;
@@ -819,11 +892,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 effectListUserControl.Visible = _viewModel.Document.EffectList.Visible;
 
                 // PatchListViewModel
-                bool patchListUserControlMustBeVisible = false;
+                bool patchListVisible = false;
                 if (_viewModel.Document.PatchList.Visible)
                 {
                     patchListUserControl.ViewModel = _viewModel.Document.PatchList;
-                    patchListUserControlMustBeVisible = true;
+                    patchListVisible = true;
                 }
                 else
                 {
@@ -834,34 +907,54 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     if (visiblePatchListViewModel != null)
                     {
                         patchListUserControl.ViewModel = visiblePatchListViewModel;
-                        patchListUserControlMustBeVisible = true;
+                        patchListVisible = true;
                     }
                 }
-                patchListUserControl.Visible = patchListUserControlMustBeVisible;
+                patchListUserControl.Visible = patchListVisible;
 
                 // SampleListViewModel
-                bool sampleListUserControlMustBeVisible = false;
+                bool sampleListVisible = false;
                 if (_viewModel.Document.SampleList.Visible)
                 {
                     sampleListUserControl.ViewModel = _viewModel.Document.SampleList;
-                    sampleListUserControlMustBeVisible = true;
+                    sampleListVisible = true;
                 }
                 else
                 {
                     SampleListViewModel visibleSampleListViewModel = Enumerable.Union(_viewModel.Document.InstrumentDocumentList.Select(x => x.SampleList),
-                                                                                    _viewModel.Document.EffectDocumentList.Select(x => x.SampleList))
+                                                                                      _viewModel.Document.EffectDocumentList.Select(x => x.SampleList))
                                                                                .Where(x => x.Visible)
                                                                                .SingleOrDefault();
                     if (visibleSampleListViewModel != null)
                     {
                         sampleListUserControl.ViewModel = visibleSampleListViewModel;
-                        sampleListUserControlMustBeVisible = true;
+                        sampleListVisible = true;
                     }
                 }
-                sampleListUserControl.Visible = sampleListUserControlMustBeVisible;
+                sampleListUserControl.Visible = sampleListVisible;
 
-                _audioFileOutputPropertiesForm.ViewModel = _viewModel.TemporaryAudioFileOutputProperties;
-                _audioFileOutputPropertiesForm.Visible = _viewModel.TemporaryAudioFileOutputProperties.Visible;
+                // SamplePropertiesViewModel
+                bool samplePropertiesVisible = false;
+                SamplePropertiesViewModel visibleSamplePropertiesViewModel =
+                    _viewModel.Document.SamplePropertiesList.Where(x => x.Visible).SingleOrDefault();
+                if (visibleSamplePropertiesViewModel != null)
+                {
+                    samplePropertiesUserControl.ViewModel = visibleSamplePropertiesViewModel;
+                    samplePropertiesVisible = true;
+                }
+                else
+                {
+                    visibleSamplePropertiesViewModel = Enumerable.Union(_viewModel.Document.InstrumentDocumentList.SelectMany(x => x.SamplePropertiesList),
+                                                                        _viewModel.Document.EffectDocumentList.SelectMany(x => x.SamplePropertiesList))
+                                                                 .Where(x => x.Visible)
+                                                                 .SingleOrDefault();
+                    if (visibleSamplePropertiesViewModel != null)
+                    {
+                        samplePropertiesUserControl.ViewModel = visibleSamplePropertiesViewModel;
+                        samplePropertiesVisible = true;
+                    }
+                }
+                samplePropertiesUserControl.Visible = samplePropertiesVisible;
 
                 _patchDetailsForm.ViewModel = _viewModel.TemporaryPatchDetails;
                 _patchDetailsForm.Visible = _viewModel.TemporaryPatchDetails.Visible;
@@ -869,7 +962,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 bool treePanelMustBeVisible = _viewModel.Document.DocumentTree.Visible;
                 SetTreePanelVisible(treePanelMustBeVisible);
 
-                bool propertiesPanelMustBeVisible = _viewModel.Document.DocumentProperties.Visible;
+                // TODO: Make panel visibility dependent on more things.
+                bool propertiesPanelMustBeVisible = _viewModel.Document.DocumentProperties.Visible || 
+                                                    audioFileOutputPropertiesVisible ||
+                                                    samplePropertiesVisible;
+
                 SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
 
                 if (_viewModel.NotFound.Visible)
@@ -902,19 +999,30 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     MessageBoxHelper.ShowPopupMessages(_viewModel.PopupMessages);
                 }
 
-                // TODO: This 'if' is kind of a hack.
+                // Focus control if not valid.
                 if (!_viewModel.Document.DocumentProperties.Successful)
                 {
                     documentPropertiesUserControl.Focus();
+                }
+
+                bool mustFocusAudioFileOutputUserControl = _viewModel.Document.AudioFileOutputPropertiesList.Any(x => !x.Successful);
+                if (mustFocusAudioFileOutputUserControl)
+                {
+                    audioFileOutputPropertiesUserControl.Focus();
+                }
+
+                bool mustFocusSampleUserControl = _viewModel.Document.SamplePropertiesList.Any(x => !x.Successful) ||
+                                                  _viewModel.Document.InstrumentDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful) ||
+                                                  _viewModel.Document.EffectDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful);
+                if (mustFocusSampleUserControl)
+                {
+                    samplePropertiesUserControl.Focus();
                 }
             }
             finally
             {
                 ResumeLayout();
             }
-
-            // TODO: Set other parts of the view.
-            // TODO: Make panel visibility dependent on more things.
         }
 
         private void SetTreePanelVisible(bool visible)
@@ -951,6 +1059,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             );
 
             return repositoryWrapper;
+        }
+
+        private void ApplyStyling()
+        {
+            splitContainerProperties.SplitterWidth = WinFormsThemeHelper.DefaultSpacing;
+            splitContainerTree.SplitterWidth = WinFormsThemeHelper.DefaultSpacing;
         }
     }
 }

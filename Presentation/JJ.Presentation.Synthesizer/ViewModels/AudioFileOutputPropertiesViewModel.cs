@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public bool Successful { get; set; }
         public IList<Message> ValidationMessages { get; set; }
 
-        public AudioFileOutputViewModel AudioFileOutput { get; set; }
+        public AudioFileOutputViewModel Entity { get; set; }
 
         public IList<IDAndName> AudioFileFormats { get; set; }
         public IList<IDAndName> SampleDataTypes { get; set; }

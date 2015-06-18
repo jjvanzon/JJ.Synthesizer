@@ -21,26 +21,28 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class AudioFileOutputPropertiesUserControl : UserControl
+    internal partial class SamplePropertiesUserControl : UserControl
     {
-        public event EventHandler<Int32EventArgs> CloseRequested;
-        public event EventHandler<Int32EventArgs> LoseFocusRequested;
+        public event EventHandler<ChildDocumentSubListItemEventArgs> CloseRequested;
+        public event EventHandler<ChildDocumentSubListItemEventArgs> LoseFocusRequested;
 
         /// <summary> virtually not nullable </summary>
-        private AudioFileOutputPropertiesViewModel _viewModel;
+        private SamplePropertiesViewModel _viewModel;
 
-        public AudioFileOutputPropertiesUserControl()
+        public SamplePropertiesUserControl()
         {
             InitializeComponent();
 
             SetTitles();
+
+            ApplyStyling();
 
             this.AutomaticallyAssignTabIndexes();
         }
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public AudioFileOutputPropertiesViewModel ViewModel
+        public SamplePropertiesViewModel ViewModel
         {
             get { return _viewModel; }
             set
@@ -55,17 +57,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = PropertyDisplayNames.AudioFileOutput;
+            titleBarUserControl.Text = PropertyDisplayNames.Sample;
             labelName.Text = CommonTitles.Name;
             labelSamplingRate.Text = PropertyDisplayNames.SamplingRate;
             labelAudioFileFormat.Text = PropertyDisplayNames.AudioFileFormat;
             labelSampleDataType.Text = PropertyDisplayNames.SampleDataType;
             labelSpeakerSetup.Text = PropertyDisplayNames.SpeakerSetup;
-            labelStartTime.Text = PropertyDisplayNames.StartTime;
-            labelDuration.Text = PropertyDisplayNames.Duration;
             labelAmplifier.Text = PropertyDisplayNames.Amplifier;
             labelTimeMultiplier.Text = PropertyDisplayNames.TimeMultiplier;
-            labelFilePath.Text = CommonTitles.FilePath;
+            labelIsActive.Text = PropertyDisplayNames.IsActive;
+            labelBytesToSkip.Text = PropertyDisplayNames.BytesToSkip;
+            labelInterpolationType.Text = PropertyDisplayNames.InterpolationType;
+            labelLocation.Text = PropertyDisplayNames.Location;
 
             var labels = new Label[] 
             {
@@ -74,17 +77,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 labelAudioFileFormat,
                 labelSampleDataType,
                 labelSpeakerSetup,
-                labelStartTime,
-                labelDuration,
                 labelAmplifier,
                 labelTimeMultiplier,
-                labelFilePath
+                labelIsActive,
+                labelBytesToSkip,
+                labelInterpolationType,
+                labelLocation
             };
 
             foreach (Label label in labels)
             {
                 toolTip.SetToolTip(label, label.Text);
             }
+        }
+
+        private void ApplyStyling()
+        {
+            tableLayoutPanelContent.Margin = new Padding(
+                WinFormsThemeHelper.DefaultSpacing,
+                WinFormsThemeHelper.DefaultSpacing,
+                WinFormsThemeHelper.DefaultSpacing,
+                WinFormsThemeHelper.DefaultSpacing);
         }
 
         private void ApplyViewModelToControls()
@@ -116,14 +129,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 comboBoxSpeakerSetup.SelectedValue = _viewModel.Entity.SpeakerSetup.ID;
             }
 
-            numericUpDownStartTime.Value = (decimal)_viewModel.Entity.StartTime;
-            numericUpDownDuration.Value = (decimal)_viewModel.Entity.Duration;
             numericUpDownAmplifier.Value = (decimal)_viewModel.Entity.Amplifier;
             numericUpDownTimeMultiplier.Value = (decimal)_viewModel.Entity.TimeMultiplier;
+            checkBoxIsActive.Checked = _viewModel.Entity.IsActive;
+            numericUpDownBytesToSkip.Value = _viewModel.Entity.BytesToSkip;
 
-            textBoxFilePath.Text = _viewModel.Entity.FilePath;
+            if (comboBoxInterpolationType.DataSource == null)
+            {
+                comboBoxInterpolationType.DataSource = _viewModel.InterpolationTypes;
+                comboBoxInterpolationType.ValueMember = PropertyNames.ID;
+                comboBoxInterpolationType.DisplayMember = PropertyNames.Name;
+                comboBoxInterpolationType.SelectedValue = _viewModel.Entity.InterpolationType.ID;
+            }
 
-            audioFileOutputChannelsUserControl.ViewModels = _viewModel.Entity.Channels;
+            textBoxLocation.Text = _viewModel.Entity.Location;
         }
 
         private void ApplyControlsToViewModel()
@@ -136,14 +155,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             _viewModel.Entity.SpeakerSetup.ID = (int)comboBoxSpeakerSetup.SelectedValue;
 
-            _viewModel.Entity.StartTime = (double)numericUpDownStartTime.Value;
-            _viewModel.Entity.Duration = (double)numericUpDownDuration.Value;
             _viewModel.Entity.Amplifier = (double)numericUpDownAmplifier.Value;
             _viewModel.Entity.TimeMultiplier = (double)numericUpDownTimeMultiplier.Value;
+            _viewModel.Entity.IsActive = checkBoxIsActive.Checked;
+            _viewModel.Entity.BytesToSkip = (int)numericUpDownBytesToSkip.Value;
 
-            _viewModel.Entity.FilePath = textBoxFilePath.Text;
-
-            audioFileOutputChannelsUserControl.ApplyControlsToViewModels();
+            _viewModel.Entity.Location = textBoxLocation.Text;
         }
 
         // Actions
@@ -153,7 +170,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (CloseRequested != null)
             {
                 ApplyControlsToViewModel();
-                CloseRequested(this, new Int32EventArgs(_viewModel.Entity.Keys.ListIndex));
+                var e = new ChildDocumentSubListItemEventArgs(_viewModel.Entity.Keys.ListIndex, _viewModel.Entity.Keys.ChildDocumentTypeEnum, _viewModel.Entity.Keys.ChildDocumentListIndex);
+                CloseRequested(this, e);
             }
         }
 
@@ -162,7 +180,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (LoseFocusRequested != null)
             {
                 ApplyControlsToViewModel();
-                LoseFocusRequested(this, new Int32EventArgs(_viewModel.Entity.Keys.ListIndex));
+                var e = new ChildDocumentSubListItemEventArgs(_viewModel.Entity.Keys.ListIndex, _viewModel.Entity.Keys.ChildDocumentTypeEnum, _viewModel.Entity.Keys.ChildDocumentListIndex);
+                LoseFocusRequested(this, e);
             }
         }
 

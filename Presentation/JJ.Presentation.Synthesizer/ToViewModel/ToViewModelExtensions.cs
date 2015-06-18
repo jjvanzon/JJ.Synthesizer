@@ -1,149 +1,198 @@
 ﻿using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Names;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.ViewModels.Keys;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using JJ.Presentation.Synthesizer.ViewModels.Keys;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToViewModelExtensions
     {
-        // Full Document
-
-        public static DocumentViewModel ToViewModel(this Document document, RepositoryWrapper repositoryWrapper, EntityPositionManager entityPositionManager)
-        {
-            if (document == null) throw new NullException(() => document);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
-
-            var viewModel = new DocumentViewModel
-            {
-                ID = document.ID,
-                DocumentTree = document.ToTreeViewModel(),
-                DocumentProperties = document.ToPropertiesViewModel(),
-                AudioFileOutputPropertiesList = document.AudioFileOutputs.ToPropertiesViewModels(repositoryWrapper.AudioFileFormatRepository, repositoryWrapper.SampleDataTypeRepository, repositoryWrapper.SpeakerSetupRepository),
-                AudioFileOutputList = document.ToAudioFileOutputListViewModel(),
-                InstrumentList = document.Instruments.ToChildDocumentListViewModel(document.ID, ChildDocumentTypeEnum.Instrument),
-                InstrumentPropertiesList = document.Instruments.ToChildDocumentPropertiesViewModels(),
-                InstrumentDocumentList = document.Instruments.ToChildDocumentViewModels(repositoryWrapper, entityPositionManager),
-                EffectList = document.Effects.ToChildDocumentListViewModel(document.ID, ChildDocumentTypeEnum.Effect),
-                EffectPropertiesList = document.Effects.ToChildDocumentPropertiesViewModels(),
-                EffectDocumentList = document.Effects.ToChildDocumentViewModels(repositoryWrapper, entityPositionManager),
-                CurveDetailsList = document.Curves.ToDetailsViewModels(null, repositoryWrapper.NodeTypeRepository),
-                CurveList = document.Curves.ToListViewModel(document.ID, null, null),
-                PatchDetailsList = document.Patches.ToDetailsViewModels(null, entityPositionManager),
-                PatchList = document.Patches.ToListViewModel(document.ID, null, null),
-                SampleList = document.Samples.ToListViewModel(document.ID, null, null),
-                SamplePropertiesList = document.Samples.ToPropertiesViewModels(null, new SampleRepositories(repositoryWrapper))
-            };
-
-            return viewModel;
-        }
-
         // AudioFileOutput
 
-        public static IList<AudioFileOutputPropertiesViewModel> ToPropertiesViewModels(
-            this IList<AudioFileOutput> entities,
-            IAudioFileFormatRepository audioFileFormatRepository,
-            ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            entities = entities.OrderBy(x => x.Name).ToArray();
-
-            IList<AudioFileOutputPropertiesViewModel> viewModels = new List<AudioFileOutputPropertiesViewModel>(entities.Count);
-
-            for (int i = 0; i < entities.Count; i++)
-            {
-                AudioFileOutput entity = entities[i];
-                AudioFileOutputPropertiesViewModel viewModel = entity.ToPropertiesViewModel(i, audioFileFormatRepository, sampleDataTypeRepository, speakerSetupRepository);
-
-                viewModels.Add(viewModel);
-            }
-
-            return viewModels;
-        }
-
-        public static AudioFileOutputPropertiesViewModel ToPropertiesViewModel(
-            this AudioFileOutput entity,
-            int listIndex,
-            IAudioFileFormatRepository audioFileFormatRepository,
-            ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository)
+        public static AudioFileOutputViewModel ToViewModelWithRelatedEntities(this AudioFileOutput entity, int audioFileOutputListIndex)
         {
             if (entity == null) throw new NullException(() => entity);
             if (entity.Document == null) throw new NullException(() => entity.Document);
 
-            var viewModel = new AudioFileOutputPropertiesViewModel
+            var viewModel = new AudioFileOutputViewModel
             {
-                AudioFileOutput = entity.ToViewModelWithRelatedEntities(listIndex),
-                AudioFileFormats = ViewModelHelper.CreateAudioFileFormatLookupViewModel(audioFileFormatRepository),
-                SampleDataTypes = ViewModelHelper.CreateSampleDataTypeLookupViewModel(sampleDataTypeRepository),
-                SpeakerSetups = ViewModelHelper.CreateSpeakerSetupLookupViewModel(speakerSetupRepository)
+                Name = entity.Name,
+                SamplingRate = entity.SamplingRate,
+                StartTime = entity.StartTime,
+                Duration = entity.Duration,
+                Amplifier = entity.Amplifier,
+                TimeMultiplier = entity.TimeMultiplier,
+                FilePath = entity.FilePath,
+                Keys = new AudioFileOutputKeysViewModel
+                {
+                    ID = entity.ID,
+                    DocumentID = entity.Document.ID,
+                    ListIndex = audioFileOutputListIndex
+                }
             };
 
-            // TODO: Delegate to something in ViewModelHelper_Lookups.cs?
-            IList<Outlet> outlets = entity.Document.Patches
-                                                   .SelectMany(x => x.Operators)
-                                                   .Where(x => String.Equals(x.OperatorTypeName, PropertyNames.PatchOutlet))
-                                                   .SelectMany(x => x.Outlets)
-                                                   .ToArray();
-            // TODO: Sort by something.
+            if (entity.AudioFileFormat != null)
+            {
+                viewModel.AudioFileFormat = entity.AudioFileFormat.ToIDAndName();
+            }
 
+            if (entity.SampleDataType != null)
+            {
+                viewModel.SampleDataType = entity.SampleDataType.ToIDAndName();
+            }
 
-            // TODO: This will not cut it, because you only see the operator name, not the patch name.
-            viewModel.OutletLookup = outlets.Select(x => x.ToIDAndName()).ToArray();
+            if (entity.SpeakerSetup != null)
+            {
+                viewModel.SpeakerSetup = entity.SpeakerSetup.ToIDAndName();
+            }
+
+            viewModel.Channels = new List<AudioFileOutputChannelViewModel>(entity.AudioFileOutputChannels.Count);
+            for (int i = 0; i < entity.AudioFileOutputChannels.Count; i++)
+            {
+                AudioFileOutputChannel audioFileOutputChannel = entity.AudioFileOutputChannels[i];
+                AudioFileOutputChannelViewModel audioFileOutputChannelViewModel = 
+                    audioFileOutputChannel.ToViewModelWithRelatedEntities(audioFileOutputListIndex, i);
+
+                viewModel.Channels.Add(audioFileOutputChannelViewModel);
+            }
+
+            return viewModel;
+        }
+
+        public static AudioFileOutputChannelViewModel ToViewModelWithRelatedEntities(
+            this AudioFileOutputChannel entity, 
+            int audioFileOutputListIndex, 
+            int listIndex)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            if (entity.AudioFileOutput == null) throw new NullException(() => entity.AudioFileOutput);
+            if (entity.AudioFileOutput.Document == null) throw new NullException(() => entity.AudioFileOutput.Document);
+
+            var viewModel = new AudioFileOutputChannelViewModel
+            {
+                Keys = new AudioFileOutputChannelKeysViewModel
+                {
+                    ID = entity.ID,
+                    DocumentID = entity.AudioFileOutput.Document.ID,
+                    AudioFileOutputListIndex = audioFileOutputListIndex,
+                    IndexNumber = entity.IndexNumber
+                }
+            };
+
+            if (entity.Outlet != null)
+            {
+                viewModel.Outlet = entity.Outlet.ToIDAndName();
+            }
 
             return viewModel;
         }
 
         // Curve
 
-        public static IList<CurveDetailsViewModel> ToDetailsViewModels(
-            this IList<Curve> entities,
+        public static CurveViewModel ToViewModelWithRelatedEntities(
+            this Curve entity,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex,
-            INodeTypeRepository nodeTypeRepository)
+            int listIndex)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new CurveViewModel
+            {
+                Name = entity.Name,
+                Nodes = entity.Nodes.ToViewModels(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, listIndex),
+                Keys = new CurveKeysViewModel
+                {
+                    ID = entity.ID,
+                    RootDocumentID = rootDocumentID,
+                    ChildDocumentTypeEnum = childDocumentTypeEnum,
+                    ChildDocumentListIndex = childDocumentListIndex,
+                    ListIndex = listIndex
+                }
+            };
+
+            return viewModel;
+        }
+
+        public static IList<NodeViewModel> ToViewModels(
+            this IList<Node> entities,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int curveListIndex)
         {
             if (entities == null) throw new NullException(() => entities);
 
-            var viewModels = new List<CurveDetailsViewModel>(entities.Count);
+            entities = entities.OrderBy(x => x.Time).ToArray();
 
-            entities = entities.OrderBy(x => x.Name).ToArray();
+            IList<NodeViewModel> viewModels = new List<NodeViewModel>(entities.Count);
 
             for (int i = 0; i < entities.Count; i++)
             {
-                Curve entity = entities[i];
-                CurveDetailsViewModel viewModel = entity.ToDetailsViewModel(i, childDocumentListIndex, nodeTypeRepository);
+                Node entity = entities[i];
+                NodeViewModel viewModel = entity.ToViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, curveListIndex, i);
                 viewModels.Add(viewModel);
             }
 
             return viewModels;
         }
 
-        public static CurveDetailsViewModel ToDetailsViewModel(
-            this Curve curve,
-            int listIndex,
+        public static NodeViewModel ToViewModel(
+            this Node entity,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex,
-            INodeTypeRepository nodeTypeRepository)
+            int curveListIndex,
+            int nodeListIndex)
         {
-            if (curve == null) throw new NullException(() => curve);
+            if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = new CurveDetailsViewModel
+            var viewModel = new NodeViewModel
             {
-                Curve = curve.ToViewModelWithRelatedEntities(listIndex, childDocumentListIndex),
-                NodeTypes = ViewModelHelper.CreateNodeTypesLookupViewModel(nodeTypeRepository)
+                Time = entity.Time,
+                Value = entity.Value,
+                NodeType = entity.NodeType.ToIDAndName(),
+                Direction = entity.Direction,
+                Keys = entity.ToKeyViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, curveListIndex, nodeListIndex),
+            };
+
+            return viewModel;
+        }
+
+        private static NodeKeysViewModel ToKeyViewModel(
+            this Node entity, 
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int curveListIndex,
+            int nodeListIndex)
+        {
+            if (entity.Curve == null) throw new NullException(() => entity.Curve);
+            if (entity.Curve.Document == null) throw new NullException(() => entity.Curve.Document);
+
+            var viewModel = new NodeKeysViewModel
+            {
+                ID = entity.ID,
+                RootDocumentID = rootDocumentID,
+                ChildDocumentTypeEnum = childDocumentTypeEnum,
+                ChildDocumentListIndex = childDocumentListIndex,
+                CurveListIndex = curveListIndex,
+                ListIndex = nodeListIndex,
+                TemporaryID = Guid.NewGuid()
             };
 
             return viewModel;
@@ -151,144 +200,140 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Document
 
-        public static DocumentDetailsViewModel ToDetailsViewModel(this Document document)
-        {
-            var viewModel = new DocumentDetailsViewModel
-            {
-                Document = document.ToIDAndName(),
-                ValidationMessages = new List<Message>()
-            };
-
-            return viewModel;
-        }
-
-        public static DocumentPropertiesViewModel ToPropertiesViewModel(this Document document)
-        {
-            var viewModel = new DocumentPropertiesViewModel
-            {
-                Document = document.ToIDAndName(),
-                ValidationMessages = new List<Message>(),
-                Successful = true
-            };
-
-            return viewModel;
-        }
-
-        public static DocumentDeleteViewModel ToDeleteViewModel(this Document entity)
+        public static ReferencedDocumentViewModel ToReferencedDocumentViewModelWithRelatedEntities(this Document entity, int listIndex)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = new DocumentDeleteViewModel
+            var viewModel = new ReferencedDocumentViewModel
             {
-                Document = new IDAndName
+                Name = entity.Name,
+                Instruments = entity.Instruments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList(),
+                Effects = entity.Effects.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList(),
+                Keys = new ReferencedDocumentKeysViewModel
                 {
                     ID = entity.ID,
-                    Name = entity.Name,
+                    ListIndex = listIndex
                 }
             };
 
             return viewModel;
         }
 
-        public static DocumentCannotDeleteViewModel ToCannotDeleteViewModel(this Document entity, IList<Message> messages)
+        // Patch
+
+        public static PatchViewModel ToViewModel(
+            this Patch entity,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int listIndex)
         {
-            if (messages == null) throw new NullException(() => messages);
+            if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = new DocumentCannotDeleteViewModel
+            var viewModel = new PatchViewModel
             {
-                Document = entity.ToIDAndName(),
-                Messages = messages
-            };
-
-            return viewModel;
-        }
-
-        // ChildDocument
-
-        public static IList<ChildDocumentPropertiesViewModel> ToChildDocumentPropertiesViewModels(this IList<Document> childDocuments)
-        {
-            if (childDocuments == null) throw new NullException(() => childDocuments);
-
-            IList<ChildDocumentPropertiesViewModel> viewModels = new List<ChildDocumentPropertiesViewModel>(childDocuments.Count);
-
-            childDocuments = childDocuments.OrderBy(x => x.Name).ToArray();
-
-            for (int i = 0; i < childDocuments.Count; i++)
-            {
-                Document entity = childDocuments[i];
-                ChildDocumentPropertiesViewModel viewModel = entity.ToChildDocumentPropertiesViewModel(i);
-                viewModels.Add(viewModel);
-            }
-
-            return viewModels;
-        }
-
-        public static ChildDocumentPropertiesViewModel ToChildDocumentPropertiesViewModel(this Document childDocument, int listIndex)
-        {
-            if (childDocument == null) throw new NullException(() => childDocument);
-
-            var viewModel = new ChildDocumentPropertiesViewModel
-            {
-                Name = childDocument.Name,
-                ValidationMessages = new List<Message>(),
-                Keys = new ChildDocumentKeysViewModel
+                Name = entity.Name,
+                Keys = new PatchKeysViewModel
                 {
-                    ID = childDocument.ID,
-                    ParentDocumentID = ChildDocumentHelper.GetParentDocumentID(childDocument),
-                    ChildDocumentTypeEnum = ChildDocumentHelper.GetChildDocumentTypeEnum(childDocument),
+                    ID = entity.ID,
+                    RootDocumentID = rootDocumentID,
                     ListIndex = listIndex,
+                    ChildDocumentTypeEnum = childDocumentTypeEnum,
+                    ChildDocumentListIndex = childDocumentListIndex
                 }
             };
 
             return viewModel;
         }
 
-        public static IList<ChildDocumentViewModel> ToChildDocumentViewModels(this IList<Document> childDocuments, RepositoryWrapper repositoryWrapper, EntityPositionManager entityPositionManager)
+        public static OperatorViewModel ToViewModel(this Operator entity)
         {
-            if (childDocuments == null) throw new NullException(() => childDocuments);
+            if (entity == null) throw new NullException(() => entity);
 
-            IList<ChildDocumentViewModel> viewModels = new List<ChildDocumentViewModel>(childDocuments.Count);
-
-            childDocuments = childDocuments.OrderBy(x => x.Name).ToArray();
-
-            for (int i = 0; i < childDocuments.Count; i++)
+            string name;
+            if (String.Equals(entity.OperatorTypeName, PropertyNames.ValueOperator))
             {
-                Document entity = childDocuments[i];
-                ChildDocumentViewModel viewModel = entity.ToChildDocumentViewModel(i, repositoryWrapper, entityPositionManager);
+                var wrapper = new ValueOperatorWrapper(entity);
+                name = wrapper.Value.ToString("0.####");
+            }
+            else
+            {
+                name = entity.Name;
+            }
+
+            var viewModel = new OperatorViewModel
+            {
+                ID = entity.ID,
+                TemporaryID = Guid.NewGuid(),
+                Name = name,
+                OperatorTypeName = entity.OperatorTypeName
+            };
+
+            return viewModel;
+        }
+
+        public static IList<InletViewModel> ToViewModels(this IList<Inlet> entities)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            // TODO: Introduce SortOrder property and then sort.
+            //entities = entities.OrderBy(x => x.SortOrder).ToArray();
+
+            IList<InletViewModel> viewModels = new List<InletViewModel>(entities.Count);
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Inlet entity = entities[i];
+                InletViewModel viewModel = entity.ToViewModel();
+                viewModel.ListIndex = i;
                 viewModels.Add(viewModel);
             }
 
             return viewModels;
         }
 
-        public static ChildDocumentViewModel ToChildDocumentViewModel(
-            this Document childDocument, 
-            int childDocumentListIndex, 
-            RepositoryWrapper repositoryWrapper, 
-            EntityPositionManager entityPositionManager)
+        public static InletViewModel ToViewModel(this Inlet entity)
         {
-            if (childDocument == null) throw new NullException(() => childDocument);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            if (entity == null) throw new NullException(() => entity);
 
-            int parentDocumentID = ChildDocumentHelper.GetParentDocumentID(childDocument);
-            ChildDocumentTypeEnum childDocumentTypeEnum = ChildDocumentHelper.GetChildDocumentTypeEnum(childDocument);
-
-            var viewModel = new ChildDocumentViewModel
+            var viewModel = new InletViewModel
             {
-                Name = childDocument.Name,
-                SampleList = childDocument.Samples.ToListViewModel(parentDocumentID, childDocumentTypeEnum, childDocumentListIndex),
-                SamplePropertiesList = childDocument.Samples.ToPropertiesViewModels(childDocumentListIndex, new SampleRepositories(repositoryWrapper)),
-                CurveList = childDocument.Curves.ToListViewModel(parentDocumentID, childDocumentTypeEnum, childDocumentListIndex),
-                CurveDetailsList = childDocument.Curves.ToDetailsViewModels(childDocumentListIndex, repositoryWrapper.NodeTypeRepository),
-                PatchList = childDocument.Patches.ToListViewModel(parentDocumentID, childDocumentTypeEnum, childDocumentListIndex),
-                PatchDetailsList = childDocument.Patches.ToDetailsViewModels(childDocumentListIndex, entityPositionManager),
-                Keys = new ChildDocumentKeysViewModel
-                {
-                    ID = childDocument.ID,
-                    ParentDocumentID = parentDocumentID,
-                    ChildDocumentTypeEnum = childDocumentTypeEnum,
-                    ListIndex = childDocumentListIndex
-                }
+                ID = entity.ID,
+                Name = entity.Name
+            };
+
+            return viewModel;
+        }
+
+        public static IList<OutletViewModel> ToViewModels(this IList<Outlet> entities)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            // TODO: Introduce SortOrder property and then sort.
+            //entities = entities.OrderBy(x => x.SortOrder).ToArray();
+
+            IList<OutletViewModel> viewModels = new List<OutletViewModel>(entities.Count);
+
+            for (int i = 0; i < entities.Count; i++)
+            {
+                Outlet entity = entities[i];
+                OutletViewModel viewModel = entity.ToViewModel();
+                viewModel.ListIndex = i;
+                viewModels.Add(viewModel);
+            }
+
+            return viewModels;
+        }
+
+        public static OutletViewModel ToViewModel(this Outlet entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new OutletViewModel
+            {
+                ID = entity.ID,
+                Name = entity.Name,
+                TemporaryID = Guid.NewGuid()
             };
 
             return viewModel;
@@ -296,43 +341,53 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Sample
 
-        public static IList<SamplePropertiesViewModel> ToPropertiesViewModels(
-            this IList<Sample> entities,
+        public static SampleViewModel ToViewModel(
+            this Sample entity, 
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex,
-            SampleRepositories sampleRepositories)
+            int listIndex)
         {
-            if (entities == null) throw new NullException(() => entities);
+            if (entity == null) throw new NullException(() => entity);
 
-            var viewModels = new List<SamplePropertiesViewModel>(entities.Count);
-
-            entities = entities.OrderBy(x => x.Name).ToArray();
-
-            for (int i = 0; i < entities.Count; i++)
+            var viewModel = new SampleViewModel
             {
-                Sample entity = entities[i];
-                SamplePropertiesViewModel viewModel = entity.ToPropertiesViewModel(i, childDocumentListIndex, sampleRepositories);
-                viewModels.Add(viewModel);
+                Name = entity.Name,
+                Amplifier = entity.Amplifier,
+                TimeMultiplier = entity.TimeMultiplier,
+                IsActive = entity.IsActive,
+                SamplingRate = entity.SamplingRate,
+                BytesToSkip = entity.BytesToSkip,
+                Location = entity.Location,
+                Keys = new SampleKeysViewModel
+                {
+                    ID = entity.ID,
+                    RootDocumentID = rootDocumentID,
+                    ListIndex = listIndex,
+                    ChildDocumentTypeEnum = childDocumentTypeEnum,
+                    ChildDocumentListIndex = childDocumentListIndex
+                }
+            };
+
+            if (entity.AudioFileFormat != null)
+            {
+                viewModel.AudioFileFormat = entity.AudioFileFormat.ToIDAndName();
             }
 
-            return viewModels;
-        }
-
-        public static SamplePropertiesViewModel ToPropertiesViewModel(
-            this Sample entity, 
-            int listIndex, 
-            int? childDocumentListIndex,
-            SampleRepositories sampleRepositories)
-        {
-            if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
-
-            var viewModel = new SamplePropertiesViewModel
+            if (entity.SampleDataType != null)
             {
-                Sample = entity.ToViewModel(listIndex, childDocumentListIndex),
-                AudioFileFormats = ViewModelHelper.CreateAudioFileFormatLookupViewModel(sampleRepositories.AudioFileFormatRepository),
-                SampleDataTypes = ViewModelHelper.CreateSampleDataTypeLookupViewModel(sampleRepositories.SampleDataTypeRepository),
-                SpeakerSetups = ViewModelHelper.CreateSpeakerSetupLookupViewModel(sampleRepositories.SpeakerSetupRepository),
-                InterpolationTypes = ViewModelHelper.CreateInterpolationTypesLookupViewModel(sampleRepositories.InterpolationTypeRepository)
-            };
+                viewModel.SampleDataType = entity.SampleDataType.ToIDAndName();
+            }
+
+            if (entity.SpeakerSetup != null)
+            {
+                viewModel.SpeakerSetup = entity.SpeakerSetup.ToIDAndName();
+            }
+
+            if (entity.InterpolationType != null)
+            {
+                viewModel.InterpolationType = entity.InterpolationType.ToIDAndName();
+            }
 
             return viewModel;
         }

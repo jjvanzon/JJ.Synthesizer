@@ -26,6 +26,8 @@
             this.effectListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.EffectListUserControl();
             this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
             this.documentListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentListUserControl();
+            this.samplePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SamplePropertiesUserControl();
+            this.audioFileOutputPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputPropertiesUserControl();
             this.documentPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentPropertiesUserControl();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
@@ -53,7 +55,7 @@
             // 
             this.splitContainerTree.Panel2.Controls.Add(this.splitContainerProperties);
             this.splitContainerTree.Size = new System.Drawing.Size(1094, 657);
-            this.splitContainerTree.SplitterDistance = 242;
+            this.splitContainerTree.SplitterDistance = 200;
             this.splitContainerTree.TabIndex = 5;
             // 
             // documentTreeUserControl
@@ -63,7 +65,7 @@
             this.documentTreeUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.documentTreeUserControl.Location = new System.Drawing.Point(0, 0);
             this.documentTreeUserControl.Name = "documentTreeUserControl";
-            this.documentTreeUserControl.Size = new System.Drawing.Size(242, 657);
+            this.documentTreeUserControl.Size = new System.Drawing.Size(200, 657);
             this.documentTreeUserControl.TabIndex = 0;
             this.documentTreeUserControl.Visible = false;
             // 
@@ -86,9 +88,11 @@
             // 
             // splitContainerProperties.Panel2
             // 
+            this.splitContainerProperties.Panel2.Controls.Add(this.samplePropertiesUserControl);
+            this.splitContainerProperties.Panel2.Controls.Add(this.audioFileOutputPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.documentPropertiesUserControl);
-            this.splitContainerProperties.Size = new System.Drawing.Size(848, 657);
-            this.splitContainerProperties.SplitterDistance = 604;
+            this.splitContainerProperties.Size = new System.Drawing.Size(890, 657);
+            this.splitContainerProperties.SplitterDistance = 633;
             this.splitContainerProperties.TabIndex = 2;
             // 
             // sampleListUserControl
@@ -97,29 +101,18 @@
             this.sampleListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.sampleListUserControl.Location = new System.Drawing.Point(0, 0);
             this.sampleListUserControl.Name = "sampleListUserControl";
-            this.sampleListUserControl.Size = new System.Drawing.Size(604, 657);
+            this.sampleListUserControl.Size = new System.Drawing.Size(633, 657);
             this.sampleListUserControl.TabIndex = 9;
             this.sampleListUserControl.Visible = false;
-            // 
-            // instrumentListUserControl
-            // 
-            this.instrumentListUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.instrumentListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.instrumentListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.instrumentListUserControl.Location = new System.Drawing.Point(0, 0);
-            this.instrumentListUserControl.Name = "instrumentListUserControl";
-            this.instrumentListUserControl.Size = new System.Drawing.Size(604, 657);
-            this.instrumentListUserControl.TabIndex = 4;
-            this.instrumentListUserControl.Visible = false;
             // 
             // patchListUserControl
             // 
             this.patchListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.patchListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.patchListUserControl.Location = new System.Drawing.Point(0, 0);
-            this.patchListUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.patchListUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.patchListUserControl.Name = "patchListUserControl";
-            this.patchListUserControl.Size = new System.Drawing.Size(604, 657);
+            this.patchListUserControl.Size = new System.Drawing.Size(633, 657);
             this.patchListUserControl.TabIndex = 8;
             this.patchListUserControl.Visible = false;
             // 
@@ -129,7 +122,7 @@
             this.curveListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.curveListUserControl.Location = new System.Drawing.Point(0, 0);
             this.curveListUserControl.Name = "curveListUserControl";
-            this.curveListUserControl.Size = new System.Drawing.Size(604, 657);
+            this.curveListUserControl.Size = new System.Drawing.Size(633, 657);
             this.curveListUserControl.TabIndex = 6;
             this.curveListUserControl.Visible = false;
             // 
@@ -138,11 +131,22 @@
             this.audioFileOutputListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.audioFileOutputListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.audioFileOutputListUserControl.Location = new System.Drawing.Point(0, 0);
-            this.audioFileOutputListUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.audioFileOutputListUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.audioFileOutputListUserControl.Name = "audioFileOutputListUserControl";
-            this.audioFileOutputListUserControl.Size = new System.Drawing.Size(604, 657);
+            this.audioFileOutputListUserControl.Size = new System.Drawing.Size(633, 657);
             this.audioFileOutputListUserControl.TabIndex = 5;
             this.audioFileOutputListUserControl.Visible = false;
+            // 
+            // instrumentListUserControl
+            // 
+            this.instrumentListUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.instrumentListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.instrumentListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.instrumentListUserControl.Location = new System.Drawing.Point(0, 0);
+            this.instrumentListUserControl.Name = "instrumentListUserControl";
+            this.instrumentListUserControl.Size = new System.Drawing.Size(633, 657);
+            this.instrumentListUserControl.TabIndex = 4;
+            this.instrumentListUserControl.Visible = false;
             // 
             // effectListUserControl
             // 
@@ -151,7 +155,7 @@
             this.effectListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.effectListUserControl.Location = new System.Drawing.Point(0, 0);
             this.effectListUserControl.Name = "effectListUserControl";
-            this.effectListUserControl.Size = new System.Drawing.Size(604, 657);
+            this.effectListUserControl.Size = new System.Drawing.Size(633, 657);
             this.effectListUserControl.TabIndex = 3;
             this.effectListUserControl.Visible = false;
             // 
@@ -164,7 +168,7 @@
             this.documentDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.documentDetailsUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.documentDetailsUserControl.Name = "documentDetailsUserControl";
-            this.documentDetailsUserControl.Size = new System.Drawing.Size(604, 657);
+            this.documentDetailsUserControl.Size = new System.Drawing.Size(633, 657);
             this.documentDetailsUserControl.TabIndex = 1;
             this.documentDetailsUserControl.Visible = false;
             // 
@@ -176,9 +180,33 @@
             this.documentListUserControl.Location = new System.Drawing.Point(0, 0);
             this.documentListUserControl.Margin = new System.Windows.Forms.Padding(2);
             this.documentListUserControl.Name = "documentListUserControl";
-            this.documentListUserControl.Size = new System.Drawing.Size(604, 657);
+            this.documentListUserControl.Size = new System.Drawing.Size(633, 657);
             this.documentListUserControl.TabIndex = 0;
             this.documentListUserControl.Visible = false;
+            // 
+            // samplePropertiesUserControl
+            // 
+            this.samplePropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.samplePropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.samplePropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.samplePropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.samplePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
+            this.samplePropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.samplePropertiesUserControl.Name = "samplePropertiesUserControl";
+            this.samplePropertiesUserControl.Size = new System.Drawing.Size(253, 657);
+            this.samplePropertiesUserControl.TabIndex = 1;
+            // 
+            // audioFileOutputPropertiesUserControl
+            // 
+            this.audioFileOutputPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.audioFileOutputPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.audioFileOutputPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.audioFileOutputPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.audioFileOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
+            this.audioFileOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(0);
+            this.audioFileOutputPropertiesUserControl.Name = "audioFileOutputPropertiesUserControl";
+            this.audioFileOutputPropertiesUserControl.Size = new System.Drawing.Size(253, 657);
+            this.audioFileOutputPropertiesUserControl.TabIndex = 1;
             // 
             // documentPropertiesUserControl
             // 
@@ -189,7 +217,7 @@
             this.documentPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.documentPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.documentPropertiesUserControl.Name = "documentPropertiesUserControl";
-            this.documentPropertiesUserControl.Size = new System.Drawing.Size(240, 657);
+            this.documentPropertiesUserControl.Size = new System.Drawing.Size(253, 657);
             this.documentPropertiesUserControl.TabIndex = 1;
             // 
             // menuUserControl
@@ -239,6 +267,8 @@
         private UserControls.PatchListUserControl patchListUserControl;
         private UserControls.CurveListUserControl curveListUserControl;
         private UserControls.SampleListUserControl sampleListUserControl;
+        private UserControls.AudioFileOutputPropertiesUserControl audioFileOutputPropertiesUserControl;
+        private UserControls.SamplePropertiesUserControl samplePropertiesUserControl;
 
     }
 }

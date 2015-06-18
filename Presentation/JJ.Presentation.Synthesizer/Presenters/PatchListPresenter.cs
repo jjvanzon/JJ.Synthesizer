@@ -37,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (mustCreateViewModel)
             {
-                Document document = ChildDocumentHelper.TryGetDocument(documentID, childDocumentTypeEnum, childDocumentListIndex, _documentRepository);
+                Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(documentID, childDocumentTypeEnum, childDocumentListIndex, _documentRepository);
 
                 if (document == null)
                 {
@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Document document = ChildDocumentHelper.TryGetDocument(viewModel.Keys.DocumentID, viewModel.Keys.ChildDocumentTypeEnum, viewModel.Keys.ChildDocumentListIndex, _documentRepository); 
+            Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(viewModel.Keys.DocumentID, viewModel.Keys.ChildDocumentTypeEnum, viewModel.Keys.ChildDocumentListIndex, _documentRepository); 
             
             if (document == null)
             {

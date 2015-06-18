@@ -89,7 +89,17 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
-        public static Document TryGetDocument(int documentID, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex, IDocumentRepository documentRepository)
+        public static Document GetRootDocumentOrChildDocument(int documentID, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex, IDocumentRepository documentRepository)
+        {
+            Document document = TryGetRootDocumentOrChildDocument(documentID, childDocumentTypeEnum, childDocumentListIndex, documentRepository);
+            if (document == null)
+            {
+                throw new Exception(String.Format("Root Document or Child Document with documentID '{0}', childDocumentTypeEnum '{1}' and childDocumentListIndex '{2}' not found.", documentID, childDocumentTypeEnum, childDocumentListIndex));
+            }
+            return document;
+        }
+
+        public static Document TryGetRootDocumentOrChildDocument(int documentID, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex, IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
 

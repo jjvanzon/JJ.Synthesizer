@@ -100,6 +100,7 @@
             this.specializedDataGridView.RowHeadersVisible = false;
             this.specializedDataGridView.Size = new System.Drawing.Size(796, 374);
             this.specializedDataGridView.TabIndex = 0;
+            this.specializedDataGridView.DoubleClick += new System.EventHandler(this.specializedDataGridView_DoubleClick);
             this.specializedDataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.specializedDataGridView_KeyDown);
             // 
             // ListIndexColumn

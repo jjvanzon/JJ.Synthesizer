@@ -20,6 +20,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     {
         public static IList<PatchDetailsViewModel> ToDetailsViewModels(
             this IList<Patch> entities,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex,
             EntityPositionManager entityPositionManager)
         {
@@ -32,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             for (int i = 0; i < entities.Count; i++)
             {
                 Patch entity = entities[i];
-                PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(i, childDocumentListIndex, entityPositionManager);
+                PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, i, entityPositionManager);
                 viewModels.Add(viewModel);
             }
 
@@ -41,8 +43,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static PatchDetailsViewModel ToDetailsViewModel(
             this Patch patch,
-            int listIndex,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex,
+            int listIndex,
             EntityPositionManager entityPositionManager)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -50,7 +54,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new PatchDetailsViewModel
             {
-                Patch = patch.ToViewModelRecursive(listIndex, childDocumentListIndex),
+                Patch = patch.ToViewModelRecursive(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, listIndex),
                 ValidationMessages = new List<Message>()
             };
 
@@ -73,10 +77,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static PatchViewModel ToViewModelRecursive(
             this Patch patch,
-            int listIndex,
-            int? childDocumentListIndex)
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int listIndex)
         {
-            PatchViewModel viewModel = patch.ToViewModel(listIndex, childDocumentListIndex);
+            PatchViewModel viewModel = patch.ToViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, listIndex);
 
             var dictionary = new Dictionary<Operator, OperatorViewModel>();
 

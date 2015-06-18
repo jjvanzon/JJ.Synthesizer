@@ -71,6 +71,7 @@
     <Compile Include="Configuration\GeneralConfiguration.cs" />
     <Compile Include="Configuration\TestingConfiguration.cs" />
     <Compile Include="EventArg\ChildDocumentEventArgs.cs" />
+    <Compile Include="EventArg\ChildDocumentSubListItemEventArgs.cs" />
     <Compile Include="EventArg\GuidEventArgs.cs" />
     <Compile Include="EventArg\Int32EventArgs.cs" />
     <Compile Include="EventArg\ViewModelEventArgs.cs" />
@@ -123,6 +124,24 @@
     </Compile>
     <Compile Include="UserControls\AudioFileOutputPropertiesUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputPropertiesUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\AudioFileOutputChannelUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\AudioFileOutputChannelUserControl.Designer.cs">
+      <DependentUpon>AudioFileOutputChannelUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\AudioFileOutputChannelsUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\AudioFileOutputChannelsUserControl.Designer.cs">
+      <DependentUpon>AudioFileOutputChannelsUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SamplePropertiesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\SamplePropertiesUserControl.Designer.cs">
+      <DependentUpon>SamplePropertiesUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\EffectListUserControl.cs">
       <SubType>UserControl</SubType>
@@ -226,6 +245,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputPropertiesUserControl.resx">
       <DependentUpon>AudioFileOutputPropertiesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\AudioFileOutputChannelUserControl.resx">
+      <DependentUpon>AudioFileOutputChannelUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\AudioFileOutputChannelsUserControl.resx">
+      <DependentUpon>AudioFileOutputChannelsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\SamplePropertiesUserControl.resx">
+      <DependentUpon>SamplePropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\EffectListUserControl.resx">
       <DependentUpon>EffectListUserControl.cs</DependentUpon>

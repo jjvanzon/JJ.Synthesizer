@@ -10,6 +10,7 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public class SampleRepositories
     {
+        public IDocumentRepository DocumentRepository { get; private set; }
         public ISampleRepository SampleRepository { get; private set; }
         public IAudioFileFormatRepository AudioFileFormatRepository { get; private set; }
         public ISampleDataTypeRepository SampleDataTypeRepository { get; private set; }
@@ -20,6 +21,7 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
+            DocumentRepository = repositoryWrapper.DocumentRepository;
             SampleRepository = repositoryWrapper.SampleRepository;
             AudioFileFormatRepository = repositoryWrapper.AudioFileFormatRepository;
             SampleDataTypeRepository = repositoryWrapper.SampleDataTypeRepository;
@@ -28,18 +30,21 @@ namespace JJ.Business.Synthesizer.Helpers
         }
 
         public SampleRepositories(
+            IDocumentRepository documentRepository,
             ISampleRepository sampleRepository,
             IAudioFileFormatRepository audioFileFormatRepository,
             ISampleDataTypeRepository sampleDataTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository,
             IInterpolationTypeRepository interpolationTypeRepository)
         {
+            if (documentRepository == null) throw new NullException(() => documentRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
             if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
 
+            DocumentRepository = documentRepository;
             SampleRepository = sampleRepository;
             AudioFileFormatRepository = audioFileFormatRepository;
             SampleDataTypeRepository = sampleDataTypeRepository;

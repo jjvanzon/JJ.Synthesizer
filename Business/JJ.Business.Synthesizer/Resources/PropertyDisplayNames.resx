@@ -274,4 +274,19 @@
   <data name="ParentDocument" xml:space="preserve">
     <value>Parent Document</value>
   </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="Amplifier" xml:space="preserve">
+    <value>Amplifier</value>
+  </data>
+  <data name="Channels" xml:space="preserve">
+    <value>Channels</value>
+  </data>
+  <data name="BytesToSkip" xml:space="preserve">
+    <value>Bytes to Skip</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Location</value>
+  </data>
 </root>

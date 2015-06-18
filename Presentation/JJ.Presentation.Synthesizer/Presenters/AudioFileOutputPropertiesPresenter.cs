@@ -36,10 +36,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (MustCreateViewModel(ViewModel, userInput))
             {
+                throw new Exception(String.Format(
+                    "{0} cannot autonomously convert user input to entity and then create a new view model, " +
+                    "because it depends on its document's patches' patch outlets. Assign {0}.ViewModel instead", 
+                    GetType().Name));
+
                 AudioFileOutput entity = userInput.ToEntityWithRelatedEntities(_audioFileOutputRepositories);
 
                 ViewModel = entity.ToPropertiesViewModel(
-                    userInput.AudioFileOutput.Keys.ListIndex,
+                    userInput.Entity.Keys.ListIndex,
                     _audioFileOutputRepositories.AudioFileFormatRepository, 
                     _audioFileOutputRepositories.SampleDataTypeRepository, 
                     _audioFileOutputRepositories.SpeakerSetupRepository);
@@ -62,7 +67,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return ViewModel;
         }
 
-        public AudioFileOutputPropertiesViewModel LooseFocus(AudioFileOutputPropertiesViewModel userInput)
+        public AudioFileOutputPropertiesViewModel LoseFocus(AudioFileOutputPropertiesViewModel userInput)
         {
             ViewModel = Update(userInput);
 
@@ -78,13 +83,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (MustCreateViewModel(ViewModel, userInput))
             {
                 ViewModel = entity.ToPropertiesViewModel(
-                    userInput.AudioFileOutput.Keys.ListIndex,
+                    userInput.Entity.Keys.ListIndex,
                     _audioFileOutputRepositories.AudioFileFormatRepository, 
                     _audioFileOutputRepositories.SampleDataTypeRepository, 
                     _audioFileOutputRepositories.SpeakerSetupRepository);
             }
 
-            IValidator validator = new AudioFileOutputValidator(entity);
+            IValidator validator = new AudioFileOutputValidator_InDocument(entity);
             if (!validator.IsValid)
             {
                 ViewModel.Successful = false;
@@ -92,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                ViewModel.ValidationMessages = new Message[0];
+                ViewModel.ValidationMessages = new List<Message>();
                 ViewModel.Successful = true;
             }
 
@@ -102,8 +107,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private bool MustCreateViewModel(AudioFileOutputPropertiesViewModel existingViewModel, AudioFileOutputPropertiesViewModel userInput)
         {
             return existingViewModel == null ||
-                   existingViewModel.AudioFileOutput.Keys.DocumentID != userInput.AudioFileOutput.Keys.DocumentID ||
-                   existingViewModel.AudioFileOutput.Keys.ListIndex != userInput.AudioFileOutput.Keys.ListIndex;
+                   existingViewModel.Entity.Keys.DocumentID != userInput.Entity.Keys.DocumentID ||
+                   existingViewModel.Entity.Keys.ListIndex != userInput.Entity.Keys.ListIndex;
         }
     }
 }

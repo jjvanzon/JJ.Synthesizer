@@ -273,4 +273,19 @@
   <data name="ParentDocument" xml:space="preserve">
     <value>Hoofddocument</value>
   </data>
+  <data name="StartTime" xml:space="preserve">
+    <value>Starttijd</value>
+  </data>
+  <data name="Amplifier" xml:space="preserve">
+    <value>Versterker</value>
+  </data>
+  <data name="Channels" xml:space="preserve">
+    <value>Kanalen</value>
+  </data>
+  <data name="BytesToSkip" xml:space="preserve">
+    <value>Bytes overslaan</value>
+  </data>
+  <data name="Location" xml:space="preserve">
+    <value>Locatie</value>
+  </data>
 </root>

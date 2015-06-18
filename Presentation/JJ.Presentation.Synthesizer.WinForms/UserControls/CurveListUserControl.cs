@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private const string LIST_INDEX_COLUMN_NAME = "ListIndexColumn";
 
         public event EventHandler<ChildDocumentEventArgs> CreateRequested;
-        public event EventHandler<Int32EventArgs> DeleteRequested;
+        public event EventHandler<ChildDocumentSubListItemEventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
 
         /// <summary> virtually not nullable </summary>
@@ -81,7 +81,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 int? listIndex = TryGetSelectedListIndex();
                 if (listIndex.HasValue)
                 {
-                    DeleteRequested(this, new Int32EventArgs(listIndex.Value));
+                    var e = new ChildDocumentSubListItemEventArgs(listIndex.Value, ViewModel.Keys.ChildDocumentTypeEnum, ViewModel.Keys.ChildDocumentListIndex);
+                    DeleteRequested(this, e);
                 }
             }
         }

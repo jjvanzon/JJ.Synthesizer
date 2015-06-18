@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return ViewModel;
         }
 
-        public SamplePropertiesViewModel LooseFocus(SamplePropertiesViewModel userInput)
+        public SamplePropertiesViewModel LoseFocus(SamplePropertiesViewModel userInput)
         {
             ViewModel = Update(userInput);
 
@@ -76,16 +76,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel = CreateViewModel(entity, userInput);
             }
 
-            IValidator validator = new SampleValidator(entity, new HashSet<object>());
+            IValidator validator = new SampleValidator_InDocument(entity);
             if (!validator.IsValid)
             {
-                ViewModel.Successful = true;
+                ViewModel.Successful = false;
                 ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
             }
             else
             {
-                ViewModel.ValidationMessages = new Message[0];
-                ViewModel.Successful = false;
+                ViewModel.ValidationMessages = new List<Message>();
+                ViewModel.Successful = true;
             }
 
             return ViewModel;
@@ -94,17 +94,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private bool MustCreateViewModel(SamplePropertiesViewModel existingViewModel, SamplePropertiesViewModel userInput)
         {
             return existingViewModel == null ||
-                   existingViewModel.Sample.Keys.DocumentID != userInput.Sample.Keys.DocumentID ||
-                   existingViewModel.Sample.Keys.ListIndex != userInput.Sample.Keys.ListIndex ||
-                   existingViewModel.Sample.Keys.ChildDocumentTypeEnum != userInput.Sample.Keys.ChildDocumentTypeEnum ||
-                   existingViewModel.Sample.Keys.ChildDocumentListIndex != userInput.Sample.Keys.ChildDocumentListIndex;
+                   existingViewModel.Entity.Keys.RootDocumentID != userInput.Entity.Keys.RootDocumentID ||
+                   existingViewModel.Entity.Keys.ListIndex != userInput.Entity.Keys.ListIndex ||
+                   existingViewModel.Entity.Keys.ChildDocumentTypeEnum != userInput.Entity.Keys.ChildDocumentTypeEnum ||
+                   existingViewModel.Entity.Keys.ChildDocumentListIndex != userInput.Entity.Keys.ChildDocumentListIndex;
         }
 
         private SamplePropertiesViewModel CreateViewModel(Sample entity, SamplePropertiesViewModel userInput)
         {
             SamplePropertiesViewModel viewModel = entity.ToPropertiesViewModel(
-                userInput.Sample.Keys.ListIndex,
-                userInput.Sample.Keys.ChildDocumentListIndex,
+                userInput.Entity.Keys.RootDocumentID,
+                userInput.Entity.Keys.ChildDocumentTypeEnum,
+                userInput.Entity.Keys.ChildDocumentListIndex,
+                userInput.Entity.Keys.ListIndex,
                 _sampleRepositories);
 
             return viewModel;

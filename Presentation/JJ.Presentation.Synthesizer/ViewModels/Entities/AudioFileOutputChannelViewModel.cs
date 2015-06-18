@@ -12,6 +12,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     {
         public AudioFileOutputChannelKeysViewModel Keys { get; set; }
 
+        public string Name { get; set; }
+
         /// <summary> nullable </summary>
         public IDAndName Outlet { get; set; }
     }

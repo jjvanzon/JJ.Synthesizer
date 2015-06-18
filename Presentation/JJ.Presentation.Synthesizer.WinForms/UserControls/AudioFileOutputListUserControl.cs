@@ -28,6 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CreateRequested;
         public event EventHandler<Int32EventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
+        public event EventHandler<Int32EventArgs> ShowPropertiesRequested;
 
         /// <summary> virtually not nullable </summary>
         private AudioFileOutputListViewModel _viewModel;
@@ -65,7 +66,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModel()
         {
-            specializedDataGridView.DataSource = _viewModel.List;
+            specializedDataGridView.DataSource = _viewModel.List.Select(x => new 
+            {
+                ListIndex = x.Keys.ListIndex,
+                Name = x.Name,
+                AudioFileFormat = x.AudioFileFormat,
+                SampleDataType = x.SampleDataType,
+                SpeakerSetup = x.SpeakerSetup,
+                SamplingRate = x.SamplingRate
+            }).ToArray();
         }
 
         // Actions
@@ -82,10 +91,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (DeleteRequested != null)
             {
-                int? id = TryGetSelectedListIndex();
-                if (id.HasValue)
+                int? listIndex = TryGetSelectedListIndex();
+                if (listIndex.HasValue)
                 {
-                    DeleteRequested(this, new Int32EventArgs(id.Value));
+                    DeleteRequested(this, new Int32EventArgs(listIndex.Value));
                 }
             }
         }
@@ -95,6 +104,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (CloseRequested != null)
             {
                 CloseRequested(this, EventArgs.Empty);
+            }
+        }
+
+        private void ShowProperties()
+        {
+            if (ShowPropertiesRequested != null)
+            {
+                int? listIndex = TryGetSelectedListIndex();
+                if (listIndex.HasValue)
+                {
+                    ShowPropertiesRequested(this, new Int32EventArgs(listIndex.Value));
+                }
             }
         }
 
@@ -122,7 +143,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 case Keys.Delete:
                     Delete();
                     break;
+
+                case Keys.Enter:
+                    ShowProperties();
+                    break;
             }
+        }
+
+        private void specializedDataGridView_DoubleClick(object sender, EventArgs e)
+        {
+            ShowProperties();
         }
 
         // Helpers
