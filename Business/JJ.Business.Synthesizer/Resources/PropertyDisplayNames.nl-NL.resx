@@ -277,7 +277,7 @@
     <value>Starttijd</value>
   </data>
   <data name="Amplifier" xml:space="preserve">
-    <value>Versterker</value>
+    <value>Versterkingsfactor</value>
   </data>
   <data name="Channels" xml:space="preserve">
     <value>Kanalen</value>

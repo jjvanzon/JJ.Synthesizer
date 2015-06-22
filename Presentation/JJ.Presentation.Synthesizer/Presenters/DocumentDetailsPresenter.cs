@@ -18,7 +18,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class DocumentDetailsPresenter
+    internal class DocumentDetailsPresenter
     {
         private IDocumentRepository _documentRepository;
 

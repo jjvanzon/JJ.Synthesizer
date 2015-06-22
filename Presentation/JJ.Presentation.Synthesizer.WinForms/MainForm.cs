@@ -39,11 +39,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private RepositoryWrapper _repositoryWrapper;
 
         private MainPresenter _presenter;
-        private DocumentListPresenter _documentListPresenter;
-        private DocumentDetailsPresenter _documentDetailsPresenter;
-        private DocumentPropertiesPresenter _documentPropertiesPresenter;
-        private DocumentTreePresenter _documentTreePresenter;
-        private DocumentDeletePresenter _documentConfirmDeletePresenter;
 
         private MainViewModel _viewModel;
 
@@ -67,15 +62,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _repositoryWrapper = CreateRepositoryWrapper();
             _presenter = new MainPresenter(_repositoryWrapper);
 
-            _documentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
-            _documentDetailsPresenter = new DocumentDetailsPresenter(_repositoryWrapper.DocumentRepository);
-            _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositoryWrapper.DocumentRepository);
-            _documentTreePresenter = new DocumentTreePresenter(_repositoryWrapper.DocumentRepository);
-            _documentConfirmDeletePresenter = new DocumentDeletePresenter(_repositoryWrapper);
-
             menuUserControl.ShowDocumentListRequested += menuUserControl_ShowDocumentListRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
-            menuUserControl.AudioFileOutputEditRequested += menuUserControl_AudioFileOutputEditRequested;
+            menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
             menuUserControl.PatchDetailsRequested += menuUserControl_PatchDetailsRequested;
 
             documentListUserControl.ShowRequested += documentListUserControl_ShowRequested;
@@ -225,6 +214,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void DocumentOpen(int id)
         {
             _viewModel = _presenter.DocumentOpen(_viewModel, id);
+            ApplyViewModel();
+        }
+
+        private void DocumentClose()
+        {
+            _viewModel = _presenter.DocumentClose(_viewModel);
             ApplyViewModel();
         }
         
@@ -529,10 +524,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentTreeShow();
         }
 
-        private void menuUserControl_AudioFileOutputEditRequested(object sender, EventArgs e)
+        private void menuUserControl_DocumentCloseRequested(object sender, EventArgs e)
         {
-            int dummyID = 0;
-            AudioFileOutputPropertiesShow(dummyID);
+            DocumentClose();
         }
 
         private void menuUserControl_PatchDetailsRequested(object sender, EventArgs e)

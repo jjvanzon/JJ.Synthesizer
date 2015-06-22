@@ -18,7 +18,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class ChildDocumentListPresenter
+    internal class ChildDocumentListPresenter
     {
         private RepositoryWrapper _repositoryWrapper;
         private ChildDocumentListViewModel _viewModel;
@@ -89,6 +89,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel.Visible = false;
 
             return _viewModel;
+        }
+
+        public void Clear()
+        {
+            _viewModel = null;
         }
 
         // Helpers

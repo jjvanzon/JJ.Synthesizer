@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
     {
         public event EventHandler ShowDocumentListRequested;
         public event EventHandler ShowDocumentTreeRequested;
-        public event EventHandler AudioFileOutputEditRequested;
+        public event EventHandler DocumentCloseRequested;
         public event EventHandler PatchDetailsRequested;
 
         public MenuUserControl()
@@ -98,9 +98,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             toolStripMenuItem.Click += documentTreeToolStripMenuItem_Click;
             viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
 
-            // AudioFileOutputProperties
-            toolStripMenuItem = CreateAudioFileOutputEditToolStripMenuItem();
-            toolStripMenuItem.Click += audioFileOutputEditToolStripMenuItem_Click;
+            // DocumentClose
+            toolStripMenuItem = DocumentCloseToolStripMenuItem();
+            toolStripMenuItem.Click += documentCloseToolStripMenuItem_Click;
             viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
 
             // PatchDetails
@@ -142,12 +142,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             return toolStripMenuItem;
         }
 
-        private ToolStripMenuItem CreateAudioFileOutputEditToolStripMenuItem()
+        private ToolStripMenuItem DocumentCloseToolStripMenuItem()
         {
             var toolStripMenuItem = new ToolStripMenuItem
             {
-                Name = "audioFileOutputPropertiesToolStripMenuItem",
-                Text = "&" + CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.AudioFileOutput)
+                Name = "documentCloseToolStripMenuItem",
+                Text = "&" + CommonTitleFormatter.CloseObject(PropertyDisplayNames.Document)
             };
 
             return toolStripMenuItem;
@@ -182,11 +182,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
         }
 
-        private void audioFileOutputEditToolStripMenuItem_Click(object sender, EventArgs e)
+        private void documentCloseToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (AudioFileOutputEditRequested != null)
+            if (DocumentCloseRequested != null)
             {
-                AudioFileOutputEditRequested(sender, EventArgs.Empty);
+                DocumentCloseRequested(sender, EventArgs.Empty);
             }
         }
 

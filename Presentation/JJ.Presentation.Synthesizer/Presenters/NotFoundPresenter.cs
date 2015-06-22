@@ -9,7 +9,7 @@ using System.Text;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class NotFoundPresenter
+    internal class NotFoundPresenter
     {
         private NotFoundViewModel _viewModel;
 

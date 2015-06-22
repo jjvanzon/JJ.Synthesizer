@@ -16,7 +16,7 @@ using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class CurveDetailsPresenter
+    internal class CurveDetailsPresenter
     {
         private ICurveRepository _curveRepository;
         private INodeRepository _nodeRepository;
@@ -71,6 +71,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel = Update(userInput);
 
             return ViewModel;
+        }
+
+        public void Clear()
+        {
+            ViewModel = null;
         }
 
         private CurveDetailsViewModel Update(CurveDetailsViewModel userInput)

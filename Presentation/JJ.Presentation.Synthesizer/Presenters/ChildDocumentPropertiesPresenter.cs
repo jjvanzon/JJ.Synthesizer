@@ -16,7 +16,7 @@ using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class ChildDocumentPropertiesPresenter
+    internal class ChildDocumentPropertiesPresenter
     {
         private IDocumentRepository _documentRepository;
 

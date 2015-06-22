@@ -8,6 +8,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
     public sealed class DocumentViewModel
     {
+        public bool IsOpen { get; set; }
+
         public int ID { get; set; }
         public DocumentTreeViewModel DocumentTree { get; set; }
         public DocumentPropertiesViewModel DocumentProperties { get; set; }

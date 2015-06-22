@@ -13,7 +13,7 @@ using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class PatchListPresenter
+    internal class PatchListPresenter
     {
         private IDocumentRepository _documentRepository;
         private PatchListViewModel _viewModel;
@@ -83,6 +83,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel.Visible = false;
 
             return _viewModel;
+        }
+
+        public void Clear()
+        {
+            _viewModel = null;
         }
 
         // Helpers

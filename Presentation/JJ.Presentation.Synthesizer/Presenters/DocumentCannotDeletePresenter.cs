@@ -12,7 +12,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class DocumentCannotDeletePresenter
+    internal class DocumentCannotDeletePresenter
     {
         private IDocumentRepository _documentRepository;
 

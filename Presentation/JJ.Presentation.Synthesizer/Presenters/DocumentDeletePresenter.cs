@@ -15,7 +15,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class DocumentDeletePresenter
+    internal class DocumentDeletePresenter
     {
         private IDocumentRepository _documentRepository;
         private DocumentManager _documentManager;

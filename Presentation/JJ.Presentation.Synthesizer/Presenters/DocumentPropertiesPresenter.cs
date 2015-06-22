@@ -18,7 +18,7 @@ using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class DocumentPropertiesPresenter
+    internal class DocumentPropertiesPresenter
     {
         private IDocumentRepository _documentRepository;
 
@@ -71,6 +71,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel = Update(userInput);
 
             return _viewModel;
+        }
+
+        public void Clear()
+        {
+            _viewModel = null;
         }
 
         private DocumentPropertiesViewModel Update(DocumentPropertiesViewModel userInput)

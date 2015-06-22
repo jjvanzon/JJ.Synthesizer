@@ -13,7 +13,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class DocumentTreePresenter
+    internal class DocumentTreePresenter
     {
         private IDocumentRepository _documentRepository;
 
@@ -161,6 +161,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var presenter2 = new DocumentPropertiesPresenter(_documentRepository);
             object viewModel2 = presenter2.Show(id);
             return viewModel2;
+        }
+
+        public void Clear()
+        {
+            _viewModel = null;
         }
 
         // Helpers

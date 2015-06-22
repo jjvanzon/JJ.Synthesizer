@@ -24,6 +24,14 @@ namespace JJ.Presentation.Synthesizer.ToEntity
     {
         // Document
 
+        public static Document ToEntityWithRelatedEntities(this MainViewModel userInput, RepositoryWrapper repositoryWrapper)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+
+            return userInput.Document.ToEntityWithRelatedEntities(repositoryWrapper);
+        }
+
         public static Document ToEntityWithRelatedEntities(this DocumentViewModel userInput, RepositoryWrapper repositoryWrapper)
         {
             if (userInput == null) throw new NullException(() => userInput);

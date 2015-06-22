@@ -16,7 +16,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class CurveListPresenter
+    internal class CurveListPresenter
     {
         private IDocumentRepository _documentRepository;
         private CurveListViewModel _viewModel;
@@ -86,6 +86,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel.Visible = false;
 
             return _viewModel;
+        }
+
+        public void Clear()
+        {
+            _viewModel = null;
         }
 
         // Helpers

@@ -17,7 +17,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class SamplePropertiesPresenter
+    internal class SamplePropertiesPresenter
     {
         private SampleRepositories _sampleRepositories;
 
@@ -63,6 +63,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel = Update(userInput);
 
             return ViewModel;
+        }
+
+        public void Clear()
+        {
+            ViewModel = null;
         }
 
         private SamplePropertiesViewModel Update(SamplePropertiesViewModel userInput)

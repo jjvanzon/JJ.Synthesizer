@@ -15,7 +15,7 @@ using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class SampleListPresenter
+    internal class SampleListPresenter
     {
         private IDocumentRepository _documentRepository;
         private SampleListViewModel _viewModel;
@@ -85,6 +85,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel.Visible = false;
 
             return _viewModel;
+        }
+
+        public void Clear()
+        {
+            _viewModel = null;
         }
 
         // Helpers

@@ -17,7 +17,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class AudioFileOutputPropertiesPresenter
+    internal class AudioFileOutputPropertiesPresenter
     {
         private AudioFileOutputRepositories _audioFileOutputRepositories;
 
@@ -72,6 +72,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel = Update(userInput);
 
             return ViewModel;
+        }
+
+        public void Clear()
+        {
+            ViewModel = null;
         }
 
         private AudioFileOutputPropertiesViewModel Update(AudioFileOutputPropertiesViewModel userInput)

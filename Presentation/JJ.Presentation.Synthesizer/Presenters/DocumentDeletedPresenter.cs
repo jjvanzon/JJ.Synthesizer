@@ -8,7 +8,7 @@ using System.Text;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class DocumentDeletedPresenter
+    internal class DocumentDeletedPresenter
     {
         private DocumentDeletedViewModel _viewModel;
 

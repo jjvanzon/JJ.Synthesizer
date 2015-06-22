@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             InitializeComponent();
 
-            SetTitles();
+            SetTitlesAndSetLabelWidths();
 
             this.AutomaticallyAssignTabIndexes();
         }
@@ -53,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
-        private void SetTitles()
+        private void SetTitlesAndSetLabelWidths()
         {
             titleBarUserControl.Text = PropertyDisplayNames.AudioFileOutput;
             labelName.Text = CommonTitles.Name;
@@ -85,6 +85,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 toolTip.SetToolTip(label, label.Text);
             }
+            
+            Graphics graphics = CreateGraphics();
+            // TODO: This does not work, because WinForms does not make AutoScaleFactor.Width > 1
+            // when the font is changed in the form.
+            float labelColumnWidth = AutoScaleFactor.Width * labels.Max(x => graphics.MeasureString(x.Text, x.Font).Width);
+
+            tableLayoutPanelGeneral.ColumnStyles[0].Width = labelColumnWidth;
         }
 
         private void ApplyViewModelToControls()

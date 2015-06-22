@@ -18,9 +18,10 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class AudioFileOutputListPresenter
+    internal class AudioFileOutputListPresenter
     {
         private IDocumentRepository _documentRepository;
+
         private AudioFileOutputListViewModel _viewModel;
 
         public AudioFileOutputListPresenter(IDocumentRepository documentRepository)
@@ -84,6 +85,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel.Visible = false;
 
             return _viewModel;
+        }
+
+        public void Clear()
+        {
+            _viewModel = null;
         }
 
         // Helpers

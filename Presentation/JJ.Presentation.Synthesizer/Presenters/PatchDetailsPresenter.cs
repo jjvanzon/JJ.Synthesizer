@@ -24,6 +24,7 @@ using JJ.Framework.Configuration;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
+    // TODO: Make internal once part of the main navigation model in WinForms.
     public class PatchDetailsPresenter
     {
         private IPatchRepository _patchRepository;
@@ -389,6 +390,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchDetailsViewModel viewModel = ViewModelHelper.CreateEmptyPatchDetailsViewModel();
             viewModel.Visible = false;
             return viewModel;
+        }
+
+        public void Clear()
+        {
+            ViewModel = null;
         }
 
         // Helpers
