@@ -33,8 +33,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
         public static PersistenceWrapper CreatePersistenceWrapper(IContext context)
         {
             return new PersistenceWrapper(
-                CreateRepository<IPatchRepository>(context), 
+                CreateRepository<IPatchRepository>(context),
                 CreateRepository<IOperatorRepository>(context),
+                CreateRepository<IOperatorTypeRepository>(context),
                 CreateRepository<IInletRepository>(context), 
                 CreateRepository<IOutletRepository>(context), 
                 CreateRepository<ICurveRepository>(context), 

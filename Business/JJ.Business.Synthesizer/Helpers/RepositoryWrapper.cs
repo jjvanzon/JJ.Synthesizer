@@ -19,6 +19,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public INodeRepository NodeRepository { get; set; }
         public IAudioFileOutputChannelRepository AudioFileOutputChannelRepository { get; set; }
         public IOperatorRepository OperatorRepository { get; set; }
+        public IOperatorTypeRepository OperatorTypeRepository { get; set; }
         public IInletRepository InletRepository { get; set; }
         public IOutletRepository OutletRepository { get; set; }
         public IEntityPositionRepository EntityPositionRepository { get; set; }
@@ -39,6 +40,7 @@ namespace JJ.Business.Synthesizer.Helpers
             INodeRepository nodeRepository,
             IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
             IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
             IEntityPositionRepository entityPositionRepository,
@@ -58,6 +60,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (nodeRepository == null) throw new NullException(() => nodeRepository);
             if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
@@ -77,6 +80,7 @@ namespace JJ.Business.Synthesizer.Helpers
             NodeRepository = nodeRepository;
             AudioFileOutputChannelRepository = audioFileOutputChannelRepository;
             OperatorRepository = operatorRepository;
+            OperatorTypeRepository = operatorTypeRepository;
             InletRepository = inletRepository;
             OutletRepository = outletRepository;
             EntityPositionRepository = entityPositionRepository;

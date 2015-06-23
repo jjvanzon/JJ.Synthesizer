@@ -2,6 +2,7 @@
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Names;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -13,6 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -114,7 +116,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             dictionary.Add(op, viewModel);
 
-            if (!String.Equals(op.OperatorTypeName, PropertyNames.PatchInlet))
+            // TODO: When PatchInlets do not have inlets and PatchOutlets do not have PatchOutlets (in the future) these if's are probably not necessary anymore.
+
+            if (op.GetOperatorTypeEnum() != OperatorTypeEnum.PatchInlet)
             {
                 viewModel.Inlets = op.Inlets.ToViewModelsRecursive(dictionary);
             }
@@ -123,7 +127,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.Inlets = new List<InletViewModel>();
             }
 
-            if (!String.Equals(op.OperatorTypeName, PropertyNames.PatchOutlet))
+            if (op.GetOperatorTypeEnum() != OperatorTypeEnum.PatchOutlet)
             {
                 viewModel.Outlets = op.Outlets.ToViewModelsRecursive(dictionary);
             }

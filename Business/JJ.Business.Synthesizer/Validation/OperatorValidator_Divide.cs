@@ -9,14 +9,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
     public class OperatorValidator_Divide : OperatorValidator_Base_NonSpecialized
     {
         public OperatorValidator_Divide(Operator obj)
-            : base(obj, 
-                PropertyNames.Divide, 3, 
+            : base(obj,
+                OperatorTypeEnum.Divide, 3, 
                 PropertyNames.Numerator, PropertyNames.Denominator, PropertyNames.Origin, 
                 PropertyNames.Result)
         { }

@@ -1851,6 +1851,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var presenter2 = new PatchDetailsPresenter(
                 _repositoryWrapper.PatchRepository,
                 _repositoryWrapper.OperatorRepository,
+                _repositoryWrapper.OperatorTypeRepository,
                 _repositoryWrapper.InletRepository,
                 _repositoryWrapper.OutletRepository,
                 _repositoryWrapper.EntityPositionRepository,

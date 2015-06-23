@@ -23,7 +23,6 @@ namespace JJ.Business.Synthesizer.Tests
                 var operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
                 Operator op = operatorRepository.Create();
                 op.Name = "Test Operator";
-                op.OperatorTypeName = "TestOperatorType";
             }
         }
     }

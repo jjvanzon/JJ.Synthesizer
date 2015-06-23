@@ -1,4 +1,5 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
@@ -16,10 +17,10 @@ namespace JJ.Business.Synthesizer.Validation
     {
         public OperatorValidator_Base_NonSpecialized(
             Operator obj,
-            string expectedOperatorTypeName,
+            OperatorTypeEnum expectedOperatorTypeEnum,
             int expectedInletCount,
             params string[] expectedInletAndOutletNames)
-            : base(obj, expectedOperatorTypeName, expectedInletCount, expectedInletAndOutletNames)
+            : base(obj, expectedOperatorTypeEnum, expectedInletCount, expectedInletAndOutletNames)
         { }
 
         protected override void Execute()

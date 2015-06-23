@@ -1,6 +1,8 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
@@ -43,12 +45,12 @@ namespace JJ.Business.Synthesizer.Validation
 
             foreach (Operator op in curve.Document.Patches.SelectMany(x => x.Operators))
             {
-                if (!String.Equals(op.OperatorTypeName, PropertyNames.CurveIn))
+                if (op.GetOperatorTypeEnum() != OperatorTypeEnum.CurveIn)
                 {
                     continue;
                 }
 
-                var wrapper = new CurveInWrapper(op, _curveRepository);
+                var wrapper = new CurveIn_OperatorWrapper(op, _curveRepository);
 
                 if (wrapper.Curve == curve ||
                     wrapper.CurveID == curve.ID)

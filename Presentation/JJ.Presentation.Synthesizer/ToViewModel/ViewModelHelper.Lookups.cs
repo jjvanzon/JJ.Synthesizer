@@ -1,4 +1,5 @@
 ﻿using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -22,23 +23,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // TODO: Eventually these should be registered centrally somewhere.
             var viewModels = new OperatorTypeViewModel[]
             {
-                new OperatorTypeViewModel { OperatorTypeName = "Adder", Symbol = PropertyDisplayNames.Adder },
-                new OperatorTypeViewModel { OperatorTypeName = "Add", Symbol = PropertyDisplayNames.Add },
-                new OperatorTypeViewModel { OperatorTypeName = "CurveIn", Symbol = PropertyDisplayNames.CurveIn },
-                new OperatorTypeViewModel { OperatorTypeName = "Divide", Symbol = PropertyDisplayNames.Divide },
-                new OperatorTypeViewModel { OperatorTypeName = "Multiply", Symbol = PropertyDisplayNames.Multiply },
-                new OperatorTypeViewModel { OperatorTypeName = "PatchInlet", Symbol = PropertyDisplayNames.PatchInlet },
-                new OperatorTypeViewModel { OperatorTypeName = "PatchOutlet", Symbol = PropertyDisplayNames.PatchOutlet },
-                new OperatorTypeViewModel { OperatorTypeName = "Power", Symbol = PropertyDisplayNames.Power },
-                new OperatorTypeViewModel { OperatorTypeName = "SampleOperator", Symbol = PropertyDisplayNames.SampleOperator },
-                new OperatorTypeViewModel { OperatorTypeName = "Sine", Symbol = PropertyDisplayNames.Sine },
-                new OperatorTypeViewModel { OperatorTypeName = "Substract", Symbol = PropertyDisplayNames.Substract },
-                new OperatorTypeViewModel { OperatorTypeName = "TimeAdd", Symbol = PropertyDisplayNames.TimeAdd },
-                new OperatorTypeViewModel { OperatorTypeName = "TimeDivide", Symbol = PropertyDisplayNames.TimeDivide },
-                new OperatorTypeViewModel { OperatorTypeName = "TimeMultiply", Symbol = PropertyDisplayNames.TimeMultiply },
-                new OperatorTypeViewModel { OperatorTypeName = "TimePower", Symbol = PropertyDisplayNames.TimePower },
-                new OperatorTypeViewModel { OperatorTypeName = "TimeSubstract", Symbol = PropertyDisplayNames.TimeSubstract },
-                new OperatorTypeViewModel { OperatorTypeName = "ValueOperator", Symbol =  PropertyDisplayNames.ValueOperator }
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Adder, Symbol = PropertyDisplayNames.Adder },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Add, Symbol = PropertyDisplayNames.Add },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.CurveIn, Symbol = PropertyDisplayNames.CurveIn },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Divide, Symbol = PropertyDisplayNames.Divide },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Multiply, Symbol = PropertyDisplayNames.Multiply },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.PatchInlet, Symbol = PropertyDisplayNames.PatchInlet },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.PatchOutlet, Symbol = PropertyDisplayNames.PatchOutlet },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Power, Symbol = PropertyDisplayNames.Power },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Sample, Symbol = PropertyDisplayNames.Sample },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Sine, Symbol = PropertyDisplayNames.Sine },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Substract, Symbol = PropertyDisplayNames.Substract },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.TimeAdd, Symbol = PropertyDisplayNames.TimeAdd },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.TimeDivide, Symbol = PropertyDisplayNames.TimeDivide },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.TimeMultiply, Symbol = PropertyDisplayNames.TimeMultiply },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.TimePower, Symbol = PropertyDisplayNames.TimePower },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.TimeSubstract, Symbol = PropertyDisplayNames.TimeSubstract },
+                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Value, Symbol =  PropertyDisplayNames.Value }
             };
 
             return viewModels;

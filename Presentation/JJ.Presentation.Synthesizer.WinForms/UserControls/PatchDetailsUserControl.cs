@@ -81,6 +81,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _presenter = new PatchDetailsPresenter(
                     PersistenceHelper.CreateRepository<IPatchRepository>(_context),
                     PersistenceHelper.CreateRepository<IOperatorRepository>(_context),
+                    PersistenceHelper.CreateRepository<IOperatorTypeRepository>(_context),
                     PersistenceHelper.CreateRepository<IInletRepository>(_context),
                     PersistenceHelper.CreateRepository<IOutletRepository>(_context),
                     PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context),

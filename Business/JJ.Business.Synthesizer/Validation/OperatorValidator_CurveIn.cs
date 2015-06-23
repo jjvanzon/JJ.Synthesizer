@@ -9,13 +9,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
     public class OperatorValidator_CurveIn : OperatorValidator_Base
     {
         public OperatorValidator_CurveIn(Operator op)
-            : base(op, PropertyNames.CurveIn, 0, PropertyNames.Result)
+            : base(op, OperatorTypeEnum.CurveIn, 0, PropertyNames.Result)
         { }
 
         protected override void Execute()

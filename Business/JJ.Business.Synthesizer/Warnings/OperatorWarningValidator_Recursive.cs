@@ -1,5 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Names;
-
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
@@ -35,7 +36,7 @@ namespace JJ.Business.Synthesizer.Warnings
 
             Execute<OperatorWarningValidator_Versatile>();
 
-            if (String.Equals(Object.OperatorTypeName, PropertyNames.SampleOperator))
+            if (Object.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
             {
                 int sampleID;
                 if (Int32.TryParse(Object.Data, out sampleID))

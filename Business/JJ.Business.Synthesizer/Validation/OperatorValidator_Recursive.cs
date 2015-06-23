@@ -1,5 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Exceptions;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -55,11 +57,13 @@ namespace JJ.Business.Synthesizer.Validation
             }
             _alreadyDone.Add(op);
 
-            string messagePrefix = ValidationHelper.GetMessagePrefix(op.OperatorTypeName, op.Name);
+            string messagePrefix = ValidationHelper.GetMessagePrefix(op);
 
             Execute(new OperatorValidator_Versatile(op), messagePrefix);
 
-            if (String.Equals(op.OperatorTypeName, PropertyNames.CurveIn))
+            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+
+            if (operatorTypeEnum == OperatorTypeEnum.CurveIn)
             {
                 int curveID;
                 if (Int32.TryParse(op.Data, out curveID))
@@ -72,7 +76,7 @@ namespace JJ.Business.Synthesizer.Validation
                 }
             }
 
-            if (String.Equals(op.OperatorTypeName, PropertyNames.SampleOperator))
+            if (operatorTypeEnum == OperatorTypeEnum.Sample)
             {
                 int sampleID;
                 if (Int32.TryParse(op.Data, out sampleID))

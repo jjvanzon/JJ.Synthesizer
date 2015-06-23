@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_Sample_WithWavHeader()
+        public void Test_Synthesizer_InterpretedOperatorCalculator_Sample_WithWavHeader()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {

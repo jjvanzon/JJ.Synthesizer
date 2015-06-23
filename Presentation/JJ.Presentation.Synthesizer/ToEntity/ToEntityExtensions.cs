@@ -17,6 +17,7 @@ using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
@@ -340,18 +341,20 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             this PatchDetailsViewModel viewModel,
             IPatchRepository patchRepository,
             IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
             IEntityPositionRepository entityPositionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (inletRepository == null) throw new NullException(() => inletRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
 
-            Patch patch = viewModel.Patch.ToEntityWithRelatedEntities(patchRepository, operatorRepository, inletRepository, outletRepository, entityPositionRepository);
+            Patch patch = viewModel.Patch.ToEntityWithRelatedEntities(
+                patchRepository,
+                operatorRepository,
+                operatorTypeRepository, 
+                inletRepository, 
+                outletRepository, 
+                entityPositionRepository);
 
             return patch;
         }
@@ -360,13 +363,14 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             this PatchViewModel viewModel,
             IPatchRepository patchRepository,
             IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
             IEntityPositionRepository entityPositionRepository)
         {
             Patch patch = viewModel.ToEntity(patchRepository);
 
-            RecursiveViewModelToEntityConverter converter = new RecursiveViewModelToEntityConverter(operatorRepository, inletRepository, outletRepository, entityPositionRepository);
+            RecursiveViewModelToEntityConverter converter = new RecursiveViewModelToEntityConverter(operatorRepository, operatorTypeRepository, inletRepository, outletRepository, entityPositionRepository);
 
             var convertedOperators = new HashSet<Operator>();
 
@@ -403,18 +407,22 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Operator ToEntity(this OperatorViewModel viewModel, IOperatorRepository repository)
+        public static Operator ToEntity(this OperatorViewModel viewModel, IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (repository == null) throw new NullException(() => repository);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
 
-            Operator entity = repository.TryGet(viewModel.ID);
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = repository.Create();
+                entity = operatorRepository.Create();
             }
+
             entity.Name = viewModel.Name;
-            entity.OperatorTypeName = viewModel.OperatorTypeName;
+
+            entity.OperatorType = operatorTypeRepository.TryGet(viewModel.OperatorTypeID);
+
             return entity;
         }
 

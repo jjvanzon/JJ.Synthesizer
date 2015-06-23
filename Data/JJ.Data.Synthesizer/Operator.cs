@@ -18,6 +18,10 @@ namespace JJ.Data.Synthesizer
 
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
+
+        public virtual OperatorType OperatorType { get; set; }
+
+        [Obsolete("Use OperatorType instead.", true)]
         public virtual string OperatorTypeName { get; set; }
 
         /// <summary> parent </summary>
@@ -30,7 +34,7 @@ namespace JJ.Data.Synthesizer
 
         private string DebuggerDisplay
         {
-            get { return String.Format("{0} '{1}' ({2})", OperatorTypeName, Name, ID); }
+            get { return String.Format("{0} '{1}' ({2})", OperatorType.Name, Name, ID); }
         }
     }
 }

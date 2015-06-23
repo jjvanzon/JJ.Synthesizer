@@ -1,0 +1,30 @@
+﻿using JJ.Business.Synthesizer.Constants;
+using JJ.Data.Synthesizer;
+using JJ.Framework.Reflection.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace JJ.Business.Synthesizer.EntityWrappers
+{
+    public class WhiteNoise_OperatorWrapper : OperatorWrapperBase
+    {
+        public WhiteNoise_OperatorWrapper(Operator op)
+            : base(op)
+        { }
+
+        public Outlet Result
+        {
+            get { return GetOutlet(OperatorConstants. PATCH_OUTLET_RESULT_INDEX); }
+        }
+
+        public static implicit operator Outlet(WhiteNoise_OperatorWrapper wrapper)
+        {
+            if (wrapper == null) throw new NullException(() => wrapper);
+
+            return wrapper.Result;
+        }
+    }
+}

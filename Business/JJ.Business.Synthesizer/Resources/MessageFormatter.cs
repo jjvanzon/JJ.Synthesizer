@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JJ.Business.Synthesizer.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,19 +9,35 @@ namespace JJ.Business.Synthesizer.Resources
 {
     public static class MessageFormatter
     {
+        /// <summary>
+        /// Note:
+        /// When OperatorTypeEnum equals Undefined it will return a text like:
+        /// "Undefined operator named '...' does not have ... filled in."
+        /// </summary>
+        public static string InletNotSet(OperatorTypeEnum operatorTypeEnum, string operatorName, string operandName)
+        {
+            return String.Format(Messages.InletNotSet, operatorTypeEnum, operatorName, operandName);
+        }
+
         public static string InletNotSet(string operatorTypeName, string operatorName, string operandName)
         {
             return String.Format(Messages.InletNotSet, operatorTypeName, operatorName, operandName);
         }
 
-        public static string ValueOperatorValueIs0(string valueOperatorName)
+        public static string ValueIs0WithName(string name)
         {
-            return String.Format(Messages.ValueOperatorValueIs0, valueOperatorName);
+            return String.Format(Messages.ValueIs0WithName, name);
         }
 
-        public static string UnsupportedOperatorTypeName(string operatorTypeName)
+        public static string UnsupportedOperatorTypeEnumValue(OperatorTypeEnum operatorTypeEnum)
         {
-            return String.Format(Messages.UnsupportedOperatorTypeName, operatorTypeName);
+            return String.Format(Messages.UnsupportedOperatorTypeEnumValue, operatorTypeEnum);
+        }
+
+        [Obsolete("Use the overload that takes OperatorTypeEnum instead.", true)]
+        public static string UnsupportedOperatorTypeEnumValue(int operatorTypeEnumID)
+        {
+            return String.Format(Messages.UnsupportedOperatorTypeEnumValue, operatorTypeEnumID);
         }
 
         public static string SampleNotLoaded(string sampleName)

@@ -21,6 +21,7 @@ using JJ.Framework.Mathematics;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Configuration;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -29,6 +30,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IPatchRepository _patchRepository;
         private IOperatorRepository _operatorRepository;
+        private IOperatorTypeRepository _operatorTypeRepository;
         private IInletRepository _inletRepository;
         private IOutletRepository _outletRepository;
         private ICurveRepository _curveRepository;
@@ -43,6 +45,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public PatchDetailsPresenter(
             IPatchRepository patchRepository,
             IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
             IEntityPositionRepository entityPositionRepository, 
@@ -51,6 +54,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (patchRepository == null) throw new NullException(() => patchRepository);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
@@ -59,6 +63,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             _patchRepository = patchRepository;
             _operatorRepository = operatorRepository;
+            _operatorTypeRepository = operatorTypeRepository;
             _inletRepository = inletRepository;
             _outletRepository = outletRepository;
             _entityPositionRepository = entityPositionRepository;
@@ -66,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _sampleRepository = sampleRepository;
 
             _entityPositionManager = new EntityPositionManager(_entityPositionRepository);
-            _operatorFactory = new OperatorFactory(_operatorRepository, _inletRepository, _outletRepository, _curveRepository, _sampleRepository);
+            _operatorFactory = new OperatorFactory(_operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _curveRepository, _sampleRepository);
         }
 
         public PatchDetailsViewModel Create(
@@ -105,7 +110,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             //Type operatorWrapperType;
             //if (!_operatorTypeName_To_WrapperTypeDictionary.TryGetValue(operatorTypeName, out operatorWrapperType))
@@ -153,7 +158,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 op = _operatorFactory.PatchOutlet();
             }
-            else if (String.Equals(operatorTypeName, PropertyNames.SampleOperator))
+            else if (String.Equals(operatorTypeName, PropertyNames.Sample))
             {
                 op = _operatorFactory.Sample();
             }
@@ -185,7 +190,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 op = _operatorFactory.TimeSubstract();
             }
-            else if (String.Equals(operatorTypeName, PropertyNames.ValueOperator))
+            else if (String.Equals(operatorTypeName, PropertyNames.Value))
             {
                 op = _operatorFactory.Value(0);
             }
@@ -222,7 +227,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             Operator op = _operatorRepository.Get(operatorID); // This is just to check that the entity exists. TODO: But that's weird. You should be doing that in the entity position manager if anywhere.
             EntityPosition entityPosition = _entityPositionManager.SetOrCreateOperatorPosition(operatorID, centerX, centerY);
@@ -247,7 +252,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             Inlet inlet = _inletRepository.Get(inletID);
             Outlet outlet = _outletRepository.Get(inputOutletID);
@@ -263,7 +268,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             if (ViewModel == null)
             {
@@ -289,7 +294,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             if (ViewModel == null)
             {
@@ -305,7 +310,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             Operator op = patch.Operators.Where(x => x.ID == operatorID).SingleOrDefault();
             if (op != null)
@@ -334,7 +339,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             // TODO: Validation messages for incorrect situations.
             double d;
@@ -343,9 +348,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (viewModel.SelectedOperator != null)
                 {
                     Operator op = patch.Operators.Where(x => x.ID == viewModel.SelectedOperator.ID).Single();
-                    if (String.Equals(op.OperatorTypeName, PropertyNames.ValueOperator))
+                    if (op.GetOperatorTypeEnum() == OperatorTypeEnum.Value)
                     {
-                        var wrapper = new ValueOperatorWrapper(op);
+                        var wrapper = new Value_OperatorWrapper(op);
                         wrapper.Value = d;
                     }
                 }
@@ -372,7 +377,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     operatorViewModel.IsSelected = true;
                     viewModel.SelectedOperator = operatorViewModel;
-                    if (String.Equals(operatorViewModel.OperatorTypeName, PropertyNames.ValueOperator))
+                    if (operatorViewModel.OperatorTypeID == (int)OperatorTypeEnum.Value)
                     {
                         // Kind of dirty: this depends on the value being filled in as the name for value operators.
                         ViewModel.SelectedValue = operatorViewModel.Name;

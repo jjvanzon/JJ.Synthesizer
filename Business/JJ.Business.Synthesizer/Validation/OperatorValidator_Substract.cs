@@ -9,13 +9,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
     public class OperatorValidator_Substract : OperatorValidator_Base_NonSpecialized
     {
         public OperatorValidator_Substract(Operator obj)
-            : base(obj, PropertyNames.Substract, 2, PropertyNames.OperandA, PropertyNames.OperandB, PropertyNames.Result)
+            : base(obj, OperatorTypeEnum.Substract, 2, PropertyNames.OperandA, PropertyNames.OperandB, PropertyNames.Result)
         { }
     }
 }

@@ -14,9 +14,9 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
         {
             Id(x => x.ID);
             Map(x => x.Name);
-            Map(x => x.OperatorTypeName);
             Map(x => x.Data);
 
+            References(x => x.OperatorType, ColumnNames.OperatorTypeID);
             References(x => x.Patch, ColumnNames.PatchID);
 
             HasMany(x => x.Inlets).KeyColumn(ColumnNames.OperatorID).Inverse();

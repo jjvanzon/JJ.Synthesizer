@@ -21,11 +21,12 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         public static OperatorFactory CreateOperatorFactory(IContext context)
         {
             IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
+            IOperatorTypeRepository operatorTypeRepository = PersistenceHelper.CreateRepository<IOperatorTypeRepository>(context);
             IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
             IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
             ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
             ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
-            var factory = new OperatorFactory(operatorRepository, inletRepository, outletRepository, curveRepository, sampleRepository);
+            var factory = new OperatorFactory(operatorRepository, operatorTypeRepository, inletRepository, outletRepository, curveRepository, sampleRepository);
             return factory;
         }
 

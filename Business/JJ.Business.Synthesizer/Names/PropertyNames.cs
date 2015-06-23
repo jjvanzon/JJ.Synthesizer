@@ -23,9 +23,9 @@ namespace JJ.Business.Synthesizer.Names
         public const string TimeMultiply = "TimeMultiply";
         public const string TimePower = "TimePower";
         public const string TimeSubstract = "TimeSubstract";
-        public const string ValueOperator = "ValueOperator";
+        public const string Value = "Value";
         public const string CurveIn = "CurveIn";
-        public const string SampleOperator = "SampleOperator";
+        public const string Sample = "Sample";
 
         // Inlets
         public const string OperandA = "OperandA";
@@ -67,7 +67,6 @@ namespace JJ.Business.Synthesizer.Names
         public const string Patch = "Patch";
         public const string DocumentReference = "DocumentReference";
         public const string Curve = "Curve";
-        public const string Sample = "Sample";
         public const string ParentDocument = "ParentDocument";
         public const string ID = "ID";
         public const string Name = "Name";

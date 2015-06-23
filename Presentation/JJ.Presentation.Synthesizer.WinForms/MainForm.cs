@@ -1042,6 +1042,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 PersistenceHelper.CreateRepository<INodeRepository>(_context),
                 PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(_context),
                 PersistenceHelper.CreateRepository<IOperatorRepository>(_context),
+                PersistenceHelper.CreateRepository<IOperatorTypeRepository>(_context),
                 PersistenceHelper.CreateRepository<IInletRepository>(_context),
                 PersistenceHelper.CreateRepository<IOutletRepository>(_context),
                 PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context),

@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
@@ -32,7 +33,7 @@ namespace JJ.Business.Synthesizer.Warnings
             {
                 if (inlet.InputOutlet == null)
                 {
-                    ValidationMessages.Add(() => Object.Inlets[i].InputOutlet, MessageFormatter.InletNotSet(Object.OperatorTypeName, Object.Name, inlet.Name));
+                    ValidationMessages.Add(() => Object.Inlets[i].InputOutlet, MessageFormatter.InletNotSet(Object.GetOperatorTypeEnum(), Object.Name, inlet.Name));
                 }
                 i++;
             }

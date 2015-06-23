@@ -180,18 +180,18 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Operator type &apos;{0}&apos; is not supported..
         /// </summary>
-        internal static string UnsupportedOperatorTypeName {
+        internal static string UnsupportedOperatorTypeEnumValue {
             get {
-                return ResourceManager.GetString("UnsupportedOperatorTypeName", resourceCulture);
+                return ResourceManager.GetString("UnsupportedOperatorTypeEnumValue", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Value named &apos;{0}&apos; is 0..
         /// </summary>
-        internal static string ValueOperatorValueIs0 {
+        internal static string ValueIs0WithName {
             get {
-                return ResourceManager.GetString("ValueOperatorValueIs0", resourceCulture);
+                return ResourceManager.GetString("ValueIs0WithName", resourceCulture);
             }
         }
     }

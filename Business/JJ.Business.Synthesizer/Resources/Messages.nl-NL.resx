@@ -164,7 +164,7 @@
   <data name="UnsupportedOperatorTypeName" xml:space="preserve">
     <value>Operator type '{0}' wordt niet ondersteund.</value>
   </data>
-  <data name="ValueOperatorValueIs0" xml:space="preserve">
+  <data name="ValueIs0WithName" xml:space="preserve">
     <value>Waarde genaamd '{0}' is 0.</value>
   </data>
 </root>

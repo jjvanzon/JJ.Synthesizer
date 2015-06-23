@@ -183,9 +183,6 @@
   <data name="TimePower" xml:space="preserve">
     <value>Tijd macht</value>
   </data>
-  <data name="ValueOperator" xml:space="preserve">
-    <value>Waarde</value>
-  </data>
   <data name="Node" xml:space="preserve">
     <value>Knooppunt</value>
   </data>
@@ -212,9 +209,6 @@
   </data>
   <data name="Channel" xml:space="preserve">
     <value>Kanaal</value>
-  </data>
-  <data name="SampleOperator" xml:space="preserve">
-    <value>Geluidsfragment operator</value>
   </data>
   <data name="TimeMultiplier" xml:space="preserve">
     <value>Tijd vermenigvuldiger</value>
@@ -287,5 +281,11 @@
   </data>
   <data name="Location" xml:space="preserve">
     <value>Locatie</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Waarde</value>
+  </data>
+  <data name="OperatorType" xml:space="preserve">
+    <value>Operator soort</value>
   </data>
 </root>

@@ -4,7 +4,7 @@ using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Reflection;
 using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             switch (operandCalculators.Count)
             {
                 case 0:
-                    calculator = new Zero_Calculator();
+                    calculator = new Zero_OperatorCalculator();
                     break;
 
                 case 1:
@@ -47,11 +47,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 2:
-                    calculator = new Add_Calculator(operandCalculators[0], operandCalculators[1]);
+                    calculator = new Add_OperatorCalculator(operandCalculators[0], operandCalculators[1]);
                     break;
 
                 case 3:
-                    calculator = new AdderCalculator3
+                    calculator = new Adder_OperatorCalculator3
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 4:
-                    calculator = new AdderCalculator4
+                    calculator = new Adder_OperatorCalculator4
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 5:
-                    calculator = new AdderCalculator5
+                    calculator = new Adder_OperatorCalculator5
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 6:
-                    calculator = new AdderCalculator6
+                    calculator = new Adder_OperatorCalculator6
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 7:
-                    calculator = new AdderCalculator7
+                    calculator = new Adder_OperatorCalculator7
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 8:
-                    calculator = new AdderCalculator8
+                    calculator = new Adder_OperatorCalculator8
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -120,7 +120,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 9:
-                    calculator = new AdderCalculator9
+                    calculator = new Adder_OperatorCalculator9
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 10:
-                    calculator = new AdderCalculator10
+                    calculator = new Adder_OperatorCalculator10
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -151,7 +151,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 11:
-                    calculator = new AdderCalculator11
+                    calculator = new Adder_OperatorCalculator11
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -168,7 +168,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 12:
-                    calculator = new AdderCalculator12
+                    calculator = new Adder_OperatorCalculator12
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -186,7 +186,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 13:
-                    calculator = new AdderCalculator13
+                    calculator = new Adder_OperatorCalculator13
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -205,7 +205,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 14:
-                    calculator = new AdderCalculator14
+                    calculator = new Adder_OperatorCalculator14
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -225,7 +225,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 15:
-                    calculator = new AdderCalculator15
+                    calculator = new Adder_OperatorCalculator15
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -246,7 +246,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 16:
-                    calculator = new AdderCalculator16
+                    calculator = new Adder_OperatorCalculator16
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -268,7 +268,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 17:
-                    calculator = new AdderCalculator17
+                    calculator = new Adder_OperatorCalculator17
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -291,7 +291,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 18:
-                    calculator = new AdderCalculator18
+                    calculator = new Adder_OperatorCalculator18
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -315,7 +315,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 19:
-                    calculator = new AdderCalculator19
+                    calculator = new Adder_OperatorCalculator19
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -340,7 +340,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 20:
-                    calculator = new AdderCalculator20
+                    calculator = new Adder_OperatorCalculator20
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -366,7 +366,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 21:
-                    calculator = new AdderCalculator21
+                    calculator = new Adder_OperatorCalculator21
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -393,7 +393,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 22:
-                    calculator = new AdderCalculator22
+                    calculator = new Adder_OperatorCalculator22
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -421,7 +421,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 23:
-                    calculator = new AdderCalculator23
+                    calculator = new Adder_OperatorCalculator23
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -450,7 +450,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 24:
-                    calculator = new AdderCalculator24
+                    calculator = new Adder_OperatorCalculator24
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -480,7 +480,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 25:
-                    calculator = new AdderCalculator25
+                    calculator = new Adder_OperatorCalculator25
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -511,7 +511,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 26:
-                    calculator = new AdderCalculator26
+                    calculator = new Adder_OperatorCalculator26
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -543,7 +543,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 27:
-                    calculator = new AdderCalculator27
+                    calculator = new Adder_OperatorCalculator27
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -576,7 +576,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 28:
-                    calculator = new AdderCalculator28
+                    calculator = new Adder_OperatorCalculator28
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -610,7 +610,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 29:
-                    calculator = new AdderCalculator29
+                    calculator = new Adder_OperatorCalculator29
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -645,7 +645,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 30:
-                    calculator = new AdderCalculator30
+                    calculator = new Adder_OperatorCalculator30
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -681,7 +681,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 31:
-                    calculator = new AdderCalculator31
+                    calculator = new Adder_OperatorCalculator31
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -718,7 +718,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                     break;
 
                 case 32:
-                    calculator = new AdderCalculator32
+                    calculator = new Adder_OperatorCalculator32
 					(
 						operandCalculators[0],
 						operandCalculators[1],
@@ -757,7 +757,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
 
                 default:
-                    calculator = new Adder_Calculator(operandCalculators.ToArray());
+                    calculator = new Adder_OperatorCalculator(operandCalculators.ToArray());
                     break;
             }
 

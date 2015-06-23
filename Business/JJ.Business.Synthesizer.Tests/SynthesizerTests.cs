@@ -44,8 +44,8 @@ namespace JJ.Business.Synthesizer.Tests
 
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
 
-                AddWrapper add = x.Add(x.Value(2), x.Value(3));
-                SubstractWrapper substract = x.Substract(add, x.Value(1));
+                Add_OperatorWrapper add = x.Add(x.Value(2), x.Value(3));
+                Substract_OperatorWrapper substract = x.Substract(add, x.Value(1));
 
                 IValidator validator = new OperatorValidator_Recursive(substract.Operator, curveRepository, sampleRepository, alreadyDone: new HashSet<object>());
                 validator.Verify();
@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Tests
                 CultureHelper.SetThreadCulture("nl-NL");
 
                 add.OperandA = null;
-                var valueOperatorWrapper = new ValueOperatorWrapper(substract.OperandB.Operator);
+                var valueOperatorWrapper = new Value_OperatorWrapper(substract.OperandB.Operator);
                 valueOperatorWrapper.Value = 0;
                 substract.Operator.Inlets[0].Name = "134";
 
@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Tests
                 OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
 
                 IValidator validator1 = new OperatorWarningValidator_Add(factory.Add().Operator);
-                IValidator validator2 = new OperatorWarningValidator_ValueOperator(factory.Value().Operator);
+                IValidator validator2 = new OperatorWarningValidator_Value(factory.Value().Operator);
 
                 bool isValid = validator1.IsValid &&
                                validator2.IsValid;
@@ -109,7 +109,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_Adder()
+        public void Test_Synthesizer_InterpretedOperatorCalculator_Adder()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -118,10 +118,10 @@ namespace JJ.Business.Synthesizer.Tests
 
                 OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
 
-                ValueOperatorWrapper val1 = factory.Value(1);
-                ValueOperatorWrapper val2 = factory.Value(2);
-                ValueOperatorWrapper val3 = factory.Value(3);
-                AdderWrapper adder = factory.Adder(val1, val2, val3);
+                Value_OperatorWrapper val1 = factory.Value(1);
+                Value_OperatorWrapper val2 = factory.Value(2);
+                Value_OperatorWrapper val3 = factory.Value(3);
+                Adder_OperatorWrapper adder = factory.Adder(val1, val2, val3);
 
                 IValidator validator = new OperatorValidator_Adder(adder.Operator);
                 validator.Verify();
@@ -142,9 +142,9 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
 
-                SubstractWrapper substract = x.Substract(x.Add(x.Value(2), x.Value(3)), x.Value(1));
+                Substract_OperatorWrapper substract = x.Substract(x.Add(x.Value(2), x.Value(3)), x.Value(1));
 
-                SubstractWrapper substract2 = x.Substract
+                Substract_OperatorWrapper substract2 = x.Substract
                 (
                     x.Add
                     (
@@ -157,7 +157,7 @@ namespace JJ.Business.Synthesizer.Tests
         }
 
         [TestMethod]
-        public void Test_Synthesizer_SineWithCurve_InterpretedMode()
+        public void Test_Synthesizer_InterpretedOperatorCalculator_SineWithCurve_InterpretedMode()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -168,7 +168,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Curve curve = curveFactory.CreateCurve(1, 0, 1, 0.8, null, null, 0.8, 0);
 
                 OperatorFactory f = TestHelper.CreateOperatorFactory(context);
-                SineWrapper sine = f.Sine(f.CurveIn(curve), f.Value(440));
+                Sine_OperatorWrapper sine = f.Sine(f.CurveIn(curve), f.Value(440));
 
                 CultureHelper.SetThreadCulture("nl-NL");
                 IValidator[] validators = 
@@ -179,7 +179,7 @@ namespace JJ.Business.Synthesizer.Tests
                 };
                 validators.ForEach(x => x.Verify());
 
-                InterpretedOperatorCalculator calculator = new InterpretedOperatorCalculator(curveRepository, sampleRepository, sine);
+                var calculator = new InterpretedOperatorCalculator(curveRepository, sampleRepository, sine);
                 var values = new double[]
                 {
                     calculator.Calculate(sine, 0.00),
@@ -224,8 +224,8 @@ namespace JJ.Business.Synthesizer.Tests
                 sample.SamplingRate = 8000;
                 sample.BytesToSkip = 100;
 
-                Outlet sampleOperator = operatorFactory.Sample(sample);
-                Outlet effect = EntityFactory.CreateTimePowerEffectWithEcho(operatorFactory, sampleOperator);
+                Outlet sampleOperatorOutlet = operatorFactory.Sample(sample);
+                Outlet effect = EntityFactory.CreateTimePowerEffectWithEcho(operatorFactory, sampleOperatorOutlet);
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = effect;
@@ -264,8 +264,8 @@ namespace JJ.Business.Synthesizer.Tests
                 //IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
                 //sample.SetInterpolationTypeEnum(InterpolationTypeEnum.Block, interpolationTypeRepository);
 
-                Outlet sampleOperator = operatorFactory.Sample(sample);
-                Outlet effect = EntityFactory.CreateMultiplyWithEcho(operatorFactory, sampleOperator);
+                Outlet sampleOperatorOutlet = operatorFactory.Sample(sample);
+                Outlet effect = EntityFactory.CreateMultiplyWithEcho(operatorFactory, sampleOperatorOutlet);
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = effect;

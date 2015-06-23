@@ -342,6 +342,15 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Operator Type.
         /// </summary>
+        public static string OperatorType {
+            get {
+                return ResourceManager.GetString("OperatorType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operator Type.
+        /// </summary>
         public static string OperatorTypeName {
             get {
                 return ResourceManager.GetString("OperatorTypeName", resourceCulture);
@@ -444,15 +453,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string SampleDataType {
             get {
                 return ResourceManager.GetString("SampleDataType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sample Operator.
-        /// </summary>
-        public static string SampleOperator {
-            get {
-                return ResourceManager.GetString("SampleOperator", resourceCulture);
             }
         }
         
@@ -567,9 +567,9 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
-        public static string ValueOperator {
+        public static string Value {
             get {
-                return ResourceManager.GetString("ValueOperator", resourceCulture);
+                return ResourceManager.GetString("Value", resourceCulture);
             }
         }
     }

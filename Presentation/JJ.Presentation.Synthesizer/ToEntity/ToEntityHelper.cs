@@ -167,7 +167,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (PatchDetailsViewModel viewModel in viewModelList)
             {
-                Patch entity = viewModel.Patch.ToEntityWithRelatedEntities(repositoryWrapper.PatchRepository, repositoryWrapper.OperatorRepository, repositoryWrapper.InletRepository, repositoryWrapper.OutletRepository, repositoryWrapper.EntityPositionRepository);
+                Patch entity = viewModel.Patch.ToEntityWithRelatedEntities(
+                    repositoryWrapper.PatchRepository,
+                    repositoryWrapper.OperatorRepository,
+                    repositoryWrapper.OperatorTypeRepository, 
+                    repositoryWrapper.InletRepository, 
+                    repositoryWrapper.OutletRepository, 
+                    repositoryWrapper.EntityPositionRepository);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))

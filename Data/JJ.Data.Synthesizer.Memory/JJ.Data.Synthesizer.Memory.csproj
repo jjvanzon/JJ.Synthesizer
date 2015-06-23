@@ -39,6 +39,7 @@
     <Compile Include="Mappings\ChannelMapping.cs" />
     <Compile Include="Mappings\AudioFileOutputMapping.cs" />
     <Compile Include="Mappings\AudioFileOutputChannelMapping.cs" />
+    <Compile Include="Mappings\OperatorTypeMapping.cs" />
     <Compile Include="Mappings\DocumentMapping.cs" />
     <Compile Include="Mappings\DocumentReferenceMapping.cs" />
     <Compile Include="Mappings\EntityPositionMapping.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="Mappings\NodeMappings.cs" />
     <Compile Include="Mappings\NodeTypeMappings.cs" />
     <Compile Include="Repositories\ChannelRepository.cs" />
+    <Compile Include="Repositories\OperatorTypeRepository.cs" />
     <Compile Include="Repositories\EntityPositionRepository.cs" />
     <Compile Include="Repositories\SpeakerSetupRepository.cs" />
     <Compile Include="Repositories\SpeakerSetupChannelRepository.cs" />

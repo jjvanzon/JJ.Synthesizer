@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -17,23 +19,22 @@ namespace JJ.Business.Synthesizer.Validation
     /// </summary>
     public abstract class OperatorValidator_Base : FluentValidator<Operator>
     {
-        private string _expectedOperatorTypeName;
+        private OperatorTypeEnum _expectedOperatorTypeEnum;
         private IList<string> _expectedInletNames;
         private IList<string> _expectedOutletNames;
 
         public OperatorValidator_Base(
             Operator obj, 
-            string expectedOperatorTypeName, 
+            OperatorTypeEnum expectedOperatorTypeEnum, 
             int expectedInletCount, 
             params string[] expectedInletAndOutletNames)
             : base(obj, postponeExecute: true)
         {
-            if (String.IsNullOrWhiteSpace(expectedOperatorTypeName)) throw new Exception("expectedOperatorTypeName cannot be null or white space.");
             if (expectedInletAndOutletNames == null) throw new NullException(() => expectedInletAndOutletNames);
-            if (expectedInletCount < 0) throw new Exception("expectedInletCount cannot be less than 0.");
+            if (expectedInletCount < 0) throw new LessThanException(() => expectedInletCount, 0);
             if (expectedInletAndOutletNames.Length < expectedInletCount) throw new Exception("expectedInletAndOutletNames must have a length of at least the expectedInletCount.");
 
-            _expectedOperatorTypeName = expectedOperatorTypeName;
+            _expectedOperatorTypeEnum = expectedOperatorTypeEnum;
             _expectedInletNames = expectedInletAndOutletNames.Take(expectedInletCount).ToArray();
             _expectedOutletNames = expectedInletAndOutletNames.Skip(expectedInletCount).ToArray();
 
@@ -44,8 +45,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Operator op = Object;
 
-            For(() => op.OperatorTypeName, PropertyDisplayNames.OperatorTypeName)
-                .Is(_expectedOperatorTypeName);
+            For(() => op.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).Is(_expectedOperatorTypeEnum);
 
             For(() => op.Inlets.Count, GetPropertyDisplayName_ForInletCount())
                 .Is(_expectedInletNames.Count);

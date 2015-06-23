@@ -40,70 +40,71 @@
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Add_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Adder_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\AdderCalculators.cs">
+    <Compile Include="Calculation\Operators\Entities\Add_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Adder_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Adder_OperatorCalculators.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>AdderCalculators.tt</DependentUpon>
+      <DependentUpon>Adder_OperatorCalculators.tt</DependentUpon>
     </Compile>
-    <Compile Include="Calculation\Operators\Entities\Add_WithConstOperandA_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Add_WithConstOperandB_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Divide_WithConstOrigin_AndNumerator_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Divide_WithConstOrigin_AndDenominator_Calculator .cs" />
-    <Compile Include="Calculation\Operators\Entities\Divide_WithConstOrigin_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Divide_WithOrigin_AndConstNumerator_AndDenominator_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Divide_WithOrigin_AndConstNumerator_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Divide_WithOrigin_AndConstDenominator_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Divide_WithOrigin_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Divide_WithoutOrigin_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Divide_WithoutOrigin_WithConstNumerator_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Divide_WithoutOrigin_WithConstDenominator_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimeDivide_WithConstOrigin_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimeDivide_WithOrigin_WithConstTimeDivider_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimeDivide_WithoutOrigin_WithConstTimeDivider_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimeMultiply_WithOrigin_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimeMultiply_WithConstOrigin_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimeMultiply_WithOrigin_WithConstTimeDivider_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimeMultiply_WithoutOrigin_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimeMultiply_WithoutOrigin_WithConstTimeDivider_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimeSubstract_WithConstTimeDifference_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimeAdd_WithConstTimeDifference_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Power_WithConstExponent_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Power_WithConstBase_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Multiply_WithConstOrigin_AndOperandB_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Multiply_WithConstOrigin_AndOperandA_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Multiply_WithOrigin_AndConstOperandA_AndOperandB_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Multiply_WithConstOrigin_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Multiply_WithOrigin_AndConstOperandB_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Multiply_WithOrigin_AndConstOperandA_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Multiply_WithoutOrigin_WithConstOperandB_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Multiply_WithoutOrigin_WithConstOperandA_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Substract_WithConstOperandB_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Substract_WithConstOperandA_Calculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Add_WithConstOperandA_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Add_WithConstOperandB_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Divide_WithConstOrigin_AndNumerator_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Divide_WithConstOrigin_AndDenominator_OperatorCalculator .cs" />
+    <Compile Include="Calculation\Operators\Entities\Divide_WithConstOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Divide_WithOrigin_AndConstNumerator_AndDenominator_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Divide_WithOrigin_AndConstNumerator_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Divide_WithOrigin_AndConstDenominator_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Divide_WithOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Divide_WithoutOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimeDivide_WithConstOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimeDivide_WithOrigin_WithConstTimeDivider_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimeDivide_WithoutOrigin_WithConstTimeDivider_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimeMultiply_WithOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimeMultiply_WithConstOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimeMultiply_WithOrigin_WithConstTimeMultiplier_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimeMultiply_WithoutOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimeMultiply_WithoutOrigin_WithConstTimeMultiplier_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimeSubstract_WithConstTimeDifference_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimeAdd_WithConstTimeDifference_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Power_WithConstExponent_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Power_WithConstBase_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithConstOrigin_AndOperandB_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithConstOrigin_AndOperandA_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithOrigin_AndConstOperandA_AndOperandB_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithConstOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithOrigin_AndConstOperandB_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithOrigin_AndConstOperandA_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithoutOrigin_WithConstOperandB_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithoutOrigin_WithConstOperandA_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Substract_WithConstOperandB_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Substract_WithConstOperandA_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\WhiteNoise_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\IOperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimeDivide_WithOrigin_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimeDivide_WithoutOrigin_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Zero_Calculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimeDivide_WithOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimeDivide_WithoutOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Zero_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\OptimizedOperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\SampleOperator_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\SampleOperator_MonoToStereo_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\SampleOperator_StereoToMono_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Sine_WithLevel_AndPhaseStart_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Sine_WithPhaseStart_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Multiply_WithOrigin_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\CurveIn_Calculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Sample_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Sample_MonoToStereo_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Sample_StereoToMono_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Sine_WithLevel_AndPhaseStart_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Sine_WithPhaseStart_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\CurveIn_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
-    <Compile Include="Calculation\Operators\Entities\Multiply_WithoutOrigin_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Power_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Sine_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Sine_WithLevel_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Substract_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimeAdd_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimePower_WithoutOrigin_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimePower_WithOrigin_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\TimeSubstract_Calculator.cs" />
-    <Compile Include="Calculation\Operators\Entities\Value_Calculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Multiply_WithoutOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Power_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Sine_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Sine_WithLevel_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Substract_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimeAdd_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimePower_WithoutOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimePower_WithOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\TimeSubstract_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Value_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\OptimizedOperatorCalculatorVisitor.VisitAdder.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -124,7 +125,9 @@
     <Compile Include="Constants\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
     <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />
-    <Compile Include="EntityWrappers\SampleOperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\WhiteNoise_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Sample_OperatorWrapper.cs" />
+    <Compile Include="Enums\OperatorTypeEnum.cs" />
     <Compile Include="Enums\SpeakerSetupEnum.cs" />
     <Compile Include="Enums\ChannelEnum.cs" />
     <Compile Include="Enums\AudioFileFormatEnum.cs" />
@@ -137,23 +140,23 @@
     <Compile Include="Extensions\UnlinkRelatedEntitiesExtensions.cs" />
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Factories\CurveFactory.cs" />
-    <Compile Include="EntityWrappers\AdderWrapper.cs" />
-    <Compile Include="EntityWrappers\CurveInWrapper.cs" />
-    <Compile Include="EntityWrappers\TimeSubstractWrapper.cs" />
-    <Compile Include="EntityWrappers\TimeMultiplyWrapper.cs" />
-    <Compile Include="EntityWrappers\TimePowerWrapper.cs" />
-    <Compile Include="EntityWrappers\TimeDivideWrapper.cs" />
-    <Compile Include="EntityWrappers\TimeAddWrapper.cs" />
-    <Compile Include="EntityWrappers\SineWrapper.cs" />
-    <Compile Include="EntityWrappers\PowerWrapper.cs" />
-    <Compile Include="EntityWrappers\PatchOutletWrapper.cs" />
-    <Compile Include="EntityWrappers\PatchInletWrapper.cs" />
-    <Compile Include="EntityWrappers\DivideWrapper.cs" />
+    <Compile Include="EntityWrappers\Adder_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\CurveIn_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\TimeSubstract_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\TimeMultiply_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\TimePower_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\TimeDivide_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\TimeAdd_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Sine_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Power_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\PatchOutlet_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\PatchInlet_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Divide_OperatorWrapper.cs" />
     <Compile Include="Enums\NodeTypeEnum.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="EntityWrappers\MultiplyWrapper.cs" />
+    <Compile Include="EntityWrappers\Multiply_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
-    <Compile Include="EntityWrappers\SubstractWrapper.cs" />
+    <Compile Include="EntityWrappers\Substract_OperatorWrapper.cs" />
     <Compile Include="Helpers\AudioFileOutputRepositories.cs" />
     <Compile Include="Helpers\RepositoryWrapper.cs" />
     <Compile Include="Helpers\SampleDataTypeHelper.cs" />
@@ -196,7 +199,7 @@
     <Compile Include="Validation\PatchValidator_InDocument.cs" />
     <Compile Include="Validation\DocumentValidator_Recursive.cs" />
     <Compile Include="Validation\OperatorValidator_Adder.cs" />
-    <Compile Include="Validation\OperatorValidator_SampleOperator.cs" />
+    <Compile Include="Validation\OperatorValidator_Sample.cs" />
     <Compile Include="Validation\OperatorValidator_CurveIn.cs" />
     <Compile Include="Validation\SampleValidator.cs" />
     <Compile Include="Validation\AudioFileOutputValidator.cs" />
@@ -212,7 +215,7 @@
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
     <Compile Include="Warnings\SampleWarningValidator.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Base.cs" />
-    <Compile Include="Warnings\OperatorWarningValidator_SampleOperator.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Sample.cs" />
     <Compile Include="Validation\CurveValidator.cs" />
     <Compile Include="Validation\NodeValidator.cs" />
     <Compile Include="Validation\OperatorValidator_TimeMultiply.cs" />
@@ -225,13 +228,13 @@
     <Compile Include="Validation\OperatorValidator_PatchOutlet.cs" />
     <Compile Include="Validation\OperatorValidator_PatchInlet.cs" />
     <Compile Include="Validation\OperatorValidator_Divide.cs" />
-    <Compile Include="Validation\OperatorValidator_ValueOperator.cs" />
+    <Compile Include="Validation\OperatorValidator_Value.cs" />
     <Compile Include="Validation\OperatorValidator_Multiply.cs" />
     <Compile Include="Validation\OperatorValidator_Recursive.cs" />
     <Compile Include="Validation\OperatorValidator_Substract.cs" />
     <Compile Include="Validation\OperatorValidator_Base.cs" />
-    <Compile Include="EntityWrappers\AddWrapper.cs" />
-    <Compile Include="EntityWrappers\ValueOperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Add_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Value_OperatorWrapper.cs" />
     <Compile Include="LinkTo\LinkToExtensions.cs" />
     <Compile Include="Names\PropertyNames.cs" />
     <Compile Include="Factories\OperatorFactory.cs" />
@@ -262,7 +265,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_Multiply.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Recursive.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Substract.cs" />
-    <Compile Include="Warnings\OperatorWarningValidator_ValueOperator.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Value.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Business\JJ.Framework.Business.csproj">
@@ -328,9 +331,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Calculation\Operators\Entities\AdderCalculators.tt">
+    <None Include="Calculation\Operators\Entities\Adder_OperatorCalculators.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AdderCalculators.cs</LastGenOutput>
+      <LastGenOutput>Adder_OperatorCalculators.cs</LastGenOutput>
     </None>
     <None Include="Calculation\Operators\OptimizedOperatorCalculatorVisitor.VisitAdder.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

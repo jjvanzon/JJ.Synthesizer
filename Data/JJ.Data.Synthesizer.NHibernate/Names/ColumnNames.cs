@@ -26,5 +26,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Names
         public const string DependentDocumentID = "DependentDocumentID";
         public const string MainPatchID = "MainPatchID";
         public const string DependentOnDocumentID = "DependentOnDocumentID";
+        public const string OperatorTypeID = "OperatorTypeID";
     }
 }

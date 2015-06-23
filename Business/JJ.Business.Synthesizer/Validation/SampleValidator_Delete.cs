@@ -1,6 +1,8 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
@@ -43,12 +45,12 @@ namespace JJ.Business.Synthesizer.Validation
 
             foreach (Operator op in sample.Document.Patches.SelectMany(x => x.Operators))
             {
-                if (!String.Equals(op.OperatorTypeName, PropertyNames.SampleOperator))
+                if (op.GetOperatorTypeEnum() != OperatorTypeEnum.Sample)
                 {
                     continue;
                 }
 
-                var wrapper = new SampleOperatorWrapper(op, _sampleRepository);
+                var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
 
                 if (wrapper.Sample == sample ||
                     wrapper.SampleID == sample.ID)

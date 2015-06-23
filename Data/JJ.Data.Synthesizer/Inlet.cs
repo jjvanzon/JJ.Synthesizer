@@ -24,7 +24,7 @@ namespace JJ.Data.Synthesizer
             get
             {
                 if (Operator == null) return Name;
-                return String.Format("{0} '{1}' ({2}) - {3}", Operator.OperatorTypeName, Operator.Name, Operator.ID, Name);
+                return String.Format("{0} '{1}' ({2}) - {3}", Operator.OperatorType.Name, Operator.Name, Operator.ID, Name);
             }
         }
     }

@@ -12,6 +12,56 @@ namespace JJ.Business.Synthesizer.Extensions
 {
     public static class EnumExtensions
     {
+        // AudioFileOutput
+
+        public static SpeakerSetupEnum GetSpeakerSetupEnum(this AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput.SpeakerSetup == null) return SpeakerSetupEnum.Undefined;
+
+            return (SpeakerSetupEnum)audioFileOutput.SpeakerSetup.ID;
+        }
+
+        public static void SetSpeakerSetupEnum(this AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetupEnum, ISpeakerSetupRepository speakerSetupRepository)
+        {
+            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
+
+            SpeakerSetup speakerSetup = speakerSetupRepository.GetWithRelatedEntities((int)speakerSetupEnum);
+
+            audioFileOutput.LinkTo(speakerSetup);
+        }
+
+        public static SampleDataTypeEnum GetSampleDataTypeEnum(this AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput.SampleDataType == null) return SampleDataTypeEnum.Undefined;
+
+            return (SampleDataTypeEnum)audioFileOutput.SampleDataType.ID;
+        }
+
+        public static void SetSampleDataTypeEnum(this AudioFileOutput audioFileOutput, SampleDataTypeEnum sampleDataTypeEnum, ISampleDataTypeRepository sampleDataTypeRepository)
+        {
+            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
+
+            SampleDataType sampleDataType = sampleDataTypeRepository.Get((int)sampleDataTypeEnum);
+
+            audioFileOutput.LinkTo(sampleDataType);
+        }
+
+        public static AudioFileFormatEnum GetAudioFileFormatEnum(this AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput.AudioFileFormat == null) return AudioFileFormatEnum.Undefined;
+
+            return (AudioFileFormatEnum)audioFileOutput.AudioFileFormat.ID;
+        }
+
+        public static void SetAudioFileFormatEnum(this AudioFileOutput audioFileOutput, AudioFileFormatEnum audioFileFormatEnum, IAudioFileFormatRepository audioFileFormatRepository)
+        {
+            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
+
+            AudioFileFormat audioFileFormat = audioFileFormatRepository.Get((int)audioFileFormatEnum); ;
+
+            audioFileOutput.LinkTo(audioFileFormat);
+        }
+
         // Node
 
         public static NodeTypeEnum GetNodeTypeEnum(this Node node)
@@ -28,6 +78,24 @@ namespace JJ.Business.Synthesizer.Extensions
             NodeType nodeType = nodeTypeRepository.Get((int)nodeTypeEnum);
 
             node.LinkTo(nodeType);
+        }
+
+        // Operator
+
+        public static OperatorTypeEnum GetOperatorTypeEnum(this Operator op)
+        {
+            if (op.OperatorType == null) return OperatorTypeEnum.Undefined;
+
+            return (OperatorTypeEnum)op.OperatorType.ID;
+        }
+
+        public static void SetOperatorTypeEnum(this Operator op, OperatorTypeEnum operatorTypeEnum, IOperatorTypeRepository operatorTypeRepository)
+        {
+            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
+
+            OperatorType operatorType = operatorTypeRepository.Get((int)operatorTypeEnum);
+
+            op.LinkTo(operatorType);
         }
 
         // Sample
@@ -94,56 +162,6 @@ namespace JJ.Business.Synthesizer.Extensions
             AudioFileFormat audioFileFormat = audioFileFormatRepository.Get((int)audioFileFormatEnum);
 
             sample.LinkTo(audioFileFormat);
-        }
-
-        // AudioFileOutput
-
-        public static SpeakerSetupEnum GetSpeakerSetupEnum(this AudioFileOutput audioFileOutput)
-        {
-            if (audioFileOutput.SpeakerSetup == null) return SpeakerSetupEnum.Undefined;
-
-            return (SpeakerSetupEnum)audioFileOutput.SpeakerSetup.ID;
-        }
-
-        public static void SetSpeakerSetupEnum(this AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetupEnum, ISpeakerSetupRepository speakerSetupRepository)
-        {
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-
-            SpeakerSetup speakerSetup = speakerSetupRepository.GetWithRelatedEntities((int)speakerSetupEnum);
-
-            audioFileOutput.LinkTo(speakerSetup);
-        }
-
-        public static SampleDataTypeEnum GetSampleDataTypeEnum(this AudioFileOutput audioFileOutput)
-        {
-            if (audioFileOutput.SampleDataType == null) return SampleDataTypeEnum.Undefined;
-
-            return (SampleDataTypeEnum)audioFileOutput.SampleDataType.ID;
-        }
-
-        public static void SetSampleDataTypeEnum(this AudioFileOutput audioFileOutput, SampleDataTypeEnum sampleDataTypeEnum, ISampleDataTypeRepository sampleDataTypeRepository)
-        {
-            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
-
-            SampleDataType sampleDataType = sampleDataTypeRepository.Get((int)sampleDataTypeEnum);
-
-            audioFileOutput.LinkTo(sampleDataType);
-        }
-
-        public static AudioFileFormatEnum GetAudioFileFormatEnum(this AudioFileOutput audioFileOutput)
-        {
-            if (audioFileOutput.AudioFileFormat == null) return AudioFileFormatEnum.Undefined;
-
-            return (AudioFileFormatEnum)audioFileOutput.AudioFileFormat.ID;
-        }
-
-        public static void SetAudioFileFormatEnum(this AudioFileOutput audioFileOutput, AudioFileFormatEnum audioFileFormatEnum, IAudioFileFormatRepository audioFileFormatRepository)
-        {
-            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
-
-            AudioFileFormat audioFileFormat = audioFileFormatRepository.Get((int)audioFileFormatEnum);;
-
-            audioFileOutput.LinkTo(audioFileFormat);
         }
     }
 }

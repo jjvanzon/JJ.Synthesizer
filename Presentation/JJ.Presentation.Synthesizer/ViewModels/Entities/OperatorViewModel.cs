@@ -29,6 +29,12 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         /// <summary>
         /// For persistence. Does not need to be displayed.
         /// </summary>
+        public int OperatorTypeID { get; set; }
+
+        [Obsolete("Use OperatorTypeID instead.", true)]
+        /// <summary>
+        /// For persistence. Does not need to be displayed.
+        /// </summary>
         public string OperatorTypeName { get; set; }
     }
 }

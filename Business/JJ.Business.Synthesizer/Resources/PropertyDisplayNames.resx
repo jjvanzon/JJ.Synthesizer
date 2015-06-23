@@ -184,9 +184,6 @@
   <data name="TimePower" xml:space="preserve">
     <value>Time Power</value>
   </data>
-  <data name="ValueOperator" xml:space="preserve">
-    <value>Value</value>
-  </data>
   <data name="Node" xml:space="preserve">
     <value>Node</value>
   </data>
@@ -213,9 +210,6 @@
   </data>
   <data name="Channel" xml:space="preserve">
     <value>Channel</value>
-  </data>
-  <data name="SampleOperator" xml:space="preserve">
-    <value>Sample Operator</value>
   </data>
   <data name="TimeMultiplier" xml:space="preserve">
     <value>Time Multiplier</value>
@@ -288,5 +282,11 @@
   </data>
   <data name="Location" xml:space="preserve">
     <value>Location</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="OperatorType" xml:space="preserve">
+    <value>Operator Type</value>
   </data>
 </root>

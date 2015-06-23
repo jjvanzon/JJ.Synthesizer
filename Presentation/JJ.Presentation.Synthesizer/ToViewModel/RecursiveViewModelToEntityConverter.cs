@@ -15,6 +15,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     internal class RecursiveViewModelToEntityConverter
     {
         private readonly IOperatorRepository _operatorRepository;
+        private readonly IOperatorTypeRepository _operatorTypeRepository;
         private readonly IInletRepository _inletRepository;
         private readonly IOutletRepository _outletRepository;
         private readonly IEntityPositionRepository _entityPositionRepository;
@@ -24,16 +25,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public RecursiveViewModelToEntityConverter(
             IOperatorRepository operatorRepository,
+            IOperatorTypeRepository operatorTypeRepository,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
             IEntityPositionRepository entityPositionRepository)
         {
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
 
             _operatorRepository = operatorRepository;
+            _operatorTypeRepository = operatorTypeRepository;
             _inletRepository = inletRepository;
             _outletRepository = outletRepository;
             _entityPositionRepository = entityPositionRepository;
@@ -56,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 return op;
             }
 
-            op = viewModel.ToEntity(_operatorRepository);
+            op = viewModel.ToEntity(_operatorRepository, _operatorTypeRepository);
 
             _operatorDictionary.Add(viewModel.TemporaryID, op);
 

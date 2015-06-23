@@ -78,6 +78,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
         {
             var operatorFactory = new OperatorFactory(
                 persistenceWrapper.OperatorRepository,
+                persistenceWrapper.OperatorTypeRepository,
                 persistenceWrapper.InletRepository,
                 persistenceWrapper.OutletRepository,
                 persistenceWrapper.CurveRepository,

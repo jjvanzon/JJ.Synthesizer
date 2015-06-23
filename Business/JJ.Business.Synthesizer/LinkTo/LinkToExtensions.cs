@@ -380,6 +380,15 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
+        public static void LinkTo(this Operator op, OperatorType operatorType)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            op.OperatorType = operatorType;
+
+            // No inverse property.
+        }
+
         public static void LinkTo(this Sample sample, SpeakerSetup speakerSetup)
         {
             if (sample == null) throw new NullException(() => sample);

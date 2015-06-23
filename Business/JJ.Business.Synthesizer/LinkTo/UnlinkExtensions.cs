@@ -59,6 +59,13 @@ namespace JJ.Business.Synthesizer.LinkTo
             op.LinkTo((Patch)null);
         }
 
+        public static void UnlinkOperatorType(this Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            op.LinkTo((OperatorType)null);
+        }
+
         public static void UnlinkDocument(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);

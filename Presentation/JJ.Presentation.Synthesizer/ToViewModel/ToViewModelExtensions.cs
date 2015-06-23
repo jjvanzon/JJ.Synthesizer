@@ -1,5 +1,6 @@
 ﻿using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Names;
 using JJ.Framework.Reflection.Exceptions;
@@ -15,6 +16,7 @@ using System.Threading.Tasks;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.ViewModels.Keys;
 using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -250,24 +252,26 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string name;
-            if (String.Equals(entity.OperatorTypeName, PropertyNames.ValueOperator))
-            {
-                var wrapper = new ValueOperatorWrapper(entity);
-                name = wrapper.Value.ToString("0.####");
-            }
-            else
-            {
-                name = entity.Name;
-            }
-
             var viewModel = new OperatorViewModel
             {
                 ID = entity.ID,
                 TemporaryID = Guid.NewGuid(),
-                Name = name,
-                OperatorTypeName = entity.OperatorTypeName
             };
+
+            if (entity.GetOperatorTypeEnum() == OperatorTypeEnum.Value)
+            {
+                var wrapper = new Value_OperatorWrapper(entity);
+                viewModel.Name = wrapper.Value.ToString("0.####");
+            }
+            else
+            {
+                viewModel.Name = entity.Name;
+            }
+
+            if (entity.OperatorType != null)
+            {
+                viewModel.OperatorTypeID = entity.OperatorType.ID;
+            }
 
             return viewModel;
         }

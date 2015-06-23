@@ -1,6 +1,8 @@
 ﻿using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Names;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using System;
@@ -14,29 +16,29 @@ namespace JJ.Business.Synthesizer.Visitors
 {
     internal abstract class OperatorVisitorBase
     {
-        private IDictionary<string, Action<Operator>> _delegateDictionary;
+        private IDictionary<OperatorTypeEnum, Action<Operator>> _delegateDictionary;
 
         public OperatorVisitorBase()
         {
-            _delegateDictionary = new Dictionary<string, Action<Operator>>
+            _delegateDictionary = new Dictionary<OperatorTypeEnum, Action<Operator>>
             {
-                { PropertyNames.Add, VisitAdd },
-                { PropertyNames.Adder, VisitAdder },
-                { PropertyNames.CurveIn, VisitCurveIn },
-                { PropertyNames.Divide, VisitDivide },
-                { PropertyNames.Multiply, VisitMultiply },
-                { PropertyNames.PatchInlet, VisitPatchInlet },
-                { PropertyNames.PatchOutlet, VisitPatchOutlet },
-                { PropertyNames.Power, VisitPower },
-                { PropertyNames.SampleOperator, VisitSampleOperator },
-                { PropertyNames.Sine, VisitSine },
-                { PropertyNames.Substract, VisitSubstract },
-                { PropertyNames.TimeAdd, VisitTimeAdd },
-                { PropertyNames.TimeDivide, VisitTimeDivide },
-                { PropertyNames.TimeMultiply, VisitTimeMultiply },
-                { PropertyNames.TimePower, VisitTimePower },
-                { PropertyNames.TimeSubstract, VisitTimeSubstract },
-                { PropertyNames.ValueOperator, VisitValueOperator },
+                { OperatorTypeEnum.Add, VisitAdd },
+                { OperatorTypeEnum.Adder, VisitAdder },
+                { OperatorTypeEnum.CurveIn, VisitCurveIn },
+                { OperatorTypeEnum.Divide, VisitDivide },
+                { OperatorTypeEnum.Multiply, VisitMultiply },
+                { OperatorTypeEnum.PatchInlet, VisitPatchInlet },
+                { OperatorTypeEnum.PatchOutlet, VisitPatchOutlet },
+                { OperatorTypeEnum.Power, VisitPower },
+                { OperatorTypeEnum.Sample, VisitSampleOperator },
+                { OperatorTypeEnum.Sine, VisitSine },
+                { OperatorTypeEnum.Substract, VisitSubstract },
+                { OperatorTypeEnum.TimeAdd, VisitTimeAdd },
+                { OperatorTypeEnum.TimeDivide, VisitTimeDivide },
+                { OperatorTypeEnum.TimeMultiply, VisitTimeMultiply },
+                { OperatorTypeEnum.TimePower, VisitTimePower },
+                { OperatorTypeEnum.TimeSubstract, VisitTimeSubstract },
+                { OperatorTypeEnum.Value, VisitValue },
             };
         }
 
@@ -53,7 +55,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 VisitInlet(inlet);
             }
 
-            Action<Operator> action = _delegateDictionary[op.OperatorTypeName];
+            Action<Operator> action = _delegateDictionary[op.GetOperatorTypeEnum()];
             action(op);
         }
 
@@ -138,7 +140,7 @@ namespace JJ.Business.Synthesizer.Visitors
         { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitValueOperator(Operator op)
+        protected virtual void VisitValue(Operator op)
         { }
     }
 }

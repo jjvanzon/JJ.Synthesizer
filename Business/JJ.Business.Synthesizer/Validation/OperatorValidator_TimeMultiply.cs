@@ -9,14 +9,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
     public class OperatorValidator_TimeMultiply : OperatorValidator_Base_NonSpecialized
     {
         public OperatorValidator_TimeMultiply(Operator obj)
-            : base(obj, 
-                PropertyNames.TimeMultiply, 3,
+            : base(obj,
+                OperatorTypeEnum.TimeMultiply, 3,
                 PropertyNames.Signal, PropertyNames.TimeMultiplier, PropertyNames.Origin,
                 PropertyNames.Result)
         { }
