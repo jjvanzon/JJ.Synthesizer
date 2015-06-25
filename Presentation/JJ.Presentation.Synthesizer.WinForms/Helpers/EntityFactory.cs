@@ -68,7 +68,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                 persistenceWrapper.PatchRepository, 
                 persistenceWrapper.OperatorRepository, 
                 persistenceWrapper.InletRepository, 
-                persistenceWrapper.OutletRepository, 
+                persistenceWrapper.OutletRepository,
+                persistenceWrapper.CurveRepository,
+                persistenceWrapper.SampleRepository,
                 persistenceWrapper.EntityPositionRepository);
 
             return patchManager;

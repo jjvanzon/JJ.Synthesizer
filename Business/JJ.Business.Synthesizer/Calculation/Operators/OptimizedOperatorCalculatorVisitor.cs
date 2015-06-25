@@ -21,16 +21,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
+
+        private WhiteNoiseCalculator _whiteNoiseCalculator;
+
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
         private Dictionary<int, OperatorCalculatorBase> _dictionary = new Dictionary<int, OperatorCalculatorBase>();
 
-        public IList<OperatorCalculatorBase> Execute(IList<Outlet> channelOutlets, ICurveRepository curveRepository, ISampleRepository sampleRepository)
+        public IList<OperatorCalculatorBase> Execute(
+            IList<Outlet> channelOutlets, 
+            WhiteNoiseCalculator whiteNoiseCalculator, 
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository)
         {
+            if (whiteNoiseCalculator == null) throw new NullException(() => whiteNoiseCalculator);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
 
+            _whiteNoiseCalculator = whiteNoiseCalculator;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
 
@@ -797,7 +806,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         protected override void VisitWhiteNoise(Operator op)
         {
-            var calculator = new WhiteNoise_OperatorCalculator();
+            var calculator = new WhiteNoise_OperatorCalculator(_whiteNoiseCalculator);
             _stack.Push(calculator);
         }
 

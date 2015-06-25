@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -18,16 +19,26 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private const string VIOLIN_16BIT_MONO_RAW_FILE_NAME = "violin_16bit_mono.raw";
         private const string VIOLIN_16BIT_MONO_44100_WAV_FILE_NAME = "violin_16bit_mono_44100.wav";
 
+        public static OperatorFactory CreateOperatorFactory(RepositoryWrapper repositoryWraper)
+        {
+            if (repositoryWraper == null) throw new NullException(() => repositoryWraper);
+
+            var factory = new OperatorFactory(
+                repositoryWraper.OperatorRepository,
+                repositoryWraper.OperatorTypeRepository,
+                repositoryWraper.InletRepository,
+                repositoryWraper.OutletRepository,
+                repositoryWraper.CurveRepository,
+                repositoryWraper.SampleRepository);
+
+            return factory;
+        }
+
+        //[Obsolete("Use the overload that takes RepositoryWrapper instead.")]
         public static OperatorFactory CreateOperatorFactory(IContext context)
         {
-            IOperatorRepository operatorRepository = PersistenceHelper.CreateRepository<IOperatorRepository>(context);
-            IOperatorTypeRepository operatorTypeRepository = PersistenceHelper.CreateRepository<IOperatorTypeRepository>(context);
-            IInletRepository inletRepository = PersistenceHelper.CreateRepository<IInletRepository>(context);
-            IOutletRepository outletRepository = PersistenceHelper.CreateRepository<IOutletRepository>(context);
-            ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-            ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
-            var factory = new OperatorFactory(operatorRepository, operatorTypeRepository, inletRepository, outletRepository, curveRepository, sampleRepository);
-            return factory;
+            RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+            return CreateOperatorFactory(context);
         }
 
         public static CurveFactory CreateCurveFactory(IContext context)
@@ -53,26 +64,42 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return manager;
         }
 
+        public static AudioFileOutputManager CreateAudioFileOutputManager(RepositoryWrapper repositoryWrapper)
+        {
+            if (repositoryWrapper == null) throw new NotImplementedException();
+
+            var audioFileOutputManager = new AudioFileOutputManager(
+                    repositoryWrapper.AudioFileOutputRepository,
+                    repositoryWrapper.AudioFileOutputChannelRepository,
+                    repositoryWrapper.SampleDataTypeRepository,
+                    repositoryWrapper.SpeakerSetupRepository,
+                    repositoryWrapper.AudioFileFormatRepository,
+                    repositoryWrapper.CurveRepository,
+                    repositoryWrapper.SampleRepository);
+
+            return audioFileOutputManager;
+        }
+
         public static AudioFileOutputManager CreateAudioFileOutputManager(IContext context)
         {
-            IAudioFileOutputRepository audioFileOutputRepository = PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(context);
-            IAudioFileOutputChannelRepository audioFileOutputChannelRepository = PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(context);
-            ISampleDataTypeRepository sampleDataTypeRepository = PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context);
-            ISpeakerSetupRepository speakerSetupRepository = PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context);
-            IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
-            ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-            ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
+            RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+            return CreateAudioFileOutputManager(repositoryWrapper);
+        }
 
-            var manager = new AudioFileOutputManager(
-                audioFileOutputRepository, 
-                audioFileOutputChannelRepository, 
-                sampleDataTypeRepository, 
-                speakerSetupRepository, 
-                audioFileFormatRepository,
-                curveRepository,
-                sampleRepository);
+        public static PatchManager CreatePatchManager(RepositoryWrapper repositoryWrapper)
+        {
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
-            return manager;
+            var patchManager = new PatchManager(
+                repositoryWrapper.PatchRepository,
+                repositoryWrapper.OperatorRepository,
+                repositoryWrapper.InletRepository,
+                repositoryWrapper.OutletRepository,
+                repositoryWrapper.CurveRepository,
+                repositoryWrapper.SampleRepository,
+                repositoryWrapper.EntityPositionRepository);
+
+            return patchManager;
         }
 
         public static Stream GetViolin16BitMonoRawStream()

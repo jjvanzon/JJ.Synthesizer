@@ -69,9 +69,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
-                IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
 
                 Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
 
@@ -81,8 +79,10 @@ namespace JJ.Business.Synthesizer.Tests
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet = x.Sample(sample);
 
+                var patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
+
                 // Trigger SampleCalculation
-                IOperatorCalculator calculator = new InterpretedOperatorCalculator(curveRepository, sampleRepository, outlet);
+                IOperatorCalculator calculator = patchManager.CreateCalculator(outlet);
                 double value = calculator.Calculate(0, 0);
             }
         }

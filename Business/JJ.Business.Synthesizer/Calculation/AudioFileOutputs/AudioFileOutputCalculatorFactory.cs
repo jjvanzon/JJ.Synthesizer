@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
     internal static class AudioFileOutputCalculatorFactory
     {
-        public static IAudioFileOutputCalculator CreateAudioFileOutputCalculator(ICurveRepository curveRepository, ISampleRepository sampleRepository, AudioFileOutput audioFileOutput, string filePath = null)
+        public static IAudioFileOutputCalculator CreateAudioFileOutputCalculator(ICurveRepository curveRepository, ISampleRepository sampleRepository, AudioFileOutput audioFileOutput)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
@@ -22,10 +22,10 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             switch (sampleDataTypeEnum)
             {
                 case SampleDataTypeEnum.Int16:
-                    return new Int16AudioFileOutputCalculator(audioFileOutput, filePath, curveRepository, sampleRepository);
+                    return new Int16AudioFileOutputCalculator(audioFileOutput, curveRepository, sampleRepository);
 
                 case SampleDataTypeEnum.Byte:
-                    return new ByteAudioFileOutputCalculator(audioFileOutput, filePath, curveRepository, sampleRepository);
+                    return new ByteAudioFileOutputCalculator(audioFileOutput, curveRepository, sampleRepository);
 
                 default:
                     throw new ValueNotSupportedException(sampleDataTypeEnum);

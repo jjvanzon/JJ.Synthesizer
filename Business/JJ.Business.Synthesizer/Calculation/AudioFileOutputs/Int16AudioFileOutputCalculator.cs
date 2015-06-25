@@ -12,8 +12,8 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
     internal class Int16AudioFileOutputCalculator : AudioFileOutputCalculatorBase
     {
-        public Int16AudioFileOutputCalculator(AudioFileOutput audioFileOutput, string filePath, ICurveRepository curveRepository, ISampleRepository sampleRepository)
-            : base(audioFileOutput, filePath, curveRepository, sampleRepository)
+        public Int16AudioFileOutputCalculator(AudioFileOutput audioFileOutput, ICurveRepository curveRepository, ISampleRepository sampleRepository)
+            : base(audioFileOutput, curveRepository, sampleRepository)
         { }
 
         protected override void WriteValue(BinaryWriter binaryWriter, double value)

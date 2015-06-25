@@ -21,7 +21,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
     /// <summary>
-    /// Use the pre-calculated fields of the base class.
+    /// Use the pre-calculated fields of the base class, when deriving from this class.
     /// </summary>
     internal abstract class AudioFileOutputCalculatorBase : IAudioFileOutputCalculator
     {
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
         Outlet[] _outlets;
         IOperatorCalculator[] _operatorCalculators;
 
-        public AudioFileOutputCalculatorBase(AudioFileOutput audioFileOutput, string filePath, ICurveRepository curveRepository, ISampleRepository sampleRepository)
+        public AudioFileOutputCalculatorBase(AudioFileOutput audioFileOutput, ICurveRepository curveRepository, ISampleRepository sampleRepository)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -41,24 +41,22 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             IValidator validator = new AudioFileOutputValidator(audioFileOutput);
             validator.Verify();
 
-            if (String.IsNullOrEmpty(audioFileOutput.FilePath) &&
-                String.IsNullOrEmpty(filePath))
-            {
-                throw new Exception("Either filePath must be passed explicitly or audioFileOutput.FilePath must be filled in.");
-            }
+            if (String.IsNullOrEmpty(audioFileOutput.FilePath)) throw new NullOrEmptyException(() => audioFileOutput.FilePath);
 
             _audioFileOutput = audioFileOutput;
-            _filePath = filePath;
+            _filePath = audioFileOutput.FilePath;
 
             // Prepare some objects
             int channelCount = _audioFileOutput.AudioFileOutputChannels.Count;
             _audioFileOutputChannels = _audioFileOutput.AudioFileOutputChannels.OrderBy(x => x.IndexNumber).ToArray();
             _outlets = _audioFileOutputChannels.Select(x => x.Outlet).ToArray();
 
+            var whiteNoiseCalculator = new WhiteNoiseCalculator(_audioFileOutput.SamplingRate);
+
             _operatorCalculators = new IOperatorCalculator[channelCount];
             for (int i = 0; i < channelCount; i++)
             {
-                IOperatorCalculator operatorCalculator = new OptimizedOperatorCalculator(_outlets, curveRepository, sampleRepository);
+                IOperatorCalculator operatorCalculator = new OptimizedOperatorCalculator(_outlets, whiteNoiseCalculator, curveRepository, sampleRepository);
                 _operatorCalculators[i] = operatorCalculator;
             }
         }

@@ -12,26 +12,34 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    public class OptimizedOperatorCalculator : IOperatorCalculator
+    internal class OptimizedOperatorCalculator : IOperatorCalculator
     {
         private OperatorCalculatorBase[] _rootOperatorCalculators;
 
         /// <summary>
         /// This overload has ChannelOutlets as params.
         /// </summary>
-        public OptimizedOperatorCalculator(ICurveRepository curveRepository, ISampleRepository sampleRepository, params Outlet[] channelOutlets)
-            : this((IList<Outlet>)channelOutlets, curveRepository, sampleRepository)
+        public OptimizedOperatorCalculator(
+            WhiteNoiseCalculator whiteNoiseCalculator,
+            ICurveRepository curveRepository, 
+            ISampleRepository sampleRepository,
+            params Outlet[] channelOutlets)
+            : this((IList<Outlet>)channelOutlets, whiteNoiseCalculator, curveRepository, sampleRepository)
         { }
 
         /// <summary>
         /// This overload has ChannelOutlets as an IList<T>.
         /// </summary>
-        public OptimizedOperatorCalculator(IList<Outlet> channelOutlets, ICurveRepository curveRepository, ISampleRepository sampleRepository)
+        public OptimizedOperatorCalculator(
+            IList<Outlet> channelOutlets,
+            WhiteNoiseCalculator whiteNoiseCalculator,
+            ICurveRepository curveRepository, 
+            ISampleRepository sampleRepository)
         {
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
 
             var visitor = new OptimizedOperatorCalculatorVisitor();
-            _rootOperatorCalculators = visitor.Execute(channelOutlets, curveRepository, sampleRepository).ToArray();
+            _rootOperatorCalculators = visitor.Execute(channelOutlets, whiteNoiseCalculator, curveRepository, sampleRepository).ToArray();
         }
 
         public double Calculate(double time, int channelIndex)

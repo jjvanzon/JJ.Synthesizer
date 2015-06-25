@@ -25,7 +25,6 @@ using System.IO;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Framework.Testing;
-using JJ.Business.Synthesizer.Tests.Accessors;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Infos;
 
@@ -39,22 +38,19 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                OperatorFactory x = TestHelper.CreateOperatorFactory(context);
+                PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
+                OperatorFactory x = TestHelper.CreateOperatorFactory(repositoryWrapper);
 
-                Add_OperatorWrapper add = x.Add(x.Value(2), x.Value(3));
-                Substract_OperatorWrapper substract = x.Substract(add, x.Value(1));
+                var add = x.Add(x.Value(2), x.Value(3));
+                var substract = x.Substract(add, x.Value(1));
 
-                IValidator validator = new OperatorValidator_Recursive(substract.Operator, curveRepository, sampleRepository, alreadyDone: new HashSet<object>());
-                validator.Verify();
-
-                IOperatorCalculator calculator1 = new OptimizedOperatorCalculator(curveRepository, sampleRepository, add);
+                IOperatorCalculator calculator1 = patchManager.CreateCalculator(add);
                 double value = calculator1.Calculate(0, 0);
                 Assert.AreEqual(5, value, 0.0001);
 
-                IOperatorCalculator calculator2 = new OptimizedOperatorCalculator(curveRepository, sampleRepository, substract);
+                IOperatorCalculator calculator2 = patchManager.CreateCalculator(substract);
                 value = calculator2.Calculate(0, 0);
                 Assert.AreEqual(4, value, 0.0001);
 
@@ -66,8 +62,8 @@ namespace JJ.Business.Synthesizer.Tests
                 valueOperatorWrapper.Value = 0;
                 substract.Operator.Inlets[0].Name = "134";
 
-                IValidator validator2 = new OperatorValidator_Recursive(substract.Operator, curveRepository, sampleRepository, alreadyDone: new HashSet<object>());
-                IValidator warningValidator = new OperatorWarningValidator_Recursive(substract.Operator, sampleRepository);
+                IValidator validator2 = new OperatorValidator_Recursive(substract.Operator, repositoryWrapper.CurveRepository, repositoryWrapper.SampleRepository, alreadyDone: new HashSet<object>());
+                IValidator warningValidator = new OperatorWarningValidator_Recursive(substract.Operator, repositoryWrapper.SampleRepository);
             }
         }
 
@@ -113,10 +109,10 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                OperatorFactory factory = TestHelper.CreateOperatorFactory(context);
+                OperatorFactory factory = TestHelper.CreateOperatorFactory(repositoryWrapper);
+                PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
                 Value_OperatorWrapper val1 = factory.Value(1);
                 Value_OperatorWrapper val2 = factory.Value(2);
@@ -126,7 +122,7 @@ namespace JJ.Business.Synthesizer.Tests
                 IValidator validator = new OperatorValidator_Adder(adder.Operator);
                 validator.Verify();
 
-                var calculator = new InterpretedOperatorCalculator(curveRepository, sampleRepository, adder);
+                IOperatorCalculator calculator = patchManager.CreateCalculator(true, adder);
                 double value = calculator.Calculate(0, 0);
 
                 adder.Operator.Inlets[0].Name = "qwer";
@@ -140,7 +136,9 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                OperatorFactory x = TestHelper.CreateOperatorFactory(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                OperatorFactory x = TestHelper.CreateOperatorFactory(repositoryWrapper);
 
                 Substract_OperatorWrapper substract = x.Substract(x.Add(x.Value(2), x.Value(3)), x.Value(1));
 
@@ -161,13 +159,12 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
 
                 CurveFactory curveFactory = TestHelper.CreateCurveFactory(context);
                 Curve curve = curveFactory.CreateCurve(1, 0, 1, 0.8, null, null, 0.8, 0);
 
-                OperatorFactory f = TestHelper.CreateOperatorFactory(context);
+                OperatorFactory f = TestHelper.CreateOperatorFactory(repositoryWrapper);
                 Sine_OperatorWrapper sine = f.Sine(f.CurveIn(curve), f.Value(440));
 
                 CultureHelper.SetThreadCulture("nl-NL");
@@ -179,30 +176,32 @@ namespace JJ.Business.Synthesizer.Tests
                 };
                 validators.ForEach(x => x.Verify());
 
-                var calculator = new InterpretedOperatorCalculator(curveRepository, sampleRepository, sine);
+                PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
+
+                var calculator = patchManager.CreateCalculator(false, sine);
                 var values = new double[]
                 {
-                    calculator.Calculate(sine, 0.00),
-                    calculator.Calculate(sine, 0.05),
-                    calculator.Calculate(sine, 0.10),
-                    calculator.Calculate(sine, 0.15),
-                    calculator.Calculate(sine, 0.20),
-                    calculator.Calculate(sine, 0.25),
-                    calculator.Calculate(sine, 0.30),
-                    calculator.Calculate(sine, 0.35),
-                    calculator.Calculate(sine, 0.40),
-                    calculator.Calculate(sine, 0.45),
-                    calculator.Calculate(sine, 0.50),
-                    calculator.Calculate(sine, 0.55),
-                    calculator.Calculate(sine, 0.60),
-                    calculator.Calculate(sine, 0.65),
-                    calculator.Calculate(sine, 0.70),
-                    calculator.Calculate(sine, 0.75),
-                    calculator.Calculate(sine, 0.80),
-                    calculator.Calculate(sine, 0.85),
-                    calculator.Calculate(sine, 0.90),
-                    calculator.Calculate(sine, 0.95),
-                    calculator.Calculate(sine, 1.00)
+                    calculator.Calculate(0.00, 0),
+                    calculator.Calculate(0.05, 0),
+                    calculator.Calculate(0.10, 0),
+                    calculator.Calculate(0.15, 0),
+                    calculator.Calculate(0.20, 0),
+                    calculator.Calculate(0.25, 0),
+                    calculator.Calculate(0.30, 0),
+                    calculator.Calculate(0.35, 0),
+                    calculator.Calculate(0.40, 0),
+                    calculator.Calculate(0.45, 0),
+                    calculator.Calculate(0.50, 0),
+                    calculator.Calculate(0.55, 0),
+                    calculator.Calculate(0.60, 0),
+                    calculator.Calculate(0.65, 0),
+                    calculator.Calculate(0.70, 0),
+                    calculator.Calculate(0.75, 0),
+                    calculator.Calculate(0.80, 0),
+                    calculator.Calculate(0.85, 0),
+                    calculator.Calculate(0.90, 0),
+                    calculator.Calculate(0.95, 0),
+                    calculator.Calculate(1.00, 0)
                 };
             }
         }
@@ -397,12 +396,13 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                OperatorFactory x = TestHelper.CreateOperatorFactory(context);
+                OperatorFactory x = TestHelper.CreateOperatorFactory(repositoryWrapper);
+                PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
+
                 Outlet outlet = x.Add(x.Value(1), x.Value(2));
-                var calculator = new OptimizedOperatorCalculator(curveRepository, sampleRepository, outlet);
+                var calculator =  patchManager.CreateCalculator(false, outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(3.0, result, 0.0001);
             }
@@ -413,12 +413,12 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet = x.Add(null, x.Value(2));
-                var calculator = new OptimizedOperatorCalculator(curveRepository, sampleRepository, outlet);
+                IOperatorCalculator calculator = patchManager.CreateCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(2.0, result, 0.000000001);
             }
@@ -429,12 +429,12 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet = x.Add(x.Value(1), x.Add(x.Value(2), null));
-                var calculator = new OptimizedOperatorCalculator(curveRepository, sampleRepository, outlet);
+                IOperatorCalculator calculator = patchManager.CreateCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(3.0, result, 0.000000001);
             }
@@ -445,12 +445,12 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet = x.Add(x.Add(x.Value(1), x.Value(2)), x.Value(4));
-                var calculator = new OptimizedOperatorCalculator(curveRepository, sampleRepository, outlet);
+                IOperatorCalculator calculator = patchManager.CreateCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(7.0, result, 0.000000001);
             }
@@ -461,13 +461,13 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet outlet1 = x.Add(x.Add(x.Value(1), x.Value(2)), x.Value(4));
                 Outlet outlet2 = x.Add(x.Value(5), x.Value(6));
-                var calculator = new OptimizedOperatorCalculator(curveRepository, sampleRepository, outlet1, outlet2);
+                IOperatorCalculator calculator = patchManager.CreateCalculator(outlet1, outlet2);
                 double result1 = calculator.Calculate(0, 0);
                 double result2 = calculator.Calculate(0, 1);
                 Assert.AreEqual(7.0, result1, 0.000000001);
@@ -480,14 +480,14 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
                 OperatorFactory x = TestHelper.CreateOperatorFactory(context);
                 Outlet sharedOutlet = x.Value(1);
                 Outlet outlet1 = x.Add(sharedOutlet, x.Value(2));
                 Outlet outlet2 = x.Add(sharedOutlet, x.Value(3));
-                var calculator = new OptimizedOperatorCalculator(curveRepository, sampleRepository, outlet1, outlet2);
+                IOperatorCalculator calculator = patchManager.CreateCalculator(outlet1, outlet2);
                 double result1 = calculator.Calculate(0, 0);
                 double result2 = calculator.Calculate(0, 1);
                 Assert.AreEqual(3.0, result1, 0.000000001);
@@ -502,22 +502,8 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 var repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                var x = new OperatorFactory(
-                    repositoryWrapper.OperatorRepository,
-                    repositoryWrapper.OperatorTypeRepository,
-                    repositoryWrapper.InletRepository,
-                    repositoryWrapper.OutletRepository,
-                    repositoryWrapper.CurveRepository,
-                    repositoryWrapper.SampleRepository);
-
-                var audioFileOutputManager = new AudioFileOutputManager(
-                    repositoryWrapper.AudioFileOutputRepository,
-                    repositoryWrapper.AudioFileOutputChannelRepository,
-                    repositoryWrapper.SampleDataTypeRepository,
-                    repositoryWrapper.SpeakerSetupRepository,
-                    repositoryWrapper.AudioFileFormatRepository,
-                    repositoryWrapper.CurveRepository,
-                    repositoryWrapper.SampleRepository);
+                var x = TestHelper.CreateOperatorFactory(repositoryWrapper);
+                var audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
 
                 Outlet outlet = x.Multiply(x.WhiteNoise(), x.Value(Int16.MaxValue));
 
@@ -526,7 +512,7 @@ namespace JJ.Business.Synthesizer.Tests
                 audioFileOutput.Duration = 20;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
-                // Execute once to fill caches.
+                // Execute once to fill cache(s).
                 audioFileOutputManager.Execute(audioFileOutput);
 
                 Stopwatch sw = Stopwatch.StartNew();

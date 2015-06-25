@@ -18,7 +18,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    public class InterpretedOperatorCalculator : IOperatorCalculator
+    internal class InterpretedOperatorCalculator : IOperatorCalculator
     {
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return Calculate(_channelOutlets[_channelIndex], time);
         }
 
-        public double Calculate(Outlet outlet, double time)
+        private double Calculate(Outlet outlet, double time)
         {
             Func<Operator, double, double> func = _funcDictionary[outlet.Operator.GetOperatorTypeEnum()];
             // TODO: This will break when there are multiple outlets.

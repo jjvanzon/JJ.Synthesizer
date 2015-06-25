@@ -71,8 +71,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Accessors\OperatorCalculatorBase_Accessor.cs" />
-    <Compile Include="Accessors\OperatorCalculatorNew_Accessor.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="CurveTests.cs" />
     <Compile Include="Helpers\HardCodedOperatorCalculator.cs" />

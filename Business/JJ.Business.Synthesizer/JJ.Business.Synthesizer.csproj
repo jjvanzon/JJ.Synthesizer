@@ -120,6 +120,7 @@
     <Compile Include="Calculation\Samples\Int16_BlockInterpolation_SampleCalculator.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorFactory.cs" />
+    <Compile Include="Calculation\WhiteNoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Constants\OperatorConstants.cs" />
     <Compile Include="Constants\WavHeaderConstants.cs" />

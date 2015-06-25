@@ -103,7 +103,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _samplePropertiesPresenter = new SamplePropertiesPresenter(new SampleRepositories(_repositoryWrapper));
 
             _documentManager = new DocumentManager(repositoryWrapper);
-            _patchManager = new PatchManager(_repositoryWrapper.PatchRepository, _repositoryWrapper.OperatorRepository, _repositoryWrapper.InletRepository, _repositoryWrapper.OutletRepository, _repositoryWrapper.EntityPositionRepository);
+            _patchManager = new PatchManager(
+                _repositoryWrapper.PatchRepository,
+                _repositoryWrapper.OperatorRepository, 
+                _repositoryWrapper.InletRepository, 
+                _repositoryWrapper.OutletRepository,
+                _repositoryWrapper.CurveRepository,
+                _repositoryWrapper.SampleRepository,
+                _repositoryWrapper.EntityPositionRepository);
             _curveManager = new CurveManager(_repositoryWrapper.CurveRepository, _repositoryWrapper.NodeRepository);
             _sampleManager = new SampleManager(new SampleRepositories(_repositoryWrapper));
             _audioFileOutputManager = new AudioFileOutputManager(

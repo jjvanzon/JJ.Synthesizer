@@ -15,6 +15,8 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Business;
 using JJ.Business.Synthesizer.SideEffects;
+using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Business.Synthesizer.Calculation;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -24,6 +26,8 @@ namespace JJ.Business.Synthesizer.Managers
         private IOperatorRepository _operatorRepository;
         private IInletRepository _inletRepository;
         private IOutletRepository _outletRepository;
+        private ICurveRepository _curveRepository;
+        private ISampleRepository _sampleRepository;
         private IEntityPositionRepository _entityPositionRepository;
 
         public PatchManager(
@@ -31,18 +35,24 @@ namespace JJ.Business.Synthesizer.Managers
             IOperatorRepository operatorRepository,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
             IEntityPositionRepository entityPositionRepository)
         {
             if (patchRepository == null) throw new NullException(() => patchRepository);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
 
             _patchRepository = patchRepository;
             _operatorRepository = operatorRepository;
             _inletRepository = inletRepository;
             _outletRepository = outletRepository;
+            _curveRepository = curveRepository;
+            _sampleRepository = sampleRepository;
             _entityPositionRepository = entityPositionRepository;
         }
 
@@ -115,6 +125,45 @@ namespace JJ.Business.Synthesizer.Managers
                 {
                     Successful = true
                 };
+            }
+        }
+
+
+        /// <param name="optimized">
+        /// Set to true for slower initialization and faster sound generation (best for outputting sound).
+        /// Set to false for fast initialization and slow sound generation (best for previewing values or drawing out plots).
+        /// </param>
+        public IOperatorCalculator CreateCalculator(params Outlet[] channelOutlets)
+        {
+            return CreateCalculator((IList<Outlet>)channelOutlets);
+        }
+
+        /// <param name="optimized">
+        /// Set to true for slower initialization and faster sound generation (best for outputting sound).
+        /// Set to false for fast initialization and slow sound generation (best for previewing values or drawing out plots).
+        /// </param>
+        public IOperatorCalculator CreateCalculator(bool optimized, params Outlet[] channelOutlets)
+        {
+            return CreateCalculator((IList<Outlet>)channelOutlets, optimized);
+        }
+
+        /// <param name="optimized">
+        /// Set to true for slower initialization and faster sound generation (best for outputting sound).
+        /// Set to false for fast initialization and slow sound generation (best for previewing values or drawing out plots).
+        /// </param>
+        public IOperatorCalculator CreateCalculator(IList<Outlet> channelOutlets, bool optimized = true)
+        {
+            // TODO: Verify channel outlets.
+
+            int assumedSamplingRate = 44100;
+            var whiteNoiseCalculator = new WhiteNoiseCalculator(assumedSamplingRate);
+            if (optimized)
+            {
+                return new OptimizedOperatorCalculator(channelOutlets, whiteNoiseCalculator, _curveRepository, _sampleRepository);
+            }
+            else
+            {
+                return new InterpretedOperatorCalculator(channelOutlets, _curveRepository, _sampleRepository);
             }
         }
     }

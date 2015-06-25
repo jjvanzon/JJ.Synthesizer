@@ -19,7 +19,6 @@ using System.IO;
 using JJ.Framework.Common;
 using JJ.Framework.IO;
 using JJ.Business.Synthesizer.Structs;
-using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Constants;
