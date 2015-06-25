@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             InitializeComponent();
 
             _context = PersistenceHelper.CreateContext();
-            _repositoryWrapper = CreateRepositoryWrapper();
+            _repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(_context);
             _presenter = new MainPresenter(_repositoryWrapper);
 
             menuUserControl.ShowDocumentListRequested += menuUserControl_ShowDocumentListRequested;
@@ -1027,33 +1027,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void SetPropertiesPanelVisible(bool visible)
         {
             splitContainerProperties.Panel2Collapsed = !visible;
-        }
-
-        private RepositoryWrapper CreateRepositoryWrapper()
-        {
-            var repositoryWrapper = new RepositoryWrapper
-            (
-                PersistenceHelper.CreateRepository<IDocumentRepository>(_context),
-                PersistenceHelper.CreateRepository<ICurveRepository>(_context),
-                PersistenceHelper.CreateRepository<IPatchRepository>(_context),
-                PersistenceHelper.CreateRepository<ISampleRepository>(_context),
-                PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(_context),
-                PersistenceHelper.CreateRepository<IDocumentReferenceRepository>(_context),
-                PersistenceHelper.CreateRepository<INodeRepository>(_context),
-                PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(_context),
-                PersistenceHelper.CreateRepository<IOperatorRepository>(_context),
-                PersistenceHelper.CreateRepository<IOperatorTypeRepository>(_context),
-                PersistenceHelper.CreateRepository<IInletRepository>(_context),
-                PersistenceHelper.CreateRepository<IOutletRepository>(_context),
-                PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context),
-                PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(_context),
-                PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(_context),
-                PersistenceHelper.CreateRepository<INodeTypeRepository>(_context),
-                PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(_context),
-                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(_context)
-            );
-
-            return repositoryWrapper;
         }
 
         private void ApplyStyling()

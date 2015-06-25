@@ -25,6 +25,7 @@ namespace JJ.Business.Synthesizer.Enums
         TimeSubstract = 14,
         Value = 15,
         CurveIn = 16,
-        Sample = 17
+        Sample = 17,
+        WhiteNoise = 18
     }
 }

@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 EffectDocumentList = document.Effects.ToChildDocumentViewModels(repositoryWrapper, entityPositionManager),
                 CurveDetailsList = document.Curves.ToDetailsViewModels(document.ID, null, null, repositoryWrapper.NodeTypeRepository),
                 CurveList = document.Curves.ToListViewModel(document.ID, null, null),
-                PatchDetailsList = document.Patches.ToDetailsViewModels(document.ID, null, null, entityPositionManager),
+                PatchDetailsList = document.Patches.ToDetailsViewModels(document.ID, null, null, repositoryWrapper.OperatorTypeRepository, entityPositionManager),
                 PatchList = document.Patches.ToListViewModel(document.ID, null, null),
                 SampleList = document.Samples.ToListViewModel(document.ID, null, null),
                 SamplePropertiesList = document.Samples.ToPropertiesViewModels(document.ID, null, null, new SampleRepositories(repositoryWrapper))
@@ -290,7 +290,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveList = childDocument.Curves.ToListViewModel(parentDocumentID, childDocumentTypeEnum, childDocumentListIndex),
                 CurveDetailsList = childDocument.Curves.ToDetailsViewModels(parentDocumentID, childDocumentTypeEnum, childDocumentListIndex, repositoryWrapper.NodeTypeRepository),
                 PatchList = childDocument.Patches.ToListViewModel(parentDocumentID, childDocumentTypeEnum, childDocumentListIndex),
-                PatchDetailsList = childDocument.Patches.ToDetailsViewModels(parentDocumentID, childDocumentTypeEnum, childDocumentListIndex, entityPositionManager),
+                PatchDetailsList = childDocument.Patches.ToDetailsViewModels(parentDocumentID, childDocumentTypeEnum, childDocumentListIndex, repositoryWrapper.OperatorTypeRepository, entityPositionManager),
                 Keys = new ChildDocumentKeysViewModel
                 {
                     ID = childDocument.ID,

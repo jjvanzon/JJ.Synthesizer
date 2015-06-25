@@ -8,5 +8,7 @@ using System.Threading.Tasks;
 namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
 {
     public interface IOperatorTypeRepository : IRepository<OperatorType, int>
-    { }
+    {
+        IList<OperatorType> GetAllOrderedBySortOrder();
+    }
 }

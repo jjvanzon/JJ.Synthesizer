@@ -572,5 +572,14 @@ namespace JJ.Business.Synthesizer.Resources {
                 return ResourceManager.GetString("Value", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to White Noise.
+        /// </summary>
+        public static string WhiteNoise {
+            get {
+                return ResourceManager.GetString("WhiteNoise", resourceCulture);
+            }
+        }
     }
 }

@@ -33,7 +33,8 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.TimeMultiply, typeof(OperatorValidator_TimeMultiply) },
             { OperatorTypeEnum.TimePower, typeof(OperatorValidator_TimePower) },
             { OperatorTypeEnum.TimeSubstract, typeof(OperatorValidator_TimeSubstract) },
-            { OperatorTypeEnum.Value, typeof(OperatorValidator_Value) }
+            { OperatorTypeEnum.Value, typeof(OperatorValidator_Value) },
+            { OperatorTypeEnum.WhiteNoise, typeof(OperatorValidator_WhiteNoise) }
         };
 
         public OperatorValidator_Versatile(Operator obj)

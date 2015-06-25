@@ -283,10 +283,13 @@
   <data name="Location" xml:space="preserve">
     <value>Location</value>
   </data>
-  <data name="Value" xml:space="preserve">
-    <value>Value</value>
+  <data name="WhiteNoise" xml:space="preserve">
+    <value>White Noise</value>
   </data>
   <data name="OperatorType" xml:space="preserve">
     <value>Operator Type</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
   </data>
 </root>

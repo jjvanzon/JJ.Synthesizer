@@ -5,7 +5,7 @@ using System.Text;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
-    public interface IAudioFileOutputCalculator
+    internal interface IAudioFileOutputCalculator
     {
         void Execute();
     }

@@ -1,7 +1,10 @@
-﻿using JJ.Business.Synthesizer.Tests.Configuration;
+﻿using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Tests.Configuration;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Configuration;
 using JJ.Framework.Data;
 using JJ.Framework.Data.Memory;
+using JJ.Framework.Reflection.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +40,35 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             }
 
             return RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context, _config.DatabasePersistence);
+        }
+
+        public static RepositoryWrapper CreateRepositoryWrapper(IContext context)
+        {
+            if (context == null) throw new NullException(() => context);
+
+            var repositoryWrapper = new RepositoryWrapper
+            (
+                PersistenceHelper.CreateRepository<IDocumentRepository>(context),
+                PersistenceHelper.CreateRepository<ICurveRepository>(context),
+                PersistenceHelper.CreateRepository<IPatchRepository>(context),
+                PersistenceHelper.CreateRepository<ISampleRepository>(context),
+                PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(context),
+                PersistenceHelper.CreateRepository<IDocumentReferenceRepository>(context),
+                PersistenceHelper.CreateRepository<INodeRepository>(context),
+                PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(context),
+                PersistenceHelper.CreateRepository<IOperatorRepository>(context),
+                PersistenceHelper.CreateRepository<IOperatorTypeRepository>(context),
+                PersistenceHelper.CreateRepository<IInletRepository>(context),
+                PersistenceHelper.CreateRepository<IOutletRepository>(context),
+                PersistenceHelper.CreateRepository<IEntityPositionRepository>(context),
+                PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context),
+                PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context),
+                PersistenceHelper.CreateRepository<INodeTypeRepository>(context),
+                PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context),
+                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context)
+            );
+
+            return repositoryWrapper;
         }
     }
 }

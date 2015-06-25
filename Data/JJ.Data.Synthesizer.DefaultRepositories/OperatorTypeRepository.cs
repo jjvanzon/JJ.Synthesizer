@@ -13,5 +13,10 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
         public OperatorTypeRepository(IContext context)
             : base(context)
         { }
+
+        public IList<OperatorType> GetAllOrderedBySortOrder()
+        {
+            return _context.Query<OperatorType>().OrderBy(x => x.SortOrder).ToArray();
+        }
     }
 }

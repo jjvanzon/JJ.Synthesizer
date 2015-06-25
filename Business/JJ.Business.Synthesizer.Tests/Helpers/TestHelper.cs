@@ -60,8 +60,18 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             ISampleDataTypeRepository sampleDataTypeRepository = PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context);
             ISpeakerSetupRepository speakerSetupRepository = PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context);
             IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context);
+            ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
+            ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
 
-            var manager = new AudioFileOutputManager(audioFileOutputRepository, audioFileOutputChannelRepository, sampleDataTypeRepository, speakerSetupRepository, audioFileFormatRepository);
+            var manager = new AudioFileOutputManager(
+                audioFileOutputRepository, 
+                audioFileOutputChannelRepository, 
+                sampleDataTypeRepository, 
+                speakerSetupRepository, 
+                audioFileFormatRepository,
+                curveRepository,
+                sampleRepository);
+
             return manager;
         }
 

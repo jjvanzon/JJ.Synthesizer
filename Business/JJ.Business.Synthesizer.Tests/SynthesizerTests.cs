@@ -232,10 +232,8 @@ namespace JJ.Business.Synthesizer.Tests
                 audioFileOutput.FilePath = "Test_Synthesizer_TimePowerWithEcho.wav";
                 audioFileOutput.Duration = 6.5;
 
-                IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(curveRepository, sampleRepository, audioFileOutput);
-
                 Stopwatch sw = Stopwatch.StartNew();
-                audioFileOutputCalculator.Execute();
+                audioFileOutputManager.Execute(audioFileOutput);
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
@@ -261,9 +259,6 @@ namespace JJ.Business.Synthesizer.Tests
                 sample.SamplingRate = 8000;
                 sample.BytesToSkip = 100;
 
-                //IInterpolationTypeRepository interpolationTypeRepository = PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context);
-                //sample.SetInterpolationTypeEnum(InterpolationTypeEnum.Block, interpolationTypeRepository);
-
                 Outlet sampleOperatorOutlet = operatorFactory.Sample(sample);
                 Outlet effect = EntityFactory.CreateMultiplyWithEcho(operatorFactory, sampleOperatorOutlet);
 
@@ -272,10 +267,8 @@ namespace JJ.Business.Synthesizer.Tests
                 audioFileOutput.FilePath = "Test_Synthesizer_MultiplyWithEcho.wav";
                 audioFileOutput.Duration = 6.5;
 
-                IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(curveRepository, sampleRepository, audioFileOutput);
-
                 Stopwatch sw = Stopwatch.StartNew();
-                audioFileOutputCalculator.Execute();
+                audioFileOutputManager.Execute(audioFileOutput);
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
@@ -502,36 +495,48 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-        //[TestMethod]
-        //public void CalculateValue()
-        //{
-        //    double time = 0;
+        [TestMethod]
+        public void Test_Synthesizer_WhiteNoiseOperator()
+        {
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            {
+                var repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
 
-        //    // TimePower
-        //    double signal = 10;
-        //    double exponent = 1.5;
+                var x = new OperatorFactory(
+                    repositoryWrapper.OperatorRepository,
+                    repositoryWrapper.OperatorTypeRepository,
+                    repositoryWrapper.InletRepository,
+                    repositoryWrapper.OutletRepository,
+                    repositoryWrapper.CurveRepository,
+                    repositoryWrapper.SampleRepository);
 
-        //    double timeAbs = Math.Abs(time);
-        //    double timeSign = Math.Sign(time);
+                var audioFileOutputManager = new AudioFileOutputManager(
+                    repositoryWrapper.AudioFileOutputRepository,
+                    repositoryWrapper.AudioFileOutputChannelRepository,
+                    repositoryWrapper.SampleDataTypeRepository,
+                    repositoryWrapper.SpeakerSetupRepository,
+                    repositoryWrapper.AudioFileFormatRepository,
+                    repositoryWrapper.CurveRepository,
+                    repositoryWrapper.SampleRepository);
 
-        //    time = timeSign * Math.Pow(timeAbs, 1 / exponent);
+                Outlet outlet = x.Multiply(x.WhiteNoise(), x.Value(Int16.MaxValue));
 
-        //    // Echo
-        //    double value = 0;
-        //    double cumulativeDenominator = 1;
-        //    double cumulativeDelay = 0;
+                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
+                audioFileOutput.FilePath = "Test_Synthesizer_WhiteNoiseOperator.wav";
+                audioFileOutput.Duration = 20;
+                audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
-        //    for (int i = 0; i < 15; i++)
-        //    {
-        //        double time2 = time - cumulativeDelay;
-        //        double value2 = 8;
-        //        value2 /= cumulativeDenominator;
+                // Execute once to fill caches.
+                audioFileOutputManager.Execute(audioFileOutput);
 
-        //        value += value2;
+                Stopwatch sw = Stopwatch.StartNew();
+                audioFileOutputManager.Execute(audioFileOutput);
+                sw.Stop();
 
-        //        cumulativeDenominator *= 1.5;
-        //        cumulativeDelay += 0.25;
-        //    }
-        //}
+                double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
+                string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+                Assert.Inconclusive(message);
+            }
+        }
     }
 }

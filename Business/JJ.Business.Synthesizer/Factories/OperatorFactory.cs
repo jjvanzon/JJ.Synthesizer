@@ -11,6 +11,7 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Factories
 {
@@ -25,7 +26,7 @@ namespace JJ.Business.Synthesizer.Factories
 
         public OperatorFactory(
             IOperatorRepository operatorRepository,
-            IOperatorTypeRepository operatorTypeRepository, 
+            IOperatorTypeRepository operatorTypeRepository,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
             ICurveRepository curveRepository,
@@ -160,8 +161,8 @@ namespace JJ.Business.Synthesizer.Factories
         public Power_OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.Power, PropertyDisplayNames.Power, 2, 
-                PropertyNames.Base, PropertyNames.Exponent, 
+                OperatorTypeEnum.Power, PropertyDisplayNames.Power, 2,
+                PropertyNames.Base, PropertyNames.Exponent,
                 PropertyNames.Result);
 
             var wrapper = new Power_OperatorWrapper(op)
@@ -277,8 +278,8 @@ namespace JJ.Business.Synthesizer.Factories
         public TimeSubstract_OperatorWrapper TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.TimeSubstract, PropertyDisplayNames.TimeSubstract, 2, 
-                PropertyNames.Signal, PropertyNames.TimeDifference, 
+                OperatorTypeEnum.TimeSubstract, PropertyDisplayNames.TimeSubstract, 2,
+                PropertyNames.Signal, PropertyNames.TimeDifference,
                 PropertyNames.Result);
 
             var wrapper = new TimeSubstract_OperatorWrapper(op)
@@ -335,29 +336,22 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
+        public WhiteNoise_OperatorWrapper WhiteNoise()
+        {
+            Operator op = CreateOperator(
+                OperatorTypeEnum.WhiteNoise, PropertyDisplayNames.WhiteNoise, 0,
+                PropertyNames.Result);
+
+            var wrapper = new WhiteNoise_OperatorWrapper(op);
+
+            return wrapper;
+        }
+
         private Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, string name, int inletCount, params string[] inletAndOutletNames)
         {
-            if (inletCount > inletAndOutletNames.Length) throw new GreaterThanException(() => inletCount, () => inletAndOutletNames.Length);
-
-            Operator op = _operatorRepository.Create();
-            op.Name = name;
-            op.SetOperatorTypeEnum(operatorTypeEnum, _operatorTypeRepository);
-
-            foreach (string inletName in inletAndOutletNames.Take(inletCount))
-            {
-                Inlet inlet = _inletRepository.Create();
-                inlet.Name = inletName;
-                inlet.LinkTo(op);
-            }
-
-            foreach (string outletName in inletAndOutletNames.Skip(inletCount))
-            {
-                Outlet outlet = _outletRepository.Create();
-                outlet.Name = outletName;
-                outlet.LinkTo(op);
-            }
-
-            return op;
+            return OperatorHelper.CreateOperator(
+                _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository,
+                operatorTypeEnum, name, inletCount, inletAndOutletNames);
         }
     }
 }

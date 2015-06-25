@@ -60,8 +60,7 @@ namespace JJ.Business.Synthesizer.Tests
                 IValidator audioFileOutputValidator = audioFileOutputManager.Validate(audioFileOutput);
                 audioFileOutputValidator.Verify();
 
-                IAudioFileOutputCalculator calculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(curveRepository, sampleRepository, audioFileOutput);
-                calculator.Execute();
+                audioFileOutputManager.Execute(audioFileOutput);
             }
         }
 

@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
     internal abstract class SampleCalculatorBase : ISampleCalculator
     {
         protected Sample _sample;
+        /// <summary> SamplingRate / TimeMultiplier </summary>
         protected double _rate;
         protected double[,] _samples;
 

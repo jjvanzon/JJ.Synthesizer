@@ -113,8 +113,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                     Outlet outlet = patchOutletWrapper.Result;
                     audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
-                    IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(curveRepository, sampleRepository, audioFileOutput);
-                    audioFileOutputCalculator.Execute();
+                    audioFileOutputManager.Execute(audioFileOutput);
 
                     SoundPlayer soundPlayer = new SoundPlayer(_outputFilePath);
                     soundPlayer.Play();
@@ -151,8 +150,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             ISampleDataTypeRepository sampleDataTypeRepository = PersistenceHelper.CreateMemoryRepository<ISampleDataTypeRepository>(context);
             ISpeakerSetupRepository speakerSetupRepository = PersistenceHelper.CreateMemoryRepository<ISpeakerSetupRepository>(context);
             IAudioFileFormatRepository audioFileFormatRepository = PersistenceHelper.CreateMemoryRepository<IAudioFileFormatRepository>(context);
+            ICurveRepository curveRepository = PersistenceHelper.CreateMemoryRepository<ICurveRepository>(context);
+            ISampleRepository sampleRepository = PersistenceHelper.CreateMemoryRepository<ISampleRepository>(context);
 
-            var manager = new AudioFileOutputManager(audioFileOutputRepository, audioFileOutputChannelRepository, sampleDataTypeRepository, speakerSetupRepository, audioFileFormatRepository);
+            var manager = new AudioFileOutputManager(
+                audioFileOutputRepository, 
+                audioFileOutputChannelRepository, 
+                sampleDataTypeRepository, 
+                speakerSetupRepository, 
+                audioFileFormatRepository,
+                curveRepository,
+                sampleRepository);
+
             return manager;
         }
     }

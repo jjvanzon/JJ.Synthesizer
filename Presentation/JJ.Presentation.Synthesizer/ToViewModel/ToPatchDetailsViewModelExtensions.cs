@@ -25,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             int rootDocumentID,
             ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex,
+            IOperatorTypeRepository operatorTypeRepository,
             EntityPositionManager entityPositionManager)
         {
             if (entities == null) throw new NullException(() => entities);
@@ -36,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             for (int i = 0; i < entities.Count; i++)
             {
                 Patch entity = entities[i];
-                PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, i, entityPositionManager);
+                PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, i, operatorTypeRepository, entityPositionManager);
                 viewModels.Add(viewModel);
             }
 
@@ -49,6 +50,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex,
             int listIndex,
+            IOperatorTypeRepository operatorTypeRepository,
             EntityPositionManager entityPositionManager)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -60,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ValidationMessages = new List<Message>()
             };
 
-            viewModel.OperatorToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel();
+            viewModel.OperatorToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel(operatorTypeRepository);
 
             foreach (OperatorViewModel operatorViewModel in viewModel.Patch.Operators)
             {

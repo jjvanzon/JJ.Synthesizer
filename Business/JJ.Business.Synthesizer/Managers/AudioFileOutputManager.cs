@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -24,26 +25,39 @@ namespace JJ.Business.Synthesizer.Managers
         private ISpeakerSetupRepository _speakerSetupRepository;
         private IAudioFileFormatRepository _audioFileFormatRepository;
 
+        private ICurveRepository _curveRepository;
+        private ISampleRepository _sampleRepository;
+
         public AudioFileOutputManager(
             IAudioFileOutputRepository audioFileOutputRepository,
             IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
             ISampleDataTypeRepository sampleDataTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository,
-            IAudioFileFormatRepository audioFileFormatRepository)
+            IAudioFileFormatRepository audioFileFormatRepository,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository)
         {
             if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
             if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
             if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             _audioFileOutputRepository = audioFileOutputRepository;
             _audioFileOutputChannelRepository = audioFileOutputChannelRepository;
             _sampleDataTypeRepository = sampleDataTypeRepository;
             _speakerSetupRepository = speakerSetupRepository;
             _audioFileFormatRepository = audioFileFormatRepository;
+            _curveRepository = curveRepository;
+            _sampleRepository = sampleRepository;
         }
 
+        /// <summary>
+        /// Create an AudioFileOutput and initializes it with defaults
+        /// and the necessary child entities.
+        /// </summary>
         public AudioFileOutput CreateWithRelatedEntities()
         {
             AudioFileOutput audioFileOutput = _audioFileOutputRepository.Create();
@@ -123,6 +137,12 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             return audioFileOutputChannels[i];
+        }
+
+        public void Execute(AudioFileOutput audioFileOutput)
+        {
+            IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(_curveRepository, _sampleRepository, audioFileOutput);
+            audioFileOutputCalculator.Execute();
         }
     }
 }

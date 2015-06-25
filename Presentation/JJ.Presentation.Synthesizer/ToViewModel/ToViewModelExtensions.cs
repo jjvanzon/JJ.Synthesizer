@@ -17,6 +17,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.ViewModels.Keys;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -338,6 +339,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 Name = entity.Name,
                 TemporaryID = Guid.NewGuid()
+            };
+
+            return viewModel;
+        }
+
+        public static OperatorTypeViewModel ToViewModel(this OperatorType operatorType)
+        {
+            var viewModel = new OperatorTypeViewModel
+            {
+                Symbol = ResourceHelper.GetPropertyDisplayName(operatorType.Name),
+                OperatorTypeName = operatorType.Name
             };
 
             return viewModel;

@@ -19,7 +19,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static partial class ViewModelHelper
     {
-        public static MainViewModel CreateEmptyMainViewModel()
+        public static MainViewModel CreateEmptyMainViewModel(IOperatorTypeRepository operatorTypeRepository)
         {
             return new MainViewModel
             {
@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentDeleted = CreateEmptyDocumentDeletedViewModel(),
                 DocumentDetails = CreateEmptyDocumentDetailsViewModel(),
                 DocumentList = CreateEmptyDocumentListViewModel(),
-                TemporaryPatchDetails = CreateEmptyPatchDetailsViewModel()
+                TemporaryPatchDetails = CreateEmptyPatchDetailsViewModel(operatorTypeRepository)
             };
         }
 
@@ -265,11 +265,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static PatchDetailsViewModel CreateEmptyPatchDetailsViewModel()
+        public static PatchDetailsViewModel CreateEmptyPatchDetailsViewModel(IOperatorTypeRepository operatorTypeRepository)
         {
             var viewModel = new PatchDetailsViewModel
             {
-                OperatorToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel(),
+                OperatorToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel(operatorTypeRepository),
                 Patch = CreateEmptyPatchViewModel(),
                 ValidationMessages = new List<Message>()
             };

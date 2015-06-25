@@ -82,7 +82,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             Patch patch = _patchRepository.Create();
 
-            ViewModel = patch.ToDetailsViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, listIndex, _entityPositionManager);
+            ViewModel = patch.ToDetailsViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, listIndex, _operatorTypeRepository, _entityPositionManager);
             ViewModel.Visible = true;
 
             return ViewModel;
@@ -99,7 +99,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Patch patch = _patchRepository.Get(patchID);
 
-            ViewModel = patch.ToDetailsViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, listIndex, _entityPositionManager);
+            ViewModel = patch.ToDetailsViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, listIndex, _operatorTypeRepository, _entityPositionManager);
 
             ViewModel.Visible = true;
 
@@ -392,7 +392,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public object Close()
         {
-            PatchDetailsViewModel viewModel = ViewModelHelper.CreateEmptyPatchDetailsViewModel();
+            PatchDetailsViewModel viewModel = ViewModelHelper.CreateEmptyPatchDetailsViewModel(_operatorTypeRepository);
             viewModel.Visible = false;
             return viewModel;
         }
@@ -411,6 +411,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 userInput.Patch.Keys.ChildDocumentTypeEnum,
                 userInput.Patch.Keys.ChildDocumentListIndex,
                 userInput.Patch.Keys.ListIndex,
+                _operatorTypeRepository,
                 _entityPositionManager);
 
             return viewModel;

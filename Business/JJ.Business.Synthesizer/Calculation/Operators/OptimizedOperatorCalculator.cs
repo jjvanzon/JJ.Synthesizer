@@ -16,10 +16,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private OperatorCalculatorBase[] _rootOperatorCalculators;
 
+        /// <summary>
+        /// This overload has ChannelOutlets as params.
+        /// </summary>
         public OptimizedOperatorCalculator(ICurveRepository curveRepository, ISampleRepository sampleRepository, params Outlet[] channelOutlets)
             : this((IList<Outlet>)channelOutlets, curveRepository, sampleRepository)
         { }
 
+        /// <summary>
+        /// This overload has ChannelOutlets as an IList<T>.
+        /// </summary>
         public OptimizedOperatorCalculator(IList<Outlet> channelOutlets, ICurveRepository curveRepository, ISampleRepository sampleRepository)
         {
             if (channelOutlets == null) throw new NullException(() => channelOutlets);

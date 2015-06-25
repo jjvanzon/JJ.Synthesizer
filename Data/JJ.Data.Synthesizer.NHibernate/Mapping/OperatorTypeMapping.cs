@@ -13,6 +13,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
         {
             Id(x => x.ID);
             Map(x => x.Name);
+            Map(x => x.SortOrder);
         }
     }
 }

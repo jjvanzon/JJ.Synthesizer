@@ -18,31 +18,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static partial class ViewModelHelper
     {
-        public static IList<OperatorTypeViewModel> CreateOperatorTypesViewModel()
+        public static IList<OperatorTypeViewModel> CreateOperatorTypesViewModel(IOperatorTypeRepository operatorTypeRepository)
         {
-            // TODO: Eventually these should be registered centrally somewhere.
-            var viewModels = new OperatorTypeViewModel[]
-            {
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Adder, Symbol = PropertyDisplayNames.Adder },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Add, Symbol = PropertyDisplayNames.Add },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.CurveIn, Symbol = PropertyDisplayNames.CurveIn },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Divide, Symbol = PropertyDisplayNames.Divide },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Multiply, Symbol = PropertyDisplayNames.Multiply },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.PatchInlet, Symbol = PropertyDisplayNames.PatchInlet },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.PatchOutlet, Symbol = PropertyDisplayNames.PatchOutlet },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Power, Symbol = PropertyDisplayNames.Power },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Sample, Symbol = PropertyDisplayNames.Sample },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Sine, Symbol = PropertyDisplayNames.Sine },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Substract, Symbol = PropertyDisplayNames.Substract },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.TimeAdd, Symbol = PropertyDisplayNames.TimeAdd },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.TimeDivide, Symbol = PropertyDisplayNames.TimeDivide },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.TimeMultiply, Symbol = PropertyDisplayNames.TimeMultiply },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.TimePower, Symbol = PropertyDisplayNames.TimePower },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.TimeSubstract, Symbol = PropertyDisplayNames.TimeSubstract },
-                new OperatorTypeViewModel { OperatorTypeName = PropertyNames.Value, Symbol =  PropertyDisplayNames.Value }
-            };
+            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
 
-            return viewModels;
+            IList<OperatorType> operatorTypes = operatorTypeRepository.GetAllOrderedBySortOrder();
+            IList<OperatorTypeViewModel> operatorTypeViewModels = operatorTypes.Select(x => x.ToViewModel()).ToArray();
+
+            return operatorTypeViewModels;
         }
 
         public static IList<IDAndName> CreateAudioFileFormatLookupViewModel(IAudioFileFormatRepository repository)

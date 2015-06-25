@@ -158,6 +158,7 @@
     <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
     <Compile Include="EntityWrappers\Substract_OperatorWrapper.cs" />
     <Compile Include="Helpers\AudioFileOutputRepositories.cs" />
+    <Compile Include="Helpers\OperatorHelper.cs" />
     <Compile Include="Helpers\RepositoryWrapper.cs" />
     <Compile Include="Helpers\SampleDataTypeHelper.cs" />
     <Compile Include="Extensions\SampleExtensions.cs" />
@@ -179,6 +180,7 @@
     </Compile>
     <Compile Include="Resources\MessageFormatter.cs" />
     <Compile Include="Calculation\Operators\InterpretedOperatorCalculator.cs" />
+    <Compile Include="Resources\ResourceHelper.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Patch_SideEffect_GenerateName.cs" />
@@ -190,6 +192,7 @@
     <Compile Include="Structs\WavHeaderStruct.cs" />
     <Compile Include="Validation\ChildDocumentValidator.cs" />
     <Compile Include="Validation\AudioFileOutputValidator_InDocument.cs" />
+    <Compile Include="Validation\OperatorValidator_WhiteNoise.cs" />
     <Compile Include="Validation\SampleValidator_InDocument.cs" />
     <Compile Include="Validation\CurveValidator_Delete.cs" />
     <Compile Include="Validation\DocumentValidator_Delete.cs" />

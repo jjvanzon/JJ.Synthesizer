@@ -787,12 +787,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         protected override void VisitPatchInlet(Operator op)
         {
-            // Do nothing. Not relevant until Patch is programmed.
+            // Do nothing. Not relevant until Patch reuse is programmed.
         }
 
         protected override void VisitPatchOutlet(Operator op)
         {
-            // Do nothing. Not relevant until Patch is programmed.
+            // Do nothing. Not relevant until Patch reuse is programmed.
+        }
+
+        protected override void VisitWhiteNoise(Operator op)
+        {
+            var calculator = new WhiteNoise_OperatorCalculator();
+            _stack.Push(calculator);
         }
 
         /// <summary>

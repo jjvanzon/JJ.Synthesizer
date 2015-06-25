@@ -106,7 +106,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchManager = new PatchManager(_repositoryWrapper.PatchRepository, _repositoryWrapper.OperatorRepository, _repositoryWrapper.InletRepository, _repositoryWrapper.OutletRepository, _repositoryWrapper.EntityPositionRepository);
             _curveManager = new CurveManager(_repositoryWrapper.CurveRepository, _repositoryWrapper.NodeRepository);
             _sampleManager = new SampleManager(new SampleRepositories(_repositoryWrapper));
-            _audioFileOutputManager = new AudioFileOutputManager(_repositoryWrapper.AudioFileOutputRepository, _repositoryWrapper.AudioFileOutputChannelRepository, repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository, _repositoryWrapper.AudioFileFormatRepository);
+            _audioFileOutputManager = new AudioFileOutputManager(
+                _repositoryWrapper.AudioFileOutputRepository, 
+                _repositoryWrapper.AudioFileOutputChannelRepository, 
+                _repositoryWrapper.SampleDataTypeRepository, 
+                _repositoryWrapper.SpeakerSetupRepository, 
+                _repositoryWrapper.AudioFileFormatRepository,
+                _repositoryWrapper.CurveRepository,
+                _repositoryWrapper.SampleRepository);
             _entityPositionManager = new EntityPositionManager(_repositoryWrapper.EntityPositionRepository);
 
             _dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
@@ -116,7 +123,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public MainViewModel Show()
         {
-            _viewModel = ViewModelHelper.CreateEmptyMainViewModel();
+            _viewModel = ViewModelHelper.CreateEmptyMainViewModel(_repositoryWrapper.OperatorTypeRepository);
 
             MenuViewModel menuViewModel = _menuPresenter.Show();
             DispatchViewModel(menuViewModel);
@@ -1086,7 +1093,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ListIndexHelper.RenumberListIndexes(patchListViewModel.List);
 
             IList<PatchDetailsViewModel> patchPropertyViewModels = ChildDocumentHelper.GetPatchDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
-            PatchDetailsViewModel detailsViewModel = patch.ToDetailsViewModel(document.ID, childDocumentTypeEnum, childDocumentListIndex, DUMMY_LIST_INDEX, _entityPositionManager);
+            PatchDetailsViewModel detailsViewModel = patch.ToDetailsViewModel(document.ID, childDocumentTypeEnum, childDocumentListIndex, DUMMY_LIST_INDEX, _repositoryWrapper.OperatorTypeRepository, _entityPositionManager);
             patchPropertyViewModels.Add(detailsViewModel);
             IList<PatchDetailsViewModel> patchPropertyViewModelsSorted = patchPropertyViewModels.OrderBy(x => x.Patch.Name).ToList();
             patchPropertyViewModels.Clear();
@@ -1747,7 +1754,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                        _viewModel.Document.ID != userInput.Document.ID;
             if (mustCreateViewModel)
             {
-                MainViewModel mainViewModel = ViewModelHelper.CreateEmptyMainViewModel();
+                MainViewModel mainViewModel = ViewModelHelper.CreateEmptyMainViewModel(_repositoryWrapper.OperatorTypeRepository);
 
                 Document entity = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
                 DocumentViewModel documentViewModel = entity.ToViewModel(_repositoryWrapper, _entityPositionManager);

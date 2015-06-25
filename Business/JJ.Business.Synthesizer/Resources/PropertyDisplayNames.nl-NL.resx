@@ -288,4 +288,7 @@
   <data name="OperatorType" xml:space="preserve">
     <value>Operator soort</value>
   </data>
+  <data name="WhiteNoise" xml:space="preserve">
+    <value>Witte ruis</value>
+  </data>
 </root>

@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
-    public static class AudioFileOutputCalculatorFactory
+    internal static class AudioFileOutputCalculatorFactory
     {
         public static IAudioFileOutputCalculator CreateAudioFileOutputCalculator(ICurveRepository curveRepository, ISampleRepository sampleRepository, AudioFileOutput audioFileOutput, string filePath = null)
         {
