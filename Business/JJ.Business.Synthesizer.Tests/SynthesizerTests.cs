@@ -502,8 +502,9 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 var repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
 
-                var x = TestHelper.CreateOperatorFactory(repositoryWrapper);
-                var audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
+                OperatorFactory x = TestHelper.CreateOperatorFactory(repositoryWrapper);
+                AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
+                PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
                 Outlet outlet = x.Multiply(x.WhiteNoise(), x.Value(Int16.MaxValue));
 
@@ -521,6 +522,14 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
                 string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+
+                // Also test interpreted calculator
+                IOperatorCalculator calculator = patchManager.CreateCalculator(false, outlet);
+                double value = calculator.Calculate(0.2, 0);
+                value = calculator.Calculate(0.2, 0);
+                value = calculator.Calculate(0.3, 0);
+                value = calculator.Calculate(0.3, 0);
+
                 Assert.Inconclusive(message);
             }
         }

@@ -23,6 +23,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
 
+        private WhiteNoiseCalculator _whiteNoiseCalculator;
+
         /// <summary>
         /// Is set in the Calculate method
         /// and used in other methods.
@@ -31,18 +33,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private Outlet[] _channelOutlets;
         private Dictionary<OperatorTypeEnum, Func<Operator, double, double>> _funcDictionary;
 
-        public InterpretedOperatorCalculator(ICurveRepository curveRepository, ISampleRepository sampleRepository, params Outlet[] channelOutlets)
-            : this((IList<Outlet>)channelOutlets, curveRepository, sampleRepository)
-        { }
-
-        public InterpretedOperatorCalculator(IList<Outlet> channelOutlets, ICurveRepository curveRepository, ISampleRepository sampleRepository)
+        public InterpretedOperatorCalculator(IList<Outlet> channelOutlets, WhiteNoiseCalculator whiteNoiseCalculator, ICurveRepository curveRepository, ISampleRepository sampleRepository)
         {
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
+            if (whiteNoiseCalculator == null) throw new NullException(() => whiteNoiseCalculator);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
+            _whiteNoiseCalculator = whiteNoiseCalculator;
 
             foreach (Outlet channelOutlet in channelOutlets)
             {
@@ -71,6 +71,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 { OperatorTypeEnum.TimePower, CalculateTimePower },
                 { OperatorTypeEnum.TimeSubstract, CalculateTimeSubstract },
                 { OperatorTypeEnum.Value, CalculateValueOperator },
+                { OperatorTypeEnum.WhiteNoise, CalculateWhiteNoise },
             };
         }
 
@@ -468,16 +469,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return result;
         }
 
-        private Dictionary<Operator, Curve> _curveInCurveDictionary = new Dictionary<Operator, Curve>();
+        private Dictionary<Operator, Curve> _curveIn_Curve_Dictionary = new Dictionary<Operator, Curve>();
 
         private double CalculateCurveIn(Operator op, double time)
         {
             Curve curve;
-            if (!_curveInCurveDictionary.TryGetValue(op, out curve))
+            if (!_curveIn_Curve_Dictionary.TryGetValue(op, out curve))
             {
                 var wrapper = new CurveIn_OperatorWrapper(op, _curveRepository);
                 curve = wrapper.Curve;
-                _curveInCurveDictionary.Add(op, curve);
+                _curveIn_Curve_Dictionary.Add(op, curve);
             }
 
             if (curve == null) return 0;
@@ -488,18 +489,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return result;
         }
 
-        private Dictionary<Operator, Sample> _sampleOperatorSampleDictionary = new Dictionary<Operator, Sample>();
+        private Dictionary<Operator, Sample> _sampleOperator_Sample_Dictionary = new Dictionary<Operator, Sample>();
         private Dictionary<int, ISampleCalculator> _sampleCalculatorDictionary =
             new Dictionary<int, ISampleCalculator>();
 
         private double CalculateSampleOperator(Operator op, double time)
         {
             Sample sample;
-            if (!_sampleOperatorSampleDictionary.TryGetValue(op, out sample))
+            if (!_sampleOperator_Sample_Dictionary.TryGetValue(op, out sample))
             {
                 var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
                 sample = wrapper.Sample;
-                _sampleOperatorSampleDictionary.Add(op, sample);
+                _sampleOperator_Sample_Dictionary.Add(op, sample);
             }
 
             if (sample == null) return 0;
@@ -548,6 +549,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (inputOutlet == null) return 0;
 
             return Calculate(inputOutlet, time);
+        }
+
+        /// <summary>
+        /// Key is operator ID, value is offset in seconds.
+        /// </summary>
+        private Dictionary<int, double> _whiteNoiseOffsetDictionary = new Dictionary<int, double>();
+
+        private double CalculateWhiteNoise(Operator op, double time)
+        {
+            double offset;
+            if (!_whiteNoiseOffsetDictionary.TryGetValue(op.ID, out offset))
+            {
+                offset = _whiteNoiseCalculator.GetRandomOffset();
+                _whiteNoiseOffsetDictionary.Add(op.ID, offset);
+            }
+
+            double value = _whiteNoiseCalculator.GetValue(time + offset);
+
+            return value;
         }
     }
 }

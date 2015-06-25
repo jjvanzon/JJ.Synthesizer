@@ -128,6 +128,7 @@ namespace JJ.Business.Synthesizer.Managers
             }
         }
 
+        // TODO: These overloads are ugly, e.g. CreateCalculator(true, outlet1)
 
         /// <param name="optimized">
         /// Set to true for slower initialization and faster sound generation (best for outputting sound).
@@ -157,13 +158,14 @@ namespace JJ.Business.Synthesizer.Managers
 
             int assumedSamplingRate = 44100;
             var whiteNoiseCalculator = new WhiteNoiseCalculator(assumedSamplingRate);
+
             if (optimized)
             {
                 return new OptimizedOperatorCalculator(channelOutlets, whiteNoiseCalculator, _curveRepository, _sampleRepository);
             }
             else
             {
-                return new InterpretedOperatorCalculator(channelOutlets, _curveRepository, _sampleRepository);
+                return new InterpretedOperatorCalculator(channelOutlets, whiteNoiseCalculator, _curveRepository, _sampleRepository);
             }
         }
     }

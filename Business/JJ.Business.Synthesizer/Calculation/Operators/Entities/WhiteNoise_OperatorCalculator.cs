@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
 
         public override double Calculate(double time, int channelIndex)
         {
-            double x = _whiteNoiseCalculator.Calculate(time + _offset);
+            double x = _whiteNoiseCalculator.GetValue(time + _offset);
             return x;
         }
     }

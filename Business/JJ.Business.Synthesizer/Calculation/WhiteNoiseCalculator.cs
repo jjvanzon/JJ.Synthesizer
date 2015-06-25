@@ -65,7 +65,11 @@ namespace JJ.Business.Synthesizer.Calculation
             return offset;
         }
 
-        public double Calculate(double time)
+        /// <summary>
+        /// For each white noise operator it is advised to add an offset to the time.
+        /// You can get a random offset using the GetRandomOffset() method.
+        /// </summary>
+        public double GetValue(double time)
         {
             // Block interpolation should be enough, 
             // because in practice the time speed should so 

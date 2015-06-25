@@ -25,9 +25,6 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             entity.Name = "Adder";
 
             entity = Create();
-            entity.Name = "CurveIn";
-
-            entity = Create();
             entity.Name = "Divide";
 
             entity = Create();
@@ -41,9 +38,6 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
 
             entity = Create();
             entity.Name = "Power";
-
-            entity = Create();
-            entity.Name = "Sample";
 
             entity = Create();
             entity.Name = "Sine";
@@ -68,6 +62,12 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
 
             entity = Create();
             entity.Name = "Value";
+
+            entity = Create();
+            entity.Name = "CurveIn";
+
+            entity = Create();
+            entity.Name = "Sample";
 
             entity = Create();
             entity.Name = "WhiteNoise";
