@@ -71,6 +71,9 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
 
             entity = Create();
             entity.Name = "WhiteNoise";
+
+            entity = Create();
+            entity.Name = "Resample";
         }
     }
 }

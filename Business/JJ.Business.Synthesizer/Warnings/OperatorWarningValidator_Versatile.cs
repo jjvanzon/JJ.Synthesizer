@@ -23,6 +23,7 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.Multiply, typeof(OperatorWarningValidator_Multiply) },
             { OperatorTypeEnum.PatchOutlet, typeof(OperatorWarningValidator_PatchOutlet) },
             { OperatorTypeEnum.Power, typeof(OperatorWarningValidator_Power) },
+            { OperatorTypeEnum.Resample, typeof(OperatorWarningValidator_Resample) },
             { OperatorTypeEnum.Sample, typeof(OperatorWarningValidator_Sample) },
             { OperatorTypeEnum.Sine, typeof(OperatorWarningValidator_Sine) },
             { OperatorTypeEnum.Substract, typeof(OperatorWarningValidator_Substract) },

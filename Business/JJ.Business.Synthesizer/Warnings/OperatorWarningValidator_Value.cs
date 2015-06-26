@@ -27,7 +27,6 @@ namespace JJ.Business.Synthesizer.Warnings
                     ValidationMessages.Add(() => Object.Data, MessageFormatter.ValueIs0WithName(Object.Name));
                 }
             }
-
         }
     }
 }

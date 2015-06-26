@@ -291,4 +291,7 @@
   <data name="WhiteNoise" xml:space="preserve">
     <value>Witte ruis</value>
   </data>
+  <data name="Resample" xml:space="preserve">
+    <value>Resample</value>
+  </data>
 </root>

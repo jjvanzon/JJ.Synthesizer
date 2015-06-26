@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants. PATCH_OUTLET_RESULT_INDEX); }
+            get { return GetOutlet(OperatorConstants.WHITE_NOISE_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(WhiteNoise_OperatorWrapper wrapper)

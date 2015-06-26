@@ -810,6 +810,49 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _stack.Push(calculator);
         }
 
+        protected override void VisitResample(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Value_OperatorCalculator(0);
+            samplingRateCalculator = samplingRateCalculator ?? new Value_OperatorCalculator(0);
+
+            double signal = signalCalculator.Calculate(0, 0);
+            double samplingRate = samplingRateCalculator.Calculate(0, 0);
+            bool signalIsConst = signalCalculator is Value_OperatorCalculator;
+            bool samplingRateIsConst = samplingRateCalculator is Value_OperatorCalculator;
+            bool signalIsConstZero = signalIsConst && signal == 0;
+            bool samplingRateIsConstZero = samplingRateIsConst && samplingRate == 0;
+
+            if (samplingRateIsConstZero)
+            {
+                // Weird number
+                calculator = new Value_OperatorCalculator(0);
+            }
+            else if (signalIsConstZero)
+            {
+                calculator = new Value_OperatorCalculator(0);
+            }
+            else if (signalIsConst)
+            {
+                calculator = new Value_OperatorCalculator(signal);
+            }
+            else if (samplingRateIsConst)
+            {
+                calculator = new Resample_WithConstSamplingRate_OperatorCalculator(signalCalculator, samplingRate);
+            }
+            else
+            {
+                calculator = new Resample_OperatorCalculator(signalCalculator, samplingRateCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
+
         /// <summary>
         /// Overridden to push null-inlets.
         /// </summary>

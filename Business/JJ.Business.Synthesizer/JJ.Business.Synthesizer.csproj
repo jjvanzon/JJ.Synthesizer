@@ -49,6 +49,7 @@
     </Compile>
     <Compile Include="Calculation\Operators\Entities\Add_WithConstOperandA_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\Add_WithConstOperandB_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Resample_WithConstSamplingRate_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\Divide_WithConstOrigin_AndNumerator_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\Divide_WithConstOrigin_AndDenominator_OperatorCalculator .cs" />
     <Compile Include="Calculation\Operators\Entities\Divide_WithConstOrigin_OperatorCalculator.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Calculation\Operators\Entities\Divide_WithoutOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Resample_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\TimeDivide_WithConstOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\TimeDivide_WithOrigin_WithConstTimeDivider_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\TimeDivide_WithoutOrigin_WithConstTimeDivider_OperatorCalculator.cs" />
@@ -126,6 +128,7 @@
     <Compile Include="Constants\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
     <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />
+    <Compile Include="EntityWrappers\Resample_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\WhiteNoise_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Sample_OperatorWrapper.cs" />
     <Compile Include="Enums\OperatorTypeEnum.cs" />
@@ -193,6 +196,7 @@
     <Compile Include="Structs\WavHeaderStruct.cs" />
     <Compile Include="Validation\ChildDocumentValidator.cs" />
     <Compile Include="Validation\AudioFileOutputValidator_InDocument.cs" />
+    <Compile Include="Validation\OperatorValidator_Resample.cs" />
     <Compile Include="Validation\OperatorValidator_WhiteNoise.cs" />
     <Compile Include="Validation\SampleValidator_InDocument.cs" />
     <Compile Include="Validation\CurveValidator_Delete.cs" />
@@ -217,6 +221,7 @@
     <Compile Include="Visitors\OperatorVisitorBase.cs" />
     <Compile Include="Warnings\AudioFileOutputChannelWarningValidator.cs" />
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Resample.cs" />
     <Compile Include="Warnings\SampleWarningValidator.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Base.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Sample.cs" />

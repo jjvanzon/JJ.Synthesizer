@@ -19,9 +19,10 @@ namespace JJ.Business.Synthesizer.Warnings
             : base(obj, postponeExecute: true)
         {
             if (obj == null) throw new NullException(() => obj);
-            if (inletCount < 0) throw new LessThanException(() => inletCount, 0);
 
             _inletCount = inletCount ?? obj.Inlets.Count;
+
+            if (_inletCount < 0) throw new LessThanException(() => _inletCount, 0);
 
             Execute();
         }

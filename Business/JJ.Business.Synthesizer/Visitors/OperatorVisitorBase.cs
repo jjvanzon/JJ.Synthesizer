@@ -40,6 +40,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.TimeSubstract, VisitTimeSubstract },
                 { OperatorTypeEnum.Value, VisitValue },
                 { OperatorTypeEnum.WhiteNoise, VisitWhiteNoise },
+                { OperatorTypeEnum.Resample, VisitResample },
             };
         }
 
@@ -146,6 +147,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
         /// <summary> does nothing </summary>
         protected virtual void VisitWhiteNoise(Operator op)
+        { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitResample(Operator op)
         { }
     }
 }

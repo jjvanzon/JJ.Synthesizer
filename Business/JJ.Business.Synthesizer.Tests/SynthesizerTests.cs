@@ -533,5 +533,66 @@ namespace JJ.Business.Synthesizer.Tests
                 Assert.Inconclusive(message);
             }
         }
+
+
+        [TestMethod]
+        public void Test_Synthesizer_ResampleOperator()
+        {
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            {
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                OperatorFactory x = TestHelper.CreateOperatorFactory(repositoryWrapper);
+                AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
+                PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
+
+                double duration = 2;
+                int samplingRate = 44100;
+                int alternativeSamplingRate = samplingRate / 16;
+
+                Outlet whiteNoise = x.Multiply(x.WhiteNoise(), x.Value(Int16.MaxValue));
+                Outlet resampledWhiteNoise = x.Resample(whiteNoise, x.Value(alternativeSamplingRate));
+
+                AudioFileOutput audioFileOutput_WhiteNoise = audioFileOutputManager.CreateWithRelatedEntities();
+                audioFileOutput_WhiteNoise.FilePath = "Test_Synthesizer_ResampleOperator_WhiteNoise.wav";
+                audioFileOutput_WhiteNoise.Duration = duration;
+                audioFileOutput_WhiteNoise.SamplingRate = samplingRate;
+                audioFileOutput_WhiteNoise.AudioFileOutputChannels[0].Outlet = whiteNoise;
+
+                AudioFileOutput audioFileOutput_LowerSamplingRate = audioFileOutputManager.CreateWithRelatedEntities();
+                audioFileOutput_LowerSamplingRate.FilePath = "Test_Synthesizer_ResampleOperator_WhiteNoise_WithLowerSamplingRate.wav";
+                audioFileOutput_LowerSamplingRate.Duration = duration;
+                audioFileOutput_LowerSamplingRate.SamplingRate = alternativeSamplingRate;
+                audioFileOutput_LowerSamplingRate.AudioFileOutputChannels[0].Outlet = whiteNoise;
+
+                AudioFileOutput audioFileOutput_ResampleOperator = audioFileOutputManager.CreateWithRelatedEntities();
+                audioFileOutput_ResampleOperator.FilePath = "Test_Synthesizer_ResampleOperator_WhiteNoise_WithResampleOperator.wav";
+                audioFileOutput_ResampleOperator.Duration = duration;
+                audioFileOutput_ResampleOperator.SamplingRate = samplingRate;
+                audioFileOutput_ResampleOperator.AudioFileOutputChannels[0].Outlet = resampledWhiteNoise;
+
+                audioFileOutputManager.Execute(audioFileOutput_WhiteNoise);
+                audioFileOutputManager.Execute(audioFileOutput_LowerSamplingRate);
+
+                // Execute once to fill cache(s).
+                audioFileOutputManager.Execute(audioFileOutput_ResampleOperator);
+
+                Stopwatch sw = Stopwatch.StartNew();
+                audioFileOutputManager.Execute(audioFileOutput_ResampleOperator);
+                sw.Stop();
+
+                double ratio = sw.Elapsed.TotalSeconds / audioFileOutput_ResampleOperator.Duration;
+                string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+
+                //// Also test interpreted calculator
+                //IOperatorCalculator calculator = patchManager.CreateCalculator(false, outlet);
+                //double value = calculator.Calculate(0.2, 0);
+                //value = calculator.Calculate(0.2, 0);
+                //value = calculator.Calculate(0.3, 0);
+                //value = calculator.Calculate(0.3, 0);
+
+                Assert.Inconclusive(message);
+            }
+        }
     }
 }

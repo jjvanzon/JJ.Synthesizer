@@ -347,6 +347,22 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
+        public Resample_OperatorWrapper Resample(Outlet signal = null, Outlet samplingRate = null)
+        {
+            Operator op = CreateOperator(
+                OperatorTypeEnum.Resample, PropertyDisplayNames.Resample, 2,
+                PropertyNames.Signal, PropertyNames.SamplingRate,
+                PropertyNames.Result);
+
+            var wrapper = new Resample_OperatorWrapper(op)
+            {
+                Signal = signal,
+                SamplingRate = samplingRate
+            };
+
+            return wrapper;
+        }
+
         private Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, string name, int inletCount, params string[] inletAndOutletNames)
         {
             return OperatorHelper.CreateOperator(

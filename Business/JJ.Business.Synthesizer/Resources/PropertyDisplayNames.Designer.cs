@@ -439,6 +439,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resample.
+        /// </summary>
+        public static string Resample {
+            get {
+                return ResourceManager.GetString("Resample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sample.
         /// </summary>
         public static string Sample {
