@@ -9,9 +9,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
 {
     internal class Resample_WithConstSamplingRate_OperatorCalculator : OperatorCalculatorBase
     {
-        // TODO: Low priority: Maybe control the offset with an inlet in the future? Or is it not useful enough?
-        private const double TIME_OFFSET = 0;
-
         private OperatorCalculatorBase _signalCalculator;
         private double _samplePeriod;
 
@@ -27,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
 
         public override double Calculate(double time, int channelIndex)
         {
-            double remainder = time % _samplePeriod; // TODO: Wow, the compiler allows doubles in a modulo. But what does it do?
+            double remainder = time % _samplePeriod;
 
             double t0 = time - remainder;
             double t1 = t0 + _samplePeriod;

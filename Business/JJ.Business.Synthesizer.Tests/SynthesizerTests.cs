@@ -534,7 +534,6 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-
         [TestMethod]
         public void Test_Synthesizer_ResampleOperator()
         {
@@ -548,40 +547,109 @@ namespace JJ.Business.Synthesizer.Tests
 
                 double duration = 2;
                 int samplingRate = 44100;
-                int alternativeSamplingRate = samplingRate / 16;
+                int alternativeSamplingRate = samplingRate / 32;
 
                 Outlet whiteNoise = x.Multiply(x.WhiteNoise(), x.Value(Int16.MaxValue));
                 Outlet resampledWhiteNoise = x.Resample(whiteNoise, x.Value(alternativeSamplingRate));
 
-                AudioFileOutput audioFileOutput_WhiteNoise = audioFileOutputManager.CreateWithRelatedEntities();
-                audioFileOutput_WhiteNoise.FilePath = "Test_Synthesizer_ResampleOperator_WhiteNoise.wav";
-                audioFileOutput_WhiteNoise.Duration = duration;
-                audioFileOutput_WhiteNoise.SamplingRate = samplingRate;
-                audioFileOutput_WhiteNoise.AudioFileOutputChannels[0].Outlet = whiteNoise;
+                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
+                audioFileOutput.Duration = duration;
 
-                AudioFileOutput audioFileOutput_LowerSamplingRate = audioFileOutputManager.CreateWithRelatedEntities();
-                audioFileOutput_LowerSamplingRate.FilePath = "Test_Synthesizer_ResampleOperator_WhiteNoise_WithLowerSamplingRate.wav";
-                audioFileOutput_LowerSamplingRate.Duration = duration;
-                audioFileOutput_LowerSamplingRate.SamplingRate = alternativeSamplingRate;
-                audioFileOutput_LowerSamplingRate.AudioFileOutputChannels[0].Outlet = whiteNoise;
+                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_WhiteNoise.wav";
+                audioFileOutput.SamplingRate = samplingRate;
+                audioFileOutput.AudioFileOutputChannels[0].Outlet = whiteNoise;
+                audioFileOutputManager.Execute(audioFileOutput);
 
-                AudioFileOutput audioFileOutput_ResampleOperator = audioFileOutputManager.CreateWithRelatedEntities();
-                audioFileOutput_ResampleOperator.FilePath = "Test_Synthesizer_ResampleOperator_WhiteNoise_WithResampleOperator.wav";
-                audioFileOutput_ResampleOperator.Duration = duration;
-                audioFileOutput_ResampleOperator.SamplingRate = samplingRate;
-                audioFileOutput_ResampleOperator.AudioFileOutputChannels[0].Outlet = resampledWhiteNoise;
+                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_WhiteNoise_WithLowerSamplingRate.wav";
+                audioFileOutput.SamplingRate = alternativeSamplingRate;
+                audioFileOutput.AudioFileOutputChannels[0].Outlet = whiteNoise;
+                audioFileOutputManager.Execute(audioFileOutput);
 
-                audioFileOutputManager.Execute(audioFileOutput_WhiteNoise);
-                audioFileOutputManager.Execute(audioFileOutput_LowerSamplingRate);
+                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_WhiteNoise_WithResampleOperator.wav";
+                audioFileOutput.SamplingRate = samplingRate;
+                audioFileOutput.AudioFileOutputChannels[0].Outlet = resampledWhiteNoise;
 
                 // Execute once to fill cache(s).
-                audioFileOutputManager.Execute(audioFileOutput_ResampleOperator);
+                audioFileOutputManager.Execute(audioFileOutput);
 
                 Stopwatch sw = Stopwatch.StartNew();
-                audioFileOutputManager.Execute(audioFileOutput_ResampleOperator);
+                audioFileOutputManager.Execute(audioFileOutput);
                 sw.Stop();
 
-                double ratio = sw.Elapsed.TotalSeconds / audioFileOutput_ResampleOperator.Duration;
+                double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
+                string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
+
+                //// Also test interpreted calculator
+                //IOperatorCalculator calculator = patchManager.CreateCalculator(false, outlet);
+                //double value = calculator.Calculate(0.2, 0);
+                //value = calculator.Calculate(0.2, 0);
+                //value = calculator.Calculate(0.3, 0);
+                //value = calculator.Calculate(0.3, 0);
+
+                Assert.Inconclusive(message);
+            }
+        }
+
+
+        [TestMethod]
+        public void Test_Synthesizer_ResampleOperator_WithVariableSamplingRate()
+        {
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            {
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                OperatorFactory x = TestHelper.CreateOperatorFactory(repositoryWrapper);
+                SampleManager sampleManager = TestHelper.CreateSampleManager(repositoryWrapper);
+                AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
+                PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
+                CurveFactory curveFactory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
+
+                double duration = 1.2;
+
+                //int samplingRate = 44100;
+                //int alternativeSamplingRate = samplingRate / 128;
+                //Curve curve = curveFactory.CreateCurve(3, alternativeSamplingRate, samplingRate);
+
+                Curve curve = curveFactory.CreateCurve
+                (duration,
+                    44100, 44100, 44100, 44100,
+                    22050, 22050, 22050, 22050,
+                    11025, 11025, 11025, 11025,
+                    5512.5, 5512.5, 5512.5, 5512.5,
+                    2756.25, 2756.25, 2756.25, 2756.25,
+                    1378.125, 1378.125, 1378.125, 1378.125,
+                    689.0625, 689.0625, 689.0625, 689.0625,
+                    344.53125, 344.53125, 344.53125, 344.53125/*,
+                    172.265625, 172.265625, 172.265625, 172.265625,
+                    86.1328125, 86.1328125, 86.1328125, 86.1328125 */
+                );
+
+                //Curve curve = curveFactory.CreateCurve(duration, 44100, 689.0625);
+                //Curve curve = curveFactory.CreateCurve(duration, 5512.5, 5512.5);
+
+                //Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
+                //Sample sample = sampleManager.CreateSample(stream);
+                //sample.SamplingRate = 20000;
+                //sample.BytesToSkip = 100;
+
+                Outlet input = x.Multiply(x.WhiteNoise(), x.Value(32000));
+                //Outlet input = x.Sample(sample);
+                Outlet outlet = x.Resample(input, x.CurveIn(curve));
+
+                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
+                audioFileOutput.Duration = duration;
+                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_WithVariableSamplingRate.wav";
+                audioFileOutput.SamplingRate = 44100;
+                audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
+
+                // Execute once to fill cache(s).
+                audioFileOutputManager.Execute(audioFileOutput);
+
+                Stopwatch sw = Stopwatch.StartNew();
+                audioFileOutputManager.Execute(audioFileOutput);
+                sw.Stop();
+
+                double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
                 string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
 
                 //// Also test interpreted calculator
