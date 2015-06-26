@@ -604,25 +604,25 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
                 CurveFactory curveFactory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
 
-                double duration = 1.2;
+                double duration = 2;
 
-                //int samplingRate = 44100;
-                //int alternativeSamplingRate = samplingRate / 128;
-                //Curve curve = curveFactory.CreateCurve(3, alternativeSamplingRate, samplingRate);
+                int samplingRate = 11025;
+                int alternativeSamplingRate = samplingRate / 64;
+                Curve curve = curveFactory.CreateCurve(duration, samplingRate, alternativeSamplingRate);
 
-                Curve curve = curveFactory.CreateCurve
-                (duration,
-                    44100, 44100, 44100, 44100,
-                    22050, 22050, 22050, 22050,
-                    11025, 11025, 11025, 11025,
-                    5512.5, 5512.5, 5512.5, 5512.5,
-                    2756.25, 2756.25, 2756.25, 2756.25,
-                    1378.125, 1378.125, 1378.125, 1378.125,
-                    689.0625, 689.0625, 689.0625, 689.0625,
-                    344.53125, 344.53125, 344.53125, 344.53125/*,
-                    172.265625, 172.265625, 172.265625, 172.265625,
-                    86.1328125, 86.1328125, 86.1328125, 86.1328125 */
-                );
+                //Curve curve = curveFactory.CreateCurve
+                //(duration,
+                //    44100, 44100, 44100, 44100,
+                //    22050, 22050, 22050, 22050,
+                //    11025, 11025, 11025, 11025,
+                //    5512.5, 5512.5, 5512.5, 5512.5,
+                //    2756.25, 2756.25, 2756.25, 2756.25,
+                //    1378.125, 1378.125, 1378.125, 1378.125,
+                //    689.0625, 689.0625, 689.0625, 689.0625,
+                //    344.53125, 344.53125, 344.53125, 344.53125/*,
+                //    172.265625, 172.265625, 172.265625, 172.265625,
+                //    86.1328125, 86.1328125, 86.1328125, 86.1328125 */
+                //);
 
                 //Curve curve = curveFactory.CreateCurve(duration, 44100, 689.0625);
                 //Curve curve = curveFactory.CreateCurve(duration, 5512.5, 5512.5);
