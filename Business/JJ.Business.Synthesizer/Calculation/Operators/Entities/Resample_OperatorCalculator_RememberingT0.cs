@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
 {
+    /// <summary>
+    /// This variation on the Resample_OperatorCalculator
+    /// does give some sense of a filter, but when looking at the wave output,
+    /// I see peaks, that I cannot explain, but my hunch it that it has to do
+    /// with t catching up with t1 too quickly.
+    /// </summary>
     internal class Resample_OperatorCalculator_RememberingT0 : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _signalCalculator;
@@ -28,21 +34,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
         public override double Calculate(double t, int channelIndex)
         {
             double samplingRate = _samplingRateCalculator.Calculate(t, channelIndex);
-            // TODO: Set fields if sampling rate is 0.
-            if (samplingRate == 0) return 0;
-            double samplePeriod = 1.0 / samplingRate;
+            if (samplingRate == 0)
+            {
+                // TODO: Set fields if sampling rate is 0?
+                return 0;
+            }
+            double dt = 1.0 / samplingRate;
 
-            double t1 = _t0 + samplePeriod;
+            double t1 = _t0 + dt;
             if (t >= t1)
             {
                 _t0 = t1;
                 _x0 = _signalCalculator.Calculate(_t0, channelIndex);
-                t1 = _t0 + samplePeriod;
+                t1 = _t0 + dt;
             }
 
             double x1 = _signalCalculator.Calculate(t1, channelIndex);
-
-            double dt = t1 - _t0;
             double dx = x1 - _x0;
             double a = dx / dt;
 

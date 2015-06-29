@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
 {
+    /// <summary>
+    /// This variation on the Resample_OperatorCalculator
+    /// does not work when the sampling rate gradually changes,
+    /// because the alignment of sampling changes with the gradual change.
+    /// </summary>
     internal class Resample_OperatorCalculator_WithVaryingAlignment : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _signalCalculator;

@@ -590,9 +590,8 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
-
         [TestMethod]
-        public void Test_Synthesizer_ResampleOperator_WithVariableSamplingRate()
+        public void Test_Synthesizer_ResampleOperator_WithVariableSamplingRate_Noise()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
@@ -604,42 +603,19 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
                 CurveFactory curveFactory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
 
-                double duration = 2;
+                double duration = 6;
 
                 int samplingRate = 11025;
                 int alternativeSamplingRate = samplingRate / 64;
                 Curve curve = curveFactory.CreateCurve(duration, samplingRate, alternativeSamplingRate);
 
-                //Curve curve = curveFactory.CreateCurve
-                //(duration,
-                //    44100, 44100, 44100, 44100,
-                //    22050, 22050, 22050, 22050,
-                //    11025, 11025, 11025, 11025,
-                //    5512.5, 5512.5, 5512.5, 5512.5,
-                //    2756.25, 2756.25, 2756.25, 2756.25,
-                //    1378.125, 1378.125, 1378.125, 1378.125,
-                //    689.0625, 689.0625, 689.0625, 689.0625,
-                //    344.53125, 344.53125, 344.53125, 344.53125/*,
-                //    172.265625, 172.265625, 172.265625, 172.265625,
-                //    86.1328125, 86.1328125, 86.1328125, 86.1328125 */
-                //);
-
-                //Curve curve = curveFactory.CreateCurve(duration, 44100, 689.0625);
-                //Curve curve = curveFactory.CreateCurve(duration, 5512.5, 5512.5);
-
-                //Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
-                //Sample sample = sampleManager.CreateSample(stream);
-                //sample.SamplingRate = 20000;
-                //sample.BytesToSkip = 100;
-
                 Outlet input = x.Multiply(x.WhiteNoise(), x.Value(32000));
-                //Outlet input = x.Sample(sample);
                 Outlet outlet = x.Resample(input, x.CurveIn(curve));
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
-                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_WithVariableSamplingRate.wav";
-                audioFileOutput.SamplingRate = 44100;
+                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_WithVariableSamplingRate_Noise.wav";
+                audioFileOutput.SamplingRate = samplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
                 // Execute once to fill cache(s).
@@ -652,12 +628,51 @@ namespace JJ.Business.Synthesizer.Tests
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
                 string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
 
-                //// Also test interpreted calculator
-                //IOperatorCalculator calculator = patchManager.CreateCalculator(false, outlet);
-                //double value = calculator.Calculate(0.2, 0);
-                //value = calculator.Calculate(0.2, 0);
-                //value = calculator.Calculate(0.3, 0);
-                //value = calculator.Calculate(0.3, 0);
+                Assert.Inconclusive(message);
+            }
+        }
+        [TestMethod]
+        public void Test_Synthesizer_ResampleOperator_WithVariableSamplingRate_Sample()
+        {
+            using (IContext context = PersistenceHelper.CreateMemoryContext())
+            {
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                OperatorFactory x = TestHelper.CreateOperatorFactory(repositoryWrapper);
+                SampleManager sampleManager = TestHelper.CreateSampleManager(repositoryWrapper);
+                AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
+                PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
+                CurveFactory curveFactory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
+
+                double duration = 1.2;
+
+                int samplingRate = 10000;
+                int alternativeSamplingRate = samplingRate / 256;
+                Curve curve = curveFactory.CreateCurve(duration, samplingRate, alternativeSamplingRate);
+
+                Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
+                Sample sample = sampleManager.CreateSample(stream);
+                sample.SamplingRate = 10000;
+                sample.BytesToSkip = 100;
+
+                Outlet input = x.Sample(sample);
+                Outlet outlet = x.Resample(input, x.CurveIn(curve));
+
+                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
+                audioFileOutput.Duration = duration;
+                audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_WithVariableSamplingRate_Sample.wav";
+                audioFileOutput.SamplingRate = samplingRate;
+                audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
+
+                // Execute once to fill cache(s).
+                audioFileOutputManager.Execute(audioFileOutput);
+
+                Stopwatch sw = Stopwatch.StartNew();
+                audioFileOutputManager.Execute(audioFileOutput);
+                sw.Stop();
+
+                double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
+                string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
 
                 Assert.Inconclusive(message);
             }

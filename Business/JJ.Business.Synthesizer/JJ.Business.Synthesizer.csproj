@@ -49,6 +49,7 @@
     </Compile>
     <Compile Include="Calculation\Operators\Entities\Add_WithConstOperandA_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Entities\Add_WithConstOperandB_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Entities\Resample_OperatorCalculator_RememberingT1_Org.cs" />
     <Compile Include="Calculation\Operators\Entities\Resample_OperatorCalculator_RememberingT1.cs" />
     <Compile Include="Calculation\Operators\Entities\Resample_OperatorCalculator_RememberingT0.cs" />
     <Compile Include="Calculation\Operators\Entities\Resample_OperatorCalculator_WithVaryingAlignment.cs" />
