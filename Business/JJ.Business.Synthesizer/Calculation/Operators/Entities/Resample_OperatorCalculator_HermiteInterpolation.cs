@@ -15,14 +15,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
     /// A weakness though is, that the sampling rate is remembered until the next sample,
     /// which may work poorly when a very low sampling rate is provided.
     /// </summary>
-    internal class Resample_OperatorCalculator_CubicEquidistantInterpolation : OperatorCalculatorBase
+    internal class Resample_OperatorCalculator_HermiteInterpolation : OperatorCalculatorBase
     {
         private double MINIMUM_SAMPLING_RATE = 1.0 / 8.0; // 8 Hz.
 
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _samplingRateCalculator;
 
-        public Resample_OperatorCalculator_CubicEquidistantInterpolation(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
+        public Resample_OperatorCalculator_HermiteInterpolation(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
@@ -33,17 +33,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
             _samplingRateCalculator = samplingRateCalculator;
         }
 
-        // TODO: These are meaningless defaults.
-        private double _x0 = 0.0;
-        private double _x1 = 0.2;
-        private double _dx = 0.2; 
-        private double _yMinus1 = 0.0;
-        private double _y0 = 0.0;
-        private double _y1 = 12000.0;
-        private double _y2 = -24000.0;
+        //// TODO: These are meaningless defaults.
+        //private double _x0 = 0.0;
+        //private double _x1 = 0.2;
+        //private double _dx = 0.2; 
+        //private double _yMinus1 = 0.0;
+        //private double _y0 = 0.0;
+        //private double _y1 = 12000.0;
+        //private double _y2 = -24000.0;
+
+        private double _x0;
+        private double _x1;
+        private double _dx = Double.Epsilon;
+        private double _yMinus1;
+        private double _y0;
+        private double _y1;
+        private double _y2;
 
         public override double Calculate(double time, int channelIndex)
         {
+            // TODO: What if times goes in reverse?
+            // TODO: What if _x0 or _x1 are way off? How will it correct itself?
             double x = time;
             if (x > _x1)
             {
@@ -64,13 +74,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
 
             double t = (x - _x0) / _dx;
 
-            // TODO: Remove outcommented code.
-            //Debug.WriteLine(
-            //    "x = {0:0.000}, _x0 = {1:0.000}, _x1 = {2:0.000}, _dx = {3:0.000}, _yMinus1 = {4:0.000}, _y0 = {5:0.000}, _y1 = {6:0.000}, _y2 = {7:0.000}, t = {8:0.000}",
-            //    x, _x0, _x1, _dx, _yMinus1, _y0, _y1, _y2, t);
-            //double y = Interpolator.Interpolate_CubicEquidistant((float)t, (short)_yMinus1, (short)_y0, (short)_y1, (short)_y2);
-
-            double y = Interpolator.Interpolate_Cubic_Equidistant_SlightlyBetterThanLinear(_yMinus1, _y0, _y1, _y2, t);
+            double y = Interpolator.Interpolate_Hermite_4pt3oX(_yMinus1, _y0, _y1, _y2, t);
             return y;
         }
 

@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
     /// A weakness though is, that the sampling rate is remembered until the next sample,
     /// which may work poorly when a very low sampling rate is provided.
     /// </summary>
-    internal class Resample_OperatorCalculator_RememberingT1 : OperatorCalculatorBase
+    internal class Resample_OperatorCalculator_LinearInterpolation_RememberingT1 : OperatorCalculatorBase
     {
         private double MINIMUM_SAMPLING_RATE = 1.0 / 8.0; // 8 Hz.
 
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
         private double _x1;
         private double _a;
 
-        public Resample_OperatorCalculator_RememberingT1(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
+        public Resample_OperatorCalculator_LinearInterpolation_RememberingT1(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);

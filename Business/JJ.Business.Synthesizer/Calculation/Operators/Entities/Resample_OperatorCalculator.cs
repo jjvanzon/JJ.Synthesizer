@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
 {
-    internal class Resample_OperatorCalculator : Resample_OperatorCalculator_CubicEquidistantInterpolation
+    internal class Resample_OperatorCalculator : Resample_OperatorCalculator_HermiteInterpolation
     {
         public Resample_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
             : base(signalCalculator, samplingRateCalculator)

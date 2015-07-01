@@ -14,22 +14,22 @@ namespace JJ.Presentation.Synthesizer.Svg.Helpers
         public const float DEFAULT_WIDTH = 85; // 125;
         public const float DEFAULT_HEIGHT = 40; // 60;
 
-        public static Font DefaultFont;
-        public static TextStyle TextStyle;
-        public static BackStyle BackStyle;
-        public static BackStyle BackStyleSelected;
-        public static BackStyle BackStyleInvisible;
-        public static LineStyle LineStyle;
-        public static LineStyle LineStyleDashed;
-        public static LineStyle LineStyleSelected;
-        public static LineStyle LineStyleInvisible;
-        public static LineStyle LineStyleThin;
-        public static PointStyle PointStyle;
-        public static PointStyle PointStyleInvisible;
+        public static Font DefaultFont { get; set; }
+        public static TextStyle TextStyle { get; set; }
+        public static BackStyle BackStyle { get; set; }
+        public static BackStyle BackStyleSelected { get; set; }
+        public static BackStyle BackStyleInvisible { get; set; }
+        public static LineStyle LineStyle { get; set; }
+        public static LineStyle LineStyleDashed { get; set; }
+        public static LineStyle LineStyleSelected { get; set; }
+        public static LineStyle LineStyleInvisible { get; set; }
+        public static LineStyle LineStyleThin { get; set; }
+        public static PointStyle PointStyle { get; set; }
+        public static PointStyle PointStyleInvisible { get; set; }
 
-        public static BackStyle ToolTipBackStyle;
-        public static LineStyle ToolTipLineStyle;
-        public static TextStyle ToolTipTextStyle;
+        public static BackStyle ToolTipBackStyle { get; set; }
+        public static LineStyle ToolTipLineStyle { get; set; }
+        public static TextStyle ToolTipTextStyle { get; set; }
 
         static StyleHelper()
         {

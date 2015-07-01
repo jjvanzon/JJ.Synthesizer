@@ -13,12 +13,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
     /// I see peaks, that I cannot explain, but my hunch it that it has to do
     /// with t catching up with t1 too quickly.
     /// </summary>
-    internal class Resample_OperatorCalculator_RememberingT0 : OperatorCalculatorBase
+    internal class Resample_OperatorCalculator_LinearInterpolation_RememberingT0 : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _samplingRateCalculator;
 
-        public Resample_OperatorCalculator_RememberingT0(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
+        public Resample_OperatorCalculator_LinearInterpolation_RememberingT0(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);

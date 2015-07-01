@@ -14,6 +14,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.Svg.Gestures;
 using JJ.Presentation.Synthesizer.Svg.Converters;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Presentation.Synthesizer.Svg
 {
@@ -23,20 +24,24 @@ namespace JJ.Presentation.Synthesizer.Svg
         {
             public Rectangle OperatorRectangle { get; set; }
             public IList<Point> InletPoints { get; set; }
+            public IList<Point> InletControlPoints { get; set; }
             public IList<Point> OutletPoints { get; set; }
+            public IList<Point> OutletControlPoints { get; set; }
         }
 
         private bool _tooltipFeatureEnabled;
         private ViewModelToDiagramConverterResult _result;
         private Dictionary<OperatorViewModel, OperatorElements> _convertedOperatorDictionary;
-        private IList<Line> _convertedLines;
+        private IList<Curve> _convertedCurves;
 
         private OperatorRectangleConverter _operatorToRectangleConverter;
         private OperatorLabelConverter _operatorToLabelConverter;
         private InletRectangleConverter _inletRectangleConverter;
         private InletPointConverter _inletPointConverter;
+        private InletControlPointConverter _inletControlPointConverter;
         private OutletRectangleConverter _outletRectangleConverter;
         private OutletPointConverter _outletPointConverter;
+        private OutletControlPointConverter _outletControlPointConverter;
         private OperatorToolTipRectangleConverter _operatorToolTipRectangleConverter;
 
         /// <param name="mustShowInvisibleElements">for debugging</param>
@@ -81,8 +86,10 @@ namespace JJ.Presentation.Synthesizer.Svg
                 _operatorToLabelConverter = new OperatorLabelConverter();
                 _inletRectangleConverter = new InletRectangleConverter(dropGesture, inletToolTipGesture);
                 _inletPointConverter = new InletPointConverter();
+                _inletControlPointConverter = new InletControlPointConverter();
                 _outletRectangleConverter = new OutletRectangleConverter(dragGesture, lineGesture, outletToolTipGesture);
                 _outletPointConverter = new OutletPointConverter();
+                _outletControlPointConverter = new OutletControlPointConverter();
                 if (_tooltipFeatureEnabled)
                 {
                     _operatorToolTipRectangleConverter = new OperatorToolTipRectangleConverter(operatorToolTipGesture);
@@ -92,16 +99,16 @@ namespace JJ.Presentation.Synthesizer.Svg
             }
 
             _convertedOperatorDictionary = new Dictionary<OperatorViewModel, OperatorElements>();
-            _convertedLines = new List<Line>();
+            _convertedCurves = new List<Curve>();
 
             IList<Rectangle> destExistingOperatorRectangles = result.Diagram.Canvas.Children
                                                                                    .OfType<Rectangle>()
                                                                                    .Where(x => TagHelper.IsOperatorTag(x.Tag))
                                                                                    .ToArray();
-            IList<Line> destExistingLines = result.Diagram.Canvas.Children
-                                                                 .OfType<Line>()
-                                                                 .Where(x => TagHelper.IsInletTag(x.Tag))
-                                                                 .ToArray();
+            IList<Curve> destExistingCurves = result.Diagram.Canvas.Children
+                                                                   .OfType<Curve>()
+                                                                   .Where(x => TagHelper.IsInletTag(x.Tag))
+                                                                   .ToArray();
             _result = result;
             _result.Diagram.Canvas.Gestures.Clear();
             _result.Diagram.Canvas.Gestures.Add(_result.DeleteOperatorGesture);
@@ -130,15 +137,15 @@ namespace JJ.Presentation.Synthesizer.Svg
             }
 
             // Delete lines
-            IList<Line> destLinesToDelete = destExistingLines.Except(_convertedLines).ToArray();
-            foreach (Line destLineToDelete in destLinesToDelete)
+            IList<Curve> destCurvesToDelete = destExistingCurves.Except(_convertedCurves).ToArray();
+            foreach (Curve destLineToDelete in destCurvesToDelete)
             {
                 destLineToDelete.Parent = null;
                 destLineToDelete.Diagram = null;
             }
 
             _convertedOperatorDictionary = null;
-            _convertedLines = null;
+            _convertedCurves = null;
 
             return _result;
         }
@@ -155,7 +162,7 @@ namespace JJ.Presentation.Synthesizer.Svg
 
             _convertedOperatorDictionary.Add(sourceOperatorViewModel, operatorSvgElements1);
 
-            // Go recursive and tie operators together with lines.
+            // Go recursive and tie operators together with curves.
             for (int i = 0; i < sourceOperatorViewModel.Inlets.Count; i++)
             {
                 InletViewModel inletViewModel = sourceOperatorViewModel.Inlets[i];
@@ -165,23 +172,25 @@ namespace JJ.Presentation.Synthesizer.Svg
                     // Recursive call
                     OperatorElements operatorSvgElements2 = ConvertToRectangles_WithRelatedObject_Recursive(inletViewModel.InputOutlet.Operator, destDiagram);
 
-                    Line destLine = TryGetInletLine(inletViewModel.ID);
-                    if (destLine == null)
+                    Curve destCurve = TryGetInletCurve(inletViewModel.ID);
+                    if (destCurve == null)
                     {
-                        destLine = CreateLine();
-                        destLine.Tag = TagHelper.GetInletTag(inletViewModel.ID);
-                        destLine.Diagram = destDiagram;
-                        destLine.Parent = destDiagram.Canvas;
-                        _inletLineDictionary.Add(inletViewModel.ID, destLine);
+                        destCurve = CreateCurve();
+                        destCurve.Tag = TagHelper.GetInletTag(inletViewModel.ID);
+                        destCurve.Diagram = destDiagram;
+                        destCurve.Parent = destDiagram.Canvas;
+                        _inletCurveDictionary.Add(inletViewModel.ID, destCurve);
                     }
 
-                    destLine.PointA = operatorSvgElements1.InletPoints[i];
+                    destCurve.PointA = operatorSvgElements1.InletPoints[i];
+                    destCurve.ControlPointA = operatorSvgElements1.InletControlPoints[i];
 
-                    _convertedLines.Add(destLine);
+                    _convertedCurves.Add(destCurve);
 
                     if (operatorSvgElements2.OutletPoints.Count > 0) // TODO: This does not work for multiple outlets.
                     {
-                        destLine.PointB = operatorSvgElements2.OutletPoints[0];
+                        destCurve.PointB = operatorSvgElements2.OutletPoints[0];
+                        destCurve.ControlPointB = operatorSvgElements2.OutletControlPoints[0];
                     }
                 }
             }
@@ -189,36 +198,36 @@ namespace JJ.Presentation.Synthesizer.Svg
             return operatorSvgElements1;
         }
 
-        private Dictionary<int, Line> _inletLineDictionary = new Dictionary<int, Line>();
+        private Dictionary<int, Curve> _inletCurveDictionary = new Dictionary<int, Curve>();
 
-        private Line TryGetInletLine(int inletID)
+        private Curve TryGetInletCurve(int inletID)
         {
-            Line line;
-            if (!_inletLineDictionary.TryGetValue(inletID, out line))
+            Curve curve;
+            if (!_inletCurveDictionary.TryGetValue(inletID, out curve))
             {
-                line = _result.Diagram.Canvas.Children
-                                             .OfType<Line>()
-                                             .Where(x => TagHelper.TryGetInletID(x.Tag) == inletID)
-                                             .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
+                curve = _result.Diagram.Canvas.Children
+                                              .OfType<Curve>()
+                                              .Where(x => TagHelper.TryGetInletID(x.Tag) == inletID)
+                                              .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
 
-                if (line != null)
+                if (curve != null)
                 {
-                    _inletLineDictionary.Add(inletID, line);
+                    _inletCurveDictionary.Add(inletID, curve);
                 }
             }
 
-            return line;
+            return curve;
         }
 
-        private Line CreateLine()
+        private Curve CreateCurve()
         {
-            var destLine = new Line
+            var destCurve = new Curve
             {
                 LineStyle = StyleHelper.LineStyleThin,
                 ZIndex = -1
             };
 
-            return destLine;
+            return destCurve;
         }
 
         private OperatorElements ConvertToRectangle_WithRelatedObjects(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
@@ -227,8 +236,10 @@ namespace JJ.Presentation.Synthesizer.Svg
             Label destLabel = _operatorToLabelConverter.ConvertToOperatorLabel(sourceOperatorViewModel, destOperatorRectangle);
             IList<Rectangle> destInletRectangles = _inletRectangleConverter.ConvertToInletRectangles(sourceOperatorViewModel, destOperatorRectangle);
             IList<Point> destInletPoints = _inletPointConverter.ConvertToInletPoints(sourceOperatorViewModel, destOperatorRectangle);
+            IList<Point> destInletControlPoints = _inletControlPointConverter.ConvertToInletControlPoints(destInletPoints, destOperatorRectangle);
             IList<Rectangle> destOutletRectangles = _outletRectangleConverter.ConvertToOutletRectangles(sourceOperatorViewModel, destOperatorRectangle);
             IList<Point> destOutletPoints = _outletPointConverter.ConvertToOutletPoints(sourceOperatorViewModel, destOperatorRectangle);
+            IList<Point> destOutletControlPoints = _outletControlPointConverter.ConvertToOutletControlPoints(destOutletPoints, destOperatorRectangle);
 
             Rectangle destOperatorToolTipRectangle = null;
             if (_tooltipFeatureEnabled)
@@ -240,8 +251,10 @@ namespace JJ.Presentation.Synthesizer.Svg
                                                                    .Except(destLabel)
                                                                    .Except(destInletRectangles)
                                                                    .Except(destInletPoints)
+                                                                   .Except(destInletControlPoints)
                                                                    .Except(destOutletRectangles)
                                                                    .Except(destOutletPoints)
+                                                                   .Except(destOutletControlPoints)
                                                                    .Except(destOperatorToolTipRectangle)
                                                                    .ToArray();
             foreach (Element childToDelete in childrenToDelete)
@@ -263,7 +276,9 @@ namespace JJ.Presentation.Synthesizer.Svg
             {
                 OperatorRectangle = destOperatorRectangle,
                 InletPoints = destInletPoints,
-                OutletPoints = destOutletPoints
+                InletControlPoints = destInletControlPoints,
+                OutletPoints = destOutletPoints,
+                OutletControlPoints = destOutletControlPoints
             };
         }
     }

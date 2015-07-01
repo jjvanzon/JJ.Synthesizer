@@ -34,11 +34,13 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\InletControlPointConverter.cs" />
     <Compile Include="Converters\InletPointConverter.cs" />
     <Compile Include="Converters\InletRectangleConverter.cs" />
     <Compile Include="Converters\OperatorLabelConverter.cs" />
     <Compile Include="Converters\OperatorRectangleConverter.cs" />
     <Compile Include="Converters\OperatorToolTipRectangleConverter.cs" />
+    <Compile Include="Converters\OutletControlPointConverter.cs" />
     <Compile Include="Converters\OutletPointConverter.cs" />
     <Compile Include="Converters\OutletRectangleConverter.cs" />
     <Compile Include="Helpers\PositionHelper.cs" />
