@@ -840,10 +840,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 calculator = new Value_OperatorCalculator(signal);
             }
-            else if (samplingRateIsConst)
-            {
-                calculator = new Resample_WithConstSamplingRate_OperatorCalculator(signalCalculator, samplingRate);
-            }
+            // TODO: Uncomment if the specialized calculator is up-to-date.
+            //else if (samplingRateIsConst)
+            //{
+            //    calculator = new Resample_WithConstSamplingRate_OperatorCalculator(signalCalculator, samplingRate);
+            //}
             else
             {
                 calculator = new Resample_OperatorCalculator(signalCalculator, samplingRateCalculator);

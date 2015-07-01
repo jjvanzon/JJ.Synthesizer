@@ -20,6 +20,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _samplingRateCalculator;
 
+        private double _t0 = Double.MaxValue;
+        private double _t1 = Double.MinValue;
+        private double _x0;
+        private double _x1;
+        private double _a;
+
         public Resample_OperatorCalculator_RememberingT1(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
@@ -29,12 +35,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
         }
-
-        private double _t0 = Double.MaxValue;
-        private double _t1 = Double.MinValue;
-        private double _x0;
-        private double _x1;
-        private double _a;
 
         public override double Calculate(double t, int channelIndex)
         {

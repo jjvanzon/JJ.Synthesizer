@@ -34,25 +34,18 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return factory;
         }
 
-        //[Obsolete("Use the overload that takes RepositoryWrapper instead.")]
         public static OperatorFactory CreateOperatorFactory(IContext context)
         {
             RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
             return CreateOperatorFactory(context);
         }
 
-        public static CurveFactory CreateCurveFactory(IContext context)
-        {
-            ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-            INodeRepository nodeRepository = PersistenceHelper.CreateRepository<INodeRepository>(context);
-            INodeTypeRepository nodeTypeRepository = PersistenceHelper.CreateRepository<INodeTypeRepository>(context);
-            var factory = new CurveFactory(curveRepository, nodeRepository, nodeTypeRepository);
-            return factory;
-        }
-
         public static CurveFactory CreateCurveFactory(RepositoryWrapper repositoryWrapper)
         {
-            throw new NotImplementedException();
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+
+            var factory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
+            return factory;
         }
 
         public static SampleManager CreateSampleManager(IContext context)

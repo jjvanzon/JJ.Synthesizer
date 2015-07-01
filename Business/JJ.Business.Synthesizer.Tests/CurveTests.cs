@@ -18,6 +18,7 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Infos;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -86,11 +87,9 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-                INodeRepository nodeRepository = PersistenceHelper.CreateRepository<INodeRepository>(context);
-                INodeTypeRepository nodeTypeRepository = PersistenceHelper.CreateRepository<INodeTypeRepository>(context);
-                
-                var curveFactory = TestHelper.CreateCurveFactory(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var curveFactory = TestHelper.CreateCurveFactory(repositoryWrapper);
                 Curve curve = curveFactory.CreateCurve
                 (
                     3,
