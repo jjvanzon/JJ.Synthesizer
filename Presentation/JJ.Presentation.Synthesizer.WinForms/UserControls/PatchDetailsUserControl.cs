@@ -22,24 +22,39 @@ using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
 using System.ComponentModel;
 using JJ.Framework.Reflection.Exceptions;
-using TagHelper = JJ.Presentation.Synthesizer.Svg.Helpers.TagHelper;
+using JJ.Presentation.Synthesizer.Svg.Structs;
+using JJ.Framework.Presentation.WinForms;
+using JJ.Presentation.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class PatchDetailsUserControl : UserControl
     {
-        private IContext _context;
-        private PatchDetailsPresenter _presenter;
+        // TODO: Remove all outcommented code from this class.
+
+        public event EventHandler<ChildDocumentSubListItemEventArgs> CloseRequested;
+        public event EventHandler<ChildDocumentSubListItemEventArgs> LoseFocusRequested;
+        public event EventHandler<ChildDocumentSubListItemEventArgs> DeleteOperatorRequested;
+        public event EventHandler<AddOperatorEventArgs> AddOperatorRequested;
+        public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
+        public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
+        public event EventHandler<SelectOperatorEventArgs> SelectOperatorRequested;
+        public event EventHandler<SetValueEventArgs> SetValueRequested;
+        public event EventHandler<ChildDocumentSubListItemEventArgs> PlayRequested;
+
+        //private IContext _context;
+        //private PatchDetailsPresenter _presenter;
         private PatchDetailsViewModel _viewModel;
         private ViewModelToDiagramConverter _converter;
         private ViewModelToDiagramConverterResult _svg;
-        private Patch _patch;
+        //private Patch _patch;
 
-        private static bool _forceStateless;
+        //private static bool _forceStateless;
         private static bool _alwaysRecreateDiagram;
         private static bool _mustShowInvisibleElements;
-        private static bool _mustCreateMockPatch;
-        private static int _testPatchID;
+        //private static bool _mustCreateMockPatch;
+        //private static int _testPatchID;
         private static bool _toolTipFeatureEnabled;
 
         // Constructors
@@ -49,11 +64,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 ConfigurationSection config = CustomConfigurationManager.GetSection<ConfigurationSection>();
-                _forceStateless = config.Testing.ForceStateless;
+                //_forceStateless = config.Testing.ForceStateless;
                 _alwaysRecreateDiagram = config.Testing.AlwaysRecreateDiagram;
                 _mustShowInvisibleElements = config.Testing.MustShowInvisibleElements;
-                _mustCreateMockPatch = config.Testing.MustCreateMockPatch;
-                _testPatchID = config.Testing.TestPatchID;
+                //_mustCreateMockPatch = config.Testing.MustCreateMockPatch;
+                //_testPatchID = config.Testing.TestPatchID;
                 _toolTipFeatureEnabled = config.Testing.ToolTipsFeatureEnabled;
             }
         }
@@ -63,32 +78,36 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             InitializeComponent();
 
             SetTitles();
+
+            ApplyStyling();
+
+            this.AutomaticallyAssignTabIndexes();
         }
 
-        // Persistence
+        //// Persistence
 
-        [Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public IContext Context
-        {
-            get { return _context; }
-            set
-            {
-                if (value == null) throw new NullException(() => value);
-                if (_context == value) return;
+        //[Browsable(false)]
+        //[DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        //public IContext Context
+        //{
+        //    get { return _context; }
+        //    set
+        //    {
+        //        if (value == null) throw new NullException(() => value);
+        //        if (_context == value) return;
 
-                _context = value;
-                _presenter = new PatchDetailsPresenter(
-                    PersistenceHelper.CreateRepository<IPatchRepository>(_context),
-                    PersistenceHelper.CreateRepository<IOperatorRepository>(_context),
-                    PersistenceHelper.CreateRepository<IOperatorTypeRepository>(_context),
-                    PersistenceHelper.CreateRepository<IInletRepository>(_context),
-                    PersistenceHelper.CreateRepository<IOutletRepository>(_context),
-                    PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context),
-                    PersistenceHelper.CreateRepository<ICurveRepository>(_context),
-                    PersistenceHelper.CreateRepository<ISampleRepository>(_context));
-            }
-        }
+        //        _context = value;
+        //        _presenter = new PatchDetailsPresenter(
+        //            PersistenceHelper.CreateRepository<IPatchRepository>(_context),
+        //            PersistenceHelper.CreateRepository<IOperatorRepository>(_context),
+        //            PersistenceHelper.CreateRepository<IOperatorTypeRepository>(_context),
+        //            PersistenceHelper.CreateRepository<IInletRepository>(_context),
+        //            PersistenceHelper.CreateRepository<IOutletRepository>(_context),
+        //            PersistenceHelper.CreateRepository<IEntityPositionRepository>(_context),
+        //            PersistenceHelper.CreateRepository<ICurveRepository>(_context),
+        //            PersistenceHelper.CreateRepository<ISampleRepository>(_context));
+        //    }
+        //}
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
@@ -103,156 +122,106 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void AssertContext()
-        {
-            // For debugging while statfulness does not work optimally yet.
-            if (_forceStateless)
-            {
-                Context = CreateContext();
-            }
+        //private void AssertContext()
+        //{
+        //    // For debugging while statfulness does not work optimally yet.
+        //    if (_forceStateless)
+        //    {
+        //        Context = CreateContext();
+        //    }
 
-            if (_context == null)
-            {
-                throw new Exception("Assign Context first.");
-            }
-        }
+        //    if (_context == null)
+        //    {
+        //        throw new Exception("Assign Context first.");
+        //    }
+        //}
 
-        /// <summary>
-        /// For debugging while statfulness does not work optimally yet.
-        /// </summary>
-        private IContext CreateContext()
-        {
-            if (_context != null)
-            {
-                _context.Dispose();
-            }
+        ///// <summary>
+        ///// For debugging while statfulness does not work optimally yet.
+        ///// </summary>
+        //private IContext CreateContext()
+        //{
+        //    if (_context != null)
+        //    {
+        //        _context.Dispose();
+        //    }
 
-            _context = PersistenceHelper.CreateContext();
+        //    _context = PersistenceHelper.CreateContext();
 
-            return _context;
-        }
-
-        // Actions
-
-        /// <summary>
-        /// Temporary action, that will automatically show a mock or test patch.
-        /// </summary>
-        public new void Show()
-        {
-            AssertContext();
-
-            if (_mustCreateMockPatch)
-            {
-                _patch = CreateMockPatch();
-            }
-            else
-            {
-                _patch = PersistenceHelper.CreateRepository<IPatchRepository>(_context).Get(_testPatchID);
-            }
-
-            Edit(_patch.ID);
-        }
-
-        public void Edit(int patchID)
-        {
-            AssertContext();
-            // TODO: Statefulness and non-commitedness until save will work different in the future, which will change this call.
-            _viewModel = _presenter.Edit(patchID, 0, null, null, 0);
-            ApplyViewModel();
-        }
-
-        private void AddOperator(string operatorTypeName)
-        {
-            AssertContext();
-            _viewModel = _presenter.AddOperator(_viewModel, operatorTypeName);
-            ApplyViewModel();
-        }
-
-        private void MoveOperator(int operatorID, float centerX, float centerY)
-        {
-            AssertContext();
-            _viewModel = _presenter.MoveOperator(_viewModel, operatorID, centerX, centerY);
-            ApplyViewModel();
-        }
-
-        private void ChangeInputOutlet(int inletID, int inputOutletID)
-        {
-            AssertContext();
-            _viewModel = _presenter.ChangeInputOutlet(_viewModel, inletID, inputOutletID);
-            ApplyViewModel();
-        }
-
-        private void Save()
-        {
-            AssertContext();
-            _viewModel = _presenter.Save(_viewModel);
-            ApplyViewModel();
-        }
-
-        private void SelectOperator(int operatorID)
-        {
-            AssertContext();
-            _viewModel = _presenter.SelectOperator(_viewModel, operatorID);
-            ApplyViewModel();
-        }
-
-        private void DeleteOperator(int operatorID)
-        {
-            AssertContext();
-            _viewModel = _presenter.DeleteOperator(_viewModel, operatorID);
-            ApplyViewModel();
-        }
-
-        private void SetValue(string value)
-        {
-            AssertContext();
-            _viewModel = _presenter.SetValue(_viewModel, value);
-            ApplyViewModel();
-        }
+        //    return _context;
+        //}
 
         // Gui
 
         private void SetTitles()
         {
-            buttonSave.Text = CommonTitles.Save;
-            Text = CommonTitleFormatter.EditObject(PropertyDisplayNames.Patch);
+            titleBarUserControl.Text = CommonTitleFormatter.ObjectDetails(PropertyDisplayNames.Patch);
+            buttonPlay.Text = Titles.Play;
         }
+
+        private void ApplyStyling()
+        {
+            tableLayoutPanelPlayButtonAndValueTextBox.Margin = new Padding(
+                WinFormsThemeHelper.DefaultSpacing,
+                WinFormsThemeHelper.DefaultSpacing,
+                WinFormsThemeHelper.DefaultSpacing,
+                WinFormsThemeHelper.DefaultSpacing);
+
+            tableLayoutPanelToolboxAndPatch.Margin = new Padding(
+                WinFormsThemeHelper.DefaultSpacing,
+                WinFormsThemeHelper.DefaultSpacing,
+                WinFormsThemeHelper.DefaultSpacing,
+                WinFormsThemeHelper.DefaultSpacing);
+        }
+
+        private bool _applyViewModelIsBusy;
 
         private void ApplyViewModel()
         {
-            if (_svg == null || _alwaysRecreateDiagram)
+            try
             {
-                UnbindSvgEvents();
+                _applyViewModelIsBusy = true;
 
-                _converter = new ViewModelToDiagramConverter(_mustShowInvisibleElements, _toolTipFeatureEnabled);
-                _svg = _converter.Execute(_viewModel.Patch);
 
-                _svg.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
-                _svg.MoveGesture.Moved += MoveGesture_Moved;
-                _svg.DropGesture.Dropped += DropGesture_Dropped;
-                _svg.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
-
-                if (_toolTipFeatureEnabled)
+                if (_svg == null || _alwaysRecreateDiagram)
                 {
-                    _svg.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
-                    _svg.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
-                    _svg.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
+                    UnbindSvgEvents();
+
+                    _converter = new ViewModelToDiagramConverter(_mustShowInvisibleElements, _toolTipFeatureEnabled);
+                    _svg = _converter.Execute(_viewModel.Entity);
+
+                    _svg.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
+                    _svg.MoveGesture.Moved += MoveGesture_Moved;
+                    _svg.DropGesture.Dropped += DropGesture_Dropped;
+                    _svg.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
+
+                    if (_toolTipFeatureEnabled)
+                    {
+                        _svg.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
+                        _svg.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
+                        _svg.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
+                    }
+
+                    //_svg.LineGesture.Dropped += DropGesture_Dropped;
+                }
+                else
+                {
+                    _svg = _converter.Execute(_viewModel.Entity, _svg);
                 }
 
-                //_svg.LineGesture.Dropped += DropGesture_Dropped;
+                diagramControl1.Diagram = _svg.Diagram;
+
+                // TODO: Get rid of saved message label.
+                //labelSavedMessage.Visible = _viewModel.SavedMessageVisible;
+
+                ApplyOperatorToolboxItemsViewModel(_viewModel.OperatorToolboxItems);
+
+                textBoxValue.Text = _viewModel.SelectedValue;
             }
-            else
+            finally
             {
-                _svg = _converter.Execute(_viewModel.Patch, _svg);
+                _applyViewModelIsBusy = false;
             }
-
-            diagramControl1.Diagram = _svg.Diagram;
-
-            labelSavedMessage.Visible = _viewModel.SavedMessageVisible;
-
-            ApplyOperatorToolboxItemsViewModel(_viewModel.OperatorToolboxItems);
-
-            textBoxValue.Text = _viewModel.SelectedValue;
         }
 
         private void UnbindSvgEvents()
@@ -277,15 +246,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private static Size _defaultToolStripLabelSize = new Size(86, 22);
 
-        private bool _operatorToolboxItemsViewModelApplied = false; // Dirty way to only apply it once.
+        private bool _operatorToolboxItemsViewModelIsApplied = false; // Dirty way to only apply it once.
 
         private void ApplyOperatorToolboxItemsViewModel(IList<OperatorTypeViewModel> operatorTypeToolboxItems)
         {
-            if (_operatorToolboxItemsViewModelApplied)
+            if (_operatorToolboxItemsViewModelIsApplied)
             {
                 return;
             }
-            _operatorToolboxItemsViewModelApplied = true;
+            _operatorToolboxItemsViewModelIsApplied = true;
 
             int i = 1;
 
@@ -295,9 +264,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 {
                     Name = "toolStripButton" + i,
                     Size = _defaultToolStripLabelSize,
-                    Text = operatorTypeToolboxItem.Symbol,
+                    Text = operatorTypeToolboxItem.DisplayText,
                     DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text,
-                    Tag = operatorTypeToolboxItem.OperatorTypeName
+                    Tag = operatorTypeToolboxItem.ID
                 };
 
                 // TODO: Clean up the event handlers too somewhere.
@@ -309,99 +278,255 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
+        // Actions
+
+        ///// <summary>
+        ///// Temporary action, that will automatically show a mock or test patch.
+        ///// </summary>
+        //public new void Show()
+        //{
+        //    AssertContext();
+
+        //    if (_mustCreateMockPatch)
+        //    {
+        //        _patch = CreateMockPatch();
+        //    }
+        //    else
+        //    {
+        //        _patch = PersistenceHelper.CreateRepository<IPatchRepository>(_context).Get(_testPatchID);
+        //    }
+
+        //    //Edit(_patch.ID);
+        //    throw new NotImplementedException();
+        //}
+
+        // TODO: Implement CloseClicked, first adding title bar to the control.
+
+        private void Close()
+        {
+            if (CloseRequested != null)
+            {
+                var e = new ChildDocumentSubListItemEventArgs(
+                    _viewModel.Entity.Keys.PatchListIndex,
+                    _viewModel.Entity.Keys.ChildDocumentTypeEnum, 
+                    _viewModel.Entity.Keys.ChildDocumentListIndex);
+
+                CloseRequested(this, e);
+            }
+        }
+
+        private void LoseFocus()
+        {
+            if (LoseFocusRequested != null)
+            {
+                var e = new ChildDocumentSubListItemEventArgs(
+                    _viewModel.Entity.Keys.PatchListIndex,
+                    _viewModel.Entity.Keys.ChildDocumentTypeEnum, 
+                    _viewModel.Entity.Keys.ChildDocumentListIndex);
+
+                LoseFocusRequested(this, e);
+            }
+        }
+
+        private void AddOperator(int operatorTypeID)
+        {
+            if (AddOperatorRequested != null)
+            {
+                var e = new AddOperatorEventArgs(
+                    _viewModel.Entity.Keys.PatchListIndex,
+                    _viewModel.Entity.Keys.ChildDocumentTypeEnum, 
+                    _viewModel.Entity.Keys.ChildDocumentListIndex, 
+                    operatorTypeID);
+
+                AddOperatorRequested(this, e);
+            }
+        }
+
+        private void MoveOperator(int operatorIndexNumber, float centerX, float centerY)
+        {
+            if (MoveOperatorRequested != null)
+            {
+                var e = new MoveOperatorEventArgs(
+                    _viewModel.Entity.Keys.PatchListIndex, 
+                    _viewModel.Entity.Keys.ChildDocumentTypeEnum,
+                    _viewModel.Entity.Keys.ChildDocumentListIndex, 
+                    operatorIndexNumber, centerX, centerY);
+
+                MoveOperatorRequested(this, e);
+            }
+        }
+
+        private void ChangeInputOutlet(
+            int inlet_OperatorIndexNumber,
+            int inlet_ListIndex,
+            int inputOutlet_OperatorIndexNumber,
+            int inputOutlet_ListIndex)
+        {
+            if (ChangeInputOutletRequested != null)
+            {
+                var e = new ChangeInputOutletEventArgs(
+                    _viewModel.Entity.Keys.PatchListIndex,
+                    _viewModel.Entity.Keys.ChildDocumentTypeEnum,
+                    _viewModel.Entity.Keys.ChildDocumentListIndex,
+                    inlet_OperatorIndexNumber,
+                    inlet_ListIndex,
+                    inputOutlet_OperatorIndexNumber,
+                    inputOutlet_ListIndex);
+
+                ChangeInputOutletRequested(this, e);
+            }
+        }
+
+        private void SelectOperator(int operatorIndexNumber)
+        {
+            if (SelectOperatorRequested != null)
+            {
+                var e = new SelectOperatorEventArgs(
+                    _viewModel.Entity.Keys.PatchListIndex,
+                    _viewModel.Entity.Keys.ChildDocumentTypeEnum,
+                    _viewModel.Entity.Keys.ChildDocumentListIndex,
+                    operatorIndexNumber);
+
+                SelectOperatorRequested(this, e);
+            }
+        }
+
+        private void DeleteOperator()
+        {
+            if (DeleteOperatorRequested != null)
+            {
+                var e = new ChildDocumentSubListItemEventArgs(
+                    _viewModel.Entity.Keys.PatchListIndex, 
+                    _viewModel.Entity.Keys.ChildDocumentTypeEnum,
+                    _viewModel.Entity.Keys.ChildDocumentListIndex);
+
+                DeleteOperatorRequested(this, e);
+            }
+        }
+
+        private void SetValue(string value)
+        {
+            if (SetValueRequested != null)
+            {
+                var e = new SetValueEventArgs(
+                    _viewModel.Entity.Keys.PatchListIndex,
+                    _viewModel.Entity.Keys.ChildDocumentTypeEnum,
+                    _viewModel.Entity.Keys.ChildDocumentListIndex,
+                    value);
+
+                SetValueRequested(this, e);
+            }
+        }
+
+        private void Play()
+        {
+            if (PlayRequested != null)
+            {
+                var e = new ChildDocumentSubListItemEventArgs(
+                    _viewModel.Entity.Keys.PatchListIndex,
+                    _viewModel.Entity.Keys.ChildDocumentTypeEnum,
+                    _viewModel.Entity.Keys.ChildDocumentListIndex);
+
+                PlayRequested(this, e);
+            }
+        }
+
         // Events
+
+        private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
+        {
+            Close();
+        }
 
         private void DropGesture_Dropped(object sender, DroppedEventArgs e)
         {
-            int inletID =  TagHelper.GetInletID(e.DroppedOnElement.Tag);
-            int outletID = TagHelper.GetOutletID(e.DraggedElement.Tag);
+            InletOrOutletKey inletKey =  EntityKeyHelper.GetInletKey(e.DroppedOnElement.Tag);
+            InletOrOutletKey outletKey = EntityKeyHelper.GetOutletKey(e.DraggedElement.Tag);
 
-            ChangeInputOutlet(inletID, outletID);
+            ChangeInputOutlet(inletKey.OperatorIndexNumber, inletKey.ListIndex, outletKey.OperatorIndexNumber, outletKey.ListIndex);
         }
 
         private void MoveGesture_Moved(object sender, MoveEventArgs e)
         {
-            int operatorID = TagHelper.GetOperatorID(e.Element.Tag);
+            int operatorIndexNumber = EntityKeyHelper.GetOperatorIndexNumber(e.Element.Tag);
+
             float centerX = e.Element.X + e.Element.Width / 2f;
             float centerY = e.Element.Y + e.Element.Height / 2f;
 
-            MoveOperator(operatorID, centerX, centerY);
-        }
-
-        private void buttonSave_Click(object sender, EventArgs e)
-        {
-            Save();
+            MoveOperator(operatorIndexNumber, centerX, centerY);
         }
 
         private void toolStripLabel_Click(object sender, EventArgs e)
         {
             ToolStripItem control = (ToolStripItem)sender;
-            string operatorTypeName = (string)control.Tag;
+            int operatorTypeID = (int)control.Tag;
 
-            AddOperator(operatorTypeName);
+            AddOperator(operatorTypeID);
         }
 
         private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)
         {
-            int operatorID = TagHelper.GetOperatorID(e.Element.Tag);
+            int operatorIndexNumber = EntityKeyHelper.GetOperatorIndexNumber(e.Element.Tag);
 
-            SelectOperator(operatorID);
+            SelectOperator(operatorIndexNumber);
         }
 
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
         {
-            // TODO: The 'if' belongs in the presenter.
-            if (_viewModel.SelectedOperator != null)
-            {
-                DeleteOperator(_viewModel.SelectedOperator.ID);                
-            }
+            DeleteOperator();
         }
 
         private void textBoxValue_TextChanged(object sender, EventArgs e)
         {
+            if (_applyViewModelIsBusy) return;
+
             SetValue(textBoxValue.Text);
         }
 
         private void buttonPlay_Click(object sender, EventArgs e)
         {
-            VoidResult result = PlayHelper.Play(_patch);
-            if (!result.Successful)
-            {
-                string messages = String.Join(Environment.NewLine, result.Messages.Select(x => x.Text));
-                MessageBox.Show(messages);
-            }
+            Play();
         }
 
-        // TODO: You might want to use the presenter for the the following 3 things.
+        // TODO: Lower priority: You might want to use the presenter for the the following 3 things.
 
         private void OperatorToolTipGesture_ShowToolTipRequested(object sender, ToolTipTextEventArgs e)
         {
-            int operatorID = TagHelper.GetOperatorID(e.Element.Tag);
-            e.ToolTipText = _viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single().Name;
+            int operatorIndexNumber = EntityKeyHelper.GetOperatorIndexNumber(e.Element.Tag);
+
+            e.ToolTipText = _viewModel.Entity.Operators.Where(x => x.Keys.OperatorIndexNumber == operatorIndexNumber).Single().Caption;
         }
 
         private void InletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
         {
-            int inletID = TagHelper.GetInletID(e.Element.Tag);
-            InletViewModel inketViewModel = _viewModel.Patch.Operators.SelectMany(x => x.Inlets).Where(x => x.ID == inletID).Single();
+            InletOrOutletKey key = EntityKeyHelper.GetInletKey(e.Element.Tag);
+
+            InletViewModel inketViewModel = _viewModel.Entity.Operators.SelectMany(x => x.Inlets)
+                                                                       .Where(x => x.Keys.OperatorIndexNumber == key.OperatorIndexNumber &&
+                                                                                   x.Keys.InletListIndex == key.ListIndex)
+                                                                       .Single();
             e.ToolTipText = inketViewModel.Name;
         }
 
         private void OutletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
         {
-            int outletID = TagHelper.GetOutletID(e.Element.Tag);
-            OutletViewModel outletViewModel = _viewModel.Patch.Operators.SelectMany(x => x.Outlets).Where(x => x.ID == outletID).Single();
+            InletOrOutletKey key = EntityKeyHelper.GetOutletKey(e.Element.Tag);
+
+            OutletViewModel outletViewModel = _viewModel.Entity.Operators.SelectMany(x => x.Outlets)
+                                                                         .Where(x => x.Keys.OperatorIndexNumber == key.OperatorIndexNumber &&
+                                                                                     x.Keys.OutletListIndex == key.ListIndex)
+                                                                         .Single();
             e.ToolTipText = outletViewModel.Name;
         }
 
-        // Helpers
+        //// Helpers
 
-        private Patch CreateMockPatch()
-        {
-            PersistenceWrapper persistenceWrapper = PersistenceHelper.CreatePersistenceWrapper(_context);
-            Patch patch = EntityFactory.CreateTestPatch1(persistenceWrapper);
-            persistenceWrapper.Flush(); // Flush to get the ID.
-            return patch;
-        }
+        //private Patch CreateMockPatch()
+        //{
+        //    PersistenceWrapper persistenceWrapper = PersistenceHelper.CreatePersistenceWrapper(_context);
+        //    Patch patch = EntityFactory.CreateTestPatch1(persistenceWrapper);
+        //    persistenceWrapper.Flush(); // Flush to get the ID.
+        //    return patch;
+        //}
     }
 }

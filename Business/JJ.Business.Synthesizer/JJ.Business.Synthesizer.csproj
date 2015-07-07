@@ -229,6 +229,7 @@
     <Compile Include="Warnings\AudioFileOutputChannelWarningValidator.cs" />
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Resample.cs" />
+    <Compile Include="Warnings\PatchWarningValidator_Recursive.cs" />
     <Compile Include="Warnings\SampleWarningValidator.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Base.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Sample.cs" />

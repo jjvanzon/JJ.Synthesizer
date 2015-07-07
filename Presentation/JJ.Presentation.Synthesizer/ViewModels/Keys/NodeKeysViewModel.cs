@@ -22,8 +22,5 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Keys
         /// so cannot sort by anything that gives it a specific position.
         /// </summary>
         public Guid TemporaryID { get; set; }
-
-        [Obsolete("Use TemporaryID instead.")]
-        public int ListIndex { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public object Show(int documentID, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
             bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.Keys.DocumentID != documentID ||
+                                       _viewModel.Keys.RootDocumentID != documentID ||
                                        _viewModel.Keys.ChildDocumentTypeEnum != childDocumentTypeEnum ||
                                        _viewModel.Keys.ChildDocumentListIndex != childDocumentListIndex;
 
@@ -62,14 +62,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(viewModel.Keys.DocumentID, viewModel.Keys.ChildDocumentTypeEnum, viewModel.Keys.ChildDocumentListIndex, _documentRepository);
+            Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(viewModel.Keys.RootDocumentID, viewModel.Keys.ChildDocumentTypeEnum, viewModel.Keys.ChildDocumentListIndex, _documentRepository);
 
             if (document == null)
             {
                 return CreateDocumentNotFoundViewModel();
             }
 
-            _viewModel = document.Curves.ToListViewModel(viewModel.Keys.DocumentID, viewModel.Keys.ChildDocumentTypeEnum, viewModel.Keys.ChildDocumentListIndex);
+            _viewModel = document.Curves.ToListViewModel(viewModel.Keys.RootDocumentID, viewModel.Keys.ChildDocumentTypeEnum, viewModel.Keys.ChildDocumentListIndex);
 
             _viewModel.Visible = viewModel.Visible;
 

@@ -36,9 +36,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 
         public DocumentViewModel Document { get; set; }
 
-        // Temporary View Models
-
-        /// <summary> Temporary. It will be a list of PatchDetailsViewModels later. </summary>
-        public PatchDetailsViewModel TemporaryPatchDetails { get; set; }
+        public bool Successful  { get; set; }
     }
 }

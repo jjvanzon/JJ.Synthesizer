@@ -13,7 +13,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class OperatorValidator_Value : OperatorValidator_Base
+    public class OperatorValidator_Value : OperatorValidator_Base
     {
         public OperatorValidator_Value(Operator obj)
             : base(obj, OperatorTypeEnum.Value, 0, PropertyNames.Result)
@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation
             base.Execute();
 
             For(() => Object.Data, PropertyDisplayNames.Data)
-                .NotNull()
+                .NotNullOrWhiteSpace()
                 .IsDouble();
         }
     }

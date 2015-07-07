@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (op.IsCircular())
             {
-                ValidationMessages.Add(() => op, Messages.OperatorIsCircular);
+                ValidationMessages.Add(() => op, MessageFormatter.OperatorIsCircularWithName(op.Name));
             }
         }
     }

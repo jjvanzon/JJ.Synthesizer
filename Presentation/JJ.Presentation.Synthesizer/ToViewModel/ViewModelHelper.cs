@@ -24,23 +24,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static MenuViewModel CreateMenuViewModel()
+        public static MenuViewModel CreateMenuViewModel(bool documentIsOpen)
         {
             var viewModel = new MenuViewModel
             {
-                ViewMenu = CreateViewMenu()
-            };
-
-            return viewModel;
-        }
-
-        private static ViewMenuViewModel CreateViewMenu()
-        {
-            var viewModel = new ViewMenuViewModel
-            {
-                DocumentsMenuItem = new MenuItemViewModel(),
-                DocumentTreeMenuItem = new MenuItemViewModel(),
-                PatchDetailsMenuItem = new MenuItemViewModel()
+                DocumentsMenuItem = new MenuItemViewModel { Visible = true },
+                DocumentTreeMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
+                DocumentCloseMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
+                DocumentSaveMenuItem = new MenuItemViewModel { Visible = documentIsOpen }
             };
 
             return viewModel;

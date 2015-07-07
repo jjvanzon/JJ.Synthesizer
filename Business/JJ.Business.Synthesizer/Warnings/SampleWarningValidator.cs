@@ -7,17 +7,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Exceptions;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
     public class SampleWarningValidator : FluentValidator<Sample>
     {
-        public SampleWarningValidator(Sample obj)
-            : base(obj)
-        { }
+        private HashSet<object> _alreadyDone;
+
+        public SampleWarningValidator(Sample obj, HashSet<object> alreadyDone)
+            : base(obj, postponeExecute: true)
+        {
+            if (alreadyDone == null) throw new AlreadyDoneIsNullException();
+
+            _alreadyDone = alreadyDone;
+
+            Execute();
+        }
 
         protected override void Execute()
         {
+            if (_alreadyDone.Contains(Object))
+            {
+                return;
+            }
+            _alreadyDone.Add(Object);
+
             if (Object.Amplifier == 0)
             {
                 ValidationMessages.Add(() => Object.Amplifier, MessageFormatter.ObjectAmplifier0(PropertyDisplayNames.Sample, Object.Name));

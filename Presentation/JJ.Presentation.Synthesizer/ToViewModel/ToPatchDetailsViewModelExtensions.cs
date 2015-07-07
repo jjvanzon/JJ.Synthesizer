@@ -37,7 +37,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             for (int i = 0; i < entities.Count; i++)
             {
                 Patch entity = entities[i];
-                PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, i, operatorTypeRepository, entityPositionManager);
+
+                PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
+                    rootDocumentID, 
+                    childDocumentTypeEnum, 
+                    childDocumentListIndex, 
+                    i, 
+                    operatorTypeRepository, 
+                    entityPositionManager);
+
                 viewModels.Add(viewModel);
             }
 
@@ -49,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             int rootDocumentID,
             ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex,
-            int listIndex,
+            int patchListIndex,
             IOperatorTypeRepository operatorTypeRepository,
             EntityPositionManager entityPositionManager)
         {
@@ -58,13 +66,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new PatchDetailsViewModel
             {
-                Patch = patch.ToViewModelRecursive(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, listIndex),
+                Entity = patch.ToViewModelRecursive(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, patchListIndex),
                 ValidationMessages = new List<Message>()
             };
 
             viewModel.OperatorToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel(operatorTypeRepository);
 
-            foreach (OperatorViewModel operatorViewModel in viewModel.Patch.Operators)
+            foreach (OperatorViewModel operatorViewModel in viewModel.Entity.Operators)
             {
                 SetViewModelPosition(operatorViewModel, entityPositionManager);
             }
@@ -74,7 +82,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         private static void SetViewModelPosition(OperatorViewModel operatorViewModel, EntityPositionManager entityPositionManager)
         {
-            EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(operatorViewModel.ID);
+            // TODO: Remove outcommented code.
+            //// Temporary for debugging (2015-07-05)
+            //return;
+
+            EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(operatorViewModel.Keys.ID);
             operatorViewModel.CenterX = entityPosition.X;
             operatorViewModel.CenterY = entityPosition.Y;
         }
@@ -84,29 +96,31 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             int rootDocumentID,
             ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex,
-            int listIndex)
+            int patchListIndex)
         {
-            PatchViewModel viewModel = patch.ToViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, listIndex);
+            PatchViewModel viewModel = patch.ToViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, patchListIndex);
 
             var dictionary = new Dictionary<Operator, OperatorViewModel>();
 
-            viewModel.Operators = new List<OperatorViewModel>(patch.Operators.Count);
-
-            IList<Operator> sortedOperators = patch.Operators.OrderBy(x => x.Name).ToArray();
-
-            for (int i = 0; i < sortedOperators.Count; i++)
-            {
-                Operator op = sortedOperators[i];
-            
-                OperatorViewModel operatorViewModel = op.ToViewModelRecursive(dictionary);
-                operatorViewModel.ListIndex = i;
-                viewModel.Operators.Add(operatorViewModel);
-            }
+            viewModel.Operators = patch.Operators.Select(x => x.ToViewModelRecursive
+            (
+                dictionary, 
+                rootDocumentID,
+                childDocumentTypeEnum,
+                childDocumentListIndex,
+                patchListIndex
+            )).ToList();
 
             return viewModel;
         }
 
-        private static OperatorViewModel ToViewModelRecursive(this Operator op, IDictionary<Operator, OperatorViewModel> dictionary)
+        private static OperatorViewModel ToViewModelRecursive(
+            this Operator op, 
+            IDictionary<Operator, OperatorViewModel> dictionary,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int patchListIndex)
         {
             OperatorViewModel viewModel;
             if (dictionary.TryGetValue(op, out viewModel))
@@ -114,7 +128,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 return viewModel;
             }
 
-            viewModel = op.ToViewModel();
+            viewModel = op.ToViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, patchListIndex);
 
             dictionary.Add(op, viewModel);
 
@@ -122,7 +136,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (op.GetOperatorTypeEnum() != OperatorTypeEnum.PatchInlet)
             {
-                viewModel.Inlets = op.Inlets.ToViewModelsRecursive(dictionary);
+                viewModel.Inlets = op.Inlets.ToViewModelsRecursive(
+                    dictionary, 
+                    rootDocumentID, 
+                    childDocumentTypeEnum, 
+                    childDocumentListIndex, 
+                    patchListIndex, 
+                    op.IndexNumber);
             }
             else
             {
@@ -131,7 +151,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (op.GetOperatorTypeEnum() != OperatorTypeEnum.PatchOutlet)
             {
-                viewModel.Outlets = op.Outlets.ToViewModelsRecursive(dictionary);
+                viewModel.Outlets = op.Outlets.ToViewModelsRecursive(
+                    dictionary,
+                    rootDocumentID,
+                    childDocumentTypeEnum,
+                    childDocumentListIndex,
+                    patchListIndex,
+                    op.IndexNumber);
             }
             else
             {
@@ -146,13 +172,29 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// But does not include the inverse properties OutletViewModel.Operator and InletViewModel.Operator.
         /// These view models are one of the few with inverse properties.
         /// </summary>
-        private static OperatorViewModel ToViewModelWithRelatedEntities(this Operator op)
+        private static OperatorViewModel ToViewModelWithRelatedEntities(
+            this Operator op,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int patchListIndex)
         {
             // Do not reuse this in ToViewModelRecursive, because there you have to do a dictionary.Add there right in the middle of things.
-            OperatorViewModel viewModel = op.ToViewModel();
+            OperatorViewModel viewModel = op.ToViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, patchListIndex);
 
-            viewModel.Inlets = op.Inlets.ToViewModels();
-            viewModel.Outlets = op.Outlets.ToViewModels();
+            viewModel.Inlets = op.Inlets.ToViewModels(
+                rootDocumentID, 
+                childDocumentTypeEnum, 
+                childDocumentListIndex, 
+                patchListIndex, 
+                op.IndexNumber);
+
+            viewModel.Outlets = op.Outlets.ToViewModels(
+                rootDocumentID,
+                childDocumentTypeEnum,
+                childDocumentListIndex,
+                patchListIndex,
+                op.IndexNumber);
 
             return viewModel;
         }
@@ -162,32 +204,50 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// Also includes the inverse property OutletViewModel.Operator.
         /// That view model is one the few with an inverse property.
         /// </summary>
-        public static OperatorViewModel ToViewModelWithRelatedEntitiesAndInverseProperties(this Operator op)
+        public static OperatorViewModel ToViewModelWithRelatedEntitiesAndInverseProperties(
+            this Operator op,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int patchListIndex)
         {
-            OperatorViewModel operatorViewModel = op.ToViewModel();
+            OperatorViewModel operatorViewModel = op.ToViewModel(
+                rootDocumentID,
+                childDocumentTypeEnum, 
+                childDocumentListIndex, 
+                patchListIndex);
 
-            operatorViewModel.Inlets = op.Inlets.ToViewModels();
+            operatorViewModel.Inlets = op.Inlets.ToViewModels(
+                rootDocumentID,
+                childDocumentTypeEnum, 
+                childDocumentListIndex, 
+                patchListIndex, 
+                op.IndexNumber);
 
-            operatorViewModel.Outlets = new List<OutletViewModel>(op.Outlets.Count);
+            operatorViewModel.Outlets = op.Outlets.ToViewModels(
+                rootDocumentID,
+                childDocumentTypeEnum, 
+                childDocumentListIndex, 
+                patchListIndex, 
+                op.IndexNumber);
 
-            IList<Outlet> sortedOutlets = op.Outlets;
-            // TODO: Introduce SortOrder property and then sort.
-            //sortedOutlets = sortedOutlets.OrderBy(x => x.SortOrder).ToArray();
-
-            for (int i = 0; i < sortedOutlets.Count; i++)
+            // This is the inverse property in the view model!
+            foreach (OutletViewModel outletViewModel in operatorViewModel.Outlets)
             {
-                Outlet outlet = sortedOutlets[i];
-
-                OutletViewModel outletViewModel = outlet.ToViewModel();
-                outletViewModel.ListIndex = i;
-                operatorViewModel.Outlets.Add(outletViewModel);
-                outletViewModel.Operator = operatorViewModel; // This is the inverse property in the view model!
+                outletViewModel.Operator = operatorViewModel;
             }
 
             return operatorViewModel;
         }
 
-        private static IList<InletViewModel> ToViewModelsRecursive(this IList<Inlet> entities, IDictionary<Operator, OperatorViewModel> dictionary)
+        private static IList<InletViewModel> ToViewModelsRecursive(
+            this IList<Inlet> entities, 
+            IDictionary<Operator, OperatorViewModel> dictionary,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int patchListIndex,
+            int operatorIndexNumber)
         {
             var viewModels = new List<InletViewModel>(entities.Count);
 
@@ -196,27 +256,66 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             for (int i = 0; i < entities.Count; i++)
             {
                 Inlet entity = entities[i];
-                InletViewModel viewModel = entity.ToViewModelRecursive(dictionary);
-                viewModel.ListIndex = i;
+
+                InletViewModel viewModel = entity.ToViewModelRecursive(
+                    dictionary, 
+                    rootDocumentID, 
+                    childDocumentTypeEnum, 
+                    childDocumentListIndex, 
+                    patchListIndex, 
+                    operatorIndexNumber, 
+                    i);
+
                 viewModels.Add(viewModel);
             }
 
             return viewModels;
         }
 
-        private static InletViewModel ToViewModelRecursive(this Inlet inlet, IDictionary<Operator, OperatorViewModel> dictionary)
+        private static InletViewModel ToViewModelRecursive(
+            this Inlet inlet, 
+            IDictionary<Operator, OperatorViewModel> dictionary,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int patchListIndex,
+            int operatorIndexNumber,
+            int inletListIndex)
         {
-            InletViewModel viewModel = inlet.ToViewModel();
+            InletViewModel viewModel = inlet.ToViewModel(
+                rootDocumentID, 
+                childDocumentTypeEnum, 
+                childDocumentListIndex, 
+                patchListIndex, 
+                operatorIndexNumber, 
+                inletListIndex);
 
             if (inlet.InputOutlet != null)
             {
-                viewModel.InputOutlet = inlet.InputOutlet.ToViewModelRecursive(dictionary);
+                int outletOperatorIndexNumber = inlet.InputOutlet.Operator.IndexNumber;
+                int outletListIndex = inlet.InputOutlet.Operator.Outlets.IndexOf(inlet.InputOutlet);
+
+                viewModel.InputOutlet = inlet.InputOutlet.ToViewModelRecursive(
+                    dictionary,
+                    rootDocumentID,
+                    childDocumentTypeEnum,
+                    childDocumentListIndex,
+                    patchListIndex,
+                    outletOperatorIndexNumber,
+                    outletListIndex);
             }
 
             return viewModel;
         }
 
-        private static IList<OutletViewModel> ToViewModelsRecursive(this IList<Outlet> entities, IDictionary<Operator, OperatorViewModel> dictionary)
+        private static IList<OutletViewModel> ToViewModelsRecursive(
+            this IList<Outlet> entities,
+            IDictionary<Operator, OperatorViewModel> dictionary,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int patchListIndex,
+            int operatorIndexNumber)
         {
             var viewModels = new List<OutletViewModel>(entities.Count);
 
@@ -225,20 +324,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             for (int i = 0; i < entities.Count; i++)
             {
                 Outlet entity = entities[i];
-                OutletViewModel viewModel = entity.ToViewModelRecursive(dictionary);
-                viewModel.ListIndex = i;
+                OutletViewModel viewModel = entity.ToViewModelRecursive(dictionary, rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, patchListIndex, operatorIndexNumber, i);
                 viewModels.Add(viewModel);
             }
 
             return viewModels;
         }
 
-        private static OutletViewModel ToViewModelRecursive(this Outlet outlet, IDictionary<Operator, OperatorViewModel> dictionary)
+        private static OutletViewModel ToViewModelRecursive(
+            this Outlet outlet, 
+            IDictionary<Operator, OperatorViewModel> dictionary,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int patchListIndex,
+            int operatorIndexNumber,
+            int outletListIndex)
         {
-            OutletViewModel viewModel = outlet.ToViewModel();
+            OutletViewModel viewModel = outlet.ToViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, patchListIndex, operatorIndexNumber, outletListIndex);
 
             // Recursive call
-            viewModel.Operator = outlet.Operator.ToViewModelRecursive(dictionary);
+            viewModel.Operator = outlet.Operator.ToViewModelRecursive(dictionary, rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, patchListIndex);
 
             return viewModel;
         }

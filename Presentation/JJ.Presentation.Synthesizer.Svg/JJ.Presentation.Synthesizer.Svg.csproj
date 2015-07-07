@@ -45,7 +45,9 @@
     <Compile Include="Converters\OutletRectangleConverter.cs" />
     <Compile Include="Helpers\PositionHelper.cs" />
     <Compile Include="Helpers\StyleHelper.cs" />
-    <Compile Include="Helpers\TagHelper.cs" />
+    <Compile Include="Helpers\EntityKeyHelper.cs" />
+    <Compile Include="Structs\~OutletKey.cs" />
+    <Compile Include="Structs\InletOrOutletKey.cs" />
     <Compile Include="ViewModelToDiagramConverter.cs" />
     <Compile Include="EventArg\ToolTipTextEventArgs.cs" />
     <Compile Include="EventArg\ElementEventArgs.cs" />

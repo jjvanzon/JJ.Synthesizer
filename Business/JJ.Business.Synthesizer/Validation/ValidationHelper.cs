@@ -14,7 +14,8 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (op.OperatorType != null)
             {
-                return ValidationHelper.GetMessagePrefix(op.OperatorType.Name, op.Name);
+                string operatorTypeDisplayName = ResourceHelper.GetPropertyDisplayName(op.OperatorType.Name);
+                return ValidationHelper.GetMessagePrefix(operatorTypeDisplayName, op.Name);
             }
             else
             {

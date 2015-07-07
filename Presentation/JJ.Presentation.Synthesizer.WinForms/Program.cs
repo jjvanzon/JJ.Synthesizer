@@ -1,6 +1,7 @@
 ﻿using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Logging;
+using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.Forms;
 using System;
 using System.Collections.Generic;
@@ -30,8 +31,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            //var form = new PatchDetailsForm();
-            //var form = new PatchListForm();
             var form = new MainForm();
 
             Application.Run(form);
@@ -50,12 +49,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 message = Convert.ToString(e.ExceptionObject);
             }
 
-            MessageBox.Show(message);
+            MessageBox.Show(message, GetMessageBoxCaption());
         }
 
         static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
         {
-            MessageBox.Show(ExceptionHelper.FormatException(e.Exception, false));
+            Exception ex = ExceptionHelper.GetInnermostException(e.Exception);
+            MessageBox.Show(ExceptionHelper.FormatException(ex, false), GetMessageBoxCaption());
+        }
+
+        private static string GetMessageBoxCaption()
+        {
+            return String.Format("{0} - Exception", Titles.ApplicationName);
         }
     }
 }

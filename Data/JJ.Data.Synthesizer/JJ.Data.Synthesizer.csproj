@@ -41,6 +41,7 @@
     </Compile>
     <Compile Include="DocumentReference.cs" />
     <Compile Include="EntityPosition.cs" />
+    <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="OperatorType.cs" />
     <Compile Include="SpeakerSetupChannel.cs" />
     <Compile Include="Channel.cs" />

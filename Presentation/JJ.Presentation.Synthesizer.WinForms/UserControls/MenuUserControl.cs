@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         public event EventHandler ShowDocumentListRequested;
         public event EventHandler ShowDocumentTreeRequested;
         public event EventHandler DocumentCloseRequested;
-        public event EventHandler PatchDetailsRequested;
+        public event EventHandler DocumentSaveRequested;
 
         public MenuUserControl()
         {
@@ -36,12 +36,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         // Overrides
 
-        protected override void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
+        // TODO: Remove outcommented code.
+        //protected override void OnLoad(EventArgs e)
+        //{
+        //    base.OnLoad(e);
 
-            Show();
-        }
+        //    Show();
+        //}
 
         private bool _resizeBusy;
 
@@ -69,52 +70,65 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             base.Show();
         }
 
-        private new void Show()
-        {
-            var presenter = new MenuPresenter();
-            MenuViewModel viewModel = presenter.Show();
+        // TODO: Remove outcommented code.
+        //private new void Show()
+        //{
+        //    var presenter = new MenuPresenter();
+        //    MenuViewModel viewModel = presenter.Show();
 
-            ApplyViewModel(viewModel);
+        //    ApplyViewModel(viewModel);
 
-            base.Show();
-        }
+        //    base.Show();
+        //}
 
         private void ApplyViewModel(MenuViewModel viewModel)
         {
             menuStrip.Items.Clear();
 
-            ToolStripMenuItem viewToolStripMenuItem = CreateViewToolStripMenuItem();
-            menuStrip.Items.Add(viewToolStripMenuItem);
+            ToolStripMenuItem menuToolStripMenuItem = CreateMenuToolStripMenuItem();
+            menuStrip.Items.Add(menuToolStripMenuItem);
 
             ToolStripMenuItem toolStripMenuItem;
 
             // Documents
-            toolStripMenuItem = CreateDocumentsToolStripMenuItem();
-            toolStripMenuItem.Click += documentsToolStripMenuItem_Click;
-            viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
+            if (viewModel.DocumentsMenuItem.Visible)
+            {
+                toolStripMenuItem = CreateDocumentsToolStripMenuItem();
+                toolStripMenuItem.Click += documentsToolStripMenuItem_Click;
+                menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
+            }
 
             // DocumentTree
-            toolStripMenuItem = CreateDocumentTreeToolStripMenuItem();
-            toolStripMenuItem.Click += documentTreeToolStripMenuItem_Click;
-            viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
+            if (viewModel.DocumentTreeMenuItem.Visible)
+            {
+                toolStripMenuItem = CreateDocumentTreeToolStripMenuItem();
+                toolStripMenuItem.Click += documentTreeToolStripMenuItem_Click;
+                menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
+            }
 
             // DocumentClose
-            toolStripMenuItem = DocumentCloseToolStripMenuItem();
-            toolStripMenuItem.Click += documentCloseToolStripMenuItem_Click;
-            viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
+            if (viewModel.DocumentCloseMenuItem.Visible)
+            {
+                toolStripMenuItem = CreateDocumentCloseToolStripMenuItem();
+                toolStripMenuItem.Click += documentCloseToolStripMenuItem_Click;
+                menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
+            }
 
-            // PatchDetails
-            toolStripMenuItem = CreatePatchDetailsToolStripMenuItem();
-            toolStripMenuItem.Click += patchDetailsToolStripMenuItem_Click;
-            viewToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
+            // DocumentSave
+            if (viewModel.DocumentSaveMenuItem.Visible)
+            {
+                toolStripMenuItem = CreateDocumentSaveToolStripMenuItem();
+                toolStripMenuItem.Click += documentSaveToolStripMenuItem_Click;
+                menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
+            }
         }
 
-        private ToolStripMenuItem CreateViewToolStripMenuItem()
+        private ToolStripMenuItem CreateMenuToolStripMenuItem()
         {
             var toolStripMenuItem = new ToolStripMenuItem
             {
-                Name = "viewToolStripMenuItem",
-                Text = "&" + Titles.ViewMenuItem
+                Name = "menuToolStripMenuItem",
+                Text = "&" + CommonTitles.Menu
             };
 
             return toolStripMenuItem;
@@ -142,7 +156,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             return toolStripMenuItem;
         }
 
-        private ToolStripMenuItem DocumentCloseToolStripMenuItem()
+        private ToolStripMenuItem CreateDocumentCloseToolStripMenuItem()
         {
             var toolStripMenuItem = new ToolStripMenuItem
             {
@@ -153,12 +167,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             return toolStripMenuItem;
         }
 
-        private ToolStripMenuItem CreatePatchDetailsToolStripMenuItem()
+        private ToolStripMenuItem CreateDocumentSaveToolStripMenuItem()
         {
             var toolStripMenuItem = new ToolStripMenuItem
             {
-                Name = "patchDetailsToolStripMenuItem",
-                Text = "&" + CommonTitleFormatter.ObjectDetails(PropertyDisplayNames.Patch)
+                Name = "documentSaveToolStripMenuItem",
+                Text = "&" + CommonTitleFormatter.SaveObject(PropertyDisplayNames.Document)
             };
 
             return toolStripMenuItem;
@@ -190,11 +204,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
         }
 
-        private void patchDetailsToolStripMenuItem_Click(object sender, EventArgs e)
+        private void documentSaveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (PatchDetailsRequested != null)
+            if (DocumentSaveRequested != null)
             {
-                PatchDetailsRequested(sender, EventArgs.Empty);
+                DocumentSaveRequested(sender, EventArgs.Empty);
             }
         }
     }

@@ -36,8 +36,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\ConfigurationSection.cs" />
+    <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="Helpers\PresentationPropertyNames.cs" />
     <Compile Include="Presenters\ChildDocumentListPresenter.cs" />
-    <Compile Include="ToViewModel\RecursiveViewModelToEntityConverter.cs" />
+    <Compile Include="Resources\PresentationMessages.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PresentationMessages.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ToEntity\RecursiveViewModelToEntityConverter.cs" />
     <Compile Include="Helpers\ChildDocumentTypeEnum.cs" />
     <Compile Include="Helpers\ValidationMessageExtensions.cs" />
     <Compile Include="Helpers\ChildDocumentHelper.cs" />
@@ -135,7 +142,7 @@
     <Compile Include="ViewModels\Partials\MenuItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\ReferencedDocumentViewModel.cs" />
     <Compile Include="ViewModels\Partials\ReferencedDocumentsTreeNodeViewModel.cs" />
-    <Compile Include="ViewModels\Partials\ViewMenuViewModel.cs" />
+    <Compile Include="ViewModels\Partials\~ViewMenuViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
     <Compile Include="ViewModels\PatchListViewModel.cs" />
     <Compile Include="ViewModels\SamplePropertiesViewModel.cs" />
@@ -196,6 +203,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\PresentationMessages.nl-NL.resx" />
+    <EmbeddedResource Include="Resources\PresentationMessages.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PresentationMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Titles.nl-NL.resx" />
     <EmbeddedResource Include="Resources\Titles.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

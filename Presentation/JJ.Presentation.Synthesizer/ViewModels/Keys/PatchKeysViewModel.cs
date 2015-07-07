@@ -10,10 +10,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Keys
     public sealed class PatchKeysViewModel
     {
         public int ID { get; set; }
-
         public int RootDocumentID { get; set; }
         public ChildDocumentTypeEnum? ChildDocumentTypeEnum { get; set; }
         public int? ChildDocumentListIndex { get; set; }
-        public int ListIndex { get; set; }
+        public int PatchListIndex { get; set; }
     }
 }

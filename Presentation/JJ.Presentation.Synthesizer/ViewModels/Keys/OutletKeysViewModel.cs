@@ -10,20 +10,11 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Keys
     public sealed class OutletKeysViewModel
     {
         public int ID { get; set; }
-
-        public int DocumentID { get; set; }
+        public int RootDocumentID { get; set; }
         public ChildDocumentTypeEnum? ChildDocumentTypeEnum { get; set; }
         public int? ChildDocumentListIndex { get; set; }
         public int PatchListIndex { get; set; }
-
-        /// <summary>
-        /// You cannot identify the operator with a list index, 
-        /// because you cannot sort by anything that gives it a specific position.
-        /// </summary>
-        public Guid OperatorTemporaryID { get; set; }
-        public int ListIndex { get; set; }
-
-        [Obsolete("Use ListIndex instead.")]
-        public Guid TemporaryID { get; set; }
+        public int OperatorIndexNumber { get; set; }
+        public int OutletListIndex { get; set; }
     }
 }

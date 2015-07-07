@@ -145,7 +145,7 @@
   <data name="ObjectAmplifier0" xml:space="preserve">
     <value>Versterking van '{0}' genaamd '{1}' is 0.</value>
   </data>
-  <data name="OperatorIsCircular" xml:space="preserve">
+  <data name="OperatorIsCircularWithName" xml:space="preserve">
     <value>Operator genaamd '{0}' heeft een cirkelverwijzing.</value>
   </data>
   <data name="OperatorPatchIsNotTheExpectedPatch" xml:space="preserve">

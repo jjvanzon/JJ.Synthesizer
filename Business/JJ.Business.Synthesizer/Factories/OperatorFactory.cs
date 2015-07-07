@@ -12,6 +12,9 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
+using System.Reflection;
+using JJ.Framework.Reflection;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Factories
 {
@@ -23,6 +26,11 @@ namespace JJ.Business.Synthesizer.Factories
         private IOutletRepository _outletRepository;
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
+
+        static OperatorFactory()
+        {
+            _creationMethodDictionary = CreateCreationMethodDictionary();
+        }
 
         public OperatorFactory(
             IOperatorRepository operatorRepository,
@@ -361,6 +369,65 @@ namespace JJ.Business.Synthesizer.Factories
             };
 
             return wrapper;
+        }
+
+        // Generic methods for operator creation
+
+        private static Dictionary<OperatorTypeEnum, MethodInfo> _creationMethodDictionary;
+        
+        private static Dictionary<OperatorTypeEnum, MethodInfo> CreateCreationMethodDictionary()
+        {
+            OperatorTypeEnum[] enumMembers = (OperatorTypeEnum[])Enum.GetValues(typeof(OperatorTypeEnum));
+
+            var methodDictionary = new Dictionary<OperatorTypeEnum, MethodInfo>(enumMembers.Length);
+
+            foreach (OperatorTypeEnum operatorTypeEnum in enumMembers)
+            {
+                if (operatorTypeEnum == OperatorTypeEnum.Undefined ||
+                    operatorTypeEnum == OperatorTypeEnum.Adder)
+                {
+                    continue;
+                }
+                // TODO: Remove outcommented code.
+                //else if (operatorTypeEnum == OperatorTypeEnum.Adder)
+                //{
+                //    MethodInfo methodInfo = typeof(OperatorFactory).GetMethod(operatorTypeEnum.ToString(), new Type[] { typeof(Outlet), typeof(Outlet) });
+                //    methodDictionary.Add(operatorTypeEnum, methodInfo);
+                //}
+                //else
+                //{
+                    MethodInfo methodInfo = typeof(OperatorFactory).GetMethod(operatorTypeEnum.ToString());
+                    methodDictionary.Add(operatorTypeEnum, methodInfo);
+                //}
+            }
+
+            return methodDictionary;
+        }
+
+        /// <summary>
+        /// An Adder is created 
+        /// </summary>
+        /// <param name="operatorTypeEnum"></param>
+        /// <returns></returns>
+        public Operator Create(OperatorTypeEnum operatorTypeEnum, int operandCountForAdder = 3)
+        {
+            if (operatorTypeEnum == OperatorTypeEnum.Adder)
+            {
+                return Adder(new List<Outlet>(new Outlet[16]));
+            }
+
+            MethodInfo methodInfo;
+
+            if (!_creationMethodDictionary.TryGetValue(operatorTypeEnum, out methodInfo))
+            {
+                throw new ValueNotSupportedException(operatorTypeEnum);
+            }
+
+            object[] nullParameters = new object[methodInfo.GetParameters().Length];
+            OperatorWrapperBase wrapper = (OperatorWrapperBase)methodInfo.Invoke(this, nullParameters); ;
+            Operator op = wrapper.Operator;
+
+            return op;
         }
 
         private Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, string name, int inletCount, params string[] inletAndOutletNames)

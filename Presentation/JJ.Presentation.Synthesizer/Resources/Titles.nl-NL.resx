@@ -126,6 +126,9 @@
   <data name="DocumentTree" xml:space="preserve">
     <value>Document verkenner</value>
   </data>
+  <data name="Play" xml:space="preserve">
+    <value>Afspelen</value>
+  </data>
   <data name="ViewMenuItem" xml:space="preserve">
     <value>Bekijk</value>
   </data>

@@ -194,10 +194,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ChildDocumentTypeEnum = childDocumentTypeEnum,
                 ChildDocumentListIndex = childDocumentListIndex,
                 CurveListIndex = curveListIndex,
-                ListIndex = nodeListIndex,
                 TemporaryID = Guid.NewGuid()
             };
-
+            
             return viewModel;
         }
 
@@ -229,7 +228,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             int rootDocumentID,
             ChildDocumentTypeEnum? childDocumentTypeEnum,
             int? childDocumentListIndex,
-            int listIndex)
+            int patchListIndex)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -240,7 +239,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 {
                     ID = entity.ID,
                     RootDocumentID = rootDocumentID,
-                    ListIndex = listIndex,
+                    PatchListIndex = patchListIndex,
                     ChildDocumentTypeEnum = childDocumentTypeEnum,
                     ChildDocumentListIndex = childDocumentListIndex
                 }
@@ -249,24 +248,38 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorViewModel ToViewModel(this Operator entity)
+        public static OperatorViewModel ToViewModel(
+            this Operator entity,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int patchListIndex)
         {
             if (entity == null) throw new NullException(() => entity);
 
             var viewModel = new OperatorViewModel
             {
-                ID = entity.ID,
-                TemporaryID = Guid.NewGuid(),
+                Name = entity.Name,
+                Keys = new OperatorKeysViewModel
+                {
+                    ID = entity.ID,
+                    RootDocumentID = rootDocumentID,
+                    ChildDocumentTypeEnum = childDocumentTypeEnum,
+                    ChildDocumentListIndex = childDocumentListIndex,
+                    PatchListIndex = patchListIndex,
+                    OperatorIndexNumber = entity.IndexNumber
+                }
             };
 
             if (entity.GetOperatorTypeEnum() == OperatorTypeEnum.Value)
             {
                 var wrapper = new Value_OperatorWrapper(entity);
-                viewModel.Name = wrapper.Value.ToString("0.####");
+                viewModel.Caption = wrapper.Value.ToString("0.####");
+                viewModel.Value = wrapper.Value.ToString();
             }
             else
             {
-                viewModel.Name = entity.Name;
+                viewModel.Caption = entity.Name;
             }
 
             if (entity.OperatorType != null)
@@ -277,7 +290,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static IList<InletViewModel> ToViewModels(this IList<Inlet> entities)
+        public static IList<InletViewModel> ToViewModels(
+            this IList<Inlet> entities,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int patchListIndex,
+            int operatorIndexNumber)
         {
             if (entities == null) throw new NullException(() => entities);
 
@@ -289,28 +308,57 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             for (int i = 0; i < entities.Count; i++)
             {
                 Inlet entity = entities[i];
-                InletViewModel viewModel = entity.ToViewModel();
-                viewModel.ListIndex = i;
+
+                InletViewModel viewModel = entity.ToViewModel(
+                    rootDocumentID, 
+                    childDocumentTypeEnum,
+                    childDocumentListIndex,
+                    patchListIndex,
+                    operatorIndexNumber,
+                    i);
+
                 viewModels.Add(viewModel);
             }
 
             return viewModels;
         }
 
-        public static InletViewModel ToViewModel(this Inlet entity)
+        public static InletViewModel ToViewModel(
+            this Inlet entity,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int patchListIndex,
+            int operatorIndexNumber,
+            int inletListIndex)
         {
             if (entity == null) throw new NullException(() => entity);
 
             var viewModel = new InletViewModel
             {
-                ID = entity.ID,
-                Name = entity.Name
+                Name = entity.Name,
+                Keys = new InletKeysViewModel
+                {
+                    ID = entity.ID,
+                    RootDocumentID = rootDocumentID,
+                    ChildDocumentTypeEnum = childDocumentTypeEnum,
+                    ChildDocumentListIndex = childDocumentListIndex,
+                    PatchListIndex = patchListIndex,
+                    OperatorIndexNumber = operatorIndexNumber,
+                    InletListIndex = inletListIndex
+                }
             };
 
             return viewModel;
         }
 
-        public static IList<OutletViewModel> ToViewModels(this IList<Outlet> entities)
+        public static IList<OutletViewModel> ToViewModels(
+            this IList<Outlet> entities,
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int patchListIndex,
+            int operatorIndexNumber)
         {
             if (entities == null) throw new NullException(() => entities);
 
@@ -322,23 +370,45 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             for (int i = 0; i < entities.Count; i++)
             {
                 Outlet entity = entities[i];
-                OutletViewModel viewModel = entity.ToViewModel();
-                viewModel.ListIndex = i;
+
+                OutletViewModel viewModel = entity.ToViewModel(
+                    rootDocumentID, 
+                    childDocumentTypeEnum, 
+                    childDocumentListIndex, 
+                    patchListIndex, 
+                    operatorIndexNumber, 
+                    i);
+
                 viewModels.Add(viewModel);
             }
 
             return viewModels;
         }
 
-        public static OutletViewModel ToViewModel(this Outlet entity)
+        public static OutletViewModel ToViewModel(
+            this Outlet entity, 
+            int rootDocumentID,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int patchListIndex,
+            int operatorIndexNumber,
+            int outletListIndex)
         {
             if (entity == null) throw new NullException(() => entity);
 
             var viewModel = new OutletViewModel
             {
-                ID = entity.ID,
                 Name = entity.Name,
-                TemporaryID = Guid.NewGuid()
+                Keys = new OutletKeysViewModel
+                {
+                    ID = entity.ID,
+                    RootDocumentID = rootDocumentID,
+                    ChildDocumentTypeEnum = childDocumentTypeEnum,
+                    ChildDocumentListIndex = childDocumentListIndex,
+                    PatchListIndex = patchListIndex,
+                    OperatorIndexNumber = operatorIndexNumber,
+                    OutletListIndex = outletListIndex
+                }
             };
 
             return viewModel;
@@ -346,10 +416,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static OperatorTypeViewModel ToViewModel(this OperatorType operatorType)
         {
+            if (operatorType == null) throw new NullException(() => operatorType);
+
             var viewModel = new OperatorTypeViewModel
             {
-                Symbol = ResourceHelper.GetPropertyDisplayName(operatorType.Name),
-                OperatorTypeName = operatorType.Name
+                ID = operatorType.ID,
+                DisplayText = ResourceHelper.GetPropertyDisplayName(operatorType.Name),
             };
 
             return viewModel;

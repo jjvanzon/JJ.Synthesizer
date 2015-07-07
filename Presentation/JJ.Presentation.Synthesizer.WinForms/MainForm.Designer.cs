@@ -30,6 +30,7 @@
             this.audioFileOutputPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputPropertiesUserControl();
             this.documentPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentPropertiesUserControl();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
+            this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -77,6 +78,7 @@
             // 
             // splitContainerProperties.Panel1
             // 
+            this.splitContainerProperties.Panel1.Controls.Add(this.patchDetailsUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.sampleListUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.patchListUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.curveListUserControl);
@@ -229,6 +231,16 @@
             this.menuUserControl.Size = new System.Drawing.Size(1094, 24);
             this.menuUserControl.TabIndex = 3;
             // 
+            // patchDetailsUserControl
+            // 
+            this.patchDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.patchDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.patchDetailsUserControl.Location = new System.Drawing.Point(0, 0);
+            this.patchDetailsUserControl.Name = "patchDetailsUserControl";
+            this.patchDetailsUserControl.Size = new System.Drawing.Size(633, 657);
+            this.patchDetailsUserControl.TabIndex = 10;
+            this.patchDetailsUserControl.Visible = false;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -269,6 +281,7 @@
         private UserControls.SampleListUserControl sampleListUserControl;
         private UserControls.AudioFileOutputPropertiesUserControl audioFileOutputPropertiesUserControl;
         private UserControls.SamplePropertiesUserControl samplePropertiesUserControl;
+        private UserControls.PatchDetailsUserControl patchDetailsUserControl;
 
     }
 }

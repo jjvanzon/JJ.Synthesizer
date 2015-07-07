@@ -11,18 +11,11 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    public class MenuPresenter
+    internal class MenuPresenter
     {
-        private MenuViewModel _viewModel;
-
-        public MenuViewModel Show()
+        public MenuViewModel Show(bool documentIsOpen)
         {
-            if (_viewModel == null)
-            {
-                _viewModel = ViewModelHelper.CreateMenuViewModel();
-            }
-
-            return _viewModel;
+            return ViewModelHelper.CreateMenuViewModel(documentIsOpen);
         }
     }
 }

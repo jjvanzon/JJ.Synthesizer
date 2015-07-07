@@ -15,6 +15,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Id(x => x.ID);
             Map(x => x.Name);
             Map(x => x.Data);
+            Map(x => x.IndexNumber);
 
             References(x => x.OperatorType, ColumnNames.OperatorTypeID);
             References(x => x.Patch, ColumnNames.PatchID);

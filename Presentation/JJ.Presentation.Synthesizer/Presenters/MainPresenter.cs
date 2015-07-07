@@ -83,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositoryWrapper = repositoryWrapper;
 
             _audioFileOutputListPresenter = new AudioFileOutputListPresenter(_repositoryWrapper.DocumentRepository);
-            _audioFileOutputPropertiesPresenter = CreateAudioFileOutputPropertiesPresenter();
+            _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(new AudioFileOutputRepositories(_repositoryWrapper));
             _curveDetailsPresenter = new CurveDetailsPresenter(_repositoryWrapper.CurveRepository, _repositoryWrapper.NodeRepository, _repositoryWrapper.NodeTypeRepository);
             _curveListPresenter = new CurveListPresenter(_repositoryWrapper.DocumentRepository);
             _documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositoryWrapper.DocumentRepository);
@@ -97,7 +97,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _instrumentListPresenter = new ChildDocumentListPresenter(_repositoryWrapper);
             _menuPresenter = new MenuPresenter();
             _notFoundPresenter = new NotFoundPresenter();
-            _patchDetailsPresenter = CreatePatchDetailsPresenter();
+            _patchDetailsPresenter = _patchDetailsPresenter = new PatchDetailsPresenter(
+                _repositoryWrapper.PatchRepository,
+                _repositoryWrapper.OperatorRepository,
+                _repositoryWrapper.OperatorTypeRepository,
+                _repositoryWrapper.InletRepository,
+                _repositoryWrapper.OutletRepository,
+                _repositoryWrapper.EntityPositionRepository,
+                _repositoryWrapper.CurveRepository,
+                _repositoryWrapper.SampleRepository);
             _patchListPresenter = new PatchListPresenter(_repositoryWrapper.DocumentRepository);
             _sampleListPresenter = new SampleListPresenter(_repositoryWrapper.DocumentRepository);
             _samplePropertiesPresenter = new SamplePropertiesPresenter(new SampleRepositories(_repositoryWrapper));
@@ -130,17 +138,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public MainViewModel Show()
         {
-            _viewModel = ViewModelHelper.CreateEmptyMainViewModel(_repositoryWrapper.OperatorTypeRepository);
+            try
+            {
+                _viewModel = ViewModelHelper.CreateEmptyMainViewModel(_repositoryWrapper.OperatorTypeRepository);
 
-            MenuViewModel menuViewModel = _menuPresenter.Show();
-            DispatchViewModel(menuViewModel);
+                MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
+                DispatchViewModel(menuViewModel);
 
-            DocumentListViewModel documentListViewModel = _documentListPresenter.Show();
-            DispatchViewModel(documentListViewModel);
+                DocumentListViewModel documentListViewModel = _documentListPresenter.Show();
+                DispatchViewModel(documentListViewModel);
 
-            _viewModel.WindowTitle = Titles.ApplicationName;
-
-            _repositoryWrapper.Rollback();
+                _viewModel.WindowTitle = Titles.ApplicationName;
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -149,13 +162,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _notFoundPresenter.OK();
+                object viewModel2 = _notFoundPresenter.OK();
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -164,11 +182,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            _viewModel.PopupMessages = new List<Message> { };
-
-            _repositoryWrapper.Rollback();
+                _viewModel.PopupMessages = new List<Message> { };
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -179,13 +202,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            var viewModel2 = _documentListPresenter.Show(pageNumber);
+                var viewModel2 = _documentListPresenter.Show(pageNumber);
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -194,13 +222,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            var viewModel2 = _documentListPresenter.Close();
+                var viewModel2 = _documentListPresenter.Close();
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -209,13 +242,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _documentDetailsPresenter.Create();
+                object viewModel2 = _documentDetailsPresenter.Create();
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -224,13 +262,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _documentDetailsPresenter.Close();
+                object viewModel2 = _documentDetailsPresenter.Close();
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -239,15 +282,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _documentDetailsPresenter.Save(userInput.DocumentDetails);
+                object viewModel2 = _documentDetailsPresenter.Save(userInput.DocumentDetails);
 
-            DispatchViewModel(viewModel2);
+                DispatchViewModel(viewModel2);
 
-            RefreshDocumentList();
-
-            _repositoryWrapper.Rollback();
+                RefreshDocumentList();
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -256,13 +304,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _documentDeletePresenter.Show(id);
+                object viewModel2 = _documentDeletePresenter.Show(id);
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -271,13 +324,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            var viewModel2 = _documentCannotDeletePresenter.OK();
+                var viewModel2 = _documentCannotDeletePresenter.OK();
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -286,13 +344,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _documentDeletePresenter.Confirm(id);
+                object viewModel2 = _documentDeletePresenter.Confirm(id);
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -301,13 +364,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _documentDeletePresenter.Cancel();
+                object viewModel2 = _documentDeletePresenter.Cancel();
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -316,13 +384,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _documentDeletedPresenter.OK();
+                object viewModel2 = _documentDeletedPresenter.OK();
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -333,41 +406,47 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
-
-            if (_viewModel.Document.IsOpen)
+            try
             {
-                // If you do not clear the presenters, they will remember the view model,
-                // so if you open another document and then open the original one,
-                // the original unsaved data will be shown in the presenters,
-                // because they do not think they need to refresh their view models,
-                // since it is the same document.
-                _audioFileOutputListPresenter.Clear();
-                _audioFileOutputPropertiesPresenter.Clear();
-                _curveDetailsPresenter.Clear();
-                _curveListPresenter.Clear();
-                _documentPropertiesPresenter.Clear();
-                _documentTreePresenter.Clear();
-                _effectListPresenter.Clear();
-                _instrumentListPresenter.Clear();
-                _patchDetailsPresenter.Clear();
-                _patchListPresenter.Clear();
-                _sampleListPresenter.Clear();
-                _samplePropertiesPresenter.Clear();
+                EnsureViewModel(userInput);
+
+                if (_viewModel.Document.IsOpen)
+                {
+                    // If you do not clear the presenters, they will remember the view model,
+                    // so if you open another document and then open the original one,
+                    // the original unsaved data will be shown in the presenters,
+                    // because they do not think they need to refresh their view models,
+                    // since it is the same document.
+                    _audioFileOutputListPresenter.Clear();
+                    _audioFileOutputPropertiesPresenter.Clear();
+                    _curveDetailsPresenter.Clear();
+                    _curveListPresenter.Clear();
+                    _documentPropertiesPresenter.Clear();
+                    _documentTreePresenter.Clear();
+                    _effectListPresenter.Clear();
+                    _instrumentListPresenter.Clear();
+                    _patchDetailsPresenter.Clear();
+                    _patchListPresenter.Clear();
+                    _sampleListPresenter.Clear();
+                    _samplePropertiesPresenter.Clear();
+                }
+
+                Document document = _repositoryWrapper.DocumentRepository.Get(documentID);
+
+                _viewModel.Document = document.ToViewModel(_repositoryWrapper, _entityPositionManager);
+
+                _viewModel.WindowTitle = String.Format("{0} - {1}", document.Name, Titles.ApplicationName);
+                _viewModel.Menu = _menuPresenter.Show(documentIsOpen: true);
+
+                _viewModel.DocumentList.Visible = false;
+                _viewModel.Document.DocumentTree.Visible = true;
+
+                _viewModel.Document.IsOpen = true;
             }
-
-            Document document = _repositoryWrapper.DocumentRepository.Get(documentID);
-
-            _viewModel.Document = document.ToViewModel(_repositoryWrapper, _entityPositionManager);
-
-            _viewModel.WindowTitle = String.Format("{0} - {1}", document.Name, Titles.ApplicationName);
-
-            _viewModel.DocumentList.Visible = false;
-            _viewModel.Document.DocumentTree.Visible = true;
-
-            _viewModel.Document.IsOpen = true;
-
-            _repositoryWrapper.Rollback();
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -377,51 +456,69 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (userInput == null) throw new NullException(() => userInput);
             if (userInput.Document == null) throw new NullException(() => userInput.Document);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            Document document = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+                Document document = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
 
-            IValidator validator = new DocumentValidator_Recursive(document, _repositoryWrapper, alreadyDone: new HashSet<object>());
-            _viewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                IValidator validator = new DocumentValidator_Recursive(document, _repositoryWrapper, alreadyDone: new HashSet<object>());
+                IValidator warningsValidator = new DocumentWarningValidator_Recursive(document, _repositoryWrapper.SampleRepository, new HashSet<object>());
 
-            IValidator warningsValidator = new DocumentWarningValidator_Recursive(document);
-            _viewModel.WarningMessages = warningsValidator.ValidationMessages.ToCanonical();
+                if (!validator.IsValid)
+                {
+                    _repositoryWrapper.Rollback();
+                }
+                else
+                {
+                    // Refresh view model so that data-store generated ID's are reflected in the view model.
+                    _viewModel = CreateViewModel(userInput, document);
 
-            if (!validator.IsValid)
+                    _repositoryWrapper.Commit();
+                }
+
+                _viewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                _viewModel.WarningMessages = warningsValidator.ValidationMessages.ToCanonical();
+
+                return _viewModel;
+            }
+            finally
             {
                 _repositoryWrapper.Rollback();
             }
-            else
-            {
-                _repositoryWrapper.Commit();
-            }
-
-            return _viewModel;
         }
 
         public MainViewModel DocumentClose(MainViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
-
-            if (_viewModel.Document.IsOpen)
+            try
             {
-                _viewModel.Document = ViewModelHelper.CreateEmptyDocumentViewModel();
-                _viewModel.WindowTitle = Titles.ApplicationName;
+                EnsureViewModel(userInput);
 
-                _audioFileOutputListPresenter.Clear();
-                _audioFileOutputPropertiesPresenter.Clear();
-                _curveDetailsPresenter.Clear();
-                _curveListPresenter.Clear();
-                _documentPropertiesPresenter.Clear();
-                _documentTreePresenter.Clear();
-                _effectListPresenter.Clear();
-                _instrumentListPresenter.Clear();
-                _patchDetailsPresenter.Clear();
-                _patchListPresenter.Clear();
-                _sampleListPresenter.Clear();
-                _samplePropertiesPresenter.Clear();
+                if (_viewModel.Document.IsOpen)
+                {
+                    _viewModel.Document = ViewModelHelper.CreateEmptyDocumentViewModel();
+                    _viewModel.WindowTitle = Titles.ApplicationName;
+                    _viewModel.Menu = _menuPresenter.Show(documentIsOpen: false);
+
+                    _audioFileOutputListPresenter.Clear();
+                    _audioFileOutputPropertiesPresenter.Clear();
+                    _curveDetailsPresenter.Clear();
+                    _curveListPresenter.Clear();
+                    _documentPropertiesPresenter.Clear();
+                    _documentTreePresenter.Clear();
+                    _effectListPresenter.Clear();
+                    _instrumentListPresenter.Clear();
+                    _patchDetailsPresenter.Clear();
+                    _patchListPresenter.Clear();
+                    _sampleListPresenter.Clear();
+                    _samplePropertiesPresenter.Clear();
+                }
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
             }
 
             return _viewModel;
@@ -431,13 +528,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _documentPropertiesPresenter.Show(id);
+                object viewModel2 = _documentPropertiesPresenter.Show(id);
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -446,19 +548,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
-
-            DocumentPropertiesViewModel viewModel2 = _documentPropertiesPresenter.Close(userInput.Document.DocumentProperties);
-
-            DispatchViewModel(viewModel2);
-
-            if (viewModel2.Successful)
+            try
             {
-                RefreshDocumentList();
-                RefreshDocumentTree();
-            }
+                EnsureViewModel(userInput);
 
-            _repositoryWrapper.Rollback();
+                DocumentPropertiesViewModel viewModel2 = _documentPropertiesPresenter.Close(userInput.Document.DocumentProperties);
+
+                DispatchViewModel(viewModel2);
+
+                if (viewModel2.Successful)
+                {
+                    RefreshDocumentList();
+                    RefreshDocumentTree();
+                }
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -467,19 +574,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
-
-            DocumentPropertiesViewModel viewModel2 = _documentPropertiesPresenter.LoseFocus(userInput.Document.DocumentProperties);
-
-            DispatchViewModel(viewModel2);
-
-            if (viewModel2.Successful)
+            try
             {
-                RefreshDocumentList();
-                RefreshDocumentTree();
-            }
+                EnsureViewModel(userInput);
 
-            _repositoryWrapper.Rollback();
+                DocumentPropertiesViewModel viewModel2 = _documentPropertiesPresenter.LoseFocus(userInput.Document.DocumentProperties);
+
+                DispatchViewModel(viewModel2);
+
+                if (viewModel2.Successful)
+                {
+                    RefreshDocumentList();
+                    RefreshDocumentTree();
+                }
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -488,13 +600,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _documentTreePresenter.Show(_viewModel.Document.ID);
+                object viewModel2 = _documentTreePresenter.Show(_viewModel.Document.ID);
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -503,13 +620,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _documentTreePresenter.ExpandNode(userInput.Document.DocumentTree, nodeIndex);
+                object viewModel2 = _documentTreePresenter.ExpandNode(userInput.Document.DocumentTree, nodeIndex);
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -518,13 +640,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _documentTreePresenter.CollapseNode(userInput.Document.DocumentTree, nodeIndex);
+                object viewModel2 = _documentTreePresenter.CollapseNode(userInput.Document.DocumentTree, nodeIndex);
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -533,13 +660,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _documentTreePresenter.Close();
+                object viewModel2 = _documentTreePresenter.Close();
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -550,12 +682,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _audioFileOutputListPresenter.Show(userInput.Document.ID);
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                object viewModel2 = _audioFileOutputListPresenter.Show(userInput.Document.ID);
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -564,12 +701,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _audioFileOutputListPresenter.Close();
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                object viewModel2 = _audioFileOutputListPresenter.Close();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -578,30 +720,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            // ToEntity
-            Document document = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+                // ToEntity
+                Document document = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
 
-            // Business
-            AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
-            audioFileOutput.LinkTo(document);
+                // Business
+                AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
+                audioFileOutput.LinkTo(document);
 
-            ISideEffect sideEffect = new AudioFileOutput_SideEffect_GenerateName(audioFileOutput);
-            sideEffect.Execute();
+                ISideEffect sideEffect = new AudioFileOutput_SideEffect_GenerateName(audioFileOutput);
+                sideEffect.Execute();
 
-            // ToViewModel
-            AudioFileOutputListItemViewModel listItemViewModel = audioFileOutput.ToListItemViewModel(DUMMY_LIST_INDEX);
-            _viewModel.Document.AudioFileOutputList.List.Add(listItemViewModel);
-            _viewModel.Document.AudioFileOutputList.List = _viewModel.Document.AudioFileOutputList.List.OrderBy(x => x.Name).ToList();
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputList.List);
+                // ToViewModel
+                AudioFileOutputListItemViewModel listItemViewModel = audioFileOutput.ToListItemViewModel(DUMMY_LIST_INDEX);
+                _viewModel.Document.AudioFileOutputList.List.Add(listItemViewModel);
+                _viewModel.Document.AudioFileOutputList.List = _viewModel.Document.AudioFileOutputList.List.OrderBy(x => x.Name).ToList();
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputList.List);
 
-            AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel(DUMMY_LIST_INDEX, _repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository);
-            _viewModel.Document.AudioFileOutputPropertiesList.Add(propertiesViewModel);
-            _viewModel.Document.AudioFileOutputPropertiesList = _viewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputPropertiesList);
-
-            _repositoryWrapper.Rollback();
+                AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel(DUMMY_LIST_INDEX, _repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository);
+                _viewModel.Document.AudioFileOutputPropertiesList.Add(propertiesViewModel);
+                _viewModel.Document.AudioFileOutputPropertiesList = _viewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputPropertiesList);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -610,20 +757,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            // 'Business' / ToViewModel
-            _viewModel.Document.AudioFileOutputPropertiesList.RemoveAt(listIndex);
-            _viewModel.Document.AudioFileOutputList.List.RemoveAt(listIndex);
+                // 'Business' / ToViewModel
+                _viewModel.Document.AudioFileOutputPropertiesList.RemoveAt(listIndex);
+                _viewModel.Document.AudioFileOutputList.List.RemoveAt(listIndex);
 
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputPropertiesList, listIndex);
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputList.List, listIndex);
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputPropertiesList, listIndex);
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputList.List, listIndex);
 
-            // No need to do ToEntity, 
-            // because we are not executing any additional business logic or refreshing 
-            // that uses the entity models.
-
-            _repositoryWrapper.Rollback();
+                // No need to do ToEntity, 
+                // because we are not executing any additional business logic or refreshing 
+                // that uses the entity models.
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -632,14 +784,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            _audioFileOutputPropertiesPresenter.ViewModel = userInput.Document.AudioFileOutputPropertiesList[listIndex];
-            object viewModel2 = _audioFileOutputPropertiesPresenter.Show(userInput.Document.AudioFileOutputPropertiesList[listIndex]);
+                _audioFileOutputPropertiesPresenter.ViewModel = userInput.Document.AudioFileOutputPropertiesList[listIndex];
+                object viewModel2 = _audioFileOutputPropertiesPresenter.Show(userInput.Document.AudioFileOutputPropertiesList[listIndex]);
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -648,27 +805,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
-
-            // TODO: Can I get away with converting only part of the user input to entities?
-            // Do consider that channels reference patch outlets.
-            Document document = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
-
-            AudioFileOutputPropertiesViewModel viewModel2 = _audioFileOutputPropertiesPresenter.Close(userInput.Document.AudioFileOutputPropertiesList[listIndex]);
-
-            if (viewModel2.Successful)
+            try
             {
-                // Update properties list
-                _viewModel.Document.AudioFileOutputPropertiesList = _viewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
-                ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputPropertiesList);
+                EnsureViewModel(userInput);
 
-                // Update list
-                RefreshAudioFileOutputList();
+                // TODO: Can I get away with converting only part of the user input to entities?
+                // Do consider that channels reference patch outlets.
+                Document document = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+                AudioFileOutputPropertiesViewModel viewModel2 = _audioFileOutputPropertiesPresenter.Close(userInput.Document.AudioFileOutputPropertiesList[listIndex]);
+
+                if (viewModel2.Successful)
+                {
+                    // Update properties list
+                    _viewModel.Document.AudioFileOutputPropertiesList = _viewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
+                    ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputPropertiesList);
+
+                    // Update list
+                    RefreshAudioFileOutputList();
+                }
+
+                DispatchViewModel(viewModel2);
             }
-
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -677,27 +839,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
-
-            // TODO: Can I get away with converting only part of the user input to entities?
-            // Do consider that channels reference patch outlets.
-            Document document = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
-
-            AudioFileOutputPropertiesViewModel viewModel2 = _audioFileOutputPropertiesPresenter.LoseFocus(userInput.Document.AudioFileOutputPropertiesList[listIndex]);
-
-            if (viewModel2.Successful)
+            try
             {
-                // Update properties list
-                _viewModel.Document.AudioFileOutputPropertiesList = _viewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
-                ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputPropertiesList);
+                EnsureViewModel(userInput);
 
-                // Update list
-                RefreshAudioFileOutputList();
+                // TODO: Can I get away with converting only part of the user input to entities?
+                // Do consider that channels reference patch outlets.
+                Document document = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+                AudioFileOutputPropertiesViewModel viewModel2 = _audioFileOutputPropertiesPresenter.LoseFocus(userInput.Document.AudioFileOutputPropertiesList[listIndex]);
+
+                if (viewModel2.Successful)
+                {
+                    // Update properties list
+                    _viewModel.Document.AudioFileOutputPropertiesList = _viewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
+                    ListIndexHelper.RenumberListIndexes(_viewModel.Document.AudioFileOutputPropertiesList);
+
+                    // Update list
+                    RefreshAudioFileOutputList();
+                }
+
+                DispatchViewModel(viewModel2);
             }
-
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -708,14 +875,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            Document document = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+                Document document = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
 
-            object viewModel2 = _curveListPresenter.Show(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex);
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                object viewModel2 = _curveListPresenter.Show(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex);
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -724,12 +896,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _curveListPresenter.Close();
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                object viewModel2 = _curveListPresenter.Close();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -738,35 +915,40 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            // ToEntity
-            Document parentDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+                // ToEntity
+                Document parentDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
 
-            // Business
-            Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex, _repositoryWrapper.DocumentRepository);
-            Curve curve = _repositoryWrapper.CurveRepository.Create();
-            curve.LinkTo(document);
+                // Business
+                Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex, _repositoryWrapper.DocumentRepository);
+                Curve curve = _repositoryWrapper.CurveRepository.Create();
+                curve.LinkTo(document);
 
-            ISideEffect sideEffect = new Curve_SideEffect_GenerateName(curve);
-            sideEffect.Execute();
+                ISideEffect sideEffect = new Curve_SideEffect_GenerateName(curve);
+                sideEffect.Execute();
 
-            // ToViewModel
-            CurveListViewModel curveListViewModel = ChildDocumentHelper.GetCurveListViewModel(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
-            CurveListItemViewModel listItemViewModel = curve.ToListItemViewModel(DUMMY_LIST_INDEX, childDocumentListIndex);
-            curveListViewModel.List.Add(listItemViewModel);
-            curveListViewModel.List = curveListViewModel.List.OrderBy(x => x.Name).ToList();
-            ListIndexHelper.RenumberListIndexes(curveListViewModel.List);
+                // ToViewModel
+                CurveListViewModel curveListViewModel = ChildDocumentHelper.GetCurveListViewModel(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                CurveListItemViewModel listItemViewModel = curve.ToListItemViewModel(DUMMY_LIST_INDEX, childDocumentListIndex);
+                curveListViewModel.List.Add(listItemViewModel);
+                curveListViewModel.List = curveListViewModel.List.OrderBy(x => x.Name).ToList();
+                ListIndexHelper.RenumberListIndexes(curveListViewModel.List);
 
-            IList<CurveDetailsViewModel> curvePropertyViewModels = ChildDocumentHelper.GetCurveDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
-            CurveDetailsViewModel detailsViewModel = curve.ToDetailsViewModel(document.ID, childDocumentTypeEnum, childDocumentListIndex, DUMMY_LIST_INDEX, _repositoryWrapper.NodeTypeRepository);
-            curvePropertyViewModels.Add(detailsViewModel);
-            IList<CurveDetailsViewModel> curvePropertyViewModelsSorted = curvePropertyViewModels.OrderBy(x => x.Curve.Name).ToList();
-            curvePropertyViewModels.Clear();
-            curvePropertyViewModels.AddRange(curvePropertyViewModelsSorted);
-            ListIndexHelper.RenumberListIndexes(curvePropertyViewModels);
-
-            _repositoryWrapper.Rollback();
+                IList<CurveDetailsViewModel> curvePropertyViewModels = ChildDocumentHelper.GetCurveDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                CurveDetailsViewModel detailsViewModel = curve.ToDetailsViewModel(document.ID, childDocumentTypeEnum, childDocumentListIndex, DUMMY_LIST_INDEX, _repositoryWrapper.NodeTypeRepository);
+                curvePropertyViewModels.Add(detailsViewModel);
+                IList<CurveDetailsViewModel> curvePropertyViewModelsSorted = curvePropertyViewModels.OrderBy(x => x.Curve.Name).ToList();
+                curvePropertyViewModels.Clear();
+                curvePropertyViewModels.AddRange(curvePropertyViewModelsSorted);
+                ListIndexHelper.RenumberListIndexes(curvePropertyViewModels);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -775,52 +957,62 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
-
-            // ToEntity
-            Document rootDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
-            Document document = ChildDocumentHelper.GetRootDocumentOrChildDocument(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex, _repositoryWrapper.DocumentRepository);
-
-            Curve curve = document.Curves[listIndex];
-
-            // Business
-            VoidResult result = _curveManager.DeleteWithRelatedEntities(curve);
-            if (result.Successful)
+            try
             {
-                // ToViewModel
-                IList<CurveDetailsViewModel> curveDetailsViewModels = ChildDocumentHelper.GetCurveDetailsViewModels(_viewModel.Document, childDocumentTypeEnum, childDocumentListIndex);
-                curveDetailsViewModels.RemoveAt(listIndex);
-                ListIndexHelper.RenumberListIndexes(curveDetailsViewModels, listIndex);
+                EnsureViewModel(userInput);
 
-                CurveListViewModel curveListViewModel = ChildDocumentHelper.GetCurveListViewModel(_viewModel.Document, childDocumentTypeEnum, childDocumentListIndex);
-                curveListViewModel.List.RemoveAt(listIndex);
-                ListIndexHelper.RenumberListIndexes(curveListViewModel.List, listIndex);
+                // ToEntity
+                Document rootDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+                Document document = ChildDocumentHelper.GetRootDocumentOrChildDocument(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex, _repositoryWrapper.DocumentRepository);
+
+                Curve curve = document.Curves[listIndex];
+
+                // Business
+                VoidResult result = _curveManager.DeleteWithRelatedEntities(curve);
+                if (result.Successful)
+                {
+                    // ToViewModel
+                    IList<CurveDetailsViewModel> curveDetailsViewModels = ChildDocumentHelper.GetCurveDetailsViewModels(_viewModel.Document, childDocumentTypeEnum, childDocumentListIndex);
+                    curveDetailsViewModels.RemoveAt(listIndex);
+                    ListIndexHelper.RenumberListIndexes(curveDetailsViewModels, listIndex);
+
+                    CurveListViewModel curveListViewModel = ChildDocumentHelper.GetCurveListViewModel(_viewModel.Document, childDocumentTypeEnum, childDocumentListIndex);
+                    curveListViewModel.List.RemoveAt(listIndex);
+                    ListIndexHelper.RenumberListIndexes(curveListViewModel.List, listIndex);
+                }
+                else
+                {
+                    // ToViewModel
+                    _viewModel.PopupMessages = result.Messages;
+                }
             }
-            else
+            finally
             {
-                // ToViewModel
-                _viewModel.PopupMessages = result.Messages;
+                _repositoryWrapper.Rollback();
             }
-
-            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
 
-        public MainViewModel CurveDetailsEdit(MainViewModel userInput, int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        public MainViewModel CurveDetailsShow(MainViewModel userInput, int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            IList<CurveDetailsViewModel> list = GetCurveDetailsViewModels(userInput, childDocumentTypeEnum, childDocumentListIndex);
-            CurveDetailsViewModel item = list[listIndex];
+                IList<CurveDetailsViewModel> list = ChildDocumentHelper.GetCurveDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                CurveDetailsViewModel item = list[listIndex];
 
-            object viewModel2 = _curveDetailsPresenter.Show(item);
+                object viewModel2 = _curveDetailsPresenter.Show(item);
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -829,16 +1021,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            IList<CurveDetailsViewModel> list = GetCurveDetailsViewModels(userInput, childDocumentTypeEnum, childDocumentListIndex);
-            CurveDetailsViewModel item = list[listIndex];
+                IList<CurveDetailsViewModel> list = ChildDocumentHelper.GetCurveDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                CurveDetailsViewModel item = list[listIndex];
 
-            object viewModel2 = _curveDetailsPresenter.Close(item);
+                object viewModel2 = _curveDetailsPresenter.Close(item);
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -847,16 +1044,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            IList<CurveDetailsViewModel> list = GetCurveDetailsViewModels(userInput, childDocumentTypeEnum, childDocumentListIndex);
-            CurveDetailsViewModel item = list[listIndex];
+                IList<CurveDetailsViewModel> list = ChildDocumentHelper.GetCurveDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                CurveDetailsViewModel item = list[listIndex];
 
-            object viewModel2 = _curveDetailsPresenter.LoseFocus(item);
+                object viewModel2 = _curveDetailsPresenter.LoseFocus(item);
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -867,12 +1069,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _effectListPresenter.Show(userInput.Document.ID, ChildDocumentTypeEnum.Effect);
-            DispatchViewModel(viewModel2);
+                object viewModel2 = _effectListPresenter.Show(userInput.Document.ID, ChildDocumentTypeEnum.Effect);
 
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -881,12 +1089,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _effectListPresenter.Close();
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                object viewModel2 = _effectListPresenter.Close();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -895,37 +1108,42 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            // ToEntity
-            Document parentDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+                // ToEntity
+                Document parentDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
 
-            // Business
-            Document effect = _repositoryWrapper.DocumentRepository.Create();
-            effect.LinkEffectToDocument(parentDocument);
+                // Business
+                Document effect = _repositoryWrapper.DocumentRepository.Create();
+                effect.LinkEffectToDocument(parentDocument);
 
-            ISideEffect sideEffect = new Effect_SideEffect_GenerateName(effect);
-            sideEffect.Execute();
+                ISideEffect sideEffect = new Effect_SideEffect_GenerateName(effect);
+                sideEffect.Execute();
 
-            // ToViewModel
-            ChildDocumentListItemViewModel listItemViewModel = effect.ToChildDocumentListItemViewModel(DUMMY_LIST_INDEX);
-            _viewModel.Document.EffectList.List.Add(listItemViewModel);
-            _viewModel.Document.EffectList.List = _viewModel.Document.EffectList.List.OrderBy(x => x.Name).ToList();
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectList.List);
+                // ToViewModel
+                ChildDocumentListItemViewModel listItemViewModel = effect.ToChildDocumentListItemViewModel(DUMMY_LIST_INDEX);
+                _viewModel.Document.EffectList.List.Add(listItemViewModel);
+                _viewModel.Document.EffectList.List = _viewModel.Document.EffectList.List.OrderBy(x => x.Name).ToList();
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectList.List);
 
-            ChildDocumentPropertiesViewModel propertiesViewModel = effect.ToChildDocumentPropertiesViewModel(DUMMY_LIST_INDEX);
-            _viewModel.Document.EffectPropertiesList.Add(propertiesViewModel);
-            _viewModel.Document.EffectPropertiesList = _viewModel.Document.EffectPropertiesList.OrderBy(x => x.Name).ToList();
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectPropertiesList);
+                ChildDocumentPropertiesViewModel propertiesViewModel = effect.ToChildDocumentPropertiesViewModel(DUMMY_LIST_INDEX);
+                _viewModel.Document.EffectPropertiesList.Add(propertiesViewModel);
+                _viewModel.Document.EffectPropertiesList = _viewModel.Document.EffectPropertiesList.OrderBy(x => x.Name).ToList();
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectPropertiesList);
 
-            ChildDocumentViewModel documentViewModel = effect.ToChildDocumentViewModel(DUMMY_LIST_INDEX, _repositoryWrapper, _entityPositionManager);
-            _viewModel.Document.EffectDocumentList.Add(documentViewModel);
-            _viewModel.Document.EffectDocumentList = _viewModel.Document.EffectDocumentList.OrderBy(x => x.Name).ToList();
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectDocumentList);
+                ChildDocumentViewModel documentViewModel = effect.ToChildDocumentViewModel(DUMMY_LIST_INDEX, _repositoryWrapper, _entityPositionManager);
+                _viewModel.Document.EffectDocumentList.Add(documentViewModel);
+                _viewModel.Document.EffectDocumentList = _viewModel.Document.EffectDocumentList.OrderBy(x => x.Name).ToList();
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectDocumentList);
 
-            RefreshDocumentTree();
-
-            _repositoryWrapper.Rollback();
+                RefreshDocumentTree();
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -934,20 +1152,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            // ToViewModel Only
-            _viewModel.Document.EffectList.List.RemoveAt(listIndex);
-            _viewModel.Document.EffectPropertiesList.RemoveAt(listIndex);
-            _viewModel.Document.EffectDocumentList.RemoveAt(listIndex);
-            _viewModel.Document.DocumentTree.Effects.RemoveAt(listIndex);
+                // ToViewModel Only
+                _viewModel.Document.EffectList.List.RemoveAt(listIndex);
+                _viewModel.Document.EffectPropertiesList.RemoveAt(listIndex);
+                _viewModel.Document.EffectDocumentList.RemoveAt(listIndex);
+                _viewModel.Document.DocumentTree.Effects.RemoveAt(listIndex);
 
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectList.List, listIndex);
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectPropertiesList, listIndex);
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectDocumentList, listIndex);
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.DocumentTree.Effects, listIndex);
-
-            _repositoryWrapper.Rollback();
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectList.List, listIndex);
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectPropertiesList, listIndex);
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.EffectDocumentList, listIndex);
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.DocumentTree.Effects, listIndex);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -958,12 +1181,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _instrumentListPresenter.Show(userInput.Document.ID, ChildDocumentTypeEnum.Instrument);
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                object viewModel2 = _instrumentListPresenter.Show(userInput.Document.ID, ChildDocumentTypeEnum.Instrument);
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -972,12 +1200,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _instrumentListPresenter.Close();
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                object viewModel2 = _instrumentListPresenter.Close();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -986,37 +1219,42 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            // ToEntity
-            Document parentDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+                // ToEntity
+                Document parentDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
 
-            // Business
-            Document instrument = _repositoryWrapper.DocumentRepository.Create();
-            instrument.LinkInstrumentToDocument(parentDocument);
+                // Business
+                Document instrument = _repositoryWrapper.DocumentRepository.Create();
+                instrument.LinkInstrumentToDocument(parentDocument);
 
-            ISideEffect sideEffect = new Instrument_SideEffect_GenerateName(instrument);
-            sideEffect.Execute();
+                ISideEffect sideEffect = new Instrument_SideEffect_GenerateName(instrument);
+                sideEffect.Execute();
 
-            // ToViewModel
-            ChildDocumentListItemViewModel listItemViewModel = instrument.ToChildDocumentListItemViewModel(DUMMY_LIST_INDEX);
-            _viewModel.Document.InstrumentList.List.Add(listItemViewModel);
-            _viewModel.Document.InstrumentList.List = _viewModel.Document.InstrumentList.List.OrderBy(x => x.Name).ToList();
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentList.List);
+                // ToViewModel
+                ChildDocumentListItemViewModel listItemViewModel = instrument.ToChildDocumentListItemViewModel(DUMMY_LIST_INDEX);
+                _viewModel.Document.InstrumentList.List.Add(listItemViewModel);
+                _viewModel.Document.InstrumentList.List = _viewModel.Document.InstrumentList.List.OrderBy(x => x.Name).ToList();
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentList.List);
 
-            ChildDocumentPropertiesViewModel propertiesViewModel = instrument.ToChildDocumentPropertiesViewModel(DUMMY_LIST_INDEX);
-            _viewModel.Document.InstrumentPropertiesList.Add(propertiesViewModel);
-            _viewModel.Document.InstrumentPropertiesList = _viewModel.Document.InstrumentPropertiesList.OrderBy(x => x.Name).ToList();
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentPropertiesList);
+                ChildDocumentPropertiesViewModel propertiesViewModel = instrument.ToChildDocumentPropertiesViewModel(DUMMY_LIST_INDEX);
+                _viewModel.Document.InstrumentPropertiesList.Add(propertiesViewModel);
+                _viewModel.Document.InstrumentPropertiesList = _viewModel.Document.InstrumentPropertiesList.OrderBy(x => x.Name).ToList();
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentPropertiesList);
 
-            ChildDocumentViewModel documentViewModel = instrument.ToChildDocumentViewModel(DUMMY_LIST_INDEX, _repositoryWrapper, _entityPositionManager);
-            _viewModel.Document.InstrumentDocumentList.Add(documentViewModel);
-            _viewModel.Document.InstrumentDocumentList = _viewModel.Document.InstrumentDocumentList.OrderBy(x => x.Name).ToList();
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentDocumentList);
+                ChildDocumentViewModel documentViewModel = instrument.ToChildDocumentViewModel(DUMMY_LIST_INDEX, _repositoryWrapper, _entityPositionManager);
+                _viewModel.Document.InstrumentDocumentList.Add(documentViewModel);
+                _viewModel.Document.InstrumentDocumentList = _viewModel.Document.InstrumentDocumentList.OrderBy(x => x.Name).ToList();
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentDocumentList);
 
-            RefreshDocumentTree();
-
-            _repositoryWrapper.Rollback();
+                RefreshDocumentTree();
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -1025,20 +1263,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            // ToViewModel Only
-            _viewModel.Document.InstrumentList.List.RemoveAt(listIndex);
-            _viewModel.Document.InstrumentPropertiesList.RemoveAt(listIndex);
-            _viewModel.Document.InstrumentDocumentList.RemoveAt(listIndex);
-            _viewModel.Document.DocumentTree.Instruments.RemoveAt(listIndex);
+                // ToViewModel Only
+                _viewModel.Document.InstrumentList.List.RemoveAt(listIndex);
+                _viewModel.Document.InstrumentPropertiesList.RemoveAt(listIndex);
+                _viewModel.Document.InstrumentDocumentList.RemoveAt(listIndex);
+                _viewModel.Document.DocumentTree.Instruments.RemoveAt(listIndex);
 
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentList.List, listIndex);
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentPropertiesList, listIndex);
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentDocumentList, listIndex);
-            ListIndexHelper.RenumberListIndexes(_viewModel.Document.DocumentTree.Instruments, listIndex);
-
-            _repositoryWrapper.Rollback();
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentList.List, listIndex);
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentPropertiesList, listIndex);
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.InstrumentDocumentList, listIndex);
+                ListIndexHelper.RenumberListIndexes(_viewModel.Document.DocumentTree.Instruments, listIndex);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -1049,14 +1292,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            Document document = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+                Document document = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
 
-            object viewModel2 = _patchListPresenter.Show(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex);
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                object viewModel2 = _patchListPresenter.Show(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex);
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -1065,12 +1313,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _patchListPresenter.Close();
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                object viewModel2 = _patchListPresenter.Close();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -1079,35 +1332,40 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            // ToEntity
-            Document parentDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+                // ToEntity
+                Document parentDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
 
-            // Business
-            Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex, _repositoryWrapper.DocumentRepository);
-            Patch patch = _repositoryWrapper.PatchRepository.Create();
-            patch.LinkTo(document);
+                // Business
+                Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex, _repositoryWrapper.DocumentRepository);
+                Patch patch = _repositoryWrapper.PatchRepository.Create();
+                patch.LinkTo(document);
 
-            ISideEffect sideEffect = new Patch_SideEffect_GenerateName(patch);
-            sideEffect.Execute();
+                ISideEffect sideEffect = new Patch_SideEffect_GenerateName(patch);
+                sideEffect.Execute();
 
-            // ToViewModel
-            PatchListViewModel patchListViewModel = ChildDocumentHelper.GetPatchListViewModel(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
-            PatchListItemViewModel listItemViewModel = patch.ToListItemViewModel(DUMMY_LIST_INDEX, childDocumentListIndex);
-            patchListViewModel.List.Add(listItemViewModel);
-            patchListViewModel.List = patchListViewModel.List.OrderBy(x => x.Name).ToList();
-            ListIndexHelper.RenumberListIndexes(patchListViewModel.List);
+                // ToViewModel
+                PatchListViewModel patchListViewModel = ChildDocumentHelper.GetPatchListViewModel(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                PatchListItemViewModel listItemViewModel = patch.ToListItemViewModel(DUMMY_LIST_INDEX, childDocumentListIndex);
+                patchListViewModel.List.Add(listItemViewModel);
+                patchListViewModel.List = patchListViewModel.List.OrderBy(x => x.Name).ToList();
+                ListIndexHelper.RenumberListIndexes(patchListViewModel.List);
 
-            IList<PatchDetailsViewModel> patchPropertyViewModels = ChildDocumentHelper.GetPatchDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
-            PatchDetailsViewModel detailsViewModel = patch.ToDetailsViewModel(document.ID, childDocumentTypeEnum, childDocumentListIndex, DUMMY_LIST_INDEX, _repositoryWrapper.OperatorTypeRepository, _entityPositionManager);
-            patchPropertyViewModels.Add(detailsViewModel);
-            IList<PatchDetailsViewModel> patchPropertyViewModelsSorted = patchPropertyViewModels.OrderBy(x => x.Patch.Name).ToList();
-            patchPropertyViewModels.Clear();
-            patchPropertyViewModels.AddRange(patchPropertyViewModelsSorted);
-            ListIndexHelper.RenumberListIndexes(patchPropertyViewModels);
-
-            _repositoryWrapper.Rollback();
+                IList<PatchDetailsViewModel> patchPropertyViewModels = ChildDocumentHelper.GetPatchDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                PatchDetailsViewModel detailsViewModel = patch.ToDetailsViewModel(document.ID, childDocumentTypeEnum, childDocumentListIndex, DUMMY_LIST_INDEX, _repositoryWrapper.OperatorTypeRepository, _entityPositionManager);
+                patchPropertyViewModels.Add(detailsViewModel);
+                IList<PatchDetailsViewModel> patchPropertyViewModelsSorted = patchPropertyViewModels.OrderBy(x => x.Entity.Name).ToList();
+                patchPropertyViewModels.Clear();
+                patchPropertyViewModels.AddRange(patchPropertyViewModelsSorted);
+                ListIndexHelper.RenumberListIndexes(patchPropertyViewModels);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -1116,62 +1374,358 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
-
-            // ToEntity
-            Document rootDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
-            Document document = ChildDocumentHelper.GetRootDocumentOrChildDocument(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex, _repositoryWrapper.DocumentRepository);
-            Patch patch = document.Patches[listIndex];
-
-            // Business
-            VoidResult result = _patchManager.DeleteWithRelatedEntities(patch);
-            if (result.Successful)
+            try
             {
-                // ToViewModel
-                IList<PatchDetailsViewModel> patchDetailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels(_viewModel.Document, childDocumentTypeEnum, childDocumentListIndex);
-                patchDetailsViewModels.RemoveAt(listIndex);
-                ListIndexHelper.RenumberListIndexes(patchDetailsViewModels, listIndex);
+                EnsureViewModel(userInput);
 
-                PatchListViewModel patchListViewModel = ChildDocumentHelper.GetPatchListViewModel(_viewModel.Document, childDocumentTypeEnum, childDocumentListIndex);
-                patchListViewModel.List.RemoveAt(listIndex);
-                ListIndexHelper.RenumberListIndexes(patchListViewModel.List, listIndex);
+                // ToEntity
+                Document rootDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+                Document document = ChildDocumentHelper.GetRootDocumentOrChildDocument(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex, _repositoryWrapper.DocumentRepository);
+                Patch patch = document.Patches[listIndex];
+
+                // Business
+                VoidResult result = _patchManager.DeleteWithRelatedEntities(patch);
+                if (result.Successful)
+                {
+                    // ToViewModel
+                    IList<PatchDetailsViewModel> patchDetailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels(_viewModel.Document, childDocumentTypeEnum, childDocumentListIndex);
+                    patchDetailsViewModels.RemoveAt(listIndex);
+                    ListIndexHelper.RenumberListIndexes(patchDetailsViewModels, listIndex);
+
+                    PatchListViewModel patchListViewModel = ChildDocumentHelper.GetPatchListViewModel(_viewModel.Document, childDocumentTypeEnum, childDocumentListIndex);
+                    patchListViewModel.List.RemoveAt(listIndex);
+                    ListIndexHelper.RenumberListIndexes(patchListViewModel.List, listIndex);
+                }
+                else
+                {
+                    // ToViewModel
+                    _viewModel.PopupMessages = result.Messages;
+                }
             }
-            else
+            finally
             {
-                // ToViewModel
-                _viewModel.PopupMessages = result.Messages;
+                _repositoryWrapper.Rollback();
             }
-
-            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
 
-        // Temporary Patch Actions
-
-        public MainViewModel PatchDetailsEdit(MainViewModel userInput, int id)
+        public MainViewModel PatchDetailsShow(MainViewModel userInput, int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            // These are temporary dummy values. Patches will be opened differently later.
-            object viewModel2 = _patchDetailsPresenter.Edit(id, 0, null, null, 0);
+                IList<PatchDetailsViewModel> list = ChildDocumentHelper.GetPatchDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                PatchDetailsViewModel item = list[listIndex];
 
-            DispatchViewModel(viewModel2);
+                object viewModel2 = _patchDetailsPresenter.Show(item);
+
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
 
-        public MainViewModel PatchDetailsClose(MainViewModel userInput)
+        public MainViewModel PatchDetailsClose(MainViewModel userInput, int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _patchDetailsPresenter.Close();
+                // ToEntity
+                Document destDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
 
-            DispatchViewModel(viewModel2);
+                // Get the right partial ViewModel
+                IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                PatchDetailsViewModel item = detailsViewModels[listIndex];
+
+                // Partial Action
+                PatchDetailsViewModel viewModel2 = _patchDetailsPresenter.Close(item);
+
+                if (viewModel2.Successful)
+                {
+                    // Update details list 
+                    IList<PatchDetailsViewModel> detailsViewModelsSorted = detailsViewModels.OrderBy(x => x.Entity.Name).ToList();
+                    detailsViewModels.Clear();
+                    detailsViewModels.AddRange(detailsViewModelsSorted);
+                    ListIndexHelper.RenumberListIndexes(detailsViewModels);
+
+                    // Update list
+                    PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                    RefreshPatchList(listViewModel);
+                }
+
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+
+            return _viewModel;
+        }
+
+        public MainViewModel PatchDetailsLoseFocus(MainViewModel userInput, int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            try
+            {
+                EnsureViewModel(userInput);
+
+                // ToEntity
+                Document destDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+                // Get the right partial ViewModel
+                IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                PatchDetailsViewModel item = detailsViewModels[listIndex];
+
+                // Partial Action
+                PatchDetailsViewModel viewModel2 = _patchDetailsPresenter.LoseFocus(item);
+
+                if (viewModel2.Successful)
+                {
+                    // Update details list 
+                    IList<PatchDetailsViewModel> detailsViewModelsSorted = detailsViewModels.OrderBy(x => x.Entity.Name).ToList();
+                    detailsViewModels.Clear();
+                    detailsViewModels.AddRange(detailsViewModelsSorted);
+                    ListIndexHelper.RenumberListIndexes(detailsViewModels);
+
+                    // Update list
+                    PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                    RefreshPatchList(listViewModel);
+                }
+
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+
+            return _viewModel;
+        }
+
+        public MainViewModel PatchDetailsAddOperator(
+            MainViewModel userInput, 
+            int listIndex, 
+            ChildDocumentTypeEnum? childDocumentTypeEnum, 
+            int? childDocumentListIndex, 
+            int operatorTypeID)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            try
+            {
+                EnsureViewModel(userInput);
+
+                IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                PatchDetailsViewModel item = detailsViewModels[listIndex];
+
+                object viewModel2 = _patchDetailsPresenter.AddOperator(item, operatorTypeID);
+
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+
+            return _viewModel;
+        }
+
+        public MainViewModel PatchDetailsMoveOperator(
+            MainViewModel userInput,
+            int patchListIndex,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int operatorIndexNumber,
+            float centerX,
+            float centerY)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            try
+            {
+                EnsureViewModel(userInput);
+
+                IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                PatchDetailsViewModel item = detailsViewModels[patchListIndex];
+
+                object viewModel2 = _patchDetailsPresenter.MoveOperator(item, operatorIndexNumber, centerX, centerY);
+
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+
+            return _viewModel;
+        }
+
+        public MainViewModel PatchDetailsChangeInputOutlet(
+            MainViewModel userInput,
+            int patchListIndex,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int inlet_OperatorIndexNumber,
+            int inlet_ListIndex,
+            int inputOutlet_OperatorIndexNumber,
+            int inputOutlet_ListIndex)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            try
+            {
+                EnsureViewModel(userInput);
+
+                IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                PatchDetailsViewModel item = detailsViewModels[patchListIndex];
+
+                object viewModel2 = _patchDetailsPresenter.ChangeInputOutlet(item, inlet_OperatorIndexNumber, inlet_ListIndex, inputOutlet_OperatorIndexNumber, inputOutlet_ListIndex);
+
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+
+            return _viewModel;
+        }
+
+        public MainViewModel PatchDetailsSelectOperator(
+            MainViewModel userInput,
+            int patchListIndex,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int operatorIndexNumber)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            try
+            {
+                EnsureViewModel(userInput);
+
+                IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                PatchDetailsViewModel item = detailsViewModels[patchListIndex];
+
+                object viewModel2 = _patchDetailsPresenter.SelectOperator(item, operatorIndexNumber);
+
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+
+            return _viewModel;
+        }
+
+        /// <summary>
+        /// Deletes the selected operator. Does not delete anything, if no operator is selected.
+        /// </summary>
+        public MainViewModel PatchDetailsDeleteOperator(
+            MainViewModel userInput,
+            int patchListIndex,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            try
+            {
+                EnsureViewModel(userInput);
+
+                IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                PatchDetailsViewModel item = detailsViewModels[patchListIndex];
+
+                object viewModel2 = _patchDetailsPresenter.DeleteOperator(item);
+
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+
+            return _viewModel;
+        }
+
+        public MainViewModel PatchDetailsSetValue(
+            MainViewModel userInput,
+            int patchListIndex,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            string value)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            try
+            {
+                EnsureViewModel(userInput);
+
+                IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                PatchDetailsViewModel item = detailsViewModels[patchListIndex];
+
+                PatchDetailsViewModel viewModel2 = _patchDetailsPresenter.SetValue(item, value);
+
+                // Move messages to popup messages, because the default dispatching for PatchDetailsViewModel moves it to the ValidationMessages.
+                _viewModel.PopupMessages.AddRange(viewModel2.ValidationMessages);
+                viewModel2.ValidationMessages.Clear();
+
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+
+            return _viewModel;
+        }
+
+        public MainViewModel PatchPlay(
+            MainViewModel userInput, 
+            int patchListIndex, 
+            ChildDocumentTypeEnum? childDocumentTypeEnum, 
+            int? childDocumentListIndex, 
+            double duration, 
+            string sampleFilePath, 
+            string outputFilePath)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            try
+            {
+                EnsureViewModel(userInput);
+
+                IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                PatchDetailsViewModel item = detailsViewModels[patchListIndex];
+
+                PatchDetailsViewModel viewModel2 = _patchDetailsPresenter.Play(item, duration, sampleFilePath, outputFilePath, _repositoryWrapper);
+
+                // Move messages to popup messages, because the default dispatching for PatchDetailsViewModel moves it to the ValidationMessages.
+                _viewModel.PopupMessages.AddRange(viewModel2.ValidationMessages);
+                viewModel2.ValidationMessages.Clear();
+
+                _viewModel.Successful = viewModel2.Successful;
+
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -1182,14 +1736,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            Document document = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+                Document document = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
 
-            object viewModel2 = _sampleListPresenter.Show(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex);
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                object viewModel2 = _sampleListPresenter.Show(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex);
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -1198,12 +1757,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            object viewModel2 = _sampleListPresenter.Close();
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                object viewModel2 = _sampleListPresenter.Close();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -1212,35 +1776,40 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            // ToEntity
-            Document parentDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+                // ToEntity
+                Document parentDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
 
-            // Business
-            Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex, _repositoryWrapper.DocumentRepository);
-            Sample sample = _sampleManager.CreateSample();
-            sample.LinkTo(document);
+                // Business
+                Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex, _repositoryWrapper.DocumentRepository);
+                Sample sample = _sampleManager.CreateSample();
+                sample.LinkTo(document);
 
-            ISideEffect sideEffect = new Sample_SideEffect_GenerateName(sample);
-            sideEffect.Execute();
+                ISideEffect sideEffect = new Sample_SideEffect_GenerateName(sample);
+                sideEffect.Execute();
 
-            // ToViewModel
-            SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
-            SampleListItemViewModel listItemViewModel = sample.ToListItemViewModel(DUMMY_LIST_INDEX, childDocumentListIndex);
-            listViewModel.List.Add(listItemViewModel);
-            listViewModel.List = listViewModel.List.OrderBy(x => x.Name).ToList();
-            ListIndexHelper.RenumberListIndexes(listViewModel.List);
+                // ToViewModel
+                SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                SampleListItemViewModel listItemViewModel = sample.ToListItemViewModel(DUMMY_LIST_INDEX, childDocumentListIndex);
+                listViewModel.List.Add(listItemViewModel);
+                listViewModel.List = listViewModel.List.OrderBy(x => x.Name).ToList();
+                ListIndexHelper.RenumberListIndexes(listViewModel.List);
 
-            IList<SamplePropertiesViewModel> propertiesViewModels = ChildDocumentHelper.GetSamplePropertiesViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
-            SamplePropertiesViewModel propertiesViewModel = sample.ToPropertiesViewModel(_viewModel.Document.ID, childDocumentTypeEnum, childDocumentListIndex, DUMMY_LIST_INDEX, new SampleRepositories(_repositoryWrapper));
-            propertiesViewModels.Add(propertiesViewModel);
-            IList<SamplePropertiesViewModel> propertiesViewModelsSorted = propertiesViewModels.OrderBy(x => x.Entity.Name).ToList();
-            propertiesViewModels.Clear();
-            propertiesViewModels.AddRange(propertiesViewModelsSorted);
-            ListIndexHelper.RenumberListIndexes(propertiesViewModels);
-
-            _repositoryWrapper.Rollback();
+                IList<SamplePropertiesViewModel> propertiesViewModels = ChildDocumentHelper.GetSamplePropertiesViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                SamplePropertiesViewModel propertiesViewModel = sample.ToPropertiesViewModel(_viewModel.Document.ID, childDocumentTypeEnum, childDocumentListIndex, DUMMY_LIST_INDEX, new SampleRepositories(_repositoryWrapper));
+                propertiesViewModels.Add(propertiesViewModel);
+                IList<SamplePropertiesViewModel> propertiesViewModelsSorted = propertiesViewModels.OrderBy(x => x.Entity.Name).ToList();
+                propertiesViewModels.Clear();
+                propertiesViewModels.AddRange(propertiesViewModelsSorted);
+                ListIndexHelper.RenumberListIndexes(propertiesViewModels);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -1249,33 +1818,38 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
-
-            // ToEntity
-            Document rootDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
-            Document document = ChildDocumentHelper.GetRootDocumentOrChildDocument(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex, _repositoryWrapper.DocumentRepository);
-            Sample sample = document.Samples[listIndex];
-
-            // Business
-            VoidResult result = _sampleManager.DeleteWithRelatedEntities(sample);
-            if (result.Successful)
+            try
             {
-                // ToViewModel
-                IList<SamplePropertiesViewModel> samplePropertiesViewModels = ChildDocumentHelper.GetSamplePropertiesViewModels(_viewModel.Document, childDocumentTypeEnum, childDocumentListIndex);
-                samplePropertiesViewModels.RemoveAt(listIndex);
-                ListIndexHelper.RenumberListIndexes(samplePropertiesViewModels, listIndex);
+                EnsureViewModel(userInput);
 
-                SampleListViewModel sampleListViewModel = ChildDocumentHelper.GetSampleListViewModel(_viewModel.Document, childDocumentTypeEnum, childDocumentListIndex);
-                sampleListViewModel.List.RemoveAt(listIndex);
-                ListIndexHelper.RenumberListIndexes(sampleListViewModel.List, listIndex);
+                // ToEntity
+                Document rootDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+                Document document = ChildDocumentHelper.GetRootDocumentOrChildDocument(userInput.Document.ID, childDocumentTypeEnum, childDocumentListIndex, _repositoryWrapper.DocumentRepository);
+                Sample sample = document.Samples[listIndex];
+
+                // Business
+                VoidResult result = _sampleManager.DeleteWithRelatedEntities(sample);
+                if (result.Successful)
+                {
+                    // ToViewModel
+                    IList<SamplePropertiesViewModel> samplePropertiesViewModels = ChildDocumentHelper.GetSamplePropertiesViewModels(_viewModel.Document, childDocumentTypeEnum, childDocumentListIndex);
+                    samplePropertiesViewModels.RemoveAt(listIndex);
+                    ListIndexHelper.RenumberListIndexes(samplePropertiesViewModels, listIndex);
+
+                    SampleListViewModel sampleListViewModel = ChildDocumentHelper.GetSampleListViewModel(_viewModel.Document, childDocumentTypeEnum, childDocumentListIndex);
+                    sampleListViewModel.List.RemoveAt(listIndex);
+                    ListIndexHelper.RenumberListIndexes(sampleListViewModel.List, listIndex);
+                }
+                else
+                {
+                    // ToViewModel
+                    _viewModel.PopupMessages = result.Messages;
+                }
             }
-            else
+            finally
             {
-                // ToViewModel
-                _viewModel.PopupMessages = result.Messages;
+                _repositoryWrapper.Rollback();
             }
-
-            _repositoryWrapper.Rollback();
 
             return _viewModel;
         }
@@ -1284,16 +1858,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
+            try
+            {
+                EnsureViewModel(userInput);
 
-            IList<SamplePropertiesViewModel> list = GetSamplePropertiesViewModels(userInput, childDocumentTypeEnum, childDocumentListIndex);
-            SamplePropertiesViewModel item = list[listIndex];
+                IList<SamplePropertiesViewModel> list = ChildDocumentHelper.GetSamplePropertiesViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                SamplePropertiesViewModel item = list[listIndex];
 
-            object viewModel2 = _samplePropertiesPresenter.Show(item);
+                object viewModel2 = _samplePropertiesPresenter.Show(item);
 
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+                DispatchViewModel(viewModel2);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -1302,34 +1881,39 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
-
-            // ToEntity
-            Document destDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
-
-            // Get the right partial ViewModel
-            IList<SamplePropertiesViewModel> propertiesViewModels = GetSamplePropertiesViewModels(userInput, childDocumentTypeEnum, childDocumentListIndex);
-            SamplePropertiesViewModel item = propertiesViewModels[listIndex];
-
-            // Partial Action
-            SamplePropertiesViewModel viewModel2 = _samplePropertiesPresenter.Close(item);
-
-            if (viewModel2.Successful)
+            try
             {
-                // Update properties list 
-                IList<SamplePropertiesViewModel> propertiesViewModelsSorted = propertiesViewModels.OrderBy(x => x.Entity.Name).ToList();
-                propertiesViewModels.Clear();
-                propertiesViewModels.AddRange(propertiesViewModelsSorted);
-                ListIndexHelper.RenumberListIndexes(propertiesViewModels);
+                EnsureViewModel(userInput);
 
-                // Update list
-                SampleListViewModel listViewModel = GetSampleListViewModel(userInput, childDocumentTypeEnum, childDocumentListIndex);
-                RefreshSampleList(listViewModel);
+                // ToEntity
+                Document destDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+                // Get the right partial ViewModel
+                IList<SamplePropertiesViewModel> propertiesViewModels = ChildDocumentHelper.GetSamplePropertiesViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                SamplePropertiesViewModel item = propertiesViewModels[listIndex];
+
+                // Partial Action
+                SamplePropertiesViewModel viewModel2 = _samplePropertiesPresenter.Close(item);
+
+                if (viewModel2.Successful)
+                {
+                    // Update properties list 
+                    IList<SamplePropertiesViewModel> propertiesViewModelsSorted = propertiesViewModels.OrderBy(x => x.Entity.Name).ToList();
+                    propertiesViewModels.Clear();
+                    propertiesViewModels.AddRange(propertiesViewModelsSorted);
+                    ListIndexHelper.RenumberListIndexes(propertiesViewModels);
+
+                    // Update list
+                    SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                    RefreshSampleList(listViewModel);
+                }
+
+                DispatchViewModel(viewModel2);
             }
-
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -1338,34 +1922,39 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
-            EnsureViewModel(userInput);
-
-            // ToEntity
-            Document destDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
-
-            // Get the right partial ViewModel
-            IList<SamplePropertiesViewModel> propertiesViewModels = GetSamplePropertiesViewModels(userInput, childDocumentTypeEnum, childDocumentListIndex);
-            SamplePropertiesViewModel item = propertiesViewModels[listIndex];
-
-            // Partial Action
-            SamplePropertiesViewModel viewModel2 = _samplePropertiesPresenter.LoseFocus(item);
-
-            if (viewModel2.Successful)
+            try
             {
-                // Update properties list 
-                IList<SamplePropertiesViewModel> propertiesViewModelsSorted = propertiesViewModels.OrderBy(x => x.Entity.Name).ToList();
-                propertiesViewModels.Clear();
-                propertiesViewModels.AddRange(propertiesViewModelsSorted);
-                ListIndexHelper.RenumberListIndexes(propertiesViewModels);
+                EnsureViewModel(userInput);
 
-                // Update list
-                SampleListViewModel listViewModel = GetSampleListViewModel(userInput, childDocumentTypeEnum, childDocumentListIndex);
-                RefreshSampleList(listViewModel);
+                // ToEntity
+                Document destDocument = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+                // Get the right partial ViewModel
+                IList<SamplePropertiesViewModel> propertiesViewModels = ChildDocumentHelper.GetSamplePropertiesViewModels(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                SamplePropertiesViewModel item = propertiesViewModels[listIndex];
+
+                // Partial Action
+                SamplePropertiesViewModel viewModel2 = _samplePropertiesPresenter.LoseFocus(item);
+
+                if (viewModel2.Successful)
+                {
+                    // Update properties list 
+                    IList<SamplePropertiesViewModel> propertiesViewModelsSorted = propertiesViewModels.OrderBy(x => x.Entity.Name).ToList();
+                    propertiesViewModels.Clear();
+                    propertiesViewModels.AddRange(propertiesViewModelsSorted);
+                    ListIndexHelper.RenumberListIndexes(propertiesViewModels);
+
+                    // Update list
+                    SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel(userInput.Document, childDocumentTypeEnum, childDocumentListIndex);
+                    RefreshSampleList(listViewModel);
+                }
+
+                DispatchViewModel(viewModel2);
             }
-
-            DispatchViewModel(viewModel2);
-
-            _repositoryWrapper.Rollback();
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
 
             return _viewModel;
         }
@@ -1505,7 +2094,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var curveDetailsViewModel = (CurveDetailsViewModel)viewModel2;
 
-            IList<CurveDetailsViewModel> list = GetCurveDetailsViewModels(_viewModel, curveDetailsViewModel.Curve.Keys.ChildDocumentTypeEnum, curveDetailsViewModel.Curve.Keys.ChildDocumentListIndex);
+            IList<CurveDetailsViewModel> list = ChildDocumentHelper.GetCurveDetailsViewModels(_viewModel.Document, curveDetailsViewModel.Curve.Keys.ChildDocumentTypeEnum, curveDetailsViewModel.Curve.Keys.ChildDocumentListIndex);
 
             list[curveDetailsViewModel.Curve.Keys.ListIndex] = curveDetailsViewModel;
 
@@ -1653,9 +2242,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var patchDetailsViewModel = (PatchDetailsViewModel)viewModel2;
 
-            IList<PatchDetailsViewModel> list = GetPatchDetailsViewModels(_viewModel, patchDetailsViewModel.Patch.Keys.ChildDocumentTypeEnum, patchDetailsViewModel.Patch.Keys.ChildDocumentListIndex);
+            IList<PatchDetailsViewModel> list = ChildDocumentHelper.GetPatchDetailsViewModels(_viewModel.Document, patchDetailsViewModel.Entity.Keys.ChildDocumentTypeEnum, patchDetailsViewModel.Entity.Keys.ChildDocumentListIndex);
 
-            list[patchDetailsViewModel.Patch.Keys.ListIndex] = patchDetailsViewModel;
+            list[patchDetailsViewModel.Entity.Keys.PatchListIndex] = patchDetailsViewModel;
 
             if (patchDetailsViewModel.Visible)
             {
@@ -1705,7 +2294,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var samplePropertiesViewModel = (SamplePropertiesViewModel)viewModel2;
 
-            IList<SamplePropertiesViewModel> list = GetSamplePropertiesViewModels(_viewModel, samplePropertiesViewModel.Entity.Keys.ChildDocumentTypeEnum, samplePropertiesViewModel.Entity.Keys.ChildDocumentListIndex);
+            IList<SamplePropertiesViewModel> list = ChildDocumentHelper.GetSamplePropertiesViewModels(_viewModel.Document, samplePropertiesViewModel.Entity.Keys.ChildDocumentTypeEnum, samplePropertiesViewModel.Entity.Keys.ChildDocumentListIndex);
 
             list[samplePropertiesViewModel.Entity.Keys.ListIndex] = samplePropertiesViewModel;
 
@@ -1761,22 +2350,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                        _viewModel.Document.ID != userInput.Document.ID;
             if (mustCreateViewModel)
             {
-                MainViewModel mainViewModel = ViewModelHelper.CreateEmptyMainViewModel(_repositoryWrapper.OperatorTypeRepository);
-
-                Document entity = userInput.ToEntityWithRelatedEntities(_repositoryWrapper);
-                DocumentViewModel documentViewModel = entity.ToViewModel(_repositoryWrapper, _entityPositionManager);
-                mainViewModel.Document = documentViewModel;
-
-                MenuViewModel menuViewModel = _menuPresenter.Show();
-                mainViewModel.Menu = menuViewModel;
-
-                DocumentListViewModel documentListViewModel = _documentListPresenter.Show();
-                mainViewModel.DocumentList = documentListViewModel;
-
-                mainViewModel.WindowTitle = Titles.ApplicationName;
-
-                _viewModel = mainViewModel;
+                Document entity = userInput.Document.ToEntityWithRelatedEntities(_repositoryWrapper);
+                _viewModel = CreateViewModel(userInput, entity);
             }
+        }
+
+        /// <summary>
+        /// First do a ToEntity before you call this method.
+        /// The user input is only used to yield over non-persisted properties.
+        /// </summary>
+        private MainViewModel CreateViewModel(MainViewModel userInput, Document entity)
+        {
+            MainViewModel mainViewModel = ViewModelHelper.CreateEmptyMainViewModel(_repositoryWrapper.OperatorTypeRepository);
+
+            DocumentViewModel documentViewModel = entity.ToViewModel(_repositoryWrapper, _entityPositionManager);
+            mainViewModel.Document = documentViewModel;
+
+            MenuViewModel menuViewModel = _menuPresenter.Show(userInput.Document.IsOpen);
+            mainViewModel.Menu = menuViewModel;
+
+            DocumentListViewModel documentListViewModel = _documentListPresenter.Show();
+            mainViewModel.DocumentList = documentListViewModel;
+
+            mainViewModel.WindowTitle = Titles.ApplicationName;
+
+            // TODO: Add other parts of the view model than the document?
+
+            // TODO: Add other non-persisted data (such as validation messages) and the visibility of views.
+
+            return mainViewModel;
         }
 
         private void HideAllListAndDetailViewModels()
@@ -1854,130 +2456,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel2);
         }
 
+        private void RefreshPatchList(PatchListViewModel patchListViewModel)
+        {
+            object viewModel2 = _patchListPresenter.Refresh(patchListViewModel);
+            DispatchViewModel(viewModel2);
+        }
+
         private NotFoundViewModel CreateDocumentNotFoundViewModel()
         {
             NotFoundViewModel viewModel = new NotFoundPresenter().Show(PropertyDisplayNames.Document);
             return viewModel;
-        }
-
-        private PatchDetailsPresenter CreatePatchDetailsPresenter()
-        {
-            var presenter2 = new PatchDetailsPresenter(
-                _repositoryWrapper.PatchRepository,
-                _repositoryWrapper.OperatorRepository,
-                _repositoryWrapper.OperatorTypeRepository,
-                _repositoryWrapper.InletRepository,
-                _repositoryWrapper.OutletRepository,
-                _repositoryWrapper.EntityPositionRepository,
-                _repositoryWrapper.CurveRepository,
-                _repositoryWrapper.SampleRepository);
-
-            return presenter2;
-        }
-
-        private AudioFileOutputPropertiesPresenter CreateAudioFileOutputPropertiesPresenter()
-        {
-            var audioFileOutputRepositories = new AudioFileOutputRepositories(_repositoryWrapper);
-
-            var presenter2 = new AudioFileOutputPropertiesPresenter(audioFileOutputRepositories);
-
-            return presenter2;
-        }
-
-        private IList<CurveDetailsViewModel> GetCurveDetailsViewModels(MainViewModel viewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
-        {
-            if (!childDocumentTypeEnum.HasValue)
-            {
-                return viewModel.Document.CurveDetailsList;
-            }
-            else
-            {
-                if (childDocumentListIndex == null) throw new NullException(() => childDocumentListIndex);
-
-                switch (childDocumentTypeEnum.Value)
-                {
-                    case ChildDocumentTypeEnum.Instrument:
-                        return viewModel.Document.InstrumentDocumentList[childDocumentListIndex.Value].CurveDetailsList;
-
-                    case ChildDocumentTypeEnum.Effect:
-                        return viewModel.Document.EffectDocumentList[childDocumentListIndex.Value].CurveDetailsList;
-
-                    default:
-                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
-                }
-            }
-        }
-
-        private IList<PatchDetailsViewModel> GetPatchDetailsViewModels(MainViewModel viewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
-        {
-            if (!childDocumentTypeEnum.HasValue)
-            {
-                return viewModel.Document.PatchDetailsList;
-            }
-            else
-            {
-                if (childDocumentListIndex == null) throw new NullException(() => childDocumentListIndex);
-
-                switch (childDocumentTypeEnum.Value)
-                {
-                    case ChildDocumentTypeEnum.Instrument:
-                        return viewModel.Document.InstrumentDocumentList[childDocumentListIndex.Value].PatchDetailsList;
-
-                    case ChildDocumentTypeEnum.Effect:
-                        return viewModel.Document.EffectDocumentList[childDocumentListIndex.Value].PatchDetailsList;
-
-                    default:
-                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
-                }
-            }
-        }
-
-        private IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels(MainViewModel viewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
-        {
-            if (!childDocumentTypeEnum.HasValue)
-            {
-                return viewModel.Document.SamplePropertiesList;
-            }
-            else
-            {
-                if (childDocumentListIndex == null) throw new NullException(() => childDocumentListIndex);
-
-                switch (childDocumentTypeEnum.Value)
-                {
-                    case ChildDocumentTypeEnum.Instrument:
-                        return viewModel.Document.InstrumentDocumentList[childDocumentListIndex.Value].SamplePropertiesList;
-
-                    case ChildDocumentTypeEnum.Effect:
-                        return viewModel.Document.EffectDocumentList[childDocumentListIndex.Value].SamplePropertiesList;
-
-                    default:
-                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
-                }
-            }
-        }
-
-        private SampleListViewModel GetSampleListViewModel(MainViewModel viewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
-        {
-            if (!childDocumentTypeEnum.HasValue)
-            {
-                return viewModel.Document.SampleList;
-            }
-            else
-            {
-                if (childDocumentListIndex == null) throw new NullException(() => childDocumentListIndex);
-
-                switch (childDocumentTypeEnum.Value)
-                {
-                    case ChildDocumentTypeEnum.Instrument:
-                        return viewModel.Document.InstrumentDocumentList[childDocumentListIndex.Value].SampleList;
-
-                    case ChildDocumentTypeEnum.Effect:
-                        return viewModel.Document.EffectDocumentList[childDocumentListIndex.Value].SampleList;
-
-                    default:
-                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
-                }
-            }
         }
     }
 }

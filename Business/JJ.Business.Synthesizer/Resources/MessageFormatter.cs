@@ -94,5 +94,10 @@ namespace JJ.Business.Synthesizer.Resources
         {
             return String.Format(Messages.CannotDeletePatchBecauseIsMainPatch, name);
         }
+
+        public static string OperatorIsCircularWithName(string name)
+        {
+            return String.Format(Messages.OperatorIsCircularWithName, name);
+        }
     }
 }

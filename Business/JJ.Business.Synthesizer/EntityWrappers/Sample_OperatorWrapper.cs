@@ -12,17 +12,15 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Sample_OperatorWrapper
+    public class Sample_OperatorWrapper : OperatorWrapperBase
     {
-        private Operator _operator;
         private ISampleRepository _sampleRepository;
 
         public Sample_OperatorWrapper(Operator op, ISampleRepository sampleRepository)
+            : base(op)
         {
-            if (op == null) throw new NullException(() => op);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
-            _operator = op;
             _sampleRepository = sampleRepository;
         }
 
@@ -53,15 +51,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get 
-            {
-                if (OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX >= _operator.Outlets.Count)
-                {
-                    throw new Exception(String.Format("_operator.Outlets does not have index [{0}].", OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX));
-                }
-
-                return _operator.Outlets[OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX]; 
-            }
+            get { return GetOutlet(OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(Sample_OperatorWrapper wrapper)
@@ -69,13 +59,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             if (wrapper == null) throw new NullException(() => wrapper);
 
             return wrapper.Result;
-        }
-
-        public static implicit operator Operator(Sample_OperatorWrapper wrapper)
-        {
-            if (wrapper == null) throw new NullException(() => wrapper);
-
-            return wrapper._operator;
         }
     }
 }

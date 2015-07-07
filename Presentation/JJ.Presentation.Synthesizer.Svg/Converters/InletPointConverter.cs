@@ -1,6 +1,7 @@
 ﻿using JJ.Framework.Presentation.Svg.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Presentation.Synthesizer.Svg.Structs;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System;
 using System.Collections.Generic;
@@ -44,15 +45,18 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         /// <summary> Converts everything but its coordinates. </summary>
         private Point ConvertToInletPoint(InletViewModel sourceInletViewModel, Rectangle destOperatorRectangle)
         {
-            Point destInletPoint = TryGetInletPoint(destOperatorRectangle, sourceInletViewModel.ID);
+            var key = new InletOrOutletKey(sourceInletViewModel.Keys.OperatorIndexNumber, sourceInletViewModel.Keys.InletListIndex);
+
+            Point destInletPoint = TryGetInletPoint(destOperatorRectangle, key);
+
             if (destInletPoint == null)
             {
                 destInletPoint = new Point();
                 destInletPoint.Diagram = destOperatorRectangle.Diagram;
                 destInletPoint.Parent = destOperatorRectangle;
-                destInletPoint.Tag = TagHelper.GetInletTag(sourceInletViewModel.ID);
+                destInletPoint.Tag = EntityKeyHelper.GetInletTag(key);
 
-                _destInletPointDictionary.Add(sourceInletViewModel.ID, destInletPoint);
+                _destInletPointDictionary.Add(key, destInletPoint);
             }
 
             destInletPoint.PointStyle = StyleHelper.PointStyle;
@@ -60,21 +64,22 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             return destInletPoint;
         }
 
-        private Dictionary<int, Point> _destInletPointDictionary = new Dictionary<int, Point>();
+        private Dictionary<InletOrOutletKey, Point> _destInletPointDictionary = new Dictionary<InletOrOutletKey, Point>();
 
-        private Point TryGetInletPoint(Element destParent, int inletID)
+        private Point TryGetInletPoint(Element destParent, InletOrOutletKey key)
         {
             Point destPoint;
-            if (!_destInletPointDictionary.TryGetValue(inletID, out destPoint))
+            if (!_destInletPointDictionary.TryGetValue(key, out destPoint))
             {
                 destPoint = destParent.Children
                                       .OfType<Point>()
-                                      .Where(x => TagHelper.TryGetInletID(x.Tag) == inletID)
-                                      .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
+                                      .Where(x => EntityKeyHelper.IsInletTag(x.Tag) &&
+                                                  EntityKeyHelper.GetInletKey(x.Tag) == key)
+                                      .FirstOrDefault(); // First instead of Single will make sure that excessive ones are cleaned up.
 
                 if (destPoint != null)
                 {
-                    _destInletPointDictionary.Add(inletID, destPoint);
+                    _destInletPointDictionary.Add(key, destPoint);
                 }
             }
 

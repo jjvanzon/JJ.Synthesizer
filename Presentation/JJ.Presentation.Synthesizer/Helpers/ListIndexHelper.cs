@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             for (int i = startIndex; i < list.Count; i++)
             {
-                list[i].Keys.ListIndex = i;
+                list[i].Keys.PatchListIndex = i;
             }
         }
 
@@ -107,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             for (int i = startIndex; i < list.Count; i++)
             {
-                list[i].Patch.Keys.ListIndex = i;
+                list[i].Entity.Keys.PatchListIndex = i;
             }
         }
 

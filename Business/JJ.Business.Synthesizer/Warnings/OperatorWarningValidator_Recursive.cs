@@ -16,9 +16,9 @@ namespace JJ.Business.Synthesizer.Warnings
     public class OperatorWarningValidator_Recursive : ValidatorBase<Operator>
     {
         private ISampleRepository _sampleRepository;
-        private ISet<object> _alreadyDone;
+        private HashSet<object> _alreadyDone;
 
-        public OperatorWarningValidator_Recursive(Operator obj, ISampleRepository sampleRepository, ISet<object> alreadyDone = null)
+        public OperatorWarningValidator_Recursive(Operator obj, ISampleRepository sampleRepository, HashSet<object> alreadyDone = null)
             : base(obj, postponeExecute: true)
         {
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
@@ -44,11 +44,7 @@ namespace JJ.Business.Synthesizer.Warnings
                     Sample sample = _sampleRepository.TryGet(sampleID);
                     if (sample != null)
                     {
-                        if (!_alreadyDone.Contains(sample))
-                        {
-                            _alreadyDone.Add(sample);
-                            Execute(new SampleWarningValidator(sample));
-                        }
+                        Execute(new SampleWarningValidator(sample, _alreadyDone));
                     }
                 }
             }

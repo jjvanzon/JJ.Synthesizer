@@ -148,6 +148,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 case Keys.Delete:
                     Delete();
                     break;
+
+                case Keys.Enter:
+                    ShowProperties();
+                    break;
             }
         }
 

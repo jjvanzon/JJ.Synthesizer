@@ -348,7 +348,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Patch patch = viewModel.Patch.ToEntityWithRelatedEntities(
+            Patch patch = viewModel.Entity.ToEntityWithRelatedEntities(
                 patchRepository,
                 operatorRepository,
                 operatorTypeRepository, 
@@ -370,7 +370,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         {
             Patch patch = viewModel.ToEntity(patchRepository);
 
-            RecursiveViewModelToEntityConverter converter = new RecursiveViewModelToEntityConverter(operatorRepository, operatorTypeRepository, inletRepository, outletRepository, entityPositionRepository);
+            RecursiveViewModelToEntityConverter converter = new RecursiveViewModelToEntityConverter(
+                operatorRepository, operatorTypeRepository, inletRepository, outletRepository, entityPositionRepository);
 
             var convertedOperators = new HashSet<Operator>();
 
@@ -407,21 +408,52 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
+        public static Operator ToEntityWithInletsAndOutlets(
+            this OperatorViewModel viewModel, 
+            IOperatorRepository operatorRepository, 
+            IOperatorTypeRepository operatorTypeRepository,
+            IInletRepository inletRepository,
+            IOutletRepository outletRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            Operator op = viewModel.ToEntity(operatorRepository, operatorTypeRepository);
+
+            foreach (InletViewModel inletViewModel in viewModel.Inlets)
+            {
+                Inlet inlet = inletViewModel.ToEntity(inletRepository);
+                inlet.LinkTo(op);
+            }
+
+            foreach (OutletViewModel outletViewModel in viewModel.Outlets)
+            {
+                Outlet outlet = outletViewModel.ToEntity(outletRepository);
+                outlet.LinkTo(op);
+            }
+
+            return op;
+        }
+
         public static Operator ToEntity(this OperatorViewModel viewModel, IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
             if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            Operator entity = operatorRepository.TryGet(viewModel.Keys.ID);
             if (entity == null)
             {
                 entity = operatorRepository.Create();
             }
 
             entity.Name = viewModel.Name;
-
+            entity.IndexNumber = viewModel.Keys.OperatorIndexNumber;
             entity.OperatorType = operatorTypeRepository.TryGet(viewModel.OperatorTypeID);
+
+            if (entity.GetOperatorTypeEnum() == OperatorTypeEnum.Value)
+            {
+                entity.Data = viewModel.Value;
+            }
 
             return entity;
         }
@@ -431,7 +463,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repository == null) throw new NullException(() => repository);
 
-            Inlet entity = repository.TryGet(viewModel.ID);
+            Inlet entity = repository.TryGet(viewModel.Keys.ID);
             if (entity == null)
             {
                 entity = repository.Create();
@@ -445,7 +477,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repository == null) throw new NullException(() => repository);
 
-            Outlet entity = repository.TryGet(viewModel.ID);
+            Outlet entity = repository.TryGet(viewModel.Keys.ID);
             if (entity == null)
             {
                 entity = repository.Create();
@@ -459,8 +491,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repository == null) throw new NullException(() => repository);
 
+            // TODO: Remove outcommented code.
+            //// Temporary for debugging (2015-07-05)
+            //return new EntityPosition { X = 10, Y = 10 };
+
             var manager = new EntityPositionManager(repository);
-            EntityPosition entityPosition = manager.SetOrCreateOperatorPosition(viewModel.ID, viewModel.CenterX, viewModel.CenterY);
+            EntityPosition entityPosition = manager.SetOrCreateOperatorPosition(viewModel.Keys.ID, viewModel.CenterX, viewModel.CenterY);
             return entityPosition;
         }
    }

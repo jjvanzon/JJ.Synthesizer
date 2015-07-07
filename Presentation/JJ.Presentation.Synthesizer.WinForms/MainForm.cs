@@ -29,29 +29,30 @@ using JJ.Presentation.Synthesizer.WinForms.Forms;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.Helpers;
+using System.Media;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
     internal partial class MainForm : Form
     {
+        private const double DEFAULT_DURATION = 10;
+
         private IContext _context;
-
         private RepositoryWrapper _repositoryWrapper;
-
         private MainPresenter _presenter;
-
         private MainViewModel _viewModel;
 
         private DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
-        //private AudioFileOutputPropertiesForm _audioFileOutputPropertiesForm = new AudioFileOutputPropertiesForm();
-        private PatchDetailsForm _patchDetailsForm = new PatchDetailsForm();
-
         private static string _titleBarExtraText;
+        private static string _sampleFilePath;
+        private static string _outputFilePath;
 
         static MainForm()
         {
             var config = CustomConfigurationManager.GetSection<ConfigurationSection>();
             _titleBarExtraText = config.General.TitleBarExtraText;
+            _sampleFilePath = config.FilePaths.SampleFilePath;
+            _outputFilePath = config.FilePaths.OutputFilePath;
         }
 
         public MainForm()
@@ -65,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             menuUserControl.ShowDocumentListRequested += menuUserControl_ShowDocumentListRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
             menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
-            menuUserControl.PatchDetailsRequested += menuUserControl_PatchDetailsRequested;
+            menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
 
             documentListUserControl.ShowRequested += documentListUserControl_ShowRequested;
             documentListUserControl.CloseRequested += documentListUserControl_CloseRequested;
@@ -104,9 +105,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             effectListUserControl.CloseRequested += effectListUserControl_CloseRequested;
             effectListUserControl.CreateRequested += effectListUserControl_CreateRequested;
             effectListUserControl.DeleteRequested += effectListUserControl_DeleteRequested;
+            patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
+            patchDetailsUserControl.LoseFocusRequested += patchDetailsUserControl_LoseFocusRequested;
+            patchDetailsUserControl.DeleteOperatorRequested += patchDetailsUserControl_DeleteOperatorRequested;
+            patchDetailsUserControl.AddOperatorRequested += patchDetailsUserControl_AddOperatorRequested;
+            patchDetailsUserControl.MoveOperatorRequested += patchDetailsUserControl_MoveOperatorRequested;
+            patchDetailsUserControl.ChangeInputOutletRequested += patchDetailsUserControl_ChangeInputOutletRequested;
+            patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
+            patchDetailsUserControl.SetValueRequested += patchDetailsUserControl_SetValueRequested;
+            patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
             patchListUserControl.CloseRequested += patchListUserControl_CloseRequested;
             patchListUserControl.CreateRequested += patchListUserControl_CreateRequested;
             patchListUserControl.DeleteRequested += patchListUserControl_DeleteRequested;
+            patchListUserControl.ShowDetailsRequested += patchListUserControl_ShowDetailsRequested;
             sampleListUserControl.CloseRequested += sampleListUserControl_CloseRequested;
             sampleListUserControl.CreateRequested += sampleListUserControl_CreateRequested;
             sampleListUserControl.DeleteRequested += sampleListUserControl_DeleteRequested;
@@ -115,10 +126,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             samplePropertiesUserControl.LoseFocusRequested += samplePropertiesUserControl_LoseFocusRequested;
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
-
-            _patchDetailsForm.CloseRequested += _patchDetailsForm_CloseRequested;
-
-            _patchDetailsForm.Context = _context;
 
             MessageBoxHelper.NotFoundOK += MessageBoxHelper_NotFoundOK;
             MessageBoxHelper.DocumentDeleteConfirmed += MessageBoxHelper_DocumentDeleteConfirmed;
@@ -250,6 +257,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void DocumentCancelDelete()
         {
             _viewModel = _presenter.DocumentCancelDelete(_viewModel);
+            ApplyViewModel();
+        }
+
+        private void DocumentSave()
+        {
+            _viewModel = _presenter.DocumentSave(_viewModel);
             ApplyViewModel();
         }
 
@@ -447,25 +460,114 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void PatchDetailsShow()
+        private void PatchDetailsShow(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
-            // Changing this one to the new structure is postponed,
-            // because it is complicated, it works now and I only want to change it once it becomes
-            // part of the program navigation.
-            _patchDetailsForm.Context = _context;
-            _patchDetailsForm.Show();
-        }
-
-        private void PatchDetailsEdit(int id)
-        {
-            _viewModel = _presenter.PatchDetailsEdit(_viewModel, id);
+            _viewModel = _presenter.PatchDetailsShow(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
             ApplyViewModel();
         }
 
-        private void PatchDetailsClose()
+        private void PatchDetailsClose(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
-            _viewModel = _presenter.PatchDetailsClose(_viewModel);
+            _viewModel = _presenter.PatchDetailsClose(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
             ApplyViewModel();
+        }
+
+        private void PatchDetailsLoseFocus(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            _viewModel = _presenter.PatchDetailsLoseFocus(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
+            ApplyViewModel();
+        }
+
+        private void PatchDetailsAddOperator(
+            int listIndex, 
+            ChildDocumentTypeEnum? childDocumentTypeEnum, 
+            int? childDocumentListIndex, 
+            int operatorTypeID)
+        {
+            _viewModel = _presenter.PatchDetailsAddOperator(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex, operatorTypeID);
+            ApplyViewModel();
+        }
+
+        private void PatchDetailsMoveOperator(
+            int patchListIndex,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int operatorIndexNumber,
+            float centerX,
+            float centerY)
+        {
+            _viewModel = _presenter.PatchDetailsMoveOperator(_viewModel, patchListIndex, childDocumentTypeEnum, childDocumentListIndex, operatorIndexNumber, centerX, centerY);
+            ApplyViewModel();
+        }
+
+        private void PatchDetailsChangeInputOutlet(
+            int patchListIndex,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int inlet_OperatorIndexNumber,
+            int inlet_ListIndex,
+            int inputOutlet_OperatorIndexNumber,
+            int inputOutlet_ListIndex)
+        {
+            _viewModel = _presenter.PatchDetailsChangeInputOutlet(
+                _viewModel, 
+                patchListIndex, 
+                childDocumentTypeEnum, 
+                childDocumentListIndex, 
+                inlet_OperatorIndexNumber, 
+                inlet_ListIndex, 
+                inputOutlet_OperatorIndexNumber, 
+                inputOutlet_ListIndex);
+
+            ApplyViewModel();
+        }
+
+        private void PatchDetailsSelectOperator(
+            int patchListIndex,
+            ChildDocumentTypeEnum? childDocumentTypeEnum,
+            int? childDocumentListIndex,
+            int operatorIndexNumber)
+        {
+            _viewModel = _presenter.PatchDetailsSelectOperator(_viewModel, patchListIndex, childDocumentTypeEnum, childDocumentListIndex, operatorIndexNumber);
+            ApplyViewModel();
+        }
+
+        private void PatchDetailsDeleteOperator(int patchListIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            _viewModel = _presenter.PatchDetailsDeleteOperator(_viewModel, patchListIndex, childDocumentTypeEnum, childDocumentListIndex);
+            ApplyViewModel();
+        }
+
+        private void PatchDetailsSetValue(int patchListIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex, string value)
+        {
+            _viewModel = _presenter.PatchDetailsSetValue(_viewModel, patchListIndex, childDocumentTypeEnum, childDocumentListIndex, value);
+            ApplyViewModel();
+        }
+
+        private void PatchPlay(int patchListIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            _viewModel = _presenter.PatchPlay(
+                _viewModel, 
+                patchListIndex, childDocumentTypeEnum, childDocumentListIndex, 
+                DEFAULT_DURATION,
+                _sampleFilePath,
+                _outputFilePath);
+
+            ApplyViewModel();
+
+            if (_viewModel.Successful)
+            {
+                SoundPlayer soundPlayer = new SoundPlayer(_outputFilePath);
+                soundPlayer.Play();
+            }
+
+            // TODO: Remove outcommented code.
+            //VoidResult result = PlayHelper.Play(_patch);
+            //if (!result.Successful)
+            //{
+            //    string messages = String.Join(Environment.NewLine, result.Messages.Select(x => x.Text));
+            //    MessageBox.Show(messages);
+            //}
         }
 
         // Sample Actions
@@ -529,14 +631,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentClose();
         }
 
-        private void menuUserControl_PatchDetailsRequested(object sender, EventArgs e)
+        private void menuUserControl_DocumentSaveRequested(object sender, EventArgs e)
         {
-            ConfigurationSection config = CustomConfigurationManager.GetSection<ConfigurationSection>();
-            int testPatchID = config.Testing.TestPatchID;
-
-            // TODO: Use the outcommented code line again once patch details becomes part of regular program navigation.
-            _patchDetailsForm.Show();
-            //PatchDetailsEdit(testPatchID);
+            DocumentSave();
         }
 
         // Document List Events
@@ -779,6 +876,58 @@ namespace JJ.Presentation.Synthesizer.WinForms
             PatchListClose();
         }
 
+        private void patchListUserControl_ShowDetailsRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        {
+            PatchDetailsShow(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+        }
+
+        private void patchDetailsUserControl_PlayRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        {
+            PatchPlay(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+        }
+
+        private void patchDetailsUserControl_SetValueRequested(object sender, SetValueEventArgs e)
+        {
+            PatchDetailsSetValue(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex, e.Value);
+        }
+
+        private void patchDetailsUserControl_SelectOperatorRequested(object sender, SelectOperatorEventArgs e)
+        {
+            PatchDetailsSelectOperator(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex, e.OperatorIndexNumber);
+        }
+
+        private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
+        {
+            PatchDetailsChangeInputOutlet(
+                e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex,
+                e.Inlet_OperatorIndexNumber, e.Inlet_ListIndex, e.InputOutlet_OperatorIndexNumber, e.InputOutlet_ListIndex);
+        }
+
+        private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e)
+        {
+            PatchDetailsMoveOperator(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex, e.OperatorIndexNumber, e.CenterX, e.CenterY);
+        }
+
+        private void patchDetailsUserControl_AddOperatorRequested(object sender, AddOperatorEventArgs e)
+        {
+            PatchDetailsAddOperator(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex, e.OperatorTypeID);
+        }
+
+        private void patchDetailsUserControl_DeleteOperatorRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        {
+            PatchDetailsDeleteOperator(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+        }
+
+        private void patchDetailsUserControl_LoseFocusRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        {
+            PatchDetailsLoseFocus(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+        }
+
+        private void patchDetailsUserControl_CloseRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        {
+            PatchDetailsClose(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+        }
+
         // Message Box Events
 
         private void MessageBoxHelper_NotFoundOK(object sender, EventArgs e)
@@ -811,13 +960,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void _documentCannotDeleteForm_OKClicked(object sender, EventArgs e)
         {
             DocumentCannotDeleteOK();
-        }
-
-        // Temporary Form Events
-
-        private void _patchDetailsForm_CloseRequested(object sender, EventArgs e)
-        {
-            PatchDetailsClose();
         }
 
         // Helpers
@@ -906,6 +1048,28 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
                 patchListUserControl.Visible = patchListVisible;
 
+                // PatchDetailsViewModel
+                bool patchDetailsVisible = false;
+                PatchDetailsViewModel visiblePatchDetailsViewModel = _viewModel.Document.PatchDetailsList.Where(x => x.Visible).SingleOrDefault();
+                if (visiblePatchDetailsViewModel != null)
+                {
+                    patchDetailsUserControl.ViewModel = visiblePatchDetailsViewModel;
+                    patchDetailsVisible = true;
+                }
+                else
+                {
+                    visiblePatchDetailsViewModel = Enumerable.Union(_viewModel.Document.InstrumentDocumentList.SelectMany(x => x.PatchDetailsList),
+                                                                    _viewModel.Document.EffectDocumentList.SelectMany(x => x.PatchDetailsList))
+                                                             .Where(x => x.Visible)
+                                                             .SingleOrDefault();
+                    if (visiblePatchDetailsViewModel != null)
+                    {
+                        patchDetailsUserControl.ViewModel = visiblePatchDetailsViewModel;
+                        patchDetailsVisible = true;
+                    }
+                }
+                patchDetailsUserControl.Visible = patchDetailsVisible;
+
                 // SampleListViewModel
                 bool sampleListVisible = false;
                 if (_viewModel.Document.SampleList.Visible)
@@ -950,9 +1114,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
                 samplePropertiesUserControl.Visible = samplePropertiesVisible;
 
-                _patchDetailsForm.ViewModel = _viewModel.TemporaryPatchDetails;
-                _patchDetailsForm.Visible = _viewModel.TemporaryPatchDetails.Visible;
-
                 bool treePanelMustBeVisible = _viewModel.Document.DocumentTree.Visible;
                 SetTreePanelVisible(treePanelMustBeVisible);
 
@@ -985,7 +1146,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 if (_viewModel.ValidationMessages.Count != 0)
                 {
+                    // TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
                     MessageBox.Show(String.Join(Environment.NewLine, _viewModel.ValidationMessages.Select(x => x.Text)));
+
+                    // Clear them so the next time the message box is not shown (message box is a temporary solution).
+                    _viewModel.ValidationMessages.Clear();
                 }
 
                 if (_viewModel.PopupMessages.Count != 0)

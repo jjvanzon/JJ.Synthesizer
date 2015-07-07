@@ -22,11 +22,15 @@ using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Configuration;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.CanonicalModel;
+using JJ.Presentation.Synthesizer.Resources;
+using System.IO;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    // TODO: Make internal once part of the main navigation model in WinForms.
-    public class PatchDetailsPresenter
+    internal class PatchDetailsPresenter
     {
         private IPatchRepository _patchRepository;
         private IOperatorRepository _operatorRepository;
@@ -71,316 +75,464 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _sampleRepository = sampleRepository;
 
             _entityPositionManager = new EntityPositionManager(_entityPositionRepository);
-            _operatorFactory = new OperatorFactory(_operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _curveRepository, _sampleRepository);
+            _operatorFactory = new OperatorFactory(
+                _operatorRepository, 
+                _operatorTypeRepository, 
+                _inletRepository, 
+                _outletRepository, 
+                _curveRepository, 
+                _sampleRepository);
         }
 
-        public PatchDetailsViewModel Create(
-            int rootDocumentID,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
-            int? childDocumentListIndex,
-            int listIndex)
+        public PatchDetailsViewModel Show(PatchDetailsViewModel userInput)
         {
-            Patch patch = _patchRepository.Create();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel = patch.ToDetailsViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, listIndex, _operatorTypeRepository, _entityPositionManager);
-            ViewModel.Visible = true;
+            if (MustCreateViewModel(ViewModel, userInput))
+            {
+                Patch entity = ToEntity(userInput);
 
-            return ViewModel;
-        }
-
-        public PatchDetailsViewModel Edit(
-            int patchID,
-            int rootDocumentID,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
-            int? childDocumentListIndex,
-            int listIndex)
-        {
-            // TODO: This action should receive a view model with user input.
-
-            Patch patch = _patchRepository.Get(patchID);
-
-            ViewModel = patch.ToDetailsViewModel(rootDocumentID, childDocumentTypeEnum, childDocumentListIndex, listIndex, _operatorTypeRepository, _entityPositionManager);
+                ViewModel = CreateViewModel(entity, userInput);
+            }
 
             ViewModel.Visible = true;
 
             return ViewModel;
         }
 
-        public PatchDetailsViewModel AddOperator(PatchDetailsViewModel viewModel, string operatorTypeName)
+        public PatchDetailsViewModel Close(PatchDetailsViewModel userInput)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
+            ViewModel = Update(userInput);
 
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
-
-            //Type operatorWrapperType;
-            //if (!_operatorTypeName_To_WrapperTypeDictionary.TryGetValue(operatorTypeName, out operatorWrapperType))
-            //{
-            //    throw new Exception(String.Format("Invalid operatorTypeName '{0}'.", operatorTypeName));
-            //}
-
-            //IOperatorWrapper wrapper = Activator.CreateInstance(
-            //throw new NotImplementedException();
-
-            // TODO: This should be more dynamic in the future. And probably part of a manager.
-            // So should a lot more concerning the operators.
-            // And I need to use the base class OperatorWrapperBase and have its constructor
-            // capable of creating the operator.
-            Operator op;
-            if (String.Equals(operatorTypeName, PropertyNames.Adder))
-            {
-                op = _operatorFactory.Adder(new Outlet[16]);
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.Add))
-            {
-                op = _operatorFactory.Add();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.CurveIn))
-            {
-                op = _operatorFactory.CurveIn();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.Divide))
-            {
-                op = _operatorFactory.Divide();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.Multiply))
-            {
-                op = _operatorFactory.Multiply();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.PatchInlet))
-            {
-                op = _operatorFactory.PatchInlet();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.PatchOutlet))
-            {
-                op = _operatorFactory.PatchOutlet();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.Power))
-            {
-                op = _operatorFactory.PatchOutlet();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.Sample))
-            {
-                op = _operatorFactory.Sample();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.Sine))
-            {
-                op = _operatorFactory.Sine();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.Substract))
-            {
-                op = _operatorFactory.Substract();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.TimeAdd))
-            {
-                op = _operatorFactory.TimeAdd();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.TimeDivide))
-            {
-                op = _operatorFactory.TimeDivide();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.TimeMultiply))
-            {
-                op = _operatorFactory.TimeMultiply();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.TimePower))
-            {
-                op = _operatorFactory.TimePower();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.TimeSubstract))
-            {
-                op = _operatorFactory.TimeSubstract();
-            }
-            else if (String.Equals(operatorTypeName, PropertyNames.Value))
-            {
-                op = _operatorFactory.Value(0);
-            }
-            else
-            {
-                throw new Exception(String.Format("Invalid operatorTypeName '{0}'.", operatorTypeName));
-            }
-
-            op.LinkTo(patch);
-
-            // You need the ID in the MoveOperator action methods.
-            // TODO: I never used to need it. Why do I need that now? Am I doing it right?
-            _operatorRepository.Flush();
-
-            if (ViewModel == null)
-            {
-                ViewModel = CreateViewModel(patch, viewModel);
-            }
-            else
-            {
-                OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties();
-                // TODO: Should these coordinates should be set in business logic? And randomized the same way as in other parts of the code?
-                operatorViewModel.CenterX = 100;
-                operatorViewModel.CenterY = 100;
-                ViewModel.Patch.Operators.Add(operatorViewModel);
-
-                ViewModel.SavedMessageVisible = false;
-            }
+            ViewModel.Visible = false;
 
             return ViewModel;
         }
 
-        public PatchDetailsViewModel MoveOperator(PatchDetailsViewModel viewModel, int operatorID, float centerX, float centerY)
+        public PatchDetailsViewModel LoseFocus(PatchDetailsViewModel userInput)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
-
-            Operator op = _operatorRepository.Get(operatorID); // This is just to check that the entity exists. TODO: But that's weird. You should be doing that in the entity position manager if anywhere.
-            EntityPosition entityPosition = _entityPositionManager.SetOrCreateOperatorPosition(operatorID, centerX, centerY);
-
-            if (ViewModel == null)
-            {
-                ViewModel = CreateViewModel(patch, viewModel);
-            }
-            else
-            {
-                OperatorViewModel operatorViewModel = ViewModel.Patch.Operators.Where(x => x.ID == operatorID).Single();
-                operatorViewModel.CenterX = centerX;
-                operatorViewModel.CenterY = centerY;
-
-                ViewModel.SavedMessageVisible = false;
-            }
+            ViewModel = Update(userInput);
 
             return ViewModel;
         }
 
-        public PatchDetailsViewModel ChangeInputOutlet(PatchDetailsViewModel viewModel, int inletID, int inputOutletID)
+        private PatchDetailsViewModel Update(PatchDetailsViewModel userInput)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            Patch patch = userInput.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
-            Inlet inlet = _inletRepository.Get(inletID);
-            Outlet outlet = _outletRepository.Get(inputOutletID);
-            inlet.LinkTo(outlet);
-
-            // TODO: In a stateful situation you might just adjust a small part of the view model.
-            ViewModel = CreateViewModel(patch, viewModel);
-
-            return ViewModel;
-        }
-
-        public PatchDetailsViewModel Save(PatchDetailsViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
-
-            if (ViewModel == null)
+            if (MustCreateViewModel(ViewModel, userInput))
             {
-                ViewModel = CreateViewModel(patch, viewModel);
+                ViewModel = CreateViewModel(patch, userInput);
             }
 
             IValidator validator = new PatchValidator_Recursive(patch, _curveRepository, _sampleRepository, alreadyDone: new HashSet<object>());
             if (!validator.IsValid)
             {
                 ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
-                ViewModel.SavedMessageVisible = false;
-                return ViewModel;
+                ViewModel.Successful = false;
             }
             else
             {
-                _patchRepository.Commit();
-                ViewModel.SavedMessageVisible = true;
-                return ViewModel;
+                ViewModel.ValidationMessages = new List<Message>();
+                ViewModel.Successful = true;
             }
-        }
-
-        public PatchDetailsViewModel SelectOperator(PatchDetailsViewModel viewModel, int operatorID)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
-
-            if (ViewModel == null)
-            {
-                ViewModel = CreateViewModel(patch, viewModel);
-            }
-
-            SetSelectedOperator(ViewModel, operatorID);
 
             return ViewModel;
         }
 
-        public PatchDetailsViewModel DeleteOperator(PatchDetailsViewModel viewModel, int operatorID)
+        public void Clear()
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            ViewModel = null;
+        }
 
-            Operator op = patch.Operators.Where(x => x.ID == operatorID).SingleOrDefault();
-            if (op != null)
+        public PatchDetailsViewModel AddOperator(PatchDetailsViewModel userInput, int operatorTypeID)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            Patch patch = ToEntity(userInput);
+
+            // TODO: Lower priority: Manage this in the patch manager instead.
+            int maxIndexNumber = patch.Operators.MaxOrDefault(x => x.IndexNumber);
+
+            Operator op = _operatorFactory.Create((OperatorTypeEnum)operatorTypeID);
+            op.IndexNumber = maxIndexNumber + 1;
+            op.LinkTo(patch);
+
+            if (MustCreateViewModel(ViewModel, userInput))
             {
-                op.UnlinkRelatedEntities();
-                op.DeleteRelatedEntities(_inletRepository, _outletRepository, _entityPositionRepository);
-                _operatorRepository.Delete(op);
+                ViewModel = CreateViewModel(patch, userInput);
             }
+            else
+            {
+                OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties(
+                    userInput.Entity.Keys.RootDocumentID,
+                    userInput.Entity.Keys.ChildDocumentTypeEnum,
+                    userInput.Entity.Keys.ChildDocumentListIndex,
+                    userInput.Entity.Keys.PatchListIndex);
 
-            //if (_viewModel == null || FORCE_STATELESS)
-            //{
-                ViewModel = CreateViewModel(patch, viewModel);
-            //}
-            //else
-            //{
-            //    // TODO: This is not enough because the connected inlets and outlets keep the operator viewModel alive.
-            //    OperatorViewModel operatorViewModel = _viewModel.Patch.Operators.Where(x => x.ID == operatorID).Single();
-            //    _viewModel.Patch.Operators.Remove(operatorViewModel);
-            //    _viewModel.SelectedOperator = null;
-            //}
+                operatorViewModel.CenterX = 100; // TODO: Low priority: Should these coordinates should be set in business logic? And randomized the same way as in other parts of the code? Maybe in the entity position manager?
+                operatorViewModel.CenterY = 100;
+                ViewModel.Entity.Operators.Add(operatorViewModel);
+            }
 
             return ViewModel;
         }
 
-        public PatchDetailsViewModel SetValue(PatchDetailsViewModel viewModel, string value)
+        public PatchDetailsViewModel MoveOperator(PatchDetailsViewModel userInput, int operatorIndexNumber, float centerX, float centerY)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            
-            Patch patch = viewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            if (userInput == null) throw new NullException(() => userInput);
 
-            // TODO: Validation messages for incorrect situations.
-            double d;
-            if (Double.TryParse(value, out d))
+            bool mustCreateViewModel = MustCreateViewModel(ViewModel, userInput);
+
+            PatchDetailsViewModel viewModelToAdapt = !mustCreateViewModel ? ViewModel : userInput;
+
+            OperatorViewModel operatorViewModel = viewModelToAdapt.Entity.Operators
+                                                                         .Where(x => x.Keys.OperatorIndexNumber == operatorIndexNumber)
+                                                                         .Single();
+            operatorViewModel.CenterX = centerX;
+            operatorViewModel.CenterY = centerY;
+
+            if (mustCreateViewModel)
             {
-                if (viewModel.SelectedOperator != null)
+                Patch entity = ToEntity(userInput);
+
+                ViewModel = CreateViewModel(entity, userInput);
+            }
+
+            return ViewModel;
+        }
+
+        public PatchDetailsViewModel ChangeInputOutlet(
+            PatchDetailsViewModel userInput, 
+            int inlet_OperatorIndexNumber, 
+            int inlet_ListIndex, 
+            int inputOutlet_OperatorIndexNumber, 
+            int inputOutlet_ListIndex)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            bool mustCreateViewModel = MustCreateViewModel(ViewModel, userInput);
+
+            PatchDetailsViewModel viewModelToAdapt = !mustCreateViewModel ? ViewModel : userInput;
+
+            OperatorViewModel inletOperatorViewModel = viewModelToAdapt.Entity
+                                                                       .Operators
+                                                                       .Where(x => x.Keys.OperatorIndexNumber == inlet_OperatorIndexNumber)
+                                                                       .Single();
+
+            InletViewModel inletViewModel = inletOperatorViewModel.Inlets
+                                                                  .Where(x => x.Keys.InletListIndex == inlet_ListIndex)
+                                                                  .Single();
+
+            OperatorViewModel inputOutletOperatorViewModel = viewModelToAdapt.Entity
+                                                                             .Operators
+                                                                             .Where(x => x.Keys.OperatorIndexNumber == inputOutlet_OperatorIndexNumber)
+                                                                             .Single();
+
+            OutletViewModel inputOutletViewModel = inputOutletOperatorViewModel.Outlets
+                                                                               .Where(x => x.Keys.OutletListIndex == inputOutlet_ListIndex)
+                                                                               .Single();
+            inletViewModel.InputOutlet = inputOutletViewModel;
+
+            if (mustCreateViewModel)
+            {
+                Patch patch = ToEntity(userInput);
+                ViewModel = CreateViewModel(patch, userInput);
+            }
+
+            return ViewModel;
+        }
+
+        public PatchDetailsViewModel SelectOperator(PatchDetailsViewModel userInput, int operatorIndexNumber)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            bool mustCreateViewModel = MustCreateViewModel(ViewModel, userInput);
+
+            PatchDetailsViewModel viewModelToAdapt = !mustCreateViewModel ? ViewModel : userInput;
+
+            SetSelectedOperator(viewModelToAdapt, operatorIndexNumber);
+
+            if (MustCreateViewModel(ViewModel, userInput))
+            {
+                Patch patch = ToEntity(userInput);
+                ViewModel = CreateViewModel(patch, userInput);
+            }
+
+            return ViewModel;
+        }
+        
+        /// <summary>
+        /// Deletes the selected operator. Does not delete anything, if no operator is selected.
+        /// </summary>
+        public PatchDetailsViewModel DeleteOperator(PatchDetailsViewModel userInput)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            bool mustCreateViewModel = MustCreateViewModel(ViewModel, userInput);
+
+            if (userInput.SelectedOperator != null)
+            {
+                int operatorIndexNumber = userInput.SelectedOperator.Keys.OperatorIndexNumber;
+
+                PatchDetailsViewModel viewModelToAdapt = !mustCreateViewModel ? ViewModel : userInput;
+
+                OperatorViewModel operatorViewModel = viewModelToAdapt.Entity.Operators
+                                                                             .Where(x => x.Keys.OperatorIndexNumber == operatorIndexNumber)
+                                                                             .Single();
+
+                // Just to be sure, also unlink things in the view models.
+                operatorViewModel.Inlets.ForEach(x => x.InputOutlet = null);
+                operatorViewModel.Inlets = new List<InletViewModel>();
+
+                operatorViewModel.Outlets.ForEach(x => x.Operator = null);
+                operatorViewModel.Outlets = new List<OutletViewModel>();
+
+                viewModelToAdapt.Entity.Operators.Remove(operatorViewModel);
+            }
+
+            if (mustCreateViewModel)
+            {
+                Patch patch = ToEntity(userInput);
+                ViewModel = CreateViewModel(patch, userInput);
+            }
+
+            return ViewModel;
+        }
+
+        /// <summary>
+        /// NOTE: Do a rollback after this action,
+        /// because for performance reasons it does not produce a complete state in the context.
+        /// </summary>
+        public PatchDetailsViewModel SetValue(PatchDetailsViewModel userInput, string value)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+
+            if (MustCreateViewModel(ViewModel, userInput))
+            {
+                Patch patch = ToEntity(userInput);
+                ViewModel = CreateViewModel(patch, userInput);
+
+                if (userInput.SelectedOperator != null)
                 {
-                    Operator op = patch.Operators.Where(x => x.ID == viewModel.SelectedOperator.ID).Single();
-                    if (op.GetOperatorTypeEnum() == OperatorTypeEnum.Value)
-                    {
-                        var wrapper = new Value_OperatorWrapper(op);
-                        wrapper.Value = d;
-                    }
+                    SetSelectedOperator(ViewModel, userInput.SelectedOperator.Keys.OperatorIndexNumber);
                 }
             }
 
-            // TODO: See if you can do it more efficiently for stateful situations.
-            ViewModel = CreateViewModel(patch, viewModel);
-
-            // TODO: You are not supposed to transform the view model based on information in that viewmodel.
-            if (viewModel.SelectedOperator != null)
+            if (userInput.SelectedOperator == null)
             {
-                SetSelectedOperator(ViewModel, viewModel.SelectedOperator.ID);
+                ViewModel.ValidationMessages.Add(new Message
+                {
+                    PropertyKey = PresentationPropertyNames.SelectedOperator,
+                    Text = PresentationMessages.SelectAnOperatorFirst
+                });
+
+                return ViewModel;
             }
+
+            if (userInput.SelectedOperator.OperatorTypeID != (int)OperatorTypeEnum.Value)
+            {
+                ViewModel.ValidationMessages.Add(new Message
+                {
+                    PropertyKey = PresentationPropertyNames.SelectedOperator,
+                    Text = PresentationMessages.SelectedOperatorMustBeValueOperator
+                });
+
+                return ViewModel;
+            }
+
+            ViewModel.SelectedValue = value;
+
+            Operator op = ViewModel.SelectedOperator.ToEntityWithInletsAndOutlets(_operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository);
+            op.Data = value;
+
+            IValidator validator = new OperatorValidator_Value(op); // TODO: Low priority: Do this with a manager, so you can hide complexity (hide the validator) and decrease the degree of coupling.
+            if (!validator.IsValid)
+            {
+                ViewModel.ValidationMessages.AddRange(validator.ValidationMessages.ToCanonical());
+                ViewModel.Successful = false;
+            }
+            else
+            {
+                ViewModel.SelectedOperator.Value = value;
+                ViewModel.SelectedOperator.Caption = value;
+            }
+
+            // TODO: Low priority: Clearing validation messages at appropriate times in other actions and in this action.
+            // TODO: Low priority: And setting Successful = true for that matter.
 
             return ViewModel;
         }
 
-        private void SetSelectedOperator(PatchDetailsViewModel viewModel, int operatorID)
+        /// <summary>
+        /// This action is quite a hack.
+        /// TODO: It should not be a hack and also this action is way to dependent on infrastructure.
+        /// </summary>
+        public PatchDetailsViewModel Play(PatchDetailsViewModel userInput, double duration, string sampleFilePath, string outputFilePath, RepositoryWrapper repositoryWrapper)
         {
-            // The non-persisted operator selection data.
-            foreach (OperatorViewModel operatorViewModel in viewModel.Patch.Operators)
+            if (userInput == null) throw new NullException(() => userInput);
+
+            Patch patch = ToEntity(userInput);
+
+            VoidResult result = DoPlay(duration, sampleFilePath, outputFilePath, patch, repositoryWrapper);
+
+            if (MustCreateViewModel(ViewModel, userInput))
             {
-                if (operatorViewModel.ID == operatorID)
+                ViewModel = CreateViewModel(patch, userInput);
+            }
+
+            ViewModel.Successful = result.Successful;
+            ViewModel.ValidationMessages = result.Messages;
+
+            return ViewModel;
+        }
+
+        private VoidResult DoPlay(double duration, string sampleFilePath, string outputFilePath, Patch patch, RepositoryWrapper repositoryWrapper)
+        {
+            var result = new VoidResult
+            {
+                Messages = new List<Message>()
+            };
+
+            Operator patchOutlet = patch.Operators
+                                        .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
+                                        .FirstOrDefault();
+
+            Operator sampleOperator = patch.Operators
+                                           .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
+                                           .FirstOrDefault();
+
+            if (patchOutlet == null)
+            {
+                result.Successful = false;
+                result.Messages.Add(new Message
+                {
+                    // TODO: Use string resources.
+                    PropertyKey = PropertyNames.PatchOutlet,
+                    Text = "Please add a PatchOutlet to your Patch in order to play a sound."
+                });
+                return result;
+            }
+
+            if (sampleOperator == null)
+            {
+                result.Successful = false;
+                result.Messages.Add(new Message
+                {
+                    // TODO: Use string resources.
+                    PropertyKey = PropertyNames.Sample,
+                    Text = "Please add a Sample operator to your Patch in order to play a sound."
+                });
+                return result;
+            }
+
+            // TODO: Refactor out dependency on file system.
+            if (!File.Exists(sampleFilePath))
+            {
+                result.Successful = false;
+                result.Messages.Add(new Message
+                {
+                    // TODO: Use string resources.
+                    PropertyKey = PropertyNames.Patch,
+                    Text = String.Format("Input sample does not exist. Please put a file in the following location:{0}{1}", Environment.NewLine, Path.GetFullPath(sampleFilePath))
+                });
+                return result;
+            }
+
+            SampleManager sampleManager = CreateSampleManager(repositoryWrapper);
+            AudioFileOutputManager audioFileOutputManager = CreateAudioFileOutputManager(repositoryWrapper);
+
+            using (Stream sampleStream = new FileStream(sampleFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                Sample sample = sampleManager.CreateSample(sampleStream);
+
+                var sampleOperatorWrapper = new Sample_OperatorWrapper(sampleOperator, _sampleRepository);
+                sampleOperatorWrapper.Sample = sample;
+
+                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
+                audioFileOutput.FilePath = outputFilePath;
+                audioFileOutput.Duration = duration;
+
+                var patchOutletWrapper = new PatchOutlet_OperatorWrapper(patchOutlet);
+                Outlet outlet = patchOutletWrapper.Result;
+                audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
+
+                audioFileOutputManager.Execute(audioFileOutput);
+
+                //SoundPlayer soundPlayer = new SoundPlayer(_outputFilePath);
+                //soundPlayer.Play();
+
+                sampleOperatorWrapper.Sample = null;
+
+                return new VoidResult
+                {
+                    Successful = true,
+                    Messages = new List<Message>()
+                };
+            }
+        }
+
+        // Helpers
+
+        private bool MustCreateViewModel(PatchDetailsViewModel existingViewModel, PatchDetailsViewModel userInput)
+        {
+            return existingViewModel == null ||
+                   existingViewModel.Entity.Keys.RootDocumentID != userInput.Entity.Keys.RootDocumentID ||
+                   existingViewModel.Entity.Keys.ChildDocumentTypeEnum != userInput.Entity.Keys.ChildDocumentTypeEnum ||
+                   existingViewModel.Entity.Keys.ChildDocumentListIndex != userInput.Entity.Keys.ChildDocumentListIndex ||
+                   existingViewModel.Entity.Keys.PatchListIndex != userInput.Entity.Keys.PatchListIndex;
+        }
+
+        private PatchDetailsViewModel CreateViewModel(Patch entity, PatchDetailsViewModel userInput)
+        {
+            PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
+                userInput.Entity.Keys.RootDocumentID,
+                userInput.Entity.Keys.ChildDocumentTypeEnum,
+                userInput.Entity.Keys.ChildDocumentListIndex,
+                userInput.Entity.Keys.PatchListIndex,
+                _operatorTypeRepository,
+                _entityPositionManager);
+
+            return viewModel;
+        }
+
+        private Patch ToEntity(PatchDetailsViewModel userInput)
+        {
+            Patch patch = userInput.ToEntity(
+                _patchRepository,
+                _operatorRepository,
+                _operatorTypeRepository,
+                _inletRepository,
+                _outletRepository,
+                _entityPositionRepository);
+
+            return patch;
+        }
+
+        /// <summary>
+        /// The SelectedOperator is non-persisted data.
+        /// This method sets the selected operator in the view model.
+        /// It uses the Operator's IndexNumber for this.
+        /// It goes through all the operators in the view model,
+        /// setting IsSelected to false unless it is the selected operator,
+        /// and sets the details view model's SelectedOperator property.
+        /// </summary>
+        private void SetSelectedOperator(PatchDetailsViewModel viewModel, int operatorIndexNumber)
+        {
+            viewModel.SelectedOperator = null;
+            ViewModel.SelectedValue = null;
+
+            foreach (OperatorViewModel operatorViewModel in viewModel.Entity.Operators)
+            {
+                if (operatorViewModel.Keys.OperatorIndexNumber == operatorIndexNumber)
                 {
                     operatorViewModel.IsSelected = true;
                     viewModel.SelectedOperator = operatorViewModel;
                     if (operatorViewModel.OperatorTypeID == (int)OperatorTypeEnum.Value)
                     {
-                        // Kind of dirty: this depends on the value being filled in as the name for value operators.
-                        ViewModel.SelectedValue = operatorViewModel.Name;
+                        ViewModel.SelectedValue = operatorViewModel.Value;
                     }
                 }
                 else
@@ -390,31 +542,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public object Close()
+        private SampleManager CreateSampleManager(RepositoryWrapper repositoryWrapper)
         {
-            PatchDetailsViewModel viewModel = ViewModelHelper.CreateEmptyPatchDetailsViewModel(_operatorTypeRepository);
-            viewModel.Visible = false;
-            return viewModel;
+            var sampleRepositories = new SampleRepositories(repositoryWrapper);
+            var manager = new SampleManager(sampleRepositories);
+            return manager;
         }
 
-        public void Clear()
+        private AudioFileOutputManager CreateAudioFileOutputManager(RepositoryWrapper repositoryWrapper)
         {
-            ViewModel = null;
+            var manager = new AudioFileOutputManager(
+                repositoryWrapper.AudioFileOutputRepository,
+                repositoryWrapper.AudioFileOutputChannelRepository,
+                repositoryWrapper.SampleDataTypeRepository,
+                repositoryWrapper.SpeakerSetupRepository,
+                repositoryWrapper.AudioFileFormatRepository,
+                repositoryWrapper.CurveRepository,
+                repositoryWrapper.SampleRepository);
+
+            return manager;
         }
 
-        // Helpers
-
-        private PatchDetailsViewModel CreateViewModel(Patch entity, PatchDetailsViewModel userInput)
-        {
-            PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
-                userInput.Patch.Keys.RootDocumentID,
-                userInput.Patch.Keys.ChildDocumentTypeEnum,
-                userInput.Patch.Keys.ChildDocumentListIndex,
-                userInput.Patch.Keys.ListIndex,
-                _operatorTypeRepository,
-                _entityPositionManager);
-
-            return viewModel;
-        }
     }
 }

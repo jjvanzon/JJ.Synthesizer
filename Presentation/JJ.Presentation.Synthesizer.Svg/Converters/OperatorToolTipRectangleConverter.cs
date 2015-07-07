@@ -28,17 +28,18 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             if (sourceOperatorViewModel == null) throw new NullException(() => sourceOperatorViewModel);
             if (destOperatorRectangle == null) throw new NullException(() => destOperatorRectangle);
 
-            Rectangle destOperatorToolTipRectangle = TryGetRectangle(destOperatorRectangle, sourceOperatorViewModel.ID);
+
+            Rectangle destOperatorToolTipRectangle = TryGetRectangle(destOperatorRectangle, sourceOperatorViewModel.Keys.OperatorIndexNumber);
             if (destOperatorToolTipRectangle == null)
             {
                 destOperatorToolTipRectangle = new Rectangle
                 {
                     Diagram = destOperatorRectangle.Diagram,
                     Parent = destOperatorRectangle,
-                    Tag = TagHelper.GetOperatorTag(sourceOperatorViewModel.ID)
+                    Tag = EntityKeyHelper.GetOperatorTag(sourceOperatorViewModel.Keys.OperatorIndexNumber)
                 };
 
-                _destOperatorToolTipRectangleDictionary.Add(sourceOperatorViewModel.ID, destOperatorToolTipRectangle);
+                _destOperatorToolTipRectangleDictionary.Add(sourceOperatorViewModel.Keys.OperatorIndexNumber, destOperatorToolTipRectangle);
             }
 
             destOperatorToolTipRectangle.X = 0;
@@ -58,19 +59,19 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
 
         private Dictionary<int, Rectangle> _destOperatorToolTipRectangleDictionary = new Dictionary<int, Rectangle>();
 
-        private Rectangle TryGetRectangle(Element destParent, int operatorID)
+        private Rectangle TryGetRectangle(Element destParent, int operatorIndexNumber)
         {
             Rectangle destOperatorToolTipRectangle;
-            if (!_destOperatorToolTipRectangleDictionary.TryGetValue(operatorID, out destOperatorToolTipRectangle))
+            if (!_destOperatorToolTipRectangleDictionary.TryGetValue(operatorIndexNumber, out destOperatorToolTipRectangle))
             {
                 destOperatorToolTipRectangle = destParent.Children
                                                          .OfType<Rectangle>()
-                                                         .Where(x => TagHelper.TryGetOperatorID(x.Tag) == operatorID)
+                                                         .Where(x => EntityKeyHelper.TryGetOperatorIndexNumber(x.Tag) == operatorIndexNumber)
                                                          .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
 
                 if (destOperatorToolTipRectangle != null)
                 {
-                    _destOperatorToolTipRectangleDictionary.Add(operatorID, destOperatorToolTipRectangle);
+                    _destOperatorToolTipRectangleDictionary.Add(operatorIndexNumber, destOperatorToolTipRectangle);
                 }
             }
 

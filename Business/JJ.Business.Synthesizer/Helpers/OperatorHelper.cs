@@ -14,6 +14,10 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     internal static class OperatorHelper
     {
+        /// <summary>
+        /// This method is extracted from the OperatorFactory with the idea that the OperatorWrappers
+        /// would also be capable of creating their own underlying operators. However that has not been implemented (yet).
+        /// </summary>
         public static Operator CreateOperator(
             IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, IInletRepository inletRepository, IOutletRepository outletRepository,
             OperatorTypeEnum operatorTypeEnum, string name, int inletCount, params string[] inletAndOutletNames)

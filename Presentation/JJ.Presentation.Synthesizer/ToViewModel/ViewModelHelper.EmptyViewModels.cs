@@ -34,7 +34,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentDeleted = CreateEmptyDocumentDeletedViewModel(),
                 DocumentDetails = CreateEmptyDocumentDetailsViewModel(),
                 DocumentList = CreateEmptyDocumentListViewModel(),
-                TemporaryPatchDetails = CreateEmptyPatchDetailsViewModel(operatorTypeRepository)
             };
         }
 
@@ -161,17 +160,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static MenuViewModel CreateEmptyMenuViewModel()
         {
-            // TODO: Low priority: I am not sure I need this, because I will probably always fill the MenuViewModel with real data.
-            var viewModel = new MenuViewModel
-            {
-                ViewMenu = new ViewMenuViewModel
-                {
-                    DocumentsMenuItem = new MenuItemViewModel(),
-                    DocumentTreeMenuItem = new MenuItemViewModel(),
-                    PatchDetailsMenuItem = new MenuItemViewModel()
-                }
-            };
-
+            MenuViewModel viewModel = ViewModelHelper.CreateMenuViewModel(documentIsOpen: false);
             return viewModel;
         }
 
@@ -194,7 +183,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new AudioFileOutputListViewModel
             {
-                List = new List<AudioFileOutputListItemViewModel>()
+                List = new List<AudioFileOutputListItemViewModel>(),
+                Keys = new AudioFileOutputListKeysViewModel()
             };
 
             return viewModel;
@@ -204,7 +194,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new CurveListViewModel
             {
-                List = new List<CurveListItemViewModel>()
+                List = new List<CurveListItemViewModel>(),
+                Keys = new CurveListKeysViewModel()
             };
 
             return viewModel;
@@ -214,7 +205,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchListViewModel
             {
-                List = new List<PatchListItemViewModel>()
+                List = new List<PatchListItemViewModel>(),
+                Keys = new PatchListKeysViewModel()
             };
 
             return viewModel;
@@ -224,7 +216,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new SampleListViewModel
             {
-                List = new List<SampleListItemViewModel>()
+                List = new List<SampleListItemViewModel>(),
+                Keys = new SampleListKeysViewModel()
             };
 
             return viewModel;
@@ -270,7 +263,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new PatchDetailsViewModel
             {
                 OperatorToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel(operatorTypeRepository),
-                Patch = CreateEmptyPatchViewModel(),
+                Entity = CreateEmptyPatchViewModel(),
                 ValidationMessages = new List<Message>()
             };
 

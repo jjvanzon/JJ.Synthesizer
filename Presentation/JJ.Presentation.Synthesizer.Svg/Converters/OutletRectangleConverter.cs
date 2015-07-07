@@ -3,6 +3,7 @@ using JJ.Framework.Presentation.Svg.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Svg.Gestures;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Presentation.Synthesizer.Svg.Structs;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System;
 using System.Collections.Generic;
@@ -67,15 +68,17 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         /// <summary> Converts everything but its coordinates. </summary>
         private Rectangle ConvertToOutletRectangle(OutletViewModel sourceOutletViewModel, Rectangle destOperatorRectangle)
         {
-            Rectangle destOutletRectangle = TryGetOutletRectangle(destOperatorRectangle, sourceOutletViewModel.ID);
+            var key = new InletOrOutletKey(sourceOutletViewModel.Keys.OperatorIndexNumber, sourceOutletViewModel.Keys.OutletListIndex);
+
+            Rectangle destOutletRectangle = TryGetOutletRectangle(destOperatorRectangle, key);
             if (destOutletRectangle == null)
             {
                 destOutletRectangle = new Rectangle();
                 destOutletRectangle.Diagram = destOperatorRectangle.Diagram;
                 destOutletRectangle.Parent = destOperatorRectangle;
-                destOutletRectangle.Tag = TagHelper.GetOutletTag(sourceOutletViewModel.ID);
+                destOutletRectangle.Tag = EntityKeyHelper.GetOutletTag(key);
 
-                _destOutletRectangleDictionary.Add(sourceOutletViewModel.ID, destOutletRectangle);
+                _destOutletRectangleDictionary.Add(key, destOutletRectangle);
             }
 
             destOutletRectangle.BackStyle = StyleHelper.BackStyleInvisible;
@@ -94,21 +97,22 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             return destOutletRectangle;
         }
 
-        private Dictionary<int, Rectangle> _destOutletRectangleDictionary = new Dictionary<int, Rectangle>();
+        private Dictionary<InletOrOutletKey, Rectangle> _destOutletRectangleDictionary = new Dictionary<InletOrOutletKey, Rectangle>();
 
-        private Rectangle TryGetOutletRectangle(Element destParent, int outletID)
+        private Rectangle TryGetOutletRectangle(Element destParent, InletOrOutletKey key)
         {
             Rectangle destRectangle;
-            if (!_destOutletRectangleDictionary.TryGetValue(outletID, out destRectangle))
+            if (!_destOutletRectangleDictionary.TryGetValue(key, out destRectangle))
             {
                 destRectangle = destParent.Children
                                           .OfType<Rectangle>()
-                                          .Where(x => TagHelper.TryGetOutletID(x.Tag) == outletID)
+                                          .Where(x => EntityKeyHelper.IsOutletTag(x.Tag) &&
+                                                      EntityKeyHelper.GetOutletKey(x.Tag) == key)
                                           .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
 
                 if (destRectangle != null)
                 {
-                    _destOutletRectangleDictionary.Add(outletID, destRectangle);
+                    _destOutletRectangleDictionary.Add(key, destRectangle);
                 }
             }
 

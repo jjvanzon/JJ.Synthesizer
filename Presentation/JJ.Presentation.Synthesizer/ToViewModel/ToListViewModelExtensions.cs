@@ -90,7 +90,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 List = entities.ToListItemViewModels(childDocumentListIndex),
                 Keys = new CurveListKeysViewModel
                 {
-                    DocumentID = documentID,
+                    RootDocumentID = documentID,
                     ChildDocumentTypeEnum = childDocumentTypeEnum,
                     ChildDocumentListIndex = childDocumentListIndex
                 }
@@ -125,7 +125,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 List = entities.ToListItemViewModels(childDocumentListIndex),
                 Keys = new PatchListKeysViewModel
                 {
-                    DocumentID = documentID,
+                    RootDocumentID = documentID,
                     ChildDocumentTypeEnum = childDocumentTypeEnum,
                     ChildDocumentListIndex = childDocumentListIndex
                 }
@@ -147,7 +147,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 List = entities.ToListItemViewModels(documentID, childDocumentTypeEnum, childDocumentListIndex),
                 Keys = new SampleListKeysViewModel
                 {
-                    DocumentID = documentID,
+                    RootDocumentID = documentID,
                     ChildDocumentTypeEnum = childDocumentTypeEnum,
                     ChildDocumentListIndex = childDocumentListIndex
                 }

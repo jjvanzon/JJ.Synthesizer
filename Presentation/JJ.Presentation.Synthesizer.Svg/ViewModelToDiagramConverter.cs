@@ -15,6 +15,7 @@ using JJ.Presentation.Synthesizer.Svg.Gestures;
 using JJ.Presentation.Synthesizer.Svg.Converters;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
 using JJ.Framework.Mathematics;
+using JJ.Presentation.Synthesizer.Svg.Structs;
 
 namespace JJ.Presentation.Synthesizer.Svg
 {
@@ -103,11 +104,11 @@ namespace JJ.Presentation.Synthesizer.Svg
 
             IList<Rectangle> destExistingOperatorRectangles = result.Diagram.Canvas.Children
                                                                                    .OfType<Rectangle>()
-                                                                                   .Where(x => TagHelper.IsOperatorTag(x.Tag))
+                                                                                   .Where(x => EntityKeyHelper.IsOperatorTag(x.Tag))
                                                                                    .ToArray();
             IList<Curve> destExistingCurves = result.Diagram.Canvas.Children
                                                                    .OfType<Curve>()
-                                                                   .Where(x => TagHelper.IsInletTag(x.Tag))
+                                                                   .Where(x => EntityKeyHelper.IsInletTag(x.Tag))
                                                                    .ToArray();
             _result = result;
             _result.Diagram.Canvas.Gestures.Clear();
@@ -172,14 +173,16 @@ namespace JJ.Presentation.Synthesizer.Svg
                     // Recursive call
                     OperatorElements operatorSvgElements2 = ConvertToRectangles_WithRelatedObject_Recursive(inletViewModel.InputOutlet.Operator, destDiagram);
 
-                    Curve destCurve = TryGetInletCurve(inletViewModel.ID);
+                    var inletKey = new InletOrOutletKey(inletViewModel.Keys.OperatorIndexNumber, inletViewModel.Keys.InletListIndex);
+
+                    Curve destCurve = TryGetInletCurve(inletKey);
                     if (destCurve == null)
                     {
                         destCurve = CreateCurve();
-                        destCurve.Tag = TagHelper.GetInletTag(inletViewModel.ID);
+                        destCurve.Tag = EntityKeyHelper.GetInletTag(inletKey);
                         destCurve.Diagram = destDiagram;
                         destCurve.Parent = destDiagram.Canvas;
-                        _inletCurveDictionary.Add(inletViewModel.ID, destCurve);
+                        _inletCurveDictionary.Add(inletKey, destCurve);
                     }
 
                     destCurve.PointA = operatorSvgElements1.InletPoints[i];
@@ -198,21 +201,22 @@ namespace JJ.Presentation.Synthesizer.Svg
             return operatorSvgElements1;
         }
 
-        private Dictionary<int, Curve> _inletCurveDictionary = new Dictionary<int, Curve>();
+        private Dictionary<InletOrOutletKey, Curve> _inletCurveDictionary = new Dictionary<InletOrOutletKey, Curve>();
 
-        private Curve TryGetInletCurve(int inletID)
+        private Curve TryGetInletCurve(InletOrOutletKey inletKey)
         {
             Curve curve;
-            if (!_inletCurveDictionary.TryGetValue(inletID, out curve))
+            if (!_inletCurveDictionary.TryGetValue(inletKey, out curve))
             {
                 curve = _result.Diagram.Canvas.Children
                                               .OfType<Curve>()
-                                              .Where(x => TagHelper.TryGetInletID(x.Tag) == inletID)
+                                              .Where(x => EntityKeyHelper.IsInletTag(x.Tag) &&
+                                                          EntityKeyHelper.GetInletKey(x.Tag) == inletKey)
                                               .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
 
                 if (curve != null)
                 {
-                    _inletCurveDictionary.Add(inletID, curve);
+                    _inletCurveDictionary.Add(inletKey, curve);
                 }
             }
 

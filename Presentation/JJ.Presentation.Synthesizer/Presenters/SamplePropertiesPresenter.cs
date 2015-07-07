@@ -65,11 +65,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return ViewModel;
         }
 
-        public void Clear()
-        {
-            ViewModel = null;
-        }
-
         private SamplePropertiesViewModel Update(SamplePropertiesViewModel userInput)
         {
             if (userInput == null) throw new NullException(() => userInput);
@@ -96,13 +91,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return ViewModel;
         }
 
+        public void Clear()
+        {
+            ViewModel = null;
+        }
+
         private bool MustCreateViewModel(SamplePropertiesViewModel existingViewModel, SamplePropertiesViewModel userInput)
         {
             return existingViewModel == null ||
                    existingViewModel.Entity.Keys.RootDocumentID != userInput.Entity.Keys.RootDocumentID ||
-                   existingViewModel.Entity.Keys.ListIndex != userInput.Entity.Keys.ListIndex ||
                    existingViewModel.Entity.Keys.ChildDocumentTypeEnum != userInput.Entity.Keys.ChildDocumentTypeEnum ||
-                   existingViewModel.Entity.Keys.ChildDocumentListIndex != userInput.Entity.Keys.ChildDocumentListIndex;
+                   existingViewModel.Entity.Keys.ChildDocumentListIndex != userInput.Entity.Keys.ChildDocumentListIndex ||
+                   existingViewModel.Entity.Keys.ListIndex != userInput.Entity.Keys.ListIndex;
         }
 
         private SamplePropertiesViewModel CreateViewModel(Sample entity, SamplePropertiesViewModel userInput)

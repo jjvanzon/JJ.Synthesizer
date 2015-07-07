@@ -135,9 +135,9 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Operator named &apos;{0}&apos; has a circular reference..
         /// </summary>
-        internal static string OperatorIsCircular {
+        internal static string OperatorIsCircularWithName {
             get {
-                return ResourceManager.GetString("OperatorIsCircular", resourceCulture);
+                return ResourceManager.GetString("OperatorIsCircularWithName", resourceCulture);
             }
         }
         

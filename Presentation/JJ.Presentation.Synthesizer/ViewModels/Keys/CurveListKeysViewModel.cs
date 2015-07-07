@@ -9,7 +9,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Keys
 {
     public class CurveListKeysViewModel
     {
-        public int DocumentID { get; set; }
+        public int RootDocumentID { get; set; }
         public ChildDocumentTypeEnum? ChildDocumentTypeEnum { get; set; }
         public int? ChildDocumentListIndex { get; set; }
     }

@@ -190,7 +190,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 {
                     ID = entity.ID,
                     RootDocumentID = rootDocument.ID,
-                    ListIndex = listIndex,
+                    PatchListIndex = listIndex,
                     ChildDocumentTypeEnum = childDocumentTypeEnum,
                     ChildDocumentListIndex = childDocumentListIndex
                 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JJ.Data.Synthesizer.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -21,11 +22,7 @@ namespace JJ.Data.Synthesizer
 
         private string DebuggerDisplay
         {
-            get
-            {
-                if (Operator == null) return Name;
-                return String.Format("{0} '{1}' ({2}) - {3}", Operator.OperatorType.Name, Operator.Name, Operator.ID, Name);
-            }
+            get { return DebugHelper.GetDebuggerDisplay(this); }
         }
     }
 }

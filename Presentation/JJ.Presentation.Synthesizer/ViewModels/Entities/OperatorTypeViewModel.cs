@@ -7,7 +7,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
     public sealed class OperatorTypeViewModel
     {
-        public string Symbol { get; set; }
-        public string OperatorTypeName { get; set; }
+        public int ID { get; set; }
+        public string DisplayText { get; set; }
     }
 }

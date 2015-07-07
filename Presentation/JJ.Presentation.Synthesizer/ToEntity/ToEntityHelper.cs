@@ -167,7 +167,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (PatchDetailsViewModel viewModel in viewModelList)
             {
-                Patch entity = viewModel.Patch.ToEntityWithRelatedEntities(
+                Patch entity = viewModel.Entity.ToEntityWithRelatedEntities(
                     repositoryWrapper.PatchRepository,
                     repositoryWrapper.OperatorRepository,
                     repositoryWrapper.OperatorTypeRepository, 

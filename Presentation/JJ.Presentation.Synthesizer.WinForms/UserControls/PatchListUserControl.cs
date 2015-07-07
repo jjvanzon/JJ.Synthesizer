@@ -29,6 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<ChildDocumentEventArgs> CreateRequested;
         public event EventHandler<ChildDocumentSubListItemEventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
+        public event EventHandler<ChildDocumentSubListItemEventArgs> ShowDetailsRequested;
 
         /// <summary> virtually not nullable </summary>
         private PatchListViewModel _viewModel;
@@ -61,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         
         private void ApplyViewModel()
         {
-            specializedDataGridView.DataSource = _viewModel.List.Select(x => new { x.Name, x.Keys.ListIndex }).ToArray();
+            specializedDataGridView.DataSource = _viewModel.List.Select(x => new { x.Name, ListIndex = x.Keys.PatchListIndex }).ToArray();
         }
 
         // Actions
@@ -96,6 +97,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
+        private void ShowDetails()
+        {
+            if (ShowDetailsRequested != null)
+            {
+                int? listIndex = TryGetSelectedListIndex();
+                if (listIndex.HasValue)
+                {
+                    var e = new ChildDocumentSubListItemEventArgs(listIndex.Value, ViewModel.Keys.ChildDocumentTypeEnum, ViewModel.Keys.ChildDocumentListIndex);
+                    ShowDetailsRequested(this, e);
+                }
+            }
+        }
+
         // Events
 
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
@@ -120,7 +134,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 case Keys.Delete:
                     Delete();
                     break;
+
+                case Keys.Enter:
+                    ShowDetails();
+                    break;
             }
+        }
+
+        private void specializedDataGridView_DoubleClick(object sender, EventArgs e)
+        {
+            ShowDetails();
         }
 
         // Helpers
