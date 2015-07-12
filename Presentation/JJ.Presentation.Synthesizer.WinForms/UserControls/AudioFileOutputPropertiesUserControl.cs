@@ -160,7 +160,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (CloseRequested != null)
             {
                 ApplyControlsToViewModel();
-                CloseRequested(this, new Int32EventArgs(_viewModel.Entity.Keys.ListIndex));
+                CloseRequested(this, new Int32EventArgs(_viewModel.Entity.ID));
             }
         }
 
@@ -169,7 +169,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (LoseFocusRequested != null)
             {
                 ApplyControlsToViewModel();
-                LoseFocusRequested(this, new Int32EventArgs(_viewModel.Entity.Keys.ListIndex));
+                LoseFocusRequested(this, new Int32EventArgs(_viewModel.Entity.ID));
             }
         }
 

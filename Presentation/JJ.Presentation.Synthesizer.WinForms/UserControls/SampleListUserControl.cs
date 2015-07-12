@@ -23,12 +23,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class SampleListUserControl : UserControl
     {
-        private const string LIST_INDEX_COLUMN_NAME = "ListIndexColumn";
+        private const string ID_COLUMN_NAME = "IDColumn";
 
-        public event EventHandler<ChildDocumentEventArgs> CreateRequested;
-        public event EventHandler<ChildDocumentSubListItemEventArgs> DeleteRequested;
+        public event EventHandler<NullableInt32EventArgs> CreateRequested;
+        public event EventHandler<Int32EventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
-        public event EventHandler<ChildDocumentSubListItemEventArgs> ShowPropertiesRequested;
+        public event EventHandler<Int32EventArgs> ShowPropertiesRequested;
 
         /// <summary> virtually not nullable </summary>
         private SampleListViewModel _viewModel;
@@ -69,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             specializedDataGridView.DataSource = _viewModel.List.Select(x => new
             {
-                x.Keys.ListIndex,
+                x.ID,
                 x.Name,
                 IsActive = x.IsActive ? CommonTitles.Yes : CommonTitles.No,
                 x.SamplingRate,
@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (CreateRequested != null)
             {
-                var e = new ChildDocumentEventArgs(ViewModel.Keys.ChildDocumentTypeEnum, ViewModel.Keys.ChildDocumentListIndex);
+                var e = new NullableInt32EventArgs(ViewModel.ChildDocumentID);
                 CreateRequested(this, e);
             }
         }
@@ -94,10 +94,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (DeleteRequested != null)
             {
-                int? listIndex = TryGetSelectedListIndex();
-                if (listIndex.HasValue)
+                int? id = TryGetSelectedID();
+                if (id.HasValue)
                 {
-                    var e = new ChildDocumentSubListItemEventArgs(listIndex.Value, ViewModel.Keys.ChildDocumentTypeEnum, ViewModel.Keys.ChildDocumentListIndex);
+                    var e = new Int32EventArgs(id.Value);
                     DeleteRequested(this, e);
                 }
             }
@@ -115,10 +115,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (ShowPropertiesRequested != null)
             {
-                int? listIndex = TryGetSelectedListIndex();
-                if (listIndex.HasValue)
+                int? id = TryGetSelectedID();
+                if (id.HasValue)
                 {
-                    var e = new ChildDocumentSubListItemEventArgs(listIndex.Value, ViewModel.Keys.ChildDocumentTypeEnum, ViewModel.Keys.ChildDocumentListIndex);
+                    var e = new Int32EventArgs(id.Value);
                     ShowPropertiesRequested(this, e);
                 }
             }
@@ -162,13 +162,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Helpers
 
-        private int? TryGetSelectedListIndex()
+        private int? TryGetSelectedID()
         {
             if (specializedDataGridView.CurrentRow != null)
             {
-                DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[LIST_INDEX_COLUMN_NAME];
-                int listIndex = Convert.ToInt32(cell.Value);
-                return listIndex;
+                DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
+                int id = Convert.ToInt32(cell.Value);
+                return id;
             }
 
             return null;

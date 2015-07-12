@@ -17,6 +17,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public ISpeakerSetupRepository SpeakerSetupRepository { get; private set; }
         public IAudioFileOutputChannelRepository AudioFileOutputChannelRepository { get; private set; }
         public IOutletRepository OutletRepository { get; private set; }
+        public IIdentityRepository IdentityRepository { get; private set; }
 
         public AudioFileOutputRepositories(RepositoryWrapper repositoryWrapper)
         {
@@ -29,6 +30,7 @@ namespace JJ.Business.Synthesizer.Helpers
             SpeakerSetupRepository = repositoryWrapper.SpeakerSetupRepository;
             AudioFileOutputChannelRepository = repositoryWrapper.AudioFileOutputChannelRepository;
             OutletRepository = repositoryWrapper.OutletRepository;
+            IdentityRepository = repositoryWrapper.IdentityRepository;
         }
 
         public AudioFileOutputRepositories(
@@ -38,7 +40,8 @@ namespace JJ.Business.Synthesizer.Helpers
             ISampleDataTypeRepository sampleDataTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository,
             IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
-            IOutletRepository outletRepository)
+            IOutletRepository outletRepository,
+            IIdentityRepository identityRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
             if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
@@ -47,6 +50,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
             if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
+            if (identityRepository == null) throw new NullException(() => identityRepository);
 
             DocumentRepository = documentRepository;
             AudioFileOutputRepository = audioFileOutputRepository;
@@ -56,6 +60,7 @@ namespace JJ.Business.Synthesizer.Helpers
             SpeakerSetupRepository = speakerSetupRepository;
             AudioFileOutputChannelRepository = audioFileOutputChannelRepository;
             OutletRepository = outletRepository;
+            IdentityRepository = identityRepository;
         }
     }
 }

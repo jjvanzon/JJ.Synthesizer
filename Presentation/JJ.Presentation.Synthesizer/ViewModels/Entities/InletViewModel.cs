@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     [DebuggerDisplay("{DebuggerDisplay}")]
     public sealed class InletViewModel
     {
-        public InletKeysViewModel Keys { get; set; }
+        public int ID { get; set; }
 
         public string Name { get; set; }
 

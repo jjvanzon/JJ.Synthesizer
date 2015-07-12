@@ -32,7 +32,7 @@ namespace JJ.Data.Synthesizer.SqlClient
             byte[] binary = (byte[])_sqlExecutor.ExecuteScalar(SqlEnum.Sample_TryGetBinary, new { id });
             return binary;
         }
-
+        
         /// <summary>
         /// Beware that if the record does not exist in the database,
         /// nothing is updated and you will not get an error message either.
@@ -40,6 +40,12 @@ namespace JJ.Data.Synthesizer.SqlClient
         public void Sample_TrySetBinary(int id, byte[] binary)
         {
             _sqlExecutor.ExecuteNonQuery(SqlEnum.Sample_TrySetBinary, new { id, binary });
+        }
+
+        public int GenerateID()
+        {
+            int id = (int)_sqlExecutor.ExecuteScalar(SqlEnum.GenerateID);
+            return id;
         }
     }
 }

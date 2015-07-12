@@ -37,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public object Show(int documentID)
         {
             bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.Keys.DocumentID != documentID;
+                                       _viewModel.DocumentID != documentID;
 
             if (mustCreateViewModel)
             {
@@ -62,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Document document = _documentRepository.TryGet(viewModel.Keys.DocumentID);
+            Document document = _documentRepository.TryGet(viewModel.DocumentID);
             if (document == null)
             {
                 return CreateDocumentNotFoundViewModel();

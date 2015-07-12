@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
-            foreach (Document instrument in document.Instruments)
+            foreach (Document instrument in document.Instruments.ToArray())
             {
                 // Recursive call
                 instrument.DeleteRelatedEntities(repositoryWrapper);
@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Extensions
                 repositoryWrapper.DocumentRepository.Delete(instrument);
             }
 
-            foreach (Document effect in document.Effects)
+            foreach (Document effect in document.Effects.ToArray())
             {
                 // Recursive call
                 effect.DeleteRelatedEntities(repositoryWrapper);
@@ -32,34 +32,34 @@ namespace JJ.Business.Synthesizer.Extensions
                 repositoryWrapper.DocumentRepository.Delete(effect);
             }
 
-            foreach (Curve curve in document.Curves)
+            foreach (Curve curve in document.Curves.ToArray())
             {
                 curve.DeleteRelatedEntities(repositoryWrapper.NodeRepository);
                 curve.UnlinkRelatedEntities();
                 repositoryWrapper.CurveRepository.Delete(curve);
             }
 
-            foreach (Sample sample in document.Samples)
+            foreach (Sample sample in document.Samples.ToArray())
             {
                 sample.UnlinkRelatedEntities();
                 repositoryWrapper.SampleRepository.Delete(sample);
             }
 
-            foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
+            foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs.ToArray())
             {
                 audioFileOutput.DeleteRelatedEntities(repositoryWrapper.AudioFileOutputChannelRepository);
                 audioFileOutput.UnlinkRelatedEntities();
                 repositoryWrapper.AudioFileOutputRepository.Delete(audioFileOutput);
             }
 
-            foreach (Patch patch in document.Patches)
+            foreach (Patch patch in document.Patches.ToArray())
             {
                 patch.DeleteRelatedEntities(repositoryWrapper.OperatorRepository, repositoryWrapper.InletRepository, repositoryWrapper.OutletRepository, repositoryWrapper.EntityPositionRepository);
                 patch.UnlinkRelatedEntities();
                 repositoryWrapper.PatchRepository.Delete(patch);
             }
 
-            foreach (DocumentReference documentReference in document.DependentOnDocuments)
+            foreach (DocumentReference documentReference in document.DependentOnDocuments.ToArray())
             {
                 documentReference.UnlinkRelatedEntities();
                 repositoryWrapper.DocumentReferenceRepository.Delete(documentReference);
@@ -71,7 +71,7 @@ namespace JJ.Business.Synthesizer.Extensions
             if (curve == null) throw new NullException(() => curve);
             if (nodeRepository == null) throw new NullException(() => nodeRepository);
 
-            foreach (Node node in curve.Nodes)
+            foreach (Node node in curve.Nodes.ToArray())
             {
                 node.UnlinkRelatedEntities();
                 nodeRepository.Delete(node);
@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Extensions
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
 
-            foreach (AudioFileOutputChannel audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels)
+            foreach (AudioFileOutputChannel audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels.ToArray())
             {
                 audioFileOutputChannel.UnlinkRelatedEntities();
                 audioFileOutputChannelRepository.Delete(audioFileOutputChannel);
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Extensions
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
 
-            foreach (Operator op in patch.Operators)
+            foreach (Operator op in patch.Operators.ToArray())
             {
                 op.DeleteRelatedEntities(inletRepository, outletRepository, entityPositionRepository);
                 op.UnlinkRelatedEntities();
@@ -122,13 +122,13 @@ namespace JJ.Business.Synthesizer.Extensions
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
 
-            foreach (Inlet inlet in op.Inlets)
+            foreach (Inlet inlet in op.Inlets.ToArray())
             {
                 inlet.UnlinkRelatedEntities();
                 inletRepository.Delete(inlet);
             }
 
-            foreach (Outlet outlet in op.Outlets)
+            foreach (Outlet outlet in op.Outlets.ToArray())
             {
                 outlet.UnlinkRelatedEntities();
                 outletRepository.Delete(outlet);

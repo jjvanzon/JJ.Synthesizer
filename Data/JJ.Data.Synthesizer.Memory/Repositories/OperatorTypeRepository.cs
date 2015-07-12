@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Data.Synthesizer.Memory.Helpers;
 
 namespace JJ.Data.Synthesizer.Memory.Repositories
 {
@@ -13,67 +14,25 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
         public OperatorTypeRepository(IContext context)
             : base(context)
         {
-            OperatorType entity;
-
-            // TODO: I need to be able to specify identity explicit or something
-            // Not just auto-increment or NoIDs
-
-            entity = Create();
-            entity.Name = "Add";
-
-            entity = Create();
-            entity.Name = "Adder";
-
-            entity = Create();
-            entity.Name = "Divide";
-
-            entity = Create();
-            entity.Name = "Multiply";
-
-            entity = Create();
-            entity.Name = "PatchInlet";
-
-            entity = Create();
-            entity.Name = "PatchOutlet";
-
-            entity = Create();
-            entity.Name = "Power";
-
-            entity = Create();
-            entity.Name = "Sine";
-
-            entity = Create();
-            entity.Name = "Substract";
-
-            entity = Create();
-            entity.Name = "TimeAdd";
-
-            entity = Create();
-            entity.Name = "TimeDivide";
-
-            entity = Create();
-            entity.Name = "TimeMultiply";
-
-            entity = Create();
-            entity.Name = "TimePower";
-
-            entity = Create();
-            entity.Name = "TimeSubstract";
-
-            entity = Create();
-            entity.Name = "Value";
-
-            entity = Create();
-            entity.Name = "CurveIn";
-
-            entity = Create();
-            entity.Name = "Sample";
-
-            entity = Create();
-            entity.Name = "WhiteNoise";
-
-            entity = Create();
-            entity.Name = "Resample";
-        }
+            RepositoryHelper.EnsureEnumEntity(this, 1, "Add");
+            RepositoryHelper.EnsureEnumEntity(this, 2, "Adder");
+            RepositoryHelper.EnsureEnumEntity(this, 3, "Divide");
+            RepositoryHelper.EnsureEnumEntity(this, 4, "Multiply");
+            RepositoryHelper.EnsureEnumEntity(this, 5, "PatchInlet");
+            RepositoryHelper.EnsureEnumEntity(this, 6, "PatchOutlet");
+            RepositoryHelper.EnsureEnumEntity(this, 7, "Power");
+            RepositoryHelper.EnsureEnumEntity(this, 8, "Sine");
+            RepositoryHelper.EnsureEnumEntity(this, 9, "Substract");
+            RepositoryHelper.EnsureEnumEntity(this, 10, "TimeAdd");
+            RepositoryHelper.EnsureEnumEntity(this, 11, "TimeDivide");
+            RepositoryHelper.EnsureEnumEntity(this, 12, "TimeMultiply");
+            RepositoryHelper.EnsureEnumEntity(this, 13, "TimePower");
+            RepositoryHelper.EnsureEnumEntity(this, 14, "TimeSubstract");
+            RepositoryHelper.EnsureEnumEntity(this, 15, "Value");
+            RepositoryHelper.EnsureEnumEntity(this, 16, "CurveIn");
+            RepositoryHelper.EnsureEnumEntity(this, 17, "Sample");
+            RepositoryHelper.EnsureEnumEntity(this, 18, "WhiteNoise");
+            RepositoryHelper.EnsureEnumEntity(this, 19, "Resample");
+        }          
     }
 }

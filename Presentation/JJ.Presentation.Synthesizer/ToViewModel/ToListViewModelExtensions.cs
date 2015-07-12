@@ -30,15 +30,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (document == null) throw new NullException(() => document);
 
-            IList<AudioFileOutput> sortedEntities = document.AudioFileOutputs.OrderBy(x => x.Name).ToArray();
+            IList<AudioFileOutput> sortedEntities = document.AudioFileOutputs.OrderBy(x => x.Name).ToList();
 
             var viewModel = new AudioFileOutputListViewModel
             {
                 List = sortedEntities.ToListItemViewModels(),
-                Keys = new AudioFileOutputListKeysViewModel
-                {
-                    DocumentID = document.ID
-                }
+                DocumentID = document.ID
             };
 
             return viewModel;
@@ -77,23 +74,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static CurveListViewModel ToListViewModel(
-            this IList<Curve> entities,
-            int documentID,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
-            int? childDocumentListIndex)
+        public static CurveListViewModel ToListViewModel(this IList<Curve> entities, int rootDocumentID, int? childDocumentID)
         {
             if (entities == null) throw new NullException(() => entities);
 
             var viewModel = new CurveListViewModel
             {
-                List = entities.ToListItemViewModels(childDocumentListIndex),
-                Keys = new CurveListKeysViewModel
-                {
-                    RootDocumentID = documentID,
-                    ChildDocumentTypeEnum = childDocumentTypeEnum,
-                    ChildDocumentListIndex = childDocumentListIndex
-                }
+                List = entities.ToListItemViewModels(rootDocumentID),
+                RootDocumentID = rootDocumentID,
+                ChildDocumentID = childDocumentID
             };
 
             return viewModel;
@@ -112,45 +101,29 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static PatchListViewModel ToListViewModel(
-            this IList<Patch> entities,
-            int documentID,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
-            int? childDocumentListIndex)
+        public static PatchListViewModel ToListViewModel(this IList<Patch> entities, int rootDocumentID, int? childDocumentID)
         {
             if (entities == null) throw new NullException(() => entities);
 
             var viewModel = new PatchListViewModel
             {
-                List = entities.ToListItemViewModels(childDocumentListIndex),
-                Keys = new PatchListKeysViewModel
-                {
-                    RootDocumentID = documentID,
-                    ChildDocumentTypeEnum = childDocumentTypeEnum,
-                    ChildDocumentListIndex = childDocumentListIndex
-                }
+                List = entities.ToListItemViewModels(),
+                RootDocumentID = rootDocumentID,
+                ChildDocumentID = childDocumentID
             };
 
             return viewModel;
         }
 
-        public static SampleListViewModel ToListViewModel(
-            this IList<Sample> entities, 
-            int documentID, 
-            ChildDocumentTypeEnum? childDocumentTypeEnum, 
-            int? childDocumentListIndex)
+        public static SampleListViewModel ToListViewModel(this IList<Sample> entities, int rootDocumentID, int? childDocumentID)
         {
             if (entities == null) throw new NullException(() => entities);
 
             var viewModel = new SampleListViewModel
             {
-                List = entities.ToListItemViewModels(documentID, childDocumentTypeEnum, childDocumentListIndex),
-                Keys = new SampleListKeysViewModel
-                {
-                    RootDocumentID = documentID,
-                    ChildDocumentTypeEnum = childDocumentTypeEnum,
-                    ChildDocumentListIndex = childDocumentListIndex
-                }
+                List = entities.ToListItemViewModels(),
+                RootDocumentID = rootDocumentID,
+                ChildDocumentID = childDocumentID
             };
 
             return viewModel;

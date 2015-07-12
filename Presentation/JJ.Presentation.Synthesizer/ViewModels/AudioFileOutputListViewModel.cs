@@ -11,7 +11,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class AudioFileOutputListViewModel
     {
-        public AudioFileOutputListKeysViewModel Keys { get; set; }
+        public int DocumentID { get; set; }
 
         public bool Visible { get; set; }
         public IList<AudioFileOutputListItemViewModel> List { get; set; }

@@ -10,7 +10,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
     public sealed class AudioFileOutputChannelViewModel
     {
-        public AudioFileOutputChannelKeysViewModel Keys { get; set; }
+        public int ID { get; set; }
+
+        public int IndexNumber { get; set; }
 
         public string Name { get; set; }
 

@@ -9,7 +9,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
     public sealed class PatchListItemViewModel
     {
-        public PatchKeysViewModel Keys { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
     }
 }

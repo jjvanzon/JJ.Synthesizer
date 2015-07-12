@@ -21,14 +21,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class DocumentPropertiesPresenter
     {
         private IDocumentRepository _documentRepository;
+        private IIdentityRepository _identityRepository;
 
         private DocumentPropertiesViewModel _viewModel;
 
-        public DocumentPropertiesPresenter(IDocumentRepository documentRepository)
+        public DocumentPropertiesPresenter(IDocumentRepository documentRepository, IIdentityRepository identityRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (identityRepository == null) throw new NullException(() => identityRepository);
 
             _documentRepository = documentRepository;
+            _identityRepository = identityRepository;
         }
 
         /// <summary>

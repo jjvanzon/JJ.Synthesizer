@@ -9,7 +9,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
     public sealed class NodeViewModel
     {
-        public NodeKeysViewModel Keys { get; set; }
+        public int ID { get; set; }
 
         public double Time { get; set; }
         public double Value { get; set; }

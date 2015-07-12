@@ -32,17 +32,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             return RepositoryFactory.CreateRepositoryFromConfiguration<TRepository>(context);
         }
 
-        public static PersistenceWrapper CreatePersistenceWrapper(IContext context)
-        {
-            return new PersistenceWrapper(
-                CreateRepository<IPatchRepository>(context),
-                CreateRepository<IOperatorRepository>(context),
-                CreateRepository<IOperatorTypeRepository>(context),
-                CreateRepository<IInletRepository>(context), 
-                CreateRepository<IOutletRepository>(context), 
-                CreateRepository<ICurveRepository>(context), 
-                CreateRepository<ISampleRepository>(context));
-        }
+        // TODO: Remove outcommented code
+        //public static PersistenceWrapper CreatePersistenceWrapper(IContext context)
+        //{
+        //    return new PersistenceWrapper(
+        //        CreateRepository<IPatchRepository>(context),
+        //        CreateRepository<IOperatorRepository>(context),
+        //        CreateRepository<IOperatorTypeRepository>(context),
+        //        CreateRepository<IInletRepository>(context), 
+        //        CreateRepository<IOutletRepository>(context), 
+        //        CreateRepository<ICurveRepository>(context), 
+        //        CreateRepository<ISampleRepository>(context));
+        //}
 
         public static IContext CreateMemoryContext()
         {
@@ -77,7 +78,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                 PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context),
                 PersistenceHelper.CreateRepository<INodeTypeRepository>(context),
                 PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context),
-                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context)
+                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context),
+                PersistenceHelper.CreateRepository<IIdentityRepository>(context)
             );
 
             return repositoryWrapper;

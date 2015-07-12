@@ -12,7 +12,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
     {
         public DocumentReferenceMapping()
         {
-            Id(x => x.ID);
+            Id(x => x.ID).GeneratedBy.Assigned();
             Map(x => x.Alias);
 
             References(x => x.DependentDocument, ColumnNames.DependentDocumentID);

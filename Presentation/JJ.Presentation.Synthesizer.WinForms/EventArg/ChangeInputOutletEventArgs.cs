@@ -9,30 +9,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.EventArg
 {
     internal class ChangeInputOutletEventArgs : EventArgs
     {
-        public int ListIndex { get; private set; }
-        public ChildDocumentTypeEnum? ChildDocumentTypeEnum { get; private set; }
-        public int? ChildDocumentListIndex { get; private set; }
-        public int Inlet_OperatorIndexNumber{ get; private set; }
-        public int Inlet_ListIndex{ get; private set; }
-        public int InputOutlet_OperatorIndexNumber{ get; private set; }
-        public int InputOutlet_ListIndex { get; private set; }
+        public int PatchID { get; private set; }
+        public int InletID { get; private set; }
+        public int InputOutletID { get; private set; }
 
-        public ChangeInputOutletEventArgs(
-            int listIndex,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
-            int? childDocumentListIndex,
-            int inlet_OperatorIndexNumber,
-            int inlet_ListIndex,
-            int inputOutlet_OperatorIndexNumber,
-            int inputOutlet_ListIndex)
+        public ChangeInputOutletEventArgs(int patchID, int inletID, int inputOutletID)
         {
-            ListIndex = listIndex;
-            ChildDocumentTypeEnum = childDocumentTypeEnum;
-            ChildDocumentListIndex = childDocumentListIndex;
-            Inlet_OperatorIndexNumber = inlet_OperatorIndexNumber;
-            Inlet_ListIndex = inlet_ListIndex;
-            InputOutlet_OperatorIndexNumber = inputOutlet_OperatorIndexNumber;
-            InputOutlet_ListIndex = inputOutlet_ListIndex;
-        }                                                                    
+            PatchID = patchID;
+            InletID = inletID;
+            InputOutletID = inputOutletID;
+        }
     }
 }

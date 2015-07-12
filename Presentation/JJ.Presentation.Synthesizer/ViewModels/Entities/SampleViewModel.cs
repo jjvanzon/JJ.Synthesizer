@@ -10,7 +10,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
     public sealed class SampleViewModel
     {
-        public SampleKeysViewModel Keys { get; set; }
+        public int ID { get; set; }
+        // TODO: Remove outcommented code.
+        //public int DocumentID { get; set; }
 
         public string Name { get; set; }
         public int SamplingRate { get; set; }

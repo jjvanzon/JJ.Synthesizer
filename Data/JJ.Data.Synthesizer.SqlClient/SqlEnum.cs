@@ -9,7 +9,8 @@ namespace JJ.Data.Synthesizer.SqlClient
     internal enum SqlEnum
     {
         Document_GetPageOfRootDocumentIDs,
+        GenerateID,
         Sample_TryGetBinary,
-        Sample_TrySetBinary,
+        Sample_TrySetBinary
     }
 }

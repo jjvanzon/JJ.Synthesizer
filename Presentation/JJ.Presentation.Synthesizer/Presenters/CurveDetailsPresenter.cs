@@ -21,21 +21,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ICurveRepository _curveRepository;
         private INodeRepository _nodeRepository;
         private INodeTypeRepository _nodeTypeRepository;
+        private IIdentityRepository _identityRepository;
         
         public CurveDetailsViewModel ViewModel { get; set; }
 
         public CurveDetailsPresenter(
             ICurveRepository curveRepository,
             INodeRepository nodeRepository,
-            INodeTypeRepository nodeTypeRepository)
+            INodeTypeRepository nodeTypeRepository,
+            IIdentityRepository identityRepository)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (nodeRepository == null) throw new NullException(() => nodeRepository);
             if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
+            if (identityRepository == null) throw new NullException(() => identityRepository);
 
             _curveRepository = curveRepository;
             _nodeRepository = nodeRepository;
             _nodeTypeRepository = nodeTypeRepository;
+            _identityRepository = identityRepository;
         }
 
         public CurveDetailsViewModel Show(CurveDetailsViewModel userInput)
@@ -107,21 +111,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private bool MustCreateViewModel(CurveDetailsViewModel existingViewModel, CurveDetailsViewModel userInput)
         {
             return existingViewModel == null ||
-                   existingViewModel.Curve.Keys.RootDocumentID != userInput.Curve.Keys.RootDocumentID ||
-                   existingViewModel.Curve.Keys.ListIndex != userInput.Curve.Keys.ListIndex ||
-                   existingViewModel.Curve.Keys.ChildDocumentTypeEnum != userInput.Curve.Keys.ChildDocumentTypeEnum ||
-                   existingViewModel.Curve.Keys.ChildDocumentListIndex != userInput.Curve.Keys.ChildDocumentListIndex;
+                   existingViewModel.Entity.ID != userInput.Entity.ID;
         }
 
         private CurveDetailsViewModel CreateViewModel(Curve entity, CurveDetailsViewModel userInput)
         {
-            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel(
-                userInput.Curve.Keys.RootDocumentID,
-                userInput.Curve.Keys.ChildDocumentTypeEnum,
-                userInput.Curve.Keys.ChildDocumentListIndex,
-                userInput.Curve.Keys.ListIndex,
-                _nodeTypeRepository);
-
+            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel(_nodeTypeRepository);
             return viewModel;
         }
     }

@@ -3,7 +3,6 @@ using JJ.Framework.Presentation.Svg.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Svg.Gestures;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
-using JJ.Presentation.Synthesizer.Svg.Structs;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System;
 using System.Collections.Generic;
@@ -64,17 +63,17 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         /// <summary> Converts everything but its coordinates. </summary>
         private Rectangle ConvertToInletRectangle(InletViewModel sourceInletViewModel, Rectangle destOperatorRectangle)
         {
-            InletOrOutletKey key = new InletOrOutletKey(sourceInletViewModel.Keys.OperatorIndexNumber, sourceInletViewModel.Keys.InletListIndex);
+            int id = sourceInletViewModel.ID;
 
-            Rectangle destInletRectangle = TryGetInletRectangle(destOperatorRectangle, key);
+            Rectangle destInletRectangle = TryGetInletRectangle(destOperatorRectangle, id);
             if (destInletRectangle == null)
             {
                 destInletRectangle = new Rectangle();
                 destInletRectangle.Diagram = destOperatorRectangle.Diagram;
                 destInletRectangle.Parent = destOperatorRectangle;
-                destInletRectangle.Tag = EntityKeyHelper.GetInletTag(key);
+                destInletRectangle.Tag = SvgTagHelper.GetInletTag(id);
 
-                _destInletRectangleDictionary.Add(key, destInletRectangle);
+                _destInletRectangleDictionary.Add(id, destInletRectangle);
             }
 
             destInletRectangle.BackStyle = StyleHelper.BackStyleInvisible;
@@ -92,22 +91,21 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             return destInletRectangle;
         }
 
-        private Dictionary<InletOrOutletKey, Rectangle> _destInletRectangleDictionary = new Dictionary<InletOrOutletKey, Rectangle>();
+        private Dictionary<int, Rectangle> _destInletRectangleDictionary = new Dictionary<int, Rectangle>();
 
-        private Rectangle TryGetInletRectangle(Element destParent, InletOrOutletKey key)
+        private Rectangle TryGetInletRectangle(Element destParent, int inletID)
         {
             Rectangle destRectangle;
-            if (!_destInletRectangleDictionary.TryGetValue(key, out destRectangle))
+            if (!_destInletRectangleDictionary.TryGetValue(inletID, out destRectangle))
             {
                 destRectangle = destParent.Children
                                           .OfType<Rectangle>()
-                                          .Where(x => EntityKeyHelper.IsInletTag(x.Tag) &&
-                                                      EntityKeyHelper.GetInletKey(x.Tag) == key)
+                                          .Where(x => SvgTagHelper.TryGetInletID(x.Tag) == inletID)
                                           .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
 
                 if (destRectangle != null)
                 {
-                    _destInletRectangleDictionary.Add(key, destRectangle);
+                    _destInletRectangleDictionary.Add(inletID, destRectangle);
                 }
             }
 

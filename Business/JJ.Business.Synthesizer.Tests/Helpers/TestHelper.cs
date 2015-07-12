@@ -29,7 +29,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 repositoryWraper.InletRepository,
                 repositoryWraper.OutletRepository,
                 repositoryWraper.CurveRepository,
-                repositoryWraper.SampleRepository);
+                repositoryWraper.SampleRepository,
+                repositoryWraper.IdentityRepository);
 
             return factory;
         }
@@ -44,7 +45,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
-            var factory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
+            var factory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository, repositoryWrapper.IdentityRepository);
             return factory;
         }
 
@@ -74,7 +75,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 repositoryWrapper.SpeakerSetupRepository,
                 repositoryWrapper.AudioFileFormatRepository,
                 repositoryWrapper.CurveRepository,
-                repositoryWrapper.SampleRepository);
+                repositoryWrapper.SampleRepository,
+                repositoryWrapper.IdentityRepository);
 
             return audioFileOutputManager;
         }

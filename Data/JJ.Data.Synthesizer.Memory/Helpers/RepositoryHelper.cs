@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Reflection;
+using JJ.Framework.Common;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Data.Synthesizer.Memory.Helpers
 {
@@ -42,6 +45,36 @@ namespace JJ.Data.Synthesizer.Memory.Helpers
                 _speakerSetupChannelRepository = new SpeakerSetupChannelRepository(context);
             }
             return _speakerSetupChannelRepository;
+        }
+
+        public static void EnsureEnumEntity<TEntity>(RepositoryBase<TEntity, int> repository, int id, string name)
+            where TEntity : class, new()
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            TEntity entity = repository.TryGet(id);
+
+            if (entity == null)
+            {
+                entity = new TEntity();
+
+                PropertyInfo idProperty = typeof(TEntity).GetProperty(PropertyNames.ID);
+                if (idProperty == null)
+                {
+                    throw new PropertyNotFoundException<TEntity>(PropertyNames.ID);
+                }
+
+                PropertyInfo nameProperty = typeof(TEntity).GetProperty(PropertyNames.Name);
+                if (nameProperty == null)
+                {
+                    throw new PropertyNotFoundException<TEntity>(PropertyNames.Name);
+                }
+
+                idProperty.SetValue(entity, id);
+                nameProperty.SetValue(entity, name);
+
+                repository.Insert(entity);
+            }
         }
     }
 }

@@ -31,7 +31,7 @@
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.specializedDataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.SpecializedDataGridView();
-            this.ListIndexColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AudioFileFormatColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SampleDataTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -88,7 +88,7 @@
             this.specializedDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
             this.specializedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.specializedDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ListIndexColumn,
+            this.IDColumn,
             this.NameColumn,
             this.AudioFileFormatColumn,
             this.SampleDataTypeColumn,
@@ -103,14 +103,14 @@
             this.specializedDataGridView.DoubleClick += new System.EventHandler(this.specializedDataGridView_DoubleClick);
             this.specializedDataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.specializedDataGridView_KeyDown);
             // 
-            // ListIndexColumn
+            // IDColumn
             // 
-            this.ListIndexColumn.DataPropertyName = "ListIndex";
-            this.ListIndexColumn.HeaderText = "ListIndex";
-            this.ListIndexColumn.Name = "ListIndexColumn";
-            this.ListIndexColumn.ReadOnly = true;
-            this.ListIndexColumn.Visible = false;
-            this.ListIndexColumn.Width = 80;
+            this.IDColumn.DataPropertyName = "ID";
+            this.IDColumn.HeaderText = "ID";
+            this.IDColumn.Name = "IDColumn";
+            this.IDColumn.ReadOnly = true;
+            this.IDColumn.Visible = false;
+            this.IDColumn.Width = 80;
             // 
             // NameColumn
             // 
@@ -169,7 +169,7 @@
         private SpecializedDataGridView specializedDataGridView;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private Partials.TitleBarUserControl titleBarUserControl;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ListIndexColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn AudioFileFormatColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn SampleDataTypeColumn;

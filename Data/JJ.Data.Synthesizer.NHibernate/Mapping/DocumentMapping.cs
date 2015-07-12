@@ -12,7 +12,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
     {
         public DocumentMapping()
         {
-            Id(x => x.ID);
+            Id(x => x.ID).GeneratedBy.Assigned();
 
             Map(x => x.Name);
 

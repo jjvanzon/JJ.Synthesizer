@@ -99,20 +99,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private bool MustCreateViewModel(SamplePropertiesViewModel existingViewModel, SamplePropertiesViewModel userInput)
         {
             return existingViewModel == null ||
-                   existingViewModel.Entity.Keys.RootDocumentID != userInput.Entity.Keys.RootDocumentID ||
-                   existingViewModel.Entity.Keys.ChildDocumentTypeEnum != userInput.Entity.Keys.ChildDocumentTypeEnum ||
-                   existingViewModel.Entity.Keys.ChildDocumentListIndex != userInput.Entity.Keys.ChildDocumentListIndex ||
-                   existingViewModel.Entity.Keys.ListIndex != userInput.Entity.Keys.ListIndex;
+                   existingViewModel.Entity.ID != userInput.Entity.ID;
         }
 
         private SamplePropertiesViewModel CreateViewModel(Sample entity, SamplePropertiesViewModel userInput)
         {
-            SamplePropertiesViewModel viewModel = entity.ToPropertiesViewModel(
-                userInput.Entity.Keys.RootDocumentID,
-                userInput.Entity.Keys.ChildDocumentTypeEnum,
-                userInput.Entity.Keys.ChildDocumentListIndex,
-                userInput.Entity.Keys.ListIndex,
-                _sampleRepositories);
+            SamplePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_sampleRepositories);
 
             return viewModel;
         }

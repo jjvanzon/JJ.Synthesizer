@@ -71,24 +71,21 @@
     <Compile Include="Configuration\GeneralConfiguration.cs" />
     <Compile Include="Configuration\TestingConfiguration.cs" />
     <Compile Include="EventArg\AddOperatorEventArgs.cs" />
-    <Compile Include="EventArg\ChildDocumentEventArgs.cs" />
-    <Compile Include="EventArg\ChildDocumentSubListItemEventArgs.cs" />
+    <Compile Include="EventArg\~ChildDocumentEventArgs.cs" />
+    <Compile Include="EventArg\~ChildDocumentSubListItemEventArgs.cs" />
     <Compile Include="EventArg\ChangeInputOutletEventArgs.cs" />
+    <Compile Include="EventArg\NullableInt32EventArgs.cs" />
     <Compile Include="EventArg\SetValueEventArgs.cs" />
     <Compile Include="EventArg\SelectOperatorEventArgs.cs" />
     <Compile Include="EventArg\MoveOperatorEventArgs.cs" />
     <Compile Include="EventArg\GuidEventArgs.cs" />
     <Compile Include="EventArg\Int32EventArgs.cs" />
-    <Compile Include="EventArg\ViewModelEventArgs.cs" />
+    <Compile Include="EventArg\~ViewModelEventArgs.cs" />
     <Compile Include="Forms\DocumentCannotDeleteForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\DocumentCannotDeleteForm.Designer.cs">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\~PatchDetailsForm.cs" />
-    <Compile Include="Forms\~PatchDetailsForm.Designer.cs">
-      <DependentUpon>~PatchDetailsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\MessageBoxHelper.cs" />
     <Compile Include="Helpers\TagHelper.cs" />
@@ -98,10 +95,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\EntityFactory.cs" />
     <Compile Include="Helpers\PersistenceHelper.cs" />
-    <Compile Include="Helpers\PersistenceWrapper.cs" />
-    <Compile Include="Helpers\~PlayHelper.cs" />
     <Compile Include="Helpers\WinFormsThemeHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -223,9 +217,6 @@
     </Compile>
     <EmbeddedResource Include="Forms\DocumentCannotDeleteForm.resx">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\~PatchDetailsForm.resx">
-      <DependentUpon>~PatchDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

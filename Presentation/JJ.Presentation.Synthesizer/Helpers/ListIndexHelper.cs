@@ -12,137 +12,139 @@ namespace JJ.Presentation.Synthesizer.Helpers
 {
     internal static class ListIndexHelper
     {
-        public static void RenumberListIndexes(IList<CurveListItemViewModel> list, int startIndex = 0)
-        {
-            if (list == null) throw new NullException(() => list);
-            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+        // TODO: Remove outcommented code.
 
-            for (int i = startIndex; i < list.Count; i++)
-            {
-                list[i].Keys.ListIndex = i;
-            }
-        }
+        //public static void RenumberListIndexes(IList<CurveListItemViewModel> list, int startIndex = 0)
+        //{
+        //    if (list == null) throw new NullException(() => list);
+        //    if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
 
-        public static void RenumberListIndexes(IList<ChildDocumentListItemViewModel> list, int startIndex = 0)
-        {
-            if (list == null) throw new NullException(() => list);
-            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+        //    for (int i = startIndex; i < list.Count; i++)
+        //    {
+        //        list[i].ID.ListIndex = i;
+        //    }
+        //}
 
-            for (int i = startIndex; i < list.Count; i++)
-            {
-                list[i].Keys.ListIndex = i;
-            }
-        }
+        //public static void RenumberListIndexes(IList<ChildDocumentListItemViewModel> list, int startIndex = 0)
+        //{
+        //    if (list == null) throw new NullException(() => list);
+        //    if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
 
-        public static void RenumberListIndexes(IList<PatchListItemViewModel> list, int startIndex = 0)
-        {
-            if (list == null) throw new NullException(() => list);
-            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+        //    for (int i = startIndex; i < list.Count; i++)
+        //    {
+        //        list[i].ID.ListIndex = i;
+        //    }
+        //}
 
-            for (int i = startIndex; i < list.Count; i++)
-            {
-                list[i].Keys.PatchListIndex = i;
-            }
-        }
+        //public static void RenumberListIndexes(IList<PatchListItemViewModel> list, int startIndex = 0)
+        //{
+        //    if (list == null) throw new NullException(() => list);
+        //    if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
 
-        public static void RenumberListIndexes(IList<AudioFileOutputListItemViewModel> list, int startIndex = 0)
-        {
-            if (list == null) throw new NullException(() => list);
-            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+        //    for (int i = startIndex; i < list.Count; i++)
+        //    {
+        //        list[i].ID.PatchListIndex = i;
+        //    }
+        //}
 
-            for (int i = startIndex; i < list.Count; i++)
-            {
-                list[i].Keys.ListIndex = i;
-            }
-        }
+        //public static void RenumberListIndexes(IList<AudioFileOutputListItemViewModel> list, int startIndex = 0)
+        //{
+        //    if (list == null) throw new NullException(() => list);
+        //    if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
 
-        public static void RenumberListIndexes(IList<ChildDocumentPropertiesViewModel> list, int startIndex = 0)
-        {
-            if (list == null) throw new NullException(() => list);
-            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+        //    for (int i = startIndex; i < list.Count; i++)
+        //    {
+        //        list[i].ID.ListIndex = i;
+        //    }
+        //}
 
-            for (int i = startIndex; i < list.Count; i++)
-            {
-                list[i].Keys.ListIndex = i;
-            }
-        }
+        //public static void RenumberListIndexes(IList<ChildDocumentPropertiesViewModel> list, int startIndex = 0)
+        //{
+        //    if (list == null) throw new NullException(() => list);
+        //    if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
 
-        public static void RenumberListIndexes(IList<ChildDocumentViewModel> list, int startIndex = 0 )
-        {
-            if (list == null) throw new NullException(() => list);
-            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+        //    for (int i = startIndex; i < list.Count; i++)
+        //    {
+        //        list[i].ID.ListIndex = i;
+        //    }
+        //}
 
-            for (int i = startIndex; i < list.Count; i++)
-            {
-                list[i].Keys.ListIndex = i;
-            }
-        }
+        //public static void RenumberListIndexes(IList<ChildDocumentViewModel> list, int startIndex = 0 )
+        //{
+        //    if (list == null) throw new NullException(() => list);
+        //    if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
 
-        public static void RenumberListIndexes(IList<AudioFileOutputPropertiesViewModel> list, int startIndex = 0)
-        {
-            if (list == null) throw new NullException(() => list);
-            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+        //    for (int i = startIndex; i < list.Count; i++)
+        //    {
+        //        list[i].ID.ListIndex = i;
+        //    }
+        //}
 
-            for (int i = startIndex; i < list.Count; i++)
-            {
-                list[i].Entity.Keys.ListIndex = i;
-            }
-        }
+        //public static void RenumberListIndexes(IList<AudioFileOutputPropertiesViewModel> list, int startIndex = 0)
+        //{
+        //    if (list == null) throw new NullException(() => list);
+        //    if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
 
-        public static void RenumberListIndexes(IList<CurveDetailsViewModel> list, int startIndex = 0)
-        {
-            if (list == null) throw new NullException(() => list);
-            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+        //    for (int i = startIndex; i < list.Count; i++)
+        //    {
+        //        list[i].Entity.ID.ListIndex = i;
+        //    }
+        //}
 
-            for (int i = startIndex; i < list.Count; i++)
-            {
-                list[i].Curve.Keys.ListIndex = i;
-            }
-        }
+        //public static void RenumberListIndexes(IList<CurveDetailsViewModel> list, int startIndex = 0)
+        //{
+        //    if (list == null) throw new NullException(() => list);
+        //    if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
 
-        public static void RenumberListIndexes(IList<PatchDetailsViewModel> list, int startIndex = 0)
-        {
-            if (list == null) throw new NullException(() => list);
-            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+        //    for (int i = startIndex; i < list.Count; i++)
+        //    {
+        //        list[i].Curve.ID.ListIndex = i;
+        //    }
+        //}
 
-            for (int i = startIndex; i < list.Count; i++)
-            {
-                list[i].Entity.Keys.PatchListIndex = i;
-            }
-        }
+        //public static void RenumberListIndexes(IList<PatchDetailsViewModel> list, int startIndex = 0)
+        //{
+        //    if (list == null) throw new NullException(() => list);
+        //    if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
 
-        public static void RenumberListIndexes(IList<SamplePropertiesViewModel> list, int startIndex = 0)
-        {
-            if (list == null) throw new NullException(() => list);
-            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+        //    for (int i = startIndex; i < list.Count; i++)
+        //    {
+        //        list[i].Entity.ID.PatchListIndex = i;
+        //    }
+        //}
 
-            for (int i = startIndex; i < list.Count; i++)
-            {
-                list[i].Entity.Keys.ListIndex = i;
-            }
-        }
+        //public static void RenumberListIndexes(IList<SamplePropertiesViewModel> list, int startIndex = 0)
+        //{
+        //    if (list == null) throw new NullException(() => list);
+        //    if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
 
-        public static void RenumberListIndexes(IList<SampleListItemViewModel> list, int startIndex = 0)
-        {
-            if (list == null) throw new NullException(() => list);
-            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+        //    for (int i = startIndex; i < list.Count; i++)
+        //    {
+        //        list[i].Entity.ID.ListIndex = i;
+        //    }
+        //}
 
-            for (int i = startIndex; i < list.Count; i++)
-            {
-                list[i].Keys.ListIndex = i;
-            }
-        }
+        //public static void RenumberListIndexes(IList<SampleListItemViewModel> list, int startIndex = 0)
+        //{
+        //    if (list == null) throw new NullException(() => list);
+        //    if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
 
-        public static void RenumberListIndexes(IList<ChildDocumentTreeNodeViewModel> list, int startIndex = 0)
-        {
-            if (list == null) throw new NullException(() => list);
-            if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+        //    for (int i = startIndex; i < list.Count; i++)
+        //    {
+        //        list[i].Keys.ListIndex = i;
+        //    }
+        //}
 
-            for (int i = startIndex; i < list.Count; i++)
-            {
-                list[i].Keys.ListIndex = i;
-            }
-        }
+        //public static void RenumberListIndexes(IList<ChildDocumentTreeNodeViewModel> list, int startIndex = 0)
+        //{
+        //    if (list == null) throw new NullException(() => list);
+        //    if (startIndex < 0) throw new LessThanException(() => startIndex, 0);
+
+        //    for (int i = startIndex; i < list.Count; i++)
+        //    {
+        //        list[i].Keys.ListIndex = i;
+        //    }
+        //}
 
         public static void RenumberNodeIndexes(DocumentTreeViewModel tree)
         {

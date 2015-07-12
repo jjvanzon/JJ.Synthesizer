@@ -37,17 +37,17 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             if (sourceOperatorViewModel == null) throw new NullException(() => sourceOperatorViewModel);
             if (destDiagram == null) throw new NullException(() => destDiagram);
 
-            Rectangle destOperatorRectangle = TryGetOperatorRectangle(sourceOperatorViewModel.Keys.OperatorIndexNumber);
+            Rectangle destOperatorRectangle = TryGetOperatorRectangle(sourceOperatorViewModel.ID);
             if (destOperatorRectangle == null)
             {
                 destOperatorRectangle = new Rectangle
                 {
                     Diagram = destDiagram,
                     Parent = destDiagram.Canvas,
-                    Tag = EntityKeyHelper.GetOperatorTag(sourceOperatorViewModel.Keys.OperatorIndexNumber)
+                    Tag = SvgTagHelper.GetOperatorTag(sourceOperatorViewModel.ID)
                 };
 
-                _destOperatorRectangleDictionary.Add(sourceOperatorViewModel.Keys.OperatorIndexNumber, destOperatorRectangle);
+                _destOperatorRectangleDictionary.Add(sourceOperatorViewModel.ID, destOperatorRectangle);
             }
 
             destOperatorRectangle.Width = StyleHelper.DEFAULT_WIDTH;
@@ -75,20 +75,20 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
 
         private Dictionary<int, Rectangle> _destOperatorRectangleDictionary = new Dictionary<int, Rectangle>();
 
-        private Rectangle TryGetOperatorRectangle(int operatorIndexNumber)
+        private Rectangle TryGetOperatorRectangle(int id)
         {
             Rectangle destRectangle;
-            if (!_destOperatorRectangleDictionary.TryGetValue(operatorIndexNumber, out destRectangle))
+            if (!_destOperatorRectangleDictionary.TryGetValue(id, out destRectangle))
             {
                 destRectangle = _diagram.Elements
                                         .OfType<Rectangle>()
-                                        .Where(x => EntityKeyHelper.IsOperatorTag(x.Tag) &&
-                                                    EntityKeyHelper.GetOperatorIndexNumber(x.Tag) == operatorIndexNumber)
+                                        .Where(x => SvgTagHelper.IsOperatorTag(x.Tag) &&
+                                                    SvgTagHelper.GetOperatorID(x.Tag) == id)
                                         .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
 
                 if (destRectangle != null)
                 {
-                    _destOperatorRectangleDictionary.Add(operatorIndexNumber, destRectangle);
+                    _destOperatorRectangleDictionary.Add(id, destRectangle);
                 }
             }
 

@@ -9,25 +9,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.EventArg
 {
     internal class MoveOperatorEventArgs : EventArgs
     {
-        public int ListIndex { get; private set; }
-        public ChildDocumentTypeEnum? ChildDocumentTypeEnum { get; private set; }
-        public int? ChildDocumentListIndex { get; private set; }
-        public int OperatorIndexNumber { get; private set; }
+        public int PatchID { get; private set; }
+        public int OperatorID { get; private set; }
         public float CenterX { get; private set; }
         public float CenterY { get; private set; }
 
-        public MoveOperatorEventArgs(
-            int listIndex, 
-            ChildDocumentTypeEnum? childDocumentTypeEnum, 
-            int? childDocumentListIndex,
-            int operatorIndexNumber,
-            float centerX, 
-            float centerY)
+        public MoveOperatorEventArgs(int patchID, int operatorID, float centerX, float centerY)
         {
-            ListIndex = listIndex;
-            ChildDocumentTypeEnum = childDocumentTypeEnum;
-            ChildDocumentListIndex = childDocumentListIndex;
-            OperatorIndexNumber = operatorIndexNumber;
+            PatchID = patchID;
+            OperatorID = operatorID;
             CenterX = centerX;
             CenterY = centerY;
         }

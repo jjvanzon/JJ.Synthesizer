@@ -89,6 +89,7 @@ namespace JJ.Business.Synthesizer.Tests
                            validator2.IsValid;
         }
 
+        // Test engine crashes
         [TestMethod]
         public void Test_Synthesizer_WarningValidators()
         {
@@ -206,6 +207,7 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
+        // Test engine crashes
         [TestMethod]
         public void Test_Synthesizer_TimePowerWithEcho()
         {
@@ -241,6 +243,7 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
+        // Test engine crashes
         [TestMethod]
         public void Test_Synthesizer_MultiplyWithEcho()
         {
@@ -408,6 +411,7 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
+        // Test engine crashes
         [TestMethod]
         public void Test_Synthesizer_OptimizedOperatorCalculator_WithNullInlet()
         {
@@ -424,6 +428,7 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
+        // Test engine crashes
         [TestMethod]
         public void Test_Synthesizer_OptimizedOperatorCalculator_Nulls()
         {
@@ -440,6 +445,7 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
+        // Test engine crashes
         [TestMethod]
         public void Test_Synthesizer_OptimizedOperatorCalculator_NestedOperators()
         {
@@ -456,6 +462,7 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
+        // Test engine crashes
         [TestMethod]
         public void Test_Synthesizer_OptimizedOperatorCalculator_TwoChannels()
         {
@@ -475,6 +482,7 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
+        // Test engine crashes
         [TestMethod]
         public void Test_Synthesizer_OptimizedOperatorCalculator_InstanceIntegrity()
         {
@@ -717,7 +725,7 @@ namespace JJ.Business.Synthesizer.Tests
                 SampleManager sampleManager = TestHelper.CreateSampleManager(repositoryWrapper);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
                 PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
-                CurveFactory curveFactory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
+                CurveFactory curveFactory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository, repositoryWrapper.IdentityRepository);
 
                 Curve curve = curveFactory.CreateCurve(duration, samplingRate1, samplingRate2);
 
@@ -745,7 +753,7 @@ namespace JJ.Business.Synthesizer.Tests
                 SampleManager sampleManager = TestHelper.CreateSampleManager(repositoryWrapper);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
                 PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
-                CurveFactory curveFactory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository);
+                CurveFactory curveFactory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository, repositoryWrapper.IdentityRepository);
 
                 double duration = 2;
 

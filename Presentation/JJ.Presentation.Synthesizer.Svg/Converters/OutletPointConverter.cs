@@ -1,7 +1,6 @@
 ﻿using JJ.Framework.Presentation.Svg.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
-using JJ.Presentation.Synthesizer.Svg.Structs;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System;
 using System.Collections.Generic;
@@ -46,17 +45,16 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         /// <summary> Converts everything but its coordinates. </summary>
         private Point ConvertToOutletPoint(OutletViewModel sourceOutletViewModel, Rectangle destOperatorRectangle)
         {
-            var key = new InletOrOutletKey(sourceOutletViewModel.Keys.OperatorIndexNumber, sourceOutletViewModel.Keys.OutletListIndex);
-
-            Point destOutletPoint = TryGetOutletPoint(destOperatorRectangle, key);
+            int id = sourceOutletViewModel.ID;
+            Point destOutletPoint = TryGetOutletPoint(destOperatorRectangle, id);
             if (destOutletPoint == null)
             {
                 destOutletPoint = new Point();
                 destOutletPoint.Diagram = destOperatorRectangle.Diagram;
                 destOutletPoint.Parent = destOperatorRectangle;
-                destOutletPoint.Tag = EntityKeyHelper.GetOutletTag(key);
+                destOutletPoint.Tag = SvgTagHelper.GetOutletTag(id);
 
-                _destOutletPointDictionary.Add(key, destOutletPoint);
+                _destOutletPointDictionary.Add(id, destOutletPoint);
             }
 
             destOutletPoint.PointStyle = StyleHelper.PointStyle;
@@ -64,22 +62,22 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             return destOutletPoint;
         }
 
-        private Dictionary<InletOrOutletKey, Point> _destOutletPointDictionary = new Dictionary<InletOrOutletKey, Point>();
+        private Dictionary<int, Point> _destOutletPointDictionary = new Dictionary<int, Point>();
 
-        private Point TryGetOutletPoint(Element destParent, InletOrOutletKey key)
+        private Point TryGetOutletPoint(Element destParent, int id)
         {
             Point destPoint;
-            if (!_destOutletPointDictionary.TryGetValue(key, out destPoint))
+            if (!_destOutletPointDictionary.TryGetValue(id, out destPoint))
             {
                 destPoint = destParent.Children
                                       .OfType<Point>()
-                                      .Where(x => EntityKeyHelper.IsOutletTag(x.Tag) &&
-                                                  EntityKeyHelper.GetOutletKey(x.Tag) == key)
+                                      .Where(x => SvgTagHelper.IsOutletTag(x.Tag) &&
+                                                  SvgTagHelper.GetOutletID(x.Tag) == id)
                                       .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
 
                 if (destPoint != null)
                 {
-                    _destOutletPointDictionary.Add(key, destPoint);
+                    _destOutletPointDictionary.Add(id, destPoint);
                 }
             }
 

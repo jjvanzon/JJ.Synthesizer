@@ -9,21 +9,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.EventArg
 {
     internal class SelectOperatorEventArgs : EventArgs
     {
-        public int ListIndex { get; private set; }
-        public ChildDocumentTypeEnum? ChildDocumentTypeEnum { get; private set; }
-        public int? ChildDocumentListIndex { get; private set; }
-        public int OperatorIndexNumber { get; private set; }
+        public int PatchID { get; private set; }
+        public int OperatorID { get; private set; }
 
-        public SelectOperatorEventArgs(
-            int listIndex, 
-            ChildDocumentTypeEnum? childDocumentTypeEnum, 
-            int? childDocumentListIndex,
-            int operatorIndexNumber)
+        public SelectOperatorEventArgs(int patchID, int operatorID)
         {
-            ListIndex = listIndex;
-            ChildDocumentTypeEnum = childDocumentTypeEnum;
-            ChildDocumentListIndex = childDocumentListIndex;
-            OperatorIndexNumber = operatorIndexNumber;
+            PatchID = patchID;
+            OperatorID = operatorID;
         }
     }
 }

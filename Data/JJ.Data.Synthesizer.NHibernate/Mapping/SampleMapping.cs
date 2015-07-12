@@ -12,7 +12,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
     {
         public SampleMapping()
         {
-            Id(x => x.ID);
+            Id(x => x.ID).GeneratedBy.Assigned();
 
             Map(x => x.Name);
             Map(x => x.Amplifier);

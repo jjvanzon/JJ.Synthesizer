@@ -1,7 +1,6 @@
 ﻿using JJ.Framework.Presentation.Svg.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
-using JJ.Presentation.Synthesizer.Svg.Structs;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System;
 using System.Collections.Generic;
@@ -45,18 +44,18 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
         /// <summary> Converts everything but its coordinates. </summary>
         private Point ConvertToInletPoint(InletViewModel sourceInletViewModel, Rectangle destOperatorRectangle)
         {
-            var key = new InletOrOutletKey(sourceInletViewModel.Keys.OperatorIndexNumber, sourceInletViewModel.Keys.InletListIndex);
+            int id = sourceInletViewModel.ID;
 
-            Point destInletPoint = TryGetInletPoint(destOperatorRectangle, key);
+            Point destInletPoint = TryGetInletPoint(destOperatorRectangle, id);
 
             if (destInletPoint == null)
             {
                 destInletPoint = new Point();
                 destInletPoint.Diagram = destOperatorRectangle.Diagram;
                 destInletPoint.Parent = destOperatorRectangle;
-                destInletPoint.Tag = EntityKeyHelper.GetInletTag(key);
+                destInletPoint.Tag = SvgTagHelper.GetInletTag(id);
 
-                _destInletPointDictionary.Add(key, destInletPoint);
+                _destInletPointDictionary.Add(id, destInletPoint);
             }
 
             destInletPoint.PointStyle = StyleHelper.PointStyle;
@@ -64,22 +63,21 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             return destInletPoint;
         }
 
-        private Dictionary<InletOrOutletKey, Point> _destInletPointDictionary = new Dictionary<InletOrOutletKey, Point>();
+        private Dictionary<int, Point> _destInletPointDictionary = new Dictionary<int, Point>();
 
-        private Point TryGetInletPoint(Element destParent, InletOrOutletKey key)
+        private Point TryGetInletPoint(Element destParent, int id)
         {
             Point destPoint;
-            if (!_destInletPointDictionary.TryGetValue(key, out destPoint))
+            if (!_destInletPointDictionary.TryGetValue(id, out destPoint))
             {
                 destPoint = destParent.Children
                                       .OfType<Point>()
-                                      .Where(x => EntityKeyHelper.IsInletTag(x.Tag) &&
-                                                  EntityKeyHelper.GetInletKey(x.Tag) == key)
+                                      .Where(x => SvgTagHelper.TryGetInletID(x.Tag) == id)
                                       .FirstOrDefault(); // First instead of Single will make sure that excessive ones are cleaned up.
 
                 if (destPoint != null)
                 {
-                    _destInletPointDictionary.Add(key, destPoint);
+                    _destInletPointDictionary.Add(id, destPoint);
                 }
             }
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Data.Synthesizer.Memory.Helpers;
 
 namespace JJ.Data.Synthesizer.Memory.Repositories
 {
@@ -13,16 +14,8 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
         public AudioFileFormatRepository(IContext context)
             : base(context)
         {
-            AudioFileFormat entity;
-
-            // TODO: I need to be able to specify identity explicit or something
-            // Not just auto-increment or NoIDs
-
-            entity = Create();
-            entity.Name = "Raw";
-
-            entity = Create();
-            entity.Name = "Wav";
+            RepositoryHelper.EnsureEnumEntity(this, 1, "Raw");
+            RepositoryHelper.EnsureEnumEntity(this, 2, "Wav");
         }
     }
 }

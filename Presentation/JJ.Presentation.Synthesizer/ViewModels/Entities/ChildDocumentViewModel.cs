@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
     public sealed class ChildDocumentViewModel
     {
-        public ChildDocumentKeysViewModel Keys { get; set; }
+        public int ID { get; set; }
 
         public string Name { get; set; }
 

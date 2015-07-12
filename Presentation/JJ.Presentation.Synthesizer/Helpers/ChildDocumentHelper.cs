@@ -15,6 +15,10 @@ namespace JJ.Presentation.Synthesizer.Helpers
 {
     internal static class ChildDocumentHelper
     {
+        // TODO: The fact that these methods need to exist seem one giant design flaw.
+
+        // TODO: Error handling to produce clear error messages (instead of SingleOrDefault use a more tollerant method and throw an exception).
+
         public static Document GetRootDocument(Document document)
         {
             if (document == null) throw new NullException(() => document);
@@ -89,212 +93,335 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
-        public static Document GetRootDocumentOrChildDocument(int documentID, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex, IDocumentRepository documentRepository)
-        {
-            Document document = TryGetRootDocumentOrChildDocument(documentID, childDocumentTypeEnum, childDocumentListIndex, documentRepository);
-            if (document == null)
-            {
-                throw new Exception(String.Format("Root Document or Child Document with documentID '{0}', childDocumentTypeEnum '{1}' and childDocumentListIndex '{2}' not found.", documentID, childDocumentTypeEnum, childDocumentListIndex));
-            }
-            return document;
-        }
+        // TODO: Remove outcommented code.
+        //public static Document GetRootDocumentOrChildDocument(int documentID, int? childDocumentID, IDocumentRepository documentRepository)
+        //{
+        //    Document document = TryGetRootDocumentOrChildDocument(documentID, childDocumentID, documentRepository);
+        //    if (document == null)
+        //    {
+        //        throw new Exception(String.Format("Root Document or Child Document with documentID '{0}' and childDocumentID '{1}' not found.", documentID, childDocumentID));
+        //    }
+        //    return document;
+        //}
 
-        public static Document TryGetRootDocumentOrChildDocument(int documentID, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex, IDocumentRepository documentRepository)
+        //public static Document TryGetRootDocumentOrChildDocument(int documentID, IDocumentRepository documentRepository)
+        //{
+        //    if (documentRepository == null) throw new NullException(() => documentRepository);
+
+        //    Document document = documentRepository.TryGet(documentID);
+        //    if (document != null)
+        //    {
+        //        return null;
+        //    }
+
+        //    Document childDocument = Enumerable.Union(document.Instruments, document.Effects)
+        //                                       .Where(x => x.ID == documentID)
+        //                                       .SingleOrDefault();
+        //    return childDocument;
+        //}
+
+        public static Document TryGetRootDocumentOrChildDocument(int rootDocumentID, int? childDocumentID, IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
 
-            Document document = documentRepository.TryGet(documentID);
-
-            if (document == null)
+            if (!childDocumentID.HasValue)
             {
-                return null;
+                return documentRepository.TryGet(rootDocumentID);
             }
-
-            if (childDocumentTypeEnum.HasValue != childDocumentListIndex.HasValue)
+            else
             {
-                throw new Exception("Both childDocumentTypeEnum and childDocumentListIndex must be filled in or both should not be filled in.");
-            }
+                Document childDocument = documentRepository.TryGet(childDocumentID.Value);
+                if (childDocument != null)
+                {
+                    return childDocument;
+                }
 
-            if (!childDocumentTypeEnum.HasValue)
-            {
-                return document;
-            }
 
-            switch (childDocumentTypeEnum.Value)
-            {
-                case ChildDocumentTypeEnum.Instrument:
-                    Document instrument = document.Instruments.OrderBy(x => x.Name).ElementAt(childDocumentListIndex.Value);
-                    return instrument;
-
-                case ChildDocumentTypeEnum.Effect:
-                    Document effect = document.Effects.OrderBy(x => x.Name).ElementAt(childDocumentListIndex.Value);
-                    return effect;
-
-                default:
-                    throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
+                Document rootDocument = documentRepository.Get(rootDocumentID);
+                childDocument = Enumerable.Union(rootDocument.Instruments, rootDocument.Effects)
+                                          .Where(x => x.ID == childDocumentID.Value)
+                                          .SingleOrDefault();
+                return childDocument;
             }
         }
 
-        public static SampleListViewModel GetSampleListViewModel(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        public static SampleListViewModel GetSampleListViewModel(DocumentViewModel documentViewModel, int documentID)
         {
-            if (childDocumentTypeEnum.HasValue != childDocumentListIndex.HasValue)
-            {
-                throw new Exception("Both childDocumentTypeEnum and childDocumentListIndex must be filled in or both should not be filled in.");
-            }
-
-            if (!childDocumentTypeEnum.HasValue)
+            if (documentViewModel.ID == documentID)
             {
                 return documentViewModel.SampleList;
             }
             else
             {
-                switch (childDocumentTypeEnum.Value)
-                {
-                    case ChildDocumentTypeEnum.Instrument:
-                        return documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].SampleList;
-
-                    case ChildDocumentTypeEnum.Effect:
-                        return documentViewModel.EffectDocumentList[childDocumentListIndex.Value].SampleList;
-
-                    default:
-                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
-                }
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(documentViewModel, documentID);
+                return childDocumentViewModel.SampleList;
             }
         }
 
-        public static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        public static SamplePropertiesViewModel GetSamplePropertiesViewModel(DocumentViewModel documentViewModel, int sampleID)
         {
-            if (childDocumentTypeEnum.HasValue != childDocumentListIndex.HasValue)
+            SamplePropertiesViewModel viewModel = documentViewModel.SamplePropertiesList.Where(x => x.Entity.ID == sampleID).SingleOrDefault();
+
+            if (viewModel == null)
             {
-                throw new Exception("Both childDocumentTypeEnum and childDocumentListIndex must be filled in or both should not be filled in.");
+                viewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
+                                      .SelectMany(x => x.SamplePropertiesList)
+                                      .Where(x => x.Entity.ID == sampleID)
+                                      .Single();
             }
 
-            if (!childDocumentTypeEnum.HasValue)
+            return viewModel;
+        }
+
+        public static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels_ByDocumentID(DocumentViewModel documentViewModel, int documentID)
+        {
+            if (documentViewModel.ID == documentID)
             {
                 return documentViewModel.SamplePropertiesList;
             }
             else
             {
-                switch (childDocumentTypeEnum.Value)
-                {
-                    case ChildDocumentTypeEnum.Instrument:
-                        return documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].SamplePropertiesList;
-
-                    case ChildDocumentTypeEnum.Effect:
-                        return documentViewModel.EffectDocumentList[childDocumentListIndex.Value].SamplePropertiesList;
-
-                    default:
-                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
-                }
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(documentViewModel, documentID);
+                return childDocumentViewModel.SamplePropertiesList;
             }
         }
 
-        public static CurveListViewModel GetCurveListViewModel(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        public static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels_BySampleID(DocumentViewModel documentViewModel, int sampleID)
         {
-            if (childDocumentTypeEnum.HasValue != childDocumentListIndex.HasValue)
+            if (documentViewModel.SamplePropertiesList.Any(x => x.Entity.ID == sampleID))
             {
-                throw new Exception("Both childDocumentTypeEnum and childDocumentListIndex must be filled in or both should not be filled in.");
+                return documentViewModel.SamplePropertiesList;
             }
+            else
+            {
+                ChildDocumentViewModel childDocumentViewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
+                                                                          .Where(x => x.SamplePropertiesList.Any(y => y.Entity.ID == sampleID))
+                                                                          .SingleOrDefault();
+                if (childDocumentViewModel == null)
+                {
+                    throw new Exception(String.Format("documentViewModel does not have SamplePropertiesViewModel with ID '{0}' and neither do any ChildDocumentViewModels.", sampleID));
+                }
 
-            if (!childDocumentTypeEnum.HasValue)
+                return childDocumentViewModel.SamplePropertiesList;
+            }
+        }
+
+        public static CurveListViewModel GetCurveListViewModel(DocumentViewModel documentViewModel, int documentID)
+        {
+            if (documentViewModel.ID == documentID)
             {
                 return documentViewModel.CurveList;
             }
             else
             {
-                switch (childDocumentTypeEnum.Value)
-                {
-                    case ChildDocumentTypeEnum.Instrument:
-                        return documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].CurveList;
-
-                    case ChildDocumentTypeEnum.Effect:
-                        return documentViewModel.EffectDocumentList[childDocumentListIndex.Value].CurveList;
-
-                    default:
-                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
-                }
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(documentViewModel, documentID);
+                return childDocumentViewModel.CurveList;
             }
         }
 
-        public static IList<CurveDetailsViewModel> GetCurveDetailsViewModels(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        public static CurveDetailsViewModel GetCurveDetailsViewModel(DocumentViewModel documentViewModel, int curveID)
         {
-            if (childDocumentTypeEnum.HasValue != childDocumentListIndex.HasValue)
+            CurveDetailsViewModel viewModel = documentViewModel.CurveDetailsList.Where(x => x.Entity.ID == curveID).SingleOrDefault();
+
+            if (viewModel == null)
             {
-                throw new Exception("Both childDocumentTypeEnum and childDocumentListIndex must be filled in or both should not be filled in.");
+                viewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
+                                      .SelectMany(x => x.CurveDetailsList)
+                                      .Where(x => x.Entity.ID == curveID)
+                                      .Single();
             }
 
-            if (!childDocumentTypeEnum.HasValue)
+            return viewModel;
+        }
+
+        public static IList<CurveDetailsViewModel> GetCurveDetailsViewModels_ByDocumentID(DocumentViewModel documentViewModel, int documentID)
+        {
+            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+
+            if (documentViewModel.ID == documentID)
             {
                 return documentViewModel.CurveDetailsList;
             }
             else
             {
-                switch (childDocumentTypeEnum.Value)
-                {
-                    case ChildDocumentTypeEnum.Instrument:
-                        return documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].CurveDetailsList;
-
-                    case ChildDocumentTypeEnum.Effect:
-                        return documentViewModel.EffectDocumentList[childDocumentListIndex.Value].CurveDetailsList;
-
-                    default:
-                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
-                }
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(documentViewModel, documentID);
+                return childDocumentViewModel.CurveDetailsList;
             }
         }
 
-        public static PatchListViewModel GetPatchListViewModel(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        public static IList<CurveDetailsViewModel> GetCurveDetailsViewModels_ByCurveID(DocumentViewModel documentViewModel, int curveID)
         {
-            if (childDocumentTypeEnum.HasValue != childDocumentListIndex.HasValue)
+            if (documentViewModel.CurveDetailsList.Any(x => x.Entity.ID == curveID))
             {
-                throw new Exception("Both childDocumentTypeEnum and childDocumentListIndex must be filled in or both should not be filled in.");
+                return documentViewModel.CurveDetailsList;
             }
+            else
+            {
+                ChildDocumentViewModel childDocumentViewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
+                                                                          .Where(x => x.CurveDetailsList.Any(y => y.Entity.ID == curveID))
+                                                                          .SingleOrDefault();
+                if (childDocumentViewModel == null)
+                {
+                    throw new Exception(String.Format("documentViewModel does not have CurveDetailsViewModel with ID '{0}' and neither do any ChildDocumentViewModels.", curveID));
+                }
 
-            if (!childDocumentTypeEnum.HasValue)
+                return childDocumentViewModel.CurveDetailsList;
+            }
+        }
+
+        public static PatchListViewModel GetPatchListViewModel(DocumentViewModel documentViewModel, int documentID)
+        {
+            if (documentViewModel.ID == documentID)
             {
                 return documentViewModel.PatchList;
             }
             else
             {
-                switch (childDocumentTypeEnum.Value)
-                {
-                    case ChildDocumentTypeEnum.Instrument:
-                        return documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].PatchList;
-
-                    case ChildDocumentTypeEnum.Effect:
-                        return documentViewModel.EffectDocumentList[childDocumentListIndex.Value].PatchList;
-
-                    default:
-                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
-                }
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(documentViewModel, documentID);
+                return childDocumentViewModel.PatchList;
             }
         }
 
-        public static IList<PatchDetailsViewModel> GetPatchDetailsViewModels(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        public static PatchDetailsViewModel GetPatchDetailsViewModel(DocumentViewModel documentViewModel, int patchID)
         {
-            if (childDocumentTypeEnum.HasValue != childDocumentListIndex.HasValue)
+            PatchDetailsViewModel viewModel = documentViewModel.PatchDetailsList.Where(x => x.Entity.ID == patchID).SingleOrDefault();
+
+            if (viewModel == null)
             {
-                throw new Exception("Both childDocumentTypeEnum and childDocumentListIndex must be filled in or both should not be filled in.");
+                viewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
+                                      .SelectMany(x => x.PatchDetailsList)
+                                      .Where(x => x.Entity.ID == patchID)
+                                      .Single();
             }
 
-            if (!childDocumentTypeEnum.HasValue)
+            return viewModel;
+        }
+
+        public static IList<PatchDetailsViewModel> GetPatchDetailsViewModels_ByDocumentID(DocumentViewModel documentViewModel, int documentID)
+        {
+            if (documentViewModel.ID == documentID)
             {
                 return documentViewModel.PatchDetailsList;
             }
             else
             {
-                switch (childDocumentTypeEnum.Value)
-                {
-                    case ChildDocumentTypeEnum.Instrument:
-                        return documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].PatchDetailsList;
-
-                    case ChildDocumentTypeEnum.Effect:
-                        return documentViewModel.EffectDocumentList[childDocumentListIndex.Value].PatchDetailsList;
-
-                    default:
-                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
-                }
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(documentViewModel, documentID);
+                return childDocumentViewModel.PatchDetailsList;
             }
+        }
+
+        public static IList<PatchDetailsViewModel> GetPatchDetailsViewModels_ByPatchID(DocumentViewModel documentViewModel, int patchID)
+        {
+            if (documentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+            {
+                return documentViewModel.PatchDetailsList;
+            }
+            else
+            {
+                ChildDocumentViewModel childDocumentViewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
+                                                                          .Where(x => x.PatchDetailsList.Any(y => y.Entity.ID == patchID))
+                                                                          .SingleOrDefault();
+                if (childDocumentViewModel == null)
+                {
+                    throw new Exception(String.Format("documentViewModel does not have PatchDetailsViewModel with ID '{0}' and neither do any ChildDocumentViewModels.", patchID));
+                }
+
+                return childDocumentViewModel.PatchDetailsList;
+            }
+        }
+
+        public static Curve TryGetCurve(Document rootDocument, int curveID)
+        {
+            Curve curve = rootDocument.Curves.Where(x => x.ID == curveID).SingleOrDefault();
+
+            if (curve == null)
+            {
+                curve = Enumerable.Union(rootDocument.Instruments, rootDocument.Effects)
+                                  .SelectMany(x => x.Curves)
+                                  .Where(x => x.ID == curveID)
+                                  .SingleOrDefault();
+            }
+
+            return curve;
+        }
+
+        public static Curve GetCurve(Document rootDocument, int curveID)
+        {
+            Curve curve = TryGetCurve(rootDocument, curveID);
+
+            if (curve == null)
+            {
+                throw new Exception(String.Format("Curve with ID '{0}' not found in either root Document or child Documents.", curveID));
+            }
+
+            return curve;
+        }
+
+        public static Patch TryGetPatch(Document rootDocument, int patchID)
+        {
+            Patch patch = rootDocument.Patches.Where(x => x.ID == patchID).SingleOrDefault();
+
+            if (patch == null)
+            {
+                patch = Enumerable.Union(rootDocument.Instruments, rootDocument.Effects)
+                                  .SelectMany(x => x.Patches)
+                                  .Where(x => x.ID == patchID)
+                                  .SingleOrDefault();
+            }
+
+            return patch;
+        }
+
+        public static Patch GetPatch(Document rootDocument, int patchID)
+        {
+            Patch patch = TryGetPatch(rootDocument, patchID);
+
+            if (patch == null)
+            {
+                throw new Exception(String.Format("Patch with ID '{0}' not found in either root Document or child Documents.", patchID));
+            }
+
+            return patch;
+        }
+
+        public static Sample TryGetSample(Document rootDocument, int sampleID)
+        {
+            Sample sample = rootDocument.Samples.Where(x => x.ID == sampleID).SingleOrDefault();
+
+            if (sample == null)
+            {
+                sample = Enumerable.Union(rootDocument.Instruments, rootDocument.Effects)
+                                  .SelectMany(x => x.Samples)
+                                  .Where(x => x.ID == sampleID)
+                                  .SingleOrDefault();
+            }
+
+            return sample;
+        }
+
+        public static Sample GetSample(Document rootDocument, int sampleID)
+        {
+            Sample sample = TryGetSample(rootDocument, sampleID);
+
+            if (sample == null)
+            {
+                throw new Exception(String.Format("Sample with ID '{0}' not found in either root Document or child Documents.", sampleID));
+            }
+
+            return sample;
+        }
+
+        private static ChildDocumentViewModel GetChildDocumentViewModel(DocumentViewModel documentViewModel, int documentID)
+        {
+            ChildDocumentViewModel childDocumentViewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
+                                                                      .Where(x => x.ID == documentID)
+                                                                      .SingleOrDefault();
+            if (childDocumentViewModel == null)
+            {
+                throw new Exception(String.Format("documentViewModel does not have ID '{0}' and neither do any ChildDocumentViewModels.", documentID));
+            }
+
+            return childDocumentViewModel;
         }
     }
 }

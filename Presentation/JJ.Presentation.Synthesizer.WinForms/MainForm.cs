@@ -358,9 +358,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Curve Actions
 
-        private void CurveListShow(ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void CurveListShow(int? childDocumentID)
         {
-            _viewModel = _presenter.CurveListShow(_viewModel, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.CurveListShow(_viewModel, childDocumentID);
             ApplyViewModel();
         }
 
@@ -370,15 +370,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void CurveCreate(ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void CurveCreate(int? childDocumentID)
         {
-            _viewModel = _presenter.CurveCreate(_viewModel, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.CurveCreate(_viewModel, childDocumentID);
             ApplyViewModel();
         }
 
-        private void CurveDelete(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void CurveDelete(int curveID)
         {
-            _viewModel = _presenter.CurveDelete(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.CurveDelete(_viewModel, curveID);
             ApplyViewModel();
         }
 
@@ -436,9 +436,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Patch Actions
 
-        private void PatchListShow(ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void PatchListShow(int? childDocumentID)
         {
-            _viewModel = _presenter.PatchListShow(_viewModel, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.PatchListShow(_viewModel, childDocumentID);
             ApplyViewModel();
         }
 
@@ -448,110 +448,75 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void PatchCreate(ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void PatchCreate(int? childDocumentID)
         {
-            _viewModel = _presenter.PatchCreate(_viewModel, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.PatchCreate(_viewModel, childDocumentID);
             ApplyViewModel();
         }
 
-        private void PatchDelete(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void PatchDelete(int patchID)
         {
-            _viewModel = _presenter.PatchDelete(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.PatchDelete(_viewModel, patchID);
             ApplyViewModel();
         }
 
-        private void PatchDetailsShow(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void PatchDetailsShow(int patchID)
         {
-            _viewModel = _presenter.PatchDetailsShow(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.PatchDetailsShow(_viewModel, patchID);
             ApplyViewModel();
         }
 
-        private void PatchDetailsClose(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void PatchDetailsClose(int patchID)
         {
-            _viewModel = _presenter.PatchDetailsClose(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.PatchDetailsClose(_viewModel, patchID);
             ApplyViewModel();
         }
 
-        private void PatchDetailsLoseFocus(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void PatchDetailsLoseFocus(int patchID)
         {
-            _viewModel = _presenter.PatchDetailsLoseFocus(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.PatchDetailsLoseFocus(_viewModel, patchID);
             ApplyViewModel();
         }
 
-        private void PatchDetailsAddOperator(
-            int listIndex, 
-            ChildDocumentTypeEnum? childDocumentTypeEnum, 
-            int? childDocumentListIndex, 
-            int operatorTypeID)
+        private void PatchDetailsAddOperator(int patchID, int operatorTypeID)
         {
-            _viewModel = _presenter.PatchDetailsAddOperator(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex, operatorTypeID);
+            _viewModel = _presenter.PatchDetailsAddOperator(_viewModel, patchID, operatorTypeID);
             ApplyViewModel();
         }
 
-        private void PatchDetailsMoveOperator(
-            int patchListIndex,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
-            int? childDocumentListIndex,
-            int operatorIndexNumber,
-            float centerX,
-            float centerY)
+        private void PatchDetailsMoveOperator(int patchID, int operatorID, float centerX, float centerY)
         {
-            _viewModel = _presenter.PatchDetailsMoveOperator(_viewModel, patchListIndex, childDocumentTypeEnum, childDocumentListIndex, operatorIndexNumber, centerX, centerY);
+            _viewModel = _presenter.PatchDetailsMoveOperator(_viewModel, patchID, operatorID, centerX, centerY);
             ApplyViewModel();
         }
 
-        private void PatchDetailsChangeInputOutlet(
-            int patchListIndex,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
-            int? childDocumentListIndex,
-            int inlet_OperatorIndexNumber,
-            int inlet_ListIndex,
-            int inputOutlet_OperatorIndexNumber,
-            int inputOutlet_ListIndex)
+        private void PatchDetailsChangeInputOutlet(int patchID, int inletID, int inputOutletID)
         {
-            _viewModel = _presenter.PatchDetailsChangeInputOutlet(
-                _viewModel, 
-                patchListIndex, 
-                childDocumentTypeEnum, 
-                childDocumentListIndex, 
-                inlet_OperatorIndexNumber, 
-                inlet_ListIndex, 
-                inputOutlet_OperatorIndexNumber, 
-                inputOutlet_ListIndex);
-
+            _viewModel = _presenter.PatchDetailsChangeInputOutlet(_viewModel, patchID, inletID, inputOutletID);
             ApplyViewModel();
         }
 
-        private void PatchDetailsSelectOperator(
-            int patchListIndex,
-            ChildDocumentTypeEnum? childDocumentTypeEnum,
-            int? childDocumentListIndex,
-            int operatorIndexNumber)
+        private void PatchDetailsSelectOperator(int patchID, int operatorID)
         {
-            _viewModel = _presenter.PatchDetailsSelectOperator(_viewModel, patchListIndex, childDocumentTypeEnum, childDocumentListIndex, operatorIndexNumber);
+            _viewModel = _presenter.PatchDetailsSelectOperator(_viewModel, patchID, operatorID);
             ApplyViewModel();
         }
 
-        private void PatchDetailsDeleteOperator(int patchListIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void PatchDetailsDeleteOperator(int patchID)
         {
-            _viewModel = _presenter.PatchDetailsDeleteOperator(_viewModel, patchListIndex, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.PatchDetailsDeleteOperator(_viewModel, patchID);
             ApplyViewModel();
         }
 
-        private void PatchDetailsSetValue(int patchListIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex, string value)
+        private void PatchDetailsSetValue(int patchID, string value)
         {
-            _viewModel = _presenter.PatchDetailsSetValue(_viewModel, patchListIndex, childDocumentTypeEnum, childDocumentListIndex, value);
+            _viewModel = _presenter.PatchDetailsSetValue(_viewModel, patchID, value);
             ApplyViewModel();
         }
 
-        private void PatchPlay(int patchListIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void PatchPlay(int patchID)
         {
-            _viewModel = _presenter.PatchPlay(
-                _viewModel, 
-                patchListIndex, childDocumentTypeEnum, childDocumentListIndex, 
-                DEFAULT_DURATION,
-                _sampleFilePath,
-                _outputFilePath);
+            _viewModel = _presenter.PatchPlay(_viewModel, patchID, DEFAULT_DURATION, _sampleFilePath, _outputFilePath);
 
             ApplyViewModel();
 
@@ -560,21 +525,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 SoundPlayer soundPlayer = new SoundPlayer(_outputFilePath);
                 soundPlayer.Play();
             }
-
-            // TODO: Remove outcommented code.
-            //VoidResult result = PlayHelper.Play(_patch);
-            //if (!result.Successful)
-            //{
-            //    string messages = String.Join(Environment.NewLine, result.Messages.Select(x => x.Text));
-            //    MessageBox.Show(messages);
-            //}
         }
 
         // Sample Actions
 
-        private void SampleListShow(ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void SampleListShow(int? childDocumentID)
         {
-            _viewModel = _presenter.SampleListShow(_viewModel, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.SampleListShow(_viewModel, childDocumentID);
             ApplyViewModel();
         }
 
@@ -584,33 +541,33 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void SampleCreate(ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void SampleCreate(int? childDocumentID)
         {
-            _viewModel = _presenter.SampleCreate(_viewModel, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.SampleCreate(_viewModel, childDocumentID);
             ApplyViewModel();
         }
 
-        private void SampleDelete(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void SampleDelete(int sampleID)
         {
-            _viewModel = _presenter.SampleDelete(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.SampleDelete(_viewModel, sampleID);
             ApplyViewModel();
         }
 
-        private void SamplePropertiesShow(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void SamplePropertiesShow(int sampleID)
         {
-            _viewModel = _presenter.SamplePropertiesShow(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.SamplePropertiesShow(_viewModel, sampleID);
             ApplyViewModel();
         }
 
-        private void SamplePropertiesClose(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void SamplePropertiesClose(int sampleID)
         {
-            _viewModel = _presenter.SamplePropertiesClose(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.SamplePropertiesClose(_viewModel, sampleID);
             ApplyViewModel();
         }
 
-        private void SamplePropertiesLoseFocus(int listIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private void SamplePropertiesLoseFocus(int sampleID)
         {
-            _viewModel = _presenter.SamplePropertiesLoseFocus(_viewModel, listIndex, childDocumentTypeEnum, childDocumentListIndex);
+            _viewModel = _presenter.SamplePropertiesLoseFocus(_viewModel, sampleID);
             ApplyViewModel();
         }
 
@@ -640,7 +597,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentListUserControl_ShowRequested(object sender, Int32EventArgs e)
         {
-            DocumentListShow(e.Int32);
+            DocumentListShow(e.Value);
         }
 
         private void documentListUserControl_CreateRequested(object sender, EventArgs e)
@@ -650,12 +607,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentListUserControl_OpenRequested(object sender, Int32EventArgs e)
         {
-            DocumentOpen(e.Int32);
+            DocumentOpen(e.Value);
         }
 
         private void documentListUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            DocumentDelete(e.Int32);
+            DocumentDelete(e.Value);
         }
 
         private void documentListUserControl_CloseRequested(object sender, EventArgs e)
@@ -672,7 +629,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentDetailsUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            DocumentDelete(e.Int32);
+            DocumentDelete(e.Value);
         }
 
         private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e)
@@ -689,17 +646,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentTreeUserControl_DocumentPropertiesRequested(object sender, Int32EventArgs e)
         {
-            DocumentPropertiesShow(e.Int32);
+            DocumentPropertiesShow(e.Value);
         }
 
         private void documentTreeUserControl_ExpandNodeRequested(object sender, Int32EventArgs e)
         {
-            DocumentTreeExpandNode(e.Int32);
+            DocumentTreeExpandNode(e.Value);
         }
 
         private void documentTreeUserControl_CollapseNodeRequested(object sender, Int32EventArgs e)
         {
-            DocumentTreeCollapseNode(e.Int32);
+            DocumentTreeCollapseNode(e.Value);
         }
 
         private void documentTreeUserControl_ShowInstrumentsRequested(object sender, EventArgs e)
@@ -712,19 +669,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             EffectListShow();
         }
 
-        private void documentTreeUserControl_ShowSamplesRequested(object sender, ChildDocumentEventArgs e)
+        private void documentTreeUserControl_ShowSamplesRequested(object sender, NullableInt32EventArgs e)
         {
-            SampleListShow(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+            SampleListShow(e.Value);
         }
 
-        private void documentTreeUserControl_ShowCurvesRequested(object sender, ChildDocumentEventArgs e)
+        private void documentTreeUserControl_ShowCurvesRequested(object sender, NullableInt32EventArgs e)
         {
-            CurveListShow(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+            CurveListShow(e.Value);
         }
 
-        private void documentTreeUserControl_ShowPatchesRequested(object sender, ChildDocumentEventArgs e)
+        private void documentTreeUserControl_ShowPatchesRequested(object sender, NullableInt32EventArgs e)
         {
-            PatchListShow(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+            PatchListShow(e.Value);
         }
 
         private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
@@ -753,7 +710,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void audioFileOutputListUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            AudioFileOutputDelete(e.Int32);
+            AudioFileOutputDelete(e.Value);
         }
 
         private void audioFileOutputListUserControl_CloseRequested(object sender, EventArgs e)
@@ -763,29 +720,29 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void audioFileOutputListUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
         {
-            AudioFileOutputPropertiesShow(e.Int32);
+            AudioFileOutputPropertiesShow(e.Value);
         }
 
         private void audioFileOutputPropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
         {
-            AudioFileOutputPropertiesClose(e.Int32);
+            AudioFileOutputPropertiesClose(e.Value);
         }
 
         private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            AudioFileOutputPropertiesLoseFocus(e.Int32);
+            AudioFileOutputPropertiesLoseFocus(e.Value);
         }
 
         // Curve Events
 
-        private void curveListUserControl_CreateRequested(object sender, ChildDocumentEventArgs e)
+        private void curveListUserControl_CreateRequested(object sender, NullableInt32EventArgs e)
         {
-            CurveCreate(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+            CurveCreate(e.Value);
         }
 
-        private void curveListUserControl_DeleteRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        private void curveListUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            CurveDelete(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+            CurveDelete(e.Value);
         }
 
         private void curveListUserControl_CloseRequested(object sender, EventArgs e)
@@ -802,7 +759,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void instrumentListUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            InstrumentDelete(e.Int32);
+            InstrumentDelete(e.Value);
         }
 
         private void instrumentListUserControl_CloseRequested(object sender, EventArgs e)
@@ -819,7 +776,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void effectListUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            EffectDelete(e.Int32);
+            EffectDelete(e.Value);
         }
 
         private void effectListUserControl_CloseRequested(object sender, EventArgs e)
@@ -827,48 +784,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
             EffectListClose();
         }
 
-        // Sample Events
-
-        private void sampleListUserControl_CreateRequested(object sender, ChildDocumentEventArgs e)
-        {
-            SampleCreate(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
-        }
-
-        private void sampleListUserControl_DeleteRequested(object sender, ChildDocumentSubListItemEventArgs e)
-        {
-            SampleDelete(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
-        }
-
-        private void sampleListUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            SampleListClose();
-        }
-
-        private void sampleListUserControl_ShowPropertiesRequested(object sender, ChildDocumentSubListItemEventArgs e)
-        {
-            SamplePropertiesShow(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
-        }
-
-        private void samplePropertiesUserControl_LoseFocusRequested(object sender, ChildDocumentSubListItemEventArgs e)
-        {
-            SamplePropertiesLoseFocus(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
-        }
-
-        private void samplePropertiesUserControl_CloseRequested(object sender, ChildDocumentSubListItemEventArgs e)
-        {
-            SamplePropertiesClose(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
-        }
-
         // Patch Events
 
-        private void patchListUserControl_CreateRequested(object sender, ChildDocumentEventArgs e)
+        private void patchListUserControl_CreateRequested(object sender, NullableInt32EventArgs e)
         {
-            PatchCreate(e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+            PatchCreate(e.Value);
         }
 
-        private void patchListUserControl_DeleteRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        private void patchListUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
-            PatchDelete(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+            PatchDelete(e.Value);
         }
 
         private void patchListUserControl_CloseRequested(object sender, EventArgs e)
@@ -876,56 +801,86 @@ namespace JJ.Presentation.Synthesizer.WinForms
             PatchListClose();
         }
 
-        private void patchListUserControl_ShowDetailsRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        private void patchListUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
         {
-            PatchDetailsShow(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+            PatchDetailsShow(e.Value);
         }
 
-        private void patchDetailsUserControl_PlayRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        private void patchDetailsUserControl_PlayRequested(object sender, Int32EventArgs e)
         {
-            PatchPlay(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+            PatchPlay(e.Value);
         }
 
         private void patchDetailsUserControl_SetValueRequested(object sender, SetValueEventArgs e)
         {
-            PatchDetailsSetValue(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex, e.Value);
+            PatchDetailsSetValue(e.PatchID, e.Value);
         }
 
         private void patchDetailsUserControl_SelectOperatorRequested(object sender, SelectOperatorEventArgs e)
         {
-            PatchDetailsSelectOperator(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex, e.OperatorIndexNumber);
+            PatchDetailsSelectOperator(e.PatchID, e.OperatorID);
         }
 
         private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
         {
-            PatchDetailsChangeInputOutlet(
-                e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex,
-                e.Inlet_OperatorIndexNumber, e.Inlet_ListIndex, e.InputOutlet_OperatorIndexNumber, e.InputOutlet_ListIndex);
+            PatchDetailsChangeInputOutlet(e.PatchID, e.InletID, e.InputOutletID);
         }
 
         private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e)
         {
-            PatchDetailsMoveOperator(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex, e.OperatorIndexNumber, e.CenterX, e.CenterY);
+            PatchDetailsMoveOperator(e.PatchID, e.OperatorID, e.CenterX, e.CenterY);
         }
 
         private void patchDetailsUserControl_AddOperatorRequested(object sender, AddOperatorEventArgs e)
         {
-            PatchDetailsAddOperator(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex, e.OperatorTypeID);
+            PatchDetailsAddOperator(e.PatchID, e.OperatorTypeID);
         }
 
-        private void patchDetailsUserControl_DeleteOperatorRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        private void patchDetailsUserControl_DeleteOperatorRequested(object sender, Int32EventArgs e)
         {
-            PatchDetailsDeleteOperator(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+            PatchDetailsDeleteOperator(e.Value);
         }
 
-        private void patchDetailsUserControl_LoseFocusRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        private void patchDetailsUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
         {
-            PatchDetailsLoseFocus(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+            PatchDetailsLoseFocus(e.Value);
         }
 
-        private void patchDetailsUserControl_CloseRequested(object sender, ChildDocumentSubListItemEventArgs e)
+        private void patchDetailsUserControl_CloseRequested(object sender, Int32EventArgs e)
         {
-            PatchDetailsClose(e.ListIndex, e.ChildDocumentTypeEnum, e.ChildDocumentListIndex);
+            PatchDetailsClose(e.Value);
+        }
+
+        // Sample Events
+
+        private void sampleListUserControl_CreateRequested(object sender, NullableInt32EventArgs e)
+        {
+            SampleCreate(e.Value);
+        }
+
+        private void sampleListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            SampleDelete(e.Value);
+        }
+
+        private void sampleListUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            SampleListClose();
+        }
+
+        private void sampleListUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
+        {
+            SamplePropertiesShow(e.Value);
+        }
+
+        private void samplePropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        {
+            SamplePropertiesLoseFocus(e.Value);
+        }
+
+        private void samplePropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
+        {
+            SamplePropertiesClose(e.Value);
         }
 
         // Message Box Events
@@ -942,7 +897,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, Int32EventArgs e)
         {
-            DocumentConfirmDelete(e.Int32);
+            DocumentConfirmDelete(e.Value);
         }
 
         private void MessageBoxHelper_DocumentDeletedOK(object sender, EventArgs e)

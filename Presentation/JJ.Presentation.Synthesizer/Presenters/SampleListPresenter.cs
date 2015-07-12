@@ -30,23 +30,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return SampleListViewModel or NotFoundViewModel.
         /// </summary>
-        public object Show(int documentID, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        public object Show(int rootDocumentID, int? childDocumentID)
         {
             bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.Keys.RootDocumentID != documentID ||
-                                       _viewModel.Keys.ChildDocumentTypeEnum != childDocumentTypeEnum ||
-                                       _viewModel.Keys.ChildDocumentListIndex != childDocumentListIndex;
-
+                                       _viewModel.RootDocumentID != rootDocumentID ||
+                                       _viewModel.ChildDocumentID != childDocumentID;
             if (mustCreateViewModel)
             {
-                Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(documentID, childDocumentTypeEnum, childDocumentListIndex, _documentRepository);
-
+                Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(rootDocumentID, childDocumentID, _documentRepository);
                 if (document == null)
                 {
                     return CreateDocumentNotFoundViewModel();
                 }
 
-                _viewModel = document.Samples.ToListViewModel(documentID, childDocumentTypeEnum, childDocumentListIndex);
+                _viewModel = document.Samples.ToListViewModel(rootDocumentID, childDocumentID);
             }
 
             _viewModel.Visible = true;
@@ -61,14 +58,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(viewModel.Keys.RootDocumentID, viewModel.Keys.ChildDocumentTypeEnum, viewModel.Keys.ChildDocumentListIndex, _documentRepository);
-
+            Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(viewModel.RootDocumentID, viewModel.ChildDocumentID, _documentRepository);
             if (document == null)
             {
                 return CreateDocumentNotFoundViewModel();
             }
 
-            _viewModel = document.Samples.ToListViewModel(viewModel.Keys.RootDocumentID, viewModel.Keys.ChildDocumentTypeEnum, viewModel.Keys.ChildDocumentListIndex);
+            _viewModel = document.Samples.ToListViewModel(viewModel.RootDocumentID, viewModel.ChildDocumentID);
 
             _viewModel.Visible = viewModel.Visible;
 

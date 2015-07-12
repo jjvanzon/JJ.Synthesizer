@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Data.Synthesizer.Memory.Helpers;
 
 namespace JJ.Data.Synthesizer.Memory.Repositories
 {
@@ -13,16 +14,8 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
         public InterpolationTypeRepository(IContext context)
             : base(context)
         {
-            InterpolationType entity;
-
-            // TODO: I need to be able to specify identity explicit or something
-            // Not just auto-increment or NoIDs
-
-            entity = Create();
-            entity.Name = "Block";
-
-            entity = Create();
-            entity.Name = "Line";
+            RepositoryHelper.EnsureEnumEntity(this, 1, "Block");
+            RepositoryHelper.EnsureEnumEntity(this, 2, "Line");
         }
     }
 }

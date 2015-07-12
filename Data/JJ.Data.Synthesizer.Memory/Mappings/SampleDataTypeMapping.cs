@@ -12,7 +12,7 @@ namespace JJ.Data.Synthesizer.Memory.Mappings
     {
         public SampleDataTypeMapping()
         {
-            IdentityType = IdentityType.AutoIncrement;
+            IdentityType = IdentityType.Assigned;
             IdentityPropertyName = PropertyNames.ID;
         }
     }

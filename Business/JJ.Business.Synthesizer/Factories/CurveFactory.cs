@@ -18,19 +18,23 @@ namespace JJ.Business.Synthesizer.Factories
         private ICurveRepository _curveRepository;
         private INodeRepository _nodeRepository;
         private INodeTypeRepository _nodeTypeRepository;
+        private IIdentityRepository _identityRepository;
 
         public CurveFactory(
             ICurveRepository curveRepository,
             INodeRepository nodeRepository,
-            INodeTypeRepository nodeTypeRepository)
+            INodeTypeRepository nodeTypeRepository,
+            IIdentityRepository identityRepository)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (nodeRepository == null) throw new NullException(() => nodeRepository);
             if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
+            if (identityRepository == null) throw new NullException(() => identityRepository);
 
             _curveRepository = curveRepository;
             _nodeRepository = nodeRepository;
             _nodeTypeRepository = nodeTypeRepository;
+            _identityRepository = identityRepository;
         }
 
         public Curve CreateCurve(params NodeInfo[] nodeInfos)
@@ -38,10 +42,12 @@ namespace JJ.Business.Synthesizer.Factories
             if (nodeInfos == null) throw new NullException(() => nodeInfos);
 
             Curve curve = _curveRepository.Create();
+            curve.ID = _identityRepository.GenerateID();
 
             foreach (NodeInfo nodeInfo in nodeInfos)
             {
                 Node node = _nodeRepository.Create();
+                node.ID = _identityRepository.GenerateID();
                 node.Time = nodeInfo.Time;
                 node.Value = nodeInfo.Value;
                 node.SetNodeTypeEnum(nodeInfo.NodeTypeEnum, _nodeTypeRepository);
@@ -59,6 +65,7 @@ namespace JJ.Business.Synthesizer.Factories
             if (nodeInfos == null) throw new NullException(() => nodeInfos);
 
             Curve curve = _curveRepository.Create();
+            curve.ID = _identityRepository.GenerateID();
 
             double[] times = GetEquidistantPointsInTime(timeSpan, nodeInfos.Length);
 
@@ -70,6 +77,7 @@ namespace JJ.Business.Synthesizer.Factories
                 if (nodeInfo != null)
                 {
                     Node node = _nodeRepository.Create();
+                    node.ID = _identityRepository.GenerateID();
                     node.Time = time;
                     node.Value = nodeInfo.Value;
                     node.SetNodeTypeEnum(nodeInfo.NodeTypeEnum, _nodeTypeRepository);
@@ -87,6 +95,7 @@ namespace JJ.Business.Synthesizer.Factories
             if (values.Length < 2) throw new Exception("values must contain at least 2 items.");
 
             Curve curve = _curveRepository.Create();
+            curve.ID = _identityRepository.GenerateID();
 
             double[] times = GetEquidistantPointsInTime(timeSpan, values.Length);
 
@@ -98,6 +107,7 @@ namespace JJ.Business.Synthesizer.Factories
                 if (value.HasValue)
                 {
                     Node node = _nodeRepository.Create();
+                    node.ID = _identityRepository.GenerateID();
                     node.Time = time;
                     node.Value = value.Value;
                     node.SetNodeTypeEnum(NodeTypeEnum.Line, _nodeTypeRepository);

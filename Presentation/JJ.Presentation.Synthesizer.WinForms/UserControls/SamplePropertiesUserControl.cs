@@ -23,8 +23,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class SamplePropertiesUserControl : UserControl
     {
-        public event EventHandler<ChildDocumentSubListItemEventArgs> CloseRequested;
-        public event EventHandler<ChildDocumentSubListItemEventArgs> LoseFocusRequested;
+        public event EventHandler<Int32EventArgs> CloseRequested;
+        public event EventHandler<Int32EventArgs> LoseFocusRequested;
 
         /// <summary> virtually not nullable </summary>
         private SamplePropertiesViewModel _viewModel;
@@ -170,7 +170,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (CloseRequested != null)
             {
                 ApplyControlsToViewModel();
-                var e = new ChildDocumentSubListItemEventArgs(_viewModel.Entity.Keys.ListIndex, _viewModel.Entity.Keys.ChildDocumentTypeEnum, _viewModel.Entity.Keys.ChildDocumentListIndex);
+                var e = new Int32EventArgs(_viewModel.Entity.ID);
                 CloseRequested(this, e);
             }
         }
@@ -180,7 +180,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (LoseFocusRequested != null)
             {
                 ApplyControlsToViewModel();
-                var e = new ChildDocumentSubListItemEventArgs(_viewModel.Entity.Keys.ListIndex, _viewModel.Entity.Keys.ChildDocumentTypeEnum, _viewModel.Entity.Keys.ChildDocumentListIndex);
+                var e = new Int32EventArgs(_viewModel.Entity.ID);
                 LoseFocusRequested(this, e);
             }
         }

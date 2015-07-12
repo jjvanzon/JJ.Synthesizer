@@ -12,7 +12,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
     {
         public InletMapping()
         {
-            Id(x => x.ID);
+            Id(x => x.ID).GeneratedBy.Assigned();
             Map(x => x.Name);
             References(x => x.Operator, ColumnNames.OperatorID);
             References(x => x.InputOutlet, ColumnNames.InputOutletID);

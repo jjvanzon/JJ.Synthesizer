@@ -65,7 +65,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context),
                 PersistenceHelper.CreateRepository<INodeTypeRepository>(context),
                 PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context),
-                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context)
+                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context),
+                PersistenceHelper.CreateRepository<IIdentityRepository>(context)
             );
 
             return repositoryWrapper;

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Presentation.Synthesizer.ViewModels.Keys
+namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
 {
-    public sealed class DocumentKeysViewModel
+    public interface IIdentityRepository
     {
-        public int ID { get; set; }
+        int GenerateID();
     }
 }

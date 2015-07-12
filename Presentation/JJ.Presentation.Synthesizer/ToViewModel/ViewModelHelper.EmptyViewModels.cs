@@ -183,8 +183,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new AudioFileOutputListViewModel
             {
-                List = new List<AudioFileOutputListItemViewModel>(),
-                Keys = new AudioFileOutputListKeysViewModel()
+                List = new List<AudioFileOutputListItemViewModel>()
             };
 
             return viewModel;
@@ -194,8 +193,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new CurveListViewModel
             {
-                List = new List<CurveListItemViewModel>(),
-                Keys = new CurveListKeysViewModel()
+                List = new List<CurveListItemViewModel>()
             };
 
             return viewModel;
@@ -205,8 +203,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchListViewModel
             {
-                List = new List<PatchListItemViewModel>(),
-                Keys = new PatchListKeysViewModel()
+                List = new List<PatchListItemViewModel>()
             };
 
             return viewModel;
@@ -216,8 +213,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new SampleListViewModel
             {
-                List = new List<SampleListItemViewModel>(),
-                Keys = new SampleListKeysViewModel()
+                List = new List<SampleListItemViewModel>()
             };
 
             return viewModel;
@@ -274,8 +270,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchViewModel
             {
-                Operators = new List<OperatorViewModel>(),
-                Keys = new PatchKeysViewModel()
+                Operators = new List<OperatorViewModel>()
             };
 
             return viewModel;

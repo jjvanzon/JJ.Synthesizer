@@ -123,14 +123,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destDocument == null) throw new NullException(() => destDocument);
             if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (nodeRepository == null) throw new NullException(() => nodeRepository);
-            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
 
             var idsToKeep = new HashSet<int>();
 
             foreach (CurveDetailsViewModel viewModel in viewModelList)
             {
-                Curve entity = viewModel.Curve.ToEntityWithRelatedEntities(curveRepository, nodeRepository, nodeTypeRepository);
+                Curve entity = viewModel.Entity.ToEntityWithRelatedEntities(curveRepository, nodeRepository, nodeTypeRepository);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))

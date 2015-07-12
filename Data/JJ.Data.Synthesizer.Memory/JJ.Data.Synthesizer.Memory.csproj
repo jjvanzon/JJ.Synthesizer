@@ -54,6 +54,7 @@
     <Compile Include="Mappings\NodeMappings.cs" />
     <Compile Include="Mappings\NodeTypeMappings.cs" />
     <Compile Include="Repositories\ChannelRepository.cs" />
+    <Compile Include="Repositories\IndentityRepository.cs" />
     <Compile Include="Repositories\OperatorTypeRepository.cs" />
     <Compile Include="Repositories\EntityPositionRepository.cs" />
     <Compile Include="Repositories\SpeakerSetupRepository.cs" />
@@ -69,6 +70,10 @@
     <Compile Include="Helpers\PropertyNames.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
+      <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
+      <Name>JJ.Framework.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Data.Memory\JJ.Framework.Data.Memory.csproj">
       <Project>{86348b50-eca9-4849-a221-73f0ed31713b}</Project>
       <Name>JJ.Framework.Data.Memory</Name>
@@ -76,6 +81,10 @@
     <ProjectReference Include="..\..\Framework\JJ.Framework.Data\JJ.Framework.Data.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
+      <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
+      <Name>JJ.Framework.Reflection</Name>
     </ProjectReference>
     <ProjectReference Include="..\JJ.Data.Synthesizer.DefaultRepositories\JJ.Data.Synthesizer.DefaultRepositories.csproj">
       <Project>{31660f5f-6141-4da5-b364-6c0717b8f0a9}</Project>

@@ -21,19 +21,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class DocumentDetailsPresenter
     {
         private IDocumentRepository _documentRepository;
+        private IIdentityRepository _identityRepository;
 
-        DocumentDetailsViewModel _viewModel;
+        private DocumentDetailsViewModel _viewModel;
 
-        public DocumentDetailsPresenter(IDocumentRepository documentRepository)
+        public DocumentDetailsPresenter(IDocumentRepository documentRepository, IIdentityRepository identityRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (identityRepository == null) throw new NullException(() => identityRepository);
 
             _documentRepository = documentRepository;
+            _identityRepository = identityRepository;
         }
 
         public DocumentDetailsViewModel Create()
         {
             Document document = _documentRepository.Create();
+            document.ID = _identityRepository.GenerateID();
 
             _viewModel = document.ToDetailsViewModel();
             _viewModel.IDVisible = false;
@@ -41,30 +45,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _viewModel.Visible = true;
 
             return _viewModel;
-        }
-
-        /// <summary>
-        /// Can return DocumentDetailsViewModel or NotFoundViewModel.
-        /// </summary>
-        [Obsolete("", true)]
-        public object Edit(int id)
-        {
-            Document document = _documentRepository.TryGet(id);
-            if (document == null)
-            {
-                var presenter2 = new NotFoundPresenter();
-                NotFoundViewModel viewModel2 = presenter2.Show(PropertyDisplayNames.Document);
-                return viewModel2;
-            }
-            else
-            {
-                _viewModel = document.ToDetailsViewModel();
-                _viewModel.IDVisible = true;
-                _viewModel.CanDelete = true;
-                _viewModel.Visible = true;
-
-                return _viewModel;
-            }
         }
 
         public DocumentDetailsViewModel Save(DocumentDetailsViewModel userInput)

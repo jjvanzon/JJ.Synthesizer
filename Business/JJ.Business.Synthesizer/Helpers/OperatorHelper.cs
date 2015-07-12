@@ -19,24 +19,28 @@ namespace JJ.Business.Synthesizer.Helpers
         /// would also be capable of creating their own underlying operators. However that has not been implemented (yet).
         /// </summary>
         public static Operator CreateOperator(
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, IInletRepository inletRepository, IOutletRepository outletRepository,
+            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, 
+            IInletRepository inletRepository, IOutletRepository outletRepository, IIdentityRepository identityRepository,
             OperatorTypeEnum operatorTypeEnum, string name, int inletCount, params string[] inletAndOutletNames)
         {
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
             if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
+            if (identityRepository == null) throw new NullException(() => identityRepository);
             if (inletAndOutletNames == null) throw new NullException(() => inletAndOutletNames);
 
             if (inletCount > inletAndOutletNames.Length) throw new GreaterThanException(() => inletCount, () => inletAndOutletNames.Length);
 
             Operator op = operatorRepository.Create();
+            op.ID = identityRepository.GenerateID();
             op.Name = name;
             op.SetOperatorTypeEnum(operatorTypeEnum, operatorTypeRepository);
 
             foreach (string inletName in inletAndOutletNames.Take(inletCount))
             {
                 Inlet inlet = inletRepository.Create();
+                inlet.ID = identityRepository.GenerateID();
                 inlet.Name = inletName;
                 inlet.LinkTo(op);
             }
@@ -44,6 +48,7 @@ namespace JJ.Business.Synthesizer.Helpers
             foreach (string outletName in inletAndOutletNames.Skip(inletCount))
             {
                 Outlet outlet = outletRepository.Create();
+                outlet.ID = identityRepository.GenerateID();
                 outlet.Name = outletName;
                 outlet.LinkTo(op);
             }

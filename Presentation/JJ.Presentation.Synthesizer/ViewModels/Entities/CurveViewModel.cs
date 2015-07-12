@@ -9,7 +9,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
     public sealed class CurveViewModel
     {
-        public CurveKeysViewModel Keys { get; set; }
+        public int ID { get; set; }
+        // TODO: Remove outcommented code.
+        //public int DocumentID { get; set; }
         public string Name { get; set; }
         public IList<NodeViewModel> Nodes { get; set; }
     }

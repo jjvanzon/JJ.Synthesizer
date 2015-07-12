@@ -12,7 +12,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
     {
         public CurveMapping()
         {
-            Id(x => x.ID);
+            Id(x => x.ID).GeneratedBy.Assigned();
             Map(x => x.Name);
             HasMany(x => x.Nodes).KeyColumn(ColumnNames.CurveID).Inverse();
             References(x => x.Document, ColumnNames.DocumentID);

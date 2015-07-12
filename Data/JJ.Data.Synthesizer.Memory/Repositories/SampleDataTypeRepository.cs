@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Data.Synthesizer.Memory.Helpers;
 
 namespace JJ.Data.Synthesizer.Memory.Repositories
 {
@@ -13,16 +14,8 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
         public SampleDataTypeRepository(IContext context)
             : base(context)
         {
-            SampleDataType entity;
-
-            // TODO: I need to be able to specify identity explicit or something
-            // Not just auto-increment or NoIDs
-
-            entity = Create();
-            entity.Name = "Byte";
-            
-            entity = Create();
-            entity.Name = "Int16";
+            RepositoryHelper.EnsureEnumEntity(this, 1, "Byte");
+            RepositoryHelper.EnsureEnumEntity(this, 2, "Int16");
         }
     }
 }

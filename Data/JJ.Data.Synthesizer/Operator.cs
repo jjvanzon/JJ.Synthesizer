@@ -26,14 +26,6 @@ namespace JJ.Data.Synthesizer
         public virtual IList<Inlet> Inlets { get; set; }
         public virtual IList<Outlet> Outlets { get; set; }
 
-        /// <summary>
-        /// Unique within a patch.
-        /// Not as much used as a sort order, but gives us a unique number within a patch,
-        /// because we have no other alternative unique key for uncommitted objects, 
-        /// which causes lots of problems.
-        /// </summary>
-        public virtual int IndexNumber { get; set; }
-
         private string DebuggerDisplay
         {
             get { return DebugHelper.GetDebuggerDisplay(this); }

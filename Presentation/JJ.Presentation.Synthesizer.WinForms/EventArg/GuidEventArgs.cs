@@ -8,11 +8,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.EventArg
 {
     internal class GuidEventArgs : EventArgs
     {
-        public Guid Guid { get; private set; }
+        public Guid Value { get; private set; }
 
-        public GuidEventArgs(Guid guid)
+        public GuidEventArgs(Guid value)
         {
-            Guid = guid;
+            Value = value;
         }
     }
 }

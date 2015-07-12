@@ -16,14 +16,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class DocumentTreePresenter
     {
         private IDocumentRepository _documentRepository;
+        private IIdentityRepository _identityRepository;
 
         private DocumentTreeViewModel _viewModel;
 
-        public DocumentTreePresenter(IDocumentRepository documentRepository)
+        public DocumentTreePresenter(IDocumentRepository documentRepository, IIdentityRepository identityRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (identityRepository == null) throw new NullException(() => identityRepository);
 
             _documentRepository = documentRepository;
+            _identityRepository = identityRepository;
         }
 
         /// <summary>
@@ -158,7 +161,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// </summary>
         public object Properties(int id)
         {
-            var presenter2 = new DocumentPropertiesPresenter(_documentRepository);
+            var presenter2 = new DocumentPropertiesPresenter(_documentRepository, _identityRepository);
             object viewModel2 = presenter2.Show(id);
             return viewModel2;
         }

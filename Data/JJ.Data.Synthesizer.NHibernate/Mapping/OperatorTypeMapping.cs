@@ -11,7 +11,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
     {
         public OperatorTypeMapping()
         {
-            Id(x => x.ID);
+            Id(x => x.ID).GeneratedBy.Assigned();
             Map(x => x.Name);
             Map(x => x.SortOrder);
         }

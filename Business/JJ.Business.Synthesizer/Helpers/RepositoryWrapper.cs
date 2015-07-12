@@ -30,6 +30,8 @@ namespace JJ.Business.Synthesizer.Helpers
         public ISampleDataTypeRepository SampleDataTypeRepository { get; set; }
         public ISpeakerSetupRepository SpeakerSetupRepository { get; set; }
 
+        public IIdentityRepository IdentityRepository { get; set; }
+
         public RepositoryWrapper(
             IDocumentRepository documentRepository,
             ICurveRepository curveRepository,
@@ -49,7 +51,9 @@ namespace JJ.Business.Synthesizer.Helpers
             IInterpolationTypeRepository interpolationTypeRepository,
             INodeTypeRepository nodeTypeRepository,
             ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository)
+            ISpeakerSetupRepository speakerSetupRepository,
+
+            IIdentityRepository identityRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -71,6 +75,8 @@ namespace JJ.Business.Synthesizer.Helpers
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
 
+            if (identityRepository == null) throw new NullException(() => identityRepository);
+
             DocumentRepository = documentRepository;
             CurveRepository = curveRepository;
             PatchRepository = patchRepository;
@@ -90,6 +96,8 @@ namespace JJ.Business.Synthesizer.Helpers
             NodeTypeRepository = nodeTypeRepository;
             SampleDataTypeRepository = sampleDataTypeRepository;
             SpeakerSetupRepository = speakerSetupRepository;
+
+            IdentityRepository = identityRepository;
         }
 
         public void Commit()

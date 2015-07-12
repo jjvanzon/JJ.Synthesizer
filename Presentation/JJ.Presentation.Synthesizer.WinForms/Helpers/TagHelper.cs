@@ -47,66 +47,35 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             return nodeIndex;
         }
 
-        public static object GetChildDocumentTag(ChildDocumentTypeEnum childDocumentTypeEnum, int childDocumentListIndex)
+        public static object GetChildDocumentTag(int childDocumentID)
         {
-            return String.Format("{0}{1}[{2}]", CHILD_DOCUMENT_TAG_PREFIX, childDocumentTypeEnum, childDocumentListIndex);
+            return String.Format("{0}{1}", CHILD_DOCUMENT_TAG_PREFIX, childDocumentID);
         }
 
-        public static void TryGetChildDocumentKey(object tag, out ChildDocumentTypeEnum? childDocumentTypeEnum, out int? childDocumentListIndex)
+        public static int? TryGetChildDocumentID(object tag)
         {
-            childDocumentTypeEnum = null;
-            childDocumentListIndex = null;
-
             string tagString = Convert.ToString(tag);
 
             if (String.IsNullOrEmpty(tagString))
             {
-                return;
+                return null;
             }
 
             bool isChildDocumentTag = tagString.StartsWith(CHILD_DOCUMENT_TAG_PREFIX);
             if (!isChildDocumentTag)
             {
-                return;
+                return null;
             }
 
-            string keyString = tagString.CutLeft(CHILD_DOCUMENT_TAG_PREFIX.Length);
-            string[] split = keyString.Split('[');
-            if (split.Length != 2)
+            string idString = tagString.CutLeft(CHILD_DOCUMENT_TAG_PREFIX.Length);
+
+            int id;
+            if (!Int32.TryParse(idString, out id))
             {
-                throw new NotImplementedException();
-                // TODO: Add good exception message.
-                throw new Exception();
+                throw new Exception(String.Format("idString '{0}' in tag '{1}' for child document is not a valid ID.", idString, tag));
             }
 
-            string childDocumentTypeEnumString = split[0];
-            string childDocumentIndexString = split[1];
-
-            ChildDocumentTypeEnum childDocumentTypeEnumParsed;
-            if (!Enum.TryParse<ChildDocumentTypeEnum>(childDocumentTypeEnumString, out childDocumentTypeEnumParsed))
-            {
-                throw new NotImplementedException();
-                // TODO: Add good exception message.
-                throw new Exception();
-            }
-
-            if (!childDocumentIndexString.EndsWith("]"))
-            {
-                throw new NotImplementedException();
-                // TODO: Add good exception message.
-                throw new Exception();
-            }
-            childDocumentIndexString = childDocumentIndexString.CutRight(1);
-            int childDocumentIndexParsed;
-            if (!Int32.TryParse(childDocumentIndexString, out childDocumentIndexParsed))
-            {
-                throw new NotImplementedException();
-                // TODO: Add good exception message.
-                throw new Exception();
-            }
-
-            childDocumentTypeEnum = childDocumentTypeEnumParsed;
-            childDocumentListIndex = childDocumentIndexParsed;
+            return id;
         }
     }
 }

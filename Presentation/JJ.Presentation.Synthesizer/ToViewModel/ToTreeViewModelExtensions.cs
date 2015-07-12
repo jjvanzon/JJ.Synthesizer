@@ -35,41 +35,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 }
             };
 
-            IList<Document> dependentOnDocuments = document.DependentOnDocuments.Select(x => x.DependentOnDocument).OrderBy(x => x.Name).ToArray();
-            for (int i = 0; i < dependentOnDocuments.Count; i++)
-            {
-                Document dependentOnDocument = dependentOnDocuments[i];
-
-                ReferencedDocumentViewModel referencedDocumentViewModel = dependentOnDocument.ToReferencedDocumentViewModelWithRelatedEntities(i);
-                viewModel.ReferencedDocuments.List.Add(referencedDocumentViewModel);
-            }
-
+            viewModel.ReferencedDocuments.List = document.DependentOnDocuments.Select(x => x.DependentOnDocument)
+                                                                              .Select(x => x.ToReferencedDocumentViewModelWithRelatedEntities())
+                                                                              .OrderBy(x => x.Name)
+                                                                              .ToList();
             int nodeIndex = 0;
 
-            IList<Document> sortedInstruments = document.Instruments.OrderBy(x => x.Name).ToArray();
-            for (int i = 0; i < sortedInstruments.Count; i++)
-            {
-                Document instrument = sortedInstruments[i];
+            viewModel.Instruments = document.Instruments.OrderBy(x => x.Name)
+                                                        .Select(x => x.ToChildDocumentTreeNodeViewModel(nodeIndex++))
+                                                        .ToList();
 
-                ChildDocumentTreeNodeViewModel instrumentTreeNodeViewModel = instrument.ToChildDocumentTreeNodeViewModel(ChildDocumentTypeEnum.Instrument, i, nodeIndex++);
-
-                viewModel.Instruments.Add(instrumentTreeNodeViewModel);
-            }
-
-            IList<Document> sortedEffects = document.Effects.OrderBy(x => x.Name).ToArray();
-            for (int i = 0; i < sortedEffects.Count; i++)
-            {
-                Document effect = sortedEffects[i];
-
-                ChildDocumentTreeNodeViewModel effectTreeViewNodeModel = effect.ToChildDocumentTreeNodeViewModel(ChildDocumentTypeEnum.Effect, i, nodeIndex++);
-
-                viewModel.Effects.Add(effectTreeViewNodeModel);
-            }
+            viewModel.Effects = document.Effects.OrderBy(x => x.Name)
+                                                .Select(x => x.ToChildDocumentTreeNodeViewModel(nodeIndex++))
+                                                .ToList();
 
             return viewModel;
         }
 
-        public static ChildDocumentTreeNodeViewModel ToChildDocumentTreeNodeViewModel(this Document document, ChildDocumentTypeEnum childDocumentTypeEnum, int listIndex, int nodeIndex)
+        public static ChildDocumentTreeNodeViewModel ToChildDocumentTreeNodeViewModel(this Document document, int nodeIndex)
         {
             if (document == null) throw new NullException(() => document);
 
@@ -82,8 +65,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Keys = new ChildDocumentTreeNodeKeysViewModel
                 {
                     ID = document.ID,
-                    ChildDocumentTypeEnum = childDocumentTypeEnum,
-                    ListIndex = listIndex,
                     NodeIndex = nodeIndex
                 }
             };

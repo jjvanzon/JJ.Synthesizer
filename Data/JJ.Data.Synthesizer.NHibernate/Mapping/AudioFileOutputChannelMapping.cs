@@ -12,7 +12,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
     {
         public AudioFileOutputChannelMapping()
         {
-            Id(x => x.ID);
+            Id(x => x.ID).GeneratedBy.Assigned();
             Map(x => x.IndexNumber);
             References(x => x.Outlet, ColumnNames.OutletID);
             References(x => x.AudioFileOutput, ColumnNames.AudioFileOutputID);

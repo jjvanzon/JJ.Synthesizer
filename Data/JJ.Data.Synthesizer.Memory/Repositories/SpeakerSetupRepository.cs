@@ -14,16 +14,8 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
         public SpeakerSetupRepository(IContext context)
             : base(context)
         {
-            SpeakerSetup entity;
-
-            // TODO: I need to be able to specify identity explicit or something
-            // Not just auto-increment or NoIDs
-
-            entity = Create();
-            entity.Name = "Mono";
-
-            entity = Create();
-            entity.Name = "Stereo";
+            RepositoryHelper.EnsureEnumEntity(this, 1, "Mono");
+            RepositoryHelper.EnsureEnumEntity(this, 2, "Stereo");
         }
 
         public override SpeakerSetup GetWithRelatedEntities(int id)

@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     [DebuggerDisplay("{DebuggerDisplay}")]
     public sealed class OperatorViewModel
     {
-        public OperatorKeysViewModel Keys { get; set; }
+        public int ID { get; set; }
 
         public string Name { get; set; }
         public string Caption { get; set; }

@@ -25,9 +25,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         private readonly IInletRepository _inletRepository;
         private readonly IOutletRepository _outletRepository;
         private readonly IEntityPositionRepository _entityPositionRepository;
-        /// <summary> Key is IndexNumber. </summary>
+
         private readonly Dictionary<int, Operator> _operatorDictionary = new Dictionary<int, Operator>();
-        private readonly Dictionary<string, Outlet> _outletDictionary = new Dictionary<string, Outlet>();
+        private readonly Dictionary<int, Outlet> _outletDictionary = new Dictionary<int, Outlet>();
 
         public RecursiveViewModelToEntityConverter(
             IOperatorRepository operatorRepository,
@@ -61,14 +61,14 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         private Operator ToEntityRecursive(OperatorViewModel viewModel)
         {
             Operator op;
-            if (_operatorDictionary.TryGetValue(viewModel.Keys.OperatorIndexNumber, out op))
+            if (_operatorDictionary.TryGetValue(viewModel.ID, out op))
             {
                 return op;
             }
 
             op = viewModel.ToEntity(_operatorRepository, _operatorTypeRepository);
 
-            _operatorDictionary.Add(op.IndexNumber, op);
+            _operatorDictionary.Add(op.ID, op);
 
             EntityPosition entityPosition = viewModel.ToEntityPosition(_entityPositionRepository);
 
@@ -106,10 +106,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         private Outlet ToEntityRecursive(OutletViewModel outletViewModel)
         {
-            string key = GetOutletKey(outletViewModel.Keys);
-
             Outlet outlet;
-            if (_outletDictionary.TryGetValue(key, out outlet))
+            if (_outletDictionary.TryGetValue(outletViewModel.ID, out outlet))
             {
                 return outlet;
             }
@@ -133,43 +131,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             {
                 // Operator.ToEntityWithRelatedEntities has already converted toe outlet.
                 // Do not call ToEntity here, or you would get a second copy of the outlet, if it is new.
-                if (outletViewModel.Keys.OutletListIndex >= op.Outlets.Count) throw new InvalidIndexException(() => outletViewModel.Keys.OutletListIndex, () => op.Outlets.Count);
-                outlet = op.Outlets[outletViewModel.Keys.OutletListIndex];
+                outlet = op.Outlets.Where(x => x.ID == outletViewModel.ID).Single();
             }
             else
             {
                 // Operator.ToEntityWithRelatedEntities has not yet converted the outlet.
                 outlet = outletViewModel.ToEntity(_outletRepository);
                 outlet.LinkTo(op);
-                _outletDictionary.Add(key, outlet);
+                _outletDictionary.Add(outlet.ID, outlet);
             }
 
             return outlet;
-        }
-
-        //private Outlet ToEntityRecursive_Original(OutletViewModel outletViewModel)
-        //{
-        //    string key = GetOutletKey(outletViewModel.Keys);
-
-        //    Outlet outlet;
-        //    if (_outletDictionary.TryGetValue(key, out outlet))
-        //    {
-        //        return outlet;
-        //    }
-
-        //    outlet = outletViewModel.ToEntity(_outletRepository);
-
-        //    _outletDictionary.Add(key, outlet);
-
-        //    Operator op = ToEntityRecursive(outletViewModel.Operator);
-        //    outlet.LinkTo(op);
-
-        //    return outlet;
-        //}
-
-        private string GetOutletKey(OutletKeysViewModel keysViewModel)
-        {
-            return String.Format("{0}|{1}", keysViewModel.OperatorIndexNumber, keysViewModel.OutletListIndex);
         }
     }
 }

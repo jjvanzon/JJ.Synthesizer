@@ -14,19 +14,9 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
         public ChannelRepository(IContext context)
             : base(context)
         {
-            Channel entity;
-
-            // TODO: I need to be able to specify identity explicit or something
-            // Not just auto-increment or NoIDs
-
-            entity = Create();
-            entity.Name = "Single";
-
-            entity = Create();
-            entity.Name = "Left";
-
-            entity = Create();
-            entity.Name = "Right";
+            RepositoryHelper.EnsureEnumEntity(this, 1, "Single");
+            RepositoryHelper.EnsureEnumEntity(this, 2, "Left");
+            RepositoryHelper.EnsureEnumEntity(this, 3, "Right");
         }
 
         public override Channel GetWithRelatedEntities(int id)

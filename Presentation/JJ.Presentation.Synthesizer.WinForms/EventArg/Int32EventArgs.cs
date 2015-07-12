@@ -8,11 +8,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.EventArg
 {
     internal class Int32EventArgs : EventArgs
     {
-        public int Int32 { get; private set; }
+        public int Value { get; private set; }
 
-        public Int32EventArgs(int int32)
+        public Int32EventArgs(int value)
         {
-            Int32 = int32;
+            Value = value;
         }
     }
 }

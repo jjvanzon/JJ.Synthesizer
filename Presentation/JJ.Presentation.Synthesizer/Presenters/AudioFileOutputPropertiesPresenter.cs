@@ -44,7 +44,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 AudioFileOutput entity = userInput.ToEntityWithRelatedEntities(_audioFileOutputRepositories);
 
                 ViewModel = entity.ToPropertiesViewModel(
-                    userInput.Entity.Keys.ListIndex,
                     _audioFileOutputRepositories.AudioFileFormatRepository, 
                     _audioFileOutputRepositories.SampleDataTypeRepository, 
                     _audioFileOutputRepositories.SpeakerSetupRepository);
@@ -88,7 +87,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (MustCreateViewModel(ViewModel, userInput))
             {
                 ViewModel = entity.ToPropertiesViewModel(
-                    userInput.Entity.Keys.ListIndex,
                     _audioFileOutputRepositories.AudioFileFormatRepository, 
                     _audioFileOutputRepositories.SampleDataTypeRepository, 
                     _audioFileOutputRepositories.SpeakerSetupRepository);
@@ -112,8 +110,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private bool MustCreateViewModel(AudioFileOutputPropertiesViewModel existingViewModel, AudioFileOutputPropertiesViewModel userInput)
         {
             return existingViewModel == null ||
-                   existingViewModel.Entity.Keys.DocumentID != userInput.Entity.Keys.DocumentID ||
-                   existingViewModel.Entity.Keys.ListIndex != userInput.Entity.Keys.ListIndex;
+                   existingViewModel.Entity.ID != userInput.Entity.ID;
         }
     }
 }

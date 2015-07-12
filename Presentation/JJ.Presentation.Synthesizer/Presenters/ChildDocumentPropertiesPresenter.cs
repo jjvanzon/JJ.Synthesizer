@@ -19,14 +19,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class ChildDocumentPropertiesPresenter
     {
         private IDocumentRepository _documentRepository;
+        private IIdentityRepository _identityRepository;
 
         public ChildDocumentPropertiesViewModel ViewModel { get; set; }
 
-        public ChildDocumentPropertiesPresenter(IDocumentRepository documentRepository)
+        public ChildDocumentPropertiesPresenter(IDocumentRepository documentRepository, IIdentityRepository identityRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (identityRepository == null) throw new NullException(() => identityRepository);
 
             _documentRepository = documentRepository;
+            _identityRepository = identityRepository;
         }
 
         public ChildDocumentPropertiesViewModel Show(ChildDocumentPropertiesViewModel userInput)
@@ -37,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 Document entity = userInput.ToEntity(_documentRepository);
 
-                ViewModel = entity.ToChildDocumentPropertiesViewModel(userInput.Keys.ListIndex);
+                ViewModel = entity.ToChildDocumentPropertiesViewModel();
             }
 
             ViewModel.Visible = true;
@@ -72,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (MustCreateViewModel(ViewModel, userInput))
             {
-                ViewModel = entity.ToChildDocumentPropertiesViewModel(userInput.Keys.ListIndex);
+                ViewModel = entity.ToChildDocumentPropertiesViewModel();
             }
 
             IValidator validator = new ChildDocumentValidator(entity);
@@ -93,9 +96,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private bool MustCreateViewModel(ChildDocumentPropertiesViewModel existingViewModel, ChildDocumentPropertiesViewModel userInput)
         {
             return existingViewModel == null ||
-                   existingViewModel.Keys.ParentDocumentID != userInput.Keys.ParentDocumentID ||
-                   existingViewModel.Keys.ChildDocumentTypeEnum != userInput.Keys.ChildDocumentTypeEnum ||
-                   existingViewModel.Keys.ListIndex != userInput.Keys.ListIndex;
+                   existingViewModel.ID != userInput.ID;
         }
     }
 }

@@ -26,7 +26,6 @@ using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Resources;
 using System.IO;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Common;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -40,6 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
         private IEntityPositionRepository _entityPositionRepository;
+        private IIdentityRepository _identityRepository;
 
         private OperatorFactory _operatorFactory;
         private EntityPositionManager _entityPositionManager;
@@ -54,7 +54,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IOutletRepository outletRepository,
             IEntityPositionRepository entityPositionRepository, 
             ICurveRepository curveRepository,
-            ISampleRepository sampleRepository)
+            ISampleRepository sampleRepository,
+            IIdentityRepository identityRepository)
         {
             if (patchRepository == null) throw new NullException(() => patchRepository);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -64,6 +65,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (identityRepository == null) throw new NullException(() => identityRepository);
 
             _patchRepository = patchRepository;
             _operatorRepository = operatorRepository;
@@ -73,15 +75,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _entityPositionRepository = entityPositionRepository;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
+            _identityRepository = identityRepository;
 
             _entityPositionManager = new EntityPositionManager(_entityPositionRepository);
+
             _operatorFactory = new OperatorFactory(
                 _operatorRepository, 
                 _operatorTypeRepository, 
                 _inletRepository, 
                 _outletRepository, 
                 _curveRepository, 
-                _sampleRepository);
+                _sampleRepository,
+                _identityRepository);
         }
 
         public PatchDetailsViewModel Show(PatchDetailsViewModel userInput)
@@ -153,11 +158,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Patch patch = ToEntity(userInput);
 
-            // TODO: Lower priority: Manage this in the patch manager instead.
-            int maxIndexNumber = patch.Operators.MaxOrDefault(x => x.IndexNumber);
-
             Operator op = _operatorFactory.Create((OperatorTypeEnum)operatorTypeID);
-            op.IndexNumber = maxIndexNumber + 1;
             op.LinkTo(patch);
 
             if (MustCreateViewModel(ViewModel, userInput))
@@ -166,11 +167,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties(
-                    userInput.Entity.Keys.RootDocumentID,
-                    userInput.Entity.Keys.ChildDocumentTypeEnum,
-                    userInput.Entity.Keys.ChildDocumentListIndex,
-                    userInput.Entity.Keys.PatchListIndex);
+                OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties();
 
                 operatorViewModel.CenterX = 100; // TODO: Low priority: Should these coordinates should be set in business logic? And randomized the same way as in other parts of the code? Maybe in the entity position manager?
                 operatorViewModel.CenterY = 100;
@@ -180,7 +177,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return ViewModel;
         }
 
-        public PatchDetailsViewModel MoveOperator(PatchDetailsViewModel userInput, int operatorIndexNumber, float centerX, float centerY)
+        public PatchDetailsViewModel MoveOperator(PatchDetailsViewModel userInput, int operatorID, float centerX, float centerY)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -189,7 +186,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             PatchDetailsViewModel viewModelToAdapt = !mustCreateViewModel ? ViewModel : userInput;
 
             OperatorViewModel operatorViewModel = viewModelToAdapt.Entity.Operators
-                                                                         .Where(x => x.Keys.OperatorIndexNumber == operatorIndexNumber)
+                                                                         .Where(x => x.ID == operatorID)
                                                                          .Single();
             operatorViewModel.CenterX = centerX;
             operatorViewModel.CenterY = centerY;
@@ -206,10 +203,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public PatchDetailsViewModel ChangeInputOutlet(
             PatchDetailsViewModel userInput, 
-            int inlet_OperatorIndexNumber, 
-            int inlet_ListIndex, 
-            int inputOutlet_OperatorIndexNumber, 
-            int inputOutlet_ListIndex)
+            int inletID, 
+            int inputOutletID)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -217,23 +212,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             PatchDetailsViewModel viewModelToAdapt = !mustCreateViewModel ? ViewModel : userInput;
 
-            OperatorViewModel inletOperatorViewModel = viewModelToAdapt.Entity
-                                                                       .Operators
-                                                                       .Where(x => x.Keys.OperatorIndexNumber == inlet_OperatorIndexNumber)
-                                                                       .Single();
+            InletViewModel inletViewModel = viewModelToAdapt.Entity.Operators
+                                                                   .SelectMany(x => x.Inlets)
+                                                                   .Where(x => x.ID == inletID)
+                                                                   .Single();
 
-            InletViewModel inletViewModel = inletOperatorViewModel.Inlets
-                                                                  .Where(x => x.Keys.InletListIndex == inlet_ListIndex)
-                                                                  .Single();
-
-            OperatorViewModel inputOutletOperatorViewModel = viewModelToAdapt.Entity
-                                                                             .Operators
-                                                                             .Where(x => x.Keys.OperatorIndexNumber == inputOutlet_OperatorIndexNumber)
-                                                                             .Single();
-
-            OutletViewModel inputOutletViewModel = inputOutletOperatorViewModel.Outlets
-                                                                               .Where(x => x.Keys.OutletListIndex == inputOutlet_ListIndex)
-                                                                               .Single();
+            OutletViewModel inputOutletViewModel = viewModelToAdapt.Entity.Operators
+                                                                          .SelectMany(x => x.Outlets)
+                                                                          .Where(x => x.ID == inputOutletID)
+                                                                          .Single();
             inletViewModel.InputOutlet = inputOutletViewModel;
 
             if (mustCreateViewModel)
@@ -245,7 +232,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return ViewModel;
         }
 
-        public PatchDetailsViewModel SelectOperator(PatchDetailsViewModel userInput, int operatorIndexNumber)
+        public PatchDetailsViewModel SelectOperator(PatchDetailsViewModel userInput, int operatorID)
         {
             if (userInput == null) throw new NullException(() => userInput);
 
@@ -253,7 +240,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             PatchDetailsViewModel viewModelToAdapt = !mustCreateViewModel ? ViewModel : userInput;
 
-            SetSelectedOperator(viewModelToAdapt, operatorIndexNumber);
+            SetSelectedOperator(viewModelToAdapt, operatorID);
 
             if (MustCreateViewModel(ViewModel, userInput))
             {
@@ -275,12 +262,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (userInput.SelectedOperator != null)
             {
-                int operatorIndexNumber = userInput.SelectedOperator.Keys.OperatorIndexNumber;
+                int operatorID = userInput.SelectedOperator.ID;
 
                 PatchDetailsViewModel viewModelToAdapt = !mustCreateViewModel ? ViewModel : userInput;
 
                 OperatorViewModel operatorViewModel = viewModelToAdapt.Entity.Operators
-                                                                             .Where(x => x.Keys.OperatorIndexNumber == operatorIndexNumber)
+                                                                             .Where(x => x.ID == operatorID)
                                                                              .Single();
 
                 // Just to be sure, also unlink things in the view models.
@@ -317,7 +304,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (userInput.SelectedOperator != null)
                 {
-                    SetSelectedOperator(ViewModel, userInput.SelectedOperator.Keys.OperatorIndexNumber);
+                    SetSelectedOperator(ViewModel, userInput.SelectedOperator.ID);
                 }
             }
 
@@ -461,9 +448,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 audioFileOutputManager.Execute(audioFileOutput);
 
-                //SoundPlayer soundPlayer = new SoundPlayer(_outputFilePath);
-                //soundPlayer.Play();
-
                 sampleOperatorWrapper.Sample = null;
 
                 return new VoidResult
@@ -479,21 +463,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private bool MustCreateViewModel(PatchDetailsViewModel existingViewModel, PatchDetailsViewModel userInput)
         {
             return existingViewModel == null ||
-                   existingViewModel.Entity.Keys.RootDocumentID != userInput.Entity.Keys.RootDocumentID ||
-                   existingViewModel.Entity.Keys.ChildDocumentTypeEnum != userInput.Entity.Keys.ChildDocumentTypeEnum ||
-                   existingViewModel.Entity.Keys.ChildDocumentListIndex != userInput.Entity.Keys.ChildDocumentListIndex ||
-                   existingViewModel.Entity.Keys.PatchListIndex != userInput.Entity.Keys.PatchListIndex;
+                   existingViewModel.Entity.ID != userInput.Entity.ID;
         }
 
         private PatchDetailsViewModel CreateViewModel(Patch entity, PatchDetailsViewModel userInput)
         {
-            PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(
-                userInput.Entity.Keys.RootDocumentID,
-                userInput.Entity.Keys.ChildDocumentTypeEnum,
-                userInput.Entity.Keys.ChildDocumentListIndex,
-                userInput.Entity.Keys.PatchListIndex,
-                _operatorTypeRepository,
-                _entityPositionManager);
+            PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(_operatorTypeRepository, _entityPositionManager);
 
             return viewModel;
         }
@@ -514,19 +489,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// The SelectedOperator is non-persisted data.
         /// This method sets the selected operator in the view model.
-        /// It uses the Operator's IndexNumber for this.
+        /// It uses the Operator's ID for this.
         /// It goes through all the operators in the view model,
         /// setting IsSelected to false unless it is the selected operator,
         /// and sets the details view model's SelectedOperator property.
         /// </summary>
-        private void SetSelectedOperator(PatchDetailsViewModel viewModel, int operatorIndexNumber)
+        private void SetSelectedOperator(PatchDetailsViewModel viewModel, int operatorID)
         {
             viewModel.SelectedOperator = null;
             ViewModel.SelectedValue = null;
 
             foreach (OperatorViewModel operatorViewModel in viewModel.Entity.Operators)
             {
-                if (operatorViewModel.Keys.OperatorIndexNumber == operatorIndexNumber)
+                if (operatorViewModel.ID == operatorID)
                 {
                     operatorViewModel.IsSelected = true;
                     viewModel.SelectedOperator = operatorViewModel;
@@ -558,10 +533,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 repositoryWrapper.SpeakerSetupRepository,
                 repositoryWrapper.AudioFileFormatRepository,
                 repositoryWrapper.CurveRepository,
-                repositoryWrapper.SampleRepository);
+                repositoryWrapper.SampleRepository,
+                repositoryWrapper.IdentityRepository);
 
             return manager;
         }
-
     }
 }

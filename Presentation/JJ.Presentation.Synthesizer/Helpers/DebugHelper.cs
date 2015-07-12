@@ -13,35 +13,13 @@ namespace JJ.Presentation.Synthesizer.Helpers
         public static string GetDebuggerDisplay(OperatorViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-
-            string formattedID;
-            if (viewModel.Keys == null)
-            {
-                formattedID = "Keys is null";
-            }
-            else
-            {
-                formattedID = viewModel.Keys.ID.ToString();
-            }
-
-            return String.Format("Operator '{0}' ({1})", viewModel.Name, formattedID);
+            return String.Format("Operator '{0}' ({1})", viewModel.Name, viewModel.ID);
         }
 
         public static string GetDebuggerDisplay(InletViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-
-            string formattedID;
-            if (viewModel.Keys == null)
-            {
-                formattedID = "Keys is null";
-            }
-            else
-            {
-                formattedID = viewModel.Keys.ID.ToString();
-            }
-
-            return String.Format("Inlet '{0}'", viewModel.Name, formattedID);
+            return String.Format("Inlet '{0}'", viewModel.Name, viewModel.ID);
         }
 
         public static string GetDebuggerDisplay(OutletViewModel viewModel)

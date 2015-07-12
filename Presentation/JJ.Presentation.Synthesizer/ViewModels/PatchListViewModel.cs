@@ -12,7 +12,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class PatchListViewModel
     {
-        public PatchListKeysViewModel Keys { get; set; }
+        public int RootDocumentID { get; set; }
+        public int? ChildDocumentID { get; set; }
         public bool Visible { get; set; }
         public IList<PatchListItemViewModel> List { get; set; }
     }

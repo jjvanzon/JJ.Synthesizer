@@ -35,9 +35,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> CollapseNodeRequested;
         public event EventHandler ShowInstrumentsRequested;
         public event EventHandler ShowEffectsRequested;
-        public event EventHandler<ChildDocumentEventArgs> ShowSamplesRequested;
-        public event EventHandler<ChildDocumentEventArgs> ShowCurvesRequested;
-        public event EventHandler<ChildDocumentEventArgs> ShowPatchesRequested;
+        public event EventHandler<NullableInt32EventArgs> ShowSamplesRequested;
+        public event EventHandler<NullableInt32EventArgs> ShowCurvesRequested;
+        public event EventHandler<NullableInt32EventArgs> ShowPatchesRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
 
         /// <summary> virtually not nullable </summary>
@@ -202,7 +202,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void AddChildDocumentChildNodesRecursive(TreeNode parentNode, ChildDocumentTreeNodeViewModel parentViewModel)
         {
-            object childDocumentTag = TagHelper.GetChildDocumentTag(parentViewModel.Keys.ChildDocumentTypeEnum, parentViewModel.Keys.ListIndex);
+            object childDocumentTag = TagHelper.GetChildDocumentTag(parentViewModel.Keys.ID);
 
             var samplesTreeNode = new TreeNode(PropertyDisplayNames.Samples);
             samplesTreeNode.Tag = childDocumentTag;
@@ -318,7 +318,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 if (ShowSamplesRequested != null)
                 {
-                    ChildDocumentEventArgs e2 = GetChildDocumentEventArgs(e.Node.Tag);
+                    NullableInt32EventArgs e2 = GetChildDocumentEventArgs(e.Node.Tag);
                     ShowSamplesRequested(this, e2);
                 }
             }
@@ -327,7 +327,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 if (ShowCurvesRequested != null)
                 {
-                    ChildDocumentEventArgs e2 = GetChildDocumentEventArgs(e.Node.Tag);
+                    NullableInt32EventArgs e2 = GetChildDocumentEventArgs(e.Node.Tag);
                     ShowCurvesRequested(this, e2);
                 }
             }
@@ -336,20 +336,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 if (ShowPatchesRequested != null)
                 {
-                    ChildDocumentEventArgs e2 = GetChildDocumentEventArgs(e.Node.Tag);
+                    NullableInt32EventArgs e2 = GetChildDocumentEventArgs(e.Node.Tag);
                     ShowPatchesRequested(this, e2);
                 }
             }
 
         }
 
-        private ChildDocumentEventArgs GetChildDocumentEventArgs(object childDocumentTag)
+        private NullableInt32EventArgs GetChildDocumentEventArgs(object childDocumentTag)
         {
-            ChildDocumentTypeEnum? childDocumentTypeEnum;
-            int? childDocumentIndex;
-            TagHelper.TryGetChildDocumentKey(childDocumentTag, out childDocumentTypeEnum, out childDocumentIndex);
-
-            return new ChildDocumentEventArgs(childDocumentTypeEnum, childDocumentIndex);
+            int? childDocumentID = TagHelper.TryGetChildDocumentID(childDocumentTag);
+            return new NullableInt32EventArgs(childDocumentID);
         }
     }
 }

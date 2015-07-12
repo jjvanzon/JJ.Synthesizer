@@ -13,7 +13,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class CurveListViewModel
     {
-        public CurveListKeysViewModel Keys { get; set; }
+        public int RootDocumentID { get; set; }
+        public int? ChildDocumentID { get; set; }
         public bool Visible { get; set; }
         public IList<CurveListItemViewModel> List { get; set; }
     }

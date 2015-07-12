@@ -31,7 +31,7 @@
             this.specializedDataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.SpecializedDataGridView();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.ListIndexColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).BeginInit();
             this.tableLayoutPanel.SuspendLayout();
@@ -48,7 +48,7 @@
             this.specializedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.specializedDataGridView.ColumnHeadersVisible = false;
             this.specializedDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ListIndexColumn,
+            this.IDColumn,
             this.NameColumn});
             this.specializedDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.specializedDataGridView.Location = new System.Drawing.Point(0, 26);
@@ -92,14 +92,14 @@
             this.tableLayoutPanel.Size = new System.Drawing.Size(413, 245);
             this.tableLayoutPanel.TabIndex = 5;
             // 
-            // ListIndexColumn
+            // IDColumn
             // 
-            this.ListIndexColumn.DataPropertyName = "ListIndex";
-            this.ListIndexColumn.HeaderText = "ListIndex";
-            this.ListIndexColumn.Name = "ListIndexColumn";
-            this.ListIndexColumn.ReadOnly = true;
-            this.ListIndexColumn.Visible = false;
-            this.ListIndexColumn.Width = 80;
+            this.IDColumn.DataPropertyName = "ID";
+            this.IDColumn.HeaderText = "ID";
+            this.IDColumn.Name = "IDColumn";
+            this.IDColumn.ReadOnly = true;
+            this.IDColumn.Visible = false;
+            this.IDColumn.Width = 80;
             // 
             // NameColumn
             // 
@@ -126,7 +126,7 @@
         private SpecializedDataGridView specializedDataGridView;
         private Partials.TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ListIndexColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
     }
 }

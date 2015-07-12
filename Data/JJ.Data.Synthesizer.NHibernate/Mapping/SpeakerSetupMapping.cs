@@ -12,7 +12,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
     {
         public SpeakerSetupMapping()
         {
-            Id(x => x.ID);
+            Id(x => x.ID).GeneratedBy.Assigned();
             Map(x => x.Name);
             HasMany(x => x.SpeakerSetupChannels).KeyColumn(ColumnNames.SpeakerSetupID).Inverse();
         }

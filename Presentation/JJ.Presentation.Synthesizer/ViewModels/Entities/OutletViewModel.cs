@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     [DebuggerDisplay("{DebuggerDisplay}")]
     public sealed class OutletViewModel
     {
-        public OutletKeysViewModel Keys { get; set; }
+        public int ID { get; set; }
         public string Name { get; set; }
         public OperatorViewModel Operator { get; set; }
 

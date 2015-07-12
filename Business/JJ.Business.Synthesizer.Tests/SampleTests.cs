@@ -30,6 +30,7 @@ namespace JJ.Business.Synthesizer.Tests
     {
         private const string OUTPUT_FILE_NAME = "AudioFileOutput.wav";
 
+        // Test engine crashes
         [TestMethod]
         public void Test_Synthesizer_Sample()
         {
@@ -64,6 +65,7 @@ namespace JJ.Business.Synthesizer.Tests
             }
         }
 
+        // Test engine crashes
         [TestMethod]
         public void Test_Synthesizer_InterpretedOperatorCalculator_Sample_WithWavHeader()
         {

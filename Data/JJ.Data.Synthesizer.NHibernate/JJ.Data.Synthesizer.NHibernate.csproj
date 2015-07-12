@@ -50,6 +50,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\SqlExecutorHelper.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Repositories\DocumentRepository.cs" />
     <Compile Include="Repositories\CurveRepository.cs" />
     <Compile Include="Repositories\EntityPositionRepository.cs" />
+    <Compile Include="Repositories\IdentityRepository.cs" />
     <Compile Include="Repositories\PatchRepository.cs" />
     <Compile Include="Repositories\SampleRepository.cs" />
   </ItemGroup>
