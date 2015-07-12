@@ -355,7 +355,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         /// <summary>
         /// This action is quite a hack.
-        /// TODO: It should not be a hack and also this action is way to dependent on infrastructure.
+        /// TODO: It should not be a hack and also this action is way too dependent on infrastructure.
         /// </summary>
         public PatchDetailsViewModel Play(PatchDetailsViewModel userInput, double duration, string sampleFilePath, string outputFilePath, RepositoryWrapper repositoryWrapper)
         {

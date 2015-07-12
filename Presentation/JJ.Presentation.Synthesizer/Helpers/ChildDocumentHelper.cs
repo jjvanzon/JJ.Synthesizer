@@ -411,17 +411,41 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return sample;
         }
 
-        private static ChildDocumentViewModel GetChildDocumentViewModel(DocumentViewModel documentViewModel, int documentID)
+        public static ChildDocumentViewModel GetChildDocumentViewModel(DocumentViewModel documentViewModel, int childDocumentID)
         {
             ChildDocumentViewModel childDocumentViewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
-                                                                      .Where(x => x.ID == documentID)
+                                                                      .Where(x => x.ID == childDocumentID)
                                                                       .SingleOrDefault();
             if (childDocumentViewModel == null)
             {
-                throw new Exception(String.Format("documentViewModel does not have ID '{0}' and neither do any ChildDocumentViewModels.", documentID));
+                throw new Exception(String.Format("documentViewModel does not have ID '{0}' and neither do any ChildDocumentViewModels.", childDocumentID));
             }
 
             return childDocumentViewModel;
         }
+
+        // TODO: Remove outcommented code. It does the same as the method above.
+        //private ChildDocumentViewModel GetChildDocumentViewModel(DocumentViewModel documentViewModel, int childDocumentID)
+        //{
+        //    if (documentViewModel == null) throw new NullException(() => documentViewModel);
+
+        //    int? childDocumentListIndex = documentViewModel.InstrumentDocumentList.TryGetIndexOf(x => x.ID == childDocumentID);
+        //    ChildDocumentViewModel childDocumentViewModel;
+        //    if (childDocumentListIndex.HasValue)
+        //    {
+        //        childDocumentViewModel = documentViewModel.EffectDocumentList[childDocumentListIndex.Value];
+        //    }
+        //    else
+        //    {
+        //        childDocumentListIndex = documentViewModel.EffectDocumentList.TryGetIndexOf(x => x.ID == childDocumentID);
+        //        if (!childDocumentListIndex.HasValue)
+        //        {
+        //            throw new Exception(String.Format("ChildDocument with ID '{0}' not found in documentViewModel.InstrumentDocumentList or documentViewModel.EffectDocumentList.", childDocumentID));
+        //        }
+
+        //        childDocumentViewModel = documentViewModel.EffectDocumentList[childDocumentListIndex.Value];
+        //    }
+        //    return childDocumentViewModel;
+        //}
     }
 }

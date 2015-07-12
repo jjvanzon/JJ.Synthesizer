@@ -24,7 +24,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class InstrumentListUserControl : UserControl
     {
-        private const string LIST_INDEX_COLUMN_NAME = "ListIndexColumn";
+        private const string ID_COLUMN_NAME = "IDColumn";
 
         public event EventHandler CreateRequested;
         public event EventHandler<Int32EventArgs> DeleteRequested;
@@ -78,7 +78,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (DeleteRequested != null)
             {
-                int? id = TryGetSelectedListIndex();
+                int? id = TryGetSelectedID();
                 if (id.HasValue)
                 {
                     DeleteRequested(this, new Int32EventArgs(id.Value));
@@ -123,13 +123,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Helpers
 
-        private int? TryGetSelectedListIndex()
+        private int? TryGetSelectedID()
         {
             if (specializedDataGridView.CurrentRow != null)
             {
-                DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[LIST_INDEX_COLUMN_NAME];
-                int listIndex = Int32.Parse(Convert.ToString(cell.Value));
-                return listIndex;
+                DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
+                int id = Int32.Parse(Convert.ToString(cell.Value));
+                return id;
             }
 
             return null;

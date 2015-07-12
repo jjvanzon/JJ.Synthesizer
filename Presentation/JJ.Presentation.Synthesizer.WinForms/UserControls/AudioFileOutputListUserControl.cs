@@ -68,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             specializedDataGridView.DataSource = _viewModel.List.Select(x => new 
             {
-                ListIndex = x.ID,
+                ID = x.ID,
                 Name = x.Name,
                 AudioFileFormat = x.AudioFileFormat,
                 SampleDataType = x.SampleDataType,
