@@ -395,17 +395,9 @@ namespace JJ.Business.Synthesizer.Factories
                 {
                     continue;
                 }
-                // TODO: Remove outcommented code.
-                //else if (operatorTypeEnum == OperatorTypeEnum.Adder)
-                //{
-                //    MethodInfo methodInfo = typeof(OperatorFactory).GetMethod(operatorTypeEnum.ToString(), new Type[] { typeof(Outlet), typeof(Outlet) });
-                //    methodDictionary.Add(operatorTypeEnum, methodInfo);
-                //}
-                //else
-                //{
-                    MethodInfo methodInfo = typeof(OperatorFactory).GetMethod(operatorTypeEnum.ToString());
-                    methodDictionary.Add(operatorTypeEnum, methodInfo);
-                //}
+
+                MethodInfo methodInfo = typeof(OperatorFactory).GetMethod(operatorTypeEnum.ToString());
+                methodDictionary.Add(operatorTypeEnum, methodInfo);
             }
 
             return methodDictionary;

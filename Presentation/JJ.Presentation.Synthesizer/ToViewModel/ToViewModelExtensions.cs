@@ -94,12 +94,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID
             };
 
-            // TODO: Remove outcommented code.
-            //if (entity.Document != null)
-            //{
-            //    viewModel.DocumentID = entity.Document.ID;
-            //}
-
             return viewModel;
         }
 
@@ -157,12 +151,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = entity.Name,
                 ID = entity.ID
             };
-
-            // TODO: Remove outcommented code.
-            //if (entity.Document != null)
-            //{
-            //    viewModel.DocumentID = entity.Document.ID;
-            //}
 
             return viewModel;
         }
@@ -292,12 +280,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.InterpolationType = entity.InterpolationType.ToIDAndName();
             }
-
-            // TODO: Remove outcommented code.
-            //if (entity.Document != null)
-            //{
-            //    viewModel.DocumentID = entity.Document.ID;
-            //}
 
             return viewModel;
         }

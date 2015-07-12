@@ -9,7 +9,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Keys
 {
     public sealed class ChildDocumentListKeysViewModel
     {
-        public int ParentDocumentID { get; set; }
+        public int RootDocumentID { get; set; }
         public ChildDocumentTypeEnum ChildDocumentTypeEnum { get; set; }
     }
 }

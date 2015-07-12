@@ -33,15 +33,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// Can return ChildDocumentListViewModel or NotFoundViewModel.
         /// </summary>
-        public object Show(int parentDocumentID, ChildDocumentTypeEnum childDocumentTypeEnum)
+        public object Show(int rootDocumentID, ChildDocumentTypeEnum childDocumentTypeEnum)
         {
             bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.Keys.ParentDocumentID != parentDocumentID ||
+                                       _viewModel.Keys.RootDocumentID != rootDocumentID ||
                                        _viewModel.Keys.ChildDocumentTypeEnum != childDocumentTypeEnum;
 
             if (mustCreateViewModel)
             {
-                Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(parentDocumentID);
+                Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(rootDocumentID);
                 if (parentDocument == null)
                 {
                     return CreateDocumentNotFoundViewModel();
@@ -64,7 +64,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.Keys.ParentDocumentID);
+            Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.Keys.RootDocumentID);
             if (parentDocument == null)
             {
                 return CreateDocumentNotFoundViewModel();

@@ -13,18 +13,10 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     public sealed class InletViewModel
     {
         public int ID { get; set; }
-
         public string Name { get; set; }
 
         /// <summary> nullable </summary>
         public OutletViewModel InputOutlet { get; set; }
-
-        // TODO: Remove outcommented code.
-        //[Obsolete("Use Keys instead.", true)]
-        //public int ID { get; set; }
-
-        //[Obsolete("Use Keys instead.", true)]
-        //public int ListIndex { get; set; }
 
         private string DebuggerDisplay
         {

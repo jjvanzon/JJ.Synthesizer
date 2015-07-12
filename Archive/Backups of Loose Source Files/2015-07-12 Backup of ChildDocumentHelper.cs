@@ -21,6 +21,13 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // Documents
 
+        //public static Document GetRootDocument(Document document)
+        //{
+        //    if (document == null) throw new NullException(() => document);
+
+        //    return document.AsInstrumentInDocument ?? document.AsEffectInDocument ?? document;
+        //}
+
         public static Document GetParentDocument(Document childDocument)
         {
             Document parentDocument = TryGetParentDocument(childDocument);
@@ -45,6 +52,34 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return GetParentDocument(childDocument).ID;
         }
 
+        //public static ChildDocumentTypeEnum GetChildDocumentTypeEnum(Document childDocument)
+        //{
+        //    ChildDocumentTypeEnum? value = TryGetChildDocumentTypeEnum(childDocument);
+
+        //    if (!value.HasValue)
+        //    {
+        //        throw new Exception("Either document.AsInstrumentInDocument or document.AsEffectInDocument must be filled in.");
+        //    }
+
+        //    return value.Value;
+        //}
+
+        //public static ChildDocumentTypeEnum? TryGetChildDocumentTypeEnum(Document document)
+        //{
+        //    if (document == null) throw new NullException(() => document);
+
+        //    if (document.AsInstrumentInDocument != null)
+        //    {
+        //        return ChildDocumentTypeEnum.Instrument;
+        //    }
+        //    else if (document.AsEffectInDocument != null)
+        //    {
+        //        return ChildDocumentTypeEnum.Effect;
+        //    }
+
+        //    return null;
+        //}
+
         public static IList<Document> GetChildDocuments(Document parentDocument, ChildDocumentTypeEnum childDocumentTypeEnum)
         {
             switch (childDocumentTypeEnum)
@@ -59,6 +94,33 @@ namespace JJ.Presentation.Synthesizer.Helpers
                     throw new ValueNotSupportedException(childDocumentTypeEnum);
             }
         }
+
+        // TODO: Remove outcommented code.
+        //public static Document GetRootDocumentOrChildDocument(int documentID, int? childDocumentID, IDocumentRepository documentRepository)
+        //{
+        //    Document document = TryGetRootDocumentOrChildDocument(documentID, childDocumentID, documentRepository);
+        //    if (document == null)
+        //    {
+        //        throw new Exception(String.Format("Root Document or Child Document with documentID '{0}' and childDocumentID '{1}' not found.", documentID, childDocumentID));
+        //    }
+        //    return document;
+        //}
+
+        //public static Document TryGetRootDocumentOrChildDocument(int documentID, IDocumentRepository documentRepository)
+        //{
+        //    if (documentRepository == null) throw new NullException(() => documentRepository);
+
+        //    Document document = documentRepository.TryGet(documentID);
+        //    if (document != null)
+        //    {
+        //        return null;
+        //    }
+
+        //    Document childDocument = Enumerable.Union(document.Instruments, document.Effects)
+        //                                       .Where(x => x.ID == documentID)
+        //                                       .SingleOrDefault();
+        //    return childDocument;
+        //}
 
         public static Document TryGetRootDocumentOrChildDocument(int rootDocumentID, int? childDocumentID, IDocumentRepository documentRepository)
         {
@@ -86,6 +148,30 @@ namespace JJ.Presentation.Synthesizer.Helpers
         }
 
         // ChildDocument ViewModels
+
+        // TODO: Remove outcommented code. It does the same as the method above.
+        //private ChildDocumentViewModel GetChildDocumentViewModel(DocumentViewModel documentViewModel, int childDocumentID)
+        //{
+        //    if (documentViewModel == null) throw new NullException(() => documentViewModel);
+
+        //    int? childDocumentListIndex = documentViewModel.InstrumentDocumentList.TryGetIndexOf(x => x.ID == childDocumentID);
+        //    ChildDocumentViewModel childDocumentViewModel;
+        //    if (childDocumentListIndex.HasValue)
+        //    {
+        //        childDocumentViewModel = documentViewModel.EffectDocumentList[childDocumentListIndex.Value];
+        //    }
+        //    else
+        //    {
+        //        childDocumentListIndex = documentViewModel.EffectDocumentList.TryGetIndexOf(x => x.ID == childDocumentID);
+        //        if (!childDocumentListIndex.HasValue)
+        //        {
+        //            throw new Exception(String.Format("ChildDocument with ID '{0}' not found in documentViewModel.InstrumentDocumentList or documentViewModel.EffectDocumentList.", childDocumentID));
+        //        }
+
+        //        childDocumentViewModel = documentViewModel.EffectDocumentList[childDocumentListIndex.Value];
+        //    }
+        //    return childDocumentViewModel;
+        //}
 
         public static ChildDocumentViewModel GetChildDocumentViewModel(DocumentViewModel documentViewModel, int childDocumentID)
         {
@@ -115,6 +201,21 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
+        //public static CurveDetailsViewModel GetCurveDetailsViewModel(DocumentViewModel documentViewModel, int curveID)
+        //{
+        //    CurveDetailsViewModel viewModel = documentViewModel.CurveDetailsList.Where(x => x.Entity.ID == curveID).SingleOrDefault();
+
+        //    if (viewModel == null)
+        //    {
+        //        viewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
+        //                              .SelectMany(x => x.CurveDetailsList)
+        //                              .Where(x => x.Entity.ID == curveID)
+        //                              .Single();
+        //    }
+
+        //    return viewModel;
+        //}
+
         public static IList<CurveDetailsViewModel> GetCurveDetailsViewModels_ByDocumentID(DocumentViewModel documentViewModel, int documentID)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
@@ -129,6 +230,26 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 return childDocumentViewModel.CurveDetailsList;
             }
         }
+
+        //public static IList<CurveDetailsViewModel> GetCurveDetailsViewModels_ByCurveID(DocumentViewModel documentViewModel, int curveID)
+        //{
+        //    if (documentViewModel.CurveDetailsList.Any(x => x.Entity.ID == curveID))
+        //    {
+        //        return documentViewModel.CurveDetailsList;
+        //    }
+        //    else
+        //    {
+        //        ChildDocumentViewModel childDocumentViewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
+        //                                                                  .Where(x => x.CurveDetailsList.Any(y => y.Entity.ID == curveID))
+        //                                                                  .SingleOrDefault();
+        //        if (childDocumentViewModel == null)
+        //        {
+        //            throw new Exception(String.Format("documentViewModel does not have CurveDetailsViewModel with ID '{0}' and neither do any ChildDocumentViewModels.", curveID));
+        //        }
+
+        //        return childDocumentViewModel.CurveDetailsList;
+        //    }
+        //}
 
         public static AlternativeChildDocumentItemKey GetAlternativeCurveKey(DocumentViewModel documentViewModel, int curveID)
         {
@@ -249,6 +370,21 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
+        //public static PatchDetailsViewModel GetPatchDetailsViewModel(DocumentViewModel documentViewModel, int patchID)
+        //{
+        //    PatchDetailsViewModel viewModel = documentViewModel.PatchDetailsList.Where(x => x.Entity.ID == patchID).SingleOrDefault();
+
+        //    if (viewModel == null)
+        //    {
+        //        viewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
+        //                              .SelectMany(x => x.PatchDetailsList)
+        //                              .Where(x => x.Entity.ID == patchID)
+        //                              .Single();
+        //    }
+
+        //    return viewModel;
+        //}
+
         public static IList<PatchDetailsViewModel> GetPatchDetailsViewModels_ByDocumentID(DocumentViewModel documentViewModel, int documentID)
         {
             if (documentViewModel.ID == documentID)
@@ -261,6 +397,26 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 return childDocumentViewModel.PatchDetailsList;
             }
         }
+
+        //public static IList<PatchDetailsViewModel> GetPatchDetailsViewModels_ByPatchID(DocumentViewModel documentViewModel, int patchID)
+        //{
+        //    if (documentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+        //    {
+        //        return documentViewModel.PatchDetailsList;
+        //    }
+        //    else
+        //    {
+        //        ChildDocumentViewModel childDocumentViewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
+        //                                                                  .Where(x => x.PatchDetailsList.Any(y => y.Entity.ID == patchID))
+        //                                                                  .SingleOrDefault();
+        //        if (childDocumentViewModel == null)
+        //        {
+        //            throw new Exception(String.Format("documentViewModel does not have PatchDetailsViewModel with ID '{0}' and neither do any ChildDocumentViewModels.", patchID));
+        //        }
+
+        //        return childDocumentViewModel.PatchDetailsList;
+        //    }
+        //}
 
         public static AlternativeChildDocumentItemKey GetAlternativePatchKey(DocumentViewModel documentViewModel, int patchID)
         {
@@ -381,6 +537,21 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
+        //public static SamplePropertiesViewModel GetSamplePropertiesViewModel(DocumentViewModel documentViewModel, int sampleID)
+        //{
+        //    SamplePropertiesViewModel viewModel = documentViewModel.SamplePropertiesList.Where(x => x.Entity.ID == sampleID).SingleOrDefault();
+
+        //    if (viewModel == null)
+        //    {
+        //        viewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
+        //                              .SelectMany(x => x.SamplePropertiesList)
+        //                              .Where(x => x.Entity.ID == sampleID)
+        //                              .Single();
+        //    }
+
+        //    return viewModel;
+        //}
+
         public static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels_ByDocumentID(DocumentViewModel documentViewModel, int documentID)
         {
             if (documentViewModel.ID == documentID)
@@ -393,6 +564,26 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 return childDocumentViewModel.SamplePropertiesList;
             }
         }
+
+        //public static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels_BySampleID(DocumentViewModel documentViewModel, int sampleID)
+        //{
+        //    if (documentViewModel.SamplePropertiesList.Any(x => x.Entity.ID == sampleID))
+        //    {
+        //        return documentViewModel.SamplePropertiesList;
+        //    }
+        //    else
+        //    {
+        //        ChildDocumentViewModel childDocumentViewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
+        //                                                                  .Where(x => x.SamplePropertiesList.Any(y => y.Entity.ID == sampleID))
+        //                                                                  .SingleOrDefault();
+        //        if (childDocumentViewModel == null)
+        //        {
+        //            throw new Exception(String.Format("documentViewModel does not have SamplePropertiesViewModel with ID '{0}' and neither do any ChildDocumentViewModels.", sampleID));
+        //        }
+
+        //        return childDocumentViewModel.SamplePropertiesList;
+        //    }
+        //}
 
         public static AlternativeChildDocumentItemKey GetAlternativeSampleKey(DocumentViewModel documentViewModel, int sampleID)
         {
@@ -514,6 +705,18 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             return curve;
         }
+
+        //public static Curve GetCurve(Document rootDocument, int curveID)
+        //{
+        //    Curve curve = TryGetCurve(rootDocument, curveID);
+
+        //    if (curve == null)
+        //    {
+        //        throw new Exception(String.Format("Curve with ID '{0}' not found in either root Document or child Documents.", curveID));
+        //    }
+
+        //    return curve;
+        //}
 
         public static Patch TryGetPatch(Document rootDocument, int patchID)
         {

@@ -36,14 +36,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         // Overrides
 
-        // TODO: Remove outcommented code.
-        //protected override void OnLoad(EventArgs e)
-        //{
-        //    base.OnLoad(e);
-
-        //    Show();
-        //}
-
         private bool _resizeBusy;
 
         /// <summary>
@@ -69,17 +61,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
             base.Show();
         }
-
-        // TODO: Remove outcommented code.
-        //private new void Show()
-        //{
-        //    var presenter = new MenuPresenter();
-        //    MenuViewModel viewModel = presenter.Show();
-
-        //    ApplyViewModel(viewModel);
-
-        //    base.Show();
-        //}
 
         private void ApplyViewModel(MenuViewModel viewModel)
         {

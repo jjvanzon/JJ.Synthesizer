@@ -66,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 List = entities.ToChildDocumentListItemsViewModel(),
                 Keys = new ChildDocumentListKeysViewModel
                 {
-                    ParentDocumentID = parentDocumentID,
+                    RootDocumentID = parentDocumentID,
                     ChildDocumentTypeEnum = childDocumentTypeEnum
                 }
             };

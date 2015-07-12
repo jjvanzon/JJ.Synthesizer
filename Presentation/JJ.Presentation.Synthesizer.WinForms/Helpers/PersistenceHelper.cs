@@ -32,19 +32,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             return RepositoryFactory.CreateRepositoryFromConfiguration<TRepository>(context);
         }
 
-        // TODO: Remove outcommented code
-        //public static PersistenceWrapper CreatePersistenceWrapper(IContext context)
-        //{
-        //    return new PersistenceWrapper(
-        //        CreateRepository<IPatchRepository>(context),
-        //        CreateRepository<IOperatorRepository>(context),
-        //        CreateRepository<IOperatorTypeRepository>(context),
-        //        CreateRepository<IInletRepository>(context), 
-        //        CreateRepository<IOutletRepository>(context), 
-        //        CreateRepository<ICurveRepository>(context), 
-        //        CreateRepository<ISampleRepository>(context));
-        //}
-
         public static IContext CreateMemoryContext()
         {
             return ContextFactory.CreateContextFromConfiguration(_memoryPersistenceConfiguration);
