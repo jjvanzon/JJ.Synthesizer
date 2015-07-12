@@ -11,20 +11,20 @@ using System.Threading.Tasks;
 
 namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
-    public class IdentityRepository : JJ.Data.Synthesizer.DefaultRepositories.IdentityRepository
+    public class IDRepository : JJ.Data.Synthesizer.DefaultRepositories.IDRepository
     {
         private string _connectionString;
 
-        public IdentityRepository(IContext context)
+        public IDRepository(IContext context)
             : base(context)
         {
             _connectionString = context.Location;
         }
 
-        public override int GenerateID()
+        public override int GetID()
         {
             SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor_InSeparateConnection(_connectionString);
-            int id = sqlExecutor.GenerateID();
+            int id = sqlExecutor.GetID();
             return id;
         }
     }

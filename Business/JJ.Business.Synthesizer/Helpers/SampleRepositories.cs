@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public ISampleDataTypeRepository SampleDataTypeRepository { get; private set; }
         public ISpeakerSetupRepository SpeakerSetupRepository { get; private set; }
         public IInterpolationTypeRepository InterpolationTypeRepository { get; private set; }
-        public IIdentityRepository IdentityRepository { get; private set; }
+        public IIDRepository IDRepository { get; private set; }
 
         public SampleRepositories(RepositoryWrapper repositoryWrapper)
         {
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Helpers
             SampleDataTypeRepository = repositoryWrapper.SampleDataTypeRepository;
             SpeakerSetupRepository = repositoryWrapper.SpeakerSetupRepository;
             InterpolationTypeRepository = repositoryWrapper.InterpolationTypeRepository;
-            IdentityRepository = repositoryWrapper.IdentityRepository;
+            IDRepository = repositoryWrapper.IDRepository;
         }
 
         public SampleRepositories(
@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Helpers
             ISampleDataTypeRepository sampleDataTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository,
             IInterpolationTypeRepository interpolationTypeRepository,
-            IIdentityRepository identityRepository)
+            IIDRepository idRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
             if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
-            if (identityRepository == null) throw new NullException(() => identityRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
 
             DocumentRepository = documentRepository;
             SampleRepository = sampleRepository;
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Helpers
             SampleDataTypeRepository = sampleDataTypeRepository;
             SpeakerSetupRepository = speakerSetupRepository;
             InterpolationTypeRepository = interpolationTypeRepository;
-            IdentityRepository = identityRepository;
+            IDRepository = idRepository;
         }
     }
 }

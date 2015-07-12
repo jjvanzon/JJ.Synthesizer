@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
-    public class IdentityRepository : IIdentityRepository
+    public class IDRepository : IIDRepository
     {
         // Enforce the constructor, but do not use a field.
-        public IdentityRepository(IContext context)
+        public IDRepository(IContext context)
         { }
 
-        public virtual int GenerateID()
+        public virtual int GetID()
         {
             throw new NotSupportedException("GetID can only be executed using a specialized repository.");
         }

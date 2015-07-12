@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public ISampleDataTypeRepository SampleDataTypeRepository { get; set; }
         public ISpeakerSetupRepository SpeakerSetupRepository { get; set; }
 
-        public IIdentityRepository IdentityRepository { get; set; }
+        public IIDRepository IDRepository { get; set; }
 
         public RepositoryWrapper(
             IDocumentRepository documentRepository,
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Helpers
             ISampleDataTypeRepository sampleDataTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository,
 
-            IIdentityRepository identityRepository)
+            IIDRepository idRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
 
-            if (identityRepository == null) throw new NullException(() => identityRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
 
             DocumentRepository = documentRepository;
             CurveRepository = curveRepository;
@@ -97,7 +97,7 @@ namespace JJ.Business.Synthesizer.Helpers
             SampleDataTypeRepository = sampleDataTypeRepository;
             SpeakerSetupRepository = speakerSetupRepository;
 
-            IdentityRepository = identityRepository;
+            IDRepository = idRepository;
         }
 
         public void Commit()

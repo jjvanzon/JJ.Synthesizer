@@ -169,6 +169,7 @@
     <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
     <Compile Include="EntityWrappers\Substract_OperatorWrapper.cs" />
     <Compile Include="Helpers\AudioFileOutputRepositories.cs" />
+    <Compile Include="Helpers\ConversionHelper.cs" />
     <Compile Include="Helpers\OperatorHelper.cs" />
     <Compile Include="Helpers\RepositoryWrapper.cs" />
     <Compile Include="Helpers\SampleDataTypeHelper.cs" />

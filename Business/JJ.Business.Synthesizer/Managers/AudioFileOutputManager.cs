@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Managers
         private IAudioFileFormatRepository _audioFileFormatRepository;
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
-        private IIdentityRepository _identityRepository;
+        private IIDRepository _idRepository;
 
         public AudioFileOutputManager(
             IAudioFileOutputRepository audioFileOutputRepository,
@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Managers
             IAudioFileFormatRepository audioFileFormatRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IIdentityRepository identityRepository)
+            IIDRepository idRepository)
         {
             if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
             if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
@@ -45,7 +45,7 @@ namespace JJ.Business.Synthesizer.Managers
             if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (identityRepository == null) throw new NullException(() => identityRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
 
             _audioFileOutputRepository = audioFileOutputRepository;
             _audioFileOutputChannelRepository = audioFileOutputChannelRepository;
@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Managers
             _audioFileFormatRepository = audioFileFormatRepository;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
-            _identityRepository = identityRepository;
+            _idRepository = idRepository;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Managers
         public AudioFileOutput CreateWithRelatedEntities()
         {
             AudioFileOutput audioFileOutput = _audioFileOutputRepository.Create();
-            audioFileOutput.ID = _identityRepository.GenerateID();
+            audioFileOutput.ID = _idRepository.GetID();
 
             ISideEffect sideEffect1 = new AudioFileOutput_SideEffect_SetDefaults(audioFileOutput, _sampleDataTypeRepository, _speakerSetupRepository, _audioFileFormatRepository);
             sideEffect1.Execute();
@@ -118,7 +118,7 @@ namespace JJ.Business.Synthesizer.Managers
                 if (audioFileOutputChannel == null)
                 {
                     audioFileOutputChannel = _audioFileOutputChannelRepository.Create();
-                    audioFileOutputChannel.ID = _identityRepository.GenerateID();
+                    audioFileOutputChannel.ID = _idRepository.GetID();
                     audioFileOutputChannel.LinkTo(audioFileOutput);
                 }
                 audioFileOutputChannel.IndexNumber = channel.IndexNumber;

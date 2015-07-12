@@ -21,23 +21,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class DocumentDetailsPresenter
     {
         private IDocumentRepository _documentRepository;
-        private IIdentityRepository _identityRepository;
+        private IIDRepository _idRepository;
 
         private DocumentDetailsViewModel _viewModel;
 
-        public DocumentDetailsPresenter(IDocumentRepository documentRepository, IIdentityRepository identityRepository)
+        public DocumentDetailsPresenter(IDocumentRepository documentRepository, IIDRepository idRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (identityRepository == null) throw new NullException(() => identityRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
 
             _documentRepository = documentRepository;
-            _identityRepository = identityRepository;
+            _idRepository = idRepository;
         }
 
         public DocumentDetailsViewModel Create()
         {
             Document document = _documentRepository.Create();
-            document.ID = _identityRepository.GenerateID();
+            document.ID = _idRepository.GetID();
 
             _viewModel = document.ToDetailsViewModel();
             _viewModel.IDVisible = false;

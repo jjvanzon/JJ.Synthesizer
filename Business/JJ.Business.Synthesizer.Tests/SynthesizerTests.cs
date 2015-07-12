@@ -725,7 +725,7 @@ namespace JJ.Business.Synthesizer.Tests
                 SampleManager sampleManager = TestHelper.CreateSampleManager(repositoryWrapper);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
                 PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
-                CurveFactory curveFactory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository, repositoryWrapper.IdentityRepository);
+                CurveFactory curveFactory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository, repositoryWrapper.IDRepository);
 
                 Curve curve = curveFactory.CreateCurve(duration, samplingRate1, samplingRate2);
 
@@ -753,7 +753,7 @@ namespace JJ.Business.Synthesizer.Tests
                 SampleManager sampleManager = TestHelper.CreateSampleManager(repositoryWrapper);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
                 PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
-                CurveFactory curveFactory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository, repositoryWrapper.IdentityRepository);
+                CurveFactory curveFactory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository, repositoryWrapper.IDRepository);
 
                 double duration = 2;
 

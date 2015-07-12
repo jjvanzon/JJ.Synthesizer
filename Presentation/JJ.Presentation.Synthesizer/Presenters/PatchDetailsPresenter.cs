@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
         private IEntityPositionRepository _entityPositionRepository;
-        private IIdentityRepository _identityRepository;
+        private IIDRepository _idRepository;
 
         private OperatorFactory _operatorFactory;
         private EntityPositionManager _entityPositionManager;
@@ -55,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IEntityPositionRepository entityPositionRepository, 
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IIdentityRepository identityRepository)
+            IIDRepository idRepository)
         {
             if (patchRepository == null) throw new NullException(() => patchRepository);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -65,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (identityRepository == null) throw new NullException(() => identityRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
 
             _patchRepository = patchRepository;
             _operatorRepository = operatorRepository;
@@ -75,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _entityPositionRepository = entityPositionRepository;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
-            _identityRepository = identityRepository;
+            _idRepository = idRepository;
 
             _entityPositionManager = new EntityPositionManager(_entityPositionRepository);
 
@@ -86,7 +86,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _outletRepository, 
                 _curveRepository, 
                 _sampleRepository,
-                _identityRepository);
+                _idRepository);
         }
 
         public PatchDetailsViewModel Show(PatchDetailsViewModel userInput)
@@ -534,7 +534,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 repositoryWrapper.AudioFileFormatRepository,
                 repositoryWrapper.CurveRepository,
                 repositoryWrapper.SampleRepository,
-                repositoryWrapper.IdentityRepository);
+                repositoryWrapper.IDRepository);
 
             return manager;
         }

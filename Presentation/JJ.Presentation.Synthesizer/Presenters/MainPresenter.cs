@@ -42,9 +42,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     /// </summary>
     public class MainPresenter
     {
-        private const int DUMMY_LIST_INDEX = 0;
-        private const int DUMMY_NODE_INDEX = 0;
-
         private RepositoryWrapper _repositoryWrapper;
 
         private AudioFileOutputListPresenter _audioFileOutputListPresenter;
@@ -88,15 +85,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositoryWrapper.CurveRepository, 
                 _repositoryWrapper.NodeRepository, 
                 _repositoryWrapper.NodeTypeRepository, 
-                _repositoryWrapper.IdentityRepository);
+                _repositoryWrapper.IDRepository);
             _curveListPresenter = new CurveListPresenter(_repositoryWrapper.DocumentRepository);
             _documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositoryWrapper.DocumentRepository);
             _documentDeletedPresenter = new DocumentDeletedPresenter();
             _documentDeletePresenter = new DocumentDeletePresenter(_repositoryWrapper);
-            _documentDetailsPresenter = new DocumentDetailsPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.IdentityRepository);
-            _documentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.IdentityRepository);
-            _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.IdentityRepository);
-            _documentTreePresenter = new DocumentTreePresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.IdentityRepository);
+            _documentDetailsPresenter = new DocumentDetailsPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.IDRepository);
+            _documentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.IDRepository);
+            _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.IDRepository);
+            _documentTreePresenter = new DocumentTreePresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.IDRepository);
             _effectListPresenter = new ChildDocumentListPresenter(_repositoryWrapper);
             _instrumentListPresenter = new ChildDocumentListPresenter(_repositoryWrapper);
             _menuPresenter = new MenuPresenter();
@@ -110,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositoryWrapper.EntityPositionRepository,
                 _repositoryWrapper.CurveRepository,
                 _repositoryWrapper.SampleRepository,
-                _repositoryWrapper.IdentityRepository);
+                _repositoryWrapper.IDRepository);
             _patchListPresenter = new PatchListPresenter(_repositoryWrapper.DocumentRepository);
             _sampleListPresenter = new SampleListPresenter(_repositoryWrapper.DocumentRepository);
             _samplePropertiesPresenter = new SamplePropertiesPresenter(new SampleRepositories(_repositoryWrapper));
@@ -134,7 +131,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositoryWrapper.AudioFileFormatRepository,
                 _repositoryWrapper.CurveRepository,
                 _repositoryWrapper.SampleRepository,
-                _repositoryWrapper.IdentityRepository);
+                _repositoryWrapper.IDRepository);
             _entityPositionManager = new EntityPositionManager(_repositoryWrapper.EntityPositionRepository);
 
             _dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
@@ -356,6 +353,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 object viewModel2 = _documentDeletePresenter.Confirm(id);
 
+                if (viewModel2 is DocumentDeletedViewModel)
+                {
+                    _repositoryWrapper.Commit();
+                }
+
                 DispatchViewModel(viewModel2, null);
             }
             finally
@@ -477,9 +479,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
                 else
                 {
-                    // Refresh view model so that data-store generated ID's are reflected in the view model.
-                    _viewModel = CreateViewModel(userInput, document);
-
                     _repositoryWrapper.Commit();
                 }
 
@@ -936,7 +935,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Business
                 Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(userInput.Document.ID, childDocumentID, _repositoryWrapper.DocumentRepository);
                 Curve curve = _repositoryWrapper.CurveRepository.Create();
-                curve.ID = _repositoryWrapper.IdentityRepository.GenerateID();
+                curve.ID = _repositoryWrapper.IDRepository.GetID();
                 curve.LinkTo(document);
 
                 ISideEffect sideEffect = new Curve_SideEffect_GenerateName(curve);
@@ -1132,7 +1131,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Business
                 Document effect = _repositoryWrapper.DocumentRepository.Create();
-                effect.ID = _repositoryWrapper.IdentityRepository.GenerateID();
+                effect.ID = _repositoryWrapper.IDRepository.GetID();
                 effect.LinkEffectToDocument(parentDocument);
 
                 ISideEffect sideEffect = new Effect_SideEffect_GenerateName(effect);
@@ -1239,7 +1238,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Business
                 Document instrument = _repositoryWrapper.DocumentRepository.Create();
-                instrument.ID = _repositoryWrapper.IdentityRepository.GenerateID();
+                instrument.ID = _repositoryWrapper.IDRepository.GetID();
                 instrument.LinkInstrumentToDocument(parentDocument);
 
                 ISideEffect sideEffect = new Instrument_SideEffect_GenerateName(instrument);
@@ -1351,7 +1350,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Business
                 Patch patch = _repositoryWrapper.PatchRepository.Create();
-                patch.ID = _repositoryWrapper.IdentityRepository.GenerateID();
+                patch.ID = _repositoryWrapper.IDRepository.GetID();
                 patch.LinkTo(document);
 
                 ISideEffect sideEffect = new Patch_SideEffect_GenerateName(patch);

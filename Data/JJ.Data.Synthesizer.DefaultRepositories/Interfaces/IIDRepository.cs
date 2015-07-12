@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories.Interfaces
 {
-    public interface IIdentityRepository
+    public interface IIDRepository
     {
-        int GenerateID();
+        int GetID();
     }
 }

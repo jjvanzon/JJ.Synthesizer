@@ -66,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                 PersistenceHelper.CreateRepository<INodeTypeRepository>(context),
                 PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context),
                 PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context),
-                PersistenceHelper.CreateRepository<IIdentityRepository>(context)
+                PersistenceHelper.CreateRepository<IIDRepository>(context)
             );
 
             return repositoryWrapper;

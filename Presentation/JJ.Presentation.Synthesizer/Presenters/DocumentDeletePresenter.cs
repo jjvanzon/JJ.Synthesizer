@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary>
-        /// Can return DocumentConfirmDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel.
+        /// Can return DocumentDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel.
         /// </summary>
         public object Show(int id)
         {
@@ -61,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary>
-        /// Can return DocumentDeleteConfirmedViewModel or NotFoundViewModel.
+        /// Can return DocumentDeletedViewModel or NotFoundViewModel.
         /// </summary>
         public object Confirm(int id)
         {

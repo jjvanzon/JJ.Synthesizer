@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace JJ.Data.Synthesizer.Memory.Repositories
 {
-    public class IndentityRepository : JJ.Data.Synthesizer.DefaultRepositories.IdentityRepository
+    public class IDRepository : JJ.Data.Synthesizer.DefaultRepositories.IDRepository
     {
         private static object _lock = new object();
         private static int _id = 1;
 
-        public IndentityRepository(IContext context)
+        public IDRepository(IContext context)
             : base(context)
         { }
 
-        public override int GenerateID()
+        public override int GetID()
         {
             lock (_lock)
             {

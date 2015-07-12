@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -23,28 +24,33 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             _curveRepository = curveRepository;
         }
 
-        public int CurveID
+        public int? CurveID
         {
-            get { return Int32.Parse(_operator.Data); }
-            set { _operator.Data = value.ToString(); }
+            get { return ConversionHelper.ParseNullableInt32(_operator.Data); }
+            set { _operator.Data = Convert.ToString(value); }
         }
 
-        public Curve Curve 
+        public Curve Curve
         {
             get
             {
-                return _curveRepository.TryGet(CurveID);
+                int? curveID = CurveID;
+                if (!curveID.HasValue)
+                {
+                    return null;
+                }
+
+                return _curveRepository.TryGet(curveID.Value);
             }
             set
             {
                 if (value == null)
                 {
-                    CurveID = 0;
+                    CurveID = null;
+                    return;
                 }
-                else
-                {
-                    CurveID = value.ID;
-                }
+
+                CurveID = value.ID;
             }
         }
 

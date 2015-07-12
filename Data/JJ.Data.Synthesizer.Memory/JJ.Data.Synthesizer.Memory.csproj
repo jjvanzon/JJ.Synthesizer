@@ -54,7 +54,7 @@
     <Compile Include="Mappings\NodeMappings.cs" />
     <Compile Include="Mappings\NodeTypeMappings.cs" />
     <Compile Include="Repositories\ChannelRepository.cs" />
-    <Compile Include="Repositories\IndentityRepository.cs" />
+    <Compile Include="Repositories\IDRepository.cs" />
     <Compile Include="Repositories\OperatorTypeRepository.cs" />
     <Compile Include="Repositories\EntityPositionRepository.cs" />
     <Compile Include="Repositories\SpeakerSetupRepository.cs" />

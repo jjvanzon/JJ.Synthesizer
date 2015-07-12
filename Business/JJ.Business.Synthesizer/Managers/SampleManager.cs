@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Managers
         public Sample CreateSample()
         {
             Sample sample = _repositories.SampleRepository.Create();
-            sample.ID = _repositories.IdentityRepository.GenerateID();
+            sample.ID = _repositories.IDRepository.GetID();
 
             ISideEffect sideEffect = new Sample_SideEffect_SetDefaults(sample, _repositories);
             sideEffect.Execute();

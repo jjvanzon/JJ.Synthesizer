@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -24,28 +25,33 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             _sampleRepository = sampleRepository;
         }
 
-        public int SampleID
+        public int? SampleID
         {
-            get { return Int32.Parse(_operator.Data); }
-            set { _operator.Data = value.ToString(); }
+            get { return ConversionHelper.ParseNullableInt32(_operator.Data); }
+            set { _operator.Data = Convert.ToString(value); }
         }
 
         public Sample Sample
         {
             get
             {
-                return _sampleRepository.TryGet(SampleID);
+                int? sampleID = SampleID;
+                if (!sampleID.HasValue)
+                {
+                    return null;
+                }
+
+                return _sampleRepository.TryGet(sampleID.Value);
             }
             set
             {
                 if (value == null)
                 {
-                    SampleID = 0;
+                    SampleID = null;
+                    return;
                 }
-                else
-                {
-                    SampleID = value.ID;
-                }
+
+                SampleID = value.ID;
             }
         }
 

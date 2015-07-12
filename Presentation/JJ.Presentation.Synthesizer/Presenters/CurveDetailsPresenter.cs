@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ICurveRepository _curveRepository;
         private INodeRepository _nodeRepository;
         private INodeTypeRepository _nodeTypeRepository;
-        private IIdentityRepository _identityRepository;
+        private IIDRepository _idRepository;
         
         public CurveDetailsViewModel ViewModel { get; set; }
 
@@ -29,17 +29,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ICurveRepository curveRepository,
             INodeRepository nodeRepository,
             INodeTypeRepository nodeTypeRepository,
-            IIdentityRepository identityRepository)
+            IIDRepository idRepository)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (nodeRepository == null) throw new NullException(() => nodeRepository);
             if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
-            if (identityRepository == null) throw new NullException(() => identityRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
 
             _curveRepository = curveRepository;
             _nodeRepository = nodeRepository;
             _nodeTypeRepository = nodeTypeRepository;
-            _identityRepository = identityRepository;
+            _idRepository = idRepository;
         }
 
         public CurveDetailsViewModel Show(CurveDetailsViewModel userInput)

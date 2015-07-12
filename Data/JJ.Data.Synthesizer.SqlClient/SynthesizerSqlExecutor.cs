@@ -42,9 +42,9 @@ namespace JJ.Data.Synthesizer.SqlClient
             _sqlExecutor.ExecuteNonQuery(SqlEnum.Sample_TrySetBinary, new { id, binary });
         }
 
-        public int GenerateID()
+        public int GetID()
         {
-            int id = (int)_sqlExecutor.ExecuteScalar(SqlEnum.GenerateID);
+            int id = (int)_sqlExecutor.ExecuteScalar(SqlEnum.GetID);
             return id;
         }
     }

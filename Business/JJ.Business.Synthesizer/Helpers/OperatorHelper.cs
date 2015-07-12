@@ -20,27 +20,27 @@ namespace JJ.Business.Synthesizer.Helpers
         /// </summary>
         public static Operator CreateOperator(
             IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, 
-            IInletRepository inletRepository, IOutletRepository outletRepository, IIdentityRepository identityRepository,
+            IInletRepository inletRepository, IOutletRepository outletRepository, IIDRepository idRepository,
             OperatorTypeEnum operatorTypeEnum, string name, int inletCount, params string[] inletAndOutletNames)
         {
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
             if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (identityRepository == null) throw new NullException(() => identityRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
             if (inletAndOutletNames == null) throw new NullException(() => inletAndOutletNames);
 
             if (inletCount > inletAndOutletNames.Length) throw new GreaterThanException(() => inletCount, () => inletAndOutletNames.Length);
 
             Operator op = operatorRepository.Create();
-            op.ID = identityRepository.GenerateID();
+            op.ID = idRepository.GetID();
             op.Name = name;
             op.SetOperatorTypeEnum(operatorTypeEnum, operatorTypeRepository);
 
             foreach (string inletName in inletAndOutletNames.Take(inletCount))
             {
                 Inlet inlet = inletRepository.Create();
-                inlet.ID = identityRepository.GenerateID();
+                inlet.ID = idRepository.GetID();
                 inlet.Name = inletName;
                 inlet.LinkTo(op);
             }
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Helpers
             foreach (string outletName in inletAndOutletNames.Skip(inletCount))
             {
                 Outlet outlet = outletRepository.Create();
-                outlet.ID = identityRepository.GenerateID();
+                outlet.ID = idRepository.GetID();
                 outlet.Name = outletName;
                 outlet.LinkTo(op);
             }

@@ -37,8 +37,8 @@
     <Compile Include="ChannelRepository.cs" />
     <Compile Include="AudioFileOutputRepository.cs" />
     <Compile Include="AudioFileOutputChannelRepository.cs" />
-    <Compile Include="IdentityRepository.cs" />
-    <Compile Include="Interfaces\IIdentityRepository.cs" />
+    <Compile Include="IDRepository.cs" />
+    <Compile Include="Interfaces\IIDRepository.cs" />
     <Compile Include="OperatorTypeRepository.cs" />
     <Compile Include="DocumentRepository.cs" />
     <Compile Include="DocumentReferenceRepository.cs" />

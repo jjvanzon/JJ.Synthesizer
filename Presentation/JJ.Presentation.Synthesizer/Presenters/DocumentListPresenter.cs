@@ -21,18 +21,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class DocumentListPresenter
     {
         private IDocumentRepository _documentRepository;
-        private IIdentityRepository _identityRepository;
+        private IIDRepository _idRepository;
         private DocumentListViewModel _viewModel;
 
         private static int _pageSize;
 
-        public DocumentListPresenter(IDocumentRepository documentRepository, IIdentityRepository identityRepository)
+        public DocumentListPresenter(IDocumentRepository documentRepository, IIDRepository idRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (identityRepository == null) throw new NullException(() => identityRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
 
             _documentRepository = documentRepository;
-            _identityRepository = identityRepository;
+            _idRepository = idRepository;
 
             ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
             _pageSize = config.PageSize;
@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         // TODO: Either make a Create and a Delete action or neither, but not just a Create action.
         public DocumentDetailsViewModel Create()
         {
-            var presenter2 = new DocumentDetailsPresenter(_documentRepository, _identityRepository);
+            var presenter2 = new DocumentDetailsPresenter(_documentRepository, _idRepository);
             DocumentDetailsViewModel viewModel2 = presenter2.Create();
             return viewModel2;
         }
@@ -87,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// </summary>
         public object OpenDocument(int id)
         {
-            var presenter2 = new DocumentTreePresenter(_documentRepository, _identityRepository);
+            var presenter2 = new DocumentTreePresenter(_documentRepository, _idRepository);
             object viewModel2 = presenter2.Show(id);
             return viewModel2;
         }

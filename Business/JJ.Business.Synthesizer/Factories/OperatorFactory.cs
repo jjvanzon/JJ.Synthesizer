@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Factories
         private IOutletRepository _outletRepository;
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
-        private IIdentityRepository _identityRepository;
+        private IIDRepository _idRepository;
 
         static OperatorFactory()
         {
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Factories
             IOutletRepository outletRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IIdentityRepository identityRepository)
+            IIDRepository idRepository)
         {
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
             if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Factories
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (identityRepository == null) throw new NullException(() => identityRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
 
             _operatorRepository = operatorRepository;
             _operatorTypeRepository = operatorTypeRepository;
@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.Factories
             _outletRepository = outletRepository;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
-            _identityRepository = identityRepository;
+            _idRepository = idRepository;
         }
 
         public Add_OperatorWrapper Add(Outlet operandA = null, Outlet operandB = null)
@@ -85,14 +85,14 @@ namespace JJ.Business.Synthesizer.Factories
             if (operands == null) throw new NullException(() => operands);
 
             Operator op = _operatorRepository.Create();
-            op.ID = _identityRepository.GenerateID();
+            op.ID = _idRepository.GetID();
             op.SetOperatorTypeEnum(OperatorTypeEnum.Adder, _operatorTypeRepository);
             op.Name = PropertyDisplayNames.Adder;
 
             for (int i = 0; i < operands.Count; i++)
             {
                 Inlet inlet = _inletRepository.Create();
-                inlet.ID = _identityRepository.GenerateID();
+                inlet.ID = _idRepository.GetID();
                 inlet.Name = String.Format("{0}{1}", PropertyNames.Operand, i + 1);
                 inlet.LinkTo(op);
 
@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Factories
             }
 
             Outlet outlet = _outletRepository.Create();
-            outlet.ID = _identityRepository.GenerateID();
+            outlet.ID = _idRepository.GetID();
             outlet.Name = PropertyNames.Result;
             outlet.LinkTo(op);
 
@@ -432,7 +432,7 @@ namespace JJ.Business.Synthesizer.Factories
         private Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, string name, int inletCount, params string[] inletAndOutletNames)
         {
             return OperatorHelper.CreateOperator(
-                _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _identityRepository,
+                _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _idRepository,
                 operatorTypeEnum, name, inletCount, inletAndOutletNames);
         }
     }
