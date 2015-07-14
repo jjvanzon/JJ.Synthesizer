@@ -266,18 +266,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 PatchDetailsViewModel viewModelToAdapt = !mustCreateViewModel ? ViewModel : userInput;
 
-                OperatorViewModel operatorViewModel = viewModelToAdapt.Entity.Operators
-                                                                             .Where(x => x.ID == operatorID)
-                                                                             .Single();
+                int listIndex = viewModelToAdapt.Entity.Operators.IndexOf(x => x.ID == operatorID);
 
-                // Just to be sure, also unlink things in the view models.
+                OperatorViewModel operatorViewModel = viewModelToAdapt.Entity.Operators[listIndex];
+
+                // Unlink related operator's inlets to which the input operator is connected.
+                IList<InletViewModel> relatedInletViewModels =  GetConnectedInletViewModels(viewModelToAdapt.Entity.Operators, operatorViewModel);
+                foreach (InletViewModel relatedInletViewModel in relatedInletViewModels)
+                {
+                    relatedInletViewModel.InputOutlet = null;
+                }
+
+                // Unlink op.Inlets.InputOutlet
                 operatorViewModel.Inlets.ForEach(x => x.InputOutlet = null);
+                // Unlink op.Inlets
                 operatorViewModel.Inlets = new List<InletViewModel>();
 
+                // Unlink op.Outlet[..].Operator
                 operatorViewModel.Outlets.ForEach(x => x.Operator = null);
+                // Unlink op.Outlets
                 operatorViewModel.Outlets = new List<OutletViewModel>();
 
-                viewModelToAdapt.Entity.Operators.Remove(operatorViewModel);
+                viewModelToAdapt.Entity.Operators.RemoveAt(listIndex);
             }
 
             if (mustCreateViewModel)
@@ -287,6 +297,33 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             return ViewModel;
+        }
+
+        /// <summary>
+        /// Gets related operator's inlets to which the input operator is connected
+        /// (at the ViewModel level).
+        /// </summary>
+        private IList<InletViewModel> GetConnectedInletViewModels(IList<OperatorViewModel> allOperatorViewModels, OperatorViewModel inputOperatorViewModel)
+        {
+            // TODO: This makes operating on the view model to execute the delete action quite expensive.
+            // Is it possible and less expensive to do a partial ToEntity and operate on the entity model?
+            var list = new List<InletViewModel>();
+
+            foreach (OperatorViewModel operatorViewModel in allOperatorViewModels)
+            {
+                foreach (InletViewModel inletViewModel in operatorViewModel.Inlets)
+                {
+                    if (inletViewModel.InputOutlet != null)
+                    {
+                        if (inletViewModel.InputOutlet.Operator.ID == inputOperatorViewModel.ID)
+                        {
+                            list.Add(inletViewModel);
+                        }
+                    }
+                }
+            }
+
+            return list;
         }
 
         /// <summary>

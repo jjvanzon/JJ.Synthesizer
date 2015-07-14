@@ -406,6 +406,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (OperatorViewModel operatorViewModel in viewModel.Operators)
             {
+                // TODO: Bug 'circular messages' becomes apparent here.
                 Operator op = converter.Convert(operatorViewModel);
                 op.LinkTo(patch);
 

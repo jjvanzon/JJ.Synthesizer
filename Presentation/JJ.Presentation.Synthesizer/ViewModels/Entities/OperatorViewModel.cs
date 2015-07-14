@@ -25,6 +25,11 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public bool IsSelected { get; set; }
 
         public IList<InletViewModel> Inlets { get; set; }
+
+        /// <summary>
+        /// NOTE: This property has an inverse property
+        /// Operator.Outlets <=> OutletViewModel.Operator
+        /// </summary>
         public IList<OutletViewModel> Outlets { get; set; }
 
         // TODO: It might make more sense if this is simplu OperatorTypeViewModel.

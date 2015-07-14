@@ -18,6 +18,11 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     {
         public int ID { get; set; }
         public string Name { get; set; }
+
+        /// <summary>
+        /// NOTE: This property has an inverse property
+        /// OutletViewModel.Operator <=> Operator.Outlets
+        /// </summary>
         public OperatorViewModel Operator { get; set; }
 
         private string DebuggerDisplay
