@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.Helpers
 {
-    internal class AlternativeChildDocumentItemKey
+    internal class ChildDocumentItemAlternativeKey
     {
         public ChildDocumentTypeEnum? ChildDocumentTypeEnum { get; set; }
         public int? ChildDocumentListIndex { get; set; }

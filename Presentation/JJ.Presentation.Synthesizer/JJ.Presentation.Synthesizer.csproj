@@ -44,7 +44,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PresentationMessages.resx</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\AlternativeChildDocumentItemKey.cs" />
+    <Compile Include="Helpers\ChildDocumentItemAlternativeKey.cs" />
     <Compile Include="ToEntity\RecursiveViewModelToEntityConverter.cs" />
     <Compile Include="Helpers\ChildDocumentTypeEnum.cs" />
     <Compile Include="Helpers\ValidationMessageExtensions.cs" />
