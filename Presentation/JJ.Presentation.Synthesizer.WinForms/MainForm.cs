@@ -163,13 +163,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void Open()
         {
-            _viewModel = _presenter.Show();
+            _presenter.Show();
+
+            _viewModel = _presenter.ViewModel;
+
             ApplyViewModel();
         }
 
         private void NotFoundOK()
         {
-            _viewModel = _presenter.NotFoundOK(_viewModel);
+            _presenter.NotFoundOK();
             ApplyViewModel();
         }
 
@@ -177,13 +180,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void DocumentListShow(int pageNumber = 1)
         {
-            _viewModel = _presenter.DocumentListShow(_viewModel, pageNumber);
+            _presenter.DocumentListShow(pageNumber);
             ApplyViewModel();
         }
 
         private void DocumentListClose()
         {
-            _viewModel = _presenter.DocumentListClose(_viewModel);
+            _presenter.DocumentListClose();
             ApplyViewModel();
         }
 
@@ -191,7 +194,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void DocumentDetailsCreate()
         {
-            _viewModel = _presenter.DocumentDetailsCreate(_viewModel);
+            _presenter.DocumentDetailsCreate();
             ApplyViewModel();
         }
 
@@ -200,19 +203,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             // TODO: Not sure how much this will still work in a stateless environment.
             _viewModel.DocumentDetails = viewModel;
 
-            _viewModel = _presenter.DocumentDetailsSave(_viewModel);
+            _presenter.DocumentDetailsSave();
             ApplyViewModel();
         }
 
         private void DocumentDetailsClose()
         {
-            _viewModel = _presenter.DocumentDetailsClose(_viewModel);
+            _presenter.DocumentDetailsClose();
             ApplyViewModel();
         }
 
         private void DocumentCannotDeleteOK()
         {
-            _viewModel = _presenter.DocumentCannotDeleteOK(_viewModel);
+            _presenter.DocumentCannotDeleteOK();
             ApplyViewModel();
         }
 
@@ -220,49 +223,49 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void DocumentOpen(int id)
         {
-            _viewModel = _presenter.DocumentOpen(_viewModel, id);
+            _presenter.DocumentOpen(id);
             ApplyViewModel();
         }
 
         private void DocumentClose()
         {
-            _viewModel = _presenter.DocumentClose(_viewModel);
+            _presenter.DocumentClose();
             ApplyViewModel();
         }
         
         private void DocumentDelete(int id)
         {
-            _viewModel = _presenter.DocumentDelete(_viewModel, id);
+            _presenter.DocumentDelete(id);
             ApplyViewModel();
         }
 
         private void DocumentConfirmDelete(int id)
         {
-            _viewModel = _presenter.DocumentConfirmDelete(_viewModel, id);
+            _presenter.DocumentConfirmDelete(id);
             ApplyViewModel();
         }
 
         private void DocumentDeletedOK()
         {
-            _viewModel = _presenter.DocumentDeletedOK(_viewModel);
+            _presenter.DocumentDeletedOK();
             ApplyViewModel();
         }
 
         private void PopupMessagesOK()
         {
-            _viewModel = _presenter.PopupMessagesOK(_viewModel);
+            _presenter.PopupMessagesOK();
             ApplyViewModel();
         }
 
         private void DocumentCancelDelete()
         {
-            _viewModel = _presenter.DocumentCancelDelete(_viewModel);
+            _presenter.DocumentCancelDelete();
             ApplyViewModel();
         }
 
         private void DocumentSave()
         {
-            _viewModel = _presenter.DocumentSave(_viewModel);
+            _presenter.DocumentSave();
             ApplyViewModel();
         }
 
@@ -270,25 +273,25 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void DocumentTreeShow()
         {
-            _viewModel = _presenter.DocumentTreeShow(_viewModel);
+            _presenter.DocumentTreeShow();
             ApplyViewModel();
         }
 
         private void DocumentTreeClose()
         {
-            _viewModel = _presenter.DocumentTreeClose(_viewModel);
+            _presenter.DocumentTreeClose();
             ApplyViewModel();
         }
 
         private void DocumentTreeExpandNode(int nodeIndex)
         {
-            _viewModel = _presenter.DocumentTreeExpandNode(_viewModel, nodeIndex);
+            _presenter.DocumentTreeExpandNode(nodeIndex);
             ApplyViewModel();
         }
 
         private void DocumentTreeCollapseNode(int nodeIndex)
         {
-            _viewModel = _presenter.DocumentTreeCollapseNode(_viewModel, nodeIndex);
+            _presenter.DocumentTreeCollapseNode(nodeIndex);
             ApplyViewModel();
         }
 
@@ -296,19 +299,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void DocumentPropertiesShow(int id)
         {
-            _viewModel = _presenter.DocumentPropertiesShow(_viewModel, id);
+            _presenter.DocumentPropertiesShow(id);
             ApplyViewModel();
         }
 
         private void DocumentPropertiesClose()
         {
-            _viewModel = _presenter.DocumentPropertiesClose(_viewModel);
+            _presenter.DocumentPropertiesClose();
             ApplyViewModel();
         }
 
         private void DocumentPropertiesLoseFocus()
         {
-            _viewModel = _presenter.DocumentPropertiesLoseFocus(_viewModel);
+            _presenter.DocumentPropertiesLoseFocus();
             ApplyViewModel();
         }
 
@@ -316,43 +319,43 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void AudioFileOutputListShow()
         {
-            _viewModel = _presenter.AudioFileOutputListShow(_viewModel);
+            _presenter.AudioFileOutputListShow();
             ApplyViewModel();
         }
 
         private void AudioFileOutputListClose()
         {
-            _viewModel = _presenter.AudioFileOutputListClose(_viewModel);
+            _presenter.AudioFileOutputListClose();
             ApplyViewModel();
         }
 
         private void AudioFileOutputDelete(int listIndex)
         {
-            _viewModel = _presenter.AudioFileOutputDelete(_viewModel, listIndex);
+            _presenter.AudioFileOutputDelete(listIndex);
             ApplyViewModel();
         }
 
         private void AudioFileOutputCreate()
         {
-            _viewModel = _presenter.AudioFileOutputCreate(_viewModel);
+            _presenter.AudioFileOutputCreate();
             ApplyViewModel();
         }
 
         private void AudioFileOutputPropertiesShow(int listIndex)
         {
-            _viewModel = _presenter.AudioFileOutputPropertiesShow(_viewModel, listIndex);
+            _presenter.AudioFileOutputPropertiesShow(listIndex);
             ApplyViewModel();
         }
 
         private void AudioFileOutputPropertiesClose(int listIndex)
         {
-            _viewModel = _presenter.AudioFileOutputPropertiesClose(_viewModel, listIndex);
+            _presenter.AudioFileOutputPropertiesClose(listIndex);
             ApplyViewModel();
         }
 
         private void AudioFileOutputPropertiesLoseFocus(int listIndex)
         {
-            _viewModel = _presenter.AudioFileOutputPropertiesLoseFocus(_viewModel, listIndex);
+            _presenter.AudioFileOutputPropertiesLoseFocus(listIndex);
             ApplyViewModel();
         }
 
@@ -360,25 +363,25 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void CurveListShow(int? childDocumentID)
         {
-            _viewModel = _presenter.CurveListShow(_viewModel, childDocumentID);
+            _presenter.CurveListShow(childDocumentID);
             ApplyViewModel();
         }
 
         private void CurveListClose()
         {
-            _viewModel = _presenter.CurveListClose(_viewModel);
+            _presenter.CurveListClose();
             ApplyViewModel();
         }
 
         private void CurveCreate(int? childDocumentID)
         {
-            _viewModel = _presenter.CurveCreate(_viewModel, childDocumentID);
+            _presenter.CurveCreate(childDocumentID);
             ApplyViewModel();
         }
 
         private void CurveDelete(int curveID)
         {
-            _viewModel = _presenter.CurveDelete(_viewModel, curveID);
+            _presenter.CurveDelete(curveID);
             ApplyViewModel();
         }
 
@@ -386,25 +389,25 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void InstrumentListShow()
         {
-            _viewModel = _presenter.InstrumentListShow(_viewModel);
+            _presenter.InstrumentListShow();
             ApplyViewModel();
         }
 
         private void InstrumentListClose()
         {
-            _viewModel = _presenter.InstrumentListClose(_viewModel);
+            _presenter.InstrumentListClose();
             ApplyViewModel();
         }
 
         private void InstrumentCreate()
         {
-            _viewModel = _presenter.InstrumentCreate(_viewModel);
+            _presenter.InstrumentCreate();
             ApplyViewModel();
         }
 
         private void InstrumentDelete(int listIndex)
         {
-            _viewModel = _presenter.InstrumentDelete(_viewModel, listIndex);
+            _presenter.InstrumentDelete(listIndex);
             ApplyViewModel();
         }
 
@@ -412,25 +415,25 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void EffectListShow()
         {
-            _viewModel = _presenter.EffectListShow(_viewModel);
+            _presenter.EffectListShow();
             ApplyViewModel();
         }
 
         private void EffectListClose()
         {
-            _viewModel = _presenter.EffectListClose(_viewModel);
+            _presenter.EffectListClose();
             ApplyViewModel();
         }
 
         private void EffectCreate()
         {
-            _viewModel = _presenter.EffectCreate(_viewModel);
+            _presenter.EffectCreate();
             ApplyViewModel();
         }
 
         private void EffectDelete(int listIndex)
         {
-            _viewModel = _presenter.EffectDelete(_viewModel, listIndex);
+            _presenter.EffectDelete(listIndex);
             ApplyViewModel();
         }
 
@@ -438,85 +441,85 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void PatchListShow(int? childDocumentID)
         {
-            _viewModel = _presenter.PatchListShow(_viewModel, childDocumentID);
+            _presenter.PatchListShow(childDocumentID);
             ApplyViewModel();
         }
 
         private void PatchListClose()
         {
-            _viewModel = _presenter.PatchListClose(_viewModel);
+            _presenter.PatchListClose();
             ApplyViewModel();
         }
 
         private void PatchCreate(int? childDocumentID)
         {
-            _viewModel = _presenter.PatchCreate(_viewModel, childDocumentID);
+            _presenter.PatchCreate(childDocumentID);
             ApplyViewModel();
         }
 
         private void PatchDelete(int patchID)
         {
-            _viewModel = _presenter.PatchDelete(_viewModel, patchID);
+            _presenter.PatchDelete(patchID);
             ApplyViewModel();
         }
 
         private void PatchDetailsShow(int patchID)
         {
-            _viewModel = _presenter.PatchDetailsShow(_viewModel, patchID);
+            _presenter.PatchDetailsShow(patchID);
             ApplyViewModel();
         }
 
         private void PatchDetailsClose(int patchID)
         {
-            _viewModel = _presenter.PatchDetailsClose(_viewModel, patchID);
+            _presenter.PatchDetailsClose(patchID);
             ApplyViewModel();
         }
 
         private void PatchDetailsLoseFocus(int patchID)
         {
-            _viewModel = _presenter.PatchDetailsLoseFocus(_viewModel, patchID);
+            _presenter.PatchDetailsLoseFocus(patchID);
             ApplyViewModel();
         }
 
         private void PatchDetailsAddOperator(int patchID, int operatorTypeID)
         {
-            _viewModel = _presenter.PatchDetailsAddOperator(_viewModel, patchID, operatorTypeID);
+            _presenter.PatchDetailsAddOperator(patchID, operatorTypeID);
             ApplyViewModel();
         }
 
         private void PatchDetailsMoveOperator(int patchID, int operatorID, float centerX, float centerY)
         {
-            _viewModel = _presenter.PatchDetailsMoveOperator(_viewModel, patchID, operatorID, centerX, centerY);
+            _presenter.PatchDetailsMoveOperator(patchID, operatorID, centerX, centerY);
             ApplyViewModel();
         }
 
         private void PatchDetailsChangeInputOutlet(int patchID, int inletID, int inputOutletID)
         {
-            _viewModel = _presenter.PatchDetailsChangeInputOutlet(_viewModel, patchID, inletID, inputOutletID);
+            _presenter.PatchDetailsChangeInputOutlet(patchID, inletID, inputOutletID);
             ApplyViewModel();
         }
 
         private void PatchDetailsSelectOperator(int patchID, int operatorID)
         {
-            _viewModel = _presenter.PatchDetailsSelectOperator(_viewModel, patchID, operatorID);
+            _presenter.PatchDetailsSelectOperator(patchID, operatorID);
             ApplyViewModel();
         }
 
         private void PatchDetailsDeleteOperator(int patchID)
         {
-            _viewModel = _presenter.PatchDetailsDeleteOperator(_viewModel, patchID);
+            _presenter.PatchDetailsDeleteOperator(patchID);
             ApplyViewModel();
         }
 
         private void PatchDetailsSetValue(int patchID, string value)
         {
-            _viewModel = _presenter.PatchDetailsSetValue(_viewModel, patchID, value);
+            _presenter.PatchDetailsSetValue(patchID, value);
             ApplyViewModel();
         }
 
         private void PatchPlay(int patchID)
         {
-            _viewModel = _presenter.PatchPlay(_viewModel, patchID, DEFAULT_DURATION, _sampleFilePath, _outputFilePath);
+            _presenter.PatchPlay(patchID, DEFAULT_DURATION, _sampleFilePath, _outputFilePath);
 
             ApplyViewModel();
 
@@ -531,43 +534,43 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void SampleListShow(int? childDocumentID)
         {
-            _viewModel = _presenter.SampleListShow(_viewModel, childDocumentID);
+            _presenter.SampleListShow(childDocumentID);
             ApplyViewModel();
         }
 
         private void SampleListClose()
         {
-            _viewModel = _presenter.SampleListClose(_viewModel);
+            _presenter.SampleListClose();
             ApplyViewModel();
         }
 
         private void SampleCreate(int? childDocumentID)
         {
-            _viewModel = _presenter.SampleCreate(_viewModel, childDocumentID);
+            _presenter.SampleCreate(childDocumentID);
             ApplyViewModel();
         }
 
         private void SampleDelete(int sampleID)
         {
-            _viewModel = _presenter.SampleDelete(_viewModel, sampleID);
+            _presenter.SampleDelete(sampleID);
             ApplyViewModel();
         }
 
         private void SamplePropertiesShow(int sampleID)
         {
-            _viewModel = _presenter.SamplePropertiesShow(_viewModel, sampleID);
+            _presenter.SamplePropertiesShow(sampleID);
             ApplyViewModel();
         }
 
         private void SamplePropertiesClose(int sampleID)
         {
-            _viewModel = _presenter.SamplePropertiesClose(_viewModel, sampleID);
+            _presenter.SamplePropertiesClose(sampleID);
             ApplyViewModel();
         }
 
         private void SamplePropertiesLoseFocus(int sampleID)
         {
-            _viewModel = _presenter.SamplePropertiesLoseFocus(_viewModel, sampleID);
+            _presenter.SamplePropertiesLoseFocus(sampleID);
             ApplyViewModel();
         }
 
