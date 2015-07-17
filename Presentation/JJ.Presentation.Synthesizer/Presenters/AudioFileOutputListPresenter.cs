@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IDocumentRepository _documentRepository;
 
-        private AudioFileOutputListViewModel _viewModel;
+        public AudioFileOutputListViewModel ViewModel { get; set; }
 
         public AudioFileOutputListPresenter(IDocumentRepository documentRepository)
         {
@@ -31,65 +31,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository;
         }
 
-        /// <summary>
-        /// Can return AudioFileOutputListViewModel or NotFoundViewModel.
-        /// </summary>
-        public object Show(int documentID)
+        public void Show()
         {
-            bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.DocumentID != documentID;
-
-            if (mustCreateViewModel)
-            {
-                Document document = _documentRepository.TryGet(documentID);
-                if (document == null)
-                {
-                    return CreateDocumentNotFoundViewModel();
-                }
-
-                _viewModel = document.ToAudioFileOutputListViewModel();
-            }
-
-            _viewModel.Visible = true;
-
-            return _viewModel;
+            ViewModel.Visible = true;
         }
 
         /// <summary>
         /// Can return AudioFileOutputListViewModel or NotFoundViewModel.
         /// </summary>
-        public object Refresh(AudioFileOutputListViewModel viewModel)
+        public object Refresh()
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            Document document = _documentRepository.TryGet(viewModel.DocumentID);
+            Document document = _documentRepository.TryGet(ViewModel.DocumentID);
             if (document == null)
             {
                 return CreateDocumentNotFoundViewModel();
             }
 
-            _viewModel = document.ToAudioFileOutputListViewModel();
-
-            _viewModel.Visible = viewModel.Visible;
-
-            return _viewModel;
+            bool visible = ViewModel.Visible;
+            ViewModel = document.ToAudioFileOutputListViewModel();
+            ViewModel.Visible = visible;
+            return ViewModel;
         }
 
-        public AudioFileOutputListViewModel Close()
+        public void Close()
         {
-            if (_viewModel == null)
-            {
-                _viewModel = ViewModelHelper.CreateEmptyAudioFileOutputListViewModel();
-            }
-
-            _viewModel.Visible = false;
-
-            return _viewModel;
-        }
-
-        public void Clear()
-        {
-            _viewModel = null;
+            ViewModel.Visible = false;
         }
 
         // Helpers

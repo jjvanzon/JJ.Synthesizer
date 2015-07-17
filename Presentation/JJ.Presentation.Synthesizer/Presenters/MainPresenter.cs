@@ -347,8 +347,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // the original unsaved data will be shown in the presenters,
                     // because they do not think they need to refresh their view models,
                     // since it is the same document.
-                    _audioFileOutputListPresenter.Clear();
-                    _audioFileOutputPropertiesPresenter.Clear();
+                    _audioFileOutputListPresenter.ViewModel = null;
+                    _audioFileOutputPropertiesPresenter.ViewModel = null;
                     _curveDetailsPresenter.Clear();
                     _curveListPresenter.Clear();
                     _documentPropertiesPresenter.Clear();
@@ -418,8 +418,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     ViewModel.WindowTitle = Titles.ApplicationName;
                     ViewModel.Menu = _menuPresenter.Show(documentIsOpen: false);
 
-                    _audioFileOutputListPresenter.Clear();
-                    _audioFileOutputPropertiesPresenter.Clear();
+                    _audioFileOutputListPresenter.ViewModel = null;
+                    _audioFileOutputPropertiesPresenter.ViewModel = null;
                     _curveDetailsPresenter.Clear();
                     _curveListPresenter.Clear();
                     _documentPropertiesPresenter.Clear();
@@ -555,8 +555,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _audioFileOutputListPresenter.Show(ViewModel.Document.ID);
-                DispatchViewModel(viewModel2, null);
+                _audioFileOutputListPresenter.ViewModel = ViewModel.Document.AudioFileOutputList;
+                _audioFileOutputListPresenter.Show();
+                DispatchViewModel(_audioFileOutputListPresenter.ViewModel, null);
             }
             finally
             {
@@ -568,8 +569,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _audioFileOutputListPresenter.Close();
-                DispatchViewModel(viewModel2, null);
+                _audioFileOutputListPresenter.ViewModel = ViewModel.Document.AudioFileOutputList;
+                _audioFileOutputListPresenter.Close();
+                DispatchViewModel(_audioFileOutputListPresenter.ViewModel, null);
             }
             finally
             {
@@ -598,7 +600,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel(_repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository);
                 ViewModel.Document.AudioFileOutputPropertiesList.Add(propertiesViewModel);
-                ViewModel.Document.AudioFileOutputPropertiesList = ViewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
+                // TODO: Remove outcommented code.
+                //ViewModel.Document.AudioFileOutputPropertiesList = ViewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
             }
             finally
             {
@@ -610,11 +613,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                int listIndex = ViewModel.Document.AudioFileOutputPropertiesList.IndexOf(x => x.Entity.ID == id);
+                //int listIndex;
 
                 // 'Business' / ToViewModel
-                ViewModel.Document.AudioFileOutputPropertiesList.RemoveAt(listIndex);
-                ViewModel.Document.AudioFileOutputList.List.RemoveAt(listIndex);
+                //listIndex = ViewModel.Document.AudioFileOutputPropertiesList.IndexOf(x => x.Entity.ID == id);
+                //ViewModel.Document.AudioFileOutputPropertiesList.RemoveAt(listIndex);
+                ViewModel.Document.AudioFileOutputPropertiesList.RemoveFirst(x => x.Entity.ID == id);
+
+                //listIndex = ViewModel.Document.AudioFileOutputList.List.IndexOf(x => x.ID == id);
+                //ViewModel.Document.AudioFileOutputList.List.RemoveAt(listIndex);
+                ViewModel.Document.AudioFileOutputList.List.RemoveFirst(x => x.ID == id);
+                
 
                 // No need to do ToEntity, 
                 // because we are not executing any additional business logic or refreshing 
@@ -631,11 +640,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 int listIndex = ViewModel.Document.AudioFileOutputPropertiesList.IndexOf(x => x.Entity.ID == id);
-                AudioFileOutputPropertiesViewModel propertiesViewModel = ViewModel.Document.AudioFileOutputPropertiesList[listIndex];
-                _audioFileOutputPropertiesPresenter.ViewModel = propertiesViewModel;
-                object viewModel2 = _audioFileOutputPropertiesPresenter.Show(propertiesViewModel);
 
-                DispatchViewModel(viewModel2, new ChildDocumentItemAlternativeKey { EntityListIndex = listIndex });
+                _audioFileOutputPropertiesPresenter.ViewModel = ViewModel.Document.AudioFileOutputPropertiesList[listIndex];
+                _audioFileOutputPropertiesPresenter.Show();
+
+                DispatchViewModel(_audioFileOutputPropertiesPresenter.ViewModel, new ChildDocumentItemAlternativeKey { EntityListIndex = listIndex });
             }
             finally
             {
@@ -652,19 +661,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document document = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
 
                 int listIndex = ViewModel.Document.AudioFileOutputPropertiesList.IndexOf(x => x.Entity.ID == id);
-                AudioFileOutputPropertiesViewModel propertiesViewModel = ViewModel.Document.AudioFileOutputPropertiesList[listIndex];
-                AudioFileOutputPropertiesViewModel viewModel2 = _audioFileOutputPropertiesPresenter.Close(propertiesViewModel);
 
-                if (viewModel2.Successful)
+                _audioFileOutputPropertiesPresenter.ViewModel = ViewModel.Document.AudioFileOutputPropertiesList[listIndex];
+                _audioFileOutputPropertiesPresenter.Close();
+
+                if (_audioFileOutputPropertiesPresenter.ViewModel.Successful)
                 {
-                    // Update properties list
-                    ViewModel.Document.AudioFileOutputPropertiesList = ViewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
+                    // TODO: Remove outcommented code.
+                    //// Update properties list
+                    //ViewModel.Document.AudioFileOutputPropertiesList = ViewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
 
                     // Update list
                     RefreshAudioFileOutputList();
                 }
 
-                DispatchViewModel(viewModel2, new ChildDocumentItemAlternativeKey { EntityListIndex = listIndex });
+                DispatchViewModel(_audioFileOutputPropertiesPresenter.ViewModel, new ChildDocumentItemAlternativeKey { EntityListIndex = listIndex });
             }
             finally
             {
@@ -681,19 +692,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document document = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
 
                 int listIndex = ViewModel.Document.AudioFileOutputPropertiesList.IndexOf(x => x.Entity.ID == id);
-                AudioFileOutputPropertiesViewModel propertiesViewModel = ViewModel.Document.AudioFileOutputPropertiesList[listIndex];
-                AudioFileOutputPropertiesViewModel viewModel2 = _audioFileOutputPropertiesPresenter.LoseFocus(propertiesViewModel);
 
-                if (viewModel2.Successful)
+                _audioFileOutputPropertiesPresenter.ViewModel = ViewModel.Document.AudioFileOutputPropertiesList[listIndex];
+                _audioFileOutputPropertiesPresenter.LoseFocus();
+
+                DispatchViewModel(_audioFileOutputPropertiesPresenter.ViewModel, new ChildDocumentItemAlternativeKey { EntityListIndex = listIndex });
+
+                if (_audioFileOutputPropertiesPresenter.ViewModel.Successful)
                 {
+                    // TODO: Remove outcommented code.
                     // Update properties list
-                    ViewModel.Document.AudioFileOutputPropertiesList = ViewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
+                    //ViewModel.Document.AudioFileOutputPropertiesList = ViewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
 
                     // Update list
                     RefreshAudioFileOutputList();
                 }
-
-                DispatchViewModel(viewModel2, new ChildDocumentItemAlternativeKey { EntityListIndex = listIndex });
             }
             finally
             {
@@ -1980,7 +1993,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void RefreshAudioFileOutputList()
         {
-            object viewModel2 = _audioFileOutputListPresenter.Refresh(ViewModel.Document.AudioFileOutputList);
+            object viewModel2 = _audioFileOutputListPresenter.Refresh();
             DispatchViewModel(viewModel2, null);
         }
 
@@ -2005,8 +2018,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private AudioFileOutputPropertiesViewModel GetAudioFileOutputPropertiesViewModel(int id)
         {
             AudioFileOutputPropertiesViewModel viewModel = ViewModel.Document.AudioFileOutputPropertiesList
-                                                                              .Where(x => x.Entity.ID == id)
-                                                                              .Single();
+                                                                             .Where(x => x.Entity.ID == id)
+                                                                             .Single();
             return viewModel;
         }
 

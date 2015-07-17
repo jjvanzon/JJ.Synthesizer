@@ -63,7 +63,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
-            IList<AudioFileOutputPropertiesViewModel> viewModels = entities.OrderBy(x => x.Name)
+            // TODO: Remove outcommented code.
+            IList<AudioFileOutputPropertiesViewModel> viewModels = entities//.OrderBy(x => x.Name)
                                                                            .Select(x => x.ToPropertiesViewModel(audioFileFormatRepository, sampleDataTypeRepository, speakerSetupRepository))
                                                                            .ToList();
             return viewModels;
