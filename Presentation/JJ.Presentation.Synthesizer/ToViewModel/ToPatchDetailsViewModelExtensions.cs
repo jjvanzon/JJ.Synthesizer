@@ -20,26 +20,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToPatchDetailsViewModelExtensions
     {
-        public static IList<PatchDetailsViewModel> ToDetailsViewModels(this IList<Patch> entities, IOperatorTypeRepository operatorTypeRepository, EntityPositionManager entityPositionManager)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            entities = entities.OrderBy(x => x.Name).ToArray();
-
-            var viewModels = new List<PatchDetailsViewModel>(entities.Count);
-
-            for (int i = 0; i < entities.Count; i++)
-            {
-                Patch entity = entities[i];
-
-                PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(operatorTypeRepository, entityPositionManager);
-
-                viewModels.Add(viewModel);
-            }
-
-            return viewModels;
-        }
-
         public static PatchDetailsViewModel ToDetailsViewModel(this Patch patch, IOperatorTypeRepository operatorTypeRepository, EntityPositionManager entityPositionManager)
         {
             if (patch == null) throw new NullException(() => patch);

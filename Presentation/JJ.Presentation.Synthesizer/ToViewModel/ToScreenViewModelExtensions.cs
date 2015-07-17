@@ -34,38 +34,26 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = document.ID,
                 DocumentTree = document.ToTreeViewModel(),
                 DocumentProperties = document.ToPropertiesViewModel(),
-                AudioFileOutputPropertiesList = document.AudioFileOutputs.ToPropertiesViewModels(repositoryWrapper.AudioFileFormatRepository, repositoryWrapper.SampleDataTypeRepository, repositoryWrapper.SpeakerSetupRepository),
+                AudioFileOutputPropertiesList = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel(repositoryWrapper.AudioFileFormatRepository, repositoryWrapper.SampleDataTypeRepository, repositoryWrapper.SpeakerSetupRepository)).ToList(),
                 AudioFileOutputList = document.ToAudioFileOutputListViewModel(),
                 InstrumentList = document.Instruments.ToChildDocumentListViewModel(document.ID, ChildDocumentTypeEnum.Instrument),
-                InstrumentPropertiesList = document.Instruments.ToChildDocumentPropertiesViewModels(),
-                InstrumentDocumentList = document.Instruments.ToChildDocumentViewModels(repositoryWrapper, entityPositionManager),
+                InstrumentPropertiesList = document.Instruments.Select(x => x.ToChildDocumentPropertiesViewModel()).ToList(),
+                InstrumentDocumentList = document.Instruments.Select(x => x.ToChildDocumentViewModel(repositoryWrapper, entityPositionManager)).ToList(),
                 EffectList = document.Effects.ToChildDocumentListViewModel(document.ID, ChildDocumentTypeEnum.Effect),
-                EffectPropertiesList = document.Effects.ToChildDocumentPropertiesViewModels(),
-                EffectDocumentList = document.Effects.ToChildDocumentViewModels(repositoryWrapper, entityPositionManager),
-                CurveDetailsList = document.Curves.ToDetailsViewModels(repositoryWrapper.NodeTypeRepository),
+                EffectPropertiesList = document.Effects.Select(x => x.ToChildDocumentPropertiesViewModel()).ToList(),
+                EffectDocumentList = document.Effects.Select(x => x.ToChildDocumentViewModel(repositoryWrapper, entityPositionManager)).ToList(),
+                CurveDetailsList = document.Curves.Select(x => x.ToDetailsViewModel(repositoryWrapper.NodeTypeRepository)).ToList(),
                 CurveList = document.Curves.ToListViewModel(document.ID, null),
-                PatchDetailsList = document.Patches.ToDetailsViewModels(repositoryWrapper.OperatorTypeRepository, entityPositionManager),
+                PatchDetailsList = document.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, entityPositionManager)).ToList(),
                 PatchList = document.Patches.ToListViewModel(document.ID, null),
                 SampleList = document.Samples.ToListViewModel(document.ID, null),
-                SamplePropertiesList = document.Samples.ToPropertiesViewModels(new SampleRepositories(repositoryWrapper))
+                SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList()
             };
 
             return viewModel;
         }
 
         // AudioFileOutput
-
-        public static IList<AudioFileOutputPropertiesViewModel> ToPropertiesViewModels(
-            this IList<AudioFileOutput> entities,
-            IAudioFileFormatRepository audioFileFormatRepository,
-            ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository)
-        {
-            // TODO: Inline this if you do not sort anyway.
-            if (entities == null) throw new NullException(() => entities);
-            IList<AudioFileOutputPropertiesViewModel> viewModels = entities.Select(x => x.ToPropertiesViewModel(audioFileFormatRepository, sampleDataTypeRepository, speakerSetupRepository)).ToList();
-            return viewModels;
-        }
 
         public static AudioFileOutputPropertiesViewModel ToPropertiesViewModel(
             this AudioFileOutput entity,
@@ -101,16 +89,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         // Curve
-
-        public static IList<CurveDetailsViewModel> ToDetailsViewModels(this IList<Curve> entities, INodeTypeRepository nodeTypeRepository)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            IList<CurveDetailsViewModel> viewModels = entities.OrderBy(x => x.Name)
-                                                              .Select(x => x.ToDetailsViewModel(nodeTypeRepository))
-                                                              .ToList();
-            return viewModels;
-        }
 
         public static CurveDetailsViewModel ToDetailsViewModel(this Curve curve, INodeTypeRepository nodeTypeRepository)
         {
@@ -181,16 +159,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // ChildDocument
 
-        public static IList<ChildDocumentPropertiesViewModel> ToChildDocumentPropertiesViewModels(this IList<Document> childDocuments)
-        {
-            if (childDocuments == null) throw new NullException(() => childDocuments);
-
-            IList<ChildDocumentPropertiesViewModel> viewModels = childDocuments.OrderBy(x => x.Name)
-                                                                               .Select(x => x.ToChildDocumentPropertiesViewModel())
-                                                                               .ToList();
-            return viewModels;
-        }
-
         public static ChildDocumentPropertiesViewModel ToChildDocumentPropertiesViewModel(this Document childDocument)
         {
             if (childDocument == null) throw new NullException(() => childDocument);
@@ -203,24 +171,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
-        }
-
-        public static IList<ChildDocumentViewModel> ToChildDocumentViewModels(this IList<Document> childDocuments, RepositoryWrapper repositoryWrapper, EntityPositionManager entityPositionManager)
-        {
-            if (childDocuments == null) throw new NullException(() => childDocuments);
-
-            IList<ChildDocumentViewModel> viewModels = new List<ChildDocumentViewModel>(childDocuments.Count);
-
-            childDocuments = childDocuments.OrderBy(x => x.Name).ToArray();
-
-            for (int i = 0; i < childDocuments.Count; i++)
-            {
-                Document entity = childDocuments[i];
-                ChildDocumentViewModel viewModel = entity.ToChildDocumentViewModel(repositoryWrapper, entityPositionManager);
-                viewModels.Add(viewModel);
-            }
-
-            return viewModels;
         }
 
         public static ChildDocumentViewModel ToChildDocumentViewModel(
@@ -237,11 +187,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Name = childDocument.Name,
                 SampleList = childDocument.Samples.ToListViewModel(rootDocumentID, childDocument.ID),
-                SamplePropertiesList = childDocument.Samples.ToPropertiesViewModels(new SampleRepositories(repositoryWrapper)),
+                SamplePropertiesList = childDocument.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList(),
                 CurveList = childDocument.Curves.ToListViewModel(rootDocumentID, childDocument.ID),
-                CurveDetailsList = childDocument.Curves.ToDetailsViewModels(repositoryWrapper.NodeTypeRepository),
+                CurveDetailsList = childDocument.Curves.Select(x => x.ToDetailsViewModel(repositoryWrapper.NodeTypeRepository)).ToList(),
                 PatchList = childDocument.Patches.ToListViewModel(rootDocumentID, childDocument.ID),
-                PatchDetailsList = childDocument.Patches.ToDetailsViewModels(repositoryWrapper.OperatorTypeRepository, entityPositionManager),
+                PatchDetailsList = childDocument.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, entityPositionManager)).ToList(),
                 ID = childDocument.ID,
             };
 
@@ -249,16 +199,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         // Sample
-
-        public static IList<SamplePropertiesViewModel> ToPropertiesViewModels(this IList<Sample> entities, SampleRepositories sampleRepositories)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            IList<SamplePropertiesViewModel> viewModels = entities.OrderBy(x => x.Name)
-                                                                  .Select(x => x.ToPropertiesViewModel(sampleRepositories))
-                                                                  .ToList();
-            return viewModels;
-        }
 
         public static SamplePropertiesViewModel ToPropertiesViewModel(this Sample entity, SampleRepositories sampleRepositories)
         {

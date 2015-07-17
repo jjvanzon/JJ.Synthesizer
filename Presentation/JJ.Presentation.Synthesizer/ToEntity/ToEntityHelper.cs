@@ -222,6 +222,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             {
                 AudioFileOutput entityToDelete = audioFileOutputRepositories.AudioFileOutputRepository.Get(idToDelete);
                 entityToDelete.UnlinkRelatedEntities();
+                entityToDelete.DeleteRelatedEntities(audioFileOutputRepositories.AudioFileOutputChannelRepository);
                 audioFileOutputRepositories.AudioFileOutputRepository.Delete(entityToDelete);
             }
         }
