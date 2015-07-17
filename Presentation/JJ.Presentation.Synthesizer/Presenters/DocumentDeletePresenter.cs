@@ -19,7 +19,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IDocumentRepository _documentRepository;
         private DocumentManager _documentManager;
-        private DocumentDeleteViewModel _viewModel;
+
+        public DocumentDeleteViewModel ViewModel { get; private set; }
 
         public DocumentDeletePresenter(RepositoryWrapper repositoryWrapper)
         {
@@ -37,9 +38,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _documentRepository.TryGet(id);
             if (document == null)
             {
-                var presenter2 = new NotFoundPresenter();
-                NotFoundViewModel viewModel2 = presenter2.Show(PropertyDisplayNames.Document);
-                return viewModel2;
+                return ViewModelHelper.CreateDocumentNotFoundViewModel();
             }
             else
             {
@@ -53,9 +52,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
                 else
                 {
-                    _viewModel = document.ToDeleteViewModel();
-                    _viewModel.Visible = true;
-                    return _viewModel;
+                    ViewModel = document.ToDeleteViewModel();
+                    ViewModel.Visible = true;
+                    return ViewModel;
                 }
             }
         }
@@ -68,30 +67,30 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _documentRepository.TryGet(id);
             if (document == null)
             {
-                var presenter2 = new NotFoundPresenter();
-                NotFoundViewModel viewModel2 = presenter2.Show(PropertyDisplayNames.Document);
-                return viewModel2;
+                return ViewModelHelper.CreateDocumentNotFoundViewModel();
             }
             else
             {
                 _documentManager.DeleteWithRelatedEntities(document);
 
                 var presenter2 = new DocumentDeletedPresenter();
-                DocumentDeletedViewModel viewModel2 = presenter2.Show();
-                return viewModel2;
+                presenter2.Show();
+                return presenter2.ViewModel;
             }
         }
 
-        public DocumentDeleteViewModel Cancel()
+        public void Cancel()
         {
-            if (_viewModel == null)
-            {
-                _viewModel = ViewModelHelper.CreateEmptyDocumentDeleteViewModel();
-            }
+            AssertViewModel();
 
-            _viewModel.Visible = false;
+            ViewModel.Visible = false;
+        }
 
-            return _viewModel;
+        // Helpers
+
+        private void AssertViewModel()
+        {
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

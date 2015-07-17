@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private IDocumentRepository _documentRepository;
         private IIDRepository _idRepository;
 
-        private DocumentDetailsViewModel _viewModel;
+        public DocumentDetailsViewModel ViewModel { get; private set; }
 
         public DocumentDetailsPresenter(IDocumentRepository documentRepository, IIDRepository idRepository)
         {
@@ -34,75 +34,61 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _idRepository = idRepository;
         }
 
-        public DocumentDetailsViewModel Create()
+        public void Create()
         {
             Document document = _documentRepository.Create();
             document.ID = _idRepository.GetID();
 
-            _viewModel = document.ToDetailsViewModel();
-            _viewModel.IDVisible = false;
-            _viewModel.CanDelete = false;
-            _viewModel.Visible = true;
-
-            return _viewModel;
+            ViewModel = document.ToDetailsViewModel();
+            ViewModel.IDVisible = false;
+            ViewModel.CanDelete = false;
+            ViewModel.Visible = true;
         }
 
-        public DocumentDetailsViewModel Save(DocumentDetailsViewModel userInput)
+        public void Save()
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            AssertViewModel();
 
-            Document document = userInput.ToEntity(_documentRepository);
+            Document document = ViewModel.ToEntity(_documentRepository);
 
             IValidator validator = new DocumentValidator_Basic(document);
             if (!validator.IsValid)
             {
-                if (_viewModel == null)
+                if (ViewModel == null)
                 {
-                    _viewModel = document.ToDetailsViewModel();
-                    _viewModel.IDVisible = userInput.IDVisible;
-                    _viewModel.CanDelete = userInput.CanDelete;
+                    ViewModel = document.ToDetailsViewModel();
+                    ViewModel.IDVisible = ViewModel.IDVisible;
+                    ViewModel.CanDelete = ViewModel.CanDelete;
                 }
 
-                _viewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
-
-                return _viewModel;
+                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
             }
             else
             {
                 // TODO: Perhaps report success and leave Committing to the MainPresenter.
                 _documentRepository.Commit();
 
-                if (_viewModel == null)
+                if (ViewModel == null)
                 {
-                    _viewModel = ViewModelHelper.CreateEmptyDocumentDetailsViewModel();
+                    ViewModel = ViewModelHelper.CreateEmptyDocumentDetailsViewModel();
                 }
 
-                _viewModel.Visible = false;
-
-                return _viewModel;
+                ViewModel.Visible = false;
             }
         }
 
-        /// <summary>
-        /// Can return DocumentConfirmDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel.
-        /// </summary>
-        public object Delete(int id, RepositoryWrapper repositoryWrapper)
+        public void Close()
         {
-            var presenter2 = new DocumentDeletePresenter(repositoryWrapper);
-            object viewModel2 = presenter2.Show(id);
-            return viewModel2;
+            AssertViewModel();
+
+            ViewModel.Visible = false;
         }
 
-        public object Close()
+        // Helpers
+
+        private void AssertViewModel()
         {
-            if (_viewModel == null)
-            {
-                _viewModel = ViewModelHelper.CreateEmptyDocumentDetailsViewModel();
-            }
-
-            _viewModel.Visible = false;
-
-            return _viewModel;
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

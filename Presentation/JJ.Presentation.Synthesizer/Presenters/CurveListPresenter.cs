@@ -19,7 +19,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class CurveListPresenter
     {
         private IDocumentRepository _documentRepository;
-        private CurveListViewModel _viewModel;
+
+        public CurveListViewModel ViewModel { get; set; }
 
         public CurveListPresenter(IDocumentRepository documentRepository)
         {
@@ -28,73 +29,47 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository;
         }
 
-        /// <summary>
-        /// Can return CurveListViewModel or NotFoundViewModel.
-        /// </summary>
-        public object Show(int rootDocumentID, int? childDocumentID)
+        public void Show()
         {
-            bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.RootDocumentID != rootDocumentID ||
-                                       _viewModel.ChildDocumentID != childDocumentID;
-            if (mustCreateViewModel)
-            {
-                Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(rootDocumentID, childDocumentID, _documentRepository);
-                if (document == null)
-                {
-                    return CreateDocumentNotFoundViewModel();
-                }
+            AssertViewModel();
 
-                _viewModel = document.Curves.ToListViewModel(rootDocumentID, childDocumentID);
-            }
-
-            _viewModel.Visible = true;
-
-            return _viewModel;
+            ViewModel.Visible = true;
         }
 
         /// <summary>
         /// Can return CurveListViewModel or NotFoundViewModel.
         /// </summary>
-        public object Refresh(CurveListViewModel viewModel)
+        public object Refresh()
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
+            AssertViewModel();
 
-            Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(viewModel.RootDocumentID, viewModel.ChildDocumentID, _documentRepository);
+            Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(ViewModel.RootDocumentID, ViewModel.ChildDocumentID, _documentRepository);
             if (document == null)
             {
-                return CreateDocumentNotFoundViewModel();
+                ViewModelHelper.CreateDocumentNotFoundViewModel();
             }
 
-            _viewModel = document.Curves.ToListViewModel(viewModel.RootDocumentID, viewModel.ChildDocumentID);
+            bool visible = ViewModel.Visible;
 
-            _viewModel.Visible = viewModel.Visible;
+            ViewModel = document.Curves.ToListViewModel(ViewModel.RootDocumentID, ViewModel.ChildDocumentID);
 
-            return _viewModel;
+            ViewModel.Visible = visible;
+
+            return ViewModel;
         }
 
-        public CurveListViewModel Close()
+        public void Close()
         {
-            if (_viewModel == null)
-            {
-                _viewModel = ViewModelHelper.CreateEmptyCurveListViewModel();
-            }
+            AssertViewModel();
 
-            _viewModel.Visible = false;
-
-            return _viewModel;
-        }
-
-        public void Clear()
-        {
-            _viewModel = null;
+            ViewModel.Visible = false;
         }
 
         // Helpers
 
-        private NotFoundViewModel CreateDocumentNotFoundViewModel()
+        private void AssertViewModel()
         {
-            NotFoundViewModel viewModel = new NotFoundPresenter().Show(PropertyDisplayNames.Document);
-            return viewModel;
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

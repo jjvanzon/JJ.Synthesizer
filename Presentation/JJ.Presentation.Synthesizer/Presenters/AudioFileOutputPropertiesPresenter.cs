@@ -32,11 +32,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void Show()
         {
+            AssertViewModel();
             ViewModel.Visible = true;
         }
 
         public void Close()
         {
+            AssertViewModel();
+
             Update();
 
             if (ViewModel.Successful)
@@ -52,6 +55,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void Update()
         {
+            AssertViewModel();
+
             AudioFileOutput entity = ViewModel.ToEntityWithRelatedEntities(_audioFileOutputRepositories);
 
             IValidator validator = new AudioFileOutputValidator_InDocument(entity);
@@ -65,6 +70,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel.ValidationMessages = new List<Message>();
                 ViewModel.Successful = true;
             }
+        }
+
+        private void AssertViewModel()
+        {
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

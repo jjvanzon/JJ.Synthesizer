@@ -21,77 +21,52 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ICurveRepository _curveRepository;
         private INodeRepository _nodeRepository;
         private INodeTypeRepository _nodeTypeRepository;
-        private IIDRepository _idRepository;
-        
+
         public CurveDetailsViewModel ViewModel { get; set; }
 
         public CurveDetailsPresenter(
             ICurveRepository curveRepository,
             INodeRepository nodeRepository,
-            INodeTypeRepository nodeTypeRepository,
-            IIDRepository idRepository)
+            INodeTypeRepository nodeTypeRepository)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (nodeRepository == null) throw new NullException(() => nodeRepository);
             if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
 
             _curveRepository = curveRepository;
             _nodeRepository = nodeRepository;
             _nodeTypeRepository = nodeTypeRepository;
-            _idRepository = idRepository;
         }
 
-        public CurveDetailsViewModel Show(CurveDetailsViewModel userInput)
+        public void Show()
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            if (MustCreateViewModel(ViewModel, userInput))
-            {
-                Curve entity = userInput.ToEntityWithRelatedEntities(_curveRepository, _nodeRepository, _nodeTypeRepository);
-
-                ViewModel = CreateViewModel(entity, userInput);
-            }
+            AssertViewModel();
 
             ViewModel.Visible = true;
-
-            return ViewModel;
         }
 
-        public CurveDetailsViewModel Close(CurveDetailsViewModel userInput)
+        public void Close()
         {
-            ViewModel = Update(userInput);
+            AssertViewModel();
+
+            Update();
 
             if (ViewModel.Successful)
             {
                 ViewModel.Visible = false;
             }
-
-            return ViewModel;
         }
 
-        public CurveDetailsViewModel LoseFocus(CurveDetailsViewModel userInput)
+        public void LoseFocus()
         {
-            ViewModel = Update(userInput);
-
-            return ViewModel;
+            Update();
         }
 
-        public void Clear()
+        private void Update()
         {
-            ViewModel = null;
-        }
+            AssertViewModel();
 
-        private CurveDetailsViewModel Update(CurveDetailsViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            Curve entity = userInput.ToEntityWithRelatedEntities(_curveRepository, _nodeRepository, _nodeTypeRepository);
-
-            if (MustCreateViewModel(ViewModel, userInput))
-            {
-                ViewModel = CreateViewModel(entity, userInput);
-            }
+            Curve entity = ViewModel.ToEntityWithRelatedEntities(_curveRepository, _nodeRepository, _nodeTypeRepository);
 
             IValidator validator = new CurveValidator(entity, new HashSet<object>());
             if (!validator.IsValid)
@@ -104,20 +79,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel.ValidationMessages = new List<Message>();
                 ViewModel.Successful = false;
             }
-
-            return ViewModel;
         }
 
-        private bool MustCreateViewModel(CurveDetailsViewModel existingViewModel, CurveDetailsViewModel userInput)
-        {
-            return existingViewModel == null ||
-                   existingViewModel.Entity.ID != userInput.Entity.ID;
-        }
+        // Helpers
 
-        private CurveDetailsViewModel CreateViewModel(Curve entity, CurveDetailsViewModel userInput)
+        private void AssertViewModel()
         {
-            CurveDetailsViewModel viewModel = entity.ToDetailsViewModel(_nodeTypeRepository);
-            return viewModel;
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

@@ -61,12 +61,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             ISampleDataTypeRepository sampleDataTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository)
         {
+            // TODO: Inline this if you do not sort anyway.
             if (entities == null) throw new NullException(() => entities);
-
-            // TODO: Remove outcommented code.
-            IList<AudioFileOutputPropertiesViewModel> viewModels = entities//.OrderBy(x => x.Name)
-                                                                           .Select(x => x.ToPropertiesViewModel(audioFileFormatRepository, sampleDataTypeRepository, speakerSetupRepository))
-                                                                           .ToList();
+            IList<AudioFileOutputPropertiesViewModel> viewModels = entities.Select(x => x.ToPropertiesViewModel(audioFileFormatRepository, sampleDataTypeRepository, speakerSetupRepository)).ToList();
             return viewModels;
         }
 

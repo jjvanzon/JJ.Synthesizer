@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Presentation.Resources;
+﻿using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
@@ -22,6 +23,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
+        }
+
+        public static NotFoundViewModel CreateDocumentNotFoundViewModel()
+        {
+            return CreateNotFoundViewModel(PropertyDisplayNames.Document);
         }
 
         public static MenuViewModel CreateMenuViewModel(bool documentIsOpen)

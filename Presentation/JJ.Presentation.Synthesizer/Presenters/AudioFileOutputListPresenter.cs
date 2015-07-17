@@ -33,6 +33,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void Show()
         {
+            AssertViewModel();
+
             ViewModel.Visible = true;
         }
 
@@ -41,10 +43,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// </summary>
         public object Refresh()
         {
+            AssertViewModel();
+
             Document document = _documentRepository.TryGet(ViewModel.DocumentID);
             if (document == null)
             {
-                return CreateDocumentNotFoundViewModel();
+                ViewModelHelper.CreateDocumentNotFoundViewModel();
             }
 
             bool visible = ViewModel.Visible;
@@ -60,10 +64,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Helpers
 
-        private NotFoundViewModel CreateDocumentNotFoundViewModel()
+        private void AssertViewModel()
         {
-            NotFoundViewModel viewModel = new NotFoundPresenter().Show(PropertyDisplayNames.Document);
-            return viewModel;
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

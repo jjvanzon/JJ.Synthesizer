@@ -32,51 +32,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _idRepository = idRepository;
         }
 
-        public ChildDocumentPropertiesViewModel Show(ChildDocumentPropertiesViewModel userInput)
+        public void Show()
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            if (MustCreateViewModel(ViewModel, userInput))
-            {
-                Document entity = userInput.ToEntity(_documentRepository);
-
-                ViewModel = entity.ToChildDocumentPropertiesViewModel();
-            }
+            AssertViewModel();
 
             ViewModel.Visible = true;
-
-            return ViewModel;
         }
 
-        public ChildDocumentPropertiesViewModel Close(ChildDocumentPropertiesViewModel userInput)
+        public void Close()
         {
-            ViewModel = Update(userInput);
+            AssertViewModel();
+
+            Update();
 
             if (ViewModel.Successful)
             {
                 ViewModel.Visible = false;
             }
-
-            return ViewModel;
         }
 
-        public ChildDocumentPropertiesViewModel LoseFocus(ChildDocumentPropertiesViewModel userInput)
+        public void LoseFocus()
         {
-            ViewModel = Update(userInput);
-
-            return ViewModel;
+            Update();
         }
 
-        private ChildDocumentPropertiesViewModel Update(ChildDocumentPropertiesViewModel userInput)
+        private void Update()
         {
-            if (userInput == null) throw new NullException(() => userInput);
-            
-            Document entity = userInput.ToEntity(_documentRepository);
+            AssertViewModel();
 
-            if (MustCreateViewModel(ViewModel, userInput))
-            {
-                ViewModel = entity.ToChildDocumentPropertiesViewModel();
-            }
+            Document entity = ViewModel.ToEntity(_documentRepository);
 
             IValidator validator = new ChildDocumentValidator(entity);
             if (!validator.IsValid)
@@ -89,14 +73,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel.ValidationMessages = new List<Message>();
                 ViewModel.Successful = false;
             }
-
-            return ViewModel;
         }
 
-        private bool MustCreateViewModel(ChildDocumentPropertiesViewModel existingViewModel, ChildDocumentPropertiesViewModel userInput)
+        // Helpers
+
+        private void AssertViewModel()
         {
-            return existingViewModel == null ||
-                   existingViewModel.ID != userInput.ID;
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

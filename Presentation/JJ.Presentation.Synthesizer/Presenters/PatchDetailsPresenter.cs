@@ -89,48 +89,32 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _idRepository);
         }
 
-        public PatchDetailsViewModel Show(PatchDetailsViewModel userInput)
+        public void Show()
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            if (MustCreateViewModel(ViewModel, userInput))
-            {
-                Patch entity = ToEntity(userInput);
-
-                ViewModel = CreateViewModel(entity, userInput);
-            }
+            AssertViewModel();
 
             ViewModel.Visible = true;
-
-            return ViewModel;
         }
 
-        public PatchDetailsViewModel Close(PatchDetailsViewModel userInput)
+        public void Close()
         {
-            ViewModel = Update(userInput);
+            AssertViewModel();
+
+            Update();
 
             ViewModel.Visible = false;
-
-            return ViewModel;
         }
 
-        public PatchDetailsViewModel LoseFocus(PatchDetailsViewModel userInput)
+        public void LoseFocus()
         {
-            ViewModel = Update(userInput);
-
-            return ViewModel;
+            Update();
         }
 
-        private PatchDetailsViewModel Update(PatchDetailsViewModel userInput)
+        private void Update()
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            AssertViewModel();
 
-            Patch patch = userInput.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
-
-            if (MustCreateViewModel(ViewModel, userInput))
-            {
-                ViewModel = CreateViewModel(patch, userInput);
-            }
+            Patch patch = ViewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
             IValidator validator = new PatchValidator_Recursive(patch, _curveRepository, _sampleRepository, alreadyDone: new HashSet<object>());
             if (!validator.IsValid)
@@ -143,135 +127,73 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel.ValidationMessages = new List<Message>();
                 ViewModel.Successful = true;
             }
-
-            return ViewModel;
         }
 
-        public void Clear()
+        public void AddOperator(int operatorTypeID)
         {
-            ViewModel = null;
-        }
+            AssertViewModel();
 
-        public PatchDetailsViewModel AddOperator(PatchDetailsViewModel userInput, int operatorTypeID)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            Patch patch = ToEntity(userInput);
+            Patch patch = ToEntity(ViewModel);
 
             Operator op = _operatorFactory.Create((OperatorTypeEnum)operatorTypeID);
             op.LinkTo(patch);
 
-            if (MustCreateViewModel(ViewModel, userInput))
-            {
-                ViewModel = CreateViewModel(patch, userInput);
-            }
-            else
-            {
-                OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties();
+            OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties();
 
-                operatorViewModel.CenterX = 100; // TODO: Low priority: Should these coordinates should be set in business logic? And randomized the same way as in other parts of the code? Maybe in the entity position manager?
-                operatorViewModel.CenterY = 100;
-                ViewModel.Entity.Operators.Add(operatorViewModel);
-            }
-
-            return ViewModel;
+            operatorViewModel.CenterX = 100; // TODO: Low priority: Should these coordinates should be set in business logic? And randomized the same way as in other parts of the code? Maybe in the entity position manager?
+            operatorViewModel.CenterY = 100;
+            ViewModel.Entity.Operators.Add(operatorViewModel);
         }
 
-        public PatchDetailsViewModel MoveOperator(PatchDetailsViewModel userInput, int operatorID, float centerX, float centerY)
+        public void MoveOperator(int operatorID, float centerX, float centerY)
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            AssertViewModel();
 
-            bool mustCreateViewModel = MustCreateViewModel(ViewModel, userInput);
-
-            PatchDetailsViewModel viewModelToAdapt = !mustCreateViewModel ? ViewModel : userInput;
-
-            OperatorViewModel operatorViewModel = viewModelToAdapt.Entity.Operators
-                                                                         .Where(x => x.ID == operatorID)
-                                                                         .Single();
+            OperatorViewModel operatorViewModel = ViewModel.Entity.Operators
+                                                                  .Where(x => x.ID == operatorID)
+                                                                  .Single();
             operatorViewModel.CenterX = centerX;
             operatorViewModel.CenterY = centerY;
-
-            if (mustCreateViewModel)
-            {
-                Patch entity = ToEntity(userInput);
-
-                ViewModel = CreateViewModel(entity, userInput);
-            }
-
-            return ViewModel;
         }
 
-        public PatchDetailsViewModel ChangeInputOutlet(
-            PatchDetailsViewModel userInput, 
-            int inletID, 
-            int inputOutletID)
+        public void ChangeInputOutlet(int inletID, int inputOutletID)
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            AssertViewModel();
 
-            bool mustCreateViewModel = MustCreateViewModel(ViewModel, userInput);
+            InletViewModel inletViewModel = ViewModel.Entity.Operators
+                                                            .SelectMany(x => x.Inlets)
+                                                            .Where(x => x.ID == inletID)
+                                                            .Single();
 
-            PatchDetailsViewModel viewModelToAdapt = !mustCreateViewModel ? ViewModel : userInput;
-
-            InletViewModel inletViewModel = viewModelToAdapt.Entity.Operators
-                                                                   .SelectMany(x => x.Inlets)
-                                                                   .Where(x => x.ID == inletID)
+            OutletViewModel inputOutletViewModel = ViewModel.Entity.Operators
+                                                                   .SelectMany(x => x.Outlets)
+                                                                   .Where(x => x.ID == inputOutletID)
                                                                    .Single();
-
-            OutletViewModel inputOutletViewModel = viewModelToAdapt.Entity.Operators
-                                                                          .SelectMany(x => x.Outlets)
-                                                                          .Where(x => x.ID == inputOutletID)
-                                                                          .Single();
             inletViewModel.InputOutlet = inputOutletViewModel;
-
-            if (mustCreateViewModel)
-            {
-                Patch patch = ToEntity(userInput);
-                ViewModel = CreateViewModel(patch, userInput);
-            }
-
-            return ViewModel;
         }
 
-        public PatchDetailsViewModel SelectOperator(PatchDetailsViewModel userInput, int operatorID)
+        public void SelectOperator(int operatorID)
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            bool mustCreateViewModel = MustCreateViewModel(ViewModel, userInput);
-
-            PatchDetailsViewModel viewModelToAdapt = !mustCreateViewModel ? ViewModel : userInput;
-
-            SetSelectedOperator(viewModelToAdapt, operatorID);
-
-            if (MustCreateViewModel(ViewModel, userInput))
-            {
-                Patch patch = ToEntity(userInput);
-                ViewModel = CreateViewModel(patch, userInput);
-            }
-
-            return ViewModel;
+            SetSelectedOperator(operatorID);
         }
         
         /// <summary>
-        /// Deletes the selected operator. Does not delete anything, if no operator is selected.
+        /// Deletes the selected operator. Does not delete anything if no operator is selected.
         /// </summary>
-        public PatchDetailsViewModel DeleteOperator(PatchDetailsViewModel userInput)
+        public void DeleteOperator()
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            AssertViewModel();
 
-            bool mustCreateViewModel = MustCreateViewModel(ViewModel, userInput);
-
-            if (userInput.SelectedOperator != null)
+            if (ViewModel.SelectedOperator != null)
             {
-                int operatorID = userInput.SelectedOperator.ID;
+                int operatorID = ViewModel.SelectedOperator.ID;
 
-                PatchDetailsViewModel viewModelToAdapt = !mustCreateViewModel ? ViewModel : userInput;
+                int listIndex = ViewModel.Entity.Operators.IndexOf(x => x.ID == operatorID);
 
-                int listIndex = viewModelToAdapt.Entity.Operators.IndexOf(x => x.ID == operatorID);
-
-                OperatorViewModel operatorViewModel = viewModelToAdapt.Entity.Operators[listIndex];
+                OperatorViewModel operatorViewModel = ViewModel.Entity.Operators[listIndex];
 
                 // Unlink related operator's inlets to which the input operator is connected.
-                IList<InletViewModel> relatedInletViewModels =  GetConnectedInletViewModels(viewModelToAdapt.Entity.Operators, operatorViewModel);
+                IList<InletViewModel> relatedInletViewModels =  GetConnectedInletViewModels(ViewModel.Entity.Operators, operatorViewModel);
                 foreach (InletViewModel relatedInletViewModel in relatedInletViewModels)
                 {
                     relatedInletViewModel.InputOutlet = null;
@@ -287,16 +209,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Unlink op.Outlets
                 operatorViewModel.Outlets = new List<OutletViewModel>();
 
-                viewModelToAdapt.Entity.Operators.RemoveAt(listIndex);
+                ViewModel.Entity.Operators.RemoveAt(listIndex);
             }
-
-            if (mustCreateViewModel)
-            {
-                Patch patch = ToEntity(userInput);
-                ViewModel = CreateViewModel(patch, userInput);
-            }
-
-            return ViewModel;
         }
 
         /// <summary>
@@ -330,22 +244,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// NOTE: Do a rollback after this action,
         /// because for performance reasons it does not produce a complete state in the context.
         /// </summary>
-        public PatchDetailsViewModel SetValue(PatchDetailsViewModel userInput, string value)
+        public void SetValue(string value)
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            AssertViewModel();
 
-            if (MustCreateViewModel(ViewModel, userInput))
-            {
-                Patch patch = ToEntity(userInput);
-                ViewModel = CreateViewModel(patch, userInput);
-
-                if (userInput.SelectedOperator != null)
-                {
-                    SetSelectedOperator(ViewModel, userInput.SelectedOperator.ID);
-                }
-            }
-
-            if (userInput.SelectedOperator == null)
+            if (ViewModel.SelectedOperator == null)
             {
                 ViewModel.ValidationMessages.Add(new Message
                 {
@@ -353,10 +256,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Text = PresentationMessages.SelectAnOperatorFirst
                 });
 
-                return ViewModel;
+                return;
             }
 
-            if (userInput.SelectedOperator.OperatorTypeID != (int)OperatorTypeEnum.Value)
+            if (ViewModel.SelectedOperator.OperatorTypeID != (int)OperatorTypeEnum.Value)
             {
                 ViewModel.ValidationMessages.Add(new Message
                 {
@@ -364,7 +267,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Text = PresentationMessages.SelectedOperatorMustBeValueOperator
                 });
 
-                return ViewModel;
+                return;
             }
 
             ViewModel.SelectedValue = value;
@@ -386,31 +289,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // TODO: Low priority: Clearing validation messages at appropriate times in other actions and in this action.
             // TODO: Low priority: And setting Successful = true for that matter.
-
-            return ViewModel;
         }
 
         /// <summary>
         /// This action is quite a hack.
         /// TODO: It should not be a hack and also this action is way too dependent on infrastructure.
         /// </summary>
-        public PatchDetailsViewModel Play(PatchDetailsViewModel userInput, double duration, string sampleFilePath, string outputFilePath, RepositoryWrapper repositoryWrapper)
+        public void Play(double duration, string sampleFilePath, string outputFilePath, RepositoryWrapper repositoryWrapper)
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            AssertViewModel();
 
-            Patch patch = ToEntity(userInput);
+            Patch patch = ToEntity(ViewModel);
 
             VoidResult result = DoPlay(duration, sampleFilePath, outputFilePath, patch, repositoryWrapper);
 
-            if (MustCreateViewModel(ViewModel, userInput))
-            {
-                ViewModel = CreateViewModel(patch, userInput);
-            }
-
             ViewModel.Successful = result.Successful;
             ViewModel.ValidationMessages = result.Messages;
-
-            return ViewModel;
         }
 
         private VoidResult DoPlay(double duration, string sampleFilePath, string outputFilePath, Patch patch, RepositoryWrapper repositoryWrapper)
@@ -497,19 +391,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Helpers
 
-        private bool MustCreateViewModel(PatchDetailsViewModel existingViewModel, PatchDetailsViewModel userInput)
-        {
-            return existingViewModel == null ||
-                   existingViewModel.Entity.ID != userInput.Entity.ID;
-        }
-
-        private PatchDetailsViewModel CreateViewModel(Patch entity, PatchDetailsViewModel userInput)
-        {
-            PatchDetailsViewModel viewModel = entity.ToDetailsViewModel(_operatorTypeRepository, _entityPositionManager);
-
-            return viewModel;
-        }
-
         private Patch ToEntity(PatchDetailsViewModel userInput)
         {
             Patch patch = userInput.ToEntity(
@@ -531,17 +412,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// setting IsSelected to false unless it is the selected operator,
         /// and sets the details view model's SelectedOperator property.
         /// </summary>
-        private void SetSelectedOperator(PatchDetailsViewModel viewModel, int operatorID)
+        private void SetSelectedOperator(int operatorID)
         {
-            viewModel.SelectedOperator = null;
+            ViewModel.SelectedOperator = null;
             ViewModel.SelectedValue = null;
 
-            foreach (OperatorViewModel operatorViewModel in viewModel.Entity.Operators)
+            foreach (OperatorViewModel operatorViewModel in ViewModel.Entity.Operators)
             {
                 if (operatorViewModel.ID == operatorID)
                 {
                     operatorViewModel.IsSelected = true;
-                    viewModel.SelectedOperator = operatorViewModel;
+                    ViewModel.SelectedOperator = operatorViewModel;
                     if (operatorViewModel.OperatorTypeID == (int)OperatorTypeEnum.Value)
                     {
                         ViewModel.SelectedValue = operatorViewModel.Value;
@@ -574,6 +455,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 repositoryWrapper.IDRepository);
 
             return manager;
+        }
+
+        // Helpers
+
+        private void AssertViewModel()
+        {
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

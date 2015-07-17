@@ -16,68 +16,50 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class DocumentTreePresenter
     {
         private IDocumentRepository _documentRepository;
-        private IIDRepository _idRepository;
 
-        private DocumentTreeViewModel _viewModel;
+        public DocumentTreeViewModel ViewModel { get; set; }
 
-        public DocumentTreePresenter(IDocumentRepository documentRepository, IIDRepository idRepository)
+        public DocumentTreePresenter(IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
 
             _documentRepository = documentRepository;
-            _idRepository = idRepository;
         }
 
-        /// <summary>
-        /// Can return DocumentTreeViewModel or NotFoundViewModel.
-        /// </summary>
-        public object Show(int id)
+        public void Show()
         {
-            bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.ID != id;
+            AssertViewModel();
 
-            if (mustCreateViewModel)
-            {
-                Document document = _documentRepository.TryGet(id);
-                if (document == null)
-                {
-                    return CreateDocumentNotFoundViewModel();
-                }
-
-                _viewModel = document.ToTreeViewModel();
-            }
-
-            _viewModel.Visible = true;
-
-            return _viewModel;
+            ViewModel.Visible = true;
         }
 
-        public object Refresh(DocumentTreeViewModel viewModel)
+        public object Refresh()
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
+            AssertViewModel();
 
-            Document document = _documentRepository.TryGet(viewModel.ID);
+            Document document = _documentRepository.TryGet(ViewModel.ID);
             if (document == null)
             {
-                return CreateDocumentNotFoundViewModel();
+                ViewModelHelper.CreateDocumentNotFoundViewModel();
             }
 
-            _viewModel = document.ToTreeViewModel();
+            DocumentTreeViewModel viewModel2 = document.ToTreeViewModel();
 
-            CopyNonPersistedProperties(viewModel, _viewModel);
+            CopyNonPersistedProperties(ViewModel, viewModel2);
 
-            return _viewModel;
+            ViewModel = viewModel2;
+
+            return ViewModel;
         }
 
-        public object ExpandNode(DocumentTreeViewModel viewModel, int nodeIndex)
+        public void ExpandNode(int nodeIndex)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
+            AssertViewModel();
 
             // 'Business'
             ChildDocumentTreeNodeViewModel nodeViewModel =
-                viewModel.Instruments.Where(x => x.Keys.NodeIndex == nodeIndex).SingleOrDefault() ??
-                viewModel.Effects.Where(x => x.Keys.NodeIndex == nodeIndex).SingleOrDefault();
+                ViewModel.Instruments.Where(x => x.Keys.NodeIndex == nodeIndex).SingleOrDefault() ??
+                ViewModel.Effects.Where(x => x.Keys.NodeIndex == nodeIndex).SingleOrDefault();
 
             if (nodeViewModel == null)
             {
@@ -87,34 +69,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             nodeViewModel.IsExpanded = true;
-
-            if (_viewModel == null)
-            {
-                // Get entity
-                Document document = _documentRepository.TryGet(viewModel.ID);
-                if (document == null)
-                {
-                    return CreateDocumentNotFoundViewModel();
-                }
-
-                // ToViewModel
-                _viewModel = document.ToTreeViewModel();
-
-                // Non-Persisted
-                CopyNonPersistedProperties(viewModel, _viewModel);
-            }
-
-            return _viewModel;
         }
 
-        public object CollapseNode(DocumentTreeViewModel viewModel, int nodeIndex)
+        public void CollapseNode(int nodeIndex)
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
+            AssertViewModel();
 
             // 'Business'
             ChildDocumentTreeNodeViewModel nodeViewModel =
-                viewModel.Instruments.Where(x => x.Keys.NodeIndex == nodeIndex).SingleOrDefault() ??
-                viewModel.Effects.Where(x => x.Keys.NodeIndex == nodeIndex).SingleOrDefault();
+                ViewModel.Instruments.Where(x => x.Keys.NodeIndex == nodeIndex).SingleOrDefault() ??
+                ViewModel.Effects.Where(x => x.Keys.NodeIndex == nodeIndex).SingleOrDefault();
 
             if (nodeViewModel == null)
             {
@@ -124,61 +88,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             nodeViewModel.IsExpanded = false;
-
-            if (_viewModel == null)
-            {
-                // Get entity
-                Document document = _documentRepository.TryGet(viewModel.ID);
-                if (document == null)
-                {
-                    return CreateDocumentNotFoundViewModel();
-                }
-
-                // ToViewModel
-                _viewModel = document.ToTreeViewModel();
-
-                // Non-Persisted
-                CopyNonPersistedProperties(viewModel, _viewModel);
-            }
-
-            return _viewModel;
         }
 
-        public object Close()
+        public void Close()
         {
-            if (_viewModel == null)
-            {
-                _viewModel = ViewModelHelper.CreateEmptyDocumentTreeViewModel();
-            }
+            AssertViewModel();
 
-            _viewModel.Visible = false;
-
-            return _viewModel;
-        }
-
-        /// <summary>
-        /// Can return DocumentPropertiesViewModel or NotFoundViewModel.
-        /// </summary>
-        public object Properties(int id)
-        {
-            var presenter2 = new DocumentPropertiesPresenter(_documentRepository, _idRepository);
-            object viewModel2 = presenter2.Show(id);
-            return viewModel2;
-        }
-
-        public void Clear()
-        {
-            _viewModel = null;
+            ViewModel.Visible = false;
         }
 
         // Helpers
-
-        private object CreateDocumentNotFoundViewModel()
-        {
-            var notFoundPresenter = new NotFoundPresenter();
-            NotFoundViewModel viewModel = notFoundPresenter.Show(PropertyDisplayNames.Document);
-            return viewModel;
-        }
 
         /// <summary>
         /// Copies the Visible and the IsExpanded properties.
@@ -211,6 +130,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 tuple.destEffectViewModel.IsExpanded = tuple.sourceEffectViewModel.IsExpanded;
             }
+        }
+
+        // Helpers
+
+        private void AssertViewModel()
+        {
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

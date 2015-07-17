@@ -11,26 +11,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class NotFoundPresenter
     {
-        private NotFoundViewModel _viewModel;
+        public NotFoundViewModel ViewModel { get; private set; }
 
-        public NotFoundViewModel Show(string entityTypeDisplayName)
+        public void Show(string entityTypeDisplayName)
         {
-            _viewModel = ViewModelHelper.CreateNotFoundViewModel(entityTypeDisplayName);
-            _viewModel.Visible = true;
-
-            return _viewModel;
+            ViewModel = ViewModelHelper.CreateNotFoundViewModel(entityTypeDisplayName);
+            ViewModel.Visible = true;
         }
 
-        public NotFoundViewModel OK()
+        public void OK()
         {
-            if (_viewModel == null)
-            {
-                _viewModel = ViewModelHelper.CreateEmptyNotFoundViewModel();
-            }
+            AssertViewModel();
 
-            _viewModel.Visible = false;
+            ViewModel.Visible = false;
+        }
 
-            return _viewModel;
+        // Helpers
+
+        private void AssertViewModel()
+        {
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

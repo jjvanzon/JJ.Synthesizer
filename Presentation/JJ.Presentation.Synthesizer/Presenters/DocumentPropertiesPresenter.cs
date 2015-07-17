@@ -21,98 +21,64 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class DocumentPropertiesPresenter
     {
         private IDocumentRepository _documentRepository;
-        private IIDRepository _idRepository;
 
-        private DocumentPropertiesViewModel _viewModel;
+        public DocumentPropertiesViewModel ViewModel { get; set; }
 
-        public DocumentPropertiesPresenter(IDocumentRepository documentRepository, IIDRepository idRepository)
+        public DocumentPropertiesPresenter(IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
 
             _documentRepository = documentRepository;
-            _idRepository = idRepository;
         }
 
-        /// <summary>
-        /// Can return DocumentPropertiesViewModel or NotFoundViewModel.
-        /// </summary>
-        public object Show(int id)
+        public void Show(int id)
         {
-            bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.Document.ID != id;
-            if (mustCreateViewModel)
+            AssertViewModel();
+
+            ViewModel.Visible = true;
+        }
+
+        public void Close()
+        {
+            AssertViewModel();
+
+            Update();
+
+            if (ViewModel.Successful)
             {
-                Document document = _documentRepository.TryGet(id);
-                if (document == null)
-                {
-                    return CreateDocumentNotFoundViewModel();
-                }
-
-                _viewModel = document.ToPropertiesViewModel();
+                ViewModel.Visible = false;
             }
-
-            _viewModel.Visible = true;
-
-            return _viewModel;
         }
 
-        public DocumentPropertiesViewModel Close(DocumentPropertiesViewModel userInput)
+        public void LoseFocus()
         {
-            _viewModel = Update(userInput);
-
-            if (_viewModel.Successful)
-            {
-                _viewModel.Visible = false;
-            }
-
-            return _viewModel;
+            Update();
         }
 
-        public DocumentPropertiesViewModel LoseFocus(DocumentPropertiesViewModel userInput)
+        private void Update()
         {
-            _viewModel = Update(userInput);
+            AssertViewModel();
 
-            return _viewModel;
-        }
-
-        public void Clear()
-        {
-            _viewModel = null;
-        }
-
-        private DocumentPropertiesViewModel Update(DocumentPropertiesViewModel userInput)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            Document document = userInput.ToEntity(_documentRepository);
-
-            if (_viewModel == null)
-            {
-                _viewModel = document.ToPropertiesViewModel();
-            }
+            Document document = ViewModel.ToEntity(_documentRepository);
 
             IValidator validator = new DocumentValidator_Basic(document);
             if (!validator.IsValid)
             {
-                _viewModel.Successful = false;
-                _viewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                ViewModel.Successful = false;
+                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
             }
             else
             {
-                _viewModel.ValidationMessages = new List<Message>();
-                _viewModel.Successful = true;
+                ViewModel.ValidationMessages = new List<Message>();
+                ViewModel.Successful = true;
             }
-
-            return _viewModel;
         }
 
         // Helpers
 
-        private NotFoundViewModel CreateDocumentNotFoundViewModel()
+        private void AssertViewModel()
         {
-            NotFoundViewModel viewModel = new NotFoundPresenter().Show(PropertyDisplayNames.Document);
-            return viewModel;
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

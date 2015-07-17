@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IDocumentRepository _documentRepository;
 
-        private DocumentCannotDeleteViewModel _viewModel;
+        public DocumentCannotDeleteViewModel ViewModel { get; private set; }
 
         public DocumentCannotDeletePresenter(IDocumentRepository documentRepository)
         {
@@ -33,28 +33,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = _documentRepository.TryGet(id);
             if (document == null)
             {
-                var presenter2 = new NotFoundPresenter();
-                NotFoundViewModel viewModel2 = presenter2.Show(PropertyDisplayNames.Document);
-                return viewModel2;
+                return ViewModelHelper.CreateDocumentNotFoundViewModel();
             }
             else
             {
-                _viewModel = document.ToCannotDeleteViewModel(messages);
-                _viewModel.Visible = true;
-                return _viewModel;
+                ViewModel = document.ToCannotDeleteViewModel(messages);
+                ViewModel.Visible = true;
+                return ViewModel;
             }
         }
 
-        public DocumentCannotDeleteViewModel OK()
+        public void OK()
         {
-            if (_viewModel == null)
-            {
-                _viewModel = ViewModelHelper.CreateEmptyDocumentCannotDeleteViewModel();
-            }
+            AssertViewModel();
 
-            _viewModel.Visible = false;
+            ViewModel.Visible = false;
+        }
 
-            return _viewModel;
+        // Helpers
+
+        private void AssertViewModel()
+        {
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

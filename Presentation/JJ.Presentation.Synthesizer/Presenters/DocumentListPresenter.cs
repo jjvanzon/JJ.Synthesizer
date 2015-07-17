@@ -21,28 +21,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class DocumentListPresenter
     {
         private IDocumentRepository _documentRepository;
-        private IIDRepository _idRepository;
-        private DocumentListViewModel _viewModel;
+
+        public DocumentListViewModel ViewModel { get; set; }
 
         private static int _pageSize;
 
-        public DocumentListPresenter(IDocumentRepository documentRepository, IIDRepository idRepository)
+        public DocumentListPresenter(IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
 
             _documentRepository = documentRepository;
-            _idRepository = idRepository;
 
             ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
             _pageSize = config.PageSize;
         }
 
-        public DocumentListViewModel Show(int pageNumber = 1)
+        public void Show(int pageNumber = 1)
         {
-            bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.Pager.PageNumber != pageNumber;
+            AssertViewModel();
 
+            bool mustCreateViewModel = ViewModel.Pager.PageNumber != pageNumber;
             if (mustCreateViewModel)
             {
                 int pageIndex = pageNumber - 1;
@@ -50,68 +48,38 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 IList<Document> documents = _documentRepository.GetPageOfRootDocuments(pageIndex * _pageSize, _pageSize);
                 int totalCount = _documentRepository.CountRootDocuments();
 
-                _viewModel = documents.ToListViewModel(pageIndex, _pageSize, totalCount);
+                ViewModel = documents.ToListViewModel(pageIndex, _pageSize, totalCount);
             }
 
-            _viewModel.Visible = true;
-
-            return _viewModel;
+            ViewModel.Visible = true;
         }
 
-        public DocumentListViewModel Refresh(DocumentListViewModel viewModel)
+        public void Refresh()
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
+            AssertViewModel();
 
-            int pageIndex = viewModel.Pager.PageNumber - 1;
+            int pageIndex = ViewModel.Pager.PageNumber - 1;
 
             IList<Document> documents = _documentRepository.GetPageOfRootDocuments(pageIndex * _pageSize, _pageSize);
             int totalCount = _documentRepository.CountRootDocuments();
 
-            _viewModel = documents.ToListViewModel(pageIndex, _pageSize, totalCount);
-
-            _viewModel.Visible = viewModel.Visible;
-
-            return _viewModel;
+            bool visible = ViewModel.Visible;
+            ViewModel = documents.ToListViewModel(pageIndex, _pageSize, totalCount);
+            ViewModel.Visible = visible;
         }
 
-        // TODO: Either make a Create and a Delete action or neither, but not just a Create action.
-        public DocumentDetailsViewModel Create()
+        public void Close()
         {
-            var presenter2 = new DocumentDetailsPresenter(_documentRepository, _idRepository);
-            DocumentDetailsViewModel viewModel2 = presenter2.Create();
-            return viewModel2;
+            AssertViewModel();
+
+            ViewModel.Visible = false;
         }
 
-        /// <summary>
-        /// Can return DocumentTreeViewModel or NotFoundViewModel.
-        /// </summary>
-        public object OpenDocument(int id)
+        // Helpers
+
+        private void AssertViewModel()
         {
-            var presenter2 = new DocumentTreePresenter(_documentRepository, _idRepository);
-            object viewModel2 = presenter2.Show(id);
-            return viewModel2;
-        }
-
-        /// <summary>
-        /// Can return DocumentConfirmDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel.
-        /// </summary>
-        public object Delete(int id, RepositoryWrapper repositoryWrapper)
-        {
-            var presenter2 = new DocumentDeletePresenter(repositoryWrapper);
-            object viewModel2 = presenter2.Show(id);
-            return viewModel2;
-        }
-
-        public DocumentListViewModel Close()
-        {
-            if (_viewModel == null)
-            {
-                _viewModel = ViewModelHelper.CreateEmptyDocumentListViewModel();
-            }
-
-            _viewModel.Visible = false;
-
-            return _viewModel;
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

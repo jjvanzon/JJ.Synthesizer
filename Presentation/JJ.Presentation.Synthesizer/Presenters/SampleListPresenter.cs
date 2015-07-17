@@ -18,7 +18,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class SampleListPresenter
     {
         private IDocumentRepository _documentRepository;
-        private SampleListViewModel _viewModel;
+
+        public SampleListViewModel ViewModel { get; set; }
 
         public SampleListPresenter(IDocumentRepository documentRepository)
         {
@@ -27,73 +28,47 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository;
         }
 
-        /// <summary>
-        /// Can return SampleListViewModel or NotFoundViewModel.
-        /// </summary>
-        public object Show(int rootDocumentID, int? childDocumentID)
+        public void Show()
         {
-            bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.RootDocumentID != rootDocumentID ||
-                                       _viewModel.ChildDocumentID != childDocumentID;
-            if (mustCreateViewModel)
-            {
-                Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(rootDocumentID, childDocumentID, _documentRepository);
-                if (document == null)
-                {
-                    return CreateDocumentNotFoundViewModel();
-                }
+            AssertViewModel();
 
-                _viewModel = document.Samples.ToListViewModel(rootDocumentID, childDocumentID);
-            }
-
-            _viewModel.Visible = true;
-
-            return _viewModel;
+            ViewModel.Visible = true;
         }
 
         /// <summary>
         /// Can return SampleListViewModel or NotFoundViewModel.
         /// </summary>
-        public object Refresh(SampleListViewModel viewModel)
+        public object Refresh()
         {
-            if (viewModel == null) throw new NullException(() => viewModel);
+            AssertViewModel();
 
-            Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(viewModel.RootDocumentID, viewModel.ChildDocumentID, _documentRepository);
+            Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(ViewModel.RootDocumentID, ViewModel.ChildDocumentID, _documentRepository);
             if (document == null)
             {
-                return CreateDocumentNotFoundViewModel();
+                ViewModelHelper.CreateDocumentNotFoundViewModel();
             }
 
-            _viewModel = document.Samples.ToListViewModel(viewModel.RootDocumentID, viewModel.ChildDocumentID);
+            bool visible = ViewModel.Visible;
 
-            _viewModel.Visible = viewModel.Visible;
+            ViewModel = document.Samples.ToListViewModel(ViewModel.RootDocumentID, ViewModel.ChildDocumentID);
 
-            return _viewModel;
+            ViewModel.Visible = visible;
+
+            return ViewModel;
         }
 
-        public SampleListViewModel Close()
+        public void Close()
         {
-            if (_viewModel == null)
-            {
-                _viewModel = ViewModelHelper.CreateEmptySampleListViewModel();
-            }
+            AssertViewModel();
 
-            _viewModel.Visible = false;
-
-            return _viewModel;
-        }
-
-        public void Clear()
-        {
-            _viewModel = null;
+            ViewModel.Visible = false;
         }
 
         // Helpers
 
-        private NotFoundViewModel CreateDocumentNotFoundViewModel()
+        private void AssertViewModel()
         {
-            NotFoundViewModel viewModel = new NotFoundPresenter().Show(PropertyDisplayNames.Document);
-            return viewModel;
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

@@ -30,51 +30,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _sampleRepositories = samplesRepositories;
         }
 
-        public SamplePropertiesViewModel Show(SamplePropertiesViewModel userInput)
+        public void Show()
         {
-            if (userInput == null) throw new NullException(() => userInput);
-
-            if (MustCreateViewModel(ViewModel, userInput))
-            {
-                Sample entity = userInput.ToEntity(_sampleRepositories);
-
-                ViewModel = CreateViewModel(entity, userInput);
-            }
+            AssertViewModel();
 
             ViewModel.Visible = true;
-
-            return ViewModel;
         }
 
-        public SamplePropertiesViewModel Close(SamplePropertiesViewModel userInput)
+        public void Close()
         {
-            ViewModel = Update(userInput);
+            AssertViewModel();
+
+            Update();
 
             if (ViewModel.Successful)
             {
                 ViewModel.Visible = false;
             }
-
-            return ViewModel;
         }
 
-        public SamplePropertiesViewModel LoseFocus(SamplePropertiesViewModel userInput)
+        public void LoseFocus()
         {
-            ViewModel = Update(userInput);
-
-            return ViewModel;
+            Update();
         }
 
-        private SamplePropertiesViewModel Update(SamplePropertiesViewModel userInput)
+        private void Update()
         {
-            if (userInput == null) throw new NullException(() => userInput);
+            AssertViewModel();
 
-            Sample entity = userInput.ToEntity(_sampleRepositories);
-
-            if (MustCreateViewModel(ViewModel, userInput))
-            {
-                ViewModel = CreateViewModel(entity, userInput);
-            }
+            Sample entity = ViewModel.ToEntity(_sampleRepositories);
 
             IValidator validator = new SampleValidator_InDocument(entity);
             if (!validator.IsValid)
@@ -87,26 +71,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel.ValidationMessages = new List<Message>();
                 ViewModel.Successful = true;
             }
-
-            return ViewModel;
         }
 
-        public void Clear()
-        {
-            ViewModel = null;
-        }
+        // Helpers
 
-        private bool MustCreateViewModel(SamplePropertiesViewModel existingViewModel, SamplePropertiesViewModel userInput)
+        private void AssertViewModel()
         {
-            return existingViewModel == null ||
-                   existingViewModel.Entity.ID != userInput.Entity.ID;
-        }
-
-        private SamplePropertiesViewModel CreateViewModel(Sample entity, SamplePropertiesViewModel userInput)
-        {
-            SamplePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_sampleRepositories);
-
-            return viewModel;
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

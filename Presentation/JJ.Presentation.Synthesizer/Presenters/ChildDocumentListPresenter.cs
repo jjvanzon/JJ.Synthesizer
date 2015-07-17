@@ -20,88 +20,60 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class ChildDocumentListPresenter
     {
-        private RepositoryWrapper _repositoryWrapper;
-        private ChildDocumentListViewModel _viewModel;
+        private IDocumentRepository _documentRepository;
 
-        public ChildDocumentListPresenter(RepositoryWrapper repositoryWrapper)
+        public ChildDocumentListViewModel ViewModel { get; set; }
+
+        public ChildDocumentListPresenter(IDocumentRepository documentRepository)
         {
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
 
-            _repositoryWrapper = repositoryWrapper;
+            _documentRepository = documentRepository;
+        }
+
+        public void Show()
+        {
+            AssertViewModel();
+
+            ViewModel.Visible = true;
         }
 
         /// <summary>
         /// Can return ChildDocumentListViewModel or NotFoundViewModel.
         /// </summary>
-        public object Show(int rootDocumentID, ChildDocumentTypeEnum childDocumentTypeEnum)
+        public object Refresh()
         {
-            bool mustCreateViewModel = _viewModel == null ||
-                                       _viewModel.Keys.RootDocumentID != rootDocumentID ||
-                                       _viewModel.Keys.ChildDocumentTypeEnum != childDocumentTypeEnum;
+            AssertViewModel();
 
-            if (mustCreateViewModel)
-            {
-                Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(rootDocumentID);
-                if (parentDocument == null)
-                {
-                    return CreateDocumentNotFoundViewModel();
-                }
-
-                IList<Document> childDocuments = ChildDocumentHelper.GetChildDocuments(parentDocument, childDocumentTypeEnum);
-
-                _viewModel = childDocuments.ToChildDocumentListViewModel(parentDocument.ID, childDocumentTypeEnum);
-            }
-
-            _viewModel.Visible = true;
-
-            return _viewModel;
-        }
-
-        /// <summary>
-        /// Can return ChildDocumentListViewModel or NotFoundViewModel.
-        /// </summary>
-        public object Refresh(ChildDocumentListViewModel viewModel)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            Document parentDocument = _repositoryWrapper.DocumentRepository.TryGet(viewModel.Keys.RootDocumentID);
+            Document parentDocument = _documentRepository.TryGet(ViewModel.Keys.RootDocumentID);
             if (parentDocument == null)
             {
-                return CreateDocumentNotFoundViewModel();
+                ViewModelHelper.CreateDocumentNotFoundViewModel();
             }
 
-            IList<Document> childDocuments = ChildDocumentHelper.GetChildDocuments(parentDocument, viewModel.Keys.ChildDocumentTypeEnum);
+            IList<Document> childDocuments = ChildDocumentHelper.GetChildDocuments(parentDocument, ViewModel.Keys.ChildDocumentTypeEnum);
 
-            _viewModel = childDocuments.ToChildDocumentListViewModel(parentDocument.ID, viewModel.Keys.ChildDocumentTypeEnum);
+            bool visible = ViewModel.Visible;
 
-            _viewModel.Visible = viewModel.Visible;
+            ViewModel = childDocuments.ToChildDocumentListViewModel(parentDocument.ID, ViewModel.Keys.ChildDocumentTypeEnum);
 
-            return _viewModel;
+            ViewModel.Visible = visible;
+
+            return ViewModel;
         }
 
-        public ChildDocumentListViewModel Close()
+        public void Close()
         {
-            if (_viewModel == null)
-            {
-                _viewModel = ViewModelHelper.CreateEmptyChildDocumentListViewModel(ChildDocumentTypeEnum.Instrument); // Instrument is arbitrarily chosen.
-            }
+            AssertViewModel();
 
-            _viewModel.Visible = false;
-
-            return _viewModel;
-        }
-
-        public void Clear()
-        {
-            _viewModel = null;
+            ViewModel.Visible = false;
         }
 
         // Helpers
 
-        private NotFoundViewModel CreateDocumentNotFoundViewModel()
+        private void AssertViewModel()
         {
-            NotFoundViewModel viewModel = new NotFoundPresenter().Show(PropertyDisplayNames.Document);
-            return viewModel;
+            if (ViewModel == null) throw new NullException(() => ViewModel);
         }
     }
 }

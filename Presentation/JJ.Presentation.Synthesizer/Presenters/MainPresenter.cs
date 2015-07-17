@@ -82,18 +82,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _curveDetailsPresenter = new CurveDetailsPresenter(
                 _repositoryWrapper.CurveRepository, 
                 _repositoryWrapper.NodeRepository, 
-                _repositoryWrapper.NodeTypeRepository, 
-                _repositoryWrapper.IDRepository);
+                _repositoryWrapper.NodeTypeRepository);
             _curveListPresenter = new CurveListPresenter(_repositoryWrapper.DocumentRepository);
             _documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositoryWrapper.DocumentRepository);
             _documentDeletedPresenter = new DocumentDeletedPresenter();
             _documentDeletePresenter = new DocumentDeletePresenter(_repositoryWrapper);
             _documentDetailsPresenter = new DocumentDetailsPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.IDRepository);
-            _documentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.IDRepository);
-            _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.IDRepository);
-            _documentTreePresenter = new DocumentTreePresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.IDRepository);
-            _effectListPresenter = new ChildDocumentListPresenter(_repositoryWrapper);
-            _instrumentListPresenter = new ChildDocumentListPresenter(_repositoryWrapper);
+            _documentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
+            _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositoryWrapper.DocumentRepository);
+            _documentTreePresenter = new DocumentTreePresenter(_repositoryWrapper.DocumentRepository);
+            _effectListPresenter = new ChildDocumentListPresenter(_repositoryWrapper.DocumentRepository);
+            _instrumentListPresenter = new ChildDocumentListPresenter(_repositoryWrapper.DocumentRepository);
             _menuPresenter = new MenuPresenter();
             _notFoundPresenter = new NotFoundPresenter();
             _patchDetailsPresenter = _patchDetailsPresenter = new PatchDetailsPresenter(
@@ -145,11 +144,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 ViewModel = ViewModelHelper.CreateEmptyMainViewModel(_repositoryWrapper.OperatorTypeRepository);
 
-                MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
-                DispatchViewModel(menuViewModel, null);
+                _menuPresenter.Show(documentIsOpen: false);
+                DispatchViewModel(_menuPresenter.ViewModel, null);
 
-                DocumentListViewModel documentListViewModel = _documentListPresenter.Show();
-                DispatchViewModel(documentListViewModel, null);
+                _documentListPresenter.ViewModel = ViewModel.DocumentList;
+                _documentListPresenter.Show();
+                DispatchViewModel(_documentListPresenter.ViewModel, null);
 
                 ViewModel.WindowTitle = Titles.ApplicationName;
             }
@@ -163,9 +163,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _notFoundPresenter.OK();
+                _notFoundPresenter.OK();
 
-                DispatchViewModel(viewModel2, null);
+                DispatchViewModel(_notFoundPresenter.ViewModel, null);
             }
             finally
             {
@@ -191,9 +191,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                var viewModel2 = _documentListPresenter.Show(pageNumber);
-
-                DispatchViewModel(viewModel2, null);
+                _documentListPresenter.ViewModel = ViewModel.DocumentList;
+                _documentListPresenter.Show(pageNumber);
+                DispatchViewModel(_documentListPresenter.ViewModel, null);
             }
             finally
             {
@@ -205,9 +205,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                var viewModel2 = _documentListPresenter.Close();
-
-                DispatchViewModel(viewModel2, null);
+                _documentListPresenter.ViewModel = ViewModel.DocumentList;
+                _documentListPresenter.Close();
+                DispatchViewModel(_documentListPresenter.ViewModel, null);
             }
             finally
             {
@@ -219,9 +219,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _documentDetailsPresenter.Create();
-
-                DispatchViewModel(viewModel2, null);
+                _documentDetailsPresenter.Create();
+                DispatchViewModel(_documentDetailsPresenter.ViewModel, null);
             }
             finally
             {
@@ -233,9 +232,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _documentDetailsPresenter.Close();
-
-                DispatchViewModel(viewModel2, null);
+                _documentDetailsPresenter.Close();
+                DispatchViewModel(_documentDetailsPresenter.ViewModel, null);
             }
             finally
             {
@@ -247,9 +245,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _documentDetailsPresenter.Save(ViewModel.DocumentDetails);
-
-                DispatchViewModel(viewModel2, null);
+                _documentDetailsPresenter.Save();
+                DispatchViewModel(_documentDetailsPresenter.ViewModel, null);
 
                 RefreshDocumentList();
             }
@@ -264,7 +261,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 object viewModel2 = _documentDeletePresenter.Show(id);
-
                 DispatchViewModel(viewModel2, null);
             }
             finally
@@ -277,9 +273,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                var viewModel2 = _documentCannotDeletePresenter.OK();
-
-                DispatchViewModel(viewModel2, null);
+                _documentCannotDeletePresenter.OK();
+                DispatchViewModel(_documentCannotDeletePresenter.ViewModel, null);
             }
             finally
             {
@@ -310,9 +305,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _documentDeletePresenter.Cancel();
-
-                DispatchViewModel(viewModel2, null);
+                _documentDeletePresenter.Cancel();
+                DispatchViewModel(_documentDeletePresenter.ViewModel, null);
             }
             finally
             {
@@ -324,9 +318,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _documentDeletedPresenter.OK();
-
-                DispatchViewModel(viewModel2, null);
+                _documentDeletedPresenter.OK();
+                DispatchViewModel(_documentDeletedPresenter.ViewModel, null);
             }
             finally
             {
@@ -349,16 +342,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // since it is the same document.
                     _audioFileOutputListPresenter.ViewModel = null;
                     _audioFileOutputPropertiesPresenter.ViewModel = null;
-                    _curveDetailsPresenter.Clear();
-                    _curveListPresenter.Clear();
-                    _documentPropertiesPresenter.Clear();
-                    _documentTreePresenter.Clear();
-                    _effectListPresenter.Clear();
-                    _instrumentListPresenter.Clear();
-                    _patchDetailsPresenter.Clear();
-                    _patchListPresenter.Clear();
-                    _sampleListPresenter.Clear();
-                    _samplePropertiesPresenter.Clear();
+                    _curveDetailsPresenter.ViewModel = null;
+                    _curveListPresenter.ViewModel = null;
+                    _documentPropertiesPresenter.ViewModel = null;
+                    _documentTreePresenter.ViewModel = null;
+                    _effectListPresenter.ViewModel = null;
+                    _instrumentListPresenter.ViewModel = null;
+                    _patchDetailsPresenter.ViewModel = null;
+                    _patchListPresenter.ViewModel = null;
+                    _sampleListPresenter.ViewModel = null;
+                    _samplePropertiesPresenter.ViewModel = null;
                 }
 
                 Document document = _repositoryWrapper.DocumentRepository.Get(documentID);
@@ -366,7 +359,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel.Document = document.ToViewModel(_repositoryWrapper, _entityPositionManager);
 
                 ViewModel.WindowTitle = String.Format("{0} - {1}", document.Name, Titles.ApplicationName);
-                ViewModel.Menu = _menuPresenter.Show(documentIsOpen: true);
+                _menuPresenter.Show(documentIsOpen: true);
+                ViewModel.Menu = _menuPresenter.ViewModel;
 
                 ViewModel.DocumentList.Visible = false;
                 ViewModel.Document.DocumentTree.Visible = true;
@@ -416,20 +410,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     ViewModel.Document = ViewModelHelper.CreateEmptyDocumentViewModel();
                     ViewModel.WindowTitle = Titles.ApplicationName;
-                    ViewModel.Menu = _menuPresenter.Show(documentIsOpen: false);
+
+                    _menuPresenter.Show(documentIsOpen: false);
+
+                    ViewModel.Menu = _menuPresenter.ViewModel;
 
                     _audioFileOutputListPresenter.ViewModel = null;
                     _audioFileOutputPropertiesPresenter.ViewModel = null;
-                    _curveDetailsPresenter.Clear();
-                    _curveListPresenter.Clear();
-                    _documentPropertiesPresenter.Clear();
-                    _documentTreePresenter.Clear();
-                    _effectListPresenter.Clear();
-                    _instrumentListPresenter.Clear();
-                    _patchDetailsPresenter.Clear();
-                    _patchListPresenter.Clear();
-                    _sampleListPresenter.Clear();
-                    _samplePropertiesPresenter.Clear();
+                    _curveDetailsPresenter.ViewModel = null;
+                    _curveListPresenter.ViewModel = null;
+                    _documentPropertiesPresenter.ViewModel = null;
+                    _documentTreePresenter.ViewModel = null;
+                    _effectListPresenter.ViewModel = null;
+                    _instrumentListPresenter.ViewModel = null;
+                    _patchDetailsPresenter.ViewModel = null;
+                    _patchListPresenter.ViewModel = null;
+                    _sampleListPresenter.ViewModel = null;
+                    _samplePropertiesPresenter.ViewModel = null;
                 }
             }
             finally
@@ -442,9 +439,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _documentPropertiesPresenter.Show(id);
-
-                DispatchViewModel(viewModel2, null);
+                _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;
+                _documentPropertiesPresenter.Show(id);
+                DispatchViewModel(_documentPropertiesPresenter.ViewModel, null);
             }
             finally
             {
@@ -456,11 +453,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                DocumentPropertiesViewModel viewModel2 = _documentPropertiesPresenter.Close(ViewModel.Document.DocumentProperties);
+                _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;
+                _documentPropertiesPresenter.Close();
+                DispatchViewModel(_documentPropertiesPresenter.ViewModel, null);
 
-                DispatchViewModel(viewModel2, null);
-
-                if (viewModel2.Successful)
+                if (_documentPropertiesPresenter.ViewModel.Successful)
                 {
                     RefreshDocumentList();
                     RefreshDocumentTree();
@@ -477,11 +474,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             try
             {
-                DocumentPropertiesViewModel viewModel2 = _documentPropertiesPresenter.LoseFocus(ViewModel.Document.DocumentProperties);
+                _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;
+                _documentPropertiesPresenter.LoseFocus();
+                DispatchViewModel(_documentPropertiesPresenter.ViewModel, null);
 
-                DispatchViewModel(viewModel2, null);
-
-                if (viewModel2.Successful)
+                if (_documentPropertiesPresenter.ViewModel.Successful)
                 {
                     RefreshDocumentList();
                     RefreshDocumentTree();
@@ -497,9 +494,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _documentTreePresenter.Show(ViewModel.Document.ID);
-
-                DispatchViewModel(viewModel2, null);
+                _documentTreePresenter.ViewModel = ViewModel.Document.DocumentTree;
+                _documentTreePresenter.Show();
+                DispatchViewModel(_documentTreePresenter.ViewModel, null);
             }
             finally
             {
@@ -511,9 +508,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _documentTreePresenter.ExpandNode(ViewModel.Document.DocumentTree, nodeIndex);
-
-                DispatchViewModel(viewModel2, null);
+                _documentTreePresenter.ViewModel = ViewModel.Document.DocumentTree;
+                _documentTreePresenter.ExpandNode(nodeIndex);
+                DispatchViewModel(_documentTreePresenter.ViewModel, null);
             }
             finally
             {
@@ -525,9 +522,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _documentTreePresenter.CollapseNode(ViewModel.Document.DocumentTree, nodeIndex);
-
-                DispatchViewModel(viewModel2, null);
+                _documentTreePresenter.ViewModel = ViewModel.Document.DocumentTree;
+                _documentTreePresenter.CollapseNode(nodeIndex);
+                DispatchViewModel(_documentTreePresenter.ViewModel, null);
             }
             finally
             {
@@ -539,9 +536,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _documentTreePresenter.Close();
-
-                DispatchViewModel(viewModel2, null);
+                _documentTreePresenter.ViewModel = ViewModel.Document.DocumentTree;
+                _documentTreePresenter.Close();
+                DispatchViewModel(_documentTreePresenter.ViewModel, null);
             }
             finally
             {
@@ -600,8 +597,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel(_repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository);
                 ViewModel.Document.AudioFileOutputPropertiesList.Add(propertiesViewModel);
-                // TODO: Remove outcommented code.
-                //ViewModel.Document.AudioFileOutputPropertiesList = ViewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
             }
             finally
             {
@@ -613,18 +608,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                //int listIndex;
-
                 // 'Business' / ToViewModel
-                //listIndex = ViewModel.Document.AudioFileOutputPropertiesList.IndexOf(x => x.Entity.ID == id);
-                //ViewModel.Document.AudioFileOutputPropertiesList.RemoveAt(listIndex);
                 ViewModel.Document.AudioFileOutputPropertiesList.RemoveFirst(x => x.Entity.ID == id);
-
-                //listIndex = ViewModel.Document.AudioFileOutputList.List.IndexOf(x => x.ID == id);
-                //ViewModel.Document.AudioFileOutputList.List.RemoveAt(listIndex);
                 ViewModel.Document.AudioFileOutputList.List.RemoveFirst(x => x.ID == id);
                 
-
                 // No need to do ToEntity, 
                 // because we are not executing any additional business logic or refreshing 
                 // that uses the entity models.
@@ -667,11 +654,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (_audioFileOutputPropertiesPresenter.ViewModel.Successful)
                 {
-                    // TODO: Remove outcommented code.
-                    //// Update properties list
-                    //ViewModel.Document.AudioFileOutputPropertiesList = ViewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
-
-                    // Update list
                     RefreshAudioFileOutputList();
                 }
 
@@ -700,11 +682,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (_audioFileOutputPropertiesPresenter.ViewModel.Successful)
                 {
-                    // TODO: Remove outcommented code.
-                    // Update properties list
-                    //ViewModel.Document.AudioFileOutputPropertiesList = ViewModel.Document.AudioFileOutputPropertiesList.OrderBy(x => x.Entity.Name).ToList();
-
-                    // Update list
                     RefreshAudioFileOutputList();
                 }
             }
@@ -726,8 +703,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Document document = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
                 }
 
-                object viewModel2 = _curveListPresenter.Show(ViewModel.Document.ID, childDocumentID);
-                DispatchViewModel(viewModel2, null);
+                int documentID = childDocumentID ?? ViewModel.Document.ID;
+
+                CurveListViewModel curveListViewModel = ChildDocumentHelper.GetCurveListViewModel(ViewModel.Document, documentID);
+                _curveListPresenter.ViewModel = curveListViewModel;
+                _curveListPresenter.Show();
+                DispatchViewModel(_curveListPresenter.ViewModel, null);
             }
             finally
             {
@@ -739,8 +720,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _curveListPresenter.Close();
-                DispatchViewModel(viewModel2, null);
+                _curveListPresenter.Close();
+                DispatchViewModel(_curveListPresenter.ViewModel , null);
             }
             finally
             {
@@ -773,10 +754,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 IList<CurveDetailsViewModel> curveDetailsViewModels = ChildDocumentHelper.GetCurveDetailsViewModels_ByDocumentID(ViewModel.Document, document.ID);
                 CurveDetailsViewModel curveDetailsViewModel = curve.ToDetailsViewModel(_repositoryWrapper.NodeTypeRepository);
                 curveDetailsViewModels.Add(curveDetailsViewModel);
-
-                IList<CurveDetailsViewModel> curveDetailsViewModelsSorted = curveDetailsViewModels.OrderBy(x => x.Entity.Name).ToList();
-                curveDetailsViewModels.Clear();
-                curveDetailsViewModels.AddRange(curveDetailsViewModelsSorted);
             }
             finally
             {
@@ -805,11 +782,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     // ToViewModel
                     IList<CurveDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetCurveDetailsViewModels_ByDocumentID(ViewModel.Document, documentID);
-                    int listIndex = detailsViewModels.IndexOf(x => x.Entity.ID == curveID);
-                    detailsViewModels.RemoveAt(listIndex);
+                    detailsViewModels.RemoveFirst(x => x.Entity.ID == curveID);
 
                     CurveListViewModel listViewModel = ChildDocumentHelper.GetCurveListViewModel(ViewModel.Document, documentID);
-                    listViewModel.List.RemoveAt(listIndex);
+                    listViewModel.List.RemoveFirst(x => x.ID == curveID);
                 }
                 else
                 {
@@ -830,9 +806,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativeCurveKey(ViewModel.Document, curveID);
                 CurveDetailsViewModel detailsViewModel = ChildDocumentHelper.GetCurveDetailsViewModel_ByAlternativeKey(ViewModel.Document, key);
 
-                object viewModel2 = _curveDetailsPresenter.Show(detailsViewModel);
+                _curveDetailsPresenter.ViewModel = detailsViewModel;
+                _curveDetailsPresenter.Show();
 
-                DispatchViewModel(viewModel2, key);
+                DispatchViewModel(_curveDetailsPresenter.ViewModel, key);
             }
             finally
             {
@@ -847,9 +824,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativeCurveKey(ViewModel.Document, curveID);
                 CurveDetailsViewModel detailsViewModel = ChildDocumentHelper.GetCurveDetailsViewModel_ByAlternativeKey(ViewModel.Document, key);
 
-                object viewModel2 = _curveDetailsPresenter.Close(detailsViewModel);
+                _curveDetailsPresenter.ViewModel = detailsViewModel;
+                _curveDetailsPresenter.Close();
 
-                DispatchViewModel(viewModel2, key);
+                DispatchViewModel(_curveDetailsPresenter.ViewModel, key);
             }
             finally
             {
@@ -864,9 +842,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativeCurveKey(ViewModel.Document, curveID);
                 CurveDetailsViewModel detailsViewModel = ChildDocumentHelper.GetCurveDetailsViewModel_ByAlternativeKey(ViewModel.Document, key);
 
-                object viewModel2 = _curveDetailsPresenter.LoseFocus(detailsViewModel);
+                _curveDetailsPresenter.ViewModel = detailsViewModel;
+                _curveDetailsPresenter.LoseFocus();
 
-                DispatchViewModel(viewModel2, key);
+                DispatchViewModel(_curveDetailsPresenter.ViewModel, key);
             }
             finally
             {
@@ -880,9 +859,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _effectListPresenter.Show(ViewModel.Document.ID, ChildDocumentTypeEnum.Effect);
-
-                DispatchViewModel(viewModel2, null);
+                _effectListPresenter.ViewModel = ViewModel.Document.EffectList;
+                _effectListPresenter.Show();
+                DispatchViewModel(_effectListPresenter.ViewModel, null);
             }
             finally
             {
@@ -894,8 +873,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _effectListPresenter.Close();
-                DispatchViewModel(viewModel2, null);
+                _effectListPresenter.ViewModel = ViewModel.Document.EffectList;
+                _effectListPresenter.Close();
+                DispatchViewModel(_effectListPresenter.ViewModel, null);
             }
             finally
             {
@@ -925,11 +905,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 ChildDocumentPropertiesViewModel propertiesViewModel = effect.ToChildDocumentPropertiesViewModel();
                 ViewModel.Document.EffectPropertiesList.Add(propertiesViewModel);
-                ViewModel.Document.EffectPropertiesList = ViewModel.Document.EffectPropertiesList.OrderBy(x => x.Name).ToList();
 
                 ChildDocumentViewModel documentViewModel = effect.ToChildDocumentViewModel(_repositoryWrapper, _entityPositionManager);
                 ViewModel.Document.EffectDocumentList.Add(documentViewModel);
-                ViewModel.Document.EffectDocumentList = ViewModel.Document.EffectDocumentList.OrderBy(x => x.Name).ToList();
 
                 RefreshDocumentTree();
             }
@@ -944,12 +922,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 // ToViewModel Only
-                int listIndex = ViewModel.Document.EffectList.List.IndexOf(x => x.ID == effectDocumentID);
-
-                ViewModel.Document.EffectList.List.RemoveAt(listIndex);
-                ViewModel.Document.EffectPropertiesList.RemoveAt(listIndex);
-                ViewModel.Document.EffectDocumentList.RemoveAt(listIndex);
-                ViewModel.Document.DocumentTree.Effects.RemoveAt(listIndex);
+                ViewModel.Document.EffectList.List.RemoveFirst(x => x.ID == effectDocumentID);
+                ViewModel.Document.EffectPropertiesList.RemoveFirst(x => x.ID == effectDocumentID);
+                ViewModel.Document.EffectDocumentList.RemoveFirst(x => x.ID == effectDocumentID);
+                ViewModel.Document.DocumentTree.Effects.RemoveFirst(x => x.Keys.ID == effectDocumentID);
             }
             finally
             {
@@ -963,9 +939,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _instrumentListPresenter.Show(ViewModel.Document.ID, ChildDocumentTypeEnum.Instrument);
-
-                DispatchViewModel(viewModel2, null);
+                _instrumentListPresenter.ViewModel = ViewModel.Document.InstrumentList;
+                _instrumentListPresenter.Show();
+                DispatchViewModel(_instrumentListPresenter.ViewModel, null);
             }
             finally
             {
@@ -977,8 +953,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _instrumentListPresenter.Close();
-                DispatchViewModel(viewModel2, null);
+                _instrumentListPresenter.ViewModel = ViewModel.Document.InstrumentList;
+                _instrumentListPresenter.Close();
+                DispatchViewModel(_instrumentListPresenter.ViewModel, null);
             }
             finally
             {
@@ -1008,11 +985,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 ChildDocumentPropertiesViewModel propertiesViewModel = instrument.ToChildDocumentPropertiesViewModel();
                 ViewModel.Document.InstrumentPropertiesList.Add(propertiesViewModel);
-                ViewModel.Document.InstrumentPropertiesList = ViewModel.Document.InstrumentPropertiesList.OrderBy(x => x.Name).ToList();
 
                 ChildDocumentViewModel documentViewModel = instrument.ToChildDocumentViewModel(_repositoryWrapper, _entityPositionManager);
                 ViewModel.Document.InstrumentDocumentList.Add(documentViewModel);
-                ViewModel.Document.InstrumentDocumentList = ViewModel.Document.InstrumentDocumentList.OrderBy(x => x.Name).ToList();
 
                 RefreshDocumentTree();
             }
@@ -1027,11 +1002,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 // ToViewModel Only
-                int listIndex = ViewModel.Document.InstrumentList.List.IndexOf(x => x.ID == instrumentDocumentID);
-                ViewModel.Document.InstrumentList.List.RemoveAt(listIndex);
-                ViewModel.Document.InstrumentPropertiesList.RemoveAt(listIndex);
-                ViewModel.Document.InstrumentDocumentList.RemoveAt(listIndex);
-                ViewModel.Document.DocumentTree.Instruments.RemoveAt(listIndex);
+                ViewModel.Document.InstrumentList.List.RemoveFirst(x => x.ID == instrumentDocumentID);
+                ViewModel.Document.InstrumentPropertiesList.RemoveFirst(x => x.ID == instrumentDocumentID);
+                ViewModel.Document.InstrumentDocumentList.RemoveFirst(x => x.ID == instrumentDocumentID);
+                ViewModel.Document.DocumentTree.Instruments.RemoveFirst(x => x.Keys.ID == instrumentDocumentID);
             }
             finally
             {
@@ -1051,8 +1025,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Document document = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
                 }
 
-                object viewModel2 = _patchListPresenter.Show(ViewModel.Document.ID, childDocumentID);
-                DispatchViewModel(viewModel2, null);
+                int documentID = childDocumentID ?? ViewModel.Document.ID;
+                PatchListViewModel patchListViewModel = ChildDocumentHelper.GetPatchListViewModel(ViewModel.Document, documentID);
+                _patchListPresenter.ViewModel = patchListViewModel;
+                _patchListPresenter.Show();
+                DispatchViewModel(_patchListPresenter.ViewModel, null);
             }
             finally
             {
@@ -1064,8 +1041,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _patchListPresenter.Close();
-                DispatchViewModel(viewModel2, null);
+                _patchListPresenter.Close();
+                DispatchViewModel(_patchListPresenter.ViewModel, null);
             }
             finally
             {
@@ -1098,10 +1075,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels_ByDocumentID(ViewModel.Document, document.ID);
                 PatchDetailsViewModel detailsViewModel = patch.ToDetailsViewModel(_repositoryWrapper.OperatorTypeRepository, _entityPositionManager);
                 detailsViewModels.Add(detailsViewModel);
-
-                IList<PatchDetailsViewModel> propertyViewModelsSorted = detailsViewModels.OrderBy(x => x.Entity.Name).ToList();
-                propertyViewModelsSorted.Clear();
-                propertyViewModelsSorted.AddRange(propertyViewModelsSorted);
             }
             finally
             {
@@ -1130,11 +1103,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     // ToViewModel
                     IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels_ByDocumentID(ViewModel.Document, documentID);
-                    int listIndex = detailsViewModels.IndexOf(x => x.Entity.ID == patchID);
-                    detailsViewModels.RemoveAt(listIndex);
+                    detailsViewModels.RemoveFirst(x => x.Entity.ID == patchID);
 
                     PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel(ViewModel.Document, documentID);
-                    listViewModel.List.RemoveAt(listIndex);
+                    listViewModel.List.RemoveFirst(x => x.ID == patchID);
                 }
                 else
                 {
@@ -1154,10 +1126,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativePatchKey(ViewModel.Document, patchID);
                 PatchDetailsViewModel detailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByAlternativeKey(ViewModel.Document, key);
-
-                object viewModel2 = _patchDetailsPresenter.Show(detailsViewModel);
-
-                DispatchViewModel(viewModel2, key);
+                _patchDetailsPresenter.ViewModel = detailsViewModel;
+                _patchDetailsPresenter.Show();
+                DispatchViewModel(_patchDetailsPresenter.ViewModel, key);
             }
             finally
             {
@@ -1180,21 +1151,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 PatchDetailsViewModel detailsViewModel = detailsViewModels[key.EntityListIndex];
 
                 // Partial Action
-                PatchDetailsViewModel viewModel2 = _patchDetailsPresenter.Close(detailsViewModel);
+                _patchDetailsPresenter.ViewModel = detailsViewModel;
+                _patchDetailsPresenter.Close();
 
-                if (viewModel2.Successful)
+                if (_patchDetailsPresenter.ViewModel.Successful)
                 {
-                    // Update details list 
-                    IList<PatchDetailsViewModel> detailsViewModelsSorted = detailsViewModels.OrderBy(x => x.Entity.Name).ToList();
-                    detailsViewModels.Clear();
-                    detailsViewModels.AddRange(detailsViewModelsSorted);
-
-                    // Update list
                     PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel(ViewModel.Document, documentID);
                     RefreshPatchList(listViewModel);
                 }
 
-                DispatchViewModel(viewModel2, key);
+                DispatchViewModel(_patchDetailsPresenter.ViewModel, key);
             }
             finally
             {
@@ -1217,21 +1183,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 PatchDetailsViewModel detailsViewModel = detailsViewModels[key.EntityListIndex];
 
                 // Partial Action
-                PatchDetailsViewModel viewModel2 = _patchDetailsPresenter.LoseFocus(detailsViewModel);
+                _patchDetailsPresenter.ViewModel = detailsViewModel;
+                _patchDetailsPresenter.LoseFocus();
 
-                if (viewModel2.Successful)
+                if (_patchDetailsPresenter.ViewModel.Successful)
                 {
-                    // Update details list 
-                    IList<PatchDetailsViewModel> detailsViewModelsSorted = detailsViewModels.OrderBy(x => x.Entity.Name).ToList();
-                    detailsViewModels.Clear();
-                    detailsViewModels.AddRange(detailsViewModelsSorted);
-
-                    // Update list
                     PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel(ViewModel.Document, documentID);
                     RefreshPatchList(listViewModel);
                 }
 
-                DispatchViewModel(viewModel2, key);
+                DispatchViewModel(_patchDetailsPresenter.ViewModel, key);
             }
             finally
             {
@@ -1246,9 +1207,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativePatchKey(ViewModel.Document, patchID);
                 PatchDetailsViewModel detailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByAlternativeKey(ViewModel.Document, key);
 
-                object viewModel2 = _patchDetailsPresenter.AddOperator(detailsViewModel, operatorTypeID);
-
-                DispatchViewModel(viewModel2, key);
+                _patchDetailsPresenter.ViewModel = detailsViewModel;
+                _patchDetailsPresenter.AddOperator(operatorTypeID);
+                DispatchViewModel(_patchDetailsPresenter.ViewModel, key);
             }
             finally
             {
@@ -1263,9 +1224,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativePatchKey(ViewModel.Document, patchID);
                 PatchDetailsViewModel detailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByAlternativeKey(ViewModel.Document, key);
 
-                object viewModel2 = _patchDetailsPresenter.MoveOperator(detailsViewModel, operatorID, centerX, centerY);
-
-                DispatchViewModel(viewModel2, key);
+                _patchDetailsPresenter.ViewModel = detailsViewModel;
+                _patchDetailsPresenter.MoveOperator(operatorID, centerX, centerY);
+                DispatchViewModel(_patchDetailsPresenter.ViewModel, key);
             }
             finally
             {
@@ -1280,9 +1241,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativePatchKey(ViewModel.Document, patchID);
                 PatchDetailsViewModel detailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByAlternativeKey(ViewModel.Document, key);
 
-                object viewModel2 = _patchDetailsPresenter.ChangeInputOutlet(detailsViewModel, inletID, inputOutletID);
-
-                DispatchViewModel(viewModel2, key);
+                _patchDetailsPresenter.ViewModel = detailsViewModel;
+                _patchDetailsPresenter.ChangeInputOutlet(inletID, inputOutletID);
+                DispatchViewModel(_patchDetailsPresenter.ViewModel, key);
             }
             finally
             {
@@ -1297,9 +1258,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativePatchKey(ViewModel.Document, patchID);
                 PatchDetailsViewModel detailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByAlternativeKey(ViewModel.Document, key);
 
-                object viewModel2 = _patchDetailsPresenter.SelectOperator(detailsViewModel, operatorID);
+                _patchDetailsPresenter.ViewModel = detailsViewModel;
+                _patchDetailsPresenter.SelectOperator(operatorID);
 
-                DispatchViewModel(viewModel2, key);
+                DispatchViewModel(_patchDetailsPresenter.ViewModel, key);
             }
             finally
             {
@@ -1317,9 +1279,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativePatchKey(ViewModel.Document, patchID);
                 PatchDetailsViewModel detailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByAlternativeKey(ViewModel.Document, key);
 
-                object viewModel2 = _patchDetailsPresenter.DeleteOperator(detailsViewModel);
-
-                DispatchViewModel(viewModel2, key);
+                _patchDetailsPresenter.ViewModel = detailsViewModel;
+                _patchDetailsPresenter.DeleteOperator();
+                DispatchViewModel(_patchDetailsPresenter.ViewModel, key);
             }
             finally
             {
@@ -1334,13 +1296,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativePatchKey(ViewModel.Document, patchID);
                 PatchDetailsViewModel detailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByAlternativeKey(ViewModel.Document, key);
 
-                PatchDetailsViewModel viewModel2 = _patchDetailsPresenter.SetValue(detailsViewModel, value);
+                _patchDetailsPresenter.ViewModel = detailsViewModel;
+                _patchDetailsPresenter.SetValue(value);
+                DispatchViewModel(_patchDetailsPresenter.ViewModel, key);
 
                 // Move messages to popup messages, because the default dispatching for PatchDetailsViewModel moves it to the ValidationMessages.
-                ViewModel.PopupMessages.AddRange(viewModel2.ValidationMessages);
-                viewModel2.ValidationMessages.Clear();
+                ViewModel.PopupMessages.AddRange(_patchDetailsPresenter.ViewModel.ValidationMessages);
+                _patchDetailsPresenter.ViewModel.ValidationMessages.Clear();
 
-                DispatchViewModel(viewModel2, key);
+                DispatchViewModel(_patchDetailsPresenter.ViewModel, key);
             }
             finally
             {
@@ -1355,21 +1319,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativePatchKey(ViewModel.Document, patchID);
                 PatchDetailsViewModel detailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByAlternativeKey(ViewModel.Document, key);
 
-                PatchDetailsViewModel viewModel2 = _patchDetailsPresenter.Play(detailsViewModel, duration, sampleFilePath, outputFilePath, _repositoryWrapper);
+                _patchDetailsPresenter.ViewModel = detailsViewModel;
+                _patchDetailsPresenter.Play(duration, sampleFilePath, outputFilePath, _repositoryWrapper);
+                DispatchViewModel(_patchDetailsPresenter.ViewModel, key);
 
                 // Move messages to popup messages, because the default dispatching for PatchDetailsViewModel moves it to the ValidationMessages.
-                ViewModel.PopupMessages.AddRange(viewModel2.ValidationMessages);
-                viewModel2.ValidationMessages.Clear();
+                ViewModel.PopupMessages.AddRange(_patchDetailsPresenter.ViewModel.ValidationMessages);
+                _patchDetailsPresenter.ViewModel.ValidationMessages.Clear();
 
-                ViewModel.Successful = viewModel2.Successful;
+                ViewModel.Successful = _patchDetailsPresenter.ViewModel.Successful;
 
-                DispatchViewModel(viewModel2, key);
+                DispatchViewModel(_patchDetailsPresenter.ViewModel, key);
             }
             finally
             {
                 _repositoryWrapper.Rollback();
             }
         }
+
+        // WAS HERE !!!
 
         // Sample Actions
 
@@ -1383,8 +1351,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Document document = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
                 }
 
-                object viewModel2 = _sampleListPresenter.Show(ViewModel.Document.ID, childDocumentID);
-                DispatchViewModel(viewModel2, null);
+                int documentID = childDocumentID ?? ViewModel.Document.ID;
+                SampleListViewModel sampleListViewModel = ChildDocumentHelper.GetSampleListViewModel(ViewModel.Document, documentID);
+                _sampleListPresenter.ViewModel = sampleListViewModel;
+                _sampleListPresenter.Show();
+                DispatchViewModel(_sampleListPresenter.ViewModel, null);
             }
             finally
             {
@@ -1396,8 +1367,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _sampleListPresenter.Close();
-                DispatchViewModel(viewModel2, null);
+                _sampleListPresenter.Close();
+                DispatchViewModel(_sampleListPresenter.ViewModel, null);
             }
             finally
             {
@@ -1429,10 +1400,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 IList<SamplePropertiesViewModel> propertiesViewModels = ChildDocumentHelper.GetSamplePropertiesViewModels_ByDocumentID(ViewModel.Document, document.ID);
                 SamplePropertiesViewModel propertiesViewModel = sample.ToPropertiesViewModel(new SampleRepositories(_repositoryWrapper));
                 propertiesViewModels.Add(propertiesViewModel);
-
-                IList<SamplePropertiesViewModel> propertiesViewModelsSorted = propertiesViewModels.OrderBy(x => x.Entity.Name).ToList();
-                propertiesViewModels.Clear();
-                propertiesViewModels.AddRange(propertiesViewModelsSorted);
             }
             finally
             {
@@ -1461,11 +1428,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     // ToViewModel
                     IList<SamplePropertiesViewModel> propertiesViewModels = ChildDocumentHelper.GetSamplePropertiesViewModels_ByDocumentID(ViewModel.Document, documentID);
-                    int listIndex = propertiesViewModels.IndexOf(x => x.Entity.ID == sampleID);
-                    propertiesViewModels.RemoveAt(listIndex);
+                    propertiesViewModels.RemoveFirst(x => x.Entity.ID == sampleID);
 
                     SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel(ViewModel.Document, documentID);
-                    listViewModel.List.RemoveAt(listIndex);
+                    listViewModel.List.RemoveFirst(x => x.ID == sampleID);
                 }
                 else
                 {
@@ -1485,10 +1451,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativeSampleKey(ViewModel.Document, sampleID);
                 SamplePropertiesViewModel propertiesViewModel = ChildDocumentHelper.GetSamplePropertiesViewModel_ByAlternativeKey(ViewModel.Document, key);
+                _samplePropertiesPresenter.ViewModel = propertiesViewModel;
+                _samplePropertiesPresenter.Show();
 
-                object viewModel2 = _samplePropertiesPresenter.Show(propertiesViewModel);
-
-                DispatchViewModel(viewModel2, key);
+                DispatchViewModel(_samplePropertiesPresenter.ViewModel, key);
             }
             finally
             {
@@ -1511,21 +1477,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 SamplePropertiesViewModel propertiesViewModel = propertiesViewModels[key.EntityListIndex];
 
                 // Partial Action
-                SamplePropertiesViewModel viewModel2 = _samplePropertiesPresenter.Close(propertiesViewModel);
+                _samplePropertiesPresenter.ViewModel = propertiesViewModel;
+                _samplePropertiesPresenter.Close();
 
-                if (viewModel2.Successful)
+                if (_samplePropertiesPresenter.ViewModel.Successful)
                 {
-                    // Update properties list 
-                    IList<SamplePropertiesViewModel> propertiesViewModelsSorted = propertiesViewModels.OrderBy(x => x.Entity.Name).ToList();
-                    propertiesViewModels.Clear();
-                    propertiesViewModels.AddRange(propertiesViewModelsSorted);
-
                     // Update list
                     SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel(ViewModel.Document, documentID);
                     RefreshSampleList(listViewModel);
                 }
 
-                DispatchViewModel(viewModel2, key);
+                DispatchViewModel(_samplePropertiesPresenter.ViewModel, key);
             }
             finally
             {
@@ -1548,21 +1510,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 SamplePropertiesViewModel propertiesViewModel = propertiesViewModels[key.EntityListIndex];
 
                 // Partial Action
-                SamplePropertiesViewModel viewModel2 = _samplePropertiesPresenter.LoseFocus(propertiesViewModel);
+                _samplePropertiesPresenter.ViewModel = propertiesViewModel;
+                _samplePropertiesPresenter.LoseFocus();
 
-                if (viewModel2.Successful)
+                if (_samplePropertiesPresenter.ViewModel.Successful)
                 {
-                    // Update properties list 
-                    IList<SamplePropertiesViewModel> propertiesViewModelsSorted = propertiesViewModels.OrderBy(x => x.Entity.Name).ToList();
-                    propertiesViewModels.Clear();
-                    propertiesViewModels.AddRange(propertiesViewModelsSorted);
-
                     // Update list
                     SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel(ViewModel.Document, documentID);
                     RefreshSampleList(listViewModel);
                 }
 
-                DispatchViewModel(viewModel2, key);
+                DispatchViewModel(_samplePropertiesPresenter.ViewModel, key);
             }
             finally
             {
@@ -1982,12 +1940,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void RefreshDocumentList()
         {
-            ViewModel.DocumentList = _documentListPresenter.Refresh(ViewModel.DocumentList);
+            _documentListPresenter.Refresh();
+            ViewModel.DocumentList  = _documentListPresenter.ViewModel;
         }
 
         private void RefreshDocumentTree()
         {
-            object viewModel2 = _documentTreePresenter.Refresh(ViewModel.Document.DocumentTree);
+            _documentTreePresenter.ViewModel = ViewModel.Document.DocumentTree; // TODO: But it is already assigned, isn't it?
+            object viewModel2 = _documentTreePresenter.Refresh();
             DispatchViewModel(viewModel2, null);
         }
 
@@ -1999,20 +1959,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void RefreshSampleList(SampleListViewModel sampleListViewModel)
         {
-            object viewModel2 = _sampleListPresenter.Refresh(sampleListViewModel);
+            _sampleListPresenter.ViewModel = sampleListViewModel;
+            object viewModel2 = _sampleListPresenter.Refresh();
             DispatchViewModel(viewModel2, null);
         }
 
         private void RefreshPatchList(PatchListViewModel patchListViewModel)
         {
-            object viewModel2 = _patchListPresenter.Refresh(patchListViewModel);
+            _patchListPresenter.ViewModel = patchListViewModel;
+            object viewModel2 = _patchListPresenter.Refresh();
             DispatchViewModel(viewModel2, null);
-        }
-
-        private NotFoundViewModel CreateDocumentNotFoundViewModel()
-        {
-            NotFoundViewModel viewModel = new NotFoundPresenter().Show(PropertyDisplayNames.Document);
-            return viewModel;
         }
 
         private AudioFileOutputPropertiesViewModel GetAudioFileOutputPropertiesViewModel(int id)
@@ -2036,8 +1992,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             string entityTypeName = typeof(TEntity).Name;
             string entityTypeDisplayName = ResourceHelper.GetPropertyDisplayName(entityTypeName);
 
-            NotFoundViewModel viewModel = new NotFoundPresenter().Show(entityTypeDisplayName);
-            return viewModel;
+            var notFoundPresenter = new NotFoundPresenter();
+            notFoundPresenter.Show(entityTypeDisplayName);
+            return notFoundPresenter.ViewModel;
         }
     }
 }
