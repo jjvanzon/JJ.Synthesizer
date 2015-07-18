@@ -23,8 +23,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class SamplePropertiesUserControl : UserControl
     {
-        public event EventHandler<Int32EventArgs> CloseRequested;
-        public event EventHandler<Int32EventArgs> LoseFocusRequested;
+        public event EventHandler CloseRequested;
+        public event EventHandler LoseFocusRequested;
 
         /// <summary> virtually not nullable </summary>
         private SamplePropertiesViewModel _viewModel;
@@ -170,8 +170,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (CloseRequested != null)
             {
                 ApplyControlsToViewModel();
-                var e = new Int32EventArgs(_viewModel.Entity.ID);
-                CloseRequested(this, e);
+                CloseRequested(this, EventArgs.Empty);
             }
         }
 
@@ -180,8 +179,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (LoseFocusRequested != null)
             {
                 ApplyControlsToViewModel();
-                var e = new Int32EventArgs(_viewModel.Entity.ID);
-                LoseFocusRequested(this, e);
+                LoseFocusRequested(this, EventArgs.Empty);
             }
         }
 

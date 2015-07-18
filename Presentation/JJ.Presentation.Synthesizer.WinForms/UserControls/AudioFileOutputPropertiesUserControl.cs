@@ -23,8 +23,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class AudioFileOutputPropertiesUserControl : UserControl
     {
-        public event EventHandler<Int32EventArgs> CloseRequested;
-        public event EventHandler<Int32EventArgs> LoseFocusRequested;
+        public event EventHandler CloseRequested;
+        public event EventHandler LoseFocusRequested;
 
         /// <summary> virtually not nullable </summary>
         private AudioFileOutputPropertiesViewModel _viewModel;
@@ -160,7 +160,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (CloseRequested != null)
             {
                 ApplyControlsToViewModel();
-                CloseRequested(this, new Int32EventArgs(_viewModel.Entity.ID));
+                CloseRequested(this, EventArgs.Empty);
             }
         }
 
@@ -169,7 +169,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (LoseFocusRequested != null)
             {
                 ApplyControlsToViewModel();
-                LoseFocusRequested(this, new Int32EventArgs(_viewModel.Entity.ID));
+                LoseFocusRequested(this, EventArgs.Empty);
             }
         }
 

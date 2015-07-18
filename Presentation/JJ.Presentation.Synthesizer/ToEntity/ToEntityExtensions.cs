@@ -172,10 +172,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
 
+            bool isNew = false;
+
             Sample sample = sampleRepositories.SampleRepository.TryGet(viewModel.ID);
             if (sample == null)
             {
-                sample = sampleRepositories.SampleRepository.Create();
+                isNew = true;
+                sample = new Sample();
                 sample.ID = viewModel.ID;
             }
             sample.Name = viewModel.Name;
@@ -204,6 +207,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel.SpeakerSetup != null)
             {
                 sample.SpeakerSetup = sampleRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
+            }
+
+            if (isNew)
+            {
+                sampleRepositories.SampleRepository.Insert(sample);
+            }
+            else
+            {
+                sampleRepositories.SampleRepository.Update(sample);
             }
 
             return sample;

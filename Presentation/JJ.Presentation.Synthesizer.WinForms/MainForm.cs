@@ -329,9 +329,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void AudioFileOutputDelete(int listIndex)
+        private void AudioFileOutputDelete(int id)
         {
-            _presenter.AudioFileOutputDelete(listIndex);
+            _presenter.AudioFileOutputDelete(id);
             ApplyViewModel();
         }
 
@@ -341,21 +341,21 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void AudioFileOutputPropertiesShow(int listIndex)
+        private void AudioFileOutputPropertiesShow(int id)
         {
-            _presenter.AudioFileOutputPropertiesShow(listIndex);
+            _presenter.AudioFileOutputPropertiesShow(id);
             ApplyViewModel();
         }
 
-        private void AudioFileOutputPropertiesClose(int listIndex)
+        private void AudioFileOutputPropertiesClose()
         {
-            _presenter.AudioFileOutputPropertiesClose(listIndex);
+            _presenter.AudioFileOutputPropertiesClose();
             ApplyViewModel();
         }
 
-        private void AudioFileOutputPropertiesLoseFocus(int listIndex)
+        private void AudioFileOutputPropertiesLoseFocus()
         {
-            _presenter.AudioFileOutputPropertiesLoseFocus(listIndex);
+            _presenter.AudioFileOutputPropertiesLoseFocus();
             ApplyViewModel();
         }
 
@@ -469,57 +469,57 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void PatchDetailsClose(int patchID)
+        private void PatchDetailsClose()
         {
-            _presenter.PatchDetailsClose(patchID);
+            _presenter.PatchDetailsClose();
             ApplyViewModel();
         }
 
-        private void PatchDetailsLoseFocus(int patchID)
+        private void PatchDetailsLoseFocus()
         {
-            _presenter.PatchDetailsLoseFocus(patchID);
+            _presenter.PatchDetailsLoseFocus();
             ApplyViewModel();
         }
 
-        private void PatchDetailsAddOperator(int patchID, int operatorTypeID)
+        private void PatchDetailsAddOperator(int operatorTypeID)
         {
-            _presenter.PatchDetailsAddOperator(patchID, operatorTypeID);
+            _presenter.PatchDetailsAddOperator(operatorTypeID);
             ApplyViewModel();
         }
 
-        private void PatchDetailsMoveOperator(int patchID, int operatorID, float centerX, float centerY)
+        private void PatchDetailsMoveOperator(int operatorID, float centerX, float centerY)
         {
-            _presenter.PatchDetailsMoveOperator(patchID, operatorID, centerX, centerY);
+            _presenter.PatchDetailsMoveOperator(operatorID, centerX, centerY);
             ApplyViewModel();
         }
 
-        private void PatchDetailsChangeInputOutlet(int patchID, int inletID, int inputOutletID)
+        private void PatchDetailsChangeInputOutlet(int inletID, int inputOutletID)
         {
-            _presenter.PatchDetailsChangeInputOutlet(patchID, inletID, inputOutletID);
+            _presenter.PatchDetailsChangeInputOutlet(inletID, inputOutletID);
             ApplyViewModel();
         }
 
-        private void PatchDetailsSelectOperator(int patchID, int operatorID)
+        private void PatchDetailsSelectOperator(int operatorID)
         {
-            _presenter.PatchDetailsSelectOperator(patchID, operatorID);
+            _presenter.PatchDetailsSelectOperator(operatorID);
             ApplyViewModel();
         }
 
-        private void PatchDetailsDeleteOperator(int patchID)
+        private void PatchDetailsDeleteOperator()
         {
-            _presenter.PatchDetailsDeleteOperator(patchID);
+            _presenter.PatchDetailsDeleteOperator();
             ApplyViewModel();
         }
 
-        private void PatchDetailsSetValue(int patchID, string value)
+        private void PatchDetailsSetValue(string value)
         {
-            _presenter.PatchDetailsSetValue(patchID, value);
+            _presenter.PatchDetailsSetValue(value);
             ApplyViewModel();
         }
 
-        private void PatchPlay(int patchID)
+        private void PatchPlay()
         {
-            _presenter.PatchPlay(patchID, DEFAULT_DURATION, _sampleFilePath, _outputFilePath);
+            _presenter.PatchPlay(DEFAULT_DURATION, _sampleFilePath, _outputFilePath);
 
             ApplyViewModel();
 
@@ -562,15 +562,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void SamplePropertiesClose(int sampleID)
+        private void SamplePropertiesClose()
         {
-            _presenter.SamplePropertiesClose(sampleID);
+            _presenter.SamplePropertiesClose();
             ApplyViewModel();
         }
 
-        private void SamplePropertiesLoseFocus(int sampleID)
+        private void SamplePropertiesLoseFocus()
         {
-            _presenter.SamplePropertiesLoseFocus(sampleID);
+            _presenter.SamplePropertiesLoseFocus();
             ApplyViewModel();
         }
 
@@ -726,14 +726,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             AudioFileOutputPropertiesShow(e.Value);
         }
 
-        private void audioFileOutputPropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void audioFileOutputPropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            AudioFileOutputPropertiesClose(e.Value);
+            AudioFileOutputPropertiesClose();
         }
 
-        private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            AudioFileOutputPropertiesLoseFocus(e.Value);
+            AudioFileOutputPropertiesLoseFocus();
         }
 
         // Curve Events
@@ -809,49 +809,49 @@ namespace JJ.Presentation.Synthesizer.WinForms
             PatchDetailsShow(e.Value);
         }
 
-        private void patchDetailsUserControl_PlayRequested(object sender, Int32EventArgs e)
+        private void patchDetailsUserControl_PlayRequested(object sender, EventArgs e)
         {
-            PatchPlay(e.Value);
+            PatchPlay();
         }
 
         private void patchDetailsUserControl_SetValueRequested(object sender, SetValueEventArgs e)
         {
-            PatchDetailsSetValue(e.PatchID, e.Value);
+            PatchDetailsSetValue(e.Value);
         }
 
         private void patchDetailsUserControl_SelectOperatorRequested(object sender, SelectOperatorEventArgs e)
         {
-            PatchDetailsSelectOperator(e.PatchID, e.OperatorID);
+            PatchDetailsSelectOperator(e.OperatorID);
         }
 
         private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
         {
-            PatchDetailsChangeInputOutlet(e.PatchID, e.InletID, e.InputOutletID);
+            PatchDetailsChangeInputOutlet(e.InletID, e.InputOutletID);
         }
 
         private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e)
         {
-            PatchDetailsMoveOperator(e.PatchID, e.OperatorID, e.CenterX, e.CenterY);
+            PatchDetailsMoveOperator(e.OperatorID, e.CenterX, e.CenterY);
         }
 
         private void patchDetailsUserControl_AddOperatorRequested(object sender, AddOperatorEventArgs e)
         {
-            PatchDetailsAddOperator(e.PatchID, e.OperatorTypeID);
+            PatchDetailsAddOperator(e.OperatorTypeID);
         }
 
-        private void patchDetailsUserControl_DeleteOperatorRequested(object sender, Int32EventArgs e)
+        private void patchDetailsUserControl_DeleteOperatorRequested(object sender, EventArgs e)
         {
-            PatchDetailsDeleteOperator(e.Value);
+            PatchDetailsDeleteOperator();
         }
 
-        private void patchDetailsUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void patchDetailsUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            PatchDetailsLoseFocus(e.Value);
+            PatchDetailsLoseFocus();
         }
 
-        private void patchDetailsUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void patchDetailsUserControl_CloseRequested(object sender, EventArgs e)
         {
-            PatchDetailsClose(e.Value);
+            PatchDetailsClose();
         }
 
         // Sample Events
@@ -876,14 +876,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             SamplePropertiesShow(e.Value);
         }
 
-        private void samplePropertiesUserControl_LoseFocusRequested(object sender, Int32EventArgs e)
+        private void samplePropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            SamplePropertiesLoseFocus(e.Value);
+            SamplePropertiesLoseFocus();
         }
 
-        private void samplePropertiesUserControl_CloseRequested(object sender, Int32EventArgs e)
+        private void samplePropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            SamplePropertiesClose(e.Value);
+            SamplePropertiesClose();
         }
 
         // Message Box Events

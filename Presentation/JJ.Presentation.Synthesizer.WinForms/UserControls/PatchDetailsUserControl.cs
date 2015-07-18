@@ -30,15 +30,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class PatchDetailsUserControl : UserControl
     {
-        public event EventHandler<Int32EventArgs> CloseRequested;
-        public event EventHandler<Int32EventArgs> LoseFocusRequested;
-        public event EventHandler<Int32EventArgs> DeleteOperatorRequested;
+        public event EventHandler CloseRequested;
+        public event EventHandler LoseFocusRequested;
+        public event EventHandler DeleteOperatorRequested;
         public event EventHandler<AddOperatorEventArgs> AddOperatorRequested;
         public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
         public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
         public event EventHandler<SelectOperatorEventArgs> SelectOperatorRequested;
         public event EventHandler<SetValueEventArgs> SetValueRequested;
-        public event EventHandler<Int32EventArgs> PlayRequested;
+        public event EventHandler PlayRequested;
 
         private PatchDetailsViewModel _viewModel;
         private ViewModelToDiagramConverter _converter;
@@ -214,8 +214,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (CloseRequested != null)
             {
-                var e = new Int32EventArgs(_viewModel.Entity.ID);
-                CloseRequested(this, e);
+                CloseRequested(this, EventArgs.Empty);
             }
         }
 
@@ -223,8 +222,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (LoseFocusRequested != null)
             {
-                var e = new Int32EventArgs(_viewModel.Entity.ID);
-                LoseFocusRequested(this, e);
+                LoseFocusRequested(this, EventArgs.Empty);
             }
         }
 
@@ -232,7 +230,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (AddOperatorRequested != null)
             {
-                var e = new AddOperatorEventArgs(_viewModel.Entity.ID, operatorTypeID);
+                var e = new AddOperatorEventArgs(operatorTypeID);
                 AddOperatorRequested(this, e);
             }
         }
@@ -241,18 +239,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (MoveOperatorRequested != null)
             {
-                var e = new MoveOperatorEventArgs(_viewModel.Entity.ID, operatorID, centerX, centerY);
+                var e = new MoveOperatorEventArgs(operatorID, centerX, centerY);
                 MoveOperatorRequested(this, e);
             }
         }
 
-        private void ChangeInputOutlet(
-            int inletID,
-            int inputOutletID)
+        private void ChangeInputOutlet(int inletID, int inputOutletID)
         {
             if (ChangeInputOutletRequested != null)
             {
-                var e = new ChangeInputOutletEventArgs(_viewModel.Entity.ID, inletID, inputOutletID);
+                var e = new ChangeInputOutletEventArgs(inletID, inputOutletID);
                 ChangeInputOutletRequested(this, e);
             }
         }
@@ -261,8 +257,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (SelectOperatorRequested != null)
             {
-                var e = new SelectOperatorEventArgs(_viewModel.Entity.ID, operatorID);
-
+                var e = new SelectOperatorEventArgs(operatorID);
                 SelectOperatorRequested(this, e);
             }
         }
@@ -271,8 +266,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (DeleteOperatorRequested != null)
             {
-                var e = new Int32EventArgs(_viewModel.Entity.ID);
-                DeleteOperatorRequested(this, e);
+                DeleteOperatorRequested(this, EventArgs.Empty);
             }
         }
 
@@ -280,7 +274,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (SetValueRequested != null)
             {
-                var e = new SetValueEventArgs(_viewModel.Entity.ID, value);
+                var e = new SetValueEventArgs(value);
                 SetValueRequested(this, e);
             }
         }
@@ -289,8 +283,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (PlayRequested != null)
             {
-                var e = new Int32EventArgs(_viewModel.Entity.ID);
-                PlayRequested(this, e);
+                PlayRequested(this, EventArgs.Empty);
             }
         }
 

@@ -18,14 +18,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class SampleListPresenter
     {
         private IDocumentRepository _documentRepository;
+        private ISampleRepository _sampleRepository;
 
         public SampleListViewModel ViewModel { get; set; }
 
-        public SampleListPresenter(IDocumentRepository documentRepository)
+        public SampleListPresenter(IDocumentRepository documentRepository, ISampleRepository sampleRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             _documentRepository = documentRepository;
+            _sampleRepository = sampleRepository;
         }
 
         public void Show()
@@ -55,6 +58,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Visible = visible;
 
             return ViewModel;
+        }
+
+        public void RefreshListItem(int sampleID)
+        {
+            Sample sample = _sampleRepository.Get(sampleID);
+
+            int listIndex = ViewModel.List.IndexOf(x => x.ID == sampleID);
+
+            SampleListItemViewModel viewModel2 = sample.ToListItemViewModel();
+            ViewModel.List[listIndex] = viewModel2;
+
+            ViewModel.List = ViewModel.List.OrderBy(x => x.Name).ToList();
         }
 
         public void Close()

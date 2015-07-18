@@ -1,4 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Synthesizer;
 using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
@@ -15,11 +16,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     /// </summary>
     internal static partial class ViewModelHelper
     {
-        public static NotFoundViewModel CreateNotFoundViewModel(string entityTypeName)
+        public static NotFoundViewModel CreateNotFoundViewModel(string entityTypeDisplayName)
         {
             var viewModel = new NotFoundViewModel
             {
-                Message = CommonMessageFormatter.ObjectNotFound(entityTypeName)
+                Message = CommonMessageFormatter.ObjectNotFound(entityTypeDisplayName)
             };
 
             return viewModel;
@@ -27,7 +28,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static NotFoundViewModel CreateDocumentNotFoundViewModel()
         {
-            return CreateNotFoundViewModel(PropertyDisplayNames.Document);
+            return CreateNotFoundViewModel<Document>();
+        }
+
+        public static NotFoundViewModel CreateNotFoundViewModel<TEntity>()
+        {
+            string entityTypeName = typeof(TEntity).Name;
+            string entityTypeDisplayName = ResourceHelper.GetPropertyDisplayName(entityTypeName);
+
+            NotFoundViewModel viewModel = CreateNotFoundViewModel(entityTypeDisplayName);
+            return viewModel;
         }
 
         public static MenuViewModel CreateMenuViewModel(bool documentIsOpen)
