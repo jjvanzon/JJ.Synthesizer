@@ -18,14 +18,17 @@ namespace JJ.Business.Synthesizer.Managers
         private const int MAX_RANDOM_Y = 400;
 
         private IEntityPositionRepository _entityPositionRepository;
+        private IIDRepository _idRepository;
 
         private Dictionary<int, EntityPosition> _operatorPositionDictionary = new Dictionary<int, EntityPosition>();
 
-        public EntityPositionManager(IEntityPositionRepository entityPositionRepository)
+        public EntityPositionManager(IEntityPositionRepository entityPositionRepository, IIDRepository idRepository)
         {
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
 
             _entityPositionRepository = entityPositionRepository;
+            _idRepository = idRepository;
         }
 
         public EntityPosition GetOrCreateOperatorPosition(Operator op)
@@ -43,18 +46,30 @@ namespace JJ.Business.Synthesizer.Managers
                 string entityTypeName = typeof(Operator).Name;
                 int entityID = operatorID;
 
+                bool isNew = false;
                 entityPosition = _entityPositionRepository.TryGetByEntityTypeNameAndID(entityTypeName, entityID);
                 if (entityPosition == null)
                 {
-                    entityPosition = _entityPositionRepository.Create();
+                    isNew = true;
+                    entityPosition = new EntityPosition();
+                    entityPosition.ID = _idRepository.GetID();
                     entityPosition.EntityTypeName = entityTypeName;
                     entityPosition.EntityID = entityID;
                     entityPosition.X = Randomizer.GetInt32(MIN_RANDOM_X, MAX_RANDOM_X);
                     entityPosition.Y = Randomizer.GetInt32(MIN_RANDOM_Y, MAX_RANDOM_Y);
-
-                    // Flush to make the next TryGetByEntityTypeNameAndID work.
-                    _entityPositionRepository.Flush();
                 }
+
+                if (isNew)
+                {
+                    _entityPositionRepository.Insert(entityPosition);
+                }
+                else
+                {
+                    _entityPositionRepository.Update(entityPosition);
+                }
+
+                // Flush to make the next TryGetByEntityTypeNameAndID work.
+                _entityPositionRepository.Flush();
 
                 _operatorPositionDictionary.Add(entityID, entityPosition);
             }
@@ -70,16 +85,28 @@ namespace JJ.Business.Synthesizer.Managers
                 string entityTypeName = typeof(Operator).Name;
                 int entityID = operatorID;
 
+                bool isNew = false;
                 entityPosition = _entityPositionRepository.TryGetByEntityTypeNameAndID(entityTypeName, entityID);
                 if (entityPosition == null)
                 {
-                    entityPosition = _entityPositionRepository.Create();
+                    isNew = true;
+                    entityPosition = new EntityPosition();
+                    entityPosition.ID = _idRepository.GetID();
                     entityPosition.EntityTypeName = entityTypeName;
                     entityPosition.EntityID = entityID;
-
-                    // Flush to make the next TryGetByEntityTypeNameAndID work.
-                    _entityPositionRepository.Flush();
                 }
+
+                if (isNew)
+                {
+                    _entityPositionRepository.Insert(entityPosition);
+                }
+                else
+                {
+                    _entityPositionRepository.Update(entityPosition);
+                }
+
+                // Flush to make the next TryGetByEntityTypeNameAndID work.
+                _entityPositionRepository.Flush();
 
                 _operatorPositionDictionary.Add(operatorID, entityPosition);
             }

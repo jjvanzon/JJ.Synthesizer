@@ -32,25 +32,28 @@ namespace JJ.Business.Synthesizer.Helpers
 
             if (inletCount > inletAndOutletNames.Length) throw new GreaterThanException(() => inletCount, () => inletAndOutletNames.Length);
 
-            Operator op = operatorRepository.Create();
+            var op = new Operator();
             op.ID = idRepository.GetID();
             op.Name = name;
             op.SetOperatorTypeEnum(operatorTypeEnum, operatorTypeRepository);
+            operatorRepository.Insert(op);
 
             foreach (string inletName in inletAndOutletNames.Take(inletCount))
             {
-                Inlet inlet = inletRepository.Create();
+                var inlet = new Inlet();
                 inlet.ID = idRepository.GetID();
                 inlet.Name = inletName;
                 inlet.LinkTo(op);
+                inletRepository.Insert(inlet);
             }
 
             foreach (string outletName in inletAndOutletNames.Skip(inletCount))
             {
-                Outlet outlet = outletRepository.Create();
+                var outlet = new Outlet();
                 outlet.ID = idRepository.GetID();
                 outlet.Name = outletName;
                 outlet.LinkTo(op);
+                outletRepository.Insert(outlet);
             }
 
             return op;

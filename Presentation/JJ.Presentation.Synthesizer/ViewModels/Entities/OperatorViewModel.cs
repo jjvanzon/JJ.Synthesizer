@@ -17,6 +17,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     public sealed class OperatorViewModel
     {
         public int ID { get; set; }
+        public int EntityPositionID { get; set; }
 
         public string Name { get; set; }
         public string Caption { get; set; }

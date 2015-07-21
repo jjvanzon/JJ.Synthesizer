@@ -129,7 +129,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositoryWrapper.CurveRepository,
                 _repositoryWrapper.SampleRepository,
                 _repositoryWrapper.IDRepository);
-            _entityPositionManager = new EntityPositionManager(_repositoryWrapper.EntityPositionRepository);
+            _entityPositionManager = new EntityPositionManager(_repositoryWrapper.EntityPositionRepository, _repositoryWrapper.IDRepository);
 
             _dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
         }
@@ -699,7 +699,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 int documentID = childDocumentID ?? ViewModel.Document.ID;
 
-                CurveListViewModel curveListViewModel = ChildDocumentHelper.GetCurveListViewModel(ViewModel.Document, documentID);
+                CurveListViewModel curveListViewModel = ChildDocumentHelper.GetCurveListViewModel_ByDocumentID(ViewModel.Document, documentID);
                 _curveListPresenter.ViewModel = curveListViewModel;
                 _curveListPresenter.Show();
                 DispatchViewModel(_curveListPresenter.ViewModel);
@@ -732,15 +732,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Business
                 Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(ViewModel.Document.ID, childDocumentID, _repositoryWrapper.DocumentRepository);
-                Curve curve = _repositoryWrapper.CurveRepository.Create();
+                var curve = new Curve();
                 curve.ID = _repositoryWrapper.IDRepository.GetID();
                 curve.LinkTo(document);
 
                 ISideEffect sideEffect = new Curve_SideEffect_GenerateName(curve);
                 sideEffect.Execute();
 
+                _repositoryWrapper.CurveRepository.Insert(curve);
+
                 // ToViewModel
-                CurveListViewModel curveListViewModel = ChildDocumentHelper.GetCurveListViewModel(ViewModel.Document, document.ID);
+                CurveListViewModel curveListViewModel = ChildDocumentHelper.GetCurveListViewModel_ByDocumentID(ViewModel.Document, document.ID);
                 CurveListItemViewModel listItemViewModel = curve.ToListItemViewModel();
                 curveListViewModel.List.Add(listItemViewModel);
                 curveListViewModel.List = curveListViewModel.List.OrderBy(x => x.Name).ToList();
@@ -778,7 +780,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IList<CurveDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetCurveDetailsViewModels_ByDocumentID(ViewModel.Document, documentID);
                     detailsViewModels.RemoveFirst(x => x.Entity.ID == curveID);
 
-                    CurveListViewModel listViewModel = ChildDocumentHelper.GetCurveListViewModel(ViewModel.Document, documentID);
+                    CurveListViewModel listViewModel = ChildDocumentHelper.GetCurveListViewModel_ByDocumentID(ViewModel.Document, documentID);
                     listViewModel.List.RemoveFirst(x => x.ID == curveID);
                 }
                 else
@@ -877,12 +879,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document parentDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
 
                 // Business
-                Document effect = _repositoryWrapper.DocumentRepository.Create();
+                var effect = new Document();
                 effect.ID = _repositoryWrapper.IDRepository.GetID();
                 effect.LinkEffectToDocument(parentDocument);
 
                 ISideEffect sideEffect = new Effect_SideEffect_GenerateName(effect);
                 sideEffect.Execute();
+
+                _repositoryWrapper.DocumentRepository.Insert(effect);
 
                 // ToViewModel
                 ChildDocumentListItemViewModel listItemViewModel = effect.ToChildDocumentListItemViewModel();
@@ -957,12 +961,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document parentDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
 
                 // Business
-                Document instrument = _repositoryWrapper.DocumentRepository.Create();
+                var instrument = new Document();
                 instrument.ID = _repositoryWrapper.IDRepository.GetID();
                 instrument.LinkInstrumentToDocument(parentDocument);
 
                 ISideEffect sideEffect = new Instrument_SideEffect_GenerateName(instrument);
                 sideEffect.Execute();
+
+                _repositoryWrapper.DocumentRepository.Insert(instrument);
 
                 // ToViewModel
                 ChildDocumentListItemViewModel listItemViewModel = instrument.ToChildDocumentListItemViewModel();
@@ -1012,7 +1018,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 int documentID = childDocumentID ?? ViewModel.Document.ID;
-                PatchListViewModel patchListViewModel = ChildDocumentHelper.GetPatchListViewModel(ViewModel.Document, documentID);
+                PatchListViewModel patchListViewModel = ChildDocumentHelper.GetPatchListViewModel_ByDocumentID(ViewModel.Document, documentID);
                 _patchListPresenter.ViewModel = patchListViewModel;
                 _patchListPresenter.Show();
                 DispatchViewModel(_patchListPresenter.ViewModel);
@@ -1045,15 +1051,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(ViewModel.Document.ID, childDocumentID, _repositoryWrapper.DocumentRepository);
 
                 // Business
-                Patch patch = _repositoryWrapper.PatchRepository.Create();
+                var patch = new Patch();
                 patch.ID = _repositoryWrapper.IDRepository.GetID();
                 patch.LinkTo(document);
 
                 ISideEffect sideEffect = new Patch_SideEffect_GenerateName(patch);
                 sideEffect.Execute();
 
+                _repositoryWrapper.PatchRepository.Insert(patch);
+
                 // ToViewModel
-                PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel(ViewModel.Document, document.ID);
+                PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel_ByDocumentID(ViewModel.Document, document.ID);
                 PatchListItemViewModel listItemViewModel = patch.ToListItemViewModel();
                 listViewModel.List.Add(listItemViewModel);
                 listViewModel.List = listViewModel.List.OrderBy(x => x.Name).ToList();
@@ -1091,7 +1099,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels_ByDocumentID(ViewModel.Document, documentID);
                     detailsViewModels.RemoveFirst(x => x.Entity.ID == patchID);
 
-                    PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel(ViewModel.Document, documentID);
+                    PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel_ByDocumentID(ViewModel.Document, documentID);
                     listViewModel.List.RemoveFirst(x => x.ID == patchID);
                 }
                 else
@@ -1137,7 +1145,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (_patchDetailsPresenter.ViewModel.Successful)
                 {
-                    PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel(ViewModel.Document, documentID);
+                    PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel_ByDocumentID(ViewModel.Document, documentID);
                     RefreshPatchList(listViewModel);
                 }
 
@@ -1164,7 +1172,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (_patchDetailsPresenter.ViewModel.Successful)
                 {
-                    PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel(ViewModel.Document, documentID);
+                    PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel_ByDocumentID(ViewModel.Document, documentID);
                     RefreshPatchList(listViewModel);
                 }
 
@@ -1297,7 +1305,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 int documentID = childDocumentID ?? ViewModel.Document.ID;
-                SampleListViewModel sampleListViewModel = ChildDocumentHelper.GetSampleListViewModel(ViewModel.Document, documentID);
+                SampleListViewModel sampleListViewModel = ChildDocumentHelper.GetSampleListViewModel_ByDocumentID(ViewModel.Document, documentID);
                 _sampleListPresenter.ViewModel = sampleListViewModel;
                 _sampleListPresenter.Show();
                 DispatchViewModel(_sampleListPresenter.ViewModel);
@@ -1337,7 +1345,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 sideEffect.Execute();
 
                 // ToViewModel
-                SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel(ViewModel.Document, document.ID);
+                SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel_ByDocumentID(ViewModel.Document, document.ID);
                 SampleListItemViewModel listItemViewModel = sample.ToListItemViewModel();
                 listViewModel.List.Add(listItemViewModel);
                 listViewModel.List = listViewModel.List.OrderBy(x => x.Name).ToList();
@@ -1375,7 +1383,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IList<SamplePropertiesViewModel> propertiesViewModels = ChildDocumentHelper.GetSamplePropertiesViewModels_ByDocumentID(ViewModel.Document, documentID);
                     propertiesViewModels.RemoveFirst(x => x.Entity.ID == sampleID);
 
-                    SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel(ViewModel.Document, documentID);
+                    SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel_ByDocumentID(ViewModel.Document, documentID);
                     listViewModel.List.RemoveFirst(x => x.ID == sampleID);
                 }
                 else
@@ -1411,23 +1419,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                // ToEntity
-                int sampleID = _samplePropertiesPresenter.ViewModel.Entity.ID;
-                Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
-                Sample sample = ChildDocumentHelper.GetSample(rootDocument, sampleID);
-                int documentID = sample.Document.ID;
-
-                // Partial Action
                 _samplePropertiesPresenter.Close();
+                DispatchViewModel(_samplePropertiesPresenter.ViewModel);
 
                 if (_samplePropertiesPresenter.ViewModel.Successful)
                 {
                     // Update list
-                    SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel(ViewModel.Document, documentID);
-                    RefreshSampleList(listViewModel);
+                    int sampleID = _samplePropertiesPresenter.ViewModel.Entity.ID;
+                    Sample sample = _repositoryWrapper.SampleRepository.Get(sampleID);
+                    SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel_ByDocumentID(ViewModel.Document, sample.Document.ID);
+                    _sampleListPresenter.ViewModel = listViewModel;
+                    _sampleListPresenter.RefreshListItem(sampleID);
                 }
-
-                DispatchViewModel(_samplePropertiesPresenter.ViewModel);
             }
             finally
             {
@@ -1439,46 +1442,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                int sampleID = _samplePropertiesPresenter.ViewModel.Entity.ID;
-
-                // ToEntity
-                //Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
-                //Sample sample = ChildDocumentHelper.GetSample(rootDocument, sampleID);
-                //int documentID = sample.Document.ID;
-
-                // Partial Action
                 _samplePropertiesPresenter.LoseFocus();
+                DispatchViewModel(_samplePropertiesPresenter.ViewModel);
 
                 if (_samplePropertiesPresenter.ViewModel.Successful)
                 {
-                    // Update list
-                    //SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel(ViewModel.Document, documentID);
-                    //RefreshSampleList(listViewModel);
+                    // Update list item
+                    int sampleID = _samplePropertiesPresenter.ViewModel.Entity.ID;
+                    Sample sample = _repositoryWrapper.SampleRepository.Get(sampleID);
 
-                    // Experiment...
-                    //Sample sample2 = _repositoryWrapper.SampleRepository.Get(_samplePropertiesPresenter.ViewModel.Entity.ID); // This only works if you can get newly created entities.
-                    //SampleListItemViewModel listItemViewModel = sample2.ToListItemViewModel();
-                    //int documentID2 = _sampleListPresenter.ViewModel.ChildDocumentID ?? _sampleListPresenter.ViewModel.RootDocumentID;
-                    //SampleListViewModel listViewModel2 = ChildDocumentHelper.GetSampleListViewModel(ViewModel.Document, documentID2);
-                    //listViewModel2.List.Add(listItemViewModel);
-                    //listViewModel2.List = listViewModel2.List.OrderBy(x => x.Name).ToList();
-
-                    // Experiment 2 ...
-                    Sample sample = _repositoryWrapper.SampleRepository.Get(sampleID); // This only works if you can get newly created entities.
-                    int documentID = sample.Document.ID;
-                    SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel(ViewModel.Document, documentID);
+                    ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativeSampleKey(ViewModel.Document, sampleID);
+                    SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel_ByAlternativeKey(ViewModel.Document, key);
                     _sampleListPresenter.ViewModel = listViewModel;
                     _sampleListPresenter.RefreshListItem(sampleID);
-
-                    // Experiment 3
-                    //var sampleRepositories = new SampleRepositories(_repositoryWrapper);
-                    //Sample sample2 = _samplePropertiesPresenter.ViewModel.ToEntity(sampleRepositories);
-                    //SampleListViewModel listViewModel2 = ChildDocumentHelper.GetSampleListViewModel(ViewModel.Document, sample.Document.ID);
-                    //_sampleListPresenter.ViewModel = listViewModel2;
-                    //_sampleListPresenter.RefreshListItem(sampleID2);
                 }
-
-                DispatchViewModel(_samplePropertiesPresenter.ViewModel);
             }
             finally
             {
@@ -1627,7 +1604,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, curveListViewModel.ChildDocumentID.Value);
+                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, curveListViewModel.ChildDocumentID.Value);
                 childDocumentViewModel.CurveList = curveListViewModel;
             }
 
@@ -1769,7 +1746,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, patchListViewModel.ChildDocumentID.Value);
+                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, patchListViewModel.ChildDocumentID.Value);
                 childDocumentViewModel.PatchList = patchListViewModel;
             }
 
@@ -1804,7 +1781,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, sampleListViewModel.ChildDocumentID.Value);
+                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, sampleListViewModel.ChildDocumentID.Value);
                 childDocumentViewModel.SampleList = sampleListViewModel;
             }
 
@@ -1887,6 +1864,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void RefreshDocumentTree()
         {
+            _documentTreePresenter.ViewModel = ViewModel.Document.DocumentTree;
             object viewModel2 = _documentTreePresenter.Refresh();
             DispatchViewModel(viewModel2);
         }

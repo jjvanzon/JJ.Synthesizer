@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _sampleRepository = sampleRepository;
             _idRepository = idRepository;
 
-            _entityPositionManager = new EntityPositionManager(_entityPositionRepository);
+            _entityPositionManager = new EntityPositionManager(_entityPositionRepository, _idRepository);
 
             _operatorFactory = new OperatorFactory(
                 _operatorRepository, 

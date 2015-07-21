@@ -36,7 +36,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
                                         .Where(x => x.AsEffectInDocument == null)
                                         .Where(x => x.AsInstrumentInDocument == null)
                                         .RowCount();
-
             return count;
         }
 

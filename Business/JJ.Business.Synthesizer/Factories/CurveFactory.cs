@@ -41,17 +41,19 @@ namespace JJ.Business.Synthesizer.Factories
         {
             if (nodeInfos == null) throw new NullException(() => nodeInfos);
 
-            Curve curve = _curveRepository.Create();
+            var curve = new Curve();
             curve.ID = _idRepository.GetID();
+            _curveRepository.Insert(curve);
 
             foreach (NodeInfo nodeInfo in nodeInfos)
             {
-                Node node = _nodeRepository.Create();
+                var node = new Node();
                 node.ID = _idRepository.GetID();
                 node.Time = nodeInfo.Time;
                 node.Value = nodeInfo.Value;
                 node.SetNodeTypeEnum(nodeInfo.NodeTypeEnum, _nodeTypeRepository);
                 node.LinkTo(curve);
+                _nodeRepository.Insert(node);
             }
 
             return curve;
@@ -64,8 +66,9 @@ namespace JJ.Business.Synthesizer.Factories
 
             if (nodeInfos == null) throw new NullException(() => nodeInfos);
 
-            Curve curve = _curveRepository.Create();
+            var curve = new Curve();
             curve.ID = _idRepository.GetID();
+            _curveRepository.Insert(curve);
 
             double[] times = GetEquidistantPointsInTime(timeSpan, nodeInfos.Length);
 
@@ -76,12 +79,13 @@ namespace JJ.Business.Synthesizer.Factories
 
                 if (nodeInfo != null)
                 {
-                    Node node = _nodeRepository.Create();
+                    var node = new Node();
                     node.ID = _idRepository.GetID();
                     node.Time = time;
                     node.Value = nodeInfo.Value;
                     node.SetNodeTypeEnum(nodeInfo.NodeTypeEnum, _nodeTypeRepository);
                     node.LinkTo(curve);
+                    _nodeRepository.Insert(node);
                 }
             }
 
@@ -94,8 +98,9 @@ namespace JJ.Business.Synthesizer.Factories
             if (timeSpan <= 0) throw new Exception("timespan must be greater than 0.");
             if (values.Length < 2) throw new Exception("values must contain at least 2 items.");
 
-            Curve curve = _curveRepository.Create();
+            var curve = new Curve();
             curve.ID = _idRepository.GetID();
+            _curveRepository.Insert(curve);
 
             double[] times = GetEquidistantPointsInTime(timeSpan, values.Length);
 
@@ -106,12 +111,13 @@ namespace JJ.Business.Synthesizer.Factories
 
                 if (value.HasValue)
                 {
-                    Node node = _nodeRepository.Create();
+                    var node = new Node();
                     node.ID = _idRepository.GetID();
                     node.Time = time;
                     node.Value = value.Value;
                     node.SetNodeTypeEnum(NodeTypeEnum.Line, _nodeTypeRepository);
                     node.LinkTo(curve);
+                    _nodeRepository.Insert(node);
                 }
             }
 

@@ -134,7 +134,13 @@ namespace JJ.Business.Synthesizer.Extensions
                 outletRepository.Delete(outlet);
             }
 
-            entityPositionRepository.DeleteByEntityTypeAndEntityID(typeof(Operator).Name, op.ID);
+            // Be null-tollerant to be able to get out of trouble if something is missing,
+            //entityPositionRepository.DeleteByEntityTypeAndEntityID(typeof(Operator).Name, op.ID);
+            EntityPosition entityPosition = entityPositionRepository.GetByEntityTypeNameAndID(typeof(OperatingSystem).Name, op.ID);
+            if (entityPosition != null)
+            {
+                entityPositionRepository.Delete(entityPosition);
+            }
         }
     }
 }

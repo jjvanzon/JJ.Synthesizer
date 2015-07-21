@@ -36,8 +36,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void Create()
         {
-            Document document = _documentRepository.Create();
+            var document = new Document();
             document.ID = _idRepository.GetID();
+            _documentRepository.Insert(document);
 
             ViewModel = document.ToDetailsViewModel();
             ViewModel.IDVisible = false;

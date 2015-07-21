@@ -84,26 +84,29 @@ namespace JJ.Business.Synthesizer.Factories
         {
             if (operands == null) throw new NullException(() => operands);
 
-            Operator op = _operatorRepository.Create();
+            var op = new Operator();
             op.ID = _idRepository.GetID();
             op.SetOperatorTypeEnum(OperatorTypeEnum.Adder, _operatorTypeRepository);
             op.Name = PropertyDisplayNames.Adder;
+            _operatorRepository.Insert(op);
 
             for (int i = 0; i < operands.Count; i++)
             {
-                Inlet inlet = _inletRepository.Create();
+                var inlet = new Inlet();
                 inlet.ID = _idRepository.GetID();
                 inlet.Name = String.Format("{0}{1}", PropertyNames.Operand, i + 1);
                 inlet.LinkTo(op);
+                _inletRepository.Insert(inlet);
 
                 Outlet operand = operands[i];
                 inlet.InputOutlet = operand;
             }
 
-            Outlet outlet = _outletRepository.Create();
+            var outlet = new Outlet();
             outlet.ID = _idRepository.GetID();
             outlet.Name = PropertyNames.Result;
             outlet.LinkTo(op);
+            _outletRepository.Insert(outlet);
 
             var wrapper = new Adder_OperatorWrapper(op);
             return wrapper;

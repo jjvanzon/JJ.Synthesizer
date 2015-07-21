@@ -44,6 +44,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static void SetViewModelPosition(OperatorViewModel operatorViewModel, EntityPositionManager entityPositionManager)
         {
             EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(operatorViewModel.ID);
+            operatorViewModel.EntityPositionID = entityPosition.ID;
             operatorViewModel.CenterX = entityPosition.X;
             operatorViewModel.CenterY = entityPosition.Y;
         }

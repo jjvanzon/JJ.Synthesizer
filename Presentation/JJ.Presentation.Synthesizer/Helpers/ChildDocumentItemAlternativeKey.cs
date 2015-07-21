@@ -12,5 +12,8 @@ namespace JJ.Presentation.Synthesizer.Helpers
         public ChildDocumentTypeEnum? ChildDocumentTypeEnum { get; set; }
         public int? ChildDocumentListIndex { get; set; }
         public int EntityListIndex { get; set; }
+
+        // TODO: Remove outcommented code.
+        //public int? ChildDocumentID { get; set; }
     }
 }

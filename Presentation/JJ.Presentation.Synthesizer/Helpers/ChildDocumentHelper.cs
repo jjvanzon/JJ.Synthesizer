@@ -19,6 +19,8 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // TODO: Error handling to produce clear error messages (instead of SingleOrDefault use a more tollerant method and throw an exception).
 
+        // TODO: There are many unused methods here.
+
         // Documents
 
         public static Document GetParentDocument(Document childDocument)
@@ -87,7 +89,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // ChildDocument ViewModels
 
-        public static ChildDocumentViewModel GetChildDocumentViewModel(DocumentViewModel documentViewModel, int childDocumentID)
+        public static ChildDocumentViewModel GetChildDocumentViewModel_ByID(DocumentViewModel documentViewModel, int childDocumentID)
         {
             ChildDocumentViewModel childDocumentViewModel = Enumerable.Union(documentViewModel.InstrumentDocumentList, documentViewModel.EffectDocumentList)
                                                                       .Where(x => x.ID == childDocumentID)
@@ -102,15 +104,15 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // Curve ViewModels
 
-        public static CurveListViewModel GetCurveListViewModel(DocumentViewModel documentViewModel, int documentID)
+        public static CurveListViewModel GetCurveListViewModel_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
         {
-            if (documentViewModel.ID == documentID)
+            if (rootDocumentViewModel.ID == documentID)
             {
-                return documentViewModel.CurveList;
+                return rootDocumentViewModel.CurveList;
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(documentViewModel, documentID);
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel_ByID(rootDocumentViewModel, documentID);
                 return childDocumentViewModel.CurveList;
             }
         }
@@ -125,57 +127,63 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(documentViewModel, documentID);
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel_ByID(documentViewModel, documentID);
                 return childDocumentViewModel.CurveDetailsList;
             }
         }
 
-        public static ChildDocumentItemAlternativeKey GetAlternativeCurveKey(DocumentViewModel documentViewModel, int curveID)
+        public static ChildDocumentItemAlternativeKey GetAlternativeCurveKey(DocumentViewModel rootDocumentViewModel, int curveID)
         {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            int? listIndex = documentViewModel.CurveDetailsList.TryGetIndexOf(x => x.Entity.ID == curveID);
+            int? listIndex = rootDocumentViewModel.CurveDetailsList.TryGetIndexOf(x => x.Entity.ID == curveID);
             if (listIndex.HasValue)
             {
                 return new ChildDocumentItemAlternativeKey
                 {
                     ChildDocumentTypeEnum = null,
                     ChildDocumentListIndex = null,
-                    EntityListIndex = listIndex.Value
+                    EntityListIndex = listIndex.Value,
+                    // TODO: Remove outcommented code.
+                    //ChildDocumentID = null
                 };
             }
 
-            int? childDocumentListIndex = documentViewModel.InstrumentDocumentList
-                                                           .TryGetIndexOf(x => x.CurveDetailsList
-                                                                                .Any(y => y.Entity.ID == curveID));
+            int? childDocumentListIndex = rootDocumentViewModel.InstrumentDocumentList
+                                                               .TryGetIndexOf(x => x.CurveDetailsList
+                                                                                    .Any(y => y.Entity.ID == curveID));
             if (childDocumentListIndex.HasValue)
             {
-                listIndex = documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value]
-                                             .CurveDetailsList
-                                             .IndexOf(x => x.Entity.ID == curveID);
+                listIndex = rootDocumentViewModel.InstrumentDocumentList[childDocumentListIndex.Value]
+                                                 .CurveDetailsList
+                                                 .IndexOf(x => x.Entity.ID == curveID);
 
                 return new ChildDocumentItemAlternativeKey
                 {
                     ChildDocumentTypeEnum = ChildDocumentTypeEnum.Instrument,
                     ChildDocumentListIndex = childDocumentListIndex.Value,
-                    EntityListIndex = listIndex.Value
+                    EntityListIndex = listIndex.Value,
+                    // TODO: Remove outcommented code.
+                    //ChildDocumentID = rootDocumentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].ID
                 };
             }
 
-            childDocumentListIndex = documentViewModel.EffectDocumentList
-                                                      .TryGetIndexOf(x => x.CurveDetailsList
-                                                                           .Any(y => y.Entity.ID == curveID));
+            childDocumentListIndex = rootDocumentViewModel.EffectDocumentList
+                                                          .TryGetIndexOf(x => x.CurveDetailsList
+                                                                               .Any(y => y.Entity.ID == curveID));
             if (childDocumentListIndex.HasValue)
             {
-                listIndex = documentViewModel.EffectDocumentList[childDocumentListIndex.Value]
-                                             .CurveDetailsList
-                                             .IndexOf(x => x.Entity.ID == curveID);
+                listIndex = rootDocumentViewModel.EffectDocumentList[childDocumentListIndex.Value]
+                                                 .CurveDetailsList
+                                                 .IndexOf(x => x.Entity.ID == curveID);
 
                 return new ChildDocumentItemAlternativeKey
                 {
                     ChildDocumentTypeEnum = ChildDocumentTypeEnum.Effect,
                     ChildDocumentListIndex = childDocumentListIndex.Value,
-                    EntityListIndex = listIndex.Value
+                    EntityListIndex = listIndex.Value,
+                    // TODO: Remove outcommented code.
+                    //ChildDocumentID = rootDocumentViewModel.EffectDocumentList[childDocumentListIndex.Value].ID
                 };
             }
 
@@ -236,15 +244,15 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // Patch ViewModels
 
-        public static PatchListViewModel GetPatchListViewModel(DocumentViewModel documentViewModel, int documentID)
+        public static PatchListViewModel GetPatchListViewModel_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
         {
-            if (documentViewModel.ID == documentID)
+            if (rootDocumentViewModel.ID == documentID)
             {
-                return documentViewModel.PatchList;
+                return rootDocumentViewModel.PatchList;
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(documentViewModel, documentID);
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel_ByID(rootDocumentViewModel, documentID);
                 return childDocumentViewModel.PatchList;
             }
         }
@@ -257,57 +265,63 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(documentViewModel, documentID);
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel_ByID(documentViewModel, documentID);
                 return childDocumentViewModel.PatchDetailsList;
             }
         }
 
-        public static ChildDocumentItemAlternativeKey GetAlternativePatchKey(DocumentViewModel documentViewModel, int patchID)
+        public static ChildDocumentItemAlternativeKey GetAlternativePatchKey(DocumentViewModel rootDocumentViewModel, int patchID)
         {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            int? listIndex = documentViewModel.PatchDetailsList.TryGetIndexOf(x => x.Entity.ID == patchID);
+            int? listIndex = rootDocumentViewModel.PatchDetailsList.TryGetIndexOf(x => x.Entity.ID == patchID);
             if (listIndex.HasValue)
             {
                 return new ChildDocumentItemAlternativeKey
                 {
                     ChildDocumentTypeEnum = null,
                     ChildDocumentListIndex = null,
-                    EntityListIndex = listIndex.Value
+                    EntityListIndex = listIndex.Value,
+                    // TODO: Remove outcommented code.
+                    //ChildDocumentID = null
                 };
             }
 
-            int? childDocumentListIndex = documentViewModel.InstrumentDocumentList
-                                                           .TryGetIndexOf(x => x.PatchDetailsList
-                                                                                .Any(y => y.Entity.ID == patchID));
+            int? childDocumentListIndex = rootDocumentViewModel.InstrumentDocumentList
+                                                               .TryGetIndexOf(x => x.PatchDetailsList
+                                                                                    .Any(y => y.Entity.ID == patchID));
             if (childDocumentListIndex.HasValue)
             {
-                listIndex = documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value]
-                                             .PatchDetailsList
-                                             .IndexOf(x => x.Entity.ID == patchID);
+                listIndex = rootDocumentViewModel.InstrumentDocumentList[childDocumentListIndex.Value]
+                                                 .PatchDetailsList
+                                                 .IndexOf(x => x.Entity.ID == patchID);
 
                 return new ChildDocumentItemAlternativeKey
                 {
                     ChildDocumentTypeEnum = ChildDocumentTypeEnum.Instrument,
                     ChildDocumentListIndex = childDocumentListIndex.Value,
-                    EntityListIndex = listIndex.Value
+                    EntityListIndex = listIndex.Value,
+                    // TODO: Remove outcommented code.
+                    //ChildDocumentID = rootDocumentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].ID
                 };
             }
 
-            childDocumentListIndex = documentViewModel.EffectDocumentList
-                                                      .TryGetIndexOf(x => x.PatchDetailsList
-                                                                           .Any(y => y.Entity.ID == patchID));
+            childDocumentListIndex = rootDocumentViewModel.EffectDocumentList
+                                                          .TryGetIndexOf(x => x.PatchDetailsList
+                                                                               .Any(y => y.Entity.ID == patchID));
             if (childDocumentListIndex.HasValue)
             {
-                listIndex = documentViewModel.EffectDocumentList[childDocumentListIndex.Value]
-                                             .PatchDetailsList
-                                             .IndexOf(x => x.Entity.ID == patchID);
+                listIndex = rootDocumentViewModel.EffectDocumentList[childDocumentListIndex.Value]
+                                                 .PatchDetailsList
+                                                 .IndexOf(x => x.Entity.ID == patchID);
 
                 return new ChildDocumentItemAlternativeKey
                 {
                     ChildDocumentTypeEnum = ChildDocumentTypeEnum.Effect,
                     ChildDocumentListIndex = childDocumentListIndex.Value,
-                    EntityListIndex = listIndex.Value
+                    EntityListIndex = listIndex.Value,
+                    // TODO: Remove outcommented code.
+                    //ChildDocumentID = rootDocumentViewModel.EffectDocumentList[childDocumentListIndex.Value].ID
                 };
             }
 
@@ -368,15 +382,52 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // Sample ViewModels
 
-        public static SampleListViewModel GetSampleListViewModel(DocumentViewModel documentViewModel, int documentID)
+        public static SampleListViewModel GetSampleListViewModel_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentItemAlternativeKey key)
         {
-            if (documentViewModel.ID == documentID)
+            if (key == null) throw new NullException(() => key);
+
+            return GetSampleListViewModel_ByAlternativeKey(documentViewModel, key.ChildDocumentTypeEnum, key.ChildDocumentListIndex);
+        }
+
+        // TODO: Make a template method by passing a delegate.
+        public static SampleListViewModel GetSampleListViewModel_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        {
+            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+
+            if (childDocumentTypeEnum.HasValue != childDocumentListIndex.HasValue)
             {
-                return documentViewModel.SampleList;
+                throw new Exception("childDocumentTypeEnum and childDocumentListIndex must both have a value or must neither have a value.");
+            }
+
+            if (childDocumentTypeEnum.HasValue)
+            {
+                switch (childDocumentTypeEnum.Value)
+                {
+                    case ChildDocumentTypeEnum.Instrument:
+                        return documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].SampleList;
+
+                    case ChildDocumentTypeEnum.Effect:
+                        return documentViewModel.EffectDocumentList[childDocumentListIndex.Value].SampleList;
+
+                    default:
+                        throw new ValueNotSupportedException(childDocumentTypeEnum.Value);
+                }
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(documentViewModel, documentID);
+                return documentViewModel.SampleList;
+            }
+        }
+
+        public static SampleListViewModel GetSampleListViewModel_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
+        {
+            if (rootDocumentViewModel.ID == documentID)
+            {
+                return rootDocumentViewModel.SampleList;
+            }
+            else
+            {
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel_ByID(rootDocumentViewModel, documentID);
                 return childDocumentViewModel.SampleList;
             }
         }
@@ -389,57 +440,63 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(documentViewModel, documentID);
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel_ByID(documentViewModel, documentID);
                 return childDocumentViewModel.SamplePropertiesList;
             }
         }
 
-        public static ChildDocumentItemAlternativeKey GetAlternativeSampleKey(DocumentViewModel documentViewModel, int sampleID)
+        public static ChildDocumentItemAlternativeKey GetAlternativeSampleKey(DocumentViewModel rootDocumentViewModel, int sampleID)
         {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            int? listIndex = documentViewModel.SamplePropertiesList.TryGetIndexOf(x => x.Entity.ID == sampleID);
+            int? listIndex = rootDocumentViewModel.SamplePropertiesList.TryGetIndexOf(x => x.Entity.ID == sampleID);
             if (listIndex.HasValue)
             {
                 return new ChildDocumentItemAlternativeKey
                 {
                     ChildDocumentTypeEnum = null,
                     ChildDocumentListIndex = null,
-                    EntityListIndex = listIndex.Value
+                    EntityListIndex = listIndex.Value,
+                    // TODO: Remove outcommented code.
+                    //ChildDocumentID = null
                 };
             }
 
-            int? childDocumentListIndex = documentViewModel.InstrumentDocumentList
-                                                           .TryGetIndexOf(x => x.SamplePropertiesList
-                                                                                .Any(y => y.Entity.ID == sampleID));
+            int? childDocumentListIndex = rootDocumentViewModel.InstrumentDocumentList
+                                                               .TryGetIndexOf(x => x.SamplePropertiesList
+                                                                                    .Any(y => y.Entity.ID == sampleID));
             if (childDocumentListIndex.HasValue)
             {
-                listIndex = documentViewModel.InstrumentDocumentList[childDocumentListIndex.Value]
-                                             .SamplePropertiesList
-                                             .IndexOf(x => x.Entity.ID == sampleID);
+                listIndex = rootDocumentViewModel.InstrumentDocumentList[childDocumentListIndex.Value]
+                                                 .SamplePropertiesList
+                                                 .IndexOf(x => x.Entity.ID == sampleID);
 
                 return new ChildDocumentItemAlternativeKey
                 {
                     ChildDocumentTypeEnum = ChildDocumentTypeEnum.Instrument,
                     ChildDocumentListIndex = childDocumentListIndex.Value,
-                    EntityListIndex = listIndex.Value
+                    EntityListIndex = listIndex.Value,
+                    // TODO: Remove outcommented code.
+                    //ChildDocumentID = rootDocumentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].ID
                 };
             }
 
-            childDocumentListIndex = documentViewModel.EffectDocumentList
-                                                      .TryGetIndexOf(x => x.SamplePropertiesList
-                                                                           .Any(y => y.Entity.ID == sampleID));
+            childDocumentListIndex = rootDocumentViewModel.EffectDocumentList
+                                                          .TryGetIndexOf(x => x.SamplePropertiesList
+                                                                               .Any(y => y.Entity.ID == sampleID));
             if (childDocumentListIndex.HasValue)
             {
-                listIndex = documentViewModel.EffectDocumentList[childDocumentListIndex.Value]
-                                             .SamplePropertiesList
-                                             .IndexOf(x => x.Entity.ID == sampleID);
+                listIndex = rootDocumentViewModel.EffectDocumentList[childDocumentListIndex.Value]
+                                                 .SamplePropertiesList
+                                                 .IndexOf(x => x.Entity.ID == sampleID);
 
                 return new ChildDocumentItemAlternativeKey
                 {
                     ChildDocumentTypeEnum = ChildDocumentTypeEnum.Effect,
                     ChildDocumentListIndex = childDocumentListIndex.Value,
-                    EntityListIndex = listIndex.Value
+                    EntityListIndex = listIndex.Value,
+                    // TODO: Remove outcommented code.
+                    //ChildDocumentID = rootDocumentViewModel.EffectDocumentList[childDocumentListIndex.Value].ID
                 };
             }
 

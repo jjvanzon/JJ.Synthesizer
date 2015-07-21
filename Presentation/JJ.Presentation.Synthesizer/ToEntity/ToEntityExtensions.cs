@@ -60,13 +60,25 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (documentRepository == null) throw new NullException(() => documentRepository);
 
+            bool isNew = false;
             Document document = documentRepository.TryGet(viewModel.ID);
             if (document == null)
             {
-                document = documentRepository.Create();
+                isNew = true;
+                document = new Document();
                 document.ID = viewModel.ID;
             }
             document.Name = viewModel.DocumentProperties.Document.Name;
+
+            if (isNew)
+            {
+                documentRepository.Insert(document);
+            }
+            else
+            {
+                documentRepository.Update(document);
+            }
+
             return document;
         }
 
@@ -91,14 +103,26 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (idAndName == null) throw new NullException(() => idAndName);
             if (documentRepository == null) throw new NullException(() => documentRepository);
 
+            bool isNew = false;
             Document document = documentRepository.TryGet(idAndName.ID);
             if (document == null)
             {
-                document = documentRepository.Create();
+                isNew = true;
+                document = new Document();
                 document.ID = idAndName.ID;
             }
 
             document.Name = idAndName.Name;
+
+            if (isNew)
+            {
+                documentRepository.Insert(document);
+            }
+            else
+            {
+                documentRepository.Update(document);
+            }
+
 
             return document;
         }
@@ -110,13 +134,24 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (documentRepository == null) throw new NullException(() => documentRepository);
 
+            bool isNew = false;
             Document entity = documentRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = documentRepository.Create();
+                isNew = true;
+                entity = new Document();
                 entity.ID = viewModel.ID;
             }
             entity.Name = viewModel.Name;
+
+            if (isNew)
+            {
+                documentRepository.Insert(entity);
+            }
+            else
+            {
+                documentRepository.Update(entity);
+            }
 
             return entity;
         }
@@ -145,11 +180,22 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (documentRepository == null) throw new NullException(() => documentRepository);
 
+            bool isNew = false;
             Document childDocument = documentRepository.TryGet(viewModel.ID);
             if (childDocument == null)
             {
-                childDocument = documentRepository.Create();
+                isNew = true;
+                childDocument = new Document();
                 childDocument.ID = viewModel.ID;
+            }
+
+            if (isNew)
+            {
+                documentRepository.Insert(childDocument);
+            }
+            else
+            {
+                documentRepository.Update(childDocument);
             }
 
             childDocument.Name = viewModel.Name;
@@ -173,7 +219,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
 
             bool isNew = false;
-
             Sample sample = sampleRepositories.SampleRepository.TryGet(viewModel.ID);
             if (sample == null)
             {
@@ -252,13 +297,24 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (curveRepository == null) throw new NullException(() => viewModel);
 
+            bool isNew = false;
             Curve curve = curveRepository.TryGet(viewModel.ID);
             if (curve == null)
             {
-                curve = curveRepository.Create();
+                isNew = true;
+                curve = new Curve();
                 curve.ID = viewModel.ID;
             }
             curve.Name = viewModel.Name;
+
+            if (isNew)
+            {
+                curveRepository.Insert(curve);
+            }
+            else
+            {
+                curveRepository.Update(curve);
+            }
 
             return curve;
         }
@@ -269,10 +325,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (nodeRepository == null) throw new NullException(() => nodeRepository);
             if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
 
+            bool isNew = false;
             Node entity = nodeRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = nodeRepository.Create();
+                isNew = true;
+                entity = new Node();
                 entity.ID = viewModel.ID;
             }
             entity.Time = viewModel.Time;
@@ -282,6 +340,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (entity.NodeType != null)
             {
                 entity.NodeType = nodeTypeRepository.Get(viewModel.NodeType.ID);
+            }
+
+            if (isNew)
+            {
+                nodeRepository.Insert(entity);
+            }
+            else
+            {
+                nodeRepository.Update(entity);
             }
 
             return entity;
@@ -315,10 +382,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (audioFileOutputRepositories == null) throw new NullException(() => audioFileOutputRepositories);
 
+            bool isNew = false;
             AudioFileOutput audioFileOutput = audioFileOutputRepositories.AudioFileOutputRepository.TryGet(viewModel.ID);
             if (audioFileOutput == null)
             {
-                audioFileOutput = audioFileOutputRepositories.AudioFileOutputRepository.Create();
+                isNew = true;
+                audioFileOutput = new AudioFileOutput();
                 audioFileOutput.ID = viewModel.ID;
             }
             audioFileOutput.Name = viewModel.Name;
@@ -346,6 +415,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             //audioFileOutput.Document = audioFileOutputRepositories.DocumentRepository.TryGet(viewModel.Keys.DocumentID);
 
+            if (isNew)
+            {
+                audioFileOutputRepositories.AudioFileOutputRepository.Insert(audioFileOutput);
+            }
+            else
+            {
+                audioFileOutputRepositories.AudioFileOutputRepository.Update(audioFileOutput);
+            }
+
             return audioFileOutput;
         }
 
@@ -355,10 +433,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
 
+            bool isNew = false;
             AudioFileOutputChannel entity = audioFileOutputChannelRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = audioFileOutputChannelRepository.Create();
+                isNew = true;
+                entity = new AudioFileOutputChannel();
                 entity.ID = viewModel.ID;
             }
 
@@ -367,6 +447,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel.Outlet != null)
             {
                 entity.Outlet = outletRepository.Get(viewModel.Outlet.ID);
+            }
+
+            if (isNew)
+            {
+                audioFileOutputChannelRepository.Insert(entity);
+            }
+            else
+            {
+                audioFileOutputChannelRepository.Update(entity);
             }
 
             return entity;
@@ -418,7 +507,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (OperatorViewModel operatorViewModel in viewModel.Operators)
             {
-                // TODO: Bug 'circular messages' becomes apparent here.
                 Operator op = converter.Convert(operatorViewModel);
                 op.LinkTo(patch);
 
@@ -441,13 +529,24 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
+            bool isNew = false;
             Patch entity = patchRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = patchRepository.Create();
+                isNew = true;
+                entity = new Patch();
                 entity.ID = viewModel.ID;
             }
             entity.Name = viewModel.Name;
+
+            if (isNew)
+            {
+                patchRepository.Insert(entity);
+            }
+            else
+            {
+                patchRepository.Update(entity);
+            }
 
             return entity;
         }
@@ -484,10 +583,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
             if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
 
+            bool isNew = false;
             Operator entity = operatorRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = operatorRepository.Create();
+                isNew = true;
+                entity = new Operator();
                 entity.ID = viewModel.ID;
             }
 
@@ -499,6 +600,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity.Data = viewModel.Value;
             }
 
+            if (isNew)
+            {
+                operatorRepository.Insert(entity);
+            }
+            else
+            {
+                operatorRepository.Update(entity);
+            }
+
             return entity;
         }
 
@@ -507,13 +617,25 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (inletRepository == null) throw new NullException(() => inletRepository);
 
+            bool isNew = false;
             Inlet entity = inletRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = inletRepository.Create();
+                isNew = true;
+                entity = new Inlet();
                 entity.ID = viewModel.ID;
             }
             entity.Name = viewModel.Name;
+
+            if (isNew)
+            {
+                inletRepository.Insert(entity);
+            }
+            else
+            {
+                inletRepository.Update(entity);
+            }
+
             return entity;
         }
 
@@ -522,22 +644,55 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (outletRepository == null) throw new NullException(() => outletRepository);
 
+            bool isNew = false;
             Outlet entity = outletRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = outletRepository.Create();
+                isNew = true;
+                entity = new Outlet();
                 entity.ID = viewModel.ID;
             }
             entity.Name = viewModel.Name;
+
+            if (isNew)
+            {
+                outletRepository.Insert(entity);
+            }
+            else
+            {
+                outletRepository.Update(entity);
+            }
+
             return entity;
         }
 
         public static EntityPosition ToEntityPosition(this OperatorViewModel viewModel, IEntityPositionRepository entityPositionRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
+            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
 
-            var manager = new EntityPositionManager(entityPositionRepository);
-            EntityPosition entityPosition = manager.SetOrCreateOperatorPosition(viewModel.ID, viewModel.CenterX, viewModel.CenterY);
+            bool isNew = false;
+            EntityPosition entityPosition = entityPositionRepository.TryGet(viewModel.EntityPositionID);
+            if (entityPosition == null)
+            {
+                isNew = true;
+                entityPosition = new EntityPosition();
+                entityPosition.ID = viewModel.EntityPositionID;
+            }
+            entityPosition.X = viewModel.CenterX;
+            entityPosition.Y = viewModel.CenterY;
+            entityPosition.EntityTypeName = typeof(Operator).Name;
+            entityPosition.EntityID = viewModel.ID;
+
+            if (isNew)
+            {
+                entityPositionRepository.Insert(entityPosition);
+            }
+            else
+            {
+                entityPositionRepository.Update(entityPosition);
+            }
+
             return entityPosition;
         }
     }
