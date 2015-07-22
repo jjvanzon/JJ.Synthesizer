@@ -155,14 +155,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorViewModel ToViewModel(this Operator entity)
+        public static OperatorViewModel ToViewModel(this Operator entity, EntityPositionManager entityPositionManager)
         {
             if (entity == null) throw new NullException(() => entity);
+
+            EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(entity.ID);
 
             var viewModel = new OperatorViewModel
             {
                 Name = entity.Name,
                 ID = entity.ID,
+                EntityPositionID = entityPosition.ID,
+                CenterX = entityPosition.X,
+                CenterY = entityPosition.Y
             };
 
             if (entity.GetOperatorTypeEnum() == OperatorTypeEnum.Value)

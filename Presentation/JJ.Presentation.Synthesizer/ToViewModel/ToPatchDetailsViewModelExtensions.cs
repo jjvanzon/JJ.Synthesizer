@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new PatchDetailsViewModel
             {
-                Entity = patch.ToViewModelRecursive(),
+                Entity = patch.ToViewModelRecursive(entityPositionManager),
                 ValidationMessages = new List<Message>()
             };
 
@@ -49,18 +49,32 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             operatorViewModel.CenterY = entityPosition.Y;
         }
 
-        private static PatchViewModel ToViewModelRecursive(this Patch patch)
+        private static PatchViewModel ToViewModelRecursive(this Patch patch, EntityPositionManager entityPositionManager)
         {
             PatchViewModel viewModel = patch.ToViewModel();
 
             var dictionary = new Dictionary<Operator, OperatorViewModel>();
 
-            viewModel.Operators = patch.Operators.Select(x => x.ToViewModelRecursive(dictionary)).ToList();
+            viewModel.Operators = patch.Operators.ToViewModelsRecursive(entityPositionManager, dictionary);
 
             return viewModel;
         }
 
-        private static OperatorViewModel ToViewModelRecursive(this Operator op, IDictionary<Operator, OperatorViewModel> dictionary)
+        private static IList<OperatorViewModel> ToViewModelsRecursive(this IList<Operator> operators, EntityPositionManager entityPositionManager, Dictionary<Operator, OperatorViewModel> dictionary)
+        {
+            var list = new List<OperatorViewModel>(operators.Count);
+
+            foreach (Operator op in operators)
+            {
+                OperatorViewModel operatorViewModel = op.ToViewModelRecursive(entityPositionManager, dictionary);
+
+                list.Add(operatorViewModel);
+            }
+
+            return list;
+        }
+
+        private static OperatorViewModel ToViewModelRecursive(this Operator op, EntityPositionManager entityPositionManager, Dictionary<Operator, OperatorViewModel> dictionary)
         {
             OperatorViewModel viewModel;
             if (dictionary.TryGetValue(op, out viewModel))
@@ -68,7 +82,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 return viewModel;
             }
 
-            viewModel = op.ToViewModel();
+            viewModel = op.ToViewModel(entityPositionManager);
 
             dictionary.Add(op, viewModel);
 
@@ -76,7 +90,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (op.GetOperatorTypeEnum() != OperatorTypeEnum.PatchInlet)
             {
-                viewModel.Inlets = op.Inlets.ToViewModelsRecursive(dictionary);
+                viewModel.Inlets = op.Inlets.ToViewModelsRecursive(entityPositionManager, dictionary);
             }
             else
             {
@@ -85,7 +99,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (op.GetOperatorTypeEnum() != OperatorTypeEnum.PatchOutlet)
             {
-                viewModel.Outlets = op.Outlets.ToViewModelsRecursive(dictionary);
+                viewModel.Outlets = op.Outlets.ToViewModelsRecursive(entityPositionManager, dictionary);
             }
             else
             {
@@ -100,10 +114,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// But does not include the inverse properties OutletViewModel.Operator and InletViewModel.Operator.
         /// These view models are one of the few with inverse properties.
         /// </summary>
-        private static OperatorViewModel ToViewModelWithRelatedEntities(this Operator op)
+        private static OperatorViewModel ToViewModelWithRelatedEntities(this Operator op, EntityPositionManager entityPositionManager)
         {
             // Do not reuse this in ToViewModelRecursive, because there you have to do a dictionary.Add there right in the middle of things.
-            OperatorViewModel viewModel = op.ToViewModel();
+            OperatorViewModel viewModel = op.ToViewModel(entityPositionManager);
 
             viewModel.Inlets = op.Inlets.ToViewModels();
             viewModel.Outlets = op.Outlets.ToViewModels();
@@ -116,9 +130,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// Also includes the inverse property OutletViewModel.Operator.
         /// That view model is one the few with an inverse property.
         /// </summary>
-        public static OperatorViewModel ToViewModelWithRelatedEntitiesAndInverseProperties(this Operator op)
+        public static OperatorViewModel ToViewModelWithRelatedEntitiesAndInverseProperties(this Operator op, EntityPositionManager entityPositionManager)
         {
-            OperatorViewModel operatorViewModel = op.ToViewModel();
+            OperatorViewModel operatorViewModel = op.ToViewModel(entityPositionManager);
             operatorViewModel.Inlets = op.Inlets.ToViewModels();
             operatorViewModel.Outlets = op.Outlets.ToViewModels();
 
@@ -131,7 +145,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return operatorViewModel;
         }
 
-        private static IList<InletViewModel> ToViewModelsRecursive(this IList<Inlet> entities, IDictionary<Operator, OperatorViewModel> dictionary)
+        private static IList<InletViewModel> ToViewModelsRecursive(this IList<Inlet> entities, EntityPositionManager entityPositionManager, Dictionary<Operator, OperatorViewModel> dictionary)
         {
             var viewModels = new List<InletViewModel>(entities.Count);
 
@@ -141,7 +155,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Inlet entity = entities[i];
 
-                InletViewModel viewModel = entity.ToViewModelRecursive(dictionary);
+                InletViewModel viewModel = entity.ToViewModelRecursive(entityPositionManager, dictionary);
 
                 viewModels.Add(viewModel);
             }
@@ -149,19 +163,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModels;
         }
 
-        private static InletViewModel ToViewModelRecursive(this Inlet inlet, IDictionary<Operator, OperatorViewModel> dictionary)
+        private static InletViewModel ToViewModelRecursive(this Inlet inlet, EntityPositionManager entityPositionManager, Dictionary<Operator, OperatorViewModel> dictionary)
         {
             InletViewModel viewModel = inlet.ToViewModel();
 
             if (inlet.InputOutlet != null)
             {
-                viewModel.InputOutlet = inlet.InputOutlet.ToViewModelRecursive(dictionary);
+                viewModel.InputOutlet = inlet.InputOutlet.ToViewModelRecursive(entityPositionManager, dictionary);
             }
 
             return viewModel;
         }
 
-        private static IList<OutletViewModel> ToViewModelsRecursive(this IList<Outlet> entities, IDictionary<Operator, OperatorViewModel> dictionary)
+        private static IList<OutletViewModel> ToViewModelsRecursive(this IList<Outlet> entities, EntityPositionManager entityPositionManager, Dictionary<Operator, OperatorViewModel> dictionary)
         {
             var viewModels = new List<OutletViewModel>(entities.Count);
 
@@ -170,19 +184,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             for (int i = 0; i < entities.Count; i++)
             {
                 Outlet entity = entities[i];
-                OutletViewModel viewModel = entity.ToViewModelRecursive(dictionary);
+                OutletViewModel viewModel = entity.ToViewModelRecursive(entityPositionManager, dictionary);
                 viewModels.Add(viewModel);
             }
 
             return viewModels;
         }
 
-        private static OutletViewModel ToViewModelRecursive(this Outlet outlet, IDictionary<Operator, OperatorViewModel> dictionary)
+        private static OutletViewModel ToViewModelRecursive(this Outlet outlet, EntityPositionManager entityPositionManager, Dictionary<Operator, OperatorViewModel> dictionary)
         {
             OutletViewModel viewModel = outlet.ToViewModel();
 
+            EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(outlet.Operator);
+
             // Recursive call
-            viewModel.Operator = outlet.Operator.ToViewModelRecursive(dictionary);
+            viewModel.Operator = outlet.Operator.ToViewModelRecursive(entityPositionManager, dictionary);
 
             return viewModel;
         }

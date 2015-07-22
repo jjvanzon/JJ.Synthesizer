@@ -138,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Operator op = _operatorFactory.Create((OperatorTypeEnum)operatorTypeID);
             op.LinkTo(patch);
 
-            OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties();
+            OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties(_entityPositionManager);
 
             operatorViewModel.CenterX = 100; // TODO: Low priority: Should these coordinates should be set in business logic? And randomized the same way as in other parts of the code? Maybe in the entity position manager?
             operatorViewModel.CenterY = 100;
