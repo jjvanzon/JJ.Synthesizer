@@ -46,26 +46,16 @@ namespace JJ.Business.Synthesizer.Managers
                 string entityTypeName = typeof(Operator).Name;
                 int entityID = operatorID;
 
-                bool isNew = false;
                 entityPosition = _entityPositionRepository.TryGetByEntityTypeNameAndID(entityTypeName, entityID);
                 if (entityPosition == null)
                 {
-                    isNew = true;
                     entityPosition = new EntityPosition();
                     entityPosition.ID = _idRepository.GetID();
                     entityPosition.EntityTypeName = entityTypeName;
                     entityPosition.EntityID = entityID;
                     entityPosition.X = Randomizer.GetInt32(MIN_RANDOM_X, MAX_RANDOM_X);
                     entityPosition.Y = Randomizer.GetInt32(MIN_RANDOM_Y, MAX_RANDOM_Y);
-                }
-
-                if (isNew)
-                {
                     _entityPositionRepository.Insert(entityPosition);
-                }
-                else
-                {
-                    _entityPositionRepository.Update(entityPosition);
                 }
 
                 // Flush to make the next TryGetByEntityTypeNameAndID work.
@@ -85,24 +75,14 @@ namespace JJ.Business.Synthesizer.Managers
                 string entityTypeName = typeof(Operator).Name;
                 int entityID = operatorID;
 
-                bool isNew = false;
                 entityPosition = _entityPositionRepository.TryGetByEntityTypeNameAndID(entityTypeName, entityID);
                 if (entityPosition == null)
                 {
-                    isNew = true;
                     entityPosition = new EntityPosition();
                     entityPosition.ID = _idRepository.GetID();
                     entityPosition.EntityTypeName = entityTypeName;
                     entityPosition.EntityID = entityID;
-                }
-
-                if (isNew)
-                {
                     _entityPositionRepository.Insert(entityPosition);
-                }
-                else
-                {
-                    _entityPositionRepository.Update(entityPosition);
                 }
 
                 // Flush to make the next TryGetByEntityTypeNameAndID work.

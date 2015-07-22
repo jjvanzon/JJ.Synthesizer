@@ -47,11 +47,10 @@ namespace JJ.Business.Synthesizer.Managers
         {
             var sample = new Sample();
             sample.ID = _repositories.IDRepository.GetID();
+            _repositories.SampleRepository.Insert(sample);
 
             ISideEffect sideEffect = new Sample_SideEffect_SetDefaults(sample, _repositories);
             sideEffect.Execute();
-
-            _repositories.SampleRepository.Insert(sample);
 
             return sample;
         }

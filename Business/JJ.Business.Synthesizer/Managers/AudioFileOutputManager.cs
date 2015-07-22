@@ -65,11 +65,10 @@ namespace JJ.Business.Synthesizer.Managers
         {
             var audioFileOutput = new AudioFileOutput();
             audioFileOutput.ID = _idRepository.GetID();
+            _audioFileOutputRepository.Insert(audioFileOutput);
 
             ISideEffect sideEffect1 = new AudioFileOutput_SideEffect_SetDefaults(audioFileOutput, _sampleDataTypeRepository, _speakerSetupRepository, _audioFileFormatRepository);
             sideEffect1.Execute();
-
-            _audioFileOutputRepository.Insert(audioFileOutput);
 
             // Adjust channels according to speaker setup.
             SetSpeakerSetup(audioFileOutput, audioFileOutput.SpeakerSetup);
@@ -116,25 +115,15 @@ namespace JJ.Business.Synthesizer.Managers
             {
                 Channel channel = sortedChannels[i];
 
-                bool isNew = false;
                 AudioFileOutputChannel audioFileOutputChannel = TryGetAudioFileOutputChannel(sortedExistingAudioFileOutputChannels, i);
                 if (audioFileOutputChannel == null)
                 {
-                    isNew = true;
                     audioFileOutputChannel = new AudioFileOutputChannel();
                     audioFileOutputChannel.ID = _idRepository.GetID();
                     audioFileOutputChannel.LinkTo(audioFileOutput);
-                }
-                audioFileOutputChannel.IndexNumber = channel.IndexNumber;
-
-                if (isNew)
-                {
                     _audioFileOutputChannelRepository.Insert(audioFileOutputChannel);
                 }
-                else
-                {
-                    _audioFileOutputChannelRepository.Update(audioFileOutputChannel);
-                }
+                audioFileOutputChannel.IndexNumber = channel.IndexNumber;
 
                 entitiesToKeep.Add(audioFileOutputChannel);
             }

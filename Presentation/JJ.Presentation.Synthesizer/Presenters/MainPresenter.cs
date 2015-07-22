@@ -735,11 +735,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 var curve = new Curve();
                 curve.ID = _repositoryWrapper.IDRepository.GetID();
                 curve.LinkTo(document);
+                _repositoryWrapper.CurveRepository.Insert(curve);
 
                 ISideEffect sideEffect = new Curve_SideEffect_GenerateName(curve);
                 sideEffect.Execute();
-
-                _repositoryWrapper.CurveRepository.Insert(curve);
 
                 // ToViewModel
                 CurveListViewModel curveListViewModel = ChildDocumentHelper.GetCurveListViewModel_ByDocumentID(ViewModel.Document, document.ID);
@@ -882,11 +881,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 var effect = new Document();
                 effect.ID = _repositoryWrapper.IDRepository.GetID();
                 effect.LinkEffectToDocument(parentDocument);
+                _repositoryWrapper.DocumentRepository.Insert(effect);
 
                 ISideEffect sideEffect = new Effect_SideEffect_GenerateName(effect);
                 sideEffect.Execute();
-
-                _repositoryWrapper.DocumentRepository.Insert(effect);
 
                 // ToViewModel
                 ChildDocumentListItemViewModel listItemViewModel = effect.ToChildDocumentListItemViewModel();
@@ -964,11 +962,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 var instrument = new Document();
                 instrument.ID = _repositoryWrapper.IDRepository.GetID();
                 instrument.LinkInstrumentToDocument(parentDocument);
+                _repositoryWrapper.DocumentRepository.Insert(instrument);
 
                 ISideEffect sideEffect = new Instrument_SideEffect_GenerateName(instrument);
                 sideEffect.Execute();
-
-                _repositoryWrapper.DocumentRepository.Insert(instrument);
 
                 // ToViewModel
                 ChildDocumentListItemViewModel listItemViewModel = instrument.ToChildDocumentListItemViewModel();
@@ -1054,11 +1051,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 var patch = new Patch();
                 patch.ID = _repositoryWrapper.IDRepository.GetID();
                 patch.LinkTo(document);
+                _repositoryWrapper.PatchRepository.Insert(patch);
 
                 ISideEffect sideEffect = new Patch_SideEffect_GenerateName(patch);
                 sideEffect.Execute();
-
-                _repositoryWrapper.PatchRepository.Insert(patch);
 
                 // ToViewModel
                 PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel_ByDocumentID(ViewModel.Document, document.ID);
