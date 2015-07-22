@@ -19,27 +19,33 @@ namespace JJ.Business.Synthesizer.Extensions
             return IsCircular(op, alreadyDone);
         }
 
+
         private static bool IsCircular(this Operator op, HashSet<Operator> alreadyDone)
         {
-            if (op != null) // Be null-tollerant, because you might call it in places where the entities are not valid.
+            // Be null-tollerant, because you might call it in places where the entities are not valid.
+            if (op == null)
             {
-                if (alreadyDone.Contains(op))
-                {
-                    return true;
-                }
-                alreadyDone.Add(op);
+                return false;
+            }
 
-                foreach (Inlet inlet in op.Inlets)
+            if (alreadyDone.Contains(op))
+            {
+                return true;
+            }
+            alreadyDone.Add(op);
+
+            foreach (Inlet inlet in op.Inlets)
+            {
+                if (inlet.InputOutlet != null)
                 {
-                    if (inlet.InputOutlet != null)
+                    if (IsCircular(inlet.InputOutlet.Operator, alreadyDone))
                     {
-                        if (IsCircular(inlet.InputOutlet.Operator, alreadyDone))
-                        {
-                            return true;
-                        }
+                        return true;
                     }
                 }
             }
+
+            alreadyDone.Remove(op);
 
             return false;
         }
