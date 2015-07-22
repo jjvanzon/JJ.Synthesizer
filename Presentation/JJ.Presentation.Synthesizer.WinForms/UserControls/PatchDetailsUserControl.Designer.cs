@@ -58,7 +58,8 @@
             // 
             this.toolStrip1.AutoSize = false;
             this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.toolStrip1.Font = new System.Drawing.Font("Verdana", 13F);
+            this.toolStrip1.Font = new System.Drawing.Font("Verdana", 10F);
+            this.toolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.VerticalStackWithOverflow;
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
@@ -69,8 +70,8 @@
             // textBoxValue
             // 
             this.textBoxValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxValue.Location = new System.Drawing.Point(100, 0);
-            this.textBoxValue.Margin = new System.Windows.Forms.Padding(0);
+            this.textBoxValue.Location = new System.Drawing.Point(104, 0);
+            this.textBoxValue.Margin = new System.Windows.Forms.Padding(4, 0, 0, 0);
             this.textBoxValue.Name = "textBoxValue";
             this.textBoxValue.Size = new System.Drawing.Size(613, 23);
             this.textBoxValue.TabIndex = 4;
@@ -82,7 +83,7 @@
             this.buttonPlay.Location = new System.Drawing.Point(0, 0);
             this.buttonPlay.Margin = new System.Windows.Forms.Padding(0);
             this.buttonPlay.Name = "buttonPlay";
-            this.buttonPlay.Size = new System.Drawing.Size(100, 32);
+            this.buttonPlay.Size = new System.Drawing.Size(100, 36);
             this.buttonPlay.TabIndex = 3;
             this.buttonPlay.Text = "Play";
             this.buttonPlay.UseVisualStyleBackColor = true;
@@ -101,7 +102,7 @@
             this.tableLayoutPanelTitleAndContent.Name = "tableLayoutPanelTitleAndContent";
             this.tableLayoutPanelTitleAndContent.RowCount = 3;
             this.tableLayoutPanelTitleAndContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
-            this.tableLayoutPanelTitleAndContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 32F));
+            this.tableLayoutPanelTitleAndContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 36F));
             this.tableLayoutPanelTitleAndContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelTitleAndContent.Size = new System.Drawing.Size(713, 325);
             this.tableLayoutPanelTitleAndContent.TabIndex = 5;
@@ -114,7 +115,7 @@
             this.tableLayoutPanelToolboxAndPatch.Controls.Add(this.toolStrip1, 0, 0);
             this.tableLayoutPanelToolboxAndPatch.Controls.Add(this.diagramControl1, 1, 0);
             this.tableLayoutPanelToolboxAndPatch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanelToolboxAndPatch.Location = new System.Drawing.Point(0, 58);
+            this.tableLayoutPanelToolboxAndPatch.Location = new System.Drawing.Point(0, 62);
             this.tableLayoutPanelToolboxAndPatch.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanelToolboxAndPatch.Name = "tableLayoutPanelToolboxAndPatch";
             this.tableLayoutPanelToolboxAndPatch.RowCount = 1;
@@ -150,7 +151,7 @@
             this.tableLayoutPanelPlayButtonAndValueTextBox.Name = "tableLayoutPanelPlayButtonAndValueTextBox";
             this.tableLayoutPanelPlayButtonAndValueTextBox.RowCount = 1;
             this.tableLayoutPanelPlayButtonAndValueTextBox.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelPlayButtonAndValueTextBox.Size = new System.Drawing.Size(713, 32);
+            this.tableLayoutPanelPlayButtonAndValueTextBox.Size = new System.Drawing.Size(713, 36);
             this.tableLayoutPanelPlayButtonAndValueTextBox.TabIndex = 1;
             // 
             // PatchDetailsUserControl

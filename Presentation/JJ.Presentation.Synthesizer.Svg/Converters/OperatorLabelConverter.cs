@@ -26,8 +26,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             }
 
             destLabel.Text = sourceOperatorViewModel.Caption;
-            destLabel.Width = StyleHelper.DEFAULT_WIDTH;
-            destLabel.Height = StyleHelper.DEFAULT_HEIGHT;
+            destLabel.Width = destOperatorRectangle.Width;
+            destLabel.Height = destOperatorRectangle.Height;
             destLabel.TextStyle = StyleHelper.TextStyle;
 
             return destLabel;

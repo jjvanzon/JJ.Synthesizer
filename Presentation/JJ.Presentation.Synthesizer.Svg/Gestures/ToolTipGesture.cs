@@ -88,7 +88,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
             {
                 // Set text width
                 float margin = 3f;
-                float textWidth = TextHelper.GetTextWidth(e2.ToolTipText, _label.TextStyle.Font);
+                float textWidth = TextHelper.ApproximateTextWidth(e2.ToolTipText, _label.TextStyle.Font);
                 float width = margin * 2f + textWidth;
                 _rectangle.Width = width;
                 _label.Width = width; 

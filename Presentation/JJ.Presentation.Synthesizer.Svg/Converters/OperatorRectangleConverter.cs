@@ -1,4 +1,6 @@
-﻿using JJ.Framework.Presentation.Svg.Gestures;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Presentation.Svg.Gestures;
+using JJ.Framework.Presentation.Svg.Helpers;
 using JJ.Framework.Presentation.Svg.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Svg.Gestures;
@@ -50,9 +52,10 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 _destOperatorRectangleDictionary.Add(sourceOperatorViewModel.ID, destOperatorRectangle);
             }
 
-            destOperatorRectangle.Width = StyleHelper.DEFAULT_WIDTH;
+            float width = GetOperatorWidth(sourceOperatorViewModel);
+            destOperatorRectangle.Width = width;
             destOperatorRectangle.Height = StyleHelper.DEFAULT_HEIGHT;
-            destOperatorRectangle.X = sourceOperatorViewModel.CenterX - StyleHelper.DEFAULT_WIDTH / 2f;
+            destOperatorRectangle.X = sourceOperatorViewModel.CenterX - width / 2f;
             destOperatorRectangle.Y = sourceOperatorViewModel.CenterY - StyleHelper.DEFAULT_HEIGHT / 2f;
 
             if (sourceOperatorViewModel.IsSelected)
@@ -71,6 +74,19 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             destOperatorRectangle.Gestures.Add(_selectOperatorGesture);
 
             return destOperatorRectangle;
+        }
+
+        private static float GetOperatorWidth(OperatorViewModel sourceOperatorViewModel)
+        {
+            float width = TextHelper.ApproximateTextWidth(sourceOperatorViewModel.Caption, StyleHelper.DefaultFont) + StyleHelper.SpacingTimes2;
+
+            // Compensate for the fact that numbers are averagely wider than letters.
+            bool isValueOperator = sourceOperatorViewModel.OperatorTypeID == (int)OperatorTypeEnum.Value;
+            if (isValueOperator)
+            {
+                width += StyleHelper.SpacingTimes2;
+            }
+            return width;
         }
 
         private Dictionary<int, Rectangle> _destOperatorRectangleDictionary = new Dictionary<int, Rectangle>();

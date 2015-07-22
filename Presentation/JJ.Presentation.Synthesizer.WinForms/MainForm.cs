@@ -40,7 +40,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private IContext _context;
         private RepositoryWrapper _repositoryWrapper;
         private MainPresenter _presenter;
-        private MainViewModel _viewModel;
 
         private DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
         private static string _titleBarExtraText;
@@ -164,9 +163,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void Open()
         {
             _presenter.Show();
-
-            _viewModel = _presenter.ViewModel;
-
             ApplyViewModel();
         }
 
@@ -201,7 +197,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void DocumentDetailsSave(DocumentDetailsViewModel viewModel)
         {
             // TODO: Not sure how much this will still work in a stateless environment.
-            _viewModel.DocumentDetails = viewModel;
+            _presenter.ViewModel.DocumentDetails = viewModel;
 
             _presenter.DocumentDetailsSave();
             ApplyViewModel();
@@ -523,7 +519,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             ApplyViewModel();
 
-            if (_viewModel.Successful)
+            if (_presenter.ViewModel.Successful)
             {
                 SoundPlayer soundPlayer = new SoundPlayer(_outputFilePath);
                 soundPlayer.Play();
@@ -928,29 +924,29 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             try
             {
-                Text = _viewModel.WindowTitle + _titleBarExtraText;
+                Text = _presenter.ViewModel.WindowTitle + _titleBarExtraText;
 
-                menuUserControl.Show(_viewModel.Menu);
+                menuUserControl.Show(_presenter.ViewModel.Menu);
 
-                documentListUserControl.ViewModel = _viewModel.DocumentList;
-                documentListUserControl.Visible = _viewModel.DocumentList.Visible;
+                documentListUserControl.ViewModel = _presenter.ViewModel.DocumentList;
+                documentListUserControl.Visible = _presenter.ViewModel.DocumentList.Visible;
 
-                documentDetailsUserControl.ViewModel = _viewModel.DocumentDetails;
-                documentDetailsUserControl.Visible = _viewModel.DocumentDetails.Visible;
+                documentDetailsUserControl.ViewModel = _presenter.ViewModel.DocumentDetails;
+                documentDetailsUserControl.Visible = _presenter.ViewModel.DocumentDetails.Visible;
 
-                documentTreeUserControl.ViewModel = _viewModel.Document.DocumentTree;
-                documentTreeUserControl.Visible = _viewModel.Document.DocumentTree.Visible;
+                documentTreeUserControl.ViewModel = _presenter.ViewModel.Document.DocumentTree;
+                documentTreeUserControl.Visible = _presenter.ViewModel.Document.DocumentTree.Visible;
 
-                documentPropertiesUserControl.ViewModel = _viewModel.Document.DocumentProperties;
-                documentPropertiesUserControl.Visible = _viewModel.Document.DocumentProperties.Visible;
+                documentPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.DocumentProperties;
+                documentPropertiesUserControl.Visible = _presenter.ViewModel.Document.DocumentProperties.Visible;
 
-                audioFileOutputListUserControl.ViewModel = _viewModel.Document.AudioFileOutputList;
-                audioFileOutputListUserControl.Visible = _viewModel.Document.AudioFileOutputList.Visible;
+                audioFileOutputListUserControl.ViewModel = _presenter.ViewModel.Document.AudioFileOutputList;
+                audioFileOutputListUserControl.Visible = _presenter.ViewModel.Document.AudioFileOutputList.Visible;
 
                 // AudioFileOutputPropertiesViewModel
                 bool audioFileOutputPropertiesVisible = false;
                 AudioFileOutputPropertiesViewModel visibleAudioFileOutputPropertiesViewModel =
-                    _viewModel.Document.AudioFileOutputPropertiesList.Where(x => x.Visible).SingleOrDefault();
+                    _presenter.ViewModel.Document.AudioFileOutputPropertiesList.Where(x => x.Visible).SingleOrDefault();
                 if (visibleAudioFileOutputPropertiesViewModel != null)
                 {
                     audioFileOutputPropertiesUserControl.ViewModel = visibleAudioFileOutputPropertiesViewModel;
@@ -960,15 +956,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 // CurveListViewModel
                 bool curveListVisible = false;
-                if (_viewModel.Document.CurveList.Visible)
+                if (_presenter.ViewModel.Document.CurveList.Visible)
                 {
-                    curveListUserControl.ViewModel = _viewModel.Document.CurveList;
+                    curveListUserControl.ViewModel = _presenter.ViewModel.Document.CurveList;
                     curveListVisible = true;
                 }
                 else
                 {
-                    CurveListViewModel visibleCurveListViewModel = Enumerable.Union(_viewModel.Document.InstrumentDocumentList.Select(x => x.CurveList),
-                                                                                    _viewModel.Document.EffectDocumentList.Select(x => x.CurveList))
+                    CurveListViewModel visibleCurveListViewModel = Enumerable.Union(_presenter.ViewModel.Document.InstrumentDocumentList.Select(x => x.CurveList),
+                                                                                    _presenter.ViewModel.Document.EffectDocumentList.Select(x => x.CurveList))
                                                                              .Where(x => x.Visible)
                                                                              .SingleOrDefault();
                     if (visibleCurveListViewModel != null)
@@ -979,23 +975,23 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
                 curveListUserControl.Visible = curveListVisible;
 
-                instrumentListUserControl.ViewModel = _viewModel.Document.InstrumentList;
-                instrumentListUserControl.Visible = _viewModel.Document.InstrumentList.Visible;
+                instrumentListUserControl.ViewModel = _presenter.ViewModel.Document.InstrumentList;
+                instrumentListUserControl.Visible = _presenter.ViewModel.Document.InstrumentList.Visible;
 
-                effectListUserControl.ViewModel = _viewModel.Document.EffectList;
-                effectListUserControl.Visible = _viewModel.Document.EffectList.Visible;
+                effectListUserControl.ViewModel = _presenter.ViewModel.Document.EffectList;
+                effectListUserControl.Visible = _presenter.ViewModel.Document.EffectList.Visible;
 
                 // PatchListViewModel
                 bool patchListVisible = false;
-                if (_viewModel.Document.PatchList.Visible)
+                if (_presenter.ViewModel.Document.PatchList.Visible)
                 {
-                    patchListUserControl.ViewModel = _viewModel.Document.PatchList;
+                    patchListUserControl.ViewModel = _presenter.ViewModel.Document.PatchList;
                     patchListVisible = true;
                 }
                 else
                 {
-                    PatchListViewModel visiblePatchListViewModel = Enumerable.Union(_viewModel.Document.InstrumentDocumentList.Select(x => x.PatchList),
-                                                                                    _viewModel.Document.EffectDocumentList.Select(x => x.PatchList))
+                    PatchListViewModel visiblePatchListViewModel = Enumerable.Union(_presenter.ViewModel.Document.InstrumentDocumentList.Select(x => x.PatchList),
+                                                                                    _presenter.ViewModel.Document.EffectDocumentList.Select(x => x.PatchList))
                                                                              .Where(x => x.Visible)
                                                                              .SingleOrDefault();
                     if (visiblePatchListViewModel != null)
@@ -1008,7 +1004,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 // PatchDetailsViewModel
                 bool patchDetailsVisible = false;
-                PatchDetailsViewModel visiblePatchDetailsViewModel = _viewModel.Document.PatchDetailsList.Where(x => x.Visible).SingleOrDefault();
+                PatchDetailsViewModel visiblePatchDetailsViewModel = _presenter.ViewModel.Document.PatchDetailsList.Where(x => x.Visible).SingleOrDefault();
                 if (visiblePatchDetailsViewModel != null)
                 {
                     patchDetailsUserControl.ViewModel = visiblePatchDetailsViewModel;
@@ -1016,8 +1012,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
                 else
                 {
-                    visiblePatchDetailsViewModel = Enumerable.Union(_viewModel.Document.InstrumentDocumentList.SelectMany(x => x.PatchDetailsList),
-                                                                    _viewModel.Document.EffectDocumentList.SelectMany(x => x.PatchDetailsList))
+                    visiblePatchDetailsViewModel = Enumerable.Union(_presenter.ViewModel.Document.InstrumentDocumentList.SelectMany(x => x.PatchDetailsList),
+                                                                    _presenter.ViewModel.Document.EffectDocumentList.SelectMany(x => x.PatchDetailsList))
                                                              .Where(x => x.Visible)
                                                              .SingleOrDefault();
                     if (visiblePatchDetailsViewModel != null)
@@ -1030,15 +1026,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 // SampleListViewModel
                 bool sampleListVisible = false;
-                if (_viewModel.Document.SampleList.Visible)
+                if (_presenter.ViewModel.Document.SampleList.Visible)
                 {
-                    sampleListUserControl.ViewModel = _viewModel.Document.SampleList;
+                    sampleListUserControl.ViewModel = _presenter.ViewModel.Document.SampleList;
                     sampleListVisible = true;
                 }
                 else
                 {
-                    SampleListViewModel visibleSampleListViewModel = Enumerable.Union(_viewModel.Document.InstrumentDocumentList.Select(x => x.SampleList),
-                                                                                      _viewModel.Document.EffectDocumentList.Select(x => x.SampleList))
+                    SampleListViewModel visibleSampleListViewModel = Enumerable.Union(_presenter.ViewModel.Document.InstrumentDocumentList.Select(x => x.SampleList),
+                                                                                      _presenter.ViewModel.Document.EffectDocumentList.Select(x => x.SampleList))
                                                                                .Where(x => x.Visible)
                                                                                .SingleOrDefault();
                     if (visibleSampleListViewModel != null)
@@ -1052,7 +1048,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 // SamplePropertiesViewModel
                 bool samplePropertiesVisible = false;
                 SamplePropertiesViewModel visibleSamplePropertiesViewModel =
-                    _viewModel.Document.SamplePropertiesList.Where(x => x.Visible).SingleOrDefault();
+                    _presenter.ViewModel.Document.SamplePropertiesList.Where(x => x.Visible).SingleOrDefault();
                 if (visibleSamplePropertiesViewModel != null)
                 {
                     samplePropertiesUserControl.ViewModel = visibleSamplePropertiesViewModel;
@@ -1060,8 +1056,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
                 else
                 {
-                    visibleSamplePropertiesViewModel = Enumerable.Union(_viewModel.Document.InstrumentDocumentList.SelectMany(x => x.SamplePropertiesList),
-                                                                        _viewModel.Document.EffectDocumentList.SelectMany(x => x.SamplePropertiesList))
+                    visibleSamplePropertiesViewModel = Enumerable.Union(_presenter.ViewModel.Document.InstrumentDocumentList.SelectMany(x => x.SamplePropertiesList),
+                                                                        _presenter.ViewModel.Document.EffectDocumentList.SelectMany(x => x.SamplePropertiesList))
                                                                  .Where(x => x.Visible)
                                                                  .SingleOrDefault();
                     if (visibleSamplePropertiesViewModel != null)
@@ -1072,65 +1068,65 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
                 samplePropertiesUserControl.Visible = samplePropertiesVisible;
 
-                bool treePanelMustBeVisible = _viewModel.Document.DocumentTree.Visible;
+                bool treePanelMustBeVisible = _presenter.ViewModel.Document.DocumentTree.Visible;
                 SetTreePanelVisible(treePanelMustBeVisible);
 
                 // TODO: Make panel visibility dependent on more things.
-                bool propertiesPanelMustBeVisible = _viewModel.Document.DocumentProperties.Visible || 
+                bool propertiesPanelMustBeVisible = _presenter.ViewModel.Document.DocumentProperties.Visible || 
                                                     audioFileOutputPropertiesVisible ||
                                                     samplePropertiesVisible;
 
                 SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
 
-                if (_viewModel.NotFound.Visible)
+                if (_presenter.ViewModel.NotFound.Visible)
                 {
-                    MessageBoxHelper.ShowNotFound(_viewModel.NotFound);
+                    MessageBoxHelper.ShowNotFound(_presenter.ViewModel.NotFound);
                 }
 
-                if (_viewModel.DocumentDelete.Visible)
+                if (_presenter.ViewModel.DocumentDelete.Visible)
                 {
-                    MessageBoxHelper.ShowDocumentConfirmDelete(_viewModel.DocumentDelete);
+                    MessageBoxHelper.ShowDocumentConfirmDelete(_presenter.ViewModel.DocumentDelete);
                 }
 
-                if (_viewModel.DocumentDeleted.Visible)
+                if (_presenter.ViewModel.DocumentDeleted.Visible)
                 {
                     MessageBoxHelper.ShowDocumentIsDeleted();
                 }
 
-                if (_viewModel.DocumentCannotDelete.Visible)
+                if (_presenter.ViewModel.DocumentCannotDelete.Visible)
                 {
-                    _documentCannotDeleteForm.ShowDialog(_viewModel.DocumentCannotDelete);
+                    _documentCannotDeleteForm.ShowDialog(_presenter.ViewModel.DocumentCannotDelete);
                 }
 
-                if (_viewModel.ValidationMessages.Count != 0)
+                if (_presenter.ViewModel.ValidationMessages.Count != 0)
                 {
                     // TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
-                    MessageBox.Show(String.Join(Environment.NewLine, _viewModel.ValidationMessages.Select(x => x.Text)));
+                    MessageBox.Show(String.Join(Environment.NewLine, _presenter.ViewModel.ValidationMessages.Select(x => x.Text)));
 
                     // Clear them so the next time the message box is not shown (message box is a temporary solution).
-                    _viewModel.ValidationMessages.Clear();
+                    _presenter.ViewModel.ValidationMessages.Clear();
                 }
 
-                if (_viewModel.PopupMessages.Count != 0)
+                if (_presenter.ViewModel.PopupMessages.Count != 0)
                 {
-                    MessageBoxHelper.ShowPopupMessages(_viewModel.PopupMessages);
+                    MessageBoxHelper.ShowPopupMessages(_presenter.ViewModel.PopupMessages);
                 }
 
                 // Focus control if not valid.
-                if (!_viewModel.Document.DocumentProperties.Successful)
+                if (!_presenter.ViewModel.Document.DocumentProperties.Successful)
                 {
                     documentPropertiesUserControl.Focus();
                 }
 
-                bool mustFocusAudioFileOutputUserControl = _viewModel.Document.AudioFileOutputPropertiesList.Any(x => !x.Successful);
+                bool mustFocusAudioFileOutputUserControl = _presenter.ViewModel.Document.AudioFileOutputPropertiesList.Any(x => !x.Successful);
                 if (mustFocusAudioFileOutputUserControl)
                 {
                     audioFileOutputPropertiesUserControl.Focus();
                 }
 
-                bool mustFocusSampleUserControl = _viewModel.Document.SamplePropertiesList.Any(x => !x.Successful) ||
-                                                  _viewModel.Document.InstrumentDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful) ||
-                                                  _viewModel.Document.EffectDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful);
+                bool mustFocusSampleUserControl = _presenter.ViewModel.Document.SamplePropertiesList.Any(x => !x.Successful) ||
+                                                  _presenter.ViewModel.Document.InstrumentDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful) ||
+                                                  _presenter.ViewModel.Document.EffectDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful);
                 if (mustFocusSampleUserControl)
                 {
                     samplePropertiesUserControl.Focus();

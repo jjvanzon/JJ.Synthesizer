@@ -31,12 +31,19 @@ namespace JJ.Presentation.Synthesizer.Svg.Helpers
         public static LineStyle ToolTipLineStyle { get; set; }
         public static TextStyle ToolTipTextStyle { get; set; }
 
+        public static float Spacing { get; set; }
+        public static float SpacingTimes2 { get; set; }
+
         static StyleHelper()
         {
+            Spacing = 8;
+
+            SpacingTimes2 = Spacing + Spacing;
+
             PointStyle = new PointStyle
             {
                 Color = ColorHelper.GetColor(45, 45, 45),
-                Width = 6
+                Width = 5
             };
 
             BackStyle = new BackStyle
@@ -69,16 +76,15 @@ namespace JJ.Presentation.Synthesizer.Svg.Helpers
 
             LineStyleDashed = new LineStyle
             {
-                Width = 3,
+                Width = 2,
                 Color = ColorHelper.GetColor(128, 45, 45, 45),
                 DashStyleEnum = DashStyleEnum.Dotted
             };
 
             DefaultFont = new Font
             {
-                Bold = true,
-                Name = "Microsoft Sans Serif",
-                Size = 11,
+                Name = "Verdana",
+                Size = 10.5f,
             };
 
             TextStyle = new TextStyle
@@ -91,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Helpers
 
             PointStyleInvisible = new PointStyle
             {
-                Visible = false,
+                Visible = false
             };
 
             BackStyleInvisible = new BackStyle
