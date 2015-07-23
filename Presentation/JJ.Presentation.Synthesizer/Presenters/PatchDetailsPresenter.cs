@@ -327,66 +327,61 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 result.Successful = false;
                 result.Messages.Add(new Message
                 {
-                    // TODO: Use string resources.
                     PropertyKey = PropertyNames.PatchOutlet,
-                    Text = "Please add a PatchOutlet to your Patch in order to play a sound."
+                    Text = PresentationMessages.AddPatchOutletToPlayASound
                 });
                 return result;
             }
 
-            if (sampleOperator == null)
+            Sample_OperatorWrapper sampleOperatorWrapper = null;
+
+            if (sampleOperator != null)
             {
-                result.Successful = false;
-                result.Messages.Add(new Message
+                // TODO: Refactor out dependency on file system.
+                if (!File.Exists(sampleFilePath))
                 {
-                    // TODO: Use string resources.
-                    PropertyKey = PropertyNames.Sample,
-                    Text = "Please add a Sample operator to your Patch in order to play a sound."
-                });
-                return result;
+                    result.Successful = false;
+                    result.Messages.Add(new Message
+                    {
+                        PropertyKey = PropertyNames.Patch,
+                        Text = PresentationMessageFormatter.SampleFileDoesNotExistWithLocation(Path.GetFullPath(sampleFilePath))
+                    });
+                    return result;
+                }
+
+                SampleManager sampleManager = CreateSampleManager(repositoryWrapper);
+
+                using (Stream sampleStream = new FileStream(sampleFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    Sample sample = sampleManager.CreateSample(sampleStream);
+
+                    sampleOperatorWrapper = new Sample_OperatorWrapper(sampleOperator, _sampleRepository);
+                    sampleOperatorWrapper.Sample = sample;
+                }
             }
 
-            // TODO: Refactor out dependency on file system.
-            if (!File.Exists(sampleFilePath))
-            {
-                result.Successful = false;
-                result.Messages.Add(new Message
-                {
-                    // TODO: Use string resources.
-                    PropertyKey = PropertyNames.Patch,
-                    Text = String.Format("Input sample does not exist. Please put a file in the following location:{0}{1}", Environment.NewLine, Path.GetFullPath(sampleFilePath))
-                });
-                return result;
-            }
-
-            SampleManager sampleManager = CreateSampleManager(repositoryWrapper);
             AudioFileOutputManager audioFileOutputManager = CreateAudioFileOutputManager(repositoryWrapper);
 
-            using (Stream sampleStream = new FileStream(sampleFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
+            audioFileOutput.FilePath = outputFilePath;
+            audioFileOutput.Duration = duration;
+
+            var patchOutletWrapper = new PatchOutlet_OperatorWrapper(patchOutlet);
+            Outlet outlet = patchOutletWrapper.Result;
+            audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
+
+            audioFileOutputManager.Execute(audioFileOutput);
+
+            if (sampleOperatorWrapper != null)
             {
-                Sample sample = sampleManager.CreateSample(sampleStream);
-
-                var sampleOperatorWrapper = new Sample_OperatorWrapper(sampleOperator, _sampleRepository);
-                sampleOperatorWrapper.Sample = sample;
-
-                AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
-                audioFileOutput.FilePath = outputFilePath;
-                audioFileOutput.Duration = duration;
-
-                var patchOutletWrapper = new PatchOutlet_OperatorWrapper(patchOutlet);
-                Outlet outlet = patchOutletWrapper.Result;
-                audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
-
-                audioFileOutputManager.Execute(audioFileOutput);
-
                 sampleOperatorWrapper.Sample = null;
-
-                return new VoidResult
-                {
-                    Successful = true,
-                    Messages = new List<Message>()
-                };
             }
+
+            return new VoidResult
+            {
+                Successful = true,
+                Messages = new List<Message>()
+            };
         }
 
         // Helpers

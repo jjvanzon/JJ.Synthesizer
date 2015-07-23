@@ -61,6 +61,25 @@ namespace JJ.Presentation.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please add a PatchOutlet to your Patch in order to play a sound..
+        /// </summary>
+        internal static string AddPatchOutletToPlayASound {
+            get {
+                return ResourceManager.GetString("AddPatchOutletToPlayASound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Input sample does not exist. Please put a file in the following location:
+        ///{0}.
+        /// </summary>
+        internal static string SampleFileDoesNotExistWithLocation {
+            get {
+                return ResourceManager.GetString("SampleFileDoesNotExistWithLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select an operator first..
         /// </summary>
         internal static string SelectAnOperatorFirst {

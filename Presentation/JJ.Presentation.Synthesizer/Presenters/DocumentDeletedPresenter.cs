@@ -12,16 +12,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         public DocumentDeletedViewModel ViewModel { get; private set; }
 
-        public void Show()
+        public DocumentDeletedViewModel Show()
         {
             ViewModel = ViewModelHelper.CreateDocumentDeletedViewModel();
             ViewModel.Visible = true;
+            return ViewModel;
         }
 
-        public void OK()
+        public DocumentDeletedViewModel OK()
         {
             ViewModel = ViewModelHelper.CreateDocumentDeletedViewModel();
             ViewModel.Visible = false;
+            return ViewModel;
         }
     }
 }

@@ -144,8 +144,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 ViewModel = ViewModelHelper.CreateEmptyMainViewModel(_repositoryWrapper.OperatorTypeRepository);
 
-                _menuPresenter.Show(documentIsOpen: false);
-                DispatchViewModel(_menuPresenter.ViewModel);
+                MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
+                DispatchViewModel(menuViewModel);
 
                 _documentListPresenter.ViewModel = ViewModel.DocumentList;
                 _documentListPresenter.Show();
@@ -164,7 +164,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 _notFoundPresenter.OK();
-
                 DispatchViewModel(_notFoundPresenter.ViewModel);
             }
             finally
@@ -192,8 +191,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 _documentListPresenter.ViewModel = ViewModel.DocumentList;
-                _documentListPresenter.Show(pageNumber);
-                DispatchViewModel(_documentListPresenter.ViewModel);
+                DocumentListViewModel viewModel = _documentListPresenter.Show(pageNumber);
+                DispatchViewModel(viewModel);
             }
             finally
             {
@@ -219,8 +218,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                _documentDetailsPresenter.Create();
-                DispatchViewModel(_documentDetailsPresenter.ViewModel);
+                DocumentDetailsViewModel viewModel = _documentDetailsPresenter.Create();
+                DispatchViewModel(viewModel);
             }
             finally
             {
@@ -260,8 +259,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _documentDeletePresenter.Show(id);
-                DispatchViewModel(viewModel2);
+                object viewModel = _documentDeletePresenter.Show(id);
+                DispatchViewModel(viewModel);
             }
             finally
             {
@@ -286,14 +285,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                object viewModel2 = _documentDeletePresenter.Confirm(id);
+                object viewModel = _documentDeletePresenter.Confirm(id);
 
-                if (viewModel2 is DocumentDeletedViewModel)
+                if (viewModel is DocumentDeletedViewModel)
                 {
                     _repositoryWrapper.Commit();
                 }
 
-                DispatchViewModel(viewModel2);
+                DispatchViewModel(viewModel);
             }
             finally
             {
@@ -318,8 +317,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                _documentDeletedPresenter.OK();
-                DispatchViewModel(_documentDeletedPresenter.ViewModel);
+                DocumentDeletedViewModel viewModel = _documentDeletedPresenter.OK();
+                DispatchViewModel(viewModel);
             }
             finally
             {
@@ -1332,6 +1331,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // ToEntity
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
                 Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(ViewModel.Document.ID, childDocumentID, _repositoryWrapper.DocumentRepository);
+                if (document == null)
+                {
+                    NotFoundViewModel notFoundViewModel = ViewModelHelper.CreateNotFoundViewModel<Document>();
+                    DispatchViewModel(notFoundViewModel);
+                    return;
+                }
 
                 // Business
                 Sample sample = _sampleManager.CreateSample();

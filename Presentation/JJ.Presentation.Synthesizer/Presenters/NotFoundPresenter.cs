@@ -13,10 +13,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         public NotFoundViewModel ViewModel { get; private set; }
 
-        public void Show(string entityTypeDisplayName)
+        public NotFoundViewModel Show(string entityTypeDisplayName)
         {
             ViewModel = ViewModelHelper.CreateNotFoundViewModel(entityTypeDisplayName);
             ViewModel.Visible = true;
+            return ViewModel;
         }
 
         public void OK()

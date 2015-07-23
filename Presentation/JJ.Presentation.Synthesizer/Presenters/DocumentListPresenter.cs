@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _pageSize = config.PageSize;
         }
 
-        public void Show(int pageNumber = 1)
+        public DocumentListViewModel Show(int pageNumber = 1)
         {
             AssertViewModel();
 
@@ -52,6 +52,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             ViewModel.Visible = true;
+
+            return ViewModel;
         }
 
         public void Refresh()

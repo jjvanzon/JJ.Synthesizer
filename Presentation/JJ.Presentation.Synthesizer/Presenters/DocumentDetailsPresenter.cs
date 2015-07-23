@@ -34,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _idRepository = idRepository;
         }
 
-        public void Create()
+        public DocumentDetailsViewModel Create()
         {
             var document = new Document();
             document.ID = _idRepository.GetID();
@@ -44,6 +44,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.IDVisible = false;
             ViewModel.CanDelete = false;
             ViewModel.Visible = true;
+
+            return ViewModel;
         }
 
         public void Save()

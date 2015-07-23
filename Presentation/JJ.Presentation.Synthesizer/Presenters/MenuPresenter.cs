@@ -15,9 +15,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         public MenuViewModel ViewModel { get; private set; }
 
-        public void Show(bool documentIsOpen)
+        public MenuViewModel Show(bool documentIsOpen)
         {
             ViewModel = ViewModelHelper.CreateMenuViewModel(documentIsOpen);
+            return ViewModel;
         }
     }
 }

@@ -39,6 +39,7 @@
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
     <Compile Include="Presenters\ChildDocumentListPresenter.cs" />
+    <Compile Include="Resources\PresentationMessageFormatter.cs" />
     <Compile Include="Resources\PresentationMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
