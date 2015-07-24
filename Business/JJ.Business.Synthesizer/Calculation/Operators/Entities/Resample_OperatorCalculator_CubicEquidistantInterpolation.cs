@@ -10,7 +10,6 @@ using System.Diagnostics;
 namespace JJ.Business.Synthesizer.Calculation.Operators.Entities
 {
     /// <summary>
-    /// This is the currently used variation on the Resample_OperatorCalculator.
     /// It seems to work, except for the artifacts that linear interpolation gives us.
     /// A weakness though is, that the sampling rate is remembered until the next sample,
     /// which may work poorly when a very low sampling rate is provided.

@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // Documents
 
-        public static Document GetParentDocument(Document childDocument)
+        private static Document GetParentDocument(Document childDocument)
         {
             Document parentDocument = TryGetParentDocument(childDocument);
             if (parentDocument == null)
@@ -33,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return parentDocument;
         }
 
-        public static Document TryGetParentDocument(Document childDocument)
+        private static Document TryGetParentDocument(Document childDocument)
         {
             if (childDocument == null) throw new NullException(() => childDocument);
 
@@ -144,8 +144,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
                     ChildDocumentTypeEnum = null,
                     ChildDocumentListIndex = null,
                     EntityListIndex = listIndex.Value,
-                    // TODO: Remove outcommented code.
-                    //ChildDocumentID = null
                 };
             }
 
@@ -163,8 +161,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
                     ChildDocumentTypeEnum = ChildDocumentTypeEnum.Instrument,
                     ChildDocumentListIndex = childDocumentListIndex.Value,
                     EntityListIndex = listIndex.Value,
-                    // TODO: Remove outcommented code.
-                    //ChildDocumentID = rootDocumentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].ID
                 };
             }
 
@@ -182,22 +178,20 @@ namespace JJ.Presentation.Synthesizer.Helpers
                     ChildDocumentTypeEnum = ChildDocumentTypeEnum.Effect,
                     ChildDocumentListIndex = childDocumentListIndex.Value,
                     EntityListIndex = listIndex.Value,
-                    // TODO: Remove outcommented code.
-                    //ChildDocumentID = rootDocumentViewModel.EffectDocumentList[childDocumentListIndex.Value].ID
                 };
             }
 
             throw new Exception(String.Format("documentViewModel does not have CurveDetailsViewModel with ID '{0}' and neither do any ChildDocumentViewModels.", curveID));
         }
 
-        public static IList<CurveDetailsViewModel> GetCurveDetailsViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentItemAlternativeKey key)
-        {
-            if (key == null) throw new NullException(() => key);
+        //public static IList<CurveDetailsViewModel> GetCurveDetailsViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentItemAlternativeKey key)
+        //{
+        //    if (key == null) throw new NullException(() => key);
 
-            return GetCurveDetailsViewModels_ByAlternativeKey(documentViewModel, key.ChildDocumentTypeEnum, key.ChildDocumentListIndex);
-        }
+        //    return GetCurveDetailsViewModels_ByAlternativeKey(documentViewModel, key.ChildDocumentTypeEnum, key.ChildDocumentListIndex);
+        //}
 
-        public static IList<CurveDetailsViewModel> GetCurveDetailsViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private static IList<CurveDetailsViewModel> GetCurveDetailsViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
@@ -282,8 +276,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
                     ChildDocumentTypeEnum = null,
                     ChildDocumentListIndex = null,
                     EntityListIndex = listIndex.Value,
-                    // TODO: Remove outcommented code.
-                    //ChildDocumentID = null
                 };
             }
 
@@ -301,8 +293,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
                     ChildDocumentTypeEnum = ChildDocumentTypeEnum.Instrument,
                     ChildDocumentListIndex = childDocumentListIndex.Value,
                     EntityListIndex = listIndex.Value,
-                    // TODO: Remove outcommented code.
-                    //ChildDocumentID = rootDocumentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].ID
                 };
             }
 
@@ -320,22 +310,20 @@ namespace JJ.Presentation.Synthesizer.Helpers
                     ChildDocumentTypeEnum = ChildDocumentTypeEnum.Effect,
                     ChildDocumentListIndex = childDocumentListIndex.Value,
                     EntityListIndex = listIndex.Value,
-                    // TODO: Remove outcommented code.
-                    //ChildDocumentID = rootDocumentViewModel.EffectDocumentList[childDocumentListIndex.Value].ID
                 };
             }
 
             throw new Exception(String.Format("documentViewModel does not have PatchDetailsViewModel with ID '{0}' and neither do any ChildDocumentViewModels.", patchID));
         }
 
-        public static IList<PatchDetailsViewModel> GetPatchDetailsViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentItemAlternativeKey key)
-        {
-            if (key == null) throw new NullException(() => key);
+        //public static IList<PatchDetailsViewModel> GetPatchDetailsViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentItemAlternativeKey key)
+        //{
+        //    if (key == null) throw new NullException(() => key);
 
-            return GetPatchDetailsViewModels_ByAlternativeKey(documentViewModel, key.ChildDocumentTypeEnum, key.ChildDocumentListIndex);
-        }
+        //    return GetPatchDetailsViewModels_ByAlternativeKey(documentViewModel, key.ChildDocumentTypeEnum, key.ChildDocumentListIndex);
+        //}
 
-        public static IList<PatchDetailsViewModel> GetPatchDetailsViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private static IList<PatchDetailsViewModel> GetPatchDetailsViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
@@ -371,7 +359,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return GetPatchDetailsViewModel_ByAlternativeKey(documentViewModel, key.EntityListIndex, key.ChildDocumentTypeEnum, key.ChildDocumentListIndex);
         }
 
-        public static PatchDetailsViewModel GetPatchDetailsViewModel_ByAlternativeKey(DocumentViewModel documentViewModel, int patchListIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private static PatchDetailsViewModel GetPatchDetailsViewModel_ByAlternativeKey(DocumentViewModel documentViewModel, int patchListIndex, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
@@ -390,7 +378,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         }
 
         // TODO: Make a template method by passing a delegate.
-        public static SampleListViewModel GetSampleListViewModel_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private static SampleListViewModel GetSampleListViewModel_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
@@ -456,9 +444,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 {
                     ChildDocumentTypeEnum = null,
                     ChildDocumentListIndex = null,
-                    EntityListIndex = listIndex.Value,
-                    // TODO: Remove outcommented code.
-                    //ChildDocumentID = null
+                    EntityListIndex = listIndex.Value
                 };
             }
 
@@ -475,9 +461,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 {
                     ChildDocumentTypeEnum = ChildDocumentTypeEnum.Instrument,
                     ChildDocumentListIndex = childDocumentListIndex.Value,
-                    EntityListIndex = listIndex.Value,
-                    // TODO: Remove outcommented code.
-                    //ChildDocumentID = rootDocumentViewModel.InstrumentDocumentList[childDocumentListIndex.Value].ID
+                    EntityListIndex = listIndex.Value
                 };
             }
 
@@ -494,23 +478,21 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 {
                     ChildDocumentTypeEnum = ChildDocumentTypeEnum.Effect,
                     ChildDocumentListIndex = childDocumentListIndex.Value,
-                    EntityListIndex = listIndex.Value,
-                    // TODO: Remove outcommented code.
-                    //ChildDocumentID = rootDocumentViewModel.EffectDocumentList[childDocumentListIndex.Value].ID
+                    EntityListIndex = listIndex.Value
                 };
             }
 
             throw new Exception(String.Format("documentViewModel does not have SamplePropertiesViewModel with ID '{0}' and neither do any ChildDocumentViewModels.", sampleID));
         }
 
-        public static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentItemAlternativeKey key)
-        {
-            if (key == null) throw new NullException(() => key);
+        //public static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentItemAlternativeKey key)
+        //{
+        //    if (key == null) throw new NullException(() => key);
 
-            return GetSamplePropertiesViewModels_ByAlternativeKey(documentViewModel, key.ChildDocumentTypeEnum, key.ChildDocumentListIndex);
-        }
+        //    return GetSamplePropertiesViewModels_ByAlternativeKey(documentViewModel, key.ChildDocumentTypeEnum, key.ChildDocumentListIndex);
+        //}
 
-        public static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
+        private static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentTypeEnum? childDocumentTypeEnum, int? childDocumentListIndex)
         {
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
 
@@ -614,16 +596,16 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return sample;
         }
 
-        public static Sample GetSample(Document rootDocument, int sampleID)
-        {
-            Sample sample = TryGetSample(rootDocument, sampleID);
+        //public static Sample GetSample(Document rootDocument, int sampleID)
+        //{
+        //    Sample sample = TryGetSample(rootDocument, sampleID);
 
-            if (sample == null)
-            {
-                throw new Exception(String.Format("Sample with ID '{0}' not found in either root Document or child Documents.", sampleID));
-            }
+        //    if (sample == null)
+        //    {
+        //        throw new Exception(String.Format("Sample with ID '{0}' not found in either root Document or child Documents.", sampleID));
+        //    }
 
-            return sample;
-        }
+        //    return sample;
+        //}
     }
 }
