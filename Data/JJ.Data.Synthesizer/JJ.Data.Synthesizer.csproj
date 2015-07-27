@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="AudioFileOutput.cs" />
     <Compile Include="AudioFileOutputChannel.cs" />
+    <Compile Include="ChildDocumentType.cs" />
     <Compile Include="Document.cs">
       <SubType>Code</SubType>
     </Compile>

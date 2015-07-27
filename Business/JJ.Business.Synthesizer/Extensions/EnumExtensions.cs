@@ -163,5 +163,23 @@ namespace JJ.Business.Synthesizer.Extensions
 
             sample.LinkTo(audioFileFormat);
         }
+
+        // Document
+
+        public static ChildDocumentTypeEnum GetChildDocumentTypeEnum(this Document document)
+        {
+            if (document.ChildDocumentType == null) return ChildDocumentTypeEnum.Undefined;
+
+            return (ChildDocumentTypeEnum)document.ChildDocumentType.ID;
+        }
+
+        public static void SetChildDocumentTypeEnum(this Document document, ChildDocumentTypeEnum childDocumentTypeEnum, IChildDocumentTypeRepository childDocumentTypeRepository)
+        {
+            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
+
+            ChildDocumentType childDocumentType = childDocumentTypeRepository.Get((int)childDocumentTypeEnum);
+
+            document.LinkTo(childDocumentType);
+        }
     }
 }

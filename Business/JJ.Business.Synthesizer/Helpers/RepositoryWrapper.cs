@@ -29,6 +29,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public INodeTypeRepository NodeTypeRepository { get; set; }
         public ISampleDataTypeRepository SampleDataTypeRepository { get; set; }
         public ISpeakerSetupRepository SpeakerSetupRepository { get; set; }
+        public IChildDocumentTypeRepository ChildDocumentTypeRepository { get; set; }
 
         public IIDRepository IDRepository { get; set; }
 
@@ -52,6 +53,7 @@ namespace JJ.Business.Synthesizer.Helpers
             INodeTypeRepository nodeTypeRepository,
             ISampleDataTypeRepository sampleDataTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository,
+            IChildDocumentTypeRepository childDocumentTypeRepository,
 
             IIDRepository idRepository)
         {
@@ -74,6 +76,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
+            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
 
             if (idRepository == null) throw new NullException(() => idRepository);
 
@@ -96,6 +99,7 @@ namespace JJ.Business.Synthesizer.Helpers
             NodeTypeRepository = nodeTypeRepository;
             SampleDataTypeRepository = sampleDataTypeRepository;
             SpeakerSetupRepository = speakerSetupRepository;
+            ChildDocumentTypeRepository = childDocumentTypeRepository;
 
             IDRepository = idRepository;
         }

@@ -23,7 +23,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 
         // The Document List
 
-        public DocumentListViewModel DocumentList { get; set; }
+        public DocumentGridViewModel DocumentGrid { get; set; }
         public DocumentDetailsViewModel DocumentDetails { get; set; }
         /// <summary> It is suggested you show this as a modal window. </summary>
         public DocumentCannotDeleteViewModel DocumentCannotDelete { get; set; }

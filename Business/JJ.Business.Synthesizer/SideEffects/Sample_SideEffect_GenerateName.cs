@@ -10,10 +10,6 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    /// <summary>
-    /// Fills in a name in the Instrument Document, that is like: 'Instrument 1'.
-    /// If 'Instrument 1' already exists, it tries 'Instrument 2' etcetera.
-    /// </summary>
     public class Sample_SideEffect_GenerateName : ISideEffect
     {
         private Sample _entity;

@@ -40,8 +40,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Document destDocument = userInput.ToEntity(repositoryWrapper.DocumentRepository);
 
-            ToEntityHelper.ToInstrumentsWithRelatedEntities(userInput.InstrumentDocumentList, destDocument, repositoryWrapper);
-            ToEntityHelper.ToEffectsWithRelatedEntities(userInput.EffectDocumentList, destDocument, repositoryWrapper);
+            ToEntityHelper.ToChildDocumentsWithRelatedEntities(userInput.ChildDocumentList, destDocument, repositoryWrapper);
             ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositoryWrapper));
             ToEntityHelper.ToCurvesWithRelatedEntities(
                 userInput.CurveDetailsList,
@@ -108,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Child Document
 
-        public static Document ToEntity(this ChildDocumentPropertiesViewModel viewModel, IDocumentRepository documentRepository)
+        public static Document ToEntity(this ChildDocumentPropertiesViewModel viewModel, IDocumentRepository documentRepository, IChildDocumentTypeRepository childDocumentTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (documentRepository == null) throw new NullException(() => documentRepository);
@@ -122,6 +121,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
             entity.Name = viewModel.Name;
 
+            ChildDocumentTypeEnum childDocumentTypeEnum = (ChildDocumentTypeEnum)viewModel.ChildDocumentType.ID;
+            entity.SetChildDocumentTypeEnum(childDocumentTypeEnum, childDocumentTypeRepository);
+
             return entity;
         }
 
@@ -130,7 +132,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
-            Document destDocument = sourceViewModel.ToEntity(repositoryWrapper.DocumentRepository);
+            Document destDocument = sourceViewModel.ToEntity(repositoryWrapper.DocumentRepository, repositoryWrapper.ChildDocumentTypeRepository);
 
             ToEntityHelper.ToSamples(sourceViewModel.SamplePropertiesList, destDocument, new SampleRepositories(repositoryWrapper));
             ToEntityHelper.ToCurvesWithRelatedEntities(
@@ -144,10 +146,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return destDocument;
         }
 
-        public static Document ToEntity(this ChildDocumentViewModel viewModel, IDocumentRepository documentRepository)
+        public static Document ToEntity(this ChildDocumentViewModel viewModel, IDocumentRepository documentRepository, IChildDocumentTypeRepository childDocumentTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
 
             Document childDocument = documentRepository.TryGet(viewModel.ID);
             if (childDocument == null)
@@ -158,6 +161,14 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             childDocument.Name = viewModel.Name;
+
+            // ChildDocumentType
+            ChildDocumentType childDocumentType = null;
+            if (viewModel.ChildDocumentType != null)
+            {
+                childDocumentType = childDocumentTypeRepository.Get(viewModel.ChildDocumentType.ID);
+            }
+            childDocument.LinkTo(childDocumentType);
 
             return childDocument;
         }

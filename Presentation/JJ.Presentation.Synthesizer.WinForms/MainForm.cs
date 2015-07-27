@@ -67,11 +67,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
             menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
 
-            documentListUserControl.ShowRequested += documentListUserControl_ShowRequested;
-            documentListUserControl.CloseRequested += documentListUserControl_CloseRequested;
-            documentListUserControl.CreateRequested += documentListUserControl_CreateRequested;
-            documentListUserControl.OpenRequested += documentListUserControl_OpenRequested;
-            documentListUserControl.DeleteRequested += documentListUserControl_DeleteRequested;
+            documentGridUserControl.ShowRequested += documentGridUserControl_ShowRequested;
+            documentGridUserControl.CloseRequested += documentGridUserControl_CloseRequested;
+            documentGridUserControl.CreateRequested += documentGridUserControl_CreateRequested;
+            documentGridUserControl.OpenRequested += documentGridUserControl_OpenRequested;
+            documentGridUserControl.DeleteRequested += documentGridUserControl_DeleteRequested;
             documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;
             documentDetailsUserControl.DeleteRequested += documentDetailsUserControl_DeleteRequested;
             documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
@@ -89,21 +89,21 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
 
-            audioFileOutputListUserControl.CloseRequested += audioFileOutputListUserControl_CloseRequested;
-            audioFileOutputListUserControl.CreateRequested += audioFileOutputListUserControl_CreateRequested;
-            audioFileOutputListUserControl.DeleteRequested += audioFileOutputListUserControl_DeleteRequested;
-            audioFileOutputListUserControl.ShowPropertiesRequested += audioFileOutputListUserControl_ShowPropertiesRequested;
+            audioFileOutputGridUserControl.CloseRequested += audioFileOutputGridUserControl_CloseRequested;
+            audioFileOutputGridUserControl.CreateRequested += audioFileOutputGridUserControl_CreateRequested;
+            audioFileOutputGridUserControl.DeleteRequested += audioFileOutputGridUserControl_DeleteRequested;
+            audioFileOutputGridUserControl.ShowPropertiesRequested += audioFileOutputGridUserControl_ShowPropertiesRequested;
             audioFileOutputPropertiesUserControl.CloseRequested += audioFileOutputPropertiesUserControl_CloseRequested;
             audioFileOutputPropertiesUserControl.LoseFocusRequested += audioFileOutputPropertiesUserControl_LoseFocusRequested;
-            curveListUserControl.CloseRequested += curveListUserControl_CloseRequested;
-            curveListUserControl.CreateRequested += curveListUserControl_CreateRequested;
-            curveListUserControl.DeleteRequested += curveListUserControl_DeleteRequested;
-            instrumentListUserControl.CloseRequested += instrumentListUserControl_CloseRequested;
-            instrumentListUserControl.CreateRequested += instrumentListUserControl_CreateRequested;
-            instrumentListUserControl.DeleteRequested += instrumentListUserControl_DeleteRequested;
-            effectListUserControl.CloseRequested += effectListUserControl_CloseRequested;
-            effectListUserControl.CreateRequested += effectListUserControl_CreateRequested;
-            effectListUserControl.DeleteRequested += effectListUserControl_DeleteRequested;
+            curveGridUserControl.CloseRequested += curveGridUserControl_CloseRequested;
+            curveGridUserControl.CreateRequested += curveGridUserControl_CreateRequested;
+            curveGridUserControl.DeleteRequested += curveGridUserControl_DeleteRequested;
+            instrumentGridUserControl.CloseRequested += instrumentGridUserControl_CloseRequested;
+            instrumentGridUserControl.CreateRequested += instrumentGridUserControl_CreateRequested;
+            instrumentGridUserControl.DeleteRequested += instrumentGridUserControl_DeleteRequested;
+            effectGridUserControl.CloseRequested += effectGridUserControl_CloseRequested;
+            effectGridUserControl.CreateRequested += effectGridUserControl_CreateRequested;
+            effectGridUserControl.DeleteRequested += effectGridUserControl_DeleteRequested;
             patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
             patchDetailsUserControl.LoseFocusRequested += patchDetailsUserControl_LoseFocusRequested;
             patchDetailsUserControl.DeleteOperatorRequested += patchDetailsUserControl_DeleteOperatorRequested;
@@ -113,14 +113,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
             patchDetailsUserControl.SetValueRequested += patchDetailsUserControl_SetValueRequested;
             patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
-            patchListUserControl.CloseRequested += patchListUserControl_CloseRequested;
-            patchListUserControl.CreateRequested += patchListUserControl_CreateRequested;
-            patchListUserControl.DeleteRequested += patchListUserControl_DeleteRequested;
-            patchListUserControl.ShowDetailsRequested += patchListUserControl_ShowDetailsRequested;
-            sampleListUserControl.CloseRequested += sampleListUserControl_CloseRequested;
-            sampleListUserControl.CreateRequested += sampleListUserControl_CreateRequested;
-            sampleListUserControl.DeleteRequested += sampleListUserControl_DeleteRequested;
-            sampleListUserControl.ShowPropertiesRequested += sampleListUserControl_ShowPropertiesRequested;
+            patchGridUserControl.CloseRequested += patchGridUserControl_CloseRequested;
+            patchGridUserControl.CreateRequested += patchGridUserControl_CreateRequested;
+            patchGridUserControl.DeleteRequested += patchGridUserControl_DeleteRequested;
+            patchGridUserControl.ShowDetailsRequested += patchGridUserControl_ShowDetailsRequested;
+            sampleGridUserControl.CloseRequested += sampleGridUserControl_CloseRequested;
+            sampleGridUserControl.CreateRequested += sampleGridUserControl_CreateRequested;
+            sampleGridUserControl.DeleteRequested += sampleGridUserControl_DeleteRequested;
+            sampleGridUserControl.ShowPropertiesRequested += sampleGridUserControl_ShowPropertiesRequested;
             samplePropertiesUserControl.CloseRequested += samplePropertiesUserControl_CloseRequested;
             samplePropertiesUserControl.LoseFocusRequested += samplePropertiesUserControl_LoseFocusRequested;
 
@@ -176,13 +176,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void DocumentListShow(int pageNumber = 1)
         {
-            _presenter.DocumentListShow(pageNumber);
+            _presenter.DocumentGridShow(pageNumber);
             ApplyViewModel();
         }
 
         private void DocumentListClose()
         {
-            _presenter.DocumentListClose();
+            _presenter.DocumentGridClose();
             ApplyViewModel();
         }
 
@@ -315,13 +315,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void AudioFileOutputListShow()
         {
-            _presenter.AudioFileOutputListShow();
+            _presenter.AudioFileOutputGridShow();
             ApplyViewModel();
         }
 
         private void AudioFileOutputListClose()
         {
-            _presenter.AudioFileOutputListClose();
+            _presenter.AudioFileOutputGridClose();
             ApplyViewModel();
         }
 
@@ -359,13 +359,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void CurveListShow(int? childDocumentID)
         {
-            _presenter.CurveListShow(childDocumentID);
+            _presenter.CurveGridShow(childDocumentID);
             ApplyViewModel();
         }
 
         private void CurveListClose()
         {
-            _presenter.CurveListClose();
+            _presenter.CurveGridClose();
             ApplyViewModel();
         }
 
@@ -385,13 +385,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void InstrumentListShow()
         {
-            _presenter.InstrumentListShow();
+            _presenter.InstrumentGridShow();
             ApplyViewModel();
         }
 
         private void InstrumentListClose()
         {
-            _presenter.InstrumentListClose();
+            _presenter.InstrumentGridClose();
             ApplyViewModel();
         }
 
@@ -411,13 +411,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void EffectListShow()
         {
-            _presenter.EffectListShow();
+            _presenter.EffectGridShow();
             ApplyViewModel();
         }
 
         private void EffectListClose()
         {
-            _presenter.EffectListClose();
+            _presenter.EffectGridClose();
             ApplyViewModel();
         }
 
@@ -437,13 +437,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void PatchListShow(int? childDocumentID)
         {
-            _presenter.PatchListShow(childDocumentID);
+            _presenter.PatchGridShow(childDocumentID);
             ApplyViewModel();
         }
 
         private void PatchListClose()
         {
-            _presenter.PatchListClose();
+            _presenter.PatchGridClose();
             ApplyViewModel();
         }
 
@@ -530,13 +530,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void SampleListShow(int? childDocumentID)
         {
-            _presenter.SampleListShow(childDocumentID);
+            _presenter.SampleGridShow(childDocumentID);
             ApplyViewModel();
         }
 
         private void SampleListClose()
         {
-            _presenter.SampleListClose();
+            _presenter.SampleGridClose();
             ApplyViewModel();
         }
 
@@ -594,27 +594,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Document List Events
 
-        private void documentListUserControl_ShowRequested(object sender, Int32EventArgs e)
+        private void documentGridUserControl_ShowRequested(object sender, Int32EventArgs e)
         {
             DocumentListShow(e.Value);
         }
 
-        private void documentListUserControl_CreateRequested(object sender, EventArgs e)
+        private void documentGridUserControl_CreateRequested(object sender, EventArgs e)
         {
             DocumentDetailsCreate();
         }
 
-        private void documentListUserControl_OpenRequested(object sender, Int32EventArgs e)
+        private void documentGridUserControl_OpenRequested(object sender, Int32EventArgs e)
         {
             DocumentOpen(e.Value);
         }
 
-        private void documentListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void documentGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
             DocumentDelete(e.Value);
         }
 
-        private void documentListUserControl_CloseRequested(object sender, EventArgs e)
+        private void documentGridUserControl_CloseRequested(object sender, EventArgs e)
         {
             DocumentListClose();
         }
@@ -702,22 +702,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // AudioFileOutput Events
 
-        private void audioFileOutputListUserControl_CreateRequested(object sender, EventArgs e)
+        private void audioFileOutputGridUserControl_CreateRequested(object sender, EventArgs e)
         {
             AudioFileOutputCreate();
         }
 
-        private void audioFileOutputListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void audioFileOutputGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
             AudioFileOutputDelete(e.Value);
         }
 
-        private void audioFileOutputListUserControl_CloseRequested(object sender, EventArgs e)
+        private void audioFileOutputGridUserControl_CloseRequested(object sender, EventArgs e)
         {
             AudioFileOutputListClose();
         }
 
-        private void audioFileOutputListUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
+        private void audioFileOutputGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
         {
             AudioFileOutputPropertiesShow(e.Value);
         }
@@ -734,73 +734,73 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Curve Events
 
-        private void curveListUserControl_CreateRequested(object sender, NullableInt32EventArgs e)
+        private void curveGridUserControl_CreateRequested(object sender, NullableInt32EventArgs e)
         {
             CurveCreate(e.Value);
         }
 
-        private void curveListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void curveGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
             CurveDelete(e.Value);
         }
 
-        private void curveListUserControl_CloseRequested(object sender, EventArgs e)
+        private void curveGridUserControl_CloseRequested(object sender, EventArgs e)
         {
             CurveListClose();
         }
 
         // Instrument Events
 
-        private void instrumentListUserControl_CreateRequested(object sender, EventArgs e)
+        private void instrumentGridUserControl_CreateRequested(object sender, EventArgs e)
         {
             InstrumentCreate();
         }
 
-        private void instrumentListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void instrumentGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
             InstrumentDelete(e.Value);
         }
 
-        private void instrumentListUserControl_CloseRequested(object sender, EventArgs e)
+        private void instrumentGridUserControl_CloseRequested(object sender, EventArgs e)
         {
             InstrumentListClose();
         }
 
         // Effect Events
 
-        private void effectListUserControl_CreateRequested(object sender, EventArgs e)
+        private void effectGridUserControl_CreateRequested(object sender, EventArgs e)
         {
             EffectCreate();
         }
 
-        private void effectListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void effectGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
             EffectDelete(e.Value);
         }
 
-        private void effectListUserControl_CloseRequested(object sender, EventArgs e)
+        private void effectGridUserControl_CloseRequested(object sender, EventArgs e)
         {
             EffectListClose();
         }
 
         // Patch Events
 
-        private void patchListUserControl_CreateRequested(object sender, NullableInt32EventArgs e)
+        private void patchGridUserControl_CreateRequested(object sender, NullableInt32EventArgs e)
         {
             PatchCreate(e.Value);
         }
 
-        private void patchListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void patchGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
             PatchDelete(e.Value);
         }
 
-        private void patchListUserControl_CloseRequested(object sender, EventArgs e)
+        private void patchGridUserControl_CloseRequested(object sender, EventArgs e)
         {
             PatchListClose();
         }
 
-        private void patchListUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
+        private void patchGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
         {
             PatchDetailsShow(e.Value);
         }
@@ -852,22 +852,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Sample Events
 
-        private void sampleListUserControl_CreateRequested(object sender, NullableInt32EventArgs e)
+        private void sampleGridUserControl_CreateRequested(object sender, NullableInt32EventArgs e)
         {
             SampleCreate(e.Value);
         }
 
-        private void sampleListUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        private void sampleGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
         {
             SampleDelete(e.Value);
         }
 
-        private void sampleListUserControl_CloseRequested(object sender, EventArgs e)
+        private void sampleGridUserControl_CloseRequested(object sender, EventArgs e)
         {
             SampleListClose();
         }
 
-        private void sampleListUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
+        private void sampleGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
         {
             SamplePropertiesShow(e.Value);
         }
@@ -928,8 +928,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 menuUserControl.Show(_presenter.ViewModel.Menu);
 
-                documentListUserControl.ViewModel = _presenter.ViewModel.DocumentList;
-                documentListUserControl.Visible = _presenter.ViewModel.DocumentList.Visible;
+                documentGridUserControl.ViewModel = _presenter.ViewModel.DocumentGrid;
+                documentGridUserControl.Visible = _presenter.ViewModel.DocumentGrid.Visible;
 
                 documentDetailsUserControl.ViewModel = _presenter.ViewModel.DocumentDetails;
                 documentDetailsUserControl.Visible = _presenter.ViewModel.DocumentDetails.Visible;
@@ -940,8 +940,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 documentPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.DocumentProperties;
                 documentPropertiesUserControl.Visible = _presenter.ViewModel.Document.DocumentProperties.Visible;
 
-                audioFileOutputListUserControl.ViewModel = _presenter.ViewModel.Document.AudioFileOutputList;
-                audioFileOutputListUserControl.Visible = _presenter.ViewModel.Document.AudioFileOutputList.Visible;
+                audioFileOutputGridUserControl.ViewModel = _presenter.ViewModel.Document.AudioFileOutputGrid;
+                audioFileOutputGridUserControl.Visible = _presenter.ViewModel.Document.AudioFileOutputGrid.Visible;
 
                 // AudioFileOutputPropertiesViewModel
                 bool audioFileOutputPropertiesVisible = false;
@@ -954,53 +954,53 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
                 audioFileOutputPropertiesUserControl.Visible = audioFileOutputPropertiesVisible;
 
-                // CurveListViewModel
-                bool curveListVisible = false;
-                if (_presenter.ViewModel.Document.CurveList.Visible)
+                // CurveGridViewModel
+                bool curveGridVisible = false;
+                if (_presenter.ViewModel.Document.CurveGrid.Visible)
                 {
-                    curveListUserControl.ViewModel = _presenter.ViewModel.Document.CurveList;
-                    curveListVisible = true;
+                    curveGridUserControl.ViewModel = _presenter.ViewModel.Document.CurveGrid;
+                    curveGridVisible = true;
                 }
                 else
                 {
-                    CurveListViewModel visibleCurveListViewModel = Enumerable.Union(_presenter.ViewModel.Document.InstrumentDocumentList.Select(x => x.CurveList),
-                                                                                    _presenter.ViewModel.Document.EffectDocumentList.Select(x => x.CurveList))
+                    CurveGridViewModel visibleCurveGridViewModel = Enumerable.Union(_presenter.ViewModel.Document.ChildDocumentList.Select(x => x.CurveGrid),
+                                                                                    _presenter.ViewModel.Document.ChildDocumentList.Select(x => x.CurveGrid))
                                                                              .Where(x => x.Visible)
                                                                              .SingleOrDefault();
-                    if (visibleCurveListViewModel != null)
+                    if (visibleCurveGridViewModel != null)
                     {
-                        curveListUserControl.ViewModel = visibleCurveListViewModel;
-                        curveListVisible = true;
+                        curveGridUserControl.ViewModel = visibleCurveGridViewModel;
+                        curveGridVisible = true;
                     }
                 }
-                curveListUserControl.Visible = curveListVisible;
+                curveGridUserControl.Visible = curveGridVisible;
 
-                instrumentListUserControl.ViewModel = _presenter.ViewModel.Document.InstrumentList;
-                instrumentListUserControl.Visible = _presenter.ViewModel.Document.InstrumentList.Visible;
+                instrumentGridUserControl.ViewModel = _presenter.ViewModel.Document.InstrumentGrid;
+                instrumentGridUserControl.Visible = _presenter.ViewModel.Document.InstrumentGrid.Visible;
 
-                effectListUserControl.ViewModel = _presenter.ViewModel.Document.EffectList;
-                effectListUserControl.Visible = _presenter.ViewModel.Document.EffectList.Visible;
+                effectGridUserControl.ViewModel = _presenter.ViewModel.Document.EffectGrid;
+                effectGridUserControl.Visible = _presenter.ViewModel.Document.EffectGrid.Visible;
 
-                // PatchListViewModel
-                bool patchListVisible = false;
-                if (_presenter.ViewModel.Document.PatchList.Visible)
+                // PatchGridViewModel
+                bool patchGridVisible = false;
+                if (_presenter.ViewModel.Document.PatchGrid.Visible)
                 {
-                    patchListUserControl.ViewModel = _presenter.ViewModel.Document.PatchList;
-                    patchListVisible = true;
+                    patchGridUserControl.ViewModel = _presenter.ViewModel.Document.PatchGrid;
+                    patchGridVisible = true;
                 }
                 else
                 {
-                    PatchListViewModel visiblePatchListViewModel = Enumerable.Union(_presenter.ViewModel.Document.InstrumentDocumentList.Select(x => x.PatchList),
-                                                                                    _presenter.ViewModel.Document.EffectDocumentList.Select(x => x.PatchList))
+                    PatchGridViewModel visiblePatchGridViewModel = Enumerable.Union(_presenter.ViewModel.Document.ChildDocumentList.Select(x => x.PatchGrid),
+                                                                                    _presenter.ViewModel.Document.ChildDocumentList.Select(x => x.PatchGrid))
                                                                              .Where(x => x.Visible)
                                                                              .SingleOrDefault();
-                    if (visiblePatchListViewModel != null)
+                    if (visiblePatchGridViewModel != null)
                     {
-                        patchListUserControl.ViewModel = visiblePatchListViewModel;
-                        patchListVisible = true;
+                        patchGridUserControl.ViewModel = visiblePatchGridViewModel;
+                        patchGridVisible = true;
                     }
                 }
-                patchListUserControl.Visible = patchListVisible;
+                patchGridUserControl.Visible = patchGridVisible;
 
                 // PatchDetailsViewModel
                 bool patchDetailsVisible = false;
@@ -1012,8 +1012,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
                 else
                 {
-                    visiblePatchDetailsViewModel = Enumerable.Union(_presenter.ViewModel.Document.InstrumentDocumentList.SelectMany(x => x.PatchDetailsList),
-                                                                    _presenter.ViewModel.Document.EffectDocumentList.SelectMany(x => x.PatchDetailsList))
+                    visiblePatchDetailsViewModel = Enumerable.Union(_presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList),
+                                                                    _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList))
                                                              .Where(x => x.Visible)
                                                              .SingleOrDefault();
                     if (visiblePatchDetailsViewModel != null)
@@ -1024,26 +1024,26 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
                 patchDetailsUserControl.Visible = patchDetailsVisible;
 
-                // SampleListViewModel
-                bool sampleListVisible = false;
-                if (_presenter.ViewModel.Document.SampleList.Visible)
+                // SampleGridViewModel
+                bool sampleGridVisible = false;
+                if (_presenter.ViewModel.Document.SampleGrid.Visible)
                 {
-                    sampleListUserControl.ViewModel = _presenter.ViewModel.Document.SampleList;
-                    sampleListVisible = true;
+                    sampleGridUserControl.ViewModel = _presenter.ViewModel.Document.SampleGrid;
+                    sampleGridVisible = true;
                 }
                 else
                 {
-                    SampleListViewModel visibleSampleListViewModel = Enumerable.Union(_presenter.ViewModel.Document.InstrumentDocumentList.Select(x => x.SampleList),
-                                                                                      _presenter.ViewModel.Document.EffectDocumentList.Select(x => x.SampleList))
+                    SampleGridViewModel visibleSampleGridViewModel = Enumerable.Union(_presenter.ViewModel.Document.ChildDocumentList.Select(x => x.SampleGrid),
+                                                                                      _presenter.ViewModel.Document.ChildDocumentList.Select(x => x.SampleGrid))
                                                                                .Where(x => x.Visible)
                                                                                .SingleOrDefault();
-                    if (visibleSampleListViewModel != null)
+                    if (visibleSampleGridViewModel != null)
                     {
-                        sampleListUserControl.ViewModel = visibleSampleListViewModel;
-                        sampleListVisible = true;
+                        sampleGridUserControl.ViewModel = visibleSampleGridViewModel;
+                        sampleGridVisible = true;
                     }
                 }
-                sampleListUserControl.Visible = sampleListVisible;
+                sampleGridUserControl.Visible = sampleGridVisible;
 
                 // SamplePropertiesViewModel
                 bool samplePropertiesVisible = false;
@@ -1056,8 +1056,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
                 else
                 {
-                    visibleSamplePropertiesViewModel = Enumerable.Union(_presenter.ViewModel.Document.InstrumentDocumentList.SelectMany(x => x.SamplePropertiesList),
-                                                                        _presenter.ViewModel.Document.EffectDocumentList.SelectMany(x => x.SamplePropertiesList))
+                    visibleSamplePropertiesViewModel = Enumerable.Union(_presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList),
+                                                                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList))
                                                                  .Where(x => x.Visible)
                                                                  .SingleOrDefault();
                     if (visibleSamplePropertiesViewModel != null)
@@ -1125,8 +1125,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
 
                 bool mustFocusSampleUserControl = _presenter.ViewModel.Document.SamplePropertiesList.Any(x => !x.Successful) ||
-                                                  _presenter.ViewModel.Document.InstrumentDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful) ||
-                                                  _presenter.ViewModel.Document.EffectDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful);
+                                                  _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful) ||
+                                                  _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful);
                 if (mustFocusSampleUserControl)
                 {
                     samplePropertiesUserControl.Focus();

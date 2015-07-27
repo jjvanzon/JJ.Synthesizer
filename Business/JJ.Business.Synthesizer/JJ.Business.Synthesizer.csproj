@@ -138,6 +138,7 @@
     <Compile Include="EntityWrappers\Resample_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\WhiteNoise_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Sample_OperatorWrapper.cs" />
+    <Compile Include="Enums\ChildDocumentTypeEnum.cs" />
     <Compile Include="Enums\OperatorTypeEnum.cs" />
     <Compile Include="Enums\SpeakerSetupEnum.cs" />
     <Compile Include="Enums\ChannelEnum.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Exceptions\AlreadyDoneIsNullException.cs" />
     <Compile Include="Extensions\AudioFileOutputExtensions.cs" />
     <Compile Include="Extensions\DeleteRelatedEntitiesExtensions.cs" />
+    <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\RecursionExtensions.cs" />
     <Compile Include="Extensions\UnlinkRelatedEntitiesExtensions.cs" />
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
@@ -198,8 +200,7 @@
     <Compile Include="SideEffects\Patch_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />
-    <Compile Include="SideEffects\Effect_SideEffect_GenerateName.cs" />
-    <Compile Include="SideEffects\Instrument_SideEffect_GenerateName.cs" />
+    <Compile Include="SideEffects\ChildDocument_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Structs\WavHeaderStruct.cs" />
     <Compile Include="Validation\ChildDocumentValidator.cs" />

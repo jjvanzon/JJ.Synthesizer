@@ -17,6 +17,7 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
         public virtual IList<Document> GetPageOfRootDocuments(int firstIndex, int count)
         {
             return _context.Query<Document>()
+                           .Where(x => x.ParentDocument == null)
                            .Skip(firstIndex)
                            .Take(count)
                            .ToArray();
@@ -24,7 +25,9 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
 
         public virtual int CountRootDocuments()
         {
-            return _context.Query<Document>().Count();
+            return _context.Query<Document>()
+                           .Where(x => x.ParentDocument == null)
+                           .Count();
         }
     }
 }

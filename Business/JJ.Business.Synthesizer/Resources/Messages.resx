@@ -154,6 +154,9 @@
     <value>The patch of operator '{0}' is filled in, but it is not the expected patch '{1}'.</value>
     <comment>{0} = operator name, {1} = patch name</comment>
   </data>
+  <data name="ParentDocumentAndChildDocumentTypeShouldBothBeNullOrBothFilledIn" xml:space="preserve">
+    <value>Parent document and child document type should either both be filled in or both be left empty.</value>
+  </data>
   <data name="SampleCount0" xml:space="preserve">
     <value>Sample '{0}' has no data.</value>
     <comment>{0} = sample name</comment>

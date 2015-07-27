@@ -20,12 +20,12 @@ namespace JJ.Data.Synthesizer.NHibernate.Names
         public const string NodeTypeID = "NodeTypeID";
         public const string PatchID = "PatchID";
         public const string InterpolationTypeID = "InterpolationTypeID";
-        public const string AsInstrumentInDocumentID = "AsInstrumentInDocumentID";
-        public const string AsEffectInDocumentID = "AsEffectInDocumentID";
+        public const string ParentDocumentID = "ParentDocumentID";
         public const string DocumentID = "DocumentID";
         public const string DependentDocumentID = "DependentDocumentID";
         public const string MainPatchID = "MainPatchID";
         public const string DependentOnDocumentID = "DependentOnDocumentID";
         public const string OperatorTypeID = "OperatorTypeID";
+        public const string ChildDocumentTypeID = "ChildDocumentTypeID";
     }
 }

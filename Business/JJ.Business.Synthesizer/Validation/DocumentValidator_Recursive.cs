@@ -56,8 +56,6 @@ namespace JJ.Business.Synthesizer.Validation
                 string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Patch, patch.Name);
                 Execute(new PatchValidator_Recursive(patch, _repositoryWrapper.CurveRepository, _repositoryWrapper.SampleRepository, _alreadyDone), messagePrefix);
                 Execute(new PatchValidator_InDocument(patch));
-
-                //IList<Operator> operators = patch
             }
 
             foreach (Sample sample in document.Samples)
@@ -72,22 +70,15 @@ namespace JJ.Business.Synthesizer.Validation
                 Execute(new AudioFileOutputValidator(audioFileOutput), messagePrefix);
             }
 
-            foreach (Document instrument in document.Instruments)
+            foreach (Document childDocument in document.ChildDocuments)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Instrument, instrument.Name);
-                Execute(new DocumentValidator_Recursive(instrument, _repositoryWrapper, _alreadyDone));
-            }
-
-            foreach (Document effect in document.Effects)
-            {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Instrument, effect.Name);
-                Execute(new DocumentValidator_Recursive(effect, _repositoryWrapper, _alreadyDone));
+                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.ChildDocument, childDocument.Name);
+                Execute(new DocumentValidator_Recursive(childDocument, _repositoryWrapper, _alreadyDone));
             }
 
             // TODO:
 
-            // AsInstrumentInDocument
-            // AsEffectInDocument
+            // ParentDocument
             // DependentOnDocuments
             // DependentDocuments
             // MainPatch

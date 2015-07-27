@@ -93,11 +93,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\AudioFileOutputListUserControl.cs">
+    <Compile Include="UserControls\AudioFileOutputGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\AudioFileOutputListUserControl.Designer.cs">
-      <DependentUpon>AudioFileOutputListUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\AudioFileOutputGridUserControl.Designer.cs">
+      <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\AudioFileOutputPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
@@ -123,17 +123,17 @@
     <Compile Include="UserControls\SamplePropertiesUserControl.Designer.cs">
       <DependentUpon>SamplePropertiesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\EffectListUserControl.cs">
+    <Compile Include="UserControls\EffectGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\EffectListUserControl.Designer.cs">
-      <DependentUpon>EffectListUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\EffectGridUserControl.Designer.cs">
+      <DependentUpon>EffectGridUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\InstrumentListUserControl.cs">
+    <Compile Include="UserControls\InstrumentGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\InstrumentListUserControl.Designer.cs">
-      <DependentUpon>InstrumentListUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\InstrumentGridUserControl.Designer.cs">
+      <DependentUpon>InstrumentGridUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\DocumentPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
@@ -174,23 +174,23 @@
     <Compile Include="UserControls\MenuUserControl.Designer.cs">
       <DependentUpon>MenuUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\SampleListUserControl.cs">
+    <Compile Include="UserControls\SampleGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\SampleListUserControl.Designer.cs">
-      <DependentUpon>SampleListUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\SampleGridUserControl.Designer.cs">
+      <DependentUpon>SampleGridUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\DocumentListUserControl.cs">
+    <Compile Include="UserControls\DocumentGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\DocumentListUserControl.Designer.cs">
-      <DependentUpon>DocumentListUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\DocumentGridUserControl.Designer.cs">
+      <DependentUpon>DocumentGridUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\CurveListUserControl.cs">
+    <Compile Include="UserControls\CurveGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\CurveListUserControl.Designer.cs">
-      <DependentUpon>CurveListUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\CurveGridUserControl.Designer.cs">
+      <DependentUpon>CurveGridUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\PatchDetailsUserControl.cs">
       <SubType>UserControl</SubType>
@@ -198,11 +198,11 @@
     <Compile Include="UserControls\PatchDetailsUserControl.Designer.cs">
       <DependentUpon>PatchDetailsUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\PatchListUserControl.cs">
+    <Compile Include="UserControls\PatchGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\PatchListUserControl.Designer.cs">
-      <DependentUpon>PatchListUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\PatchGridUserControl.Designer.cs">
+      <DependentUpon>PatchGridUserControl.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Forms\DocumentCannotDeleteForm.resx">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
@@ -214,8 +214,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\AudioFileOutputListUserControl.resx">
-      <DependentUpon>AudioFileOutputListUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\AudioFileOutputGridUserControl.resx">
+      <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputPropertiesUserControl.resx">
       <DependentUpon>AudioFileOutputPropertiesUserControl.cs</DependentUpon>
@@ -229,11 +229,11 @@
     <EmbeddedResource Include="UserControls\SamplePropertiesUserControl.resx">
       <DependentUpon>SamplePropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\EffectListUserControl.resx">
-      <DependentUpon>EffectListUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\EffectGridUserControl.resx">
+      <DependentUpon>EffectGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\InstrumentListUserControl.resx">
-      <DependentUpon>InstrumentListUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\InstrumentGridUserControl.resx">
+      <DependentUpon>InstrumentGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DocumentPropertiesUserControl.resx">
       <DependentUpon>DocumentPropertiesUserControl.cs</DependentUpon>
@@ -253,20 +253,20 @@
     <EmbeddedResource Include="UserControls\MenuUserControl.resx">
       <DependentUpon>MenuUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\SampleListUserControl.resx">
-      <DependentUpon>SampleListUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\SampleGridUserControl.resx">
+      <DependentUpon>SampleGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\DocumentListUserControl.resx">
-      <DependentUpon>DocumentListUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\DocumentGridUserControl.resx">
+      <DependentUpon>DocumentGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\CurveListUserControl.resx">
-      <DependentUpon>CurveListUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\CurveGridUserControl.resx">
+      <DependentUpon>CurveGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\PatchDetailsUserControl.resx">
       <DependentUpon>PatchDetailsUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\PatchListUserControl.resx">
-      <DependentUpon>PatchListUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\PatchGridUserControl.resx">
+      <DependentUpon>PatchGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

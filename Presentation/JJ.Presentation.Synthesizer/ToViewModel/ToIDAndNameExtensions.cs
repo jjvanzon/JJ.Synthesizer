@@ -89,5 +89,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = entity.Name
             };
         }
+
+        public static IDAndName ToIDAndName(this ChildDocumentType entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return new IDAndName
+            {
+                ID = entity.ID,
+                Name = entity.Name
+            };
+        }
     }
 }

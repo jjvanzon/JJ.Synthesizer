@@ -9,31 +9,29 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     public sealed class DocumentViewModel
     {
         public bool IsOpen { get; set; }
-
+       
         public int ID { get; set; }
         public DocumentTreeViewModel DocumentTree { get; set; }
         public DocumentPropertiesViewModel DocumentProperties { get; set; }
 
-        public ChildDocumentListViewModel InstrumentList { get; set; }
-        public IList<ChildDocumentPropertiesViewModel> InstrumentPropertiesList { get; set; }
-        /// <summary> Leading for data saving. </summary>
-        public IList<ChildDocumentViewModel> InstrumentDocumentList { get; set; }
+        public ChildDocumentGridViewModel InstrumentGrid { get; set; }
+        public ChildDocumentGridViewModel EffectGrid { get; set; }
 
-        public ChildDocumentListViewModel EffectList { get; set; }
-        public IList<ChildDocumentPropertiesViewModel> EffectPropertiesList { get; set; }
-        /// <summary> Leading for data saving. </summary>
-        public IList<ChildDocumentViewModel> EffectDocumentList { get; set; }
+        public IList<ChildDocumentPropertiesViewModel> ChildDocumentPropertiesList { get; set; }
 
-        public SampleListViewModel SampleList { get; set; }
+        /// <summary> Leading for saving the data. </summary>
+        public IList<ChildDocumentViewModel> ChildDocumentList { get; set; }
+
+        public SampleGridViewModel SampleGrid { get; set; }
         public IList<SamplePropertiesViewModel> SamplePropertiesList { get; set; }
 
-        public CurveListViewModel CurveList { get; set; }
+        public CurveGridViewModel CurveGrid { get; set; }
         public IList<CurveDetailsViewModel> CurveDetailsList { get; set; }
 
-        public PatchListViewModel PatchList { get; set; }
+        public PatchGridViewModel PatchGrid { get; set; }
         public IList<PatchDetailsViewModel> PatchDetailsList { get; set; }
 
-        public AudioFileOutputListViewModel AudioFileOutputList { get; set; }
+        public AudioFileOutputGridViewModel AudioFileOutputGrid { get; set; }
         public IList<AudioFileOutputPropertiesViewModel> AudioFileOutputPropertiesList { get; set; }
     }
 }

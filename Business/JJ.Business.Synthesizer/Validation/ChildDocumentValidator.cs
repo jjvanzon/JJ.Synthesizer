@@ -22,8 +22,8 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Document document = Object;
 
-            if (document.AsEffectInDocument == null ||
-                document.AsInstrumentInDocument == null)
+            if (document.ParentDocument == null ||
+                document.ParentDocument == null)
             {
                 // TODO: I do not like the message this produces.
                 // I would like a custom message that is more clear about what's going on.

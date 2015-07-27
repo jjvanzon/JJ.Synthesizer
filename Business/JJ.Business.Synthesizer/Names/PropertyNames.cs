@@ -70,5 +70,6 @@ namespace JJ.Business.Synthesizer.Names
         public const string ParentDocument = "ParentDocument";
         public const string ID = "ID";
         public const string Name = "Name";
+        public const string ChildDocument = "ChildDocument";
     }
 }

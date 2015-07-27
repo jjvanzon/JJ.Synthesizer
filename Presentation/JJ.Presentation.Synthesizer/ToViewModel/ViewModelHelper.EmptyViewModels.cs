@@ -1,4 +1,5 @@
 ﻿using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -33,7 +34,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentDelete = CreateEmptyDocumentDeleteViewModel(),
                 DocumentDeleted = CreateEmptyDocumentDeletedViewModel(),
                 DocumentDetails = CreateEmptyDocumentDetailsViewModel(),
-                DocumentList = CreateEmptyDocumentListViewModel(),
+                DocumentGrid = CreateEmptyDocumentGridViewModel(),
             };
         }
 
@@ -43,19 +44,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 DocumentTree = CreateEmptyDocumentTreeViewModel(),
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
-                InstrumentList = CreateEmptyChildDocumentListViewModel(ChildDocumentTypeEnum.Instrument),
-                InstrumentPropertiesList = new List<ChildDocumentPropertiesViewModel>(),
-                InstrumentDocumentList = new List<ChildDocumentViewModel>(),
-                EffectList = CreateEmptyChildDocumentListViewModel(ChildDocumentTypeEnum.Effect),
-                EffectPropertiesList = new List<ChildDocumentPropertiesViewModel>(),
-                EffectDocumentList = new List<ChildDocumentViewModel>(),
-                SampleList = CreateEmptySampleListViewModel(),
+                ChildDocumentPropertiesList = new List<ChildDocumentPropertiesViewModel>(),
+                ChildDocumentList = new List<ChildDocumentViewModel>(),
+                InstrumentGrid = CreateEmptyChildDocumentGridViewModel(ChildDocumentTypeEnum.Instrument),
+                EffectGrid = CreateEmptyChildDocumentGridViewModel(ChildDocumentTypeEnum.Effect),
+                SampleGrid = CreateEmptySampleGridViewModel(),
                 SamplePropertiesList = new List<SamplePropertiesViewModel>(),
-                CurveList = CreateEmptyCurveListViewModel(),
+                CurveGrid = CreateEmptyCurveGridViewModel(),
                 CurveDetailsList = new List<CurveDetailsViewModel>(),
-                PatchList = CreateEmptyPatchListViewModel(),
+                PatchGrid = CreateEmptyPatchGridViewModel(),
                 PatchDetailsList = new List<PatchDetailsViewModel>(),
-                AudioFileOutputList = CreateEmptyAudioFileOutputListViewModel(),
+                AudioFileOutputGrid = CreateEmptyAudioFileOutputGridViewModel(),
                 AudioFileOutputPropertiesList = new List<AudioFileOutputPropertiesViewModel>()
             };
 
@@ -101,9 +100,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static DocumentListViewModel CreateEmptyDocumentListViewModel()
+        public static DocumentGridViewModel CreateEmptyDocumentGridViewModel()
         {
-            var viewModel = new DocumentListViewModel
+            var viewModel = new DocumentGridViewModel
             {
                 List = new List<IDAndName>(),
                 Pager = CreateEmptyPagerViewModel()
@@ -112,12 +111,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static ChildDocumentListViewModel CreateEmptyChildDocumentListViewModel(ChildDocumentTypeEnum childDocumentTypeEnum)
+        public static ChildDocumentGridViewModel CreateEmptyChildDocumentGridViewModel(ChildDocumentTypeEnum childDocumentTypeEnum)
         {
-            var viewModel = new ChildDocumentListViewModel
+            var viewModel = new ChildDocumentGridViewModel
             {
                 List = new List<ChildDocumentListItemViewModel>(),
-                Keys = new ChildDocumentListKeysViewModel
+                Keys = new ChildDocumentGridKeysViewModel
                 {
                     RootDocumentID = 0,
                     ChildDocumentTypeEnum = childDocumentTypeEnum
@@ -179,9 +178,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static AudioFileOutputListViewModel CreateEmptyAudioFileOutputListViewModel()
+        public static AudioFileOutputGridViewModel CreateEmptyAudioFileOutputGridViewModel()
         {
-            var viewModel = new AudioFileOutputListViewModel
+            var viewModel = new AudioFileOutputGridViewModel
             {
                 List = new List<AudioFileOutputListItemViewModel>()
             };
@@ -189,9 +188,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static CurveListViewModel CreateEmptyCurveListViewModel()
+        public static CurveGridViewModel CreateEmptyCurveGridViewModel()
         {
-            var viewModel = new CurveListViewModel
+            var viewModel = new CurveGridViewModel
             {
                 List = new List<CurveListItemViewModel>()
             };
@@ -199,9 +198,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static PatchListViewModel CreateEmptyPatchListViewModel()
+        public static PatchGridViewModel CreateEmptyPatchGridViewModel()
         {
-            var viewModel = new PatchListViewModel
+            var viewModel = new PatchGridViewModel
             {
                 List = new List<PatchListItemViewModel>()
             };
@@ -209,9 +208,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static SampleListViewModel CreateEmptySampleListViewModel()
+        public static SampleGridViewModel CreateEmptySampleGridViewModel()
         {
-            var viewModel = new SampleListViewModel
+            var viewModel = new SampleGridViewModel
             {
                 List = new List<SampleListItemViewModel>()
             };

@@ -1,4 +1,5 @@
-﻿using JJ.Presentation.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Presentation.Synthesizer.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,10 @@ namespace JJ.Presentation.Synthesizer.Helpers
 {
     internal class ChildDocumentItemAlternativeKey
     {
-        public ChildDocumentTypeEnum? ChildDocumentTypeEnum { get; set; }
+        // TODO: Remove outcomented code.
+        //[Obsolete("Possibly obsolete. Many methods that take ChildDocumentItemAlternativeKey might not use this property anymore.")]
+        //public ChildDocumentTypeEnum? ChildDocumentTypeEnum { get; set; }
         public int? ChildDocumentListIndex { get; set; }
         public int EntityListIndex { get; set; }
-
-        // TODO: Remove outcommented code.
-        //public int? ChildDocumentID { get; set; }
     }
 }

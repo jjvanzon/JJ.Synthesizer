@@ -132,8 +132,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ReferencedDocumentViewModel
             {
                 Name = entity.Name,
-                Instruments = entity.Instruments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList(),
-                Effects = entity.Effects.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList(),
+                Instruments = entity.ChildDocuments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList(),
+                Effects = entity.ChildDocuments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList(),
                 ID = entity.ID
             };
 

@@ -38,7 +38,7 @@
     <Compile Include="Helpers\ConfigurationSection.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
-    <Compile Include="Presenters\ChildDocumentListPresenter.cs" />
+    <Compile Include="Presenters\ChildDocumentGridPresenter.cs" />
     <Compile Include="Resources\PresentationMessageFormatter.cs" />
     <Compile Include="Resources\PresentationMessages.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -47,12 +47,11 @@
     </Compile>
     <Compile Include="Helpers\ChildDocumentItemAlternativeKey.cs" />
     <Compile Include="ToEntity\RecursiveViewModelToEntityConverter.cs" />
-    <Compile Include="Helpers\ChildDocumentTypeEnum.cs" />
     <Compile Include="Helpers\ValidationMessageExtensions.cs" />
     <Compile Include="Helpers\ChildDocumentHelper.cs" />
     <Compile Include="Helpers\ListIndexHelper.cs" />
     <Compile Include="Presenters\AudioFileOutputPropertiesPresenter.cs" />
-    <Compile Include="Presenters\AudioFileOutputListPresenter.cs" />
+    <Compile Include="Presenters\AudioFileOutputGridPresenter.cs" />
     <Compile Include="Presenters\ChildDocumentPropertiesPresenter.cs" />
     <Compile Include="Presenters\DocumentCannotDeletePresenter.cs" />
     <Compile Include="Presenters\DocumentDeletePresenter.cs" />
@@ -66,11 +65,11 @@
     <Compile Include="ToViewModel\ToScreenViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.Lookups.cs" />
-    <Compile Include="ToViewModel\ToListViewModelExtensions.cs" />
+    <Compile Include="ToViewModel\ToGridViewModelExtensions.cs" />
     <Compile Include="ViewModels\Entities\ChildDocumentListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\ChildDocumentViewModel.cs" />
     <Compile Include="ViewModels\ChildDocumentPropertiesViewModel.cs" />
-    <Compile Include="ViewModels\ChildDocumentListViewModel.cs" />
+    <Compile Include="ViewModels\ChildDocumentGridViewModel.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentDeletedViewModel.cs" />
     <Compile Include="Presenters\DocumentDetailsPresenter.cs" />
@@ -78,11 +77,11 @@
     <Compile Include="Presenters\NotFoundPresenter.cs" />
     <Compile Include="Presenters\SamplePropertiesPresenter.cs" />
     <Compile Include="Presenters\CurveDetailsPresenter.cs" />
-    <Compile Include="Presenters\SampleListPresenter.cs" />
-    <Compile Include="Presenters\DocumentListPresenter.cs" />
-    <Compile Include="Presenters\CurveListPresenter.cs" />
+    <Compile Include="Presenters\SampleGridPresenter.cs" />
+    <Compile Include="Presenters\DocumentGridPresenter.cs" />
+    <Compile Include="Presenters\CurveGridPresenter.cs" />
     <Compile Include="Presenters\PatchDetailsPresenter.cs" />
-    <Compile Include="Presenters\PatchListPresenter.cs" />
+    <Compile Include="Presenters\PatchGridPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Titles.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -95,12 +94,12 @@
     <Compile Include="ToViewModel\ToViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.EmptyViewModels.cs" />
     <Compile Include="ViewModels\AudioFileOutputPropertiesViewModel.cs" />
-    <Compile Include="ViewModels\AudioFileOutputListViewModel.cs" />
+    <Compile Include="ViewModels\AudioFileOutputGridViewModel.cs" />
     <Compile Include="ViewModels\CurveDetailsViewModel.cs" />
-    <Compile Include="ViewModels\CurveListViewModel.cs" />
+    <Compile Include="ViewModels\CurveGridViewModel.cs" />
     <Compile Include="ViewModels\DocumentDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentDetailsViewModel.cs" />
-    <Compile Include="ViewModels\DocumentListViewModel.cs" />
+    <Compile Include="ViewModels\DocumentGridViewModel.cs" />
     <Compile Include="ViewModels\DocumentPropertiesViewModel.cs" />
     <Compile Include="ViewModels\DocumentTreeViewModel.cs" />
     <Compile Include="ViewModels\Entities\AudioFileOutputChannelViewModel.cs" />
@@ -118,7 +117,7 @@
     <Compile Include="ViewModels\Entities\PatchViewModel.cs" />
     <Compile Include="ViewModels\Entities\OperatorTypeViewModel.cs" />
     <Compile Include="ViewModels\Entities\SampleViewModel.cs" />
-    <Compile Include="ViewModels\Keys\ChildDocumentListKeysViewModel.cs" />
+    <Compile Include="ViewModels\Keys\ChildDocumentGridKeysViewModel.cs" />
     <Compile Include="ViewModels\Keys\ChildDocumentTreeNodeKeysViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
@@ -129,9 +128,9 @@
     <Compile Include="ViewModels\Entities\ReferencedDocumentViewModel.cs" />
     <Compile Include="ViewModels\Partials\ReferencedDocumentsTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
-    <Compile Include="ViewModels\PatchListViewModel.cs" />
+    <Compile Include="ViewModels\PatchGridViewModel.cs" />
     <Compile Include="ViewModels\SamplePropertiesViewModel.cs" />
-    <Compile Include="ViewModels\SampleListViewModel.cs" />
+    <Compile Include="ViewModels\SampleGridViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">

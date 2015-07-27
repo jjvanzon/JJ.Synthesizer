@@ -18,17 +18,9 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (document == null) throw new NullException(() => document);
 
-            if (document.AsInstrumentInDocument != null)
-            {
-                document.UnlinkInstrumentFromDocument();
-            }
-
-            if (document.AsEffectInDocument != null)
-            {
-                document.UnlinkEffectFromDocument();
-            }
-
             document.UnlinkMainPatch();
+            document.UnlinkParentDocument();
+            document.UnlinkChildDocumentType();
         }
 
         public static void UnlinkRelatedEntities(this Curve curve)

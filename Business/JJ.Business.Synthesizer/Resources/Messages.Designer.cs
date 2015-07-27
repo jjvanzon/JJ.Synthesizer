@@ -151,6 +151,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parent document and child document type should either both be filled in or both be left empty..
+        /// </summary>
+        internal static string ParentDocumentAndChildDocumentTypeShouldBothBeNullOrBothFilledIn {
+            get {
+                return ResourceManager.GetString("ParentDocumentAndChildDocumentTypeShouldBothBeNullOrBothFilledIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sample &apos;{0}&apos; has no data..
         /// </summary>
         internal static string SampleCount0 {

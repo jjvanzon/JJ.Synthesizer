@@ -33,8 +33,8 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
         public override int CountRootDocuments()
         {
             int count = _context.Session.QueryOver<Document>()
-                                        .Where(x => x.AsEffectInDocument == null)
-                                        .Where(x => x.AsInstrumentInDocument == null)
+                                        .Where(x => x.ParentDocument == null)
+                                        .Where(x => x.ParentDocument == null)
                                         .RowCount();
             return count;
         }

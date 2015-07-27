@@ -19,16 +19,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class ChildDocumentPropertiesPresenter
     {
         private IDocumentRepository _documentRepository;
+        private IChildDocumentTypeRepository _childDocumentTypeRepository;
         private IIDRepository _idRepository;
 
         public ChildDocumentPropertiesViewModel ViewModel { get; set; }
 
-        public ChildDocumentPropertiesPresenter(IDocumentRepository documentRepository, IIDRepository idRepository)
+        public ChildDocumentPropertiesPresenter(IDocumentRepository documentRepository, IChildDocumentTypeRepository childDocumentTypeRepository, IIDRepository idRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
             if (idRepository == null) throw new NullException(() => idRepository);
 
             _documentRepository = documentRepository;
+            _childDocumentTypeRepository = childDocumentTypeRepository;
             _idRepository = idRepository;
         }
 
@@ -60,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Document entity = ViewModel.ToEntity(_documentRepository);
+            Document entity = ViewModel.ToEntity(_documentRepository, _childDocumentTypeRepository);
 
             IValidator validator = new ChildDocumentValidator(entity);
             if (!validator.IsValid)

@@ -5,8 +5,6 @@ from
 		ID, 
 		ROW_NUMBER() over (order by ID) as RowNumber 
 	from Document
-	where 
-		AsInstrumentInDocumentID is null and 
-		AsEffectInDocumentID is null
+	where ParentDocumentID is null
 ) as x
 where x.RowNumber >= @firstIndex + 1;

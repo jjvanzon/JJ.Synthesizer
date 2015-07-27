@@ -1,5 +1,6 @@
-﻿using JJ.Data.Synthesizer;
-using JJ.Framework.Reflection.Exceptions;
+﻿using JJ.Framework.Reflection.Exceptions;
+using JJ.Data.Synthesizer;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
@@ -10,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -41,14 +43,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                                               .ToList();
             int nodeIndex = 0;
 
-            viewModel.Instruments = document.Instruments.OrderBy(x => x.Name)
-                                                        .Select(x => x.ToChildDocumentTreeNodeViewModel(nodeIndex++))
-                                                        .ToList();
+            viewModel.Instruments = document.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == ChildDocumentTypeEnum.Instrument)
+                                                           .OrderBy(x => x.Name)
+                                                           .Select(x => x.ToChildDocumentTreeNodeViewModel(nodeIndex++))
+                                                           .ToList();
 
-            viewModel.Effects = document.Effects.OrderBy(x => x.Name)
-                                                .Select(x => x.ToChildDocumentTreeNodeViewModel(nodeIndex++))
-                                                .ToList();
-
+            viewModel.Effects = document.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == ChildDocumentTypeEnum.Effect)
+                                                       .OrderBy(x => x.Name)
+                                                       .Select(x => x.ToChildDocumentTreeNodeViewModel(nodeIndex++))
+                                                       .ToList();
             return viewModel;
         }
 

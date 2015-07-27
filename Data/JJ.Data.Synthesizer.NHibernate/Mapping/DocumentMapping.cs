@@ -17,15 +17,14 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Map(x => x.Name);
 
             References(x => x.MainPatch, ColumnNames.MainPatchID);
-            References(x => x.AsInstrumentInDocument, ColumnNames.AsInstrumentInDocumentID);
-            References(x => x.AsEffectInDocument, ColumnNames.AsEffectInDocumentID);
+            References(x => x.ParentDocument, ColumnNames.ParentDocumentID);
+            References(x => x.ChildDocumentType, ColumnNames.ChildDocumentTypeID);
 
             HasMany(x => x.Curves).KeyColumn(ColumnNames.DocumentID).Inverse();
             HasMany(x => x.Patches).KeyColumn(ColumnNames.DocumentID).Inverse();
             HasMany(x => x.Samples).KeyColumn(ColumnNames.DocumentID).Inverse();
             HasMany(x => x.AudioFileOutputs).KeyColumn(ColumnNames.DocumentID).Inverse();
-            HasMany(x => x.Instruments).KeyColumn(ColumnNames.AsInstrumentInDocumentID).Inverse();
-            HasMany(x => x.Effects).KeyColumn(ColumnNames.AsEffectInDocumentID).Inverse();
+            HasMany(x => x.ChildDocuments).KeyColumn(ColumnNames.ParentDocumentID).Inverse();
 
             HasMany(x => x.DependentOnDocuments).KeyColumn(ColumnNames.DependentDocumentID).Inverse();
             HasMany(x => x.DependentDocuments).KeyColumn(ColumnNames.DependentOnDocumentID).Inverse();

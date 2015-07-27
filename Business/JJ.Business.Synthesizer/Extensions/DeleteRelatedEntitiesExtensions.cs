@@ -16,20 +16,12 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
-            foreach (Document instrument in document.Instruments.ToArray())
+            foreach (Document childDocument in document.ChildDocuments.ToArray())
             {
                 // Recursive call
-                instrument.DeleteRelatedEntities(repositoryWrapper);
-                instrument.UnlinkRelatedEntities();
-                repositoryWrapper.DocumentRepository.Delete(instrument);
-            }
-
-            foreach (Document effect in document.Effects.ToArray())
-            {
-                // Recursive call
-                effect.DeleteRelatedEntities(repositoryWrapper);
-                effect.UnlinkRelatedEntities();
-                repositoryWrapper.DocumentRepository.Delete(effect);
+                childDocument.DeleteRelatedEntities(repositoryWrapper);
+                childDocument.UnlinkRelatedEntities();
+                repositoryWrapper.DocumentRepository.Delete(childDocument);
             }
 
             foreach (Curve curve in document.Curves.ToArray())

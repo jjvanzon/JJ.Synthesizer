@@ -263,48 +263,25 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkInstrumentToDocument(this Document instrument, Document document)
+        public static void LinkToParentDocument(this Document childDocument, Document parentDocument)
         {
-            if (instrument == null) throw new NullException(() => instrument);
+            if (childDocument == null) throw new NullException(() => childDocument);
 
-            if (instrument.AsInstrumentInDocument != null)
+            if (childDocument.ParentDocument != null)
             {
-                if (instrument.AsInstrumentInDocument.Instruments.Contains(instrument))
+                if (childDocument.ParentDocument.ChildDocuments.Contains(childDocument))
                 {
-                    instrument.AsInstrumentInDocument.Instruments.Remove(instrument);
+                    childDocument.ParentDocument.ChildDocuments.Remove(childDocument);
                 }
             }
 
-            instrument.AsInstrumentInDocument = document;
+            childDocument.ParentDocument = parentDocument;
 
-            if (instrument.AsInstrumentInDocument != null)
+            if (childDocument.ParentDocument != null)
             {
-                if (!instrument.AsInstrumentInDocument.Instruments.Contains(instrument))
+                if (!childDocument.ParentDocument.ChildDocuments.Contains(childDocument))
                 {
-                    instrument.AsInstrumentInDocument.Instruments.Add(instrument);
-                }
-            }
-        }
-
-        public static void LinkEffectToDocument(this Document effect, Document document)
-        {
-            if (effect == null) throw new NullException(() => effect);
-
-            if (effect.AsEffectInDocument != null)
-            {
-                if (effect.AsEffectInDocument.Effects.Contains(effect))
-                {
-                    effect.AsEffectInDocument.Effects.Remove(effect);
-                }
-            }
-
-            effect.AsEffectInDocument = document;
-
-            if (effect.AsEffectInDocument != null)
-            {
-                if (!effect.AsEffectInDocument.Effects.Contains(effect))
-                {
-                    effect.AsEffectInDocument.Effects.Add(effect);
+                    childDocument.ParentDocument.ChildDocuments.Add(childDocument);
                 }
             }
         }
@@ -448,6 +425,15 @@ namespace JJ.Business.Synthesizer.LinkTo
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
             audioFileOutput.AudioFileFormat = audioFileFormat;
+
+            // No inverse property.
+        }
+
+        public static void LinkTo(this Document document, ChildDocumentType childDocumentType)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            document.ChildDocumentType = childDocumentType;
 
             // No inverse property.
         }

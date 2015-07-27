@@ -94,18 +94,11 @@ namespace JJ.Business.Synthesizer.LinkTo
             audioFileOutput.LinkTo((Document)null);
         }
 
-        public static void UnlinkInstrumentFromDocument(this Document instrument)
+        public static void UnlinkParentDocument(this Document childDocument)
         {
-            if (instrument == null) throw new NullException(() => instrument);
+            if (childDocument == null) throw new NullException(() => childDocument);
 
-            instrument.LinkInstrumentToDocument((Document)null);
-        }
-
-        public static void UnlinkEffectFromDocument(this Document effect)
-        {
-            if (effect == null) throw new NullException(() => effect);
-
-            effect.LinkEffectToDocument((Document)null);
+            childDocument.LinkToParentDocument((Document)null);
         }
 
         public static void UnlinkDependentDocument(this DocumentReference documentReference)
@@ -185,6 +178,13 @@ namespace JJ.Business.Synthesizer.LinkTo
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
             audioFileOutput.LinkTo((AudioFileFormat)null);
+        }
+
+        public static void UnlinkChildDocumentType(this Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            document.LinkTo((ChildDocumentType)null);
         }
     }
 }

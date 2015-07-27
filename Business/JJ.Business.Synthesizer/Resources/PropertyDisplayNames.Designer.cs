@@ -142,6 +142,33 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Document.
+        /// </summary>
+        public static string ChildDocument {
+            get {
+                return ResourceManager.GetString("ChildDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Documents.
+        /// </summary>
+        public static string ChildDocuments {
+            get {
+                return ResourceManager.GetString("ChildDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Child Document Type.
+        /// </summary>
+        public static string ChildDocumentType {
+            get {
+                return ResourceManager.GetString("ChildDocumentType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Curve.
         /// </summary>
         public static string Curve {

@@ -34,19 +34,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = document.ID,
                 DocumentTree = document.ToTreeViewModel(),
                 DocumentProperties = document.ToPropertiesViewModel(),
-                AudioFileOutputPropertiesList = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel(repositoryWrapper.AudioFileFormatRepository, repositoryWrapper.SampleDataTypeRepository, repositoryWrapper.SpeakerSetupRepository)).ToList(),
-                AudioFileOutputList = document.ToAudioFileOutputListViewModel(),
-                InstrumentList = document.Instruments.ToChildDocumentListViewModel(document.ID, ChildDocumentTypeEnum.Instrument),
-                InstrumentPropertiesList = document.Instruments.Select(x => x.ToChildDocumentPropertiesViewModel()).ToList(),
-                InstrumentDocumentList = document.Instruments.Select(x => x.ToChildDocumentViewModel(repositoryWrapper, entityPositionManager)).ToList(),
-                EffectList = document.Effects.ToChildDocumentListViewModel(document.ID, ChildDocumentTypeEnum.Effect),
-                EffectPropertiesList = document.Effects.Select(x => x.ToChildDocumentPropertiesViewModel()).ToList(),
-                EffectDocumentList = document.Effects.Select(x => x.ToChildDocumentViewModel(repositoryWrapper, entityPositionManager)).ToList(),
+                AudioFileOutputPropertiesList = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel(
+                    repositoryWrapper.AudioFileFormatRepository, 
+                    repositoryWrapper.SampleDataTypeRepository, 
+                    repositoryWrapper.SpeakerSetupRepository)).ToList(),
+                AudioFileOutputGrid = document.ToAudioFileOutputGridViewModel(),
+                ChildDocumentPropertiesList = document.ChildDocuments.Select(x => x.ToChildDocumentPropertiesViewModel(repositoryWrapper.ChildDocumentTypeRepository)).ToList(),
+                ChildDocumentList = document.ChildDocuments.Select(x => x.ToChildDocumentViewModel(repositoryWrapper, entityPositionManager)).ToList(),
+                InstrumentGrid = document.ToChildDocumentGridViewModel(ChildDocumentTypeEnum.Instrument),
+                EffectGrid = document.ToChildDocumentGridViewModel(ChildDocumentTypeEnum.Effect),
                 CurveDetailsList = document.Curves.Select(x => x.ToDetailsViewModel(repositoryWrapper.NodeTypeRepository)).ToList(),
-                CurveList = document.Curves.ToListViewModel(document.ID, null),
+                CurveGrid = document.Curves.ToGridViewModel(document.ID, null),
                 PatchDetailsList = document.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, entityPositionManager)).ToList(),
-                PatchList = document.Patches.ToListViewModel(document.ID, null),
-                SampleList = document.Samples.ToListViewModel(document.ID, null),
+                PatchGrid = document.Patches.ToGridViewModel(document.ID, null),
+                SampleGrid = document.Samples.ToGridViewModel(document.ID, null),
                 SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList()
             };
 
@@ -159,16 +160,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // ChildDocument
 
-        public static ChildDocumentPropertiesViewModel ToChildDocumentPropertiesViewModel(this Document childDocument)
+        public static ChildDocumentPropertiesViewModel ToChildDocumentPropertiesViewModel(this Document childDocument, IChildDocumentTypeRepository childDocumentTypeRepository)
         {
             if (childDocument == null) throw new NullException(() => childDocument);
 
             var viewModel = new ChildDocumentPropertiesViewModel
             {
+                ID = childDocument.ID,
                 Name = childDocument.Name,
-                ValidationMessages = new List<Message>(),
-                ID = childDocument.ID
+                ChildDocumentTypeLookup = ViewModelHelper.CreateChildDocumentTypeLookupViewModel(childDocumentTypeRepository),
+                ValidationMessages = new List<Message>()
             };
+
+            if (childDocument.ChildDocumentType != null)
+            {
+                viewModel.ChildDocumentType = childDocument.ChildDocumentType.ToIDAndName();
+            }
 
             return viewModel;
         }
@@ -181,19 +188,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (childDocument == null) throw new NullException(() => childDocument);
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
-            int rootDocumentID = ChildDocumentHelper.GetParentDocumentID(childDocument);
+            int rootDocumentID = childDocument.ParentDocument.ID;
 
             var viewModel = new ChildDocumentViewModel
             {
-                Name = childDocument.Name,
-                SampleList = childDocument.Samples.ToListViewModel(rootDocumentID, childDocument.ID),
-                SamplePropertiesList = childDocument.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList(),
-                CurveList = childDocument.Curves.ToListViewModel(rootDocumentID, childDocument.ID),
-                CurveDetailsList = childDocument.Curves.Select(x => x.ToDetailsViewModel(repositoryWrapper.NodeTypeRepository)).ToList(),
-                PatchList = childDocument.Patches.ToListViewModel(rootDocumentID, childDocument.ID),
-                PatchDetailsList = childDocument.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, entityPositionManager)).ToList(),
                 ID = childDocument.ID,
+                Name = childDocument.Name,
+                SampleGrid = childDocument.Samples.ToGridViewModel(rootDocumentID, childDocument.ID),
+                SamplePropertiesList = childDocument.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList(),
+                CurveGrid = childDocument.Curves.ToGridViewModel(rootDocumentID, childDocument.ID),
+                CurveDetailsList = childDocument.Curves.Select(x => x.ToDetailsViewModel(repositoryWrapper.NodeTypeRepository)).ToList(),
+                PatchGrid = childDocument.Patches.ToGridViewModel(rootDocumentID, childDocument.ID),
+                PatchDetailsList = childDocument.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, entityPositionManager)).ToList()
             };
+
+            if (childDocument.ChildDocumentType != null)
+            {
+                viewModel.ChildDocumentType = childDocument.ChildDocumentType.ToIDAndName();
+            }
 
             return viewModel;
         }

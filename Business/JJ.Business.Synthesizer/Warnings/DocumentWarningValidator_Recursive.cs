@@ -61,24 +61,17 @@ namespace JJ.Business.Synthesizer.Warnings
                 Execute(new AudioFileOutputWarningValidator(audioFileOutput), messagePrefix);
             }
 
-            foreach (Document instrument in document.Instruments)
+            foreach (Document childDocument in document.ChildDocuments)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Instrument, instrument.Name);
-                Execute(new DocumentWarningValidator_Recursive(instrument, _sampleRepository, _alreadyDone));
-            }
-
-            foreach (Document effect in document.Effects)
-            {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Instrument, effect.Name);
-                Execute(new DocumentWarningValidator_Recursive(effect, _sampleRepository, _alreadyDone));
+                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.ChildDocument, childDocument.Name);
+                Execute(new DocumentWarningValidator_Recursive(childDocument, _sampleRepository, _alreadyDone));
             }
 
             // TODO:
 
-            // DocumentWarningValidator_Baseic?
+            // DocumentWarningValidator_Basic?
             // Curves?
-            // AsInstrumentInDocument
-            // AsEffectInDocument
+            // ParentDocument
             // DependentOnDocuments
             // DependentDocuments
             // MainPatch

@@ -152,6 +152,9 @@
     <value>De patch van operator '{0}' is ingevuld, maar het is niet de verwachte patch '{1}'.</value>
     <comment>{0} = operator name, {1} = patch name</comment>
   </data>
+  <data name="ParentDocumentAndChildDocumentTypeShouldBothBeNullOrBothFilledIn" xml:space="preserve">
+    <value>Bovenliggend document en type onderliggend document moeten ofwel beide ingevuld zijn ofwel beide leeg.</value>
+  </data>
   <data name="SampleCount0" xml:space="preserve">
     <value>Geluidsfragment '{0}' heeft geen data.</value>
   </data>

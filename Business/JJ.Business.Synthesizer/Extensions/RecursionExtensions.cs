@@ -19,7 +19,6 @@ namespace JJ.Business.Synthesizer.Extensions
             return IsCircular(op, alreadyDone);
         }
 
-
         private static bool IsCircular(this Operator op, HashSet<Operator> alreadyDone)
         {
             // Be null-tollerant, because you might call it in places where the entities are not valid.

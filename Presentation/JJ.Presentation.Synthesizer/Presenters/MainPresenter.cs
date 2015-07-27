@@ -16,6 +16,7 @@ using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.SideEffects;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ToEntity;
@@ -23,6 +24,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -44,24 +46,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private RepositoryWrapper _repositoryWrapper;
 
-        private AudioFileOutputListPresenter _audioFileOutputListPresenter;
+        private AudioFileOutputGridPresenter _audioFileOutputGridPresenter;
         private AudioFileOutputPropertiesPresenter _audioFileOutputPropertiesPresenter;
         private CurveDetailsPresenter _curveDetailsPresenter;
-        private CurveListPresenter _curveListPresenter;
+        private CurveGridPresenter _curveGridPresenter;
         private DocumentCannotDeletePresenter _documentCannotDeletePresenter;
         private DocumentDeletedPresenter _documentDeletedPresenter;
         private DocumentDeletePresenter _documentDeletePresenter;
         private DocumentDetailsPresenter _documentDetailsPresenter;
-        private DocumentListPresenter _documentListPresenter;
+        private DocumentGridPresenter _documentGridPresenter;
         private DocumentPropertiesPresenter _documentPropertiesPresenter;
         private DocumentTreePresenter _documentTreePresenter;
-        private ChildDocumentListPresenter _effectListPresenter;
-        private ChildDocumentListPresenter _instrumentListPresenter;
+        private ChildDocumentGridPresenter _effectGridPresenter;
+        private ChildDocumentGridPresenter _instrumentGridPresenter;
         private MenuPresenter _menuPresenter;
         private NotFoundPresenter _notFoundPresenter;
         private PatchDetailsPresenter _patchDetailsPresenter;
-        private PatchListPresenter _patchListPresenter;
-        private SampleListPresenter _sampleListPresenter;
+        private PatchGridPresenter _patchGridPresenter;
+        private SampleGridPresenter _sampleGridPresenter;
         private SamplePropertiesPresenter _samplePropertiesPresenter;
 
         private EntityPositionManager _entityPositionManager;
@@ -77,22 +79,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             _repositoryWrapper = repositoryWrapper;
 
-            _audioFileOutputListPresenter = new AudioFileOutputListPresenter(_repositoryWrapper.DocumentRepository);
+            _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_repositoryWrapper.DocumentRepository);
             _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(new AudioFileOutputRepositories(_repositoryWrapper));
             _curveDetailsPresenter = new CurveDetailsPresenter(
                 _repositoryWrapper.CurveRepository, 
                 _repositoryWrapper.NodeRepository, 
                 _repositoryWrapper.NodeTypeRepository);
-            _curveListPresenter = new CurveListPresenter(_repositoryWrapper.DocumentRepository);
+            _curveGridPresenter = new CurveGridPresenter(_repositoryWrapper.DocumentRepository);
             _documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositoryWrapper.DocumentRepository);
             _documentDeletedPresenter = new DocumentDeletedPresenter();
             _documentDeletePresenter = new DocumentDeletePresenter(_repositoryWrapper);
             _documentDetailsPresenter = new DocumentDetailsPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.IDRepository);
-            _documentListPresenter = new DocumentListPresenter(_repositoryWrapper.DocumentRepository);
+            _documentGridPresenter = new DocumentGridPresenter(_repositoryWrapper.DocumentRepository);
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositoryWrapper.DocumentRepository);
             _documentTreePresenter = new DocumentTreePresenter(_repositoryWrapper.DocumentRepository);
-            _effectListPresenter = new ChildDocumentListPresenter(_repositoryWrapper.DocumentRepository);
-            _instrumentListPresenter = new ChildDocumentListPresenter(_repositoryWrapper.DocumentRepository);
+            _effectGridPresenter = new ChildDocumentGridPresenter(_repositoryWrapper.DocumentRepository);
+            _instrumentGridPresenter = new ChildDocumentGridPresenter(_repositoryWrapper.DocumentRepository);
             _menuPresenter = new MenuPresenter();
             _notFoundPresenter = new NotFoundPresenter();
             _patchDetailsPresenter = _patchDetailsPresenter = new PatchDetailsPresenter(
@@ -105,8 +107,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositoryWrapper.CurveRepository,
                 _repositoryWrapper.SampleRepository,
                 _repositoryWrapper.IDRepository);
-            _patchListPresenter = new PatchListPresenter(_repositoryWrapper.DocumentRepository);
-            _sampleListPresenter = new SampleListPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.SampleRepository);
+            _patchGridPresenter = new PatchGridPresenter(_repositoryWrapper.DocumentRepository);
+            _sampleGridPresenter = new SampleGridPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.SampleRepository);
             _samplePropertiesPresenter = new SamplePropertiesPresenter(new SampleRepositories(_repositoryWrapper));
 
             _documentManager = new DocumentManager(repositoryWrapper);
@@ -147,9 +149,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
                 DispatchViewModel(menuViewModel);
 
-                _documentListPresenter.ViewModel = ViewModel.DocumentList;
-                _documentListPresenter.Show();
-                DispatchViewModel(_documentListPresenter.ViewModel);
+                _documentGridPresenter.ViewModel = ViewModel.DocumentGrid;
+                _documentGridPresenter.Show();
+                DispatchViewModel(_documentGridPresenter.ViewModel);
 
                 ViewModel.WindowTitle = Titles.ApplicationName;
             }
@@ -186,12 +188,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Document List
 
-        public void DocumentListShow(int pageNumber)
+        public void DocumentGridShow(int pageNumber)
         {
             try
             {
-                _documentListPresenter.ViewModel = ViewModel.DocumentList;
-                DocumentListViewModel viewModel = _documentListPresenter.Show(pageNumber);
+                _documentGridPresenter.ViewModel = ViewModel.DocumentGrid;
+                DocumentGridViewModel viewModel = _documentGridPresenter.Show(pageNumber);
                 DispatchViewModel(viewModel);
             }
             finally
@@ -200,13 +202,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void DocumentListClose()
+        public void DocumentGridClose()
         {
             try
             {
-                _documentListPresenter.ViewModel = ViewModel.DocumentList;
-                _documentListPresenter.Close();
-                DispatchViewModel(_documentListPresenter.ViewModel);
+                _documentGridPresenter.ViewModel = ViewModel.DocumentGrid;
+                _documentGridPresenter.Close();
+                DispatchViewModel(_documentGridPresenter.ViewModel);
             }
             finally
             {
@@ -339,17 +341,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // the original unsaved data will be shown in the presenters,
                     // because they do not think they need to refresh their view models,
                     // since it is the same document.
-                    _audioFileOutputListPresenter.ViewModel = null;
+                    _audioFileOutputGridPresenter.ViewModel = null;
                     _audioFileOutputPropertiesPresenter.ViewModel = null;
                     _curveDetailsPresenter.ViewModel = null;
-                    _curveListPresenter.ViewModel = null;
+                    _curveGridPresenter.ViewModel = null;
                     _documentPropertiesPresenter.ViewModel = null;
                     _documentTreePresenter.ViewModel = null;
-                    _effectListPresenter.ViewModel = null;
-                    _instrumentListPresenter.ViewModel = null;
+                    _effectGridPresenter.ViewModel = null;
+                    _instrumentGridPresenter.ViewModel = null;
                     _patchDetailsPresenter.ViewModel = null;
-                    _patchListPresenter.ViewModel = null;
-                    _sampleListPresenter.ViewModel = null;
+                    _patchGridPresenter.ViewModel = null;
+                    _sampleGridPresenter.ViewModel = null;
                     _samplePropertiesPresenter.ViewModel = null;
                 }
 
@@ -361,7 +363,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _menuPresenter.Show(documentIsOpen: true);
                 ViewModel.Menu = _menuPresenter.ViewModel;
 
-                ViewModel.DocumentList.Visible = false;
+                ViewModel.DocumentGrid.Visible = false;
                 ViewModel.Document.DocumentTree.Visible = true;
 
                 ViewModel.Document.IsOpen = true;
@@ -414,17 +416,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     ViewModel.Menu = _menuPresenter.ViewModel;
 
-                    _audioFileOutputListPresenter.ViewModel = null;
+                    _audioFileOutputGridPresenter.ViewModel = null;
                     _audioFileOutputPropertiesPresenter.ViewModel = null;
                     _curveDetailsPresenter.ViewModel = null;
-                    _curveListPresenter.ViewModel = null;
+                    _curveGridPresenter.ViewModel = null;
                     _documentPropertiesPresenter.ViewModel = null;
                     _documentTreePresenter.ViewModel = null;
-                    _effectListPresenter.ViewModel = null;
-                    _instrumentListPresenter.ViewModel = null;
+                    _effectGridPresenter.ViewModel = null;
+                    _instrumentGridPresenter.ViewModel = null;
                     _patchDetailsPresenter.ViewModel = null;
-                    _patchListPresenter.ViewModel = null;
-                    _sampleListPresenter.ViewModel = null;
+                    _patchGridPresenter.ViewModel = null;
+                    _sampleGridPresenter.ViewModel = null;
                     _samplePropertiesPresenter.ViewModel = null;
                 }
             }
@@ -547,13 +549,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // AudioFileOutput Actions
 
-        public void AudioFileOutputListShow()
+        public void AudioFileOutputGridShow()
         {
             try
             {
-                _audioFileOutputListPresenter.ViewModel = ViewModel.Document.AudioFileOutputList;
-                _audioFileOutputListPresenter.Show();
-                DispatchViewModel(_audioFileOutputListPresenter.ViewModel);
+                _audioFileOutputGridPresenter.ViewModel = ViewModel.Document.AudioFileOutputGrid;
+                _audioFileOutputGridPresenter.Show();
+                DispatchViewModel(_audioFileOutputGridPresenter.ViewModel);
             }
             finally
             {
@@ -561,13 +563,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void AudioFileOutputListClose()
+        public void AudioFileOutputGridClose()
         {
             try
             {
-                _audioFileOutputListPresenter.ViewModel = ViewModel.Document.AudioFileOutputList;
-                _audioFileOutputListPresenter.Close();
-                DispatchViewModel(_audioFileOutputListPresenter.ViewModel);
+                _audioFileOutputGridPresenter.ViewModel = ViewModel.Document.AudioFileOutputGrid;
+                _audioFileOutputGridPresenter.Close();
+                DispatchViewModel(_audioFileOutputGridPresenter.ViewModel);
             }
             finally
             {
@@ -591,8 +593,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // ToViewModel
                 AudioFileOutputListItemViewModel listItemViewModel = audioFileOutput.ToListItemViewModel();
-                ViewModel.Document.AudioFileOutputList.List.Add(listItemViewModel);
-                ViewModel.Document.AudioFileOutputList.List = ViewModel.Document.AudioFileOutputList.List.OrderBy(x => x.Name).ToList();
+                ViewModel.Document.AudioFileOutputGrid.List.Add(listItemViewModel);
+                ViewModel.Document.AudioFileOutputGrid.List = ViewModel.Document.AudioFileOutputGrid.List.OrderBy(x => x.Name).ToList();
 
                 AudioFileOutputPropertiesViewModel propertiesViewModel = audioFileOutput.ToPropertiesViewModel(_repositoryWrapper.AudioFileFormatRepository, _repositoryWrapper.SampleDataTypeRepository, _repositoryWrapper.SpeakerSetupRepository);
                 ViewModel.Document.AudioFileOutputPropertiesList.Add(propertiesViewModel);
@@ -609,7 +611,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // 'Business' / ToViewModel
                 ViewModel.Document.AudioFileOutputPropertiesList.RemoveFirst(x => x.Entity.ID == id);
-                ViewModel.Document.AudioFileOutputList.List.RemoveFirst(x => x.ID == id);
+                ViewModel.Document.AudioFileOutputGrid.List.RemoveFirst(x => x.ID == id);
                 
                 // No need to do ToEntity, 
                 // because we are not executing any additional business logic or refreshing 
@@ -686,7 +688,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Curve Actions
 
-        public void CurveListShow(int? childDocumentID)
+        public void CurveGridShow(int? childDocumentID)
         {
             try
             {
@@ -698,10 +700,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 int documentID = childDocumentID ?? ViewModel.Document.ID;
 
-                CurveListViewModel curveListViewModel = ChildDocumentHelper.GetCurveListViewModel_ByDocumentID(ViewModel.Document, documentID);
-                _curveListPresenter.ViewModel = curveListViewModel;
-                _curveListPresenter.Show();
-                DispatchViewModel(_curveListPresenter.ViewModel);
+                CurveGridViewModel curveGridViewModel = ChildDocumentHelper.GetCurveGridViewModel_ByDocumentID(ViewModel.Document, documentID);
+                _curveGridPresenter.ViewModel = curveGridViewModel;
+                _curveGridPresenter.Show();
+                DispatchViewModel(_curveGridPresenter.ViewModel);
             }
             finally
             {
@@ -709,12 +711,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void CurveListClose()
+        public void CurveGridClose()
         {
             try
             {
-                _curveListPresenter.Close();
-                DispatchViewModel(_curveListPresenter.ViewModel);
+                _curveGridPresenter.Close();
+                DispatchViewModel(_curveGridPresenter.ViewModel);
             }
             finally
             {
@@ -740,10 +742,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 sideEffect.Execute();
 
                 // ToViewModel
-                CurveListViewModel curveListViewModel = ChildDocumentHelper.GetCurveListViewModel_ByDocumentID(ViewModel.Document, document.ID);
+                CurveGridViewModel curveGridViewModel = ChildDocumentHelper.GetCurveGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
                 CurveListItemViewModel listItemViewModel = curve.ToListItemViewModel();
-                curveListViewModel.List.Add(listItemViewModel);
-                curveListViewModel.List = curveListViewModel.List.OrderBy(x => x.Name).ToList();
+                curveGridViewModel.List.Add(listItemViewModel);
+                curveGridViewModel.List = curveGridViewModel.List.OrderBy(x => x.Name).ToList();
 
                 IList<CurveDetailsViewModel> curveDetailsViewModels = ChildDocumentHelper.GetCurveDetailsViewModels_ByDocumentID(ViewModel.Document, document.ID);
                 CurveDetailsViewModel curveDetailsViewModel = curve.ToDetailsViewModel(_repositoryWrapper.NodeTypeRepository);
@@ -778,8 +780,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IList<CurveDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetCurveDetailsViewModels_ByDocumentID(ViewModel.Document, documentID);
                     detailsViewModels.RemoveFirst(x => x.Entity.ID == curveID);
 
-                    CurveListViewModel listViewModel = ChildDocumentHelper.GetCurveListViewModel_ByDocumentID(ViewModel.Document, documentID);
-                    listViewModel.List.RemoveFirst(x => x.ID == curveID);
+                    CurveGridViewModel gridViewModel = ChildDocumentHelper.GetCurveGridViewModel_ByDocumentID(ViewModel.Document, documentID);
+                    gridViewModel.List.RemoveFirst(x => x.ID == curveID);
                 }
                 else
                 {
@@ -841,13 +843,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Effect Actions
 
-        public void EffectListShow()
+        public void EffectGridShow()
         {
             try
             {
-                _effectListPresenter.ViewModel = ViewModel.Document.EffectList;
-                _effectListPresenter.Show();
-                DispatchViewModel(_effectListPresenter.ViewModel);
+                _effectGridPresenter.ViewModel = ViewModel.Document.EffectGrid;
+                _effectGridPresenter.Show();
+                DispatchViewModel(_effectGridPresenter.ViewModel);
             }
             finally
             {
@@ -855,13 +857,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void EffectListClose()
+        public void EffectGridClose()
         {
             try
             {
-                _effectListPresenter.ViewModel = ViewModel.Document.EffectList;
-                _effectListPresenter.Close();
-                DispatchViewModel(_effectListPresenter.ViewModel);
+                _effectGridPresenter.ViewModel = ViewModel.Document.EffectGrid;
+                _effectGridPresenter.Close();
+                DispatchViewModel(_effectGridPresenter.ViewModel);
             }
             finally
             {
@@ -879,22 +881,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Business
                 var effect = new Document();
                 effect.ID = _repositoryWrapper.IDRepository.GetID();
-                effect.LinkEffectToDocument(parentDocument);
+                effect.SetChildDocumentTypeEnum(ChildDocumentTypeEnum.Effect, _repositoryWrapper.ChildDocumentTypeRepository);
+                effect.LinkToParentDocument(parentDocument);
                 _repositoryWrapper.DocumentRepository.Insert(effect);
 
-                ISideEffect sideEffect = new Effect_SideEffect_GenerateName(effect);
+                ISideEffect sideEffect = new ChildDocument_SideEffect_GenerateName(effect);
                 sideEffect.Execute();
 
                 // ToViewModel
                 ChildDocumentListItemViewModel listItemViewModel = effect.ToChildDocumentListItemViewModel();
-                ViewModel.Document.EffectList.List.Add(listItemViewModel);
-                ViewModel.Document.EffectList.List = ViewModel.Document.EffectList.List.OrderBy(x => x.Name).ToList();
+                ViewModel.Document.EffectGrid.List.Add(listItemViewModel);
+                ViewModel.Document.EffectGrid.List = ViewModel.Document.EffectGrid.List.OrderBy(x => x.Name).ToList();
 
-                ChildDocumentPropertiesViewModel propertiesViewModel = effect.ToChildDocumentPropertiesViewModel();
-                ViewModel.Document.EffectPropertiesList.Add(propertiesViewModel);
+                ChildDocumentPropertiesViewModel propertiesViewModel = effect.ToChildDocumentPropertiesViewModel(_repositoryWrapper.ChildDocumentTypeRepository);
+                ViewModel.Document.ChildDocumentPropertiesList.Add(propertiesViewModel);
 
                 ChildDocumentViewModel documentViewModel = effect.ToChildDocumentViewModel(_repositoryWrapper, _entityPositionManager);
-                ViewModel.Document.EffectDocumentList.Add(documentViewModel);
+                ViewModel.Document.ChildDocumentList.Add(documentViewModel);
 
                 RefreshDocumentTree();
             }
@@ -909,9 +912,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 // ToViewModel Only
-                ViewModel.Document.EffectList.List.RemoveFirst(x => x.ID == effectDocumentID);
-                ViewModel.Document.EffectPropertiesList.RemoveFirst(x => x.ID == effectDocumentID);
-                ViewModel.Document.EffectDocumentList.RemoveFirst(x => x.ID == effectDocumentID);
+                ViewModel.Document.EffectGrid.List.RemoveFirst(x => x.ID == effectDocumentID);
+                ViewModel.Document.ChildDocumentPropertiesList.RemoveFirst(x => x.ID == effectDocumentID);
+                ViewModel.Document.ChildDocumentList.RemoveFirst(x => x.ID == effectDocumentID);
                 ViewModel.Document.DocumentTree.Effects.RemoveFirst(x => x.Keys.ID == effectDocumentID);
             }
             finally
@@ -922,13 +925,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Instrument Actions
 
-        public void InstrumentListShow()
+        public void InstrumentGridShow()
         {
             try
             {
-                _instrumentListPresenter.ViewModel = ViewModel.Document.InstrumentList;
-                _instrumentListPresenter.Show();
-                DispatchViewModel(_instrumentListPresenter.ViewModel);
+                _instrumentGridPresenter.ViewModel = ViewModel.Document.InstrumentGrid;
+                _instrumentGridPresenter.Show();
+                DispatchViewModel(_instrumentGridPresenter.ViewModel);
             }
             finally
             {
@@ -936,13 +939,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void InstrumentListClose()
+        public void InstrumentGridClose()
         {
             try
             {
-                _instrumentListPresenter.ViewModel = ViewModel.Document.InstrumentList;
-                _instrumentListPresenter.Close();
-                DispatchViewModel(_instrumentListPresenter.ViewModel);
+                _instrumentGridPresenter.ViewModel = ViewModel.Document.InstrumentGrid;
+                _instrumentGridPresenter.Close();
+                DispatchViewModel(_instrumentGridPresenter.ViewModel);
             }
             finally
             {
@@ -960,22 +963,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Business
                 var instrument = new Document();
                 instrument.ID = _repositoryWrapper.IDRepository.GetID();
-                instrument.LinkInstrumentToDocument(parentDocument);
+                instrument.SetChildDocumentTypeEnum(ChildDocumentTypeEnum.Instrument, _repositoryWrapper.ChildDocumentTypeRepository);
+                instrument.LinkToParentDocument(parentDocument);
                 _repositoryWrapper.DocumentRepository.Insert(instrument);
 
-                ISideEffect sideEffect = new Instrument_SideEffect_GenerateName(instrument);
+                ISideEffect sideEffect = new ChildDocument_SideEffect_GenerateName(instrument);
                 sideEffect.Execute();
 
                 // ToViewModel
                 ChildDocumentListItemViewModel listItemViewModel = instrument.ToChildDocumentListItemViewModel();
-                ViewModel.Document.InstrumentList.List.Add(listItemViewModel);
-                ViewModel.Document.InstrumentList.List = ViewModel.Document.InstrumentList.List.OrderBy(x => x.Name).ToList();
+                ViewModel.Document.InstrumentGrid.List.Add(listItemViewModel);
+                ViewModel.Document.InstrumentGrid.List = ViewModel.Document.InstrumentGrid.List.OrderBy(x => x.Name).ToList();
 
-                ChildDocumentPropertiesViewModel propertiesViewModel = instrument.ToChildDocumentPropertiesViewModel();
-                ViewModel.Document.InstrumentPropertiesList.Add(propertiesViewModel);
+                ChildDocumentPropertiesViewModel propertiesViewModel = instrument.ToChildDocumentPropertiesViewModel(_repositoryWrapper.ChildDocumentTypeRepository);
+                ViewModel.Document.ChildDocumentPropertiesList.Add(propertiesViewModel);
 
                 ChildDocumentViewModel documentViewModel = instrument.ToChildDocumentViewModel(_repositoryWrapper, _entityPositionManager);
-                ViewModel.Document.InstrumentDocumentList.Add(documentViewModel);
+                ViewModel.Document.ChildDocumentList.Add(documentViewModel);
 
                 RefreshDocumentTree();
             }
@@ -990,9 +994,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 // ToViewModel Only
-                ViewModel.Document.InstrumentList.List.RemoveFirst(x => x.ID == instrumentDocumentID);
-                ViewModel.Document.InstrumentPropertiesList.RemoveFirst(x => x.ID == instrumentDocumentID);
-                ViewModel.Document.InstrumentDocumentList.RemoveFirst(x => x.ID == instrumentDocumentID);
+                ViewModel.Document.InstrumentGrid.List.RemoveFirst(x => x.ID == instrumentDocumentID);
+                ViewModel.Document.ChildDocumentPropertiesList.RemoveFirst(x => x.ID == instrumentDocumentID);
+                ViewModel.Document.ChildDocumentList.RemoveFirst(x => x.ID == instrumentDocumentID);
                 ViewModel.Document.DocumentTree.Instruments.RemoveFirst(x => x.Keys.ID == instrumentDocumentID);
             }
             finally
@@ -1003,7 +1007,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Patch Actions
 
-        public void PatchListShow(int? childDocumentID)
+        public void PatchGridShow(int? childDocumentID)
         {
             try
             {
@@ -1014,10 +1018,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 int documentID = childDocumentID ?? ViewModel.Document.ID;
-                PatchListViewModel patchListViewModel = ChildDocumentHelper.GetPatchListViewModel_ByDocumentID(ViewModel.Document, documentID);
-                _patchListPresenter.ViewModel = patchListViewModel;
-                _patchListPresenter.Show();
-                DispatchViewModel(_patchListPresenter.ViewModel);
+                PatchGridViewModel patchGridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, documentID);
+                _patchGridPresenter.ViewModel = patchGridViewModel;
+                _patchGridPresenter.Show();
+                DispatchViewModel(_patchGridPresenter.ViewModel);
             }
             finally
             {
@@ -1025,12 +1029,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void PatchListClose()
+        public void PatchGridClose()
         {
             try
             {
-                _patchListPresenter.Close();
-                DispatchViewModel(_patchListPresenter.ViewModel);
+                _patchGridPresenter.Close();
+                DispatchViewModel(_patchGridPresenter.ViewModel);
             }
             finally
             {
@@ -1056,10 +1060,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 sideEffect.Execute();
 
                 // ToViewModel
-                PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel_ByDocumentID(ViewModel.Document, document.ID);
+                PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
                 PatchListItemViewModel listItemViewModel = patch.ToListItemViewModel();
-                listViewModel.List.Add(listItemViewModel);
-                listViewModel.List = listViewModel.List.OrderBy(x => x.Name).ToList();
+                gridViewModel.List.Add(listItemViewModel);
+                gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
 
                 IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels_ByDocumentID(ViewModel.Document, document.ID);
                 PatchDetailsViewModel detailsViewModel = patch.ToDetailsViewModel(_repositoryWrapper.OperatorTypeRepository, _entityPositionManager);
@@ -1094,8 +1098,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels_ByDocumentID(ViewModel.Document, documentID);
                     detailsViewModels.RemoveFirst(x => x.Entity.ID == patchID);
 
-                    PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel_ByDocumentID(ViewModel.Document, documentID);
-                    listViewModel.List.RemoveFirst(x => x.ID == patchID);
+                    PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, documentID);
+                    gridViewModel.List.RemoveFirst(x => x.ID == patchID);
                 }
                 else
                 {
@@ -1132,6 +1136,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // ToEntity
                 int patchID = _patchDetailsPresenter.ViewModel.Entity.ID;
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+                // TODO: Replace calls to ChildDocumentHelper with queries like these: (?)
+                //Patch patch = rootDocument.EnumerateSelfAndChildDocuments().SelectMany(x => x.Patches).Where(x => x.ID == patchID).Single();
+
                 Patch patch = ChildDocumentHelper.GetPatch(rootDocument, patchID);
                 int documentID = patch.Document.ID;
 
@@ -1140,8 +1148,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (_patchDetailsPresenter.ViewModel.Successful)
                 {
-                    PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel_ByDocumentID(ViewModel.Document, documentID);
-                    RefreshPatchList(listViewModel);
+                    PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, documentID);
+                    RefreshPatchList(gridViewModel);
                 }
 
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
@@ -1167,8 +1175,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (_patchDetailsPresenter.ViewModel.Successful)
                 {
-                    PatchListViewModel listViewModel = ChildDocumentHelper.GetPatchListViewModel_ByDocumentID(ViewModel.Document, documentID);
-                    RefreshPatchList(listViewModel);
+                    PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, documentID);
+                    RefreshPatchList(gridViewModel);
                 }
 
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
@@ -1289,7 +1297,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Sample Actions
 
-        public void SampleListShow(int? childDocumentID)
+        public void SampleGridShow(int? childDocumentID)
         {
             try
             {
@@ -1300,10 +1308,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 int documentID = childDocumentID ?? ViewModel.Document.ID;
-                SampleListViewModel sampleListViewModel = ChildDocumentHelper.GetSampleListViewModel_ByDocumentID(ViewModel.Document, documentID);
-                _sampleListPresenter.ViewModel = sampleListViewModel;
-                _sampleListPresenter.Show();
-                DispatchViewModel(_sampleListPresenter.ViewModel);
+                SampleGridViewModel gridViewModel = ChildDocumentHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, documentID);
+                _sampleGridPresenter.ViewModel = gridViewModel;
+                _sampleGridPresenter.Show();
+                DispatchViewModel(_sampleGridPresenter.ViewModel);
             }
             finally
             {
@@ -1311,12 +1319,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void SampleListClose()
+        public void SampleGridClose()
         {
             try
             {
-                _sampleListPresenter.Close();
-                DispatchViewModel(_sampleListPresenter.ViewModel);
+                _sampleGridPresenter.Close();
+                DispatchViewModel(_sampleGridPresenter.ViewModel);
             }
             finally
             {
@@ -1346,10 +1354,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 sideEffect.Execute();
 
                 // ToViewModel
-                SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel_ByDocumentID(ViewModel.Document, document.ID);
+                SampleGridViewModel gridViewModel = ChildDocumentHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
                 SampleListItemViewModel listItemViewModel = sample.ToListItemViewModel();
-                listViewModel.List.Add(listItemViewModel);
-                listViewModel.List = listViewModel.List.OrderBy(x => x.Name).ToList();
+                gridViewModel.List.Add(listItemViewModel);
+                gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
 
                 IList<SamplePropertiesViewModel> propertiesViewModels = ChildDocumentHelper.GetSamplePropertiesViewModels_ByDocumentID(ViewModel.Document, document.ID);
                 SamplePropertiesViewModel propertiesViewModel = sample.ToPropertiesViewModel(new SampleRepositories(_repositoryWrapper));
@@ -1384,8 +1392,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     IList<SamplePropertiesViewModel> propertiesViewModels = ChildDocumentHelper.GetSamplePropertiesViewModels_ByDocumentID(ViewModel.Document, documentID);
                     propertiesViewModels.RemoveFirst(x => x.Entity.ID == sampleID);
 
-                    SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel_ByDocumentID(ViewModel.Document, documentID);
-                    listViewModel.List.RemoveFirst(x => x.ID == sampleID);
+                    SampleGridViewModel gridViewModel = ChildDocumentHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, documentID);
+                    gridViewModel.List.RemoveFirst(x => x.ID == sampleID);
                 }
                 else
                 {
@@ -1428,9 +1436,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // Update list
                     int sampleID = _samplePropertiesPresenter.ViewModel.Entity.ID;
                     Sample sample = _repositoryWrapper.SampleRepository.Get(sampleID);
-                    SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel_ByDocumentID(ViewModel.Document, sample.Document.ID);
-                    _sampleListPresenter.ViewModel = listViewModel;
-                    _sampleListPresenter.RefreshListItem(sampleID);
+                    SampleGridViewModel gridViewModel = ChildDocumentHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, sample.Document.ID);
+                    _sampleGridPresenter.ViewModel = gridViewModel;
+                    _sampleGridPresenter.RefreshListItem(sampleID);
                 }
             }
             finally
@@ -1453,9 +1461,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     Sample sample = _repositoryWrapper.SampleRepository.Get(sampleID);
 
                     ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativeSampleKey(ViewModel.Document, sampleID);
-                    SampleListViewModel listViewModel = ChildDocumentHelper.GetSampleListViewModel_ByAlternativeKey(ViewModel.Document, key);
-                    _sampleListPresenter.ViewModel = listViewModel;
-                    _sampleListPresenter.RefreshListItem(sampleID);
+                    SampleGridViewModel gridViewModel = ChildDocumentHelper.GetSampleGridViewModel_ByAlternativeKey(ViewModel.Document, key);
+                    _sampleGridPresenter.ViewModel = gridViewModel;
+                    _sampleGridPresenter.RefreshListItem(sampleID);
                 }
             }
             finally
@@ -1472,24 +1480,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var dictionary = new Dictionary<Type, Action<object>>
             {
-                { typeof(AudioFileOutputListViewModel), DispatchAudioFileOutputListViewModel },
+                { typeof(AudioFileOutputGridViewModel), DispatchAudioFileOutputGridViewModel },
                 { typeof(AudioFileOutputPropertiesViewModel), DispatchAudioFileOutputPropertiesViewModel },
-                { typeof(ChildDocumentListViewModel), DispatchChildDocumentListViewModel },
+                { typeof(ChildDocumentGridViewModel), DispatchChildDocumentGridViewModel },
                 { typeof(ChildDocumentPropertiesViewModel), DispatchChildDocumentPropertiesViewModel },
                 { typeof(CurveDetailsViewModel), DispatchCurveDetailsViewModel },
-                { typeof(CurveListViewModel), DispatchCurveListViewModel },
+                { typeof(CurveGridViewModel), DispatchCurveGridViewModel },
                 { typeof(DocumentCannotDeleteViewModel), DispatchDocumentCannotDeleteViewModel },
                 { typeof(DocumentDeletedViewModel), DispatchDocumentDeletedViewModel },
                 { typeof(DocumentDeleteViewModel), DispatchDocumentDeleteViewModel },
                 { typeof(DocumentDetailsViewModel), DispatchDocumentDetailsViewModel },
-                { typeof(DocumentListViewModel), DispatchDocumentListViewModel },
+                { typeof(DocumentGridViewModel), DispatchDocumentGridViewModel },
                 { typeof(DocumentPropertiesViewModel), DispatchDocumentPropertiesViewModel },
                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
                 { typeof(MenuViewModel), DispatchMenuViewModel },
                 { typeof(NotFoundViewModel), DispatchNotFoundViewModel },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
-                { typeof(PatchListViewModel), DispatchPatchListViewModel },
-                { typeof(SampleListViewModel), DispatchSampleListViewModel },
+                { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
+                { typeof(SampleGridViewModel), DispatchSampleGridViewModel },
                 { typeof(SamplePropertiesViewModel), DispatchSamplePropertiesViewModel },
             };
 
@@ -1515,16 +1523,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             dispatchDelegate(viewModel2);
         }
 
-        private void DispatchAudioFileOutputListViewModel(object viewModel2)
+        private void DispatchAudioFileOutputGridViewModel(object viewModel2)
         {
-            var audioFileOutputListViewModel = (AudioFileOutputListViewModel)viewModel2;
+            var castedViewModel = (AudioFileOutputGridViewModel)viewModel2;
             
-            ViewModel.Document.AudioFileOutputList = (AudioFileOutputListViewModel)viewModel2;
+            ViewModel.Document.AudioFileOutputGrid = (AudioFileOutputGridViewModel)viewModel2;
 
-            if (audioFileOutputListViewModel.Visible)
+            if (castedViewModel.Visible)
             {
                 HideAllListAndDetailViewModels();
-                audioFileOutputListViewModel.Visible = true;
+                castedViewModel.Visible = true;
             }
         }
 
@@ -1542,28 +1550,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
             audioFileOutputPropertiesViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchChildDocumentListViewModel(object viewModel2)
+        private void DispatchChildDocumentGridViewModel(object viewModel2)
         {
-            var childDocumentListViewModel = (ChildDocumentListViewModel)viewModel2;
+            var castedViewModel = (ChildDocumentGridViewModel)viewModel2;
 
-            switch (childDocumentListViewModel.Keys.ChildDocumentTypeEnum)
+            switch (castedViewModel.Keys.ChildDocumentTypeEnum)
             {
                 case ChildDocumentTypeEnum.Instrument:
-                    ViewModel.Document.InstrumentList = childDocumentListViewModel;
+                    ViewModel.Document.InstrumentGrid = castedViewModel;
                     break;
 
                 case ChildDocumentTypeEnum.Effect:
-                    ViewModel.Document.EffectList = childDocumentListViewModel;
+                    ViewModel.Document.EffectGrid = castedViewModel;
                     break;
 
                 default:
-                    throw new ValueNotSupportedException(childDocumentListViewModel.Keys.ChildDocumentTypeEnum);
+                    throw new ValueNotSupportedException(castedViewModel.Keys.ChildDocumentTypeEnum);
             }
 
-            if (childDocumentListViewModel.Visible)
+            if (castedViewModel.Visible)
             {
                 HideAllListAndDetailViewModels();
-                childDocumentListViewModel.Visible = true;
+                castedViewModel.Visible = true;
             }
         }
 
@@ -1595,24 +1603,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
             curveDetailsViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchCurveListViewModel(object viewModel2)
+        private void DispatchCurveGridViewModel(object viewModel2)
         {
-            var curveListViewModel = (CurveListViewModel)viewModel2;
+            var castedViewModel = (CurveGridViewModel)viewModel2;
 
-            if (!curveListViewModel.ChildDocumentID.HasValue)
+            if (!castedViewModel.ChildDocumentID.HasValue)
             {
-                ViewModel.Document.CurveList = curveListViewModel;
+                ViewModel.Document.CurveGrid = castedViewModel;
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, curveListViewModel.ChildDocumentID.Value);
-                childDocumentViewModel.CurveList = curveListViewModel;
+                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, castedViewModel.ChildDocumentID.Value);
+                childDocumentViewModel.CurveGrid = castedViewModel;
             }
 
-            if (curveListViewModel.Visible)
+            if (castedViewModel.Visible)
             {
                 HideAllListAndDetailViewModels();
-                curveListViewModel.Visible = true;
+                castedViewModel.Visible = true;
             }
         }
 
@@ -1662,16 +1670,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             documentDetailsViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchDocumentListViewModel(object viewModel2)
+        private void DispatchDocumentGridViewModel(object viewModel2)
         {
-            var documentListViewModel = (DocumentListViewModel)viewModel2;
+            var gridViewModel = (DocumentGridViewModel)viewModel2;
 
-            ViewModel.DocumentList = documentListViewModel;
+            ViewModel.DocumentGrid = gridViewModel;
 
-            if (documentListViewModel.Visible)
+            if (gridViewModel.Visible)
             {
                 HideAllListAndDetailViewModels();
-                documentListViewModel.Visible = true;
+                gridViewModel.Visible = true;
             }
         }
 
@@ -1737,24 +1745,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
             patchDetailsViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchPatchListViewModel(object viewModel2)
+        private void DispatchPatchGridViewModel(object viewModel2)
         {
-            var patchListViewModel = (PatchListViewModel)viewModel2;
+            var castedViewModel = (PatchGridViewModel)viewModel2;
 
-            if (!patchListViewModel.ChildDocumentID.HasValue)
+            if (!castedViewModel.ChildDocumentID.HasValue)
             {
-                ViewModel.Document.PatchList = patchListViewModel;
+                ViewModel.Document.PatchGrid = castedViewModel;
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, patchListViewModel.ChildDocumentID.Value);
-                childDocumentViewModel.PatchList = patchListViewModel;
+                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, castedViewModel.ChildDocumentID.Value);
+                childDocumentViewModel.PatchGrid = castedViewModel;
             }
 
-            if (patchListViewModel.Visible)
+            if (castedViewModel.Visible)
             {
                 HideAllListAndDetailViewModels();
-                patchListViewModel.Visible = true;
+                castedViewModel.Visible = true;
             }
         }
 
@@ -1772,24 +1780,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
             samplePropertiesViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchSampleListViewModel(object viewModel2)
+        private void DispatchSampleGridViewModel(object viewModel2)
         {
-            var sampleListViewModel = (SampleListViewModel)viewModel2;
+            var gridViewModel = (SampleGridViewModel)viewModel2;
 
-            if (!sampleListViewModel.ChildDocumentID.HasValue)
+            if (!gridViewModel.ChildDocumentID.HasValue)
             {
-                ViewModel.Document.SampleList = sampleListViewModel;
+                ViewModel.Document.SampleGrid = gridViewModel;
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, sampleListViewModel.ChildDocumentID.Value);
-                childDocumentViewModel.SampleList = sampleListViewModel;
+                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, gridViewModel.ChildDocumentID.Value);
+                childDocumentViewModel.SampleGrid = gridViewModel;
             }
 
-            if (sampleListViewModel.Visible)
+            if (gridViewModel.Visible)
             {
                 HideAllListAndDetailViewModels();
-                sampleListViewModel.Visible = true;
+                gridViewModel.Visible = true;
             }
         }
 
@@ -1797,15 +1805,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void HideAllListAndDetailViewModels()
         {
-            ViewModel.DocumentList.Visible = false;
+            ViewModel.DocumentGrid.Visible = false;
             ViewModel.DocumentDetails.Visible = false;
 
-            ViewModel.Document.InstrumentList.Visible = false;
-            ViewModel.Document.EffectList.Visible = false;
-            ViewModel.Document.SampleList.Visible = false;
-            ViewModel.Document.CurveList.Visible = false;
-            ViewModel.Document.AudioFileOutputList.Visible = false;
-            ViewModel.Document.PatchList.Visible = false;
+            ViewModel.Document.InstrumentGrid.Visible = false;
+            ViewModel.Document.EffectGrid.Visible = false;
+            ViewModel.Document.SampleGrid.Visible = false;
+            ViewModel.Document.CurveGrid.Visible = false;
+            ViewModel.Document.AudioFileOutputGrid.Visible = false;
+            ViewModel.Document.PatchGrid.Visible = false;
 
             foreach (CurveDetailsViewModel curveDetailsViewModel in ViewModel.Document.CurveDetailsList)
             {
@@ -1817,11 +1825,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 patchDetailsViewModel.Visible = false;
             }
 
-            foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.InstrumentDocumentList)
+            foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.ChildDocumentList)
             {
-                childDocumentViewModel.SampleList.Visible = false;
-                childDocumentViewModel.CurveList.Visible = false;
-                childDocumentViewModel.PatchList.Visible = false;
+                childDocumentViewModel.SampleGrid.Visible = false;
+                childDocumentViewModel.CurveGrid.Visible = false;
+                childDocumentViewModel.PatchGrid.Visible = false;
 
                 foreach (PatchDetailsViewModel patchDetailsViewModel in childDocumentViewModel.PatchDetailsList)
                 {
@@ -1829,11 +1837,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
             }
 
-            foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.EffectDocumentList)
+            foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.ChildDocumentList)
             {
-                childDocumentViewModel.SampleList.Visible = false;
-                childDocumentViewModel.CurveList.Visible = false;
-                childDocumentViewModel.PatchList.Visible = false;
+                childDocumentViewModel.SampleGrid.Visible = false;
+                childDocumentViewModel.CurveGrid.Visible = false;
+                childDocumentViewModel.PatchGrid.Visible = false;
 
                 foreach (PatchDetailsViewModel patchDetailsViewModel in childDocumentViewModel.PatchDetailsList)
                 {
@@ -1848,19 +1856,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.DocumentProperties.Visible = false;
             ViewModel.Document.AudioFileOutputPropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.CurveDetailsList.ForEach(x => x.Visible = false);
-            ViewModel.Document.EffectPropertiesList.ForEach(x => x.Visible = false);
-            ViewModel.Document.InstrumentPropertiesList.ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentPropertiesList.ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentPropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.SamplePropertiesList.ForEach(x => x.Visible = false);
 
             // Note that the Samples are the only ones with a Properties view inside the child documents.
-            ViewModel.Document.EffectDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
-            ViewModel.Document.InstrumentDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
         }
 
         private void RefreshDocumentList()
         {
-            _documentListPresenter.Refresh();
-            ViewModel.DocumentList  = _documentListPresenter.ViewModel;
+            _documentGridPresenter.Refresh();
+            ViewModel.DocumentGrid  = _documentGridPresenter.ViewModel;
         }
 
         private void RefreshDocumentTree()
@@ -1872,21 +1880,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void RefreshAudioFileOutputList()
         {
-            object viewModel2 = _audioFileOutputListPresenter.Refresh();
+            object viewModel2 = _audioFileOutputGridPresenter.Refresh();
             DispatchViewModel(viewModel2);
         }
 
-        private void RefreshSampleList(SampleListViewModel sampleListViewModel)
+        private void RefreshSampleList(SampleGridViewModel sampleGridViewModel)
         {
-            _sampleListPresenter.ViewModel = sampleListViewModel;
-            object viewModel2 = _sampleListPresenter.Refresh();
+            _sampleGridPresenter.ViewModel = sampleGridViewModel;
+            object viewModel2 = _sampleGridPresenter.Refresh();
             DispatchViewModel(viewModel2);
         }
 
-        private void RefreshPatchList(PatchListViewModel patchListViewModel)
+        private void RefreshPatchList(PatchGridViewModel patchGridViewModel)
         {
-            _patchListPresenter.ViewModel = patchListViewModel;
-            object viewModel2 = _patchListPresenter.Refresh();
+            _patchGridPresenter.ViewModel = patchGridViewModel;
+            object viewModel2 = _patchGridPresenter.Refresh();
             DispatchViewModel(viewModel2);
         }
     }

@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 {
     internal static class ToEntityHelper
     {
-        public static void ToInstrumentsWithRelatedEntities(
+        public static void ToChildDocumentsWithRelatedEntities(
             IList<ChildDocumentViewModel> sourceViewModelList,
             Document destParentDocument, 
             RepositoryWrapper repositoryWrapper)
@@ -32,11 +32,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             var idsToKeep = new HashSet<int>();
 
-            foreach (ChildDocumentViewModel instrumentDocumentViewModel in sourceViewModelList)
+            foreach (ChildDocumentViewModel childDocumentViewModel in sourceViewModelList)
             {
-                Document entity = instrumentDocumentViewModel.ToEntityWithRelatedEntities(repositoryWrapper);
+                Document entity = childDocumentViewModel.ToEntityWithRelatedEntities(repositoryWrapper);
 
-                entity.LinkInstrumentToDocument(destParentDocument);
+                entity.LinkToParentDocument(destParentDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
                 {
@@ -46,37 +46,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             DocumentManager documentManager = new DocumentManager(repositoryWrapper);
 
-            IList<int> existingIDs = destParentDocument.Instruments.Select(x => x.ID).ToArray();
+            IList<int> existingIDs = destParentDocument.ChildDocuments.Select(x => x.ID).ToArray();
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                documentManager.DeleteWithRelatedEntities(idToDelete);
-            }
-        }
-
-        public static void ToEffectsWithRelatedEntities(IList<ChildDocumentViewModel> sourceViewModelList, Document destParentDocument, RepositoryWrapper repositoryWrapper)
-        {
-            if (sourceViewModelList == null) throw new NullException(() => sourceViewModelList);
-            if (destParentDocument == null) throw new NullException(() => destParentDocument);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
-
-            var idsToKeep = new HashSet<int>();
-
-            foreach (ChildDocumentViewModel sourceViewModelListItem in sourceViewModelList)
-            {
-                Document entity = sourceViewModelListItem.ToEntityWithRelatedEntities(repositoryWrapper);
-                entity.LinkEffectToDocument(destParentDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            var documentManager = new DocumentManager(repositoryWrapper);
-
-            IEnumerable<int> existingIDs = destParentDocument.Effects.Select(x => x.ID).ToArray();
-            IEnumerable<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
                 documentManager.DeleteWithRelatedEntities(idToDelete);

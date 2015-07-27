@@ -66,6 +66,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 PersistenceHelper.CreateRepository<INodeTypeRepository>(context),
                 PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context),
                 PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context),
+                PersistenceHelper.CreateRepository<IChildDocumentTypeRepository>(context),
                 PersistenceHelper.CreateRepository<IIDRepository>(context)
             );
 

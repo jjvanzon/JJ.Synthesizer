@@ -18,14 +18,14 @@
             this.splitContainerTree = new System.Windows.Forms.SplitContainer();
             this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
             this.splitContainerProperties = new System.Windows.Forms.SplitContainer();
-            this.sampleListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SampleListUserControl();
-            this.patchListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchListUserControl();
-            this.curveListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveListUserControl();
-            this.audioFileOutputListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputListUserControl();
-            this.instrumentListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.InstrumentListUserControl();
-            this.effectListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.EffectListUserControl();
+            this.sampleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SampleGridUserControl();
+            this.patchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchGridUserControl();
+            this.curveGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveGridUserControl();
+            this.audioFileOutputGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputGridUserControl();
+            this.instrumentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.InstrumentGridUserControl();
+            this.effectGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.EffectGridUserControl();
             this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
-            this.documentListUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentListUserControl();
+            this.documentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentGridUserControl();
             this.samplePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SamplePropertiesUserControl();
             this.audioFileOutputPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputPropertiesUserControl();
             this.documentPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentPropertiesUserControl();
@@ -79,14 +79,14 @@
             // splitContainerProperties.Panel1
             // 
             this.splitContainerProperties.Panel1.Controls.Add(this.patchDetailsUserControl);
-            this.splitContainerProperties.Panel1.Controls.Add(this.sampleListUserControl);
-            this.splitContainerProperties.Panel1.Controls.Add(this.patchListUserControl);
-            this.splitContainerProperties.Panel1.Controls.Add(this.curveListUserControl);
-            this.splitContainerProperties.Panel1.Controls.Add(this.audioFileOutputListUserControl);
-            this.splitContainerProperties.Panel1.Controls.Add(this.instrumentListUserControl);
-            this.splitContainerProperties.Panel1.Controls.Add(this.effectListUserControl);
+            this.splitContainerProperties.Panel1.Controls.Add(this.sampleGridUserControl);
+            this.splitContainerProperties.Panel1.Controls.Add(this.patchGridUserControl);
+            this.splitContainerProperties.Panel1.Controls.Add(this.curveGridUserControl);
+            this.splitContainerProperties.Panel1.Controls.Add(this.audioFileOutputGridUserControl);
+            this.splitContainerProperties.Panel1.Controls.Add(this.instrumentGridUserControl);
+            this.splitContainerProperties.Panel1.Controls.Add(this.effectGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.documentDetailsUserControl);
-            this.splitContainerProperties.Panel1.Controls.Add(this.documentListUserControl);
+            this.splitContainerProperties.Panel1.Controls.Add(this.documentGridUserControl);
             // 
             // splitContainerProperties.Panel2
             // 
@@ -97,69 +97,69 @@
             this.splitContainerProperties.SplitterDistance = 633;
             this.splitContainerProperties.TabIndex = 2;
             // 
-            // sampleListUserControl
+            // sampleGridUserControl
             // 
-            this.sampleListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sampleListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.sampleListUserControl.Location = new System.Drawing.Point(0, 0);
-            this.sampleListUserControl.Name = "sampleListUserControl";
-            this.sampleListUserControl.Size = new System.Drawing.Size(633, 657);
-            this.sampleListUserControl.TabIndex = 9;
-            this.sampleListUserControl.Visible = false;
+            this.sampleGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sampleGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.sampleGridUserControl.Location = new System.Drawing.Point(0, 0);
+            this.sampleGridUserControl.Name = "sampleGridUserControl";
+            this.sampleGridUserControl.Size = new System.Drawing.Size(633, 657);
+            this.sampleGridUserControl.TabIndex = 9;
+            this.sampleGridUserControl.Visible = false;
             // 
-            // patchListUserControl
+            // patchGridUserControl
             // 
-            this.patchListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.patchListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.patchListUserControl.Location = new System.Drawing.Point(0, 0);
-            this.patchListUserControl.Margin = new System.Windows.Forms.Padding(4);
-            this.patchListUserControl.Name = "patchListUserControl";
-            this.patchListUserControl.Size = new System.Drawing.Size(633, 657);
-            this.patchListUserControl.TabIndex = 8;
-            this.patchListUserControl.Visible = false;
+            this.patchGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.patchGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.patchGridUserControl.Location = new System.Drawing.Point(0, 0);
+            this.patchGridUserControl.Margin = new System.Windows.Forms.Padding(4);
+            this.patchGridUserControl.Name = "patchGridUserControl";
+            this.patchGridUserControl.Size = new System.Drawing.Size(633, 657);
+            this.patchGridUserControl.TabIndex = 8;
+            this.patchGridUserControl.Visible = false;
             // 
-            // curveListUserControl
+            // curveGridUserControl
             // 
-            this.curveListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.curveListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.curveListUserControl.Location = new System.Drawing.Point(0, 0);
-            this.curveListUserControl.Name = "curveListUserControl";
-            this.curveListUserControl.Size = new System.Drawing.Size(633, 657);
-            this.curveListUserControl.TabIndex = 6;
-            this.curveListUserControl.Visible = false;
+            this.curveGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.curveGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.curveGridUserControl.Location = new System.Drawing.Point(0, 0);
+            this.curveGridUserControl.Name = "curveGridUserControl";
+            this.curveGridUserControl.Size = new System.Drawing.Size(633, 657);
+            this.curveGridUserControl.TabIndex = 6;
+            this.curveGridUserControl.Visible = false;
             // 
-            // audioFileOutputListUserControl
+            // audioFileOutputGridUserControl
             // 
-            this.audioFileOutputListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.audioFileOutputListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.audioFileOutputListUserControl.Location = new System.Drawing.Point(0, 0);
-            this.audioFileOutputListUserControl.Margin = new System.Windows.Forms.Padding(4);
-            this.audioFileOutputListUserControl.Name = "audioFileOutputListUserControl";
-            this.audioFileOutputListUserControl.Size = new System.Drawing.Size(633, 657);
-            this.audioFileOutputListUserControl.TabIndex = 5;
-            this.audioFileOutputListUserControl.Visible = false;
+            this.audioFileOutputGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.audioFileOutputGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.audioFileOutputGridUserControl.Location = new System.Drawing.Point(0, 0);
+            this.audioFileOutputGridUserControl.Margin = new System.Windows.Forms.Padding(4);
+            this.audioFileOutputGridUserControl.Name = "audioFileOutputGridUserControl";
+            this.audioFileOutputGridUserControl.Size = new System.Drawing.Size(633, 657);
+            this.audioFileOutputGridUserControl.TabIndex = 5;
+            this.audioFileOutputGridUserControl.Visible = false;
             // 
-            // instrumentListUserControl
+            // instrumentGridUserControl
             // 
-            this.instrumentListUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.instrumentListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.instrumentListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.instrumentListUserControl.Location = new System.Drawing.Point(0, 0);
-            this.instrumentListUserControl.Name = "instrumentListUserControl";
-            this.instrumentListUserControl.Size = new System.Drawing.Size(633, 657);
-            this.instrumentListUserControl.TabIndex = 4;
-            this.instrumentListUserControl.Visible = false;
+            this.instrumentGridUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.instrumentGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.instrumentGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.instrumentGridUserControl.Location = new System.Drawing.Point(0, 0);
+            this.instrumentGridUserControl.Name = "instrumentGridUserControl";
+            this.instrumentGridUserControl.Size = new System.Drawing.Size(633, 657);
+            this.instrumentGridUserControl.TabIndex = 4;
+            this.instrumentGridUserControl.Visible = false;
             // 
-            // effectListUserControl
+            // effectGridUserControl
             // 
-            this.effectListUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.effectListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.effectListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.effectListUserControl.Location = new System.Drawing.Point(0, 0);
-            this.effectListUserControl.Name = "effectListUserControl";
-            this.effectListUserControl.Size = new System.Drawing.Size(633, 657);
-            this.effectListUserControl.TabIndex = 3;
-            this.effectListUserControl.Visible = false;
+            this.effectGridUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.effectGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.effectGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.effectGridUserControl.Location = new System.Drawing.Point(0, 0);
+            this.effectGridUserControl.Name = "effectGridUserControl";
+            this.effectGridUserControl.Size = new System.Drawing.Size(633, 657);
+            this.effectGridUserControl.TabIndex = 3;
+            this.effectGridUserControl.Visible = false;
             // 
             // documentDetailsUserControl
             // 
@@ -174,17 +174,17 @@
             this.documentDetailsUserControl.TabIndex = 1;
             this.documentDetailsUserControl.Visible = false;
             // 
-            // documentListUserControl
+            // documentGridUserControl
             // 
-            this.documentListUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.documentListUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.documentListUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.documentListUserControl.Location = new System.Drawing.Point(0, 0);
-            this.documentListUserControl.Margin = new System.Windows.Forms.Padding(2);
-            this.documentListUserControl.Name = "documentListUserControl";
-            this.documentListUserControl.Size = new System.Drawing.Size(633, 657);
-            this.documentListUserControl.TabIndex = 0;
-            this.documentListUserControl.Visible = false;
+            this.documentGridUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.documentGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.documentGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.documentGridUserControl.Location = new System.Drawing.Point(0, 0);
+            this.documentGridUserControl.Margin = new System.Windows.Forms.Padding(2);
+            this.documentGridUserControl.Name = "documentGridUserControl";
+            this.documentGridUserControl.Size = new System.Drawing.Size(633, 657);
+            this.documentGridUserControl.TabIndex = 0;
+            this.documentGridUserControl.Visible = false;
             // 
             // samplePropertiesUserControl
             // 
@@ -268,17 +268,17 @@
 
         private JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl menuUserControl;
         private System.Windows.Forms.SplitContainer splitContainerTree;
-        private UserControls.DocumentListUserControl documentListUserControl;
+        private UserControls.DocumentGridUserControl documentGridUserControl;
         private UserControls.DocumentTreeUserControl documentTreeUserControl;
         private System.Windows.Forms.SplitContainer splitContainerProperties;
         private UserControls.DocumentDetailsUserControl documentDetailsUserControl;
         private UserControls.DocumentPropertiesUserControl documentPropertiesUserControl;
-        private UserControls.EffectListUserControl effectListUserControl;
-        private UserControls.InstrumentListUserControl instrumentListUserControl;
-        private UserControls.AudioFileOutputListUserControl audioFileOutputListUserControl;
-        private UserControls.PatchListUserControl patchListUserControl;
-        private UserControls.CurveListUserControl curveListUserControl;
-        private UserControls.SampleListUserControl sampleListUserControl;
+        private UserControls.EffectGridUserControl effectGridUserControl;
+        private UserControls.InstrumentGridUserControl instrumentGridUserControl;
+        private UserControls.AudioFileOutputGridUserControl audioFileOutputGridUserControl;
+        private UserControls.PatchGridUserControl patchGridUserControl;
+        private UserControls.CurveGridUserControl curveGridUserControl;
+        private UserControls.SampleGridUserControl sampleGridUserControl;
         private UserControls.AudioFileOutputPropertiesUserControl audioFileOutputPropertiesUserControl;
         private UserControls.SamplePropertiesUserControl samplePropertiesUserControl;
         private UserControls.PatchDetailsUserControl patchDetailsUserControl;
