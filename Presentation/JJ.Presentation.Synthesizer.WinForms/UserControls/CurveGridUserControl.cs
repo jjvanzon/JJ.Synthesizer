@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
-        public event EventHandler<NullableInt32EventArgs> CreateRequested;
+        public event EventHandler<Int32EventArgs> CreateRequested;
         public event EventHandler<Int32EventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
 
@@ -69,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (CreateRequested != null)
             {
-                var e = new NullableInt32EventArgs(ViewModel.ChildDocumentID);
+                var e = new Int32EventArgs(ViewModel.DocumentID);
                 CreateRequested(this, e);
             }
         }

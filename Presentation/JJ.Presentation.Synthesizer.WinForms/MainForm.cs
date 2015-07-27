@@ -357,9 +357,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Curve Actions
 
-        private void CurveListShow(int? childDocumentID)
+        private void CurveListShow(int documentID)
         {
-            _presenter.CurveGridShow(childDocumentID);
+            _presenter.CurveGridShow(documentID);
             ApplyViewModel();
         }
 
@@ -369,9 +369,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void CurveCreate(int? childDocumentID)
+        private void CurveCreate(int documentID)
         {
-            _presenter.CurveCreate(childDocumentID);
+            _presenter.CurveCreate(documentID);
             ApplyViewModel();
         }
 
@@ -435,9 +435,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Patch Actions
 
-        private void PatchListShow(int? childDocumentID)
+        private void PatchListShow(int documentID)
         {
-            _presenter.PatchGridShow(childDocumentID);
+            _presenter.PatchGridShow(documentID);
             ApplyViewModel();
         }
 
@@ -447,9 +447,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void PatchCreate(int? childDocumentID)
+        private void PatchCreate(int documentID)
         {
-            _presenter.PatchCreate(childDocumentID);
+            _presenter.PatchCreate(documentID);
             ApplyViewModel();
         }
 
@@ -528,9 +528,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Sample Actions
 
-        private void SampleListShow(int? childDocumentID)
+        private void SampleListShow(int documentID)
         {
-            _presenter.SampleGridShow(childDocumentID);
+            _presenter.SampleGridShow(documentID);
             ApplyViewModel();
         }
 
@@ -540,9 +540,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void SampleCreate(int? childDocumentID)
+        private void SampleCreate(int documentID)
         {
-            _presenter.SampleCreate(childDocumentID);
+            _presenter.SampleCreate(documentID);
             ApplyViewModel();
         }
 
@@ -668,17 +668,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
             EffectListShow();
         }
 
-        private void documentTreeUserControl_ShowSamplesRequested(object sender, NullableInt32EventArgs e)
+        private void documentTreeUserControl_ShowSamplesRequested(object sender, Int32EventArgs e)
         {
             SampleListShow(e.Value);
         }
 
-        private void documentTreeUserControl_ShowCurvesRequested(object sender, NullableInt32EventArgs e)
+        private void documentTreeUserControl_ShowCurvesRequested(object sender, Int32EventArgs e)
         {
             CurveListShow(e.Value);
         }
 
-        private void documentTreeUserControl_ShowPatchesRequested(object sender, NullableInt32EventArgs e)
+        private void documentTreeUserControl_ShowPatchesRequested(object sender, Int32EventArgs e)
         {
             PatchListShow(e.Value);
         }
@@ -734,7 +734,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Curve Events
 
-        private void curveGridUserControl_CreateRequested(object sender, NullableInt32EventArgs e)
+        private void curveGridUserControl_CreateRequested(object sender, Int32EventArgs e)
         {
             CurveCreate(e.Value);
         }
@@ -785,7 +785,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Patch Events
 
-        private void patchGridUserControl_CreateRequested(object sender, NullableInt32EventArgs e)
+        private void patchGridUserControl_CreateRequested(object sender, Int32EventArgs e)
         {
             PatchCreate(e.Value);
         }
@@ -852,7 +852,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Sample Events
 
-        private void sampleGridUserControl_CreateRequested(object sender, NullableInt32EventArgs e)
+        private void sampleGridUserControl_CreateRequested(object sender, Int32EventArgs e)
         {
             SampleCreate(e.Value);
         }

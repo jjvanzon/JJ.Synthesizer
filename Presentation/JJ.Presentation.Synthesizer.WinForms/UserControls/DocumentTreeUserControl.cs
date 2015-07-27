@@ -35,9 +35,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> CollapseNodeRequested;
         public event EventHandler ShowInstrumentsRequested;
         public event EventHandler ShowEffectsRequested;
-        public event EventHandler<NullableInt32EventArgs> ShowSamplesRequested;
-        public event EventHandler<NullableInt32EventArgs> ShowCurvesRequested;
-        public event EventHandler<NullableInt32EventArgs> ShowPatchesRequested;
+        public event EventHandler<Int32EventArgs> ShowSamplesRequested;
+        public event EventHandler<Int32EventArgs> ShowCurvesRequested;
+        public event EventHandler<Int32EventArgs> ShowPatchesRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
 
         /// <summary> virtually not nullable </summary>
@@ -284,9 +284,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        // TODO: If you make more event handlers, you do not need all these if's.
-        // TODO: Actually: unless you make more event handlers, the handling of multiple curve, patch and sample tree nodes will not work.
-        // Actually: WinForms does not allow giving event handlers to specific nodes.
+        // NOTE: WinForms does not allow giving event handlers to specific nodes, so you need the if's.
 
         private void treeView_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -318,7 +316,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 if (ShowSamplesRequested != null)
                 {
-                    NullableInt32EventArgs e2 = GetChildDocumentEventArgs(e.Node.Tag);
+                    Int32EventArgs e2 = GetChildDocumentEventArgs(e.Node.Tag);
                     ShowSamplesRequested(this, e2);
                 }
             }
@@ -327,7 +325,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 if (ShowCurvesRequested != null)
                 {
-                    NullableInt32EventArgs e2 = GetChildDocumentEventArgs(e.Node.Tag);
+                    Int32EventArgs e2 = GetChildDocumentEventArgs(e.Node.Tag);
                     ShowCurvesRequested(this, e2);
                 }
             }
@@ -336,17 +334,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 if (ShowPatchesRequested != null)
                 {
-                    NullableInt32EventArgs e2 = GetChildDocumentEventArgs(e.Node.Tag);
+                    Int32EventArgs e2 = GetChildDocumentEventArgs(e.Node.Tag);
                     ShowPatchesRequested(this, e2);
                 }
             }
 
         }
 
-        private NullableInt32EventArgs GetChildDocumentEventArgs(object childDocumentTag)
+        private Int32EventArgs GetChildDocumentEventArgs(object childDocumentTag)
         {
             int? childDocumentID = TagHelper.TryGetChildDocumentID(childDocumentTag);
-            return new NullableInt32EventArgs(childDocumentID);
+            int documentID = childDocumentID ?? ViewModel.ID;
+            return new Int32EventArgs(documentID);
         }
     }
 }

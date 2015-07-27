@@ -44,10 +44,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 InstrumentGrid = document.ToChildDocumentGridViewModel(ChildDocumentTypeEnum.Instrument),
                 EffectGrid = document.ToChildDocumentGridViewModel(ChildDocumentTypeEnum.Effect),
                 CurveDetailsList = document.Curves.Select(x => x.ToDetailsViewModel(repositoryWrapper.NodeTypeRepository)).ToList(),
-                CurveGrid = document.Curves.ToGridViewModel(document.ID, null),
+                CurveGrid = document.Curves.ToGridViewModel(document.ID),
                 PatchDetailsList = document.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, entityPositionManager)).ToList(),
-                PatchGrid = document.Patches.ToGridViewModel(document.ID, null),
-                SampleGrid = document.Samples.ToGridViewModel(document.ID, null),
+                PatchGrid = document.Patches.ToGridViewModel(document.ID),
+                SampleGrid = document.Samples.ToGridViewModel(document.ID),
                 SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList()
             };
 
@@ -188,17 +188,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (childDocument == null) throw new NullException(() => childDocument);
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
-            int rootDocumentID = childDocument.ParentDocument.ID;
-
             var viewModel = new ChildDocumentViewModel
             {
                 ID = childDocument.ID,
                 Name = childDocument.Name,
-                SampleGrid = childDocument.Samples.ToGridViewModel(childDocument.ID, childDocument.ChildDocumentType.ID),
+                SampleGrid = childDocument.Samples.ToGridViewModel(childDocument.ID),
                 SamplePropertiesList = childDocument.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList(),
-                CurveGrid = childDocument.Curves.ToGridViewModel(rootDocumentID, childDocument.ID),
+                CurveGrid = childDocument.Curves.ToGridViewModel(childDocument.ID),
                 CurveDetailsList = childDocument.Curves.Select(x => x.ToDetailsViewModel(repositoryWrapper.NodeTypeRepository)).ToList(),
-                PatchGrid = childDocument.Patches.ToGridViewModel(rootDocumentID, childDocument.ID),
+                PatchGrid = childDocument.Patches.ToGridViewModel(childDocument.ID),
                 PatchDetailsList = childDocument.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, entityPositionManager)).ToList()
             };
 

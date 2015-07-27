@@ -89,15 +89,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static CurveGridViewModel ToGridViewModel(this IList<Curve> entities, int rootDocumentID, int? childDocumentID)
+        public static CurveGridViewModel ToGridViewModel(this IList<Curve> entities, int documentID)
         {
             if (entities == null) throw new NullException(() => entities);
 
             var viewModel = new CurveGridViewModel
             {
-                List = entities.ToListItemViewModels(rootDocumentID),
-                RootDocumentID = rootDocumentID,
-                ChildDocumentID = childDocumentID
+                DocumentID = documentID,
+                List = entities.ToListItemViewModels(documentID)
             };
 
             return viewModel;
@@ -116,29 +115,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static PatchGridViewModel ToGridViewModel(this IList<Patch> entities, int rootDocumentID, int? childDocumentID)
+        public static PatchGridViewModel ToGridViewModel(this IList<Patch> entities, int documentID)
         {
             if (entities == null) throw new NullException(() => entities);
 
             var viewModel = new PatchGridViewModel
             {
-                List = entities.ToListItemViewModels(),
-                RootDocumentID = rootDocumentID,
-                ChildDocumentID = childDocumentID
+                DocumentID = documentID,
+                List = entities.ToListItemViewModels()
             };
 
             return viewModel;
         }
 
-        public static SampleGridViewModel ToGridViewModel(this IList<Sample> entities, int documentID, int? childDocumentTypeID)
+        public static SampleGridViewModel ToGridViewModel(this IList<Sample> entities, int documentID)
         {
             if (entities == null) throw new NullException(() => entities);
 
             var viewModel = new SampleGridViewModel
             {
-                List = entities.ToListItemViewModels(),
                 DocumentID = documentID,
-                ChildDocumentTypeID = childDocumentTypeID
+                List = entities.ToListItemViewModels()
             };
 
             return viewModel;

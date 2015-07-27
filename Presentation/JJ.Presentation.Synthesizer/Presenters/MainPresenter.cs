@@ -688,17 +688,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Curve Actions
 
-        public void CurveGridShow(int? childDocumentID)
+        public void CurveGridShow(int documentID)
         {
             try
             {
-                // Needed to create uncommitted child documents.
-                if (childDocumentID.HasValue)
+                bool isRootDocument = documentID == ViewModel.Document.ID;
+                if (isRootDocument)
                 {
+                    // Needed to create uncommitted child documents.
                     Document document = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
                 }
-
-                int documentID = childDocumentID ?? ViewModel.Document.ID;
 
                 CurveGridViewModel curveGridViewModel = ChildDocumentHelper.GetCurveGridViewModel_ByDocumentID(ViewModel.Document, documentID);
                 _curveGridPresenter.ViewModel = curveGridViewModel;
@@ -724,7 +723,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void CurveCreate(int? childDocumentID)
+        public void CurveCreate(int documentID)
         {
             try
             {
@@ -732,7 +731,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
 
                 // Business
-                Document document = _repositoryWrapper.DocumentRepository.TryGet(childDocumentID ?? ViewModel.Document.ID);
+                Document document = _repositoryWrapper.DocumentRepository.TryGet(documentID);
                 var curve = new Curve();
                 curve.ID = _repositoryWrapper.IDRepository.GetID();
                 curve.LinkTo(document);
@@ -1007,17 +1006,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Patch Actions
 
-        public void PatchGridShow(int? childDocumentID)
+        public void PatchGridShow(int documentID)
         {
             try
             {
-                // Needed to create uncommitted child documents.
-                if (childDocumentID.HasValue)
+                bool isRootDocument = documentID == ViewModel.Document.ID;
+                if (!isRootDocument)
                 {
+                    // Needed to create uncommitted child documents.
                     Document document = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
                 }
 
-                int documentID = childDocumentID ?? ViewModel.Document.ID;
                 PatchGridViewModel patchGridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, documentID);
                 _patchGridPresenter.ViewModel = patchGridViewModel;
                 _patchGridPresenter.Show();
@@ -1042,13 +1041,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void PatchCreate(int? childDocumentID)
+        public void PatchCreate(int documentID)
         {
             try
             {
                 // ToEntity
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
-                Document document = _repositoryWrapper.DocumentRepository.TryGet(childDocumentID ?? ViewModel.Document.ID);
+                Document document = _repositoryWrapper.DocumentRepository.TryGet(documentID);
 
                 // Business
                 var patch = new Patch();
@@ -1297,17 +1296,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Sample Actions
 
-        public void SampleGridShow(int? childDocumentID)
+        public void SampleGridShow(int documentID)
         {
             try
             {
-                // Needed to create uncommitted child documents.
-                if (childDocumentID.HasValue)
+                bool isRootDocument = documentID == ViewModel.Document.ID;
+                if (!isRootDocument)
                 {
+                    // Needed to create uncommitted child documents.
                     Document document = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
                 }
 
-                int documentID = childDocumentID ?? ViewModel.Document.ID;
                 SampleGridViewModel gridViewModel = ChildDocumentHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, documentID);
                 _sampleGridPresenter.ViewModel = gridViewModel;
                 _sampleGridPresenter.Show();
@@ -1332,13 +1331,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void SampleCreate(int? childDocumentID)
+        public void SampleCreate(int documentID)
         {
             try
             {
                 // ToEntity
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
-                Document document = _repositoryWrapper.DocumentRepository.TryGet(childDocumentID ?? ViewModel.Document.ID);
+                Document document = _repositoryWrapper.DocumentRepository.TryGet(documentID);
                 if (document == null)
                 {
                     NotFoundViewModel notFoundViewModel = ViewModelHelper.CreateNotFoundViewModel<Document>();
@@ -1607,13 +1606,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (CurveGridViewModel)viewModel2;
 
-            if (!castedViewModel.ChildDocumentID.HasValue)
+            bool isRootDocument = ViewModel.Document.ID == castedViewModel.DocumentID;
+            if (isRootDocument)
             {
                 ViewModel.Document.CurveGrid = castedViewModel;
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, castedViewModel.ChildDocumentID.Value);
+                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, castedViewModel.DocumentID);
                 childDocumentViewModel.CurveGrid = castedViewModel;
             }
 
@@ -1749,13 +1749,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (PatchGridViewModel)viewModel2;
 
-            if (!castedViewModel.ChildDocumentID.HasValue)
+            bool isRootDocument = ViewModel.Document.ID == castedViewModel.DocumentID;
+            if (isRootDocument)
             {
                 ViewModel.Document.PatchGrid = castedViewModel;
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, castedViewModel.ChildDocumentID.Value);
+                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, castedViewModel.DocumentID);
                 childDocumentViewModel.PatchGrid = castedViewModel;
             }
 
@@ -1784,7 +1785,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var gridViewModel = (SampleGridViewModel)viewModel2;
 
-            if (!gridViewModel.ChildDocumentTypeID.HasValue)
+            bool isRootDocument = ViewModel.Document.ID == gridViewModel.DocumentID;
+            if (isRootDocument)
             {
                 ViewModel.Document.SampleGrid = gridViewModel;
             }
