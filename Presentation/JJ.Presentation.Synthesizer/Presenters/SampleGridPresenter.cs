@@ -45,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(ViewModel.RootDocumentID, ViewModel.ChildDocumentID, _documentRepository);
+            Document document = _documentRepository.TryGet(ViewModel.DocumentID);
             if (document == null)
             {
                 ViewModelHelper.CreateDocumentNotFoundViewModel();
@@ -53,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             bool visible = ViewModel.Visible;
 
-            ViewModel = document.Samples.ToGridViewModel(ViewModel.RootDocumentID, ViewModel.ChildDocumentID);
+            ViewModel = document.Samples.ToGridViewModel(ViewModel.DocumentID, ViewModel.ChildDocumentTypeID);
 
             ViewModel.Visible = visible;
 

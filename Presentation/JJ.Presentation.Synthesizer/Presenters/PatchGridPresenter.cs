@@ -40,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(ViewModel.RootDocumentID, ViewModel.ChildDocumentID, _documentRepository); 
+            Document document = _documentRepository.TryGet(ViewModel.ChildDocumentID ?? ViewModel.RootDocumentID);
             if (document == null)
             {
                 ViewModelHelper.CreateDocumentNotFoundViewModel();

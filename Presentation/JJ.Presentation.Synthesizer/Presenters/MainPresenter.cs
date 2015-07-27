@@ -732,7 +732,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
 
                 // Business
-                Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(ViewModel.Document.ID, childDocumentID, _repositoryWrapper.DocumentRepository);
+                Document document = _repositoryWrapper.DocumentRepository.TryGet(childDocumentID ?? ViewModel.Document.ID);
                 var curve = new Curve();
                 curve.ID = _repositoryWrapper.IDRepository.GetID();
                 curve.LinkTo(document);
@@ -1048,7 +1048,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToEntity
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
-                Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(ViewModel.Document.ID, childDocumentID, _repositoryWrapper.DocumentRepository);
+                Document document = _repositoryWrapper.DocumentRepository.TryGet(childDocumentID ?? ViewModel.Document.ID);
 
                 // Business
                 var patch = new Patch();
@@ -1338,7 +1338,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToEntity
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
-                Document document = ChildDocumentHelper.TryGetRootDocumentOrChildDocument(ViewModel.Document.ID, childDocumentID, _repositoryWrapper.DocumentRepository);
+                Document document = _repositoryWrapper.DocumentRepository.TryGet(childDocumentID ?? ViewModel.Document.ID);
                 if (document == null)
                 {
                     NotFoundViewModel notFoundViewModel = ViewModelHelper.CreateNotFoundViewModel<Document>();
@@ -1784,13 +1784,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var gridViewModel = (SampleGridViewModel)viewModel2;
 
-            if (!gridViewModel.ChildDocumentID.HasValue)
+            if (!gridViewModel.ChildDocumentTypeID.HasValue)
             {
                 ViewModel.Document.SampleGrid = gridViewModel;
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, gridViewModel.ChildDocumentID.Value);
+                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, gridViewModel.DocumentID);
                 childDocumentViewModel.SampleGrid = gridViewModel;
             }
 

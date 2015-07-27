@@ -12,8 +12,11 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 {
     public sealed class SampleGridViewModel
     {
-        public int RootDocumentID { get; set; }
-        public int? ChildDocumentID { get; set; }
+        public int DocumentID { get; set; }
+
+        /// <summary> We need this property, because ChildDocumentViewModel and DocumentViewModel have no mutual type. </summary>
+        public int? ChildDocumentTypeID { get; set; }
+
         public bool Visible { get; set; }
         public IList<SampleListItemViewModel> List { get; set; }
     }

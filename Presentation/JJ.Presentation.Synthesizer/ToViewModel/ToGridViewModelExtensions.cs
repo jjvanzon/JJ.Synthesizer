@@ -129,16 +129,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return viewModel;
         }
-        
-        public static SampleGridViewModel ToGridViewModel(this IList<Sample> entities, int rootDocumentID, int? childDocumentID)
+
+        public static SampleGridViewModel ToGridViewModel(this IList<Sample> entities, int documentID, int? childDocumentTypeID)
         {
             if (entities == null) throw new NullException(() => entities);
 
             var viewModel = new SampleGridViewModel
             {
                 List = entities.ToListItemViewModels(),
-                RootDocumentID = rootDocumentID,
-                ChildDocumentID = childDocumentID
+                DocumentID = documentID,
+                ChildDocumentTypeID = childDocumentTypeID
             };
 
             return viewModel;

@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (CreateRequested != null)
             {
-                var e = new NullableInt32EventArgs(ViewModel.ChildDocumentID);
+                var e = new NullableInt32EventArgs(ViewModel.DocumentID);
                 CreateRequested(this, e);
             }
         }

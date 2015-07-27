@@ -25,31 +25,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // Documents
 
-        public static Document TryGetRootDocumentOrChildDocument(int rootDocumentID, int? childDocumentID, IDocumentRepository documentRepository)
-        {
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-
-            if (!childDocumentID.HasValue)
-            {
-                return documentRepository.TryGet(rootDocumentID);
-            }
-            else
-            {
-                Document childDocument = documentRepository.TryGet(childDocumentID.Value);
-                if (childDocument != null)
-                {
-                    return childDocument;
-                }
-
-                Document rootDocument = documentRepository.Get(rootDocumentID);
-
-                childDocument = rootDocument.ChildDocuments
-                                            .Where(x => x.ID == childDocumentID.Value)
-                                            .SingleOrDefault();
-                return childDocument;
-            }
-        }
-
         // ChildDocument ViewModels
 
         public static ChildDocumentViewModel GetChildDocumentViewModel_ByID(DocumentViewModel documentViewModel, int childDocumentID)
@@ -61,8 +36,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                                                                              .SingleOrDefault();
             if (childDocumentViewModel == null)
             {
-                // TODO: This is not an accurate message.
-                throw new Exception(String.Format("documentViewModel does not have ID '{0}' and neither do any ChildDocumentViewModels.", childDocumentID));
+                throw new Exception(String.Format("ChildDocumentViewModel with ID '{0}' not found in documentViewModel.ChildDocumentList.", childDocumentID));
             }
 
             return childDocumentViewModel;

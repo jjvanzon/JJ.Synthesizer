@@ -194,7 +194,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = childDocument.ID,
                 Name = childDocument.Name,
-                SampleGrid = childDocument.Samples.ToGridViewModel(rootDocumentID, childDocument.ID),
+                SampleGrid = childDocument.Samples.ToGridViewModel(childDocument.ID, childDocument.ChildDocumentType.ID),
                 SamplePropertiesList = childDocument.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList(),
                 CurveGrid = childDocument.Curves.ToGridViewModel(rootDocumentID, childDocument.ID),
                 CurveDetailsList = childDocument.Curves.Select(x => x.ToDetailsViewModel(repositoryWrapper.NodeTypeRepository)).ToList(),
