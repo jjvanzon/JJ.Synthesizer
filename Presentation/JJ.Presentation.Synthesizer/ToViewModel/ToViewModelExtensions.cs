@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using JJ.Presentation.Synthesizer.ViewModels.Keys;
+
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;

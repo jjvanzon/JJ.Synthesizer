@@ -4,7 +4,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.ViewModels.Keys;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
@@ -65,11 +64,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurvesNode = new DummyViewModel(),
                 SamplesNode = new DummyViewModel(),
                 PatchesNode = new DummyViewModel(),
-                Keys = new ChildDocumentTreeNodeKeysViewModel
-                {
-                    ID = document.ID,
-                    NodeIndex = nodeIndex
-                }
+                ChildDocumentID = document.ID,
+                NodeIndex = nodeIndex
             };
 
             return viewModel;

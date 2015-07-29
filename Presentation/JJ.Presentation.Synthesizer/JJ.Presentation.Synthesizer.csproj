@@ -117,8 +117,6 @@
     <Compile Include="ViewModels\Entities\PatchViewModel.cs" />
     <Compile Include="ViewModels\Entities\OperatorTypeViewModel.cs" />
     <Compile Include="ViewModels\Entities\SampleViewModel.cs" />
-    <Compile Include="ViewModels\Keys\ChildDocumentGridKeysViewModel.cs" />
-    <Compile Include="ViewModels\Keys\ChildDocumentTreeNodeKeysViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\NotFoundViewModel.cs" />

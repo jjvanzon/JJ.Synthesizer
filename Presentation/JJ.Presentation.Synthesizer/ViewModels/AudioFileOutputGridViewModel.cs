@@ -1,6 +1,6 @@
 ﻿using JJ.Framework.Presentation;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.ViewModels.Keys;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -12,28 +12,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
+using JJ.Framework.Reflection;
 
 namespace JJ.Presentation.Synthesizer.Helpers
 {
     internal static class ChildDocumentHelper
     {
-        // TODO: The fact that these methods need to exist seem one giant design flaw.
+        // ChildDocument
 
-        // TODO: Error handling to produce clear error messages (instead of SingleOrDefault use a more tollerant method and throw an exception).
-
-        // TODO: There are many unused methods here.
-
-        // Documents
-
-        // ChildDocument ViewModels
-
-        public static ChildDocumentViewModel GetChildDocumentViewModel_ByID(DocumentViewModel documentViewModel, int childDocumentID)
+        public static ChildDocumentViewModel GetChildDocumentViewModel(DocumentViewModel rootDocumentViewModel, int childDocumentID)
         {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            ChildDocumentViewModel childDocumentViewModel = documentViewModel.ChildDocumentList
-                                                                             .Where(x => x.ID == childDocumentID)
-                                                                             .SingleOrDefault();
+            ChildDocumentViewModel childDocumentViewModel = rootDocumentViewModel.ChildDocumentList
+                                                                                 .Where(x => x.ID == childDocumentID)
+                                                                                 .FirstOrDefault(); // First for performance.
             if (childDocumentViewModel == null)
             {
                 throw new Exception(String.Format("ChildDocumentViewModel with ID '{0}' not found in documentViewModel.ChildDocumentList.", childDocumentID));
@@ -42,337 +36,219 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return childDocumentViewModel;
         }
 
-        // Curve ViewModels
+        // Curve
+
+        public static CurveDetailsViewModel GetCurveDetailsViewModel(DocumentViewModel rootDocumentViewModel, int curveID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            CurveDetailsViewModel detailsViewModel = ChildDocumentHelper.EnumerateCurveDetailsViewModels(rootDocumentViewModel)
+                                                                        .FirstOrDefault(x => x.Entity.ID == curveID); // First for performance.
+            if (detailsViewModel == null)
+            {
+                throw new Exception(String.Format("CurveDetailsViewModel with ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", curveID));
+            }
+
+            return detailsViewModel;
+        }
 
         public static CurveGridViewModel GetCurveGridViewModel_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
         {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
             if (rootDocumentViewModel.ID == documentID)
             {
                 return rootDocumentViewModel.CurveGrid;
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel_ByID(rootDocumentViewModel, documentID);
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(rootDocumentViewModel, documentID);
                 return childDocumentViewModel.CurveGrid;
             }
         }
 
-        public static IList<CurveDetailsViewModel> GetCurveDetailsViewModels_ByDocumentID(DocumentViewModel documentViewModel, int documentID)
+        public static IList<CurveDetailsViewModel> GetCurveDetailsViewModels_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
         {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            if (documentViewModel.ID == documentID)
+            if (rootDocumentViewModel.ID == documentID)
             {
-                return documentViewModel.CurveDetailsList;
+                return rootDocumentViewModel.CurveDetailsList;
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel_ByID(documentViewModel, documentID);
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(rootDocumentViewModel, documentID);
                 return childDocumentViewModel.CurveDetailsList;
             }
         }
 
-        public static ChildDocumentItemAlternativeKey GetAlternativeCurveKey(DocumentViewModel rootDocumentViewModel, int curveID)
+        private static IEnumerable<CurveDetailsViewModel> EnumerateCurveDetailsViewModels(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            int? listIndex = rootDocumentViewModel.CurveDetailsList.TryGetIndexOf(x => x.Entity.ID == curveID);
-            if (listIndex.HasValue)
+            foreach (CurveDetailsViewModel curveDetailsViewModel in rootDocumentViewModel.CurveDetailsList)
             {
-                return new ChildDocumentItemAlternativeKey
+                yield return curveDetailsViewModel;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                foreach (CurveDetailsViewModel curveDetailsViewModel in childDocumentViewModel.CurveDetailsList)
                 {
-                    ChildDocumentListIndex = null,
-                    EntityListIndex = listIndex.Value,
-                };
+                    yield return curveDetailsViewModel;
+                }
             }
-
-            int? childDocumentListIndex = rootDocumentViewModel.ChildDocumentList
-                                                               .TryGetIndexOf(x => x.CurveDetailsList
-                                                                                    .Any(y => y.Entity.ID == curveID));
-            if (childDocumentListIndex.HasValue)
-            {
-                listIndex = rootDocumentViewModel.ChildDocumentList[childDocumentListIndex.Value]
-                                                 .CurveDetailsList
-                                                 .IndexOf(x => x.Entity.ID == curveID);
-
-                return new ChildDocumentItemAlternativeKey
-                {
-                    ChildDocumentListIndex = childDocumentListIndex.Value,
-                    EntityListIndex = listIndex.Value,
-                };
-            }
-
-            throw new Exception(String.Format("documentViewModel does not have CurveDetailsViewModel with ID '{0}' and neither do any ChildDocumentViewModels.", curveID));
         }
 
-        private static IList<CurveDetailsViewModel> GetCurveDetailsViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, int? childDocumentListIndex)
+        // Patch
+
+        public static PatchDetailsViewModel GetPatchDetailsViewModel(DocumentViewModel rootDocumentViewModel, int patchID)
         {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            if (childDocumentListIndex.HasValue)
+            PatchDetailsViewModel detailsViewModel = ChildDocumentHelper.EnumeratePatchDetailsViewModels(rootDocumentViewModel)
+                                                                        .FirstOrDefault(x => x.Entity.ID == patchID); // First for performance.
+            if (detailsViewModel == null)
             {
-                return documentViewModel.ChildDocumentList[childDocumentListIndex.Value].CurveDetailsList;
+                throw new Exception(String.Format("PatchDetailsViewModel with ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
             }
-            else
-            {
-                return documentViewModel.CurveDetailsList;
-            }
+
+            return detailsViewModel;
         }
-
-        public static CurveDetailsViewModel GetCurveDetailsViewModel_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentItemAlternativeKey key)
-        {
-            if (key == null) throw new NullException(() => key);
-            return GetCurveDetailsViewModel_ByAlternativeKey(documentViewModel, key.EntityListIndex, key.ChildDocumentListIndex);
-        }
-
-        private static CurveDetailsViewModel GetCurveDetailsViewModel_ByAlternativeKey(DocumentViewModel documentViewModel, int curveListIndex, int? childDocumentListIndex)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            IList<CurveDetailsViewModel> list = GetCurveDetailsViewModels_ByAlternativeKey(documentViewModel, childDocumentListIndex);
-
-            return list[curveListIndex];
-        }
-
-        // Patch ViewModels
 
         public static PatchGridViewModel GetPatchGridViewModel_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
         {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
             if (rootDocumentViewModel.ID == documentID)
             {
                 return rootDocumentViewModel.PatchGrid;
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel_ByID(rootDocumentViewModel, documentID);
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(rootDocumentViewModel, documentID);
                 return childDocumentViewModel.PatchGrid;
             }
         }
 
-        public static IList<PatchDetailsViewModel> GetPatchDetailsViewModels_ByDocumentID(DocumentViewModel documentViewModel, int documentID)
+        public static IList<PatchDetailsViewModel> GetPatchDetailsViewModels_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
         {
-            if (documentViewModel.ID == documentID)
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            if (rootDocumentViewModel.ID == documentID)
             {
-                return documentViewModel.PatchDetailsList;
+                return rootDocumentViewModel.PatchDetailsList;
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel_ByID(documentViewModel, documentID);
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(rootDocumentViewModel, documentID);
                 return childDocumentViewModel.PatchDetailsList;
             }
         }
 
-        public static ChildDocumentItemAlternativeKey GetAlternativePatchKey(DocumentViewModel rootDocumentViewModel, int patchID)
+        private static IEnumerable<PatchDetailsViewModel> EnumeratePatchDetailsViewModels(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            int? listIndex = rootDocumentViewModel.PatchDetailsList.TryGetIndexOf(x => x.Entity.ID == patchID);
-            if (listIndex.HasValue)
+            foreach (PatchDetailsViewModel patchDetailsViewModel in rootDocumentViewModel.PatchDetailsList)
             {
-                return new ChildDocumentItemAlternativeKey
-                {
-                    ChildDocumentListIndex = null,
-                    EntityListIndex = listIndex.Value,
-                };
+                yield return patchDetailsViewModel;
             }
 
-            int? childDocumentListIndex = rootDocumentViewModel.ChildDocumentList
-                                                               .TryGetIndexOf(x => x.PatchDetailsList
-                                                                                    .Any(y => y.Entity.ID == patchID));
-            if (childDocumentListIndex.HasValue)
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
-                listIndex = rootDocumentViewModel.ChildDocumentList[childDocumentListIndex.Value]
-                                                 .PatchDetailsList
-                                                 .IndexOf(x => x.Entity.ID == patchID);
-
-                return new ChildDocumentItemAlternativeKey
+                foreach (PatchDetailsViewModel patchDetailsViewModel in childDocumentViewModel.PatchDetailsList)
                 {
-                    ChildDocumentListIndex = childDocumentListIndex.Value,
-                    EntityListIndex = listIndex.Value,
-                };
+                    yield return patchDetailsViewModel;
+                }
             }
-
-            throw new Exception(String.Format("documentViewModel does not have PatchDetailsViewModel with ID '{0}' and neither do any ChildDocumentViewModels.", patchID));
         }
 
-        private static IList<PatchDetailsViewModel> GetPatchDetailsViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, int? childDocumentListIndex)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+        // Sample
 
-            if (childDocumentListIndex.HasValue)
+        public static SamplePropertiesViewModel GetSamplePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int sampleID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            SamplePropertiesViewModel propertiesViewModel = ChildDocumentHelper.EnumerateSamplePropertiesViewModels(rootDocumentViewModel)
+                                                                               .FirstOrDefault(x => x.Entity.ID == sampleID); // First for performance.
+            if (propertiesViewModel == null)
             {
-                return documentViewModel.ChildDocumentList[childDocumentListIndex.Value].PatchDetailsList;
+                throw new Exception(String.Format("SamplePropertiesViewModel with ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", sampleID));
+            }
+
+            return propertiesViewModel;
+        }
+
+        public static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            if (rootDocumentViewModel.ID == documentID)
+            {
+                return rootDocumentViewModel.SamplePropertiesList;
             }
             else
             {
-                return documentViewModel.PatchDetailsList;
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(rootDocumentViewModel, documentID);
+                return childDocumentViewModel.SamplePropertiesList;
             }
         }
 
-        public static PatchDetailsViewModel GetPatchDetailsViewModel_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentItemAlternativeKey key)
+        public static SampleGridViewModel GetSampleGridViewModel_BySampleID(DocumentViewModel rootDocumentViewModel, int sampleID)
         {
-            if (key == null) throw new NullException(() => key);
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            return GetPatchDetailsViewModel_ByAlternativeKey(documentViewModel, key.EntityListIndex, key.ChildDocumentListIndex);
-        }
-
-        private static PatchDetailsViewModel GetPatchDetailsViewModel_ByAlternativeKey(DocumentViewModel documentViewModel, int patchListIndex, int? childDocumentListIndex)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            IList<PatchDetailsViewModel> list = GetPatchDetailsViewModels_ByAlternativeKey(documentViewModel, childDocumentListIndex);
-
-            return list[patchListIndex];
-        }
-
-        // Sample ViewModels
-
-        public static SampleGridViewModel GetSampleGridViewModel_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentItemAlternativeKey key)
-        {
-            if (key == null) throw new NullException(() => key);
-            return GetSampleGridViewModel_ByAlternativeKey(documentViewModel, key.ChildDocumentListIndex);
-        }
-
-        private static SampleGridViewModel GetSampleGridViewModel_ByAlternativeKey(DocumentViewModel documentViewModel, int? childDocumentListIndex)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            if (childDocumentListIndex.HasValue)
-            {
-                return documentViewModel.ChildDocumentList[childDocumentListIndex.Value].SampleGrid;
-            }
-            else
-            {
-                return documentViewModel.SampleGrid;
-            }
+            SampleGridViewModel gridViewModel = ChildDocumentHelper.EnumerateSampleGridViewModels(rootDocumentViewModel)
+                                                                   .Where(x => x.List.Any(y => y.ID == sampleID))
+                                                                   .Single();
+            return gridViewModel;
         }
 
         public static SampleGridViewModel GetSampleGridViewModel_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
         {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
             if (rootDocumentViewModel.ID == documentID)
             {
                 return rootDocumentViewModel.SampleGrid;
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel_ByID(rootDocumentViewModel, documentID);
+                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(rootDocumentViewModel, documentID);
                 return childDocumentViewModel.SampleGrid;
             }
         }
 
-        public static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels_ByDocumentID(DocumentViewModel documentViewModel, int documentID)
-        {
-            if (documentViewModel.ID == documentID)
-            {
-                return documentViewModel.SamplePropertiesList;
-            }
-            else
-            {
-                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel_ByID(documentViewModel, documentID);
-                return childDocumentViewModel.SamplePropertiesList;
-            }
-        }
-
-        public static ChildDocumentItemAlternativeKey GetAlternativeSampleKey(DocumentViewModel rootDocumentViewModel, int sampleID)
+        private static IEnumerable<SampleGridViewModel> EnumerateSampleGridViewModels(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            int? listIndex = rootDocumentViewModel.SamplePropertiesList.TryGetIndexOf(x => x.Entity.ID == sampleID);
-            if (listIndex.HasValue)
+            yield return rootDocumentViewModel.SampleGrid;
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
-                return new ChildDocumentItemAlternativeKey
+                yield return childDocumentViewModel.SampleGrid;
+            }
+        }
+
+        private static IEnumerable<SamplePropertiesViewModel> EnumerateSamplePropertiesViewModels(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (SamplePropertiesViewModel samplePropertiesViewModel in rootDocumentViewModel.SamplePropertiesList)
+            {
+                yield return samplePropertiesViewModel;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                foreach (SamplePropertiesViewModel samplePropertiesViewModel in childDocumentViewModel.SamplePropertiesList)
                 {
-                    EntityListIndex = listIndex.Value
-                };
+                    yield return samplePropertiesViewModel;
+                }
             }
 
-            int? childDocumentListIndex = rootDocumentViewModel.ChildDocumentList
-                                                               .TryGetIndexOf(x => x.SamplePropertiesList
-                                                                                    .Any(y => y.Entity.ID == sampleID));
-            if (childDocumentListIndex.HasValue)
-            {
-                listIndex = rootDocumentViewModel.ChildDocumentList[childDocumentListIndex.Value]
-                                                 .SamplePropertiesList
-                                                 .IndexOf(x => x.Entity.ID == sampleID);
-
-                return new ChildDocumentItemAlternativeKey
-                {
-                    ChildDocumentListIndex = childDocumentListIndex.Value,
-                    EntityListIndex = listIndex.Value
-                };
-            }
-
-            throw new Exception(String.Format("documentViewModel does not have SamplePropertiesViewModel with ID '{0}' and neither do any ChildDocumentViewModels.", sampleID));
-        }
-
-        private static IList<SamplePropertiesViewModel> GetSamplePropertiesViewModels_ByAlternativeKey(DocumentViewModel documentViewModel, int? childDocumentListIndex)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            if (childDocumentListIndex.HasValue)
-            {
-                return documentViewModel.ChildDocumentList[childDocumentListIndex.Value].SamplePropertiesList;
-            }
-            else
-            {
-                return documentViewModel.SamplePropertiesList;
-            }
-        }
-
-        public static SamplePropertiesViewModel GetSamplePropertiesViewModel_ByAlternativeKey(DocumentViewModel documentViewModel, ChildDocumentItemAlternativeKey key)
-        {
-            if (key == null) throw new NullException(() => key);
-            return GetSamplePropertiesViewModel_ByAlternativeKey(documentViewModel, key.EntityListIndex, key.ChildDocumentListIndex);
-        }
-
-        private static SamplePropertiesViewModel GetSamplePropertiesViewModel_ByAlternativeKey(DocumentViewModel documentViewModel, int sampleListIndex, int? childDocumentListIndex)
-        {
-            if (documentViewModel == null) throw new NullException(() => documentViewModel);
-
-            IList<SamplePropertiesViewModel> list = GetSamplePropertiesViewModels_ByAlternativeKey(documentViewModel, childDocumentListIndex);
-
-            return list[sampleListIndex];
-        }
-
-        // Entities
-
-        public static Curve TryGetCurve(Document rootDocument, int curveID)
-        {
-            Curve curve = rootDocument.EnumerateSelfAndChildDocuments()
-                                      .SelectMany(x => x.Curves)
-                                      .Where(x => x.ID == curveID)
-                                      .SingleOrDefault();
-            return curve;
-        }
-
-        public static Patch TryGetPatch(Document rootDocument, int patchID)
-        {
-            Patch patch = rootDocument.EnumerateSelfAndChildDocuments()
-                                      .SelectMany(x => x.Patches)
-                                      .Where(x => x.ID == patchID)
-                                      .SingleOrDefault();
-            return patch;
-        }
-
-        public static Sample TryGetSample(Document rootDocument, int sampleID)
-        {
-            Sample sample = rootDocument.EnumerateSelfAndChildDocuments()
-                                        .SelectMany(x => x.Samples)
-                                        .Where(x => x.ID == sampleID)
-                                        .SingleOrDefault();
-            return sample;
-        }
-
-        public static Patch GetPatch(Document rootDocument, int patchID)
-        {
-            Patch patch = TryGetPatch(rootDocument, patchID);
-
-            if (patch == null)
-            {
-                throw new Exception(String.Format("Patch with ID '{0}' not found in either root Document or child Documents.", patchID));
-            }
-
-            return patch;
         }
     }
 }

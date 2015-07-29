@@ -762,7 +762,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToEntity
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
-                Curve curve = ChildDocumentHelper.TryGetCurve(rootDocument, curveID);
+                Curve curve = _repositoryWrapper.CurveRepository.TryGet(curveID);
                 if (curve == null)
                 {
                     NotFoundViewModel notFoundViewModel = ViewModelHelper.CreateNotFoundViewModel<Curve>();
@@ -798,9 +798,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativeCurveKey(ViewModel.Document, curveID);
-                CurveDetailsViewModel detailsViewModel = ChildDocumentHelper.GetCurveDetailsViewModel_ByAlternativeKey(ViewModel.Document, key);
-
+                CurveDetailsViewModel detailsViewModel = ChildDocumentHelper.GetCurveDetailsViewModel(ViewModel.Document, curveID);
                 _curveDetailsPresenter.ViewModel = detailsViewModel;
                 _curveDetailsPresenter.Show();
 
@@ -914,7 +912,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel.Document.EffectGrid.List.RemoveFirst(x => x.ID == effectDocumentID);
                 ViewModel.Document.ChildDocumentPropertiesList.RemoveFirst(x => x.ID == effectDocumentID);
                 ViewModel.Document.ChildDocumentList.RemoveFirst(x => x.ID == effectDocumentID);
-                ViewModel.Document.DocumentTree.Effects.RemoveFirst(x => x.Keys.ID == effectDocumentID);
+                ViewModel.Document.DocumentTree.Effects.RemoveFirst(x => x.ChildDocumentID == effectDocumentID);
             }
             finally
             {
@@ -996,7 +994,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel.Document.InstrumentGrid.List.RemoveFirst(x => x.ID == instrumentDocumentID);
                 ViewModel.Document.ChildDocumentPropertiesList.RemoveFirst(x => x.ID == instrumentDocumentID);
                 ViewModel.Document.ChildDocumentList.RemoveFirst(x => x.ID == instrumentDocumentID);
-                ViewModel.Document.DocumentTree.Instruments.RemoveFirst(x => x.Keys.ID == instrumentDocumentID);
+                ViewModel.Document.DocumentTree.Instruments.RemoveFirst(x => x.ChildDocumentID == instrumentDocumentID);
             }
             finally
             {
@@ -1080,7 +1078,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToEntity
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
-                Patch patch = ChildDocumentHelper.TryGetPatch(rootDocument, patchID);
+                Patch patch = _repositoryWrapper.PatchRepository.TryGet(patchID);
                 if (patch == null)
                 {
                     NotFoundViewModel notFoundViewModel = ViewModelHelper.CreateNotFoundViewModel<Patch>();
@@ -1116,8 +1114,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativePatchKey(ViewModel.Document, patchID);
-                PatchDetailsViewModel detailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByAlternativeKey(ViewModel.Document, key);
+                PatchDetailsViewModel detailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel(ViewModel.Document, patchID);
                 _patchDetailsPresenter.ViewModel = detailsViewModel;
                 _patchDetailsPresenter.Show();
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
@@ -1135,11 +1132,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // ToEntity
                 int patchID = _patchDetailsPresenter.ViewModel.Entity.ID;
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
-
-                // TODO: Replace calls to ChildDocumentHelper with queries like these: (?)
-                //Patch patch = rootDocument.EnumerateSelfAndChildDocuments().SelectMany(x => x.Patches).Where(x => x.ID == patchID).Single();
-
-                Patch patch = ChildDocumentHelper.GetPatch(rootDocument, patchID);
+                Patch patch = _repositoryWrapper.PatchRepository.Get(patchID);
                 int documentID = patch.Document.ID;
 
                 // Partial Action
@@ -1166,7 +1159,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // ToEntity
                 int patchID = _patchDetailsPresenter.ViewModel.Entity.ID;
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
-                Patch patch = ChildDocumentHelper.GetPatch(rootDocument, patchID);
+                Patch patch = _repositoryWrapper.PatchRepository.Get(patchID);
                 int documentID = patch.Document.ID;
 
                 // Partial Action
@@ -1374,7 +1367,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToEntity
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
-                Sample sample = ChildDocumentHelper.TryGetSample(rootDocument, sampleID);
+                Sample sample = _repositoryWrapper.SampleRepository.TryGet(sampleID);
                 if (sample == null)
                 {
                     NotFoundViewModel notFoundViewModel = ViewModelHelper.CreateNotFoundViewModel<Sample>();
@@ -1410,8 +1403,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativeSampleKey(ViewModel.Document, sampleID);
-                SamplePropertiesViewModel propertiesViewModel = ChildDocumentHelper.GetSamplePropertiesViewModel_ByAlternativeKey(ViewModel.Document, key);
+                SamplePropertiesViewModel propertiesViewModel = ChildDocumentHelper.GetSamplePropertiesViewModel(ViewModel.Document, sampleID);
                 _samplePropertiesPresenter.ViewModel = propertiesViewModel;
                 _samplePropertiesPresenter.Show();
 
@@ -1457,10 +1449,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     // Update list item
                     int sampleID = _samplePropertiesPresenter.ViewModel.Entity.ID;
-                    Sample sample = _repositoryWrapper.SampleRepository.Get(sampleID);
-
-                    ChildDocumentItemAlternativeKey key = ChildDocumentHelper.GetAlternativeSampleKey(ViewModel.Document, sampleID);
-                    SampleGridViewModel gridViewModel = ChildDocumentHelper.GetSampleGridViewModel_ByAlternativeKey(ViewModel.Document, key);
+                    SampleGridViewModel gridViewModel = ChildDocumentHelper.GetSampleGridViewModel_BySampleID(ViewModel.Document, sampleID);
                     _sampleGridPresenter.ViewModel = gridViewModel;
                     _sampleGridPresenter.RefreshListItem(sampleID);
                 }
@@ -1553,7 +1542,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (ChildDocumentGridViewModel)viewModel2;
 
-            switch (castedViewModel.Keys.ChildDocumentTypeEnum)
+            switch (castedViewModel.ChildDocumentTypeEnum)
             {
                 case ChildDocumentTypeEnum.Instrument:
                     ViewModel.Document.InstrumentGrid = castedViewModel;
@@ -1564,7 +1553,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     break;
 
                 default:
-                    throw new ValueNotSupportedException(castedViewModel.Keys.ChildDocumentTypeEnum);
+                    throw new ValueNotSupportedException(castedViewModel.ChildDocumentTypeEnum);
             }
 
             if (castedViewModel.Visible)
@@ -1613,7 +1602,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, castedViewModel.DocumentID);
+                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, castedViewModel.DocumentID);
                 childDocumentViewModel.CurveGrid = castedViewModel;
             }
 
@@ -1756,7 +1745,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, castedViewModel.DocumentID);
+                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, castedViewModel.DocumentID);
                 childDocumentViewModel.PatchGrid = castedViewModel;
             }
 
@@ -1792,7 +1781,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel_ByID(ViewModel.Document, gridViewModel.DocumentID);
+                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, gridViewModel.DocumentID);
                 childDocumentViewModel.SampleGrid = gridViewModel;
             }
 

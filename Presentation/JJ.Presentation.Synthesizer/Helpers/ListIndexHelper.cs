@@ -13,6 +13,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
     internal static class ListIndexHelper
     {
         // TODO: It seems this method should be called, but it no longer is. If so, call this method in the appropriate place again.
+        [Obsolete("Probably obsolete. The implementation could use ChildDocumentID instead of NodeIndex.")]
         public static void RenumberNodeIndexes(DocumentTreeViewModel tree)
         {
             if (tree == null) throw new NullException(() => tree);
@@ -21,12 +22,12 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             foreach (ChildDocumentTreeNodeViewModel childDocumentTreeNodeViewModel in tree.Instruments)
             {
-                childDocumentTreeNodeViewModel.Keys.NodeIndex = i++;
+                childDocumentTreeNodeViewModel.NodeIndex = i++;
             }
 
             foreach (ChildDocumentTreeNodeViewModel childDocumentTreeNodeViewModel in tree.Effects)
             {
-                childDocumentTreeNodeViewModel.Keys.NodeIndex = i++;
+                childDocumentTreeNodeViewModel.NodeIndex = i++;
             }
         }
     }

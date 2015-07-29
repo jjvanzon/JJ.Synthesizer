@@ -8,7 +8,6 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.ViewModels.Keys;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
@@ -116,11 +115,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ChildDocumentGridViewModel
             {
                 List = new List<ChildDocumentListItemViewModel>(),
-                Keys = new ChildDocumentGridKeysViewModel
-                {
-                    RootDocumentID = 0,
-                    ChildDocumentTypeEnum = childDocumentTypeEnum
-                }
+                RootDocumentID = 0,
+                ChildDocumentTypeEnum = childDocumentTypeEnum
             };
 
             return viewModel;
