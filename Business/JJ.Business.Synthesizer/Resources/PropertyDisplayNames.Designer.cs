@@ -196,6 +196,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operator.
+        /// </summary>
+        public static string CustomOperator {
+            get {
+                return ResourceManager.GetString("CustomOperator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Data.
         /// </summary>
         public static string Data {
@@ -318,6 +327,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Location {
             get {
                 return ResourceManager.GetString("Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main Patch.
+        /// </summary>
+        public static string MainPatch {
+            get {
+                return ResourceManager.GetString("MainPatch", resourceCulture);
             }
         }
         

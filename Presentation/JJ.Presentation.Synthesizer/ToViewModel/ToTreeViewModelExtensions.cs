@@ -40,21 +40,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                                               .Select(x => x.ToReferencedDocumentViewModelWithRelatedEntities())
                                                                               .OrderBy(x => x.Name)
                                                                               .ToList();
-            int nodeIndex = 0;
-
             viewModel.Instruments = document.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == ChildDocumentTypeEnum.Instrument)
                                                            .OrderBy(x => x.Name)
-                                                           .Select(x => x.ToChildDocumentTreeNodeViewModel(nodeIndex++))
+                                                           .Select(x => x.ToChildDocumentTreeNodeViewModel())
                                                            .ToList();
 
             viewModel.Effects = document.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == ChildDocumentTypeEnum.Effect)
                                                        .OrderBy(x => x.Name)
-                                                       .Select(x => x.ToChildDocumentTreeNodeViewModel(nodeIndex++))
+                                                       .Select(x => x.ToChildDocumentTreeNodeViewModel())
                                                        .ToList();
             return viewModel;
         }
 
-        public static ChildDocumentTreeNodeViewModel ToChildDocumentTreeNodeViewModel(this Document document, int nodeIndex)
+        public static ChildDocumentTreeNodeViewModel ToChildDocumentTreeNodeViewModel(this Document document)
         {
             if (document == null) throw new NullException(() => document);
 
@@ -64,8 +62,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurvesNode = new DummyViewModel(),
                 SamplesNode = new DummyViewModel(),
                 PatchesNode = new DummyViewModel(),
-                ChildDocumentID = document.ID,
-                NodeIndex = nodeIndex
+                ChildDocumentID = document.ID
             };
 
             return viewModel;

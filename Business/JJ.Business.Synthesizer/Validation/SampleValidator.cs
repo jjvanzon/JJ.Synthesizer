@@ -10,6 +10,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Exceptions;
+using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Configuration;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -37,7 +39,8 @@ namespace JJ.Business.Synthesizer.Validation
 
             Sample sample = Object;
 
-            For(() => sample.Name, CommonTitles.Name).NotInteger();
+            Execute(new NameValidator(sample.Name, required: false));
+
             For(() => sample.SamplingRate, PropertyDisplayNames.SamplingRate).Above(0);
             For(() => sample.TimeMultiplier, PropertyDisplayNames.TimeMultiplier).IsNot(0);
 

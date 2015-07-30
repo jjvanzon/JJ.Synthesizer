@@ -15,7 +15,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Common;
-using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
@@ -28,15 +28,16 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
         private string _filePath;
         private AudioFileOutput _audioFileOutput;
 
-        AudioFileOutputChannel[] _audioFileOutputChannels;
-        Outlet[] _outlets;
-        IOperatorCalculator[] _operatorCalculators;
+        private AudioFileOutputChannel[] _audioFileOutputChannels;
+        private Outlet[] _outlets;
+        private IPatchCalculator[] _patchCalculators;
 
-        public AudioFileOutputCalculatorBase(AudioFileOutput audioFileOutput, ICurveRepository curveRepository, ISampleRepository sampleRepository)
+        public AudioFileOutputCalculatorBase(AudioFileOutput audioFileOutput, ICurveRepository curveRepository, ISampleRepository sampleRepository, IDocumentRepository documentRepository)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
 
             IValidator validator = new AudioFileOutputValidator(audioFileOutput);
             validator.Verify();
@@ -53,11 +54,11 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
             var whiteNoiseCalculator = new WhiteNoiseCalculator(_audioFileOutput.SamplingRate);
 
-            _operatorCalculators = new IOperatorCalculator[channelCount];
+            _patchCalculators = new IPatchCalculator[channelCount];
             for (int i = 0; i < channelCount; i++)
             {
-                IOperatorCalculator operatorCalculator = new OptimizedOperatorCalculator(_outlets, whiteNoiseCalculator, curveRepository, sampleRepository);
-                _operatorCalculators[i] = operatorCalculator;
+                IPatchCalculator operatorCalculator = new OptimizedPatchCalculator(_outlets, whiteNoiseCalculator, curveRepository, sampleRepository, documentRepository);
+                _patchCalculators[i] = operatorCalculator;
             }
         }
 
@@ -116,7 +117,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                             double value = 0;
                             if (outlet != null) // TODO: I do not like this 'if'.
                             {
-                                value = _operatorCalculators[i].Calculate(t, i);
+                                value = _patchCalculators[i].Calculate(t, i);
                                 value *= _audioFileOutput.Amplifier;
                             }
 

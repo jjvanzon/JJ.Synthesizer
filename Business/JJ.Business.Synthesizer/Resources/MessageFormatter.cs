@@ -34,12 +34,6 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.UnsupportedOperatorTypeEnumValue, operatorTypeEnum);
         }
 
-        [Obsolete("Use the overload that takes OperatorTypeEnum instead.", true)]
-        public static string UnsupportedOperatorTypeEnumValue(int operatorTypeEnumID)
-        {
-            return String.Format(Messages.UnsupportedOperatorTypeEnumValue, operatorTypeEnumID);
-        }
-
         public static string SampleNotLoaded(string sampleName)
         {
             return String.Format(Messages.SampleNotLoaded, sampleName);
@@ -98,6 +92,16 @@ namespace JJ.Business.Synthesizer.Resources
         public static string OperatorIsCircularWithName(string name)
         {
             return String.Format(Messages.OperatorIsCircularWithName, name);
+        }
+
+        public static string NotFoundInList_WithItemName_ID_AndListName(string name, int documentID, string listName)
+        {
+            return String.Format(Messages.NotFoundInList_WithItemName_ID_AndListName, name, documentID, listName);
+        }
+
+        public static string NotFoundInList_WithItemName_AndID(string name, int documentID)
+        {
+            return String.Format(Messages.NotFoundInList_WithItemName_AndID, name, documentID);
         }
     }
 }

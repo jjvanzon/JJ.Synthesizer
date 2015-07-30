@@ -33,6 +33,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 17, "Sample");
             RepositoryHelper.EnsureEnumEntity(this, 18, "WhiteNoise");
             RepositoryHelper.EnsureEnumEntity(this, 19, "Resample");
+            RepositoryHelper.EnsureEnumEntity(this, 20, "CustomOperator");
         }          
     }
 }

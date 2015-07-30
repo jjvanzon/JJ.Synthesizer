@@ -13,7 +13,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class OperatorValidator_Divide : OperatorValidator_Base_NonSpecialized
+    public class OperatorValidator_Divide : OperatorValidator_Base_WithoutData
     {
         public OperatorValidator_Divide(Operator obj)
             : base(obj,

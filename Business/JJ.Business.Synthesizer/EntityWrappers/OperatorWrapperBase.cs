@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public abstract class  OperatorWrapperBase
+    public abstract class OperatorWrapperBase
     {
         protected Operator _operator;
 

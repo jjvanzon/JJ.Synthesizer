@@ -23,8 +23,29 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
-            For(() => Object.Data, PropertyDisplayNames.Data)
+            Operator op = Object;
+
+            For(() => op.Data, PropertyDisplayNames.Data)
                 .IsInteger();
+
+            // TODO: Remove return statement when samples always come out of the document, and are not hacked into it in the PatchPlay action in the front-end.
+            return;
+
+            int sampleID;
+            if (Int32.TryParse(op.Data, out sampleID))
+            {
+                // Check reference constraint of the Curve.
+                // (We are quite tollerant here: we omit the check if it is not in a patch or document.)
+                bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
+                if (mustCheckReference)
+                {
+                    bool isInList = op.Patch.Document.Samples.Any(x => x.ID == sampleID);
+                    if (!isInList)
+                    {
+                        ValidationMessages.Add(PropertyNames.Sample, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.Sample, sampleID));
+                    }
+                }
+            }
         }
     }
 }

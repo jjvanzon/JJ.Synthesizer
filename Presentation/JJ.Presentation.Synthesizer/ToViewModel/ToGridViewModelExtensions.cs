@@ -55,15 +55,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static ChildDocumentGridViewModel ToChildDocumentGridViewModel(this Document rootDocument, ChildDocumentTypeEnum childDocumentTypeEnum)
+        public static ChildDocumentGridViewModel ToChildDocumentGridViewModel(this Document rootDocument, int childDocumentTypeID)
         {
             if (rootDocument == null) throw new NullException(() => rootDocument);
 
             IList<Document> childDocuments = rootDocument.ChildDocuments
-                                                         .Where(x => x.GetChildDocumentTypeEnum() == childDocumentTypeEnum)
+                                                         .Where(x => x.ChildDocumentType != null && 
+                                                                     x.ChildDocumentType.ID == childDocumentTypeID)
                                                          .ToArray();
 
-            ChildDocumentGridViewModel viewModel = childDocuments.ToChildDocumentGridViewModel(rootDocument.ID, childDocumentTypeEnum);
+            ChildDocumentGridViewModel viewModel = childDocuments.ToChildDocumentGridViewModel(rootDocument.ID, childDocumentTypeID);
 
             return viewModel;
         }
@@ -71,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         private static ChildDocumentGridViewModel ToChildDocumentGridViewModel(
             this IList<Document> entities,
             int rootDocumentID,
-            ChildDocumentTypeEnum childDocumentTypeEnum)
+            int childDocumentTypeID)
         {
             if (entities == null) throw new NullException(() => entities);
 
@@ -79,7 +80,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 List = entities.ToChildDocumentListItemsViewModel(),
                 RootDocumentID = rootDocumentID,
-                ChildDocumentTypeEnum = childDocumentTypeEnum
+                ChildDocumentTypeID = childDocumentTypeID
             };
 
             return viewModel;

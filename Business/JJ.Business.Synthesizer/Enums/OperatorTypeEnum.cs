@@ -27,6 +27,7 @@ namespace JJ.Business.Synthesizer.Enums
         CurveIn = 16,
         Sample = 17,
         WhiteNoise = 18,
-        Resample = 19
+        Resample = 19,
+        CustomOperator = 20
     }
 }

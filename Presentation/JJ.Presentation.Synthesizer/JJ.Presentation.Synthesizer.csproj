@@ -45,11 +45,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PresentationMessages.resx</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\ChildDocumentItemAlternativeKey.cs" />
     <Compile Include="ToEntity\RecursiveViewModelToEntityConverter.cs" />
     <Compile Include="Helpers\ValidationMessageExtensions.cs" />
     <Compile Include="Helpers\ChildDocumentHelper.cs" />
-    <Compile Include="Helpers\ListIndexHelper.cs" />
     <Compile Include="Presenters\AudioFileOutputPropertiesPresenter.cs" />
     <Compile Include="Presenters\AudioFileOutputGridPresenter.cs" />
     <Compile Include="Presenters\ChildDocumentPropertiesPresenter.cs" />

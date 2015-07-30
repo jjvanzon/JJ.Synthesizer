@@ -38,10 +38,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private IOutletRepository _outletRepository;
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
+        private IDocumentRepository _documentRepository;
         private IEntityPositionRepository _entityPositionRepository;
         private IIDRepository _idRepository;
 
-        private OperatorFactory _operatorFactory;
+        private PatchManager _patchManager;
         private EntityPositionManager _entityPositionManager;
 
         public PatchDetailsViewModel ViewModel { get; set; }
@@ -55,6 +56,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IEntityPositionRepository entityPositionRepository, 
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
+            IDocumentRepository documentRepository,
             IIDRepository idRepository)
         {
             if (patchRepository == null) throw new NullException(() => patchRepository);
@@ -65,6 +67,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
             if (idRepository == null) throw new NullException(() => idRepository);
 
             _patchRepository = patchRepository;
@@ -75,17 +78,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _entityPositionRepository = entityPositionRepository;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
+            _documentRepository = documentRepository;
             _idRepository = idRepository;
 
             _entityPositionManager = new EntityPositionManager(_entityPositionRepository, _idRepository);
 
-            _operatorFactory = new OperatorFactory(
+            _patchManager = new PatchManager(
+                _patchRepository,
                 _operatorRepository, 
                 _operatorTypeRepository, 
                 _inletRepository, 
                 _outletRepository, 
                 _curveRepository, 
                 _sampleRepository,
+                _documentRepository,
+                _entityPositionRepository,
                 _idRepository);
         }
 
@@ -116,7 +123,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Patch patch = ViewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
 
-            IValidator validator = new PatchValidator_Recursive(patch, _curveRepository, _sampleRepository, alreadyDone: new HashSet<object>());
+            IValidator validator = new PatchValidator_Recursive(patch, _curveRepository, _sampleRepository, _documentRepository, alreadyDone: new HashSet<object>());
             if (!validator.IsValid)
             {
                 ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
@@ -135,7 +142,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Patch patch = ToEntity(ViewModel);
 
-            Operator op = _operatorFactory.Create((OperatorTypeEnum)operatorTypeID);
+            Operator op = _patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
             op.LinkTo(patch);
 
             OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties(_entityPositionManager);
@@ -447,6 +454,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 repositoryWrapper.AudioFileFormatRepository,
                 repositoryWrapper.CurveRepository,
                 repositoryWrapper.SampleRepository,
+                repositoryWrapper.DocumentRepository,
                 repositoryWrapper.IDRepository);
 
             return manager;

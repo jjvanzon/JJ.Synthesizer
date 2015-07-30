@@ -27,6 +27,22 @@ namespace JJ.Business.Synthesizer.Validation
 
             For(() => op.Data, PropertyDisplayNames.Data)
                 .IsInteger();
+
+            int curveID;
+            if (Int32.TryParse(op.Data, out curveID))
+            {
+                // Check reference constraint of the Curve.
+                // (We are quite tollerant here: we omit the check if it is not in a patch or document.)
+                bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
+                if (mustCheckReference)
+                {
+                    bool isInList = op.Patch.Document.Curves.Any(x => x.ID == curveID);
+                    if (!isInList)
+                    {
+                        ValidationMessages.Add(PropertyNames.Curve, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.Curve, curveID));
+                    }
+                }
+            }
         }
     }
 }

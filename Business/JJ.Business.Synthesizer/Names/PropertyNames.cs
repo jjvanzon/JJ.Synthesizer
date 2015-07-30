@@ -48,6 +48,7 @@ namespace JJ.Business.Synthesizer.Names
 
         // Outlets
         public const string Result = "Result";
+        public const string Outlet = "Outlet";
         
         // Wav Header Properties
         public const string ChunkID = "ChunkID";
@@ -71,5 +72,6 @@ namespace JJ.Business.Synthesizer.Names
         public const string ID = "ID";
         public const string Name = "Name";
         public const string ChildDocument = "ChildDocument";
+        public const string Document = "Document";
     }
 }

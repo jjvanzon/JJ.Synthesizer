@@ -106,6 +106,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositoryWrapper.EntityPositionRepository,
                 _repositoryWrapper.CurveRepository,
                 _repositoryWrapper.SampleRepository,
+                _repositoryWrapper.DocumentRepository,
                 _repositoryWrapper.IDRepository);
             _patchGridPresenter = new PatchGridPresenter(_repositoryWrapper.DocumentRepository);
             _sampleGridPresenter = new SampleGridPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.SampleRepository);
@@ -114,12 +115,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentManager = new DocumentManager(repositoryWrapper);
             _patchManager = new PatchManager(
                 _repositoryWrapper.PatchRepository,
-                _repositoryWrapper.OperatorRepository, 
+                _repositoryWrapper.OperatorRepository,
+                _repositoryWrapper.OperatorTypeRepository, 
                 _repositoryWrapper.InletRepository, 
                 _repositoryWrapper.OutletRepository,
                 _repositoryWrapper.CurveRepository,
                 _repositoryWrapper.SampleRepository,
-                _repositoryWrapper.EntityPositionRepository);
+                _repositoryWrapper.DocumentRepository,
+                _repositoryWrapper.EntityPositionRepository,
+                _repositoryWrapper.IDRepository);
             _curveManager = new CurveManager(_repositoryWrapper.CurveRepository, _repositoryWrapper.NodeRepository);
             _sampleManager = new SampleManager(new SampleRepositories(_repositoryWrapper));
             _audioFileOutputManager = new AudioFileOutputManager(
@@ -130,6 +134,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositoryWrapper.AudioFileFormatRepository,
                 _repositoryWrapper.CurveRepository,
                 _repositoryWrapper.SampleRepository,
+                _repositoryWrapper.DocumentRepository,
                 _repositoryWrapper.IDRepository);
             _entityPositionManager = new EntityPositionManager(_repositoryWrapper.EntityPositionRepository, _repositoryWrapper.IDRepository);
 
@@ -1542,7 +1547,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (ChildDocumentGridViewModel)viewModel2;
 
-            switch (castedViewModel.ChildDocumentTypeEnum)
+            ChildDocumentTypeEnum childDocumentTypeEnum = (ChildDocumentTypeEnum)castedViewModel.ChildDocumentTypeID;
+
+            switch (childDocumentTypeEnum)
             {
                 case ChildDocumentTypeEnum.Instrument:
                     ViewModel.Document.InstrumentGrid = castedViewModel;
@@ -1553,7 +1560,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     break;
 
                 default:
-                    throw new ValueNotSupportedException(castedViewModel.ChildDocumentTypeEnum);
+                    throw new ValueNotSupportedException(childDocumentTypeEnum);
             }
 
             if (castedViewModel.Visible)

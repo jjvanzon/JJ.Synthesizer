@@ -11,41 +11,44 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
     internal static class TagHelper
     {
         // The the shorter the prefixes, the faster it will be.
-        private const string CHILD_DOCUMENT_NODE_INDEX_TAG_PREFIX = "cd.nx ";
         private const string CHILD_DOCUMENT_TAG_PREFIX = "cd ";
 
-        public static object GetChildDocumentNodeIndexTag(int childDocumentNodeIndex)
-        {
-            return String.Format("{0}{1}", CHILD_DOCUMENT_NODE_INDEX_TAG_PREFIX, childDocumentNodeIndex);
-        }
+        // TODO: Remove outcommented code.
 
-        public static int? TryGetChildDocumentNodeIndex(object tag)
-        {
-            string tagString = Convert.ToString(tag);
+        //private const string CHILD_DOCUMENT_NODE_INDEX_TAG_PREFIX = "cd.nx ";
 
-            if (String.IsNullOrEmpty(tagString))
-            {
-                return null;
-            }
+        //public static object GetChildDocumentNodeIndexTag(int childDocumentNodeIndex)
+        //{
+        //    return String.Format("{0}{1}", CHILD_DOCUMENT_NODE_INDEX_TAG_PREFIX, childDocumentNodeIndex);
+        //}
 
-            bool isChildDocumentNodeIndexTag = tagString.StartsWith(CHILD_DOCUMENT_NODE_INDEX_TAG_PREFIX);
-            if (!isChildDocumentNodeIndexTag)
-            {
-                return null;
-            }
+        //public static int? TryGetChildDocumentNodeIndex(object tag)
+        //{
+        //    string tagString = Convert.ToString(tag);
 
-            string nodeIndexString = tagString.CutLeft(CHILD_DOCUMENT_NODE_INDEX_TAG_PREFIX.Length);
+        //    if (String.IsNullOrEmpty(tagString))
+        //    {
+        //        return null;
+        //    }
 
-            int nodeIndex;
-            if (!Int32.TryParse(nodeIndexString, out nodeIndex))
-            {
-                throw new NotImplementedException();
-                // TODO: Use proper exception message.
-                throw new Exception("");
-            }
+        //    bool isChildDocumentNodeIndexTag = tagString.StartsWith(CHILD_DOCUMENT_NODE_INDEX_TAG_PREFIX);
+        //    if (!isChildDocumentNodeIndexTag)
+        //    {
+        //        return null;
+        //    }
 
-            return nodeIndex;
-        }
+        //    string nodeIndexString = tagString.CutLeft(CHILD_DOCUMENT_NODE_INDEX_TAG_PREFIX.Length);
+
+        //    int nodeIndex;
+        //    if (!Int32.TryParse(nodeIndexString, out nodeIndex))
+        //    {
+        //        throw new NotImplementedException();
+        //        // TODO: Use proper exception message.
+        //        throw new Exception("");
+        //    }
+
+        //    return nodeIndex;
+        //}
 
         public static object GetChildDocumentTag(int childDocumentID)
         {

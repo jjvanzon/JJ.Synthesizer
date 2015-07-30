@@ -13,6 +13,7 @@ namespace JJ.Business.Synthesizer.Validation
     public class NameValidator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
     {
         private static int? _nameMaxLength;
+        private bool _required;
 
         static NameValidator()
         {
@@ -20,17 +21,23 @@ namespace JJ.Business.Synthesizer.Validation
             _nameMaxLength = config.NameMaxLength;
         }
 
-        public NameValidator(string obj)
-            : base(obj)
-        { }
+        public NameValidator(string obj, bool required = true)
+            : base(obj, postponeExecute: true)
+        {
+            _required = required;
+
+            Execute();
+        }
 
         protected override void Execute()
         {
             string name = Object;
 
-            For(() => name, CommonTitles.Name)
-                .NotNullOrWhiteSpace()
-                .NotInteger();
+            if (_required)
+            {
+                For(() => name, CommonTitles.Name)
+                    .NotNullOrWhiteSpace();
+            }
 
             if (_nameMaxLength.HasValue)
             {

@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.Managers
         private IAudioFileFormatRepository _audioFileFormatRepository;
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
+        private IDocumentRepository _documentRepository;
         private IIDRepository _idRepository;
 
         public AudioFileOutputManager(
@@ -36,6 +37,7 @@ namespace JJ.Business.Synthesizer.Managers
             IAudioFileFormatRepository audioFileFormatRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
+            IDocumentRepository documentRepository,
             IIDRepository idRepository)
         {
             if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
@@ -45,6 +47,7 @@ namespace JJ.Business.Synthesizer.Managers
             if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
             if (idRepository == null) throw new NullException(() => idRepository);
 
             _audioFileOutputRepository = audioFileOutputRepository;
@@ -54,6 +57,7 @@ namespace JJ.Business.Synthesizer.Managers
             _audioFileFormatRepository = audioFileFormatRepository;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
+            _documentRepository = documentRepository;
             _idRepository = idRepository;
         }
 
@@ -148,7 +152,7 @@ namespace JJ.Business.Synthesizer.Managers
 
         public void Execute(AudioFileOutput audioFileOutput)
         {
-            IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(_curveRepository, _sampleRepository, audioFileOutput);
+            IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(_curveRepository, _sampleRepository, _documentRepository, audioFileOutput);
             audioFileOutputCalculator.Execute();
         }
     }

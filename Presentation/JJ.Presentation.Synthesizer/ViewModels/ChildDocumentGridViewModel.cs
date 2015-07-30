@@ -15,8 +15,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     public sealed class ChildDocumentGridViewModel
     {
         public int RootDocumentID { get; set; }
-        // TODO: Refactor out the enum. You should not put that in a view model.
-        public ChildDocumentTypeEnum ChildDocumentTypeEnum { get; set; }
+        public int ChildDocumentTypeID { get; set; }
         public bool Visible { get; set; }
         public IList<ChildDocumentListItemViewModel> List { get; set; }
     }

@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Validation
             foreach (Patch patch in document.Patches)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Patch, patch.Name);
-                Execute(new PatchValidator_Recursive(patch, _repositoryWrapper.CurveRepository, _repositoryWrapper.SampleRepository, _alreadyDone), messagePrefix);
+                Execute(new PatchValidator_Recursive(patch, _repositoryWrapper.CurveRepository, _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository, _alreadyDone), messagePrefix);
                 Execute(new PatchValidator_InDocument(patch));
             }
 

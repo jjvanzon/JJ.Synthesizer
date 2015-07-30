@@ -9,13 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Exceptions;
+using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Configuration;
 
 namespace JJ.Business.Synthesizer.Validation
 {
     public class CurveValidator : FluentValidator<Curve>
     {
         private HashSet<object> _alreadyDone;
-        
+
         public CurveValidator(Curve obj, HashSet<object> alreadyDone)
             : base(obj, postponeExecute: true)
         {
@@ -36,7 +38,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             Curve curve = Object;
 
-            For(() => curve.Name, CommonTitles.Name).NotInteger();
+            Execute(new NameValidator(curve.Name, required: false));
 
             For(() => curve.Nodes.Count, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Nodes)).MinValue(2);
 

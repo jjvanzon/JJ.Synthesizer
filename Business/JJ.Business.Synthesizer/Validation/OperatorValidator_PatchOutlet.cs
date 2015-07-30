@@ -13,7 +13,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class OperatorValidator_PatchOutlet : OperatorValidator_Base_NonSpecialized
+    public class OperatorValidator_PatchOutlet : OperatorValidator_Base_WithoutData
     {
         public OperatorValidator_PatchOutlet(Operator obj)
             : base(obj, OperatorTypeEnum.PatchOutlet, 1, PropertyNames.Input, PropertyNames.Result)

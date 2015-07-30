@@ -10,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
     /// <summary>
@@ -116,8 +115,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             // and then the Outlet, because otherwise NHibernate will crash.
 
             // First convert operator, because NHibernate cannot handle 
-            // saving a child object first and then the parent object,
-            // when those objects have data store generated ID's.
+            // saving THE child object first and then the parent object,
             // It would try to execute an insert statement on the child object without its 'ParentID' being filled in.
             Operator op = ToEntityRecursive(outletViewModel.Operator);
 

@@ -52,39 +52,39 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return ViewModel;
         }
 
-        public void ExpandNode(int nodeIndex)
+        public void ExpandNode(int childDocumentID)
         {
             AssertViewModel();
 
             // 'Business'
             ChildDocumentTreeNodeViewModel nodeViewModel =
-                ViewModel.Instruments.Where(x => x.NodeIndex == nodeIndex).SingleOrDefault() ??
-                ViewModel.Effects.Where(x => x.NodeIndex == nodeIndex).SingleOrDefault();
+                ViewModel.Instruments.Where(x => x.ChildDocumentID == childDocumentID).SingleOrDefault() ??
+                ViewModel.Effects.Where(x => x.ChildDocumentID == childDocumentID).SingleOrDefault();
 
             if (nodeViewModel == null)
             {
                 throw new Exception(String.Format(
-                    "nodeIndex '{0}' does not match with any ChildDocumentTreeViewModel in viewModel.Instruments not viewModel.Effects.",
-                    nodeIndex));
+                    "childDocumentID '{0}' does not match with any ChildDocumentTreeViewModel in viewModel.Instruments not viewModel.Effects.",
+                    childDocumentID));
             }
 
             nodeViewModel.IsExpanded = true;
         }
 
-        public void CollapseNode(int nodeIndex)
+        public void CollapseNode(int childDocumentID)
         {
             AssertViewModel();
 
             // 'Business'
             ChildDocumentTreeNodeViewModel nodeViewModel =
-                ViewModel.Instruments.Where(x => x.NodeIndex == nodeIndex).SingleOrDefault() ??
-                ViewModel.Effects.Where(x => x.NodeIndex == nodeIndex).SingleOrDefault();
+                ViewModel.Instruments.Where(x => x.ChildDocumentID == childDocumentID).SingleOrDefault() ??
+                ViewModel.Effects.Where(x => x.ChildDocumentID == childDocumentID).SingleOrDefault();
 
             if (nodeViewModel == null)
             {
                 throw new Exception(String.Format(
-                    "nodeIndex '{0}' does not match with any ChildDocumentTreeViewModel in viewModel.Instruments not viewModel.Effects.",
-                    nodeIndex));
+                    "childDocumentID '{0}' does not match with any ChildDocumentTreeViewModel in viewModel.Instruments not viewModel.Effects.",
+                    childDocumentID));
             }
 
             nodeViewModel.IsExpanded = false;
@@ -113,7 +113,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             var join1 = from sourceInstrumentViewModel in sourceViewModel.Instruments
                         join destInstrumentViewModel in destViewModel.Instruments
-                        on sourceInstrumentViewModel.NodeIndex equals destInstrumentViewModel.NodeIndex
+                        on sourceInstrumentViewModel.ChildDocumentID equals destInstrumentViewModel.ChildDocumentID
                         select new { sourceInstrumentViewModel, destInstrumentViewModel };
 
             foreach (var tuple in join1)
@@ -123,7 +123,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             var join2 = from sourceEffectViewModel in sourceViewModel.Effects
                         join destEffectViewModel in destViewModel.Effects
-                        on sourceEffectViewModel.NodeIndex equals destEffectViewModel.NodeIndex
+                        on sourceEffectViewModel.ChildDocumentID equals destEffectViewModel.ChildDocumentID
                         select new { sourceEffectViewModel, destEffectViewModel };
 
             foreach (var tuple in join2)

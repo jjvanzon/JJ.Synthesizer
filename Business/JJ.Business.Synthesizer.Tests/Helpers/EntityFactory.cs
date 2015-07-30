@@ -7,12 +7,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Managers;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
     public class EntityFactory
     {
-        public static Outlet CreateMockOperatorStructure(OperatorFactory x)
+        public static Outlet CreateMockOperatorStructure(PatchManager x)
         {
             if (x == null) throw new NullException(() => x);
 
@@ -20,14 +21,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return substract;
         }
 
-        public static Outlet CreateTimePowerEffectWithEcho(OperatorFactory x, Outlet signal)
+        public static Outlet CreateTimePowerEffectWithEcho(PatchManager x, Outlet signal)
         {
             Outlet timePower = CreateTimePowerEffect(x, signal);
             Outlet echo = CreateEcho(x, timePower);
             return echo;
         }
 
-        public static Outlet CreateMultiplyWithEcho(OperatorFactory x, Outlet signal)
+        public static Outlet CreateMultiplyWithEcho(PatchManager x, Outlet signal)
         {
             Outlet multiply = x.Multiply(signal, x.Value(1.5));
             Outlet echo = CreateEcho(x, multiply);
@@ -35,7 +36,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return echo;
         }
 
-        public static Outlet CreateTimePowerEffect(OperatorFactory x, Outlet signal)
+        public static Outlet CreateTimePowerEffect(PatchManager x, Outlet signal)
         {
             if (x == null) throw new NullException(() => x);
 
@@ -43,7 +44,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return outlet;
         }
 
-        public static Outlet CreateEcho(OperatorFactory x, Outlet signal, int count = 15, double denominator = 1.5, double delay = 0.25)
+        public static Outlet CreateEcho(PatchManager x, Outlet signal, int count = 15, double denominator = 1.5, double delay = 0.25)
         {
             double cumulativeDenominator = 1;
             double cumulativeDelay = 0;

@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.Calculation.Operators;
+﻿using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Extensions;
@@ -41,6 +41,7 @@ namespace JJ.Business.Synthesizer.Visitors
                 { OperatorTypeEnum.Value, VisitValue },
                 { OperatorTypeEnum.WhiteNoise, VisitWhiteNoise },
                 { OperatorTypeEnum.Resample, VisitResample },
+                { OperatorTypeEnum.CustomOperator, VisitCustomOperator }
             };
         }
 
@@ -151,6 +152,10 @@ namespace JJ.Business.Synthesizer.Visitors
 
         /// <summary> does nothing </summary>
         protected virtual void VisitResample(Operator op)
+        { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitCustomOperator(Operator op)
         { }
     }
 }

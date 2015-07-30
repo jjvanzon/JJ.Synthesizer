@@ -144,7 +144,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             foreach (ChildDocumentTreeNodeViewModel instrumentViewModel in parentViewModel.Instruments)
             {
                 var instrumentTreeNode = new TreeNode(instrumentViewModel.Name);
-                instrumentTreeNode.Tag = TagHelper.GetChildDocumentNodeIndexTag(instrumentViewModel.NodeIndex);
+                instrumentTreeNode.Tag = TagHelper.GetChildDocumentTag(instrumentViewModel.ChildDocumentID);
                 _instrumentsTreeNode.Nodes.Add(instrumentTreeNode);
 
                 AddChildDocumentChildNodesRecursive(instrumentTreeNode, instrumentViewModel);
@@ -167,7 +167,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             foreach (ChildDocumentTreeNodeViewModel effectViewModel in parentViewModel.Effects)
             {
                 var effectTreeNode = new TreeNode(effectViewModel.Name);
-                effectTreeNode.Tag = TagHelper.GetChildDocumentNodeIndexTag(effectViewModel.NodeIndex);
+                effectTreeNode.Tag = TagHelper.GetChildDocumentTag(effectViewModel.ChildDocumentID);
                 _effectsTreeNode.Nodes.Add(effectTreeNode);
 
                 AddChildDocumentChildNodesRecursive(effectTreeNode, effectViewModel);
@@ -257,12 +257,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            int? nodeIndex = TagHelper.TryGetChildDocumentNodeIndex(e.Node.Tag);
-            if (nodeIndex.HasValue)
+            int? id = TagHelper.TryGetChildDocumentID(e.Node.Tag);
+            if (id.HasValue)
             {
                 if (ExpandNodeRequested != null)
                 {
-                    ExpandNodeRequested(this, new Int32EventArgs(nodeIndex.Value));
+                    ExpandNodeRequested(this, new Int32EventArgs(id.Value));
                 }
             }
         }
@@ -274,12 +274,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            int? nodeIndex = TagHelper.TryGetChildDocumentNodeIndex(e.Node.Tag);
-            if (nodeIndex.HasValue)
+            int? id = TagHelper.TryGetChildDocumentID(e.Node.Tag);
+            if (id.HasValue)
             {
                 if (CollapseNodeRequested != null)
                 {
-                    CollapseNodeRequested(this, new Int32EventArgs(nodeIndex.Value));
+                    CollapseNodeRequested(this, new Int32EventArgs(id.Value));
                 }
             }
         }

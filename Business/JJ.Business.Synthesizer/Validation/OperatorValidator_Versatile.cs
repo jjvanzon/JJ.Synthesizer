@@ -10,12 +10,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Validation
 {
     public class OperatorValidator_Versatile : ValidatorBase<Operator>
     {
-        private IDictionary<OperatorTypeEnum, Type> _validatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
+        private IDocumentRepository _documentRepository;
+
+        private Dictionary<OperatorTypeEnum, Type> _validatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
         {
             { OperatorTypeEnum.Adder, typeof(OperatorValidator_Adder) },
             { OperatorTypeEnum.Add, typeof(OperatorValidator_Add) },
@@ -35,16 +38,26 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.TimePower, typeof(OperatorValidator_TimePower) },
             { OperatorTypeEnum.TimeSubstract, typeof(OperatorValidator_TimeSubstract) },
             { OperatorTypeEnum.Value, typeof(OperatorValidator_Value) },
-            { OperatorTypeEnum.WhiteNoise, typeof(OperatorValidator_WhiteNoise) }
+            { OperatorTypeEnum.WhiteNoise, typeof(OperatorValidator_WhiteNoise) },
         };
 
-        public OperatorValidator_Versatile(Operator obj)
-            : base(obj)
-        { }
+        public OperatorValidator_Versatile(Operator obj, IDocumentRepository documentRepository)
+            : base(obj, postponeExecute: true)
+        {
+            _documentRepository = documentRepository;
+
+            Execute();
+        }
 
         protected override void Execute()
         {
             Execute<OperatorValidator_Basic>();
+
+            if (Object.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
+            {
+                Execute(new OperatorValidator_CustomOperator(Object, _documentRepository));
+                return;
+            }
 
             Type validatorType;
             if (!_validatorTypeDictionary.TryGetValue(Object.GetOperatorTypeEnum(), out validatorType))

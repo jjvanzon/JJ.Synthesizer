@@ -21,7 +21,7 @@ using System.Threading.Tasks;
 using JJ.Framework.IO;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Business.Synthesizer.Calculation.Patches;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -49,7 +49,7 @@ namespace JJ.Business.Synthesizer.Tests
                 double timeMultiplier = 1;
                 double duration = sample.GetDuration();
 
-                OperatorFactory x = TestHelper.CreateOperatorFactory(context);
+                PatchManager x = TestHelper.CreatePatchManager(context);
                 Outlet outlet = x.TimeMultiply(x.Sample(sample), x.Value(timeMultiplier));
 
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
@@ -78,13 +78,13 @@ namespace JJ.Business.Synthesizer.Tests
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 Sample sample = sampleManager.CreateSample(stream, AudioFileFormatEnum.Wav);
 
-                OperatorFactory x = TestHelper.CreateOperatorFactory(context);
+                PatchManager x = TestHelper.CreatePatchManager(context);
                 Outlet outlet = x.Sample(sample);
 
                 var patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
                 // Trigger SampleCalculation
-                IOperatorCalculator calculator = patchManager.CreateCalculator(outlet);
+                IPatchCalculator calculator = patchManager.CreateCalculator(outlet);
                 double value = calculator.Calculate(0, 0);
             }
         }

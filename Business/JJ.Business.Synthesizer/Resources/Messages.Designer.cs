@@ -124,6 +124,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} with ID &apos;{1}&apos; not found..
+        /// </summary>
+        internal static string NotFoundInList_WithItemName_AndID {
+            get {
+                return ResourceManager.GetString("NotFoundInList_WithItemName_AndID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} with ID &apos;{1}&apos; not found in the list of {2}..
+        /// </summary>
+        internal static string NotFoundInList_WithItemName_ID_AndListName {
+            get {
+                return ResourceManager.GetString("NotFoundInList_WithItemName_ID_AndListName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Amplifier of &apos;{0}&apos; named &apos;{1}&apos; is 0..
         /// </summary>
         internal static string ObjectAmplifier0 {
@@ -133,11 +151,29 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operator&apos;s inlet count does not match the inlet count of the main patch of the document it references..
+        /// </summary>
+        internal static string OperatorInletCountNotEqualToDocumentMainPatchInletCount {
+            get {
+                return ResourceManager.GetString("OperatorInletCountNotEqualToDocumentMainPatchInletCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Operator named &apos;{0}&apos; has a circular reference..
         /// </summary>
         internal static string OperatorIsCircularWithName {
             get {
                 return ResourceManager.GetString("OperatorIsCircularWithName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operator&apos;s outlet count does not match the outlet count of the main patch of the document it references..
+        /// </summary>
+        internal static string OperatorOutletCountNotEqualToDocumentMainPatchOutletCount {
+            get {
+                return ResourceManager.GetString("OperatorOutletCountNotEqualToDocumentMainPatchOutletCount", resourceCulture);
             }
         }
         

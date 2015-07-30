@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            For(() => Object.Data, PropertyDisplayNames.Data)
+            For(() => Object.Data, PropertyDisplayNames.Sample)
                 .NotNull();
         }
     }

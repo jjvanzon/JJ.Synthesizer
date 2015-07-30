@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Configuration;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -21,7 +23,8 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            For(() => Object.Name, CommonTitles.Name).NotInteger();
+            Execute(new NameValidator(Object.Name, required: false));
+
             For(() => Object.OperatorType, PropertyDisplayNames.OperatorType).NotNull();
             For(() => Object.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).IsEnumValue<OperatorTypeEnum>();
         }

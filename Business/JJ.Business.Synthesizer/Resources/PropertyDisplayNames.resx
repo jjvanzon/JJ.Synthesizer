@@ -304,4 +304,10 @@
   <data name="Instruments" xml:space="preserve">
     <value>Instruments</value>
   </data>
+  <data name="CustomOperator" xml:space="preserve">
+    <value>Operator</value>
+  </data>
+  <data name="MainPatch" xml:space="preserve">
+    <value>Main Patch</value>
+  </data>
 </root>

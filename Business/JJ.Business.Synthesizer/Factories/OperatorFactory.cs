@@ -18,7 +18,7 @@ using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Factories
 {
-    public class OperatorFactory
+    internal class OperatorFactory
     {
         private IOperatorRepository _operatorRepository;
         private IOperatorTypeRepository _operatorTypeRepository;
@@ -381,6 +381,100 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
+        // Custom Operator
+
+        public CustomOperator_OperatorWrapper CustomOperator(int inletCount, int outletCount)
+        {
+            var op = new Operator();
+            op.ID = _idRepository.GetID();
+            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _operatorTypeRepository);
+            op.Name = PropertyDisplayNames.CustomOperator;
+            _operatorRepository.Insert(op);
+
+            for (int i = 0; i < inletCount; i++)
+            {
+                var inlet = new Inlet();
+                inlet.ID = _idRepository.GetID();
+                inlet.Name = String.Format("{0}{1}", PropertyNames.Operand, i + 1);
+                inlet.LinkTo(op);
+                _inletRepository.Insert(inlet);
+            }
+
+            for (int i = 0; i < outletCount; i++)
+            {
+                var outlet = new Outlet();
+                outlet.ID = _idRepository.GetID();
+                outlet.Name = String.Format("{0}{1}", PropertyNames.Outlet, i + 1);
+                outlet.LinkTo(op);
+                _outletRepository.Insert(outlet);
+            }
+
+            var wrapper = new CustomOperator_OperatorWrapper(op);
+            return wrapper;
+        }
+
+        private void SetOperands(Operator op, IList<Outlet> operands)
+        {
+            if (op.Inlets.Count != operands.Count) throw new NotEqualException(() => op.Inlets.Count, () => operands.Count);
+
+            for (int i = 0; i < operands.Count; i++)
+            {
+                op.Inlets[i].InputOutlet = operands[i];
+            }
+        }
+
+        public CustomOperator_OperatorWrapper CustomOperator()
+        {
+            return CustomOperator(0, 0);
+        }
+
+        /// <param name="document">The Document to base the CustomOperator on.</param>
+        public CustomOperator_OperatorWrapper CustomOperator(Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+            if (document.MainPatch == null) throw new NullException(() => document.MainPatch);
+
+            var inletCount = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet).Count();
+            var outletCount = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet).Count();
+
+            return CustomOperator(inletCount, outletCount);
+        }
+
+        /// <param name="document">The Document to base the CustomOperator on.</param>
+        public CustomOperator_OperatorWrapper CustomOperator(Document document, params Outlet[] operands)
+        {
+            return CustomOperator(document, (IList<Outlet>)operands);
+        }
+
+        /// <param name="document">The Document to base the CustomOperator on.</param>
+        public CustomOperator_OperatorWrapper CustomOperator(Document document, IList<Outlet> operands)
+        {
+            if (document == null) throw new NullException(() => document);
+            if (operands == null) throw new NullException(() => operands);
+
+            CustomOperator_OperatorWrapper wrapper = CustomOperator(document);
+
+            SetOperands(wrapper.Operator, operands);
+
+            return wrapper;
+        }
+
+        public CustomOperator_OperatorWrapper CustomOperator(IList<Outlet> operands, int outletCount)
+        {
+            if (operands == null) throw new NullException(() => operands);
+
+            CustomOperator_OperatorWrapper wrapper = CustomOperator(operands.Count, outletCount);
+
+            SetOperands(wrapper.Operator, operands);
+
+            return wrapper;
+        }
+
+        public CustomOperator_OperatorWrapper CustomOperator(params Outlet[] operands)
+        {
+            return CustomOperator((IList<Outlet>)operands, 0);
+        }
+
         // Generic methods for operator creation
 
         private static Dictionary<OperatorTypeEnum, MethodInfo> _creationMethodDictionary;
@@ -399,23 +493,26 @@ namespace JJ.Business.Synthesizer.Factories
                     continue;
                 }
 
-                MethodInfo methodInfo = typeof(OperatorFactory).GetMethod(operatorTypeEnum.ToString());
+                MethodInfo methodInfo;
+                if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
+                {
+                    methodInfo = typeof(OperatorFactory).GetMethod(operatorTypeEnum.ToString(), Type.EmptyTypes);
+                }
+                else
+                {
+                    methodInfo = typeof(OperatorFactory).GetMethod(operatorTypeEnum.ToString());
+                }
                 methodDictionary.Add(operatorTypeEnum, methodInfo);
             }
 
             return methodDictionary;
         }
 
-        /// <summary>
-        /// An Adder is created 
-        /// </summary>
-        /// <param name="operatorTypeEnum"></param>
-        /// <returns></returns>
-        public Operator Create(OperatorTypeEnum operatorTypeEnum, int operandCountForAdder = 3)
+        public Operator Create(OperatorTypeEnum operatorTypeEnum, int inletCountForAdder = 16)
         {
             if (operatorTypeEnum == OperatorTypeEnum.Adder)
             {
-                return Adder(new List<Outlet>(new Outlet[16]));
+                return Adder(new List<Outlet>(inletCountForAdder));
             }
 
             MethodInfo methodInfo;

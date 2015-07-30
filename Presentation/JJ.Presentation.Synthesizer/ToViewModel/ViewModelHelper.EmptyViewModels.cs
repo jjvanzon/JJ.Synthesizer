@@ -45,8 +45,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
                 ChildDocumentPropertiesList = new List<ChildDocumentPropertiesViewModel>(),
                 ChildDocumentList = new List<ChildDocumentViewModel>(),
-                InstrumentGrid = CreateEmptyChildDocumentGridViewModel(ChildDocumentTypeEnum.Instrument),
-                EffectGrid = CreateEmptyChildDocumentGridViewModel(ChildDocumentTypeEnum.Effect),
+                InstrumentGrid = CreateEmptyChildDocumentGridViewModel((int)ChildDocumentTypeEnum.Instrument),
+                EffectGrid = CreateEmptyChildDocumentGridViewModel((int)ChildDocumentTypeEnum.Effect),
                 SampleGrid = CreateEmptySampleGridViewModel(),
                 SamplePropertiesList = new List<SamplePropertiesViewModel>(),
                 CurveGrid = CreateEmptyCurveGridViewModel(),
@@ -110,13 +110,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static ChildDocumentGridViewModel CreateEmptyChildDocumentGridViewModel(ChildDocumentTypeEnum childDocumentTypeEnum)
+        public static ChildDocumentGridViewModel CreateEmptyChildDocumentGridViewModel(int childDocumentTypeID)
         {
             var viewModel = new ChildDocumentGridViewModel
             {
                 List = new List<ChildDocumentListItemViewModel>(),
                 RootDocumentID = 0,
-                ChildDocumentTypeEnum = childDocumentTypeEnum
+                ChildDocumentTypeID = childDocumentTypeID
             };
 
             return viewModel;

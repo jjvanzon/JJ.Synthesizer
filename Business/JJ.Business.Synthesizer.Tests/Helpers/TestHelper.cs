@@ -19,26 +19,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private const string VIOLIN_16BIT_MONO_RAW_FILE_NAME = "violin_16bit_mono.raw";
         private const string VIOLIN_16BIT_MONO_44100_WAV_FILE_NAME = "violin_16bit_mono_44100.wav";
 
-        public static OperatorFactory CreateOperatorFactory(RepositoryWrapper repositoryWraper)
-        {
-            if (repositoryWraper == null) throw new NullException(() => repositoryWraper);
-
-            var factory = new OperatorFactory(
-                repositoryWraper.OperatorRepository,
-                repositoryWraper.OperatorTypeRepository,
-                repositoryWraper.InletRepository,
-                repositoryWraper.OutletRepository,
-                repositoryWraper.CurveRepository,
-                repositoryWraper.SampleRepository,
-                repositoryWraper.IDRepository);
-
-            return factory;
-        }
-
-        public static OperatorFactory CreateOperatorFactory(IContext context)
+        public static PatchManager CreatePatchManager(IContext context)
         {
             RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
-            return CreateOperatorFactory(context);
+            return CreatePatchManager(repositoryWrapper);
         }
 
         public static CurveFactory CreateCurveFactory(RepositoryWrapper repositoryWrapper)
@@ -76,6 +60,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 repositoryWrapper.AudioFileFormatRepository,
                 repositoryWrapper.CurveRepository,
                 repositoryWrapper.SampleRepository,
+                repositoryWrapper.DocumentRepository,
                 repositoryWrapper.IDRepository);
 
             return audioFileOutputManager;
@@ -94,11 +79,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             var patchManager = new PatchManager(
                 repositoryWrapper.PatchRepository,
                 repositoryWrapper.OperatorRepository,
+                repositoryWrapper.OperatorTypeRepository,
                 repositoryWrapper.InletRepository,
                 repositoryWrapper.OutletRepository,
                 repositoryWrapper.CurveRepository,
                 repositoryWrapper.SampleRepository,
-                repositoryWrapper.EntityPositionRepository);
+                repositoryWrapper.DocumentRepository,
+                repositoryWrapper.EntityPositionRepository,
+                repositoryWrapper.IDRepository);
 
             return patchManager;
         }
@@ -113,6 +101,13 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             Stream stream = EmbeddedResourceHelper.GetEmbeddedResourceStream(typeof(TestHelper).Assembly, "TestResources", VIOLIN_16BIT_MONO_44100_WAV_FILE_NAME);
             return stream;
+        }
+
+        public static DocumentManager CreateDocumentManager(RepositoryWrapper repositoryWrapper)
+        {
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+
+            return new DocumentManager(repositoryWrapper);
         }
     }
 }

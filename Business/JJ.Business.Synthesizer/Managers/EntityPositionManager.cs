@@ -58,8 +58,9 @@ namespace JJ.Business.Synthesizer.Managers
                     _entityPositionRepository.Insert(entityPosition);
                 }
 
+                // TODO: Remove outcommented code.
                 // Flush to make the next TryGetByEntityTypeNameAndID work.
-                _entityPositionRepository.Flush();
+                //_entityPositionRepository.Flush();
 
                 _operatorPositionDictionary.Add(entityID, entityPosition);
             }
@@ -85,8 +86,9 @@ namespace JJ.Business.Synthesizer.Managers
                     _entityPositionRepository.Insert(entityPosition);
                 }
 
+                // TODO: Remove outcommented code.
                 // Flush to make the next TryGetByEntityTypeNameAndID work.
-                _entityPositionRepository.Flush();
+                //_entityPositionRepository.Flush();
 
                 _operatorPositionDictionary.Add(operatorID, entityPosition);
             }
