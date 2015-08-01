@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -108,6 +109,12 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
             return new DocumentManager(repositoryWrapper);
+        }
+
+        public static void InitializeConfiguration()
+        {
+            var config = CustomConfigurationManager.GetSection<JJ.Business.Synthesizer.Configuration.ConfigurationSection>();
+            ConfigurationHelper.SetSection(config);
         }
     }
 }

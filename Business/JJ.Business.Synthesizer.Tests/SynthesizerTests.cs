@@ -808,28 +808,44 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_CustomOperator()
         {
+            // Infrastructure
+            TestHelper.InitializeConfiguration();
+
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                // Create Business Logic Objects
                 DocumentManager documentManager = TestHelper.CreateDocumentManager(repositoryWrapper);
                 SampleManager sampleManager = TestHelper.CreateSampleManager(repositoryWrapper);
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
 
-                Document document = repositoryWrapper.DocumentRepository.Create();
-                Patch patch = repositoryWrapper.PatchRepository.Create();
+                // Create Reusable Document and Patch
+                Document document = new Document();
+                document.ID = repositoryWrapper.IDRepository.GetID();
+                repositoryWrapper.DocumentRepository.Insert(document);
+
+                Patch patch = new Patch();
+                patch.ID = repositoryWrapper.IDRepository.GetID();
+                repositoryWrapper.PatchRepository.Insert(patch);
                 patch.LinkTo(document);
                 document.LinkToMainPatch(patch);
 
+                // Build up Reusable Patch
                 var patchInlet = x.PatchInlet();
                 var effect = EntityFactory.CreateTimePowerEffectWithEcho(x, patchInlet);
                 var patchOutlet = x.PatchOutlet(effect);
                 x.AddToPatchRecursive(patchOutlet.Operator, patch);
-
+                
+                // Build up Consuming Patch
                 Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
                 Sample sample = sampleManager.CreateSample(stream);
                 var sampleOperator = x.Sample(sample);
+                var customOperator = x.CustomOperator(document, sampleOperator);
 
-                var operatorWrapper = x.CustomOperator(document, sampleOperator);
+                // Calculator
+                IPatchCalculator calculator = x.CreateCalculator(false, customOperator.Operator.Outlets[0]);
+                double result = calculator.Calculate(0, 0);
             }
         }
     }

@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.Factories
         private IOutletRepository _outletRepository;
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
+        private IDocumentRepository _documentRepository;
         private IIDRepository _idRepository;
 
         static OperatorFactory()
@@ -40,6 +41,7 @@ namespace JJ.Business.Synthesizer.Factories
             IOutletRepository outletRepository,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
+            IDocumentRepository documentRepository,
             IIDRepository idRepository)
         {
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -48,6 +50,7 @@ namespace JJ.Business.Synthesizer.Factories
             if (outletRepository == null) throw new NullException(() => outletRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
             if (idRepository == null) throw new NullException(() => idRepository);
 
             _operatorRepository = operatorRepository;
@@ -56,6 +59,7 @@ namespace JJ.Business.Synthesizer.Factories
             _outletRepository = outletRepository;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
+            _documentRepository = documentRepository;
             _idRepository = idRepository;
         }
 
@@ -383,7 +387,7 @@ namespace JJ.Business.Synthesizer.Factories
 
         // Custom Operator
 
-        public CustomOperator_OperatorWrapper CustomOperator(int inletCount, int outletCount)
+        public Custom_OperatorWrapper CustomOperator(int inletCount, int outletCount)
         {
             var op = new Operator();
             op.ID = _idRepository.GetID();
@@ -409,7 +413,7 @@ namespace JJ.Business.Synthesizer.Factories
                 _outletRepository.Insert(outlet);
             }
 
-            var wrapper = new CustomOperator_OperatorWrapper(op);
+            var wrapper = new Custom_OperatorWrapper(op, _documentRepository);
             return wrapper;
         }
 
@@ -423,13 +427,13 @@ namespace JJ.Business.Synthesizer.Factories
             }
         }
 
-        public CustomOperator_OperatorWrapper CustomOperator()
+        public Custom_OperatorWrapper CustomOperator()
         {
             return CustomOperator(0, 0);
         }
 
         /// <param name="document">The Document to base the CustomOperator on.</param>
-        public CustomOperator_OperatorWrapper CustomOperator(Document document)
+        public Custom_OperatorWrapper CustomOperator(Document document)
         {
             if (document == null) throw new NullException(() => document);
             if (document.MainPatch == null) throw new NullException(() => document.MainPatch);
@@ -437,40 +441,44 @@ namespace JJ.Business.Synthesizer.Factories
             var inletCount = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet).Count();
             var outletCount = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet).Count();
 
-            return CustomOperator(inletCount, outletCount);
+            Custom_OperatorWrapper wrapper = CustomOperator(inletCount, outletCount);
+
+            wrapper.Document = document;
+
+            return wrapper;
         }
 
         /// <param name="document">The Document to base the CustomOperator on.</param>
-        public CustomOperator_OperatorWrapper CustomOperator(Document document, params Outlet[] operands)
+        public Custom_OperatorWrapper CustomOperator(Document document, params Outlet[] operands)
         {
             return CustomOperator(document, (IList<Outlet>)operands);
         }
 
         /// <param name="document">The Document to base the CustomOperator on.</param>
-        public CustomOperator_OperatorWrapper CustomOperator(Document document, IList<Outlet> operands)
+        public Custom_OperatorWrapper CustomOperator(Document document, IList<Outlet> operands)
         {
             if (document == null) throw new NullException(() => document);
             if (operands == null) throw new NullException(() => operands);
 
-            CustomOperator_OperatorWrapper wrapper = CustomOperator(document);
+            Custom_OperatorWrapper wrapper = CustomOperator(document);
 
             SetOperands(wrapper.Operator, operands);
 
             return wrapper;
         }
 
-        public CustomOperator_OperatorWrapper CustomOperator(IList<Outlet> operands, int outletCount)
+        public Custom_OperatorWrapper CustomOperator(IList<Outlet> operands, int outletCount)
         {
             if (operands == null) throw new NullException(() => operands);
 
-            CustomOperator_OperatorWrapper wrapper = CustomOperator(operands.Count, outletCount);
+            Custom_OperatorWrapper wrapper = CustomOperator(operands.Count, outletCount);
 
             SetOperands(wrapper.Operator, operands);
 
             return wrapper;
         }
 
-        public CustomOperator_OperatorWrapper CustomOperator(params Outlet[] operands)
+        public Custom_OperatorWrapper CustomOperator(params Outlet[] operands)
         {
             return CustomOperator((IList<Outlet>)operands, 0);
         }

@@ -73,6 +73,7 @@ namespace JJ.Business.Synthesizer.Managers
                 _outletRepository,
                 _curveRepository,
                 _sampleRepository,
+                _documentRepository,
                 idRepository);
         }
 
@@ -291,37 +292,37 @@ namespace JJ.Business.Synthesizer.Managers
             return _operatorFactory.Resample(signal, samplingRate);
         }
 
-        public CustomOperator_OperatorWrapper CustomOperator(int inletCount, int outletCount)
+        public Custom_OperatorWrapper CustomOperator(int inletCount, int outletCount)
         {
             return _operatorFactory.CustomOperator(inletCount, outletCount);
         }
 
-        public CustomOperator_OperatorWrapper CustomOperator()
+        public Custom_OperatorWrapper CustomOperator()
         {
             return _operatorFactory.CustomOperator();
         }
 
-        public CustomOperator_OperatorWrapper CustomOperator(Document document)
+        public Custom_OperatorWrapper CustomOperator(Document document)
         {
             return _operatorFactory.CustomOperator(document);
         }
 
-        public CustomOperator_OperatorWrapper CustomOperator(Document document, params Outlet[] operands)
+        public Custom_OperatorWrapper CustomOperator(Document document, params Outlet[] operands)
         {
             return _operatorFactory.CustomOperator(document, operands);
         }
 
-        public CustomOperator_OperatorWrapper CustomOperator(Document document, IList<Outlet> operands)
+        public Custom_OperatorWrapper CustomOperator(Document document, IList<Outlet> operands)
         {
             return _operatorFactory.CustomOperator(document, operands);
         }
 
-        public CustomOperator_OperatorWrapper CustomOperator(IList<Outlet> operands, int outletCount)
+        public Custom_OperatorWrapper CustomOperator(IList<Outlet> operands, int outletCount)
         {
             return _operatorFactory.CustomOperator(operands, outletCount);
         }
 
-        public CustomOperator_OperatorWrapper CustomOperator(params Outlet[] operands)
+        public Custom_OperatorWrapper CustomOperator(params Outlet[] operands)
         {
             return _operatorFactory.CustomOperator(operands);
         }

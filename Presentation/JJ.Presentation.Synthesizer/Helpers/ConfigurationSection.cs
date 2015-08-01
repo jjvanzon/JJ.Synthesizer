@@ -14,5 +14,14 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         [XmlAttribute]
         public int PageSize { get; set; }
+
+        [XmlAttribute]
+        public string PatchPlayHackedSampleFilePath { get; set; }
+
+        [XmlAttribute]
+        public string PatchPlayHackedAudioFileOutputFilePath { get; set; }
+
+        [XmlAttribute]
+        public double PatchPlayDurationInSeconds { get; set; }
     }
 }

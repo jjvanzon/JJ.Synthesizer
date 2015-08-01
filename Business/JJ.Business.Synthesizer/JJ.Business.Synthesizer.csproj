@@ -131,11 +131,12 @@
     <Compile Include="Calculation\Samples\SampleCalculatorFactory.cs" />
     <Compile Include="Calculation\WhiteNoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
+    <Compile Include="Configuration\PatchCalculatorTypeEnum.cs" />
     <Compile Include="Constants\OperatorConstants.cs" />
     <Compile Include="Constants\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
     <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />
-    <Compile Include="EntityWrappers\CustomOperator_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Custom_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Resample_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\WhiteNoise_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Sample_OperatorWrapper.cs" />

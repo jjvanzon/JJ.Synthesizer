@@ -1271,11 +1271,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void PatchPlay(double duration, string sampleFilePath, string outputFilePath)
+        /// <summary>
+        /// Returns output file path.
+        /// </summary>
+        public string PatchPlay()
         {
             try
             {
-                _patchDetailsPresenter.Play(duration, sampleFilePath, outputFilePath, _repositoryWrapper);
+                string outputFilePath = _patchDetailsPresenter.Play(_repositoryWrapper);
+
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
 
                 // Move messages to popup messages, because the default dispatching for PatchDetailsViewModel moves it to the ValidationMessages.
@@ -1285,6 +1289,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel.Successful = _patchDetailsPresenter.ViewModel.Successful;
 
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
+
+                return outputFilePath;
             }
             finally
             {

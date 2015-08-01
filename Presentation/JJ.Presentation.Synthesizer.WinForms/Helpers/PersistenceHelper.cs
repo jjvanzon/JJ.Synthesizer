@@ -14,14 +14,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {
     internal class PersistenceHelper
     {
-        static PersistenceConfiguration _memoryPersistenceConfiguration;
-
-        static PersistenceHelper()
-        {
-            ConfigurationSection config = CustomConfigurationManager.GetSection<ConfigurationSection>();
-            _memoryPersistenceConfiguration = config.MemoryPersistence;
-        }
-
         public static IContext CreateContext()
         {
             return ContextFactory.CreateContextFromConfiguration();
@@ -30,16 +22,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
         public static TRepository CreateRepository<TRepository>(IContext context)
         {
             return RepositoryFactory.CreateRepositoryFromConfiguration<TRepository>(context);
-        }
-
-        public static IContext CreateMemoryContext()
-        {
-            return ContextFactory.CreateContextFromConfiguration(_memoryPersistenceConfiguration);
-        }
-
-        public static TRepository CreateMemoryRepository<TRepository>(IContext context)
-        {
-            return RepositoryFactory.CreateRepositoryFromConfiguration<TRepository>(context, _memoryPersistenceConfiguration);
         }
         
         public static RepositoryWrapper CreateRepositoryWrapper(IContext context)

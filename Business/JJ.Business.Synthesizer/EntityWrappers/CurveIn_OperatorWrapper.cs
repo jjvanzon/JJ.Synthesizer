@@ -30,6 +30,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { _operator.Data = Convert.ToString(value); }
         }
 
+        /// <summary> nullable </summary>
         public Curve Curve
         {
             get

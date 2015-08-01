@@ -20,7 +20,6 @@ using JJ.Business.Synthesizer.Factories;
 using JJ.Framework.Mathematics;
 using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Configuration;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Resources;
@@ -299,12 +298,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary>
+        /// Returns the output file path.
         /// This action is quite a hack.
         /// TODO: It should not be a hack and also this action is way too dependent on infrastructure.
         /// </summary>
-        public void Play(double duration, string sampleFilePath, string outputFilePath, RepositoryWrapper repositoryWrapper)
+        public string Play(RepositoryWrapper repositoryWrapper)
         {
             AssertViewModel();
+
+            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
+            double duration = config.PatchPlayDurationInSeconds;
+            string sampleFilePath = config.PatchPlayHackedSampleFilePath;
+            string outputFilePath = config.PatchPlayHackedAudioFileOutputFilePath;
 
             Patch patch = ToEntity(ViewModel);
 
@@ -312,6 +317,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             ViewModel.Successful = result.Successful;
             ViewModel.ValidationMessages = result.Messages;
+
+            return outputFilePath;
         }
 
         private VoidResult DoPlay(double duration, string sampleFilePath, string outputFilePath, Patch patch, RepositoryWrapper repositoryWrapper)

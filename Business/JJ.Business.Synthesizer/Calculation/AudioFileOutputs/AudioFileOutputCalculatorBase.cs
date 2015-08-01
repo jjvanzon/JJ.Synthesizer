@@ -17,6 +17,7 @@ using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.Synthesizer.Configuration;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
@@ -31,6 +32,15 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
         private AudioFileOutputChannel[] _audioFileOutputChannels;
         private Outlet[] _outlets;
         private IPatchCalculator[] _patchCalculators;
+
+        private static PatchCalculatorTypeEnum _patchCalculatorTypeEnum;
+
+        static AudioFileOutputCalculatorBase()
+        {
+            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
+
+            _patchCalculatorTypeEnum = config.PatchCalculatorType;
+        }
 
         public AudioFileOutputCalculatorBase(AudioFileOutput audioFileOutput, ICurveRepository curveRepository, ISampleRepository sampleRepository, IDocumentRepository documentRepository)
         {
@@ -57,8 +67,22 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             _patchCalculators = new IPatchCalculator[channelCount];
             for (int i = 0; i < channelCount; i++)
             {
-                IPatchCalculator operatorCalculator = new OptimizedPatchCalculator(_outlets, whiteNoiseCalculator, curveRepository, sampleRepository, documentRepository);
-                _patchCalculators[i] = operatorCalculator;
+                IPatchCalculator patchCalculator;
+                switch (_patchCalculatorTypeEnum)
+                {
+                    case PatchCalculatorTypeEnum.OptimizedPatchCalculator:
+                        patchCalculator = new OptimizedPatchCalculator(_outlets, whiteNoiseCalculator, curveRepository, sampleRepository, documentRepository);
+                        break;
+
+                    case PatchCalculatorTypeEnum.InterpretedPatchCalculator:
+                        patchCalculator = new InterpretedPatchCalculator(_outlets, whiteNoiseCalculator, curveRepository, sampleRepository, documentRepository);
+                        break;
+
+                    default:
+                        throw new ValueNotSupportedException(_patchCalculatorTypeEnum);
+                }
+
+                _patchCalculators[i] = patchCalculator;
             }
         }
 

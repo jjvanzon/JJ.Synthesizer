@@ -1,19 +1,21 @@
-﻿using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Names;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Data.Synthesizer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Framework.Common;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
+using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Names;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Visitors;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -859,6 +861,33 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             _stack.Push(calculator);
         }
+
+        // TODO: Program Custom Operators in the InterpretedPatchCalculator first, before trying to do it in the optimized patch calculator.
+        //protected override void VisitCustomOperator(Operator customOperator)
+        //{
+        //    var customOperatorWrapper = new Custom_OperatorWrapper(customOperator, _documentRepository);
+        //    Document document = customOperatorWrapper.Document;
+
+        //    if (document != null &&
+        //        document.MainPatch != null)
+        //    {
+        //        // TODO: We do not know which outlet unless we have a VisitCustomOperatorOutlet method.
+        //        Operator patchOutlet = document.MainPatch.Operators.FirstOrDefault(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet);
+        //        if (patchOutlet != null)
+        //        {
+        //            // TODO: A patch outlet really needs a manually assigned sort order.
+        //            // TODO: We do not know which operand we need to use yet.
+        //            // The index should already be verified by the validators.
+        //            Outlet operand = customOperatorWrapper.Operands[0];
+
+        //            //var patchOutletWrapper = new PatchOutlet_OperatorWrapper(patchOutlet);
+        //            //patchOutletWrapper.Input = operand;
+        //            //VisitPatchOutlet(patchOutlet);
+
+        //            VisitOutlet(operand);
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Overridden to push null-inlets.

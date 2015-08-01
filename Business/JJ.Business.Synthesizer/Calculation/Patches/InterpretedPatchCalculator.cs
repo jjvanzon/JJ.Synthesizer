@@ -20,6 +20,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal class InterpretedPatchCalculator : IPatchCalculator
     {
+        // The InterpretedPatchCalculator may not have the exact same behavior as the OptimizedPatchCalculator,
+        // because it has not been used lately (2015-07-30) and it has not been maintained very much.
+
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
         private IDocumentRepository _documentRepository;
@@ -35,9 +38,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private Dictionary<OperatorTypeEnum, Func<Operator, double, double>> _funcDictionary;
 
         public InterpretedPatchCalculator(
-            IList<Outlet> channelOutlets, 
-            WhiteNoiseCalculator whiteNoiseCalculator, 
-            ICurveRepository curveRepository, 
+            IList<Outlet> channelOutlets,
+            WhiteNoiseCalculator whiteNoiseCalculator,
+            ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             IDocumentRepository documentRepository)
         {
@@ -55,8 +58,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             foreach (Outlet channelOutlet in channelOutlets)
             {
                 IValidator validator = new OperatorValidator_Recursive(
-                    channelOutlet.Operator, 
-                    _curveRepository, 
+                    channelOutlet.Operator,
+                    _curveRepository,
                     _sampleRepository,
                     _documentRepository,
                     alreadyDone: new HashSet<object>());
@@ -97,10 +100,25 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double Calculate(Outlet outlet, double time)
         {
-            Func<Operator, double, double> func = _funcDictionary[outlet.Operator.GetOperatorTypeEnum()];
-            // TODO: This will break when there are multiple outlets.
-            double value = func(outlet.Operator, time);
-            return value;
+            OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
+
+            if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
+            {
+                double value = CalculateCustomOperator(outlet, time);
+                return value;
+            }
+            else
+            {
+                // Only the CustomOperator is missing from the _funcDictionary.
+                // The _funcDictionary will only work for operators with one outlet.
+                Func<Operator, double, double> func = _funcDictionary[operatorTypeEnum];
+                double value = func(outlet.Operator, time);
+                return value;
+            }
+
+            // TODO: Low priority:
+            // Make the all the Calculate methods in the _funcDictionary take Outlet instead of Operator,
+            // so they could all work with multiple outlets if needed.
         }
 
         private Dictionary<Operator, double> _valueOperatorValueDictionary = new Dictionary<Operator, double>();
@@ -465,7 +483,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             if (volumeOutlet == null || pitchOutlet == null) return 0;
 
-            Outlet levelOutlet =  wrapper.Level;
+            Outlet levelOutlet = wrapper.Level;
             Outlet phaseStartOutlet = wrapper.PhaseStart;
 
             double volume = Calculate(volumeOutlet, time);
@@ -582,6 +600,49 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double value = _whiteNoiseCalculator.GetValue(time + offset);
 
             return value;
+        }
+
+        private double CalculateCustomOperator(Outlet outlet, double time)
+        {
+            var customOperatorWrapper = new Custom_OperatorWrapper(outlet.Operator, _documentRepository);
+            Document document = customOperatorWrapper.Document;
+
+            if (document == null)
+            {
+                return 0.0;
+            }
+
+            if (document.MainPatch == null)
+            {
+                return 0.0;
+            }
+
+            // Cross reference custom operator's inlets with the Document MainPatch's PatchInlets.
+            var tuples = from operatorInlet in outlet.Operator.Inlets
+                         join patchInlet in document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
+                         on operatorInlet.Name equals patchInlet.Name
+                         select new { OperatorInlet = operatorInlet, PatchInlet = patchInlet };
+
+            // Each custom operator's inlet has an input outlet. 
+            // This input outlet should be assigned as the corresponding input outlet
+            // of the Document MainPatch's PatchInlet.
+            foreach (var tuple in tuples)
+            {
+                Operator patchInlet = tuple.PatchInlet;
+                Inlet operatorInlet = tuple.OperatorInlet;
+
+                var patchInletWrapper = new PatchInlet_OperatorWrapper(patchInlet);
+                patchInletWrapper.Input = operatorInlet.InputOutlet;
+            }
+
+            // Use the (custom operator's) outlet name and look it up in the Document MainPatch's outlets.
+            Operator patchOutlet = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet &&
+                                                                           x.Name == outlet.Name).Single();
+
+            // Return the result of that Document MainPatch's outlet.
+            var patchOutletWrapper = new PatchOutlet_OperatorWrapper(patchOutlet);
+            double result = Calculate(patchOutletWrapper.Result, time);
+            return result;
         }
     }
 }

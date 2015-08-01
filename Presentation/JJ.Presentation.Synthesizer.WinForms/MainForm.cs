@@ -35,23 +35,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
 {
     internal partial class MainForm : Form
     {
-        private const double DEFAULT_DURATION = 10;
-
         private IContext _context;
         private RepositoryWrapper _repositoryWrapper;
         private MainPresenter _presenter;
 
         private DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
         private static string _titleBarExtraText;
-        private static string _sampleFilePath;
-        private static string _outputFilePath;
 
         static MainForm()
         {
             var config = CustomConfigurationManager.GetSection<ConfigurationSection>();
             _titleBarExtraText = config.General.TitleBarExtraText;
-            _sampleFilePath = config.FilePaths.SampleFilePath;
-            _outputFilePath = config.FilePaths.OutputFilePath;
         }
 
         public MainForm()
@@ -515,13 +509,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void PatchPlay()
         {
-            _presenter.PatchPlay(DEFAULT_DURATION, _sampleFilePath, _outputFilePath);
+            string outputFilePath = _presenter.PatchPlay();
 
             ApplyViewModel();
 
             if (_presenter.ViewModel.Successful)
             {
-                SoundPlayer soundPlayer = new SoundPlayer(_outputFilePath);
+                SoundPlayer soundPlayer = new SoundPlayer(outputFilePath);
                 soundPlayer.Play();
             }
         }
