@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            Execute(new SampleValidator(Object, new HashSet<object>()));
+            Execute(new SampleValidator(Object));
 
             Execute(new NameValidator(Object.Name));
             

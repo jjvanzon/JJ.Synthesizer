@@ -135,9 +135,24 @@
   <data name="ChannelIndexNumberDoesNotMatchSpeakerSetup" xml:space="preserve">
     <value>Kanaalnummer komt niet overeen met luidspreker opstelling.</value>
   </data>
+  <data name="CustomOperatorDocumentReferenceIsCircular_WithName" xml:space="preserve">
+    <value>Operator '{0}' heeft een cirkelverband met zijn geassocieerde document.</value>
+    <comment>{0} = name</comment>
+  </data>
+  <data name="CustomOperatorInletWithNameNotFoundInDocumentMainPatch" xml:space="preserve">
+    <value>Ingang '{0}' niet gevonden in de hoofdschakeling van het geassocieerde document.</value>
+    <comment>{0} = name</comment>
+  </data>
+  <data name="CustomOperatorOutletWithNameNotFoundInDocumentMainPatch" xml:space="preserve">
+    <value>Uitgang '{0}' niet gevonden in de hoofdschakeling van het geassocieerde document.</value>
+    <comment>{0} = name</comment>
+  </data>
   <data name="DocumentIsDependentOnDocument" xml:space="preserve">
     <value>Document '{0}' is afhankelijk van document '{1}'.</value>
     <comment>{0} = dependent document, {1} = dependent on document</comment>
+  </data>
+  <data name="InletNamesAreNotUnique" xml:space="preserve">
+    <value>De ingang namen zijn niet uniek.</value>
   </data>
   <data name="InletNotSet" xml:space="preserve">
     <value>{2} is niet ingevuld voor {0} operator genaamd '{1}'.</value>
@@ -149,6 +164,10 @@
   <data name="NotFoundInList_WithItemName_ID_AndListName" xml:space="preserve">
     <value>{0} met ID '{1}' niet gevonden in de lijst van {2}.</value>
     <comment>{0} = name, {1} = id, {2} = name plural</comment>
+  </data>
+  <data name="NotFound_WithTypeName_AndName" xml:space="preserve">
+    <value>{0} genaamd '{1}' niet gevonden.</value>
+    <comment>{0} = type of object, e.g. 'Recipe', {1} = name of object, e.g. 'eggs and bacon'</comment>
   </data>
   <data name="ObjectAmplifier0" xml:space="preserve">
     <value>Versterking van '{0}' genaamd '{1}' is 0.</value>
@@ -165,6 +184,9 @@
   <data name="OperatorPatchIsNotTheExpectedPatch" xml:space="preserve">
     <value>De patch van operator '{0}' is ingevuld, maar het is niet de verwachte patch '{1}'.</value>
     <comment>{0} = operator name, {1} = patch name</comment>
+  </data>
+  <data name="OutletNamesAreNotUnique" xml:space="preserve">
+    <value>De uitgang namen zijn niet uniek.</value>
   </data>
   <data name="ParentDocumentAndChildDocumentTypeShouldBothBeNullOrBothFilledIn" xml:space="preserve">
     <value>Bovenliggend document en type onderliggend document moeten ofwel beide ingevuld zijn ofwel beide leeg.</value>

@@ -24,8 +24,6 @@ namespace JJ.Business.Synthesizer.SideEffects
         {
             if (_entity.Document == null) throw new NullException(() => _entity.Document);
 
-            Document document = _entity.Document;
-
             int number = 1;
             string suggestedName;
             bool nameExists;
@@ -33,7 +31,7 @@ namespace JJ.Business.Synthesizer.SideEffects
             do
             {
                 suggestedName = String.Format("{0} {1}", PropertyDisplayNames.Curve, number++);
-                nameExists = document.Curves.Where(x => String.Equals(x.Name, suggestedName)).Any();
+                nameExists = _entity.Document.Curves.Where(x => String.Equals(x.Name, suggestedName)).Any();
             }
             while (nameExists);
 

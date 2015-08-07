@@ -15,7 +15,7 @@ using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
-using JJ.Business.Synthesizer.Names;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 

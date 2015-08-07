@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation
             if (curve == null) throw new NullException(() => curve);
             _curve = curve;
 
-            IValidator validator = new CurveValidator(_curve, alreadyDone: new HashSet<object>());
+            IValidator validator = new CurveValidator(_curve);
             validator.Verify();
         }
 

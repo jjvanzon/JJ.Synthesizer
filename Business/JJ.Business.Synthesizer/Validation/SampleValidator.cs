@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JJ.Business.Synthesizer.Exceptions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Configuration;
 
@@ -17,26 +17,12 @@ namespace JJ.Business.Synthesizer.Validation
 {
     public class SampleValidator : FluentValidator<Sample>
     {
-        private HashSet<object> _alreadyDone;
-
-        public SampleValidator(Sample obj, HashSet<object> alreadyDone)
-            : base(obj, postponeExecute: true)
-        {
-            if (alreadyDone == null) throw new AlreadyDoneIsNullException();
-
-            _alreadyDone = alreadyDone;
-
-            Execute();
-        }
+        public SampleValidator(Sample obj)
+            : base(obj)
+        { }
 
         protected override void Execute()
         {
-            if (_alreadyDone.Contains(Object))
-            {
-                return;
-            }
-            _alreadyDone.Add(Object);
-
             Sample sample = Object;
 
             Execute(new NameValidator(sample.Name, required: false));

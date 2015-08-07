@@ -24,8 +24,6 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Structs;
-using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Managers;
 
@@ -170,7 +168,7 @@ namespace JJ.Business.Synthesizer.Tests
                 CultureHelper.SetThreadCulture("nl-NL");
                 IValidator[] validators = 
                 {
-                    new CurveValidator(curve, alreadyDone: new HashSet<object>()), 
+                    new CurveValidator(curve), 
                     new OperatorValidator_Versatile(sine.Operator, repositoryWrapper.DocumentRepository),
                     new OperatorWarningValidator_Versatile(sine.Operator)
                 };
@@ -842,6 +840,28 @@ namespace JJ.Business.Synthesizer.Tests
                 Sample sample = sampleManager.CreateSample(stream);
                 var sampleOperator = x.Sample(sample);
                 var customOperator = x.CustomOperator(document, sampleOperator);
+
+                // Check out that Custom_OperatorWrapper API
+                Inlet inlet = customOperator.Inlets[patchInlet.Name];
+                Outlet outlet = customOperator.Outlets[patchOutlet.Name];
+                Outlet operand = customOperator.Operands[patchInlet.Name];
+
+                customOperator.Operands[patchInlet.Name] = operand;
+
+                Document referencedDocument = customOperator.Document;
+                int? referencedDocumentID = customOperator.DocumentID;
+
+                foreach (Inlet inlet2 in customOperator.Inlets)
+                {
+                }
+
+                foreach (Outlet outlet2 in customOperator.Outlets)
+                {
+                }
+
+                foreach (Outlet operand2 in customOperator.Operands)
+                {
+                }
 
                 // Calculator
                 IPatchCalculator calculator = x.CreateCalculator(false, customOperator.Operator.Outlets[0]);

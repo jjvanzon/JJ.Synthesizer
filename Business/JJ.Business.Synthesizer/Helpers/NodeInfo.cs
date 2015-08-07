@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Infos
+namespace JJ.Business.Synthesizer.Helpers
 {
     public class NodeInfo
     {

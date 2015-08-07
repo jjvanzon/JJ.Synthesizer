@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Names
+namespace JJ.Business.Synthesizer.Helpers
 {
     public static class PropertyNames
     {
-        // Operators
+        // Operator Names
         public const string Add = "Add";
         public const string Adder = "Adder";
         public const string Divide = "Divide";
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Names
         public const string CurveIn = "CurveIn";
         public const string Sample = "Sample";
 
-        // Inlets
+        // Inlet Names
         public const string OperandA = "OperandA";
         public const string OperandB = "OperandB";
         public const string Origin = "Origin";
@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Names
         public const string TimeMultiplier = "TimeMultiplier";
         public const string Operand = "Operand";
 
-        // Outlets
+        // Outlet Names
         public const string Result = "Result";
         public const string Outlet = "Outlet";
         
@@ -73,5 +73,8 @@ namespace JJ.Business.Synthesizer.Names
         public const string Name = "Name";
         public const string ChildDocument = "ChildDocument";
         public const string Document = "Document";
+        public const string Inlet = "Inlet";
+        public const string Inlets = "Inlets";
+        public const string Outlets = "Outlets";
     }
 }

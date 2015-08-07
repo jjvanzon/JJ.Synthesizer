@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Structs;
+﻿using JJ.Business.Synthesizer.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

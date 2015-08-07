@@ -106,6 +106,33 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operator &apos;{0}&apos; has a circular dependency with its associated document..
+        /// </summary>
+        internal static string CustomOperatorDocumentReferenceIsCircular_WithName {
+            get {
+                return ResourceManager.GetString("CustomOperatorDocumentReferenceIsCircular_WithName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inlet &apos;{0}&apos; not found in the associated document&apos;s main patch..
+        /// </summary>
+        internal static string CustomOperatorInletWithNameNotFoundInDocumentMainPatch {
+            get {
+                return ResourceManager.GetString("CustomOperatorInletWithNameNotFoundInDocumentMainPatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outlet &apos;{0}&apos; not found in the associated document&apos;s main patch..
+        /// </summary>
+        internal static string CustomOperatorOutletWithNameNotFoundInDocumentMainPatch {
+            get {
+                return ResourceManager.GetString("CustomOperatorOutletWithNameNotFoundInDocumentMainPatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Document &apos;{0}&apos; is dependent on document &apos;{1}&apos;..
         /// </summary>
         internal static string DocumentIsDependentOnDocument {
@@ -115,11 +142,29 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inlet names are not unique..
+        /// </summary>
+        internal static string InletNamesAreNotUnique {
+            get {
+                return ResourceManager.GetString("InletNamesAreNotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} operator named &apos;{1}&apos; does not have {2} filled in..
         /// </summary>
         internal static string InletNotSet {
             get {
                 return ResourceManager.GetString("InletNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} named &apos;{1}&apos; not found..
+        /// </summary>
+        internal static string NotFound_WithTypeName_AndName {
+            get {
+                return ResourceManager.GetString("NotFound_WithTypeName_AndName", resourceCulture);
             }
         }
         
@@ -183,6 +228,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string OperatorPatchIsNotTheExpectedPatch {
             get {
                 return ResourceManager.GetString("OperatorPatchIsNotTheExpectedPatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outlet names are not unique..
+        /// </summary>
+        internal static string OutletNamesAreNotUnique {
+            get {
+                return ResourceManager.GetString("OutletNamesAreNotUnique", resourceCulture);
             }
         }
         

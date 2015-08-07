@@ -18,13 +18,12 @@ using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Framework.Mathematics;
-using JJ.Business.Synthesizer.Names;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Resources;
 using System.IO;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

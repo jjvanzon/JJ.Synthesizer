@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JJ.Business.Synthesizer.Exceptions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Warnings

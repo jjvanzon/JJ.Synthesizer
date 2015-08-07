@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.Constants;
+﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using System;

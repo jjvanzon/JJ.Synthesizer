@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Names;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Business;
@@ -103,7 +103,7 @@ namespace JJ.Business.Synthesizer.Managers
             return new VoidResult
             {
                 Successful = true,
-                Messages = new JJ.Business.CanonicalModel.Message[0]
+                Messages = new Message[0]
             };
         }
 
@@ -292,11 +292,6 @@ namespace JJ.Business.Synthesizer.Managers
             return _operatorFactory.Resample(signal, samplingRate);
         }
 
-        public Custom_OperatorWrapper CustomOperator(int inletCount, int outletCount)
-        {
-            return _operatorFactory.CustomOperator(inletCount, outletCount);
-        }
-
         public Custom_OperatorWrapper CustomOperator()
         {
             return _operatorFactory.CustomOperator();
@@ -315,16 +310,6 @@ namespace JJ.Business.Synthesizer.Managers
         public Custom_OperatorWrapper CustomOperator(Document document, IList<Outlet> operands)
         {
             return _operatorFactory.CustomOperator(document, operands);
-        }
-
-        public Custom_OperatorWrapper CustomOperator(IList<Outlet> operands, int outletCount)
-        {
-            return _operatorFactory.CustomOperator(operands, outletCount);
-        }
-
-        public Custom_OperatorWrapper CustomOperator(params Outlet[] operands)
-        {
-            return _operatorFactory.CustomOperator(operands);
         }
 
         public Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, int inletCountForAdder = 16)

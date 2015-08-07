@@ -1,5 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Reflection.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +11,6 @@ namespace JJ.Business.Synthesizer.Validation
 {
     internal static class ValidationHelper
     {
-        public static string GetMessagePrefix(Operator op)
-        {
-            if (op.OperatorType != null)
-            {
-                string operatorTypeDisplayName = ResourceHelper.GetPropertyDisplayName(op.OperatorType.Name);
-                return ValidationHelper.GetMessagePrefix(operatorTypeDisplayName, op.Name);
-            }
-            else
-            {
-                return ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Operator, op.Name);
-            }
-        }
-
         public static string GetMessagePrefix(string entityTypeDisplayName, string name)
         {
             string messagePrefix;
@@ -35,6 +23,35 @@ namespace JJ.Business.Synthesizer.Validation
                 messagePrefix = String.Format("{0} '{1}': ", entityTypeDisplayName, name);
             }
             return messagePrefix;
+        }
+
+        public static string GetMessagePrefix(Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            if (op.OperatorType != null)
+            {
+                string operatorTypeDisplayName = ResourceHelper.GetPropertyDisplayName(op.OperatorType.Name);
+                return GetMessagePrefix(operatorTypeDisplayName, op.Name);
+            }
+            else
+            {
+                return GetMessagePrefix(PropertyDisplayNames.Operator, op.Name);
+            }
+        }
+
+        public static string GetMessagePrefix(Outlet outlet)
+        {
+            if (outlet == null) throw new NullException(() => outlet);
+
+            return GetMessagePrefix(PropertyDisplayNames.Outlet, outlet.Name);
+        }
+
+        public static string GetMessagePrefix(Inlet inlet)
+        {
+            if (inlet == null) throw new NullException(() => inlet);
+
+            return GetMessagePrefix(PropertyDisplayNames.Inlet, inlet.Name);
         }
     }
 }

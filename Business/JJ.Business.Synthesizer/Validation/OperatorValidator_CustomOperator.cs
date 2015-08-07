@@ -8,7 +8,7 @@ using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Names;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 
@@ -16,9 +16,6 @@ namespace JJ.Business.Synthesizer.Validation
 {
     public class OperatorValidator_CustomOperator : FluentValidator<Operator>
     {
-        private const string INLET_COUNT_KEY = "InletCount";
-        private const string OUTLET_COUNT_KEY = "OutletCount";
-
         private IDocumentRepository _documentRepository;
 
         public OperatorValidator_CustomOperator(Operator op, IDocumentRepository documentRepository)
@@ -33,61 +30,157 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Operator op = Object;
 
-            For(() => op.Data, PropertyDisplayNames.Data)
-                .IsInteger();
+            foreach (Inlet inlet in op.Inlets)
+            {
+                string messagePrefix = ValidationHelper.GetMessagePrefix(inlet);
+                Execute(new CustomOperatorInletValidator(inlet), messagePrefix);
+            }
+
+            foreach (Outlet outlet in op.Outlets)
+            {
+                string messagePrefix = ValidationHelper.GetMessagePrefix(outlet);
+                Execute(new CustomOperatorOutletValidator(outlet), messagePrefix);
+            }
+
+            ValidateInletNamesUnique();
+            ValidateOutletNamesUnique();
+
+            For(() => op.Data, PropertyDisplayNames.Data).IsInteger();
 
             int documentID;
             if (Int32.TryParse(op.Data, out documentID))
             {
                 Document document = _documentRepository.TryGet(documentID);
 
-                For(() => document, PropertyDisplayNames.Document)
-                    .NotNull();
+                For(() => document, PropertyDisplayNames.Document).NotNull();
 
                 if (document != null)
                 {
-                    For(() => document.MainPatch, PropertyDisplayNames.MainPatch)
-                        .NotNull();
+                    For(() => document.MainPatch, PropertyDisplayNames.MainPatch).NotNull();
+
+                    ValidateDocumentReferenceConstraint(document);
 
                     if (document.MainPatch != null)
                     {
-                        int operatorInletCount = op.Inlets.Count;
-                        int mainPatchInletCount = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet).Count();
-
-                        if (operatorInletCount != mainPatchInletCount)
-                        {
-                            ValidationMessages.Add(INLET_COUNT_KEY, Messages.OperatorInletCountNotEqualToDocumentMainPatchInletCount);
-                        }
-
-                        int operatorOutletCount = op.Outlets.Count;
-                        int mainPatchOutletCount = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet).Count();
-
-                        if (operatorOutletCount != mainPatchOutletCount)
-                        {
-                            ValidationMessages.Add(OUTLET_COUNT_KEY, Messages.OperatorOutletCountNotEqualToDocumentMainPatchOutletCount);
-                        }
+                        ValidateInletsAgainstDocument(document);
+                        ValidateOutletsAgainstDocument(document);
                     }
+                }
+            }
+        }
 
-                    // Check reference constraint of the Document.
-                    // (We are quite tollerant here: we omit the check if it is not in a patch or document.)
-                    bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
-                    if (mustCheckReference)
+        private void ValidateInletNamesUnique()
+        {
+            IList<string> names = Object.Inlets.Where(x => !String.IsNullOrEmpty(x.Name))
+                                               .Select(x => x.Name)
+                                               .ToArray();
+
+            bool namesAreUnique = names.Distinct().Count() == names.Count;
+            if (!namesAreUnique)
+            {
+                ValidationMessages.Add(PropertyNames.Inlets, Messages.InletNamesAreNotUnique);
+            }
+        }
+
+        private void ValidateOutletNamesUnique()
+        {
+            IList<string> names = Object.Outlets.Where(x => !String.IsNullOrEmpty(x.Name))
+                                                .Select(x => x.Name)
+                                                .ToArray();
+
+            bool namesAreUnique = names.Distinct().Count() == names.Count;
+            if (!namesAreUnique)
+            {
+                ValidationMessages.Add(PropertyNames.Outlets, Messages.OutletNamesAreNotUnique);
+            }
+        }
+
+        private void ValidateDocumentReferenceConstraint(Document document)
+        {
+            Operator op = Object;
+
+            // We are quite tollerant here: we omit the check if it is not in a patch or document.
+            bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
+            if (mustCheckReference)
+            {
+                IList<Document> documents;
+                if (op.Patch.Document.ParentDocument != null)
+                {
+                    documents = op.Patch.Document.ParentDocument.ChildDocuments;
+                }
+                else
+                {
+                    documents = op.Patch.Document.ChildDocuments;
+                }
+
+                bool isInList = documents.Any(x => x.ID == document.ID);
+                if (!isInList)
+                {
+                    ValidationMessages.Add(PropertyNames.Document, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.Document, document.ID));
+                }
+            }
+        }
+
+        private void ValidateInletsAgainstDocument(Document document)
+        {
+            Operator op = Object;
+
+            IList<Operator> mainPatchInletOperators = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet).ToArray();
+            if (op.Inlets.Count != mainPatchInletOperators.Count)
+            {
+                ValidationMessages.Add(PropertyNames.Inlets, Messages.OperatorInletCountNotEqualToDocumentMainPatchInletCount);
+                return;
+            }
+
+            foreach (Operator mainPatchInletOperator in mainPatchInletOperators)
+            {
+                string name = mainPatchInletOperator.Name;
+                bool exists = op.Inlets.Where(x => String.Equals(x.Name, name)).Any();
+                if (!exists)
+                {
+                    ValidationMessages.Add(PropertyNames.Inlet, MessageFormatter.NotFound_WithTypeName_AndName(PropertyDisplayNames.Inlet, name));
+                }
+            }
+
+            foreach (Inlet inlet in op.Inlets)
+            {
+                string name = inlet.Name;
+                bool exists = mainPatchInletOperators.Where(x => String.Equals(x.Name, name)).Any();
+                if (!exists)
+                {
+                    ValidationMessages.Add(PropertyNames.Inlet, MessageFormatter.CustomOperatorInletWithNameNotFoundInDocumentMainPatch(name));
+                }
+            }
+        }
+
+        private void ValidateOutletsAgainstDocument(Document document)
+        {
+            Operator op = Object;
+
+            IList<Operator> mainPatchOutletOperators = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet).ToArray();
+            if (op.Outlets.Count != mainPatchOutletOperators.Count)
+            {
+                ValidationMessages.Add(PropertyNames.Outlets, Messages.OperatorOutletCountNotEqualToDocumentMainPatchOutletCount);
+            }
+            else
+            {
+                foreach (Operator mainPatchOutletOperator in mainPatchOutletOperators)
+                {
+                    string name = mainPatchOutletOperator.Name;
+                    bool exists = op.Outlets.Where(x => String.Equals(x.Name, name)).Any();
+                    if (!exists)
                     {
-                        IList<Document> documents;
-                        if (op.Patch.Document.ParentDocument != null)
-                        {
-                            documents = op.Patch.Document.ParentDocument.ChildDocuments;
-                        }
-                        else
-                        {
-                            documents = op.Patch.Document.ChildDocuments;
-                        }
+                        ValidationMessages.Add(PropertyNames.Outlet, MessageFormatter.NotFound_WithTypeName_AndName(PropertyDisplayNames.Outlet, name));
+                    }
+                }
 
-                        bool isInList = documents.Any(x => x.ID == documentID);
-                        if (!isInList)
-                        {
-                            ValidationMessages.Add(PropertyNames.Document, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.Document, documentID));
-                        }
+                foreach (Outlet outlet in op.Outlets)
+                {
+                    string name = outlet.Name;
+                    bool exists = mainPatchOutletOperators.Where(x => String.Equals(x.Name, name)).Any();
+                    if (!exists)
+                    {
+                        ValidationMessages.Add(PropertyNames.Outlet, MessageFormatter.CustomOperatorOutletWithNameNotFoundInDocumentMainPatch(name));
                     }
                 }
             }

@@ -20,8 +20,8 @@ namespace JJ.Business.Synthesizer.Extensions
         public static double GetDuration(this Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
-            if (sample.Bytes.Length == 0) throw new Exception("sample.Bytes.Length cannot be 0.");
-            if (sample.SamplingRate == 0) throw new Exception("sample.SamplingRate cannot be null.");
+            if (sample.Bytes.Length == 0) throw new ZeroException(() => sample.Bytes.Length);
+            if (sample.SamplingRate == 0) throw new ZeroException(() => sample.SamplingRate);
 
             double duration = (double)(sample.Bytes.Length - sample.BytesToSkip)
                               / (double)sample.GetChannelCount()

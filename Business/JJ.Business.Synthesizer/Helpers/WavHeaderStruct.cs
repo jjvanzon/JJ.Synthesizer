@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Structs
+namespace JJ.Business.Synthesizer.Helpers
 {
     /// <summary>
     /// This page describes it pretty well:

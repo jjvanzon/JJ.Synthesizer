@@ -1,6 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Names;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
@@ -48,6 +48,8 @@ namespace JJ.Business.Synthesizer.Visitors
         protected virtual void VisitOperator(Operator op)
         {
             if (op == null) throw new NullException(() => op);
+
+            // TODO: Is the trick below not specific to the OptimizedPatchCalculatorVisitor?
 
             // Reverse the order of evaluating the inlet,
             // so that the first inlet will be the last one pushed

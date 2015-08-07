@@ -1,6 +1,5 @@
 ﻿using JJ.Business.Synthesizer.Converters;
-using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Structs;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;

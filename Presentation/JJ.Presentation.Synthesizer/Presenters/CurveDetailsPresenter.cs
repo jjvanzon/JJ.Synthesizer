@@ -68,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Curve entity = ViewModel.ToEntityWithRelatedEntities(_curveRepository, _nodeRepository, _nodeTypeRepository);
 
-            IValidator validator = new CurveValidator(entity, new HashSet<object>());
+            IValidator validator = new CurveValidator(entity);
             if (!validator.IsValid)
             {
                 ViewModel.Successful = true;

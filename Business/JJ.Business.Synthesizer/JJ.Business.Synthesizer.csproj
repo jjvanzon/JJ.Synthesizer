@@ -132,8 +132,11 @@
     <Compile Include="Calculation\WhiteNoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Configuration\PatchCalculatorTypeEnum.cs" />
-    <Compile Include="Constants\OperatorConstants.cs" />
-    <Compile Include="Constants\WavHeaderConstants.cs" />
+    <Compile Include="EntityWrappers\Custom_OperatorWrapper_Inlets.cs" />
+    <Compile Include="EntityWrappers\Custom_OperatorWrapper_Operands.cs" />
+    <Compile Include="EntityWrappers\Custom_OperatorWrapper_Outlets.cs" />
+    <Compile Include="Helpers\OperatorConstants.cs" />
+    <Compile Include="Helpers\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
     <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />
     <Compile Include="EntityWrappers\Custom_OperatorWrapper.cs" />
@@ -147,7 +150,7 @@
     <Compile Include="Enums\AudioFileFormatEnum.cs" />
     <Compile Include="Enums\InterpolationTypeEnum.cs" />
     <Compile Include="Enums\SampleDataTypeEnum.cs" />
-    <Compile Include="Exceptions\AlreadyDoneIsNullException.cs" />
+    <Compile Include="Helpers\AlreadyDoneIsNullException.cs" />
     <Compile Include="Extensions\AudioFileOutputExtensions.cs" />
     <Compile Include="Extensions\DeleteRelatedEntitiesExtensions.cs" />
     <Compile Include="Extensions\DocumentExtensions.cs" />
@@ -179,8 +182,8 @@
     <Compile Include="Helpers\SampleDataTypeHelper.cs" />
     <Compile Include="Extensions\SampleExtensions.cs" />
     <Compile Include="Helpers\SampleRepositories.cs" />
-    <Compile Include="Infos\AudioFileInfo.cs" />
-    <Compile Include="Infos\NodeInfo.cs" />
+    <Compile Include="Helpers\AudioFileInfo.cs" />
+    <Compile Include="Helpers\NodeInfo.cs" />
     <Compile Include="LinkTo\UnlinkExtensions.cs" />
     <Compile Include="Managers\AudioFileOutputManager.cs" />
     <Compile Include="Managers\CurveManager.cs" />
@@ -204,9 +207,11 @@
     <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\ChildDocument_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
-    <Compile Include="Structs\WavHeaderStruct.cs" />
+    <Compile Include="Helpers\WavHeaderStruct.cs" />
     <Compile Include="Validation\ChildDocumentValidator.cs" />
     <Compile Include="Validation\AudioFileOutputValidator_InDocument.cs" />
+    <Compile Include="Validation\CustomOperatorInletValidator.cs" />
+    <Compile Include="Validation\CustomOperatorOutletValidator.cs" />
     <Compile Include="Validation\OperatorValidator_CustomOperator.cs" />
     <Compile Include="Validation\OperatorValidator_Resample.cs" />
     <Compile Include="Validation\OperatorValidator_WhiteNoise.cs" />
@@ -259,7 +264,7 @@
     <Compile Include="EntityWrappers\Add_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Value_OperatorWrapper.cs" />
     <Compile Include="LinkTo\LinkToExtensions.cs" />
-    <Compile Include="Names\PropertyNames.cs" />
+    <Compile Include="Helpers\PropertyNames.cs" />
     <Compile Include="Factories\OperatorFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\PropertyDisplayNames.Designer.cs">

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Constants
+namespace JJ.Business.Synthesizer.Helpers
 {
     internal static class WavHeaderConstants
     {

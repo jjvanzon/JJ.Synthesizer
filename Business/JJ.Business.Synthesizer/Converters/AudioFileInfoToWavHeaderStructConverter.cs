@@ -1,6 +1,4 @@
-﻿using JJ.Business.Synthesizer.Constants;
-using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Structs;
+﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Reflection.Exceptions;
 using System;
 using System.Collections.Generic;

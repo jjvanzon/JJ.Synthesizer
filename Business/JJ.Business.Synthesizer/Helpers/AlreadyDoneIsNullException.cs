@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JJ.Business.Synthesizer.Exceptions
+namespace JJ.Business.Synthesizer.Helpers
 {
     public class AlreadyDoneIsNullException : Exception
     {

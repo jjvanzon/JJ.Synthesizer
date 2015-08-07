@@ -10,7 +10,6 @@ using JJ.Business.Synthesizer.Helpers;
 using System.IO;
 using JJ.Framework.IO;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Constants;
 using JJ.Framework.Common;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
@@ -32,9 +31,9 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
         public SampleCalculatorBase(Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
-            if (sample.TimeMultiplier == 0) throw new Exception("sample.TimeMultiplier cannot be 0.");
+            if (sample.TimeMultiplier == 0) throw new ZeroException(() => sample.TimeMultiplier);
 
-            IValidator validator = new SampleValidator(sample, alreadyDone: new HashSet<object>());
+            IValidator validator = new SampleValidator(sample);
             validator.Verify();
 
             _sample = sample;

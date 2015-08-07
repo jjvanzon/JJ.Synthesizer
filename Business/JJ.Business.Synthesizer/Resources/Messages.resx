@@ -135,9 +135,24 @@
   <data name="ChannelIndexNumberDoesNotMatchSpeakerSetup" xml:space="preserve">
     <value>Channel number does not match speaker setup.</value>
   </data>
+  <data name="CustomOperatorDocumentReferenceIsCircular_WithName" xml:space="preserve">
+    <value>Operator '{0}' has a circular dependency with its associated document.</value>
+    <comment>{0} = name</comment>
+  </data>
+  <data name="CustomOperatorInletWithNameNotFoundInDocumentMainPatch" xml:space="preserve">
+    <value>Inlet '{0}' not found in the associated document's main patch.</value>
+    <comment>{0} = name</comment>
+  </data>
+  <data name="CustomOperatorOutletWithNameNotFoundInDocumentMainPatch" xml:space="preserve">
+    <value>Outlet '{0}' not found in the associated document's main patch.</value>
+    <comment>{0} = name</comment>
+  </data>
   <data name="DocumentIsDependentOnDocument" xml:space="preserve">
     <value>Document '{0}' is dependent on document '{1}'.</value>
     <comment>{0} = dependent document, {1} = dependent on document</comment>
+  </data>
+  <data name="InletNamesAreNotUnique" xml:space="preserve">
+    <value>Inlet names are not unique.</value>
   </data>
   <data name="InletNotSet" xml:space="preserve">
     <value>{0} operator named '{1}' does not have {2} filled in.</value>
@@ -150,6 +165,10 @@
   <data name="NotFoundInList_WithItemName_ID_AndListName" xml:space="preserve">
     <value>{0} with ID '{1}' not found in the list of {2}.</value>
     <comment>{0} = name, {1} = id, {2} = name plural</comment>
+  </data>
+  <data name="NotFound_WithTypeName_AndName" xml:space="preserve">
+    <value>{0} named '{1}' not found.</value>
+    <comment>{0} = type of object, e.g. 'Recipe', {1} = name of object, e.g. 'eggs and bacon'</comment>
   </data>
   <data name="ObjectAmplifier0" xml:space="preserve">
     <value>Amplifier of '{0}' named '{1}' is 0.</value>
@@ -167,6 +186,9 @@
   <data name="OperatorPatchIsNotTheExpectedPatch" xml:space="preserve">
     <value>The patch of operator '{0}' is filled in, but it is not the expected patch '{1}'.</value>
     <comment>{0} = operator name, {1} = patch name</comment>
+  </data>
+  <data name="OutletNamesAreNotUnique" xml:space="preserve">
+    <value>Outlet names are not unique.</value>
   </data>
   <data name="ParentDocumentAndChildDocumentTypeShouldBothBeNullOrBothFilledIn" xml:space="preserve">
     <value>Parent document and child document type should either both be filled in or both be left empty.</value>

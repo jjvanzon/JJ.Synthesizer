@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.Names;
+﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Reflection.Exceptions;
@@ -18,5 +18,12 @@ namespace JJ.Business.Synthesizer.Validation
         public OperatorValidator_PatchOutlet(Operator obj)
             : base(obj, OperatorTypeEnum.PatchOutlet, 1, PropertyNames.Input, PropertyNames.Result)
         { }
+
+        protected override void Execute()
+        {
+            base.Execute();
+
+            For(() => Object.Name, CommonTitles.Name).NotNullOrEmpty();
+        }
     }
 }

@@ -1,15 +1,16 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JJ.Business.Synthesizer.Exceptions;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -43,10 +44,43 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
+            ValidatePatchInletNamesAreUnique();
+            ValidatePatchOutletNamesAreUnique();
+
             foreach (Operator op in Object.Operators)
             {
-                Execute(new OperatorValidator_IsCircular(op));
-                Execute(new OperatorValidator_Recursive(op, _curveRepository, _sampleRepository, _documentRepository, _alreadyDone));
+                string messagePrefix = ValidationHelper.GetMessagePrefix(op);
+
+                Execute(new OperatorValidator_IsCircular(op, _documentRepository), messagePrefix);
+                Execute(new OperatorValidator_Recursive(op, _curveRepository, _sampleRepository, _documentRepository, _alreadyDone), messagePrefix);
+            }
+        }
+
+        private void ValidatePatchOutletNamesAreUnique()
+        {
+            IList<string> names = Object.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
+                                                  .Where(x => !String.IsNullOrEmpty(x.Name))
+                                                  .Select(x => x.Name)
+                                                  .ToArray();
+
+            bool namesAreUnique = names.Distinct().Count() == names.Count;
+            if (!namesAreUnique)
+            {
+                ValidationMessages.Add(PropertyNames.PatchOutlet, Messages.OutletNamesAreNotUnique);
+            }
+        }
+
+        private void ValidatePatchInletNamesAreUnique()
+        {
+            IList<string> names = Object.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
+                                                  .Where(x => !String.IsNullOrEmpty(x.Name))
+                                                  .Select(x => x.Name)
+                                                  .ToArray();
+
+            bool namesAreUnique = names.Distinct().Count() == names.Count;
+            if (!namesAreUnique)
+            {
+                ValidationMessages.Add(PropertyNames.PatchInlet, Messages.InletNamesAreNotUnique);
             }
         }
     }

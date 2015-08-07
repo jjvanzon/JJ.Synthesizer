@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.Constants;
+﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {

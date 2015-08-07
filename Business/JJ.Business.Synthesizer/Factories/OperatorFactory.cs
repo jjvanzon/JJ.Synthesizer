@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
@@ -387,7 +386,7 @@ namespace JJ.Business.Synthesizer.Factories
 
         // Custom Operator
 
-        public Custom_OperatorWrapper CustomOperator(int inletCount, int outletCount)
+        public Custom_OperatorWrapper CustomOperator()
         {
             var op = new Operator();
             op.ID = _idRepository.GetID();
@@ -395,41 +394,8 @@ namespace JJ.Business.Synthesizer.Factories
             op.Name = PropertyDisplayNames.CustomOperator;
             _operatorRepository.Insert(op);
 
-            for (int i = 0; i < inletCount; i++)
-            {
-                var inlet = new Inlet();
-                inlet.ID = _idRepository.GetID();
-                inlet.Name = String.Format("{0}{1}", PropertyNames.Operand, i + 1);
-                inlet.LinkTo(op);
-                _inletRepository.Insert(inlet);
-            }
-
-            for (int i = 0; i < outletCount; i++)
-            {
-                var outlet = new Outlet();
-                outlet.ID = _idRepository.GetID();
-                outlet.Name = String.Format("{0}{1}", PropertyNames.Outlet, i + 1);
-                outlet.LinkTo(op);
-                _outletRepository.Insert(outlet);
-            }
-
             var wrapper = new Custom_OperatorWrapper(op, _documentRepository);
             return wrapper;
-        }
-
-        private void SetOperands(Operator op, IList<Outlet> operands)
-        {
-            if (op.Inlets.Count != operands.Count) throw new NotEqualException(() => op.Inlets.Count, () => operands.Count);
-
-            for (int i = 0; i < operands.Count; i++)
-            {
-                op.Inlets[i].InputOutlet = operands[i];
-            }
-        }
-
-        public Custom_OperatorWrapper CustomOperator()
-        {
-            return CustomOperator(0, 0);
         }
 
         /// <param name="document">The Document to base the CustomOperator on.</param>
@@ -438,10 +404,33 @@ namespace JJ.Business.Synthesizer.Factories
             if (document == null) throw new NullException(() => document);
             if (document.MainPatch == null) throw new NullException(() => document.MainPatch);
 
-            var inletCount = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet).Count();
-            var outletCount = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet).Count();
+            var op = new Operator();
+            op.ID = _idRepository.GetID();
+            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _operatorTypeRepository);
+            op.Name = PropertyDisplayNames.CustomOperator;
+            _operatorRepository.Insert(op);
 
-            Custom_OperatorWrapper wrapper = CustomOperator(inletCount, outletCount);
+            IList<Operator> patchInlets = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet).ToArray();
+            foreach (Operator patchInlet in patchInlets)
+            {
+                var inlet = new Inlet();
+                inlet.ID = _idRepository.GetID();
+                inlet.Name = patchInlet.Name;
+                inlet.LinkTo(op);
+                _inletRepository.Insert(inlet);
+            }
+
+            IList<Operator> patchOutlets = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet).ToArray();
+            foreach (Operator patchOutlet in patchOutlets)
+            {
+                var outlet = new Outlet();
+                outlet.ID = _idRepository.GetID();
+                outlet.Name = patchOutlet.Name;
+                outlet.LinkTo(op);
+                _outletRepository.Insert(outlet);
+            }
+
+            var wrapper = new Custom_OperatorWrapper(op, _documentRepository);
 
             wrapper.Document = document;
 
@@ -467,20 +456,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Custom_OperatorWrapper CustomOperator(IList<Outlet> operands, int outletCount)
+        private void SetOperands(Operator op, IList<Outlet> operands)
         {
-            if (operands == null) throw new NullException(() => operands);
+            if (op.Inlets.Count != operands.Count) throw new NotEqualException(() => op.Inlets.Count, () => operands.Count);
 
-            Custom_OperatorWrapper wrapper = CustomOperator(operands.Count, outletCount);
-
-            SetOperands(wrapper.Operator, operands);
-
-            return wrapper;
-        }
-
-        public Custom_OperatorWrapper CustomOperator(params Outlet[] operands)
-        {
-            return CustomOperator((IList<Outlet>)operands, 0);
+            for (int i = 0; i < operands.Count; i++)
+            {
+                op.Inlets[i].InputOutlet = operands[i];
+            }
         }
 
         // Generic methods for operator creation

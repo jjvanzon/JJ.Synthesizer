@@ -1,4 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
@@ -6,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -18,25 +19,19 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
+
             _documentRepository = documentRepository;
+
+            Operands = new Custom_OperatorWrapper_Operands(op);
+            Inlets = new Custom_OperatorWrapper_Inlets(op);
+            Outlets = new Custom_OperatorWrapper_Outlets(op);
         }
 
-        /// <summary>
-        /// Executes a loop, so prevent calling it multiple times.
-        /// </summary>
-        public IList<Outlet> Operands
-        {
-            get
-            {
-                IList<Outlet> operands = new Outlet[_operator.Inlets.Count];
-                for (int i = 0; i < _operator.Inlets.Count; i++)
-                {
-                    operands[i] = _operator.Inlets[i].InputOutlet;
-                }
-                return operands;
-            }
-        }
+        public Custom_OperatorWrapper_Operands Operands { get; private set; }
 
+        public Custom_OperatorWrapper_Inlets Inlets { get; private set; }
+
+        public Custom_OperatorWrapper_Outlets Outlets { get; private set; }
 
         public int? DocumentID
         {
@@ -68,5 +63,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                 DocumentID = value.ID;
             }
         }
+
+        //// TODO: These operations must enfore rules and should be integrated in the members above.
+
+        //private void SetUnderlyingDocument(Operator op, Document document)
+        //{
+        //    if (op == null) throw new NullException(() => op);
+        //    if (document == null) throw new NullException(() => document);
+        //    if (op.GetOperatorTypeEnum() != OperatorTypeEnum.CustomOperator) throw new NotEqualException(() => op.GetOperatorTypeEnum(), OperatorTypeEnum.CustomOperator);
+
+        //    // What can go wrong? Everything.
+        //    throw new NotImplementedException();
+        //}
+
+        //private void SetName(Document document, string name)
+        //{
+        //    if (document == null) throw new NullException(() => document);
+
+        //    //if (document.Name 
+        //}
+
     }
 }

@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.Names;
+﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;

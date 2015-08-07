@@ -18,12 +18,8 @@ using JJ.Business.Synthesizer.Helpers;
 using System.IO;
 using JJ.Framework.Common;
 using JJ.Framework.IO;
-using JJ.Business.Synthesizer.Structs;
 using JJ.Business.Synthesizer.Converters;
-using JJ.Business.Synthesizer.Infos;
-using JJ.Business.Synthesizer.Constants;
 using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.EntityWrappers;
 
@@ -176,7 +172,7 @@ namespace JJ.Business.Synthesizer.Managers
         public IValidator Validate(Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
-            IValidator sampleValidator = new SampleValidator(sample, alreadyDone: new HashSet<object>());
+            IValidator sampleValidator = new SampleValidator(sample);
             return sampleValidator;
         }
 

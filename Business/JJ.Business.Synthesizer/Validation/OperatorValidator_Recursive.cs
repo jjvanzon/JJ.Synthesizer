@@ -1,4 +1,4 @@
-﻿using JJ.Business.Synthesizer.Names;
+﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection.Exceptions;
@@ -10,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using JJ.Business.Synthesizer.Exceptions;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
@@ -79,7 +78,11 @@ namespace JJ.Business.Synthesizer.Validation
                     Curve curve = _curveRepository.TryGet(curveID);
                     if (curve != null)
                     {
-                        Execute(new CurveValidator(curve, _alreadyDone));
+                        if (!_alreadyDone.Contains(curve))
+                        {
+                            _alreadyDone.Add(curve);
+                            Execute(new CurveValidator(curve));
+                        }
                     }
                 }
             }
@@ -92,7 +95,11 @@ namespace JJ.Business.Synthesizer.Validation
                     Sample sample = _sampleRepository.TryGet(sampleID);
                     if (sample != null)
                     {
-                        Execute(new SampleValidator(sample, _alreadyDone));
+                        if (!_alreadyDone.Contains(sample))
+                        {
+                            _alreadyDone.Add(sample);
+                            Execute(new SampleValidator(sample));
+                        }
                     }
                 }
             }

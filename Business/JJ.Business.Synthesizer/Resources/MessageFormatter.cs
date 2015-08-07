@@ -103,5 +103,25 @@ namespace JJ.Business.Synthesizer.Resources
         {
             return String.Format(Messages.NotFoundInList_WithItemName_AndID, name, documentID);
         }
+
+        public static string NotFound_WithTypeName_AndName(string entityTypeDisplayName, string name)
+        {
+            return String.Format(Messages.NotFound_WithTypeName_AndName, entityTypeDisplayName, name);
+        }
+
+        public static string CustomOperatorInletWithNameNotFoundInDocumentMainPatch(string name)
+        {
+            return String.Format(Messages.CustomOperatorInletWithNameNotFoundInDocumentMainPatch, name);
+        }
+
+        public static string CustomOperatorOutletWithNameNotFoundInDocumentMainPatch(string name)
+        {
+            return String.Format(Messages.CustomOperatorOutletWithNameNotFoundInDocumentMainPatch, name);
+        }
+
+        public static string CustomOperatorDocumentReferenceIsCircular_WithName(string name)
+        {
+            return String.Format(Messages.CustomOperatorDocumentReferenceIsCircular_WithName, name);
+        }
     }
 }

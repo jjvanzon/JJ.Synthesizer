@@ -9,9 +9,7 @@ using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Business.Synthesizer.Infos;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Structs;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs

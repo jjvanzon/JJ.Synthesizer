@@ -1,6 +1,4 @@
-﻿using JJ.Business.Synthesizer.Constants;
-using JJ.Business.Synthesizer.Exceptions;
-using JJ.Business.Synthesizer.Helpers;
+﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Presentation.Resources;
@@ -47,8 +45,14 @@ namespace JJ.Business.Synthesizer.Validation
 
             foreach (Curve curve in document.Curves)
             {
+                if (_alreadyDone.Contains(curve))
+                {
+                    continue;
+                }
+                _alreadyDone.Add(curve);
+
                 string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Curve, curve.Name);
-                Execute(new CurveValidator(curve, _alreadyDone), messagePrefix);
+                Execute(new CurveValidator(curve), messagePrefix);
             }
 
             foreach (Patch patch in document.Patches)
@@ -60,8 +64,14 @@ namespace JJ.Business.Synthesizer.Validation
 
             foreach (Sample sample in document.Samples)
             {
+                if (_alreadyDone.Contains(sample))
+                {
+                    continue;
+                }
+                _alreadyDone.Add(sample);
+
                 string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Sample, sample.Name);
-                Execute(new SampleValidator(sample, _alreadyDone), messagePrefix);
+                Execute(new SampleValidator(sample), messagePrefix);
             }
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)

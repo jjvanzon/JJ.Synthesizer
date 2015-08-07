@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Names;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Calculation.Samples;
-using JJ.Business.Synthesizer.Constants;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
