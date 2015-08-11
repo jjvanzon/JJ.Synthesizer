@@ -128,17 +128,11 @@
     <Compile Include="UserControls\SamplePropertiesUserControl.Designer.cs">
       <DependentUpon>SamplePropertiesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\EffectGridUserControl.cs">
+    <Compile Include="UserControls\ChildDocumentGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\EffectGridUserControl.Designer.cs">
-      <DependentUpon>EffectGridUserControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\InstrumentGridUserControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="UserControls\InstrumentGridUserControl.Designer.cs">
-      <DependentUpon>InstrumentGridUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\ChildDocumentGridUserControl.Designer.cs">
+      <DependentUpon>ChildDocumentGridUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\DocumentPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
@@ -237,11 +231,8 @@
     <EmbeddedResource Include="UserControls\SamplePropertiesUserControl.resx">
       <DependentUpon>SamplePropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\EffectGridUserControl.resx">
-      <DependentUpon>EffectGridUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\InstrumentGridUserControl.resx">
-      <DependentUpon>InstrumentGridUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\ChildDocumentGridUserControl.resx">
+      <DependentUpon>ChildDocumentGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DocumentPropertiesUserControl.resx">
       <DependentUpon>DocumentPropertiesUserControl.cs</DependentUpon>

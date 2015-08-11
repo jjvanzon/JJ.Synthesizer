@@ -257,12 +257,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            int? id = TagHelper.TryGetChildDocumentID(e.Node.Tag);
-            if (id.HasValue)
+            if (_childDocumentTreeNodes.Contains(e.Node))
             {
+                int id = (int)e.Node.Tag;
                 if (ExpandNodeRequested != null)
                 {
-                    ExpandNodeRequested(this, new Int32EventArgs(id.Value));
+                    ExpandNodeRequested(this, new Int32EventArgs(id));
                 }
             }
         }
@@ -274,12 +274,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            int? id = TagHelper.TryGetChildDocumentID(e.Node.Tag);
-            if (id.HasValue)
+            if (_childDocumentTreeNodes.Contains(e.Node))
             {
+                int id = (int)e.Node.Tag;
                 if (CollapseNodeRequested != null)
                 {
-                    CollapseNodeRequested(this, new Int32EventArgs(id.Value));
+                    CollapseNodeRequested(this, new Int32EventArgs(id));
                 }
             }
         }

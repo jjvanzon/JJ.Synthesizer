@@ -128,6 +128,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             MessageBoxHelper.DocumentDeletedOK += MessageBoxHelper_DocumentDeletedOK;
             MessageBoxHelper.PopupMessagesOK += MessageBoxHelper_PopupMessagesOK;
 
+            SetTitles();
             ApplyStyling();
 
             Open();
@@ -1199,6 +1200,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void SetPropertiesPanelVisible(bool visible)
         {
             splitContainerProperties.Panel2Collapsed = !visible;
+        }
+
+        private void SetTitles()
+        {
+            instrumentGridUserControl.Title = PropertyDisplayNames.Instruments;
+            effectGridUserControl.Title = PropertyDisplayNames.Effects;
         }
 
         private void ApplyStyling()

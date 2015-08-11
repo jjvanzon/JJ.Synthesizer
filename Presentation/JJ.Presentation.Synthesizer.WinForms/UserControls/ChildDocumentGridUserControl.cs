@@ -22,7 +22,7 @@ using JJ.Presentation.Synthesizer.WinForms.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class InstrumentGridUserControl : UserControl
+    internal partial class ChildDocumentGridUserControl : UserControl
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
@@ -34,10 +34,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// <summary> virtually not nullable </summary>
         private ChildDocumentGridViewModel _viewModel;
 
-        public InstrumentGridUserControl()
+        public ChildDocumentGridUserControl()
         {
             InitializeComponent();
-            SetTitles();
         }
 
         [Browsable(false)]
@@ -53,12 +52,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        // Gui
-
-        private void SetTitles()
+        public string Title
         {
-            titleBarUserControl.Text = PropertyDisplayNames.Instruments;
+            get { return titleBarUserControl.Text; }
+            set { titleBarUserControl.Text = value; }
         }
+
+        // Gui
 
         private void ApplyViewModel()
         {

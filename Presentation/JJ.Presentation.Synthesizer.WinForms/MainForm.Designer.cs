@@ -23,8 +23,8 @@
             this.patchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchGridUserControl();
             this.curveGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveGridUserControl();
             this.audioFileOutputGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputGridUserControl();
-            this.instrumentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.InstrumentGridUserControl();
-            this.effectGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.EffectGridUserControl();
+            this.instrumentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ChildDocumentGridUserControl();
+            this.effectGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ChildDocumentGridUserControl();
             this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
             this.documentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentGridUserControl();
             this.samplePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SamplePropertiesUserControl();
@@ -289,8 +289,8 @@
         private System.Windows.Forms.SplitContainer splitContainerProperties;
         private UserControls.DocumentDetailsUserControl documentDetailsUserControl;
         private UserControls.DocumentPropertiesUserControl documentPropertiesUserControl;
-        private UserControls.EffectGridUserControl effectGridUserControl;
-        private UserControls.InstrumentGridUserControl instrumentGridUserControl;
+        private UserControls.ChildDocumentGridUserControl effectGridUserControl;
+        private UserControls.ChildDocumentGridUserControl instrumentGridUserControl;
         private UserControls.AudioFileOutputGridUserControl audioFileOutputGridUserControl;
         private UserControls.PatchGridUserControl patchGridUserControl;
         private UserControls.CurveGridUserControl curveGridUserControl;

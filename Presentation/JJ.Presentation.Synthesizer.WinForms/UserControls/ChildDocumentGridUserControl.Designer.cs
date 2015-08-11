@@ -1,7 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    partial class InstrumentGridUserControl
+    partial class ChildDocumentGridUserControl
     {
         /// <summary> 
         /// Required designer variable.
