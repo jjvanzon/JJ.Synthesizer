@@ -29,14 +29,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.treeView = new System.Windows.Forms.TreeView();
-            this.contextMenuStripDocument = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.propertiesToolStripMenuItemDocumentProperties = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel.SuspendLayout();
-            this.contextMenuStripDocument.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
@@ -83,20 +79,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.treeView.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterExpand);
             this.treeView.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_NodeMouseDoubleClick);
             // 
-            // contextMenuStripDocument
-            // 
-            this.contextMenuStripDocument.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.propertiesToolStripMenuItemDocumentProperties});
-            this.contextMenuStripDocument.Name = "contextMenuStripDocument";
-            this.contextMenuStripDocument.Size = new System.Drawing.Size(128, 26);
-            // 
-            // propertiesToolStripMenuItemDocumentProperties
-            // 
-            this.propertiesToolStripMenuItemDocumentProperties.Name = "propertiesToolStripMenuItemDocumentProperties";
-            this.propertiesToolStripMenuItemDocumentProperties.Size = new System.Drawing.Size(127, 22);
-            this.propertiesToolStripMenuItemDocumentProperties.Text = "Properties";
-            this.propertiesToolStripMenuItemDocumentProperties.Click += new System.EventHandler(this.propertiesToolStripMenuItem_Click);
-            // 
             // DocumentTreeUserControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -105,7 +87,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Name = "DocumentTreeUserControl";
             this.Size = new System.Drawing.Size(269, 494);
             this.tableLayoutPanel.ResumeLayout(false);
-            this.contextMenuStripDocument.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -115,7 +96,5 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.TreeView treeView;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStripDocument;
-        private System.Windows.Forms.ToolStripMenuItem propertiesToolStripMenuItemDocumentProperties;
     }
 }

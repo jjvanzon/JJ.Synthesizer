@@ -21,6 +21,41 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 {
     internal static class ToEntityHelper
     {
+        /// <summary> Leading for saving when it comes to the simple properties. </summary>
+        public static void ToChildDocumentsWithRelatedEntities(
+            IList<ChildDocumentPropertiesViewModel> sourceViewModelList,
+            Document destParentDocument,
+            RepositoryWrapper repositoryWrapper)
+        {
+            if (sourceViewModelList == null) throw new NullException(() => sourceViewModelList);
+            if (destParentDocument == null) throw new NullException(() => destParentDocument);
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+
+            var idsToKeep = new HashSet<int>();
+
+            foreach (ChildDocumentPropertiesViewModel propertiesViewModel in sourceViewModelList)
+            {
+                Document entity = propertiesViewModel.ToEntity(repositoryWrapper.DocumentRepository, repositoryWrapper.ChildDocumentTypeRepository);
+
+                entity.LinkToParentDocument(destParentDocument);
+
+                if (!idsToKeep.Contains(entity.ID))
+                {
+                    idsToKeep.Add(entity.ID);
+                }
+            }
+
+            DocumentManager documentManager = new DocumentManager(repositoryWrapper);
+
+            IList<int> existingIDs = destParentDocument.ChildDocuments.Select(x => x.ID).ToArray();
+            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+            foreach (int idToDelete in idsToDelete)
+            {
+                documentManager.DeleteWithRelatedEntities(idToDelete);
+            }
+        }
+
+        /// <summary> Leading for saving child entities, not leading for saving the simple properties. </summary>
         public static void ToChildDocumentsWithRelatedEntities(
             IList<ChildDocumentViewModel> sourceViewModelList,
             Document destParentDocument, 

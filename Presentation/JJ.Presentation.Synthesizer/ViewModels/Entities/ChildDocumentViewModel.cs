@@ -9,6 +9,7 @@ using System.Text;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
+    /// <summary> Leading for saving child entities, not leading for saving the simple properties. </summary>
     public sealed class ChildDocumentViewModel
     {
         public int ID { get; set; }

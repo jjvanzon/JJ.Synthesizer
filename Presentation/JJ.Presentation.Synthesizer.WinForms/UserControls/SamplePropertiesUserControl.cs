@@ -110,24 +110,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 comboBoxAudioFileFormat.DataSource = _viewModel.AudioFileFormats;
                 comboBoxAudioFileFormat.ValueMember = PropertyNames.ID;
                 comboBoxAudioFileFormat.DisplayMember = PropertyNames.Name;
-                comboBoxAudioFileFormat.SelectedValue = _viewModel.Entity.AudioFileFormat.ID;
             }
+            comboBoxAudioFileFormat.SelectedValue = _viewModel.Entity.AudioFileFormat.ID;
 
             if (comboBoxSampleDataType.DataSource == null)
             {
                 comboBoxSampleDataType.DataSource = _viewModel.SampleDataTypes;
                 comboBoxSampleDataType.ValueMember = PropertyNames.ID;
                 comboBoxSampleDataType.DisplayMember = PropertyNames.Name;
-                comboBoxSampleDataType.SelectedValue = _viewModel.Entity.SampleDataType.ID;
             }
+            comboBoxSampleDataType.SelectedValue = _viewModel.Entity.SampleDataType.ID;
 
             if (comboBoxSpeakerSetup.DataSource == null)
             {
                 comboBoxSpeakerSetup.DataSource = _viewModel.SpeakerSetups;
                 comboBoxSpeakerSetup.ValueMember = PropertyNames.ID;
                 comboBoxSpeakerSetup.DisplayMember = PropertyNames.Name;
-                comboBoxSpeakerSetup.SelectedValue = _viewModel.Entity.SpeakerSetup.ID;
             }
+            comboBoxSpeakerSetup.SelectedValue = _viewModel.Entity.SpeakerSetup.ID;
 
             numericUpDownAmplifier.Value = (decimal)_viewModel.Entity.Amplifier;
             numericUpDownTimeMultiplier.Value = (decimal)_viewModel.Entity.TimeMultiplier;
@@ -139,8 +139,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 comboBoxInterpolationType.DataSource = _viewModel.InterpolationTypes;
                 comboBoxInterpolationType.ValueMember = PropertyNames.ID;
                 comboBoxInterpolationType.DisplayMember = PropertyNames.Name;
-                comboBoxInterpolationType.SelectedValue = _viewModel.Entity.InterpolationType.ID;
             }
+            comboBoxInterpolationType.SelectedValue = _viewModel.Entity.InterpolationType.ID;
 
             textBoxLocation.Text = _viewModel.Entity.Location;
         }
@@ -152,13 +152,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             _viewModel.Entity.AudioFileFormat.ID = (int)comboBoxAudioFileFormat.SelectedValue;
             _viewModel.Entity.SampleDataType.ID = (int)comboBoxSampleDataType.SelectedValue;
-
             _viewModel.Entity.SpeakerSetup.ID = (int)comboBoxSpeakerSetup.SelectedValue;
 
             _viewModel.Entity.Amplifier = (double)numericUpDownAmplifier.Value;
             _viewModel.Entity.TimeMultiplier = (double)numericUpDownTimeMultiplier.Value;
             _viewModel.Entity.IsActive = checkBoxIsActive.Checked;
             _viewModel.Entity.BytesToSkip = (int)numericUpDownBytesToSkip.Value;
+
+            _viewModel.Entity.InterpolationType.ID = (int)comboBoxInterpolationType.SelectedValue;
 
             _viewModel.Entity.Location = textBoxLocation.Text;
         }

@@ -151,6 +151,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Child Document Count.
+        /// </summary>
+        public static string ChildDocumentCount {
+            get {
+                return ResourceManager.GetString("ChildDocumentCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Documents.
         /// </summary>
         public static string ChildDocuments {

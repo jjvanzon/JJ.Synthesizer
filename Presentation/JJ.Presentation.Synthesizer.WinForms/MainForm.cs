@@ -1,35 +1,35 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Configuration;
-using JJ.Framework.Data;
-using JJ.Framework.Presentation.Resources;
-using JJ.Framework.Presentation.Svg.EventArg;
-using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Presentation.Synthesizer.Presenters;
-using JJ.Presentation.Synthesizer.Svg;
-using JJ.Presentation.Synthesizer.Svg.EventArg;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using ConfigurationSection = JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
-using JJ.Business.CanonicalModel;
-using JJ.Presentation.Synthesizer.Svg.Helpers;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using JJ.Presentation.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
-using JJ.Framework.Presentation;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.WinForms.Forms;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Common;
-using JJ.Presentation.Synthesizer.Helpers;
 using System.Media;
+using JJ.Framework.Common;
+using JJ.Framework.Configuration;
+using JJ.Framework.Data;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Presentation;
+using JJ.Framework.Presentation.Resources;
+using JJ.Framework.Presentation.Svg.EventArg;
+using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using JJ.Presentation.Synthesizer.Presenters;
+using JJ.Presentation.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.Svg;
+using JJ.Presentation.Synthesizer.Svg.EventArg;
+using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Presentation.Synthesizer.WinForms.Forms;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
+using ConfigurationSection = JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -56,20 +56,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(_context);
             _presenter = new MainPresenter(_repositoryWrapper);
 
-            menuUserControl.ShowDocumentListRequested += menuUserControl_ShowDocumentListRequested;
-            menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
-            menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
-            menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
-
+            audioFileOutputGridUserControl.CloseRequested += audioFileOutputGridUserControl_CloseRequested;
+            audioFileOutputGridUserControl.CreateRequested += audioFileOutputGridUserControl_CreateRequested;
+            audioFileOutputGridUserControl.DeleteRequested += audioFileOutputGridUserControl_DeleteRequested;
+            audioFileOutputGridUserControl.ShowPropertiesRequested += audioFileOutputGridUserControl_ShowPropertiesRequested;
+            audioFileOutputPropertiesUserControl.CloseRequested += audioFileOutputPropertiesUserControl_CloseRequested;
+            audioFileOutputPropertiesUserControl.LoseFocusRequested += audioFileOutputPropertiesUserControl_LoseFocusRequested;
+            childDocumentPropertiesUserControl.CloseRequested += childDocumentPropertiesUserControl_CloseRequested;
+            childDocumentPropertiesUserControl.LoseFocusRequested += childDocumentPropertiesUserControl_LoseFocusRequested;
+            curveGridUserControl.CloseRequested += curveGridUserControl_CloseRequested;
+            curveGridUserControl.CreateRequested += curveGridUserControl_CreateRequested;
+            curveGridUserControl.DeleteRequested += curveGridUserControl_DeleteRequested;
+            documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;
+            documentDetailsUserControl.DeleteRequested += documentDetailsUserControl_DeleteRequested;
+            documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
             documentGridUserControl.ShowRequested += documentGridUserControl_ShowRequested;
             documentGridUserControl.CloseRequested += documentGridUserControl_CloseRequested;
             documentGridUserControl.CreateRequested += documentGridUserControl_CreateRequested;
             documentGridUserControl.OpenRequested += documentGridUserControl_OpenRequested;
             documentGridUserControl.DeleteRequested += documentGridUserControl_DeleteRequested;
-            documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;
-            documentDetailsUserControl.DeleteRequested += documentDetailsUserControl_DeleteRequested;
-            documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
-
+            documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
+            documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
             documentTreeUserControl.ExpandNodeRequested += documentTreeUserControl_ExpandNodeRequested;
             documentTreeUserControl.CollapseNodeRequested += documentTreeUserControl_CollapseNodeRequested;
@@ -80,24 +87,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
             documentTreeUserControl.ShowPatchesRequested += documentTreeUserControl_ShowPatchesRequested;
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
-            documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
-            documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
-
-            audioFileOutputGridUserControl.CloseRequested += audioFileOutputGridUserControl_CloseRequested;
-            audioFileOutputGridUserControl.CreateRequested += audioFileOutputGridUserControl_CreateRequested;
-            audioFileOutputGridUserControl.DeleteRequested += audioFileOutputGridUserControl_DeleteRequested;
-            audioFileOutputGridUserControl.ShowPropertiesRequested += audioFileOutputGridUserControl_ShowPropertiesRequested;
-            audioFileOutputPropertiesUserControl.CloseRequested += audioFileOutputPropertiesUserControl_CloseRequested;
-            audioFileOutputPropertiesUserControl.LoseFocusRequested += audioFileOutputPropertiesUserControl_LoseFocusRequested;
-            curveGridUserControl.CloseRequested += curveGridUserControl_CloseRequested;
-            curveGridUserControl.CreateRequested += curveGridUserControl_CreateRequested;
-            curveGridUserControl.DeleteRequested += curveGridUserControl_DeleteRequested;
-            instrumentGridUserControl.CloseRequested += instrumentGridUserControl_CloseRequested;
-            instrumentGridUserControl.CreateRequested += instrumentGridUserControl_CreateRequested;
-            instrumentGridUserControl.DeleteRequested += instrumentGridUserControl_DeleteRequested;
+            documentTreeUserControl.ShowChildDocumentPropertiesRequested += documentTreeUserControl_ShowChildDocumentPropertiesRequested;
             effectGridUserControl.CloseRequested += effectGridUserControl_CloseRequested;
             effectGridUserControl.CreateRequested += effectGridUserControl_CreateRequested;
             effectGridUserControl.DeleteRequested += effectGridUserControl_DeleteRequested;
+            effectGridUserControl.ShowPropertiesRequested += effectGridUserControl_ShowPropertiesRequested;
+            instrumentGridUserControl.CloseRequested += instrumentGridUserControl_CloseRequested;
+            instrumentGridUserControl.CreateRequested += instrumentGridUserControl_CreateRequested;
+            instrumentGridUserControl.DeleteRequested += instrumentGridUserControl_DeleteRequested;
+            instrumentGridUserControl.ShowPropertiesRequested += instrumentGridUserControl_ShowPropertiesRequested;
+            menuUserControl.ShowDocumentListRequested += menuUserControl_ShowDocumentListRequested;
+            menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
+            menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
+            menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
             patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
             patchDetailsUserControl.LoseFocusRequested += patchDetailsUserControl_LoseFocusRequested;
             patchDetailsUserControl.DeleteOperatorRequested += patchDetailsUserControl_DeleteOperatorRequested;
@@ -150,6 +152,382 @@ namespace JJ.Presentation.Synthesizer.WinForms
             base.Dispose(disposing);
         }
 
+        // Events
+
+
+        // AudioFileOutput Events
+
+        private void audioFileOutputGridUserControl_CreateRequested(object sender, EventArgs e)
+        {
+            AudioFileOutputCreate();
+        }
+
+        private void audioFileOutputGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            AudioFileOutputDelete(e.Value);
+        }
+
+        private void audioFileOutputGridUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            AudioFileOutputListClose();
+        }
+
+        private void audioFileOutputGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
+        {
+            AudioFileOutputPropertiesShow(e.Value);
+        }
+
+        private void audioFileOutputPropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            AudioFileOutputPropertiesClose();
+        }
+
+        private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        {
+            AudioFileOutputPropertiesLoseFocus();
+        }
+
+        // Child Document Events
+
+        private void childDocumentPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        {
+            ChildDocumentPropertiesLoseFocus();
+        }
+
+        private void childDocumentPropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            ChildDocumentPropertiesClose();
+        }
+
+        // Curve Events
+
+        private void curveGridUserControl_CreateRequested(object sender, Int32EventArgs e)
+        {
+            CurveCreate(e.Value);
+        }
+
+        private void curveGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            CurveDelete(e.Value);
+        }
+
+        private void curveGridUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            CurveListClose();
+        }
+
+        // Document List Events
+
+        private void documentGridUserControl_ShowRequested(object sender, Int32EventArgs e)
+        {
+            DocumentListShow(e.Value);
+        }
+
+        private void documentGridUserControl_CreateRequested(object sender, EventArgs e)
+        {
+            DocumentDetailsCreate();
+        }
+
+        private void documentGridUserControl_OpenRequested(object sender, Int32EventArgs e)
+        {
+            DocumentOpen(e.Value);
+        }
+
+        private void documentGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            DocumentDelete(e.Value);
+        }
+
+        private void documentGridUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            DocumentListClose();
+        }
+
+        // Document Details Events
+
+        private void documentDetailsUserControl_SaveRequested(object sender, EventArgs e)
+        {
+            DocumentDetailsSave(documentDetailsUserControl.ViewModel);
+        }
+
+        private void documentDetailsUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            DocumentDelete(e.Value);
+        }
+
+        private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            DocumentDetailsClose();
+        }
+
+        // Document Tree Events
+
+        private void documentTreeUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            DocumentTreeClose();
+        }
+
+        private void documentTreeUserControl_DocumentPropertiesRequested(object sender, EventArgs e)
+        {
+            DocumentPropertiesShow();
+        }
+
+        private void documentTreeUserControl_ExpandNodeRequested(object sender, Int32EventArgs e)
+        {
+            DocumentTreeExpandNode(e.Value);
+        }
+
+        private void documentTreeUserControl_CollapseNodeRequested(object sender, Int32EventArgs e)
+        {
+            DocumentTreeCollapseNode(e.Value);
+        }
+
+        private void documentTreeUserControl_ShowInstrumentsRequested(object sender, EventArgs e)
+        {
+            InstrumentListShow();
+        }
+
+        private void documentTreeUserControl_ShowEffectsRequested(object sender, EventArgs e)
+        {
+            EffectListShow();
+        }
+
+        private void documentTreeUserControl_ShowSamplesRequested(object sender, Int32EventArgs e)
+        {
+            SampleListShow(e.Value);
+        }
+
+        private void documentTreeUserControl_ShowCurvesRequested(object sender, Int32EventArgs e)
+        {
+            CurveListShow(e.Value);
+        }
+
+        private void documentTreeUserControl_ShowPatchesRequested(object sender, Int32EventArgs e)
+        {
+            PatchListShow(e.Value);
+        }
+
+        private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
+        {
+            AudioFileOutputListShow();
+        }
+
+        private void documentTreeUserControl_ShowChildDocumentPropertiesRequested(object sender, Int32EventArgs e)
+        {
+            ChildDocumentPropertiesShow(e.Value);
+        }
+
+        // Document Properties Events
+
+        private void documentPropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            DocumentPropertiesClose();
+        }
+
+        private void documentPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        {
+            DocumentPropertiesLoseFocus();
+        }
+
+        // Effect Events
+
+        private void effectGridUserControl_CreateRequested(object sender, EventArgs e)
+        {
+            EffectCreate();
+        }
+
+        private void effectGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            EffectDelete(e.Value);
+        }
+
+        private void effectGridUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            EffectListClose();
+        }
+
+        private void effectGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
+        {
+            ChildDocumentPropertiesShow(e.Value);
+        }
+
+        // Instrument Events
+
+        private void instrumentGridUserControl_CreateRequested(object sender, EventArgs e)
+        {
+            InstrumentCreate();
+        }
+
+        private void instrumentGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            InstrumentDelete(e.Value);
+        }
+
+        private void instrumentGridUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            InstrumentListClose();
+        }
+
+        private void instrumentGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
+        {
+            ChildDocumentPropertiesShow(e.Value);
+        }
+
+        // Menu Events
+
+        private void menuUserControl_ShowDocumentListRequested(object sender, EventArgs e)
+        {
+            DocumentListShow();
+        }
+
+        private void menuUserControl_ShowDocumentTreeRequested(object sender, EventArgs e)
+        {
+            DocumentTreeShow();
+        }
+
+        private void menuUserControl_DocumentCloseRequested(object sender, EventArgs e)
+        {
+            DocumentClose();
+        }
+
+        private void menuUserControl_DocumentSaveRequested(object sender, EventArgs e)
+        {
+            DocumentSave();
+        }
+
+        // Patch Events
+
+        private void patchGridUserControl_CreateRequested(object sender, Int32EventArgs e)
+        {
+            PatchCreate(e.Value);
+        }
+
+        private void patchGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            PatchDelete(e.Value);
+        }
+
+        private void patchGridUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            PatchListClose();
+        }
+
+        private void patchGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
+        {
+            PatchDetailsShow(e.Value);
+        }
+
+        private void patchDetailsUserControl_PlayRequested(object sender, EventArgs e)
+        {
+            PatchPlay();
+        }
+
+        private void patchDetailsUserControl_SetValueRequested(object sender, SetValueEventArgs e)
+        {
+            PatchDetailsSetValue(e.Value);
+        }
+
+        private void patchDetailsUserControl_SelectOperatorRequested(object sender, SelectOperatorEventArgs e)
+        {
+            PatchDetailsSelectOperator(e.OperatorID);
+        }
+
+        private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
+        {
+            PatchDetailsChangeInputOutlet(e.InletID, e.InputOutletID);
+        }
+
+        private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e)
+        {
+            PatchDetailsMoveOperator(e.OperatorID, e.CenterX, e.CenterY);
+        }
+
+        private void patchDetailsUserControl_AddOperatorRequested(object sender, AddOperatorEventArgs e)
+        {
+            PatchDetailsAddOperator(e.OperatorTypeID);
+        }
+
+        private void patchDetailsUserControl_DeleteOperatorRequested(object sender, EventArgs e)
+        {
+            PatchDetailsDeleteOperator();
+        }
+
+        private void patchDetailsUserControl_LoseFocusRequested(object sender, EventArgs e)
+        {
+            PatchDetailsLoseFocus();
+        }
+
+        private void patchDetailsUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            PatchDetailsClose();
+        }
+
+        // Sample Events
+
+        private void sampleGridUserControl_CreateRequested(object sender, Int32EventArgs e)
+        {
+            SampleCreate(e.Value);
+        }
+
+        private void sampleGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            SampleDelete(e.Value);
+        }
+
+        private void sampleGridUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            SampleListClose();
+        }
+
+        private void sampleGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
+        {
+            SamplePropertiesShow(e.Value);
+        }
+
+        private void samplePropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        {
+            SamplePropertiesLoseFocus();
+        }
+
+        private void samplePropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            SamplePropertiesClose();
+        }
+
+        // Message Box Events
+
+        private void MessageBoxHelper_NotFoundOK(object sender, EventArgs e)
+        {
+            NotFoundOK();
+        }
+
+        private void MessageBoxHelper_DocumentDeleteCanceled(object sender, EventArgs e)
+        {
+            DocumentCancelDelete();
+        }
+
+        private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, Int32EventArgs e)
+        {
+            DocumentConfirmDelete(e.Value);
+        }
+
+        private void MessageBoxHelper_DocumentDeletedOK(object sender, EventArgs e)
+        {
+            DocumentDeletedOK();
+        }
+
+        private void MessageBoxHelper_PopupMessagesOK(object sender, EventArgs e)
+        {
+            PopupMessagesOK();
+        }
+
+        // DocumentCannotDeleteForm Events
+
+        private void _documentCannotDeleteForm_OKClicked(object sender, EventArgs e)
+        {
+            DocumentCannotDeleteOK();
+        }
+
         // Actions
 
         // General Actions
@@ -163,6 +541,96 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void NotFoundOK()
         {
             _presenter.NotFoundOK();
+            ApplyViewModel();
+        }
+
+        // AudioFileOutput Actions
+
+        private void AudioFileOutputListShow()
+        {
+            _presenter.AudioFileOutputGridShow();
+            ApplyViewModel();
+        }
+
+        private void AudioFileOutputListClose()
+        {
+            _presenter.AudioFileOutputGridClose();
+            ApplyViewModel();
+        }
+
+        private void AudioFileOutputDelete(int id)
+        {
+            _presenter.AudioFileOutputDelete(id);
+            ApplyViewModel();
+        }
+
+        private void AudioFileOutputCreate()
+        {
+            _presenter.AudioFileOutputCreate();
+            ApplyViewModel();
+        }
+
+        private void AudioFileOutputPropertiesShow(int id)
+        {
+            _presenter.AudioFileOutputPropertiesShow(id);
+            ApplyViewModel();
+        }
+
+        private void AudioFileOutputPropertiesClose()
+        {
+            _presenter.AudioFileOutputPropertiesClose();
+            ApplyViewModel();
+        }
+
+        private void AudioFileOutputPropertiesLoseFocus()
+        {
+            _presenter.AudioFileOutputPropertiesLoseFocus();
+            ApplyViewModel();
+        }
+
+        // ChildDocument Actions
+
+        private void ChildDocumentPropertiesShow(int childDocumentID)
+        {
+            _presenter.ChildDocumentPropertiesShow(childDocumentID);
+            ApplyViewModel();
+        }
+
+        private void ChildDocumentPropertiesClose()
+        {
+            _presenter.ChildDocumentPropertiesClose();
+            ApplyViewModel();
+        }
+
+        private void ChildDocumentPropertiesLoseFocus()
+        {
+            _presenter.ChildDocumentPropertiesLoseFocus();
+            ApplyViewModel();
+        }
+
+        // Curve Actions
+
+        private void CurveListShow(int documentID)
+        {
+            _presenter.CurveGridShow(documentID);
+            ApplyViewModel();
+        }
+
+        private void CurveListClose()
+        {
+            _presenter.CurveGridClose();
+            ApplyViewModel();
+        }
+
+        private void CurveCreate(int documentID)
+        {
+            _presenter.CurveCreate(documentID);
+            ApplyViewModel();
+        }
+
+        private void CurveDelete(int curveID)
+        {
+            _presenter.CurveDelete(curveID);
             ApplyViewModel();
         }
 
@@ -222,7 +690,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _presenter.DocumentClose();
             ApplyViewModel();
         }
-        
+
         private void DocumentDelete(int id)
         {
             _presenter.DocumentDelete(id);
@@ -287,9 +755,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Document Properties Actions
 
-        private void DocumentPropertiesShow(int id)
+        private void DocumentPropertiesShow()
         {
-            _presenter.DocumentPropertiesShow(id);
+            _presenter.DocumentPropertiesShow();
             ApplyViewModel();
         }
 
@@ -302,102 +770,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void DocumentPropertiesLoseFocus()
         {
             _presenter.DocumentPropertiesLoseFocus();
-            ApplyViewModel();
-        }
-
-        // AudioFileOutput Actions
-
-        private void AudioFileOutputListShow()
-        {
-            _presenter.AudioFileOutputGridShow();
-            ApplyViewModel();
-        }
-
-        private void AudioFileOutputListClose()
-        {
-            _presenter.AudioFileOutputGridClose();
-            ApplyViewModel();
-        }
-
-        private void AudioFileOutputDelete(int id)
-        {
-            _presenter.AudioFileOutputDelete(id);
-            ApplyViewModel();
-        }
-
-        private void AudioFileOutputCreate()
-        {
-            _presenter.AudioFileOutputCreate();
-            ApplyViewModel();
-        }
-
-        private void AudioFileOutputPropertiesShow(int id)
-        {
-            _presenter.AudioFileOutputPropertiesShow(id);
-            ApplyViewModel();
-        }
-
-        private void AudioFileOutputPropertiesClose()
-        {
-            _presenter.AudioFileOutputPropertiesClose();
-            ApplyViewModel();
-        }
-
-        private void AudioFileOutputPropertiesLoseFocus()
-        {
-            _presenter.AudioFileOutputPropertiesLoseFocus();
-            ApplyViewModel();
-        }
-
-        // Curve Actions
-
-        private void CurveListShow(int documentID)
-        {
-            _presenter.CurveGridShow(documentID);
-            ApplyViewModel();
-        }
-
-        private void CurveListClose()
-        {
-            _presenter.CurveGridClose();
-            ApplyViewModel();
-        }
-
-        private void CurveCreate(int documentID)
-        {
-            _presenter.CurveCreate(documentID);
-            ApplyViewModel();
-        }
-
-        private void CurveDelete(int curveID)
-        {
-            _presenter.CurveDelete(curveID);
-            ApplyViewModel();
-        }
-
-        // Instrument Actions
-
-        private void InstrumentListShow()
-        {
-            _presenter.InstrumentGridShow();
-            ApplyViewModel();
-        }
-
-        private void InstrumentListClose()
-        {
-            _presenter.InstrumentGridClose();
-            ApplyViewModel();
-        }
-
-        private void InstrumentCreate()
-        {
-            _presenter.InstrumentCreate();
-            ApplyViewModel();
-        }
-
-        private void InstrumentDelete(int listIndex)
-        {
-            _presenter.InstrumentDelete(listIndex);
             ApplyViewModel();
         }
 
@@ -424,6 +796,32 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void EffectDelete(int listIndex)
         {
             _presenter.EffectDelete(listIndex);
+            ApplyViewModel();
+        }
+
+        // Instrument Actions
+
+        private void InstrumentListShow()
+        {
+            _presenter.InstrumentGridShow();
+            ApplyViewModel();
+        }
+
+        private void InstrumentListClose()
+        {
+            _presenter.InstrumentGridClose();
+            ApplyViewModel();
+        }
+
+        private void InstrumentCreate()
+        {
+            _presenter.InstrumentCreate();
+            ApplyViewModel();
+        }
+
+        private void InstrumentDelete(int id)
+        {
+            _presenter.InstrumentDelete(id);
             ApplyViewModel();
         }
 
@@ -564,352 +962,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // Menu Events
-
-        private void menuUserControl_ShowDocumentListRequested(object sender, EventArgs e)
-        {
-            DocumentListShow();
-        }
-
-        private void menuUserControl_ShowDocumentTreeRequested(object sender, EventArgs e)
-        {
-            DocumentTreeShow();
-        }
-
-        private void menuUserControl_DocumentCloseRequested(object sender, EventArgs e)
-        {
-            DocumentClose();
-        }
-
-        private void menuUserControl_DocumentSaveRequested(object sender, EventArgs e)
-        {
-            DocumentSave();
-        }
-
-        // Document List Events
-
-        private void documentGridUserControl_ShowRequested(object sender, Int32EventArgs e)
-        {
-            DocumentListShow(e.Value);
-        }
-
-        private void documentGridUserControl_CreateRequested(object sender, EventArgs e)
-        {
-            DocumentDetailsCreate();
-        }
-
-        private void documentGridUserControl_OpenRequested(object sender, Int32EventArgs e)
-        {
-            DocumentOpen(e.Value);
-        }
-
-        private void documentGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
-        {
-            DocumentDelete(e.Value);
-        }
-
-        private void documentGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            DocumentListClose();
-        }
-
-        // Document Details Events
-
-        private void documentDetailsUserControl_SaveRequested(object sender, EventArgs e)
-        {
-            DocumentDetailsSave(documentDetailsUserControl.ViewModel);
-        }
-
-        private void documentDetailsUserControl_DeleteRequested(object sender, Int32EventArgs e)
-        {
-            DocumentDelete(e.Value);
-        }
-
-        private void documentDetailsUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            DocumentDetailsClose();
-        }
-
-        // Document Tree Events
-
-        private void documentTreeUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            DocumentTreeClose();
-        }
-
-        private void documentTreeUserControl_DocumentPropertiesRequested(object sender, Int32EventArgs e)
-        {
-            DocumentPropertiesShow(e.Value);
-        }
-
-        private void documentTreeUserControl_ExpandNodeRequested(object sender, Int32EventArgs e)
-        {
-            DocumentTreeExpandNode(e.Value);
-        }
-
-        private void documentTreeUserControl_CollapseNodeRequested(object sender, Int32EventArgs e)
-        {
-            DocumentTreeCollapseNode(e.Value);
-        }
-
-        private void documentTreeUserControl_ShowInstrumentsRequested(object sender, EventArgs e)
-        {
-            InstrumentListShow();
-        }
-
-        private void documentTreeUserControl_ShowEffectsRequested(object sender, EventArgs e)
-        {
-            EffectListShow();
-        }
-
-        private void documentTreeUserControl_ShowSamplesRequested(object sender, Int32EventArgs e)
-        {
-            SampleListShow(e.Value);
-        }
-
-        private void documentTreeUserControl_ShowCurvesRequested(object sender, Int32EventArgs e)
-        {
-            CurveListShow(e.Value);
-        }
-
-        private void documentTreeUserControl_ShowPatchesRequested(object sender, Int32EventArgs e)
-        {
-            PatchListShow(e.Value);
-        }
-
-        private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
-        {
-            AudioFileOutputListShow();
-        }
-
-        // Document Properties Events
-
-        private void documentPropertiesUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            DocumentPropertiesClose();
-        }
-
-        private void documentPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
-        {
-            DocumentPropertiesLoseFocus();
-        }
-
-        // AudioFileOutput Events
-
-        private void audioFileOutputGridUserControl_CreateRequested(object sender, EventArgs e)
-        {
-            AudioFileOutputCreate();
-        }
-
-        private void audioFileOutputGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
-        {
-            AudioFileOutputDelete(e.Value);
-        }
-
-        private void audioFileOutputGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            AudioFileOutputListClose();
-        }
-
-        private void audioFileOutputGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
-        {
-            AudioFileOutputPropertiesShow(e.Value);
-        }
-
-        private void audioFileOutputPropertiesUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            AudioFileOutputPropertiesClose();
-        }
-
-        private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
-        {
-            AudioFileOutputPropertiesLoseFocus();
-        }
-
-        // Curve Events
-
-        private void curveGridUserControl_CreateRequested(object sender, Int32EventArgs e)
-        {
-            CurveCreate(e.Value);
-        }
-
-        private void curveGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
-        {
-            CurveDelete(e.Value);
-        }
-
-        private void curveGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            CurveListClose();
-        }
-
-        // Instrument Events
-
-        private void instrumentGridUserControl_CreateRequested(object sender, EventArgs e)
-        {
-            InstrumentCreate();
-        }
-
-        private void instrumentGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
-        {
-            InstrumentDelete(e.Value);
-        }
-
-        private void instrumentGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            InstrumentListClose();
-        }
-
-        // Effect Events
-
-        private void effectGridUserControl_CreateRequested(object sender, EventArgs e)
-        {
-            EffectCreate();
-        }
-
-        private void effectGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
-        {
-            EffectDelete(e.Value);
-        }
-
-        private void effectGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            EffectListClose();
-        }
-
-        // Patch Events
-
-        private void patchGridUserControl_CreateRequested(object sender, Int32EventArgs e)
-        {
-            PatchCreate(e.Value);
-        }
-
-        private void patchGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
-        {
-            PatchDelete(e.Value);
-        }
-
-        private void patchGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            PatchListClose();
-        }
-
-        private void patchGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
-        {
-            PatchDetailsShow(e.Value);
-        }
-
-        private void patchDetailsUserControl_PlayRequested(object sender, EventArgs e)
-        {
-            PatchPlay();
-        }
-
-        private void patchDetailsUserControl_SetValueRequested(object sender, SetValueEventArgs e)
-        {
-            PatchDetailsSetValue(e.Value);
-        }
-
-        private void patchDetailsUserControl_SelectOperatorRequested(object sender, SelectOperatorEventArgs e)
-        {
-            PatchDetailsSelectOperator(e.OperatorID);
-        }
-
-        private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
-        {
-            PatchDetailsChangeInputOutlet(e.InletID, e.InputOutletID);
-        }
-
-        private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e)
-        {
-            PatchDetailsMoveOperator(e.OperatorID, e.CenterX, e.CenterY);
-        }
-
-        private void patchDetailsUserControl_AddOperatorRequested(object sender, AddOperatorEventArgs e)
-        {
-            PatchDetailsAddOperator(e.OperatorTypeID);
-        }
-
-        private void patchDetailsUserControl_DeleteOperatorRequested(object sender, EventArgs e)
-        {
-            PatchDetailsDeleteOperator();
-        }
-
-        private void patchDetailsUserControl_LoseFocusRequested(object sender, EventArgs e)
-        {
-            PatchDetailsLoseFocus();
-        }
-
-        private void patchDetailsUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            PatchDetailsClose();
-        }
-
-        // Sample Events
-
-        private void sampleGridUserControl_CreateRequested(object sender, Int32EventArgs e)
-        {
-            SampleCreate(e.Value);
-        }
-
-        private void sampleGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
-        {
-            SampleDelete(e.Value);
-        }
-
-        private void sampleGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            SampleListClose();
-        }
-
-        private void sampleGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
-        {
-            SamplePropertiesShow(e.Value);
-        }
-
-        private void samplePropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
-        {
-            SamplePropertiesLoseFocus();
-        }
-
-        private void samplePropertiesUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            SamplePropertiesClose();
-        }
-
-        // Message Box Events
-
-        private void MessageBoxHelper_NotFoundOK(object sender, EventArgs e)
-        {
-            NotFoundOK();
-        }
-
-        private void MessageBoxHelper_DocumentDeleteCanceled(object sender, EventArgs e)
-        {
-            DocumentCancelDelete();
-        }
-
-        private void MessageBoxHelper_DocumentDeleteConfirmed(object sender, Int32EventArgs e)
-        {
-            DocumentConfirmDelete(e.Value);
-        }
-
-        private void MessageBoxHelper_DocumentDeletedOK(object sender, EventArgs e)
-        {
-            DocumentDeletedOK();
-        }
-
-        private void MessageBoxHelper_PopupMessagesOK(object sender, EventArgs e)
-        {
-            PopupMessagesOK();
-        }
-
-        // DocumentCannotDeleteForm Events
-
-        private void _documentCannotDeleteForm_OKClicked(object sender, EventArgs e)
-        {
-            DocumentCannotDeleteOK();
-        }
-
         // Helpers
 
         private void ApplyViewModel()
@@ -947,6 +999,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     audioFileOutputPropertiesVisible = true;
                 }
                 audioFileOutputPropertiesUserControl.Visible = audioFileOutputPropertiesVisible;
+
+                // ChildDocumentPropertiesViewModel
+                bool childDocumentPropertiesVisible = false;
+                ChildDocumentPropertiesViewModel visibleChildDocumentPropertiesViewModel =
+                    _presenter.ViewModel.Document.ChildDocumentPropertiesList.Where(x => x.Visible).SingleOrDefault();
+                if (visibleChildDocumentPropertiesViewModel != null)
+                {
+                    childDocumentPropertiesUserControl.ViewModel = visibleChildDocumentPropertiesViewModel;
+                    childDocumentPropertiesVisible = true;
+                }
+                childDocumentPropertiesUserControl.Visible = childDocumentPropertiesVisible;
 
                 // CurveGridViewModel
                 bool curveGridVisible = false;
@@ -999,22 +1062,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 // PatchDetailsViewModel
                 bool patchDetailsVisible = false;
                 PatchDetailsViewModel visiblePatchDetailsViewModel = _presenter.ViewModel.Document.PatchDetailsList.Where(x => x.Visible).SingleOrDefault();
-                if (visiblePatchDetailsViewModel != null)
-                {
-                    patchDetailsUserControl.ViewModel = visiblePatchDetailsViewModel;
-                    patchDetailsVisible = true;
-                }
-                else
+                if (visiblePatchDetailsViewModel == null)
                 {
                     visiblePatchDetailsViewModel = Enumerable.Union(_presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList),
                                                                     _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList))
                                                              .Where(x => x.Visible)
                                                              .SingleOrDefault();
-                    if (visiblePatchDetailsViewModel != null)
-                    {
-                        patchDetailsUserControl.ViewModel = visiblePatchDetailsViewModel;
-                        patchDetailsVisible = true;
-                    }
+                }
+                if (visiblePatchDetailsViewModel != null)
+                {
+                    patchDetailsUserControl.ViewModel = visiblePatchDetailsViewModel;
+                    patchDetailsVisible = true;
                 }
                 patchDetailsUserControl.Visible = patchDetailsVisible;
 
@@ -1043,32 +1101,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 bool samplePropertiesVisible = false;
                 SamplePropertiesViewModel visibleSamplePropertiesViewModel =
                     _presenter.ViewModel.Document.SamplePropertiesList.Where(x => x.Visible).SingleOrDefault();
-                if (visibleSamplePropertiesViewModel != null)
-                {
-                    samplePropertiesUserControl.ViewModel = visibleSamplePropertiesViewModel;
-                    samplePropertiesVisible = true;
-                }
-                else
+                if (visibleSamplePropertiesViewModel == null)
                 {
                     visibleSamplePropertiesViewModel = Enumerable.Union(_presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList),
                                                                         _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList))
                                                                  .Where(x => x.Visible)
                                                                  .SingleOrDefault();
-                    if (visibleSamplePropertiesViewModel != null)
-                    {
-                        samplePropertiesUserControl.ViewModel = visibleSamplePropertiesViewModel;
-                        samplePropertiesVisible = true;
-                    }
+                }
+                if (visibleSamplePropertiesViewModel != null)
+                {
+                    samplePropertiesUserControl.ViewModel = visibleSamplePropertiesViewModel;
+                    samplePropertiesVisible = true;
                 }
                 samplePropertiesUserControl.Visible = samplePropertiesVisible;
 
                 bool treePanelMustBeVisible = _presenter.ViewModel.Document.DocumentTree.Visible;
                 SetTreePanelVisible(treePanelMustBeVisible);
 
-                // TODO: Make panel visibility dependent on more things.
                 bool propertiesPanelMustBeVisible = _presenter.ViewModel.Document.DocumentProperties.Visible || 
                                                     audioFileOutputPropertiesVisible ||
-                                                    samplePropertiesVisible;
+                                                    samplePropertiesVisible ||
+                                                    childDocumentPropertiesVisible;
 
                 SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
 
@@ -1107,21 +1160,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
 
                 // Focus control if not valid.
+                bool mustFocusAudioFileOutputPropertiesUserControl = _presenter.ViewModel.Document.AudioFileOutputPropertiesList.Any(x => !x.Successful);
+                if (mustFocusAudioFileOutputPropertiesUserControl)
+                {
+                    audioFileOutputPropertiesUserControl.Focus();
+                }
+
+                bool mustFocusChildDocumentPropertiesUserControl = _presenter.ViewModel.Document.ChildDocumentPropertiesList.Any(x => !x.Successful);
+                if (mustFocusChildDocumentPropertiesUserControl)
+                {
+                    childDocumentPropertiesUserControl.Focus();
+                }
+
                 if (!_presenter.ViewModel.Document.DocumentProperties.Successful)
                 {
                     documentPropertiesUserControl.Focus();
                 }
 
-                bool mustFocusAudioFileOutputUserControl = _presenter.ViewModel.Document.AudioFileOutputPropertiesList.Any(x => !x.Successful);
-                if (mustFocusAudioFileOutputUserControl)
-                {
-                    audioFileOutputPropertiesUserControl.Focus();
-                }
-
-                bool mustFocusSampleUserControl = _presenter.ViewModel.Document.SamplePropertiesList.Any(x => !x.Successful) ||
-                                                  _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful) ||
-                                                  _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful);
-                if (mustFocusSampleUserControl)
+                bool mustFocusSamplePropertiesUserControl = _presenter.ViewModel.Document.SamplePropertiesList.Any(x => !x.Successful) ||
+                                                            _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful) ||
+                                                            _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful);
+                if (mustFocusSamplePropertiesUserControl)
                 {
                     samplePropertiesUserControl.Focus();
                 }

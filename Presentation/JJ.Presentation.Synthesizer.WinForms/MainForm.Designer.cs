@@ -18,6 +18,7 @@
             this.splitContainerTree = new System.Windows.Forms.SplitContainer();
             this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
             this.splitContainerProperties = new System.Windows.Forms.SplitContainer();
+            this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
             this.sampleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SampleGridUserControl();
             this.patchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchGridUserControl();
             this.curveGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveGridUserControl();
@@ -30,7 +31,7 @@
             this.audioFileOutputPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputPropertiesUserControl();
             this.documentPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentPropertiesUserControl();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
-            this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
+            this.childDocumentPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ChildDocumentPropertiesUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -78,24 +79,37 @@
             // 
             // splitContainerProperties.Panel1
             // 
-            this.splitContainerProperties.Panel1.Controls.Add(this.patchDetailsUserControl);
-            this.splitContainerProperties.Panel1.Controls.Add(this.sampleGridUserControl);
-            this.splitContainerProperties.Panel1.Controls.Add(this.patchGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.curveGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.audioFileOutputGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.instrumentGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.effectGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.documentDetailsUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.documentGridUserControl);
+            this.splitContainerProperties.Panel1.Controls.Add(this.patchDetailsUserControl);
+            this.splitContainerProperties.Panel1.Controls.Add(this.sampleGridUserControl);
+            this.splitContainerProperties.Panel1.Controls.Add(this.patchGridUserControl);
             // 
             // splitContainerProperties.Panel2
             // 
+            this.splitContainerProperties.Panel2.Controls.Add(this.childDocumentPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.samplePropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.audioFileOutputPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.documentPropertiesUserControl);
             this.splitContainerProperties.Size = new System.Drawing.Size(890, 657);
             this.splitContainerProperties.SplitterDistance = 633;
             this.splitContainerProperties.TabIndex = 2;
+            // 
+            // patchDetailsUserControl
+            // 
+            this.patchDetailsUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.patchDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.patchDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.patchDetailsUserControl.Location = new System.Drawing.Point(0, 0);
+            this.patchDetailsUserControl.Margin = new System.Windows.Forms.Padding(4);
+            this.patchDetailsUserControl.Name = "patchDetailsUserControl";
+            this.patchDetailsUserControl.Size = new System.Drawing.Size(633, 657);
+            this.patchDetailsUserControl.TabIndex = 10;
+            this.patchDetailsUserControl.Visible = false;
             // 
             // sampleGridUserControl
             // 
@@ -231,15 +245,17 @@
             this.menuUserControl.Size = new System.Drawing.Size(1094, 24);
             this.menuUserControl.TabIndex = 3;
             // 
-            // patchDetailsUserControl
+            // childDocumentPropertiesUserControl
             // 
-            this.patchDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.patchDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.patchDetailsUserControl.Location = new System.Drawing.Point(0, 0);
-            this.patchDetailsUserControl.Name = "patchDetailsUserControl";
-            this.patchDetailsUserControl.Size = new System.Drawing.Size(633, 657);
-            this.patchDetailsUserControl.TabIndex = 10;
-            this.patchDetailsUserControl.Visible = false;
+            this.childDocumentPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.childDocumentPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.childDocumentPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.childDocumentPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.childDocumentPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
+            this.childDocumentPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.childDocumentPropertiesUserControl.Name = "childDocumentPropertiesUserControl";
+            this.childDocumentPropertiesUserControl.Size = new System.Drawing.Size(253, 657);
+            this.childDocumentPropertiesUserControl.TabIndex = 1;
             // 
             // MainForm
             // 
@@ -282,6 +298,7 @@
         private UserControls.AudioFileOutputPropertiesUserControl audioFileOutputPropertiesUserControl;
         private UserControls.SamplePropertiesUserControl samplePropertiesUserControl;
         private UserControls.PatchDetailsUserControl patchDetailsUserControl;
+        private UserControls.ChildDocumentPropertiesUserControl childDocumentPropertiesUserControl;
 
     }
 }

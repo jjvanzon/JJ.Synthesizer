@@ -167,7 +167,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = childDocument.ID,
                 Name = childDocument.Name,
                 ChildDocumentTypeLookup = ViewModelHelper.CreateChildDocumentTypeLookupViewModel(childDocumentTypeRepository),
-                ValidationMessages = new List<Message>()
+                ValidationMessages = new List<Message>(),
+                Successful = true
             };
 
             if (childDocument.ChildDocumentType != null)

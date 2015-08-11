@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Validation.Resources;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -22,14 +24,24 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Document document = Object;
 
-            if (document.ParentDocument == null ||
-                document.ParentDocument == null)
+            For(() => document.ParentDocument, PropertyDisplayNames.ParentDocument).NotNull();
+            For(() => document.ChildDocuments.Count, PropertyDisplayNames.ChildDocumentCount).Is(0);
+
+            For(() => document.ChildDocumentType, PropertyDisplayNames.ChildDocumentType).NotNull();
+
+            if (document.ChildDocumentType != null)
             {
-                // TODO: I do not like the message this produces.
-                // I would like a custom message that is more clear about what's going on.
-                ValidationMessages.Add(PropertyNames.ParentDocument, ValidationMessageFormatter.IsNull(PropertyDisplayNames.ParentDocument));
+                For(() => document.GetChildDocumentTypeEnum(), PropertyDisplayNames.ChildDocumentType)
+                    .IsEnumValue<ChildDocumentTypeEnum>();
             }
 
+            // Many entities' names are only required if part of a document,
+            // and not required when using Synthesizer as an API,
+            // but Child Document is an exception and should have a name.
+
+            // Names are required in document, but not when using Synthesizer as an API.
+            // However, child documents are always part of a document.
+            // When using it as an API it would just be loose document.
             Execute(new NameValidator(document.Name));
         }
     }

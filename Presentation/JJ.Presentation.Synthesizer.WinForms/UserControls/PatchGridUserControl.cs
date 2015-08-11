@@ -153,7 +153,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (specializedDataGridView.CurrentRow != null)
             {
                 DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
-                int id = Convert.ToInt32(cell.Value);
+                int id = (int)cell.Value;
                 return id;
             }
 

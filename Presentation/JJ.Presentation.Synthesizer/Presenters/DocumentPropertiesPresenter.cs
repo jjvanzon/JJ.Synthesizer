@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository;
         }
 
-        public void Show(int id)
+        public void Show()
         {
             AssertViewModel();
 

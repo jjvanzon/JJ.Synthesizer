@@ -21,29 +21,41 @@ namespace JJ.Business.Synthesizer.Extensions
             return (SpeakerSetupEnum)audioFileOutput.SpeakerSetup.ID;
         }
 
-        public static void SetSpeakerSetupEnum(this AudioFileOutput audioFileOutput, SpeakerSetupEnum speakerSetupEnum, ISpeakerSetupRepository speakerSetupRepository)
+        public static void SetSpeakerSetupEnum(this AudioFileOutput entity, SpeakerSetupEnum enumValue, ISpeakerSetupRepository repository)
         {
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
+            if (repository == null) throw new NullException(() => repository);
 
-            SpeakerSetup speakerSetup = speakerSetupRepository.GetWithRelatedEntities((int)speakerSetupEnum);
-
-            audioFileOutput.LinkTo(speakerSetup);
+            if (enumValue == SpeakerSetupEnum.Undefined)
+            {
+                entity.UnlinkSpeakerSetup();
+            }
+            else
+            {
+                SpeakerSetup speakerSetup = repository.GetWithRelatedEntities((int)enumValue);
+                entity.LinkTo(speakerSetup);
+            }
         }
 
-        public static SampleDataTypeEnum GetSampleDataTypeEnum(this AudioFileOutput audioFileOutput)
+        public static SampleDataTypeEnum GetSampleDataTypeEnum(this AudioFileOutput entity)
         {
-            if (audioFileOutput.SampleDataType == null) return SampleDataTypeEnum.Undefined;
+            if (entity.SampleDataType == null) return SampleDataTypeEnum.Undefined;
 
-            return (SampleDataTypeEnum)audioFileOutput.SampleDataType.ID;
+            return (SampleDataTypeEnum)entity.SampleDataType.ID;
         }
 
-        public static void SetSampleDataTypeEnum(this AudioFileOutput audioFileOutput, SampleDataTypeEnum sampleDataTypeEnum, ISampleDataTypeRepository sampleDataTypeRepository)
+        public static void SetSampleDataTypeEnum(this AudioFileOutput entity, SampleDataTypeEnum enumValue, ISampleDataTypeRepository repository)
         {
-            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
+            if (repository == null) throw new NullException(() => repository);
 
-            SampleDataType sampleDataType = sampleDataTypeRepository.Get((int)sampleDataTypeEnum);
-
-            audioFileOutput.LinkTo(sampleDataType);
+            if (enumValue == SampleDataTypeEnum.Undefined)
+            {
+                entity.UnlinkSampleDataType();
+            }
+            else
+            {
+                SampleDataType enumEntity = repository.Get((int)enumValue);
+                entity.LinkTo(enumEntity);
+            }
         }
 
         public static AudioFileFormatEnum GetAudioFileFormatEnum(this AudioFileOutput audioFileOutput)
@@ -53,13 +65,19 @@ namespace JJ.Business.Synthesizer.Extensions
             return (AudioFileFormatEnum)audioFileOutput.AudioFileFormat.ID;
         }
 
-        public static void SetAudioFileFormatEnum(this AudioFileOutput audioFileOutput, AudioFileFormatEnum audioFileFormatEnum, IAudioFileFormatRepository audioFileFormatRepository)
+        public static void SetAudioFileFormatEnum(this AudioFileOutput entity, AudioFileFormatEnum enumValue, IAudioFileFormatRepository repository)
         {
-            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
+            if (repository == null) throw new NullException(() => repository);
 
-            AudioFileFormat audioFileFormat = audioFileFormatRepository.Get((int)audioFileFormatEnum); ;
-
-            audioFileOutput.LinkTo(audioFileFormat);
+            if (enumValue == AudioFileFormatEnum.Undefined)
+            {
+                entity.UnlinkAudioFileFormat();
+            }
+            else
+            {
+                AudioFileFormat enumEntity = repository.Get((int)enumValue);
+                entity.LinkTo(enumEntity);
+            }
         }
 
         // Node
@@ -71,13 +89,19 @@ namespace JJ.Business.Synthesizer.Extensions
             return (NodeTypeEnum)node.NodeType.ID;
         }
 
-        public static void SetNodeTypeEnum(this Node node, NodeTypeEnum nodeTypeEnum, INodeTypeRepository nodeTypeRepository)
+        public static void SetNodeTypeEnum(this Node entity, NodeTypeEnum enumValue, INodeTypeRepository repository)
         {
-            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
+            if (repository == null) throw new NullException(() => repository);
 
-            NodeType nodeType = nodeTypeRepository.Get((int)nodeTypeEnum);
-
-            node.LinkTo(nodeType);
+            if (enumValue == NodeTypeEnum.Undefined)
+            {
+                entity.UnlinkNodeType();
+            }
+            else
+            {
+                NodeType enumEntity = repository.Get((int)enumValue);
+                entity.LinkTo(enumEntity);
+            }
         }
 
         // Operator
@@ -89,13 +113,19 @@ namespace JJ.Business.Synthesizer.Extensions
             return (OperatorTypeEnum)op.OperatorType.ID;
         }
 
-        public static void SetOperatorTypeEnum(this Operator op, OperatorTypeEnum operatorTypeEnum, IOperatorTypeRepository operatorTypeRepository)
+        public static void SetOperatorTypeEnum(this Operator entity, OperatorTypeEnum enumValue, IOperatorTypeRepository repository)
         {
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
+            if (repository == null) throw new NullException(() => repository);
 
-            OperatorType operatorType = operatorTypeRepository.Get((int)operatorTypeEnum);
-
-            op.LinkTo(operatorType);
+            if (enumValue == OperatorTypeEnum.Undefined)
+            {
+                entity.UnlinkOperatorType();
+            }
+            else
+            {
+                OperatorType enumEntity = repository.Get((int)enumValue);
+                entity.LinkTo(enumEntity);
+            }
         }
 
         // Sample
@@ -107,13 +137,19 @@ namespace JJ.Business.Synthesizer.Extensions
             return (SpeakerSetupEnum)sample.SpeakerSetup.ID;
         }
 
-        public static void SetSpeakerSetupEnum(this Sample sample, SpeakerSetupEnum speakerSetupEnum, ISpeakerSetupRepository speakerSetupRepository)
+        public static void SetSpeakerSetupEnum(this Sample entity, SpeakerSetupEnum enumValue, ISpeakerSetupRepository repository)
         {
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
+            if (repository == null) throw new NullException(() => repository);
 
-            SpeakerSetup speakerSetup = speakerSetupRepository.GetWithRelatedEntities((int)speakerSetupEnum);
-
-            sample.LinkTo(speakerSetup);
+            if (enumValue == SpeakerSetupEnum.Undefined)
+            {
+                entity.UnlinkSpeakerSetup();
+            }
+            else
+            {
+                SpeakerSetup speakerSetup = repository.GetWithRelatedEntities((int)enumValue);
+                entity.LinkTo(speakerSetup);
+            }
         }
 
         public static InterpolationTypeEnum GetInterpolationTypeEnum(this Sample sample)
@@ -122,14 +158,20 @@ namespace JJ.Business.Synthesizer.Extensions
 
             return (InterpolationTypeEnum)sample.InterpolationType.ID;
         }
-        
-        public static void SetInterpolationTypeEnum(this Sample sample, InterpolationTypeEnum interpolationTypeEnum, IInterpolationTypeRepository interpolationTypeRepository)
+
+        public static void SetInterpolationTypeEnum(this Sample entity, InterpolationTypeEnum enumValue, IInterpolationTypeRepository repository)
         {
-            if (interpolationTypeRepository == null) throw new NullException(() => interpolationTypeRepository);
+            if (repository == null) throw new NullException(() => repository);
 
-            InterpolationType interpolationType = interpolationTypeRepository.Get((int)interpolationTypeEnum);
-
-            sample.LinkTo(interpolationType);
+            if (enumValue == InterpolationTypeEnum.Undefined)
+            {
+                entity.UnlinkInterpolationType();
+            }
+            else
+            {
+                InterpolationType enumEntity = repository.Get((int)enumValue);
+                entity.LinkTo(enumEntity);
+            }
         }
 
         public static SampleDataTypeEnum GetSampleDataTypeEnum(this Sample sample)
@@ -139,13 +181,19 @@ namespace JJ.Business.Synthesizer.Extensions
             return (SampleDataTypeEnum)sample.SampleDataType.ID;
         }
 
-        public static void SetSampleDataTypeEnum(this Sample sample, SampleDataTypeEnum sampleDataTypeEnum, ISampleDataTypeRepository sampleDataTypeRepository)
+        public static void SetSampleDataTypeEnum(this Sample entity, SampleDataTypeEnum enumValue, ISampleDataTypeRepository repository)
         {
-            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
+            if (repository == null) throw new NullException(() => repository);
 
-            SampleDataType sampleDataType = sampleDataTypeRepository.Get((int)sampleDataTypeEnum);
-
-            sample.LinkTo(sampleDataType);
+            if (enumValue == SampleDataTypeEnum.Undefined)
+            {
+                entity.UnlinkSampleDataType();
+            }
+            else
+            {
+                SampleDataType enumEntity = repository.Get((int)enumValue);
+                entity.LinkTo(enumEntity);
+            }
         }
 
         public static AudioFileFormatEnum GetAudioFileFormatEnum(this Sample sample)
@@ -155,31 +203,43 @@ namespace JJ.Business.Synthesizer.Extensions
             return (AudioFileFormatEnum)sample.AudioFileFormat.ID;
         }
 
-        public static void SetAudioFileFormatEnum(this Sample sample, AudioFileFormatEnum audioFileFormatEnum, IAudioFileFormatRepository audioFileFormatRepository)
+        public static void SetAudioFileFormatEnum(this Sample entity, AudioFileFormatEnum enumValue, IAudioFileFormatRepository repository)
         {
-            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
+            if (repository == null) throw new NullException(() => repository);
 
-            AudioFileFormat audioFileFormat = audioFileFormatRepository.Get((int)audioFileFormatEnum);
-
-            sample.LinkTo(audioFileFormat);
+            if (enumValue == AudioFileFormatEnum.Undefined)
+            {
+                entity.UnlinkAudioFileFormat();
+            }
+            else
+            {
+                AudioFileFormat enumEntity = repository.Get((int)enumValue);
+                entity.LinkTo(enumEntity);
+            }
         }
 
         // Document
 
-        public static ChildDocumentTypeEnum GetChildDocumentTypeEnum(this Document document)
+        public static ChildDocumentTypeEnum GetChildDocumentTypeEnum(this Document entity)
         {
-            if (document.ChildDocumentType == null) return ChildDocumentTypeEnum.Undefined;
+            if (entity.ChildDocumentType == null) return ChildDocumentTypeEnum.Undefined;
 
-            return (ChildDocumentTypeEnum)document.ChildDocumentType.ID;
+            return (ChildDocumentTypeEnum)entity.ChildDocumentType.ID;
         }
 
-        public static void SetChildDocumentTypeEnum(this Document document, ChildDocumentTypeEnum childDocumentTypeEnum, IChildDocumentTypeRepository childDocumentTypeRepository)
+        public static void SetChildDocumentTypeEnum(this Document entity, ChildDocumentTypeEnum enumValue, IChildDocumentTypeRepository repository)
         {
-            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
+            if (repository == null) throw new NullException(() => repository);
 
-            ChildDocumentType childDocumentType = childDocumentTypeRepository.Get((int)childDocumentTypeEnum);
-
-            document.LinkTo(childDocumentType);
+            if (enumValue == ChildDocumentTypeEnum.Undefined)
+            {
+                entity.UnlinkChildDocumentType();
+            }
+            else
+            {
+                ChildDocumentType enumEntity = repository.Get((int)enumValue);
+                entity.LinkTo(enumEntity);
+            }
         }
     }
 }

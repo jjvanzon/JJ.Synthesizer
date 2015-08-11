@@ -68,13 +68,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IValidator validator = new ChildDocumentValidator(entity);
             if (!validator.IsValid)
             {
-                ViewModel.Successful = true;
+                ViewModel.Successful = false;
                 ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
             }
             else
             {
                 ViewModel.ValidationMessages = new List<Message>();
-                ViewModel.Successful = false;
+                ViewModel.Successful = true;
             }
         }
 

@@ -116,6 +116,12 @@
     <Compile Include="UserControls\AudioFileOutputChannelsUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputChannelsUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ChildDocumentPropertiesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ChildDocumentPropertiesUserControl.Designer.cs">
+      <DependentUpon>ChildDocumentPropertiesUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SamplePropertiesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -224,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputChannelsUserControl.resx">
       <DependentUpon>AudioFileOutputChannelsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ChildDocumentPropertiesUserControl.resx">
+      <DependentUpon>ChildDocumentPropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\SamplePropertiesUserControl.resx">
       <DependentUpon>SamplePropertiesUserControl.cs</DependentUpon>

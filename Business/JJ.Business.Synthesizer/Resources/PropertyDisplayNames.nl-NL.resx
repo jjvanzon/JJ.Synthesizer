@@ -309,4 +309,7 @@
   <data name="MainPatch" xml:space="preserve">
     <value>Hoofdschakeling</value>
   </data>
+  <data name="ChildDocumentCount" xml:space="preserve">
+    <value>Aantal onderliggende documenten</value>
+  </data>
 </root>

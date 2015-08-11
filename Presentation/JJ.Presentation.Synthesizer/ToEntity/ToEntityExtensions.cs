@@ -40,6 +40,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Document destDocument = userInput.ToEntity(repositoryWrapper.DocumentRepository);
 
+            ToEntityHelper.ToChildDocumentsWithRelatedEntities(userInput.ChildDocumentPropertiesList, destDocument, repositoryWrapper);
             ToEntityHelper.ToChildDocumentsWithRelatedEntities(userInput.ChildDocumentList, destDocument, repositoryWrapper);
             ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositoryWrapper));
             ToEntityHelper.ToCurvesWithRelatedEntities(
@@ -121,8 +122,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
             entity.Name = viewModel.Name;
 
-            ChildDocumentTypeEnum childDocumentTypeEnum = (ChildDocumentTypeEnum)viewModel.ChildDocumentType.ID;
-            entity.SetChildDocumentTypeEnum(childDocumentTypeEnum, childDocumentTypeRepository);
+            // ChildDocumentType
+            ChildDocumentType childDocumentType = null;
+            if (viewModel.ChildDocumentType != null)
+            {
+                childDocumentType = childDocumentTypeRepository.TryGet(viewModel.ChildDocumentType.ID);
+            }
+            entity.LinkTo(childDocumentType);
 
             return entity;
         }
@@ -160,15 +166,16 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 documentRepository.Insert(childDocument);
             }
 
-            childDocument.Name = viewModel.Name;
-
-            // ChildDocumentType
-            ChildDocumentType childDocumentType = null;
-            if (viewModel.ChildDocumentType != null)
-            {
-                childDocumentType = childDocumentTypeRepository.Get(viewModel.ChildDocumentType.ID);
-            }
-            childDocument.LinkTo(childDocumentType);
+            // Leave setting the simple properties to the the properties view model.
+            //childDocument.Name = viewModel.Name;
+            //
+            //// ChildDocumentType
+            //ChildDocumentType childDocumentType = null;
+            //if (viewModel.ChildDocumentType != null)
+            //{
+            //    childDocumentType = childDocumentTypeRepository.TryGet(viewModel.ChildDocumentType.ID);
+            //}
+            //childDocument.LinkTo(childDocumentType);
 
             return childDocument;
         }

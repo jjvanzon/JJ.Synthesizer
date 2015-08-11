@@ -29,6 +29,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CreateRequested;
         public event EventHandler<Int32EventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
+        public event EventHandler<Int32EventArgs> ShowPropertiesRequested;
 
         /// <summary> virtually not nullable </summary>
         private ChildDocumentGridViewModel _viewModel;
@@ -94,6 +95,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
+        private void ShowProperties()
+        {
+            if (ShowPropertiesRequested != null)
+            {
+                int? id = TryGetSelectedID();
+                if (id.HasValue)
+                {
+                    var e = new Int32EventArgs(id.Value);
+                    ShowPropertiesRequested(this, e);
+                }
+            }
+        }
+
         // Events
 
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
@@ -118,7 +132,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 case Keys.Delete:
                     Delete();
                     break;
+
+                case Keys.Enter:
+                    ShowProperties();
+                    break;
             }
+        }
+
+        private void specializedDataGridView_DoubleClick(object sender, EventArgs e)
+        {
+            ShowProperties();
         }
 
         // Helpers
@@ -128,7 +151,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (specializedDataGridView.CurrentRow != null)
             {
                 DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
-                int id = Convert.ToInt32(cell.Value);
+                int id = (int)cell.Value;
                 return id;
             }
 

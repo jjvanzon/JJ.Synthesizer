@@ -162,8 +162,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (specializedDataGridView.CurrentRow != null)
             {
                 DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
-                int listIndex = Int32.Parse(Convert.ToString(cell.Value));
-                return listIndex;
+                int id = (int)cell.Value;
+                return id;
             }
 
             return null;

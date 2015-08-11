@@ -104,24 +104,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 comboBoxAudioFileFormat.DataSource = _viewModel.AudioFileFormats;
                 comboBoxAudioFileFormat.ValueMember = PropertyNames.ID;
                 comboBoxAudioFileFormat.DisplayMember = PropertyNames.Name;
-                comboBoxAudioFileFormat.SelectedValue = _viewModel.Entity.AudioFileFormat.ID;
             }
+            comboBoxAudioFileFormat.SelectedValue = _viewModel.Entity.AudioFileFormat.ID;
 
             if (comboBoxSampleDataType.DataSource == null)
             {
                 comboBoxSampleDataType.DataSource = _viewModel.SampleDataTypes;
                 comboBoxSampleDataType.ValueMember = PropertyNames.ID;
                 comboBoxSampleDataType.DisplayMember = PropertyNames.Name;
-                comboBoxSampleDataType.SelectedValue = _viewModel.Entity.SampleDataType.ID;
             }
+            comboBoxSampleDataType.SelectedValue = _viewModel.Entity.SampleDataType.ID;
 
             if (comboBoxSpeakerSetup.DataSource == null)
             {
                 comboBoxSpeakerSetup.DataSource = _viewModel.SpeakerSetups;
                 comboBoxSpeakerSetup.ValueMember = PropertyNames.ID;
                 comboBoxSpeakerSetup.DisplayMember = PropertyNames.Name;
-                comboBoxSpeakerSetup.SelectedValue = _viewModel.Entity.SpeakerSetup.ID;
             }
+            comboBoxSpeakerSetup.SelectedValue = _viewModel.Entity.SpeakerSetup.ID;
 
             numericUpDownStartTime.Value = (decimal)_viewModel.Entity.StartTime;
             numericUpDownDuration.Value = (decimal)_viewModel.Entity.Duration;

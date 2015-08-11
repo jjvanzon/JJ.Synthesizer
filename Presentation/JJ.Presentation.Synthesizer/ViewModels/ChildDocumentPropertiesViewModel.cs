@@ -10,6 +10,7 @@ using System.Text;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
+    /// <summary> Leading for saving when it comes to the simple properties. </summary>
     public sealed class ChildDocumentPropertiesViewModel
     {
         public bool Visible { get; set; }

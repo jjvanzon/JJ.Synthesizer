@@ -48,6 +48,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private AudioFileOutputGridPresenter _audioFileOutputGridPresenter;
         private AudioFileOutputPropertiesPresenter _audioFileOutputPropertiesPresenter;
+        private ChildDocumentGridPresenter _effectGridPresenter;
+        private ChildDocumentGridPresenter _instrumentGridPresenter;
+        private ChildDocumentPropertiesPresenter _childDocumentPropertiesPresenter;
         private CurveDetailsPresenter _curveDetailsPresenter;
         private CurveGridPresenter _curveGridPresenter;
         private DocumentCannotDeletePresenter _documentCannotDeletePresenter;
@@ -57,8 +60,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private DocumentGridPresenter _documentGridPresenter;
         private DocumentPropertiesPresenter _documentPropertiesPresenter;
         private DocumentTreePresenter _documentTreePresenter;
-        private ChildDocumentGridPresenter _effectGridPresenter;
-        private ChildDocumentGridPresenter _instrumentGridPresenter;
         private MenuPresenter _menuPresenter;
         private NotFoundPresenter _notFoundPresenter;
         private PatchDetailsPresenter _patchDetailsPresenter;
@@ -81,6 +82,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_repositoryWrapper.DocumentRepository);
             _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(new AudioFileOutputRepositories(_repositoryWrapper));
+            _childDocumentPropertiesPresenter = new ChildDocumentPropertiesPresenter(
+                _repositoryWrapper.DocumentRepository,
+                _repositoryWrapper.ChildDocumentTypeRepository,
+                _repositoryWrapper.IDRepository);
             _curveDetailsPresenter = new CurveDetailsPresenter(
                 _repositoryWrapper.CurveRepository, 
                 _repositoryWrapper.NodeRepository, 
@@ -254,7 +259,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _documentDetailsPresenter.Save();
                 DispatchViewModel(_documentDetailsPresenter.ViewModel);
 
-                RefreshDocumentList();
+                RefreshDocumentGrid();
             }
             finally
             {
@@ -346,8 +351,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // the original unsaved data will be shown in the presenters,
                     // because they do not think they need to refresh their view models,
                     // since it is the same document.
+
+                    // TODO: The whole MustCreateViewModel principle in the partial presenters has been refactored out,
+                    // so this may not be relevant anymore?
                     _audioFileOutputGridPresenter.ViewModel = null;
                     _audioFileOutputPropertiesPresenter.ViewModel = null;
+                    _childDocumentPropertiesPresenter.ViewModel = null;
                     _curveDetailsPresenter.ViewModel = null;
                     _curveGridPresenter.ViewModel = null;
                     _documentPropertiesPresenter.ViewModel = null;
@@ -363,6 +372,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document document = _repositoryWrapper.DocumentRepository.Get(documentID);
 
                 ViewModel.Document = document.ToViewModel(_repositoryWrapper, _entityPositionManager);
+
+                _audioFileOutputGridPresenter.ViewModel = ViewModel.Document.AudioFileOutputGrid;
+                _effectGridPresenter.ViewModel = ViewModel.Document.EffectGrid;
+                _instrumentGridPresenter.ViewModel = ViewModel.Document.InstrumentGrid;
+                _curveGridPresenter.ViewModel = ViewModel.Document.CurveGrid;
+                _documentTreePresenter.ViewModel = ViewModel.Document.DocumentTree;
 
                 ViewModel.WindowTitle = String.Format("{0} - {1}", document.Name, Titles.ApplicationName);
                 _menuPresenter.Show(documentIsOpen: true);
@@ -423,6 +438,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     _audioFileOutputGridPresenter.ViewModel = null;
                     _audioFileOutputPropertiesPresenter.ViewModel = null;
+                    _childDocumentPropertiesPresenter.ViewModel = null;
                     _curveDetailsPresenter.ViewModel = null;
                     _curveGridPresenter.ViewModel = null;
                     _documentPropertiesPresenter.ViewModel = null;
@@ -441,12 +457,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void DocumentPropertiesShow(int id)
+        public void DocumentPropertiesShow()
         {
             try
             {
                 _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;
-                _documentPropertiesPresenter.Show(id);
+                _documentPropertiesPresenter.Show();
                 DispatchViewModel(_documentPropertiesPresenter.ViewModel);
             }
             finally
@@ -465,7 +481,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (_documentPropertiesPresenter.ViewModel.Successful)
                 {
-                    RefreshDocumentList();
+                    RefreshDocumentGrid();
                     RefreshDocumentTree();
                 }
             }
@@ -480,13 +496,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             try
             {
+                // The whole view model is converted to entity, to make the refresh actions lateron below work.
+                Document document = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
+
                 _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;
                 _documentPropertiesPresenter.LoseFocus();
                 DispatchViewModel(_documentPropertiesPresenter.ViewModel);
 
                 if (_documentPropertiesPresenter.ViewModel.Successful)
                 {
-                    RefreshDocumentList();
+                    RefreshDocumentGrid();
                     RefreshDocumentTree();
                 }
             }
@@ -545,6 +564,73 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _documentTreePresenter.ViewModel = ViewModel.Document.DocumentTree;
                 _documentTreePresenter.Close();
                 DispatchViewModel(_documentTreePresenter.ViewModel);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
+        // Child Document Actions
+
+        public void ChildDocumentPropertiesShow(int id)
+        {
+            try
+            {
+                int listIndex = ViewModel.Document.ChildDocumentPropertiesList.IndexOf(x => x.ID == id);
+
+                _childDocumentPropertiesPresenter.ViewModel = ViewModel.Document.ChildDocumentPropertiesList[listIndex];
+                _childDocumentPropertiesPresenter.Show();
+
+                DispatchViewModel(_childDocumentPropertiesPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
+        public void ChildDocumentPropertiesClose()
+        {
+            try
+            {
+                // The whole view model is converted to entity, to make the refresh actions lateron below work.
+                Document document = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+                _childDocumentPropertiesPresenter.Close();
+
+                DispatchViewModel(_childDocumentPropertiesPresenter.ViewModel);
+
+                if (_childDocumentPropertiesPresenter.ViewModel.Successful)
+                {
+                    RefreshDocumentTree();
+                    RefreshInstrumentGrid(); // Refresh both efect and instrument grids, because ChildDocumentType can be changed.
+                    RefreshEffectGrid();
+                }
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
+        public void ChildDocumentPropertiesLoseFocus()
+        {
+            try
+            {
+                // The whole view model is converted to entity, to make the refresh actions lateron below work.
+                Document document = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+                _childDocumentPropertiesPresenter.LoseFocus();
+
+                DispatchViewModel(_childDocumentPropertiesPresenter.ViewModel);
+
+                if (_childDocumentPropertiesPresenter.ViewModel.Successful)
+                {
+                    RefreshDocumentTree();
+                    RefreshInstrumentGrid(); // Refresh both efect and instrument grids, because ChildDocumentType can be changed.
+                    RefreshEffectGrid();
+                }
             }
             finally
             {
@@ -655,12 +741,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 _audioFileOutputPropertiesPresenter.Close();
 
+                DispatchViewModel(_audioFileOutputPropertiesPresenter.ViewModel);
+
                 if (_audioFileOutputPropertiesPresenter.ViewModel.Successful)
                 {
-                    RefreshAudioFileOutputList();
+                    RefreshAudioFileOutputGrid();
                 }
-
-                DispatchViewModel(_audioFileOutputPropertiesPresenter.ViewModel);
             }
             finally
             {
@@ -682,7 +768,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (_audioFileOutputPropertiesPresenter.ViewModel.Successful)
                 {
-                    RefreshAudioFileOutputList();
+                    RefreshAudioFileOutputGrid();
                 }
             }
             finally
@@ -1146,7 +1232,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (_patchDetailsPresenter.ViewModel.Successful)
                 {
                     PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, documentID);
-                    RefreshPatchList(gridViewModel);
+                    RefreshPatchGrid(gridViewModel);
                 }
 
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
@@ -1173,7 +1259,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (_patchDetailsPresenter.ViewModel.Successful)
                 {
                     PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, documentID);
-                    RefreshPatchList(gridViewModel);
+                    RefreshPatchGrid(gridViewModel);
                 }
 
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
@@ -1646,7 +1732,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!documentDeletedViewModel.Visible)
             {
                 // Also: this might better be done in the action method.
-                RefreshDocumentList();
+                RefreshDocumentGrid();
             }
         }
 
@@ -1729,7 +1815,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (notFoundViewModel.Visible)
             {
-                RefreshDocumentList();
+                RefreshDocumentGrid();
             }
         }
 
@@ -1840,18 +1926,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     patchDetailsViewModel.Visible = false;
                 }
             }
-
-            foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.ChildDocumentList)
-            {
-                childDocumentViewModel.SampleGrid.Visible = false;
-                childDocumentViewModel.CurveGrid.Visible = false;
-                childDocumentViewModel.PatchGrid.Visible = false;
-
-                foreach (PatchDetailsViewModel patchDetailsViewModel in childDocumentViewModel.PatchDetailsList)
-                {
-                    patchDetailsViewModel.Visible = false;
-                }
-            }
         }
 
         private void HideAllPropertiesViewModels()
@@ -1869,7 +1943,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
         }
 
-        private void RefreshDocumentList()
+        private void RefreshDocumentGrid()
         {
             _documentGridPresenter.Refresh();
             ViewModel.DocumentGrid  = _documentGridPresenter.ViewModel;
@@ -1882,23 +1956,52 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel2);
         }
 
-        private void RefreshAudioFileOutputList()
+        private void RefreshAudioFileOutputGrid()
         {
             object viewModel2 = _audioFileOutputGridPresenter.Refresh();
             DispatchViewModel(viewModel2);
         }
 
-        private void RefreshSampleList(SampleGridViewModel sampleGridViewModel)
+        private void RefreshSampleGrid(SampleGridViewModel sampleGridViewModel)
         {
             _sampleGridPresenter.ViewModel = sampleGridViewModel;
             object viewModel2 = _sampleGridPresenter.Refresh();
             DispatchViewModel(viewModel2);
         }
 
-        private void RefreshPatchList(PatchGridViewModel patchGridViewModel)
+        private void RefreshPatchGrid(PatchGridViewModel patchGridViewModel)
         {
             _patchGridPresenter.ViewModel = patchGridViewModel;
             object viewModel2 = _patchGridPresenter.Refresh();
+            DispatchViewModel(viewModel2);
+        }
+
+        private void RefreshChildDocumentGrid(ChildDocumentTypeEnum childDocumentTypeEnum)
+        {
+            switch (childDocumentTypeEnum)
+            {
+                case ChildDocumentTypeEnum.Instrument:
+                    RefreshInstrumentGrid();
+                    break;
+
+                case ChildDocumentTypeEnum.Effect:
+                    RefreshEffectGrid();
+                    break;
+
+                default:
+                    throw new InvalidValueException(childDocumentTypeEnum);
+            }
+        }
+
+        private void RefreshInstrumentGrid()
+        {
+            object viewModel2 = _instrumentGridPresenter.Refresh();
+            DispatchViewModel(viewModel2);
+        }
+
+        private void RefreshEffectGrid()
+        {
+            object viewModel2 = _effectGridPresenter.Refresh();
             DispatchViewModel(viewModel2);
         }
     }
