@@ -40,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Document destDocument = userInput.ToEntity(repositoryWrapper.DocumentRepository);
 
-            ToEntityHelper.ToChildDocumentsWithRelatedEntities(userInput.ChildDocumentPropertiesList, destDocument, repositoryWrapper);
+            ToEntityHelper.ToChildDocuments(userInput.ChildDocumentPropertiesList, destDocument, repositoryWrapper);
             ToEntityHelper.ToChildDocumentsWithRelatedEntities(userInput.ChildDocumentList, destDocument, repositoryWrapper);
             ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositoryWrapper));
             ToEntityHelper.ToCurvesWithRelatedEntities(

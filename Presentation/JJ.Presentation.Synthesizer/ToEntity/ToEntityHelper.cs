@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
     internal static class ToEntityHelper
     {
         /// <summary> Leading for saving when it comes to the simple properties. </summary>
-        public static void ToChildDocumentsWithRelatedEntities(
+        public static void ToChildDocuments(
             IList<ChildDocumentPropertiesViewModel> sourceViewModelList,
             Document destParentDocument,
             RepositoryWrapper repositoryWrapper)

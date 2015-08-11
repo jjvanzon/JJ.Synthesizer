@@ -475,6 +475,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
+                // ToEntity: This should be just enought to correctly refresh the grids and tree furtheron.
+                Document document = ViewModel.Document.ToEntity(_repositoryWrapper.DocumentRepository);
+                ToEntityHelper.ToChildDocuments(ViewModel.Document.ChildDocumentPropertiesList, document, _repositoryWrapper);
+
                 _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;
                 _documentPropertiesPresenter.Close();
                 DispatchViewModel(_documentPropertiesPresenter.ViewModel);
@@ -496,8 +500,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             try
             {
-                // The whole view model is converted to entity, to make the refresh actions lateron below work.
-                Document document = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
+                // ToEntity: This should be just enought to correctly refresh the grids and tree furtheron.
+                Document document = ViewModel.Document.ToEntity(_repositoryWrapper.DocumentRepository);
+                ToEntityHelper.ToChildDocuments(ViewModel.Document.ChildDocumentPropertiesList, document, _repositoryWrapper);
 
                 _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;
                 _documentPropertiesPresenter.LoseFocus();
@@ -594,8 +599,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                // The whole view model is converted to entity, to make the refresh actions lateron below work.
-                Document document = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
+                // ToEntity: This should be just enought to correctly refresh the grids and tree furtheron.
+                Document document = ViewModel.Document.ToEntity(_repositoryWrapper.DocumentRepository);
+                ToEntityHelper.ToChildDocuments(ViewModel.Document.ChildDocumentPropertiesList, document, _repositoryWrapper);
 
                 _childDocumentPropertiesPresenter.Close();
 
@@ -618,8 +624,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                // The whole view model is converted to entity, to make the refresh actions lateron below work.
-                Document document = ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
+                // ToEntity: This should be just enought to correctly refresh the grids and tree furtheron.
+                Document document = ViewModel.Document.ToEntity(_repositoryWrapper.DocumentRepository);
+                ToEntityHelper.ToChildDocuments(ViewModel.Document.ChildDocumentPropertiesList, document, _repositoryWrapper);
 
                 _childDocumentPropertiesPresenter.LoseFocus();
 
