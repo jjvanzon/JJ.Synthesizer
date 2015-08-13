@@ -96,7 +96,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
             patchDetailsUserControl.SetValueRequested += patchDetailsUserControl_SetValueRequested;
             patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
-            patchDetailsUserControl.OperatorPropertiesRequested += PatchDetailsUserControl_OperatorPropertiesRequested;
+            patchDetailsUserControl.OperatorPropertiesRequested += patchDetailsUserControl_OperatorPropertiesRequested;
             patchGridUserControl.CloseRequested += patchGridUserControl_CloseRequested;
             patchGridUserControl.CreateRequested += patchGridUserControl_CreateRequested;
             patchGridUserControl.DeleteRequested += patchGridUserControl_DeleteRequested;
@@ -120,11 +120,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyStyling();
 
             Open();
-        }
-
-        private void PatchDetailsUserControl_OperatorPropertiesRequested(object sender, Int32EventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>

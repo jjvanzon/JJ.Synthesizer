@@ -2023,16 +2023,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void HideAllPropertiesViewModels()
         {
             ViewModel.DocumentDetails.Visible = false;
-            ViewModel.Document.DocumentProperties.Visible = false;
             ViewModel.Document.AudioFileOutputPropertiesList.ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentPropertiesList.ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentPropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.CurveDetailsList.ForEach(x => x.Visible = false);
-            ViewModel.Document.ChildDocumentPropertiesList.ForEach(x => x.Visible = false);
-            ViewModel.Document.ChildDocumentPropertiesList.ForEach(x => x.Visible = false);
+            ViewModel.Document.DocumentProperties.Visible = false;
+            ViewModel.Document.OperatorPropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.SamplePropertiesList.ForEach(x => x.Visible = false);
-
+            
             // Note that the Samples are the only ones with a Properties view inside the child documents.
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
-            ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList).ForEach(x => x.Visible = false);
         }
 
         private void RefreshDocumentGrid()

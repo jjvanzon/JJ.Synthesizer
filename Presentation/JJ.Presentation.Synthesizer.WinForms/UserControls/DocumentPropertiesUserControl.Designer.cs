@@ -50,9 +50,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(55, 46);
             this.tableLayoutPanel2.TabIndex = 8;
             // 
@@ -66,13 +65,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanel.Controls.Add(this.textBoxName, 1, 1);
             this.tableLayoutPanel.Controls.Add(this.labelIDValue, 1, 0);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel.Location = new System.Drawing.Point(3, 27);
+            this.tableLayoutPanel.Location = new System.Drawing.Point(3, 24);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 3;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.Size = new System.Drawing.Size(49, 16);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(49, 19);
             this.tableLayoutPanel.TabIndex = 8;
             // 
             // labelName
@@ -128,7 +127,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl1.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl1.Name = "titleBarUserControl1";
             this.titleBarUserControl1.RemoveButtonVisible = false;
-            this.titleBarUserControl1.Size = new System.Drawing.Size(55, 24);
+            this.titleBarUserControl1.Size = new System.Drawing.Size(55, 21);
             this.titleBarUserControl1.TabIndex = 7;
             this.titleBarUserControl1.CloseClicked += new System.EventHandler(this.titleBarUserControl1_CloseClicked);
             // 

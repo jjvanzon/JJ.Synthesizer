@@ -36,8 +36,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelChildDocumentType = new System.Windows.Forms.Label();
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.titleBarUserControl1 = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
+            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
