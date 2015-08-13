@@ -314,7 +314,8 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, int inletCountForAdder = 16)
         {
-            return _operatorFactory.Create(operatorTypeEnum, inletCountForAdder);
+            Operator op = _operatorFactory.Create(operatorTypeEnum, inletCountForAdder);
+            return op;
         }
     }
 }

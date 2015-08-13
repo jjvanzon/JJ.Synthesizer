@@ -18,16 +18,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class OperatorPropertiesPresenter
     {
         private IOperatorRepository _operatorRepository;
+        private IOperatorTypeRepository _operatorTypeRepository;
         private IIDRepository _idRepository;
 
         public OperatorPropertiesViewModel ViewModel { get; set; }
 
-        public OperatorPropertiesPresenter(IOperatorRepository operatorRepository, IIDRepository idRepository)
+        public OperatorPropertiesPresenter(IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, IIDRepository idRepository)
         {
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
             if (idRepository == null) throw new NullException(() => idRepository);
 
             _operatorRepository = operatorRepository;
+            _operatorTypeRepository = operatorTypeRepository;
             _idRepository = idRepository;
         }
 
@@ -61,7 +64,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Operator entity = ViewModel.ToEntity(_operatorRepository);
+            Operator entity = ViewModel.ToEntity(_operatorRepository, _operatorTypeRepository);
 
             // TODO: Lower priority: Delegate validation to PatchManager.
             IValidator validator1 = new OperatorValidator_Basic(entity);

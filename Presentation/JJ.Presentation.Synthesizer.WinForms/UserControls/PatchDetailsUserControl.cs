@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
         public event EventHandler DeleteOperatorRequested;
-        public event EventHandler<AddOperatorEventArgs> AddOperatorRequested;
+        public event EventHandler<CreateOperatorEventArgs> CreateOperatorRequested;
         public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
         public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
         public event EventHandler<Int32EventArgs> SelectOperatorRequested;
@@ -222,12 +222,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void AddOperator(int operatorTypeID)
+        private void CreateOperator(int operatorTypeID)
         {
-            if (AddOperatorRequested != null)
+            if (CreateOperatorRequested != null)
             {
-                var e = new AddOperatorEventArgs(operatorTypeID);
-                AddOperatorRequested(this, e);
+                var e = new CreateOperatorEventArgs(operatorTypeID);
+                CreateOperatorRequested(this, e);
             }
         }
 
@@ -322,7 +322,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ToolStripItem control = (ToolStripItem)sender;
             int operatorTypeID = (int)control.Tag;
 
-            AddOperator(operatorTypeID);
+            CreateOperator(operatorTypeID);
         }
 
         private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)

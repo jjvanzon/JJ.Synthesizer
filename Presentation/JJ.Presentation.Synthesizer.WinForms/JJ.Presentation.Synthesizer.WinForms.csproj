@@ -61,7 +61,7 @@
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Configuration\GeneralConfiguration.cs" />
     <Compile Include="Configuration\TestingConfiguration.cs" />
-    <Compile Include="EventArg\AddOperatorEventArgs.cs" />
+    <Compile Include="EventArg\CreateOperatorEventArgs.cs" />
     <Compile Include="EventArg\ChangeInputOutletEventArgs.cs" />
     <Compile Include="EventArg\NullableInt32EventArgs.cs" />
     <Compile Include="EventArg\SetValueEventArgs.cs" />

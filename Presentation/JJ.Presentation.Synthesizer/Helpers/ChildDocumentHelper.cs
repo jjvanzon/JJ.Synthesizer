@@ -157,6 +157,27 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
+        public static IList<OperatorPropertiesViewModel> GetOperatorPropertiesViewModelList_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            if (rootDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+            {
+                return rootDocumentViewModel.OperatorPropertiesList;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                if (childDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+                {
+                    return childDocumentViewModel.OperatorPropertiesList;
+                }
+            }
+
+            throw new Exception(String.Format("PatchDetailsViewModel with ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+        }
+
+
         // Patch
 
         public static PatchDetailsViewModel GetPatchDetailsViewModel(DocumentViewModel rootDocumentViewModel, int patchID)

@@ -522,9 +522,12 @@ namespace JJ.Business.Synthesizer.Factories
 
         private Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, string name, int inletCount, params string[] inletAndOutletNames)
         {
-            return OperatorHelper.CreateOperator(
+            Operator op = OperatorHelper.CreateOperator(
                 _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _idRepository,
                 operatorTypeEnum, name, inletCount, inletAndOutletNames);
+
+
+            return op;
         }
     }
 }

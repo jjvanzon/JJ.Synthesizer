@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.WinForms.EventArg
 {
-    internal class AddOperatorEventArgs : EventArgs
+    internal class CreateOperatorEventArgs : EventArgs
     {
         public int OperatorTypeID { get; private set; }
 
-        public AddOperatorEventArgs(int operatorTypeID)
+        public CreateOperatorEventArgs(int operatorTypeID)
         {
             OperatorTypeID = operatorTypeID;
         }

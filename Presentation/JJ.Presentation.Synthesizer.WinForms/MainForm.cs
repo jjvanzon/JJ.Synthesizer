@@ -90,7 +90,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
             patchDetailsUserControl.LoseFocusRequested += patchDetailsUserControl_LoseFocusRequested;
             patchDetailsUserControl.DeleteOperatorRequested += patchDetailsUserControl_DeleteOperatorRequested;
-            patchDetailsUserControl.AddOperatorRequested += patchDetailsUserControl_AddOperatorRequested;
+            patchDetailsUserControl.CreateOperatorRequested += patchDetailsUserControl_CreateOperatorRequested;
             patchDetailsUserControl.MoveOperatorRequested += patchDetailsUserControl_MoveOperatorRequested;
             patchDetailsUserControl.ChangeInputOutletRequested += patchDetailsUserControl_ChangeInputOutletRequested;
             patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
@@ -448,14 +448,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             PatchDetailsMoveOperator(e.OperatorID, e.CenterX, e.CenterY);
         }
 
-        private void patchDetailsUserControl_AddOperatorRequested(object sender, AddOperatorEventArgs e)
+        private void patchDetailsUserControl_CreateOperatorRequested(object sender, CreateOperatorEventArgs e)
         {
-            PatchDetailsAddOperator(e.OperatorTypeID);
+            OperatorCreate(e.OperatorTypeID);
         }
 
         private void patchDetailsUserControl_DeleteOperatorRequested(object sender, EventArgs e)
         {
-            PatchDetailsDeleteOperator();
+            OperatorDelete();
         }
 
         private void patchDetailsUserControl_LoseFocusRequested(object sender, EventArgs e)
@@ -851,6 +851,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void OperatorCreate(int operatorTypeID)
+        {
+            _presenter.OperatorCreate(operatorTypeID);
+            ApplyViewModel();
+        }
+
+        private void OperatorDelete()
+        {
+            _presenter.OperatorDelete();
+            ApplyViewModel();
+        }
+
         // Patch Actions
 
         private void PatchListShow(int documentID)
@@ -895,12 +907,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void PatchDetailsAddOperator(int operatorTypeID)
-        {
-            _presenter.PatchDetailsAddOperator(operatorTypeID);
-            ApplyViewModel();
-        }
-
         private void PatchDetailsMoveOperator(int operatorID, float centerX, float centerY)
         {
             _presenter.PatchDetailsMoveOperator(operatorID, centerX, centerY);
@@ -916,12 +922,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void PatchDetailsSelectOperator(int operatorID)
         {
             _presenter.PatchDetailsSelectOperator(operatorID);
-            ApplyViewModel();
-        }
-
-        private void PatchDetailsDeleteOperator()
-        {
-            _presenter.PatchDetailsDeleteOperator();
             ApplyViewModel();
         }
 

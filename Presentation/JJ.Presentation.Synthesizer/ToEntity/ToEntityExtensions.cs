@@ -574,7 +574,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entityPosition;
         }
 
-        public static Operator ToEntity(this OperatorPropertiesViewModel viewModel, IOperatorRepository operatorRepository)
+        public static Operator ToEntity(this OperatorPropertiesViewModel viewModel, IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -586,6 +586,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity.ID = viewModel.ID;
                 operatorRepository.Insert(entity);
             }
+
+            // Added this so operator properties lose focus on a new operator would be able to do some basic validation.
+            entity.OperatorType = operatorTypeRepository.TryGet(viewModel.OperatorType.ID);
 
             entity.Name = viewModel.Name;
             return entity;

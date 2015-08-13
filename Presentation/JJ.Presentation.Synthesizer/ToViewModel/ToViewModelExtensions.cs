@@ -158,33 +158,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static OperatorViewModel ToViewModel(this Operator entity, EntityPositionManager entityPositionManager)
         {
             if (entity == null) throw new NullException(() => entity);
+            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
+
+            var viewModel = new OperatorViewModel();
+
+            ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, viewModel);
 
             EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(entity.ID);
-
-            var viewModel = new OperatorViewModel
-            {
-                Name = entity.Name,
-                ID = entity.ID,
-                EntityPositionID = entityPosition.ID,
-                CenterX = entityPosition.X,
-                CenterY = entityPosition.Y
-            };
-
-            if (entity.GetOperatorTypeEnum() == OperatorTypeEnum.Value)
-            {
-                var wrapper = new Value_OperatorWrapper(entity);
-                viewModel.Caption = wrapper.Value.ToString("0.####");
-                viewModel.Value = wrapper.Value.ToString();
-            }
-            else
-            {
-                viewModel.Caption = entity.Name;
-            }
-
-            if (entity.OperatorType != null)
-            {
-                viewModel.OperatorTypeID = entity.OperatorType.ID;
-            }
+            viewModel.EntityPositionID = entityPosition.ID;
+            viewModel.CenterX = entityPosition.X;
+            viewModel.CenterY = entityPosition.Y;
 
             return viewModel;
         }

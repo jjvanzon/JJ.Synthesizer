@@ -103,6 +103,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _notFoundPresenter = new NotFoundPresenter();
             _operatorPropertiesPresenter = new OperatorPropertiesPresenter(
                 _repositoryWrapper.OperatorRepository,
+                _repositoryWrapper.OperatorTypeRepository,
                 _repositoryWrapper.IDRepository);
             _patchDetailsPresenter = _patchDetailsPresenter = new PatchDetailsPresenter(
                 _repositoryWrapper.PatchRepository,
@@ -1130,7 +1131,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // Refresh the operator in the patch view.
                     Operator entity = _repositoryWrapper.OperatorRepository.Get(_operatorPropertiesPresenter.ViewModel.ID);
                     OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, _operatorPropertiesPresenter.ViewModel.ID);
-                    operatorViewModel.Name = entity.Name;
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
                 }
 
                 DispatchViewModel(_operatorPropertiesPresenter.ViewModel);
@@ -1152,10 +1153,74 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // Refresh the operator in the patch view.
                     Operator entity = _repositoryWrapper.OperatorRepository.Get(_operatorPropertiesPresenter.ViewModel.ID);
                     OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, _operatorPropertiesPresenter.ViewModel.ID);
-                    operatorViewModel.Name = entity.Name;
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
                 }
 
                 DispatchViewModel(_operatorPropertiesPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
+        public void OperatorCreate(int operatorTypeID)
+        {
+            try
+            {
+                // ToEntity
+                Patch patch = _patchDetailsPresenter.ViewModel.ToEntity(
+                    _repositoryWrapper.PatchRepository,
+                    _repositoryWrapper.OperatorRepository,
+                    _repositoryWrapper.OperatorTypeRepository,
+                    _repositoryWrapper.InletRepository,
+                    _repositoryWrapper.OutletRepository,
+                    _repositoryWrapper.EntityPositionRepository);
+
+                // Business
+                Operator op = _patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
+                op.LinkTo(patch);
+
+                // ToViewModel
+
+                // PatchDetails Operator
+                OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties(_entityPositionManager);
+                operatorViewModel.CenterX = 100; // TODO: Low priority: Should these coordinates should be set in business logic? And randomized the same way as in other parts of the code? Maybe in the entity position manager?
+                operatorViewModel.CenterY = 100;
+                _patchDetailsPresenter.ViewModel.Entity.Operators.Add(operatorViewModel);
+
+                // Operator Properties
+                OperatorPropertiesViewModel propertiesViewModel = op.ToPropertiesViewModel();
+                IList<OperatorPropertiesViewModel> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ByPatchID(ViewModel.Document, patch.ID);
+                propertiesViewModelList.Add(propertiesViewModel);
+
+                // TODO: Remove outcommented code.
+                //DispatchViewModel(_patchDetailsPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
+        /// <summary>
+        /// Deletes the operator selected in PatchDetails. Does not delete anything, if no operator is selected.
+        /// </summary>
+        public void OperatorDelete()
+        {
+            try
+            {
+                if (_patchDetailsPresenter.ViewModel.SelectedOperator != null)
+                {
+                    int operatorID = _patchDetailsPresenter.ViewModel.SelectedOperator.ID;
+
+                    _patchDetailsPresenter.DeleteOperator();
+
+                    ViewModel.Document.OperatorPropertiesList.TryRemoveFirst(x => x.ID == operatorID);
+                    ViewModel.Document.ChildDocumentList.ForEach(x => x.OperatorPropertiesList.TryRemoveFirst(y => y.ID == operatorID));
+                }
+
+                DispatchViewModel(_patchDetailsPresenter.ViewModel);
             }
             finally
             {
@@ -1340,20 +1405,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void PatchDetailsAddOperator(int operatorTypeID)
-        {
-            try
-            {
-                _patchDetailsPresenter.AddOperator(operatorTypeID);
-
-                DispatchViewModel(_patchDetailsPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositoryWrapper.Rollback();
-            }
-        }
-
         public void PatchDetailsMoveOperator(int operatorID, float centerX, float centerY)
         {
             try
@@ -1385,31 +1436,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 _patchDetailsPresenter.SelectOperator(operatorID);
-                DispatchViewModel(_patchDetailsPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositoryWrapper.Rollback();
-            }
-        }
-
-        /// <summary>
-        /// Deletes the selected operator. Does not delete anything, if no operator is selected.
-        /// </summary>
-        public void PatchDetailsDeleteOperator()
-        {
-            try
-            {
-                if (_patchDetailsPresenter.ViewModel.SelectedOperator != null)
-                {
-                    int operatorID = _patchDetailsPresenter.ViewModel.SelectedOperator.ID;
-
-                    _patchDetailsPresenter.DeleteOperator();
-
-                    ViewModel.Document.OperatorPropertiesList.TryRemoveFirst(x => x.ID == operatorID);
-                    ViewModel.Document.ChildDocumentList.ForEach(x => x.OperatorPropertiesList.TryRemoveFirst(y => y.ID == operatorID));
-                }
-
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
             }
             finally
