@@ -5,27 +5,12 @@ using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Media;
-using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Data;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Framework.Presentation;
-using JJ.Framework.Presentation.Resources;
-using JJ.Framework.Presentation.Svg.EventArg;
-using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Presentation.Synthesizer.Presenters;
-using JJ.Presentation.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.Svg;
-using JJ.Presentation.Synthesizer.Svg.EventArg;
-using JJ.Presentation.Synthesizer.Svg.Helpers;
 using JJ.Presentation.Synthesizer.WinForms.Forms;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
@@ -100,6 +85,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
             menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
             menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
+            operatorPropertiesUserControl.CloseRequested += operatorPropertiesUserControl_CloseRequested;
+            operatorPropertiesUserControl.LoseFocusRequested += operatorPropertiesUserControl_LoseFocusRequested;
             patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
             patchDetailsUserControl.LoseFocusRequested += patchDetailsUserControl_LoseFocusRequested;
             patchDetailsUserControl.DeleteOperatorRequested += patchDetailsUserControl_DeleteOperatorRequested;
@@ -109,6 +96,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
             patchDetailsUserControl.SetValueRequested += patchDetailsUserControl_SetValueRequested;
             patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
+            patchDetailsUserControl.OperatorPropertiesRequested += PatchDetailsUserControl_OperatorPropertiesRequested;
             patchGridUserControl.CloseRequested += patchGridUserControl_CloseRequested;
             patchGridUserControl.CreateRequested += patchGridUserControl_CreateRequested;
             patchGridUserControl.DeleteRequested += patchGridUserControl_DeleteRequested;
@@ -132,6 +120,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyStyling();
 
             Open();
+        }
+
+        private void PatchDetailsUserControl_OperatorPropertiesRequested(object sender, Int32EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -396,6 +389,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentSave();
         }
 
+        // Operator Events
+
+        private void operatorPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesLoseFocus();
+        }
+
+        private void operatorPropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesClose();
+        }
+
         // Patch Events
 
         private void patchGridUserControl_CreateRequested(object sender, Int32EventArgs e)
@@ -428,9 +433,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             PatchDetailsSetValue(e.Value);
         }
 
-        private void patchDetailsUserControl_SelectOperatorRequested(object sender, SelectOperatorEventArgs e)
+        private void patchDetailsUserControl_SelectOperatorRequested(object sender, Int32EventArgs e)
         {
-            PatchDetailsSelectOperator(e.OperatorID);
+            PatchDetailsSelectOperator(e.Value);
+        }
+
+        private void patchDetailsUserControl_OperatorPropertiesRequested(object sender, Int32EventArgs e)
+        {
+            OperatorPropertiesShow(e.Value);
         }
 
         private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
@@ -826,6 +836,26 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        // Operator Actions
+
+        private void OperatorPropertiesShow(int operatorID)
+        {
+            _presenter.OperatorPropertiesShow(operatorID);
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesClose()
+        {
+            _presenter.OperatorPropertiesClose();
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesLoseFocus()
+        {
+            _presenter.OperatorPropertiesLoseFocus();
+            ApplyViewModel();
+        }
+
         // Patch Actions
 
         private void PatchListShow(int documentID)
@@ -1039,6 +1069,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 effectGridUserControl.ViewModel = _presenter.ViewModel.Document.EffectGrid;
                 effectGridUserControl.Visible = _presenter.ViewModel.Document.EffectGrid.Visible;
 
+
+                // OperatorPropertiesViewModel
+                bool operatorPropertiesVisible = false;
+                OperatorPropertiesViewModel visibleOperatorPropertiesViewModel =
+                    _presenter.ViewModel.Document.OperatorPropertiesList.Where(x => x.Visible).SingleOrDefault();
+                if (visibleOperatorPropertiesViewModel != null)
+                {
+                    operatorPropertiesUserControl.ViewModel = visibleOperatorPropertiesViewModel;
+                    operatorPropertiesVisible = true;
+                }
+                operatorPropertiesUserControl.Visible = operatorPropertiesVisible;
+
                 // PatchGridViewModel
                 bool patchGridVisible = false;
                 if (_presenter.ViewModel.Document.PatchGrid.Visible)
@@ -1122,7 +1164,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 bool propertiesPanelMustBeVisible = _presenter.ViewModel.Document.DocumentProperties.Visible || 
                                                     audioFileOutputPropertiesVisible ||
                                                     samplePropertiesVisible ||
-                                                    childDocumentPropertiesVisible;
+                                                    childDocumentPropertiesVisible ||
+                                                    operatorPropertiesVisible;
 
                 SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
 
@@ -1173,9 +1216,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     childDocumentPropertiesUserControl.Focus();
                 }
 
-                if (!_presenter.ViewModel.Document.DocumentProperties.Successful)
+                bool mustFocusDocumentPropertiesUserControl = !_presenter.ViewModel.Document.DocumentProperties.Successful;
+                if (mustFocusDocumentPropertiesUserControl)
                 {
                     documentPropertiesUserControl.Focus();
+                }
+
+                bool mustFocusOperatorPropertiesUserControl = _presenter.ViewModel.Document.OperatorPropertiesList.Any(x => !x.Successful);
+                if (mustFocusOperatorPropertiesUserControl)
+                {
+                    operatorPropertiesUserControl.Focus();
                 }
 
                 bool mustFocusSamplePropertiesUserControl = _presenter.ViewModel.Document.SamplePropertiesList.Any(x => !x.Successful) ||

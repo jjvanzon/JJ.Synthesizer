@@ -15,7 +15,9 @@ using JJ.Business.Synthesizer.Configuration;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class OperatorValidator_Basic : FluentValidator<Operator>
+    // TODO: Make internal after refactoring.
+
+    public class OperatorValidator_Basic : FluentValidator<Operator>
     {
         public OperatorValidator_Basic(Operator obj)
             : base(obj)

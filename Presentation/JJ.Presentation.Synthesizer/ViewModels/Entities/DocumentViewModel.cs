@@ -34,5 +34,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 
         public AudioFileOutputGridViewModel AudioFileOutputGrid { get; set; }
         public IList<AudioFileOutputPropertiesViewModel> AudioFileOutputPropertiesList { get; set; }
+
+        public IList<OperatorPropertiesViewModel> OperatorPropertiesList { get; set; }
     }
 }

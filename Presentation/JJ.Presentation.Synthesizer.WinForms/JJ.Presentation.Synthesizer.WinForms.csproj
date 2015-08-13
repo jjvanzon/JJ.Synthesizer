@@ -65,7 +65,7 @@
     <Compile Include="EventArg\ChangeInputOutletEventArgs.cs" />
     <Compile Include="EventArg\NullableInt32EventArgs.cs" />
     <Compile Include="EventArg\SetValueEventArgs.cs" />
-    <Compile Include="EventArg\SelectOperatorEventArgs.cs" />
+    <Compile Include="EventArg\~SelectOperatorEventArgs.cs" />
     <Compile Include="EventArg\MoveOperatorEventArgs.cs" />
     <Compile Include="EventArg\GuidEventArgs.cs" />
     <Compile Include="EventArg\Int32EventArgs.cs" />
@@ -115,6 +115,12 @@
     </Compile>
     <Compile Include="UserControls\AudioFileOutputChannelsUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputChannelsUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ChildDocumentPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
@@ -224,6 +230,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputChannelsUserControl.resx">
       <DependentUpon>AudioFileOutputChannelsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl.resx">
+      <DependentUpon>OperatorPropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ChildDocumentPropertiesUserControl.resx">
       <DependentUpon>ChildDocumentPropertiesUserControl.cs</DependentUpon>

@@ -51,6 +51,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SamplePropertiesList = new List<SamplePropertiesViewModel>(),
                 CurveGrid = CreateEmptyCurveGridViewModel(),
                 CurveDetailsList = new List<CurveDetailsViewModel>(),
+                OperatorPropertiesList = new List<OperatorPropertiesViewModel>(),
                 PatchGrid = CreateEmptyPatchGridViewModel(),
                 PatchDetailsList = new List<PatchDetailsViewModel>(),
                 AudioFileOutputGrid = CreateEmptyAudioFileOutputGridViewModel(),

@@ -25,5 +25,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 
         public PatchGridViewModel PatchGrid { get; set; }
         public IList<PatchDetailsViewModel> PatchDetailsList { get; set; }
+
+        public IList<OperatorPropertiesViewModel> OperatorPropertiesList { get; set; }
     }
 }

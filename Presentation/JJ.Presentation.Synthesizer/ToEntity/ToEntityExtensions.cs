@@ -422,10 +422,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Patch patch = viewModel.ToEntity(patchRepository);
 
             RecursiveViewModelToEntityConverter converter = new RecursiveViewModelToEntityConverter(
-                operatorRepository, 
-                operatorTypeRepository, 
-                inletRepository, 
-                outletRepository, 
+                operatorRepository,
+                operatorTypeRepository,
+                inletRepository,
+                outletRepository,
                 entityPositionRepository);
 
             var convertedOperators = new HashSet<Operator>();
@@ -572,6 +572,23 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entityPosition.EntityID = viewModel.ID;
 
             return entityPosition;
+        }
+
+        public static Operator ToEntity(this OperatorPropertiesViewModel viewModel, IOperatorRepository operatorRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            return entity;
         }
     }
 }

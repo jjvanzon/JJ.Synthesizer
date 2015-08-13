@@ -39,6 +39,7 @@
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
     <Compile Include="Presenters\ChildDocumentGridPresenter.cs" />
+    <Compile Include="Presenters\OperatorPropertiesPresenter.cs" />
     <Compile Include="Resources\PresentationMessageFormatter.cs" />
     <Compile Include="Resources\PresentationMessages.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -118,6 +119,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\NotFoundViewModel.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel.cs" />
     <Compile Include="ViewModels\Partials\ChildDocumentTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\DummyViewModel.cs" />
     <Compile Include="ViewModels\Partials\MenuItemViewModel.cs" />

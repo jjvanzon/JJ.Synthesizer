@@ -8,7 +8,8 @@ namespace JJ.Presentation.Synthesizer.Helpers
 {
     internal static class ValidationMessageExtensions
     {
-        public static JJ.Business.CanonicalModel.Message ToCanonical(this JJ.Framework.Validation.ValidationMessage sourceEntity)
+        public static JJ.Business.CanonicalModel.Message ToCanonical(
+            this JJ.Framework.Validation.ValidationMessage sourceEntity)
         {
             return new JJ.Business.CanonicalModel.Message
             {
@@ -17,7 +18,8 @@ namespace JJ.Presentation.Synthesizer.Helpers
             };
         }
 
-        public static List<JJ.Business.CanonicalModel.Message> ToCanonical(this IEnumerable<JJ.Framework.Validation.ValidationMessage> sourceList)
+        public static IList<JJ.Business.CanonicalModel.Message> ToCanonical(
+            this IEnumerable<JJ.Framework.Validation.ValidationMessage> sourceList)
         {
             var destList = new List<JJ.Business.CanonicalModel.Message>();
 

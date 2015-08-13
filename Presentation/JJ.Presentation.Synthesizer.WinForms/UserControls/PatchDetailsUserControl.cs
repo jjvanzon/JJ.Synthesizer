@@ -1,11 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Configuration;
-using JJ.Framework.Data;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Presentation.Svg.EventArg;
-using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.Svg;
 using JJ.Presentation.Synthesizer.Svg.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -18,7 +14,6 @@ using System.Linq;
 using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
-using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
 using System.ComponentModel;
 using JJ.Framework.Reflection.Exceptions;
@@ -36,9 +31,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<AddOperatorEventArgs> AddOperatorRequested;
         public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
         public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
-        public event EventHandler<SelectOperatorEventArgs> SelectOperatorRequested;
+        public event EventHandler<Int32EventArgs> SelectOperatorRequested;
         public event EventHandler<SetValueEventArgs> SetValueRequested;
         public event EventHandler PlayRequested;
+        public event EventHandler<Int32EventArgs> OperatorPropertiesRequested;
 
         private PatchDetailsViewModel _viewModel;
         private ViewModelToDiagramConverter _converter;
@@ -257,7 +253,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (SelectOperatorRequested != null)
             {
-                var e = new SelectOperatorEventArgs(operatorID);
+                var e = new Int32EventArgs(operatorID);
                 SelectOperatorRequested(this, e);
             }
         }
@@ -284,6 +280,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (PlayRequested != null)
             {
                 PlayRequested(this, EventArgs.Empty);
+            }
+        }
+
+        private void ShowOperatorProperties(int operatorID)
+        {
+            if (OperatorPropertiesRequested != null)
+            {
+                var e = new Int32EventArgs(operatorID);
+                OperatorPropertiesRequested(this, e);
             }
         }
 
@@ -322,9 +327,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)
         {
-            int operatorIndexNumber = SvgTagHelper.GetOperatorID(e.Element.Tag);
+            int operatorID = SvgTagHelper.GetOperatorID(e.Element.Tag);
 
-            SelectOperator(operatorIndexNumber);
+            SelectOperator(operatorID);
+
+            // TODO: Low Priority: Program double click gesture in Vector Graphics system,
+            // and respond to double click instead.
+            ShowOperatorProperties(operatorID);
         }
 
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)

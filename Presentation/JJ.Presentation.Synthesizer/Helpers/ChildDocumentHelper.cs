@@ -1,19 +1,10 @@
-﻿using JJ.Framework.Common;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Presentation.Synthesizer.Helpers;
+﻿using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Linq.Expressions;
-using JJ.Framework.Reflection;
 
 namespace JJ.Presentation.Synthesizer.Helpers
 {
@@ -96,6 +87,72 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 foreach (CurveDetailsViewModel curveDetailsViewModel in childDocumentViewModel.CurveDetailsList)
                 {
                     yield return curveDetailsViewModel;
+                }
+            }
+        }
+
+        // Operator
+
+        public static OperatorPropertiesViewModel GetOperatorPropertiesViewModel(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel viewModel = ChildDocumentHelper.EnumerateOperatorPropertiesViewModels(rootDocumentViewModel)
+                                                                       .FirstOrDefault(x => x.ID == operatorID); // First for performance.
+            if (viewModel == null)
+            {
+                throw new Exception(String.Format("OperatorPropertiesViewModel with ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", operatorID));
+            }
+
+            return viewModel;
+        }
+
+        private static IEnumerable<OperatorPropertiesViewModel> EnumerateOperatorPropertiesViewModels(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (OperatorPropertiesViewModel operatorPropertiesViewModel in rootDocumentViewModel.OperatorPropertiesList)
+            {
+                yield return operatorPropertiesViewModel;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                foreach (OperatorPropertiesViewModel operatorPropertiesViewModel in childDocumentViewModel.OperatorPropertiesList)
+                {
+                    yield return operatorPropertiesViewModel;
+                }
+            }
+        }
+
+        public static OperatorViewModel GetOperatorViewModel(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorViewModel viewModel = ChildDocumentHelper.EnumerateOperatorViewModels(rootDocumentViewModel)
+                                                             .FirstOrDefault(x => x.ID == operatorID); // First for performance.
+            if (viewModel == null)
+            {
+                throw new Exception(String.Format("OperatorViewModel with ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", operatorID));
+            }
+
+            return viewModel;
+        }
+
+        private static IEnumerable<OperatorViewModel> EnumerateOperatorViewModels(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (OperatorViewModel operatorViewModel in rootDocumentViewModel.PatchDetailsList.SelectMany(x => x.Entity.Operators))
+            {
+                yield return operatorViewModel;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                foreach (OperatorViewModel operatorViewModel in childDocumentViewModel.PatchDetailsList.SelectMany(x => x.Entity.Operators))
+                {
+                    yield return operatorViewModel;
                 }
             }
         }

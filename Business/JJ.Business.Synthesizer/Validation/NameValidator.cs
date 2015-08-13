@@ -10,6 +10,8 @@ using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Validation
 {
+    // TODO: Make internal after refactoring.
+
     public class NameValidator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
     {
         private static int? _nameMaxLength;

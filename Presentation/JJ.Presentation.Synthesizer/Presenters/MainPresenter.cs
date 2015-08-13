@@ -14,7 +14,7 @@ using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Presentation.Synthesizer.Resources;
@@ -23,8 +23,6 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -62,6 +60,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private DocumentTreePresenter _documentTreePresenter;
         private MenuPresenter _menuPresenter;
         private NotFoundPresenter _notFoundPresenter;
+        private OperatorPropertiesPresenter _operatorPropertiesPresenter;
         private PatchDetailsPresenter _patchDetailsPresenter;
         private PatchGridPresenter _patchGridPresenter;
         private SampleGridPresenter _sampleGridPresenter;
@@ -102,6 +101,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _instrumentGridPresenter = new ChildDocumentGridPresenter(_repositoryWrapper.DocumentRepository);
             _menuPresenter = new MenuPresenter();
             _notFoundPresenter = new NotFoundPresenter();
+            _operatorPropertiesPresenter = new OperatorPropertiesPresenter(
+                _repositoryWrapper.OperatorRepository,
+                _repositoryWrapper.IDRepository);
             _patchDetailsPresenter = _patchDetailsPresenter = new PatchDetailsPresenter(
                 _repositoryWrapper.PatchRepository,
                 _repositoryWrapper.OperatorRepository,
@@ -1100,6 +1102,67 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        // Operator Actions
+
+        public void OperatorPropertiesShow(int id)
+        {
+            try
+            {
+                OperatorPropertiesViewModel viewModel = ChildDocumentHelper.GetOperatorPropertiesViewModel(ViewModel.Document, id);
+                _operatorPropertiesPresenter.ViewModel = viewModel;
+                _operatorPropertiesPresenter.Show();
+                DispatchViewModel(_operatorPropertiesPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
+        public void OperatorPropertiesClose()
+        {
+            try
+            {
+                _operatorPropertiesPresenter.Close();
+
+                if (_operatorPropertiesPresenter.ViewModel.Successful)
+                {
+                    // Refresh the operator in the patch view.
+                    Operator entity = _repositoryWrapper.OperatorRepository.Get(_operatorPropertiesPresenter.ViewModel.ID);
+                    OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, _operatorPropertiesPresenter.ViewModel.ID);
+                    operatorViewModel.Name = entity.Name;
+                }
+
+                DispatchViewModel(_operatorPropertiesPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
+        public void OperatorPropertiesLoseFocus()
+        {
+            try
+            {
+                _operatorPropertiesPresenter.LoseFocus();
+
+                if (_operatorPropertiesPresenter.ViewModel.Successful)
+                {
+                    // Refresh the operator in the patch view.
+                    Operator entity = _repositoryWrapper.OperatorRepository.Get(_operatorPropertiesPresenter.ViewModel.ID);
+                    OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, _operatorPropertiesPresenter.ViewModel.ID);
+                    operatorViewModel.Name = entity.Name;
+                }
+
+                DispatchViewModel(_operatorPropertiesPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
         // Patch Actions
 
         public void PatchGridShow(int documentID)
@@ -1282,6 +1345,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 _patchDetailsPresenter.AddOperator(operatorTypeID);
+
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
             }
             finally
@@ -1336,7 +1400,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                _patchDetailsPresenter.DeleteOperator();
+                if (_patchDetailsPresenter.ViewModel.SelectedOperator != null)
+                {
+                    int operatorID = _patchDetailsPresenter.ViewModel.SelectedOperator.ID;
+
+                    _patchDetailsPresenter.DeleteOperator();
+
+                    ViewModel.Document.OperatorPropertiesList.TryRemoveFirst(x => x.ID == operatorID);
+                    ViewModel.Document.ChildDocumentList.ForEach(x => x.OperatorPropertiesList.TryRemoveFirst(y => y.ID == operatorID));
+                }
+
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
             }
             finally
@@ -1587,6 +1660,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
                 { typeof(MenuViewModel), DispatchMenuViewModel },
                 { typeof(NotFoundViewModel), DispatchNotFoundViewModel },
+                { typeof(OperatorPropertiesViewModel), DispatchOperatorViewModel },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
                 { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
                 { typeof(SampleGridViewModel), DispatchSampleGridViewModel },
@@ -1596,10 +1670,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return dictionary;
         }
 
-        /// <summary>
-        /// Applies a view model from a sub-presenter in the right way
-        /// to the main view model.
-        /// </summary>
+        /// <summary> Applies a view model from a sub-presenter in the right way to the main view model. </summary>
         private void DispatchViewModel(object viewModel2)
         {
             if (viewModel2 == null) throw new NullException(() => viewModel2);
@@ -1824,6 +1895,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 RefreshDocumentGrid();
             }
+        }
+
+        private void DispatchOperatorViewModel(object viewModel2)
+        {
+            var castedViewModel = (OperatorPropertiesViewModel)viewModel2;
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
         }
 
         private void DispatchPatchDetailsViewModel(object viewModel2)

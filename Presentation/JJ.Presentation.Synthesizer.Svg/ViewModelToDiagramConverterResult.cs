@@ -1,11 +1,10 @@
-﻿using JJ.Framework.Presentation.Svg.Gestures;
-using JJ.Framework.Presentation.Svg.Models.Elements;
-using JJ.Presentation.Synthesizer.Svg.Gestures;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using JJ.Framework.Presentation.Svg.Gestures;
+using JJ.Framework.Presentation.Svg.Models.Elements;
+using JJ.Presentation.Synthesizer.Svg.Gestures;
 
 namespace JJ.Presentation.Synthesizer.Svg
 {

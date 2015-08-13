@@ -1,4 +1,5 @@
-﻿using JJ.Presentation.Synthesizer.Helpers;
+﻿/*
+using JJ.Presentation.Synthesizer.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,3 +18,4 @@ namespace JJ.Presentation.Synthesizer.WinForms.EventArg
         }
     }
 }
+*/
