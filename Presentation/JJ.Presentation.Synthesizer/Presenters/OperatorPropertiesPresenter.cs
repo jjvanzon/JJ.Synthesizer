@@ -66,15 +66,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Operator entity = ViewModel.ToEntity(_operatorRepository, _operatorTypeRepository);
 
-            // TODO: Lower priority: Delegate validation to PatchManager.
-            IValidator validator1 = new OperatorValidator_Basic(entity);
-            IValidator validator2 = new NameValidator(entity.Name);
-
-            if (!validator1.IsValid || !validator2.IsValid)
+            // TODO: Lower priority: Delegate validation to PatchManager?
+            IValidator validator = new OperatorValidator_Basic(entity);
+            if (!validator.IsValid)
             {
                 ViewModel.Successful = false;
-                ViewModel.ValidationMessages = Enumerable.Union(validator1.ValidationMessages,
-                                                                validator2.ValidationMessages).ToCanonical();
+                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
             }
             else
             {
