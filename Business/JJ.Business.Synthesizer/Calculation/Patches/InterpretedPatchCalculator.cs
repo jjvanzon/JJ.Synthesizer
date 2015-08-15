@@ -110,6 +110,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 // Only the CustomOperator is missing from the _funcDictionary.
                 // The _funcDictionary will only work for operators with one outlet.
+
+                // Oh: plus Resample operator is missing from interpreted mode too.
                 Func<Operator, double, double> func = _funcDictionary[operatorTypeEnum];
                 double value = func(outlet.Operator, time);
                 return value;
