@@ -192,7 +192,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 {
                     Name = "toolStripButton" + i,
                     Size = _defaultToolStripLabelSize,
-                    Text = operatorTypeToolboxItem.DisplayText,
+                    Text = operatorTypeToolboxItem.DisplayName,
                     DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text,
                     Tag = operatorTypeToolboxItem.ID
                 };

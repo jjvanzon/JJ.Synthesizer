@@ -25,56 +25,16 @@ namespace JJ.Business.Synthesizer.Managers
 {
     public class PatchManager
     {
-        private IPatchRepository _patchRepository;
-        private IOperatorRepository _operatorRepository;
-        private IInletRepository _inletRepository;
-        private IOutletRepository _outletRepository;
-        private ICurveRepository _curveRepository;
-        private ISampleRepository _sampleRepository;
-        private IDocumentRepository _documentRepository;
-        private IEntityPositionRepository _entityPositionRepository;
-
+        private PatchRepositories _repositories;
         private OperatorFactory _operatorFactory;
 
-        public PatchManager(
-            IPatchRepository patchRepository,
-            IOperatorRepository operatorRepository,
-            IOperatorTypeRepository operatorTypeRepository,
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository,
-            ICurveRepository curveRepository,
-            ISampleRepository sampleRepository,
-            IDocumentRepository documentRepository,
-            IEntityPositionRepository entityPositionRepository,
-            IIDRepository idRepository)
+        public PatchManager(PatchRepositories repositories)
         {
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (inletRepository == null) throw new NullException(() => inletRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            _patchRepository = patchRepository;
-            _operatorRepository = operatorRepository;
-            _inletRepository = inletRepository;
-            _outletRepository = outletRepository;
-            _curveRepository = curveRepository;
-            _sampleRepository = sampleRepository;
-            _documentRepository = documentRepository;
-            _entityPositionRepository = entityPositionRepository;
+            _repositories = repositories;
 
-            _operatorFactory = new OperatorFactory(
-                _operatorRepository,
-                operatorTypeRepository,
-                _inletRepository,
-                _outletRepository,
-                _curveRepository,
-                _sampleRepository,
-                _documentRepository,
-                idRepository);
+            _operatorFactory = new OperatorFactory(repositories);
         }
 
         /// <summary>
@@ -138,15 +98,26 @@ namespace JJ.Business.Synthesizer.Managers
             }
             else
             {
-                patch.DeleteRelatedEntities(_operatorRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+                patch.DeleteRelatedEntities(_repositories.OperatorRepository, _repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
                 patch.UnlinkRelatedEntities();
-                _patchRepository.Delete(patch);
+                _repositories.PatchRepository.Delete(patch);
 
                 return new VoidResult
                 {
                     Successful = true
                 };
             }
+        }
+
+        public VoidResult ValidateNonRecursive(Operator op)
+        {
+            IValidator validator = new OperatorValidator_Versatile(op, _repositories.DocumentRepository);
+
+            return new VoidResult
+            {
+                Messages = validator.ValidationMessages.ToCanonical(),
+                Successful = validator.IsValid
+            };
         }
 
         // TODO: These overloads are ugly, e.g. CreateCalculator(true, outlet1)
@@ -182,11 +153,11 @@ namespace JJ.Business.Synthesizer.Managers
 
             if (optimized)
             {
-                return new OptimizedPatchCalculator(channelOutlets, whiteNoiseCalculator, _curveRepository, _sampleRepository, _documentRepository);
+                return new OptimizedPatchCalculator(channelOutlets, whiteNoiseCalculator, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository);
             }
             else
             {
-                return new InterpretedPatchCalculator(channelOutlets, whiteNoiseCalculator, _curveRepository, _sampleRepository, _documentRepository);
+                return new InterpretedPatchCalculator(channelOutlets, whiteNoiseCalculator, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository);
             }
         }
 

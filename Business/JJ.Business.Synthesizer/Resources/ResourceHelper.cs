@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Common;
+﻿using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Common;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,19 +12,15 @@ namespace JJ.Business.Synthesizer.Resources
 {
     public static class ResourceHelper
     {
-        private static ResourceManager _propertyDisplayNamesResourceManager;
-
-        static ResourceHelper()
-        {
-            _propertyDisplayNamesResourceManager = new ResourceManager(
-                typeof(PropertyDisplayNames).FullName, 
-                typeof(PropertyDisplayNames).Assembly);
-        }
-
         public static string GetPropertyDisplayName(string resourceName)
         {
-            string str = _propertyDisplayNamesResourceManager.GetString(resourceName);
+            string str = PropertyDisplayNames.ResourceManager.GetString(resourceName);
             return str;
+        }
+
+        public static string GetOperatorTypeDisplayName(OperatorTypeEnum operatorTypeEnum)
+        {
+            return PropertyDisplayNames.ResourceManager.GetString(operatorTypeEnum.ToString());
         }
     }
 }

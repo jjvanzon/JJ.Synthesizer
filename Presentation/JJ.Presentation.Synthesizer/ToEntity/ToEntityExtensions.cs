@@ -388,6 +388,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Patch
 
+        // TODO: Low priority: use PatchRepositories?
         public static Patch ToEntity(
             this PatchDetailsViewModel viewModel,
             IPatchRepository patchRepository,

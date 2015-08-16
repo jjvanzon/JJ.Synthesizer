@@ -140,6 +140,7 @@
     <Compile Include="EntityWrappers\Custom_OperatorWrapper_Operands.cs" />
     <Compile Include="EntityWrappers\Custom_OperatorWrapper_Outlets.cs" />
     <Compile Include="Helpers\OperatorConstants.cs" />
+    <Compile Include="Helpers\PatchRepositories.cs" />
     <Compile Include="Helpers\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
     <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />
@@ -181,7 +182,6 @@
     <Compile Include="EntityWrappers\Substract_OperatorWrapper.cs" />
     <Compile Include="Helpers\AudioFileOutputRepositories.cs" />
     <Compile Include="Helpers\ConversionHelper.cs" />
-    <Compile Include="Helpers\OperatorHelper.cs" />
     <Compile Include="Helpers\RepositoryWrapper.cs" />
     <Compile Include="Helpers\SampleDataTypeHelper.cs" />
     <Compile Include="Extensions\SampleExtensions.cs" />
@@ -206,6 +206,7 @@
     <Compile Include="Resources\ResourceHelper.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_GenerateName.cs" />
+    <Compile Include="SideEffects\Operator_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Patch_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />

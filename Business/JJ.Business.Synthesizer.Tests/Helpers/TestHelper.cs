@@ -77,17 +77,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
-            var patchManager = new PatchManager(
-                repositoryWrapper.PatchRepository,
-                repositoryWrapper.OperatorRepository,
-                repositoryWrapper.OperatorTypeRepository,
-                repositoryWrapper.InletRepository,
-                repositoryWrapper.OutletRepository,
-                repositoryWrapper.CurveRepository,
-                repositoryWrapper.SampleRepository,
-                repositoryWrapper.DocumentRepository,
-                repositoryWrapper.EntityPositionRepository,
-                repositoryWrapper.IDRepository);
+            var patchManager = new PatchManager(new PatchRepositories(repositoryWrapper));
 
             return patchManager;
         }

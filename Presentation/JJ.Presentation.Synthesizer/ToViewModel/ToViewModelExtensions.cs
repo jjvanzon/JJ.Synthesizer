@@ -225,7 +225,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new OperatorTypeViewModel
             {
                 ID = operatorType.ID,
-                DisplayText = ResourceHelper.GetPropertyDisplayName(operatorType.Name)
+                DisplayName = ResourceHelper.GetPropertyDisplayName(operatorType.Name)
             };
 
             return viewModel;

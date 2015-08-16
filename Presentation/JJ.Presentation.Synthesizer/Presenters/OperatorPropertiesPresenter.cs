@@ -12,26 +12,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class OperatorPropertiesPresenter
     {
-        private IOperatorRepository _operatorRepository;
-        private IOperatorTypeRepository _operatorTypeRepository;
-        private IIDRepository _idRepository;
+        private PatchRepositories _repositories;
+        private PatchManager _patchManager;
 
         public OperatorPropertiesViewModel ViewModel { get; set; }
 
-        public OperatorPropertiesPresenter(IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, IIDRepository idRepository)
+        public OperatorPropertiesPresenter(PatchRepositories repositories)
         {
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            _operatorRepository = operatorRepository;
-            _operatorTypeRepository = operatorTypeRepository;
-            _idRepository = idRepository;
+            _repositories = repositories;
+
+            _patchManager = new PatchManager(_repositories);
         }
 
         public void Show()
@@ -64,19 +64,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Operator entity = ViewModel.ToEntity(_operatorRepository, _operatorTypeRepository);
+            Operator entity = ViewModel.ToEntity(_repositories.OperatorRepository, _repositories.OperatorTypeRepository);
 
-            // TODO: Lower priority: Delegate validation to PatchManager?
-            IValidator validator = new OperatorValidator_Basic(entity);
-            if (!validator.IsValid)
+            VoidResult result = _patchManager.ValidateNonRecursive(entity);
+            if (!result.Successful)
             {
                 ViewModel.Successful = false;
-                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                ViewModel.ValidationMessages = result.Messages;
             }
             else
             {
-                ViewModel.ValidationMessages = new List<Message>();
                 ViewModel.Successful = true;
+                ViewModel.ValidationMessages = new List<Message>();
             }
         }
 

@@ -29,69 +29,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class PatchDetailsPresenter
     {
-        private IPatchRepository _patchRepository;
-        private IOperatorRepository _operatorRepository;
-        private IOperatorTypeRepository _operatorTypeRepository;
-        private IInletRepository _inletRepository;
-        private IOutletRepository _outletRepository;
-        private ICurveRepository _curveRepository;
-        private ISampleRepository _sampleRepository;
-        private IDocumentRepository _documentRepository;
-        private IEntityPositionRepository _entityPositionRepository;
-        private IIDRepository _idRepository;
-
+        private PatchRepositories _repositories;
         private PatchManager _patchManager;
         private EntityPositionManager _entityPositionManager;
 
         public PatchDetailsViewModel ViewModel { get; set; }
 
-        public PatchDetailsPresenter(
-            IPatchRepository patchRepository,
-            IOperatorRepository operatorRepository,
-            IOperatorTypeRepository operatorTypeRepository,
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository,
-            IEntityPositionRepository entityPositionRepository, 
-            ICurveRepository curveRepository,
-            ISampleRepository sampleRepository,
-            IDocumentRepository documentRepository,
-            IIDRepository idRepository)
+        public PatchDetailsPresenter(PatchRepositories repositories)
         {
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
-            if (inletRepository == null) throw new NullException(() => inletRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            _patchRepository = patchRepository;
-            _operatorRepository = operatorRepository;
-            _operatorTypeRepository = operatorTypeRepository;
-            _inletRepository = inletRepository;
-            _outletRepository = outletRepository;
-            _entityPositionRepository = entityPositionRepository;
-            _curveRepository = curveRepository;
-            _sampleRepository = sampleRepository;
-            _documentRepository = documentRepository;
-            _idRepository = idRepository;
+            _repositories = repositories;
 
-            _entityPositionManager = new EntityPositionManager(_entityPositionRepository, _idRepository);
+            _entityPositionManager = new EntityPositionManager(_repositories.EntityPositionRepository, _repositories.IDRepository);
 
-            _patchManager = new PatchManager(
-                _patchRepository,
-                _operatorRepository, 
-                _operatorTypeRepository, 
-                _inletRepository, 
-                _outletRepository, 
-                _curveRepository, 
-                _sampleRepository,
-                _documentRepository,
-                _entityPositionRepository,
-                _idRepository);
+            _patchManager = new PatchManager(_repositories);
         }
 
         public void Show()
@@ -119,9 +71,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Patch patch = ViewModel.ToEntity(_patchRepository, _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _entityPositionRepository);
+            Patch patch = ViewModel.ToEntity(
+                _repositories.PatchRepository,
+                _repositories.OperatorRepository,
+                _repositories.OperatorTypeRepository,
+                _repositories.InletRepository,
+                _repositories.OutletRepository,
+                _repositories.EntityPositionRepository);
 
-            IValidator validator = new PatchValidator_Recursive(patch, _curveRepository, _sampleRepository, _documentRepository, alreadyDone: new HashSet<object>());
+            IValidator validator = new PatchValidator_Recursive(patch, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository, alreadyDone: new HashSet<object>());
             if (!validator.IsValid)
             {
                 ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
@@ -261,7 +219,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             ViewModel.SelectedValue = value;
 
-            Operator op = ViewModel.SelectedOperator.ToEntityWithInletsAndOutlets(_operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository);
+            Operator op = ViewModel.SelectedOperator.ToEntityWithInletsAndOutlets(
+                _repositories.OperatorRepository, 
+                _repositories.OperatorTypeRepository, 
+                _repositories.InletRepository, 
+                _repositories.OutletRepository);
+
             op.Data = value;
 
             IValidator validator = new OperatorValidator_Value(op); // TODO: Low priority: Do this with a manager, so you can hide complexity (hide the validator) and decrease the degree of coupling.
@@ -352,7 +315,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     Sample sample = sampleManager.CreateSample(sampleStream);
 
-                    sampleOperatorWrapper = new Sample_OperatorWrapper(sampleOperator, _sampleRepository);
+                    sampleOperatorWrapper = new Sample_OperatorWrapper(sampleOperator, _repositories.SampleRepository);
                     sampleOperatorWrapper.Sample = sample;
                 }
             }
@@ -386,12 +349,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private Patch ToEntity(PatchDetailsViewModel userInput)
         {
             Patch patch = userInput.ToEntity(
-                _patchRepository,
-                _operatorRepository,
-                _operatorTypeRepository,
-                _inletRepository,
-                _outletRepository,
-                _entityPositionRepository);
+                _repositories.PatchRepository,
+                _repositories.OperatorRepository,
+                _repositories.OperatorTypeRepository,
+                _repositories.InletRepository,
+                _repositories.OutletRepository,
+                _repositories.EntityPositionRepository);
 
             return patch;
         }

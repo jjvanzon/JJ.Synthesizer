@@ -104,7 +104,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 return entity.Name;
             }
 
-            string caption = PropertyDisplayNames.ResourceManager.GetString(entity.GetOperatorTypeEnum().ToString());
+            string caption = ResourceHelper.GetOperatorTypeDisplayName(entity.GetOperatorTypeEnum());
             return caption;
         }
     }

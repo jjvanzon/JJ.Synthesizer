@@ -7,17 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms;
-using JJ.Framework.Data;
-using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -56,14 +49,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             titleBarUserControl1.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
+
             labelName.Text = CommonTitles.Name;
+            labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType;
 
             toolTip.SetToolTip(labelName, labelName.Text);
+            toolTip.SetToolTip(labelOperatorTypeTitle, labelOperatorTypeTitle.Text);
         }
 
         private void ApplyViewModelToControls()
         {
             textBoxName.Text = _viewModel.Name;
+            labelOperatorTypeValue.Text = _viewModel.OperatorType.DisplayName;
         }
 
         private void ApplyControlsToViewModel()

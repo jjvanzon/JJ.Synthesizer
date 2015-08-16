@@ -14,58 +14,31 @@ using JJ.Business.Synthesizer.Helpers;
 using System.Reflection;
 using JJ.Framework.Reflection;
 using JJ.Framework.Common;
+using JJ.Framework.Business;
+using JJ.Business.Synthesizer.SideEffects;
 
 namespace JJ.Business.Synthesizer.Factories
 {
     internal class OperatorFactory
     {
-        private IOperatorRepository _operatorRepository;
-        private IOperatorTypeRepository _operatorTypeRepository;
-        private IInletRepository _inletRepository;
-        private IOutletRepository _outletRepository;
-        private ICurveRepository _curveRepository;
-        private ISampleRepository _sampleRepository;
-        private IDocumentRepository _documentRepository;
-        private IIDRepository _idRepository;
+        private PatchRepositories _repositories;
 
         static OperatorFactory()
         {
             _creationMethodDictionary = CreateCreationMethodDictionary();
         }
 
-        public OperatorFactory(
-            IOperatorRepository operatorRepository,
-            IOperatorTypeRepository operatorTypeRepository,
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository,
-            ICurveRepository curveRepository,
-            ISampleRepository sampleRepository,
-            IDocumentRepository documentRepository,
-            IIDRepository idRepository)
+        public OperatorFactory(PatchRepositories repositories)
         {
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
-            if (inletRepository == null) throw new NullException(() => inletRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            _operatorRepository = operatorRepository;
-            _operatorTypeRepository = operatorTypeRepository;
-            _inletRepository = inletRepository;
-            _outletRepository = outletRepository;
-            _curveRepository = curveRepository;
-            _sampleRepository = sampleRepository;
-            _documentRepository = documentRepository;
-            _idRepository = idRepository;
+            _repositories = repositories;
         }
 
         public Add_OperatorWrapper Add(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.Add, PropertyDisplayNames.Add, 2,
+                OperatorTypeEnum.Add, 2,
                 PropertyNames.OperandA, PropertyNames.OperandB,
                 PropertyNames.Result);
 
@@ -88,28 +61,27 @@ namespace JJ.Business.Synthesizer.Factories
             if (operands == null) throw new NullException(() => operands);
 
             var op = new Operator();
-            op.ID = _idRepository.GetID();
-            op.SetOperatorTypeEnum(OperatorTypeEnum.Adder, _operatorTypeRepository);
-            op.Name = PropertyDisplayNames.Adder;
-            _operatorRepository.Insert(op);
+            op.ID = _repositories.IDRepository.GetID();
+            op.SetOperatorTypeEnum(OperatorTypeEnum.Adder, _repositories.OperatorTypeRepository);
+            _repositories.OperatorRepository.Insert(op);
 
             for (int i = 0; i < operands.Count; i++)
             {
                 var inlet = new Inlet();
-                inlet.ID = _idRepository.GetID();
+                inlet.ID = _repositories.IDRepository.GetID();
                 inlet.Name = String.Format("{0}{1}", PropertyNames.Operand, i + 1);
                 inlet.LinkTo(op);
-                _inletRepository.Insert(inlet);
+                _repositories.InletRepository.Insert(inlet);
 
                 Outlet operand = operands[i];
                 inlet.InputOutlet = operand;
             }
 
             var outlet = new Outlet();
-            outlet.ID = _idRepository.GetID();
+            outlet.ID = _repositories.IDRepository.GetID();
             outlet.Name = PropertyNames.Result;
             outlet.LinkTo(op);
-            _outletRepository.Insert(outlet);
+            _repositories.OutletRepository.Insert(outlet);
 
             var wrapper = new Adder_OperatorWrapper(op);
             return wrapper;
@@ -118,7 +90,7 @@ namespace JJ.Business.Synthesizer.Factories
         public Divide_OperatorWrapper Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.Divide, PropertyDisplayNames.Divide, 3,
+                OperatorTypeEnum.Divide, 3,
                 PropertyNames.Numerator, PropertyNames.Denominator, PropertyNames.Origin,
                 PropertyNames.Result);
 
@@ -135,7 +107,7 @@ namespace JJ.Business.Synthesizer.Factories
         public Multiply_OperatorWrapper Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.Multiply, PropertyDisplayNames.Multiply, 3,
+                OperatorTypeEnum.Multiply, 3,
                 PropertyNames.OperandA, PropertyNames.OperandB, PropertyNames.Origin,
                 PropertyNames.Result);
 
@@ -152,9 +124,12 @@ namespace JJ.Business.Synthesizer.Factories
         public PatchInlet_OperatorWrapper PatchInlet(Outlet input = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.PatchInlet, PropertyDisplayNames.PatchInlet, 1,
+                OperatorTypeEnum.PatchInlet, 1,
                 PropertyNames.Input,
                 PropertyNames.Result);
+
+            // NOTE: We cannot use Operator_SideEffect_GenerateName here, because it relies on op.Patch, which is null.
+            op.Name = PropertyDisplayNames.PatchInlet;
 
             var wrapper = new PatchInlet_OperatorWrapper(op)
             {
@@ -167,9 +142,12 @@ namespace JJ.Business.Synthesizer.Factories
         public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.PatchOutlet, PropertyDisplayNames.PatchOutlet, 1,
+                OperatorTypeEnum.PatchOutlet, 1,
                 PropertyNames.Input,
                 PropertyNames.Result);
+
+            // NOTE: We cannot use Operator_SideEffect_GenerateName here, because it relies on op.Patch, which is null.
+            op.Name = PropertyDisplayNames.PatchOutlet;
 
             var wrapper = new PatchOutlet_OperatorWrapper(op)
             {
@@ -182,7 +160,7 @@ namespace JJ.Business.Synthesizer.Factories
         public Power_OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.Power, PropertyDisplayNames.Power, 2,
+                OperatorTypeEnum.Power, 2,
                 PropertyNames.Base, PropertyNames.Exponent,
                 PropertyNames.Result);
 
@@ -198,7 +176,7 @@ namespace JJ.Business.Synthesizer.Factories
         public Sine_OperatorWrapper Sine(Outlet volume = null, Outlet pitch = null, Outlet level = null, Outlet phaseStart = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.Sine, PropertyDisplayNames.Sine, 4,
+                OperatorTypeEnum.Sine, 4,
                 PropertyNames.Volume, PropertyNames.Pitch, PropertyNames.Level, PropertyNames.PhaseStart,
                 PropertyNames.Result);
 
@@ -216,7 +194,7 @@ namespace JJ.Business.Synthesizer.Factories
         public Substract_OperatorWrapper Substract(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.Substract, PropertyDisplayNames.Substract, 2,
+                OperatorTypeEnum.Substract, 2,
                 PropertyNames.OperandA, PropertyNames.OperandB,
                 PropertyNames.Result);
 
@@ -232,7 +210,7 @@ namespace JJ.Business.Synthesizer.Factories
         public TimeAdd_OperatorWrapper TimeAdd(Outlet signal = null, Outlet timeDifference = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.TimeAdd, PropertyDisplayNames.TimeAdd, 2,
+                OperatorTypeEnum.TimeAdd, 2,
                 PropertyNames.Signal, PropertyNames.TimeDifference,
                 PropertyNames.Result);
 
@@ -248,7 +226,7 @@ namespace JJ.Business.Synthesizer.Factories
         public TimeDivide_OperatorWrapper TimeDivide(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.TimeDivide, PropertyDisplayNames.TimeDivide, 3,
+                OperatorTypeEnum.TimeDivide, 3,
                 PropertyNames.Signal, PropertyNames.TimeDivider, PropertyNames.Origin,
                 PropertyNames.Result);
 
@@ -265,7 +243,7 @@ namespace JJ.Business.Synthesizer.Factories
         public TimeMultiply_OperatorWrapper TimeMultiply(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.TimeMultiply, PropertyDisplayNames.TimeMultiply, 3,
+                OperatorTypeEnum.TimeMultiply, 3,
                 PropertyNames.Signal, PropertyNames.TimeMultiplier, PropertyNames.Origin,
                 PropertyNames.Result);
 
@@ -282,7 +260,7 @@ namespace JJ.Business.Synthesizer.Factories
         public TimePower_OperatorWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.TimePower, PropertyDisplayNames.TimePower, 3,
+                OperatorTypeEnum.TimePower, 3,
                 PropertyNames.Signal, PropertyNames.Exponent, PropertyNames.Origin,
                 PropertyNames.Result);
 
@@ -299,7 +277,7 @@ namespace JJ.Business.Synthesizer.Factories
         public TimeSubstract_OperatorWrapper TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.TimeSubstract, PropertyDisplayNames.TimeSubstract, 2,
+                OperatorTypeEnum.TimeSubstract, 2,
                 PropertyNames.Signal, PropertyNames.TimeDifference,
                 PropertyNames.Result);
 
@@ -315,7 +293,7 @@ namespace JJ.Business.Synthesizer.Factories
         public Value_OperatorWrapper Value(double value = 0)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.Value, PropertyDisplayNames.Value, 0,
+                OperatorTypeEnum.Value, 0,
                 PropertyNames.Result);
 
             var wrapper = new Value_OperatorWrapper(op)
@@ -329,10 +307,10 @@ namespace JJ.Business.Synthesizer.Factories
         public CurveIn_OperatorWrapper CurveIn(Curve curve = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.CurveIn, PropertyDisplayNames.CurveIn, 0,
+                OperatorTypeEnum.CurveIn, 0,
                 PropertyNames.Result);
 
-            var wrapper = new CurveIn_OperatorWrapper(op, _curveRepository);
+            var wrapper = new CurveIn_OperatorWrapper(op, _repositories.CurveRepository);
 
             if (curve != null)
             {
@@ -345,10 +323,10 @@ namespace JJ.Business.Synthesizer.Factories
         public Sample_OperatorWrapper Sample(Sample sample = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.Sample, PropertyDisplayNames.Sample, 0,
+                OperatorTypeEnum.Sample, 0,
                 PropertyNames.Result);
 
-            var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
+            var wrapper = new Sample_OperatorWrapper(op, _repositories.SampleRepository);
             if (sample != null)
             {
                 wrapper.SampleID = sample.ID;
@@ -360,7 +338,7 @@ namespace JJ.Business.Synthesizer.Factories
         public WhiteNoise_OperatorWrapper WhiteNoise()
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.WhiteNoise, PropertyDisplayNames.WhiteNoise, 0,
+                OperatorTypeEnum.WhiteNoise, 0,
                 PropertyNames.Result);
 
             var wrapper = new WhiteNoise_OperatorWrapper(op);
@@ -371,7 +349,7 @@ namespace JJ.Business.Synthesizer.Factories
         public Resample_OperatorWrapper Resample(Outlet signal = null, Outlet samplingRate = null)
         {
             Operator op = CreateOperator(
-                OperatorTypeEnum.Resample, PropertyDisplayNames.Resample, 2,
+                OperatorTypeEnum.Resample, 2,
                 PropertyNames.Signal, PropertyNames.SamplingRate,
                 PropertyNames.Result);
 
@@ -389,12 +367,11 @@ namespace JJ.Business.Synthesizer.Factories
         public Custom_OperatorWrapper CustomOperator()
         {
             var op = new Operator();
-            op.ID = _idRepository.GetID();
-            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _operatorTypeRepository);
-            op.Name = PropertyDisplayNames.CustomOperator;
-            _operatorRepository.Insert(op);
+            op.ID = _repositories.IDRepository.GetID();
+            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
+            _repositories.OperatorRepository.Insert(op);
 
-            var wrapper = new Custom_OperatorWrapper(op, _documentRepository);
+            var wrapper = new Custom_OperatorWrapper(op, _repositories.DocumentRepository);
             return wrapper;
         }
 
@@ -405,32 +382,31 @@ namespace JJ.Business.Synthesizer.Factories
             if (document.MainPatch == null) throw new NullException(() => document.MainPatch);
 
             var op = new Operator();
-            op.ID = _idRepository.GetID();
-            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _operatorTypeRepository);
-            op.Name = PropertyDisplayNames.CustomOperator;
-            _operatorRepository.Insert(op);
+            op.ID = _repositories.IDRepository.GetID();
+            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
+            _repositories.OperatorRepository.Insert(op);
 
             IList<Operator> patchInlets = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet).ToArray();
             foreach (Operator patchInlet in patchInlets)
             {
                 var inlet = new Inlet();
-                inlet.ID = _idRepository.GetID();
+                inlet.ID = _repositories.IDRepository.GetID();
                 inlet.Name = patchInlet.Name;
                 inlet.LinkTo(op);
-                _inletRepository.Insert(inlet);
+                _repositories.InletRepository.Insert(inlet);
             }
 
             IList<Operator> patchOutlets = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet).ToArray();
             foreach (Operator patchOutlet in patchOutlets)
             {
                 var outlet = new Outlet();
-                outlet.ID = _idRepository.GetID();
+                outlet.ID = _repositories.IDRepository.GetID();
                 outlet.Name = patchOutlet.Name;
                 outlet.LinkTo(op);
-                _outletRepository.Insert(outlet);
+                _repositories.OutletRepository.Insert(outlet);
             }
 
-            var wrapper = new Custom_OperatorWrapper(op, _documentRepository);
+            var wrapper = new Custom_OperatorWrapper(op, _repositories.DocumentRepository);
 
             wrapper.Document = document;
 
@@ -520,12 +496,32 @@ namespace JJ.Business.Synthesizer.Factories
             return op;
         }
 
-        private Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, string name, int inletCount, params string[] inletAndOutletNames)
+        public Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, int inletCount, params string[] inletAndOutletNames)
         {
-            Operator op = OperatorHelper.CreateOperator(
-                _operatorRepository, _operatorTypeRepository, _inletRepository, _outletRepository, _idRepository,
-                operatorTypeEnum, name, inletCount, inletAndOutletNames);
+            if (inletCount > inletAndOutletNames.Length) throw new GreaterThanException(() => inletCount, () => inletAndOutletNames.Length);
 
+            var op = new Operator();
+            op.ID = _repositories.IDRepository.GetID();
+            op.SetOperatorTypeEnum(operatorTypeEnum, _repositories.OperatorTypeRepository);
+            _repositories.OperatorRepository.Insert(op);
+
+            foreach (string inletName in inletAndOutletNames.Take(inletCount))
+            {
+                var inlet = new Inlet();
+                inlet.ID = _repositories.IDRepository.GetID();
+                inlet.Name = inletName;
+                inlet.LinkTo(op);
+                _repositories.InletRepository.Insert(inlet);
+            }
+
+            foreach (string outletName in inletAndOutletNames.Skip(inletCount))
+            {
+                var outlet = new Outlet();
+                outlet.ID = _repositories.IDRepository.GetID();
+                outlet.Name = outletName;
+                outlet.LinkTo(op);
+                _repositories.OutletRepository.Insert(outlet);
+            }
 
             return op;
         }
