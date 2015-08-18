@@ -312,4 +312,7 @@
   <data name="ChildDocumentCount" xml:space="preserve">
     <value>Aantal onderliggende documenten</value>
   </data>
+  <data name="SortOrder" xml:space="preserve">
+    <value>Volgnummer</value>
+  </data>
 </root>

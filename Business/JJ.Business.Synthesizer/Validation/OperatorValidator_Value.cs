@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Validation
             base.Execute();
 
             For(() => Object.Data, PropertyDisplayNames.Value)
-                .NotNullOrWhiteSpace()
+                .NotNullOrEmpty()
                 .IsDouble();
         }
     }

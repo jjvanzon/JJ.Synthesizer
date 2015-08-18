@@ -2,19 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Framework.Presentation.Svg.Enums;
-using JJ.Framework.Presentation.Svg.Helpers;
 using JJ.Framework.Presentation.Svg.Models.Elements;
-using JJ.Framework.Presentation.Svg.Models.Styling;
 using JJ.Framework.Presentation.Svg.Gestures;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.Svg.Gestures;
 using JJ.Presentation.Synthesizer.Svg.Converters;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
-using JJ.Framework.Mathematics;
 
 namespace JJ.Presentation.Synthesizer.Svg
 {

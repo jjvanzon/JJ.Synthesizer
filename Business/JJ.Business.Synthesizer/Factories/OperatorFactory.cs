@@ -21,6 +21,8 @@ namespace JJ.Business.Synthesizer.Factories
 {
     internal class OperatorFactory
     {
+        private const int DEFAULT_SORT_ORDER = 1;
+
         private PatchRepositories _repositories;
 
         static OperatorFactory()
@@ -133,7 +135,9 @@ namespace JJ.Business.Synthesizer.Factories
 
             var wrapper = new PatchInlet_OperatorWrapper(op)
             {
-                Input = input
+                Input = input,
+                // NOTE: You'd want to number it according to the other patch inlets in the patch, but you cannot do that right now, because op.Patch is null.
+                SortOrder = DEFAULT_SORT_ORDER
             };
 
             return wrapper;
@@ -151,7 +155,9 @@ namespace JJ.Business.Synthesizer.Factories
 
             var wrapper = new PatchOutlet_OperatorWrapper(op)
             {
-                Input = input
+                Input = input,
+                // NOTE: You'd want to number it according to the other patch inlets in the patch, but you cannot do that right now, because op.Patch is null.
+                SortOrder = DEFAULT_SORT_ORDER
             };
 
             return wrapper;
@@ -445,7 +451,7 @@ namespace JJ.Business.Synthesizer.Factories
         // Generic methods for operator creation
 
         private static Dictionary<OperatorTypeEnum, MethodInfo> _creationMethodDictionary;
-        
+
         private static Dictionary<OperatorTypeEnum, MethodInfo> CreateCreationMethodDictionary()
         {
             OperatorTypeEnum[] enumMembers = (OperatorTypeEnum[])Enum.GetValues(typeof(OperatorTypeEnum));
@@ -505,20 +511,24 @@ namespace JJ.Business.Synthesizer.Factories
             op.SetOperatorTypeEnum(operatorTypeEnum, _repositories.OperatorTypeRepository);
             _repositories.OperatorRepository.Insert(op);
 
+            int sortOrder = 1;
             foreach (string inletName in inletAndOutletNames.Take(inletCount))
             {
                 var inlet = new Inlet();
                 inlet.ID = _repositories.IDRepository.GetID();
                 inlet.Name = inletName;
+                inlet.SortOrder = sortOrder++;
                 inlet.LinkTo(op);
                 _repositories.InletRepository.Insert(inlet);
             }
 
+            sortOrder = 1;
             foreach (string outletName in inletAndOutletNames.Skip(inletCount))
             {
                 var outlet = new Outlet();
                 outlet.ID = _repositories.IDRepository.GetID();
                 outlet.Name = outletName;
+                outlet.SortOrder = sortOrder++;
                 outlet.LinkTo(op);
                 _repositories.OutletRepository.Insert(outlet);
             }

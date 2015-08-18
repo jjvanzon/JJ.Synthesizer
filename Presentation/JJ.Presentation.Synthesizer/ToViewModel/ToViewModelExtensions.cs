@@ -176,7 +176,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
-            IList<InletViewModel> viewModels = entities/*.OrderBy(x => x.SortOrder)*/ // TODO: Introduce SortOrder property and then sort.
+            IList<InletViewModel> viewModels = entities.OrderBy(x => x.SortOrder)
                                                        .Select(x => x.ToViewModel())
                                                        .ToList();
             return viewModels;
@@ -188,8 +188,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new InletViewModel
             {
+                ID = entity.ID,
                 Name = entity.Name,
-                ID = entity.ID
+                SortOrder = entity.SortOrder
             };
 
             return viewModel;
@@ -199,7 +200,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
-            IList<OutletViewModel> viewModels = entities/*.OrderBy(x => x.SortOrder)*/ // TODO: Introduce SortOrder property and then sort.
+            IList<OutletViewModel> viewModels = entities.OrderBy(x => x.SortOrder)
                                                         .Select(x => x.ToViewModel())
                                                         .ToList();
             return viewModels;
@@ -211,8 +212,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new OutletViewModel
             {
+                ID = entity.ID,
                 Name = entity.Name,
-                ID = entity.ID
+                SortOrder = entity.SortOrder
             };
 
             return viewModel;

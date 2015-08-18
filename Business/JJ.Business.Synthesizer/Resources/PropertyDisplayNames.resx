@@ -313,4 +313,7 @@
   <data name="ChildDocumentCount" xml:space="preserve">
     <value>Child Document Count</value>
   </data>
+  <data name="SortOrder" xml:space="preserve">
+    <value>Sort Order</value>
+  </data>
 </root>

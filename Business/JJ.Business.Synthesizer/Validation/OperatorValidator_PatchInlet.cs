@@ -24,6 +24,11 @@ namespace JJ.Business.Synthesizer.Validation
             base.Execute();
 
             For(() => Object.Name, CommonTitles.Name).NotNullOrEmpty();
+
+            For(() => Object.Data, PropertyDisplayNames.SortOrder)
+                // TODO: Uncomment code line after PatchInlet and PatchOutlet operators get their own Properties view in which you can enter a SortOrder.
+                //.NotNullOrEmpty()
+                .IsInteger();
         }
     }
 }

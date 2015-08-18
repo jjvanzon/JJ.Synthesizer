@@ -20,6 +20,12 @@ namespace JJ.Data.Synthesizer
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
 
+        /// <summary>
+        /// This sort order is only visual. It is not a reference number.
+        /// The ID is the main reference number and the name is an alternative key.
+        /// </summary>
+        public virtual int SortOrder { get; set; }
+
         /// <summary> parent </summary>
         public virtual Operator Operator { get; set; }
 

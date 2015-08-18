@@ -4,10 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Framework.Validation;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
@@ -27,6 +24,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Outlet Result
         {
             get { return GetOutlet(OperatorConstants.PATCH_INLET_RESULT_INDEX); }
+        }
+
+        public int SortOrder
+        {
+            get { return Int32.Parse(Operator.Data); }
+            set { Operator.Data = value.ToString(); }
         }
 
         public static implicit operator Outlet(PatchInlet_OperatorWrapper wrapper)
