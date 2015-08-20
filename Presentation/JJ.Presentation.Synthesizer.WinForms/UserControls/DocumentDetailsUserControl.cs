@@ -55,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl1.Text = PropertyDisplayNames.Document;
+            titleBarUserControl.Text = PropertyDisplayNames.Document;
             labelIDTitle.Text = CommonTitles.ID;
             labelName.Text = CommonTitles.Name;
             buttonSave.Text = CommonTitles.Save;
@@ -108,7 +108,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Events
 
-        private void titleBarUserControl1_CloseClicked(object sender, EventArgs e)
+        private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
             Close();
         }

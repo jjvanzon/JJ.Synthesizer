@@ -120,6 +120,24 @@
     <Compile Include="UserControls\AudioFileOutputChannelsUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputChannelsUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForValue.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForValue.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_ForValue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForPatchOutlet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForPatchOutlet.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_ForPatchOutlet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForPatchInlet.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForPatchInlet.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_ForPatchInlet.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -234,6 +252,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputChannelsUserControl.resx">
       <DependentUpon>AudioFileOutputChannelsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForValue.resx">
+      <DependentUpon>OperatorPropertiesUserControl_ForValue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForPatchOutlet.resx">
+      <DependentUpon>OperatorPropertiesUserControl_ForPatchOutlet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForPatchInlet.resx">
+      <DependentUpon>OperatorPropertiesUserControl_ForPatchInlet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl.resx">
       <DependentUpon>OperatorPropertiesUserControl.cs</DependentUpon>

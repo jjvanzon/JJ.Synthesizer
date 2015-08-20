@@ -55,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl1.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.ChildDocument);
+            titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.ChildDocument);
             labelName.Text = CommonTitles.Name;
             labelChildDocumentType.Text = PropertyDisplayNames.ChildDocumentType;
 
@@ -112,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Events
 
-        private void titleBarUserControl1_CloseClicked(object sender, EventArgs e)
+        private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
             Close();
         }

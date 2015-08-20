@@ -27,5 +27,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public IList<PatchDetailsViewModel> PatchDetailsList { get; set; }
 
         public IList<OperatorPropertiesViewModel> OperatorPropertiesList { get; set; }
+        public IList<OperatorPropertiesViewModel_ForPatchInlet> OperatorPropertiesList_ForPatchInlets { get; set; }
+        public IList<OperatorPropertiesViewModel_ForPatchOutlet> OperatorPropertiesList_ForPatchOutlets { get; set; }
+        public IList<OperatorPropertiesViewModel_ForValue> OperatorPropertiesList_ForValues { get; set; }
     }
 }

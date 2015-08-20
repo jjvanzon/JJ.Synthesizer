@@ -12,14 +12,14 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class OperatorPropertiesPresenter
+    internal class OperatorPropertiesPresenter_ForPatchOutlet
     {
         private PatchRepositories _repositories;
         private PatchManager _patchManager;
 
-        public OperatorPropertiesViewModel ViewModel { get; set; }
+        public OperatorPropertiesViewModel_ForPatchOutlet ViewModel { get; set; }
 
-        public OperatorPropertiesPresenter(PatchRepositories repositories)
+        public OperatorPropertiesPresenter_ForPatchOutlet(PatchRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 

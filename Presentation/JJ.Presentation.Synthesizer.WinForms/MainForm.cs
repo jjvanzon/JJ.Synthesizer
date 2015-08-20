@@ -87,6 +87,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
             operatorPropertiesUserControl.CloseRequested += operatorPropertiesUserControl_CloseRequested;
             operatorPropertiesUserControl.LoseFocusRequested += operatorPropertiesUserControl_LoseFocusRequested;
+            operatorPropertiesUserControl_ForPatchInlet.CloseRequested += operatorPropertiesUserControl_ForPatchInlet_CloseRequested;
+            operatorPropertiesUserControl_ForPatchInlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested;
+            operatorPropertiesUserControl_ForPatchOutlet.CloseRequested += operatorPropertiesUserControl_ForPatchOutlet_CloseRequested;
+            operatorPropertiesUserControl_ForPatchOutlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested;
+            operatorPropertiesUserControl_ForValue.CloseRequested += operatorPropertiesUserControl_ForValue_CloseRequested;
+            operatorPropertiesUserControl_ForValue.LoseFocusRequested += operatorPropertiesUserControl_ForValue_LoseFocusRequested;
             patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
             patchDetailsUserControl.LoseFocusRequested += patchDetailsUserControl_LoseFocusRequested;
             patchDetailsUserControl.DeleteOperatorRequested += patchDetailsUserControl_DeleteOperatorRequested;
@@ -394,6 +400,36 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void operatorPropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
             OperatorPropertiesClose();
+        }
+
+        private void operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesLoseFocus_ForPatchInlet();
+        }
+
+        private void operatorPropertiesUserControl_ForPatchInlet_CloseRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesClose_ForPatchInlet();
+        }
+
+        private void operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesLoseFocus_ForPatchOutlet();
+        }
+
+        private void operatorPropertiesUserControl_ForPatchOutlet_CloseRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesClose_ForPatchOutlet();
+        }
+
+        private void operatorPropertiesUserControl_ForValue_LoseFocusRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesLoseFocus_ForValue();
+        }
+
+        private void operatorPropertiesUserControl_ForValue_CloseRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesClose_ForValue();
         }
 
         // Patch Events
@@ -851,6 +887,42 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void OperatorPropertiesClose_ForPatchInlet()
+        {
+            _presenter.OperatorPropertiesClose_ForPatchInlet();
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesLoseFocus_ForPatchInlet()
+        {
+            _presenter.OperatorPropertiesLoseFocus_ForPatchInlet();
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesClose_ForPatchOutlet()
+        {
+            _presenter.OperatorPropertiesClose_ForPatchOutlet();
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesLoseFocus_ForPatchOutlet()
+        {
+            _presenter.OperatorPropertiesLoseFocus_ForPatchOutlet();
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesClose_ForValue()
+        {
+            _presenter.OperatorPropertiesClose_ForValue();
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesLoseFocus_ForValue()
+        {
+            _presenter.OperatorPropertiesLoseFocus_ForValue();
+            ApplyViewModel();
+        }
+
         private void OperatorCreate(int operatorTypeID)
         {
             _presenter.OperatorCreate(operatorTypeID);
@@ -1000,18 +1072,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 menuUserControl.Show(_presenter.ViewModel.Menu);
 
-                documentGridUserControl.ViewModel = _presenter.ViewModel.DocumentGrid;
-                documentGridUserControl.Visible = _presenter.ViewModel.DocumentGrid.Visible;
-
-                documentDetailsUserControl.ViewModel = _presenter.ViewModel.DocumentDetails;
-                documentDetailsUserControl.Visible = _presenter.ViewModel.DocumentDetails.Visible;
-
-                documentTreeUserControl.ViewModel = _presenter.ViewModel.Document.DocumentTree;
-                documentTreeUserControl.Visible = _presenter.ViewModel.Document.DocumentTree.Visible;
-
-                documentPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.DocumentProperties;
-                documentPropertiesUserControl.Visible = _presenter.ViewModel.Document.DocumentProperties.Visible;
-
                 audioFileOutputGridUserControl.ViewModel = _presenter.ViewModel.Document.AudioFileOutputGrid;
                 audioFileOutputGridUserControl.Visible = _presenter.ViewModel.Document.AudioFileOutputGrid.Visible;
 
@@ -1064,6 +1124,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 effectGridUserControl.ViewModel = _presenter.ViewModel.Document.EffectGrid;
                 effectGridUserControl.Visible = _presenter.ViewModel.Document.EffectGrid.Visible;
 
+                // Document ViewModels
+                documentGridUserControl.ViewModel = _presenter.ViewModel.DocumentGrid;
+                documentGridUserControl.Visible = _presenter.ViewModel.DocumentGrid.Visible;
+
+                documentDetailsUserControl.ViewModel = _presenter.ViewModel.DocumentDetails;
+                documentDetailsUserControl.Visible = _presenter.ViewModel.DocumentDetails.Visible;
+
+                documentTreeUserControl.ViewModel = _presenter.ViewModel.Document.DocumentTree;
+                documentTreeUserControl.Visible = _presenter.ViewModel.Document.DocumentTree.Visible;
+
+                documentPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.DocumentProperties;
+                documentPropertiesUserControl.Visible = _presenter.ViewModel.Document.DocumentProperties.Visible;
 
                 // OperatorPropertiesViewModel
                 bool operatorPropertiesVisible = false;
@@ -1075,6 +1147,36 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     operatorPropertiesVisible = true;
                 }
                 operatorPropertiesUserControl.Visible = operatorPropertiesVisible;
+
+                bool operatorPropertiesVisible_ForPatchInlet = false;
+                OperatorPropertiesViewModel_ForPatchInlet visibleOperatorPropertiesViewModel_ForPatchInlet =
+                    _presenter.ViewModel.Document.OperatorPropertiesList_ForPatchInlets.Where(x => x.Visible).SingleOrDefault();
+                if (visibleOperatorPropertiesViewModel_ForPatchInlet != null)
+                {
+                    operatorPropertiesUserControl_ForPatchInlet.ViewModel = visibleOperatorPropertiesViewModel_ForPatchInlet;
+                    operatorPropertiesVisible_ForPatchInlet = true;
+                }
+                operatorPropertiesUserControl_ForPatchInlet.Visible = operatorPropertiesVisible_ForPatchInlet;
+
+                bool operatorPropertiesVisible_ForPatchOutlet = false;
+                OperatorPropertiesViewModel_ForPatchOutlet visibleOperatorPropertiesViewModel_ForPatchOutlet =
+                    _presenter.ViewModel.Document.OperatorPropertiesList_ForPatchOutlets.Where(x => x.Visible).SingleOrDefault();
+                if (visibleOperatorPropertiesViewModel_ForPatchOutlet != null)
+                {
+                    operatorPropertiesUserControl_ForPatchOutlet.ViewModel = visibleOperatorPropertiesViewModel_ForPatchOutlet;
+                    operatorPropertiesVisible_ForPatchOutlet = true;
+                }
+                operatorPropertiesUserControl_ForPatchOutlet.Visible = operatorPropertiesVisible_ForPatchOutlet;
+
+                bool operatorPropertiesVisible_ForValue = false;
+                OperatorPropertiesViewModel_ForValue visibleOperatorPropertiesViewModel_ForValue =
+                    _presenter.ViewModel.Document.OperatorPropertiesList_ForValues.Where(x => x.Visible).SingleOrDefault();
+                if (visibleOperatorPropertiesViewModel_ForValue != null)
+                {
+                    operatorPropertiesUserControl_ForValue.ViewModel = visibleOperatorPropertiesViewModel_ForValue;
+                    operatorPropertiesVisible_ForValue = true;
+                }
+                operatorPropertiesUserControl_ForValue.Visible = operatorPropertiesVisible_ForValue;
 
                 // PatchGridViewModel
                 bool patchGridVisible = false;
@@ -1156,11 +1258,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 bool treePanelMustBeVisible = _presenter.ViewModel.Document.DocumentTree.Visible;
                 SetTreePanelVisible(treePanelMustBeVisible);
 
-                bool propertiesPanelMustBeVisible = _presenter.ViewModel.Document.DocumentProperties.Visible || 
+                bool propertiesPanelMustBeVisible = _presenter.ViewModel.Document.DocumentProperties.Visible ||
                                                     audioFileOutputPropertiesVisible ||
-                                                    samplePropertiesVisible ||
                                                     childDocumentPropertiesVisible ||
-                                                    operatorPropertiesVisible;
+                                                    operatorPropertiesVisible ||
+                                                    operatorPropertiesVisible_ForPatchInlet ||
+                                                    operatorPropertiesVisible_ForPatchOutlet ||
+                                                    operatorPropertiesVisible_ForValue ||
+                                                    samplePropertiesVisible;
 
                 SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
 

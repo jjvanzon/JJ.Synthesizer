@@ -13,7 +13,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class OperatorValidator_PatchInlet : OperatorValidator_Base_WithoutData
+    public class OperatorValidator_PatchInlet : OperatorValidator_Base
     {
         public OperatorValidator_PatchInlet(Operator obj)
             : base(obj, OperatorTypeEnum.PatchInlet, 1, PropertyNames.Input, PropertyNames.Result)
@@ -26,8 +26,7 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => Object.Name, CommonTitles.Name).NotNullOrEmpty();
 
             For(() => Object.Data, PropertyDisplayNames.SortOrder)
-                // TODO: Uncomment code line after PatchInlet and PatchOutlet operators get their own Properties view in which you can enter a SortOrder.
-                //.NotNullOrEmpty()
+                .NotNullOrEmpty()
                 .IsInteger();
         }
     }

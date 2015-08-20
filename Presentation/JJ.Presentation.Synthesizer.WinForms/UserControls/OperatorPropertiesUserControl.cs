@@ -48,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl1.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
+            titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType;
@@ -90,7 +90,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Events
 
-        private void titleBarUserControl1_CloseClicked(object sender, EventArgs e)
+        private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
             Close();
         }

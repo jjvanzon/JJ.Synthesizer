@@ -35,7 +35,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelIDTitle = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.labelIDValue = new System.Windows.Forms.Label();
-            this.titleBarUserControl1 = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
+            this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
@@ -45,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanel2.ColumnCount = 1;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel2.Controls.Add(this.tableLayoutPanel, 0, 1);
-            this.tableLayoutPanel2.Controls.Add(this.titleBarUserControl1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.titleBarUserControl, 0, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -116,20 +116,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelIDValue.Text = "labelIDValue";
             this.labelIDValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // titleBarUserControl1
+            // titleBarUserControl
             // 
-            this.titleBarUserControl1.AddButtonVisible = false;
-            this.titleBarUserControl1.BackColor = System.Drawing.SystemColors.Control;
-            this.titleBarUserControl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.titleBarUserControl1.CloseButtonVisible = true;
-            this.titleBarUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.titleBarUserControl1.Location = new System.Drawing.Point(0, 0);
-            this.titleBarUserControl1.Margin = new System.Windows.Forms.Padding(0);
-            this.titleBarUserControl1.Name = "titleBarUserControl1";
-            this.titleBarUserControl1.RemoveButtonVisible = false;
-            this.titleBarUserControl1.Size = new System.Drawing.Size(55, 21);
-            this.titleBarUserControl1.TabIndex = 7;
-            this.titleBarUserControl1.CloseClicked += new System.EventHandler(this.titleBarUserControl1_CloseClicked);
+            this.titleBarUserControl.AddButtonVisible = false;
+            this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
+            this.titleBarUserControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.titleBarUserControl.CloseButtonVisible = true;
+            this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
+            this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
+            this.titleBarUserControl.Name = "titleBarUserControl";
+            this.titleBarUserControl.RemoveButtonVisible = false;
+            this.titleBarUserControl.Size = new System.Drawing.Size(55, 21);
+            this.titleBarUserControl.TabIndex = 7;
+            this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
             // DocumentPropertiesUserControl
             // 
@@ -153,7 +153,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         #endregion
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private TitleBarUserControl titleBarUserControl1;
+        private TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.Label labelIDValue;

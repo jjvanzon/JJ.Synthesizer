@@ -43,6 +43,9 @@
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
     <Compile Include="Presenters\ChildDocumentGridPresenter.cs" />
+    <Compile Include="Presenters\OperatorPropertiesPresenter_ForValue.cs" />
+    <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchOutlet.cs" />
+    <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchInlet.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter.cs" />
     <Compile Include="Resources\PresentationMessageFormatter.cs" />
     <Compile Include="Resources\PresentationMessages.Designer.cs">
@@ -124,6 +127,9 @@
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\NotFoundViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel_ForValue.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel_ForPatchOutlet.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel_ForPatchInlet.cs" />
     <Compile Include="ViewModels\Partials\ChildDocumentTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\DummyViewModel.cs" />
     <Compile Include="ViewModels\Partials\MenuItemViewModel.cs" />

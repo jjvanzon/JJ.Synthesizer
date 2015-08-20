@@ -61,6 +61,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private MenuPresenter _menuPresenter;
         private NotFoundPresenter _notFoundPresenter;
         private OperatorPropertiesPresenter _operatorPropertiesPresenter;
+        private OperatorPropertiesPresenter_ForPatchInlet _operatorPropertiesPresenter_ForPatchInlet;
+        private OperatorPropertiesPresenter_ForPatchOutlet _operatorPropertiesPresenter_ForPatchOutlet;
+        private OperatorPropertiesPresenter_ForValue _operatorPropertiesPresenter_ForValue;
         private PatchDetailsPresenter _patchDetailsPresenter;
         private PatchGridPresenter _patchGridPresenter;
         private SampleGridPresenter _sampleGridPresenter;
@@ -103,6 +106,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _menuPresenter = new MenuPresenter();
             _notFoundPresenter = new NotFoundPresenter();
             _operatorPropertiesPresenter = new OperatorPropertiesPresenter(patchRepositories);
+            _operatorPropertiesPresenter_ForPatchInlet = new OperatorPropertiesPresenter_ForPatchInlet(patchRepositories);
+            _operatorPropertiesPresenter_ForPatchOutlet = new OperatorPropertiesPresenter_ForPatchOutlet(patchRepositories);
+            _operatorPropertiesPresenter_ForValue = new OperatorPropertiesPresenter_ForValue(patchRepositories);
             _patchDetailsPresenter = _patchDetailsPresenter = new PatchDetailsPresenter(patchRepositories);
             _patchGridPresenter = new PatchGridPresenter(_repositoryWrapper.DocumentRepository);
             _sampleGridPresenter = new SampleGridPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.SampleRepository);
@@ -1087,10 +1093,52 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                OperatorPropertiesViewModel viewModel = ChildDocumentHelper.GetOperatorPropertiesViewModel(ViewModel.Document, id);
-                _operatorPropertiesPresenter.ViewModel = viewModel;
-                _operatorPropertiesPresenter.Show();
-                DispatchViewModel(_operatorPropertiesPresenter.ViewModel);
+                {
+                    OperatorPropertiesViewModel viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel(ViewModel.Document, id);
+                    if (viewModel != null)
+                    {
+                        OperatorPropertiesPresenter partialPresenter = _operatorPropertiesPresenter;
+                        partialPresenter.ViewModel = viewModel;
+                        partialPresenter.Show();
+                        DispatchViewModel(partialPresenter.ViewModel);
+                        return;
+                    }
+                }
+                {
+                    OperatorPropertiesViewModel_ForPatchInlet viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForPatchInlet(ViewModel.Document, id);
+                    if (viewModel != null)
+                    {
+                        OperatorPropertiesPresenter_ForPatchInlet partialPresenter = _operatorPropertiesPresenter_ForPatchInlet;
+                        partialPresenter.ViewModel = viewModel;
+                        partialPresenter.Show();
+                        DispatchViewModel(partialPresenter.ViewModel);
+                        return;
+                    }
+                }
+                {
+                    OperatorPropertiesViewModel_ForPatchOutlet viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForPatchOutlet(ViewModel.Document, id);
+                    if (viewModel != null)
+                    {
+                        OperatorPropertiesPresenter_ForPatchOutlet partialPresenter = _operatorPropertiesPresenter_ForPatchOutlet;
+                        partialPresenter.ViewModel = viewModel;
+                        partialPresenter.Show();
+                        DispatchViewModel(partialPresenter.ViewModel);
+                        return;
+                    }
+                }
+                {
+                    OperatorPropertiesViewModel_ForValue viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForValue(ViewModel.Document, id);
+                    if (viewModel != null)
+                    {
+                        OperatorPropertiesPresenter_ForValue partialPresenter = _operatorPropertiesPresenter_ForValue;
+                        partialPresenter.ViewModel = viewModel;
+                        partialPresenter.Show();
+                        DispatchViewModel(partialPresenter.ViewModel);
+                        return;
+                    }
+                }
+
+                throw new Exception(String.Format("Properties view model not found for operator with ID '{0}'.", id));
             }
             finally
             {
@@ -1102,24 +1150,119 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
+                OperatorPropertiesPresenter partialPresenter = _operatorPropertiesPresenter;
+
                 // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
                 // the inlets and outlets too, which are not defined in the OperatorDetailsViewModel.
-                OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, _operatorPropertiesPresenter.ViewModel.ID);
+                OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
                 Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
                     _repositoryWrapper.OperatorRepository,
                     _repositoryWrapper.OperatorTypeRepository,
                     _repositoryWrapper.InletRepository,
                     _repositoryWrapper.OutletRepository);
 
-                _operatorPropertiesPresenter.Close();
+                partialPresenter.Close();
 
-                if (_operatorPropertiesPresenter.ViewModel.Successful)
+                if (partialPresenter.ViewModel.Successful)
                 {
                     // Refresh the operator in the patch view.
                     ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
                 }
 
-                DispatchViewModel(_operatorPropertiesPresenter.ViewModel);
+                DispatchViewModel(partialPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
+        public void OperatorPropertiesClose_ForPatchInlet()
+        {
+            try
+            {
+                OperatorPropertiesPresenter_ForPatchInlet partialPresenter = _operatorPropertiesPresenter_ForPatchInlet;
+
+                // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
+                // the inlets and outlets too, which are not defined in the OperatorDetailsViewModel.
+                OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
+                    _repositoryWrapper.OperatorRepository,
+                    _repositoryWrapper.OperatorTypeRepository,
+                    _repositoryWrapper.InletRepository,
+                    _repositoryWrapper.OutletRepository);
+
+                partialPresenter.Close();
+
+                if (partialPresenter.ViewModel.Successful)
+                {
+                    // Refresh the operator in the patch view.
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                }
+
+                DispatchViewModel(partialPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
+        public void OperatorPropertiesClose_ForPatchOutlet()
+        {
+            try
+            {
+                OperatorPropertiesPresenter_ForPatchOutlet partialPresenter = _operatorPropertiesPresenter_ForPatchOutlet;
+
+                // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
+                // the inlets and outlets too, which are not defined in the OperatorDetailsViewModel.
+                OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
+                    _repositoryWrapper.OperatorRepository,
+                    _repositoryWrapper.OperatorTypeRepository,
+                    _repositoryWrapper.InletRepository,
+                    _repositoryWrapper.OutletRepository);
+
+                partialPresenter.Close();
+
+                if (partialPresenter.ViewModel.Successful)
+                {
+                    // Refresh the operator in the patch view.
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                }
+
+                DispatchViewModel(partialPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
+        public void OperatorPropertiesClose_ForValue()
+        {
+            try
+            {
+                OperatorPropertiesPresenter_ForValue partialPresenter = _operatorPropertiesPresenter_ForValue;
+
+                // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
+                // the inlets and outlets too, which are not defined in the OperatorDetailsViewModel.
+                OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
+                    _repositoryWrapper.OperatorRepository,
+                    _repositoryWrapper.OperatorTypeRepository,
+                    _repositoryWrapper.InletRepository,
+                    _repositoryWrapper.OutletRepository);
+
+                partialPresenter.Close();
+
+                if (partialPresenter.ViewModel.Successful)
+                {
+                    // Refresh the operator in the patch view.
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                }
+
+                DispatchViewModel(partialPresenter.ViewModel);
             }
             finally
             {
@@ -1131,24 +1274,120 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
+                OperatorPropertiesPresenter partialPresenter = _operatorPropertiesPresenter;
+
                 // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
                 // the inlets and outlets too, which are not defined in the OperatorDetailsViewModel.
-                OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, _operatorPropertiesPresenter.ViewModel.ID);
+                int operatorID = partialPresenter.ViewModel.ID;
+                OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, operatorID);
                 Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
                     _repositoryWrapper.OperatorRepository, 
                     _repositoryWrapper.OperatorTypeRepository,
                     _repositoryWrapper.InletRepository,
                     _repositoryWrapper.OutletRepository);
 
-                _operatorPropertiesPresenter.LoseFocus();
+                partialPresenter.LoseFocus();
 
-                if (_operatorPropertiesPresenter.ViewModel.Successful)
+                if (partialPresenter.ViewModel.Successful)
                 {
                     // Refresh the operator in the patch view.
                     ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
                 }
 
-                DispatchViewModel(_operatorPropertiesPresenter.ViewModel);
+                DispatchViewModel(partialPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
+        public void OperatorPropertiesLoseFocus_ForPatchInlet()
+        {
+            try
+            {
+                OperatorPropertiesPresenter_ForPatchInlet partialPresenter = _operatorPropertiesPresenter_ForPatchInlet;
+
+                // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
+                // the inlets and outlets too, which are not defined in the OperatorDetailsViewModel.
+                OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
+                    _repositoryWrapper.OperatorRepository,
+                    _repositoryWrapper.OperatorTypeRepository,
+                    _repositoryWrapper.InletRepository,
+                    _repositoryWrapper.OutletRepository);
+
+                partialPresenter.LoseFocus();
+
+                if (partialPresenter.ViewModel.Successful)
+                {
+                    // Refresh the operator in the patch view.
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                }
+
+                DispatchViewModel(partialPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
+        public void OperatorPropertiesLoseFocus_ForPatchOutlet()
+        {
+            try
+            {
+                OperatorPropertiesPresenter_ForPatchOutlet partialPresenter = _operatorPropertiesPresenter_ForPatchOutlet;
+
+                // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
+                // the inlets and outlets too, which are not defined in the OperatorDetailsViewModel.
+                OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
+                    _repositoryWrapper.OperatorRepository,
+                    _repositoryWrapper.OperatorTypeRepository,
+                    _repositoryWrapper.InletRepository,
+                    _repositoryWrapper.OutletRepository);
+
+                partialPresenter.LoseFocus();
+
+                if (partialPresenter.ViewModel.Successful)
+                {
+                    // Refresh the operator in the patch view.
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                }
+
+                DispatchViewModel(partialPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
+        public void OperatorPropertiesLoseFocus_ForValue()
+        {
+            try
+            {
+                OperatorPropertiesPresenter_ForValue partialPresenter = _operatorPropertiesPresenter_ForValue;
+
+                // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
+                // the inlets and outlets too, which are not defined in the OperatorDetailsViewModel.
+                OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
+                    _repositoryWrapper.OperatorRepository,
+                    _repositoryWrapper.OperatorTypeRepository,
+                    _repositoryWrapper.InletRepository,
+                    _repositoryWrapper.OutletRepository);
+
+                partialPresenter.LoseFocus();
+
+                if (partialPresenter.ViewModel.Successful)
+                {
+                    // Refresh the operator in the patch view.
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                }
+
+                DispatchViewModel(partialPresenter.ViewModel);
             }
             finally
             {
@@ -1182,12 +1421,41 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _patchDetailsPresenter.ViewModel.Entity.Operators.Add(operatorViewModel);
 
                 // Operator Properties
-                OperatorPropertiesViewModel propertiesViewModel = op.ToPropertiesViewModel();
-                IList<OperatorPropertiesViewModel> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ByPatchID(ViewModel.Document, patch.ID);
-                propertiesViewModelList.Add(propertiesViewModel);
+                OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+                switch (operatorTypeEnum)
+                {
+                    case OperatorTypeEnum.PatchInlet:
+                    {
+                        OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel = op.ToPropertiesViewModel_ForPatchInlet();
+                        IList<OperatorPropertiesViewModel_ForPatchInlet> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForPatchInlets_ByPatchID(ViewModel.Document, patch.ID);
+                        propertiesViewModelList.Add(propertiesViewModel);
+                        break;
+                    }
 
-                // TODO: Remove outcommented code.
-                //DispatchViewModel(_patchDetailsPresenter.ViewModel);
+                    case OperatorTypeEnum.PatchOutlet:
+                    {
+                        OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel = op.ToPropertiesViewModel_ForPatchOutlet();
+                        IList<OperatorPropertiesViewModel_ForPatchOutlet> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForPatchOutlets_ByPatchID(ViewModel.Document, patch.ID);
+                        propertiesViewModelList.Add(propertiesViewModel);
+                        break;
+                    }
+
+                    case OperatorTypeEnum.Value:
+                    {
+                        OperatorPropertiesViewModel_ForValue propertiesViewModel = op.ToPropertiesViewModel_ForValue();
+                        IList<OperatorPropertiesViewModel_ForValue> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForValues_ByPatchID(ViewModel.Document, patch.ID);
+                        propertiesViewModelList.Add(propertiesViewModel);
+                        break;
+                    }
+
+                    default:
+                    {
+                        OperatorPropertiesViewModel propertiesViewModel = op.ToPropertiesViewModel();
+                        IList<OperatorPropertiesViewModel> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ByPatchID(ViewModel.Document, patch.ID);
+                        propertiesViewModelList.Add(propertiesViewModel);
+                        break;
+                    }
+                }
             }
             finally
             {
@@ -1209,7 +1477,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     _patchDetailsPresenter.DeleteOperator();
 
                     ViewModel.Document.OperatorPropertiesList.TryRemoveFirst(x => x.ID == operatorID);
-                    ViewModel.Document.ChildDocumentList.ForEach(x => x.OperatorPropertiesList.TryRemoveFirst(y => y.ID == operatorID));
+                    ViewModel.Document.OperatorPropertiesList_ForPatchInlets.TryRemoveFirst(x => x.ID == operatorID);
+                    ViewModel.Document.OperatorPropertiesList_ForPatchOutlets.TryRemoveFirst(x => x.ID == operatorID);
+                    ViewModel.Document.OperatorPropertiesList_ForValues.TryRemoveFirst(x => x.ID == operatorID);
+
+                    foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.ChildDocumentList)
+                    {
+                        childDocumentViewModel.OperatorPropertiesList.TryRemoveFirst(x => x.ID == operatorID);
+                        childDocumentViewModel.OperatorPropertiesList_ForPatchInlets.TryRemoveFirst(x => x.ID == operatorID);
+                        childDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.TryRemoveFirst(x => x.ID == operatorID);
+                        childDocumentViewModel.OperatorPropertiesList_ForValues.TryRemoveFirst(x => x.ID == operatorID);
+                    }
                 }
 
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
@@ -1678,7 +1956,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
                 { typeof(MenuViewModel), DispatchMenuViewModel },
                 { typeof(NotFoundViewModel), DispatchNotFoundViewModel },
-                { typeof(OperatorPropertiesViewModel), DispatchOperatorViewModel },
+                { typeof(OperatorPropertiesViewModel), DispatchOperatorPropertiesViewModel },
+                { typeof(OperatorPropertiesViewModel_ForPatchInlet), DispatchOperatorPropertiesViewModel_ForPatchInlet },
+                { typeof(OperatorPropertiesViewModel_ForPatchOutlet), DispatchOperatorPropertiesViewModel_ForPatchOutlet },
+                { typeof(OperatorPropertiesViewModel_ForValue), DispatchOperatorPropertiesViewModel_ForValue },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
                 { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
                 { typeof(SampleGridViewModel), DispatchSampleGridViewModel },
@@ -1869,18 +2150,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DispatchDocumentPropertiesViewModel(object viewModel2)
         {
-            var documentPropertiesViewModel = (DocumentPropertiesViewModel)viewModel2;
+            var castedViewModel = (DocumentPropertiesViewModel)viewModel2;
 
-            ViewModel.Document.DocumentProperties = documentPropertiesViewModel;
+            ViewModel.Document.DocumentProperties = castedViewModel;
 
-            if (documentPropertiesViewModel.Visible)
+            if (castedViewModel.Visible)
             {
                 HideAllPropertiesViewModels();
-                documentPropertiesViewModel.Visible = true;
+                castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(documentPropertiesViewModel.ValidationMessages);
-            documentPropertiesViewModel.ValidationMessages.Clear();
+            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
         }
 
         private void DispatchDocumentTreeViewModel(object viewModel2)
@@ -1915,9 +2196,51 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void DispatchOperatorViewModel(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel(object viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel)viewModel2;
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchOperatorPropertiesViewModel_ForPatchInlet(object viewModel2)
+        {
+            var castedViewModel = (OperatorPropertiesViewModel_ForPatchInlet)viewModel2;
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchOperatorPropertiesViewModel_ForPatchOutlet(object viewModel2)
+        {
+            var castedViewModel = (OperatorPropertiesViewModel_ForPatchOutlet)viewModel2;
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchOperatorPropertiesViewModel_ForValue(object viewModel2)
+        {
+            var castedViewModel = (OperatorPropertiesViewModel_ForValue)viewModel2;
 
             if (castedViewModel.Visible)
             {
@@ -2047,11 +2370,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.CurveDetailsList.ForEach(x => x.Visible = false);
             ViewModel.Document.DocumentProperties.Visible = false;
             ViewModel.Document.OperatorPropertiesList.ForEach(x => x.Visible = false);
+            ViewModel.Document.OperatorPropertiesList_ForPatchInlets.ForEach(x => x.Visible = false);
+            ViewModel.Document.OperatorPropertiesList_ForPatchOutlets.ForEach(x => x.Visible = false);
+            ViewModel.Document.OperatorPropertiesList_ForValues.ForEach(x => x.Visible = false);
             ViewModel.Document.SamplePropertiesList.ForEach(x => x.Visible = false);
             
             // Note that the Samples are the only ones with a Properties view inside the child documents.
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList).ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchInlets).ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets).ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForValues).ForEach(x => x.Visible = false);
         }
 
         private void RefreshDocumentGrid()

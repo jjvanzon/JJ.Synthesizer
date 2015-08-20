@@ -1,11 +1,8 @@
 ﻿using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Presentation;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
@@ -13,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -52,6 +48,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveGrid = CreateEmptyCurveGridViewModel(),
                 CurveDetailsList = new List<CurveDetailsViewModel>(),
                 OperatorPropertiesList = new List<OperatorPropertiesViewModel>(),
+                OperatorPropertiesList_ForPatchInlets = new List<OperatorPropertiesViewModel_ForPatchInlet>(),
+                OperatorPropertiesList_ForPatchOutlets = new List<OperatorPropertiesViewModel_ForPatchOutlet>(),
+                OperatorPropertiesList_ForValues = new List<OperatorPropertiesViewModel_ForValue>(),
                 PatchGrid = CreateEmptyPatchGridViewModel(),
                 PatchDetailsList = new List<PatchDetailsViewModel>(),
                 AudioFileOutputGrid = CreateEmptyAudioFileOutputGridViewModel(),

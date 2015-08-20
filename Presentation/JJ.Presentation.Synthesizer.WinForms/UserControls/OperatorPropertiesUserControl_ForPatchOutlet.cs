@@ -7,28 +7,22 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms;
-using JJ.Framework.Data;
-using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class DocumentPropertiesUserControl : UserControl
+    internal partial class OperatorPropertiesUserControl_ForPatchOutlet : UserControl
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
 
         /// <summary> virtually not nullable </summary>
-        private DocumentPropertiesViewModel _viewModel;
+        private OperatorPropertiesViewModel_ForPatchOutlet _viewModel;
 
-        public DocumentPropertiesUserControl()
+        public OperatorPropertiesUserControl_ForPatchOutlet()
         {
             InitializeComponent();
 
@@ -39,7 +33,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public DocumentPropertiesViewModel ViewModel
+        public OperatorPropertiesViewModel_ForPatchOutlet ViewModel
         {
             get { return _viewModel; }
             set
@@ -54,20 +48,37 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Document);
-            labelIDTitle.Text = CommonTitles.ID;
+            titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
+
             labelName.Text = CommonTitles.Name;
+            labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType;
+            labelSortOrder.Text = PropertyDisplayNames.SortOrder;
+
+            var labels = new Label[]
+            {
+                labelName,
+                labelOperatorTypeTitle,
+                labelSortOrder
+            };
+
+            foreach (Label label in labels)
+            {
+                toolTip.SetToolTip(label, label.Text);
+            }
+
+            labelOperatorTypeValue.Text = PropertyDisplayNames.PatchOutlet;
         }
 
         private void ApplyViewModelToControls()
         {
-            labelIDValue.Text = _viewModel.Document.ID.ToString();
-            textBoxName.Text = _viewModel.Document.Name;
+            textBoxName.Text = _viewModel.Name;
+            numericUpDownSortOrder.Value = _viewModel.SortOrder;
         }
 
         private void ApplyControlsToViewModel()
         {
-            _viewModel.Document.Name = textBoxName.Text;
+            _viewModel.Name = textBoxName.Text;
+            _viewModel.SortOrder = (int)numericUpDownSortOrder.Value;
         }
 
         // Actions
@@ -97,7 +108,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             Close();
         }
 
-        private void DocumentPropertiesUserControl_VisibleChanged(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_ForPatchOutlet_VisibleChanged(object sender, EventArgs e)
         {
             if (Visible)
             {
@@ -108,13 +119,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         // This event goes off when I call DocumentPropertiesUserControl.SetFocus after clicking on a DataGridView,
         // but does not go off when I call DocumentPropertiesUserControl.SetFocus after clicking on a TreeView.
         // Thanks, WinForms...
-        private void DocumentPropertiesUserControl_Enter(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_ForPatchOutlet_Enter(object sender, EventArgs e)
         {
             textBoxName.Focus();
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
-        private void DocumentPropertiesUserControl_Leave(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_ForPatchOutlet_Leave(object sender, EventArgs e)
         {
             // This Visible check is there because the leave event (lose focus) goes off after I closed, 
             // making it want to save again, even though view model is empty
