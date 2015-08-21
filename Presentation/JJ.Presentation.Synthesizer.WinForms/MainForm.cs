@@ -1128,7 +1128,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 // OperatorPropertiesViewModel
                 bool operatorPropertiesVisible = false;
                 OperatorPropertiesViewModel visibleOperatorPropertiesViewModel =
-                    _presenter.ViewModel.Document.OperatorPropertiesList.Where(x => x.Visible).SingleOrDefault();
+                    Enumerable.Union(
+                        _presenter.ViewModel.Document.OperatorPropertiesList,
+                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList))
+                    .Where(x => x.Visible).SingleOrDefault();
                 if (visibleOperatorPropertiesViewModel != null)
                 {
                     operatorPropertiesUserControl.ViewModel = visibleOperatorPropertiesViewModel;
@@ -1138,7 +1141,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 bool operatorPropertiesVisible_ForPatchInlet = false;
                 OperatorPropertiesViewModel_ForPatchInlet visibleOperatorPropertiesViewModel_ForPatchInlet =
-                    _presenter.ViewModel.Document.OperatorPropertiesList_ForPatchInlets.Where(x => x.Visible).SingleOrDefault();
+                    Enumerable.Union(
+                        _presenter.ViewModel.Document.OperatorPropertiesList_ForPatchInlets,
+                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchInlets))
+                    .Where(x => x.Visible).SingleOrDefault();
                 if (visibleOperatorPropertiesViewModel_ForPatchInlet != null)
                 {
                     operatorPropertiesUserControl_ForPatchInlet.ViewModel = visibleOperatorPropertiesViewModel_ForPatchInlet;
@@ -1148,7 +1154,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 bool operatorPropertiesVisible_ForPatchOutlet = false;
                 OperatorPropertiesViewModel_ForPatchOutlet visibleOperatorPropertiesViewModel_ForPatchOutlet =
-                    _presenter.ViewModel.Document.OperatorPropertiesList_ForPatchOutlets.Where(x => x.Visible).SingleOrDefault();
+                    Enumerable.Union(
+                        _presenter.ViewModel.Document.OperatorPropertiesList_ForPatchOutlets,
+                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets))
+                    .Where(x => x.Visible).SingleOrDefault();
                 if (visibleOperatorPropertiesViewModel_ForPatchOutlet != null)
                 {
                     operatorPropertiesUserControl_ForPatchOutlet.ViewModel = visibleOperatorPropertiesViewModel_ForPatchOutlet;
@@ -1158,7 +1167,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 bool operatorPropertiesVisible_ForValue = false;
                 OperatorPropertiesViewModel_ForValue visibleOperatorPropertiesViewModel_ForValue =
-                    _presenter.ViewModel.Document.OperatorPropertiesList_ForValues.Where(x => x.Visible).SingleOrDefault();
+                    Enumerable.Union(
+                        _presenter.ViewModel.Document.OperatorPropertiesList_ForValues,
+                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForValues))
+                    .Where(x => x.Visible).SingleOrDefault();
                 if (visibleOperatorPropertiesViewModel_ForValue != null)
                 {
                     operatorPropertiesUserControl_ForValue.ViewModel = visibleOperatorPropertiesViewModel_ForValue;
