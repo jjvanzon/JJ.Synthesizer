@@ -1714,25 +1714,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void PatchDetailsSetValue(string value)
-        {
-            try
-            {
-                _patchDetailsPresenter.SetValue(value);
-                DispatchViewModel(_patchDetailsPresenter.ViewModel);
-
-                // Move messages to popup messages, because the default dispatching for PatchDetailsViewModel moves it to the ValidationMessages.
-                ViewModel.PopupMessages.AddRange(_patchDetailsPresenter.ViewModel.ValidationMessages);
-                _patchDetailsPresenter.ViewModel.ValidationMessages.Clear();
-
-                DispatchViewModel(_patchDetailsPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositoryWrapper.Rollback();
-            }
-        }
-
         /// <summary>
         /// Returns output file path.
         /// </summary>

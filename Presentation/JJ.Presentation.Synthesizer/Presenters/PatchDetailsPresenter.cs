@@ -188,62 +188,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary>
-        /// NOTE: Do a rollback after this action,
-        /// because for performance reasons it does not produce a complete state in the context.
-        /// </summary>
-        public void SetValue(string value)
-        {
-            AssertViewModel();
-
-            if (ViewModel.SelectedOperator == null)
-            {
-                ViewModel.ValidationMessages.Add(new Message
-                {
-                    PropertyKey = PresentationPropertyNames.SelectedOperator,
-                    Text = PresentationMessages.SelectAnOperatorFirst
-                });
-
-                return;
-            }
-
-            if (ViewModel.SelectedOperator.OperatorTypeID != (int)OperatorTypeEnum.Value)
-            {
-                ViewModel.ValidationMessages.Add(new Message
-                {
-                    PropertyKey = PresentationPropertyNames.SelectedOperator,
-                    Text = PresentationMessages.SelectedOperatorMustBeValueOperator
-                });
-
-                return;
-            }
-
-            ViewModel.SelectedValue = value;
-
-            Operator op = ViewModel.SelectedOperator.ToEntityWithInletsAndOutlets(
-                _repositories.OperatorRepository, 
-                _repositories.OperatorTypeRepository, 
-                _repositories.InletRepository, 
-                _repositories.OutletRepository);
-
-            op.Data = value;
-
-            IValidator validator = new OperatorValidator_Value(op); // TODO: Low priority: Do this with a manager, so you can hide complexity (hide the validator) and decrease the degree of coupling.
-            if (!validator.IsValid)
-            {
-                ViewModel.ValidationMessages.AddRange(validator.ValidationMessages.ToCanonical());
-                ViewModel.Successful = false;
-            }
-            else
-            {
-                ViewModel.SelectedOperator.Value = value;
-                ViewModel.SelectedOperator.Caption = value;
-            }
-
-            // TODO: Low priority: Clearing validation messages at appropriate times in other actions and in this action.
-            // TODO: Low priority: And setting Successful = true for that matter.
-        }
-
-        /// <summary>
         /// Returns the output file path.
         /// This action is quite a hack.
         /// TODO: It should not be a hack and also this action is way too dependent on infrastructure.
@@ -370,7 +314,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void SetSelectedOperator(int operatorID)
         {
             ViewModel.SelectedOperator = null;
-            ViewModel.SelectedValue = null;
 
             foreach (OperatorViewModel operatorViewModel in ViewModel.Entity.Operators)
             {
@@ -378,10 +321,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     operatorViewModel.IsSelected = true;
                     ViewModel.SelectedOperator = operatorViewModel;
-                    if (operatorViewModel.OperatorTypeID == (int)OperatorTypeEnum.Value)
-                    {
-                        ViewModel.SelectedValue = operatorViewModel.Value;
-                    }
                 }
                 else
                 {

@@ -32,7 +32,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
         public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
         public event EventHandler<Int32EventArgs> SelectOperatorRequested;
-        public event EventHandler<SetValueEventArgs> SetValueRequested;
         public event EventHandler PlayRequested;
         public event EventHandler<Int32EventArgs> OperatorPropertiesRequested;
 
@@ -62,8 +61,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             SetTitles();
 
-            ApplyStyling();
-
             this.AutomaticallyAssignTabIndexes();
         }
 
@@ -86,21 +83,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             titleBarUserControl.Text = CommonTitleFormatter.ObjectDetails(PropertyDisplayNames.Patch);
             buttonPlay.Text = Titles.Play;
-        }
-
-        private void ApplyStyling()
-        {
-            tableLayoutPanelPlayButtonAndValueTextBox.Margin = new Padding(
-                WinFormsThemeHelper.DefaultSpacing,
-                WinFormsThemeHelper.DefaultSpacing,
-                WinFormsThemeHelper.DefaultSpacing,
-                WinFormsThemeHelper.DefaultSpacing);
-
-            tableLayoutPanelToolboxAndPatch.Margin = new Padding(
-                WinFormsThemeHelper.DefaultSpacing,
-                WinFormsThemeHelper.DefaultSpacing,
-                WinFormsThemeHelper.DefaultSpacing,
-                WinFormsThemeHelper.DefaultSpacing);
         }
 
         private bool _applyViewModelIsBusy;
@@ -139,12 +121,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                 diagramControl1.Diagram = _svg.Diagram;
 
-                // TODO: Get rid of saved message label.
-                //labelSavedMessage.Visible = _viewModel.SavedMessageVisible;
-
                 ApplyOperatorToolboxItemsViewModel(_viewModel.OperatorToolboxItems);
-
-                textBoxValue.Text = _viewModel.SelectedValue;
             }
             finally
             {
@@ -266,15 +243,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void SetValue(string value)
-        {
-            if (SetValueRequested != null)
-            {
-                var e = new SetValueEventArgs(value);
-                SetValueRequested(this, e);
-            }
-        }
-
         private void Play()
         {
             if (PlayRequested != null)
@@ -339,13 +307,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
         {
             DeleteOperator();
-        }
-
-        private void textBoxValue_TextChanged(object sender, EventArgs e)
-        {
-            if (_applyViewModelIsBusy) return;
-
-            SetValue(textBoxValue.Text);
         }
 
         private void buttonPlay_Click(object sender, EventArgs e)

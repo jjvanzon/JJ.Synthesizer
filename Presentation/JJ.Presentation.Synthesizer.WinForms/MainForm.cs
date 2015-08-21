@@ -100,7 +100,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.MoveOperatorRequested += patchDetailsUserControl_MoveOperatorRequested;
             patchDetailsUserControl.ChangeInputOutletRequested += patchDetailsUserControl_ChangeInputOutletRequested;
             patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
-            patchDetailsUserControl.SetValueRequested += patchDetailsUserControl_SetValueRequested;
             patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
             patchDetailsUserControl.OperatorPropertiesRequested += patchDetailsUserControl_OperatorPropertiesRequested;
             patchGridUserControl.CloseRequested += patchGridUserControl_CloseRequested;
@@ -457,11 +456,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void patchDetailsUserControl_PlayRequested(object sender, EventArgs e)
         {
             PatchPlay();
-        }
-
-        private void patchDetailsUserControl_SetValueRequested(object sender, SetValueEventArgs e)
-        {
-            PatchDetailsSetValue(e.Value);
         }
 
         private void patchDetailsUserControl_SelectOperatorRequested(object sender, Int32EventArgs e)
@@ -994,12 +988,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void PatchDetailsSelectOperator(int operatorID)
         {
             _presenter.PatchDetailsSelectOperator(operatorID);
-            ApplyViewModel();
-        }
-
-        private void PatchDetailsSetValue(string value)
-        {
-            _presenter.PatchDetailsSetValue(value);
             ApplyViewModel();
         }
 
