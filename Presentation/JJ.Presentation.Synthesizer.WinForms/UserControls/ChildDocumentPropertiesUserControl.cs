@@ -2,22 +2,16 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms;
-using JJ.Framework.Data;
-using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -58,11 +52,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.ChildDocument);
             labelName.Text = CommonTitles.Name;
             labelChildDocumentType.Text = PropertyDisplayNames.ChildDocumentType;
+            labelMainPatch.Text = PropertyDisplayNames.MainPatch;
 
-            var labels = new Label[] 
+            var labels = new Label[]
             {
                 labelName,
                 labelChildDocumentType,
+                labelMainPatch
             };
 
             foreach (Label label in labels)
@@ -82,12 +78,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 comboBoxChildDocumentType.DisplayMember = PropertyNames.Name;
             }
             comboBoxChildDocumentType.SelectedValue = _viewModel.ChildDocumentType.ID;
+
+            // Always refill the MainPatch lookup, so changes to the patch collection are reflected.
+            comboBoxMainPatch.DataSource = null;
+            comboBoxMainPatch.DataSource = _viewModel.MainPatchLookup;
+            comboBoxMainPatch.ValueMember = PropertyNames.ID;
+            comboBoxMainPatch.DisplayMember = PropertyNames.Name;
+            if (_viewModel.MainPatch != null)
+            {
+                comboBoxMainPatch.SelectedValue = _viewModel.MainPatch.ID;
+            }
+            else
+            {
+                comboBoxMainPatch.SelectedValue = 0;
+            }
         }
 
         private void ApplyControlsToViewModel()
         {
             _viewModel.Name = textBoxName.Text;
-            _viewModel.ChildDocumentType.ID = (int)comboBoxChildDocumentType.SelectedValue;
+            _viewModel.ChildDocumentType = (IDAndName)comboBoxChildDocumentType.SelectedItem;
+            _viewModel.MainPatch = (IDAndName)comboBoxMainPatch.SelectedItem;
         }
 
         // Actions

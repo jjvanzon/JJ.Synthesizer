@@ -27,6 +27,13 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return childDocumentViewModel;
         }
 
+        public static ChildDocumentPropertiesViewModel TryGetChildDocumentPropertiesViewModel(DocumentViewModel rootDocumentViewModel, int childDocumentID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            return rootDocumentViewModel.ChildDocumentPropertiesList.Where(x => x.ID == childDocumentID).FirstOrDefault();
+        }
+
         // Curve
 
         public static CurveDetailsViewModel GetCurveDetailsViewModel(DocumentViewModel rootDocumentViewModel, int curveID)

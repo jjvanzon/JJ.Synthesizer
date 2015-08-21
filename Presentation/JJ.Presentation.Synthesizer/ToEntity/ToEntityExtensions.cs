@@ -36,8 +36,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Document destDocument = userInput.ToEntity(repositoryWrapper.DocumentRepository);
 
-            ToEntityHelper.ToChildDocuments(userInput.ChildDocumentPropertiesList, destDocument, repositoryWrapper);
             ToEntityHelper.ToChildDocumentsWithRelatedEntities(userInput.ChildDocumentList, destDocument, repositoryWrapper);
+            // NOTE: 
+            // There is order dependency between converting ChildDocumentList and ChildDocumentPropertiesList.
+            // ChildDocumentProperties can reference a MainPatch, converted from the ChildDocumentList.
+            ToEntityHelper.ToChildDocuments(userInput.ChildDocumentPropertiesList, destDocument, repositoryWrapper);
             ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositoryWrapper));
             ToEntityHelper.ToCurvesWithRelatedEntities(
                 userInput.CurveDetailsList,
@@ -126,31 +129,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Child Document
 
-        public static Document ToEntity(this ChildDocumentPropertiesViewModel viewModel, IDocumentRepository documentRepository, IChildDocumentTypeRepository childDocumentTypeRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-
-            Document entity = documentRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Document();
-                entity.ID = viewModel.ID;
-                documentRepository.Insert(entity);
-            }
-            entity.Name = viewModel.Name;
-
-            // ChildDocumentType
-            ChildDocumentType childDocumentType = null;
-            if (viewModel.ChildDocumentType != null)
-            {
-                childDocumentType = childDocumentTypeRepository.TryGet(viewModel.ChildDocumentType.ID);
-            }
-            entity.LinkTo(childDocumentType);
-
-            return entity;
-        }
-
         public static Document ToEntityWithRelatedEntities(this ChildDocumentViewModel userInput, RepositoryWrapper repositoryWrapper)
         {
             if (userInput == null) throw new NullException(() => userInput);
@@ -218,6 +196,53 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             //childDocument.LinkTo(childDocumentType);
 
             return childDocument;
+        }
+
+        public static Document ToEntity(
+            this ChildDocumentPropertiesViewModel viewModel, 
+            IDocumentRepository documentRepository, 
+            IChildDocumentTypeRepository childDocumentTypeRepository,
+            IPatchRepository patchRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
+
+            Document entity = documentRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Document();
+                entity.ID = viewModel.ID;
+                documentRepository.Insert(entity);
+            }
+            entity.Name = viewModel.Name;
+
+            // ChildDocumentType
+            bool childDocumentTypeIsFilledIn = viewModel.ChildDocumentType != null && viewModel.ChildDocumentType.ID != 0;
+            if (childDocumentTypeIsFilledIn)
+            {
+                ChildDocumentType childDocumentType = childDocumentTypeRepository.Get(viewModel.ChildDocumentType.ID);
+                entity.LinkTo(childDocumentType);
+            }
+            else
+            {
+                entity.UnlinkChildDocumentType();
+            }
+
+            // MainPatch
+            bool mainPatchIsFilledIn = viewModel.MainPatch != null && viewModel.MainPatch.ID != 0;
+            if (mainPatchIsFilledIn)
+            {
+                Patch mainPatch = patchRepository.Get(viewModel.MainPatch.ID);
+                entity.LinkToMainPatch(mainPatch);
+            }
+            else
+            {
+                entity.UnlinkMainPatch();
+            }
+
+            return entity;
         }
 
         // Sample

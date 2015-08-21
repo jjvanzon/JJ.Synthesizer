@@ -88,6 +88,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _childDocumentPropertiesPresenter = new ChildDocumentPropertiesPresenter(
                 _repositoryWrapper.DocumentRepository,
                 _repositoryWrapper.ChildDocumentTypeRepository,
+                _repositoryWrapper.PatchRepository,
                 _repositoryWrapper.IDRepository);
             _curveDetailsPresenter = new CurveDetailsPresenter(
                 _repositoryWrapper.CurveRepository, 
@@ -464,6 +465,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToEntity: This should be just enought to correctly refresh the grids and tree furtheron.
                 Document document = ViewModel.Document.ToEntity(_repositoryWrapper.DocumentRepository);
+                ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList)
+                                                    .Select(x => x.Entity)
+                                                    .ForEach(x => x.ToEntity(_repositoryWrapper.PatchRepository));
                 ToEntityHelper.ToChildDocuments(ViewModel.Document.ChildDocumentPropertiesList, document, _repositoryWrapper);
 
                 _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;
@@ -484,11 +488,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentPropertiesLoseFocus()
         {
-
             try
             {
                 // ToEntity: This should be just enought to correctly refresh the grids and tree furtheron.
                 Document document = ViewModel.Document.ToEntity(_repositoryWrapper.DocumentRepository);
+                ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList)
+                                                    .Select(x => x.Entity)
+                                                    .ForEach(x => x.ToEntity(_repositoryWrapper.PatchRepository));
                 ToEntityHelper.ToChildDocuments(ViewModel.Document.ChildDocumentPropertiesList, document, _repositoryWrapper);
 
                 _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;
@@ -588,6 +594,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToEntity: This should be just enought to correctly refresh the grids and tree furtheron.
                 Document document = ViewModel.Document.ToEntity(_repositoryWrapper.DocumentRepository);
+                ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList)
+                                                    .Select(x => x.Entity)
+                                                    .ForEach(x => x.ToEntity(_repositoryWrapper.PatchRepository));
                 ToEntityHelper.ToChildDocuments(ViewModel.Document.ChildDocumentPropertiesList, document, _repositoryWrapper);
 
                 _childDocumentPropertiesPresenter.Close();
@@ -613,6 +622,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToEntity: This should be just enought to correctly refresh the grids and tree furtheron.
                 Document document = ViewModel.Document.ToEntity(_repositoryWrapper.DocumentRepository);
+                ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList)
+                                                    .Select(x => x.Entity)
+                                                    .ForEach(x => x.ToEntity(_repositoryWrapper.PatchRepository));
                 ToEntityHelper.ToChildDocuments(ViewModel.Document.ChildDocumentPropertiesList, document, _repositoryWrapper);
 
                 _childDocumentPropertiesPresenter.LoseFocus();
@@ -1561,6 +1573,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels_ByDocumentID(ViewModel.Document, document.ID);
                 PatchDetailsViewModel detailsViewModel = patch.ToDetailsViewModel(_repositoryWrapper.OperatorTypeRepository, _entityPositionManager);
                 detailsViewModels.Add(detailsViewModel);
+
+                ChildDocumentPropertiesViewModel childDocumentPropertiesViewModel = ChildDocumentHelper.TryGetChildDocumentPropertiesViewModel(ViewModel.Document, document.ID);
+                if (childDocumentPropertiesViewModel != null)
+                {
+                    IDAndName idAndName = patch.ToIDAndName();
+                    childDocumentPropertiesViewModel.MainPatchLookup.Add(idAndName);
+                    childDocumentPropertiesViewModel.MainPatchLookup = childDocumentPropertiesViewModel.MainPatchLookup.OrderBy(x => x.Name).ToList();
+                }
             }
             finally
             {
@@ -1593,6 +1613,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, documentID);
                     gridViewModel.List.RemoveFirst(x => x.ID == patchID);
+
+                    ChildDocumentPropertiesViewModel childDocumentPropertiesViewModel = ChildDocumentHelper.TryGetChildDocumentPropertiesViewModel(ViewModel.Document, documentID);
+                    if (childDocumentPropertiesViewModel != null)
+                    {
+                        childDocumentPropertiesViewModel.MainPatchLookup.TryRemoveFirst(x => x.ID == patchID);
+                    }
                 }
                 else
                 {

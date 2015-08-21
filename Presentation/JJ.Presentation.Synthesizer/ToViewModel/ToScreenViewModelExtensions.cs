@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -108,6 +109,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.ChildDocumentType = childDocument.ChildDocumentType.ToIDAndName();
             }
+
+            if (childDocument.MainPatch != null)
+            {
+                viewModel.MainPatch = childDocument.MainPatch.ToIDAndName();
+            }
+
+            viewModel.MainPatchLookup = ViewModelHelper.CreateMainPatchLookupViewModel(childDocument);
 
             return viewModel;
         }

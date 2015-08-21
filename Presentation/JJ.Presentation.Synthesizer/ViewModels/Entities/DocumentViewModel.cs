@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public ChildDocumentGridViewModel InstrumentGrid { get; set; }
         public ChildDocumentGridViewModel EffectGrid { get; set; }
 
-        /// <summary> Leading for saving when it comes to the simple properties. </summary>
+        /// <summary> Leading for saving when it comes to the simple properties and the MainPatch. </summary>
         public IList<ChildDocumentPropertiesViewModel> ChildDocumentPropertiesList { get; set; }
 
         /// <summary> Leading for saving child entities, not leading for saving the somple properties. </summary>

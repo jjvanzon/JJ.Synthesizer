@@ -35,7 +35,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (ChildDocumentPropertiesViewModel propertiesViewModel in sourceViewModelList)
             {
-                Document entity = propertiesViewModel.ToEntity(repositoryWrapper.DocumentRepository, repositoryWrapper.ChildDocumentTypeRepository);
+                Document entity = propertiesViewModel.ToEntity(
+                    repositoryWrapper.DocumentRepository, 
+                    repositoryWrapper.ChildDocumentTypeRepository,
+                    repositoryWrapper.PatchRepository);
 
                 entity.LinkToParentDocument(destParentDocument);
 

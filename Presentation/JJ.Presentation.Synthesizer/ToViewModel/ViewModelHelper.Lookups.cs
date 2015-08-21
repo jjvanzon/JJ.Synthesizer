@@ -1,18 +1,12 @@
 ﻿using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Presentation;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -89,6 +83,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             idNames.Add(new IDAndName { ID = 0, Name = null });
 
             return idNames;
+        }
+
+        public static IList<IDAndName> CreateMainPatchLookupViewModel(Document childDocument)
+        {
+            if (childDocument == null) throw new NullException(() => childDocument);
+
+            var lookup = new List<IDAndName>(childDocument.Patches.Count + 1);
+            lookup.Add(new IDAndName { ID = 0, Name = null });
+            lookup.AddRange(childDocument.Patches.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
+
+            return lookup;
         }
     }
 }

@@ -24,18 +24,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDAndName(this SampleDataType entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            return new IDAndName
-            {
-                ID = entity.ID,
-                Name = entity.Name
-            };
-        }
-
-        public static IDAndName ToIDAndName(this SpeakerSetup entity)
+        public static IDAndName ToIDAndName(this ChildDocumentType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -57,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDAndName(this Outlet entity)
+        public static IDAndName ToIDAndName(this InterpolationType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -79,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDAndName(this InterpolationType entity)
+        public static IDAndName ToIDAndName(this Outlet entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -90,7 +79,29 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDAndName(this ChildDocumentType entity)
+        public static IDAndName ToIDAndName(this Patch entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return new IDAndName
+            {
+                ID = entity.ID,
+                Name = entity.Name
+            };
+        }
+
+        public static IDAndName ToIDAndName(this SampleDataType entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return new IDAndName
+            {
+                ID = entity.ID,
+                Name = entity.Name
+            };
+        }
+
+        public static IDAndName ToIDAndName(this SpeakerSetup entity)
         {
             if (entity == null) throw new NullException(() => entity);
 

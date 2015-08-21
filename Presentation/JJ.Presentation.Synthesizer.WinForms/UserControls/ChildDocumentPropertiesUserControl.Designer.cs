@@ -38,6 +38,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.labelMainPatch = new System.Windows.Forms.Label();
+            this.comboBoxMainPatch = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
@@ -66,14 +68,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanel.Controls.Add(this.labelChildDocumentType, 0, 1);
             this.tableLayoutPanel.Controls.Add(this.labelName, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.textBoxName, 1, 0);
+            this.tableLayoutPanel.Controls.Add(this.labelMainPatch, 0, 2);
+            this.tableLayoutPanel.Controls.Add(this.comboBoxMainPatch, 1, 2);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(3, 24);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 3;
+            this.tableLayoutPanel.RowCount = 4;
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel.Size = new System.Drawing.Size(10, 10);
             this.tableLayoutPanel.TabIndex = 8;
             // 
@@ -134,6 +138,28 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.TabIndex = 7;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
+            // labelMainPatch
+            // 
+            this.labelMainPatch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelMainPatch.Location = new System.Drawing.Point(0, 48);
+            this.labelMainPatch.Margin = new System.Windows.Forms.Padding(0);
+            this.labelMainPatch.Name = "labelMainPatch";
+            this.labelMainPatch.Size = new System.Drawing.Size(120, 24);
+            this.labelMainPatch.TabIndex = 15;
+            this.labelMainPatch.Text = "labelMainPatch";
+            this.labelMainPatch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // comboBoxMainPatch
+            // 
+            this.comboBoxMainPatch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxMainPatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxMainPatch.FormattingEnabled = true;
+            this.comboBoxMainPatch.Location = new System.Drawing.Point(120, 48);
+            this.comboBoxMainPatch.Margin = new System.Windows.Forms.Padding(0);
+            this.comboBoxMainPatch.Name = "comboBoxMainPatch";
+            this.comboBoxMainPatch.Size = new System.Drawing.Size(10, 21);
+            this.comboBoxMainPatch.TabIndex = 16;
+            // 
             // ChildDocumentPropertiesUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -163,5 +189,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.Label labelChildDocumentType;
         private System.Windows.Forms.ComboBox comboBoxChildDocumentType;
         private System.Windows.Forms.ToolTip toolTip;
+        private System.Windows.Forms.Label labelMainPatch;
+        private System.Windows.Forms.ComboBox comboBoxMainPatch;
     }
 }
