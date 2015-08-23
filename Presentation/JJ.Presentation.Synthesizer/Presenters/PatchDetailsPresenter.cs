@@ -31,7 +31,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private PatchRepositories _repositories;
         private PatchManager _patchManager;
-        private EntityPositionManager _entityPositionManager;
 
         public PatchDetailsViewModel ViewModel { get; set; }
 
@@ -40,8 +39,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (repositories == null) throw new NullException(() => repositories);
 
             _repositories = repositories;
-
-            _entityPositionManager = new EntityPositionManager(_repositories.EntityPositionRepository, _repositories.IDRepository);
 
             _patchManager = new PatchManager(_repositories);
         }
@@ -71,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Patch patch = ViewModel.ToEntity(
+            Patch patch = ViewModel.ToEntityWithRelatedEntities(
                 _repositories.PatchRepository,
                 _repositories.OperatorRepository,
                 _repositories.OperatorTypeRepository,
@@ -79,6 +76,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.OutletRepository,
                 _repositories.EntityPositionRepository);
 
+            // TODO: Use PatchManager?
             IValidator validator = new PatchValidator_Recursive(patch, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository, alreadyDone: new HashSet<object>());
             if (!validator.IsValid)
             {
@@ -292,7 +290,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private Patch ToEntity(PatchDetailsViewModel userInput)
         {
-            Patch patch = userInput.ToEntity(
+            Patch patch = userInput.ToEntityWithRelatedEntities(
                 _repositories.PatchRepository,
                 _repositories.OperatorRepository,
                 _repositories.OperatorTypeRepository,

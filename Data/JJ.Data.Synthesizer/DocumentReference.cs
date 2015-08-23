@@ -17,7 +17,6 @@ namespace JJ.Data.Synthesizer
         /// we do reference by name, e.g. a readable XML format.
         /// </summary>
         public virtual string Alias { get; set; }
-
         public virtual Document DependentDocument { get; set; }
         public virtual Document DependentOnDocument { get; set; }
     }

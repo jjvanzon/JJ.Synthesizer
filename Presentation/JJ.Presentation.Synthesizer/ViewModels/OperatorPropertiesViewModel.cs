@@ -11,7 +11,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     {
         // Properties put directly here, instead of entity view model,
         // because entity view model is too elaborate.
-        // TODO: Low priority: Make a separation between a simpler OperatorViewModel and a more elaborate one?
 
         public int ID { get; set; }
         public string Name { get; set; }

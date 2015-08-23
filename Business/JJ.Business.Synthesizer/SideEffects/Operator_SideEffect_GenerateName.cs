@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 
             do
             {
-                string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(_entity.GetOperatorTypeEnum());
+                string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(_entity);
                 suggestedName = String.Format("{0} {1}", operatorTypeDisplayName, number++);
                 nameExists = _entity.Patch.Operators.Where(x => String.Equals(x.Name, suggestedName)).Any();
             }

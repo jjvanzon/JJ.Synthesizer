@@ -76,5 +76,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Inlet = "Inlet";
         public const string Inlets = "Inlets";
         public const string Outlets = "Outlets";
+        public const string UnderlyingDocument = "UnderlyingDocument";
     }
 }

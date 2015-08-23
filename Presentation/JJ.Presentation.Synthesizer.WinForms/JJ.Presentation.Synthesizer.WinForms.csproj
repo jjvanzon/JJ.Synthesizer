@@ -27,6 +27,7 @@
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -67,11 +68,7 @@
     <Compile Include="Configuration\TestingConfiguration.cs" />
     <Compile Include="EventArg\CreateOperatorEventArgs.cs" />
     <Compile Include="EventArg\ChangeInputOutletEventArgs.cs" />
-    <Compile Include="EventArg\NullableInt32EventArgs.cs" />
-    <Compile Include="EventArg\SetValueEventArgs.cs" />
-    <Compile Include="EventArg\~SelectOperatorEventArgs.cs" />
     <Compile Include="EventArg\MoveOperatorEventArgs.cs" />
-    <Compile Include="EventArg\GuidEventArgs.cs" />
     <Compile Include="EventArg\Int32EventArgs.cs" />
     <Compile Include="Forms\DocumentCannotDeleteForm.cs">
       <SubType>Form</SubType>
@@ -119,6 +116,12 @@
     </Compile>
     <Compile Include="UserControls\AudioFileOutputChannelsUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputChannelsUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForValue.cs">
       <SubType>UserControl</SubType>
@@ -252,6 +255,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputChannelsUserControl.resx">
       <DependentUpon>AudioFileOutputChannelsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.resx">
+      <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForValue.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForValue.cs</DependentUpon>

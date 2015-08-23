@@ -69,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             _operatorDictionary.Add(op.ID, op);
 
-            EntityPosition entityPosition = viewModel.ToEntityPosition(_entityPositionRepository);
+            viewModel.ToEntityPosition(_entityPositionRepository);
 
             foreach (InletViewModel inletViewModel in viewModel.Inlets)
             {

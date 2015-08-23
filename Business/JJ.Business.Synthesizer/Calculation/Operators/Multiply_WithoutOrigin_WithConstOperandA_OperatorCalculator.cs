@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Multiply_WithoutOrigin_WithConstOperandA_OperatorCalculator(double operandValue, OperatorCalculatorBase operandBCalculator)
         {
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Value_OperatorCalculator) throw new Exception("operandBCalculator cannot be a Value_Calculator.");
+            if (operandBCalculator is Value_OperatorCalculator) throw new Exception("operandBCalculator cannot be a Value_OperatorCalculator.");
 
             _operandAValue = operandValue;
             _operandBCalculator = operandBCalculator;

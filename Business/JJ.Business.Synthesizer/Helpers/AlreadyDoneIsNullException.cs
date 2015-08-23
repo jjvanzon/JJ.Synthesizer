@@ -12,6 +12,5 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             get { return "alreadyDone is null. Pass a (new) HashSet<object>."; }
         }
-
     }
 }

@@ -141,6 +141,15 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
+        public static OperatorPropertiesViewModel_ForCustomOperator TryGetOperatorPropertiesViewModel_ForCustomOperator(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForCustomOperator viewModel = ChildDocumentHelper.EnumerateOperatorPropertiesViewModels_ForCustomOperators(rootDocumentViewModel)
+                                                                                         .FirstOrDefault(x => x.ID == operatorID); // First for performance.
+            return viewModel;
+        }
+
         public static OperatorPropertiesViewModel_ForPatchInlet TryGetOperatorPropertiesViewModel_ForPatchInlet(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -180,6 +189,24 @@ namespace JJ.Presentation.Synthesizer.Helpers
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
                 foreach (OperatorPropertiesViewModel propertiesViewModel in childDocumentViewModel.OperatorPropertiesList)
+                {
+                    yield return propertiesViewModel;
+                }
+            }
+        }
+
+        private static IEnumerable<OperatorPropertiesViewModel_ForCustomOperator> EnumerateOperatorPropertiesViewModels_ForCustomOperators(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList_ForCustomOperators)
+            {
+                yield return propertiesViewModel;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForCustomOperators)
                 {
                     yield return propertiesViewModel;
                 }
@@ -258,6 +285,26 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new Exception(String.Format("OperatorPropertiesViewModel with ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForCustomOperator> GetOperatorPropertiesViewModelList_ForCustomOperators_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            if (rootDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+            {
+                return rootDocumentViewModel.OperatorPropertiesList_ForCustomOperators;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                if (childDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+                {
+                    return childDocumentViewModel.OperatorPropertiesList_ForCustomOperators;
+                }
+            }
+
+            throw new Exception(String.Format("OperatorPropertiesViewModel_ForCustomOperator with ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForPatchInlet> GetOperatorPropertiesViewModelList_ForPatchInlets_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)

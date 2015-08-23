@@ -85,6 +85,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             buttonPlay.Text = Titles.Play;
         }
 
+        // TODO: This field is not used, but I think it might need to be used when finishing up work to the vector graphics system?
         private bool _applyViewModelIsBusy;
 
         private void ApplyViewModel()

@@ -35,7 +35,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         // The Open Document
 
         public DocumentViewModel Document { get; set; }
-
         public bool Successful  { get; set; }
     }
 }

@@ -295,7 +295,7 @@
     <value>Effect</value>
   </data>
   <data name="Effects" xml:space="preserve">
-    <value>Effects</value>
+    <value>Effecten</value>
   </data>
   <data name="Instrument" xml:space="preserve">
     <value>Instrument</value>
@@ -314,5 +314,8 @@
   </data>
   <data name="SortOrder" xml:space="preserve">
     <value>Volgnummer</value>
+  </data>
+  <data name="UnderlyingDocument" xml:space="preserve">
+    <value>Onderliggend document</value>
   </data>
 </root>

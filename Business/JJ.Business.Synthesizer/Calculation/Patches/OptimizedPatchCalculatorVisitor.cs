@@ -2,20 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Visitors;
-using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -529,7 +524,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             timeMultiplierCalculator = timeMultiplierCalculator ?? new Value_OperatorCalculator(1);
             originCalculator = originCalculator ?? new Value_OperatorCalculator(0);
 
-            double signal = signalCalculator.Calculate(0, 0);
+            //double signal = signalCalculator.Calculate(0, 0); // Unused
             double timeMultiplier = timeMultiplierCalculator.Calculate(0, 0);
             double origin = originCalculator.Calculate(0, 0);
             bool signalIsConst = signalCalculator is Value_OperatorCalculator;
@@ -611,6 +606,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else if (signalIsConstZero)
             {
                 calculator = new Value_OperatorCalculator(0);
+            }
+            else if (timeDividerIsConstOne)
+            {
+                calculator = signalCalculator;
             }
             else if (signalIsConst)
             {

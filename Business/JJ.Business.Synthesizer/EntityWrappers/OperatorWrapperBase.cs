@@ -56,7 +56,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public static implicit operator Operator(OperatorWrapperBase wrapper)
         {
-            if (wrapper == null) throw new NullException(() => wrapper);
+            if (wrapper == null) return null;
 
             return wrapper.Operator;
         }

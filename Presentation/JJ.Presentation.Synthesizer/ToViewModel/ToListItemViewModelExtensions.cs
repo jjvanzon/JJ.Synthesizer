@@ -56,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Curve
 
-        public static IList<CurveListItemViewModel> ToListItemViewModels(this IList<Curve> entities, int documentID)
+        public static IList<CurveListItemViewModel> ToListItemViewModels(this IList<Curve> entities)
         {
             if (entities == null) throw new NullException(() => entities);
 

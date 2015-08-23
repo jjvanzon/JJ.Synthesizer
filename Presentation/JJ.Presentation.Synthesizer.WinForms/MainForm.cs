@@ -87,6 +87,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
             operatorPropertiesUserControl.CloseRequested += operatorPropertiesUserControl_CloseRequested;
             operatorPropertiesUserControl.LoseFocusRequested += operatorPropertiesUserControl_LoseFocusRequested;
+            operatorPropertiesUserControl_ForCustomOperator.CloseRequested += operatorPropertiesUserControl_ForCustomOperator_CloseRequested;
+            operatorPropertiesUserControl_ForCustomOperator.LoseFocusRequested += operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested;
             operatorPropertiesUserControl_ForPatchInlet.CloseRequested += operatorPropertiesUserControl_ForPatchInlet_CloseRequested;
             operatorPropertiesUserControl_ForPatchInlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested;
             operatorPropertiesUserControl_ForPatchOutlet.CloseRequested += operatorPropertiesUserControl_ForPatchOutlet_CloseRequested;
@@ -399,6 +401,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void operatorPropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
             OperatorPropertiesClose();
+        }
+
+        private void operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesLoseFocus_ForCustomOperator();
+        }
+
+        private void operatorPropertiesUserControl_ForCustomOperator_CloseRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesClose_ForCustomOperator();
         }
 
         private void operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested(object sender, EventArgs e)
@@ -881,6 +893,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void OperatorPropertiesClose_ForCustomOperator()
+        {
+            _presenter.OperatorPropertiesClose_ForCustomOperator();
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesLoseFocus_ForCustomOperator()
+        {
+            _presenter.OperatorPropertiesLoseFocus_ForCustomOperator();
+            ApplyViewModel();
+        }
+
         private void OperatorPropertiesClose_ForPatchInlet()
         {
             _presenter.OperatorPropertiesClose_ForPatchInlet();
@@ -1139,6 +1163,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
                 operatorPropertiesUserControl.Visible = operatorPropertiesVisible;
 
+                bool operatorPropertiesVisible_ForCustomOperator = false;
+                OperatorPropertiesViewModel_ForCustomOperator visibleOperatorPropertiesViewModel_ForCustomOperator =
+                    Enumerable.Union(
+                        _presenter.ViewModel.Document.OperatorPropertiesList_ForCustomOperators,
+                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators))
+                    .Where(x => x.Visible).SingleOrDefault();
+                if (visibleOperatorPropertiesViewModel_ForCustomOperator != null)
+                {
+                    operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingDocumentLookup(_presenter.ViewModel.Document.UnderlyingDocumentLookup);
+                    operatorPropertiesUserControl_ForCustomOperator.ViewModel = visibleOperatorPropertiesViewModel_ForCustomOperator;
+                    operatorPropertiesVisible_ForCustomOperator = true;
+                }
+                operatorPropertiesUserControl_ForCustomOperator.Visible = operatorPropertiesVisible_ForCustomOperator;
+
                 bool operatorPropertiesVisible_ForPatchInlet = false;
                 OperatorPropertiesViewModel_ForPatchInlet visibleOperatorPropertiesViewModel_ForPatchInlet =
                     Enumerable.Union(
@@ -1262,83 +1300,115 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                     audioFileOutputPropertiesVisible ||
                                                     childDocumentPropertiesVisible ||
                                                     operatorPropertiesVisible ||
+                                                    operatorPropertiesVisible_ForCustomOperator ||
                                                     operatorPropertiesVisible_ForPatchInlet ||
                                                     operatorPropertiesVisible_ForPatchOutlet ||
                                                     operatorPropertiesVisible_ForValue ||
                                                     samplePropertiesVisible;
 
                 SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
-
-                if (_presenter.ViewModel.NotFound.Visible)
-                {
-                    MessageBoxHelper.ShowNotFound(_presenter.ViewModel.NotFound);
-                }
-
-                if (_presenter.ViewModel.DocumentDelete.Visible)
-                {
-                    MessageBoxHelper.ShowDocumentConfirmDelete(_presenter.ViewModel.DocumentDelete);
-                }
-
-                if (_presenter.ViewModel.DocumentDeleted.Visible)
-                {
-                    MessageBoxHelper.ShowDocumentIsDeleted();
-                }
-
-                if (_presenter.ViewModel.DocumentCannotDelete.Visible)
-                {
-                    _documentCannotDeleteForm.ShowDialog(_presenter.ViewModel.DocumentCannotDelete);
-                }
-
-                if (_presenter.ViewModel.ValidationMessages.Count != 0)
-                {
-                    // TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
-                    MessageBox.Show(String.Join(Environment.NewLine, _presenter.ViewModel.ValidationMessages.Select(x => x.Text)));
-
-                    // Clear them so the next time the message box is not shown (message box is a temporary solution).
-                    _presenter.ViewModel.ValidationMessages.Clear();
-                }
-
-                if (_presenter.ViewModel.PopupMessages.Count != 0)
-                {
-                    MessageBoxHelper.ShowPopupMessages(_presenter.ViewModel.PopupMessages);
-                }
-
-                // Focus control if not valid.
-                bool mustFocusAudioFileOutputPropertiesUserControl = _presenter.ViewModel.Document.AudioFileOutputPropertiesList.Any(x => !x.Successful);
-                if (mustFocusAudioFileOutputPropertiesUserControl)
-                {
-                    audioFileOutputPropertiesUserControl.Focus();
-                }
-
-                bool mustFocusChildDocumentPropertiesUserControl = _presenter.ViewModel.Document.ChildDocumentPropertiesList.Any(x => !x.Successful);
-                if (mustFocusChildDocumentPropertiesUserControl)
-                {
-                    childDocumentPropertiesUserControl.Focus();
-                }
-
-                bool mustFocusDocumentPropertiesUserControl = !_presenter.ViewModel.Document.DocumentProperties.Successful;
-                if (mustFocusDocumentPropertiesUserControl)
-                {
-                    documentPropertiesUserControl.Focus();
-                }
-
-                bool mustFocusOperatorPropertiesUserControl = _presenter.ViewModel.Document.OperatorPropertiesList.Any(x => !x.Successful);
-                if (mustFocusOperatorPropertiesUserControl)
-                {
-                    operatorPropertiesUserControl.Focus();
-                }
-
-                bool mustFocusSamplePropertiesUserControl = _presenter.ViewModel.Document.SamplePropertiesList.Any(x => !x.Successful) ||
-                                                            _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful) ||
-                                                            _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).Any(x => !x.Successful);
-                if (mustFocusSamplePropertiesUserControl)
-                {
-                    samplePropertiesUserControl.Focus();
-                }
             }
             finally
             {
                 ResumeLayout();
+            }
+
+            if (_presenter.ViewModel.NotFound.Visible)
+            {
+                MessageBoxHelper.ShowNotFound(_presenter.ViewModel.NotFound);
+            }
+
+            if (_presenter.ViewModel.DocumentDelete.Visible)
+            {
+                MessageBoxHelper.ShowDocumentConfirmDelete(_presenter.ViewModel.DocumentDelete);
+            }
+
+            if (_presenter.ViewModel.DocumentDeleted.Visible)
+            {
+                MessageBoxHelper.ShowDocumentIsDeleted();
+            }
+
+            if (_presenter.ViewModel.DocumentCannotDelete.Visible)
+            {
+                _documentCannotDeleteForm.ShowDialog(_presenter.ViewModel.DocumentCannotDelete);
+            }
+
+            if (_presenter.ViewModel.ValidationMessages.Count != 0)
+            {
+                // TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
+                MessageBox.Show(String.Join(Environment.NewLine, _presenter.ViewModel.ValidationMessages.Select(x => x.Text)));
+
+                // Clear them so the next time the message box is not shown (message box is a temporary solution).
+                _presenter.ViewModel.ValidationMessages.Clear();
+            }
+
+            if (_presenter.ViewModel.PopupMessages.Count != 0)
+            {
+                MessageBoxHelper.ShowPopupMessages(_presenter.ViewModel.PopupMessages);
+            }
+
+            // Focus control if not valid.
+            bool mustFocusAudioFileOutputPropertiesUserControl = audioFileOutputPropertiesUserControl.Visible &&
+                                                                !audioFileOutputPropertiesUserControl.ViewModel.Successful;
+            if (mustFocusAudioFileOutputPropertiesUserControl)
+            {
+                audioFileOutputPropertiesUserControl.Focus();
+            }
+
+            bool mustFocusChildDocumentPropertiesUserControl = childDocumentPropertiesUserControl.Visible &&
+                                                              !childDocumentPropertiesUserControl.ViewModel.Successful;
+            if (mustFocusChildDocumentPropertiesUserControl)
+            {
+                childDocumentPropertiesUserControl.Focus();
+            }
+
+            bool mustFocusDocumentPropertiesUserControl = documentPropertiesUserControl.Visible &&
+                                                         !documentPropertiesUserControl.ViewModel.Successful;
+            if (mustFocusDocumentPropertiesUserControl)
+            {
+                documentPropertiesUserControl.Focus();
+            }
+
+            bool mustFocusOperatorPropertiesUserControl = operatorPropertiesUserControl.Visible &&
+                                                         !operatorPropertiesUserControl.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl)
+            {
+                operatorPropertiesUserControl.Focus();
+            }
+
+            bool mustFocusOperatorPropertiesUserControl_ForCustomOperator = operatorPropertiesUserControl_ForCustomOperator.Visible &&
+                                                                           !operatorPropertiesUserControl_ForCustomOperator.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl_ForCustomOperator)
+            {
+                operatorPropertiesUserControl_ForCustomOperator.Focus();
+            }
+
+            bool mustFocusOperatorPropertiesUserControl_ForPatchInlet = operatorPropertiesUserControl_ForPatchInlet.Visible &&
+                                                                       !operatorPropertiesUserControl_ForPatchInlet.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl_ForPatchInlet)
+            {
+                operatorPropertiesUserControl_ForPatchInlet.Focus();
+            }
+
+            bool mustFocusOperatorPropertiesUserControl_ForPatchOutlet = operatorPropertiesUserControl_ForPatchOutlet.Visible &&
+                                                                        !operatorPropertiesUserControl_ForPatchOutlet.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl_ForPatchOutlet)
+            {
+                operatorPropertiesUserControl_ForPatchOutlet.Focus();
+            }
+
+            bool mustFocusOperatorPropertiesUserControl_ForValue = operatorPropertiesUserControl_ForValue.Visible &&
+                                                                  !operatorPropertiesUserControl_ForValue.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl_ForValue)
+            {
+                operatorPropertiesUserControl_ForValue.Focus();
+            }
+
+            bool mustFocusSamplePropertiesUserControl = samplePropertiesUserControl.Visible &&
+                                                       !samplePropertiesUserControl.ViewModel.Successful;
+            if (mustFocusSamplePropertiesUserControl)
+            {
+                samplePropertiesUserControl.Focus();
             }
         }
 

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using JJ.Framework.Common;
 using JJ.Framework.Validation;
+using JJ.Framework.Presentation.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Enums;
@@ -47,23 +47,27 @@ namespace JJ.Business.Synthesizer.Validation
 
             For(() => op.Data, PropertyDisplayNames.Data).IsInteger();
 
-            int documentID;
-            if (Int32.TryParse(op.Data, out documentID))
+            int underlyingDocumentID;
+            if (Int32.TryParse(op.Data, out underlyingDocumentID))
             {
-                Document document = _documentRepository.TryGet(documentID);
-
-                For(() => document, PropertyDisplayNames.Document).NotNull();
-
-                if (document != null)
+                Document underlyingDocument = _documentRepository.TryGet(underlyingDocumentID);
+                if (underlyingDocument == null)
                 {
-                    For(() => document.MainPatch, PropertyDisplayNames.MainPatch).NotNull();
-
-                    ValidateDocumentReferenceConstraint(document);
-
-                    if (document.MainPatch != null)
+                    ValidationMessages.Add(() => underlyingDocument, CommonMessageFormatter.ObjectNotFoundWithID(PropertyDisplayNames.UnderlyingDocument, underlyingDocumentID));
+                }
+                else
+                {
+                    if (underlyingDocument.MainPatch == null)
                     {
-                        ValidateInletsAgainstDocument(document);
-                        ValidateOutletsAgainstDocument(document);
+                        ValidationMessages.Add(() => underlyingDocument, Messages.UnderlyingDocumentMainPatchIsNull);
+                    }
+
+                    ValidateUnderlyingDocumentReferenceConstraint(underlyingDocument);
+
+                    if (underlyingDocument.MainPatch != null)
+                    {
+                        ValidateInletsAgainstDocument(underlyingDocument);
+                        ValidateOutletsAgainstDocument(underlyingDocument);
                     }
                 }
             }
@@ -95,7 +99,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
         }
 
-        private void ValidateDocumentReferenceConstraint(Document document)
+        private void ValidateUnderlyingDocumentReferenceConstraint(Document underlyingDocument)
         {
             Operator op = Object;
 
@@ -113,10 +117,10 @@ namespace JJ.Business.Synthesizer.Validation
                     documents = op.Patch.Document.ChildDocuments;
                 }
 
-                bool isInList = documents.Any(x => x.ID == document.ID);
+                bool isInList = documents.Any(x => x.ID == underlyingDocument.ID);
                 if (!isInList)
                 {
-                    ValidationMessages.Add(PropertyNames.Document, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.Document, document.ID));
+                    ValidationMessages.Add(PropertyNames.UnderlyingDocument, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.UnderlyingDocument, underlyingDocument.ID));
                 }
             }
         }

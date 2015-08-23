@@ -42,8 +42,6 @@ namespace JJ.Business.Synthesizer.Calculation
             _samplingRate = samplingRate;
 
             int sampleCount = _samplingRate * PRE_CALCULATED_SECONDS;
-            int randomSeed = Guid.NewGuid().GetHashCode();
-            var random = new Random(randomSeed);
 
             _samples = new double[sampleCount];
             for (int i = 0; i < sampleCount; i++)

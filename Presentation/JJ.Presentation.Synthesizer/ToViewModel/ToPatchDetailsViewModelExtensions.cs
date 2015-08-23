@@ -111,22 +111,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         /// <summary>
         /// Includes its inlets and outlets.
-        /// But does not include the inverse properties OutletViewModel.Operator and InletViewModel.Operator.
-        /// These view models are one of the few with inverse properties.
-        /// </summary>
-        private static OperatorViewModel ToViewModelWithRelatedEntities(this Operator op, EntityPositionManager entityPositionManager)
-        {
-            // Do not reuse this in ToViewModelRecursive, because there you have to do a dictionary.Add there right in the middle of things.
-            OperatorViewModel viewModel = op.ToViewModel(entityPositionManager);
-
-            viewModel.Inlets = op.Inlets.ToViewModels();
-            viewModel.Outlets = op.Outlets.ToViewModels();
-
-            return viewModel;
-        }
-
-        /// <summary>
-        /// Includes its inlets and outlets.
         /// Also includes the inverse property OutletViewModel.Operator.
         /// That view model is one the few with an inverse property.
         /// </summary>
@@ -195,7 +179,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             OutletViewModel viewModel = outlet.ToViewModel();
 
-            EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(outlet.Operator);
+            entityPositionManager.GetOrCreateOperatorPosition(outlet.Operator);
 
             // Recursive call
             viewModel.Operator = outlet.Operator.ToViewModelRecursive(entityPositionManager, dictionary);

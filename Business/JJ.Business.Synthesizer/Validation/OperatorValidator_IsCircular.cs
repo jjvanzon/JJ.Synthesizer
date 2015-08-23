@@ -35,11 +35,14 @@ namespace JJ.Business.Synthesizer.Validation
                 ValidationMessages.Add(() => op, MessageFormatter.OperatorIsCircularWithName(op.Name));
             }
 
+            // TODO: Enable the UnderlyingDocumentIsCircular check again, when it is corrected, so it works.
+            return;
+
             if (op.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
             {
-                if (op.IsCircularCustomOperatorDocumentReference(_documentRepository))
+                if (op.HasCircularUnderlyingDocument(_documentRepository))
                 {
-                    ValidationMessages.Add(() => op, MessageFormatter.CustomOperatorDocumentReferenceIsCircular_WithName(op.Name));
+                    ValidationMessages.Add(() => op, Messages.UnderlyingDocumentIsCircular);
                 }
             }
         }

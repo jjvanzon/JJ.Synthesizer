@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (op.OperatorType != null)
             {
-                string operatorTypeDisplayName = ResourceHelper.GetPropertyDisplayName(op.OperatorType.Name);
+                string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(op);
                 return GetMessagePrefix(operatorTypeDisplayName, op.Name);
             }
             else

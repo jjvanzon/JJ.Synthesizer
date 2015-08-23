@@ -27,7 +27,22 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
 
-        public static IEnumerable<Document> EnumerateSelfAndChildDocuments(this Document document)
+        public static IEnumerable<Document> EnumerateParentAndChildren(this Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            if (document.ParentDocument != null)
+            {
+                yield return document.ParentDocument;
+            }
+
+            foreach (Document childDocument in document.ChildDocuments)
+            {
+                yield return childDocument;
+            }
+        }
+
+        public static IEnumerable<Document> EnumerateSelfAndChildren(this Document document)
         {
             if (document == null) throw new NullException(() => document);
 
@@ -36,6 +51,22 @@ namespace JJ.Business.Synthesizer.Extensions
             foreach (Document childDocument in document.ChildDocuments)
             {
                 yield return childDocument;
+            }
+        }
+
+        /// <summary> Gets the parent of the document or otherwise returns the document itself. </summary>
+        public static Document GetRootDocument(this Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            if (document.ParentDocument != null)
+            {
+                // Parent-Child relations go but one level deep, so parent document = root document.
+                return document.ParentDocument;
+            }
+            else
+            {
+                return document;
             }
         }
     }

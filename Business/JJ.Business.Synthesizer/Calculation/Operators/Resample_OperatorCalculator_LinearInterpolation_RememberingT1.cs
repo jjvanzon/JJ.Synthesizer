@@ -92,7 +92,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// </summary>
         private double GetSamplingRate(double t, int channelIndex)
         {
-            double samplingRate = _samplingRateCalculator.Calculate(_t1, channelIndex);
+            // _t1 was recently (2015-08-22) corrected to t which might make time going in reverse work better.
+            double samplingRate = _samplingRateCalculator.Calculate(t, channelIndex);
 
             samplingRate = Math.Abs(samplingRate);
 

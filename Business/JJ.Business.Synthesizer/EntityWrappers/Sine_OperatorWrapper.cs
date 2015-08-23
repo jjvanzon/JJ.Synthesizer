@@ -49,8 +49,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public static implicit operator Outlet(Sine_OperatorWrapper wrapper)
         {
-            if (wrapper == null) throw new NullException(() => wrapper);
-            
+            if (wrapper == null) return null;
+
             return wrapper.Result;
         }
     }

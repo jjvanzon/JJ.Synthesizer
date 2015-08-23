@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Extensions
     {
         public static void DeleteRelatedEntities(this Document document, RepositoryWrapper repositoryWrapper)
         {
+            if (document == null) throw new NullException(() => document);
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
             foreach (Document childDocument in document.ChildDocuments.ToArray())
@@ -127,7 +128,7 @@ namespace JJ.Business.Synthesizer.Extensions
             }
 
             // Be null-tollerant to be able to get out of trouble if something is missing.
-            EntityPosition entityPosition = entityPositionRepository.TryGetByEntityTypeNameAndID(typeof(OperatingSystem).Name, op.ID);
+            EntityPosition entityPosition = entityPositionRepository.TryGetByEntityTypeNameAndEntityID(typeof(OperatingSystem).Name, op.ID);
             if (entityPosition != null)
             {
                 entityPositionRepository.Delete(entityPosition);

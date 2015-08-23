@@ -64,7 +64,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
             _baseGestures = new IGesture[] { _dragGesture, _dropGesture };
 
             _dragGesture.Dragging += _dragGesture_Dragging;
-            _dragGesture.DragCancelled += _dragGesture_DragCancelled;
+            _dragGesture.DragCanceled += _dragGesture_DragCancelled;
             _dropGesture.Dropped += _dropGesture_Dropped;
         }
 
@@ -88,6 +88,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Gestures
 
         public override void HandleMouseDown(object sender, MouseEventArgs e)
         {
+            if (e == null) throw new NullException(() => e);
+
             foreach (IGesture baseGesture in _baseGestures)
             {
                 baseGesture.HandleMouseDown(sender, e);

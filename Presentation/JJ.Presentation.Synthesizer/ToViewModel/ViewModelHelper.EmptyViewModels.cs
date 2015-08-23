@@ -15,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static partial class ViewModelHelper
     {
-        public static MainViewModel CreateEmptyMainViewModel(IOperatorTypeRepository operatorTypeRepository)
+        public static MainViewModel CreateEmptyMainViewModel()
         {
             return new MainViewModel
             {
@@ -48,13 +48,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveGrid = CreateEmptyCurveGridViewModel(),
                 CurveDetailsList = new List<CurveDetailsViewModel>(),
                 OperatorPropertiesList = new List<OperatorPropertiesViewModel>(),
+                OperatorPropertiesList_ForCustomOperators = new List<OperatorPropertiesViewModel_ForCustomOperator>(),
                 OperatorPropertiesList_ForPatchInlets = new List<OperatorPropertiesViewModel_ForPatchInlet>(),
                 OperatorPropertiesList_ForPatchOutlets = new List<OperatorPropertiesViewModel_ForPatchOutlet>(),
                 OperatorPropertiesList_ForValues = new List<OperatorPropertiesViewModel_ForValue>(),
                 PatchGrid = CreateEmptyPatchGridViewModel(),
                 PatchDetailsList = new List<PatchDetailsViewModel>(),
                 AudioFileOutputGrid = CreateEmptyAudioFileOutputGridViewModel(),
-                AudioFileOutputPropertiesList = new List<AudioFileOutputPropertiesViewModel>()
+                AudioFileOutputPropertiesList = new List<AudioFileOutputPropertiesViewModel>(),
+                UnderlyingDocumentLookup = new List<IDAndName>()
             };
 
             return viewModel;
@@ -209,63 +211,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new SampleGridViewModel
             {
                 List = new List<SampleListItemViewModel>()
-            };
-
-            return viewModel;
-        }
-
-        public static AudioFileOutputPropertiesViewModel CreateEmptyAudioFileOutputPropertiesViewModelWithLookups(
-            IAudioFileFormatRepository audioFileFormatRepository,
-            ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository)
-        {
-            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
-            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-
-            var viewModel = new AudioFileOutputPropertiesViewModel
-            {
-                AudioFileFormats = ViewModelHelper.CreateAudioFileFormatLookupViewModel(audioFileFormatRepository),
-                SampleDataTypes = ViewModelHelper.CreateSampleDataTypeLookupViewModel(sampleDataTypeRepository),
-                SpeakerSetups = ViewModelHelper.CreateSpeakerSetupLookupViewModel(speakerSetupRepository),
-                OutletLookup = new List<IDAndName>(),
-                ValidationMessages = new List<Message>()
-            };
-
-            return viewModel;
-        }
-
-        public static AudioFileOutputPropertiesViewModel CreateEmptyAudioFileOutputPropertiesViewModel()
-        {
-            var viewModel = new AudioFileOutputPropertiesViewModel
-            {
-                AudioFileFormats = new List<IDAndName>(),
-                SampleDataTypes = new List<IDAndName>(),
-                SpeakerSetups = new List<IDAndName>(),
-                OutletLookup = new List<IDAndName>(),
-                ValidationMessages = new List<Message>()
-            };
-
-            return viewModel;
-        }
-
-        public static PatchDetailsViewModel CreateEmptyPatchDetailsViewModel(IOperatorTypeRepository operatorTypeRepository)
-        {
-            var viewModel = new PatchDetailsViewModel
-            {
-                OperatorToolboxItems = ViewModelHelper.CreateOperatorTypesViewModel(operatorTypeRepository),
-                Entity = CreateEmptyPatchViewModel(),
-                ValidationMessages = new List<Message>()
-            };
-
-            return viewModel;
-        }
-
-        public static PatchViewModel CreateEmptyPatchViewModel()
-        {
-            var viewModel = new PatchViewModel
-            {
-                Operators = new List<OperatorViewModel>()
             };
 
             return viewModel;

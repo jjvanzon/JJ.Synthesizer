@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.Validation
             foreach (Operator op in Object.Operators)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(op);
-
+                
                 Execute(new OperatorValidator_IsCircular(op, _documentRepository), messagePrefix);
                 Execute(new OperatorValidator_Recursive(op, _curveRepository, _sampleRepository, _documentRepository, _alreadyDone), messagePrefix);
             }

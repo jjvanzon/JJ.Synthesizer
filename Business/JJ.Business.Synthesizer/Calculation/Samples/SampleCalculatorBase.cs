@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
         {
             if (sample == null) throw new NullException(() => sample);
             if (sample.TimeMultiplier == 0) throw new ZeroException(() => sample.TimeMultiplier);
-
+            
             IValidator validator = new SampleValidator(sample);
             validator.Verify();
 

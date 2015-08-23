@@ -1,6 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
@@ -33,34 +31,34 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Custom_OperatorWrapper_Outlets Outlets { get; private set; }
 
-        public int? DocumentID
+        public int? UnderlyingDocumentID
         {
             get { return ConversionHelper.ParseNullableInt32(_operator.Data); }
             set { _operator.Data = Convert.ToString(value); }
         }
 
         /// <summary> nullable </summary>
-        public Document Document
+        public Document UnderlyingDocument
         {
             get
             {
-                int? documentID = DocumentID;
-                if (!documentID.HasValue)
+                int? underlyingDocumentID = UnderlyingDocumentID;
+                if (!underlyingDocumentID.HasValue)
                 {
                     return null;
                 }
 
-                return _documentRepository.TryGet(documentID.Value);
+                return _documentRepository.TryGet(underlyingDocumentID.Value);
             }
             set
             {
                 if (value == null)
                 {
-                    DocumentID = null;
+                    UnderlyingDocumentID = null;
                     return;
                 }
 
-                DocumentID = value.ID;
+                UnderlyingDocumentID = value.ID;
             }
         }
 

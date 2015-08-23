@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -139,6 +140,7 @@
     <Compile Include="EntityWrappers\Custom_OperatorWrapper_Inlets.cs" />
     <Compile Include="EntityWrappers\Custom_OperatorWrapper_Operands.cs" />
     <Compile Include="EntityWrappers\Custom_OperatorWrapper_Outlets.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\OperatorConstants.cs" />
     <Compile Include="Helpers\PatchRepositories.cs" />
     <Compile Include="Helpers\WavHeaderConstants.cs" />

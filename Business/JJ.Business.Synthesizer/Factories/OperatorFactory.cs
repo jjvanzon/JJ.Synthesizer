@@ -381,18 +381,18 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        /// <param name="document">The Document to base the CustomOperator on.</param>
-        public Custom_OperatorWrapper CustomOperator(Document document)
+        /// <param name="underlyingDocument">The Document to base the CustomOperator on.</param>
+        public Custom_OperatorWrapper CustomOperator(Document underlyingDocument)
         {
-            if (document == null) throw new NullException(() => document);
-            if (document.MainPatch == null) throw new NullException(() => document.MainPatch);
+            if (underlyingDocument == null) throw new NullException(() => underlyingDocument);
+            if (underlyingDocument.MainPatch == null) throw new NullException(() => underlyingDocument.MainPatch);
 
             var op = new Operator();
             op.ID = _repositories.IDRepository.GetID();
             op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
             _repositories.OperatorRepository.Insert(op);
 
-            IList<Operator> patchInlets = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet).ToArray();
+            IList<Operator> patchInlets = underlyingDocument.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet).ToArray();
             foreach (Operator patchInlet in patchInlets)
             {
                 var inlet = new Inlet();
@@ -402,7 +402,7 @@ namespace JJ.Business.Synthesizer.Factories
                 _repositories.InletRepository.Insert(inlet);
             }
 
-            IList<Operator> patchOutlets = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet).ToArray();
+            IList<Operator> patchOutlets = underlyingDocument.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet).ToArray();
             foreach (Operator patchOutlet in patchOutlets)
             {
                 var outlet = new Outlet();
@@ -414,7 +414,7 @@ namespace JJ.Business.Synthesizer.Factories
 
             var wrapper = new Custom_OperatorWrapper(op, _repositories.DocumentRepository);
 
-            wrapper.Document = document;
+            wrapper.UnderlyingDocument = underlyingDocument;
 
             return wrapper;
         }

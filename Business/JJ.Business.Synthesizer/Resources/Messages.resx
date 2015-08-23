@@ -135,8 +135,8 @@
   <data name="ChannelIndexNumberDoesNotMatchSpeakerSetup" xml:space="preserve">
     <value>Channel number does not match speaker setup.</value>
   </data>
-  <data name="CustomOperatorDocumentReferenceIsCircular_WithName" xml:space="preserve">
-    <value>Operator '{0}' has a circular dependency with its associated document.</value>
+  <data name="UnderlyingDocumentIsCircular" xml:space="preserve">
+    <value>There is a circular dependency with its underlying document.</value>
     <comment>{0} = name</comment>
   </data>
   <data name="CustomOperatorInletWithNameNotFoundInDocumentMainPatch" xml:space="preserve">
@@ -159,7 +159,7 @@
     <comment>{0} = Operator type name. {1} = Operator name. {2} = Operand name.</comment>
   </data>
   <data name="NotFoundInList_WithItemName_AndID" xml:space="preserve">
-    <value>{0} with ID '{1}' not found.</value>
+    <value>{0} with ID '{1}' not found in the list.</value>
     <comment>{0} = name, {1} = id</comment>
   </data>
   <data name="NotFoundInList_WithItemName_ID_AndListName" xml:space="preserve">
@@ -204,6 +204,9 @@
   <data name="SampleNotLoaded" xml:space="preserve">
     <value>Sample '{0}' is not loaded.</value>
     <comment>{0} = sample name</comment>
+  </data>
+  <data name="UnderlyingDocumentMainPatchIsNull" xml:space="preserve">
+    <value>The underlying document cannot be chosen, because it does not have a main patch.</value>
   </data>
   <data name="UnsupportedOperatorTypeEnumValue" xml:space="preserve">
     <value>Operator type '{0}' is not supported.</value>

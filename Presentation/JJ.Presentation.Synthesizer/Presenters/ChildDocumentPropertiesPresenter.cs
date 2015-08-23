@@ -20,25 +20,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private IDocumentRepository _documentRepository;
         private IChildDocumentTypeRepository _childDocumentTypeRepository;
         private IPatchRepository _patchRepository;
-        private IIDRepository _idRepository;
 
         public ChildDocumentPropertiesViewModel ViewModel { get; set; }
 
         public ChildDocumentPropertiesPresenter(
             IDocumentRepository documentRepository, 
             IChildDocumentTypeRepository childDocumentTypeRepository, 
-            IPatchRepository patchRepository,
-            IIDRepository idRepository)
+            IPatchRepository patchRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
             if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
             if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
 
             _documentRepository = documentRepository;
             _childDocumentTypeRepository = childDocumentTypeRepository;
             _patchRepository = patchRepository;
-            _idRepository = idRepository;
         }
 
         public void Show()
@@ -71,7 +67,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Document entity = ViewModel.ToEntity(_documentRepository, _childDocumentTypeRepository, _patchRepository);
+            Document entity = ViewModel.ToEntityWithMainPatchReference(_documentRepository, _childDocumentTypeRepository, _patchRepository);
 
             IValidator validator = new ChildDocumentValidator(entity);
             if (!validator.IsValid)

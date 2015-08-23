@@ -58,6 +58,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
             }
 
+            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
+            {
+                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository, repositoryWrapper.DocumentRepository);
+            }
+
             foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchInlets)
             {
                 propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
@@ -127,6 +132,42 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return document;
         }
 
+        /// <summary>
+        /// Used for OperatorProperties view for CustomOperators, to partially convert to entity,
+        /// just enoughto make a few entity validations work.
+        /// </summary> 
+        public static Document ToHollowDocumentWithHollowChildDocumentsWithHollowMainPatches(
+            this DocumentViewModel viewModel,
+            IDocumentRepository documentRepository,
+            IChildDocumentTypeRepository childDocumentTypeRepository,
+            IPatchRepository patchRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
+
+            Document rootDocument = viewModel.ToEntity(documentRepository);
+
+            foreach (ChildDocumentPropertiesViewModel childDocumentPropertiesViewModel in viewModel.ChildDocumentPropertiesList)
+            {
+                bool mainPatchIsFilledIn = childDocumentPropertiesViewModel.MainPatch != null &&
+                                           childDocumentPropertiesViewModel.MainPatch.ID != 0;
+                if (mainPatchIsFilledIn)
+                {
+                    Patch mainPatch = childDocumentPropertiesViewModel.MainPatch.ToPatch(patchRepository);
+                }
+
+                Document childDocument = childDocumentPropertiesViewModel.ToEntityWithMainPatchReference(
+                    documentRepository,
+                    childDocumentTypeRepository,
+                    patchRepository);
+                childDocument.LinkToParentDocument(rootDocument);
+            }
+
+            return rootDocument;
+        }
+
         // Child Document
 
         public static Document ToEntityWithRelatedEntities(this ChildDocumentViewModel userInput, RepositoryWrapper repositoryWrapper)
@@ -150,6 +191,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesList)
             {
                 propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
+            {
+                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository, repositoryWrapper.DocumentRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchInlets)
@@ -184,21 +230,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 documentRepository.Insert(childDocument);
             }
 
-            // Leave setting the simple properties to the the properties view model.
-            //childDocument.Name = viewModel.Name;
-            //
-            //// ChildDocumentType
-            //ChildDocumentType childDocumentType = null;
-            //if (viewModel.ChildDocumentType != null)
-            //{
-            //    childDocumentType = childDocumentTypeRepository.TryGet(viewModel.ChildDocumentType.ID);
-            //}
-            //childDocument.LinkTo(childDocumentType);
+            // Leave setting the simple properties to the the properties view model (properties such as Name and ChildDocumentType).
 
             return childDocument;
         }
 
-        public static Document ToEntity(
+        public static Document ToEntityWithMainPatchReference(
             this ChildDocumentPropertiesViewModel viewModel, 
             IDocumentRepository documentRepository, 
             IChildDocumentTypeRepository childDocumentTypeRepository,
@@ -453,7 +490,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Patch
 
-        public static Patch ToEntity(
+        public static Patch ToEntityWithRelatedEntities(
             this PatchDetailsViewModel viewModel,
             IPatchRepository patchRepository,
             IOperatorRepository operatorRepository,
@@ -531,6 +568,23 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 patchRepository.Insert(entity);
             }
             entity.Name = viewModel.Name;
+
+            return entity;
+        }
+
+        public static Patch ToPatch(this IDAndName idAndName, IPatchRepository patchRepository)
+        {
+            if (idAndName == null) throw new NullException(() => idAndName);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
+
+            Patch entity = patchRepository.TryGet(idAndName.ID);
+            if (entity == null)
+            {
+                entity = new Patch();
+                entity.ID = idAndName.ID;
+                patchRepository.Insert(entity);
+            }
+            entity.Name = idAndName.Name;
 
             return entity;
         }
@@ -669,6 +723,36 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
+
+        public static Operator ToEntity(
+            this OperatorPropertiesViewModel_ForCustomOperator viewModel,
+            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, IDocumentRepository documentRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            entity.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, operatorTypeRepository);
+            
+            // UnderlyingDocument
+            bool underlyingDocumentIsFilledIn = viewModel.UnderlyingDocument != null && viewModel.UnderlyingDocument.ID != 0;
+            if (underlyingDocumentIsFilledIn)
+            {
+                var wrapper = new Custom_OperatorWrapper(entity, documentRepository);
+                wrapper.UnderlyingDocumentID = viewModel.UnderlyingDocument.ID;
+            }
+
+            return entity;
+        }
+
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForPatchInlet viewModel,
             IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
@@ -734,10 +818,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Value, operatorTypeRepository);
-
-            // TODO: Remove outcommented code.
-            //var wrapper = new Value_OperatorWrapper(entity);
-            //wrapper.Value = viewModel.Value;
 
             entity.Data = viewModel.Value;
 

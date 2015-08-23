@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Validation
             foreach (Document childDocument in document.ChildDocuments)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.ChildDocument, childDocument.Name);
-                Execute(new DocumentValidator_Recursive(childDocument, _repositoryWrapper, _alreadyDone));
+                Execute(new DocumentValidator_Recursive(childDocument, _repositoryWrapper, _alreadyDone), messagePrefix);
             }
 
             // TODO:

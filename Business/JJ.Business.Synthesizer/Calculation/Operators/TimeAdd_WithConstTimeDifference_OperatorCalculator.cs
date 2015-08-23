@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double timeDifferenceValue)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Value_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_Calculator.");
+            if (signalCalculator is Value_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_OperatorCalculator.");
 
             _signalCalculator = signalCalculator;
             _timeDifferenceValue = timeDifferenceValue;

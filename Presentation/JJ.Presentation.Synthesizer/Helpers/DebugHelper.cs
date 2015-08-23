@@ -19,7 +19,8 @@ namespace JJ.Presentation.Synthesizer.Helpers
         public static string GetDebuggerDisplay(InletViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            return String.Format("Inlet '{0}'", viewModel.Name, viewModel.ID);
+
+            return String.Format("Inlet '{0}' ({1})", viewModel.Name, viewModel.ID);
         }
 
         public static string GetDebuggerDisplay(OutletViewModel viewModel)

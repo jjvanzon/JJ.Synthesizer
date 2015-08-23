@@ -135,8 +135,8 @@
   <data name="ChannelIndexNumberDoesNotMatchSpeakerSetup" xml:space="preserve">
     <value>Kanaalnummer komt niet overeen met luidspreker opstelling.</value>
   </data>
-  <data name="CustomOperatorDocumentReferenceIsCircular_WithName" xml:space="preserve">
-    <value>Operator '{0}' heeft een cirkelverband met zijn geassocieerde document.</value>
+  <data name="UnderlyingDocumentIsCircular" xml:space="preserve">
+    <value>Er is een cirkelverband met het onderliggende document.</value>
     <comment>{0} = name</comment>
   </data>
   <data name="CustomOperatorInletWithNameNotFoundInDocumentMainPatch" xml:space="preserve">
@@ -158,7 +158,7 @@
     <value>{2} is niet ingevuld voor {0} operator genaamd '{1}'.</value>
   </data>
   <data name="NotFoundInList_WithItemName_AndID" xml:space="preserve">
-    <value>{0} met ID '{1}' niet gevonden.</value>
+    <value>{0} met ID '{1}' niet gevonden in de lijst.</value>
     <comment>{0} = name, {1} = id</comment>
   </data>
   <data name="NotFoundInList_WithItemName_ID_AndListName" xml:space="preserve">
@@ -199,6 +199,9 @@
   </data>
   <data name="SampleNotLoaded" xml:space="preserve">
     <value>Geluidsfragment '{0} is niet ingeladen.</value>
+  </data>
+  <data name="UnderlyingDocumentMainPatchIsNull" xml:space="preserve">
+    <value>Dit onderliggend document heeft geen hoofdschakeling en kan daarom niet worden gekozen.</value>
   </data>
   <data name="UnsupportedOperatorTypeEnumValue" xml:space="preserve">
     <value>Operator type '{0}' wordt niet ondersteund.</value>

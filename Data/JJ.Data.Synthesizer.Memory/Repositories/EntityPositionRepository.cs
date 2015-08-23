@@ -17,7 +17,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             _context = (MemoryContext)context;
         }
 
-        public override EntityPosition TryGetByEntityTypeNameAndID(string entityTypeName, int entityID)
+        public override EntityPosition TryGetByEntityTypeNameAndEntityID(string entityTypeName, int entityID)
         {
             return _context.GetAll<EntityPosition>()
                            .Where(x => x.EntityTypeName == entityTypeName &&

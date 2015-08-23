@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Add_WithConstOperandB_OperatorCalculator(OperatorCalculatorBase operandACalculator, double operandBValue)
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Value_OperatorCalculator) throw new Exception("operandACalculator cannot be a Value_Calculator.");
+            if (operandACalculator is Value_OperatorCalculator) throw new Exception("operandACalculator cannot be a Value_OperatorCalculator.");
 
             _operandACalculator = operandACalculator;
             _operandBValue = operandBValue;

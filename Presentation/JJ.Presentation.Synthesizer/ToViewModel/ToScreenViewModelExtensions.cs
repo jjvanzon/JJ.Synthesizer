@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -43,13 +42,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveDetailsList = document.Curves.Select(x => x.ToDetailsViewModel(repositoryWrapper.NodeTypeRepository)).ToList(),
                 CurveGrid = document.Curves.ToGridViewModel(document.ID),
                 OperatorPropertiesList = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList()).ToList(),
-                OperatorPropertiesList_ForPatchInlets = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForPatchInlets()).ToList(),
-                OperatorPropertiesList_ForPatchOutlets = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForPatchOutlets()).ToList(),
-                OperatorPropertiesList_ForValues = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForValues()).ToList(),
+                OperatorPropertiesList_ForCustomOperators = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForCustomOperators(repositoryWrapper.DocumentRepository)).ToList(),
+                OperatorPropertiesList_ForPatchInlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToList(),
+                OperatorPropertiesList_ForPatchOutlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToList(),
+                OperatorPropertiesList_ForValues = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForValues()).ToList(),
                 PatchDetailsList = document.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, entityPositionManager)).ToList(),
                 PatchGrid = document.Patches.ToGridViewModel(document.ID),
                 SampleGrid = document.Samples.ToGridViewModel(document.ID),
-                SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList()
+                SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList(),
+                UnderlyingDocumentLookup = ViewModelHelper.CreateUnderlyingDocumentLookupViewModel(document)
             };
 
             return viewModel;
@@ -137,9 +138,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurveGrid = childDocument.Curves.ToGridViewModel(childDocument.ID),
                 CurveDetailsList = childDocument.Curves.Select(x => x.ToDetailsViewModel(repositoryWrapper.NodeTypeRepository)).ToList(),
                 OperatorPropertiesList = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList()).ToList(),
-                OperatorPropertiesList_ForPatchInlets = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForPatchInlets()).ToList(),
-                OperatorPropertiesList_ForPatchOutlets = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForPatchOutlets()).ToList(),
-                OperatorPropertiesList_ForValues = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForValues()).ToList(),
+                OperatorPropertiesList_ForCustomOperators = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForCustomOperators(repositoryWrapper.DocumentRepository)).ToList(),
+                OperatorPropertiesList_ForPatchInlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToList(),
+                OperatorPropertiesList_ForPatchOutlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToList(),
+                OperatorPropertiesList_ForValues = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForValues()).ToList(),
                 PatchGrid = childDocument.Patches.ToGridViewModel(childDocument.ID),
                 PatchDetailsList = childDocument.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, entityPositionManager)).ToList()
             };
@@ -236,7 +238,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
                 if (operatorTypeEnum != OperatorTypeEnum.Value &&
                     operatorTypeEnum != OperatorTypeEnum.PatchInlet &&
-                    operatorTypeEnum != OperatorTypeEnum.PatchOutlet)
+                    operatorTypeEnum != OperatorTypeEnum.PatchOutlet &&
+                    operatorTypeEnum != OperatorTypeEnum.CustomOperator)
                 {
                     OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
                     viewModels.Add(viewModel);
@@ -244,6 +247,42 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             return viewModels;
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForCustomOperator> ToOperatorPropertiesViewModelList_ForCustomOperators(this Patch patch, IDocumentRepository documentRepository)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
+                                  .Select(x => x.ToPropertiesViewModel_ForCustomOperator(documentRepository))
+                                  .ToList();
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForPatchInlet> ToPropertiesViewModelList_ForPatchInlets(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
+                                  .Select(x => x.ToPropertiesViewModel_ForPatchInlet())
+                                  .ToList();
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForPatchOutlet> ToPropertiesViewModelList_ForPatchOutlets(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
+                                  .Select(x => x.ToPropertiesViewModel_ForPatchOutlet())
+                                  .ToList();
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForValue> ToPropertiesViewModelList_ForValues(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Value)
+                                  .Select(x => x.ToPropertiesViewModel_ForValue())
+                                  .ToList();
         }
 
         public static OperatorPropertiesViewModel ToPropertiesViewModel(this Operator entity)
@@ -266,13 +305,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static IList<OperatorPropertiesViewModel_ForPatchInlet> ToOperatorPropertiesViewModelList_ForPatchInlets(this Patch patch)
+        public static OperatorPropertiesViewModel_ForCustomOperator ToPropertiesViewModel_ForCustomOperator(this Operator entity, IDocumentRepository documentRepository)
         {
-            if (patch == null) throw new NullException(() => patch);
+            if (entity == null) throw new NullException(() => entity);
 
-            return patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
-                                  .Select(x => x.ToPropertiesViewModel_ForPatchInlet())
-                                  .ToList();
+            var viewModel = new OperatorPropertiesViewModel_ForCustomOperator
+            {
+                ID = entity.ID,
+                Name = entity.Name,
+                Successful = true,
+                ValidationMessages = new List<Message>()
+            };
+
+            var wrapper = new Custom_OperatorWrapper(entity, documentRepository);
+
+            Document underlyingDocument = wrapper.UnderlyingDocument;
+            if (underlyingDocument != null)
+            {
+                viewModel.UnderlyingDocument = underlyingDocument.ToIDAndName();
+            }
+
+            return viewModel;
         }
 
         public static OperatorPropertiesViewModel_ForPatchInlet ToPropertiesViewModel_ForPatchInlet(this Operator entity)
@@ -293,15 +346,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static IList<OperatorPropertiesViewModel_ForPatchOutlet> ToOperatorPropertiesViewModelList_ForPatchOutlets(this Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            return patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
-                                  .Select(x => x.ToPropertiesViewModel_ForPatchOutlet())
-                                  .ToList();
-        }
-
         public static OperatorPropertiesViewModel_ForPatchOutlet ToPropertiesViewModel_ForPatchOutlet(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -318,15 +362,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
-        }
-
-        public static IList<OperatorPropertiesViewModel_ForValue> ToOperatorPropertiesViewModelList_ForValues(this Patch patch)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            return patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Value)
-                                  .Select(x => x.ToPropertiesViewModel_ForValue())
-                                  .ToList();
         }
 
         public static OperatorPropertiesViewModel_ForValue ToPropertiesViewModel_ForValue(this Operator entity)

@@ -36,7 +36,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
         {
             SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
 
-            Sample sample = Get(id); // Force an exception when the entity does not exist.
+            Get(id); // Force an exception when the entity does not exist.
 
             sqlExecutor.Sample_TrySetBinary(id, bytes);
         }

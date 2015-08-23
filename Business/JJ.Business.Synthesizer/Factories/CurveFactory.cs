@@ -95,8 +95,9 @@ namespace JJ.Business.Synthesizer.Factories
         /// <param name="values">When a value is null, a node will not be created at that point in time.</param>
         public Curve CreateCurve(double timeSpan, params double?[] values)
         {
-            if (timeSpan <= 0) throw new Exception("timespan must be greater than 0.");
-            if (values.Length < 2) throw new Exception("values must contain at least 2 items.");
+            if (timeSpan <= 0) throw new LessThanOrEqualException(() => timeSpan, 0);
+            if (values == null) throw new NullException(() => values);
+            if (values.Length < 2) throw new LessThanException(() => values.Length, 2);
 
             var curve = new Curve();
             curve.ID = _idRepository.GetID();

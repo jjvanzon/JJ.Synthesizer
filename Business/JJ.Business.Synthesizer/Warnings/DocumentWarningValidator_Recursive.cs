@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Warnings
             foreach (Document childDocument in document.ChildDocuments)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.ChildDocument, childDocument.Name);
-                Execute(new DocumentWarningValidator_Recursive(childDocument, _sampleRepository, _alreadyDone));
+                Execute(new DocumentWarningValidator_Recursive(childDocument, _sampleRepository, _alreadyDone), messagePrefix);
             }
 
             // TODO:

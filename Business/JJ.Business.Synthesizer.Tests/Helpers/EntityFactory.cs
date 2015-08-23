@@ -1,17 +1,15 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Factories;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Managers;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
-    public class EntityFactory
+    public static class EntityFactory
     {
         public static Outlet CreateMockOperatorStructure(PatchManager x)
         {
@@ -30,6 +28,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         public static Outlet CreateMultiplyWithEcho(PatchManager x, Outlet signal)
         {
+            if (x == null) throw new NullException(() => x);
+
             Outlet multiply = x.Multiply(signal, x.Value(1.5));
             Outlet echo = CreateEcho(x, multiply);
             //Outlet myOutlet = x.Add(x.Sample(sample1), x.Multiply(x.Sample(sample2), x.Value(0.5)));
@@ -46,6 +46,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         public static Outlet CreateEcho(PatchManager x, Outlet signal, int count = 15, double denominator = 1.5, double delay = 0.25)
         {
+            if (x == null) throw new NullException(() => x);
+
             double cumulativeDenominator = 1;
             double cumulativeDelay = 0;
 

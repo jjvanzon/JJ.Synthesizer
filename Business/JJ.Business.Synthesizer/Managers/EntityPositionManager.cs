@@ -46,7 +46,7 @@ namespace JJ.Business.Synthesizer.Managers
                 string entityTypeName = typeof(Operator).Name;
                 int entityID = operatorID;
 
-                entityPosition = _entityPositionRepository.TryGetByEntityTypeNameAndID(entityTypeName, entityID);
+                entityPosition = _entityPositionRepository.TryGetByEntityTypeNameAndEntityID(entityTypeName, entityID);
                 if (entityPosition == null)
                 {
                     entityPosition = new EntityPosition();
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Managers
                 string entityTypeName = typeof(Operator).Name;
                 int entityID = operatorID;
 
-                entityPosition = _entityPositionRepository.TryGetByEntityTypeNameAndID(entityTypeName, entityID);
+                entityPosition = _entityPositionRepository.TryGetByEntityTypeNameAndEntityID(entityTypeName, entityID);
                 if (entityPosition == null)
                 {
                     entityPosition = new EntityPosition();

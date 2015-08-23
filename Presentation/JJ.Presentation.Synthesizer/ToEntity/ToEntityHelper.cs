@@ -35,7 +35,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (ChildDocumentPropertiesViewModel propertiesViewModel in sourceViewModelList)
             {
-                Document entity = propertiesViewModel.ToEntity(
+                Document entity = propertiesViewModel.ToEntityWithMainPatchReference(
                     repositoryWrapper.DocumentRepository, 
                     repositoryWrapper.ChildDocumentTypeRepository,
                     repositoryWrapper.PatchRepository);

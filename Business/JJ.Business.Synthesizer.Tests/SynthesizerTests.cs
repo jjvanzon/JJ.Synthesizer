@@ -210,9 +210,6 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
-
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
                 PatchManager patchManager = TestHelper.CreatePatchManager(context);
@@ -246,9 +243,6 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
-
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
                 PatchManager patchManager = TestHelper.CreatePatchManager(context);
@@ -285,7 +279,6 @@ namespace JJ.Business.Synthesizer.Tests
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
-                AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
 
                 Stream sampleStream = TestHelper.GetViolin16BitMono44100WavStream();
                 Sample sample = sampleManager.CreateSample(sampleStream);
@@ -713,7 +706,6 @@ namespace JJ.Business.Synthesizer.Tests
                 RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
-                SampleManager sampleManager = TestHelper.CreateSampleManager(repositoryWrapper);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
                 CurveFactory curveFactory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository, repositoryWrapper.IDRepository);
 
@@ -742,7 +734,6 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
                 SampleManager sampleManager = TestHelper.CreateSampleManager(repositoryWrapper);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
-                PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
                 CurveFactory curveFactory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository, repositoryWrapper.IDRepository);
 
                 double duration = 2;
@@ -814,7 +805,6 @@ namespace JJ.Business.Synthesizer.Tests
                 RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
 
                 // Create Business Logic Objects
-                DocumentManager documentManager = TestHelper.CreateDocumentManager(repositoryWrapper);
                 SampleManager sampleManager = TestHelper.CreateSampleManager(repositoryWrapper);
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
 
@@ -848,8 +838,8 @@ namespace JJ.Business.Synthesizer.Tests
 
                 customOperator.Operands[patchInlet.Name] = operand;
 
-                Document referencedDocument = customOperator.Document;
-                int? referencedDocumentID = customOperator.DocumentID;
+                Document underlyingDocument = customOperator.UnderlyingDocument;
+                int? underlyingDocumentID = customOperator.UnderlyingDocumentID;
 
                 foreach (Inlet inlet2 in customOperator.Inlets)
                 {

@@ -16,6 +16,8 @@ namespace JJ.Business.Synthesizer.Extensions
 
         public static SpeakerSetupEnum GetSpeakerSetupEnum(this AudioFileOutput audioFileOutput)
         {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+
             if (audioFileOutput.SpeakerSetup == null) return SpeakerSetupEnum.Undefined;
 
             return (SpeakerSetupEnum)audioFileOutput.SpeakerSetup.ID;
@@ -38,6 +40,8 @@ namespace JJ.Business.Synthesizer.Extensions
 
         public static SampleDataTypeEnum GetSampleDataTypeEnum(this AudioFileOutput entity)
         {
+            if (entity == null) throw new NullException(() => entity);
+
             if (entity.SampleDataType == null) return SampleDataTypeEnum.Undefined;
 
             return (SampleDataTypeEnum)entity.SampleDataType.ID;
@@ -60,6 +64,8 @@ namespace JJ.Business.Synthesizer.Extensions
 
         public static AudioFileFormatEnum GetAudioFileFormatEnum(this AudioFileOutput audioFileOutput)
         {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+
             if (audioFileOutput.AudioFileFormat == null) return AudioFileFormatEnum.Undefined;
 
             return (AudioFileFormatEnum)audioFileOutput.AudioFileFormat.ID;
@@ -84,6 +90,8 @@ namespace JJ.Business.Synthesizer.Extensions
 
         public static NodeTypeEnum GetNodeTypeEnum(this Node node)
         {
+            if (node == null) throw new NullException(() => node);
+
             if (node.NodeType == null) return NodeTypeEnum.Undefined;
 
             return (NodeTypeEnum)node.NodeType.ID;
@@ -108,6 +116,8 @@ namespace JJ.Business.Synthesizer.Extensions
 
         public static OperatorTypeEnum GetOperatorTypeEnum(this Operator op)
         {
+            if (op == null) throw new NullException(() => op);
+
             if (op.OperatorType == null) return OperatorTypeEnum.Undefined;
 
             return (OperatorTypeEnum)op.OperatorType.ID;
@@ -132,6 +142,8 @@ namespace JJ.Business.Synthesizer.Extensions
 
         public static SpeakerSetupEnum GetSpeakerSetupEnum(this Sample sample)
         {
+            if (sample == null) throw new NullException(() => sample);
+
             if (sample.SpeakerSetup == null) return SpeakerSetupEnum.Undefined;
 
             return (SpeakerSetupEnum)sample.SpeakerSetup.ID;
@@ -154,6 +166,8 @@ namespace JJ.Business.Synthesizer.Extensions
 
         public static InterpolationTypeEnum GetInterpolationTypeEnum(this Sample sample)
         {
+            if (sample == null) throw new NullException(() => sample);
+
             if (sample.InterpolationType == null) return InterpolationTypeEnum.Undefined;
 
             return (InterpolationTypeEnum)sample.InterpolationType.ID;
@@ -176,6 +190,8 @@ namespace JJ.Business.Synthesizer.Extensions
 
         public static SampleDataTypeEnum GetSampleDataTypeEnum(this Sample sample)
         {
+            if (sample == null) throw new NullException(() => sample);
+
             if (sample.SampleDataType == null) return SampleDataTypeEnum.Undefined;
 
             return (SampleDataTypeEnum)sample.SampleDataType.ID;
@@ -198,6 +214,8 @@ namespace JJ.Business.Synthesizer.Extensions
 
         public static AudioFileFormatEnum GetAudioFileFormatEnum(this Sample sample)
         {
+            if (sample == null) throw new NullException(() => sample);
+
             if (sample.AudioFileFormat == null) return AudioFileFormatEnum.Undefined;
 
             return (AudioFileFormatEnum)sample.AudioFileFormat.ID;
@@ -222,6 +240,8 @@ namespace JJ.Business.Synthesizer.Extensions
 
         public static ChildDocumentTypeEnum GetChildDocumentTypeEnum(this Document entity)
         {
+            if (entity == null) throw new NullException(() => entity);
+
             if (entity.ChildDocumentType == null) return ChildDocumentTypeEnum.Undefined;
 
             return (ChildDocumentTypeEnum)entity.ChildDocumentType.ID;

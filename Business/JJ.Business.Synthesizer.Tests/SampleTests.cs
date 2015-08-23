@@ -36,9 +36,6 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                ICurveRepository curveRepository = PersistenceHelper.CreateRepository<ICurveRepository>(context);
-                ISampleRepository sampleRepository = PersistenceHelper.CreateRepository<ISampleRepository>(context);
-
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 Stream stream = TestHelper.GetViolin16BitMonoRawStream();
                 Sample sample = sampleManager.CreateSample(stream, AudioFileFormatEnum.Raw);

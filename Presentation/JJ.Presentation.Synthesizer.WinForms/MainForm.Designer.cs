@@ -27,15 +27,16 @@
             this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
             this.sampleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SampleGridUserControl();
             this.patchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchGridUserControl();
+            this.operatorPropertiesUserControl_ForCustomOperator = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCustomOperator();
+            this.operatorPropertiesUserControl_ForValue = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForValue();
+            this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
+            this.operatorPropertiesUserControl_ForPatchInlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchInlet();
             this.documentPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentPropertiesUserControl();
             this.operatorPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl();
             this.childDocumentPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ChildDocumentPropertiesUserControl();
             this.samplePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SamplePropertiesUserControl();
             this.audioFileOutputPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputPropertiesUserControl();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
-            this.operatorPropertiesUserControl_ForPatchInlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchInlet();
-            this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
-            this.operatorPropertiesUserControl_ForValue = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForValue();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -95,6 +96,7 @@
             // 
             // splitContainerProperties.Panel2
             // 
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCustomOperator);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForValue);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForPatchOutlet);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForPatchInlet);
@@ -210,6 +212,54 @@
             this.patchGridUserControl.TabIndex = 8;
             this.patchGridUserControl.Visible = false;
             // 
+            // operatorPropertiesUserControl_ForCustomOperator
+            // 
+            this.operatorPropertiesUserControl_ForCustomOperator.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_ForCustomOperator.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForCustomOperator.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_ForCustomOperator.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_ForCustomOperator.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_ForCustomOperator.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.operatorPropertiesUserControl_ForCustomOperator.Name = "operatorPropertiesUserControl_ForCustomOperator";
+            this.operatorPropertiesUserControl_ForCustomOperator.Size = new System.Drawing.Size(266, 657);
+            this.operatorPropertiesUserControl_ForCustomOperator.TabIndex = 1;
+            // 
+            // operatorPropertiesUserControl_ForValue
+            // 
+            this.operatorPropertiesUserControl_ForValue.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_ForValue.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_ForValue.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_ForValue.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_ForValue.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.operatorPropertiesUserControl_ForValue.Name = "operatorPropertiesUserControl_ForValue";
+            this.operatorPropertiesUserControl_ForValue.Size = new System.Drawing.Size(266, 657);
+            this.operatorPropertiesUserControl_ForValue.TabIndex = 1;
+            // 
+            // operatorPropertiesUserControl_ForPatchOutlet
+            // 
+            this.operatorPropertiesUserControl_ForPatchOutlet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_ForPatchOutlet.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForPatchOutlet.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_ForPatchOutlet.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_ForPatchOutlet.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_ForPatchOutlet.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.operatorPropertiesUserControl_ForPatchOutlet.Name = "operatorPropertiesUserControl_ForPatchOutlet";
+            this.operatorPropertiesUserControl_ForPatchOutlet.Size = new System.Drawing.Size(266, 657);
+            this.operatorPropertiesUserControl_ForPatchOutlet.TabIndex = 1;
+            // 
+            // operatorPropertiesUserControl_ForPatchInlet
+            // 
+            this.operatorPropertiesUserControl_ForPatchInlet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_ForPatchInlet.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForPatchInlet.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_ForPatchInlet.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_ForPatchInlet.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_ForPatchInlet.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.operatorPropertiesUserControl_ForPatchInlet.Name = "operatorPropertiesUserControl_ForPatchInlet";
+            this.operatorPropertiesUserControl_ForPatchInlet.Size = new System.Drawing.Size(266, 657);
+            this.operatorPropertiesUserControl_ForPatchInlet.TabIndex = 1;
+            // 
             // documentPropertiesUserControl
             // 
             this.documentPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
@@ -279,42 +329,6 @@
             this.menuUserControl.Size = new System.Drawing.Size(1094, 24);
             this.menuUserControl.TabIndex = 3;
             // 
-            // operatorPropertiesUserControl_ForPatchInlet1
-            // 
-            this.operatorPropertiesUserControl_ForPatchInlet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForPatchInlet.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForPatchInlet.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForPatchInlet.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForPatchInlet.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForPatchInlet.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.operatorPropertiesUserControl_ForPatchInlet.Name = "operatorPropertiesUserControl_ForPatchInlet1";
-            this.operatorPropertiesUserControl_ForPatchInlet.Size = new System.Drawing.Size(266, 657);
-            this.operatorPropertiesUserControl_ForPatchInlet.TabIndex = 1;
-            // 
-            // operatorPropertiesUserControl_ForPatchOutlet1
-            // 
-            this.operatorPropertiesUserControl_ForPatchOutlet.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForPatchOutlet.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForPatchOutlet.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForPatchOutlet.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForPatchOutlet.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForPatchOutlet.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.operatorPropertiesUserControl_ForPatchOutlet.Name = "operatorPropertiesUserControl_ForPatchOutlet1";
-            this.operatorPropertiesUserControl_ForPatchOutlet.Size = new System.Drawing.Size(266, 657);
-            this.operatorPropertiesUserControl_ForPatchOutlet.TabIndex = 1;
-            // 
-            // operatorPropertiesUserControl_ForValue1
-            // 
-            this.operatorPropertiesUserControl_ForValue.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForValue.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForValue.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForValue.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForValue.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.operatorPropertiesUserControl_ForValue.Name = "operatorPropertiesUserControl_ForValue1";
-            this.operatorPropertiesUserControl_ForValue.Size = new System.Drawing.Size(266, 657);
-            this.operatorPropertiesUserControl_ForValue.TabIndex = 1;
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -361,5 +375,6 @@
         private UserControls.OperatorPropertiesUserControl_ForPatchInlet operatorPropertiesUserControl_ForPatchInlet;
         private UserControls.OperatorPropertiesUserControl_ForPatchOutlet operatorPropertiesUserControl_ForPatchOutlet;
         private UserControls.OperatorPropertiesUserControl_ForValue operatorPropertiesUserControl_ForValue;
+        private UserControls.OperatorPropertiesUserControl_ForCustomOperator operatorPropertiesUserControl_ForCustomOperator;
     }
 }

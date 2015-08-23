@@ -1,4 +1,5 @@
 ﻿using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
@@ -89,11 +90,39 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (childDocument == null) throw new NullException(() => childDocument);
 
-            var lookup = new List<IDAndName>(childDocument.Patches.Count + 1);
-            lookup.Add(new IDAndName { ID = 0, Name = null });
-            lookup.AddRange(childDocument.Patches.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
+            var list = new List<IDAndName>(childDocument.Patches.Count + 1);
+            list.Add(new IDAndName { ID = 0, Name = null });
+            list.AddRange(childDocument.Patches.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
 
-            return lookup;
+            return list;
+        }
+
+        // TODO: Remove outcommented code.
+        //public static IList<IDAndName> CreateUnderlyingDocumentLookupViewModel(Operator entity)
+        //{
+        //    var list = new List<IDAndName>();
+
+        //    list.Add(new IDAndName { ID = 0, Name = null });
+
+        //    if (entity.Patch == null || entity.Patch.Document == null)
+        //    {
+        //        return list;
+        //    }
+
+        //    Document rootDocument = entity.Patch.Document.GetRootDocument();
+        //    list.AddRange(rootDocument.ChildDocuments.Select(x => x.ToIDAndName()));
+
+        //    return list;
+        //}
+
+        public static IList<IDAndName> CreateUnderlyingDocumentLookupViewModel(Document rootDocument)
+        {
+            var list = new List<IDAndName>();
+
+            list.Add(new IDAndName { ID = 0, Name = null });
+            list.AddRange(rootDocument.ChildDocuments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
+
+            return list;
         }
     }
 }

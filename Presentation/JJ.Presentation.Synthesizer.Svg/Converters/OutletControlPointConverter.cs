@@ -13,17 +13,16 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
     {
         private const float CONTROL_POINT_DISTANCE = 50;
 
-        public IList<Point> ConvertToOutletControlPoints(IList<Point> sourceOutletPoints, Rectangle destOperatorRectangle)
+        public IList<Point> ConvertToOutletControlPoints(IList<Point> sourceOutletPoints)
         {
             if (sourceOutletPoints == null) throw new NullException(() => sourceOutletPoints);
-            if (destOperatorRectangle == null) throw new NullException(() => destOperatorRectangle);
 
-            IList<Point> destOutletControlPoints = sourceOutletPoints.Select(x => ConvertPoint(x, destOperatorRectangle)).ToList();
+            IList<Point> destOutletControlPoints = sourceOutletPoints.Select(x => ConvertPoint(x)).ToList();
 
             return destOutletControlPoints;
         }
 
-        private Point ConvertPoint(Point sourceOutletPoint, Rectangle destOperatorRectangle)
+        private Point ConvertPoint(Point sourceOutletPoint)
         {
             var destOutletControlPoint = new Point
             {

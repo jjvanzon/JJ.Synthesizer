@@ -17,9 +17,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public TimeMultiply_WithOrigin_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeMultiplierCalculator, OperatorCalculatorBase originOutletCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Value_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_Calculator.");
+            if (signalCalculator is Value_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_OperatorCalculator.");
             if (timeMultiplierCalculator == null) throw new NullException(() => timeMultiplierCalculator);
-            if (timeMultiplierCalculator is Value_OperatorCalculator) throw new Exception("timeMultiplierCalculator cannot be a Value_Calculator.");
+            if (timeMultiplierCalculator is Value_OperatorCalculator) throw new Exception("timeMultiplierCalculator cannot be a Value_OperatorCalculator.");
             if (originOutletCalculator == null) throw new NullException(() => originOutletCalculator);
             if (originOutletCalculator is Value_OperatorCalculator) throw new Exception("originOutletCalculator cannot be a ValueCalculator.");
 

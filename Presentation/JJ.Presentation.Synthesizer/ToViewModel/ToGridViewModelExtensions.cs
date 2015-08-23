@@ -42,19 +42,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static DocumentGridViewModel ToGridViewModel(this IList<Document> entities)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            var viewModel = new DocumentGridViewModel
-            {
-                List = entities.Select(x => x.ToIDAndName()).ToList(),
-                Pager = ViewModelHelper.CreateEmptyPagerViewModel()
-            };
-
-            return viewModel;
-        }
-
         public static ChildDocumentGridViewModel ToChildDocumentGridViewModel(this Document rootDocument, int childDocumentTypeID)
         {
             if (rootDocument == null) throw new NullException(() => rootDocument);
@@ -93,7 +80,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurveGridViewModel
             {
                 DocumentID = documentID,
-                List = entities.ToListItemViewModels(documentID)
+                List = entities.ToListItemViewModels()
             };
 
             return viewModel;

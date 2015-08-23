@@ -15,9 +15,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Power_OperatorCalculator(OperatorCalculatorBase baseCalculator, OperatorCalculatorBase exponentCalculator)
         {
             if (baseCalculator == null) throw new NullException(() => baseCalculator);
-            if (baseCalculator is Value_OperatorCalculator) throw new Exception("baseCalculator cannot be a Value_Calculator.");
+            if (baseCalculator is Value_OperatorCalculator) throw new Exception("baseCalculator cannot be a Value_OperatorCalculator.");
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
-            if (exponentCalculator is Value_OperatorCalculator) throw new Exception("exponentCalculator cannot be a Value_Calculator.");
+            if (exponentCalculator is Value_OperatorCalculator) throw new Exception("exponentCalculator cannot be a Value_OperatorCalculator.");
 
             _baseCalculator = baseCalculator;
             _exponentCalculator = exponentCalculator;

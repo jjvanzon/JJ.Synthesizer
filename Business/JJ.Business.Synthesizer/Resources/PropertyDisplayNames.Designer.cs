@@ -637,6 +637,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Underlying Document.
+        /// </summary>
+        public static string UnderlyingDocument {
+            get {
+                return ResourceManager.GetString("UnderlyingDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
         public static string Value {

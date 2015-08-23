@@ -14,9 +14,9 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             : base(context)
         { }
 
-        public EntityPosition GetByEntityTypeNameAndID(string entityTypeName, int entityID)
+        public EntityPosition GetByEntityTypeNameAndEntityID(string entityTypeName, int entityID)
         {
-            EntityPosition entity = TryGetByEntityTypeNameAndID(entityTypeName, entityID);
+            EntityPosition entity = TryGetByEntityTypeNameAndEntityID(entityTypeName, entityID);
             if (entity == null)
             {
                 throw new Exception(String.Format("EntityPosition with EntityTypeName '{0}' and EntityID '{1}' not found.", entityTypeName, entityID));
@@ -24,7 +24,7 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             return entity;
         }
 
-        public virtual EntityPosition TryGetByEntityTypeNameAndID(string entityTypeName, int entityID)
+        public virtual EntityPosition TryGetByEntityTypeNameAndEntityID(string entityTypeName, int entityID)
         {
             return _context.Query<EntityPosition>()
                            .Where(x => x.EntityTypeName == entityTypeName)
@@ -32,9 +32,9 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
                            .SingleOrDefault();
         }
 
-        public virtual void DeleteByEntityTypeAndEntityID(string entityTypeName, int id)
+        public virtual void DeleteByEntityTypeNameAndEntityID(string entityTypeName, int entityID)
         {
-            EntityPosition entity = GetByEntityTypeNameAndID(entityTypeName, id);
+            EntityPosition entity = GetByEntityTypeNameAndEntityID(entityTypeName, entityID);
             Delete(entity);
         }
     }

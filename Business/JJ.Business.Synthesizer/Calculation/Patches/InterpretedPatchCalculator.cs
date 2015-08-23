@@ -606,21 +606,21 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private double CalculateCustomOperator(Outlet outlet, double time)
         {
             var customOperatorWrapper = new Custom_OperatorWrapper(outlet.Operator, _documentRepository);
-            Document document = customOperatorWrapper.Document;
+            Document underlyingDocument = customOperatorWrapper.UnderlyingDocument;
 
-            if (document == null)
+            if (underlyingDocument == null)
             {
                 return 0.0;
             }
 
-            if (document.MainPatch == null)
+            if (underlyingDocument.MainPatch == null)
             {
                 return 0.0;
             }
 
             // Cross reference custom operator's inlets with the Document MainPatch's PatchInlets.
             var tuples = from operatorInlet in outlet.Operator.Inlets
-                         join patchInlet in document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
+                         join patchInlet in underlyingDocument.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
                          on operatorInlet.Name equals patchInlet.Name
                          select new { OperatorInlet = operatorInlet, PatchInlet = patchInlet };
 
@@ -637,7 +637,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             // Use the (custom operator's) outlet name and look it up in the Document MainPatch's outlets.
-            Operator patchOutlet = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet &&
+            Operator patchOutlet = underlyingDocument.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet &&
                                                                            x.Name == outlet.Name).Single();
 
             // Return the result of that Document MainPatch's outlet.

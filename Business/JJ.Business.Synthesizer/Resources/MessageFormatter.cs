@@ -39,9 +39,9 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.SampleNotLoaded, sampleName);
         }
 
-        public static string ObjectAmplifier0(string obectTypeName, string objectName)
+        public static string ObjectAmplifier0(string objectTypeName, string objectName)
         {
-            return String.Format(Messages.ObjectAmplifier0, obectTypeName, objectName);
+            return String.Format(Messages.ObjectAmplifier0, objectTypeName, objectName);
         }
 
         public static string SampleNotActive(string sampleName)
@@ -117,11 +117,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string CustomOperatorOutletWithNameNotFoundInDocumentMainPatch(string name)
         {
             return String.Format(Messages.CustomOperatorOutletWithNameNotFoundInDocumentMainPatch, name);
-        }
-
-        public static string CustomOperatorDocumentReferenceIsCircular_WithName(string name)
-        {
-            return String.Format(Messages.CustomOperatorDocumentReferenceIsCircular_WithName, name);
         }
     }
 }
