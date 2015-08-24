@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JJ.Data.Synthesizer.SqlClient
+﻿namespace JJ.Data.Synthesizer.SqlClient
 {
     internal enum SqlEnum
     {
-        Document_GetPageOfRootDocumentIDs,
+        Document_GetPageOfRootDocumentIDsOrderedByName,
         GetID,
         Sample_TryGetBinary,
         Sample_TrySetBinary

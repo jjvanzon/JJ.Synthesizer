@@ -12,6 +12,7 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.CanonicalModel;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -30,6 +31,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             SetTitles();
 
             this.AutomaticallyAssignTabIndexes();
+        }
+
+        private void ChildDocumentPropertiesUserControl_Load(object sender, EventArgs e)
+        {
+            ApplyStyling();
         }
 
         [Browsable(false)]
@@ -66,6 +72,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 toolTip.SetToolTip(label, label.Text);
             }
         }
+
+        private void ApplyStyling()
+        {
+            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
+        }
+
+        // Binding
 
         private void ApplyViewModelToControls()
         {

@@ -398,7 +398,6 @@
             // 
             this.titleBarUserControl.AddButtonVisible = false;
             this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
-            this.titleBarUserControl.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.titleBarUserControl.CloseButtonVisible = true;
             this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
@@ -417,6 +416,7 @@
             this.Controls.Add(this.tableLayoutPanelMain);
             this.Name = "SamplePropertiesUserControl";
             this.Size = new System.Drawing.Size(10, 10);
+            this.Load += new System.EventHandler(this.SamplePropertiesUserControl_Load);
             this.VisibleChanged += new System.EventHandler(this.AudioFileOutputPropertiesUserControl_VisibleChanged);
             this.Enter += new System.EventHandler(this.AudioFileOutputPropertiesUserControl_Enter);
             this.Leave += new System.EventHandler(this.AudioFileOutputPropertiesUserControl_Leave);

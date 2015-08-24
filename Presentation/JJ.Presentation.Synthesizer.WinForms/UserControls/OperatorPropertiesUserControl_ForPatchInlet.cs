@@ -11,6 +11,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -29,6 +30,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             SetTitles();
 
             this.AutomaticallyAssignTabIndexes();
+        }
+
+        private void OperatorPropertiesUserControl_ForPatchInlet_Load(object sender, EventArgs e)
+        {
+            ApplyStyling();
         }
 
         [Browsable(false)]
@@ -51,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
 
             labelName.Text = CommonTitles.Name;
-            labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType;
+            labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
             labelSortOrder.Text = PropertyDisplayNames.SortOrder;
 
             var labels = new Label[]
@@ -68,6 +74,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelOperatorTypeValue.Text = PropertyDisplayNames.PatchInlet;
         }
+
+        private void ApplyStyling()
+        {
+            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
+        }
+
+        // Binding
 
         private void ApplyViewModelToControls()
         {

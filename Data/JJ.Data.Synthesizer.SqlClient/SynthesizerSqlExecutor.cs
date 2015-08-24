@@ -18,9 +18,9 @@ namespace JJ.Data.Synthesizer.SqlClient
             _sqlExecutor = sqlExecutor;
         }
 
-        public IList<int> Document_GetPageOfRootDocumentIDs(int firstIndex, int count)
+        public IList<int> Document_GetPageOfRootDocumentIDsOrderedByName(int firstIndex, int count)
         {
-            return _sqlExecutor.ExecuteReader<int>(SqlEnum.Document_GetPageOfRootDocumentIDs, new { firstIndex, count, }).ToArray();
+            return _sqlExecutor.ExecuteReader<int>(SqlEnum.Document_GetPageOfRootDocumentIDsOrderedByName, new { firstIndex, count }).ToArray();
         }
 
         /// <summary>

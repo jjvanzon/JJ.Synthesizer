@@ -97,24 +97,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return list;
         }
 
-        // TODO: Remove outcommented code.
-        //public static IList<IDAndName> CreateUnderlyingDocumentLookupViewModel(Operator entity)
-        //{
-        //    var list = new List<IDAndName>();
-
-        //    list.Add(new IDAndName { ID = 0, Name = null });
-
-        //    if (entity.Patch == null || entity.Patch.Document == null)
-        //    {
-        //        return list;
-        //    }
-
-        //    Document rootDocument = entity.Patch.Document.GetRootDocument();
-        //    list.AddRange(rootDocument.ChildDocuments.Select(x => x.ToIDAndName()));
-
-        //    return list;
-        //}
-
         public static IList<IDAndName> CreateUnderlyingDocumentLookupViewModel(Document rootDocument)
         {
             var list = new List<IDAndName>();

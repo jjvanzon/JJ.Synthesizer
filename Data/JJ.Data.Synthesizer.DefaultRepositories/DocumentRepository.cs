@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Data.Synthesizer.DefaultRepositories
 {
@@ -14,10 +13,11 @@ namespace JJ.Data.Synthesizer.DefaultRepositories
             : base(context)
         { }
 
-        public virtual IList<Document> GetPageOfRootDocuments(int firstIndex, int pageSize)
+        public virtual IList<Document> GetPageOfRootDocumentsOrderedByName(int firstIndex, int pageSize)
         {
             return _context.Query<Document>()
                            .Where(x => x.ParentDocument == null)
+                           .OrderBy(x => x.Name)
                            .Skip(firstIndex)
                            .Take(pageSize)
                            .ToArray();

@@ -91,13 +91,12 @@
             // TitleBarUserControl
             // 
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.Controls.Add(this.pictureBoxClose);
             this.Controls.Add(this.pictureBoxRemove);
             this.Controls.Add(this.pictureBoxAdd);
             this.Controls.Add(this.labelTitle);
             this.Name = "TitleBarUserControl";
-            this.Size = new System.Drawing.Size(91, 24);
+            this.Size = new System.Drawing.Size(93, 26);
             this.Load += new System.EventHandler(this.TitleBarUserControl_Load);
             this.Resize += new System.EventHandler(this.TitleBarUserControl_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxClose)).EndInit();

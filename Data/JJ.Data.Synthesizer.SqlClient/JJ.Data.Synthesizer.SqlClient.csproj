@@ -60,7 +60,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Document_GetPageOfRootDocumentIDs.sql" />
+    <EmbeddedResource Include="Document_GetPageOfRootDocumentIDsOrderedByName.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="GetID.sql" />

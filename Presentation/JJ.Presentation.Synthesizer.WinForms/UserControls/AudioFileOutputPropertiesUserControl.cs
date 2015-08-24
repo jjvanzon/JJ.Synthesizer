@@ -7,17 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms;
-using JJ.Framework.Data;
-using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -33,9 +28,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             InitializeComponent();
 
-            SetTitlesAndSetLabelWidths();
+            SetTitles();
 
             this.AutomaticallyAssignTabIndexes();
+        }
+
+        private void AudioFileOutputPropertiesUserControl_Load(object sender, EventArgs e)
+        {
+            ApplyStyling();
         }
 
         [Browsable(false)]
@@ -53,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Gui
 
-        private void SetTitlesAndSetLabelWidths()
+        private void SetTitles()
         {
             titleBarUserControl.Text = PropertyDisplayNames.AudioFileOutput;
             labelName.Text = CommonTitles.Name;
@@ -67,31 +67,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelTimeMultiplier.Text = PropertyDisplayNames.TimeMultiplier;
             labelFilePath.Text = CommonTitles.FilePath;
 
-            var labels = new Label[] 
-            {
-                labelName,
-                labelSamplingRate,
-                labelAudioFileFormat,
-                labelSampleDataType,
-                labelSpeakerSetup,
-                labelStartTime,
-                labelDuration,
-                labelAmplifier,
-                labelTimeMultiplier,
-                labelFilePath
-            };
-
-            foreach (Label label in labels)
+            foreach (Label label in GetAllLabels())
             {
                 toolTip.SetToolTip(label, label.Text);
             }
-            
-            Graphics graphics = CreateGraphics();
-            // TODO: This does not work, because WinForms does not make AutoScaleFactor.Width > 1
-            // when the font is changed in the form.
-            float labelColumnWidth = AutoScaleFactor.Width * labels.Max(x => graphics.MeasureString(x.Text, x.Font).Width);
+        }
 
-            tableLayoutPanelGeneral.ColumnStyles[0].Width = labelColumnWidth;
+        private void ApplyStyling()
+        {
+            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelGeneral);
+            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelFilePath);
         }
 
         private void ApplyViewModelToControls()
@@ -206,6 +191,25 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 LoseFocus();
             }
+        }
+
+        // Helpers
+
+        private IList<Label> GetAllLabels()
+        {
+            return new Label[]
+            {
+                labelName,
+                labelSamplingRate,
+                labelAudioFileFormat,
+                labelSampleDataType,
+                labelSpeakerSetup,
+                labelStartTime,
+                labelDuration,
+                labelAmplifier,
+                labelTimeMultiplier,
+                labelFilePath
+            };
         }
     }
 }

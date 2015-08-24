@@ -1430,8 +1430,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void ApplyStyling()
         {
-            splitContainerProperties.SplitterWidth = WinFormsThemeHelper.DefaultSpacing;
-            splitContainerTree.SplitterWidth = WinFormsThemeHelper.DefaultSpacing;
+            splitContainerProperties.SplitterWidth = StyleHelper.DefaultSpacing;
+            splitContainerTree.SplitterWidth = StyleHelper.DefaultSpacing;
         }
     }
 }

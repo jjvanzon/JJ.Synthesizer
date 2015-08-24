@@ -30,9 +30,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             SetTitles();
 
-            ApplyStyling();
-
             this.AutomaticallyAssignTabIndexes();
+        }
+
+        private void SamplePropertiesUserControl_Load(object sender, EventArgs e)
+        {
+            ApplyStyling();
         }
 
         [Browsable(false)]
@@ -52,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = PropertyDisplayNames.Sample;
+            titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Sample);
             labelName.Text = CommonTitles.Name;
             labelSamplingRate.Text = PropertyDisplayNames.SamplingRate;
             labelAudioFileFormat.Text = PropertyDisplayNames.AudioFileFormat;
@@ -89,13 +92,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void ApplyStyling()
         {
             tableLayoutPanelContent.Margin = new Padding(
-                WinFormsThemeHelper.DefaultSpacing,
-                WinFormsThemeHelper.DefaultSpacing,
-                WinFormsThemeHelper.DefaultSpacing,
-                WinFormsThemeHelper.DefaultSpacing);
+                StyleHelper.DefaultSpacing,
+                StyleHelper.DefaultSpacing,
+                StyleHelper.DefaultSpacing,
+                StyleHelper.DefaultSpacing);
+
+            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelContent);
         }
 
-        private void ApplyViewModelToControls()
+    private void ApplyViewModelToControls()
         {
             textBoxName.Text = _viewModel.Entity.Name;
             numericUpDownSamplingRate.Value = _viewModel.Entity.SamplingRate;

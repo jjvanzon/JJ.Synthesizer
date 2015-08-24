@@ -12,6 +12,7 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.CanonicalModel;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -30,6 +31,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             SetTitles();
 
             this.AutomaticallyAssignTabIndexes();
+        }
+
+        private void OperatorPropertiesUserControl_ForCustomOperator_Load(object sender, EventArgs e)
+        {
+            ApplyStyling();
         }
 
         [Browsable(false)]
@@ -52,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Operator);
 
             labelName.Text = CommonTitles.Name;
-            labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType;
+            labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
             labelUnderlyingDocument.Text = PropertyDisplayNames.UnderlyingDocument;
 
             var labels = new Label[]
@@ -68,6 +74,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
 
             labelOperatorTypeValue.Text = PropertyDisplayNames.CustomOperator;
+        }
+
+        private void ApplyStyling()
+        {
+            StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelProperties);
         }
 
         private void ApplyViewModelToControls()

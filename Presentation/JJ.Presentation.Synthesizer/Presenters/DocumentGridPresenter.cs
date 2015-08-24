@@ -45,7 +45,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 int pageIndex = pageNumber - 1;
 
-                IList<Document> documents = _documentRepository.GetPageOfRootDocuments(pageIndex * _pageSize, _pageSize);
+                IList<Document> documents = _documentRepository.GetPageOfRootDocumentsOrderedByName(pageIndex * _pageSize, _pageSize);
                 int totalCount = _documentRepository.CountRootDocuments();
 
                 ViewModel = documents.ToGridViewModel(pageIndex, _pageSize, totalCount);
@@ -62,7 +62,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             int pageIndex = ViewModel.Pager.PageNumber - 1;
 
-            IList<Document> documents = _documentRepository.GetPageOfRootDocuments(pageIndex * _pageSize, _pageSize);
+            IList<Document> documents = _documentRepository.GetPageOfRootDocumentsOrderedByName(pageIndex * _pageSize, _pageSize);
             int totalCount = _documentRepository.CountRootDocuments();
 
             bool visible = ViewModel.Visible;
