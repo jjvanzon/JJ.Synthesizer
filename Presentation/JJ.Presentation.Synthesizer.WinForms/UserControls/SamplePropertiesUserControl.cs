@@ -68,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelInterpolationType.Text = PropertyDisplayNames.InterpolationType;
             labelLocation.Text = PropertyDisplayNames.Location;
 
-            var labels = new Label[] 
+            var labels = new Label[]
             {
                 labelName,
                 labelSamplingRate,
@@ -100,7 +100,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelContent);
         }
 
-    private void ApplyViewModelToControls()
+        private void ApplyViewModelToControls()
         {
             textBoxName.Text = _viewModel.Entity.Name;
             numericUpDownSamplingRate.Value = _viewModel.Entity.SamplingRate;
@@ -196,6 +196,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (Visible)
             {
                 textBoxName.Focus();
+                textBoxName.Select(0, 0);
             }
         }
 
@@ -205,6 +206,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void AudioFileOutputPropertiesUserControl_Enter(object sender, EventArgs e)
         {
             textBoxName.Focus();
+            textBoxName.Select(0, 0);
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.

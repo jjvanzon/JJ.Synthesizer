@@ -1088,36 +1088,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 // AudioFileOutputGrid
                 audioFileOutputGridUserControl.ViewModel = _presenter.ViewModel.Document.AudioFileOutputGrid;
-                audioFileOutputGridUserControl.Visible = audioFileOutputGridUserControl.ViewModel.Visible;
 
                 // AudioFileOutputProperties
-                bool audioFileOutputPropertiesVisible = false;
                 AudioFileOutputPropertiesViewModel visibleAudioFileOutputPropertiesViewModel =
                     _presenter.ViewModel.Document.AudioFileOutputPropertiesList.Where(x => x.Visible).SingleOrDefault();
                 if (visibleAudioFileOutputPropertiesViewModel != null)
                 {
                     audioFileOutputPropertiesUserControl.ViewModel = visibleAudioFileOutputPropertiesViewModel;
-                    audioFileOutputPropertiesVisible = true;
                 }
-                audioFileOutputPropertiesUserControl.Visible = audioFileOutputPropertiesVisible;
 
                 // ChildDocumentProperties
-                bool childDocumentPropertiesVisible = false;
                 ChildDocumentPropertiesViewModel visibleChildDocumentPropertiesViewModel =
                     _presenter.ViewModel.Document.ChildDocumentPropertiesList.Where(x => x.Visible).SingleOrDefault();
                 if (visibleChildDocumentPropertiesViewModel != null)
                 {
                     childDocumentPropertiesUserControl.ViewModel = visibleChildDocumentPropertiesViewModel;
-                    childDocumentPropertiesVisible = true;
                 }
-                childDocumentPropertiesUserControl.Visible = childDocumentPropertiesVisible;
 
                 // CurveGrid
-                bool curveGridVisible = false;
                 if (_presenter.ViewModel.Document.CurveGrid.Visible)
                 {
                     curveGridUserControl.ViewModel = _presenter.ViewModel.Document.CurveGrid;
-                    curveGridVisible = true;
                 }
                 else
                 {
@@ -1128,34 +1119,29 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     if (visibleCurveGridViewModel != null)
                     {
                         curveGridUserControl.ViewModel = visibleCurveGridViewModel;
-                        curveGridVisible = true;
                     }
                 }
-                curveGridUserControl.Visible = curveGridVisible;
-
-                // InstrumentGrid
-                instrumentGridUserControl.ViewModel = _presenter.ViewModel.Document.InstrumentGrid;
-                instrumentGridUserControl.Visible = _presenter.ViewModel.Document.InstrumentGrid.Visible;
-
-                // EffectGrid
-                effectGridUserControl.ViewModel = _presenter.ViewModel.Document.EffectGrid;
-                effectGridUserControl.Visible = _presenter.ViewModel.Document.EffectGrid.Visible;
 
                 // Document ViewModels
-                documentGridUserControl.ViewModel = _presenter.ViewModel.DocumentGrid;
-                documentGridUserControl.Visible = _presenter.ViewModel.DocumentGrid.Visible;
-
                 documentDetailsUserControl.ViewModel = _presenter.ViewModel.DocumentDetails;
                 documentDetailsUserControl.Visible = _presenter.ViewModel.DocumentDetails.Visible;
 
-                documentTreeUserControl.ViewModel = _presenter.ViewModel.Document.DocumentTree;
-                documentTreeUserControl.Visible = _presenter.ViewModel.Document.DocumentTree.Visible;
+                documentGridUserControl.ViewModel = _presenter.ViewModel.DocumentGrid;
+                documentGridUserControl.Visible = _presenter.ViewModel.DocumentGrid.Visible;
 
                 documentPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.DocumentProperties;
                 documentPropertiesUserControl.Visible = _presenter.ViewModel.Document.DocumentProperties.Visible;
 
+                documentTreeUserControl.ViewModel = _presenter.ViewModel.Document.DocumentTree;
+                documentTreeUserControl.Visible = _presenter.ViewModel.Document.DocumentTree.Visible;
+
+                // InstrumentGrid
+                instrumentGridUserControl.ViewModel = _presenter.ViewModel.Document.InstrumentGrid;
+
+                // EffectGrid
+                effectGridUserControl.ViewModel = _presenter.ViewModel.Document.EffectGrid;
+
                 // OperatorProperties
-                bool operatorPropertiesVisible = false;
                 OperatorPropertiesViewModel visibleOperatorPropertiesViewModel =
                     Enumerable.Union(
                         _presenter.ViewModel.Document.OperatorPropertiesList,
@@ -1164,12 +1150,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (visibleOperatorPropertiesViewModel != null)
                 {
                     operatorPropertiesUserControl.ViewModel = visibleOperatorPropertiesViewModel;
-                    operatorPropertiesVisible = true;
                 }
-                operatorPropertiesUserControl.Visible = operatorPropertiesVisible;
 
                 // OperatorProperties_ForCustomOperator
-                bool operatorPropertiesVisible_ForCustomOperator = false;
                 OperatorPropertiesViewModel_ForCustomOperator visibleOperatorPropertiesViewModel_ForCustomOperator =
                     Enumerable.Union(
                         _presenter.ViewModel.Document.OperatorPropertiesList_ForCustomOperators,
@@ -1179,12 +1162,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 {
                     operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingDocumentLookup(_presenter.ViewModel.Document.UnderlyingDocumentLookup);
                     operatorPropertiesUserControl_ForCustomOperator.ViewModel = visibleOperatorPropertiesViewModel_ForCustomOperator;
-                    operatorPropertiesVisible_ForCustomOperator = true;
                 }
-                operatorPropertiesUserControl_ForCustomOperator.Visible = operatorPropertiesVisible_ForCustomOperator;
 
                 // OperatorProperties_ForPatchInlet
-                bool operatorPropertiesVisible_ForPatchInlet = false;
                 OperatorPropertiesViewModel_ForPatchInlet visibleOperatorPropertiesViewModel_ForPatchInlet =
                     Enumerable.Union(
                         _presenter.ViewModel.Document.OperatorPropertiesList_ForPatchInlets,
@@ -1193,12 +1173,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (visibleOperatorPropertiesViewModel_ForPatchInlet != null)
                 {
                     operatorPropertiesUserControl_ForPatchInlet.ViewModel = visibleOperatorPropertiesViewModel_ForPatchInlet;
-                    operatorPropertiesVisible_ForPatchInlet = true;
                 }
-                operatorPropertiesUserControl_ForPatchInlet.Visible = operatorPropertiesVisible_ForPatchInlet;
 
                 // OperatorProperties_ForPatchOutlet
-                bool operatorPropertiesVisible_ForPatchOutlet = false;
                 OperatorPropertiesViewModel_ForPatchOutlet visibleOperatorPropertiesViewModel_ForPatchOutlet =
                     Enumerable.Union(
                         _presenter.ViewModel.Document.OperatorPropertiesList_ForPatchOutlets,
@@ -1207,12 +1184,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (visibleOperatorPropertiesViewModel_ForPatchOutlet != null)
                 {
                     operatorPropertiesUserControl_ForPatchOutlet.ViewModel = visibleOperatorPropertiesViewModel_ForPatchOutlet;
-                    operatorPropertiesVisible_ForPatchOutlet = true;
                 }
-                operatorPropertiesUserControl_ForPatchOutlet.Visible = operatorPropertiesVisible_ForPatchOutlet;
 
                 // OperatorProperties_ForValue
-                bool operatorPropertiesVisible_ForValue = false;
                 OperatorPropertiesViewModel_ForValue visibleOperatorPropertiesViewModel_ForValue =
                     Enumerable.Union(
                         _presenter.ViewModel.Document.OperatorPropertiesList_ForValues,
@@ -1221,16 +1195,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (visibleOperatorPropertiesViewModel_ForValue != null)
                 {
                     operatorPropertiesUserControl_ForValue.ViewModel = visibleOperatorPropertiesViewModel_ForValue;
-                    operatorPropertiesVisible_ForValue = true;
                 }
-                operatorPropertiesUserControl_ForValue.Visible = operatorPropertiesVisible_ForValue;
 
                 // PatchGrid
-                bool patchGridVisible = false;
                 if (_presenter.ViewModel.Document.PatchGrid.Visible)
                 {
                     patchGridUserControl.ViewModel = _presenter.ViewModel.Document.PatchGrid;
-                    patchGridVisible = true;
                 }
                 else
                 {
@@ -1241,13 +1211,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     if (visiblePatchGridViewModel != null)
                     {
                         patchGridUserControl.ViewModel = visiblePatchGridViewModel;
-                        patchGridVisible = true;
                     }
                 }
-                patchGridUserControl.Visible = patchGridVisible;
 
                 // PatchDetails
-                bool patchDetailsVisible = false;
                 PatchDetailsViewModel visiblePatchDetailsViewModel = _presenter.ViewModel.Document.PatchDetailsList.Where(x => x.Visible).SingleOrDefault();
                 if (visiblePatchDetailsViewModel == null)
                 {
@@ -1259,16 +1226,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (visiblePatchDetailsViewModel != null)
                 {
                     patchDetailsUserControl.ViewModel = visiblePatchDetailsViewModel;
-                    patchDetailsVisible = true;
                 }
-                patchDetailsUserControl.Visible = patchDetailsVisible;
 
                 // SampleGrid
-                bool sampleGridVisible = false;
                 if (_presenter.ViewModel.Document.SampleGrid.Visible)
                 {
                     sampleGridUserControl.ViewModel = _presenter.ViewModel.Document.SampleGrid;
-                    sampleGridVisible = true;
                 }
                 else
                 {
@@ -1279,13 +1242,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     if (visibleSampleGridViewModel != null)
                     {
                         sampleGridUserControl.ViewModel = visibleSampleGridViewModel;
-                        sampleGridVisible = true;
                     }
                 }
-                sampleGridUserControl.Visible = sampleGridVisible;
 
                 // SampleProperties
-                bool samplePropertiesVisible = false;
                 SamplePropertiesViewModel visibleSamplePropertiesViewModel =
                     _presenter.ViewModel.Document.SamplePropertiesList.Where(x => x.Visible).SingleOrDefault();
                 if (visibleSamplePropertiesViewModel == null)
@@ -1298,20 +1258,94 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (visibleSamplePropertiesViewModel != null)
                 {
                     samplePropertiesUserControl.ViewModel = visibleSamplePropertiesViewModel;
-                    samplePropertiesVisible = true;
                 }
-                samplePropertiesUserControl.Visible = samplePropertiesVisible;
 
                 // Set Visible Properties
-                //bool samplePropertiesVisible = samplePropertiesUserControl.ViewModel != null &&
-                //                               samplePropertiesUserControl.ViewModel.Visible;
+                bool audioFileOutputGridVisible = audioFileOutputGridUserControl.ViewModel != null &&
+                                                  audioFileOutputGridUserControl.ViewModel.Visible;
+                bool audioFileOutputPropertiesVisible = audioFileOutputPropertiesUserControl.ViewModel != null &&
+                                                        audioFileOutputPropertiesUserControl.ViewModel.Visible;
+                bool childDocumentPropertiesVisible = childDocumentPropertiesUserControl.ViewModel != null &&
+                                                      childDocumentPropertiesUserControl.ViewModel.Visible;
+                bool curveGridVisible = curveGridUserControl.ViewModel != null &&
+                                        curveGridUserControl.ViewModel.Visible;
+                bool documentDetailsVisible = documentDetailsUserControl.ViewModel != null &&
+                                              documentDetailsUserControl.ViewModel.Visible;
+                bool documentGridVisible = documentGridUserControl.ViewModel != null &&
+                                           documentGridUserControl.ViewModel.Visible;
+                bool documentPropertiesVisible = documentPropertiesUserControl.ViewModel != null &&
+                                                 documentPropertiesUserControl.ViewModel.Visible;
+                bool documentTreeVisible = documentTreeUserControl.ViewModel != null &&
+                                           documentTreeUserControl.ViewModel.Visible;
+                bool instrumentGridVisible = instrumentGridUserControl.ViewModel != null &&
+                                             instrumentGridUserControl.ViewModel.Visible;
+                bool effectGridVisible = effectGridUserControl.ViewModel != null &&
+                                         effectGridUserControl.ViewModel.Visible;
+                bool operatorPropertiesVisible = operatorPropertiesUserControl.ViewModel != null &&
+                                                 operatorPropertiesUserControl.ViewModel.Visible;
+                bool operatorPropertiesVisible_ForCustomOperator = operatorPropertiesUserControl_ForCustomOperator.ViewModel != null &&
+                                                                   operatorPropertiesUserControl_ForCustomOperator.ViewModel.Visible;
+                bool operatorPropertiesVisible_ForPatchInlet = operatorPropertiesUserControl_ForPatchInlet.ViewModel != null &&
+                                                               operatorPropertiesUserControl_ForPatchInlet.ViewModel.Visible;
+                bool operatorPropertiesVisible_ForPatchOutlet = operatorPropertiesUserControl_ForPatchOutlet.ViewModel != null &&
+                                                                operatorPropertiesUserControl_ForPatchOutlet.ViewModel.Visible;
+                bool operatorPropertiesVisible_ForValue = operatorPropertiesUserControl_ForValue.ViewModel != null &&
+                                                          operatorPropertiesUserControl_ForValue.ViewModel.Visible;
+                bool patchGridVisible = patchGridUserControl.ViewModel != null &&
+                                        patchGridUserControl.ViewModel.Visible;
+                bool patchDetailsVisible = patchDetailsUserControl.ViewModel != null &&
+                                           patchDetailsUserControl.ViewModel.Visible;
+                bool sampleGridVisible = sampleGridUserControl.ViewModel != null &&
+                                         sampleGridUserControl.ViewModel.Visible;
+                bool samplePropertiesVisible = samplePropertiesUserControl.ViewModel != null &&
+                                               samplePropertiesUserControl.ViewModel.Visible;
 
+                // Applying Visible = true first and then Visible = false prevents flickering.
+                if (audioFileOutputGridVisible) audioFileOutputGridUserControl.Visible = true;
+                if (audioFileOutputPropertiesVisible) audioFileOutputPropertiesUserControl.Visible = true;
+                if (childDocumentPropertiesVisible) childDocumentPropertiesUserControl.Visible = true;
+                if (curveGridVisible) curveGridUserControl.Visible = true;
+                if (documentDetailsVisible) documentDetailsUserControl.Visible = true;
+                if (documentGridVisible) documentGridUserControl.Visible = true;
+                if (documentPropertiesVisible) documentPropertiesUserControl.Visible = true;
+                if (documentTreeVisible) documentTreeUserControl.Visible = true;
+                if (instrumentGridVisible) instrumentGridUserControl.Visible = true;
+                if (effectGridVisible) effectGridUserControl.Visible = true;
+                if (operatorPropertiesVisible) operatorPropertiesUserControl.Visible = true;
+                if (operatorPropertiesVisible_ForCustomOperator) operatorPropertiesUserControl_ForCustomOperator.Visible = true;
+                if (operatorPropertiesVisible_ForPatchInlet) operatorPropertiesUserControl_ForPatchInlet.Visible = true;
+                if (operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = true;
+                if (operatorPropertiesVisible_ForValue) operatorPropertiesUserControl_ForValue.Visible = true;
+                if (patchGridVisible) patchGridUserControl.Visible = true;
+                if (patchDetailsVisible) patchDetailsUserControl.Visible = true;
+                if (sampleGridVisible) sampleGridUserControl.Visible = true;
+                if (samplePropertiesVisible) samplePropertiesUserControl.Visible = true;
+
+                if (!audioFileOutputGridVisible) audioFileOutputGridUserControl.Visible = false;
+                if (!audioFileOutputPropertiesVisible) audioFileOutputPropertiesUserControl.Visible = false;
+                if (!childDocumentPropertiesVisible) childDocumentPropertiesUserControl.Visible = false;
+                if (!curveGridVisible) curveGridUserControl.Visible = false;
+                if (!documentDetailsVisible) documentDetailsUserControl.Visible = false;
+                if (!documentGridVisible) documentGridUserControl.Visible = false;
+                if (!documentPropertiesVisible) documentPropertiesUserControl.Visible = false;
+                if (!documentTreeVisible) documentTreeUserControl.Visible = false;
+                if (!instrumentGridVisible) instrumentGridUserControl.Visible = false;
+                if (!effectGridVisible) effectGridUserControl.Visible = false;
+                if (!operatorPropertiesVisible) operatorPropertiesUserControl.Visible = false;
+                if (!operatorPropertiesVisible_ForCustomOperator) operatorPropertiesUserControl_ForCustomOperator.Visible = false;
+                if (!operatorPropertiesVisible_ForPatchInlet) operatorPropertiesUserControl_ForPatchInlet.Visible = false;
+                if (!operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = false;
+                if (!operatorPropertiesVisible_ForValue) operatorPropertiesUserControl_ForValue.Visible = false;
+                if (!patchGridVisible) patchGridUserControl.Visible = false;
+                if (!patchDetailsVisible) patchDetailsUserControl.Visible = false;
+                if (!sampleGridVisible) sampleGridUserControl.Visible = false;
+                if (!samplePropertiesVisible) samplePropertiesUserControl.Visible = false;
 
                 // Panel Visibility
-                bool treePanelMustBeVisible = _presenter.ViewModel.Document.DocumentTree.Visible;
+                bool treePanelMustBeVisible = documentTreeVisible;
                 SetTreePanelVisible(treePanelMustBeVisible);
 
-                bool propertiesPanelMustBeVisible = _presenter.ViewModel.Document.DocumentProperties.Visible ||
+                bool propertiesPanelMustBeVisible = documentPropertiesVisible ||
                                                     audioFileOutputPropertiesVisible ||
                                                     childDocumentPropertiesVisible ||
                                                     operatorPropertiesVisible ||

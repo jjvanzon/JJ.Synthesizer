@@ -128,6 +128,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (Visible)
             {
                 textBoxName.Focus();
+                textBoxName.Select(0, 0);
             }
         }
 

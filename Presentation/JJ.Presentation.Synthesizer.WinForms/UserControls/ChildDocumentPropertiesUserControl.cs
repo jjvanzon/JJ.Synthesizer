@@ -146,6 +146,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (Visible)
             {
                 textBoxName.Focus();
+                textBoxName.Select(0, 0);
             }
         }
 
@@ -155,6 +156,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void ChildDocumentPropertiesUserControl_Enter(object sender, EventArgs e)
         {
             textBoxName.Focus();
+            textBoxName.Select(0, 0);
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
