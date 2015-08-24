@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.groupBoxFilePath = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanelFilePath = new System.Windows.Forms.TableLayoutPanel();
             this.labelFilePath = new System.Windows.Forms.Label();
@@ -56,7 +55,6 @@
             this.numericUpDownSamplingRate = new System.Windows.Forms.NumericUpDown();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.audioFileOutputChannelsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputChannelsUserControl();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.groupBoxFilePath.SuspendLayout();
             this.tableLayoutPanelFilePath.SuspendLayout();
             this.tableLayoutPanelMain.SuspendLayout();
@@ -515,6 +513,5 @@
         private Partials.TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelFilePath;
         private AudioFileOutputChannelsUserControl audioFileOutputChannelsUserControl;
-        private System.Windows.Forms.ToolTip toolTip;
     }
 }

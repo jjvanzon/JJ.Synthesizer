@@ -29,7 +29,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelProperties = new System.Windows.Forms.TableLayoutPanel();
             this.labelName = new System.Windows.Forms.Label();
@@ -39,7 +38,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelSortOrder = new System.Windows.Forms.Label();
             this.numericUpDownSortOrder = new System.Windows.Forms.NumericUpDown();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSortOrder)).BeginInit();
@@ -199,7 +197,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMain;
         private TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelProperties;
-        private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label labelOperatorTypeTitle;

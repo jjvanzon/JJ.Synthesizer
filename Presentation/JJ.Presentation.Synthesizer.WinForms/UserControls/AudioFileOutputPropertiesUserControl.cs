@@ -66,11 +66,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelAmplifier.Text = PropertyDisplayNames.Amplifier;
             labelTimeMultiplier.Text = PropertyDisplayNames.TimeMultiplier;
             labelFilePath.Text = CommonTitles.FilePath;
-
-            foreach (Label label in GetAllLabels())
-            {
-                toolTip.SetToolTip(label, label.Text);
-            }
         }
 
         private void ApplyStyling()
@@ -193,25 +188,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 LoseFocus();
             }
-        }
-
-        // Helpers
-
-        private IList<Label> GetAllLabels()
-        {
-            return new Label[]
-            {
-                labelName,
-                labelSamplingRate,
-                labelAudioFileFormat,
-                labelSampleDataType,
-                labelSpeakerSetup,
-                labelStartTime,
-                labelDuration,
-                labelAmplifier,
-                labelTimeMultiplier,
-                labelFilePath
-            };
         }
     }
 }

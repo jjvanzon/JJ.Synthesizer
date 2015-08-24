@@ -58,9 +58,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
-
-            toolTip.SetToolTip(labelName, labelName.Text);
-            toolTip.SetToolTip(labelOperatorTypeTitle, labelOperatorTypeTitle.Text);
         }
 
         private void ApplyStyling()

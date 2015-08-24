@@ -29,7 +29,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelProperties = new System.Windows.Forms.TableLayoutPanel();
             this.comboBoxChildDocumentType = new System.Windows.Forms.ComboBox();
@@ -39,7 +38,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelMainPatch = new System.Windows.Forms.Label();
             this.comboBoxMainPatch = new System.Windows.Forms.ComboBox();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
             this.SuspendLayout();
@@ -188,7 +186,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label labelChildDocumentType;
         private System.Windows.Forms.ComboBox comboBoxChildDocumentType;
-        private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Label labelMainPatch;
         private System.Windows.Forms.ComboBox comboBoxMainPatch;
     }

@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelContent = new System.Windows.Forms.TableLayoutPanel();
             this.textBoxLocation = new System.Windows.Forms.TextBox();
@@ -54,7 +53,6 @@
             this.labelIsActive = new System.Windows.Forms.Label();
             this.checkBoxIsActive = new System.Windows.Forms.CheckBox();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelContent.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownBytesToSkip)).BeginInit();
@@ -435,7 +433,6 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMain;
         private Partials.TitleBarUserControl titleBarUserControl;
-        private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelContent;
         private System.Windows.Forms.TextBox textBoxLocation;
         private System.Windows.Forms.Label labelLocation;

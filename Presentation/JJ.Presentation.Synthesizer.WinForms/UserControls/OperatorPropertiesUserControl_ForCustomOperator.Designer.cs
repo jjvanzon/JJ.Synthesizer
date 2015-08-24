@@ -29,7 +29,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelProperties = new System.Windows.Forms.TableLayoutPanel();
             this.labelUnderlyingDocument = new System.Windows.Forms.Label();
@@ -39,7 +38,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelOperatorTypeTitle = new System.Windows.Forms.Label();
             this.labelOperatorTypeValue = new System.Windows.Forms.Label();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
-            this.toolTip = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
             this.SuspendLayout();
@@ -186,7 +184,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelProperties;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.TextBox textBoxName;
-        private System.Windows.Forms.ToolTip toolTip;
         private System.Windows.Forms.Label labelUnderlyingDocument;
         private System.Windows.Forms.ComboBox comboBoxUnderlyingDocument;
         private System.Windows.Forms.Label labelOperatorTypeTitle;

@@ -59,18 +59,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelName.Text = CommonTitles.Name;
             labelChildDocumentType.Text = PropertyDisplayNames.ChildDocumentType;
             labelMainPatch.Text = PropertyDisplayNames.MainPatch;
-
-            var labels = new Label[]
-            {
-                labelName,
-                labelChildDocumentType,
-                labelMainPatch
-            };
-
-            foreach (Label label in labels)
-            {
-                toolTip.SetToolTip(label, label.Text);
-            }
         }
 
         private void ApplyStyling()

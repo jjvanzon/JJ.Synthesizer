@@ -67,26 +67,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelBytesToSkip.Text = PropertyDisplayNames.BytesToSkip;
             labelInterpolationType.Text = PropertyDisplayNames.InterpolationType;
             labelLocation.Text = PropertyDisplayNames.Location;
-
-            var labels = new Label[]
-            {
-                labelName,
-                labelSamplingRate,
-                labelAudioFileFormat,
-                labelSampleDataType,
-                labelSpeakerSetup,
-                labelAmplifier,
-                labelTimeMultiplier,
-                labelIsActive,
-                labelBytesToSkip,
-                labelInterpolationType,
-                labelLocation
-            };
-
-            foreach (Label label in labels)
-            {
-                toolTip.SetToolTip(label, label.Text);
-            }
         }
 
         private void ApplyStyling()

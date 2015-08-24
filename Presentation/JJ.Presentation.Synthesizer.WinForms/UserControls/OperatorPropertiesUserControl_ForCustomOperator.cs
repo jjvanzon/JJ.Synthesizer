@@ -61,18 +61,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
             labelUnderlyingDocument.Text = PropertyDisplayNames.UnderlyingDocument;
 
-            var labels = new Label[]
-            {
-                labelName,
-                labelOperatorTypeTitle,
-                labelUnderlyingDocument
-            };
-
-            foreach (Label label in labels)
-            {
-                toolTip.SetToolTip(label, label.Text);
-            }
-
             labelOperatorTypeValue.Text = PropertyDisplayNames.CustomOperator;
         }
 

@@ -5,25 +5,14 @@ using System.Drawing;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using JJ.Framework.Presentation.WinForms;
-using JJ.Framework.Data;
-using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Presentation;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
-using JJ.Presentation.Synthesizer.WinForms.Forms;
-using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {

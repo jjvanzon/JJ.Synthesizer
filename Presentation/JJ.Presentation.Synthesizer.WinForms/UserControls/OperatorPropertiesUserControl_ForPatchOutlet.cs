@@ -60,18 +60,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
             labelSortOrder.Text = PropertyDisplayNames.SortOrder;
 
-            var labels = new Label[]
-            {
-                labelName,
-                labelOperatorTypeTitle,
-                labelSortOrder
-            };
-
-            foreach (Label label in labels)
-            {
-                toolTip.SetToolTip(label, label.Text);
-            }
-
             labelOperatorTypeValue.Text = PropertyDisplayNames.PatchOutlet;
         }
 
