@@ -1,14 +1,11 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
@@ -39,7 +36,22 @@ namespace JJ.Business.Synthesizer.Validation
                 bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
                 if (mustCheckReference)
                 {
-                    bool isInList = op.Patch.Document.Samples.Any(x => x.ID == sampleID);
+                    bool isRootDocument = op.Patch.Document.ParentDocument == null;
+
+                    // If we're in a child document, we can reference the samples in both child document and root document,
+                    // if we are in the root document, the possible samples are only the ones in the root document.
+                    IEnumerable<Sample> samples;
+                    if (isRootDocument)
+                    {
+                        samples = op.Patch.Document.Samples;
+                    }
+                    else
+                    {
+                        samples = op.Patch.Document.Samples.Union(op.Patch.Document.ParentDocument.Samples);
+                    }
+
+                    bool isInList = samples.Any(x => x.ID == sampleID);
+
                     if (!isInList)
                     {
                         ValidationMessages.Add(PropertyNames.Sample, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.Sample, sampleID));

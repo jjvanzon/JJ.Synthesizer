@@ -333,32 +333,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                // TODO: Remove outcommented code.
-                //if (ViewModel.Document.IsOpen)
-                //{
-                //    // If you do not clear the presenters, they will remember the view model,
-                //    // so if you open another document and then open the original one,
-                //    // the original unsaved data will be shown in the presenters,
-                //    // because they do not think they need to refresh their view models,
-                //    // since it is the same document.
-
-                //    // TODO: The whole MustCreateViewModel principle in the partial presenters has been refactored out,
-                //    // so this may not be relevant anymore?
-                //    _audioFileOutputGridPresenter.ViewModel = null;
-                //    _audioFileOutputPropertiesPresenter.ViewModel = null;
-                //    _childDocumentPropertiesPresenter.ViewModel = null;
-                //    _curveDetailsPresenter.ViewModel = null;
-                //    _curveGridPresenter.ViewModel = null;
-                //    _documentPropertiesPresenter.ViewModel = null;
-                //    _documentTreePresenter.ViewModel = null;
-                //    _effectGridPresenter.ViewModel = null;
-                //    _instrumentGridPresenter.ViewModel = null;
-                //    _patchDetailsPresenter.ViewModel = null;
-                //    _patchGridPresenter.ViewModel = null;
-                //    _sampleGridPresenter.ViewModel = null;
-                //    _samplePropertiesPresenter.ViewModel = null;
-                //}
-
                 Document document = _repositoryWrapper.DocumentRepository.Get(documentID);
 
                 ViewModel.Document = document.ToViewModel(_repositoryWrapper, _entityPositionManager);
@@ -425,29 +399,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     _menuPresenter.Show(documentIsOpen: false);
 
                     ViewModel.Menu = _menuPresenter.ViewModel;
-
-                    // TODO: Remove outcommented code.
-                    //// TODO: The whole MustCreateViewModel principle in the partial presenters has been refactored out,
-                    //// so this may not be relevant anymore?
-                    //_audioFileOutputGridPresenter.ViewModel = null;
-                    //_audioFileOutputPropertiesPresenter.ViewModel = null;
-                    //_effectGridPresenter.ViewModel = null;
-                    //_instrumentGridPresenter.ViewModel = null;
-                    //_childDocumentPropertiesPresenter.ViewModel = null;
-                    //_curveDetailsPresenter.ViewModel = null;
-                    //_curveGridPresenter.ViewModel = null;
-                    //_documentPropertiesPresenter.ViewModel = null;
-                    //_documentTreePresenter.ViewModel = null;
-                    //_operatorPropertiesPresenter.ViewModel = null;
-                    //_operatorPropertiesPresenter_ForCustomOperator.ViewModel = null;
-                    //_operatorPropertiesPresenter_ForPatchInlet.ViewModel = null;
-                    //_operatorPropertiesPresenter_ForPatchOutlet.ViewModel = null;
-                    //_operatorPropertiesPresenter_ForSample.ViewModel = null;
-                    //_operatorPropertiesPresenter_ForValue.ViewModel = null;
-                    //_patchDetailsPresenter.ViewModel = null;
-                    //_patchGridPresenter.ViewModel = null;
-                    //_sampleGridPresenter.ViewModel = null;
-                    //_samplePropertiesPresenter.ViewModel = null;
                 }
             }
             finally
