@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -20,7 +19,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
 
-        /// <summary> virtually not nullable </summary>
         private DocumentPropertiesViewModel _viewModel;
 
         public DocumentPropertiesUserControl()
@@ -44,7 +42,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             get { return _viewModel; }
             set
             {
-                if (value == null) throw new NullException(() => value);
                 _viewModel = value;
                 ApplyViewModelToControls();
             }
@@ -68,12 +65,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModelToControls()
         {
+            if (_viewModel == null) return;
+
             labelIDValue.Text = _viewModel.Document.ID.ToString();
             textBoxName.Text = _viewModel.Document.Name;
         }
 
         private void ApplyControlsToViewModel()
         {
+            if (_viewModel == null) return;
+
             _viewModel.Document.Name = textBoxName.Text;
         }
 

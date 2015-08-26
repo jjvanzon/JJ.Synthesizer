@@ -2,21 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms;
-using JJ.Framework.Data;
-using JJ.Presentation.Synthesizer.Presenters;
-using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Presentation.Resources;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Helpers;
@@ -32,7 +21,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutomaticallyAssignTabIndexes();
         }
 
-        /// <summary> virtually not nullable </summary>
         private AudioFileOutputChannelViewModel _viewModel;
 
         [Browsable(false)]
@@ -42,13 +30,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             get { return _viewModel; }
             set
             {
-                if (value == null) throw new NullException(() => value);
                 _viewModel = value;
                 ApplyViewModelToControls();
             }
         }
 
-        /// <summary> virtually not nullable </summary>
         private IList<IDAndName> _outletLookup;
 
         [Browsable(false)]
@@ -58,7 +44,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             get { return _outletLookup; }
             set
             {
-                if (value == null) throw new NullException(() => value);
                 _outletLookup = value;
                 ApplyOutletLookupToControls();
             }
@@ -68,6 +53,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyOutletLookupToControls()
         {
+            if (_outletLookup == null) return;
+
             if (comboBoxOutlet.DataSource == null)
             {
                 comboBoxOutlet.DataSource = _outletLookup;
@@ -78,6 +65,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModelToControls()
         {
+            if (_viewModel == null) return;
+
             labelName.Text = _viewModel.Name;
             //textBoxName.Text = _viewModel.Document.Name;
             //comboBoxOutlet.SelectedValue = _viewModel.Keys.AudioFileOutputListIndex;
@@ -86,6 +75,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public void ApplyControlsToViewModel()
         {
+            //if (_viewModel == null) return;
             //_viewModel.
             //_viewModel.Document.Name = textBoxName.Text;
             //throw new NotImplementedException();

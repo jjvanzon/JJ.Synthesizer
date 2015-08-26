@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -21,7 +19,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
 
-        /// <summary> virtually not nullable </summary>
         private SamplePropertiesViewModel _viewModel;
 
         public SamplePropertiesUserControl()
@@ -45,7 +42,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             get { return _viewModel; }
             set
             {
-                if (value == null) throw new NullException(() => ViewModel);
                 _viewModel = value;
                 ApplyViewModelToControls();
             }
@@ -82,6 +78,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModelToControls()
         {
+            if (_viewModel == null)
+            {
+                return;
+            }
+
             textBoxName.Text = _viewModel.Entity.Name;
             numericUpDownSamplingRate.Value = _viewModel.Entity.SamplingRate;
 
@@ -127,6 +128,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyControlsToViewModel()
         {
+            if (_viewModel == null)
+            {
+                return;
+            }
+
             _viewModel.Entity.Name = textBoxName.Text;
             _viewModel.Entity.SamplingRate = (int)numericUpDownSamplingRate.Value;
 

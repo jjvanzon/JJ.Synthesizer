@@ -1113,25 +1113,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 // NOTE: Actually making controls visible is postponed till last, to do it in a way that does not flash as much.
 
-                // AudioFileOutputGrid
                 audioFileOutputGridUserControl.ViewModel = _presenter.ViewModel.Document.AudioFileOutputGrid;
-
-                // AudioFileOutputProperties
-                AudioFileOutputPropertiesViewModel visibleAudioFileOutputPropertiesViewModel =
-                    _presenter.ViewModel.Document.AudioFileOutputPropertiesList.Where(x => x.Visible).SingleOrDefault();
-                if (visibleAudioFileOutputPropertiesViewModel != null)
-                {
-                    audioFileOutputPropertiesUserControl.ViewModel = visibleAudioFileOutputPropertiesViewModel;
-                }
-
-                // ChildDocumentProperties
-                ChildDocumentPropertiesViewModel visibleChildDocumentPropertiesViewModel =
-                    _presenter.ViewModel.Document.ChildDocumentPropertiesList.Where(x => x.Visible).SingleOrDefault();
-                if (visibleChildDocumentPropertiesViewModel != null)
-                {
-                    childDocumentPropertiesUserControl.ViewModel = visibleChildDocumentPropertiesViewModel;
-                }
-
+                audioFileOutputPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.AudioFileOutputPropertiesList
+                                                                                              .Where(x => x.Visible)
+                                                                                              .SingleOrDefault();
+                childDocumentPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.ChildDocumentPropertiesList
+                                                                                            .Where(x => x.Visible)
+                                                                                            .SingleOrDefault();
                 // CurveGrid
                 if (_presenter.ViewModel.Document.CurveGrid.Visible)
                 {
@@ -1139,82 +1127,55 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
                 else
                 {
-                    CurveGridViewModel visibleCurveGridViewModel = Enumerable.Union(_presenter.ViewModel.Document.ChildDocumentList.Select(x => x.CurveGrid),
-                                                                                    _presenter.ViewModel.Document.ChildDocumentList.Select(x => x.CurveGrid))
-                                                                             .Where(x => x.Visible)
-                                                                             .SingleOrDefault();
-                    if (visibleCurveGridViewModel != null)
-                    {
-                        curveGridUserControl.ViewModel = visibleCurveGridViewModel;
-                    }
+                    curveGridUserControl.ViewModel = _presenter.ViewModel.Document.ChildDocumentList
+                                                                                  .Select(x => x.CurveGrid)
+                                                                                  .Where(x => x.Visible)
+                                                                                  .SingleOrDefault();
                 }
 
-                // Document ViewModels
                 documentDetailsUserControl.ViewModel = _presenter.ViewModel.DocumentDetails;
-                documentDetailsUserControl.Visible = _presenter.ViewModel.DocumentDetails.Visible;
-
                 documentGridUserControl.ViewModel = _presenter.ViewModel.DocumentGrid;
-                documentGridUserControl.Visible = _presenter.ViewModel.DocumentGrid.Visible;
-
                 documentPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.DocumentProperties;
-                documentPropertiesUserControl.Visible = _presenter.ViewModel.Document.DocumentProperties.Visible;
-
                 documentTreeUserControl.ViewModel = _presenter.ViewModel.Document.DocumentTree;
-                documentTreeUserControl.Visible = _presenter.ViewModel.Document.DocumentTree.Visible;
-
-                // InstrumentGrid
                 instrumentGridUserControl.ViewModel = _presenter.ViewModel.Document.InstrumentGrid;
-
-                // EffectGrid
                 effectGridUserControl.ViewModel = _presenter.ViewModel.Document.EffectGrid;
 
                 // OperatorProperties
-                OperatorPropertiesViewModel visibleOperatorPropertiesViewModel =
+                operatorPropertiesUserControl.ViewModel =
                     Enumerable.Union(
                         _presenter.ViewModel.Document.OperatorPropertiesList,
                         _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList))
-                    .Where(x => x.Visible).SingleOrDefault();
-                if (visibleOperatorPropertiesViewModel != null)
-                {
-                    operatorPropertiesUserControl.ViewModel = visibleOperatorPropertiesViewModel;
-                }
+                    .Where(x => x.Visible)
+                    .SingleOrDefault();
 
                 // OperatorProperties_ForCustomOperator
-                OperatorPropertiesViewModel_ForCustomOperator visibleOperatorPropertiesViewModel_ForCustomOperator =
+                operatorPropertiesUserControl_ForCustomOperator.ViewModel =
                     Enumerable.Union(
                         _presenter.ViewModel.Document.OperatorPropertiesList_ForCustomOperators,
                         _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators))
-                    .Where(x => x.Visible).SingleOrDefault();
-                if (visibleOperatorPropertiesViewModel_ForCustomOperator != null)
-                {
-                    operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingDocumentLookup(_presenter.ViewModel.Document.UnderlyingDocumentLookup);
-                    operatorPropertiesUserControl_ForCustomOperator.ViewModel = visibleOperatorPropertiesViewModel_ForCustomOperator;
-                }
+                    .Where(x => x.Visible)
+                    .SingleOrDefault();
+                operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingDocumentLookup(_presenter.ViewModel.Document.UnderlyingDocumentLookup);
 
                 // OperatorProperties_ForPatchInlet
-                OperatorPropertiesViewModel_ForPatchInlet visibleOperatorPropertiesViewModel_ForPatchInlet =
+                operatorPropertiesUserControl_ForPatchInlet.ViewModel =
                     Enumerable.Union(
                         _presenter.ViewModel.Document.OperatorPropertiesList_ForPatchInlets,
                         _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchInlets))
-                    .Where(x => x.Visible).SingleOrDefault();
-                if (visibleOperatorPropertiesViewModel_ForPatchInlet != null)
-                {
-                    operatorPropertiesUserControl_ForPatchInlet.ViewModel = visibleOperatorPropertiesViewModel_ForPatchInlet;
-                }
+                    .Where(x => x.Visible)
+                    .SingleOrDefault();
 
                 // OperatorProperties_ForPatchOutlet
-                OperatorPropertiesViewModel_ForPatchOutlet visibleOperatorPropertiesViewModel_ForPatchOutlet =
+                operatorPropertiesUserControl_ForPatchOutlet.ViewModel =
                     Enumerable.Union(
                         _presenter.ViewModel.Document.OperatorPropertiesList_ForPatchOutlets,
                         _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets))
-                    .Where(x => x.Visible).SingleOrDefault();
-                if (visibleOperatorPropertiesViewModel_ForPatchOutlet != null)
-                {
-                    operatorPropertiesUserControl_ForPatchOutlet.ViewModel = visibleOperatorPropertiesViewModel_ForPatchOutlet;
-                }
+                    .Where(x => x.Visible)
+                    .SingleOrDefault();
 
                 // OperatorProperties_ForSample
                 // (Needs slightly different code, because the SampleLookup is different for root documents and child documents.
+                operatorPropertiesUserControl_ForSample.ViewModel = null;
                 OperatorPropertiesViewModel_ForSample visibleOperatorPropertiesViewModel_ForSample =
                     _presenter.ViewModel.Document.OperatorPropertiesList_ForSamples.Where(x => x.Visible).SingleOrDefault();
                 if (visibleOperatorPropertiesViewModel_ForSample != null)
@@ -1238,15 +1199,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
 
                 // OperatorProperties_ForValue
-                OperatorPropertiesViewModel_ForValue visibleOperatorPropertiesViewModel_ForValue =
+                operatorPropertiesUserControl_ForValue.ViewModel =
                     Enumerable.Union(
                         _presenter.ViewModel.Document.OperatorPropertiesList_ForValues,
                         _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForValues))
-                    .Where(x => x.Visible).SingleOrDefault();
-                if (visibleOperatorPropertiesViewModel_ForValue != null)
-                {
-                    operatorPropertiesUserControl_ForValue.ViewModel = visibleOperatorPropertiesViewModel_ForValue;
-                }
+                    .Where(x => x.Visible)
+                    .SingleOrDefault();
 
                 // PatchGrid
                 if (_presenter.ViewModel.Document.PatchGrid.Visible)
@@ -1255,29 +1213,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
                 else
                 {
-                    PatchGridViewModel visiblePatchGridViewModel = Enumerable.Union(_presenter.ViewModel.Document.ChildDocumentList.Select(x => x.PatchGrid),
-                                                                                    _presenter.ViewModel.Document.ChildDocumentList.Select(x => x.PatchGrid))
-                                                                             .Where(x => x.Visible)
-                                                                             .SingleOrDefault();
-                    if (visiblePatchGridViewModel != null)
-                    {
-                        patchGridUserControl.ViewModel = visiblePatchGridViewModel;
-                    }
+                    patchGridUserControl.ViewModel = _presenter.ViewModel.Document.ChildDocumentList
+                                                                                  .Select(x => x.PatchGrid)
+                                                                                  .Where(x => x.Visible)
+                                                                                  .SingleOrDefault();
                 }
 
                 // PatchDetails
-                PatchDetailsViewModel visiblePatchDetailsViewModel = _presenter.ViewModel.Document.PatchDetailsList.Where(x => x.Visible).SingleOrDefault();
-                if (visiblePatchDetailsViewModel == null)
-                {
-                    visiblePatchDetailsViewModel = Enumerable.Union(_presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList),
-                                                                    _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList))
-                                                             .Where(x => x.Visible)
-                                                             .SingleOrDefault();
-                }
-                if (visiblePatchDetailsViewModel != null)
-                {
-                    patchDetailsUserControl.ViewModel = visiblePatchDetailsViewModel;
-                }
+                patchDetailsUserControl.ViewModel = 
+                    Enumerable.Union(
+                        _presenter.ViewModel.Document.PatchDetailsList,
+                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList))
+                    .Where(x => x.Visible)
+                    .SingleOrDefault();
 
                 // SampleGrid
                 if (_presenter.ViewModel.Document.SampleGrid.Visible)
@@ -1286,30 +1234,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 }
                 else
                 {
-                    SampleGridViewModel visibleSampleGridViewModel = Enumerable.Union(_presenter.ViewModel.Document.ChildDocumentList.Select(x => x.SampleGrid),
-                                                                                      _presenter.ViewModel.Document.ChildDocumentList.Select(x => x.SampleGrid))
-                                                                               .Where(x => x.Visible)
-                                                                               .SingleOrDefault();
-                    if (visibleSampleGridViewModel != null)
-                    {
-                        sampleGridUserControl.ViewModel = visibleSampleGridViewModel;
-                    }
+                    sampleGridUserControl.ViewModel = _presenter.ViewModel.Document.ChildDocumentList
+                                                                                   .Select(x => x.SampleGrid)
+                                                                                   .Where(x => x.Visible)
+                                                                                   .SingleOrDefault();
                 }
 
                 // SampleProperties
-                SamplePropertiesViewModel visibleSamplePropertiesViewModel =
-                    _presenter.ViewModel.Document.SamplePropertiesList.Where(x => x.Visible).SingleOrDefault();
-                if (visibleSamplePropertiesViewModel == null)
-                {
-                    visibleSamplePropertiesViewModel = Enumerable.Union(_presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList),
-                                                                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList))
-                                                                 .Where(x => x.Visible)
-                                                                 .SingleOrDefault();
-                }
-                if (visibleSamplePropertiesViewModel != null)
-                {
-                    samplePropertiesUserControl.ViewModel = visibleSamplePropertiesViewModel;
-                }
+                samplePropertiesUserControl.ViewModel =
+                    Enumerable.Union(
+                        _presenter.ViewModel.Document.SamplePropertiesList,
+                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList))
+                   .Where(x => x.Visible)
+                   .SingleOrDefault();
 
                 // Set Visible Properties
                 bool audioFileOutputGridVisible = audioFileOutputGridUserControl.ViewModel != null &&

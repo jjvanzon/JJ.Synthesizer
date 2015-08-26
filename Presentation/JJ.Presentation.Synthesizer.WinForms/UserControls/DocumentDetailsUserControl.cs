@@ -2,20 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms;
-using JJ.Framework.Data;
-using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -26,7 +19,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
 
-        /// <summary> virtually not nullable </summary>
         private DocumentDetailsViewModel _viewModel;
 
         public DocumentDetailsUserControl()
@@ -45,7 +37,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             get { return _viewModel; }
             set 
             {
-                if (value == null) throw new NullException(() => value);
                 _viewModel = value;
                 ApplyViewModelToControls();
             }
@@ -64,6 +55,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModelToControls()
         {
+            if (_viewModel == null) return;
+
             labelIDValue.Text = _viewModel.Document.ID.ToString();
             textBoxName.Text = _viewModel.Document.Name;
 
@@ -75,6 +68,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyControlsToViewModel()
         {
+            if (_viewModel == null) return;
+
             _viewModel.Document.Name = textBoxName.Text;
         }
 
@@ -101,6 +96,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (DeleteRequested != null)
             {
+                if (_viewModel == null) return;
+
                 var e = new Int32EventArgs(_viewModel.Document.ID);
                 DeleteRequested(this, e);
             }

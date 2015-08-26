@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Reflection.Exceptions;
@@ -31,7 +29,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> ShowPatchesRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
 
-        /// <summary> virtually not nullable </summary>
         private DocumentTreeViewModel _viewModel;
 
         private TreeNode _documentTreeNode;
@@ -56,7 +53,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             get { return _viewModel; }
             set
             {
-                if (value == null) throw new NullException(() => value);
                 _viewModel = value;
                 ApplyViewModel();
             }
@@ -73,59 +69,64 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModel()
         {
-            _applyViewModelIsBusy = true;
-
-            _samplesTreeNodes = new HashSet<TreeNode>();
-            _curvesTreeNodes = new HashSet<TreeNode>();
-            _patchesTreeNodes = new HashSet<TreeNode>();
-            _childDocumentTreeNodes = new HashSet<TreeNode>();
-
-            treeView.SuspendLayout();
-
-            treeView.Nodes.Clear();
-
-            if (_viewModel == null)
+            try
             {
+                _applyViewModelIsBusy = true;
+
+                _samplesTreeNodes = new HashSet<TreeNode>();
+                _curvesTreeNodes = new HashSet<TreeNode>();
+                _patchesTreeNodes = new HashSet<TreeNode>();
+                _childDocumentTreeNodes = new HashSet<TreeNode>();
+
+                treeView.SuspendLayout();
+
+                treeView.Nodes.Clear();
+
+                if (_viewModel == null)
+                {
+                    treeView.ResumeLayout();
+                    return;
+                }
+
+                _documentTreeNode = new TreeNode(_viewModel.Name);
+                treeView.Nodes.Add(_documentTreeNode);
+
+                AddChildNodesRecursive(_documentTreeNode, _viewModel);
+
+                // TODO: Uncomment when the referenced documents functionality is programmed.
+                //var referencedDocumentsTreeNode = new TreeNode(PropertyDisplayNames.ReferencedDocuments);
+                //documentTreeNode.Nodes.Add(referencedDocumentsTreeNode);
+
+                //foreach (ReferencedDocumentViewModel referencedDocumentViewModel in _viewModel.ReferencedDocuments.List)
+                //{
+                //    var referencedDocumentTreeNode = new TreeNode(referencedDocumentViewModel.Name);
+                //    referencedDocumentsTreeNode.Nodes.Add(referencedDocumentTreeNode);
+
+                //    foreach (IDAndName instrumentViewModel in referencedDocumentViewModel.Instruments)
+                //    {
+                //        var instrumentTreeNode = new TreeNode(instrumentViewModel.Name);
+                //        referencedDocumentTreeNode.Nodes.Add(instrumentTreeNode);
+                //    }
+
+                //    foreach (IDAndName effectViewModel in referencedDocumentViewModel.Effects)
+                //    {
+                //        var effectTreeNode = new TreeNode(effectViewModel.Name);
+                //        referencedDocumentTreeNode.Nodes.Add(effectTreeNode);
+                //    }
+
+                //    referencedDocumentTreeNode.Expand();
+                //}
+
+                //referencedDocumentsTreeNode.Expand();
+
+                _documentTreeNode.Expand();
+
                 treeView.ResumeLayout();
-                return;
             }
-
-            _documentTreeNode = new TreeNode(_viewModel.Name);
-            treeView.Nodes.Add(_documentTreeNode);
-
-            AddChildNodesRecursive(_documentTreeNode, _viewModel);
-
-            // TODO: Uncomment when the referenced documents functionality is programmed.
-            //var referencedDocumentsTreeNode = new TreeNode(PropertyDisplayNames.ReferencedDocuments);
-            //documentTreeNode.Nodes.Add(referencedDocumentsTreeNode);
-
-            //foreach (ReferencedDocumentViewModel referencedDocumentViewModel in _viewModel.ReferencedDocuments.List)
-            //{
-            //    var referencedDocumentTreeNode = new TreeNode(referencedDocumentViewModel.Name);
-            //    referencedDocumentsTreeNode.Nodes.Add(referencedDocumentTreeNode);
-
-            //    foreach (IDAndName instrumentViewModel in referencedDocumentViewModel.Instruments)
-            //    {
-            //        var instrumentTreeNode = new TreeNode(instrumentViewModel.Name);
-            //        referencedDocumentTreeNode.Nodes.Add(instrumentTreeNode);
-            //    }
-
-            //    foreach (IDAndName effectViewModel in referencedDocumentViewModel.Effects)
-            //    {
-            //        var effectTreeNode = new TreeNode(effectViewModel.Name);
-            //        referencedDocumentTreeNode.Nodes.Add(effectTreeNode);
-            //    }
-
-            //    referencedDocumentTreeNode.Expand();
-            //}
-
-            //referencedDocumentsTreeNode.Expand();
-
-            _documentTreeNode.Expand();
-
-            treeView.ResumeLayout();
-
-            _applyViewModelIsBusy = false;
+            finally
+            {
+                _applyViewModelIsBusy = false;
+            }
         }
 
         private void AddChildNodesRecursive(TreeNode parentNode, DocumentTreeViewModel parentViewModel)

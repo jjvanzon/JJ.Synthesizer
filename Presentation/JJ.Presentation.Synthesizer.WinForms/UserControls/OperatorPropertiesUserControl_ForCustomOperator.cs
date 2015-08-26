@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -21,7 +20,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
 
-        /// <summary> virtually not nullable </summary>
         private OperatorPropertiesViewModel_ForCustomOperator _viewModel;
 
         public OperatorPropertiesUserControl_ForCustomOperator()
@@ -45,7 +43,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             get { return _viewModel; }
             set
             {
-                if (value == null) throw new NullException(() => value);
                 _viewModel = value;
                 ApplyViewModelToControls();
             }
@@ -73,6 +70,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModelToControls()
         {
+            if (_viewModel == null) return;
+
             textBoxName.Text = _viewModel.Name;
 
             if (_viewModel.UnderlyingDocument != null)
@@ -96,6 +95,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyControlsToViewModel()
         {
+            if (_viewModel == null) return;
+
             _viewModel.Name = textBoxName.Text;
             _viewModel.UnderlyingDocument = (IDAndName)comboBoxUnderlyingDocument.SelectedItem;
         }

@@ -2,20 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms;
-using JJ.Framework.Data;
-using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -23,7 +16,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         public event EventHandler CloseRequested;
 
-        /// <summary> virtually not nullable </summary>
         private DocumentCannotDeleteViewModel _viewModel;
 
         public DocumentCannotDeleteUserControl()
@@ -69,6 +61,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             string messages = String.Join(Environment.NewLine, _viewModel.Messages.Select(x => x.Text));
             labelMessageList.Text = messages;
         }
+
+        // Events
 
         private void buttonOK_Click(object sender, EventArgs e)
         {

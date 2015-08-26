@@ -2,19 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using JJ.Framework.Presentation.WinForms;
-using JJ.Framework.Data;
-using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Presentation;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
@@ -30,7 +21,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler<Int32EventArgs> ShowPropertiesRequested;
 
-        /// <summary> virtually not nullable </summary>
         private SampleGridViewModel _viewModel;
 
         public SampleGridUserControl()
@@ -46,7 +36,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             get { return _viewModel; }
             set
             {
-                if (value == null) throw new NullException(() => value);
                 _viewModel = value;
                 ApplyViewModel();
             }
@@ -67,6 +56,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModel()
         {
+            if (_viewModel == null)
+            {
+                return;
+            }
+
             specializedDataGridView.DataSource = _viewModel.List.Select(x => new
             {
                 x.ID,

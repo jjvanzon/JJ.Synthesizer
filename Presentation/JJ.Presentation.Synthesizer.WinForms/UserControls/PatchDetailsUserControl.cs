@@ -7,11 +7,9 @@ using JJ.Presentation.Synthesizer.Svg.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
@@ -71,7 +69,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             get { return _viewModel; }
             set
             {
-                if (value == null) throw new NullException(() => value);
                 _viewModel = value;
                 ApplyViewModel();
             }
@@ -85,49 +82,42 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             buttonPlay.Text = Titles.Play;
         }
 
-        // TODO: This field is not used, but I think it might need to be used when finishing up work to the vector graphics system?
-        private bool _applyViewModelIsBusy;
-
         private void ApplyViewModel()
         {
-            try
+            if (_viewModel == null)
             {
-                _applyViewModelIsBusy = true;
+                return;
+            }
 
-                if (_svg == null || _alwaysRecreateDiagram)
+            if (_svg == null || _alwaysRecreateDiagram)
+            {
+                UnbindSvgEvents();
+
+                _converter = new ViewModelToDiagramConverter(_mustShowInvisibleElements, _toolTipFeatureEnabled);
+                _svg = _converter.Execute(_viewModel.Entity);
+
+                _svg.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
+                _svg.MoveGesture.Moved += MoveGesture_Moved;
+                _svg.DropGesture.Dropped += DropGesture_Dropped;
+                _svg.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
+
+                if (_toolTipFeatureEnabled)
                 {
-                    UnbindSvgEvents();
-
-                    _converter = new ViewModelToDiagramConverter(_mustShowInvisibleElements, _toolTipFeatureEnabled);
-                    _svg = _converter.Execute(_viewModel.Entity);
-
-                    _svg.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
-                    _svg.MoveGesture.Moved += MoveGesture_Moved;
-                    _svg.DropGesture.Dropped += DropGesture_Dropped;
-                    _svg.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
-
-                    if (_toolTipFeatureEnabled)
-                    {
-                        _svg.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
-                        _svg.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
-                        _svg.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
-                    }
-
-                    //_svg.LineGesture.Dropped += DropGesture_Dropped;
-                }
-                else
-                {
-                    _svg = _converter.Execute(_viewModel.Entity, _svg);
+                    _svg.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
+                    _svg.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
+                    _svg.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
                 }
 
-                diagramControl1.Diagram = _svg.Diagram;
-
-                ApplyOperatorToolboxItemsViewModel(_viewModel.OperatorToolboxItems);
+                //_svg.LineGesture.Dropped += DropGesture_Dropped;
             }
-            finally
+            else
             {
-                _applyViewModelIsBusy = false;
+                _svg = _converter.Execute(_viewModel.Entity, _svg);
             }
+
+            diagramControl1.Diagram = _svg.Diagram;
+
+            ApplyOperatorToolboxItemsViewModel(_viewModel.OperatorToolboxItems);
         }
 
         private void UnbindSvgEvents()
@@ -319,6 +309,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void OperatorToolTipGesture_ShowToolTipRequested(object sender, ToolTipTextEventArgs e)
         {
+            if (_viewModel == null) return;
+
             int operatorID = SvgTagHelper.GetOperatorID(e.Element.Tag);
 
             e.ToolTipText = _viewModel.Entity.Operators.Where(x => x.ID == operatorID).Single().Caption;
@@ -326,6 +318,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void InletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
         {
+            if (_viewModel == null) return;
+
             int inletID = SvgTagHelper.GetInletID(e.Element.Tag);
 
             InletViewModel inketViewModel = _viewModel.Entity.Operators.SelectMany(x => x.Inlets)
@@ -336,6 +330,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void OutletToolTipGesture_ToolTipTextRequested(object sender, ToolTipTextEventArgs e)
         {
+            if (_viewModel == null) return;
+
             int id = SvgTagHelper.GetOutletID(e.Element.Tag);
 
             OutletViewModel outletViewModel = _viewModel.Entity.Operators.SelectMany(x => x.Outlets)

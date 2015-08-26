@@ -2,24 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms;
-using JJ.Framework.Data;
-using JJ.Presentation.Synthesizer.Presenters;
-using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation;
-using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -34,7 +23,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutomaticallyAssignTabIndexes();
         }
 
-        /// <summary> virtually not nullable </summary>
         private IList<AudioFileOutputChannelViewModel> _viewModels;
 
         [Browsable(false)]
@@ -44,7 +32,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             get { return _viewModels; }
             set
             {
-                if (value == null) throw new NullException(() => value);
                 _viewModels = value;
                 ApplyViewModelsToControls();
             }
@@ -60,7 +47,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             get { return _outletLookup; }
             set
             {
-                if (value == null) throw new NullException(() => value);
                 _outletLookup = value;
                 OutletLookupToControls();
             }
@@ -77,6 +63,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModelsToControls()
         {
+            if (_viewModels == null) return;
+
             // TODO: I wonder how the original controls that are replaced is taken care of...
 
             _audioFileOutputChannelUserControls.Clear();
@@ -106,6 +94,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void OutletLookupToControls()
         {
+            if (_outletLookup == null) return;
+
             foreach (AudioFileOutputChannelUserControl audioFileOutputChannelUserControl in _audioFileOutputChannelUserControls)
             {
                 audioFileOutputChannelUserControl.OutletLookup = _outletLookup;

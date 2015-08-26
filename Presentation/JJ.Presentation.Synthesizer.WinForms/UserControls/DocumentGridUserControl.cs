@@ -2,23 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using JJ.Framework.Presentation.WinForms;
-using JJ.Framework.Data;
-using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Presentation;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation.Resources;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
-using JJ.Presentation.Synthesizer.WinForms.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -32,7 +22,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
 
-        /// <summary> virtually not nullable </summary>
         private DocumentGridViewModel _viewModel;
 
         public DocumentGridUserControl()
@@ -48,7 +37,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             get { return _viewModel; }
             set
             {
-                if (value == null) throw new NullException(() => value);
                 _viewModel = value;
                 ApplyViewModel();
             }
@@ -63,6 +51,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModel()
         {
+            if (_viewModel == null) return;
+
             pagerControl.PagerViewModel = _viewModel.Pager;
             dataGridView.DataSource = _viewModel.List;
         }
@@ -126,6 +116,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void pagerControl_GoToPreviousPageClicked(object sender, EventArgs e)
         {
+            if (_viewModel == null) return;
+
             Show(_viewModel.Pager.PageNumber - 1);
         }
 
@@ -136,11 +128,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void pagerControl_GoToNextPageClicked(object sender, EventArgs e)
         {
+            if (_viewModel == null) return;
+
             Show(_viewModel.Pager.PageNumber + 1);
         }
 
         private void pagerControl_GoToLastPageClicked(object sender, EventArgs e)
         {
+            if (_viewModel == null) return;
+
             Show(_viewModel.Pager.PageCount);
         }
 
