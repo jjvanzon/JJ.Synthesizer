@@ -73,6 +73,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
             }
 
+            foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in userInput.OperatorPropertiesList_ForSamples)
+            {
+                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository, repositoryWrapper.SampleRepository);
+            }
+
             foreach (OperatorPropertiesViewModel_ForValue propertiesViewModel in userInput.OperatorPropertiesList_ForValues)
             {
                 propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
@@ -168,6 +173,44 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return rootDocument;
         }
 
+        /// <summary>
+        /// Used for OperatorProperties view for Sample operators, to partially convert to entity,
+        /// just enoughto make a few entity validations work.
+        /// </summary> 
+        public static Document ToHollowDocumentWithHollowChildDocumentsWithHollowSamples(
+            this DocumentViewModel viewModel,
+            IDocumentRepository documentRepository,
+            IChildDocumentTypeRepository childDocumentTypeRepository,
+            ISampleRepository sampleRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+
+            Document rootDocument = viewModel.ToEntity(documentRepository);
+
+            foreach (SamplePropertiesViewModel samplePropertiesViewModel in viewModel.SamplePropertiesList)
+            {
+                Sample sample = samplePropertiesViewModel.Entity.ToHollowEntity(sampleRepository);
+                sample.LinkTo(rootDocument);
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in viewModel.ChildDocumentList)
+            {
+                Document childDocument = childDocumentViewModel.ToEntity(documentRepository, childDocumentTypeRepository);
+                childDocument.LinkToParentDocument(rootDocument);
+
+                foreach (SamplePropertiesViewModel samplePropertiesViewModel in childDocumentViewModel.SamplePropertiesList)
+                {
+                    Sample sample = samplePropertiesViewModel.Entity.ToHollowEntity(sampleRepository);
+                    sample.LinkTo(childDocument);
+                }
+            }
+
+            return rootDocument;
+        }
+
         // Child Document
 
         public static Document ToEntityWithRelatedEntities(this ChildDocumentViewModel userInput, RepositoryWrapper repositoryWrapper)
@@ -206,6 +249,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchOutlets)
             {
                 propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in userInput.OperatorPropertiesList_ForSamples)
+            {
+                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository, repositoryWrapper.SampleRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForValue operatorPropertiesViewModel_ForValue in userInput.OperatorPropertiesList_ForValues)
@@ -330,6 +378,23 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel.SpeakerSetup != null)
             {
                 sample.SpeakerSetup = sampleRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
+            }
+
+            return sample;
+        }
+
+        /// <summary> Converts to a Sample with an ID but no other properties assigned. </summary>
+        public static Sample ToHollowEntity(this SampleViewModel viewModel, ISampleRepository sampleRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+
+            Sample sample = sampleRepository.TryGet(viewModel.ID);
+            if (sample == null)
+            {
+                sample = new Sample();
+                sample.ID = viewModel.ID;
+                sampleRepository.Insert(sample);
             }
 
             return sample;
@@ -632,11 +697,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.OperatorType = operatorTypeRepository.TryGet(viewModel.OperatorTypeID);
 
-            if (entity.GetOperatorTypeEnum() == OperatorTypeEnum.Value)
-            {
-                entity.Data = viewModel.Value;
-            }
-
             return entity;
         }
 
@@ -723,7 +783,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForCustomOperator viewModel,
             IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, IDocumentRepository documentRepository)
@@ -741,13 +800,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, operatorTypeRepository);
-            
+
             // UnderlyingDocument
+            var wrapper = new Custom_OperatorWrapper(entity, documentRepository);
             bool underlyingDocumentIsFilledIn = viewModel.UnderlyingDocument != null && viewModel.UnderlyingDocument.ID != 0;
             if (underlyingDocumentIsFilledIn)
             {
-                var wrapper = new Custom_OperatorWrapper(entity, documentRepository);
                 wrapper.UnderlyingDocumentID = viewModel.UnderlyingDocument.ID;
+            }
+            else
+            {
+                wrapper.UnderlyingDocumentID = null;
             }
 
             return entity;
@@ -797,6 +860,39 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             var wrapper = new PatchOutlet_OperatorWrapper(entity);
             wrapper.SortOrder = viewModel.SortOrder;
+
+            return entity;
+        }
+
+        public static Operator ToEntity(
+            this OperatorPropertiesViewModel_ForSample viewModel,
+            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, ISampleRepository sampleRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            entity.SetOperatorTypeEnum(OperatorTypeEnum.Sample, operatorTypeRepository);
+
+            // Sample
+            var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
+            bool sampleIsFilledIn = viewModel.Sample != null && viewModel.Sample.ID != 0;
+            if (sampleIsFilledIn)
+            {
+                wrapper.SampleID = viewModel.Sample.ID;
+            }
+            else
+            {
+                wrapper.SampleID = null;
+            }
 
             return entity;
         }

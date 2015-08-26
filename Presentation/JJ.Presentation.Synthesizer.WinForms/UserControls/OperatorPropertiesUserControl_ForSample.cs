@@ -16,15 +16,15 @@ using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_ForCustomOperator : UserControl
+    internal partial class OperatorPropertiesUserControl_ForSample : UserControl
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
 
         /// <summary> virtually not nullable </summary>
-        private OperatorPropertiesViewModel_ForCustomOperator _viewModel;
+        private OperatorPropertiesViewModel_ForSample _viewModel;
 
-        public OperatorPropertiesUserControl_ForCustomOperator()
+        public OperatorPropertiesUserControl_ForSample()
         {
             InitializeComponent();
 
@@ -33,14 +33,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutomaticallyAssignTabIndexes();
         }
 
-        private void OperatorPropertiesUserControl_ForCustomOperator_Load(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_ForSample_Load(object sender, EventArgs e)
         {
             ApplyStyling();
         }
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public OperatorPropertiesViewModel_ForCustomOperator ViewModel
+        public OperatorPropertiesViewModel_ForSample ViewModel
         {
             get { return _viewModel; }
             set
@@ -59,9 +59,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
-            labelUnderlyingDocument.Text = PropertyDisplayNames.UnderlyingDocument;
+            labelSample.Text = PropertyDisplayNames.Sample;
 
-            labelOperatorTypeValue.Text = PropertyDisplayNames.CustomOperator;
+            labelOperatorTypeValue.Text = PropertyDisplayNames.Sample;
         }
 
         private void ApplyStyling()
@@ -75,29 +75,29 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             textBoxName.Text = _viewModel.Name;
 
-            if (_viewModel.UnderlyingDocument != null)
+            if (_viewModel.Sample != null)
             {
-                comboBoxUnderlyingDocument.SelectedValue = _viewModel.UnderlyingDocument.ID;
+                comboBoxSample.SelectedValue = _viewModel.Sample.ID;
             }
             else
             {
-                comboBoxUnderlyingDocument.SelectedValue = 0;
+                comboBoxSample.SelectedValue = 0;
             }
         }
 
-        public void SetUnderlyingDocumentLookup(IList<IDAndName> underlyingDocumentLookup)
+        public void SetSampleLookup(IList<IDAndName> sampleLookup)
         {
-            // Always refill the document lookup, so changes to the document collection are reflected.
-            comboBoxUnderlyingDocument.DataSource = null; // Do this or WinForms will not refresh the list.
-            comboBoxUnderlyingDocument.DataSource = underlyingDocumentLookup;
-            comboBoxUnderlyingDocument.ValueMember = PropertyNames.ID;
-            comboBoxUnderlyingDocument.DisplayMember = PropertyNames.Name;
+            // Always refill the lookup, so changes to the patch collection are reflected.
+            comboBoxSample.DataSource = null; // Do this or WinForms will not refresh the list.
+            comboBoxSample.DataSource = sampleLookup;
+            comboBoxSample.ValueMember = PropertyNames.ID;
+            comboBoxSample.DisplayMember = PropertyNames.Name;
         }
 
         private void ApplyControlsToViewModel()
         {
             _viewModel.Name = textBoxName.Text;
-            _viewModel.UnderlyingDocument = (IDAndName)comboBoxUnderlyingDocument.SelectedItem;
+            _viewModel.Sample = (IDAndName)comboBoxSample.SelectedItem;
         }
 
         // Actions
@@ -127,7 +127,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             Close();
         }
 
-        private void OperatorPropertiesUserControl_ForCustomOperator_VisibleChanged(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_ForSample_VisibleChanged(object sender, EventArgs e)
         {
             if (Visible)
             {
@@ -136,17 +136,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        // This event goes off when I call OperatorPropertiesUserControl_ForCustomOperator.SetFocus after clicking on a DataGridView,
-        // but does not go off when I call OperatorPropertiesUserControl_ForCustomOperator.SetFocus after clicking on a TreeView.
+        // This event goes off when I call OperatorPropertiesUserControl_ForSample.SetFocus after clicking on a DataGridView,
+        // but does not go off when I call OperatorPropertiesUserControl_ForSample.SetFocus after clicking on a TreeView.
         // Thanks, WinForms...
-        private void OperatorPropertiesUserControl_ForCustomOperator_Enter(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_ForSample_Enter(object sender, EventArgs e)
         {
             textBoxName.Focus();
             textBoxName.Select(0, 0);
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
-        private void OperatorPropertiesUserControl_ForCustomOperator_Leave(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_ForSample_Leave(object sender, EventArgs e)
         {
             // This Visible check is there because the leave event (lose focus) goes off after I closed, 
             // making it want to save again, even though view model is empty

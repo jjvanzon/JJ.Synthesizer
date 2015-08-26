@@ -39,11 +39,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         /// </summary>
         public int OperatorTypeID { get; set; }
 
-        /// <summary>
-        /// Only relevant for Value operators.
-        /// </summary>
-        public string Value { get; set; }
-
         private string DebuggerDisplay
         {
             get { return DebugHelper.GetDebuggerDisplay(this); }

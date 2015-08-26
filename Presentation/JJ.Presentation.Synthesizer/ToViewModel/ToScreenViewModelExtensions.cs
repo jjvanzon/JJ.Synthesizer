@@ -18,44 +18,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToScreenViewModelExtensions
     {
-        // Full Document
-
-        public static DocumentViewModel ToViewModel(this Document document, RepositoryWrapper repositoryWrapper, EntityPositionManager entityPositionManager)
-        {
-            if (document == null) throw new NullException(() => document);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
-
-            var viewModel = new DocumentViewModel
-            {
-                ID = document.ID,
-                DocumentTree = document.ToTreeViewModel(),
-                DocumentProperties = document.ToPropertiesViewModel(),
-                AudioFileOutputPropertiesList = document.AudioFileOutputs.Select(x => x.ToPropertiesViewModel(
-                    repositoryWrapper.AudioFileFormatRepository,
-                    repositoryWrapper.SampleDataTypeRepository,
-                    repositoryWrapper.SpeakerSetupRepository)).ToList(),
-                AudioFileOutputGrid = document.ToAudioFileOutputGridViewModel(),
-                ChildDocumentPropertiesList = document.ChildDocuments.Select(x => x.ToChildDocumentPropertiesViewModel(repositoryWrapper.ChildDocumentTypeRepository)).ToList(),
-                ChildDocumentList = document.ChildDocuments.Select(x => x.ToChildDocumentViewModel(repositoryWrapper, entityPositionManager)).ToList(),
-                InstrumentGrid = document.ToChildDocumentGridViewModel((int)ChildDocumentTypeEnum.Instrument),
-                EffectGrid = document.ToChildDocumentGridViewModel((int)ChildDocumentTypeEnum.Effect),
-                CurveDetailsList = document.Curves.Select(x => x.ToDetailsViewModel(repositoryWrapper.NodeTypeRepository)).ToList(),
-                CurveGrid = document.Curves.ToGridViewModel(document.ID),
-                OperatorPropertiesList = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList()).ToList(),
-                OperatorPropertiesList_ForCustomOperators = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForCustomOperators(repositoryWrapper.DocumentRepository)).ToList(),
-                OperatorPropertiesList_ForPatchInlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToList(),
-                OperatorPropertiesList_ForPatchOutlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToList(),
-                OperatorPropertiesList_ForValues = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForValues()).ToList(),
-                PatchDetailsList = document.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, entityPositionManager)).ToList(),
-                PatchGrid = document.Patches.ToGridViewModel(document.ID),
-                SampleGrid = document.Samples.ToGridViewModel(document.ID),
-                SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList(),
-                UnderlyingDocumentLookup = ViewModelHelper.CreateUnderlyingDocumentLookupViewModel(document)
-            };
-
-            return viewModel;
-        }
-
         // AudioFileOutput
 
         public static AudioFileOutputPropertiesViewModel ToPropertiesViewModel(
@@ -117,39 +79,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             viewModel.MainPatchLookup = ViewModelHelper.CreateMainPatchLookupViewModel(childDocument);
-
-            return viewModel;
-        }
-
-        public static ChildDocumentViewModel ToChildDocumentViewModel(
-            this Document childDocument,
-            RepositoryWrapper repositoryWrapper,
-            EntityPositionManager entityPositionManager)
-        {
-            if (childDocument == null) throw new NullException(() => childDocument);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
-
-            var viewModel = new ChildDocumentViewModel
-            {
-                ID = childDocument.ID,
-                Name = childDocument.Name,
-                SampleGrid = childDocument.Samples.ToGridViewModel(childDocument.ID),
-                SamplePropertiesList = childDocument.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList(),
-                CurveGrid = childDocument.Curves.ToGridViewModel(childDocument.ID),
-                CurveDetailsList = childDocument.Curves.Select(x => x.ToDetailsViewModel(repositoryWrapper.NodeTypeRepository)).ToList(),
-                OperatorPropertiesList = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList()).ToList(),
-                OperatorPropertiesList_ForCustomOperators = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForCustomOperators(repositoryWrapper.DocumentRepository)).ToList(),
-                OperatorPropertiesList_ForPatchInlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToList(),
-                OperatorPropertiesList_ForPatchOutlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToList(),
-                OperatorPropertiesList_ForValues = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForValues()).ToList(),
-                PatchGrid = childDocument.Patches.ToGridViewModel(childDocument.ID),
-                PatchDetailsList = childDocument.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, entityPositionManager)).ToList()
-            };
-
-            if (childDocument.ChildDocumentType != null)
-            {
-                viewModel.ChildDocumentType = childDocument.ChildDocumentType.ToIDAndName();
-            }
 
             return viewModel;
         }
@@ -236,10 +165,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
-                if (operatorTypeEnum != OperatorTypeEnum.Value &&
+                if (operatorTypeEnum != OperatorTypeEnum.CustomOperator &&
                     operatorTypeEnum != OperatorTypeEnum.PatchInlet &&
                     operatorTypeEnum != OperatorTypeEnum.PatchOutlet &&
-                    operatorTypeEnum != OperatorTypeEnum.CustomOperator)
+                    operatorTypeEnum != OperatorTypeEnum.Sample &&
+                    operatorTypeEnum != OperatorTypeEnum.Value)
                 {
                     OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
                     viewModels.Add(viewModel);
@@ -273,6 +203,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
                                   .Select(x => x.ToPropertiesViewModel_ForPatchOutlet())
+                                  .ToList();
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForSample> ToOperatorPropertiesViewModelList_ForSamples(this Patch patch, ISampleRepository sampleRepository)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
+                                  .Select(x => x.ToOperatorPropertiesViewModel_ForSample(sampleRepository))
                                   .ToList();
         }
 
@@ -360,6 +299,29 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Successful = true,
                 ValidationMessages = new List<Message>()
             };
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForSample ToOperatorPropertiesViewModel_ForSample(this Operator entity, ISampleRepository sampleRepository)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new OperatorPropertiesViewModel_ForSample
+            {
+                ID = entity.ID,
+                Name = entity.Name,
+                Successful = true,
+                ValidationMessages = new List<Message>()
+            };
+
+            var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
+
+            Sample sample = wrapper.Sample;
+            if (sample != null)
+            {
+                viewModel.Sample = sample.ToIDAndName();
+            }
 
             return viewModel;
         }

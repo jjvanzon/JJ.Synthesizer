@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
@@ -40,14 +39,18 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public IList<OperatorPropertiesViewModel_ForCustomOperator> OperatorPropertiesList_ForCustomOperators { get; set; }
         public IList<OperatorPropertiesViewModel_ForPatchInlet> OperatorPropertiesList_ForPatchInlets { get; set; }
         public IList<OperatorPropertiesViewModel_ForPatchOutlet> OperatorPropertiesList_ForPatchOutlets { get; set; }
+        public IList<OperatorPropertiesViewModel_ForSample> OperatorPropertiesList_ForSamples { get; set; }
         public IList<OperatorPropertiesViewModel_ForValue> OperatorPropertiesList_ForValues { get; set; }
 
-        // Central Lookup
+        // Central Lookups
 
-        /// <summary>
-        /// This s lookup to be used in in OperatorProperties_ForCustomOperators.
-        /// It is put here to prevent a lot of repeated data.
-        /// </summary>
+        /// <summary> This lookup is used by OperatorProperties_ForCustomOperators in both root Document and ChildDocuments. </summary>
         public IList<IDAndName> UnderlyingDocumentLookup { get; set; }
+
+        /// <summary> 
+        /// This lookup is used by OperatorProperties_ForSamples in the root Document.
+        /// (The child documents have their own sample collection.)
+        /// </summary>
+        public IList<IDAndName> SampleLookup { get; set; }
     }
 }

@@ -15,6 +15,7 @@ using JJ.Presentation.Synthesizer.WinForms.Forms;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using ConfigurationSection = JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -93,6 +94,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForPatchInlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested;
             operatorPropertiesUserControl_ForPatchOutlet.CloseRequested += operatorPropertiesUserControl_ForPatchOutlet_CloseRequested;
             operatorPropertiesUserControl_ForPatchOutlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested;
+            operatorPropertiesUserControl_ForSample.CloseRequested += operatorPropertiesUserControl_ForSample_CloseRequested;
+            operatorPropertiesUserControl_ForSample.LoseFocusRequested += operatorPropertiesUserControl_ForSample_LoseFocusRequested;
             operatorPropertiesUserControl_ForValue.CloseRequested += operatorPropertiesUserControl_ForValue_CloseRequested;
             operatorPropertiesUserControl_ForValue.LoseFocusRequested += operatorPropertiesUserControl_ForValue_LoseFocusRequested;
             patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
@@ -431,6 +434,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void operatorPropertiesUserControl_ForPatchOutlet_CloseRequested(object sender, EventArgs e)
         {
             OperatorPropertiesClose_ForPatchOutlet();
+        }
+
+        private void operatorPropertiesUserControl_ForSample_LoseFocusRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesLoseFocus_ForSample();
+        }
+
+        private void operatorPropertiesUserControl_ForSample_CloseRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesClose_ForSample();
         }
 
         private void operatorPropertiesUserControl_ForValue_LoseFocusRequested(object sender, EventArgs e)
@@ -929,6 +942,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void OperatorPropertiesClose_ForSample()
+        {
+            _presenter.OperatorPropertiesClose_ForSample();
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesLoseFocus_ForSample()
+        {
+            _presenter.OperatorPropertiesLoseFocus_ForSample();
+            ApplyViewModel();
+        }
+
         private void OperatorPropertiesClose_ForValue()
         {
             _presenter.OperatorPropertiesClose_ForValue();
@@ -1076,6 +1101,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void ApplyViewModel()
         {
+            // TODO: Consider using FirstOrDefault everywhere you use SingleOrDefault, because that is O(1/2 n) as opposed to O(n).
+
             SuspendLayout();
 
             try
@@ -1084,7 +1111,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 menuUserControl.Show(_presenter.ViewModel.Menu);
 
-                // NOTE: Actually making controls visible is postponed till last, to do it in a way that does not flash.
+                // NOTE: Actually making controls visible is postponed till last, to do it in a way that does not flash as much.
 
                 // AudioFileOutputGrid
                 audioFileOutputGridUserControl.ViewModel = _presenter.ViewModel.Document.AudioFileOutputGrid;
@@ -1184,6 +1211,30 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (visibleOperatorPropertiesViewModel_ForPatchOutlet != null)
                 {
                     operatorPropertiesUserControl_ForPatchOutlet.ViewModel = visibleOperatorPropertiesViewModel_ForPatchOutlet;
+                }
+
+                // OperatorProperties_ForSample
+                // (Needs slightly different code, because the SampleLookup is different for root documents and child documents.
+                OperatorPropertiesViewModel_ForSample visibleOperatorPropertiesViewModel_ForSample =
+                    _presenter.ViewModel.Document.OperatorPropertiesList_ForSamples.Where(x => x.Visible).SingleOrDefault();
+                if (visibleOperatorPropertiesViewModel_ForSample != null)
+                {
+                    operatorPropertiesUserControl_ForSample.SetSampleLookup(_presenter.ViewModel.Document.SampleLookup);
+                    operatorPropertiesUserControl_ForSample.ViewModel = visibleOperatorPropertiesViewModel_ForSample;
+                }
+                else
+                {
+                    foreach (ChildDocumentViewModel childDocumentViewModel in _presenter.ViewModel.Document.ChildDocumentList)
+                    {
+                        visibleOperatorPropertiesViewModel_ForSample =
+                            childDocumentViewModel.OperatorPropertiesList_ForSamples.Where(x => x.Visible).SingleOrDefault();        
+                        if (visibleOperatorPropertiesViewModel_ForSample != null)
+                        {
+                            operatorPropertiesUserControl_ForSample.SetSampleLookup(childDocumentViewModel.SampleLookup);
+                            operatorPropertiesUserControl_ForSample.ViewModel = visibleOperatorPropertiesViewModel_ForSample;
+                            break;
+                        }
+                    }
                 }
 
                 // OperatorProperties_ForValue
@@ -1289,6 +1340,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                                operatorPropertiesUserControl_ForPatchInlet.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForPatchOutlet = operatorPropertiesUserControl_ForPatchOutlet.ViewModel != null &&
                                                                 operatorPropertiesUserControl_ForPatchOutlet.ViewModel.Visible;
+                bool operatorPropertiesVisible_ForSample = operatorPropertiesUserControl_ForSample.ViewModel != null &&
+                                                           operatorPropertiesUserControl_ForSample.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForValue = operatorPropertiesUserControl_ForValue.ViewModel != null &&
                                                           operatorPropertiesUserControl_ForValue.ViewModel.Visible;
                 bool patchGridVisible = patchGridUserControl.ViewModel != null &&
@@ -1315,6 +1368,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (operatorPropertiesVisible_ForCustomOperator) operatorPropertiesUserControl_ForCustomOperator.Visible = true;
                 if (operatorPropertiesVisible_ForPatchInlet) operatorPropertiesUserControl_ForPatchInlet.Visible = true;
                 if (operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = true;
+                if (operatorPropertiesVisible_ForSample) operatorPropertiesUserControl_ForSample.Visible = true;
                 if (operatorPropertiesVisible_ForValue) operatorPropertiesUserControl_ForValue.Visible = true;
                 if (patchGridVisible) patchGridUserControl.Visible = true;
                 if (patchDetailsVisible) patchDetailsUserControl.Visible = true;
@@ -1335,6 +1389,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!operatorPropertiesVisible_ForCustomOperator) operatorPropertiesUserControl_ForCustomOperator.Visible = false;
                 if (!operatorPropertiesVisible_ForPatchInlet) operatorPropertiesUserControl_ForPatchInlet.Visible = false;
                 if (!operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = false;
+                if (!operatorPropertiesVisible_ForSample) operatorPropertiesUserControl_ForSample.Visible = false;
                 if (!operatorPropertiesVisible_ForValue) operatorPropertiesUserControl_ForValue.Visible = false;
                 if (!patchGridVisible) patchGridUserControl.Visible = false;
                 if (!patchDetailsVisible) patchDetailsUserControl.Visible = false;
@@ -1352,6 +1407,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                     operatorPropertiesVisible_ForCustomOperator ||
                                                     operatorPropertiesVisible_ForPatchInlet ||
                                                     operatorPropertiesVisible_ForPatchOutlet ||
+                                                    operatorPropertiesVisible_ForSample ||
                                                     operatorPropertiesVisible_ForValue ||
                                                     samplePropertiesVisible;
 
@@ -1444,6 +1500,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (mustFocusOperatorPropertiesUserControl_ForPatchOutlet)
             {
                 operatorPropertiesUserControl_ForPatchOutlet.Focus();
+            }
+
+            bool mustFocusOperatorPropertiesUserControl_ForSample = operatorPropertiesUserControl_ForSample.Visible &&
+                                                                   !operatorPropertiesUserControl_ForSample.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl_ForSample)
+            {
+                operatorPropertiesUserControl_ForSample.Focus();
             }
 
             bool mustFocusOperatorPropertiesUserControl_ForValue = operatorPropertiesUserControl_ForValue.Visible &&

@@ -44,6 +44,7 @@
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
     <Compile Include="Presenters\ChildDocumentGridPresenter.cs" />
+    <Compile Include="Presenters\OperatorPropertiesPresenter_ForSample.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCustomOperator.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForValue.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchOutlet.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
     <Compile Include="Presenters\MainPresenter.cs" />
     <Compile Include="ToEntity\ToEntityHelper.cs" />
+    <Compile Include="ToViewModel\ToDocumentViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToTreeViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListItemViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToScreenViewModelExtensions.cs" />
@@ -128,6 +130,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\NotFoundViewModel.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel_ForSample.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCustomOperator.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForValue.cs" />

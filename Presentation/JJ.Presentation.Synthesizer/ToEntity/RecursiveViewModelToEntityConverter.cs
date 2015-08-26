@@ -3,12 +3,10 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Presentation.Synthesizer.ToEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {

@@ -1,30 +1,31 @@
-﻿using JJ.Data.Synthesizer;
+﻿using JJ.Business.CanonicalModel;
+using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class SamplePropertiesPresenter
+    internal class OperatorPropertiesPresenter_ForSample
     {
-        private SampleRepositories _sampleRepositories;
+        private PatchRepositories _repositories;
+        private PatchManager _patchManager;
 
-        public SamplePropertiesViewModel ViewModel { get; set; }
+        public OperatorPropertiesViewModel_ForSample ViewModel { get; set; }
 
-        public SamplePropertiesPresenter(SampleRepositories samplesRepositories)
+        public OperatorPropertiesPresenter_ForSample(PatchRepositories repositories)
         {
-            if (samplesRepositories == null) throw new NullException(() => samplesRepositories);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            _sampleRepositories = samplesRepositories;
+            _repositories = repositories;
+
+            _patchManager = new PatchManager(_repositories);
         }
 
         public void Show()
@@ -48,6 +49,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void LoseFocus()
         {
+            AssertViewModel();
+
             Update();
         }
 
@@ -55,18 +58,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Sample entity = ViewModel.ToEntity(_sampleRepositories);
+            Operator entity = ViewModel.ToEntity(
+                _repositories.OperatorRepository,
+                _repositories.OperatorTypeRepository,
+                _repositories.SampleRepository);
 
-            IValidator validator = new SampleValidator_InDocument(entity);
-            if (!validator.IsValid)
+            VoidResult result = _patchManager.ValidateNonRecursive(entity);
+            if (!result.Successful)
             {
                 ViewModel.Successful = false;
-                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                ViewModel.ValidationMessages = result.Messages;
             }
             else
             {
-                ViewModel.ValidationMessages = new List<Message>();
                 ViewModel.Successful = true;
+                ViewModel.ValidationMessages = new List<Message>();
             }
         }
 

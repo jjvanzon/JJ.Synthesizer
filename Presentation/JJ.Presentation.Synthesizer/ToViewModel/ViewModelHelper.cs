@@ -76,18 +76,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             viewModel.Name = entity.Name;
             viewModel.ID = entity.ID;
-
-            if (entity.GetOperatorTypeEnum() == OperatorTypeEnum.Value)
-            {
-                var wrapper = new Value_OperatorWrapper(entity);
-                viewModel.Value = wrapper.Value.ToString();
-            }
-
             viewModel.Caption = GetCaption(entity);
 
             if (entity.OperatorType != null)
             {
                 viewModel.OperatorTypeID = entity.OperatorType.ID;
+            }
+            else
+            {
+                viewModel.OperatorTypeID = 0; // Should never happen.
             }
         }
 

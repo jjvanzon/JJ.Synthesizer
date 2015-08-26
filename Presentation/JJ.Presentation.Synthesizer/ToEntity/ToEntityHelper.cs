@@ -10,11 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Business.CanonicalModel;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToEntity

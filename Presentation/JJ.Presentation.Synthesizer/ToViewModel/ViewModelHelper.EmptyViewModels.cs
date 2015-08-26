@@ -51,12 +51,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_ForCustomOperators = new List<OperatorPropertiesViewModel_ForCustomOperator>(),
                 OperatorPropertiesList_ForPatchInlets = new List<OperatorPropertiesViewModel_ForPatchInlet>(),
                 OperatorPropertiesList_ForPatchOutlets = new List<OperatorPropertiesViewModel_ForPatchOutlet>(),
+                OperatorPropertiesList_ForSamples = new List<OperatorPropertiesViewModel_ForSample>(),
                 OperatorPropertiesList_ForValues = new List<OperatorPropertiesViewModel_ForValue>(),
                 PatchGrid = CreateEmptyPatchGridViewModel(),
                 PatchDetailsList = new List<PatchDetailsViewModel>(),
                 AudioFileOutputGrid = CreateEmptyAudioFileOutputGridViewModel(),
                 AudioFileOutputPropertiesList = new List<AudioFileOutputPropertiesViewModel>(),
-                UnderlyingDocumentLookup = new List<IDAndName>()
+                UnderlyingDocumentLookup = new List<IDAndName>(),
+                SampleLookup = new List<IDAndName>()
             };
 
             return viewModel;

@@ -58,7 +58,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Operator entity = ViewModel.ToEntity(_repositories.OperatorRepository, _repositories.OperatorTypeRepository, _repositories.DocumentRepository);
+            Operator entity = ViewModel.ToEntity(
+                _repositories.OperatorRepository,
+                _repositories.OperatorTypeRepository,
+                _repositories.DocumentRepository);
 
             VoidResult result = _patchManager.ValidateNonRecursive(entity);
             if (!result.Successful)

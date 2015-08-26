@@ -4,7 +4,6 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace JJ.Presentation.Synthesizer.Helpers
 {
@@ -168,6 +167,15 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
+        public static OperatorPropertiesViewModel_ForSample TryGetOperatorPropertiesViewModel_ForSample(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForSample viewModel = ChildDocumentHelper.EnumerateOperatorPropertiesViewModels_ForSamples(rootDocumentViewModel)
+                                                                                  .FirstOrDefault(x => x.ID == operatorID); // First for performance.
+            return viewModel;
+        }
+
         public static OperatorPropertiesViewModel_ForValue TryGetOperatorPropertiesViewModel_ForValue(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -243,6 +251,24 @@ namespace JJ.Presentation.Synthesizer.Helpers
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
                 foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForPatchOutlets)
+                {
+                    yield return propertiesViewModel;
+                }
+            }
+        }
+
+        private static IEnumerable<OperatorPropertiesViewModel_ForSample> EnumerateOperatorPropertiesViewModels_ForSamples(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList_ForSamples)
+            {
+                yield return propertiesViewModel;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForSamples)
                 {
                     yield return propertiesViewModel;
                 }
@@ -345,6 +371,26 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new Exception(String.Format("OperatorPropertiesViewModel_ForPatchOutlet with ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForSample> GetOperatorPropertiesViewModelList_ForSamples_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            if (rootDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+            {
+                return rootDocumentViewModel.OperatorPropertiesList_ForSamples;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                if (childDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+                {
+                    return childDocumentViewModel.OperatorPropertiesList_ForSamples;
+                }
+            }
+
+            throw new Exception(String.Format("OperatorPropertiesViewModel_ForSample with ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForValue> GetOperatorPropertiesViewModelList_ForValues_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
