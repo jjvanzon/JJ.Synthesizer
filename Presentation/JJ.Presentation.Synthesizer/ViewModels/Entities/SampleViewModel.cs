@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public int BytesToSkip { get; set; }
         public IDAndName InterpolationType { get; set; }
 
-        public string Location { get; set; }
+        public string OriginalLocation { get; set; }
 
         /// <summary>
         /// Not always filled in in the view model.

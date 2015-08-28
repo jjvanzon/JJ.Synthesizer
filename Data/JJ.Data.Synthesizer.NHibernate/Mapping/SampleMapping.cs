@@ -20,7 +20,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Map(x => x.IsActive);
             Map(x => x.SamplingRate);
             Map(x => x.BytesToSkip);
-            Map(x => x.Location);
+            Map(x => x.OriginalLocation);
 
             References(x => x.SampleDataType, ColumnNames.SampleDataTypeID);
             References(x => x.SpeakerSetup, ColumnNames.SpeakerSetupID);

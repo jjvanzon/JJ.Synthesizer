@@ -358,7 +358,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             sample.IsActive = viewModel.IsActive;
             sample.SamplingRate = viewModel.SamplingRate;
             sample.BytesToSkip = viewModel.BytesToSkip;
-            sample.Location = viewModel.Location;
+            sample.OriginalLocation = viewModel.OriginalLocation;
 
             if (viewModel.AudioFileFormat != null)
             {

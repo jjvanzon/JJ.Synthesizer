@@ -65,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelIsActive.Text = PropertyDisplayNames.IsActive;
             labelBytesToSkip.Text = PropertyDisplayNames.BytesToSkip;
             labelInterpolationType.Text = PropertyDisplayNames.InterpolationType;
-            labelLocation.Text = PropertyDisplayNames.Location;
+            labelOriginalLocation.Text = PropertyDisplayNames.OriginalLocation;
         }
 
         private void ApplyStyling()
@@ -76,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 StyleHelper.DefaultSpacing,
                 StyleHelper.DefaultSpacing);
 
-            filePathControlLocation.Spacing = StyleHelper.DefaultSpacing;
+            filePathControlOriginalLocation.Spacing = StyleHelper.DefaultSpacing;
 
             StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelContent);
         }
@@ -128,7 +128,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
             comboBoxInterpolationType.SelectedValue = _viewModel.Entity.InterpolationType.ID;
 
-            filePathControlLocation.Text = _viewModel.Entity.Location;
+            filePathControlOriginalLocation.Text = _viewModel.Entity.OriginalLocation;
         }
 
         private void ApplyControlsToViewModel()
@@ -152,7 +152,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             _viewModel.Entity.InterpolationType.ID = (int)comboBoxInterpolationType.SelectedValue;
 
-            _viewModel.Entity.Location = filePathControlLocation.Text;
+            _viewModel.Entity.OriginalLocation = filePathControlOriginalLocation.Text;
         }
 
         // Actions
@@ -182,7 +182,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             Close();
         }
 
-        private void filePathControlLocation_Browsed(object sender, FilePathEventArgs e)
+        private void filePathControlOriginalLocation_Browsed(object sender, FilePathEventArgs e)
         {
             if (_viewModel == null) throw new NullException(() => _viewModel);
 

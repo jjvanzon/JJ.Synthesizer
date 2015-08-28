@@ -198,6 +198,11 @@
             // 
             this.numericUpDownTimeMultiplier.DecimalPlaces = 3;
             this.numericUpDownTimeMultiplier.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numericUpDownTimeMultiplier.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.numericUpDownTimeMultiplier.Location = new System.Drawing.Point(100, 192);
             this.numericUpDownTimeMultiplier.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownTimeMultiplier.Maximum = new decimal(new int[] {
@@ -397,6 +402,11 @@
             // 
             this.numericUpDownStartTime.DecimalPlaces = 3;
             this.numericUpDownStartTime.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numericUpDownStartTime.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.numericUpDownStartTime.Location = new System.Drawing.Point(100, 120);
             this.numericUpDownStartTime.Margin = new System.Windows.Forms.Padding(0);
             this.numericUpDownStartTime.Maximum = new decimal(new int[] {

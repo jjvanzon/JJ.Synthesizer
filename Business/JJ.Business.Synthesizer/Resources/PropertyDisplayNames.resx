@@ -274,8 +274,8 @@
   <data name="BytesToSkip" xml:space="preserve">
     <value>Bytes to Skip</value>
   </data>
-  <data name="Location" xml:space="preserve">
-    <value>Location</value>
+  <data name="OriginalLocation" xml:space="preserve">
+    <value>Original Location</value>
   </data>
   <data name="WhiteNoise" xml:space="preserve">
     <value>White Noise</value>

@@ -23,7 +23,7 @@ namespace JJ.Data.Synthesizer
         /// <summary>
         /// Optional. E.g. the file path.
         /// </summary>
-        public virtual string Location { get; set; }
+        public virtual string OriginalLocation { get; set; }
 
         /// <summary> not nullable </summary>
         public virtual AudioFileFormat AudioFileFormat { get; set; }

@@ -1,0 +1,1 @@
+exec sp_rename 'Sample.Location', 'OriginalLocation', 'COLUMN';

@@ -273,8 +273,8 @@
   <data name="BytesToSkip" xml:space="preserve">
     <value>Bytes overslaan</value>
   </data>
-  <data name="Location" xml:space="preserve">
-    <value>Locatie</value>
+  <data name="OriginalLocation" xml:space="preserve">
+    <value>Oorspronkelijke locatie</value>
   </data>
   <data name="Value" xml:space="preserve">
     <value>Waarde</value>

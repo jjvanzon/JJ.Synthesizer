@@ -247,7 +247,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 IsActive = entity.IsActive,
                 SamplingRate = entity.SamplingRate,
                 BytesToSkip = entity.BytesToSkip,
-                Location = entity.Location,
+                OriginalLocation = entity.OriginalLocation,
                 ID = entity.ID
             };
 
