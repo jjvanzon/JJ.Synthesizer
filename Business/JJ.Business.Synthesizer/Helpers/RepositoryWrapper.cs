@@ -113,5 +113,10 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             DocumentRepository.Rollback();
         }
+
+        public void Flush()
+        {
+            DocumentRepository.Flush();
+        }
     }
 }

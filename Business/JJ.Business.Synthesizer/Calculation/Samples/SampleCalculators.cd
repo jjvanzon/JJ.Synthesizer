@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="JJ.Business.Synthesizer.Calculation.Samples.BlockInterpolation_SampleCalculatorBase" Collapsed="true">
+    <Position X="2" Y="4.75" Width="2.75" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.Calculation.Samples.SampleCalculatorBase" FixedToPoint="true">
+      <Path>
+        <Point X="1.625" Y="2.312" />
+        <Point X="1.625" Y="5.062" />
+        <Point X="2" Y="5.062" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Calculation\Samples\BlockInterpolation_SampleCalculatorBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Calculation.Samples.Byte_BlockInterpolation_SampleCalculator" Collapsed="true">
+    <Position X="5.75" Y="4.75" Width="3" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.Calculation.Samples.BlockInterpolation_SampleCalculatorBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.75" Y="5.062" />
+        <Point X="5.75" Y="5.062" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Calculation\Samples\Byte_BlockInterpolation_SampleCalculator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Calculation.Samples.Byte_LineInterpolation_SampleCalculator" Collapsed="true">
+    <Position X="5.75" Y="2.75" Width="3" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.Calculation.Samples.LineInterpolation_SampleCalculatorBase" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="4.75" Y="3" />
+        <Point X="5.75" Y="3" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Calculation\Samples\Byte_LineInterpolation_SampleCalculator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Calculation.Samples.Byteless_SampleCalculator" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="3" Y="1.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABCBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Calculation\Samples\Byteless_SampleCalculator.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Calculation.Samples.Int16_BlockInterpolation_SampleCalculator" Collapsed="true">
+    <Position X="5.75" Y="5.75" Width="3" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.Calculation.Samples.BlockInterpolation_SampleCalculatorBase" FixedFromPoint="true">
+      <Path>
+        <Point X="4.75" Y="5.062" />
+        <Point X="5.125" Y="5.062" />
+        <Point X="5.125" Y="6.096" />
+        <Point X="5.75" Y="6.096" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Calculation\Samples\Int16_BlockInterpolation_SampleCalculator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Calculation.Samples.Int16_LineInterpolation_SampleCalculator" Collapsed="true">
+    <Position X="5.75" Y="3.75" Width="3" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.Calculation.Samples.LineInterpolation_SampleCalculatorBase" FixedFromPoint="true">
+      <Path>
+        <Point X="4.75" Y="3" />
+        <Point X="5.125" Y="3" />
+        <Point X="5.125" Y="4.096" />
+        <Point X="5.75" Y="4.096" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>Calculation\Samples\Int16_LineInterpolation_SampleCalculator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Calculation.Samples.LineInterpolation_SampleCalculatorBase" Collapsed="true">
+    <Position X="2" Y="2.75" Width="2.75" />
+    <InheritanceLine Type="JJ.Business.Synthesizer.Calculation.Samples.SampleCalculatorBase" FixedToPoint="true">
+      <Path>
+        <Point X="1.625" Y="2.312" />
+        <Point X="1.625" Y="3.125" />
+        <Point X="2" Y="3.125" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Calculation\Samples\LineInterpolation_SampleCalculatorBase.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Calculation.Samples.SampleCalculatorBase" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>ABCBAAAIAAAAAAAIAAAAAAAAAAAAAAQAAAAAAQAAAAA=</HashCode>
+      <FileName>Calculation\Samples\SampleCalculatorBase.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="JJ.Business.Synthesizer.Calculation.Samples.SampleCalculatorFactory" Collapsed="true">
+    <Position X="0.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Calculation\Samples\SampleCalculatorFactory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="JJ.Business.Synthesizer.Calculation.Samples.ISampleCalculator" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Calculation\Samples\ISampleCalculator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -1,21 +1,25 @@
 ﻿using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
+    // TODO: Expose through sample manager only and make this class internal.
     public static class SampleCalculatorFactory
     {
-        public static ISampleCalculator CreateSampleCalculator(Sample sample)
+        /// <param name="bytes">nullable</param>
+        public static ISampleCalculator CreateSampleCalculator(Sample sample, byte[] bytes)
         {
             if (sample == null) throw new NullException(() => sample);
+
+            if (bytes == null || bytes.Length == 0)
+            {
+                return new Byteless_SampleCalculator(sample.GetChannelCount());
+            }
 
             SampleDataTypeEnum sampleDataType = sample.GetSampleDataTypeEnum();
             InterpolationTypeEnum interpolationType = sample.GetInterpolationTypeEnum();
@@ -26,10 +30,10 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                     switch (sampleDataType)
                     {
                         case SampleDataTypeEnum.Int16:
-                            return new Int16_BlockInterpolation_SampleCalculator(sample);
+                            return new Int16_BlockInterpolation_SampleCalculator(sample, bytes);
 
                         case SampleDataTypeEnum.Byte:
-                            return new Byte_BlockInterpolation_SampleCalculator(sample);
+                            return new Byte_BlockInterpolation_SampleCalculator(sample, bytes);
                     }
                     break;
 
@@ -37,10 +41,10 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
                     switch (sampleDataType)
                     {
                         case SampleDataTypeEnum.Int16:
-                            return new Int16_LineInterpolation_SampleCalculator(sample);
+                            return new Int16_LineInterpolation_SampleCalculator(sample, bytes);
 
                         case SampleDataTypeEnum.Byte:
-                            return new Byte_LineInterpolation_SampleCalculator(sample);
+                            return new Byte_LineInterpolation_SampleCalculator(sample, bytes);
                     }
                     break;
             }

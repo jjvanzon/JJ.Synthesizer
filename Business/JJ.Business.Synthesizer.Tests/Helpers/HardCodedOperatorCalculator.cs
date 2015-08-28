@@ -12,9 +12,9 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
     {
         private ISampleCalculator _sampleCalculator;
 
-        public HardCodedOperatorCalculator(Sample sample)
+        public HardCodedOperatorCalculator(Sample sample, byte[] bytes)
         {
-            _sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sample);
+            _sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sample, bytes);
         }
 
         public double CalculateTimePowerWithEcho(double time)

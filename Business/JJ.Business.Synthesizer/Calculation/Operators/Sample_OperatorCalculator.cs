@@ -1,11 +1,8 @@
 ﻿using JJ.Business.Synthesizer.Calculation.Samples;
-using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -13,9 +10,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private ISampleCalculator _sampleCalculator;
 
-        public Sample_OperatorCalculator(Sample sample)
+        /// <param name="bytes">nullable</param>
+        public Sample_OperatorCalculator(Sample sample, byte[] bytes)
         {
-            _sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sample);
+            _sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sample, bytes);
         }
 
         public override double Calculate(double time, int channelIndex)

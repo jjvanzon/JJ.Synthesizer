@@ -39,8 +39,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Sample_TrySetBinary.sql" />
-    <EmbeddedResource Include="Sample_TryGetBinary.sql" />
+    <EmbeddedResource Include="Sample_TrySetBytes.sql" />
+    <EmbeddedResource Include="Sample_TryGetBytes.sql" />
     <Compile Include="SqlEnum.cs" />
     <Compile Include="SynthesizerSqlExecutor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

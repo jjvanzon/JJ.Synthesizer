@@ -235,7 +235,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Sample
 
-        public static SampleViewModel ToViewModel(this Sample entity)
+        public static SampleViewModel ToViewModel(this Sample entity, byte[] bytes)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -250,6 +250,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Location = entity.Location,
                 ID = entity.ID
             };
+
+            viewModel.Bytes = bytes;
 
             if (entity.AudioFileFormat != null)
             {

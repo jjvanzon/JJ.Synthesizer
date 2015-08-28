@@ -215,7 +215,8 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager patchManager = TestHelper.CreatePatchManager(context);
 
                 Stream sampleStream = TestHelper.GetViolin16BitMono44100WavStream();
-                Sample sample = sampleManager.CreateSample(sampleStream);
+                SampleInfo sampleInfo = sampleManager.CreateSample(sampleStream);
+                Sample sample = sampleInfo.Sample;
                 sample.SamplingRate = 8000;
                 sample.BytesToSkip = 100;
 
@@ -248,7 +249,8 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager patchManager = TestHelper.CreatePatchManager(context);
 
                 Stream sampleStream = TestHelper.GetViolin16BitMono44100WavStream();
-                Sample sample = sampleManager.CreateSample(sampleStream);
+                SampleInfo sampleInfo = sampleManager.CreateSample(sampleStream);
+                Sample sample = sampleInfo.Sample;
                 sample.SamplingRate = 8000;
                 sample.BytesToSkip = 100;
 
@@ -281,11 +283,12 @@ namespace JJ.Business.Synthesizer.Tests
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
 
                 Stream sampleStream = TestHelper.GetViolin16BitMono44100WavStream();
-                Sample sample = sampleManager.CreateSample(sampleStream);
+                SampleInfo sampleInfo = sampleManager.CreateSample(sampleStream);
+                Sample sample = sampleInfo.Sample;
                 sample.SamplingRate = 8000;
                 sample.BytesToSkip = 100;
 
-                var hardCodedCalculator = new HardCodedOperatorCalculator(sample);
+                var hardCodedCalculator = new HardCodedOperatorCalculator(sample, StreamHelper.StreamToBytes(sampleStream));
 
                 Stopwatch sw = Stopwatch.StartNew();
                 using (Stream destStream = new FileStream("Test_Synthesizer_HardCodedTimePowerWithEcho.wav", FileMode.Create, FileAccess.Write, FileShare.Read))
@@ -338,11 +341,12 @@ namespace JJ.Business.Synthesizer.Tests
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
 
                 Stream sampleStream = TestHelper.GetViolin16BitMono44100WavStream();
-                Sample sample = sampleManager.CreateSample(sampleStream);
+                SampleInfo sampleInfo = sampleManager.CreateSample(sampleStream);
+                Sample sample = sampleInfo.Sample;
                 sample.SamplingRate = 8000;
                 sample.BytesToSkip = 100;
 
-                var hardCodedCalculator = new HardCodedOperatorCalculator(sample);
+                var hardCodedCalculator = new HardCodedOperatorCalculator(sample, StreamHelper.StreamToBytes(sampleStream));
 
                 Stopwatch sw = Stopwatch.StartNew();
                 using (Stream destStream = new FileStream("Test_Synthesizer_HardCodedMultiplyWithEcho.wav", FileMode.Create, FileAccess.Write, FileShare.Read))
@@ -602,7 +606,8 @@ namespace JJ.Business.Synthesizer.Tests
                 int alternativeSamplingRate = outputSamplingRate / 8;
 
                 Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
-                Sample sample = sampleManager.CreateSample(stream);
+                SampleInfo sampleInfo = sampleManager.CreateSample(stream);
+                Sample sample = sampleInfo.Sample;
                 sample.SamplingRate = 10000;
                 sample.BytesToSkip = 200;
 
@@ -744,7 +749,8 @@ namespace JJ.Business.Synthesizer.Tests
                 Curve curve = curveFactory.CreateCurve(duration, samplingRate2, samplingRate1);
 
                 Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
-                Sample sample = sampleManager.CreateSample(stream);
+                SampleInfo sampleInfo = sampleManager.CreateSample(stream);
+                Sample sample = sampleInfo.Sample;
                 sample.SamplingRate = 10000;
                 sample.BytesToSkip = 200;
 
@@ -827,7 +833,8 @@ namespace JJ.Business.Synthesizer.Tests
                 
                 // Build up Consuming Patch
                 Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
-                Sample sample = sampleManager.CreateSample(stream);
+                SampleInfo sampleInfo = sampleManager.CreateSample(stream);
+                Sample sample = sampleInfo.Sample;
                 var sampleOperator = x.Sample(sample);
                 var customOperator = x.CustomOperator(document, sampleOperator);
 

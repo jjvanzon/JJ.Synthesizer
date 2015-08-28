@@ -193,6 +193,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             string sampleFilePath = config.PatchPlayHackedSampleFilePath;
             string outputFilePath = config.PatchPlayHackedAudioFileOutputFilePath;
 
+            // TODO: You don't need to do this. This has already been done by the MainPresenter.
+            // You only need to do a get. Test when you adapt this.
             Patch patch = ToEntity(ViewModel);
 
             VoidResult result = DoPlay(duration, sampleFilePath, outputFilePath, patch, repositoryWrapper);
@@ -213,11 +215,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Operator patchOutlet = patch.Operators
                                         .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
                                         .FirstOrDefault();
-
-            Operator sampleOperator = patch.Operators
-                                           .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
-                                           .FirstOrDefault();
-
             if (patchOutlet == null)
             {
                 result.Successful = false;
@@ -229,32 +226,36 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return result;
             }
 
-            Sample_OperatorWrapper sampleOperatorWrapper = null;
+            //Sample_OperatorWrapper sampleOperatorWrapper = null;
 
-            if (sampleOperator != null)
-            {
-                // TODO: Refactor out dependency on file system.
-                if (!File.Exists(sampleFilePath))
-                {
-                    result.Successful = false;
-                    result.Messages.Add(new Message
-                    {
-                        PropertyKey = PropertyNames.Patch,
-                        Text = PresentationMessageFormatter.SampleFileDoesNotExistWithLocation(Path.GetFullPath(sampleFilePath))
-                    });
-                    return result;
-                }
+            //Operator sampleOperator = patch.Operators
+            //                               .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
+            //                               .FirstOrDefault();
+            //if (sampleOperator != null)
+            //{
+            //    // TODO: Refactor out dependency on file system.
+            //    if (!File.Exists(sampleFilePath))
+            //    {
+            //        result.Successful = false;
+            //        result.Messages.Add(new Message
+            //        {
+            //            PropertyKey = PropertyNames.Patch,
+            //            Text = PresentationMessageFormatter.SampleFileDoesNotExistWithLocation(Path.GetFullPath(sampleFilePath))
+            //        });
+            //        return result;
+            //    }
 
-                SampleManager sampleManager = CreateSampleManager(repositoryWrapper);
+            //    SampleManager sampleManager = CreateSampleManager(repositoryWrapper);
 
-                using (Stream sampleStream = new FileStream(sampleFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-                {
-                    Sample sample = sampleManager.CreateSample(sampleStream);
+            //    using (Stream sampleStream = new FileStream(sampleFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            //    {
+            //        SampleInfo sampleInfo = sampleManager.CreateSample(sampleStream);
+            //        Sample sample = sampleInfo.Sample;
 
-                    sampleOperatorWrapper = new Sample_OperatorWrapper(sampleOperator, _repositories.SampleRepository);
-                    sampleOperatorWrapper.Sample = sample;
-                }
-            }
+            //        sampleOperatorWrapper = new Sample_OperatorWrapper(sampleOperator, _repositories.SampleRepository);
+            //        sampleOperatorWrapper.Sample = sample;
+            //    }
+            //}
 
             AudioFileOutputManager audioFileOutputManager = CreateAudioFileOutputManager(repositoryWrapper);
 
@@ -268,10 +269,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             audioFileOutputManager.Execute(audioFileOutput);
 
-            if (sampleOperatorWrapper != null)
-            {
-                sampleOperatorWrapper.Sample = null;
-            }
+            //if (sampleOperatorWrapper != null)
+            //{
+            //    sampleOperatorWrapper.Sample = null;
+            //}
 
             return new VoidResult
             {

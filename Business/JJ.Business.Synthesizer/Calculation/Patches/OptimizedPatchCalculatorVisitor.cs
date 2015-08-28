@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Visitors;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -773,25 +774,25 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
 
-            Sample sample = wrapper.Sample;
-            if (sample == null)
+            SampleInfo sampleInfo = wrapper.SampleInfo;
+            if (sampleInfo.Sample == null)
             {
                 calculator = new Value_OperatorCalculator(0);
             }
             else
             {
-                int sampleChannelCount = sample.GetChannelCount();
+                int sampleChannelCount = sampleInfo.Sample.GetChannelCount();
                 if (sampleChannelCount == _channelCount)
                 {
-                    calculator = new Sample_OperatorCalculator(sample);
+                    calculator = new Sample_OperatorCalculator(sampleInfo.Sample, sampleInfo.Bytes);
                 }
                 else if (sampleChannelCount == 1 && _channelCount == 2)
                 {
-                    calculator = new Sample_MonoToStereo_OperatorCalculator(sample);
+                    calculator = new Sample_MonoToStereo_OperatorCalculator(sampleInfo.Sample, sampleInfo.Bytes);
                 }
                 else if (sampleChannelCount == 2 && _channelCount == 1)
                 {
-                    calculator = new Sample_StereoToMono_OperatorCalculator(sample);
+                    calculator = new Sample_StereoToMono_OperatorCalculator(sampleInfo.Sample, sampleInfo.Bytes);
                 }
                 else
                 {

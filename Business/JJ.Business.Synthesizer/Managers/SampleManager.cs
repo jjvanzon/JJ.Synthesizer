@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
@@ -7,21 +6,15 @@ using JJ.Framework.Business;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ValidationMessage = JJ.Business.CanonicalModel.Message;
 using JJ.Business.Synthesizer.Helpers;
 using System.IO;
 using JJ.Framework.Common;
 using JJ.Framework.IO;
 using JJ.Business.Synthesizer.Converters;
 using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -51,7 +44,9 @@ namespace JJ.Business.Synthesizer.Managers
             return sample;
         }
 
-        public Sample CreateSample(Stream stream, AudioFileFormatEnum audioFileFormatEnum)
+        // TODO: Make overloads that take byte[], but try to prevent doing a BytesToStream followed by a StreamToBytes again.
+
+        public SampleInfo CreateSample(Stream stream, AudioFileFormatEnum audioFileFormatEnum)
         {
             if (stream == null) throw new NullException(() => stream);
 
@@ -72,7 +67,7 @@ namespace JJ.Business.Synthesizer.Managers
         /// Creates a Sample from the stream and sets its defaults.
         /// Detects the format from the header.
         /// </summary>
-        public Sample CreateSample(Stream stream)
+        public SampleInfo CreateSample(Stream stream)
         {
             if (stream == null) throw new NullException(() => stream);
 
@@ -88,16 +83,20 @@ namespace JJ.Business.Synthesizer.Managers
                 {
                     Sample wavSample = CreateWavSample(wavHeaderStruct);
                     stream.Position = 0;
-                    wavSample.Bytes = StreamHelper.StreamToBytes(stream);
-                    return wavSample;
+                    byte[] bytes = StreamHelper.StreamToBytes(stream);
+                    return new SampleInfo
+                    {
+                        Sample = wavSample,
+                        Bytes = bytes
+                    };
                 }
             }
 
-            Sample rawSample = CreateSample(stream, AudioFileFormatEnum.Raw);
-            return rawSample;
+            SampleInfo rawSampleInfo = CreateSample(stream, AudioFileFormatEnum.Raw);
+            return rawSampleInfo;
         }
 
-        private Sample CreateWavSample(Stream stream)
+        private SampleInfo CreateWavSample(Stream stream)
         {
             // Read header
             if (stream.Length < WavHeaderConstants.WAV_HEADER_LENGTH)
@@ -116,9 +115,13 @@ namespace JJ.Business.Synthesizer.Managers
             // Create Sample
             Sample sample = CreateWavSample(wavHeaderStruct);
             stream.Position = 0;
-            sample.Bytes = StreamHelper.StreamToBytes(stream);
+            byte[] bytes = StreamHelper.StreamToBytes(stream);
 
-            return sample;
+            return new SampleInfo
+            {
+                Sample = sample,
+                Bytes = bytes
+            };
         }
 
         private Sample CreateWavSample(WavHeaderStruct wavHeaderStruct)
@@ -160,13 +163,19 @@ namespace JJ.Business.Synthesizer.Managers
             return sample;
         }
 
-        private Sample CreateRawSample(Stream stream)
+        private SampleInfo CreateRawSample(Stream stream)
         {
             Sample sample = CreateSample();
             sample.SetAudioFileFormatEnum(AudioFileFormatEnum.Raw, _repositories.AudioFileFormatRepository);
             stream.Position = 0;
-            sample.Bytes = StreamHelper.StreamToBytes(stream);
-            return sample;
+
+            byte[] bytes = StreamHelper.StreamToBytes(stream);
+
+            return new SampleInfo
+            {
+                Sample = sample,
+                Bytes = bytes
+            };
         }
 
         public IValidator Validate(Sample sample)

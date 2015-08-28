@@ -17,13 +17,22 @@ namespace JJ.Business.Synthesizer.Extensions
             return sample.SpeakerSetup.SpeakerSetupChannels.Count;
         }
 
-        public static double GetDuration(this Sample sample)
+        /// <param name="bytes">nullable</param>
+        public static double GetDuration(this Sample sample, byte[] bytes)
+        {
+            // Bytes are nullable, so we choose here not to make GetDuration crash on that.
+            if (bytes == null) return 0.0;
+            if (bytes.Length == 0) return 0.0;
+
+            return sample.GetDuration(bytes.Length);
+        }
+
+        public static double GetDuration(this Sample sample, long byteCount)
         {
             if (sample == null) throw new NullException(() => sample);
-            if (sample.Bytes.Length == 0) throw new ZeroException(() => sample.Bytes.Length);
             if (sample.SamplingRate == 0) throw new ZeroException(() => sample.SamplingRate);
 
-            double duration = (double)(sample.Bytes.Length - sample.BytesToSkip)
+            double duration = (double)(byteCount - sample.BytesToSkip)
                               / (double)sample.GetChannelCount()
                               / (double)sample.SamplingRate
                               / (double)SampleDataTypeHelper.SizeOf(sample.SampleDataType)

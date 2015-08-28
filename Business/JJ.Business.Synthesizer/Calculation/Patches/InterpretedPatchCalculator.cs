@@ -522,27 +522,27 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return result;
         }
 
-        private Dictionary<Operator, Sample> _sampleOperator_Sample_Dictionary = new Dictionary<Operator, Sample>();
+        private Dictionary<Operator, SampleInfo> _sampleOperator_SampleInfo_Dictionary = new Dictionary<Operator, SampleInfo>();
         private Dictionary<int, ISampleCalculator> _sampleCalculatorDictionary =
             new Dictionary<int, ISampleCalculator>();
 
         private double CalculateSampleOperator(Operator op, double time)
         {
-            Sample sample;
-            if (!_sampleOperator_Sample_Dictionary.TryGetValue(op, out sample))
+            SampleInfo sampleInfo;
+            if (!_sampleOperator_SampleInfo_Dictionary.TryGetValue(op, out sampleInfo))
             {
                 var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
-                sample = wrapper.Sample;
-                _sampleOperator_Sample_Dictionary.Add(op, sample);
+                sampleInfo = wrapper.SampleInfo;
+                _sampleOperator_SampleInfo_Dictionary.Add(op, sampleInfo);
             }
 
-            if (sample == null) return 0;
+            if (sampleInfo.Sample == null) return 0;
 
             ISampleCalculator sampleCalculator;
-            if (!_sampleCalculatorDictionary.TryGetValue(sample.ID, out sampleCalculator))
+            if (!_sampleCalculatorDictionary.TryGetValue(sampleInfo.Sample.ID, out sampleCalculator))
             {
-                sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sample);
-                _sampleCalculatorDictionary.Add(sample.ID, sampleCalculator);
+                sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sampleInfo.Sample, sampleInfo.Bytes);
+                _sampleCalculatorDictionary.Add(sampleInfo.Sample.ID, sampleCalculator);
             }
 
             // This is a solution for when the sample channels do not match the channel we want.

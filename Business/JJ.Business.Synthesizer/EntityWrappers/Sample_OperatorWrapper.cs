@@ -1,14 +1,10 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -52,6 +48,34 @@ namespace JJ.Business.Synthesizer.EntityWrappers
                 }
 
                 SampleID = value.ID;
+            }
+        }
+
+        /// <summary> nullable </summary>
+        public byte[] SampleBytes
+        {
+            get
+            {
+                int? sampleID = SampleID;
+                if (!sampleID.HasValue)
+                {
+                    return null;
+                }
+
+                return _sampleRepository.TryGetBytes(sampleID.Value);
+            }
+        }
+
+        /// <summary> not nullable </summary>
+        public SampleInfo SampleInfo
+        {
+            get
+            {
+                return new SampleInfo
+                {
+                    Sample = this.Sample,
+                    Bytes = this.SampleBytes
+                };
             }
         }
 

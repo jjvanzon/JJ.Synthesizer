@@ -71,5 +71,20 @@ namespace JJ.Business.Synthesizer.Helpers
             EntityPositionRepository = entityPositionRepository;
             IDRepository = idRepository;
         }
+
+        public void Commit()
+        {
+            DocumentRepository.Commit();
+        }
+
+        public void Rollback()
+        {
+            DocumentRepository.Rollback();
+        }
+
+        public void Flush()
+        {
+            DocumentRepository.Flush();
+        }
     }
 }

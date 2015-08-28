@@ -1918,6 +1918,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
+                ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
+
                 string outputFilePath = _patchDetailsPresenter.Play(_repositoryWrapper);
 
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);

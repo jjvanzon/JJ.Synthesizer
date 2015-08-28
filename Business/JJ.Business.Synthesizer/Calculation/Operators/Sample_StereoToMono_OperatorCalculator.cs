@@ -6,8 +6,6 @@ using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -15,12 +13,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private ISampleCalculator _sampleCalculator;
 
-        public Sample_StereoToMono_OperatorCalculator(Sample sample)
+        /// <param name="bytes">nullable</param>
+        public Sample_StereoToMono_OperatorCalculator(Sample sample, byte[] bytes)
         {
             if (sample == null) throw new NullException(() => sample);
-            if (sample.GetSpeakerSetupEnum() != SpeakerSetupEnum.Stereo) throw new Exception("sample.GetSpeakerSetupEnum() cannot be Stereo.");
+            if (sample.GetSpeakerSetupEnum() != SpeakerSetupEnum.Stereo) throw new NotEqualException(() => sample.GetSpeakerSetupEnum(), SpeakerSetupEnum.Stereo);
 
-            _sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sample);
+            _sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sample, bytes);
         }
 
         public override double Calculate(double time, int channelIndex)

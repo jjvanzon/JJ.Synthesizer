@@ -38,13 +38,14 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
                 Stream stream = TestHelper.GetViolin16BitMonoRawStream();
-                Sample sample = sampleManager.CreateSample(stream, AudioFileFormatEnum.Raw);
+                SampleInfo sampleInfo = sampleManager.CreateSample(stream, AudioFileFormatEnum.Raw);
+                Sample sample = sampleInfo.Sample;
 
                 IValidator sampleValidator = sampleManager.Validate(sample);
                 sampleValidator.Verify();
 
                 double timeMultiplier = 1;
-                double duration = sample.GetDuration();
+                double duration = sample.GetDuration(stream.Length);
 
                 PatchManager x = TestHelper.CreatePatchManager(context);
                 Outlet outlet = x.TimeMultiply(x.Sample(sample), x.Value(timeMultiplier));
@@ -73,7 +74,8 @@ namespace JJ.Business.Synthesizer.Tests
                 Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
 
                 SampleManager sampleManager = TestHelper.CreateSampleManager(context);
-                Sample sample = sampleManager.CreateSample(stream, AudioFileFormatEnum.Wav);
+                SampleInfo sampleInfo = sampleManager.CreateSample(stream, AudioFileFormatEnum.Wav);
+                Sample sample = sampleInfo.Sample;
 
                 PatchManager x = TestHelper.CreatePatchManager(context);
                 Outlet outlet = x.Sample(sample);
@@ -96,8 +98,8 @@ namespace JJ.Business.Synthesizer.Tests
                 Stream wavStream = TestHelper.GetViolin16BitMono44100WavStream();
                 Stream rawStream = TestHelper.GetViolin16BitMonoRawStream();
 
-                Sample wavSample = sampleManager.CreateSample(wavStream);
-                Sample rawSample = sampleManager.CreateSample(rawStream);
+                SampleInfo wavSampleInfo = sampleManager.CreateSample(wavStream);
+                SampleInfo rawSampleInfo = sampleManager.CreateSample(rawStream);
             }
         }
     }

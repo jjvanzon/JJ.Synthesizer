@@ -421,8 +421,8 @@
             this.Size = new System.Drawing.Size(10, 10);
             this.Load += new System.EventHandler(this.SamplePropertiesUserControl_Load);
             this.VisibleChanged += new System.EventHandler(this.AudioFileOutputPropertiesUserControl_VisibleChanged);
-            this.Enter += new System.EventHandler(this.AudioFileOutputPropertiesUserControl_Enter);
-            this.Leave += new System.EventHandler(this.AudioFileOutputPropertiesUserControl_Leave);
+            this.Enter += new System.EventHandler(this.SamplePropertiesUserControl_Enter);
+            this.Leave += new System.EventHandler(this.SamplePropertiesUserControl_Leave);
             this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelContent.ResumeLayout(false);
             this.tableLayoutPanelContent.PerformLayout();

@@ -55,6 +55,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
+            // TODO: Consider letting ToEntity return SampleInfo, because it also updates the sample's Bytes.
             Sample entity = ViewModel.ToEntity(_sampleRepositories);
 
             IValidator validator = new SampleValidator_InDocument(entity);

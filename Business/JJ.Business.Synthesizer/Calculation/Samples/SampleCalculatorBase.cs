@@ -3,8 +3,6 @@ using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using System.IO;
@@ -16,10 +14,17 @@ using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
+    /// <summary>
+    /// There is null-tollerance towards the byte[],
+    /// because it is considered optional in the entity model.
+    /// You are playing around with data a lot and simply a not-loaded sample is only warning,
+    /// so should not block starting calculations.
+    /// </summary>
     internal abstract class SampleCalculatorBase : ISampleCalculator
     {
         protected Sample _sample;
-        /// <summary> SamplingRate / TimeMultiplier </summary>
+        protected byte[] _bytes;
+        /// <summary> SamplingRate divided by TimeMultiplier </summary>
         protected double _rate;
         protected double[,] _samples;
 
@@ -28,32 +33,32 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
         /// </summary>
         public int ChannelCount { get; private set; }
 
-        public SampleCalculatorBase(Sample sample)
+        public SampleCalculatorBase(Sample sample, byte[] bytes)
         {
             if (sample == null) throw new NullException(() => sample);
             if (sample.TimeMultiplier == 0) throw new ZeroException(() => sample.TimeMultiplier);
+            if (bytes == null) throw new Exception("bytes cannot be null. A null byte array can only be handled by a Byteless_SampleCalculator.");
             
             IValidator validator = new SampleValidator(sample);
             validator.Verify();
 
             _sample = sample;
+            _bytes = bytes;
             _rate = _sample.SamplingRate / _sample.TimeMultiplier;
 
             ChannelCount = _sample.GetChannelCount();
 
-            _samples = ReadSamples(sample);
+            _samples = ReadSamples(_sample, _bytes);
         }
 
-        private double[,] ReadSamples(Sample sample)
+        private double[,] ReadSamples(Sample sample, byte[] bytes)
         {
-            if (sample == null) throw new NullException(() => sample);
-
             int bytesPerSample = SampleDataTypeHelper.SizeOf(sample.SampleDataType);
             double amplifier = sample.Amplifier;
             double[] doubles;
 
             // First read out the doubles.
-            using (Stream stream = StreamHelper.BytesToStream(sample.Bytes))
+            using (Stream stream = StreamHelper.BytesToStream(bytes))
             {
                 // Skip header
                 AudioFileFormatEnum audioFileFormatEnum = sample.GetAudioFileFormatEnum();

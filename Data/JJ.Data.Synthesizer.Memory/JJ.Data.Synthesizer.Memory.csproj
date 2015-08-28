@@ -64,6 +64,7 @@
     <Compile Include="Repositories\IDRepository.cs" />
     <Compile Include="Repositories\OperatorTypeRepository.cs" />
     <Compile Include="Repositories\EntityPositionRepository.cs" />
+    <Compile Include="Repositories\SampleRepository.cs" />
     <Compile Include="Repositories\SpeakerSetupRepository.cs" />
     <Compile Include="Repositories\SpeakerSetupChannelRepository.cs" />
     <Compile Include="Repositories\AudioFileFormatRepository.cs" />

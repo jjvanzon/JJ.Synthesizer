@@ -1,19 +1,20 @@
 ﻿using JJ.Framework.Data;
 using JJ.Framework.Data.NHibernate;
-using JJ.Framework.Data.SqlClient;
 using JJ.Data.Synthesizer.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Data.Synthesizer.NHibernate.Helpers;
 
 namespace JJ.Data.Synthesizer.NHibernate.Repositories
 {
-    public class SampleRepository : JJ.Data.Synthesizer.DefaultRepositories.SampleRepository
+    public class SampleRepository : DefaultRepositories.SampleRepository
     {
         private new NHibernateContext _context;
+
+        // Cache Bytes column, so we can get non-flushed bytes.
+        private Dictionary<int, byte[]> _bytesDictionary = new Dictionary<int, byte[]>();
+        private object _bytesDictionaryLock = new object();
 
         public SampleRepository(IContext context)
             : base(context)
@@ -21,24 +22,31 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
             _context = (NHibernateContext)context;
         }
 
-        public override byte[] GetBinary(int id)
+        public override byte[] TryGetBytes(int id)
         {
-            SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
-            byte[] binary = sqlExecutor.Sample_TryGetBinary(id);
-            if (binary == null)
+            lock (_bytesDictionary)
             {
-                throw new Exception(String.Format("Binary is null for Sample with id '{0}' or the Sample does not exist.", id));
+                byte[] bytes;
+                if (!_bytesDictionary.TryGetValue(id, out bytes))
+                {
+                    SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
+                    bytes = sqlExecutor.Sample_TryGetBytes(id);
+                    _bytesDictionary[id] = bytes;
+                }
+
+                return bytes;
             }
-            return binary;
         }
 
-        public override void SetBinary(int id, byte[] bytes)
+        public override void SetBytes(int id, byte[] bytes)
         {
             SynthesizerSqlExecutor sqlExecutor = SqlExecutorHelper.CreateSynthesizerSqlExecutor(_context);
+            sqlExecutor.Sample_TrySetBytes(id, bytes);
 
-            Get(id); // Force an exception when the entity does not exist.
-
-            sqlExecutor.Sample_TrySetBinary(id, bytes);
+            lock (_bytesDictionary)
+            {
+                _bytesDictionary[id] = bytes;
+            }
         }
     }
 }

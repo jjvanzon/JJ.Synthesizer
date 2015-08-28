@@ -62,5 +62,20 @@ namespace JJ.Business.Synthesizer.Helpers
             OutletRepository = outletRepository;
             IDRepository = idRepository;
         }
+
+        public void Commit()
+        {
+            DocumentRepository.Commit();
+        }
+
+        public void Rollback()
+        {
+            DocumentRepository.Rollback();
+        }
+
+        public void Flush()
+        {
+            DocumentRepository.Flush();
+        }
     }
 }

@@ -36,9 +36,6 @@ namespace JJ.Data.Synthesizer
 
         /// <summary> not nullable </summary>
         public virtual SpeakerSetup SpeakerSetup { get; set; }
-
-        public virtual byte[] Bytes { get; set; }
-
         /// <summary> parent, nullable </summary>
         public virtual Document Document { get; set; }
     }

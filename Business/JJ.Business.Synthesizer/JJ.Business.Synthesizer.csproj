@@ -132,6 +132,7 @@
     <Compile Include="Calculation\Samples\LineInterpolation_SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\ISampleCalculator.cs" />
     <Compile Include="Calculation\Samples\Int16_BlockInterpolation_SampleCalculator.cs" />
+    <Compile Include="Calculation\Samples\Byteless_SampleCalculator.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorFactory.cs" />
     <Compile Include="Calculation\WhiteNoiseCalculator.cs" />
@@ -143,6 +144,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\OperatorConstants.cs" />
     <Compile Include="Helpers\PatchRepositories.cs" />
+    <Compile Include="Helpers\SampleInfo.cs" />
     <Compile Include="Helpers\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
     <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />
@@ -374,6 +376,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>OptimizedPatchCalculatorVisitor.VisitAdder.cs</LastGenOutput>
     </None>
+    <None Include="Calculation\Samples\SampleCalculators.cd" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

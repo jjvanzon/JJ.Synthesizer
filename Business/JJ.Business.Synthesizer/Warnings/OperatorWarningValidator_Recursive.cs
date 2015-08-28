@@ -44,7 +44,8 @@ namespace JJ.Business.Synthesizer.Warnings
                     Sample sample = _sampleRepository.TryGet(sampleID);
                     if (sample != null)
                     {
-                        Execute(new SampleWarningValidator(sample, _alreadyDone));
+                        byte[] bytes = _sampleRepository.TryGetBytes(sampleID);
+                        Execute(new SampleWarningValidator(sample, bytes, _alreadyDone));
                     }
                 }
             }

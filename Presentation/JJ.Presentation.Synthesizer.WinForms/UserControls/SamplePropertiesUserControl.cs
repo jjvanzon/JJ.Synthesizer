@@ -201,17 +201,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        // This event goes off when I call AudioFileOutputPropertiesUserControl.SetFocus after clicking on a DataGridView,
-        // but does not go off when I call AudioFileOutputPropertiesUserControl.SetFocus after clicking on a TreeView.
+        // This event goes off when I call SamplePropertiesUserControl.SetFocus after clicking on a DataGridView,
+        // but does not go off when I call SamplePropertiesUserControl.SetFocus after clicking on a TreeView.
         // Thanks, WinForms...
-        private void AudioFileOutputPropertiesUserControl_Enter(object sender, EventArgs e)
+        private void SamplePropertiesUserControl_Enter(object sender, EventArgs e)
         {
             textBoxName.Focus();
             textBoxName.Select(0, 0);
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
-        private void AudioFileOutputPropertiesUserControl_Leave(object sender, EventArgs e)
+        private void SamplePropertiesUserControl_Leave(object sender, EventArgs e)
         {
             // This Visible check is there because the leave event (lose focus) goes off after I closed, 
             // making it want to save again, even though view model is empty

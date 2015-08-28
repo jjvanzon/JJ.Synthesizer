@@ -1,0 +1,1 @@
+﻿update Sample set Bytes = @bytes where ID = @id;

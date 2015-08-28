@@ -1,19 +1,14 @@
-﻿using JJ.Business.Synthesizer.Calculation.Samples;
-using JJ.Framework.IO;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Data.Synthesizer;
+﻿using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     internal abstract class LineInterpolation_SampleCalculatorBase : SampleCalculatorBase
     {
-        public LineInterpolation_SampleCalculatorBase(Sample sample)
-            : base(sample)
+        public LineInterpolation_SampleCalculatorBase(Sample sample, byte[] bytes)
+            : base(sample, bytes)
         { }
 
         public override double CalculateValue(double time, int channelIndex)

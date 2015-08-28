@@ -49,8 +49,10 @@ namespace JJ.Business.Synthesizer.Warnings
 
             foreach (Sample sample in document.Samples)
             {
+                byte[] bytes = _sampleRepository.TryGetBytes(sample.ID);
+
                 string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Sample, sample.Name);
-                Execute(new SampleWarningValidator(sample, _alreadyDone), messagePrefix);
+                Execute(new SampleWarningValidator(sample, bytes, _alreadyDone), messagePrefix);
             }
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)

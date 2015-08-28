@@ -4,7 +4,7 @@
     {
         Document_GetPageOfRootDocumentIDsOrderedByName,
         GetID,
-        Sample_TryGetBinary,
-        Sample_TrySetBinary
+        Sample_TryGetBytes,
+        Sample_TrySetBytes
     }
 }

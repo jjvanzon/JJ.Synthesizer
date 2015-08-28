@@ -352,7 +352,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new SamplePropertiesViewModel
             {
-                Entity = entity.ToViewModel(),
                 AudioFileFormats = ViewModelHelper.CreateAudioFileFormatLookupViewModel(sampleRepositories.AudioFileFormatRepository),
                 SampleDataTypes = ViewModelHelper.CreateSampleDataTypeLookupViewModel(sampleRepositories.SampleDataTypeRepository),
                 SpeakerSetups = ViewModelHelper.CreateSpeakerSetupLookupViewModel(sampleRepositories.SpeakerSetupRepository),
@@ -360,6 +359,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ValidationMessages = new List<Message>(),
                 Successful = true
             };
+
+            byte[] bytes = sampleRepositories.SampleRepository.TryGetBytes(entity.ID);
+            viewModel.Entity = entity.ToViewModel(bytes);
 
             return viewModel;
         }
