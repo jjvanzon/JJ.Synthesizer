@@ -4,13 +4,12 @@ using JJ.Framework.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class CustomOperatorOutletValidator : FluentValidator<Outlet>
+    internal class InletValidator_ForCustomOperator : FluentValidator<Inlet>
     {
-        public CustomOperatorOutletValidator(Outlet obj)
+        public InletValidator_ForCustomOperator(Inlet obj)
             : base(obj)
         { }
 

@@ -217,8 +217,8 @@
     <Compile Include="Helpers\WavHeaderStruct.cs" />
     <Compile Include="Validation\ChildDocumentValidator.cs" />
     <Compile Include="Validation\AudioFileOutputValidator_InDocument.cs" />
-    <Compile Include="Validation\CustomOperatorInletValidator.cs" />
-    <Compile Include="Validation\CustomOperatorOutletValidator.cs" />
+    <Compile Include="Validation\InletValidator_ForCustomOperator.cs" />
+    <Compile Include="Validation\OutletValidator_ForCustomOperator.cs" />
     <Compile Include="Validation\OperatorValidator_CustomOperator.cs" />
     <Compile Include="Validation\OperatorValidator_Resample.cs" />
     <Compile Include="Validation\OperatorValidator_WhiteNoise.cs" />

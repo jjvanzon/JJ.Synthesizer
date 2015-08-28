@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using JJ.Framework.Common;
+using JJ.Framework.Presentation.WinForms;
+using JJ.Framework.Presentation.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 {
@@ -25,8 +27,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
 
             const int LABEL_COLUMN_INDEX = 0;
 
-            UserControl userControl = GetAncestorUserControl(tableLayoutPanel);
-            IList<Label> labels = GetAllDescendantLabels(tableLayoutPanel);
+            UserControl userControl = ControlHelper.GetAncestorUserControl(tableLayoutPanel);
+            IList<Label> labels = ControlHelper.GetDescendantsOfType<Label>(tableLayoutPanel);
 
             // Include only labels in column 0.
             labels = labels.Where(x => tableLayoutPanel.GetColumn(x) == LABEL_COLUMN_INDEX).ToArray(); 
@@ -45,37 +47,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
             labelColumnWidth *= autoScaleFactor;
 
             tableLayoutPanel.ColumnStyles[LABEL_COLUMN_INDEX].Width = labelColumnWidth;
-        }
-
-        private static UserControl GetAncestorUserControl(Control control)
-        {
-            if (control == null) throw new NullException(() => control);
-
-            Control ancestor = control.Parent;
-            while (ancestor != null)
-            {
-                var ancestorUserControl = ancestor as UserControl;
-                if (ancestorUserControl != null)
-                {
-                    return ancestorUserControl;
-                }
-
-                ancestor = ancestor.Parent;
-            }
-
-            throw new Exception(String.Format("No ancestor UserControl found for Control '{0}'.", control.Name));
-        }
-
-        /// <summary>
-        /// Gets all descendent labels of the UserControl.
-        /// </summary>
-        private static IList<Label> GetAllDescendantLabels(Control userControl)
-        {
-            IList<Label> labels = userControl.Controls.Cast<Control>()
-                                             .SelectRecursive(x => x.Controls.Cast<Control>())
-                                             .OfType<Label>()
-                                             .ToArray();
-            return labels;
         }
     }
 }

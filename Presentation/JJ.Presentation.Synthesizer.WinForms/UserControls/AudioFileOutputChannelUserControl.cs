@@ -9,6 +9,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Presentation.WinForms.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {

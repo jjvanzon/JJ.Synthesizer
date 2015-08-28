@@ -365,6 +365,10 @@
       <Project>{805a8237-05ed-40ae-8d1a-9288373ea5e0}</Project>
       <Name>JJ.Framework.Configuration</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.IO\JJ.Framework.IO.csproj">
+      <Project>{c600657b-7e29-44b5-83a1-747fab30d5d0}</Project>
+      <Name>JJ.Framework.IO</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Logging\JJ.Framework.Logging.csproj">
       <Project>{ceeb755d-de12-4e70-816e-546c429b44b7}</Project>
       <Name>JJ.Framework.Logging</Name>

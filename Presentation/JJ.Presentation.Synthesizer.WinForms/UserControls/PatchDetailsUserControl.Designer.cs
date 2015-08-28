@@ -31,7 +31,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.diagramControl1 = new JJ.Framework.Presentation.WinForms.DiagramControl();
+            this.diagramControl1 = new JJ.Framework.Presentation.WinForms.Controls.DiagramControl();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.buttonPlay = new System.Windows.Forms.Button();
             this.tableLayoutPanelTitleAndContent = new System.Windows.Forms.TableLayoutPanel();
@@ -147,7 +147,7 @@
 
         #endregion
 
-        private Framework.Presentation.WinForms.DiagramControl diagramControl1;
+        private Framework.Presentation.WinForms.Controls.DiagramControl diagramControl1;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.Button buttonPlay;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelTitleAndContent;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JJ.Framework.Common;
 using JJ.Framework.Validation;
 using JJ.Framework.Presentation.Resources;
@@ -33,13 +32,13 @@ namespace JJ.Business.Synthesizer.Validation
             foreach (Inlet inlet in op.Inlets)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(inlet);
-                Execute(new CustomOperatorInletValidator(inlet), messagePrefix);
+                Execute(new InletValidator_ForCustomOperator(inlet), messagePrefix);
             }
 
             foreach (Outlet outlet in op.Outlets)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(outlet);
-                Execute(new CustomOperatorOutletValidator(outlet), messagePrefix);
+                Execute(new OutletValidator_ForCustomOperator(outlet), messagePrefix);
             }
 
             ValidateInletNamesUnique();

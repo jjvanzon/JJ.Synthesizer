@@ -1,10 +1,7 @@
 ﻿using JJ.Business.CanonicalModel;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
@@ -26,5 +23,10 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public IDAndName InterpolationType { get; set; }
 
         public string Location { get; set; }
+
+        /// <summary>
+        /// Not always filled in in the view model.
+        /// </summary>
+        public byte[] Bytes { get; set; }
     }
 }

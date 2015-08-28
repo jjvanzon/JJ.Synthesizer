@@ -12,6 +12,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
+using JJ.Framework.Presentation.WinForms.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {

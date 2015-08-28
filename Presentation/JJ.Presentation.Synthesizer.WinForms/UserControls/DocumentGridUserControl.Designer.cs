@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void InitializeComponent()
         {
             this.dataGridView = new SpecializedDataGridView();
-            this.pagerControl = new JJ.Framework.Presentation.WinForms.PagerControl();
+            this.pagerControl = new JJ.Framework.Presentation.WinForms.Controls.PagerControl();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -70,7 +70,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.pagerControl.TabIndex = 2;
             this.pagerControl.GoToFirstPageClicked += new System.EventHandler(this.pagerControl_GoToFirstPageClicked);
             this.pagerControl.GoToPreviousPageClicked += new System.EventHandler(this.pagerControl_GoToPreviousPageClicked);
-            this.pagerControl.PageNumberClicked += new System.EventHandler<JJ.Framework.Presentation.WinForms.PageNumberEventArgs>(this.pagerControl_PageNumberClicked);
+            this.pagerControl.PageNumberClicked += new System.EventHandler<JJ.Framework.Presentation.WinForms.EventArg.PageNumberEventArgs>(this.pagerControl_PageNumberClicked);
             this.pagerControl.GoToNextPageClicked += new System.EventHandler(this.pagerControl_GoToNextPageClicked);
             this.pagerControl.GoToLastPageClicked += new System.EventHandler(this.pagerControl_GoToLastPageClicked);
             // 
@@ -145,7 +145,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         #endregion
 
         private SpecializedDataGridView dataGridView;
-        private Framework.Presentation.WinForms.PagerControl pagerControl;
+        private Framework.Presentation.WinForms.Controls.PagerControl pagerControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;

@@ -30,7 +30,6 @@
         {
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelContent = new System.Windows.Forms.TableLayoutPanel();
-            this.textBoxLocation = new System.Windows.Forms.TextBox();
             this.labelLocation = new System.Windows.Forms.Label();
             this.comboBoxInterpolationType = new System.Windows.Forms.ComboBox();
             this.labelInterpolationType = new System.Windows.Forms.Label();
@@ -52,6 +51,7 @@
             this.numericUpDownTimeMultiplier = new System.Windows.Forms.NumericUpDown();
             this.labelIsActive = new System.Windows.Forms.Label();
             this.checkBoxIsActive = new System.Windows.Forms.CheckBox();
+            this.filePathControlLocation = new JJ.Framework.Presentation.WinForms.Controls.FilePathControl();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelContent.SuspendLayout();
@@ -81,7 +81,6 @@
             this.tableLayoutPanelContent.ColumnCount = 2;
             this.tableLayoutPanelContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
             this.tableLayoutPanelContent.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelContent.Controls.Add(this.textBoxLocation, 1, 10);
             this.tableLayoutPanelContent.Controls.Add(this.labelLocation, 0, 10);
             this.tableLayoutPanelContent.Controls.Add(this.comboBoxInterpolationType, 1, 9);
             this.tableLayoutPanelContent.Controls.Add(this.labelInterpolationType, 0, 9);
@@ -103,6 +102,7 @@
             this.tableLayoutPanelContent.Controls.Add(this.numericUpDownTimeMultiplier, 1, 6);
             this.tableLayoutPanelContent.Controls.Add(this.labelIsActive, 0, 7);
             this.tableLayoutPanelContent.Controls.Add(this.checkBoxIsActive, 1, 7);
+            this.tableLayoutPanelContent.Controls.Add(this.filePathControlLocation, 1, 10);
             this.tableLayoutPanelContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelContent.Location = new System.Drawing.Point(3, 24);
             this.tableLayoutPanelContent.Name = "tableLayoutPanelContent";
@@ -121,15 +121,6 @@
             this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelContent.Size = new System.Drawing.Size(10, 10);
             this.tableLayoutPanelContent.TabIndex = 9;
-            // 
-            // textBoxLocation
-            // 
-            this.textBoxLocation.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxLocation.Location = new System.Drawing.Point(100, 240);
-            this.textBoxLocation.Margin = new System.Windows.Forms.Padding(0);
-            this.textBoxLocation.Name = "textBoxLocation";
-            this.textBoxLocation.Size = new System.Drawing.Size(21, 20);
-            this.textBoxLocation.TabIndex = 5;
             // 
             // labelLocation
             // 
@@ -392,6 +383,20 @@
             this.checkBoxIsActive.TabIndex = 22;
             this.checkBoxIsActive.UseVisualStyleBackColor = true;
             // 
+            // filePathControlLocation
+            // 
+            this.filePathControlLocation.BrowseMode = JJ.Framework.Presentation.WinForms.Helpers.FileBrowseModeEnum.Open;
+            this.filePathControlLocation.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.filePathControlLocation.FilePath = "";
+            this.filePathControlLocation.LabelText = "";
+            this.filePathControlLocation.Location = new System.Drawing.Point(100, 240);
+            this.filePathControlLocation.Margin = new System.Windows.Forms.Padding(0);
+            this.filePathControlLocation.Name = "filePathControlLocation";
+            this.filePathControlLocation.Size = new System.Drawing.Size(21, 24);
+            this.filePathControlLocation.Spacing = 0;
+            this.filePathControlLocation.TabIndex = 27;
+            this.filePathControlLocation.Browsed += new System.EventHandler<JJ.Framework.Presentation.WinForms.EventArg.FilePathEventArgs>(this.filePathControlLocation_Browsed);
+            // 
             // titleBarUserControl
             // 
             this.titleBarUserControl.AddButtonVisible = false;
@@ -434,7 +439,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMain;
         private Partials.TitleBarUserControl titleBarUserControl;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelContent;
-        private System.Windows.Forms.TextBox textBoxLocation;
         private System.Windows.Forms.Label labelLocation;
         private System.Windows.Forms.ComboBox comboBoxInterpolationType;
         private System.Windows.Forms.Label labelInterpolationType;
@@ -456,5 +460,6 @@
         private System.Windows.Forms.NumericUpDown numericUpDownTimeMultiplier;
         private System.Windows.Forms.Label labelIsActive;
         private System.Windows.Forms.CheckBox checkBoxIsActive;
+        private JJ.Framework.Presentation.WinForms.Controls.FilePathControl filePathControlLocation;
     }
 }

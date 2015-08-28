@@ -5,8 +5,6 @@ using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -23,7 +21,6 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => audioFileOutput.TimeMultiplier, PropertyDisplayNames.TimeMultiplier).IsNot(0);
             For(() => audioFileOutput.Duration, PropertyDisplayNames.Duration).Above(0.0);
             For(() => audioFileOutput.SamplingRate, PropertyDisplayNames.SamplingRate).Above(0);
-
             For(() => audioFileOutput.AudioFileFormat, PropertyDisplayNames.AudioFileFormat).NotNull();
             For(() => audioFileOutput.SampleDataType, PropertyDisplayNames.SampleDataType).NotNull();
             For(() => audioFileOutput.SpeakerSetup, PropertyDisplayNames.SpeakerSetup).NotNull();

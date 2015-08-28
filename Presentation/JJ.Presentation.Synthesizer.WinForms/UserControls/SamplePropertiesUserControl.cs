@@ -4,13 +4,16 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using JJ.Framework.Presentation.WinForms;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Presentation.WinForms.Extensions;
+using JJ.Framework.Presentation.WinForms.EventArg;
+using System.IO;
+using JJ.Framework.IO;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -73,6 +76,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 StyleHelper.DefaultSpacing,
                 StyleHelper.DefaultSpacing);
 
+            filePathControlLocation.Spacing = StyleHelper.DefaultSpacing;
+
             StyleHelper.SetPropertyLabelColumnSize(tableLayoutPanelContent);
         }
 
@@ -123,7 +128,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
             comboBoxInterpolationType.SelectedValue = _viewModel.Entity.InterpolationType.ID;
 
-            textBoxLocation.Text = _viewModel.Entity.Location;
+            filePathControlLocation.Text = _viewModel.Entity.Location;
         }
 
         private void ApplyControlsToViewModel()
@@ -147,7 +152,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             _viewModel.Entity.InterpolationType.ID = (int)comboBoxInterpolationType.SelectedValue;
 
-            _viewModel.Entity.Location = textBoxLocation.Text;
+            _viewModel.Entity.Location = filePathControlLocation.Text;
         }
 
         // Actions
@@ -175,6 +180,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void filePathControlLocation_Browsed(object sender, FilePathEventArgs e)
+        {
+            if (_viewModel == null) throw new NullException(() => _viewModel);
+
+            using (Stream stream = new FileStream(e.FilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                _viewModel.Entity.Bytes = StreamHelper.StreamToBytes(stream);
+            }
         }
 
         private void AudioFileOutputPropertiesUserControl_VisibleChanged(object sender, EventArgs e)
