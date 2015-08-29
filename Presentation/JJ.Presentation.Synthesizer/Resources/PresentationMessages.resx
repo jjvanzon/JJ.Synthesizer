@@ -117,18 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddPatchOutletToPlayASound" xml:space="preserve">
-    <value>Please add a PatchOutlet to your Patch in order to play a sound.</value>
-  </data>
-  <data name="SampleFileDoesNotExistWithLocation" xml:space="preserve">
-    <value>Input sample does not exist. Please put a file in the following location:
-{0}</value>
-    <comment>{0} = file path, keep the enter in the text.</comment>
-  </data>
   <data name="SelectAnOperatorFirst" xml:space="preserve">
     <value>Select an operator first.</value>
   </data>
-  <data name="SelectedOperatorMustBeValueOperator" xml:space="preserve">
-    <value>Selected operator must be a value operator.</value>
+  <data name="SelectAnOperatorWithASingleOutlet" xml:space="preserve">
+    <value>Please select an operator with a single outlet.</value>
   </data>
 </root>

@@ -11,8 +11,6 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 
 namespace JJ.Business.Synthesizer.Managers

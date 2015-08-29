@@ -1649,12 +1649,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
+                int operatorID = 0;
                 if (_patchDetailsPresenter.ViewModel.SelectedOperator != null)
                 {
-                    int operatorID = _patchDetailsPresenter.ViewModel.SelectedOperator.ID;
+                    operatorID = _patchDetailsPresenter.ViewModel.SelectedOperator.ID;
+                }
 
-                    _patchDetailsPresenter.DeleteOperator();
+                _patchDetailsPresenter.DeleteOperator();
 
+                if (_patchDetailsPresenter.ViewModel.Successful)
+                {
                     ViewModel.Document.OperatorPropertiesList.TryRemoveFirst(x => x.ID == operatorID);
                     ViewModel.Document.OperatorPropertiesList_ForCustomOperators.TryRemoveFirst(x => x.ID == operatorID);
                     ViewModel.Document.OperatorPropertiesList_ForPatchInlets.TryRemoveFirst(x => x.ID == operatorID);
@@ -1912,7 +1916,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary>
-        /// Returns output file path.
+        /// Returns output file path if ViewModel.Successful.
         /// </summary>
         public string PatchPlay()
         {

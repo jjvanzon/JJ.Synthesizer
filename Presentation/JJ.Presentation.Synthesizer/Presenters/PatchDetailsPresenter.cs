@@ -11,18 +11,30 @@ using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Resources;
-using System.IO;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class PatchDetailsPresenter
     {
+        private static double _patchPlayDuration = GetPatchPlayDuration();
+        private static string _patchPlayOutputFilePath = GetPatchPlayOutputFilePath();
+
+        private static double GetPatchPlayDuration()
+        {
+            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
+            return config.PatchPlayDurationInSeconds;
+        }
+
+        private static string GetPatchPlayOutputFilePath()
+        {
+            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
+            return config.PatchPlayHackedAudioFileOutputFilePath;
+        }
+
         private PatchRepositories _repositories;
         private PatchManager _patchManager;
 
@@ -115,41 +127,55 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             SetSelectedOperator(operatorID);
         }
-        
+
         /// <summary>
-        /// Deletes the selected operator. Does not delete anything if no operator is selected.
+        /// Deletes the selected operator. 
+        /// Produces a validation message if no operator is selected.
         /// </summary>
         public void DeleteOperator()
         {
             AssertViewModel();
 
-            if (ViewModel.SelectedOperator != null)
+            if (ViewModel.SelectedOperator == null)
             {
-                int operatorID = ViewModel.SelectedOperator.ID;
-
-                int listIndex = ViewModel.Entity.Operators.IndexOf(x => x.ID == operatorID);
-
-                OperatorViewModel operatorViewModel = ViewModel.Entity.Operators[listIndex];
-
-                // Unlink related operator's inlets to which the input operator is connected.
-                IList<InletViewModel> relatedInletViewModels =  GetConnectedInletViewModels(ViewModel.Entity.Operators, operatorViewModel);
-                foreach (InletViewModel relatedInletViewModel in relatedInletViewModels)
+                ViewModel.Successful = false;
+                ViewModel.ValidationMessages.Add(new Message
                 {
-                    relatedInletViewModel.InputOutlet = null;
-                }
+                    PropertyKey = PresentationPropertyNames.SelectedOperator,
+                    Text = PresentationMessages.SelectAnOperatorFirst
+                });
 
-                // Unlink op.Inlets.InputOutlet
-                operatorViewModel.Inlets.ForEach(x => x.InputOutlet = null);
-                // Unlink op.Inlets
-                operatorViewModel.Inlets = new List<InletViewModel>();
-
-                // Unlink op.Outlet[..].Operator
-                operatorViewModel.Outlets.ForEach(x => x.Operator = null);
-                // Unlink op.Outlets
-                operatorViewModel.Outlets = new List<OutletViewModel>();
-
-                ViewModel.Entity.Operators.RemoveAt(listIndex);
+                return;
             }
+
+            int operatorID = ViewModel.SelectedOperator.ID;
+
+            int listIndex = ViewModel.Entity.Operators.IndexOf(x => x.ID == operatorID);
+
+            OperatorViewModel operatorViewModel = ViewModel.Entity.Operators[listIndex];
+
+            // Unlink related operator's inlets to which the input operator is connected.
+            IList<InletViewModel> relatedInletViewModels = GetConnectedInletViewModels(ViewModel.Entity.Operators, operatorViewModel);
+            foreach (InletViewModel relatedInletViewModel in relatedInletViewModels)
+            {
+                relatedInletViewModel.InputOutlet = null;
+            }
+
+            // Unlink op.Inlets.InputOutlet
+            operatorViewModel.Inlets.ForEach(x => x.InputOutlet = null);
+            // Unlink op.Inlets
+            operatorViewModel.Inlets = new List<InletViewModel>();
+
+            // Unlink op.Outlet[..].Operator
+            operatorViewModel.Outlets.ForEach(x => x.Operator = null);
+            // Unlink op.Outlets
+            operatorViewModel.Outlets = new List<OutletViewModel>();
+
+            ViewModel.Entity.Operators.RemoveAt(listIndex);
+
+            ViewModel.SelectedOperator = null;
+
+            ViewModel.Successful = true;
         }
 
         /// <summary>
@@ -180,105 +206,52 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary>
-        /// Returns the output file path.
-        /// This action is quite a hack.
-        /// TODO: It should not be a hack and also this action is way too dependent on infrastructure.
+        /// Writes the output of the currently selected operator to an audio file with a configurable duration.
+        /// Returns the output file path if ViewModel.Successful.
+        /// TODO: This action is too dependent on infrastructure, because the AudioFileOutput business logic is.
+        /// Instead of writing to a file it had better write to a stream.
         /// </summary>
         public string Play(RepositoryWrapper repositoryWrapper)
         {
             AssertViewModel();
 
-            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
-            double duration = config.PatchPlayDurationInSeconds;
-            string sampleFilePath = config.PatchPlayHackedSampleFilePath;
-            string outputFilePath = config.PatchPlayHackedAudioFileOutputFilePath;
-
-            // TODO: You don't need to do this. This has already been done by the MainPresenter.
-            // You only need to do a get. Test when you adapt this.
-            Patch patch = ToEntity(ViewModel);
-
-            VoidResult result = DoPlay(duration, sampleFilePath, outputFilePath, patch, repositoryWrapper);
-
-            ViewModel.Successful = result.Successful;
-            ViewModel.ValidationMessages = result.Messages;
-
-            return outputFilePath;
-        }
-
-        private VoidResult DoPlay(double duration, string sampleFilePath, string outputFilePath, Patch patch, RepositoryWrapper repositoryWrapper)
-        {
-            var result = new VoidResult
+            if (ViewModel.SelectedOperator == null)
             {
-                Messages = new List<Message>()
-            };
-
-            Operator patchOutlet = patch.Operators
-                                        .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
-                                        .FirstOrDefault();
-            if (patchOutlet == null)
-            {
-                result.Successful = false;
-                result.Messages.Add(new Message
+                ViewModel.Successful = false;
+                ViewModel.ValidationMessages.Add(new Message
                 {
-                    PropertyKey = PropertyNames.PatchOutlet,
-                    Text = PresentationMessages.AddPatchOutletToPlayASound
+                    PropertyKey = PresentationPropertyNames.SelectedOperator,
+                    Text = PresentationMessages.SelectAnOperatorFirst
                 });
-                return result;
+
+                return null;
             }
 
-            //Sample_OperatorWrapper sampleOperatorWrapper = null;
+            Operator selectedOperator = _repositories.OperatorRepository.Get(ViewModel.SelectedOperator.ID);
+            if (selectedOperator.Outlets.Count != 1)
+            {
+                ViewModel.Successful = false;
+                ViewModel.ValidationMessages.Add(new Message
+                {
+                    PropertyKey = PresentationPropertyNames.SelectedOperator,
+                    Text = PresentationMessages.SelectAnOperatorWithASingleOutlet
+                });
 
-            //Operator sampleOperator = patch.Operators
-            //                               .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
-            //                               .FirstOrDefault();
-            //if (sampleOperator != null)
-            //{
-            //    // TODO: Refactor out dependency on file system.
-            //    if (!File.Exists(sampleFilePath))
-            //    {
-            //        result.Successful = false;
-            //        result.Messages.Add(new Message
-            //        {
-            //            PropertyKey = PropertyNames.Patch,
-            //            Text = PresentationMessageFormatter.SampleFileDoesNotExistWithLocation(Path.GetFullPath(sampleFilePath))
-            //        });
-            //        return result;
-            //    }
-
-            //    SampleManager sampleManager = CreateSampleManager(repositoryWrapper);
-
-            //    using (Stream sampleStream = new FileStream(sampleFilePath, FileMode.Open, FileAccess.Read, FileShare.Read))
-            //    {
-            //        SampleInfo sampleInfo = sampleManager.CreateSample(sampleStream);
-            //        Sample sample = sampleInfo.Sample;
-
-            //        sampleOperatorWrapper = new Sample_OperatorWrapper(sampleOperator, _repositories.SampleRepository);
-            //        sampleOperatorWrapper.Sample = sample;
-            //    }
-            //}
+                return null;
+            }
+            Outlet outlet = selectedOperator.Outlets.Single();
 
             AudioFileOutputManager audioFileOutputManager = CreateAudioFileOutputManager(repositoryWrapper);
-
             AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
-            audioFileOutput.FilePath = outputFilePath;
-            audioFileOutput.Duration = duration;
-
-            var patchOutletWrapper = new PatchOutlet_OperatorWrapper(patchOutlet);
-            Outlet outlet = patchOutletWrapper.Result;
+            audioFileOutput.FilePath = _patchPlayOutputFilePath;
+            audioFileOutput.Duration = _patchPlayDuration;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
             audioFileOutputManager.Execute(audioFileOutput);
 
-            //if (sampleOperatorWrapper != null)
-            //{
-            //    sampleOperatorWrapper.Sample = null;
-            //}
+            ViewModel.Successful = true;
 
-            return new VoidResult
-            {
-                Successful = true,
-                Messages = new List<Message>()
-            };
+            return _patchPlayOutputFilePath;
         }
 
         // Helpers
@@ -344,8 +317,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             return manager;
         }
-
-        // Helpers
 
         private void AssertViewModel()
         {
