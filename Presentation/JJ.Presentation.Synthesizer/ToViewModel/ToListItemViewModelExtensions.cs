@@ -150,11 +150,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID
             };
 
-            if (entity.AudioFileFormat != null)
-            {
-                viewModel.AudioFileFormat = PropertyDisplayNames.ResourceManager.GetString(entity.AudioFileFormat.Name);
-            }
-
             if (entity.SampleDataType != null)
             {
                 viewModel.SampleDataType = PropertyDisplayNames.ResourceManager.GetString(entity.SampleDataType.Name);

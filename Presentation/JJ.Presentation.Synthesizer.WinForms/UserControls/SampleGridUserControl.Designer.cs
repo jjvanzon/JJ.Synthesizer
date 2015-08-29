@@ -33,7 +33,6 @@
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.NameColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AudioFileFormatColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SampleDataTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SpeakerSetupColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SamplingRateColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -54,7 +53,6 @@
             this.specializedDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.IDColumn,
             this.NameColumn,
-            this.AudioFileFormatColumn,
             this.SampleDataTypeColumn,
             this.SpeakerSetupColumn,
             this.SamplingRateColumn,
@@ -119,14 +117,6 @@
             this.NameColumn.Name = "NameColumn";
             this.NameColumn.ReadOnly = true;
             // 
-            // AudioFileFormatColumn
-            // 
-            this.AudioFileFormatColumn.DataPropertyName = "AudioFileFormat";
-            this.AudioFileFormatColumn.HeaderText = "AudioFileFormat";
-            this.AudioFileFormatColumn.Name = "AudioFileFormatColumn";
-            this.AudioFileFormatColumn.ReadOnly = true;
-            this.AudioFileFormatColumn.Width = 120;
-            // 
             // SampleDataTypeColumn
             // 
             this.SampleDataTypeColumn.DataPropertyName = "SampleDataType";
@@ -177,7 +167,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn NameColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AudioFileFormatColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn SampleDataTypeColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn SpeakerSetupColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn SamplingRateColumn;

@@ -47,7 +47,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             titleBarUserControl.Text = PropertyDisplayNames.Samples;
             NameColumn.HeaderText = CommonTitles.Name;
-            AudioFileFormatColumn.HeaderText = PropertyDisplayNames.AudioFileFormat;
             SampleDataTypeColumn.HeaderText = PropertyDisplayNames.SampleDataType;
             SpeakerSetupColumn.HeaderText = PropertyDisplayNames.SpeakerSetup;
             SamplingRateColumn.HeaderText = PropertyDisplayNames.SamplingRate;
@@ -69,7 +68,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 x.SamplingRate,
                 x.SampleDataType,
                 x.SpeakerSetup,
-                x.AudioFileFormat,
             }).ToArray();
         }
 
