@@ -1,5 +1,4 @@
 ﻿using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
@@ -7,7 +6,6 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -19,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             IList<AudioFileFormat> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
 
-            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndName()).ToArray();
+            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
 
             return idNames;
         }
@@ -29,7 +27,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (repository == null) throw new NullException(() => repository);
 
             IList<ChildDocumentType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
-            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndName()).ToList();
+
+            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToList();
 
             idNames.Add(new IDAndName { ID = 0, Name = null });
 
@@ -41,7 +40,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (repository == null) throw new NullException(() => repository);
 
             IList<InterpolationType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
-            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndName()).ToArray();
+
+            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
 
             return idNames;
         }
@@ -62,7 +62,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (repository == null) throw new NullException(() => repository);
 
             IList<NodeType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
-            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndName()).ToArray();
+
+            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
 
             return idNames;
         }
@@ -72,6 +73,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
 
             IList<OperatorType> operatorTypes = operatorTypeRepository.GetAllOrderedBySortOrder();
+
             IList<OperatorTypeViewModel> operatorTypeViewModels = operatorTypes.Select(x => x.ToViewModel()).ToArray();
 
             return operatorTypeViewModels;
@@ -82,7 +84,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (repository == null) throw new NullException(() => repository);
 
             IList<SampleDataType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
-            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndName()).ToArray();
+
+            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
 
             return idNames;
         }
@@ -121,7 +124,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (repository == null) throw new NullException(() => repository);
 
             IList<SpeakerSetup> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
-            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndName()).ToArray();
+
+            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
 
             return idNames;
         }

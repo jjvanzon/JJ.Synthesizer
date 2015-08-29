@@ -115,6 +115,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Block.
+        /// </summary>
+        public static string Block {
+            get {
+                return ResourceManager.GetString("Block", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 8-Bit.
+        /// </summary>
+        public static string Byte {
+            get {
+                return ResourceManager.GetString("Byte", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bytes to Skip.
         /// </summary>
         public static string BytesToSkip {
@@ -313,6 +331,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 16-Bit.
+        /// </summary>
+        public static string Int16 {
+            get {
+                return ResourceManager.GetString("Int16", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interpolation Type.
         /// </summary>
         public static string InterpolationType {
@@ -331,11 +358,38 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Left.
+        /// </summary>
+        public static string Left {
+            get {
+                return ResourceManager.GetString("Left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Line.
+        /// </summary>
+        public static string Line {
+            get {
+                return ResourceManager.GetString("Line", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Main Patch.
         /// </summary>
         public static string MainPatch {
             get {
                 return ResourceManager.GetString("MainPatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mono.
+        /// </summary>
+        public static string Mono {
+            get {
+                return ResourceManager.GetString("Mono", resourceCulture);
             }
         }
         
@@ -372,6 +426,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string NodeType {
             get {
                 return ResourceManager.GetString("NodeType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Off.
+        /// </summary>
+        public static string Off {
+            get {
+                return ResourceManager.GetString("Off", resourceCulture);
             }
         }
         
@@ -484,6 +547,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RAW File.
+        /// </summary>
+        public static string Raw {
+            get {
+                return ResourceManager.GetString("Raw", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Libraries.
         /// </summary>
         public static string ReferencedDocuments {
@@ -498,6 +570,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Resample {
             get {
                 return ResourceManager.GetString("Resample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Right.
+        /// </summary>
+        public static string Right {
+            get {
+                return ResourceManager.GetString("Right", resourceCulture);
             }
         }
         
@@ -547,6 +628,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Single.
+        /// </summary>
+        public static string Single {
+            get {
+                return ResourceManager.GetString("Single", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sort Order.
         /// </summary>
         public static string SortOrder {
@@ -570,6 +660,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string StartTime {
             get {
                 return ResourceManager.GetString("StartTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stereo.
+        /// </summary>
+        public static string Stereo {
+            get {
+                return ResourceManager.GetString("Stereo", resourceCulture);
             }
         }
         
@@ -651,6 +750,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Value {
             get {
                 return ResourceManager.GetString("Value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to WAV File.
+        /// </summary>
+        public static string Wav {
+            get {
+                return ResourceManager.GetString("Wav", resourceCulture);
             }
         }
         

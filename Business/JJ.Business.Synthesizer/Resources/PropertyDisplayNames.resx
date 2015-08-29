@@ -319,4 +319,43 @@
   <data name="UnderlyingDocument" xml:space="preserve">
     <value>Underlying Document</value>
   </data>
+  <data name="Raw" xml:space="preserve">
+    <value>RAW File</value>
+  </data>
+  <data name="Wav" xml:space="preserve">
+    <value>WAV File</value>
+  </data>
+  <data name="Left" xml:space="preserve">
+    <value>Left</value>
+    <comment>As in left and right</comment>
+  </data>
+  <data name="Right" xml:space="preserve">
+    <value>Right</value>
+    <comment>As in left and right</comment>
+  </data>
+  <data name="Single" xml:space="preserve">
+    <value>Single</value>
+    <comment>As in a single speaker channel i.e. mono.</comment>
+  </data>
+  <data name="Block" xml:space="preserve">
+    <value>Block</value>
+  </data>
+  <data name="Line" xml:space="preserve">
+    <value>Line</value>
+  </data>
+  <data name="Byte" xml:space="preserve">
+    <value>8-Bit</value>
+  </data>
+  <data name="Int16" xml:space="preserve">
+    <value>16-Bit</value>
+  </data>
+  <data name="Mono" xml:space="preserve">
+    <value>Mono</value>
+  </data>
+  <data name="Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="Stereo" xml:space="preserve">
+    <value>Stereo</value>
+  </data>
 </root>

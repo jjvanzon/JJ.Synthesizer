@@ -76,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             viewModel.Name = entity.Name;
             viewModel.ID = entity.ID;
-            viewModel.Caption = GetCaption(entity);
+            viewModel.Caption = GetOperatorCaption(entity);
 
             if (entity.OperatorType != null)
             {
@@ -88,7 +88,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
         }
 
-        private static string GetCaption(Operator entity)
+        private static string GetOperatorCaption(Operator entity)
         {
             if (entity.GetOperatorTypeEnum() == OperatorTypeEnum.Value)
             {

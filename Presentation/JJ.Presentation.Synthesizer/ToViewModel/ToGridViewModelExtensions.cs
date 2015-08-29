@@ -1,19 +1,12 @@
-﻿using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+﻿using JJ.Data.Synthesizer;
 using JJ.Framework.Common;
 using JJ.Framework.Presentation;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -65,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new ChildDocumentGridViewModel
             {
-                List = entities.ToChildDocumentListItemsViewModel(),
+                List = entities.ToChildDocumentListItemViewModels(),
                 RootDocumentID = rootDocumentID,
                 ChildDocumentTypeID = childDocumentTypeID
             };

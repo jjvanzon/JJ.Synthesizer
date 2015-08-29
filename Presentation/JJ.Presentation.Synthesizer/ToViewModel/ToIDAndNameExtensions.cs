@@ -1,37 +1,38 @@
 ﻿using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToIDAndNameExtensions
     {
-        public static IDAndName ToIDAndName(this AudioFileFormat entity)
+        public static IDAndName ToIDAndDisplayName(this AudioFileFormat entity)
         {
             if (entity == null) throw new NullException(() => entity);
+
+            string displayName = PropertyDisplayNames.ResourceManager.GetString(entity.Name);
 
             return new IDAndName
             {
                 ID = entity.ID,
-                Name = entity.Name
+                Name = displayName
             };
         }
 
-        public static IDAndName ToIDAndName(this ChildDocumentType entity)
+        public static IDAndName ToIDAndDisplayName(this ChildDocumentType entity)
         {
             if (entity == null) throw new NullException(() => entity);
+
+            string displayName = PropertyDisplayNames.ResourceManager.GetString(entity.Name);
 
             return new IDAndName
             {
                 ID = entity.ID,
-                Name = entity.Name
+                Name = displayName
             };
         }
 
@@ -46,25 +47,29 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDAndName(this InterpolationType entity)
+        public static IDAndName ToIDAndDisplayName(this InterpolationType entity)
         {
             if (entity == null) throw new NullException(() => entity);
+
+            string displayName = PropertyDisplayNames.ResourceManager.GetString(entity.Name);
 
             return new IDAndName
             {
                 ID = entity.ID,
-                Name = entity.Name
+                Name = displayName
             };
         }
 
-        public static IDAndName ToIDAndName(this NodeType entity)
+        public static IDAndName ToIDAndDisplayName(this NodeType entity)
         {
             if (entity == null) throw new NullException(() => entity);
+
+            string displayName = PropertyDisplayNames.ResourceManager.GetString(entity.Name);
 
             return new IDAndName
             {
                 ID = entity.ID,
-                Name = entity.Name
+                Name = displayName
             };
         }
 
@@ -101,25 +106,29 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDAndName(this SampleDataType entity)
+        public static IDAndName ToIDAndDisplayName(this SampleDataType entity)
         {
             if (entity == null) throw new NullException(() => entity);
+
+            string displayName = PropertyDisplayNames.ResourceManager.GetString(entity.Name);
 
             return new IDAndName
             {
                 ID = entity.ID,
-                Name = entity.Name
+                Name = displayName
             };
         }
 
-        public static IDAndName ToIDAndName(this SpeakerSetup entity)
+        public static IDAndName ToIDAndDisplayName(this SpeakerSetup entity)
         {
             if (entity == null) throw new NullException(() => entity);
+
+            string displayName = PropertyDisplayNames.ResourceManager.GetString(entity.Name);
 
             return new IDAndName
             {
                 ID = entity.ID,
-                Name = entity.Name
+                Name = displayName
             };
         }
     }

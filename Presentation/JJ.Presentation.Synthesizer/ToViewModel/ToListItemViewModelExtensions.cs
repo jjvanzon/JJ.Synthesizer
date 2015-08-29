@@ -1,4 +1,5 @@
-﻿using JJ.Data.Synthesizer;
+﻿using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
@@ -38,17 +39,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (entity.AudioFileFormat != null)
             {
-                viewModel.AudioFileFormat = entity.AudioFileFormat.Name;
+                viewModel.AudioFileFormat = PropertyDisplayNames.ResourceManager.GetString(entity.AudioFileFormat.Name);
             }
 
             if (entity.SampleDataType != null)
             {
-                viewModel.SampleDataType = entity.SampleDataType.Name;
+                viewModel.SampleDataType = PropertyDisplayNames.ResourceManager.GetString(entity.SampleDataType.Name);
             }
 
             if (entity.SpeakerSetup != null)
             {
-                viewModel.SpeakerSetup = entity.SpeakerSetup.Name;
+                viewModel.SpeakerSetup = PropertyDisplayNames.ResourceManager.GetString(entity.SpeakerSetup.Name);
             }
 
             return viewModel;
@@ -79,7 +80,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // ChildDocument
 
-        public static IList<ChildDocumentListItemViewModel> ToChildDocumentListItemsViewModel(this IList<Document> sourceEntities)
+        public static IList<ChildDocumentListItemViewModel> ToChildDocumentListItemViewModels(this IList<Document> sourceEntities)
         {
             if (sourceEntities == null) throw new NullException(() => sourceEntities);
 
@@ -151,17 +152,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (entity.AudioFileFormat != null)
             {
-                viewModel.AudioFileFormat = entity.AudioFileFormat.Name;
+                viewModel.AudioFileFormat = PropertyDisplayNames.ResourceManager.GetString(entity.AudioFileFormat.Name);
             }
 
             if (entity.SampleDataType != null)
             {
-                viewModel.SampleDataType = entity.SampleDataType.Name;
+                viewModel.SampleDataType = PropertyDisplayNames.ResourceManager.GetString(entity.SampleDataType.Name);
             }
 
             if (entity.SpeakerSetup != null)
             {
-                viewModel.SpeakerSetup = entity.SpeakerSetup.Name;
+                viewModel.SpeakerSetup = PropertyDisplayNames.ResourceManager.GetString(entity.SpeakerSetup.Name);
             }
 
             return viewModel;

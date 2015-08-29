@@ -70,7 +70,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (childDocument.ChildDocumentType != null)
             {
-                viewModel.ChildDocumentType = childDocument.ChildDocumentType.ToIDAndName();
+                viewModel.ChildDocumentType = childDocument.ChildDocumentType.ToIDAndDisplayName();
             }
 
             if (childDocument.MainPatch != null)
