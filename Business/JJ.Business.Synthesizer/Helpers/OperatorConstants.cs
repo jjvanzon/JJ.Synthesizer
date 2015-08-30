@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
-    public static class OperatorConstants
+    internal static class OperatorConstants
     {
         public const int ADDER_RESULT_INDEX = 0;
 

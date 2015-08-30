@@ -69,6 +69,74 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// Is used to be able to update an existing operator view model in-place
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
+        public static void UpdateViewModel_WithInletsAndOutlets_WithoutEntityPosition(Operator entity, OperatorViewModel operatorViewModel)
+        {
+            UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+
+            // TODO: Split up into multiple methods.
+            var inletViewModelsToKeep = new List<InletViewModel>(entity.Inlets.Count);
+            foreach (Inlet inlet in entity.Inlets)
+            {
+                InletViewModel inletViewModel = operatorViewModel.Inlets.Where(x => x.ID == inlet.ID).FirstOrDefault();
+                if (inletViewModel == null)
+                {
+                    inletViewModel = inlet.ToViewModel();
+                    operatorViewModel.Inlets.Add(inletViewModel);
+                }
+
+                inletViewModel.Name = inlet.Name;
+                inletViewModel.SortOrder = inlet.SortOrder;
+
+                inletViewModelsToKeep.Add(inletViewModel);
+            }
+
+            IList<InletViewModel> existingInletViewModels = operatorViewModel.Inlets;
+            IList<InletViewModel> inletViewModelsToDelete = existingInletViewModels.Except(inletViewModelsToKeep).ToArray();
+            foreach (InletViewModel inletViewModelToDelete in inletViewModelsToDelete)
+            {
+                inletViewModelToDelete.InputOutlet = null;
+                operatorViewModel.Inlets.Remove(inletViewModelToDelete);
+            }
+
+            operatorViewModel.Inlets = operatorViewModel.Inlets.OrderBy(x => x.SortOrder).ToList();
+
+            // TODO: Split up into multiple methods.
+            var outletViewModelsToKeep = new List<OutletViewModel>(entity.Outlets.Count);
+            foreach (Outlet outlet in entity.Outlets)
+            {
+                OutletViewModel outletViewModel = operatorViewModel.Outlets.Where(x => x.ID == outlet.ID).FirstOrDefault();
+                if (outletViewModel == null)
+                {
+                    outletViewModel = outlet.ToViewModel();
+                    operatorViewModel.Outlets.Add(outletViewModel);
+
+                    // The only inverse property in all the view models.
+                    outletViewModel.Operator = operatorViewModel;
+                }
+
+                outletViewModel.Name = outlet.Name;
+                outletViewModel.SortOrder = outlet.SortOrder;
+
+                outletViewModelsToKeep.Add(outletViewModel);
+            }
+
+            IList<OutletViewModel> existingOutletViewModels = operatorViewModel.Outlets;
+            IList<OutletViewModel> outletViewModelsToDelete = existingOutletViewModels.Except(outletViewModelsToKeep).ToArray();
+            foreach (OutletViewModel outletViewModelToDelete in outletViewModelsToDelete)
+            {
+                // The only inverse property in all the view models.
+                outletViewModelToDelete.Operator = null;
+
+                operatorViewModel.Outlets.Remove(outletViewModelToDelete);
+            }
+
+            operatorViewModel.Outlets = operatorViewModel.Outlets.OrderBy(x => x.SortOrder).ToList();
+        }
+
+        /// <summary>
+        /// Is used to be able to update an existing operator view model in-place
+        /// without having to re-establish the intricate relations with other operators.
+        /// </summary>
         public static void UpdateViewModel_WithoutEntityPosition(Operator entity, OperatorViewModel viewModel)
         {
             if (entity == null) throw new NullException(() => entity);

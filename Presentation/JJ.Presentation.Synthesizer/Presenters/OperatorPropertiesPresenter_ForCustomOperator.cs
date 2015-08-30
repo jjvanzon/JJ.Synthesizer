@@ -6,9 +6,10 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Business;
+using JJ.Business.Synthesizer.SideEffects;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -62,6 +63,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.OperatorRepository,
                 _repositories.OperatorTypeRepository,
                 _repositories.DocumentRepository);
+
+            ISideEffect sideEffect = new Operator_SideEffect_SetUnderlyingDocument(
+                entity,
+                _repositories.InletRepository,
+                _repositories.OutletRepository,
+                _repositories.DocumentRepository,
+                _repositories.OperatorTypeRepository,
+                _repositories.IDRepository);
+            sideEffect.Execute();
 
             VoidResult result = _patchManager.ValidateNonRecursive(entity);
             if (!result.Successful)

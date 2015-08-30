@@ -138,9 +138,11 @@
     <Compile Include="Calculation\WhiteNoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Configuration\PatchCalculatorTypeEnum.cs" />
+    <Compile Include="Converters\DocumentToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\Custom_OperatorWrapper_Inlets.cs" />
     <Compile Include="EntityWrappers\Custom_OperatorWrapper_Operands.cs" />
     <Compile Include="EntityWrappers\Custom_OperatorWrapper_Outlets.cs" />
+    <Compile Include="Extensions\PatchExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\OperatorConstants.cs" />
     <Compile Include="Helpers\PatchRepositories.cs" />
@@ -211,6 +213,7 @@
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GenerateName.cs" />
+    <Compile Include="SideEffects\Operator_SideEffect_SetUnderlyingDocument.cs" />
     <Compile Include="SideEffects\Patch_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />

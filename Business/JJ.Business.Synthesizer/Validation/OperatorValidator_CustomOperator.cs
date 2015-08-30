@@ -128,7 +128,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Operator op = Object;
 
-            IList<Operator> mainPatchInletOperators = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet).ToArray();
+            IList<Operator> mainPatchInletOperators = document.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
             if (op.Inlets.Count != mainPatchInletOperators.Count)
             {
                 ValidationMessages.Add(PropertyNames.Inlets, Messages.OperatorInletCountNotEqualToDocumentMainPatchInletCount);
@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Operator op = Object;
 
-            IList<Operator> mainPatchOutletOperators = document.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet).ToArray();
+            IList<Operator> mainPatchOutletOperators = document.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
             if (op.Outlets.Count != mainPatchOutletOperators.Count)
             {
                 ValidationMessages.Add(PropertyNames.Outlets, Messages.OperatorOutletCountNotEqualToDocumentMainPatchOutletCount);

@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Extensions
             }
             alreadyDone.Add(patch);
 
-            IList<Operator> customOperators = patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator).ToArray();
+            IList<Operator> customOperators = patch.GetOperatorsOfType(OperatorTypeEnum.CustomOperator);
             foreach (Operator customOperator in customOperators)
             {
                 if (customOperator.HasCircularUnderlyingDocument(documentRepository, alreadyDone))

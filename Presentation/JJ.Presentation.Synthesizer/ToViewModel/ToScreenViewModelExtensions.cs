@@ -183,45 +183,45 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
-                                  .Select(x => x.ToPropertiesViewModel_ForCustomOperator(documentRepository))
-                                  .ToList();
+            return patch.GetOperatorsOfType(OperatorTypeEnum.CustomOperator)
+                        .Select(x => x.ToPropertiesViewModel_ForCustomOperator(documentRepository))
+                        .ToList();
         }
 
         public static IList<OperatorPropertiesViewModel_ForPatchInlet> ToPropertiesViewModelList_ForPatchInlets(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
-                                  .Select(x => x.ToPropertiesViewModel_ForPatchInlet())
-                                  .ToList();
+            return patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                        .Select(x => x.ToPropertiesViewModel_ForPatchInlet())
+                        .ToList();
         }
 
         public static IList<OperatorPropertiesViewModel_ForPatchOutlet> ToPropertiesViewModelList_ForPatchOutlets(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
-                                  .Select(x => x.ToPropertiesViewModel_ForPatchOutlet())
-                                  .ToList();
+            return patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                        .Select(x => x.ToPropertiesViewModel_ForPatchOutlet())
+                        .ToList();
         }
 
         public static IList<OperatorPropertiesViewModel_ForSample> ToOperatorPropertiesViewModelList_ForSamples(this Patch patch, ISampleRepository sampleRepository)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Sample)
-                                  .Select(x => x.ToOperatorPropertiesViewModel_ForSample(sampleRepository))
-                                  .ToList();
+            return patch.GetOperatorsOfType(OperatorTypeEnum.Sample)
+                        .Select(x => x.ToOperatorPropertiesViewModel_ForSample(sampleRepository))
+                        .ToList();
         }
 
         public static IList<OperatorPropertiesViewModel_ForValue> ToPropertiesViewModelList_ForValues(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.Value)
-                                  .Select(x => x.ToPropertiesViewModel_ForValue())
-                                  .ToList();
+            return patch.GetOperatorsOfType(OperatorTypeEnum.Value)
+                        .Select(x => x.ToPropertiesViewModel_ForValue())
+                        .ToList();
         }
 
         public static OperatorPropertiesViewModel ToPropertiesViewModel(this Operator entity)

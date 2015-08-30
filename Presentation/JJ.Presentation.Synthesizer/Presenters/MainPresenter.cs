@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
@@ -23,7 +22,6 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using System.Linq.Expressions;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -1191,40 +1189,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void OperatorPropertiesClose_ForCustomOperator()
         {
-            try
-            {
-                OperatorPropertiesPresenter_ForCustomOperator partialPresenter = _operatorPropertiesPresenter_ForCustomOperator;
-
-                // Convert OperatorViewModel (from PatchDetail) to entity, because we are about to validate
-                // the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
-                OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
-                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
-                    _repositoryWrapper.OperatorRepository,
-                    _repositoryWrapper.OperatorTypeRepository,
-                    _repositoryWrapper.InletRepository,
-                    _repositoryWrapper.OutletRepository);
-
-                // Convert the child documents + main patches
-                // because we are about to validate a custom operator's reference to an underlying document.
-                ViewModel.Document.ToHollowDocumentWithHollowChildDocumentsWithHollowMainPatches(
-                    _repositoryWrapper.DocumentRepository,
-                    _repositoryWrapper.ChildDocumentTypeRepository,
-                    _repositoryWrapper.PatchRepository);
-
-                partialPresenter.Close();
-
-                if (partialPresenter.ViewModel.Successful)
-                {
-                    // Refresh the operator in the patch details view.
-                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
-                }
-
-                DispatchViewModel(partialPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositoryWrapper.Rollback();
-            }
+            OperatorPropertiesCloseOrLoseFocus_ForCustomOperator(() => _operatorPropertiesPresenter_ForCustomOperator.Close());
         }
 
         public void OperatorPropertiesClose_ForPatchInlet()
@@ -1392,40 +1357,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void OperatorPropertiesLoseFocus_ForCustomOperator()
         {
-            try
-            {
-                OperatorPropertiesPresenter_ForCustomOperator partialPresenter = _operatorPropertiesPresenter_ForCustomOperator;
-
-                // Convert OperatorViewModel (from PatchDetail) to entity, because we are about to validate
-                // the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
-                OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
-                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
-                    _repositoryWrapper.OperatorRepository,
-                    _repositoryWrapper.OperatorTypeRepository,
-                    _repositoryWrapper.InletRepository,
-                    _repositoryWrapper.OutletRepository);
-
-                // Convert the child documents + main patches
-                // because we are about to validate a custom operator's reference to an underlying document.
-                ViewModel.Document.ToHollowDocumentWithHollowChildDocumentsWithHollowMainPatches(
-                    _repositoryWrapper.DocumentRepository,
-                    _repositoryWrapper.ChildDocumentTypeRepository,
-                    _repositoryWrapper.PatchRepository);
-
-                partialPresenter.LoseFocus();
-
-                if (partialPresenter.ViewModel.Successful)
-                {
-                    // Refresh the operator in the patch details view.
-                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
-                }
-
-                DispatchViewModel(partialPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositoryWrapper.Rollback();
-            }
+            OperatorPropertiesCloseOrLoseFocus_ForCustomOperator(() => _operatorPropertiesPresenter_ForCustomOperator.LoseFocus());
         }
 
         public void OperatorPropertiesLoseFocus_ForPatchInlet()
@@ -1559,6 +1491,42 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        private void OperatorPropertiesCloseOrLoseFocus_ForCustomOperator(Action partialAction)
+        {
+            try
+            {
+                // Convert whole document, because we need:
+                // - OperatorViewModel (from PatchDetail), because we are about to validate
+                //   the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
+                // - The child documents + main patches
+                //   because we are about to validate a custom operator's reference to an underlying document.
+                // - The chosen Document's MainPatch's PatchInlets and PatchOutlets,
+                //   because we are about to convert those to the custom operator.
+                // We could convert only those things, to be a little bit faster,
+                // but perhaps now it is better to choose being agnostic over being efficient.
+                // (If you ever decie to go the other way, other OperatorProperties actions have code that almost converts all of that already,
+                // except for the last bullet point.)
+                ViewModel.ToEntityWithRelatedEntities(_repositoryWrapper);
+
+                partialAction();
+
+                OperatorPropertiesPresenter_ForCustomOperator partialPresenter = _operatorPropertiesPresenter_ForCustomOperator;
+                if (partialPresenter.ViewModel.Successful)
+                {
+                    // Refresh the operator in the patch details view.
+                    OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
+                    Operator entity = _repositoryWrapper.OperatorRepository.Get(partialPresenter.ViewModel.ID);
+                    ViewModelHelper.UpdateViewModel_WithInletsAndOutlets_WithoutEntityPosition(entity, operatorViewModel);
+                }
+
+                DispatchViewModel(partialPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositoryWrapper.Rollback();
+            }
+        }
+
         public void OperatorCreate(int operatorTypeID)
         {
             try
@@ -1643,9 +1611,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        /// <summary>
-        /// Deletes the operator selected in PatchDetails. Does not delete anything, if no operator is selected.
-        /// </summary>
+        /// <summary> Deletes the operator selected in PatchDetails. Does not delete anything, if no operator is selected. </summary>
         public void OperatorDelete()
         {
             try
@@ -1916,9 +1882,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        /// <summary>
-        /// Returns output file path if ViewModel.Successful.
-        /// </summary>
+        /// <summary> Returns output file path if ViewModel.Successful. summary>
         public string PatchPlay()
         {
             try

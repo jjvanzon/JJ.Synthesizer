@@ -620,7 +620,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             // Cross reference custom operator's inlets with the Document MainPatch's PatchInlets.
             var tuples = from operatorInlet in outlet.Operator.Inlets
-                         join patchInlet in underlyingDocument.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
+                         join patchInlet in underlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
                          on operatorInlet.Name equals patchInlet.Name
                          select new { OperatorInlet = operatorInlet, PatchInlet = patchInlet };
 
@@ -637,8 +637,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             // Use the (custom operator's) outlet name and look it up in the Document MainPatch's outlets.
-            Operator patchOutlet = underlyingDocument.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet &&
-                                                                           x.Name == outlet.Name).Single();
+            Operator patchOutlet = underlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                                               .Where(x => x.Name == outlet.Name)
+                                                               .Single();
 
             // Return the result of that Document MainPatch's outlet.
             var patchOutletWrapper = new PatchOutlet_OperatorWrapper(patchOutlet);

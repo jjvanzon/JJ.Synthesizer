@@ -387,7 +387,7 @@ namespace JJ.Business.Synthesizer.Factories
             op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
             _repositories.OperatorRepository.Insert(op);
 
-            IList<Operator> patchInlets = underlyingDocument.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet).ToArray();
+            IList<Operator> patchInlets = underlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
             foreach (Operator patchInlet in patchInlets)
             {
                 var inlet = new Inlet();
@@ -397,7 +397,7 @@ namespace JJ.Business.Synthesizer.Factories
                 _repositories.InletRepository.Insert(inlet);
             }
 
-            IList<Operator> patchOutlets = underlyingDocument.MainPatch.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet).ToArray();
+            IList<Operator> patchOutlets = underlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
             foreach (Operator patchOutlet in patchOutlets)
             {
                 var outlet = new Outlet();

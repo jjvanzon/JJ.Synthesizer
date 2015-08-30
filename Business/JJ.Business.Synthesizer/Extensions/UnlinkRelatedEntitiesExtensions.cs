@@ -96,6 +96,7 @@ namespace JJ.Business.Synthesizer.Extensions
             if (inlet == null) throw new NullException(() => inlet);
 
             inlet.UnlinkOutlet();
+            inlet.UnlinkOperator();
         }
 
         public static void UnlinkRelatedEntities(this Outlet outlet)
@@ -106,6 +107,8 @@ namespace JJ.Business.Synthesizer.Extensions
             {
                 connectedInlet.UnlinkOutlet();
             }
+
+            outlet.UnlinkOperator();
         }
     }
 }

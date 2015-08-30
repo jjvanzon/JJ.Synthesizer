@@ -58,10 +58,10 @@ namespace JJ.Business.Synthesizer.Validation
 
         private void ValidatePatchOutletNamesAreUnique()
         {
-            IList<string> names = Object.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
-                                                  .Where(x => !String.IsNullOrEmpty(x.Name))
-                                                  .Select(x => x.Name)
-                                                  .ToArray();
+            IList<string> names = Object.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                        .Where(x => !String.IsNullOrEmpty(x.Name))
+                                        .Select(x => x.Name)
+                                        .ToArray();
 
             bool namesAreUnique = names.Distinct().Count() == names.Count;
             if (!namesAreUnique)
@@ -72,10 +72,10 @@ namespace JJ.Business.Synthesizer.Validation
 
         private void ValidatePatchInletNamesAreUnique()
         {
-            IList<string> names = Object.Operators.Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
-                                                  .Where(x => !String.IsNullOrEmpty(x.Name))
-                                                  .Select(x => x.Name)
-                                                  .ToArray();
+            IList<string> names = Object.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                        .Where(x => !String.IsNullOrEmpty(x.Name))
+                                        .Select(x => x.Name)
+                                        .ToArray();
 
             bool namesAreUnique = names.Distinct().Count() == names.Count;
             if (!namesAreUnique)
