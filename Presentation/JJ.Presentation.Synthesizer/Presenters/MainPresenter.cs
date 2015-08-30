@@ -23,6 +23,7 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using System.Linq.Expressions;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -2104,50 +2105,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void SamplePropertiesClose()
         {
-            try
-            {
-                _samplePropertiesPresenter.Close();
-                DispatchViewModel(_samplePropertiesPresenter.ViewModel);
-
-                if (_samplePropertiesPresenter.ViewModel.Successful)
-                {
-                    int sampleID = _samplePropertiesPresenter.ViewModel.Entity.ID;
-                    Sample sample = _repositoryWrapper.SampleRepository.Get(sampleID);
-
-                    // Update list
-                    SampleGridViewModel gridViewModel = ChildDocumentHelper.GetSampleGridViewModel_BySampleID(ViewModel.Document, sampleID);
-                    _sampleGridPresenter.ViewModel = gridViewModel;
-                    _sampleGridPresenter.RefreshListItem(sampleID);
-
-                    // Update sample lookup
-                    IDAndName idAndName = ViewModel.Document.SampleLookup.Where(x => x.ID == sampleID).FirstOrDefault();
-                    if (idAndName != null)
-                    {
-                        idAndName.Name = sample.Name;
-                        ViewModel.Document.SampleLookup = ViewModel.Document.SampleLookup.OrderBy(x => x.Name).ToList();
-                    }
-                    foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.ChildDocumentList)
-                    {
-                        IDAndName idAndName2 = childDocumentViewModel.SampleLookup.Where(x => x.ID == sampleID).FirstOrDefault();
-                        if (idAndName2 != null)
-                        {
-                            idAndName2.Name = sample.Name;
-                            childDocumentViewModel.SampleLookup = childDocumentViewModel.SampleLookup.OrderBy(x => x.Name).ToList();
-                        }
-                    }
-                }
-            }
-            finally
-            {
-                _repositoryWrapper.Rollback();
-            }
+            SamplePropertiesCloseOrLoseFocus(() => _samplePropertiesPresenter.Close());
         }
 
         public void SamplePropertiesLoseFocus()
         {
+            SamplePropertiesCloseOrLoseFocus(() => _samplePropertiesPresenter.LoseFocus());
+        }
+
+        private void SamplePropertiesCloseOrLoseFocus(Action partialAction)
+        {
             try
             {
-                _samplePropertiesPresenter.LoseFocus();
+                partialAction();
+
                 DispatchViewModel(_samplePropertiesPresenter.ViewModel);
 
                 if (_samplePropertiesPresenter.ViewModel.Successful)

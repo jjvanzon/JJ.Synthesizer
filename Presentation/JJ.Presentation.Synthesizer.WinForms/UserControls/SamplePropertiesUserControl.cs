@@ -66,6 +66,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             labelBytesToSkip.Text = PropertyDisplayNames.BytesToSkip;
             labelInterpolationType.Text = PropertyDisplayNames.InterpolationType;
             labelOriginalLocation.Text = PropertyDisplayNames.OriginalLocation;
+            labelDurationTitle.Text = PropertyDisplayNames.Duration + ":";
         }
 
         private void ApplyStyling()
@@ -129,6 +130,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             comboBoxInterpolationType.SelectedValue = _viewModel.Entity.InterpolationType.ID;
 
             filePathControlOriginalLocation.Text = _viewModel.Entity.OriginalLocation;
+            labelDurationValue.Text = ViewModel.Entity.Duration.ToString("0.###");
         }
 
         private void ApplyControlsToViewModel()

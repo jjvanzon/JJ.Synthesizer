@@ -211,7 +211,7 @@
     <value>Kanaal</value>
   </data>
   <data name="TimeMultiplier" xml:space="preserve">
-    <value>Tijd vermenigvuldiger</value>
+    <value>Tijd factor</value>
   </data>
   <data name="Duration" xml:space="preserve">
     <value>Tijdsduur</value>

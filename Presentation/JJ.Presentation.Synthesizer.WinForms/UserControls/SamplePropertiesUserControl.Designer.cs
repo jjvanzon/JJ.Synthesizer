@@ -52,6 +52,8 @@
             this.labelIsActive = new System.Windows.Forms.Label();
             this.checkBoxIsActive = new System.Windows.Forms.CheckBox();
             this.filePathControlOriginalLocation = new JJ.Framework.Presentation.WinForms.Controls.FilePathControl();
+            this.labelDurationTitle = new System.Windows.Forms.Label();
+            this.labelDurationValue = new System.Windows.Forms.Label();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelContent.SuspendLayout();
@@ -103,10 +105,13 @@
             this.tableLayoutPanelContent.Controls.Add(this.labelIsActive, 0, 7);
             this.tableLayoutPanelContent.Controls.Add(this.checkBoxIsActive, 1, 7);
             this.tableLayoutPanelContent.Controls.Add(this.filePathControlOriginalLocation, 1, 10);
+            this.tableLayoutPanelContent.Controls.Add(this.labelDurationTitle, 0, 11);
+            this.tableLayoutPanelContent.Controls.Add(this.labelDurationValue, 1, 11);
             this.tableLayoutPanelContent.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelContent.Location = new System.Drawing.Point(3, 24);
             this.tableLayoutPanelContent.Name = "tableLayoutPanelContent";
-            this.tableLayoutPanelContent.RowCount = 12;
+            this.tableLayoutPanelContent.RowCount = 13;
+            this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanelContent.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
@@ -407,6 +412,28 @@
             this.filePathControlOriginalLocation.TabIndex = 27;
             this.filePathControlOriginalLocation.Browsed += new System.EventHandler<JJ.Framework.Presentation.WinForms.EventArg.FilePathEventArgs>(this.filePathControlOriginalLocation_Browsed);
             // 
+            // labelDurationTitle
+            // 
+            this.labelDurationTitle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelDurationTitle.Location = new System.Drawing.Point(0, 264);
+            this.labelDurationTitle.Margin = new System.Windows.Forms.Padding(0);
+            this.labelDurationTitle.Name = "labelDurationTitle";
+            this.labelDurationTitle.Size = new System.Drawing.Size(100, 24);
+            this.labelDurationTitle.TabIndex = 28;
+            this.labelDurationTitle.Text = "labelDurationTitle";
+            this.labelDurationTitle.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // labelDurationValue
+            // 
+            this.labelDurationValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelDurationValue.Location = new System.Drawing.Point(100, 264);
+            this.labelDurationValue.Margin = new System.Windows.Forms.Padding(0);
+            this.labelDurationValue.Name = "labelDurationValue";
+            this.labelDurationValue.Size = new System.Drawing.Size(21, 24);
+            this.labelDurationValue.TabIndex = 29;
+            this.labelDurationValue.Text = "labelDurationValue";
+            this.labelDurationValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // titleBarUserControl
             // 
             this.titleBarUserControl.AddButtonVisible = false;
@@ -471,5 +498,7 @@
         private System.Windows.Forms.Label labelIsActive;
         private System.Windows.Forms.CheckBox checkBoxIsActive;
         private JJ.Framework.Presentation.WinForms.Controls.FilePathControl filePathControlOriginalLocation;
+        private System.Windows.Forms.Label labelDurationTitle;
+        private System.Windows.Forms.Label labelDurationValue;
     }
 }

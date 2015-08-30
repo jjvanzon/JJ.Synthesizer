@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -232,17 +233,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new SampleViewModel
             {
+                ID = entity.ID,
                 Name = entity.Name,
                 Amplifier = entity.Amplifier,
                 TimeMultiplier = entity.TimeMultiplier,
                 IsActive = entity.IsActive,
                 SamplingRate = entity.SamplingRate,
                 BytesToSkip = entity.BytesToSkip,
-                OriginalLocation = entity.OriginalLocation,
-                ID = entity.ID
+                OriginalLocation = entity.OriginalLocation
             };
 
             viewModel.Bytes = bytes;
+            viewModel.Duration = entity.GetDuration(bytes);
 
             if (entity.AudioFileFormat != null)
             {
