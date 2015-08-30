@@ -410,6 +410,7 @@
             this.filePathControlOriginalLocation.Size = new System.Drawing.Size(21, 24);
             this.filePathControlOriginalLocation.Spacing = 0;
             this.filePathControlOriginalLocation.TabIndex = 27;
+            this.filePathControlOriginalLocation.TextBoxEnabled = false;
             this.filePathControlOriginalLocation.Browsed += new System.EventHandler<JJ.Framework.Presentation.WinForms.EventArg.FilePathEventArgs>(this.filePathControlOriginalLocation_Browsed);
             // 
             // labelDurationTitle
