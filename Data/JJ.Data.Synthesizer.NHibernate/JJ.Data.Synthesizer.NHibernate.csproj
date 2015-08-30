@@ -83,6 +83,7 @@
     <Compile Include="Repositories\IDRepository.cs" />
     <Compile Include="Repositories\PatchRepository.cs" />
     <Compile Include="Repositories\SampleRepository.cs" />
+    <Compile Include="SynthesizerContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\External Components\FluentNHibernate\Source Code\1.3\src\FluentNHibernate\FluentNHibernate.csproj">

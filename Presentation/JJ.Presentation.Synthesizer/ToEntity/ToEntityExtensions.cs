@@ -380,8 +380,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 sample.SpeakerSetup = sampleRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
             }
 
-            // Flush is required, to be able to update a new record's Bytes column.
-            sampleRepositories.Flush(); 
             sampleRepositories.SampleRepository.SetBytes(viewModel.ID, viewModel.Bytes);
 
             return sample;
