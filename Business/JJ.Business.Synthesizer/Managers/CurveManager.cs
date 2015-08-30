@@ -1,20 +1,11 @@
-﻿using JJ.Framework.Common;
-using JJ.Business.CanonicalModel;
+﻿using JJ.Business.CanonicalModel;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.LinkTo;
-using JJ.Framework.Business;
-using JJ.Business.Synthesizer.SideEffects;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
 

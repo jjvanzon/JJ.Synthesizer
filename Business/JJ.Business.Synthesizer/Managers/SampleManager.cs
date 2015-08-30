@@ -29,9 +29,40 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories = repositories;
         }
 
-        /// <summary>
-        /// Creates a Sample and sets its defaults.
-        /// </summary>
+        public IValidator Validate(Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+            IValidator sampleValidator = new SampleValidator(sample);
+            return sampleValidator;
+        }
+
+        public VoidResult DeleteWithRelatedEntities(Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            IValidator validator = new SampleValidator_Delete(sample, _repositories.SampleRepository);
+
+            if (!validator.IsValid)
+            {
+                return new VoidResult
+                {
+                    Successful = false,
+                    Messages = validator.ValidationMessages.ToCanonical()
+                };
+            }
+            else
+            {
+                sample.UnlinkRelatedEntities();
+                _repositories.SampleRepository.Delete(sample);
+
+                return new VoidResult
+                {
+                    Successful = true
+                };
+            }
+        }
+
+        /// <summary> Creates a Sample and sets its defaults. </summary>
         public Sample CreateSample()
         {
             var sample = new Sample();
@@ -44,36 +75,64 @@ namespace JJ.Business.Synthesizer.Managers
             return sample;
         }
 
-        // TODO: Make overloads that take byte[], but try to prevent doing a BytesToStream followed by a StreamToBytes again.
+        public SampleInfo CreateSample(byte[] bytes, AudioFileFormatEnum audioFileFormatEnum)
+        {
+            if (bytes == null) throw new NullException(() => bytes);
+            Stream stream = StreamHelper.BytesToStream(bytes);
+            return CreateSample(stream, bytes, audioFileFormatEnum);
+        }
 
         public SampleInfo CreateSample(Stream stream, AudioFileFormatEnum audioFileFormatEnum)
+        {
+            stream.Position = 0;
+            byte[] bytes = StreamHelper.StreamToBytes(stream);
+            return CreateSample(stream, bytes, audioFileFormatEnum);
+        }
+
+        /// <summary> Creates a Sample from the stream and sets its defaults. Detects the format from the header. </summary>
+        public SampleInfo CreateSample(byte[] bytes)
+        {
+            if (bytes == null) throw new NullException(() => bytes);
+            Stream stream = StreamHelper.BytesToStream(bytes);
+            return CreateSample(stream, bytes);
+        }
+
+        /// <summary> Creates a Sample from the stream and sets its defaults. Detects the format from the header. </summary>
+        public SampleInfo CreateSample(Stream stream)
+        {
+            if (stream == null) throw new NullException(() => stream);
+
+            stream.Position = 0;
+            byte[] bytes = StreamHelper.StreamToBytes(stream);
+
+            return CreateSample(stream, bytes);
+        }
+
+        // Private Methods
+
+        private SampleInfo CreateSample(Stream stream, byte[] bytes, AudioFileFormatEnum audioFileFormatEnum)
         {
             if (stream == null) throw new NullException(() => stream);
 
             switch (audioFileFormatEnum)
             {
                 case AudioFileFormatEnum.Wav:
-                    return CreateWavSample(stream);
+                    return CreateWavSample(stream, bytes);
 
                 case AudioFileFormatEnum.Raw:
-                    return CreateRawSample(stream);
+                    return CreateRawSample(stream, bytes);
 
                 default:
                     throw new ValueNotSupportedException(audioFileFormatEnum);
             }
         }
 
-        /// <summary>
-        /// Creates a Sample from the stream and sets its defaults.
-        /// Detects the format from the header.
-        /// </summary>
-        public SampleInfo CreateSample(Stream stream)
+        private SampleInfo CreateSample(Stream stream, byte[] bytes)
         {
-            if (stream == null) throw new NullException(() => stream);
-
-            stream.Position = 0;
-            if (stream.Length >= WavHeaderConstants.WAV_HEADER_LENGTH)
+            // Detect wav header
+            if (bytes.Length >= WavHeaderConstants.WAV_HEADER_LENGTH)
             {
+                stream.Position = 0;
                 WavHeaderStruct wavHeaderStruct;
                 var reader = new BinaryReader(stream);
                 wavHeaderStruct = reader.ReadStruct<WavHeaderStruct>();
@@ -81,9 +140,9 @@ namespace JJ.Business.Synthesizer.Managers
                 IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);
                 if (validator.IsValid)
                 {
-                    Sample wavSample = CreateWavSample(wavHeaderStruct);
+                    // Create Wav Sample
+                    Sample wavSample = CreateWavSampleFromHeader(wavHeaderStruct);
                     stream.Position = 0;
-                    byte[] bytes = StreamHelper.StreamToBytes(stream);
                     return new SampleInfo
                     {
                         Sample = wavSample,
@@ -92,17 +151,19 @@ namespace JJ.Business.Synthesizer.Managers
                 }
             }
 
+            // Create Raw Sample
             SampleInfo rawSampleInfo = CreateSample(stream, AudioFileFormatEnum.Raw);
             return rawSampleInfo;
         }
 
-        private SampleInfo CreateWavSample(Stream stream)
+        private SampleInfo CreateWavSample(Stream stream, byte[] bytes)
         {
-            // Read header
-            if (stream.Length < WavHeaderConstants.WAV_HEADER_LENGTH)
+            if (bytes.Length < WavHeaderConstants.WAV_HEADER_LENGTH)
             {
                 throw new Exception(String.Format("A WAV file must be at least {0} bytes.", WavHeaderConstants.WAV_HEADER_LENGTH));
             }
+
+            // Read header
             stream.Position = 0;
             WavHeaderStruct wavHeaderStruct;
             var reader = new BinaryReader(stream);
@@ -113,9 +174,8 @@ namespace JJ.Business.Synthesizer.Managers
             validator.Verify();
 
             // Create Sample
-            Sample sample = CreateWavSample(wavHeaderStruct);
+            Sample sample = CreateWavSampleFromHeader(wavHeaderStruct);
             stream.Position = 0;
-            byte[] bytes = StreamHelper.StreamToBytes(stream);
 
             return new SampleInfo
             {
@@ -124,7 +184,7 @@ namespace JJ.Business.Synthesizer.Managers
             };
         }
 
-        private Sample CreateWavSample(WavHeaderStruct wavHeaderStruct)
+        private Sample CreateWavSampleFromHeader(WavHeaderStruct wavHeaderStruct)
         {
             AudioFileInfo audioFileInfo = WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
 
@@ -163,52 +223,16 @@ namespace JJ.Business.Synthesizer.Managers
             return sample;
         }
 
-        private SampleInfo CreateRawSample(Stream stream)
+        private SampleInfo CreateRawSample(Stream stream, byte[] bytes)
         {
             Sample sample = CreateSample();
             sample.SetAudioFileFormatEnum(AudioFileFormatEnum.Raw, _repositories.AudioFileFormatRepository);
-            stream.Position = 0;
-
-            byte[] bytes = StreamHelper.StreamToBytes(stream);
 
             return new SampleInfo
             {
                 Sample = sample,
                 Bytes = bytes
             };
-        }
-
-        public IValidator Validate(Sample sample)
-        {
-            if (sample == null) throw new NullException(() => sample);
-            IValidator sampleValidator = new SampleValidator(sample);
-            return sampleValidator;
-        }
-
-        public VoidResult DeleteWithRelatedEntities(Sample sample)
-        {
-            if (sample == null) throw new NullException(() => sample);
-
-            IValidator validator = new SampleValidator_Delete(sample, _repositories.SampleRepository);
-
-            if (!validator.IsValid)
-            {
-                return new VoidResult
-                {
-                    Successful = false,
-                    Messages = validator.ValidationMessages.ToCanonical()
-                };
-            }
-            else
-            {
-                sample.UnlinkRelatedEntities();
-                _repositories.SampleRepository.Delete(sample);
-
-                return new VoidResult
-                {
-                    Successful = true
-                };
-            }
         }
     }
 }

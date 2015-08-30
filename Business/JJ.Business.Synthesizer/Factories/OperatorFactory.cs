@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using System.Reflection;
-using JJ.Framework.Reflection;
 using JJ.Framework.Common;
-using JJ.Framework.Business;
-using JJ.Business.Synthesizer.SideEffects;
 
 namespace JJ.Business.Synthesizer.Factories
 {

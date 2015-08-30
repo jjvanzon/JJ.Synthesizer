@@ -24,9 +24,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 
         public string OriginalLocation { get; set; }
 
-        /// <summary>
-        /// Not always filled in in the view model.
-        /// </summary>
         public byte[] Bytes { get; set; }
     }
 }
