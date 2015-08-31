@@ -1176,7 +1176,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (partialPresenter.ViewModel.Successful)
                 {
                     // Refresh the operator in the patch details view.
-                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(
+                        entity, operatorViewModel, 
+                        _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1212,7 +1214,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (partialPresenter.ViewModel.Successful)
                 {
                     // Refresh the operator in the patch details view.
-                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(
+                        entity, operatorViewModel,
+                        _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1243,7 +1247,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (partialPresenter.ViewModel.Successful)
                 {
                     // Refresh the operator in the patch details view.
-                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(
+                        entity, operatorViewModel,
+                        _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1281,7 +1287,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (partialPresenter.ViewModel.Successful)
                 {
                     // Refresh the operator in the patch details view.
-                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(
+                        entity, operatorViewModel,
+                        _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1312,7 +1320,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (partialPresenter.ViewModel.Successful)
                 {
                     // Refresh the operator in the patch details view.
-                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(
+                        entity, operatorViewModel,
+                        _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1344,7 +1354,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (partialPresenter.ViewModel.Successful)
                 {
                     // Refresh the operator in the patch details view.
-                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(
+                        entity, operatorViewModel,
+                        _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1380,7 +1392,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (partialPresenter.ViewModel.Successful)
                 {
                     // Refresh the operator in the patch details view.
-                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(
+                        entity, operatorViewModel,
+                        _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1411,7 +1425,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (partialPresenter.ViewModel.Successful)
                 {
                     // Refresh the operator in the patch details view.
-                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(
+                        entity, operatorViewModel,
+                        _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1449,7 +1465,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (partialPresenter.ViewModel.Successful)
                 {
                     // Refresh the operator in the patch details view.
-                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(
+                        entity, operatorViewModel,
+                        _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1480,7 +1498,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (partialPresenter.ViewModel.Successful)
                 {
                     // Refresh the operator in the patch details view.
-                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+                    ViewModelHelper.UpdateViewModel_WithoutEntityPosition(
+                        entity, operatorViewModel,
+                        _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1516,7 +1536,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // Refresh the operator in the patch details view.
                     OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
                     Operator entity = _repositoryWrapper.OperatorRepository.Get(partialPresenter.ViewModel.ID);
-                    ViewModelHelper.UpdateViewModel_WithInletsAndOutlets_WithoutEntityPosition(entity, operatorViewModel);
+                    ViewModelHelper.UpdateViewModel_WithInletsAndOutlets_WithoutEntityPosition(
+                        entity, operatorViewModel, 
+                        _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1547,7 +1569,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // ToViewModel
 
                 // PatchDetails Operator
-                OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties(_entityPositionManager);
+                OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties(
+                    _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository, _entityPositionManager);
                 operatorViewModel.CenterX = 100; // TODO: Low priority: Should these coordinates should be set in business logic? And randomized the same way as in other parts of the code? Maybe in the entity position manager?
                 operatorViewModel.CenterY = 100;
                 _patchDetailsPresenter.ViewModel.Entity.Operators.Add(operatorViewModel);
@@ -1713,7 +1736,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
 
                 IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels_ByDocumentID(ViewModel.Document, document.ID);
-                PatchDetailsViewModel detailsViewModel = patch.ToDetailsViewModel(_repositoryWrapper.OperatorTypeRepository, _entityPositionManager);
+                PatchDetailsViewModel detailsViewModel = patch.ToDetailsViewModel(_repositoryWrapper.OperatorTypeRepository, _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository, _entityPositionManager);
                 detailsViewModels.Add(detailsViewModel);
 
                 ChildDocumentPropertiesViewModel childDocumentPropertiesViewModel = ChildDocumentHelper.TryGetChildDocumentPropertiesViewModel(ViewModel.Document, document.ID);

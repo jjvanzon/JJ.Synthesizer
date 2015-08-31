@@ -37,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         /// <summary>
         /// For persistence. Does not need to be displayed.
         /// </summary>
-        public int OperatorTypeID { get; set; }
+        public OperatorTypeViewModel OperatorType { get; set; }
 
         private string DebuggerDisplay
         {

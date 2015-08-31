@@ -69,7 +69,6 @@ namespace JJ.Business.Synthesizer.Converters
 
         private void ConvertInlets(IList<Operator> sourcePatchInlets, Operator destOperator)
         {
-            // TODO: Move this to after the loop.
             IList<int> idsToKeep = new List<int>(destOperator.Inlets.Count);
 
             foreach (Operator sourcePatchInlet in sourcePatchInlets)
@@ -90,8 +89,8 @@ namespace JJ.Business.Synthesizer.Converters
                 idsToKeep.Add(destInlet.ID);
             }
 
-            IList<int> existingIDs = destOperator.Inlets.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+            int[] existingIDs = destOperator.Inlets.Select(x => x.ID).ToArray();
+            int[] idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 
             foreach (int idToDelete in idsToDelete)
             {
@@ -103,7 +102,6 @@ namespace JJ.Business.Synthesizer.Converters
 
         private void ConvertOutlets(IList<Operator> sourcePatchOutlets, Operator destOperator)
         {
-            // TODO: Move this to after the loop.
             IList<int> idsToKeep = new List<int>(destOperator.Outlets.Count);
 
             foreach (Operator sourcePatchOutlet in sourcePatchOutlets)
@@ -124,8 +122,8 @@ namespace JJ.Business.Synthesizer.Converters
                 idsToKeep.Add(destOutlet.ID);
             }
 
-            IList<int> existingIDs = destOperator.Outlets.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+            int[] existingIDs = destOperator.Outlets.Select(x => x.ID).ToArray();
+            int[] idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 
             foreach (int idToDelete in idsToDelete)
             {

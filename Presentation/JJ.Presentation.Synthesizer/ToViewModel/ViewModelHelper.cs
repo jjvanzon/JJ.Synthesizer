@@ -3,6 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -69,19 +70,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// Is used to be able to update an existing operator view model in-place
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
-        public static void UpdateViewModel_WithInletsAndOutlets_WithoutEntityPosition(Operator entity, OperatorViewModel operatorViewModel)
+        public static void UpdateViewModel_WithInletsAndOutlets_WithoutEntityPosition(
+            Operator entity, OperatorViewModel operatorViewModel,
+            ISampleRepository sampleRepository, IDocumentRepository documentRepository)
         {
-            UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel);
+            UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel, sampleRepository, documentRepository);
+            UpdateInletViewModels(entity.Inlets, operatorViewModel);
+            UpdateOutletViewModels(entity.Outlets, operatorViewModel);
+        }
 
-            // TODO: Split up into multiple methods.
-            var inletViewModelsToKeep = new List<InletViewModel>(entity.Inlets.Count);
-            foreach (Inlet inlet in entity.Inlets)
+        public static void UpdateInletViewModels(IList<Inlet> sourceInlets, OperatorViewModel destOperatorViewModel)
+        {
+            if (sourceInlets == null) throw new NullException(() => sourceInlets);
+            if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
+
+            var inletViewModelsToKeep = new List<InletViewModel>(sourceInlets.Count);
+            foreach (Inlet inlet in sourceInlets)
             {
-                InletViewModel inletViewModel = operatorViewModel.Inlets.Where(x => x.ID == inlet.ID).FirstOrDefault();
+                InletViewModel inletViewModel = destOperatorViewModel.Inlets.Where(x => x.ID == inlet.ID).FirstOrDefault();
                 if (inletViewModel == null)
                 {
                     inletViewModel = inlet.ToViewModel();
-                    operatorViewModel.Inlets.Add(inletViewModel);
+                    destOperatorViewModel.Inlets.Add(inletViewModel);
                 }
 
                 inletViewModel.Name = inlet.Name;
@@ -90,28 +100,33 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 inletViewModelsToKeep.Add(inletViewModel);
             }
 
-            IList<InletViewModel> existingInletViewModels = operatorViewModel.Inlets;
+            IList<InletViewModel> existingInletViewModels = destOperatorViewModel.Inlets;
             IList<InletViewModel> inletViewModelsToDelete = existingInletViewModels.Except(inletViewModelsToKeep).ToArray();
             foreach (InletViewModel inletViewModelToDelete in inletViewModelsToDelete)
             {
                 inletViewModelToDelete.InputOutlet = null;
-                operatorViewModel.Inlets.Remove(inletViewModelToDelete);
+                destOperatorViewModel.Inlets.Remove(inletViewModelToDelete);
             }
 
-            operatorViewModel.Inlets = operatorViewModel.Inlets.OrderBy(x => x.SortOrder).ToList();
+            destOperatorViewModel.Inlets = destOperatorViewModel.Inlets.OrderBy(x => x.SortOrder).ToList();
+        }
 
-            // TODO: Split up into multiple methods.
-            var outletViewModelsToKeep = new List<OutletViewModel>(entity.Outlets.Count);
-            foreach (Outlet outlet in entity.Outlets)
+        public static void UpdateOutletViewModels(IList<Outlet> sourceOutlets, OperatorViewModel destOperatorViewModel)
+        {
+            if (sourceOutlets == null) throw new NullException(() => sourceOutlets);
+            if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
+
+            var outletViewModelsToKeep = new List<OutletViewModel>(sourceOutlets.Count);
+            foreach (Outlet outlet in sourceOutlets)
             {
-                OutletViewModel outletViewModel = operatorViewModel.Outlets.Where(x => x.ID == outlet.ID).FirstOrDefault();
+                OutletViewModel outletViewModel = destOperatorViewModel.Outlets.Where(x => x.ID == outlet.ID).FirstOrDefault();
                 if (outletViewModel == null)
                 {
                     outletViewModel = outlet.ToViewModel();
-                    operatorViewModel.Outlets.Add(outletViewModel);
+                    destOperatorViewModel.Outlets.Add(outletViewModel);
 
                     // The only inverse property in all the view models.
-                    outletViewModel.Operator = operatorViewModel;
+                    outletViewModel.Operator = destOperatorViewModel;
                 }
 
                 outletViewModel.Name = outlet.Name;
@@ -120,55 +135,103 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 outletViewModelsToKeep.Add(outletViewModel);
             }
 
-            IList<OutletViewModel> existingOutletViewModels = operatorViewModel.Outlets;
+            IList<OutletViewModel> existingOutletViewModels = destOperatorViewModel.Outlets;
             IList<OutletViewModel> outletViewModelsToDelete = existingOutletViewModels.Except(outletViewModelsToKeep).ToArray();
             foreach (OutletViewModel outletViewModelToDelete in outletViewModelsToDelete)
             {
                 // The only inverse property in all the view models.
                 outletViewModelToDelete.Operator = null;
 
-                operatorViewModel.Outlets.Remove(outletViewModelToDelete);
+                destOperatorViewModel.Outlets.Remove(outletViewModelToDelete);
             }
 
-            operatorViewModel.Outlets = operatorViewModel.Outlets.OrderBy(x => x.SortOrder).ToList();
+            destOperatorViewModel.Outlets = destOperatorViewModel.Outlets.OrderBy(x => x.SortOrder).ToList();
         }
 
         /// <summary>
         /// Is used to be able to update an existing operator view model in-place
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
-        public static void UpdateViewModel_WithoutEntityPosition(Operator entity, OperatorViewModel viewModel)
+        public static void UpdateViewModel_WithoutEntityPosition(
+            Operator entity, OperatorViewModel viewModel,
+            ISampleRepository sampleRepository, IDocumentRepository documentRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (viewModel == null) throw new NullException(() => viewModel);
 
             viewModel.Name = entity.Name;
             viewModel.ID = entity.ID;
-            viewModel.Caption = GetOperatorCaption(entity);
+            viewModel.Caption = GetOperatorCaption(entity, sampleRepository, documentRepository);
 
             if (entity.OperatorType != null)
             {
-                viewModel.OperatorTypeID = entity.OperatorType.ID;
+                viewModel.OperatorType = entity.OperatorType.ToViewModel();
             }
             else
             {
-                viewModel.OperatorTypeID = 0; // Should never happen.
+                viewModel.OperatorType = null; // Should never happen.
             }
         }
 
-        private static string GetOperatorCaption(Operator entity)
+        private static string GetOperatorCaption(Operator entity, ISampleRepository sampleRepository, IDocumentRepository documentRepository)
         {
-            if (entity.GetOperatorTypeEnum() == OperatorTypeEnum.Value)
+            if (entity == null) throw new NullException(() => entity);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+
+            OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
+
+            // Value Operator: display name and value or only value.
+            if (operatorTypeEnum == OperatorTypeEnum.Value)
             {
                 var wrapper = new Value_OperatorWrapper(entity);
-                return wrapper.Value.ToString("0.####");
+                string formattedValue = wrapper.Value.ToString("0.####");
+
+                if (String.IsNullOrWhiteSpace(entity.Name))
+                {
+                    return formattedValue;
+                }
+                else
+                {
+                    return String.Format("{0}: {1}", entity.Name, formattedValue);
+                }
             }
 
+            // Prefer Operator's explicit Name.
             if (!String.IsNullOrWhiteSpace(entity.Name))
             {
                 return entity.Name;
             }
 
+            // Use Sample Name as fallback.
+            if (operatorTypeEnum == OperatorTypeEnum.Sample)
+            {
+                var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
+                Sample sample = wrapper.Sample;
+                if (sample != null)
+                {
+                    if (!String.IsNullOrWhiteSpace(sample.Name))
+                    {
+                        return sample.Name;
+                    }
+                }
+            }
+
+            // Use UnderlyingDocument Name as fallback.
+            if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
+            {
+                var wrapper = new Custom_OperatorWrapper(entity, documentRepository);
+                Document underlyingDocument = wrapper.UnderlyingDocument;
+                if (underlyingDocument != null)
+                {
+                    if (!String.IsNullOrWhiteSpace(underlyingDocument.Name))
+                    {
+                        return underlyingDocument.Name;
+                    }
+                }
+            }
+
+            // Use OperatorType DisplayName as fallback.
             string caption = ResourceHelper.GetOperatorTypeDisplayName(entity.GetOperatorTypeEnum());
             return caption;
         }

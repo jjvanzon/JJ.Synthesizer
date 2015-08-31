@@ -5,14 +5,10 @@ using JJ.Framework.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    // TODO: Make internal after refactoring.
-
-    public class NameValidator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
+    internal class NameValidator : FluentValidator_WithoutConstructorArgumentNullCheck<string>
     {
         private static int? _nameMaxLength;
         private bool _required;

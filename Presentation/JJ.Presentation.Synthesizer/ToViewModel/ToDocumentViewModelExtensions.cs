@@ -40,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_ForPatchOutlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToList(),
                 OperatorPropertiesList_ForSamples = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForSamples(repositoryWrapper.SampleRepository)).ToList(),
                 OperatorPropertiesList_ForValues = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForValues()).ToList(),
-                PatchDetailsList = document.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, entityPositionManager)).ToList(),
+                PatchDetailsList = document.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, repositoryWrapper.SampleRepository, repositoryWrapper.DocumentRepository, entityPositionManager)).ToList(),
                 PatchGrid = document.Patches.ToGridViewModel(document.ID),
                 SampleGrid = document.Samples.ToGridViewModel(document.ID),
                 SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList(),
@@ -75,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_ForSamples = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForSamples(repositoryWrapper.SampleRepository)).ToList(),
                 OperatorPropertiesList_ForValues = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForValues()).ToList(),
                 PatchGrid = childDocument.Patches.ToGridViewModel(childDocument.ID),
-                PatchDetailsList = childDocument.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, entityPositionManager)).ToList(),
+                PatchDetailsList = childDocument.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, repositoryWrapper.SampleRepository, repositoryWrapper.DocumentRepository, entityPositionManager)).ToList(),
                 SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(childDocument.ParentDocument, childDocument)
             };
 

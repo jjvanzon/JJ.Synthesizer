@@ -496,7 +496,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             double level = levelOutlet != null ? Calculate(levelOutlet, time) : 0;
-            double phaseStart = levelOutlet != null ? Calculate(phaseStartOutlet, time) : 0;
+            double phaseStart = phaseStartOutlet != null ? Calculate(phaseStartOutlet, time) : 0;
 
             double result = level + volume * Math.Sin(2 * (Math.PI * phaseStart + Math.PI * pitch * time));
             return result;

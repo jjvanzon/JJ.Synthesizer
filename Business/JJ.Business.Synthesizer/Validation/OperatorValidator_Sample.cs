@@ -25,9 +25,6 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => op.Data, PropertyDisplayNames.Data)
                 .IsInteger();
 
-            // TODO: Remove return statement when samples always come out of the document, and are not hacked into it in the PatchPlay action in the front-end.
-            return;
-
             int sampleID;
             if (Int32.TryParse(op.Data, out sampleID))
             {

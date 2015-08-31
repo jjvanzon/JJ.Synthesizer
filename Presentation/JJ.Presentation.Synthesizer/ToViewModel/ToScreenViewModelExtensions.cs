@@ -45,11 +45,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                    .Where(x => x.GetOperatorTypeEnum() != OperatorTypeEnum.PatchOutlet)
                                                    .SelectMany(x => x.Outlets)
                                                    .ToArray();
-            // TODO: Sort by something.
 
             // TODO: This will not cut it, because you only see the operator name on screen, not the patch name.
-            viewModel.OutletLookup = outlets.Select(x => x.ToIDAndName()).ToArray();
-
+            viewModel.OutletLookup = outlets.Select(x => x.ToIDAndName())
+                                            .OrderBy(x => x.Name)
+                                            .ToArray();
             return viewModel;
         }
 

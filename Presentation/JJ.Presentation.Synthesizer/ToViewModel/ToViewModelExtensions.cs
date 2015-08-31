@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -46,9 +47,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.SpeakerSetup = entity.SpeakerSetup.ToIDAndDisplayName();
             }
 
-            // TODO: OrderBy something.
-            viewModel.Channels = entity.AudioFileOutputChannels.Select(x => x.ToViewModelWithRelatedEntities()).ToList();
-
+            viewModel.Channels = entity.AudioFileOutputChannels.Select(x => x.ToViewModelWithRelatedEntities())
+                                                               .OrderBy(x => x.IndexNumber)
+                                                               .ToList();
             return viewModel;
         }
 
@@ -147,14 +148,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorViewModel ToViewModel(this Operator entity, EntityPositionManager entityPositionManager)
+        public static OperatorViewModel ToViewModel(
+            this Operator entity, EntityPositionManager entityPositionManager,
+            ISampleRepository sampleRepository, IDocumentRepository documentRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
 
             var viewModel = new OperatorViewModel();
 
-            ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, viewModel);
+            ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, viewModel, sampleRepository, documentRepository);
 
             EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(entity.ID);
             viewModel.EntityPositionID = entityPosition.ID;
@@ -224,7 +227,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return viewModel;
         }
-
+        
         // Sample
 
         public static SampleViewModel ToViewModel(this Sample entity, byte[] bytes)

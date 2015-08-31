@@ -697,7 +697,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             entity.Name = viewModel.Name;
-            entity.OperatorType = operatorTypeRepository.TryGet(viewModel.OperatorTypeID);
+            entity.OperatorType = operatorTypeRepository.TryGet(viewModel.OperatorType.ID);
 
             return entity;
         }

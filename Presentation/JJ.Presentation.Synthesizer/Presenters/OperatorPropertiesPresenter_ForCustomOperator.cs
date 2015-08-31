@@ -57,8 +57,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void Update()
         {
-            AssertViewModel();
-
             Operator entity = ViewModel.ToEntity(
                 _repositories.OperatorRepository,
                 _repositories.OperatorTypeRepository,

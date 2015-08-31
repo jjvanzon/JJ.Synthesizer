@@ -3,10 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using JJ.Framework.Common;
-using JJ.Framework.Presentation.WinForms;
 using JJ.Framework.Presentation.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms.Helpers
@@ -15,8 +12,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
     {
         public static Font DefaultFont { get; } = new Font("Verdana", 12);
         public static int DefaultSpacing { get; } = 4;
-
-        // TODO: It uses all labels, not just the labels in column 0.
 
         /// <summary>
         /// Sets the first column of the TableLayoutPanel to accommodate the width of all its Labels' Texts.
