@@ -8,6 +8,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -172,8 +173,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
-            IList<InletViewModel> viewModels = entities.OrderBy(x => x.SortOrder)
+            IList<InletViewModel> viewModels = entities.Where(x => ViewModelHelper.MustConvertToInletViewModel(x))
                                                        .Select(x => x.ToViewModel())
+                                                       .OrderBy(x => x.SortOrder)
                                                        .ToList();
             return viewModels;
         }
@@ -181,6 +183,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static InletViewModel ToViewModel(this Inlet entity)
         {
             if (entity == null) throw new NullException(() => entity);
+            if (!ViewModelHelper.MustConvertToInletViewModel(entity)) throw new MustNotConvertToInletViewModelException(entity);
 
             var viewModel = new InletViewModel
             {
@@ -196,8 +199,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entities == null) throw new NullException(() => entities);
 
-            IList<OutletViewModel> viewModels = entities.OrderBy(x => x.SortOrder)
+            IList<OutletViewModel> viewModels = entities.Where(x => ViewModelHelper.MustConvertToOutletViewModel(x))
                                                         .Select(x => x.ToViewModel())
+                                                        .OrderBy(x => x.SortOrder)
                                                         .ToList();
             return viewModels;
         }
@@ -205,6 +209,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static OutletViewModel ToViewModel(this Outlet entity)
         {
             if (entity == null) throw new NullException(() => entity);
+            if (!ViewModelHelper.MustConvertToOutletViewModel(entity)) throw new MustNotConvertToOutletViewModelException(entity);
 
             var viewModel = new OutletViewModel
             {

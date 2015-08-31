@@ -352,7 +352,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             IOperatorTypeRepository operatorTypeRepository, ISampleRepository sampleRepository, IDocumentRepository documentRepository,
             EntityPositionManager entityPositionManager)
         {
-            var converter = new RecursiveEntityToViewModelConverter(
+            var converter = new RecursiveToViewModelConverter(
                 operatorTypeRepository, sampleRepository, documentRepository, entityPositionManager);
 
             return converter.ConvertToDetailsViewModel(patch);

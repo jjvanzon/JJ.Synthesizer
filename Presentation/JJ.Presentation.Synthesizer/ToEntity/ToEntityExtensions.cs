@@ -49,7 +49,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 repositoryWrapper.CurveRepository,
                 repositoryWrapper.NodeRepository,
                 repositoryWrapper.NodeTypeRepository);
-            ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, repositoryWrapper);
+            ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, new PatchRepositories(repositoryWrapper));
             ToEntityHelper.ToAudioFileOutputsWithRelatedEntities(userInput.AudioFileOutputPropertiesList, destDocument, new AudioFileOutputRepositories(repositoryWrapper));
 
             // Operator Properties
@@ -228,7 +228,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 repositoryWrapper.CurveRepository,
                 repositoryWrapper.NodeRepository,
                 repositoryWrapper.NodeTypeRepository);
-            ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, repositoryWrapper);
+            ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, new PatchRepositories(repositoryWrapper));
 
             // Operator Properties
             // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
@@ -558,49 +558,22 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Patch
 
-        public static Patch ToEntityWithRelatedEntities(
-            this PatchDetailsViewModel viewModel,
-            IPatchRepository patchRepository,
-            IOperatorRepository operatorRepository,
-            IOperatorTypeRepository operatorTypeRepository,
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository,
-            IEntityPositionRepository entityPositionRepository)
+        public static Patch ToEntityWithRelatedEntities(this PatchDetailsViewModel viewModel, PatchRepositories patchRepositories)
         {
-            // TODO: Low priority: use PatchRepositories?
-
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Patch patch = viewModel.Entity.ToEntityWithRelatedEntities(
-                patchRepository,
-                operatorRepository,
-                operatorTypeRepository,
-                inletRepository,
-                outletRepository,
-                entityPositionRepository);
+            Patch patch = viewModel.Entity.ToEntityWithRelatedEntities(patchRepositories);
 
             return patch;
         }
 
-        public static Patch ToEntityWithRelatedEntities(
-            this PatchViewModel viewModel,
-            IPatchRepository patchRepository,
-            IOperatorRepository operatorRepository,
-            IOperatorTypeRepository operatorTypeRepository,
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository,
-            IEntityPositionRepository entityPositionRepository)
+        public static Patch ToEntityWithRelatedEntities(this PatchViewModel viewModel, PatchRepositories patchRepositories)
         {
-            // TODO: Low priority: use PatchRepositories?
+            if (patchRepositories == null) throw new NullException(() => patchRepositories);
 
-            Patch patch = viewModel.ToEntity(patchRepository);
+            Patch patch = viewModel.ToEntity(patchRepositories.PatchRepository);
 
-            var converter = new RecursiveViewModelToEntityConverter(
-                operatorRepository,
-                operatorTypeRepository,
-                inletRepository,
-                outletRepository,
-                entityPositionRepository);
+            var converter = new RecursiveToEntityConverter(patchRepositories);
 
             var convertedOperators = new HashSet<Operator>();
 
@@ -616,8 +589,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             foreach (Operator op in operatorsToDelete)
             {
                 op.UnlinkRelatedEntities();
-                op.DeleteRelatedEntities(inletRepository, outletRepository, entityPositionRepository);
-                operatorRepository.Delete(op);
+                op.DeleteRelatedEntities(patchRepositories.InletRepository, patchRepositories.OutletRepository, patchRepositories.EntityPositionRepository);
+                patchRepositories.OperatorRepository.Delete(op);
             }
 
             return patch;
@@ -657,28 +630,30 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Operator ToEntityWithInletsAndOutlets(
-            this OperatorViewModel viewModel,
-            IOperatorRepository operatorRepository,
-            IOperatorTypeRepository operatorTypeRepository,
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository)
+        public static Operator ToEntityWithInletsAndOutlets(this OperatorViewModel viewModel, PatchRepositories patchRepositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
+            if (patchRepositories == null) throw new NullException(() => patchRepositories);
 
-            Operator op = viewModel.ToEntity(operatorRepository, operatorTypeRepository);
+            Operator op = viewModel.ToEntity(patchRepositories.OperatorRepository, patchRepositories.OperatorTypeRepository);
 
+            // TODO: Also do delete operations.
+            // TOOD: Make sure you do not repeat so much code here and in RecursiveToEntityConverter.
             foreach (InletViewModel inletViewModel in viewModel.Inlets)
             {
-                Inlet inlet = inletViewModel.ToEntity(inletRepository);
+                Inlet inlet = inletViewModel.ToEntity(patchRepositories.InletRepository);
                 inlet.LinkTo(op);
             }
 
+            ToEntityHelper.HACK_CreatePatchInletInletIfNeeded(op, patchRepositories.InletRepository, patchRepositories.IDRepository);
+
             foreach (OutletViewModel outletViewModel in viewModel.Outlets)
             {
-                Outlet outlet = outletViewModel.ToEntity(outletRepository);
+                Outlet outlet = outletViewModel.ToEntity(patchRepositories.OutletRepository);
                 outlet.LinkTo(op);
             }
+
+            ToEntityHelper.HACK_CreatePatchOutletOutletIfNeeded(op, patchRepositories.OutletRepository, patchRepositories.IDRepository);
 
             return op;
         }

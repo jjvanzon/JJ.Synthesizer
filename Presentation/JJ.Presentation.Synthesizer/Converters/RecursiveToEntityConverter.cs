@@ -1,6 +1,5 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Business.Synthesizer.LinkTo;
 using System;
@@ -10,6 +9,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToEntity;
+using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Converters
 {
@@ -18,35 +18,17 @@ namespace JJ.Presentation.Synthesizer.Converters
     /// to entities. It delegates to the 'singular' forms of those conversions: the extension methods
     /// that do not convert anything other than the entity itself without any related entities.
     /// </summary>
-    internal class RecursiveViewModelToEntityConverter
+    internal class RecursiveToEntityConverter
     {
-        private readonly IOperatorRepository _operatorRepository;
-        private readonly IOperatorTypeRepository _operatorTypeRepository;
-        private readonly IInletRepository _inletRepository;
-        private readonly IOutletRepository _outletRepository;
-        private readonly IEntityPositionRepository _entityPositionRepository;
-
+        private readonly PatchRepositories _patchRepositories;
         private readonly Dictionary<int, Operator> _operatorDictionary = new Dictionary<int, Operator>();
         private readonly Dictionary<int, Outlet> _outletDictionary = new Dictionary<int, Outlet>();
 
-        public RecursiveViewModelToEntityConverter(
-            IOperatorRepository operatorRepository,
-            IOperatorTypeRepository operatorTypeRepository,
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository,
-            IEntityPositionRepository entityPositionRepository)
+        public RecursiveToEntityConverter(PatchRepositories patchRepositories)
         {
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
-            if (inletRepository == null) throw new NullException(() => inletRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
+            if (patchRepositories == null) throw new NullException(() => patchRepositories);
 
-            _operatorRepository = operatorRepository;
-            _operatorTypeRepository = operatorTypeRepository;
-            _inletRepository = inletRepository;
-            _outletRepository = outletRepository;
-            _entityPositionRepository = entityPositionRepository;
+            _patchRepositories = patchRepositories;
         }
 
         public Operator Convert(OperatorViewModel operatorViewModel)
@@ -66,11 +48,11 @@ namespace JJ.Presentation.Synthesizer.Converters
                 return op;
             }
 
-            op = viewModel.ToEntity(_operatorRepository, _operatorTypeRepository);
+            op = viewModel.ToEntity(_patchRepositories.OperatorRepository, _patchRepositories.OperatorTypeRepository);
 
             _operatorDictionary.Add(op.ID, op);
 
-            viewModel.ToEntityPosition(_entityPositionRepository);
+            viewModel.ToEntityPosition(_patchRepositories.EntityPositionRepository);
 
             ConvertToInletsRecursive(viewModel.Inlets, op);
             ConvertToOutletsRecursive(viewModel.Outlets, op);
@@ -89,13 +71,11 @@ namespace JJ.Presentation.Synthesizer.Converters
                 idsToKeep.Add(inlet.ID);
             }
 
-            // Hack back in a PatchInlet's Inlet, that was excluded from the view model.
-            if (destOperator.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
+            Inlet patchInletInlet = ToEntityHelper.HACK_CreatePatchInletInletIfNeeded(
+                destOperator, _patchRepositories.InletRepository, _patchRepositories.IDRepository);
+            if (patchInletInlet != null)
             {
-                // It is quite a hack, because it relies on the dest operator's already having this inlet.
-                Inlet inlet = destOperator.Inlets.Where(x => String.Equals(x.Name, PropertyNames.Input)).Single();
-
-                idsToKeep.Add(inlet.ID);
+                idsToKeep.Add(patchInletInlet.ID);
             }
 
             int[] existingIDs = destOperator.Inlets.Select(x => x.ID).ToArray();
@@ -103,9 +83,9 @@ namespace JJ.Presentation.Synthesizer.Converters
 
             foreach (int idToDelete in idsToDelete)
             {
-                Inlet entityToDelete = _inletRepository.Get(idToDelete);
+                Inlet entityToDelete = _patchRepositories.InletRepository.Get(idToDelete);
                 entityToDelete.UnlinkRelatedEntities();
-                _inletRepository.Delete(entityToDelete);
+                _patchRepositories.InletRepository.Delete(entityToDelete);
             }
         }
 
@@ -120,13 +100,11 @@ namespace JJ.Presentation.Synthesizer.Converters
                 idsToKeep.Add(outlet.ID);
             }
 
-            // Hack back in a PatchOutlet's Outlet, that was excluded from the view model.
-            if (destOperator.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
+            Outlet patchOutletOutlet = ToEntityHelper.HACK_CreatePatchOutletOutletIfNeeded(
+                destOperator, _patchRepositories.OutletRepository, _patchRepositories.IDRepository);
+            if (patchOutletOutlet != null)
             {
-                // It is quite a hack, because it relies on the dest operator's already having this outlet.
-                Outlet outlet = destOperator.Outlets.Where(x => String.Equals(x.Name, PropertyNames.Result)).Single();
-
-                idsToKeep.Add(outlet.ID);
+                idsToKeep.Add(patchOutletOutlet.ID);
             }
 
             int[] existingIDs = destOperator.Outlets.Select(x => x.ID).ToArray();
@@ -134,15 +112,15 @@ namespace JJ.Presentation.Synthesizer.Converters
 
             foreach (int outletIDToDelete in idsToDelete)
             {
-                Outlet entityToDelete = _outletRepository.Get(outletIDToDelete);
+                Outlet entityToDelete = _patchRepositories.OutletRepository.Get(outletIDToDelete);
                 entityToDelete.UnlinkRelatedEntities();
-                _outletRepository.Delete(entityToDelete);
+                _patchRepositories.OutletRepository.Delete(entityToDelete);
             }
         }
 
         private Inlet ToEntityRecursive(InletViewModel inletViewModel)
         {
-            Inlet inlet = inletViewModel.ToEntity(_inletRepository);
+            Inlet inlet = inletViewModel.ToEntity(_patchRepositories.InletRepository);
 
             if (inletViewModel.InputOutlet == null)
             {
@@ -191,7 +169,7 @@ namespace JJ.Presentation.Synthesizer.Converters
             if (outlet == null)
             {
                 // Operator.ToEntityWithRelatedEntities has not yet converted the outlet.
-                outlet = outletViewModel.ToEntity(_outletRepository);
+                outlet = outletViewModel.ToEntity(_patchRepositories.OutletRepository);
                 outlet.LinkTo(op);
                 _outletDictionary.Add(outlet.ID, outlet);
             }

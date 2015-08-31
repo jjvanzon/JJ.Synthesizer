@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -79,6 +80,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             UpdateOutletViewModels(entity.Outlets, operatorViewModel);
         }
 
+        /// <summary>
+        /// Is used to be able to update an existing operator view model in-place
+        /// without having to re-establish the intricate relations with other operators.
+        /// </summary>
         public static void UpdateInletViewModels(IList<Inlet> sourceInlets, OperatorViewModel destOperatorViewModel)
         {
             if (sourceInlets == null) throw new NullException(() => sourceInlets);
@@ -87,6 +92,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var inletViewModelsToKeep = new List<InletViewModel>(sourceInlets.Count);
             foreach (Inlet inlet in sourceInlets)
             {
+                if (!MustConvertToInletViewModel(inlet))
+                {
+                    continue;
+                }
+
                 InletViewModel inletViewModel = destOperatorViewModel.Inlets.Where(x => x.ID == inlet.ID).FirstOrDefault();
                 if (inletViewModel == null)
                 {
@@ -111,6 +121,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             destOperatorViewModel.Inlets = destOperatorViewModel.Inlets.OrderBy(x => x.SortOrder).ToList();
         }
 
+        /// <summary>
+        /// Is used to be able to update an existing operator view model in-place
+        /// without having to re-establish the intricate relations with other operators.
+        /// </summary>
         public static void UpdateOutletViewModels(IList<Outlet> sourceOutlets, OperatorViewModel destOperatorViewModel)
         {
             if (sourceOutlets == null) throw new NullException(() => sourceOutlets);
@@ -119,6 +133,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var outletViewModelsToKeep = new List<OutletViewModel>(sourceOutlets.Count);
             foreach (Outlet outlet in sourceOutlets)
             {
+                if (!MustConvertToOutletViewModel(outlet))
+                {
+                    continue;
+                }
+
                 OutletViewModel outletViewModel = destOperatorViewModel.Outlets.Where(x => x.ID == outlet.ID).FirstOrDefault();
                 if (outletViewModel == null)
                 {
@@ -171,6 +190,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.OperatorType = null; // Should never happen.
             }
+        }
+
+        /// <summary> The inlet of a PatchInlet operator is never converted to view model. </summary>
+        public static bool MustConvertToInletViewModel(Inlet inlet)
+        {
+            if (inlet == null) throw new NullException(() => inlet);
+
+            bool mustConvert = inlet.Operator.GetOperatorTypeEnum() != OperatorTypeEnum.PatchInlet;
+            return mustConvert;
+        }
+
+        /// <summary> The outlet of a PatchOutlet operator is never converted to view model. </summary>
+        public static bool MustConvertToOutletViewModel(Outlet outlet)
+        {
+            if (outlet == null) throw new NullException(() => outlet);
+
+            bool mustConvert = outlet.Operator.GetOperatorTypeEnum() != OperatorTypeEnum.PatchOutlet;
+            return mustConvert;
         }
 
         private static string GetOperatorCaption(Operator entity, ISampleRepository sampleRepository, IDocumentRepository documentRepository)

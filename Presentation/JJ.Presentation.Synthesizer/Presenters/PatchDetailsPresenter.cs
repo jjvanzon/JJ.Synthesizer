@@ -74,13 +74,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Patch patch = ViewModel.ToEntityWithRelatedEntities(
-                _repositories.PatchRepository,
-                _repositories.OperatorRepository,
-                _repositories.OperatorTypeRepository,
-                _repositories.InletRepository,
-                _repositories.OutletRepository,
-                _repositories.EntityPositionRepository);
+            Patch patch = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // TODO: Use PatchManager?
             IValidator validator = new PatchValidator_Recursive(patch, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository, alreadyDone: new HashSet<object>());
@@ -255,19 +249,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         // Helpers
-
-        private Patch ToEntity(PatchDetailsViewModel userInput)
-        {
-            Patch patch = userInput.ToEntityWithRelatedEntities(
-                _repositories.PatchRepository,
-                _repositories.OperatorRepository,
-                _repositories.OperatorTypeRepository,
-                _repositories.InletRepository,
-                _repositories.OutletRepository,
-                _repositories.EntityPositionRepository);
-
-            return patch;
-        }
 
         /// <summary>
         /// The SelectedOperator is non-persisted data.

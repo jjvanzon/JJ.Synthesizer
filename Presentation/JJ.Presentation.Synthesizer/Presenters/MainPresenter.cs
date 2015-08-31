@@ -41,47 +41,50 @@ namespace JJ.Presentation.Synthesizer.Presenters
     /// </summary>
     public class MainPresenter
     {
-        private RepositoryWrapper _repositoryWrapper;
+        private readonly RepositoryWrapper _repositoryWrapper;
+        private readonly PatchRepositories _patchRepositories;
 
-        private AudioFileOutputGridPresenter _audioFileOutputGridPresenter;
-        private AudioFileOutputPropertiesPresenter _audioFileOutputPropertiesPresenter;
-        private ChildDocumentGridPresenter _effectGridPresenter;
-        private ChildDocumentGridPresenter _instrumentGridPresenter;
-        private ChildDocumentPropertiesPresenter _childDocumentPropertiesPresenter;
-        private CurveDetailsPresenter _curveDetailsPresenter;
-        private CurveGridPresenter _curveGridPresenter;
-        private DocumentCannotDeletePresenter _documentCannotDeletePresenter;
-        private DocumentDeletedPresenter _documentDeletedPresenter;
-        private DocumentDeletePresenter _documentDeletePresenter;
-        private DocumentDetailsPresenter _documentDetailsPresenter;
-        private DocumentGridPresenter _documentGridPresenter;
-        private DocumentPropertiesPresenter _documentPropertiesPresenter;
-        private DocumentTreePresenter _documentTreePresenter;
-        private MenuPresenter _menuPresenter;
-        private NotFoundPresenter _notFoundPresenter;
-        private OperatorPropertiesPresenter _operatorPropertiesPresenter;
-        private OperatorPropertiesPresenter_ForCustomOperator _operatorPropertiesPresenter_ForCustomOperator;
-        private OperatorPropertiesPresenter_ForPatchInlet _operatorPropertiesPresenter_ForPatchInlet;
-        private OperatorPropertiesPresenter_ForPatchOutlet _operatorPropertiesPresenter_ForPatchOutlet;
-        private OperatorPropertiesPresenter_ForSample _operatorPropertiesPresenter_ForSample;
-        private OperatorPropertiesPresenter_ForValue _operatorPropertiesPresenter_ForValue;
-        private PatchDetailsPresenter _patchDetailsPresenter;
-        private PatchGridPresenter _patchGridPresenter;
-        private SampleGridPresenter _sampleGridPresenter;
-        private SamplePropertiesPresenter _samplePropertiesPresenter;
+        private readonly AudioFileOutputGridPresenter _audioFileOutputGridPresenter;
+        private readonly AudioFileOutputPropertiesPresenter _audioFileOutputPropertiesPresenter;
+        private readonly ChildDocumentGridPresenter _effectGridPresenter;
+        private readonly ChildDocumentGridPresenter _instrumentGridPresenter;
+        private readonly ChildDocumentPropertiesPresenter _childDocumentPropertiesPresenter;
+        private readonly CurveDetailsPresenter _curveDetailsPresenter;
+        private readonly CurveGridPresenter _curveGridPresenter;
+        private readonly DocumentCannotDeletePresenter _documentCannotDeletePresenter;
+        private readonly DocumentDeletedPresenter _documentDeletedPresenter;
+        private readonly DocumentDeletePresenter _documentDeletePresenter;
+        private readonly DocumentDetailsPresenter _documentDetailsPresenter;
+        private readonly DocumentGridPresenter _documentGridPresenter;
+        private readonly DocumentPropertiesPresenter _documentPropertiesPresenter;
+        private readonly DocumentTreePresenter _documentTreePresenter;
+        private readonly MenuPresenter _menuPresenter;
+        private readonly NotFoundPresenter _notFoundPresenter;
+        private readonly OperatorPropertiesPresenter _operatorPropertiesPresenter;
+        private readonly OperatorPropertiesPresenter_ForCustomOperator _operatorPropertiesPresenter_ForCustomOperator;
+        private readonly OperatorPropertiesPresenter_ForPatchInlet _operatorPropertiesPresenter_ForPatchInlet;
+        private readonly OperatorPropertiesPresenter_ForPatchOutlet _operatorPropertiesPresenter_ForPatchOutlet;
+        private readonly OperatorPropertiesPresenter_ForSample _operatorPropertiesPresenter_ForSample;
+        private readonly OperatorPropertiesPresenter_ForValue _operatorPropertiesPresenter_ForValue;
+        private readonly PatchDetailsPresenter _patchDetailsPresenter;
+        private readonly PatchGridPresenter _patchGridPresenter;
+        private readonly SampleGridPresenter _sampleGridPresenter;
+        private readonly SamplePropertiesPresenter _samplePropertiesPresenter;
 
-        private EntityPositionManager _entityPositionManager;
-        private PatchManager _patchManager;
-        private CurveManager _curveManager;
-        private SampleManager _sampleManager;
-        private AudioFileOutputManager _audioFileOutputManager;
+        private readonly EntityPositionManager _entityPositionManager;
+        private readonly PatchManager _patchManager;
+        private readonly CurveManager _curveManager;
+        private readonly SampleManager _sampleManager;
+        private readonly AudioFileOutputManager _audioFileOutputManager;
+
+        public MainViewModel ViewModel { get; private set; }
 
         public MainPresenter(RepositoryWrapper repositoryWrapper)
         {
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
             _repositoryWrapper = repositoryWrapper;
-            var patchRepositories = new PatchRepositories(_repositoryWrapper);
+            _patchRepositories = new PatchRepositories(_repositoryWrapper);
 
             _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_repositoryWrapper.DocumentRepository);
             _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(new AudioFileOutputRepositories(_repositoryWrapper));
@@ -105,18 +108,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _instrumentGridPresenter = new ChildDocumentGridPresenter(_repositoryWrapper.DocumentRepository);
             _menuPresenter = new MenuPresenter();
             _notFoundPresenter = new NotFoundPresenter();
-            _operatorPropertiesPresenter = new OperatorPropertiesPresenter(patchRepositories);
-            _operatorPropertiesPresenter_ForCustomOperator = new OperatorPropertiesPresenter_ForCustomOperator(patchRepositories);
-            _operatorPropertiesPresenter_ForPatchInlet = new OperatorPropertiesPresenter_ForPatchInlet(patchRepositories);
-            _operatorPropertiesPresenter_ForPatchOutlet = new OperatorPropertiesPresenter_ForPatchOutlet(patchRepositories);
-            _operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(patchRepositories);
-            _operatorPropertiesPresenter_ForValue = new OperatorPropertiesPresenter_ForValue(patchRepositories);
-            _patchDetailsPresenter = _patchDetailsPresenter = new PatchDetailsPresenter(patchRepositories);
+            _operatorPropertiesPresenter = new OperatorPropertiesPresenter(_patchRepositories);
+            _operatorPropertiesPresenter_ForCustomOperator = new OperatorPropertiesPresenter_ForCustomOperator(_patchRepositories);
+            _operatorPropertiesPresenter_ForPatchInlet = new OperatorPropertiesPresenter_ForPatchInlet(_patchRepositories);
+            _operatorPropertiesPresenter_ForPatchOutlet = new OperatorPropertiesPresenter_ForPatchOutlet(_patchRepositories);
+            _operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_patchRepositories);
+            _operatorPropertiesPresenter_ForValue = new OperatorPropertiesPresenter_ForValue(_patchRepositories);
+            _patchDetailsPresenter = _patchDetailsPresenter = new PatchDetailsPresenter(_patchRepositories);
             _patchGridPresenter = new PatchGridPresenter(_repositoryWrapper.DocumentRepository);
             _sampleGridPresenter = new SampleGridPresenter(_repositoryWrapper.DocumentRepository, _repositoryWrapper.SampleRepository);
             _samplePropertiesPresenter = new SamplePropertiesPresenter(new SampleRepositories(_repositoryWrapper));
 
-            _patchManager = new PatchManager(patchRepositories);
+            _patchManager = new PatchManager(_patchRepositories);
             _curveManager = new CurveManager(_repositoryWrapper.CurveRepository, _repositoryWrapper.NodeRepository);
             _sampleManager = new SampleManager(new SampleRepositories(_repositoryWrapper));
             _audioFileOutputManager = new AudioFileOutputManager(
@@ -134,9 +137,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
         }
 
-        // General
-
-        public MainViewModel ViewModel { get; private set; }
+        // General Actions
 
         public void Show()
         {
@@ -184,7 +185,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        // Document List
+        // Document List Actions
 
         public void DocumentGridShow(int pageNumber)
         {
@@ -1165,11 +1166,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
                 // the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
                 OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
-                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
-                    _repositoryWrapper.OperatorRepository,
-                    _repositoryWrapper.OperatorTypeRepository,
-                    _repositoryWrapper.InletRepository,
-                    _repositoryWrapper.OutletRepository);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
 
                 partialPresenter.Close();
 
@@ -1203,11 +1200,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
                 // the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
                 OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
-                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
-                    _repositoryWrapper.OperatorRepository,
-                    _repositoryWrapper.OperatorTypeRepository,
-                    _repositoryWrapper.InletRepository,
-                    _repositoryWrapper.OutletRepository);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
 
                 partialPresenter.Close();
 
@@ -1236,11 +1229,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
                 // the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
                 OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
-                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
-                    _repositoryWrapper.OperatorRepository,
-                    _repositoryWrapper.OperatorTypeRepository,
-                    _repositoryWrapper.InletRepository,
-                    _repositoryWrapper.OutletRepository);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
 
                 partialPresenter.Close();
 
@@ -1269,11 +1258,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Convert OperatorViewModel (from PatchDetail) to entity, because we are about to validate
                 // the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
                 OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
-                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
-                    _repositoryWrapper.OperatorRepository,
-                    _repositoryWrapper.OperatorTypeRepository,
-                    _repositoryWrapper.InletRepository,
-                    _repositoryWrapper.OutletRepository);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
 
                 // Convert the document, child documents + samples
                 // because we are about to validate a sample operator's reference to its sample.
@@ -1309,11 +1294,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
                 // the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
                 OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
-                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
-                    _repositoryWrapper.OperatorRepository,
-                    _repositoryWrapper.OperatorTypeRepository,
-                    _repositoryWrapper.InletRepository,
-                    _repositoryWrapper.OutletRepository);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
 
                 partialPresenter.Close();
 
@@ -1343,11 +1324,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
                 int operatorID = partialPresenter.ViewModel.ID;
                 OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, operatorID);
-                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
-                    _repositoryWrapper.OperatorRepository, 
-                    _repositoryWrapper.OperatorTypeRepository,
-                    _repositoryWrapper.InletRepository,
-                    _repositoryWrapper.OutletRepository);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
 
                 partialPresenter.LoseFocus();
 
@@ -1381,11 +1358,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
                 // the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
                 OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
-                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
-                    _repositoryWrapper.OperatorRepository,
-                    _repositoryWrapper.OperatorTypeRepository,
-                    _repositoryWrapper.InletRepository,
-                    _repositoryWrapper.OutletRepository);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
 
                 partialPresenter.LoseFocus();
 
@@ -1414,11 +1387,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
                 // the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
                 OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
-                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
-                    _repositoryWrapper.OperatorRepository,
-                    _repositoryWrapper.OperatorTypeRepository,
-                    _repositoryWrapper.InletRepository,
-                    _repositoryWrapper.OutletRepository);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
 
                 partialPresenter.LoseFocus();
 
@@ -1447,11 +1416,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Convert OperatorViewModel (from PatchDetail) to entity, because we are about to validate
                 // the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
                 OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
-                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
-                    _repositoryWrapper.OperatorRepository,
-                    _repositoryWrapper.OperatorTypeRepository,
-                    _repositoryWrapper.InletRepository,
-                    _repositoryWrapper.OutletRepository);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
 
                 // Convert the document, child documents + samples
                 // because we are about to validate a sample operator's reference to its sample.
@@ -1487,11 +1452,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
                 // the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
                 OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
-                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(
-                    _repositoryWrapper.OperatorRepository,
-                    _repositoryWrapper.OperatorTypeRepository,
-                    _repositoryWrapper.InletRepository,
-                    _repositoryWrapper.OutletRepository);
+                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
 
                 partialPresenter.LoseFocus();
 
@@ -1554,13 +1515,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 // ToEntity
-                Patch patch = _patchDetailsPresenter.ViewModel.ToEntityWithRelatedEntities(
-                    _repositoryWrapper.PatchRepository,
-                    _repositoryWrapper.OperatorRepository,
-                    _repositoryWrapper.OperatorTypeRepository,
-                    _repositoryWrapper.InletRepository,
-                    _repositoryWrapper.OutletRepository,
-                    _repositoryWrapper.EntityPositionRepository);
+                Patch patch = _patchDetailsPresenter.ViewModel.ToEntityWithRelatedEntities(_patchRepositories);
 
                 // Business
                 Operator op = _patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);

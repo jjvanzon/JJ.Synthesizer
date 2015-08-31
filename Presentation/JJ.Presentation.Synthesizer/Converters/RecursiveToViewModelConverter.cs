@@ -1,6 +1,5 @@
 ﻿using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
@@ -9,12 +8,11 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Converters
 {
-    internal class RecursiveEntityToViewModelConverter
+    internal class RecursiveToViewModelConverter
     {
         private readonly IOperatorTypeRepository _operatorTypeRepository;
         private readonly ISampleRepository _sampleRepository;
@@ -22,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.Converters
         private readonly EntityPositionManager _entityPositionManager;
         private Dictionary<Operator, OperatorViewModel> _dictionary;
 
-        public RecursiveEntityToViewModelConverter(
+        public RecursiveToViewModelConverter(
             IOperatorTypeRepository operatorTypeRepository, ISampleRepository sampleRepository, IDocumentRepository documentRepository,
             EntityPositionManager entityPositionManager)
         {
@@ -94,33 +92,17 @@ namespace JJ.Presentation.Synthesizer.Converters
 
             _dictionary.Add(op, viewModel);
 
-            // TODO: Low priority: When PatchInlets do not have inlets and PatchOutlets do not have PatchOutlets (in the future) these if's are probably not necessary anymore.
-
-            if (op.GetOperatorTypeEnum() != OperatorTypeEnum.PatchInlet)
-            {
-                viewModel.Inlets = ConvertToViewModelsRecursive(op.Inlets);
-            }
-            else
-            {
-                viewModel.Inlets = new List<InletViewModel>();
-            }
-
-            if (op.GetOperatorTypeEnum() != OperatorTypeEnum.PatchOutlet)
-            {
-                viewModel.Outlets = ConvertToViewModelsRecursive(op.Outlets);
-            }
-            else
-            {
-                viewModel.Outlets = new List<OutletViewModel>();
-            }
+            viewModel.Inlets = ConvertToViewModelsRecursive(op.Inlets);
+            viewModel.Outlets = ConvertToViewModelsRecursive(op.Outlets);
 
             return viewModel;
         }
 
         private IList<InletViewModel> ConvertToViewModelsRecursive(IList<Inlet> entities)
         {
-            IList<InletViewModel> viewModels = entities.OrderBy(x => x.SortOrder)
+            IList<InletViewModel> viewModels = entities.Where(x => ViewModelHelper.MustConvertToInletViewModel(x))
                                                        .Select(x => ConvertToViewModelRecursive(x))
+                                                       .OrderBy(x => x.SortOrder)
                                                        .ToList();
             return viewModels;
         }
@@ -139,8 +121,9 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         private IList<OutletViewModel> ConvertToViewModelsRecursive(IList<Outlet> entities)
         {
-            IList<OutletViewModel> viewModels = entities.OrderBy(x => x.SortOrder)
+            IList<OutletViewModel> viewModels = entities.Where(x => ViewModelHelper.MustConvertToOutletViewModel(x))
                                                         .Select(x => ConvertToViewModelRecursive(x))
+                                                        .OrderBy(x => x.SortOrder)
                                                         .ToList();
             return viewModels;
         }

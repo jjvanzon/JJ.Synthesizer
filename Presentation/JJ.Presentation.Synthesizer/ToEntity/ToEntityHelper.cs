@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
@@ -159,24 +160,18 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         /// </summary>
         public static void ToPatchesWithRelatedEntities(
             IList<PatchDetailsViewModel> viewModelList, 
-            Document destDocument, 
-            RepositoryWrapper repositoryWrapper)
+            Document destDocument,
+            PatchRepositories patchRepositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destDocument == null) throw new NullException(() => destDocument);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            if (patchRepositories == null) throw new NullException(() => patchRepositories);
 
             var idsToKeep = new HashSet<int>();
 
             foreach (PatchDetailsViewModel viewModel in viewModelList)
             {
-                Patch entity = viewModel.Entity.ToEntityWithRelatedEntities(
-                    repositoryWrapper.PatchRepository,
-                    repositoryWrapper.OperatorRepository,
-                    repositoryWrapper.OperatorTypeRepository, 
-                    repositoryWrapper.InletRepository, 
-                    repositoryWrapper.OutletRepository, 
-                    repositoryWrapper.EntityPositionRepository);
+                Patch entity = viewModel.Entity.ToEntityWithRelatedEntities(patchRepositories);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -189,10 +184,14 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                Patch entityToDelete = repositoryWrapper.PatchRepository.Get(idToDelete);
+                Patch entityToDelete = patchRepositories.PatchRepository.Get(idToDelete);
                 entityToDelete.UnlinkRelatedEntities();
-                entityToDelete.DeleteRelatedEntities(repositoryWrapper.OperatorRepository, repositoryWrapper.InletRepository, repositoryWrapper.OutletRepository, repositoryWrapper.EntityPositionRepository);
-                repositoryWrapper.PatchRepository.Delete(entityToDelete);
+                entityToDelete.DeleteRelatedEntities(
+                    patchRepositories.OperatorRepository, 
+                    patchRepositories.InletRepository, 
+                    patchRepositories.OutletRepository, 
+                    patchRepositories.EntityPositionRepository);
+                patchRepositories.PatchRepository.Delete(entityToDelete);
             }
         }
 
@@ -270,7 +269,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IList<NodeViewModel> viewModelList, 
             Curve destCurve, 
             INodeRepository nodeRepository, 
-            INodeTypeRepository nodeTypeRepository)
+            INodeTypeRepository
+            nodeTypeRepository)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destCurve == null) throw new NullException(() => destCurve);
@@ -298,6 +298,60 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entityToDelete.UnlinkRelatedEntities();
                 nodeRepository.Delete(entityToDelete);
             }
+        }
+
+        /// <summary>
+        /// Hack back in a PatchOutlet's Outlet, that was excluded from the view model.
+        /// </summary>
+        public static Outlet HACK_CreatePatchOutletOutletIfNeeded(
+            Operator op, IOutletRepository outletRepository, IIDRepository idRepository)
+        {
+            if (op == null) throw new NullException(() => op);
+            if (outletRepository == null) throw new NullException(() => outletRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
+
+            if (op.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
+            {
+                Outlet outlet = op.Outlets.Where(x => String.Equals(x.Name, PropertyNames.Result)).FirstOrDefault();
+                if (outlet == null)
+                {
+                    outlet = new Outlet();
+                    outlet.ID = idRepository.GetID();
+                    outlet.Name = PropertyNames.Result;
+                    outlet.SortOrder = 1;
+                    outletRepository.Insert(outlet);
+                    outlet.LinkTo(op);
+                }
+
+                return outlet;
+            }
+
+            return null;
+        }
+
+        public static Inlet HACK_CreatePatchInletInletIfNeeded(Operator op, IInletRepository inletRepository, IIDRepository idRepository)
+        {
+            if (op == null) throw new NullException(() => op);
+            if (inletRepository == null) throw new NullException(() => inletRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
+
+            // Hack back in a PatchInlet's Inlet, that was excluded from the view model.
+            if (op.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
+            {
+                Inlet inlet = op.Inlets.Where(x => String.Equals(x.Name, PropertyNames.Input)).FirstOrDefault();
+                if (inlet == null)
+                {
+                    inlet = new Inlet();
+                    inlet.ID = idRepository.GetID();
+                    inlet.Name = PropertyNames.Input;
+                    inlet.SortOrder = 1;
+                    inletRepository.Insert(inlet);
+                    inlet.LinkTo(op);
+                }
+                return inlet;
+            }
+
+            return null;
         }
     }
 }

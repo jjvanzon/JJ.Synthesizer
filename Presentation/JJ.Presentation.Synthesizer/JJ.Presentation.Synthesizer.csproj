@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Helpers\ConfigurationSection.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="Helpers\MustNotConvertToOutletViewModelException.cs" />
+    <Compile Include="Helpers\MustNotConvertToInletViewModelException.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
     <Compile Include="Presenters\ChildDocumentGridPresenter.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForSample.cs" />
@@ -55,7 +57,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PresentationMessages.resx</DependentUpon>
     </Compile>
-    <Compile Include="Converters\RecursiveViewModelToEntityConverter.cs" />
+    <Compile Include="Converters\RecursiveToEntityConverter.cs" />
     <Compile Include="Helpers\ValidationMessageExtensions.cs" />
     <Compile Include="Helpers\ChildDocumentHelper.cs" />
     <Compile Include="Presenters\AudioFileOutputPropertiesPresenter.cs" />
@@ -99,7 +101,7 @@
     </Compile>
     <Compile Include="ToEntity\ToEntityExtensions.cs" />
     <Compile Include="ToViewModel\ToIDAndNameExtensions.cs" />
-    <Compile Include="Converters\RecursiveEntityToViewModelConverter.cs" />
+    <Compile Include="Converters\RecursiveToViewModelConverter.cs" />
     <Compile Include="ToViewModel\ToViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.EmptyViewModels.cs" />
     <Compile Include="ViewModels\AudioFileOutputPropertiesViewModel.cs" />
