@@ -149,8 +149,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static OperatorViewModel ToViewModel(
-            this Operator entity, EntityPositionManager entityPositionManager,
-            ISampleRepository sampleRepository, IDocumentRepository documentRepository)
+            this Operator entity, 
+            ISampleRepository sampleRepository, IDocumentRepository documentRepository, 
+            EntityPositionManager entityPositionManager)
         {
             if (entity == null) throw new NullException(() => entity);
             if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
@@ -227,7 +228,35 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return viewModel;
         }
-        
+
+        /// <summary>
+        /// Includes its inlets and outlets.
+        /// Also includes the inverse property OutletViewModel.Operator.
+        /// That view model is one the few with an inverse property.
+        /// </summary>
+        public static OperatorViewModel ToViewModelWithRelatedEntitiesAndInverseProperties(
+            this Operator op,
+            ISampleRepository sampleRepository, IDocumentRepository documentRepository,
+            EntityPositionManager entityPositionManager)
+        {
+            if (op == null) throw new NullException(() => op);
+            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+
+            OperatorViewModel operatorViewModel = op.ToViewModel(sampleRepository, documentRepository, entityPositionManager);
+            operatorViewModel.Inlets = op.Inlets.ToViewModels();
+            operatorViewModel.Outlets = op.Outlets.ToViewModels();
+
+            // This is the inverse property in the view model!
+            foreach (OutletViewModel outletViewModel in operatorViewModel.Outlets)
+            {
+                outletViewModel.Operator = operatorViewModel;
+            }
+
+            return operatorViewModel;
+        }
+
         // Sample
 
         public static SampleViewModel ToViewModel(this Sample entity, byte[] bytes)

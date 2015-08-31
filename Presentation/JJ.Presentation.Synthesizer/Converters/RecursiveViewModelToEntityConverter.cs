@@ -8,10 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ToEntity;
 
-namespace JJ.Presentation.Synthesizer.ToEntity
+namespace JJ.Presentation.Synthesizer.Converters
 {
     /// <summary>
     /// Handles the recursive conversion of viewmodels of operators and their inlets and outlets

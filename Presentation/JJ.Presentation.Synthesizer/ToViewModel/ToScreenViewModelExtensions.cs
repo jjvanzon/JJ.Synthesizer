@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.Converters;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -342,6 +343,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
+        }
+
+        // Patch
+
+        public static PatchDetailsViewModel ToDetailsViewModel(
+            this Patch patch,
+            IOperatorTypeRepository operatorTypeRepository, ISampleRepository sampleRepository, IDocumentRepository documentRepository,
+            EntityPositionManager entityPositionManager)
+        {
+            var converter = new RecursiveEntityToViewModelConverter(
+                operatorTypeRepository, sampleRepository, documentRepository, entityPositionManager);
+
+            return converter.ConvertToDetailsViewModel(patch);
         }
 
         // Sample

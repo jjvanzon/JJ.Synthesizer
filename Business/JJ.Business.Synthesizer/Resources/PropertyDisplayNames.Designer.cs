@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Document.
+        ///   Looks up a localized string similar to Child Document.
         /// </summary>
         public static string ChildDocument {
             get {

@@ -172,10 +172,14 @@ namespace JJ.Presentation.Synthesizer.Svg
                     Curve destCurve = TryGetInletCurve(id);
                     if (destCurve == null)
                     {
-                        destCurve = CreateCurve();
-                        destCurve.Tag = SvgTagHelper.GetInletTag(id);
-                        destCurve.Diagram = destDiagram;
-                        destCurve.Parent = destDiagram.Canvas;
+                        destCurve = new Curve
+                        {
+                            LineStyle = StyleHelper.LineStyleThin,
+                            ZIndex = -1,
+                            Tag = SvgTagHelper.GetInletTag(id),
+                            Diagram = destDiagram,
+                            Parent = destDiagram.Canvas
+                        };
                         _inletCurveDictionary.Add(id, destCurve);
                     }
 
@@ -214,17 +218,6 @@ namespace JJ.Presentation.Synthesizer.Svg
             }
 
             return curve;
-        }
-
-        private Curve CreateCurve()
-        {
-            var destCurve = new Curve
-            {
-                LineStyle = StyleHelper.LineStyleThin,
-                ZIndex = -1
-            };
-
-            return destCurve;
         }
 
         private OperatorElements ConvertToRectangle_WithRelatedObjects(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)

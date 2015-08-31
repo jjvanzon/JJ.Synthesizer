@@ -74,8 +74,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             IList<OperatorType> operatorTypes = operatorTypeRepository.GetAllOrderedBySortOrder();
 
-            IList<OperatorTypeViewModel> operatorTypeViewModels = operatorTypes.Select(x => x.ToViewModel()).ToArray();
-
+            IList<OperatorTypeViewModel> operatorTypeViewModels = operatorTypes.Select(x => x.ToViewModel())
+                                                                               .OrderBy(x => x.DisplayName)
+                                                                               .ToArray();
             return operatorTypeViewModels;
         }
 

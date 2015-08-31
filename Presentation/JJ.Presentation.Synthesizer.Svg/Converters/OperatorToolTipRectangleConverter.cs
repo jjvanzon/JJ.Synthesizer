@@ -46,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             destOperatorToolTipRectangle.Y = PositionHelper.CalculateY(StyleHelper.DEFAULT_HEIGHT, rowCount: 4, rowIndexFrom: 1);
             destOperatorToolTipRectangle.Height = PositionHelper.CalculateHeight(StyleHelper.DEFAULT_HEIGHT, rowCount: 4, rowIndexFrom: 1, rowIndexTill: 2);
             destOperatorToolTipRectangle.BackStyle = StyleHelper.BackStyleInvisible;
-            destOperatorToolTipRectangle.LineStyle = StyleHelper.LineStyleInvisible;
+            destOperatorToolTipRectangle.LineStyle = StyleHelper.BorderStyleInvisible;
 
             if (_operatorToolTipGesture != null)
             {

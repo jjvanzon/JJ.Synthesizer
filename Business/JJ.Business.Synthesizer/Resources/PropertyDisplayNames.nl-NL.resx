@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Add" xml:space="preserve">
-    <value>Optellen</value>
+    <value>Plus</value>
   </data>
   <data name="Adder" xml:space="preserve">
     <value>Opteller</value>
@@ -139,7 +139,7 @@
     <value>Ingangen</value>
   </data>
   <data name="Multiply" xml:space="preserve">
-    <value>Vermenigvuldigen</value>
+    <value>Maal</value>
   </data>
   <data name="Nodes" xml:space="preserve">
     <value>Knooppunten</value>
@@ -157,10 +157,10 @@
     <value>Uitgangen</value>
   </data>
   <data name="PatchInlet" xml:space="preserve">
-    <value>Schakeling ingang</value>
+    <value>Ingang</value>
   </data>
   <data name="PatchOutlet" xml:space="preserve">
-    <value>Schakeling uitgang</value>
+    <value>Uitgang</value>
   </data>
   <data name="Power" xml:space="preserve">
     <value>Macht</value>
@@ -169,7 +169,7 @@
     <value>Sinus</value>
   </data>
   <data name="Substract" xml:space="preserve">
-    <value>Aftrekken</value>
+    <value>Min</value>
   </data>
   <data name="TimeAdd" xml:space="preserve">
     <value>Tijd optellen</value>
@@ -178,7 +178,7 @@
     <value>Tijd delen</value>
   </data>
   <data name="TimeMultiply" xml:space="preserve">
-    <value>Tijd vermenigvuldigen</value>
+    <value>Tijd factor</value>
   </data>
   <data name="TimePower" xml:space="preserve">
     <value>Tijd macht</value>
@@ -247,7 +247,7 @@
     <value>Schakelingen</value>
   </data>
   <data name="ChildDocuments" xml:space="preserve">
-    <value>Documents</value>
+    <value>Onderliggende documenten</value>
   </data>
   <data name="ReferencedDocuments" xml:space="preserve">
     <value>Bibliotheken</value>
@@ -256,7 +256,7 @@
     <value>Actief</value>
   </data>
   <data name="ChildDocument" xml:space="preserve">
-    <value>Document</value>
+    <value>Onderliggend document</value>
   </data>
   <data name="ParentDocument" xml:space="preserve">
     <value>Hoofddocument</value>
@@ -271,13 +271,13 @@
     <value>Kanalen</value>
   </data>
   <data name="BytesToSkip" xml:space="preserve">
-    <value>Bytes overslaan</value>
+    <value>Aantal bytes overslaan</value>
   </data>
   <data name="OriginalLocation" xml:space="preserve">
     <value>Oorspronkelijke locatie</value>
   </data>
   <data name="Value" xml:space="preserve">
-    <value>Waarde</value>
+    <value>Getal</value>
   </data>
   <data name="OperatorType" xml:space="preserve">
     <value>Operator soort</value>

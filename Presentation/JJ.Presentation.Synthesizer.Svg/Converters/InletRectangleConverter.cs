@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             }
 
             destInletRectangle.BackStyle = StyleHelper.BackStyleInvisible;
-            destInletRectangle.LineStyle = StyleHelper.LineStyleInvisible;
+            destInletRectangle.LineStyle = StyleHelper.BorderStyleInvisible;
 
             destInletRectangle.Gestures.Clear();
             destInletRectangle.Gestures.Add(_dropGesture);

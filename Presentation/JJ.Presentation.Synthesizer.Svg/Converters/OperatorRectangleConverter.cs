@@ -61,12 +61,12 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             if (sourceOperatorViewModel.IsSelected)
             {
                 destOperatorRectangle.BackStyle = StyleHelper.BackStyleSelected;
-                destOperatorRectangle.LineStyle = StyleHelper.LineStyleSelected;
+                destOperatorRectangle.LineStyle = StyleHelper.BorderStyleSelected;
             }
             else
             {
                 destOperatorRectangle.BackStyle = StyleHelper.BackStyle;
-                destOperatorRectangle.LineStyle = StyleHelper.LineStyle;
+                destOperatorRectangle.LineStyle = StyleHelper.BorderStyle;
             }
 
             destOperatorRectangle.Gestures.Clear();

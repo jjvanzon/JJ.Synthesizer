@@ -257,7 +257,7 @@
     <value>Active</value>
   </data>
   <data name="ChildDocument" xml:space="preserve">
-    <value>Document</value>
+    <value>Child Document</value>
   </data>
   <data name="ParentDocument" xml:space="preserve">
     <value>Parent Document</value>

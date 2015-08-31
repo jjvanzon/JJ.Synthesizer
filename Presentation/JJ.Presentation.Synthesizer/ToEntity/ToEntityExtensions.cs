@@ -14,6 +14,7 @@ using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Presentation.Synthesizer.Converters;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
@@ -594,7 +595,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Patch patch = viewModel.ToEntity(patchRepository);
 
-            RecursiveViewModelToEntityConverter converter = new RecursiveViewModelToEntityConverter(
+            var converter = new RecursiveViewModelToEntityConverter(
                 operatorRepository,
                 operatorTypeRepository,
                 inletRepository,

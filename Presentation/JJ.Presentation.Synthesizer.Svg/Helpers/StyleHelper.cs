@@ -4,8 +4,6 @@ using JJ.Framework.Presentation.Svg.Models.Styling;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.Svg.Helpers
 {
@@ -19,10 +17,10 @@ namespace JJ.Presentation.Synthesizer.Svg.Helpers
         public static BackStyle BackStyle { get; set; }
         public static BackStyle BackStyleSelected { get; set; }
         public static BackStyle BackStyleInvisible { get; set; }
-        public static LineStyle LineStyle { get; set; }
+        public static LineStyle BorderStyle { get; set; }
+        public static LineStyle BorderStyleSelected { get; set; }
+        public static LineStyle BorderStyleInvisible { get; set; }
         public static LineStyle LineStyleDashed { get; set; }
-        public static LineStyle LineStyleSelected { get; set; }
-        public static LineStyle LineStyleInvisible { get; set; }
         public static LineStyle LineStyleThin { get; set; }
         public static PointStyle PointStyle { get; set; }
         public static PointStyle PointStyleInvisible { get; set; }
@@ -42,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Helpers
 
             PointStyle = new PointStyle
             {
-                Color = ColorHelper.GetColor(45, 45, 45),
+                Color = ColorHelper.GetColor(120, 120, 120),
                 Width = 5
             };
 
@@ -56,22 +54,24 @@ namespace JJ.Presentation.Synthesizer.Svg.Helpers
                 Color = ColorHelper.GetColor(122, 189, 254)
             };
 
-            LineStyle = new LineStyle
+            BorderStyle = new LineStyle
             {
+                Visible = false,
                 Width = 1,
-                Color = ColorHelper.GetColor(45, 45, 45)
+                Color = ColorHelper.GetColor(120, 120, 120)
+            };
+
+            BorderStyleSelected = new LineStyle
+            {
+                Visible = false,
+                Width = 1,
+                Color = ColorHelper.GetColor(0, 0, 0)
             };
 
             LineStyleThin = new LineStyle
             {
                 Width = 1,
-                Color = ColorHelper.GetColor(45, 45, 45)
-            };
-
-            LineStyleSelected = new LineStyle
-            {
-                Width = 1,
-                Color = ColorHelper.GetColor(0, 0, 0)
+                Color = ColorHelper.GetColor(120, 120, 120)
             };
 
             LineStyleDashed = new LineStyle
@@ -105,7 +105,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Helpers
                 Visible = false
             };
 
-            LineStyleInvisible = new LineStyle
+            BorderStyleInvisible = new LineStyle
             {
                 Visible = false
             };
@@ -144,10 +144,10 @@ namespace JJ.Presentation.Synthesizer.Svg.Helpers
             BackStyleInvisible.Visible = true;
             BackStyleInvisible.Color = ColorHelper.GetColor(64, 40, 128, 192);
 
-            LineStyleInvisible.Visible = true;
-            LineStyleInvisible.Color = ColorHelper.GetColor(128, 40, 128, 192);
-            LineStyleInvisible.Width = 2;
-            LineStyleInvisible.DashStyleEnum = DashStyleEnum.Dotted;
+            BorderStyleInvisible.Visible = true;
+            BorderStyleInvisible.Color = ColorHelper.GetColor(128, 40, 128, 192);
+            BorderStyleInvisible.Width = 2;
+            BorderStyleInvisible.DashStyleEnum = DashStyleEnum.Dotted;
         }
     }
 }

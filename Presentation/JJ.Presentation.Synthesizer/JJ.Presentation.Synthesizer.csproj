@@ -55,7 +55,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PresentationMessages.resx</DependentUpon>
     </Compile>
-    <Compile Include="ToEntity\RecursiveViewModelToEntityConverter.cs" />
+    <Compile Include="Converters\RecursiveViewModelToEntityConverter.cs" />
     <Compile Include="Helpers\ValidationMessageExtensions.cs" />
     <Compile Include="Helpers\ChildDocumentHelper.cs" />
     <Compile Include="Presenters\AudioFileOutputPropertiesPresenter.cs" />
@@ -99,7 +99,7 @@
     </Compile>
     <Compile Include="ToEntity\ToEntityExtensions.cs" />
     <Compile Include="ToViewModel\ToIDAndNameExtensions.cs" />
-    <Compile Include="ToViewModel\ToPatchDetailsViewModelExtensions.cs" />
+    <Compile Include="Converters\RecursiveEntityToViewModelConverter.cs" />
     <Compile Include="ToViewModel\ToViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.EmptyViewModels.cs" />
     <Compile Include="ViewModels\AudioFileOutputPropertiesViewModel.cs" />
