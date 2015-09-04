@@ -12,11 +12,11 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    public class ChildDocument_SideEffect_GenerateName : ISideEffect
+    public class Document_SideEffect_GenerateChildDocumentName : ISideEffect
     {
         private Document _childDocument;
 
-        public ChildDocument_SideEffect_GenerateName(Document childDocument)
+        public Document_SideEffect_GenerateChildDocumentName(Document childDocument)
         {
             if (childDocument == null) throw new NullException(() => childDocument);
             _childDocument = childDocument;

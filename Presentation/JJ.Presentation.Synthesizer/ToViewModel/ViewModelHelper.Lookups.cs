@@ -131,12 +131,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idNames;
         }
 
-        public static IList<IDAndName> CreateUnderlyingDocumentLookupViewModel(Document rootDocument)
+        public static IList<IDAndName> CreateUnderlyingDocumentLookupViewModel(IList<Document> underlyingDocuments)
         {
+            if (underlyingDocuments == null) throw new NullException(() => underlyingDocuments);
             var list = new List<IDAndName>();
 
             list.Add(new IDAndName { ID = 0, Name = null });
-            list.AddRange(rootDocument.ChildDocuments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
+            list.AddRange(underlyingDocuments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
 
             return list;
         }

@@ -10,13 +10,14 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    public class Operator_SideEffect_SetUnderlyingDocument : ISideEffect
+    // TODO: Make internal after you have encapsulated this functionality in a Manager class.
+    public class Operator_SideEffect_ApplyUnderlyingDocument : ISideEffect
     {
         private Operator _operator;
         private Custom_OperatorWrapper _custom_OperatorWrapper;
         private DocumentToOperatorConverter _documentToOperatorConverter;
 
-        public Operator_SideEffect_SetUnderlyingDocument(
+        public Operator_SideEffect_ApplyUnderlyingDocument(
             Operator op,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,

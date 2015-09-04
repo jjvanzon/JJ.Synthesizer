@@ -65,6 +65,12 @@
     <Compile Include="Sample.cs" />
     <Compile Include="AudioFileFormat.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
+      <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
+      <Name>JJ.Framework.Reflection</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

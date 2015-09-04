@@ -71,11 +71,36 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// Is used to be able to update an existing operator view model in-place
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
+        public static void UpdateViewModel_WithoutEntityPosition(
+            Operator entity, OperatorViewModel viewModel,
+            ISampleRepository sampleRepository, ICurveRepository curveRepository, IDocumentRepository documentRepository)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            viewModel.Name = entity.Name;
+            viewModel.ID = entity.ID;
+            viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository, documentRepository);
+
+            if (entity.OperatorType != null)
+            {
+                viewModel.OperatorType = entity.OperatorType.ToViewModel();
+            }
+            else
+            {
+                viewModel.OperatorType = null; // Should never happen.
+            }
+        }
+
+        /// <summary>
+        /// Is used to be able to update an existing operator view model in-place
+        /// without having to re-establish the intricate relations with other operators.
+        /// </summary>
         public static void UpdateViewModel_WithInletsAndOutlets_WithoutEntityPosition(
             Operator entity, OperatorViewModel operatorViewModel,
-            ISampleRepository sampleRepository, IDocumentRepository documentRepository)
+            ISampleRepository sampleRepository, ICurveRepository curveRepository, IDocumentRepository documentRepository)
         {
-            UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel, sampleRepository, documentRepository);
+            UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel, sampleRepository, curveRepository, documentRepository);
             UpdateInletViewModels(entity.Inlets, operatorViewModel);
             UpdateOutletViewModels(entity.Outlets, operatorViewModel);
         }
@@ -167,31 +192,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             destOperatorViewModel.Outlets = destOperatorViewModel.Outlets.OrderBy(x => x.SortOrder).ToList();
         }
 
-        /// <summary>
-        /// Is used to be able to update an existing operator view model in-place
-        /// without having to re-establish the intricate relations with other operators.
-        /// </summary>
-        public static void UpdateViewModel_WithoutEntityPosition(
-            Operator entity, OperatorViewModel viewModel,
-            ISampleRepository sampleRepository, IDocumentRepository documentRepository)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            viewModel.Name = entity.Name;
-            viewModel.ID = entity.ID;
-            viewModel.Caption = GetOperatorCaption(entity, sampleRepository, documentRepository);
-
-            if (entity.OperatorType != null)
-            {
-                viewModel.OperatorType = entity.OperatorType.ToViewModel();
-            }
-            else
-            {
-                viewModel.OperatorType = null; // Should never happen.
-            }
-        }
-
         /// <summary> The inlet of a PatchInlet operator is never converted to view model. </summary>
         public static bool MustConvertToInletViewModel(Inlet inlet)
         {
@@ -210,10 +210,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return mustConvert;
         }
 
-        private static string GetOperatorCaption(Operator entity, ISampleRepository sampleRepository, IDocumentRepository documentRepository)
+        private static string GetOperatorCaption(Operator entity, ISampleRepository sampleRepository, ICurveRepository curveRepository, IDocumentRepository documentRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
             if (documentRepository == null) throw new NullException(() => documentRepository);
 
             OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
@@ -244,12 +245,26 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (operatorTypeEnum == OperatorTypeEnum.Sample)
             {
                 var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
-                Sample sample = wrapper.Sample;
-                if (sample != null)
+                Sample underlyingEntity = wrapper.Sample;
+                if (underlyingEntity != null)
                 {
-                    if (!String.IsNullOrWhiteSpace(sample.Name))
+                    if (!String.IsNullOrWhiteSpace(underlyingEntity.Name))
                     {
-                        return sample.Name;
+                        return underlyingEntity.Name;
+                    }
+                }
+            }
+
+            // Use Curve Name as fallback.
+            if (operatorTypeEnum == OperatorTypeEnum.CurveIn)
+            {
+                var wrapper = new CurveIn_OperatorWrapper(entity, curveRepository);
+                Curve underlyingEntity = wrapper.Curve;
+                if (underlyingEntity != null)
+                {
+                    if (!String.IsNullOrWhiteSpace(underlyingEntity.Name))
+                    {
+                        return underlyingEntity.Name;
                     }
                 }
             }

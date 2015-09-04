@@ -99,7 +99,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 document.ID = viewModel.ID;
                 documentRepository.Insert(document);
             }
-            document.Name = viewModel.DocumentProperties.Document.Name;
+            document.Name = viewModel.DocumentProperties.Entity.Name;
 
             return document;
         }
@@ -108,7 +108,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            Document document = viewModel.Document.ToDocument(documentRepository);
+            Document document = viewModel.Entity.ToDocument(documentRepository);
             return document;
         }
 

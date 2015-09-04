@@ -1,20 +1,11 @@
-﻿using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Common;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.ToViewModel;
-using JJ.Presentation.Synthesizer.ToEntity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JJ.Framework.Presentation;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -38,9 +29,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Visible = true;
         }
 
-        /// <summary>
-        /// Can return AudioFileOutputGridViewModel or NotFoundViewModel.
-        /// </summary>
+        /// <summary> return AudioFileOutputGridViewModel or NotFoundViewModel. summary>
         public object Refresh()
         {
             AssertViewModel();

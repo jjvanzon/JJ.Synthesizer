@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Business;
 using JJ.Framework.Reflection.Exceptions;
@@ -10,8 +9,7 @@ using System.Text;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    // NOTE: This class is not used (yet). It might be used in PatchManager in the future.
-    internal class Operator_SideEffect_GenerateName : ISideEffect
+    public class Operator_SideEffect_GenerateName : ISideEffect
     {
         private Operator _entity;
 

@@ -1,16 +1,12 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
@@ -43,7 +39,7 @@ namespace JJ.Business.Synthesizer.Warnings
 
             foreach (Patch patch in document.Patches)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Patch, patch.Name);
+                string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
                 Execute(new PatchWarningValidator_Recursive(patch, _sampleRepository, _alreadyDone), messagePrefix);
             }
 
@@ -51,20 +47,18 @@ namespace JJ.Business.Synthesizer.Warnings
             {
                 byte[] bytes = _sampleRepository.TryGetBytes(sample.ID);
 
-                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Sample, sample.Name);
-                Execute(new SampleWarningValidator(sample, bytes, _alreadyDone), messagePrefix);
+                Execute(new SampleWarningValidator(sample, bytes, _alreadyDone), ValidationHelper.GetMessagePrefix(sample));
             }
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.AudioFileOutput, audioFileOutput.Name);
-                Execute(new AudioFileOutputWarningValidator(audioFileOutput), messagePrefix);
+                Execute(new AudioFileOutputWarningValidator(audioFileOutput), ValidationHelper.GetMessagePrefix(audioFileOutput));
             }
 
             foreach (Document childDocument in document.ChildDocuments)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.ChildDocument, childDocument.Name);
-                Execute(new DocumentWarningValidator_Recursive(childDocument, _sampleRepository, _alreadyDone), messagePrefix);
+                string messagePrefix = ValidationHelper.GetMessagePrefixForChildDocument(childDocument);
+                Execute(new DocumentWarningValidator_Recursive(childDocument, _sampleRepository, _alreadyDone));
             }
 
             // TODO:

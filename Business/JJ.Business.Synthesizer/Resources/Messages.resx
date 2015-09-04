@@ -216,4 +216,10 @@
     <value>Value named '{0}' is 0.</value>
     <comment>{0} = Value operator name.</comment>
   </data>
+  <data name="InletSortOrdersAreNotUnique" xml:space="preserve">
+    <value>Inlet sort order numbers are not unique.</value>
+  </data>
+  <data name="OutletSortOrdersAreNotUnique" xml:space="preserve">
+    <value>Outlet sort order numbers are not unique.</value>
+  </data>
 </root>

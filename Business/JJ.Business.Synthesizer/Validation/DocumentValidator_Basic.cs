@@ -25,9 +25,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Document document = Object;
 
-            string messagePrefix = PropertyDisplayNames.Document + ": ";
-
-            Execute(new NameValidator(document.Name), messagePrefix);
+            Execute(new NameValidator(document.Name), ValidationHelper.GetMessagePrefix(document));
 
             if ((document.ParentDocument == null) != (document.ChildDocumentType == null))
             {

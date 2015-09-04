@@ -31,14 +31,12 @@ namespace JJ.Business.Synthesizer.Validation
 
             foreach (Inlet inlet in op.Inlets)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(inlet);
-                Execute(new InletValidator_ForCustomOperator(inlet), messagePrefix);
+                Execute(new InletValidator_ForCustomOperator(inlet), ValidationHelper.GetMessagePrefix(inlet));
             }
 
             foreach (Outlet outlet in op.Outlets)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(outlet);
-                Execute(new OutletValidator_ForCustomOperator(outlet), messagePrefix);
+                Execute(new OutletValidator_ForCustomOperator(outlet), ValidationHelper.GetMessagePrefix(outlet));
             }
 
             ValidateInletNamesUnique();
@@ -56,11 +54,6 @@ namespace JJ.Business.Synthesizer.Validation
                 }
                 else
                 {
-                    if (underlyingDocument.MainPatch == null)
-                    {
-                        ValidationMessages.Add(() => underlyingDocument, Messages.UnderlyingDocumentMainPatchIsNull);
-                    }
-
                     ValidateUnderlyingDocumentReferenceConstraint(underlyingDocument);
 
                     if (underlyingDocument.MainPatch != null)
@@ -129,11 +122,6 @@ namespace JJ.Business.Synthesizer.Validation
             Operator op = Object;
 
             IList<Operator> mainPatchInletOperators = document.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
-            if (op.Inlets.Count != mainPatchInletOperators.Count)
-            {
-                ValidationMessages.Add(PropertyNames.Inlets, Messages.OperatorInletCountNotEqualToDocumentMainPatchInletCount);
-                return;
-            }
 
             foreach (Operator mainPatchInletOperator in mainPatchInletOperators)
             {
@@ -144,16 +132,6 @@ namespace JJ.Business.Synthesizer.Validation
                     ValidationMessages.Add(PropertyNames.Inlet, MessageFormatter.NotFound_WithTypeName_AndName(PropertyDisplayNames.Inlet, name));
                 }
             }
-
-            foreach (Inlet inlet in op.Inlets)
-            {
-                string name = inlet.Name;
-                bool exists = mainPatchInletOperators.Where(x => String.Equals(x.Name, name)).Any();
-                if (!exists)
-                {
-                    ValidationMessages.Add(PropertyNames.Inlet, MessageFormatter.CustomOperatorInletWithNameNotFoundInDocumentMainPatch(name));
-                }
-            }
         }
 
         private void ValidateOutletsAgainstDocument(Document document)
@@ -161,32 +139,16 @@ namespace JJ.Business.Synthesizer.Validation
             Operator op = Object;
 
             IList<Operator> mainPatchOutletOperators = document.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
-            if (op.Outlets.Count != mainPatchOutletOperators.Count)
-            {
-                ValidationMessages.Add(PropertyNames.Outlets, Messages.OperatorOutletCountNotEqualToDocumentMainPatchOutletCount);
-            }
-            else
-            {
-                foreach (Operator mainPatchOutletOperator in mainPatchOutletOperators)
-                {
-                    string name = mainPatchOutletOperator.Name;
-                    bool exists = op.Outlets.Where(x => String.Equals(x.Name, name)).Any();
-                    if (!exists)
-                    {
-                        ValidationMessages.Add(PropertyNames.Outlet, MessageFormatter.NotFound_WithTypeName_AndName(PropertyDisplayNames.Outlet, name));
-                    }
-                }
 
-                foreach (Outlet outlet in op.Outlets)
+            foreach (Operator mainPatchOutletOperator in mainPatchOutletOperators)
+            {
+                string name = mainPatchOutletOperator.Name;
+                bool exists = op.Outlets.Where(x => String.Equals(x.Name, name)).Any();
+                if (!exists)
                 {
-                    string name = outlet.Name;
-                    bool exists = mainPatchOutletOperators.Where(x => String.Equals(x.Name, name)).Any();
-                    if (!exists)
-                    {
-                        ValidationMessages.Add(PropertyNames.Outlet, MessageFormatter.CustomOperatorOutletWithNameNotFoundInDocumentMainPatch(name));
-                    }
+                    ValidationMessages.Add(PropertyNames.Outlet, MessageFormatter.NotFound_WithTypeName_AndName(PropertyDisplayNames.Outlet, name));
                 }
-            }
+            }                       
         }
     }
 }

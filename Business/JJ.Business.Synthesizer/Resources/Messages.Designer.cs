@@ -151,6 +151,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inlet sort order numbers are not unique..
+        /// </summary>
+        internal static string InletSortOrdersAreNotUnique {
+            get {
+                return ResourceManager.GetString("InletSortOrdersAreNotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} named &apos;{1}&apos; not found..
         /// </summary>
         internal static string NotFound_WithTypeName_AndName {
@@ -228,6 +237,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string OutletNamesAreNotUnique {
             get {
                 return ResourceManager.GetString("OutletNamesAreNotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outlet sort order numbers are not unique..
+        /// </summary>
+        internal static string OutletSortOrdersAreNotUnique {
+            get {
+                return ResourceManager.GetString("OutletSortOrdersAreNotUnique", resourceCulture);
             }
         }
         

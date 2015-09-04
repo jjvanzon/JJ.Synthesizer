@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Factories
 {
     internal class OperatorFactory
     {
-        private const int DEFAULT_SORT_ORDER = 1;
+        private const int DEFAULT_SORT_ORDER = 0;
 
         private PatchRepositories _repositories;
 

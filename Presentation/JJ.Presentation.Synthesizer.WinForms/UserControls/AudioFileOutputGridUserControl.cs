@@ -5,7 +5,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.Resources;

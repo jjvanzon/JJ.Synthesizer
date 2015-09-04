@@ -116,7 +116,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DocumentPropertiesViewModel
             {
-                Document = document.ToIDAndName(),
+                Entity = document.ToIDAndName(),
                 ValidationMessages = new List<Message>(),
                 Successful = true
             };
@@ -349,11 +349,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static PatchDetailsViewModel ToDetailsViewModel(
             this Patch patch,
-            IOperatorTypeRepository operatorTypeRepository, ISampleRepository sampleRepository, IDocumentRepository documentRepository,
+            IOperatorTypeRepository operatorTypeRepository, 
+            ISampleRepository sampleRepository,
+            ICurveRepository curveRepository,
+            IDocumentRepository documentRepository,
             EntityPositionManager entityPositionManager)
         {
             var converter = new RecursiveToViewModelConverter(
-                operatorTypeRepository, sampleRepository, documentRepository, entityPositionManager);
+                operatorTypeRepository, sampleRepository, curveRepository, documentRepository, entityPositionManager);
 
             return converter.ConvertToDetailsViewModel(patch);
         }

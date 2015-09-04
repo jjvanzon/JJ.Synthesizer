@@ -1,33 +1,30 @@
 ﻿using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class AudioFileOutputPropertiesPresenter
     {
-        private AudioFileOutputRepositories _audioFileOutputRepositories;
+        private AudioFileOutputRepositories _repositories;
 
         public AudioFileOutputPropertiesViewModel ViewModel { get; set; }
 
-        public AudioFileOutputPropertiesPresenter(AudioFileOutputRepositories audioFileOutputRepositories)
+        public AudioFileOutputPropertiesPresenter(AudioFileOutputRepositories repositories)
         {
-            if (audioFileOutputRepositories == null) throw new NullException(() => audioFileOutputRepositories);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            _audioFileOutputRepositories = audioFileOutputRepositories;
+            _repositories = repositories;
         }
 
         public void Show()
@@ -36,7 +33,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Visible = true;
         }
 
-        public void Close()
+        public void Refresh()
+        {
+            AssertViewModel();
+
+            AudioFileOutput entity = _repositories.AudioFileOutputRepository.Get(ViewModel.Entity.ID);
+
+            bool visible = ViewModel.Visible;
+
+            ViewModel = entity.ToPropertiesViewModel(
+                _repositories.AudioFileFormatRepository, 
+                _repositories.SampleDataTypeRepository, 
+                _repositories.SpeakerSetupRepository);
+
+            ViewModel.Visible = visible;
+        }
+
+    public void Close()
         {
             AssertViewModel();
 
@@ -57,7 +70,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            AudioFileOutput entity = ViewModel.ToEntityWithRelatedEntities(_audioFileOutputRepositories);
+            AudioFileOutput entity = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             IValidator validator = new AudioFileOutputValidator_InDocument(entity);
             if (!validator.IsValid)

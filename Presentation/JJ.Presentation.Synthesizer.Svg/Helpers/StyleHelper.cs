@@ -56,16 +56,14 @@ namespace JJ.Presentation.Synthesizer.Svg.Helpers
 
             BorderStyle = new LineStyle
             {
-                Visible = false,
                 Width = 1,
-                Color = ColorHelper.GetColor(120, 120, 120)
+                Color = ColorHelper.GetColor(200, 200, 200)
             };
 
             BorderStyleSelected = new LineStyle
             {
-                Visible = false,
                 Width = 1,
-                Color = ColorHelper.GetColor(0, 0, 0)
+                Color = ColorHelper.GetColor(200, 200, 200)
             };
 
             LineStyleThin = new LineStyle

@@ -3,16 +3,14 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToEntity;
-using JJ.Presentation.Synthesizer.ToViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.CanonicalModel;
+using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -42,6 +40,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
+            ViewModel.Visible = true;
+        }
+
+        public void Refresh()
+        {
+            AssertViewModel();
+
+            Curve entity = _curveRepository.Get(ViewModel.Entity.ID);
+
+            bool visible = ViewModel.Visible;
+            ViewModel = entity.ToDetailsViewModel(_nodeTypeRepository);
             ViewModel.Visible = true;
         }
 

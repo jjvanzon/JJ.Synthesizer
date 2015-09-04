@@ -6,9 +6,9 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -33,6 +33,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AssertViewModel();
 
             ViewModel.Visible = true;
+        }
+
+        public void Refresh()
+        {
+            AssertViewModel();
+
+            Operator entity = _repositories.OperatorRepository.Get(ViewModel.ID);
+            bool visible = ViewModel.Visible;
+            ViewModel = entity.ToPropertiesViewModel_ForValue();
+            ViewModel.Visible = visible;
         }
 
         public void Close()

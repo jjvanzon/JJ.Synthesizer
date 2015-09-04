@@ -68,15 +68,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (_viewModel == null) return;
 
-            labelIDValue.Text = _viewModel.Document.ID.ToString();
-            textBoxName.Text = _viewModel.Document.Name;
+            labelIDValue.Text = _viewModel.Entity.ID.ToString();
+            textBoxName.Text = _viewModel.Entity.Name;
         }
 
         private void ApplyControlsToViewModel()
         {
             if (_viewModel == null) return;
 
-            _viewModel.Document.Name = textBoxName.Text;
+            _viewModel.Entity.Name = textBoxName.Text;
         }
 
         // Actions

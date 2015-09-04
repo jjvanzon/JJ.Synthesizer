@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Data.Synthesizer.Helpers
 {
@@ -9,42 +10,79 @@ namespace JJ.Data.Synthesizer.Helpers
     {
         public static string GetDebuggerDisplay(Operator entity)
         {
-            if (entity == null) throw new ArgumentNullException("entity");
+            if (entity == null) throw new NullException(() => entity);
 
-            if (entity.OperatorType == null)
+            var sb = new StringBuilder();
+
+            sb.AppendFormat("{{{0}}} ", entity.GetType().Name);
+
+            if (entity.OperatorType != null)
             {
-                return String.Format("'{0}' ({1})", entity.Name, entity.ID);
+                if (!String.IsNullOrEmpty(entity.OperatorType.Name))
+                {
+                    sb.Append(entity.OperatorType.Name);
+                    sb.Append(' ');
+                }
             }
 
-            return String.Format("{0} '{1}' ({2})", entity.OperatorType.Name, entity.Name, entity.ID);
+            if (!String.IsNullOrEmpty(entity.Name))
+            {
+                sb.AppendFormat("'{0}' ", entity.Name);
+            }
+            
+            sb.AppendFormat("({0})", entity.ID);
+
+            return sb.ToString();
         }
 
         public static string GetDebuggerDisplay(Inlet entity)
         {
-            if (entity == null) throw new ArgumentNullException("entity");
+            if (entity == null) throw new NullException(() => entity);
 
-            if (entity.Operator == null) return entity.Name;
+            var sb = new StringBuilder();
 
-            if (entity.Operator.OperatorType == null)
+            if (entity.Operator != null)
             {
-                return String.Format("'{0}' ({1}) - {2}", entity.Operator.Name, entity.Operator.ID, entity.Name);
+                string operatorDebuggerDisplay = GetDebuggerDisplay(entity.Operator);
+                sb.Append(operatorDebuggerDisplay);
+                sb.Append(" - ");
             }
 
-            return String.Format("{0} '{1}' ({2}) - {3}", entity.Operator.OperatorType.Name, entity.Operator.Name, entity.Operator.ID, entity.Name);
+            sb.AppendFormat("{{{0}}} ", entity.GetType().Name);
+
+            if (!String.IsNullOrEmpty(entity.Name))
+            {
+                sb.AppendFormat("'{0}' ", entity.Name);
+            }
+
+            sb.AppendFormat("({0})", entity.ID);
+
+            return sb.ToString();
         }
 
         public static string GetDebuggerDisplay(Outlet entity)
         {
-            if (entity == null) throw new ArgumentNullException("entity");
+            if (entity == null) throw new NullException(() => entity);
 
-            if (entity.Operator == null) return entity.Name;
+            var sb = new StringBuilder();
 
-            if (entity.Operator.OperatorType == null)
+            if (entity.Operator != null)
             {
-                return String.Format("'{0}' ({1}) - {2}", entity.Operator.Name, entity.Operator.ID, entity.Name);
+                string operatorDebuggerDisplay = GetDebuggerDisplay(entity.Operator);
+                sb.Append(operatorDebuggerDisplay);
+                sb.Append(" - ");
             }
 
-            return String.Format("{0} '{1}' ({2}) - {3}", entity.Operator.OperatorType.Name, entity.Operator.Name, entity.Operator.ID, entity.Name);
+            sb.AppendFormat("{{{0}}} ", entity.GetType().Name);
+
+            if (!String.IsNullOrEmpty(entity.Name))
+            {
+                sb.AppendFormat("'{0}' ", entity.Name);
+            }
+
+            sb.AppendFormat("({0})", entity.ID);
+
+            return sb.ToString();
         }
     }
 }

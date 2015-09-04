@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Business;
 using JJ.Business.Synthesizer.SideEffects;
+using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -34,6 +35,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AssertViewModel();
 
             ViewModel.Visible = true;
+        }
+
+        public void Refresh()
+        {
+            AssertViewModel();
+
+            Operator entity = _repositories.OperatorRepository.Get(ViewModel.ID);
+            bool visible = ViewModel.Visible;
+            ViewModel = entity.ToPropertiesViewModel_ForCustomOperator(_repositories.DocumentRepository);
+            ViewModel.Visible = visible;
         }
 
         public void Close()
@@ -62,7 +73,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.OperatorTypeRepository,
                 _repositories.DocumentRepository);
 
-            ISideEffect sideEffect = new Operator_SideEffect_SetUnderlyingDocument(
+            ISideEffect sideEffect = new Operator_SideEffect_ApplyUnderlyingDocument(
                 entity,
                 _repositories.InletRepository,
                 _repositories.OutletRepository,

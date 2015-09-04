@@ -2,11 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
-    /// <summary> Leading for saving child entities, not leading for saving the simple properties. </summary>
+    /// <summary> Leading for saving related entities, not leading for saving the simple properties. </summary>
     public sealed class ChildDocumentViewModel
     {
         public int ID { get; set; }

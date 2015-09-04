@@ -64,9 +64,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
             _alreadyDone.Add(op);
 
-            string messagePrefix = ValidationHelper.GetMessagePrefix(op);
-
-            Execute(new OperatorValidator_Versatile(op, _documentRepository), messagePrefix);
+            Execute(new OperatorValidator_Versatile(op, _documentRepository));
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
@@ -81,7 +79,8 @@ namespace JJ.Business.Synthesizer.Validation
                         if (!_alreadyDone.Contains(curve))
                         {
                             _alreadyDone.Add(curve);
-                            Execute(new CurveValidator(curve));
+
+                            Execute(new CurveValidator(curve), ValidationHelper.GetMessagePrefix(curve));
                         }
                     }
                 }
@@ -98,7 +97,7 @@ namespace JJ.Business.Synthesizer.Validation
                         if (!_alreadyDone.Contains(sample))
                         {
                             _alreadyDone.Add(sample);
-                            Execute(new SampleValidator(sample));
+                            Execute(new SampleValidator(sample), ValidationHelper.GetMessagePrefix(sample));
                         }
                     }
                 }

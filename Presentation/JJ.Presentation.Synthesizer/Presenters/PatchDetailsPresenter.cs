@@ -15,6 +15,9 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Resources;
+using JJ.Framework.Business;
+using JJ.Business.Synthesizer.SideEffects;
+using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -37,14 +40,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private PatchRepositories _repositories;
         private PatchManager _patchManager;
+        private EntityPositionManager _entityPositionManager;
 
         public PatchDetailsViewModel ViewModel { get; set; }
 
-        public PatchDetailsPresenter(PatchRepositories repositories)
+        public PatchDetailsPresenter(PatchRepositories repositories, EntityPositionManager entityPositionManager)
         {
             if (repositories == null) throw new NullException(() => repositories);
+            if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
 
             _repositories = repositories;
+            _entityPositionManager = entityPositionManager;
 
             _patchManager = new PatchManager(_repositories);
         }
@@ -54,6 +60,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AssertViewModel();
 
             ViewModel.Visible = true;
+        }
+
+        public void Refresh()
+        {
+            AssertViewModel();
+
+            Patch entity = _repositories.PatchRepository.Get(ViewModel.Entity.ID);
+
+            bool visible = ViewModel.Visible;
+            int? operatorID = ViewModel.SelectedOperator != null ? ViewModel.SelectedOperator.ID : (int?)null;
+
+            ViewModel = entity.ToDetailsViewModel(
+                _repositories.OperatorTypeRepository,
+                _repositories.SampleRepository,
+                _repositories.CurveRepository,
+                _repositories.DocumentRepository,
+                _entityPositionManager);
+
+            ViewModel.Visible = visible;
+            if (operatorID.HasValue)
+            {
+                SetSelectedOperator(operatorID.Value);
+            }
         }
 
         public void Close()
@@ -142,9 +171,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return;
             }
 
-            int operatorID = ViewModel.SelectedOperator.ID;
-
-            int listIndex = ViewModel.Entity.Operators.IndexOf(x => x.ID == operatorID);
+            // ToViewModel
+            int listIndex = ViewModel.Entity.Operators.IndexOf(x => x.ID == ViewModel.SelectedOperator.ID);
 
             OperatorViewModel operatorViewModel = ViewModel.Entity.Operators[listIndex];
 
@@ -274,13 +302,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     operatorViewModel.IsSelected = false;
                 }
             }
-        }
-
-        private SampleManager CreateSampleManager(RepositoryWrapper repositoryWrapper)
-        {
-            var sampleRepositories = new SampleRepositories(repositoryWrapper);
-            var manager = new SampleManager(sampleRepositories);
-            return manager;
         }
 
         private AudioFileOutputManager CreateAudioFileOutputManager(RepositoryWrapper repositoryWrapper)

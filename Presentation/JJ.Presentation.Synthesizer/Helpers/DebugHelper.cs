@@ -1,10 +1,9 @@
-﻿using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.Helpers
 {
@@ -13,31 +12,75 @@ namespace JJ.Presentation.Synthesizer.Helpers
         public static string GetDebuggerDisplay(OperatorViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            return String.Format("Operator '{0}' ({1})", viewModel.Name, viewModel.ID);
-        }
 
+            var sb = new StringBuilder();
+
+            sb.AppendFormat("{{{0}}} ", viewModel.GetType().Name);
+
+            if (viewModel.OperatorType != null)
+            {
+                if (!String.IsNullOrEmpty(viewModel.OperatorType.DisplayName))
+                {
+                    sb.Append(viewModel.OperatorType.DisplayName);
+                    sb.Append(' ');
+                }
+            }
+
+            if (!String.IsNullOrEmpty(viewModel.Caption))
+            {
+                sb.AppendFormat("'{0}' ", viewModel.Caption);
+            }
+
+            sb.AppendFormat("({0})", viewModel.ID);
+
+            return sb.ToString();
+        }
+        
         public static string GetDebuggerDisplay(InletViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            return String.Format("Inlet '{0}' ({1})", viewModel.Name, viewModel.ID);
-        }
+            var sb = new StringBuilder();
 
+            sb.AppendFormat("{{{0}}} ", viewModel.GetType().Name);
+
+            if (!String.IsNullOrEmpty(viewModel.Name))
+            {
+                sb.AppendFormat("'{0}' ", viewModel.Name);
+            }
+
+            sb.AppendFormat("({0})", viewModel.ID);
+
+            return sb.ToString();
+        }
+            
         public static string GetDebuggerDisplay(OutletViewModel viewModel)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
 
-            string formattedOperatorName;
-            if (viewModel.Operator == null)
+            var sb = new StringBuilder();
+
+            if (viewModel.Operator != null)
             {
-                formattedOperatorName = "Operator is null";
+                string operatorDebuggerDisplay = GetDebuggerDisplay(viewModel.Operator);
+                sb.Append(operatorDebuggerDisplay);
+                sb.Append(" - ");
             }
             else
             {
-                formattedOperatorName = viewModel.Operator.Name;
+                sb.Append("Operator is null - ");
             }
 
-            return String.Format("Outlet '{0}' {1}", formattedOperatorName, viewModel.Name);
+            sb.AppendFormat("{{{0}}} ", viewModel.GetType().Name);
+
+            if (!String.IsNullOrEmpty(viewModel.Name))
+            {
+                sb.AppendFormat("'{0}' ", viewModel.Name);
+            }
+
+            sb.AppendFormat("({0})", viewModel.ID);
+
+            return sb.ToString();
         }
     }
 }

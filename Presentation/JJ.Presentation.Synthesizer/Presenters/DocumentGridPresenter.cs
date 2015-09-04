@@ -4,17 +4,10 @@ using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JJ.Framework.Presentation;
-using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

@@ -46,6 +46,8 @@
     <Compile Include="Helpers\MustNotConvertToInletViewModelException.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
     <Compile Include="Presenters\ChildDocumentGridPresenter.cs" />
+    <Compile Include="Presenters\MainPresenter.Actions.cs" />
+    <Compile Include="Presenters\MainPresenter.DispatchViewModel.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForSample.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCustomOperator.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForValue.cs" />
@@ -68,7 +70,7 @@
     <Compile Include="Presenters\DocumentDeletedPresenter.cs" />
     <Compile Include="Presenters\DocumentPropertiesPresenter.cs" />
     <Compile Include="Presenters\DocumentTreePresenter.cs" />
-    <Compile Include="Presenters\MainPresenter.cs" />
+    <Compile Include="Presenters\MainPresenter.General.cs" />
     <Compile Include="ToEntity\ToEntityHelper.cs" />
     <Compile Include="ToViewModel\ToDocumentViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToTreeViewModelExtensions.cs" />
@@ -209,7 +211,9 @@
       <LastGenOutput>Titles.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Presenters\MainPresenter.Refresh.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

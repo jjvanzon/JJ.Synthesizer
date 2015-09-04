@@ -209,4 +209,10 @@
   <data name="ValueIs0WithName" xml:space="preserve">
     <value>Waarde genaamd '{0}' is 0.</value>
   </data>
+  <data name="InletSortOrdersAreNotUnique" xml:space="preserve">
+    <value>De ingang volgnummers zijn niet uniek.</value>
+  </data>
+  <data name="OutletSortOrdersAreNotUnique11" xml:space="preserve">
+    <value>De uitgang volgnummers zijn niet uniek.</value>
+  </data>
 </root>

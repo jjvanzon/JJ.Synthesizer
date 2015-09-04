@@ -6,9 +6,7 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -25,9 +23,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository;
         }
 
-        /// <summary>
-        /// Can return NotFoundViewModel or DocumentCannotDeleteViewModel.
-        /// </summary>
+        /// <summary> Can return NotFoundViewModel or DocumentCannotDeleteViewModel. </summary>
         public object Show(int id, IList<Message> messages)
         {
             Document document = _documentRepository.TryGet(id);

@@ -6,15 +6,10 @@ using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Business;
-using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Factories;
@@ -107,6 +102,20 @@ namespace JJ.Business.Synthesizer.Managers
                     Successful = true
                 };
             }
+        }
+
+        public VoidResult Validate(Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            IValidator validator1 = new PatchValidator_InDocument(patch);
+            IValidator validator2 = new PatchValidator_Recursive(patch, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository, new HashSet<object>());
+
+            return new VoidResult
+            {
+                Messages = Enumerable.Union(validator1.ValidationMessages, validator2.ValidationMessages).ToCanonical(),
+                Successful = validator1.IsValid && validator2.IsValid
+            };
         }
 
         public VoidResult ValidateNonRecursive(Operator op)

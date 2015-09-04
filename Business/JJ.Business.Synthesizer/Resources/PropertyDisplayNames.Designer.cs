@@ -223,7 +223,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operator.
+        ///   Looks up a localized string similar to Custom Operator.
         /// </summary>
         public static string CustomOperator {
             get {

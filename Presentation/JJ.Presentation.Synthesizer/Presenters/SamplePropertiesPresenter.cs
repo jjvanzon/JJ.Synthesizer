@@ -11,20 +11,21 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToEntity;
+using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class SamplePropertiesPresenter
     {
-        private SampleRepositories _sampleRepositories;
+        private SampleRepositories _repositories;
 
         public SamplePropertiesViewModel ViewModel { get; set; }
 
-        public SamplePropertiesPresenter(SampleRepositories samplesRepositories)
+        public SamplePropertiesPresenter(SampleRepositories repositories)
         {
-            if (samplesRepositories == null) throw new NullException(() => samplesRepositories);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            _sampleRepositories = samplesRepositories;
+            _repositories = repositories;
         }
 
         public void Show()
@@ -32,6 +33,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AssertViewModel();
 
             ViewModel.Visible = true;
+        }
+
+        public void Refresh()
+        {
+            AssertViewModel();
+
+            Sample entity = _repositories.SampleRepository.Get(ViewModel.Entity.ID);
+            bool visible = ViewModel.Visible;
+            ViewModel = entity.ToPropertiesViewModel(_repositories);
+            ViewModel.Visible = visible;
         }
 
         public void Close()
@@ -63,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void Update()
         {
             // TODO: Consider letting ToEntity return SampleInfo, because it also updates the sample's Bytes.
-            Sample entity = ViewModel.ToEntity(_sampleRepositories);
+            Sample entity = ViewModel.ToEntity(_repositories);
 
             IValidator validator = new SampleValidator_InDocument(entity);
             if (!validator.IsValid)
@@ -87,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void RefreshDuration()
         {
-            Sample sample = _sampleRepositories.SampleRepository.Get(ViewModel.Entity.ID);
+            Sample sample = _repositories.SampleRepository.Get(ViewModel.Entity.ID);
             ViewModel.Entity.Duration = sample.GetDuration(ViewModel.Entity.Bytes);
         }
     }

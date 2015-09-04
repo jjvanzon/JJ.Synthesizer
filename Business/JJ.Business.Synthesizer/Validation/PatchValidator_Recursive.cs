@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -45,14 +44,44 @@ namespace JJ.Business.Synthesizer.Validation
         protected override void Execute()
         {
             ValidatePatchInletNamesAreUnique();
+            ValidatePatchInletSortOrdersAreUnique();
             ValidatePatchOutletNamesAreUnique();
+            ValidatePatchOutletSortOrdersAreUnique();
 
             foreach (Operator op in Object.Operators)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(op);
+                string messagePrefix = ValidationHelper.GetMessagePrefix(op, _sampleRepository, _curveRepository, _documentRepository);
                 
                 Execute(new OperatorValidator_IsCircular(op, _documentRepository), messagePrefix);
                 Execute(new OperatorValidator_Recursive(op, _curveRepository, _sampleRepository, _documentRepository, _alreadyDone), messagePrefix);
+            }
+        }
+
+        private void ValidatePatchInletNamesAreUnique()
+        {
+            IList<string> names = Object.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                        .Where(x => !String.IsNullOrEmpty(x.Name))
+                                        .Select(x => x.Name)
+                                        .ToArray();
+
+            bool namesAreUnique = names.Distinct().Count() == names.Count;
+            if (!namesAreUnique)
+            {
+                ValidationMessages.Add(PropertyNames.PatchInlet, Messages.InletNamesAreNotUnique);
+            }
+        }
+
+        private void ValidatePatchInletSortOrdersAreUnique()
+        {
+            IList<int> sortOrders = Object.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                             .Select(x => new PatchInlet_OperatorWrapper(x))
+                                             .Select(x => x.SortOrder)
+                                             .ToArray();
+
+            bool sortOrdersAreUnique = sortOrders.Distinct().Count() == sortOrders.Count;
+            if (!sortOrdersAreUnique)
+            {
+                ValidationMessages.Add(PropertyNames.PatchInlet, Messages.InletSortOrdersAreNotUnique);
             }
         }
 
@@ -70,17 +99,17 @@ namespace JJ.Business.Synthesizer.Validation
             }
         }
 
-        private void ValidatePatchInletNamesAreUnique()
+        private void ValidatePatchOutletSortOrdersAreUnique()
         {
-            IList<string> names = Object.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                        .Where(x => !String.IsNullOrEmpty(x.Name))
-                                        .Select(x => x.Name)
-                                        .ToArray();
+            IList<int> sortOrders = Object.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                             .Select(x => new PatchOutlet_OperatorWrapper(x))
+                                             .Select(x => x.SortOrder)
+                                             .ToArray();
 
-            bool namesAreUnique = names.Distinct().Count() == names.Count;
-            if (!namesAreUnique)
+            bool sortOrdersAreUnique = sortOrders.Distinct().Count() == sortOrders.Count;
+            if (!sortOrdersAreUnique)
             {
-                ValidationMessages.Add(PropertyNames.PatchInlet, Messages.InletNamesAreNotUnique);
+                ValidationMessages.Add(PropertyNames.PatchOutlet, Messages.OutletSortOrdersAreNotUnique);
             }
         }
     }

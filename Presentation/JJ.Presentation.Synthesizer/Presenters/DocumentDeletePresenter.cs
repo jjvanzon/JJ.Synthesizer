@@ -6,11 +6,8 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using JJ.Framework.Presentation;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -30,9 +27,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentManager = new DocumentManager(repositoryWrapper);
         }
 
-        /// <summary>
-        /// Can return DocumentDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel.
-        /// </summary>
+        /// <summary> return DocumentDeleteViewModel, NotFoundViewModel or DocumentCannotDeleteViewModel. </summary>
         public object Show(int id)
         {
             Document document = _documentRepository.TryGet(id);
@@ -59,9 +54,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        /// <summary>
-        /// Can return DocumentDeletedViewModel or NotFoundViewModel.
-        /// </summary>
+        /// <summary> Can return DocumentDeletedViewModel or NotFoundViewModel. </summary>
         public object Confirm(int id)
         {
             Document document = _documentRepository.TryGet(id);

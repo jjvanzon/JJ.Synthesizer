@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Presentation.Svg.Models.Elements;
@@ -168,6 +167,7 @@ namespace JJ.Presentation.Synthesizer.Svg
                     OperatorElements operatorSvgElements2 = ConvertToRectangles_WithRelatedObject_Recursive(inletViewModel.InputOutlet.Operator, destDiagram);
 
                     int id = inletViewModel.ID;
+                    
 
                     Curve destCurve = TryGetInletCurve(id);
                     if (destCurve == null)
@@ -188,10 +188,11 @@ namespace JJ.Presentation.Synthesizer.Svg
 
                     _convertedCurves.Add(destCurve);
 
-                    if (operatorSvgElements2.OutletPoints.Count > 0) // TODO: This does not work for multiple outlets.
+                    int? outletIndex = operatorSvgElements2.OutletPoints.TryGetIndexOf(x => SvgTagHelper.GetOutletID(x.Tag) == inletViewModel.InputOutlet.ID);
+                    if (outletIndex.HasValue) 
                     {
-                        destCurve.PointB = operatorSvgElements2.OutletPoints[0];
-                        destCurve.ControlPointB = operatorSvgElements2.OutletControlPoints[0];
+                        destCurve.PointB = operatorSvgElements2.OutletPoints[outletIndex.Value];
+                        destCurve.ControlPointB = operatorSvgElements2.OutletControlPoints[outletIndex.Value];
                     }
                 }
             }

@@ -1,5 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
@@ -47,15 +46,14 @@ namespace JJ.Business.Synthesizer.Validation
                 }
                 _alreadyDone.Add(curve);
 
-                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Curve, curve.Name);
-                Execute(new CurveValidator(curve), messagePrefix);
+                Execute(new CurveValidator(curve), ValidationHelper.GetMessagePrefix(curve));
             }
 
             foreach (Patch patch in document.Patches)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Patch, patch.Name);
+                string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
                 Execute(new PatchValidator_Recursive(patch, _repositoryWrapper.CurveRepository, _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository, _alreadyDone), messagePrefix);
-                Execute(new PatchValidator_InDocument(patch));
+                Execute(new PatchValidator_InDocument(patch), messagePrefix);
             }
 
             foreach (Sample sample in document.Samples)
@@ -66,20 +64,17 @@ namespace JJ.Business.Synthesizer.Validation
                 }
                 _alreadyDone.Add(sample);
 
-                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.Sample, sample.Name);
-                Execute(new SampleValidator(sample), messagePrefix);
+                Execute(new SampleValidator(sample), ValidationHelper.GetMessagePrefix(sample));
             }
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.AudioFileOutput, audioFileOutput.Name);
-                Execute(new AudioFileOutputValidator(audioFileOutput), messagePrefix);
+                Execute(new AudioFileOutputValidator(audioFileOutput), ValidationHelper.GetMessagePrefix(audioFileOutput));
             }
 
             foreach (Document childDocument in document.ChildDocuments)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(PropertyDisplayNames.ChildDocument, childDocument.Name);
-                Execute(new DocumentValidator_Recursive(childDocument, _repositoryWrapper, _alreadyDone), messagePrefix);
+                Execute(new DocumentValidator_Recursive(childDocument, _repositoryWrapper, _alreadyDone), ValidationHelper.GetMessagePrefixForChildDocument(childDocument));
             }
 
             // TODO:

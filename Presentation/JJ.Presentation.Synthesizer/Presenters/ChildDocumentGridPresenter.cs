@@ -29,9 +29,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Visible = true;
         }
 
-        /// <summary>
-        /// Can return ChildDocumentGridViewModel or NotFoundViewModel.
-        /// </summary>
+        /// <summary> Can return ChildDocumentGridViewModel or NotFoundViewModel. </summary>
         public object Refresh()
         {
             AssertViewModel();

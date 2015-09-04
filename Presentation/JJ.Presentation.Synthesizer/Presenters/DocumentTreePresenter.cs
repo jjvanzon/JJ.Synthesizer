@@ -1,5 +1,4 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Data.Synthesizer;
+﻿using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -7,8 +6,6 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.Presenters
