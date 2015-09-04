@@ -31,7 +31,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
-        private Dictionary<int, OperatorCalculatorBase> _dictionary = new Dictionary<int, OperatorCalculatorBase>();
 
         public IList<OperatorCalculatorBase> Execute(
             IList<Outlet> channelOutlets, 
@@ -61,7 +60,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             _stack = new Stack<OperatorCalculatorBase>();
-            _dictionary = new Dictionary<int, OperatorCalculatorBase>();
             _channelCount = channelOutlets.Count;
 
             var list = new List<OperatorCalculatorBase>(_channelCount);
@@ -98,21 +96,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             base.VisitOutlet(outlet);
-        }
-
-        protected override void VisitOperator(Operator op)
-        {
-            OperatorCalculatorBase calculator;
-            if (_dictionary.TryGetValue(op.ID, out calculator))
-            {
-                _stack.Push(calculator);
-                return;
-            }
-
-            base.VisitOperator(op);
-
-            calculator = _stack.Peek();
-            _dictionary.Add(op.ID, calculator);
         }
 
         protected override void VisitValue(Operator op)

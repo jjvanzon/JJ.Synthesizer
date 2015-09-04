@@ -480,7 +480,7 @@ namespace JJ.Business.Synthesizer.Factories
         {
             if (operatorTypeEnum == OperatorTypeEnum.Adder)
             {
-                return Adder(new List<Outlet>(inletCountForAdder));
+                return Adder(new Outlet[inletCountForAdder]);
             }
 
             MethodInfo methodInfo;
