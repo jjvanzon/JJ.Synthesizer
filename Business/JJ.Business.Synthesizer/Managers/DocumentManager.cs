@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Managers
         {
             if (document == null) throw new NullException(() => document);
 
-            IValidator validator = new DocumentValidator_Delete(document);
+            IValidator validator = new DocumentValidator_Delete(document, _repositoryWrapper.DocumentRepository);
 
             if (!validator.IsValid)
             {
@@ -36,30 +36,31 @@ namespace JJ.Business.Synthesizer.Managers
             }
             else
             {
-                var result = new VoidResult
-                {
-                    Successful = true,
-                    Messages = new Message[0]
-                };
-                return result;
+                return new VoidResult { Successful = true };
             }
         }
 
-        public void DeleteWithRelatedEntities(int documentID)
+        public VoidResult DeleteWithRelatedEntities(int documentID)
         {
             Document document = _repositoryWrapper.DocumentRepository.Get(documentID);
-            DeleteWithRelatedEntities(document);
+            return DeleteWithRelatedEntities(document);
         }
 
-        public void DeleteWithRelatedEntities(Document document)
+        public VoidResult DeleteWithRelatedEntities(Document document)
         {
             if (document == null) throw new NullException(() => document);
 
+            VoidResult result = CanDelete(document);
+            if (!result.Successful)
+            {
+                return result;
+            }
+
             document.DeleteRelatedEntities(_repositoryWrapper);
-
             document.UnlinkRelatedEntities();
-
             _repositoryWrapper.DocumentRepository.Delete(document);
+
+            return new VoidResult { Successful = true };
         }
     }
 }

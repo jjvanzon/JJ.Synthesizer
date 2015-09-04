@@ -37,32 +37,12 @@ namespace JJ.Business.Synthesizer.SideEffects
 
         public void Execute()
         {
-            // TODO: Program circularity check on parent-child relationships and check it.
+            IList<Operator> customOperators = _underlyingDocument.EnumerateDependentCustomOperators(_documentRepository).ToArray();
 
-            IList<Operator> customOperators = _underlyingDocument.EnumerateSelfAndParentAndChildren() // We cannot use an SQL query, because that only operates on flushed / committed data.
-                                                                 .SelectMany(x => x.Patches)
-                                                                 .SelectMany(x => x.Operators)
-                                                                 .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator &&
-                                                                             UnderlyingDocumentIsMatch(x))
-                                                                 .ToArray();
             foreach (Operator customOperator in customOperators)
             {
                 _documentToOperatorConverter.Convert(_underlyingDocument, customOperator);
             }
-        }
-
-        private bool UnderlyingDocumentIsMatch(Operator customOperator)
-        {
-            var wrapper = new Custom_OperatorWrapper(customOperator, _documentRepository);
-
-            Document underlyingDocument = wrapper.UnderlyingDocument;
-
-            if (underlyingDocument == null)
-            {
-                return false;
-            }
-
-            return underlyingDocument.ID == _underlyingDocument.ID;
         }
     }
 }

@@ -55,6 +55,11 @@ namespace JJ.Business.Synthesizer.Resources
             return Messages.ChannelCountDoesNotMatchSpeakerSetup;
         }
 
+        public static string CannotDeleteBecauseHasReferences()
+        {
+            return Messages.CannotDeleteBecauseHasReferences;
+        }
+
         public static string ChannelIndexNumberDoesNotMatchSpeakerSetup()
         {
             return Messages.ChannelIndexNumberDoesNotMatchSpeakerSetup;

@@ -802,12 +802,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                // ToViewModel Only
-                ViewModel.Document.EffectGrid.List.RemoveFirst(x => x.ID == effectDocumentID);
-                ViewModel.Document.ChildDocumentPropertiesList.RemoveFirst(x => x.ID == effectDocumentID);
-                ViewModel.Document.ChildDocumentList.RemoveFirst(x => x.ID == effectDocumentID);
-                ViewModel.Document.DocumentTree.Effects.RemoveFirst(x => x.ChildDocumentID == effectDocumentID);
-                ViewModel.Document.UnderlyingDocumentLookup.RemoveFirst(x => x.ID == effectDocumentID);
+                // ToEntity
+                ViewModel.ToEntityWithRelatedEntities(_repositories);
+                Document childDocument = _repositories.DocumentRepository.Get(effectDocumentID);
+
+                // Businesss
+                VoidResult result = _documentManager.DeleteWithRelatedEntities(childDocument);
+                if (!result.Successful)
+                {
+                    // ToViewModel
+                    ViewModel.PopupMessages.AddRange(result.Messages);
+                }
+                else
+                {
+                    // ToViewModel
+                    ViewModel.Document.EffectGrid.List.RemoveFirst(x => x.ID == effectDocumentID);
+                    ViewModel.Document.ChildDocumentPropertiesList.RemoveFirst(x => x.ID == effectDocumentID);
+                    ViewModel.Document.ChildDocumentList.RemoveFirst(x => x.ID == effectDocumentID);
+                    ViewModel.Document.DocumentTree.Effects.RemoveFirst(x => x.ChildDocumentID == effectDocumentID);
+                    ViewModel.Document.UnderlyingDocumentLookup.RemoveFirst(x => x.ID == effectDocumentID);
+                }
             }
             finally
             {
@@ -887,12 +901,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                // ToViewModel Only
-                ViewModel.Document.InstrumentGrid.List.RemoveFirst(x => x.ID == instrumentDocumentID);
-                ViewModel.Document.ChildDocumentPropertiesList.RemoveFirst(x => x.ID == instrumentDocumentID);
-                ViewModel.Document.ChildDocumentList.RemoveFirst(x => x.ID == instrumentDocumentID);
-                ViewModel.Document.DocumentTree.Instruments.RemoveFirst(x => x.ChildDocumentID == instrumentDocumentID);
-                ViewModel.Document.UnderlyingDocumentLookup.RemoveFirst(x => x.ID == instrumentDocumentID);
+                // ToEntity
+                ViewModel.ToEntityWithRelatedEntities(_repositories);
+                Document childDocument = _repositories.DocumentRepository.Get(instrumentDocumentID);
+
+                // Businesss
+                VoidResult result = _documentManager.DeleteWithRelatedEntities(childDocument);
+                if (!result.Successful)
+                {
+                    // ToViewModel
+                    ViewModel.PopupMessages.AddRange(result.Messages);
+                }
+                else
+                {
+                    // ToViewModel
+                    ViewModel.Document.InstrumentGrid.List.RemoveFirst(x => x.ID == instrumentDocumentID);
+                    ViewModel.Document.ChildDocumentPropertiesList.RemoveFirst(x => x.ID == instrumentDocumentID);
+                    ViewModel.Document.ChildDocumentList.RemoveFirst(x => x.ID == instrumentDocumentID);
+                    ViewModel.Document.DocumentTree.Instruments.RemoveFirst(x => x.ChildDocumentID == instrumentDocumentID);
+                    ViewModel.Document.UnderlyingDocumentLookup.RemoveFirst(x => x.ID == instrumentDocumentID);
+                }
             }
             finally
             {

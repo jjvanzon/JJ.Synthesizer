@@ -215,4 +215,7 @@
   <data name="OutletSortOrdersAreNotUnique11" xml:space="preserve">
     <value>De uitgang volgnummers zijn niet uniek.</value>
   </data>
+  <data name="CannotDeleteBecauseHasReferences" xml:space="preserve">
+    <value>Het item kan niet worden verwijderd, omdat er nog verwijzingen naar bestaan.</value>
+  </data>
 </root>

@@ -54,11 +54,7 @@ namespace JJ.Business.Synthesizer.Managers
 
             FillInPatchRecursive(op, patch);
 
-            return new VoidResult
-            {
-                Successful = true,
-                Messages = new Message[0]
-            };
+            return new VoidResult { Successful = true };
         }
 
         private void FillInPatchRecursive(Operator op, Patch patch)

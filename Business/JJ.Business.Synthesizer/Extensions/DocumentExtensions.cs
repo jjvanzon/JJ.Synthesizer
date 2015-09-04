@@ -1,6 +1,10 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
@@ -64,6 +68,37 @@ namespace JJ.Business.Synthesizer.Extensions
             {
                 return document;
             }
+        }
+
+        /// <summary> Note that dependencies caused by library references (The DocumentReference entity) are not checked. </summary>
+        public static IEnumerable<Operator> EnumerateDependentCustomOperators(this Document document, IDocumentRepository documentRepository)
+        {
+            if (document == null) throw new NullException(() => document);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+
+            // TODO: Program circularity check on parent-child relationships and check it.
+
+            // We cannot use an SQL query, because that only operates on flushed / committed data.
+            IEnumerable<Operator> enumerable = document.EnumerateSelfAndParentAndChildren()
+                                                       .SelectMany(x => x.Patches)
+                                                       .SelectMany(x => x.Operators)
+                                                       .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator &&
+                                                                   UnderlyingDocumentIsMatch(document, x, documentRepository));
+            return enumerable;
+        }
+
+        private static bool UnderlyingDocumentIsMatch(Document underlyingDocument, Operator customOperator, IDocumentRepository documentRepository)
+        {
+            var wrapper = new Custom_OperatorWrapper(customOperator, documentRepository);
+
+            Document underlyingDocument2 = wrapper.UnderlyingDocument;
+
+            if (underlyingDocument2 == null)
+            {
+                return false;
+            }
+
+            return underlyingDocument2.ID == underlyingDocument.ID;
         }
     }
 }

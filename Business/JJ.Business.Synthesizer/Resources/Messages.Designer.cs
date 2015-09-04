@@ -61,6 +61,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot delete item, because there are things still linking to it..
+        /// </summary>
+        internal static string CannotDeleteBecauseHasReferences {
+            get {
+                return ResourceManager.GetString("CannotDeleteBecauseHasReferences", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Curve &apos;{0}&apos; cannot be deleted, because it is being used by operators..
         /// </summary>
         internal static string CannotDeleteCurveBecauseHasOperators {

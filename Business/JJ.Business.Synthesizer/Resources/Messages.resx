@@ -222,4 +222,7 @@
   <data name="OutletSortOrdersAreNotUnique" xml:space="preserve">
     <value>Outlet sort order numbers are not unique.</value>
   </data>
+  <data name="CannotDeleteBecauseHasReferences" xml:space="preserve">
+    <value>Cannot delete item, because there are things still linking to it.</value>
+  </data>
 </root>

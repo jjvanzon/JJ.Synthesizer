@@ -55,6 +55,32 @@ namespace JJ.Business.Synthesizer.Validation
             return messagePrefix;
         }
 
+        public static string GetMessagePrefix_ForCustomOperator(Operator entity, IDocumentRepository documentRepository)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (entity.GetOperatorTypeEnum() != OperatorTypeEnum.CustomOperator) throw new NotEqualException(() => entity.OperatorType, OperatorTypeEnum.CustomOperator);
+
+            // Prefer Operator's explicit Name.
+            if (!String.IsNullOrEmpty(entity.Name))
+            {
+                return GetMessagePrefix(ResourceHelper.GetOperatorTypeDisplayName(entity), entity.Name);
+            }
+
+            var wrapper = new Custom_OperatorWrapper(entity, documentRepository);
+            Document underlyingEntity = wrapper.UnderlyingDocument;
+            string underlyingEntityName = null;
+            if (underlyingEntity != null)
+            {
+                underlyingEntityName = underlyingEntity.Name;
+            }
+
+            string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
+
+            string messagePrefix = GetMessagePrefix(operatorTypeDisplayName, underlyingEntityName);
+            return messagePrefix;
+        }
+
         public static string GetMessagePrefix(Operator entity, ISampleRepository sampleRepository, ICurveRepository curveRepository, IDocumentRepository documentRepository)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -64,9 +90,13 @@ namespace JJ.Business.Synthesizer.Validation
 
             OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
 
-            if (operatorTypeEnum == OperatorTypeEnum.Undefined)
+            switch (operatorTypeEnum)
             {
-                return GetMessagePrefix(PropertyDisplayNames.Operator, entity.Name);
+                case OperatorTypeEnum.Undefined:
+                    return GetMessagePrefix(PropertyDisplayNames.Operator, entity.Name);
+
+                case OperatorTypeEnum.CustomOperator:
+                    return GetMessagePrefix_ForCustomOperator(entity, documentRepository);
             }
 
             // Prefer Operator's explicit Name.
@@ -74,6 +104,8 @@ namespace JJ.Business.Synthesizer.Validation
             {
                 return GetMessagePrefix(ResourceHelper.GetOperatorTypeDisplayName(entity), entity.Name);
             }
+
+            // TODO: Give the OperatorTypes below their own specialized GetMessagePrefix method, just like GetMessagePrefix_ForCustomOperator.
 
             // No Operator Name: do specific thing for specific OperatorType
             switch (operatorTypeEnum)
@@ -112,24 +144,10 @@ namespace JJ.Business.Synthesizer.Validation
                         }
                         break;
                     }
-
-                case OperatorTypeEnum.CustomOperator:
-                    {
-                        var wrapper = new Custom_OperatorWrapper(entity, documentRepository);
-                        Document underlyingEntity = wrapper.UnderlyingDocument;
-                        if (underlyingEntity != null)
-                        {
-                            if (!String.IsNullOrEmpty(underlyingEntity.Name))
-                            {
-                                return GetMessagePrefix(ResourceHelper.GetOperatorTypeDisplayName(operatorTypeEnum), underlyingEntity.Name);
-                            }
-                        }
-                        break;
-                    }
             }
 
             // There is no Name and it is not OperatorType 
-            // Underfined, Value, Sample, Curve or CustomOperator.
+            // Undefined, Value, Sample, Curve or CustomOperator.
 
             // Then only use OperatorTypeDisplayName.
 
@@ -161,6 +179,9 @@ namespace JJ.Business.Synthesizer.Validation
             return GetMessagePrefix(PropertyDisplayNames.Sample, entity.Name);
         }
 
+        /// <summary>
+        /// Uses the name in the message or otherwise the entityTypeDisplayName.
+        /// </summary>
         private static string GetMessagePrefix(string entityTypeDisplayName, string name)
         {
             string messagePrefix;

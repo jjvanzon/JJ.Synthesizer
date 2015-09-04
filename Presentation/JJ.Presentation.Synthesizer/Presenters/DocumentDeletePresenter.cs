@@ -61,11 +61,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                _documentManager.DeleteWithRelatedEntities(document);
+                VoidResult result = _documentManager.DeleteWithRelatedEntities(document);
 
-                var presenter2 = new DocumentDeletedPresenter();
-                presenter2.Show();
-                return presenter2.ViewModel;
+                if (!result.Successful)
+                {
+                    var presenter2 = new DocumentCannotDeletePresenter(_documentRepository);
+                    object viewModel2 = presenter2.Show(id, result.Messages);
+                    return viewModel2;
+                }
+                else
+                {
+                    var presenter2 = new DocumentDeletedPresenter();
+                    presenter2.Show();
+                    return presenter2.ViewModel;
+                }
             }
         }
 
