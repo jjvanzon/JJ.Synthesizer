@@ -1,8 +1,6 @@
 ﻿using JJ.Data.Synthesizer.Helpers;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 
 namespace JJ.Data.Synthesizer
 {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JJ.Data.Synthesizer.Memory.Helpers
+﻿namespace JJ.Data.Synthesizer.Memory.Helpers
 {
     internal static class PropertyNames
     {

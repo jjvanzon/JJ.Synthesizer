@@ -1,8 +1,5 @@
 ﻿using JJ.Data.Synthesizer;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {

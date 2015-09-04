@@ -1,11 +1,5 @@
-﻿using JJ.Framework.Reflection.Exceptions;
-using JJ.Data.Synthesizer;
-using JJ.Business.Synthesizer.Extensions;
-using System;
-using System.Collections.Generic;
+﻿using JJ.Data.Synthesizer;
 using System.IO;
-using System.Linq;
-using System.Text;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs

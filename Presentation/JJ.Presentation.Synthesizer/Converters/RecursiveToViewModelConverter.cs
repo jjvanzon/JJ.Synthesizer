@@ -5,7 +5,6 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Presentation.Synthesizer.ToViewModel;

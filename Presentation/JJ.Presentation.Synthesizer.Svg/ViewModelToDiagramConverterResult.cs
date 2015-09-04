@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using JJ.Framework.Presentation.Svg.Gestures;
+﻿using JJ.Framework.Presentation.Svg.Gestures;
 using JJ.Framework.Presentation.Svg.Models.Elements;
 using JJ.Presentation.Synthesizer.Svg.Gestures;
 

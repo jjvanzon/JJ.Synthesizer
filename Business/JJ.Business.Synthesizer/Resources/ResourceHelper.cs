@@ -2,9 +2,6 @@
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Business.Synthesizer.Resources
 {

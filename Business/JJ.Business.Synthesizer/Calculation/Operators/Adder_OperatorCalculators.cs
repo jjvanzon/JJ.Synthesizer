@@ -1,16 +1,10 @@
-﻿
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using JJ.Framework.Reflection.Exceptions;
+﻿using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
 
 
-		internal class Adder_OperatorCalculator3 : OperatorCalculatorBase
+    internal class Adder_OperatorCalculator3 : OperatorCalculatorBase
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;

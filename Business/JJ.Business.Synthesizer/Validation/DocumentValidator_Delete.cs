@@ -2,10 +2,6 @@
 using JJ.Data.Synthesizer;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace JJ.Business.Synthesizer.Validation
 {

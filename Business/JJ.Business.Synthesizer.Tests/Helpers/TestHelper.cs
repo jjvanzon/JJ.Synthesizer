@@ -3,13 +3,8 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Common;
 using JJ.Framework.Data;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Configuration;
 

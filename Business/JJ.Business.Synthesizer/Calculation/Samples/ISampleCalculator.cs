@@ -1,9 +1,4 @@
-﻿using JJ.Data.Synthesizer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace JJ.Business.Synthesizer.Calculation.Samples
+﻿namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     public interface ISampleCalculator
     {

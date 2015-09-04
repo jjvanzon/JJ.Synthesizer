@@ -3,10 +3,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace JJ.Business.Synthesizer.Extensions
 {

@@ -1,10 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Presentation.Resources;
 using JJ.Data.Synthesizer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 

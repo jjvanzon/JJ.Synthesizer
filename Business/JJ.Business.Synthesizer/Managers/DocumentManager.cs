@@ -1,20 +1,10 @@
 ﻿using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.SideEffects;
 using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Business;
 
 namespace JJ.Business.Synthesizer.Managers
 {

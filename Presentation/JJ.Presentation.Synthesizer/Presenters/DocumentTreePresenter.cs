@@ -4,7 +4,6 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 

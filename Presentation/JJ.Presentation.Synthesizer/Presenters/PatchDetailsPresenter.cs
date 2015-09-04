@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
@@ -15,8 +14,6 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Resources;
-using JJ.Framework.Business;
-using JJ.Business.Synthesizer.SideEffects;
 using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters

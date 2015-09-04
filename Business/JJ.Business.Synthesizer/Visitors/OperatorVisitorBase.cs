@@ -1,16 +1,9 @@
-﻿using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Extensions;
+﻿using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Visitors
 {

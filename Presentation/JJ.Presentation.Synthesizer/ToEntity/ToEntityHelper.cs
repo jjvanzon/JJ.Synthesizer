@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.LinkTo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;

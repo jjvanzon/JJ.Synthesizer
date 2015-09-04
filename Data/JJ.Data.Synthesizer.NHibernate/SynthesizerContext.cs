@@ -1,9 +1,7 @@
 ﻿using JJ.Data.Synthesizer.NHibernate.Helpers;
 using JJ.Data.Synthesizer.SqlClient;
 using JJ.Framework.Data.NHibernate;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 
 namespace JJ.Data.Synthesizer.NHibernate

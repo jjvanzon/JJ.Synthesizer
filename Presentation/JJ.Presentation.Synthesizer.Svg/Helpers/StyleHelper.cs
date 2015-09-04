@@ -1,9 +1,6 @@
 ﻿using JJ.Framework.Presentation.Svg.Enums;
 using JJ.Framework.Presentation.Svg.Helpers;
 using JJ.Framework.Presentation.Svg.Models.Styling;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Svg.Helpers
 {

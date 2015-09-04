@@ -2,11 +2,7 @@
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Svg.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.Svg.Converters
 {

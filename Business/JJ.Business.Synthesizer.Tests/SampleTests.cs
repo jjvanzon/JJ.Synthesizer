@@ -1,25 +1,13 @@
 ﻿using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Calculation;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Tests.Helpers;
-using JJ.Framework.Common;
 using JJ.Framework.Data;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JJ.Framework.IO;
-using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Calculation.Patches;
 

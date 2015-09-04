@@ -3,8 +3,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {

@@ -1,6 +1,4 @@
 ﻿using JJ.Data.Synthesizer;
-using System;
-using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {

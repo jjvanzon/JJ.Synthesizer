@@ -1,16 +1,10 @@
-﻿using JJ.Framework.Mathematics;
-using JJ.Framework.Presentation.Svg.EventArg;
+﻿using JJ.Framework.Presentation.Svg.EventArg;
 using JJ.Framework.Presentation.Svg.Gestures;
 using JJ.Framework.Presentation.Svg.Models.Elements;
 using JJ.Framework.Presentation.Svg.Models.Styling;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Svg.EventArg;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using JJ.Framework.Common;
 using JJ.Framework.Presentation.Svg.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Svg.Gestures

@@ -2,14 +2,11 @@
 using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Business.Synthesizer.LinkTo;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToEntity;
-using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Converters
 {

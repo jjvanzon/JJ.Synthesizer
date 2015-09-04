@@ -1,13 +1,5 @@
-﻿using JJ.Business.CanonicalModel;
-using JJ.Framework.Presentation;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
-
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
-using System;
+﻿using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {

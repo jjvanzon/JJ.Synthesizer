@@ -2,9 +2,6 @@
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace JJ.Business.Synthesizer.Validation
 {

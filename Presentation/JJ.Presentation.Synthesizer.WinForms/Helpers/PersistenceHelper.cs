@@ -1,12 +1,5 @@
-﻿using JJ.Framework.Configuration;
-using JJ.Framework.Data;
+﻿using JJ.Framework.Data;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Presentation.Synthesizer.WinForms.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Reflection.Exceptions;
 

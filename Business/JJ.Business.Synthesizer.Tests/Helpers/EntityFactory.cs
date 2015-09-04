@@ -1,10 +1,7 @@
 ﻿using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using JJ.Business.Synthesizer.Managers;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers

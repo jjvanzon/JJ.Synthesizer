@@ -3,9 +3,7 @@ using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Presentation.Synthesizer.Presenters

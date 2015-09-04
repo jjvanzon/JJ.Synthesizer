@@ -4,10 +4,7 @@ using JJ.Data.Synthesizer;
 using JJ.Framework.Business;
 using JJ.Framework.Reflection.Exceptions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.SideEffects
