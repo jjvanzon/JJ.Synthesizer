@@ -140,9 +140,6 @@ namespace JJ.Presentation.Synthesizer.Converters
                 return outlet;
             }
 
-            // I have to do a lot of hacking here, to make sure I save the Operator first,
-            // and then the Outlet, because otherwise NHibernate will crash.
-
             // First convert operator, because NHibernate cannot handle 
             // saving the child object first and then the parent object,
             // It would try to execute an insert statement on the child object without its 'ParentID' being filled in.
@@ -154,20 +151,14 @@ namespace JJ.Presentation.Synthesizer.Converters
 
             // I have a chicken and egg problem. I converted the operator, in there the operator
             // is first converted without related entities, then added to the dictionary,
-            // then it starts converting outlets, which delegate in turn to convert operator,
-            // which returns the operator without related entities and then I try to the outlet it here.
-            // The if-else structure here is like a chicken-or-egg detection, if you will.
-
-            outlet = op.Outlets.Where(x => x.ID == outletViewModel.ID).SingleOrDefault();
-
-            // If outlet found: Operator.ToEntityWithRelatedEntities has already converted toe outlet.
-            // Do not call ToEntity here, or you would get a second copy of the outlet, if it is new.
-
-            if (outlet == null)
+            // then it starts converting outlets, and this method,
+            // which delegate in turn to convert operator,
+            // which returns the operator without related entities and then I try to convert the outlet it here.
+            outlet = outletViewModel.ToEntity(_patchRepositories.OutletRepository);
+            outlet.LinkTo(op);
+            // The 'if' here is like a chicken-or-egg detection, if you will.
+            if (!_outletDictionary.ContainsKey(outletViewModel.ID))
             {
-                // Operator.ToEntityWithRelatedEntities has not yet converted the outlet.
-                outlet = outletViewModel.ToEntity(_patchRepositories.OutletRepository);
-                outlet.LinkTo(op);
                 _outletDictionary.Add(outlet.ID, outlet);
             }
 

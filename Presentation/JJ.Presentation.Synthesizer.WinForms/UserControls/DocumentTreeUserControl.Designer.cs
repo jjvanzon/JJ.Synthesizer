@@ -73,6 +73,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.treeView.Location = new System.Drawing.Point(0, 26);
             this.treeView.Margin = new System.Windows.Forms.Padding(0);
             this.treeView.Name = "treeView";
+            this.treeView.ShowLines = false;
             this.treeView.Size = new System.Drawing.Size(269, 468);
             this.treeView.TabIndex = 4;
             this.treeView.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeView_AfterCollapse);

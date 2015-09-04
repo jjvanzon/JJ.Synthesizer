@@ -15,10 +15,10 @@ using JJ.Business.Synthesizer.Enums;
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     /// <summary>
-    /// The way this class works is that the base visitor visits an Operator's Inlets,
+    /// The way this class works, is that the base visitor visits an Operator's Inlets,
     /// which will lead to Calculator objects to be put on a stack.
-    /// Then the base class calls the appropriate visit method for the Operator, e.g. VisitAdd,
-    /// which can then pop its operands from the _stack, 
+    /// Then the base class calls the appropriate specialized visit method for the Operator, e.g. VisitAdd,
+    /// which can then pop its operands from this stack, 
     /// and decide which Calculator to push onto the stack again.
     /// </summary>
     internal partial class OptimizedPatchCalculatorVisitor : OperatorVisitorBase
