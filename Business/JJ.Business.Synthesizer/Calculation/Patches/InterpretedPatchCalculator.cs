@@ -1,16 +1,16 @@
-﻿using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Data.Synthesizer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Business.Synthesizer.Calculation.Samples;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Validation;
+using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.Synthesizer.Calculation.Samples;
+using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -600,47 +600,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
-        private double CalculateCustomOperator(Outlet outlet, double time)
+        private double CalculateCustomOperator(Outlet customOperatorOutlet, double time)
         {
-            var customOperatorWrapper = new Custom_OperatorWrapper(outlet.Operator, _documentRepository);
-            Document underlyingDocument = customOperatorWrapper.UnderlyingDocument;
+            Outlet outlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _documentRepository);
 
-            if (underlyingDocument == null)
+            if (outlet == null)
             {
                 return 0.0;
             }
 
-            if (underlyingDocument.MainPatch == null)
-            {
-                return 0.0;
-            }
-
-            // Cross reference custom operator's inlets with the Document MainPatch's PatchInlets.
-            var tuples = from operatorInlet in outlet.Operator.Inlets
-                         join patchInlet in underlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                         on operatorInlet.Name equals patchInlet.Name
-                         select new { OperatorInlet = operatorInlet, PatchInlet = patchInlet };
-
-            // Each custom operator's inlet has an input outlet. 
-            // This input outlet should be assigned as the corresponding input outlet
-            // of the Document MainPatch's PatchInlet.
-            foreach (var tuple in tuples)
-            {
-                Operator patchInlet = tuple.PatchInlet;
-                Inlet operatorInlet = tuple.OperatorInlet;
-
-                var patchInletWrapper = new PatchInlet_OperatorWrapper(patchInlet);
-                patchInletWrapper.Input = operatorInlet.InputOutlet;
-            }
-
-            // Use the (custom operator's) outlet name and look it up in the Document MainPatch's outlets.
-            Operator patchOutlet = underlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                                               .Where(x => x.Name == outlet.Name)
-                                                               .Single();
-
-            // Return the result of that Document MainPatch's outlet.
-            var patchOutletWrapper = new PatchOutlet_OperatorWrapper(patchOutlet);
-            double result = Calculate(patchOutletWrapper.Result, time);
+            double result = Calculate(outlet, time);
             return result;
         }
     }

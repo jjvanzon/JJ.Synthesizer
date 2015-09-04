@@ -124,6 +124,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>OptimizedPatchCalculatorVisitor.VisitAdder.tt</DependentUpon>
     </Compile>
+    <Compile Include="Calculation\Patches\PatchCalculationHelper.cs" />
     <Compile Include="Calculation\Samples\BlockInterpolation_SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\Byte_BlockInterpolation_SampleCalculator.cs" />
     <Compile Include="Calculation\CurveCalculator.cs" />

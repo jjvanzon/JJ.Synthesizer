@@ -39,13 +39,6 @@ namespace JJ.Data.Synthesizer.Helpers
 
             var sb = new StringBuilder();
 
-            if (entity.Operator != null)
-            {
-                string operatorDebuggerDisplay = GetDebuggerDisplay(entity.Operator);
-                sb.Append(operatorDebuggerDisplay);
-                sb.Append(" - ");
-            }
-
             sb.AppendFormat("{{{0}}} ", entity.GetType().Name);
 
             if (!String.IsNullOrEmpty(entity.Name))
@@ -54,6 +47,13 @@ namespace JJ.Data.Synthesizer.Helpers
             }
 
             sb.AppendFormat("({0})", entity.ID);
+
+            if (entity.Operator != null)
+            {
+                sb.Append(" - ");
+                string operatorDebuggerDisplay = GetDebuggerDisplay(entity.Operator);
+                sb.Append(operatorDebuggerDisplay);
+            }
 
             return sb.ToString();
         }
@@ -64,13 +64,6 @@ namespace JJ.Data.Synthesizer.Helpers
 
             var sb = new StringBuilder();
 
-            if (entity.Operator != null)
-            {
-                string operatorDebuggerDisplay = GetDebuggerDisplay(entity.Operator);
-                sb.Append(operatorDebuggerDisplay);
-                sb.Append(" - ");
-            }
-
             sb.AppendFormat("{{{0}}} ", entity.GetType().Name);
 
             if (!String.IsNullOrEmpty(entity.Name))
@@ -79,6 +72,13 @@ namespace JJ.Data.Synthesizer.Helpers
             }
 
             sb.AppendFormat("({0})", entity.ID);
+
+            if (entity.Operator != null)
+            {
+                sb.Append(" - ");
+                string operatorDebuggerDisplay = GetDebuggerDisplay(entity.Operator);
+                sb.Append(operatorDebuggerDisplay);
+            }
 
             return sb.ToString();
         }

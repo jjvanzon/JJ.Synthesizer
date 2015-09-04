@@ -686,9 +686,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             {
                 entity = new Inlet();
                 entity.ID = viewModel.ID;
-                entity.SortOrder = viewModel.SortOrder;
                 inletRepository.Insert(entity);
             }
+            entity.SortOrder = viewModel.SortOrder;
             entity.Name = viewModel.Name;
 
             return entity;
@@ -704,9 +704,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             {
                 entity = new Outlet();
                 entity.ID = viewModel.ID;
-                entity.SortOrder = viewModel.SortOrder;
                 outletRepository.Insert(entity);
             }
+            entity.SortOrder = viewModel.SortOrder;
             entity.Name = viewModel.Name;
 
             return entity;

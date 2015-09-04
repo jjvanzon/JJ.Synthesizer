@@ -7,19 +7,19 @@ using JJ.Framework.Validation;
 using JJ.Framework.Business;
 using JJ.Data.Synthesizer;
 using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings;
-using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.SideEffects;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Presentation.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ToEntity;
-using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

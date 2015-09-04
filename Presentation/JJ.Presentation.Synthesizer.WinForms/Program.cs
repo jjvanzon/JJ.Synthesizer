@@ -1,9 +1,9 @@
-﻿using JJ.Framework.Common;
+﻿using System;
+using System.Windows.Forms;
+using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Logging;
 using JJ.Presentation.Synthesizer.Resources;
-using System;
-using System.Windows.Forms;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {

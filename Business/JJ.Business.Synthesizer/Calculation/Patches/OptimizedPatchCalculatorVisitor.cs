@@ -10,9 +10,17 @@ using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Visitors;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
+    /// <summary>
+    /// The way this class works is that the base visitor visits an Operator's Inlets,
+    /// which will lead to Calculator objects to be put on a stack.
+    /// Then the base class calls the appropriate visit method for the Operator, e.g. VisitAdd,
+    /// which can then pop its operands from the _stack, 
+    /// and decide which Calculator to push onto the stack again.
+    /// </summary>
     internal partial class OptimizedPatchCalculatorVisitor : OperatorVisitorBase
     {
         private ICurveRepository _curveRepository;
@@ -75,6 +83,21 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             return list;
+        }
+
+        protected override void VisitOutlet(Outlet outlet)
+        {
+            // As soon as you encounter a CustomOperator's Outlet,
+            // the evaluation has to take a completely different course.
+            if (outlet.Operator.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
+            {
+                Outlet customOperatorOutlet = outlet;
+                Outlet patchOutletOutlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _documentRepository);
+                VisitOperator(patchOutletOutlet.Operator);
+                return;
+            }
+
+            base.VisitOutlet(outlet);
         }
 
         protected override void VisitOperator(Operator op)
@@ -215,7 +238,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool originIsConst = originCalculator is Value_OperatorCalculator;
             bool operandAIsConstZero = operandAIsConst && a == 0;
             bool operandBIsConstZero = operandBIsConst && b == 0;
-            bool originIsConstZero = operandBIsConst && b == 0;
+            bool originIsConstZero = originIsConst && origin == 0;
             bool operandAIsConstOne = operandAIsConst && a == 1;
             bool operandBIsConstOne = operandBIsConst && b == 1;
 
@@ -801,16 +824,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitPatchInlet(Operator op)
-        {
-            // Do nothing. Not relevant until Patch reuse is programmed.
-        }
-
-        protected override void VisitPatchOutlet(Operator op)
-        {
-            // Do nothing. Not relevant until Patch reuse is programmed.
-        }
-
         protected override void VisitWhiteNoise(Operator op)
         {
             var calculator = new WhiteNoise_OperatorCalculator(_whiteNoiseCalculator);
@@ -859,33 +872,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             _stack.Push(calculator);
         }
-
-        // TODO: Program Custom Operators in the InterpretedPatchCalculator first, before trying to do it in the optimized patch calculator.
-        //protected override void VisitCustomOperator(Operator customOperator)
-        //{
-        //    var customOperatorWrapper = new Custom_OperatorWrapper(customOperator, _documentRepository);
-        //    Document document = customOperatorWrapper.Document;
-
-        //    if (document != null &&
-        //        document.MainPatch != null)
-        //    {
-        //        // TODO: We do not know which outlet unless we have a VisitCustomOperatorOutlet method.
-        //        Operator patchOutlet = document.MainPatch.Operators.FirstOrDefault(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet);
-        //        if (patchOutlet != null)
-        //        {
-        //            // TODO: A patch outlet really needs a manually assigned sort order.
-        //            // TODO: We do not know which operand we need to use yet.
-        //            // The index should already be verified by the validators.
-        //            Outlet operand = customOperatorWrapper.Operands[0];
-
-        //            //var patchOutletWrapper = new PatchOutlet_OperatorWrapper(patchOutlet);
-        //            //patchOutletWrapper.Input = operand;
-        //            //VisitPatchOutlet(patchOutlet);
-
-        //            VisitOutlet(operand);
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Overridden to push null-inlets.
