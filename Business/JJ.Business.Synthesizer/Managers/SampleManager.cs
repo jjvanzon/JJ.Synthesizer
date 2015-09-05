@@ -13,6 +13,7 @@ using JJ.Framework.Common;
 using JJ.Framework.IO;
 using JJ.Business.Synthesizer.Converters;
 using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -61,14 +62,22 @@ namespace JJ.Business.Synthesizer.Managers
         }
 
         /// <summary> Creates a Sample and sets its defaults. </summary>
-        public Sample CreateSample()
+        public Sample CreateSample(Document document = null, bool mustGenerateName = false)
         {
             var sample = new Sample();
             sample.ID = _repositories.IDRepository.GetID();
             _repositories.SampleRepository.Insert(sample);
 
+            sample.LinkTo(document);
+
             ISideEffect sideEffect = new Sample_SideEffect_SetDefaults(sample, _repositories);
             sideEffect.Execute();
+
+            if (mustGenerateName)
+            {
+                ISideEffect sideEffect2 = new Sample_SideEffect_GenerateName(sample);
+                sideEffect2.Execute();
+            }
 
             return sample;
         }

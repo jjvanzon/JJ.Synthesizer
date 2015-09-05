@@ -80,7 +80,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.SampleRepository,
                 _repositories.DocumentRepository,
                 _repositories.IDRepository);
-            _curveManager = new CurveManager(_repositories.CurveRepository, _repositories.NodeRepository);
+            _curveManager = new CurveManager(_repositories.CurveRepository, _repositories.NodeRepository, _repositories.IDRepository);
             _documentManager = new DocumentManager(_repositories);
             _entityPositionManager = new EntityPositionManager(_repositories.EntityPositionRepository, _repositories.IDRepository);
             _patchManager = new PatchManager(_patchRepositories);

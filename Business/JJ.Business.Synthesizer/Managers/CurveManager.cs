@@ -5,6 +5,10 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
+using System;
+using JJ.Framework.Business;
+using JJ.Business.Synthesizer.SideEffects;
+using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -12,14 +16,17 @@ namespace JJ.Business.Synthesizer.Managers
     {
         private ICurveRepository _curveRepository;
         private INodeRepository _nodeRepository;
+        private IIDRepository _idRepository;
 
-        public CurveManager(ICurveRepository curveRepository, INodeRepository nodeRepository)
+        public CurveManager(ICurveRepository curveRepository, INodeRepository nodeRepository, IIDRepository idRepository)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (nodeRepository == null) throw new NullException(() => nodeRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
 
             _curveRepository = curveRepository;
             _nodeRepository = nodeRepository;
+            _idRepository = idRepository;
         }
 
         public VoidResult DeleteWithRelatedEntities(Curve curve)
@@ -46,6 +53,22 @@ namespace JJ.Business.Synthesizer.Managers
                     Successful = true
                 };
             }
+        }
+
+        public Curve Create(Document document, bool mustGenerateName)
+        {
+            var curve = new Curve();
+            curve.ID = _idRepository.GetID();
+            _curveRepository.Insert(curve);
+            curve.LinkTo(document);
+
+            if (mustGenerateName)
+            {
+                ISideEffect sideEffect = new Curve_SideEffect_GenerateName(curve);
+                sideEffect.Execute();
+            }
+
+            return curve;
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    public class Curve_SideEffect_GenerateName : ISideEffect
+    internal class Curve_SideEffect_GenerateName : ISideEffect
     {
         private Curve _entity;
 

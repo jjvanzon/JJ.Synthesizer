@@ -109,11 +109,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
                 // Business
-                AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
-                audioFileOutput.LinkTo(document);
-
-                ISideEffect sideEffect = new AudioFileOutput_SideEffect_GenerateName(audioFileOutput);
-                sideEffect.Execute();
+                AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities(document, mustGenerateName: true);
 
                 // ToViewModel
                 AudioFileOutputListItemViewModel listItemViewModel = audioFileOutput.ToListItemViewModel();
@@ -293,17 +289,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 // ToEntity
-                ViewModel.ToEntityWithRelatedEntities(_repositories);
+                Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
                 // Business
                 Document document = _repositories.DocumentRepository.TryGet(documentID);
-                var curve = new Curve();
-                curve.ID = _repositories.IDRepository.GetID();
-                curve.LinkTo(document);
-                _repositories.CurveRepository.Insert(curve);
-
-                ISideEffect sideEffect = new Curve_SideEffect_GenerateName(curve);
-                sideEffect.Execute();
+                Curve curve = _curveManager.Create(document, mustGenerateName: true);
 
                 // ToViewModel
                 CurveGridViewModel curveGridViewModel = ChildDocumentHelper.GetCurveGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
@@ -766,14 +756,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document parentDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
                 // Business
-                var effect = new Document();
-                effect.ID = _repositories.IDRepository.GetID();
-                effect.SetChildDocumentTypeEnum(ChildDocumentTypeEnum.Effect, _repositories.ChildDocumentTypeRepository);
-                effect.LinkToParentDocument(parentDocument);
-                _repositories.DocumentRepository.Insert(effect);
-
-                ISideEffect sideEffect = new Document_SideEffect_GenerateChildDocumentName(effect);
-                sideEffect.Execute();
+                Document effect = _documentManager.CreateChildDocument(parentDocument, ChildDocumentTypeEnum.Effect, mustGenerateName: true);
 
                 // ToViewModel
                 ChildDocumentListItemViewModel listItemViewModel = effect.ToChildDocumentListItemViewModel();
@@ -865,27 +848,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document parentDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
                 // Business
-                var instrument = new Document();
-                instrument.ID = _repositories.IDRepository.GetID();
-                instrument.SetChildDocumentTypeEnum(ChildDocumentTypeEnum.Instrument, _repositories.ChildDocumentTypeRepository);
-                instrument.LinkToParentDocument(parentDocument);
-                _repositories.DocumentRepository.Insert(instrument);
-
-                ISideEffect sideEffect = new Document_SideEffect_GenerateChildDocumentName(instrument);
-                sideEffect.Execute();
+                Document childDocument = _documentManager.CreateChildDocument(parentDocument, ChildDocumentTypeEnum.Instrument, mustGenerateName: true);
 
                 // ToViewModel
-                ChildDocumentListItemViewModel listItemViewModel = instrument.ToChildDocumentListItemViewModel();
+                ChildDocumentListItemViewModel listItemViewModel = childDocument.ToChildDocumentListItemViewModel();
                 ViewModel.Document.InstrumentGrid.List.Add(listItemViewModel);
                 ViewModel.Document.InstrumentGrid.List = ViewModel.Document.InstrumentGrid.List.OrderBy(x => x.Name).ToList();
 
-                ChildDocumentPropertiesViewModel propertiesViewModel = instrument.ToChildDocumentPropertiesViewModel(_repositories.ChildDocumentTypeRepository);
+                ChildDocumentPropertiesViewModel propertiesViewModel = childDocument.ToChildDocumentPropertiesViewModel(_repositories.ChildDocumentTypeRepository);
                 ViewModel.Document.ChildDocumentPropertiesList.Add(propertiesViewModel);
 
-                ChildDocumentViewModel documentViewModel = instrument.ToChildDocumentViewModel(_repositories, _entityPositionManager);
+                ChildDocumentViewModel documentViewModel = childDocument.ToChildDocumentViewModel(_repositories, _entityPositionManager);
                 ViewModel.Document.ChildDocumentList.Add(documentViewModel);
 
-                IDAndName idAndName = instrument.ToIDAndName();
+                IDAndName idAndName = childDocument.ToIDAndName();
                 ViewModel.Document.UnderlyingDocumentLookup.Add(idAndName);
                 ViewModel.Document.UnderlyingDocumentLookup = ViewModel.Document.UnderlyingDocumentLookup.OrderBy(x => x.Name).ToList();
 
@@ -1563,17 +1539,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 // ToEntity
-                ViewModel.ToEntityWithRelatedEntities(_repositories);
+                Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
                 Document document = _repositories.DocumentRepository.TryGet(documentID);
 
                 // Business
-                var patch = new Patch();
-                patch.ID = _repositories.IDRepository.GetID();
-                patch.LinkTo(document);
-                _repositories.PatchRepository.Insert(patch);
-
-                ISideEffect sideEffect = new Patch_SideEffect_GenerateName(patch);
-                sideEffect.Execute();
+                Patch patch = _patchManager.CreatePatch(document, mustGenerateName: true);
 
                 // ToViewModel
                 PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
@@ -1811,11 +1781,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document document = _repositories.DocumentRepository.Get(documentID);
 
                 // Business
-                Sample sample = _sampleManager.CreateSample();
-                sample.LinkTo(document);
-
-                ISideEffect sideEffect = new Sample_SideEffect_GenerateName(sample);
-                sideEffect.Execute();
+                Sample sample = _sampleManager.CreateSample(document);
 
                 // ToViewModel
                 SampleGridViewModel gridViewModel = ChildDocumentHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, document.ID);

@@ -7,8 +7,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    // TODO: Make internal after you have encapsulated this functionality in a Manager class.
-    public class Operator_SideEffect_ApplyUnderlyingDocument : ISideEffect
+    internal class Operator_SideEffect_ApplyUnderlyingDocument : ISideEffect
     {
         private Operator _operator;
         private Custom_OperatorWrapper _custom_OperatorWrapper;

@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    public class Document_SideEffect_GenerateChildDocumentName : ISideEffect
+    internal class Document_SideEffect_GenerateChildDocumentName : ISideEffect
     {
         private Document _childDocument;
 

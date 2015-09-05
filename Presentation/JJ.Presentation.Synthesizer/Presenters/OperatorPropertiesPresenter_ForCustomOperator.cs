@@ -71,16 +71,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.OperatorTypeRepository,
                 _repositories.DocumentRepository);
 
-            ISideEffect sideEffect = new Operator_SideEffect_ApplyUnderlyingDocument(
-                entity,
-                _repositories.InletRepository,
-                _repositories.OutletRepository,
-                _repositories.DocumentRepository,
-                _repositories.OperatorTypeRepository,
-                _repositories.IDRepository);
-            sideEffect.Execute();
-
-            VoidResult result = _patchManager.ValidateNonRecursive(entity);
+            VoidResult result = _patchManager.SaveCustomOperator(entity);
             if (!result.Successful)
             {
                 ViewModel.Successful = false;

@@ -63,14 +63,21 @@ namespace JJ.Business.Synthesizer.Managers
         /// Create an AudioFileOutput and initializes it with defaults
         /// and the necessary child entities.
         /// </summary>
-        public AudioFileOutput CreateWithRelatedEntities()
+        public AudioFileOutput CreateWithRelatedEntities(Document document = null, bool mustGenerateName = false)
         {
             var audioFileOutput = new AudioFileOutput();
             audioFileOutput.ID = _idRepository.GetID();
             _audioFileOutputRepository.Insert(audioFileOutput);
+            audioFileOutput.LinkTo(document);
 
             ISideEffect sideEffect1 = new AudioFileOutput_SideEffect_SetDefaults(audioFileOutput, _sampleDataTypeRepository, _speakerSetupRepository, _audioFileFormatRepository);
             sideEffect1.Execute();
+
+            if (mustGenerateName)
+            {
+                ISideEffect sideEffect = new AudioFileOutput_SideEffect_GenerateName(audioFileOutput);
+                sideEffect.Execute();
+            }
 
             // Adjust channels according to speaker setup.
             SetSpeakerSetup(audioFileOutput, audioFileOutput.SpeakerSetup);

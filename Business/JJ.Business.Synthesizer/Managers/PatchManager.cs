@@ -14,6 +14,9 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Factories;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
+using System;
+using JJ.Business.Synthesizer.SideEffects;
+using JJ.Framework.Business;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -68,6 +71,25 @@ namespace JJ.Business.Synthesizer.Managers
                     FillInPatchRecursive(inlet.InputOutlet.Operator, patch);
                 }
             }
+        }
+
+        public VoidResult SaveCustomOperator(Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            if (entity.GetOperatorTypeEnum() != OperatorTypeEnum.CustomOperator) throw new NotEqualException(() => entity.OperatorType, OperatorTypeEnum.CustomOperator);
+
+            ISideEffect sideEffect = new Operator_SideEffect_ApplyUnderlyingDocument(
+                entity,
+                _repositories.InletRepository,
+                _repositories.OutletRepository,
+                _repositories.DocumentRepository,
+                _repositories.OperatorTypeRepository,
+                _repositories.IDRepository);
+
+            sideEffect.Execute();
+
+            VoidResult result = ValidateNonRecursive(entity);
+            return result;
         }
 
         public VoidResult DeleteWithRelatedEntities(Patch patch)
@@ -291,6 +313,22 @@ namespace JJ.Business.Synthesizer.Managers
         {
             Operator op = _operatorFactory.Create(operatorTypeEnum, inletCountForAdder);
             return op;
+        }
+
+        public Patch CreatePatch(Document document = null, bool mustGenerateName = false)
+        {
+            var patch = new Patch();
+            patch.ID = _repositories.IDRepository.GetID();
+            patch.LinkTo(document);
+            _repositories.PatchRepository.Insert(patch);
+
+            if (mustGenerateName)
+            {
+                ISideEffect sideEffect = new Patch_SideEffect_GenerateName(patch);
+                sideEffect.Execute();
+            }
+
+            return patch;
         }
     }
 }

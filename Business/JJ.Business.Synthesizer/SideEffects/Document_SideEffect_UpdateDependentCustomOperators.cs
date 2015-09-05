@@ -3,9 +3,7 @@ using System.Linq;
 using JJ.Framework.Business;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
-using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Converters;
 
@@ -16,7 +14,7 @@ namespace JJ.Business.Synthesizer.SideEffects
     {
         private readonly Document _underlyingDocument;
         private readonly IDocumentRepository _documentRepository;
-        private DocumentToOperatorConverter _documentToOperatorConverter;
+        private readonly DocumentToOperatorConverter _documentToOperatorConverter;
 
         public Document_SideEffect_UpdateDependentCustomOperators(
             Document underlyingDocument,

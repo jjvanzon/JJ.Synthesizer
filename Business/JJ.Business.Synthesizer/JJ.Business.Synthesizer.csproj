@@ -218,7 +218,6 @@
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchInletSortOrder.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_ApplyUnderlyingDocument.cs" />
     <Compile Include="SideEffects\Document_SideEffect_UpdateDependentCustomOperators.cs" />
-    <Compile Include="SideEffects\Operator_SideEffect_UpdateDependentCustomOperators.cs" />
     <Compile Include="SideEffects\Patch_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />

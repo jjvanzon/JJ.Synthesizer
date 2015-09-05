@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    public class AudioFileOutput_SideEffect_GenerateName : ISideEffect
+    internal class AudioFileOutput_SideEffect_GenerateName : ISideEffect
     {
         private AudioFileOutput _entity;
 
