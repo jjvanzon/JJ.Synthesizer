@@ -13,7 +13,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class OperatorPropertiesPresenter_ForValue
     {
         private PatchRepositories _repositories;
-        private PatchManager _patchManager;
 
         public OperatorPropertiesViewModel_ForValue ViewModel { get; set; }
 
@@ -22,8 +21,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (repositories == null) throw new NullException(() => repositories);
 
             _repositories = repositories;
-
-            _patchManager = new PatchManager(_repositories);
         }
 
         public void Show()
@@ -66,9 +63,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
+            // ToEntity
             Operator entity = ViewModel.ToEntity(_repositories.OperatorRepository, _repositories.OperatorTypeRepository);
 
-            VoidResult result = _patchManager.ValidateNonRecursive(entity);
+            // Business
+            var patchManager = new PatchManager(_repositories);
+            VoidResult result = patchManager.SaveOperator(entity);
+
+            // ToViewModel
             if (!result.Successful)
             {
                 ViewModel.Successful = false;

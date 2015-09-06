@@ -37,32 +37,32 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return RepositoryFactory.CreateRepositoryFromConfiguration<TRepositoryInterface>(context, _config.DatabasePersistence);
         }
 
-        public static RepositoryWrapper CreateRepositoryWrapper(IContext context)
+        public static RepositoryWrapper CreateRepositories(IContext context)
         {
             if (context == null) throw new NullException(() => context);
 
             var repositoryWrapper = new RepositoryWrapper
             (
-                PersistenceHelper.CreateRepository<IDocumentRepository>(context),
-                PersistenceHelper.CreateRepository<ICurveRepository>(context),
-                PersistenceHelper.CreateRepository<IPatchRepository>(context),
-                PersistenceHelper.CreateRepository<ISampleRepository>(context),
-                PersistenceHelper.CreateRepository<IAudioFileOutputRepository>(context),
-                PersistenceHelper.CreateRepository<IDocumentReferenceRepository>(context),
-                PersistenceHelper.CreateRepository<INodeRepository>(context),
-                PersistenceHelper.CreateRepository<IAudioFileOutputChannelRepository>(context),
-                PersistenceHelper.CreateRepository<IOperatorRepository>(context),
-                PersistenceHelper.CreateRepository<IOperatorTypeRepository>(context),
-                PersistenceHelper.CreateRepository<IInletRepository>(context),
-                PersistenceHelper.CreateRepository<IOutletRepository>(context),
-                PersistenceHelper.CreateRepository<IEntityPositionRepository>(context),
-                PersistenceHelper.CreateRepository<IAudioFileFormatRepository>(context),
-                PersistenceHelper.CreateRepository<IInterpolationTypeRepository>(context),
-                PersistenceHelper.CreateRepository<INodeTypeRepository>(context),
-                PersistenceHelper.CreateRepository<ISampleDataTypeRepository>(context),
-                PersistenceHelper.CreateRepository<ISpeakerSetupRepository>(context),
-                PersistenceHelper.CreateRepository<IChildDocumentTypeRepository>(context),
-                PersistenceHelper.CreateRepository<IIDRepository>(context)
+                CreateRepository<IDocumentRepository>(context),
+                CreateRepository<ICurveRepository>(context),
+                CreateRepository<IPatchRepository>(context),
+                CreateRepository<ISampleRepository>(context),
+                CreateRepository<IAudioFileOutputRepository>(context),
+                CreateRepository<IDocumentReferenceRepository>(context),
+                CreateRepository<INodeRepository>(context),
+                CreateRepository<IAudioFileOutputChannelRepository>(context),
+                CreateRepository<IOperatorRepository>(context),
+                CreateRepository<IOperatorTypeRepository>(context),
+                CreateRepository<IInletRepository>(context),
+                CreateRepository<IOutletRepository>(context),
+                CreateRepository<IEntityPositionRepository>(context),
+                CreateRepository<IAudioFileFormatRepository>(context),
+                CreateRepository<IInterpolationTypeRepository>(context),
+                CreateRepository<INodeTypeRepository>(context),
+                CreateRepository<ISampleDataTypeRepository>(context),
+                CreateRepository<ISpeakerSetupRepository>(context),
+                CreateRepository<IChildDocumentTypeRepository>(context),
+                CreateRepository<IIDRepository>(context)
             );
 
             return repositoryWrapper;

@@ -200,6 +200,7 @@
     <Compile Include="Managers\CurveManager.cs" />
     <Compile Include="Managers\DocumentManager.cs" />
     <Compile Include="Managers\EntityPositionManager.cs" />
+    <Compile Include="Managers\PatchManager.CreateOperator.cs" />
     <Compile Include="Managers\PatchManager.cs" />
     <Compile Include="Managers\SampleManager.cs" />
     <Compile Include="Managers\WavHeaderManager.cs" />

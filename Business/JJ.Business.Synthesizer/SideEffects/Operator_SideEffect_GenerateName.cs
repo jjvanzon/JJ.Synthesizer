@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    public class Operator_SideEffect_GenerateName : ISideEffect
+    internal class Operator_SideEffect_GenerateName : ISideEffect
     {
         private Operator _entity;
 

@@ -15,7 +15,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class OperatorPropertiesPresenter_ForCustomOperator
     {
         private PatchRepositories _repositories;
-        private PatchManager _patchManager;
 
         public OperatorPropertiesViewModel_ForCustomOperator ViewModel { get; set; }
 
@@ -24,8 +23,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (repositories == null) throw new NullException(() => repositories);
 
             _repositories = repositories;
-
-            _patchManager = new PatchManager(_repositories);
         }
 
         public void Show()
@@ -71,7 +68,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.OperatorTypeRepository,
                 _repositories.DocumentRepository);
 
-            VoidResult result = _patchManager.SaveCustomOperator(entity);
+            var patchManager = new PatchManager(entity.Patch, _repositories);
+            VoidResult result = patchManager.SaveOperator(entity);
+
             if (!result.Successful)
             {
                 ViewModel.Successful = false;

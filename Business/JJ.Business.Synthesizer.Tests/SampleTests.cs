@@ -16,6 +16,11 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class SampleTests
     {
+        static SampleTests()
+        {
+            TestHelper.SetConfigurationSections();
+        }
+
         private const string OUTPUT_FILE_NAME = "AudioFileOutput.wav";
 
         // Test engine crashes
@@ -57,7 +62,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
 
                 Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
 

@@ -9,8 +9,7 @@ using JJ.Business.Synthesizer.Converters;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    // TODO: Make internal after you have encapsulated this functionality in a Manager class.
-    public class Document_SideEffect_UpdateDependentCustomOperators : ISideEffect
+    internal class Document_SideEffect_UpdateDependentCustomOperators : ISideEffect
     {
         private readonly Document _underlyingDocument;
         private readonly IDocumentRepository _documentRepository;

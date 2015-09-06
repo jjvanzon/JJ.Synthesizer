@@ -58,7 +58,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly CurveManager _curveManager;
         private readonly DocumentManager _documentManager;
         private readonly EntityPositionManager _entityPositionManager;
-        private readonly PatchManager _patchManager;
         private readonly SampleManager _sampleManager;
 
         public MainViewModel ViewModel { get; private set; }
@@ -83,19 +82,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _curveManager = new CurveManager(_repositories.CurveRepository, _repositories.NodeRepository, _repositories.IDRepository);
             _documentManager = new DocumentManager(_repositories);
             _entityPositionManager = new EntityPositionManager(_repositories.EntityPositionRepository, _repositories.IDRepository);
-            _patchManager = new PatchManager(_patchRepositories);
             _sampleManager = new SampleManager(new SampleRepositories(_repositories));
 
             _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_repositories.DocumentRepository);
             _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(new AudioFileOutputRepositories(_repositories));
-            _childDocumentPropertiesPresenter = new ChildDocumentPropertiesPresenter(
-                _repositories.DocumentRepository,
-                _repositories.ChildDocumentTypeRepository,
-                _repositories.PatchRepository,
-                _repositories.InletRepository,
-                _repositories.OutletRepository,
-                _repositories.OperatorTypeRepository,
-                _repositories.IDRepository);
+            _childDocumentPropertiesPresenter = new ChildDocumentPropertiesPresenter(_repositories);
             _curveDetailsPresenter = new CurveDetailsPresenter(
                 _repositories.CurveRepository,
                 _repositories.NodeRepository,

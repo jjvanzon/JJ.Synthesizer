@@ -20,6 +20,7 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Managers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -1232,6 +1233,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        // TODO: Now that executing the side-effects is moved to the PatchManager, do I still need this specialized method?
         private void OperatorCreate_ForPatchInletOrPatchOutlet(int operatorTypeID)
         {
             try
@@ -1241,26 +1243,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.ID);
 
                 // Business
-                Operator op = _patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
-                op.LinkTo(patch);
-
-                ISideEffect sideEffect1 = new Operator_SideEffect_GenerateName(op);
-                sideEffect1.Execute();
-
-                ISideEffect sideEffect2 = new Operator_SideEffect_GeneratePatchInletSortOrder(op);
-                sideEffect2.Execute();
-
-                ISideEffect sideEffect3 = new Operator_SideEffect_GeneratePatchOutletSortOrder(op);
-                sideEffect3.Execute();
-
-                ISideEffect sideEffect4 = new Document_SideEffect_UpdateDependentCustomOperators(
-                    op.Patch.Document,
-                    _repositories.InletRepository,
-                    _repositories.OutletRepository,
-                    _repositories.DocumentRepository,
-                    _repositories.OperatorTypeRepository,
-                    _repositories.IDRepository);
-                sideEffect4.Execute();
+                var patchManager = new PatchManager(patch, new PatchRepositories(_repositories));
+                Operator op = patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
 
                 // ToViewModel
 
@@ -1313,8 +1297,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Patch patch = _patchDetailsPresenter.ViewModel.ToEntityWithRelatedEntities(_patchRepositories);
 
                 // Business
-                Operator op = _patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
-                op.LinkTo(patch);
+                var patchManager = new PatchManager(patch, new PatchRepositories(_repositories));
+                Operator op = patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
 
                 // ToViewModel
 
@@ -1399,11 +1383,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.ID);
                 Document document = patch.Document;
                 int operatorID = 0;
-                Operator entity = null;
+                Operator op = null;
                 if (_patchDetailsPresenter.ViewModel.SelectedOperator != null)
                 {
                     operatorID = _patchDetailsPresenter.ViewModel.SelectedOperator.ID;
-                    entity = _repositories.OperatorRepository.Get(operatorID);
+                    op = _repositories.OperatorRepository.Get(operatorID);
                 }
 
                 // Partial Action
@@ -1412,21 +1396,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (_patchDetailsPresenter.ViewModel.Successful)
                 {
                     // Business
-                    if (entity != null)
+                    if (op != null)
                     {
-                        entity.UnlinkRelatedEntities();
-                        entity.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
-                        _repositories.OperatorRepository.Delete(entity);
-
-                        ISideEffect sideEffect = new Document_SideEffect_UpdateDependentCustomOperators(
-                            document,
-                            _repositories.InletRepository,
-                            _repositories.OutletRepository,
-                            _repositories.DocumentRepository,
-                            _repositories.OperatorTypeRepository,
-                            _repositories.IDRepository);
-
-                        sideEffect.Execute();
+                        var patchManager = new PatchManager(patch, _patchRepositories);
+                        patchManager.DeleteOperator(op);
                     }
 
                     // ToViewModel
@@ -1543,7 +1516,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document document = _repositories.DocumentRepository.TryGet(documentID);
 
                 // Business
-                Patch patch = _patchManager.CreatePatch(document, mustGenerateName: true);
+                var patchManager = new PatchManager(document, _patchRepositories, mustGenerateName: true);
+                Patch patch = patchManager.Patch;
 
                 // ToViewModel
                 PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
@@ -1590,7 +1564,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 int documentID = patch.Document.ID;
 
                 // Business
-                VoidResult result = _patchManager.DeleteWithRelatedEntities(patch);
+                var patchManager = new PatchManager(patch, new PatchRepositories(_repositories));
+
+                VoidResult result = patchManager.DeleteWithRelatedEntities();
                 if (result.Successful)
                 {
                     // ToViewModel

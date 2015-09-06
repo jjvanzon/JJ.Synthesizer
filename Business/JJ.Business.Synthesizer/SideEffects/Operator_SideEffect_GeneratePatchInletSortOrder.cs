@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    public class Operator_SideEffect_GeneratePatchInletSortOrder : ISideEffect
+    internal class Operator_SideEffect_GeneratePatchInletSortOrder : ISideEffect
     {
         private Operator _entity;
 

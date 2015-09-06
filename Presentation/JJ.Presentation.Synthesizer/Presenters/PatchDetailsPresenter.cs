@@ -36,7 +36,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         private PatchRepositories _repositories;
-        private PatchManager _patchManager;
         private EntityPositionManager _entityPositionManager;
 
         public PatchDetailsViewModel ViewModel { get; set; }
@@ -48,8 +47,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             _repositories = repositories;
             _entityPositionManager = entityPositionManager;
-
-            _patchManager = new PatchManager(_repositories);
         }
 
         public void Show()
@@ -100,20 +97,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
+            // ToEntity
             Patch patch = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            // TODO: Use PatchManager?
-            IValidator validator = new PatchValidator_Recursive(patch, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository, alreadyDone: new HashSet<object>());
-            if (!validator.IsValid)
-            {
-                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
-                ViewModel.Successful = false;
-            }
-            else
-            {
-                ViewModel.ValidationMessages = new List<Message>();
-                ViewModel.Successful = true;
-            }
+            // Business
+            var patchManager = new PatchManager(patch, _repositories);
+            VoidResult result = patchManager.Save();
+
+            // ToViewModel
+            ViewModel.ValidationMessages = result.Messages;
+            ViewModel.Successful = result.Successful;
         }
 
         public void MoveOperator(int operatorID, float centerX, float centerY)
@@ -149,6 +142,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         /// <summary>
+        /// This method only changes the view model, not the entity model!
         /// Deletes the selected operator. 
         /// Produces a validation message if no operator is selected.
         /// </summary>

@@ -24,12 +24,17 @@ namespace JJ.Business.Synthesizer.Tests
     [TestClass]
     public class SynthesizerTests
     {
+        static SynthesizerTests()
+        {
+            TestHelper.SetConfigurationSections();
+        }
+
         [TestMethod]
         public void Test_Synthesizer()
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
 
@@ -100,7 +105,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
 
                 PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
@@ -126,7 +131,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
 
@@ -149,7 +154,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
 
                 CurveFactory curveFactory = TestHelper.CreateCurveFactory(repositoryWrapper);
                 Curve curve = curveFactory.CreateCurve(1, 0, 1, 0.8, null, null, 0.8, 0);
@@ -385,7 +390,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
 
@@ -402,7 +407,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
                 PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
                 PatchManager x = TestHelper.CreatePatchManager(context);
@@ -419,7 +424,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
                 PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
                 PatchManager x = TestHelper.CreatePatchManager(context);
@@ -436,7 +441,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
 
                 Outlet outlet = x.Add(x.Add(x.Value(1), x.Value(2)), x.Value(4));
@@ -452,7 +457,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
 
                 Outlet outlet1 = x.Add(x.Add(x.Value(1), x.Value(2)), x.Value(4));
@@ -471,7 +476,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
                 Outlet sharedOutlet = x.Value(1);
                 Outlet outlet1 = x.Add(sharedOutlet, x.Value(2));
@@ -489,7 +494,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                var repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                var repositoryWrapper = PersistenceHelper.CreateRepositories(context);
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
@@ -534,7 +539,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
@@ -587,7 +592,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
@@ -637,7 +642,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
@@ -700,7 +705,7 @@ namespace JJ.Business.Synthesizer.Tests
 
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
@@ -726,7 +731,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
                 SampleManager sampleManager = TestHelper.CreateSampleManager(repositoryWrapper);
@@ -764,7 +769,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
@@ -795,40 +800,38 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_CustomOperator()
         {
-            // Infrastructure
-            TestHelper.InitializeConfiguration();
-
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
                 // Create Business Logic Objects
-                SampleManager sampleManager = TestHelper.CreateSampleManager(repositoryWrapper);
-                PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
+                DocumentManager documentManager = TestHelper.CreateDocumentManager(repositories);
+                SampleManager sampleManager = TestHelper.CreateSampleManager(repositories);
 
                 // Create Reusable Document and Patch
-                Document document = new Document();
-                document.ID = repositoryWrapper.IDRepository.GetID();
-                repositoryWrapper.DocumentRepository.Insert(document);
+                Document underlyingDocument = documentManager.Create();
 
-                Patch patch = new Patch();
-                patch.ID = repositoryWrapper.IDRepository.GetID();
-                repositoryWrapper.PatchRepository.Insert(patch);
-                patch.LinkTo(document);
-                document.LinkToMainPatch(patch);
+                PatchManager underlyingPatchManager = new PatchManager(underlyingDocument, new PatchRepositories(repositories));
+                Patch underlyingPatch = underlyingPatchManager.Patch;
+                underlyingDocument.LinkToMainPatch(underlyingPatch);
+
+                PatchManager x;
 
                 // Build up Reusable Patch
+                x = underlyingPatchManager;
                 var patchInlet = x.PatchInlet();
                 var effect = EntityFactory.CreateTimePowerEffectWithEcho(x, patchInlet);
                 var patchOutlet = x.PatchOutlet(effect);
-                x.AddToPatchRecursive(patchOutlet.Operator, patch);
-                
+
                 // Build up Consuming Patch
                 Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
                 SampleInfo sampleInfo = sampleManager.CreateSample(stream);
                 Sample sample = sampleInfo.Sample;
+
+                PatchManager consumingPatchManager = TestHelper.CreatePatchManager(repositories);
+                x = consumingPatchManager;
                 var sampleOperator = x.Sample(sample);
-                var customOperator = x.CustomOperator(document, sampleOperator);
+                var customOperator = x.CustomOperator(underlyingDocument, sampleOperator);
 
                 // Check out that Custom_OperatorWrapper API
                 Inlet inlet = customOperator.Inlets[patchInlet.Name];
@@ -837,7 +840,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 customOperator.Operands[patchInlet.Name] = operand;
 
-                Document underlyingDocument = customOperator.UnderlyingDocument;
+                Document underlyingDocument2 = customOperator.UnderlyingDocument;
                 int? underlyingDocumentID = customOperator.UnderlyingDocumentID;
 
                 foreach (Inlet inlet2 in customOperator.Inlets)

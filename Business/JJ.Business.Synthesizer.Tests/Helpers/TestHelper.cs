@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Configuration;
+using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -15,10 +16,16 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         private const string VIOLIN_16BIT_MONO_RAW_FILE_NAME = "violin_16bit_mono.raw";
         private const string VIOLIN_16BIT_MONO_44100_WAV_FILE_NAME = "violin_16bit_mono_44100.wav";
 
-        public static PatchManager CreatePatchManager(IContext context)
+        private static bool _configurationSectionsAreSet;
+        public static void SetConfigurationSections()
         {
-            RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
-            return CreatePatchManager(repositoryWrapper);
+            if (!_configurationSectionsAreSet)
+            {
+                _configurationSectionsAreSet = true;
+
+                var config = CustomConfigurationManager.GetSection<JJ.Business.Synthesizer.Configuration.ConfigurationSection>();
+                ConfigurationHelper.SetSection(config);
+            }
         }
 
         public static CurveFactory CreateCurveFactory(RepositoryWrapper repositoryWrapper)
@@ -31,11 +38,10 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         public static SampleManager CreateSampleManager(IContext context)
         {
-            RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+            RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
             SampleManager manager = CreateSampleManager(repositoryWrapper);
             return manager;
         }
-
 
         public static SampleManager CreateSampleManager(RepositoryWrapper repositoryWrapper)
         {
@@ -64,16 +70,19 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         public static AudioFileOutputManager CreateAudioFileOutputManager(IContext context)
         {
-            RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+            RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
             return CreateAudioFileOutputManager(repositoryWrapper);
         }
 
-        public static PatchManager CreatePatchManager(RepositoryWrapper repositoryWrapper)
+        public static PatchManager CreatePatchManager(IContext context, Patch patch = null)
         {
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
+            return CreatePatchManager(repositoryWrapper, patch);
+        }
 
-            var patchManager = new PatchManager(new PatchRepositories(repositoryWrapper));
-
+        public static PatchManager CreatePatchManager(RepositoryWrapper repositoryWrapper, Patch patch = null)
+        {
+            var patchManager = new PatchManager(patch, new PatchRepositories(repositoryWrapper));
             return patchManager;
         }
 
@@ -94,12 +103,6 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
             return new DocumentManager(repositoryWrapper);
-        }
-
-        public static void InitializeConfiguration()
-        {
-            var config = CustomConfigurationManager.GetSection<JJ.Business.Synthesizer.Configuration.ConfigurationSection>();
-            ConfigurationHelper.SetSection(config);
         }
     }
 }

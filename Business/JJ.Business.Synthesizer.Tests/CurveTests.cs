@@ -10,12 +10,18 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Testing;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Configuration;
 
 namespace JJ.Business.Synthesizer.Tests
 {
     [TestClass]
     public class CurveTests
     {
+        static CurveTests()
+        {
+            TestHelper.SetConfigurationSections();
+        }
+
         [TestMethod]
         public void Test_Curve_Off()
         {
@@ -78,7 +84,7 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
 
                 var curveFactory = TestHelper.CreateCurveFactory(repositoryWrapper);
                 Curve curve = curveFactory.CreateCurve

@@ -6,8 +6,6 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Business;
-using JJ.Business.Synthesizer.SideEffects;
 using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
@@ -15,7 +13,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class OperatorPropertiesPresenter_ForPatchInlet
     {
         private PatchRepositories _repositories;
-        private PatchManager _patchManager;
 
         public OperatorPropertiesViewModel_ForPatchInlet ViewModel { get; set; }
 
@@ -24,8 +21,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (repositories == null) throw new NullException(() => repositories);
 
             _repositories = repositories;
-
-            _patchManager = new PatchManager(_repositories);
         }
 
         public void Show()
@@ -66,10 +61,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void Update()
         {
+            // ToEntity
             Operator op = ViewModel.ToEntity(_repositories.OperatorRepository, _repositories.OperatorTypeRepository);
 
-            // TODO: The decision that the whole Patch must be validated instead of just the operator, should be part of the Manager.
-            VoidResult result = _patchManager.Validate(op.Patch);
+            // Business
+            PatchManager patchManager = new PatchManager(op.Patch, _repositories);
+            VoidResult result = patchManager.SaveOperator(op);
+
+            // ToViewModel
             if (!result.Successful)
             {
                 ViewModel.Successful = false;
@@ -77,16 +76,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                ISideEffect sideEffect = new Document_SideEffect_UpdateDependentCustomOperators(
-                    op.Patch.Document,
-                    _repositories.InletRepository,
-                    _repositories.OutletRepository,
-                    _repositories.DocumentRepository,
-                    _repositories.OperatorTypeRepository,
-                    _repositories.IDRepository);
-
-                sideEffect.Execute();
-
                 ViewModel.Successful = true;
                 ViewModel.ValidationMessages = new List<Message>();
             }
