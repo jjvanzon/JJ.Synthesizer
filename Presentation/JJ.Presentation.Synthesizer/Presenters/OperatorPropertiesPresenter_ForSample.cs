@@ -70,7 +70,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.SampleRepository);
 
             // Business
-            var patchManager = new PatchManager(_repositories);
+            var patchManager = new PatchManager(entity.Patch, _repositories);
             VoidResult result = patchManager.SaveOperator(entity);
 
             // ToViewModel

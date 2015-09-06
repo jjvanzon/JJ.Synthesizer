@@ -67,7 +67,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Operator entity = ViewModel.ToEntity(_repositories.OperatorRepository, _repositories.OperatorTypeRepository);
 
             // Business
-            var patchManager = new PatchManager(_repositories);
+            var patchManager = new PatchManager(entity.Patch, _repositories);
             VoidResult result = patchManager.SaveOperator(entity);
 
             // ToViewModel
