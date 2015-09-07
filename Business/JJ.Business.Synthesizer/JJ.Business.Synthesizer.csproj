@@ -252,7 +252,7 @@
     <Compile Include="Validation\OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.cs" />
-    <Compile Include="Visitors\OperatorVisitorBase.cs" />
+    <Compile Include="Calculation\Patches\OperatorVisitorBase.cs" />
     <Compile Include="Warnings\AudioFileOutputChannelWarningValidator.cs" />
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_CustomOperator.cs" />

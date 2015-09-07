@@ -281,6 +281,13 @@ namespace JJ.Business.Synthesizer.Managers
             };
         }
 
+        /// <summary>
+        /// Deletes the operator, its inlets and outlets
+        /// and connections to its inlets and outlets.
+        /// Also applies changes to underlying documents to dependent CustomOperators.
+        /// Also cleans up obsolete inlets and outlets from custom operators
+        /// </summary>
+        /// <param name="op"></param>
         public void DeleteOperator(Operator op)
         {
             // TODO: Lower priority: Delegate to DeleteOperator method everywhere you now have inlined it.
@@ -289,6 +296,13 @@ namespace JJ.Business.Synthesizer.Managers
 
             if (op == null) throw new NullException(() => op);
             if (op.Patch != _patch) throw new NotEqualException(() => op.Patch, Patch);
+
+            IList<Operator> connectedCustomOperators = 
+                Enumerable.Union(
+                    op.Inlets.Where(x => x.InputOutlet != null).Select(x => x.InputOutlet.Operator),
+                    op.Outlets.SelectMany(x => x.ConnectedInlets).Select(x => x.Operator))
+                .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
+                .ToArray();
 
             op.UnlinkRelatedEntities();
             op.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
@@ -305,6 +319,22 @@ namespace JJ.Business.Synthesizer.Managers
                     _repositories.IDRepository);
 
                 sideEffect.Execute();
+
+                // Clean up obsolete inlets and outlets.
+                // (Inlets and outlets that do not exist anymore in a CustomOperator's UnderlyingDocument
+                //  are kept alive by the system until it has no connections anymore, so that a user's does not lose data.)
+                foreach (Operator connectedCustomOperator in connectedCustomOperators)
+                {
+                    ISideEffect sideEffect2 = new Operator_SideEffect_ApplyUnderlyingDocument(
+                        connectedCustomOperator,
+                        _repositories.InletRepository,
+                        _repositories.OutletRepository,
+                        _repositories.DocumentRepository,
+                        _repositories.OperatorTypeRepository,
+                        _repositories.IDRepository);
+
+                    sideEffect2.Execute();
+                }
             }
         }
 

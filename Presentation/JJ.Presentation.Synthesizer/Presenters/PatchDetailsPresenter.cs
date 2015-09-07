@@ -113,9 +113,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            OperatorViewModel operatorViewModel = ViewModel.Entity.Operators
-                                                                  .Where(x => x.ID == operatorID)
-                                                                  .Single();
+            OperatorViewModel operatorViewModel = ViewModel.Entity.Operators.Single(x => x.ID == operatorID);
             operatorViewModel.CenterX = centerX;
             operatorViewModel.CenterY = centerY;
         }

@@ -109,6 +109,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// we do not know which PatchDetails OperatorViewModels are affected,
         /// because no OperatorViewModel has as property saying what UnderlyingDocument it is. 
         /// Therefore we refresh all CustomOperators.
+        /// 
+        /// But also, a custom operator would need to be updated if something connected to it is deleted,
+        /// because then the obsolete inlets and outlets might be cleaned up.
         /// </summary>
         private void RefreshOperatorViewModels_OfTypeCustomOperators()
         {

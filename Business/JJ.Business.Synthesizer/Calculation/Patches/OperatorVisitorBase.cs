@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace JJ.Business.Synthesizer.Visitors
+namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal abstract class OperatorVisitorBase
     {

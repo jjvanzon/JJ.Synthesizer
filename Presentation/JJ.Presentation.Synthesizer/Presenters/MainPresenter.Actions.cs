@@ -4,15 +4,12 @@ using System.Linq;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
-using JJ.Framework.Business;
 using JJ.Data.Synthesizer;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings;
-using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
@@ -1250,9 +1247,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // OperatorViewModel
                 OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties(
-                    _repositories.SampleRepository, 
+                    _repositories.SampleRepository,
                     _repositories.CurveRepository,
-                    _repositories.DocumentRepository, 
+                    _repositories.DocumentRepository,
                     _entityPositionManager);
                 _patchDetailsPresenter.ViewModel.Entity.Operators.Add(operatorViewModel);
 
@@ -1304,9 +1301,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // PatchDetails OperatorViewModel
                 OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties(
-                    _repositories.SampleRepository, 
+                    _repositories.SampleRepository,
                     _repositories.CurveRepository,
-                    _repositories.DocumentRepository, 
+                    _repositories.DocumentRepository,
                     _entityPositionManager);
                 _patchDetailsPresenter.ViewModel.Entity.Operators.Add(operatorViewModel);
 
@@ -1353,113 +1350,103 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        /// <summary> Deletes the operator selected in PatchDetails. Does not delete anything, if no operator is selected. </summary>
+        /// <summary> Deletes the operator selected in PatchDetails. Does not delete anything if no operator is selected. </summary>
         public void OperatorDelete()
         {
-            int operatorTypeID = 0;
-            if (_patchDetailsPresenter.ViewModel.SelectedOperator != null)
-            {
-                operatorTypeID = _patchDetailsPresenter.ViewModel.SelectedOperator.OperatorType.ID;
-            }
-
-            bool isPatchInletOrPatchOutlet = operatorTypeID == (int)OperatorTypeEnum.PatchInlet ||
-                                             operatorTypeID == (int)OperatorTypeEnum.PatchOutlet;
-            if (isPatchInletOrPatchOutlet)
-            {
-                OperatorDelete_ForPatchInletOrPatchOutlet();
-            }
-            else
-            {
-                OperatorDelete_ForOtherOperatorTypes();
-            }
-        }
-
-        private void OperatorDelete_ForPatchInletOrPatchOutlet()
-        {
             try
             {
-                // ToEntity  ( Full entity model needed for Document_SideEffect_UpdateDependentCustomOperators)
-                Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
-                Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.ID);
-                Document document = patch.Document;
-                int operatorID = 0;
-                Operator op = null;
                 if (_patchDetailsPresenter.ViewModel.SelectedOperator != null)
                 {
-                    operatorID = _patchDetailsPresenter.ViewModel.SelectedOperator.ID;
-                    op = _repositories.OperatorRepository.Get(operatorID);
-                }
+                    // ToEntity
+                    // (Full entity model needed for Document_SideEffect_UpdateDependentCustomOperators and 
+                    //  Operator_SideEffect_ApplyUnderlyingDocument)
+                    Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+                    Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.ID);
+                    Document document = patch.Document;
+                    Operator op = _repositories.OperatorRepository.Get(_patchDetailsPresenter.ViewModel.SelectedOperator.ID);
+                    OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
-                // Partial Action
-                _patchDetailsPresenter.DeleteOperator();
-
-                if (_patchDetailsPresenter.ViewModel.Successful)
-                {
                     // Business
-                    if (op != null)
-                    {
-                        var patchManager = new PatchManager(patch, _patchRepositories);
-                        patchManager.DeleteOperator(op);
-                    }
+                    var patchManager = new PatchManager(patch, _patchRepositories);
+                    patchManager.DeleteOperator(op);
+
+                    // Partial Action
+                    _patchDetailsPresenter.DeleteOperator();
 
                     // ToViewModel
-                    bool isRootDocument = rootDocument.ID == document.ID;
-                    if (isRootDocument)
+                    if (_patchDetailsPresenter.ViewModel.Successful)
                     {
-                        ViewModel.Document.OperatorPropertiesList_ForPatchInlets.TryRemoveFirst(x => x.ID == operatorID);
-                        ViewModel.Document.OperatorPropertiesList_ForPatchOutlets.TryRemoveFirst(x => x.ID == operatorID);
-                    }
-                    else
-                    {
-                        foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.ChildDocumentList)
+                        // Do a lot of if'ing and switching to be a little faster in removing the item a specific place in the view model,
+                        bool isRootDocument = rootDocument.ID == document.ID;
+                        if (isRootDocument)
                         {
-                            childDocumentViewModel.OperatorPropertiesList_ForPatchInlets.TryRemoveFirst(x => x.ID == operatorID);
-                            childDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.TryRemoveFirst(x => x.ID == operatorID);
+                            switch (operatorTypeEnum)
+                            {
+                                case OperatorTypeEnum.CustomOperator:
+                                    ViewModel.Document.OperatorPropertiesList_ForCustomOperators.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+
+                                case OperatorTypeEnum.PatchInlet:
+                                    ViewModel.Document.OperatorPropertiesList_ForPatchInlets.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+
+                                case OperatorTypeEnum.PatchOutlet:
+                                    ViewModel.Document.OperatorPropertiesList_ForPatchOutlets.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+
+                                case OperatorTypeEnum.Sample:
+                                    ViewModel.Document.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+
+                                case OperatorTypeEnum.Value:
+                                    ViewModel.Document.OperatorPropertiesList_ForValues.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+
+                                case OperatorTypeEnum.Undefined:
+                                    throw new ValueNotSupportedException(operatorTypeEnum);
+
+                                default:
+                                    ViewModel.Document.OperatorPropertiesList.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+                            }
                         }
+                        else
+                        {
+                            ChildDocumentViewModel childDocumentViewModel = ViewModel.Document.ChildDocumentList.Where(x => x.ID == document.ID).First();
+                            switch (operatorTypeEnum)
+                            {
+                                case OperatorTypeEnum.CustomOperator:
+                                    childDocumentViewModel.OperatorPropertiesList_ForCustomOperators.RemoveFirst(x => x.ID == op.ID);
+                                    break;
 
-                        // Refresh Dependent Things
-                        RefreshOperatorViewModels_OfTypeCustomOperators();
+                                case OperatorTypeEnum.PatchInlet:
+                                    childDocumentViewModel.OperatorPropertiesList_ForPatchInlets.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+
+                                case OperatorTypeEnum.PatchOutlet:
+                                    childDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+
+                                case OperatorTypeEnum.Sample:
+                                    childDocumentViewModel.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+
+                                case OperatorTypeEnum.Value:
+                                    childDocumentViewModel.OperatorPropertiesList_ForValues.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+
+                                case OperatorTypeEnum.Undefined:
+                                    throw new ValueNotSupportedException(operatorTypeEnum);
+
+                                default:
+                                    childDocumentViewModel.OperatorPropertiesList.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+                            }
+                        }
                     }
-                }
 
-                DispatchViewModel(_patchDetailsPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        private void OperatorDelete_ForOtherOperatorTypes()
-        {
-            try
-            {
-                int operatorID = 0;
-                if (_patchDetailsPresenter.ViewModel.SelectedOperator != null)
-                {
-                    operatorID = _patchDetailsPresenter.ViewModel.SelectedOperator.ID;
-                }
-
-                _patchDetailsPresenter.DeleteOperator();
-
-                if (_patchDetailsPresenter.ViewModel.Successful)
-                {
-                    ViewModel.Document.OperatorPropertiesList.TryRemoveFirst(x => x.ID == operatorID);
-                    ViewModel.Document.OperatorPropertiesList_ForCustomOperators.TryRemoveFirst(x => x.ID == operatorID);
-                    ViewModel.Document.OperatorPropertiesList_ForPatchInlets.TryRemoveFirst(x => x.ID == operatorID);
-                    ViewModel.Document.OperatorPropertiesList_ForPatchOutlets.TryRemoveFirst(x => x.ID == operatorID);
-                    ViewModel.Document.OperatorPropertiesList_ForSamples.TryRemoveFirst(x => x.ID == operatorID);
-                    ViewModel.Document.OperatorPropertiesList_ForValues.TryRemoveFirst(x => x.ID == operatorID);
-
-                    foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.ChildDocumentList)
-                    {
-                        childDocumentViewModel.OperatorPropertiesList.TryRemoveFirst(x => x.ID == operatorID);
-                        childDocumentViewModel.OperatorPropertiesList_ForCustomOperators.TryRemoveFirst(x => x.ID == operatorID);
-                        childDocumentViewModel.OperatorPropertiesList_ForPatchInlets.TryRemoveFirst(x => x.ID == operatorID);
-                        childDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.TryRemoveFirst(x => x.ID == operatorID);
-                        childDocumentViewModel.OperatorPropertiesList_ForSamples.TryRemoveFirst(x => x.ID == operatorID);
-                        childDocumentViewModel.OperatorPropertiesList_ForValues.TryRemoveFirst(x => x.ID == operatorID);
-                    }
+                    // Refresh Dependent Things
+                    RefreshOperatorViewModels_OfTypeCustomOperators();
                 }
 
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
@@ -1527,10 +1514,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels_ByDocumentID(ViewModel.Document, document.ID);
                 PatchDetailsViewModel detailsViewModel = patch.ToDetailsViewModel(
-                    _repositories.OperatorTypeRepository, 
+                    _repositories.OperatorTypeRepository,
                     _repositories.SampleRepository,
-                    _repositories.CurveRepository, 
-                    _repositories.DocumentRepository, 
+                    _repositories.CurveRepository,
+                    _repositories.DocumentRepository,
                     _entityPositionManager);
                 detailsViewModels.Add(detailsViewModel);
 
@@ -1624,8 +1611,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 // ToEntity
+                Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
                 int patchID = _patchDetailsPresenter.ViewModel.Entity.ID;
-                ViewModel.ToEntityWithRelatedEntities(_repositories);
                 Patch patch = _repositories.PatchRepository.Get(patchID);
                 int documentID = patch.Document.ID;
 

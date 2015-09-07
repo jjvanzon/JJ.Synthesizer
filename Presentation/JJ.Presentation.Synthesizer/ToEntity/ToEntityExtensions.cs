@@ -18,6 +18,278 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 {
     internal static class ToEntityExtensions
     {
+        // AudioFileOutput
+
+        public static AudioFileOutput ToEntityWithRelatedEntities(this AudioFileOutputPropertiesViewModel viewModel, AudioFileOutputRepositories audioFileOutputRepositories)
+        {
+            return viewModel.Entity.ToEntityWithRelatedEntities(audioFileOutputRepositories);
+        }
+
+        public static AudioFileOutput ToEntityWithRelatedEntities(this AudioFileOutputViewModel sourceViewModel, AudioFileOutputRepositories audioFileOutputRepositories)
+        {
+            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
+            if (audioFileOutputRepositories == null) throw new NullException(() => audioFileOutputRepositories);
+
+            AudioFileOutput destAudioFileOutput = sourceViewModel.ToEntity(audioFileOutputRepositories);
+
+            ToEntityHelper.ToAudioFileOutputChannels(
+                sourceViewModel.Channels,
+                destAudioFileOutput,
+                audioFileOutputRepositories.AudioFileOutputChannelRepository,
+                audioFileOutputRepositories.OutletRepository);
+
+            return destAudioFileOutput;
+        }
+
+        public static AudioFileOutput ToEntity(this AudioFileOutputViewModel viewModel, AudioFileOutputRepositories audioFileOutputRepositories)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (audioFileOutputRepositories == null) throw new NullException(() => audioFileOutputRepositories);
+
+            AudioFileOutput audioFileOutput = audioFileOutputRepositories.AudioFileOutputRepository.TryGet(viewModel.ID);
+            if (audioFileOutput == null)
+            {
+                audioFileOutput = new AudioFileOutput();
+                audioFileOutput.ID = viewModel.ID;
+                audioFileOutputRepositories.AudioFileOutputRepository.Insert(audioFileOutput);
+            }
+            audioFileOutput.Name = viewModel.Name;
+            audioFileOutput.Amplifier = viewModel.Amplifier;
+            audioFileOutput.TimeMultiplier = viewModel.TimeMultiplier;
+            audioFileOutput.StartTime = viewModel.StartTime;
+            audioFileOutput.Duration = viewModel.Duration;
+            audioFileOutput.SamplingRate = viewModel.SamplingRate;
+            audioFileOutput.FilePath = viewModel.FilePath;
+
+            if (viewModel.AudioFileFormat != null)
+            {
+                audioFileOutput.AudioFileFormat = audioFileOutputRepositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
+            }
+
+            if (viewModel.SampleDataType != null)
+            {
+                audioFileOutput.SampleDataType = audioFileOutputRepositories.SampleDataTypeRepository.Get(viewModel.SampleDataType.ID);
+            }
+
+            if (viewModel.SpeakerSetup != null)
+            {
+                audioFileOutput.SpeakerSetup = audioFileOutputRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
+            }
+
+            return audioFileOutput;
+        }
+
+        public static AudioFileOutputChannel ToEntity(this AudioFileOutputChannelViewModel viewModel, IAudioFileOutputChannelRepository audioFileOutputChannelRepository, IOutletRepository outletRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
+            if (outletRepository == null) throw new NullException(() => outletRepository);
+
+            AudioFileOutputChannel entity = audioFileOutputChannelRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new AudioFileOutputChannel();
+                entity.ID = viewModel.ID;
+                audioFileOutputChannelRepository.Insert(entity);
+            }
+
+            entity.IndexNumber = viewModel.IndexNumber;
+
+            if (viewModel.Outlet != null)
+            {
+                entity.Outlet = outletRepository.Get(viewModel.Outlet.ID);
+            }
+
+            return entity;
+        }
+
+        // Child Document
+
+        public static Document ToEntityWithRelatedEntities(this ChildDocumentViewModel userInput, RepositoryWrapper repositoryWrapper)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+
+            Document destDocument = userInput.ToEntity(repositoryWrapper.DocumentRepository, repositoryWrapper.ChildDocumentTypeRepository);
+
+            ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositoryWrapper));
+            ToEntityHelper.ToCurvesWithRelatedEntities(
+                userInput.CurveDetailsList,
+                destDocument,
+                repositoryWrapper.CurveRepository,
+                repositoryWrapper.NodeRepository,
+                repositoryWrapper.NodeTypeRepository);
+            ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, new PatchRepositories(repositoryWrapper));
+
+            // Operator Properties
+            // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
+            foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesList)
+            {
+                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
+            {
+                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository, repositoryWrapper.DocumentRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchInlets)
+            {
+                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchOutlets)
+            {
+                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in userInput.OperatorPropertiesList_ForSamples)
+            {
+                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository, repositoryWrapper.SampleRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForValue operatorPropertiesViewModel_ForValue in userInput.OperatorPropertiesList_ForValues)
+            {
+                operatorPropertiesViewModel_ForValue.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
+            }
+
+            return destDocument;
+        }
+
+        public static Document ToEntity(this ChildDocumentViewModel viewModel, IDocumentRepository documentRepository, IChildDocumentTypeRepository childDocumentTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
+
+            Document childDocument = documentRepository.TryGet(viewModel.ID);
+            if (childDocument == null)
+            {
+                childDocument = new Document();
+                childDocument.ID = viewModel.ID;
+                documentRepository.Insert(childDocument);
+            }
+
+            // Leave setting the simple properties to the the properties view model (properties such as Name and ChildDocumentType).
+
+            return childDocument;
+        }
+
+        public static Document ToEntityWithMainPatchReference(
+            this ChildDocumentPropertiesViewModel viewModel, 
+            IDocumentRepository documentRepository, 
+            IChildDocumentTypeRepository childDocumentTypeRepository,
+            IPatchRepository patchRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
+
+            Document entity = documentRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Document();
+                entity.ID = viewModel.ID;
+                documentRepository.Insert(entity);
+            }
+            entity.Name = viewModel.Name;
+
+            // ChildDocumentType
+            bool childDocumentTypeIsFilledIn = viewModel.ChildDocumentType != null && viewModel.ChildDocumentType.ID != 0;
+            if (childDocumentTypeIsFilledIn)
+            {
+                ChildDocumentType childDocumentType = childDocumentTypeRepository.Get(viewModel.ChildDocumentType.ID);
+                entity.LinkTo(childDocumentType);
+            }
+            else
+            {
+                entity.UnlinkChildDocumentType();
+            }
+
+            // MainPatch
+            bool mainPatchIsFilledIn = viewModel.MainPatch != null && viewModel.MainPatch.ID != 0;
+            if (mainPatchIsFilledIn)
+            {
+                Patch mainPatch = patchRepository.Get(viewModel.MainPatch.ID);
+                entity.LinkToMainPatch(mainPatch);
+            }
+            else
+            {
+                entity.UnlinkMainPatch();
+            }
+
+            return entity;
+        }
+
+        // Curve
+
+        public static Curve ToEntityWithRelatedEntities(
+            this CurveDetailsViewModel viewModel,
+            ICurveRepository curveRepository,
+            INodeRepository nodeRepository,
+            INodeTypeRepository nodeTypeRepository)
+        {
+            return viewModel.Entity.ToEntityWithRelatedEntities(curveRepository, nodeRepository, nodeTypeRepository);
+        }
+
+        public static Curve ToEntityWithRelatedEntities(
+            this CurveViewModel viewModel,
+            ICurveRepository curveRepository,
+            INodeRepository nodeRepository,
+            INodeTypeRepository nodeTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            Curve curve = viewModel.ToEntity(curveRepository);
+
+            ToEntityHelper.ToNodes(viewModel.Nodes, curve, nodeRepository, nodeTypeRepository);
+
+            return curve;
+        }
+
+        public static Curve ToEntity(this CurveViewModel viewModel, ICurveRepository curveRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (curveRepository == null) throw new NullException(() => viewModel);
+
+            Curve curve = curveRepository.TryGet(viewModel.ID);
+            if (curve == null)
+            {
+                curve = new Curve();
+                curve.ID = viewModel.ID;
+                curveRepository.Insert(curve);
+            }
+            curve.Name = viewModel.Name;
+
+            return curve;
+        }
+
+        public static Node ToEntity(this NodeViewModel viewModel, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (nodeRepository == null) throw new NullException(() => nodeRepository);
+            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
+
+            Node entity = nodeRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Node();
+                entity.ID = viewModel.ID;
+                nodeRepository.Insert(entity);
+            }
+            entity.Time = viewModel.Time;
+            entity.Value = viewModel.Value;
+            entity.Direction = viewModel.Direction;
+
+            if (entity.NodeType != null)
+            {
+                entity.NodeType = nodeTypeRepository.Get(viewModel.NodeType.ID);
+            }
+
+            return entity;
+        }
+
         // Document
 
         public static Document ToEntityWithRelatedEntities(this MainViewModel userInput, RepositoryWrapper repositoryWrapper)
@@ -210,346 +482,163 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return rootDocument;
         }
 
-        // Child Document
+        // Operator Properties
 
-        public static Document ToEntityWithRelatedEntities(this ChildDocumentViewModel userInput, RepositoryWrapper repositoryWrapper)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
-
-            Document destDocument = userInput.ToEntity(repositoryWrapper.DocumentRepository, repositoryWrapper.ChildDocumentTypeRepository);
-
-            ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositoryWrapper));
-            ToEntityHelper.ToCurvesWithRelatedEntities(
-                userInput.CurveDetailsList,
-                destDocument,
-                repositoryWrapper.CurveRepository,
-                repositoryWrapper.NodeRepository,
-                repositoryWrapper.NodeTypeRepository);
-            ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, new PatchRepositories(repositoryWrapper));
-
-            // Operator Properties
-            // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
-            foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesList)
-            {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
-            {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository, repositoryWrapper.DocumentRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchInlets)
-            {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchOutlets)
-            {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in userInput.OperatorPropertiesList_ForSamples)
-            {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository, repositoryWrapper.SampleRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForValue operatorPropertiesViewModel_ForValue in userInput.OperatorPropertiesList_ForValues)
-            {
-                operatorPropertiesViewModel_ForValue.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
-            }
-
-            return destDocument;
-        }
-
-        public static Document ToEntity(this ChildDocumentViewModel viewModel, IDocumentRepository documentRepository, IChildDocumentTypeRepository childDocumentTypeRepository)
+        public static Operator ToEntity(
+            this OperatorPropertiesViewModel viewModel,
+            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
 
-            Document childDocument = documentRepository.TryGet(viewModel.ID);
-            if (childDocument == null)
-            {
-                childDocument = new Document();
-                childDocument.ID = viewModel.ID;
-                documentRepository.Insert(childDocument);
-            }
-
-            // Leave setting the simple properties to the the properties view model (properties such as Name and ChildDocumentType).
-
-            return childDocument;
-        }
-
-        public static Document ToEntityWithMainPatchReference(
-            this ChildDocumentPropertiesViewModel viewModel, 
-            IDocumentRepository documentRepository, 
-            IChildDocumentTypeRepository childDocumentTypeRepository,
-            IPatchRepository patchRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-
-            Document entity = documentRepository.TryGet(viewModel.ID);
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new Document();
+                entity = new Operator();
                 entity.ID = viewModel.ID;
-                documentRepository.Insert(entity);
+                operatorRepository.Insert(entity);
             }
+
+            // Added this so operator properties lose focus on a new operator would be able to do some basic validation.
+            entity.OperatorType = operatorTypeRepository.TryGet(viewModel.OperatorType.ID);
+
             entity.Name = viewModel.Name;
+            return entity;
+        }
 
-            // ChildDocumentType
-            bool childDocumentTypeIsFilledIn = viewModel.ChildDocumentType != null && viewModel.ChildDocumentType.ID != 0;
-            if (childDocumentTypeIsFilledIn)
+        public static Operator ToEntity(
+            this OperatorPropertiesViewModel_ForCustomOperator viewModel,
+            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, IDocumentRepository documentRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
             {
-                ChildDocumentType childDocumentType = childDocumentTypeRepository.Get(viewModel.ChildDocumentType.ID);
-                entity.LinkTo(childDocumentType);
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            entity.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, operatorTypeRepository);
+
+            // UnderlyingDocument
+            var wrapper = new Custom_OperatorWrapper(entity, documentRepository);
+            bool underlyingDocumentIsFilledIn = viewModel.UnderlyingDocument != null && viewModel.UnderlyingDocument.ID != 0;
+            if (underlyingDocumentIsFilledIn)
+            {
+                wrapper.UnderlyingDocumentID = viewModel.UnderlyingDocument.ID;
             }
             else
             {
-                entity.UnlinkChildDocumentType();
-            }
-
-            // MainPatch
-            bool mainPatchIsFilledIn = viewModel.MainPatch != null && viewModel.MainPatch.ID != 0;
-            if (mainPatchIsFilledIn)
-            {
-                Patch mainPatch = patchRepository.Get(viewModel.MainPatch.ID);
-                entity.LinkToMainPatch(mainPatch);
-            }
-            else
-            {
-                entity.UnlinkMainPatch();
+                wrapper.UnderlyingDocumentID = null;
             }
 
             return entity;
         }
 
-        // Sample
-
-        public static Sample ToEntity(this SamplePropertiesViewModel viewModel, SampleRepositories sampleRepositories)
+        public static Operator ToEntity(
+            this OperatorPropertiesViewModel_ForPatchInlet viewModel,
+            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
 
-            return viewModel.Entity.ToEntity(sampleRepositories);
-        }
-
-        public static Sample ToEntity(this SampleViewModel viewModel, SampleRepositories sampleRepositories)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
-
-            Sample sample = sampleRepositories.SampleRepository.TryGet(viewModel.ID);
-            if (sample == null)
-            {
-                sample = new Sample();
-                sample.ID = viewModel.ID;
-                sampleRepositories.SampleRepository.Insert(sample);
-            }
-            sample.Name = viewModel.Name;
-            sample.Amplifier = viewModel.Amplifier;
-            sample.TimeMultiplier = viewModel.TimeMultiplier;
-            sample.IsActive = viewModel.IsActive;
-            sample.SamplingRate = viewModel.SamplingRate;
-            sample.BytesToSkip = viewModel.BytesToSkip;
-            sample.OriginalLocation = viewModel.OriginalLocation;
-
-            if (viewModel.AudioFileFormat != null)
-            {
-                sample.AudioFileFormat = sampleRepositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
-            }
-
-            if (viewModel.InterpolationType != null)
-            {
-                sample.InterpolationType = sampleRepositories.InterpolationTypeRepository.Get(viewModel.InterpolationType.ID);
-            }
-
-            if (viewModel.SampleDataType != null)
-            {
-                sample.SampleDataType = sampleRepositories.SampleDataTypeRepository.Get(viewModel.SampleDataType.ID);
-            }
-
-            if (viewModel.SpeakerSetup != null)
-            {
-                sample.SpeakerSetup = sampleRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
-            }
-
-            sampleRepositories.SampleRepository.SetBytes(viewModel.ID, viewModel.Bytes);
-
-            return sample;
-        }
-
-        /// <summary> Converts to a Sample with an ID but no other properties assigned. </summary>
-        public static Sample ToHollowEntity(this SampleViewModel viewModel, ISampleRepository sampleRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-
-            Sample sample = sampleRepository.TryGet(viewModel.ID);
-            if (sample == null)
-            {
-                sample = new Sample();
-                sample.ID = viewModel.ID;
-                sampleRepository.Insert(sample);
-            }
-
-            return sample;
-        }
-
-        // Curve
-
-        public static Curve ToEntityWithRelatedEntities(
-            this CurveDetailsViewModel viewModel,
-            ICurveRepository curveRepository,
-            INodeRepository nodeRepository,
-            INodeTypeRepository nodeTypeRepository)
-        {
-            return viewModel.Entity.ToEntityWithRelatedEntities(curveRepository, nodeRepository, nodeTypeRepository);
-        }
-
-        public static Curve ToEntityWithRelatedEntities(
-            this CurveViewModel viewModel,
-            ICurveRepository curveRepository,
-            INodeRepository nodeRepository,
-            INodeTypeRepository nodeTypeRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-
-            Curve curve = viewModel.ToEntity(curveRepository);
-
-            ToEntityHelper.ToNodes(viewModel.Nodes, curve, nodeRepository, nodeTypeRepository);
-
-            return curve;
-        }
-
-        public static Curve ToEntity(this CurveViewModel viewModel, ICurveRepository curveRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (curveRepository == null) throw new NullException(() => viewModel);
-
-            Curve curve = curveRepository.TryGet(viewModel.ID);
-            if (curve == null)
-            {
-                curve = new Curve();
-                curve.ID = viewModel.ID;
-                curveRepository.Insert(curve);
-            }
-            curve.Name = viewModel.Name;
-
-            return curve;
-        }
-
-        public static Node ToEntity(this NodeViewModel viewModel, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (nodeRepository == null) throw new NullException(() => nodeRepository);
-            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
-
-            Node entity = nodeRepository.TryGet(viewModel.ID);
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new Node();
+                entity = new Operator();
                 entity.ID = viewModel.ID;
-                nodeRepository.Insert(entity);
+                operatorRepository.Insert(entity);
             }
-            entity.Time = viewModel.Time;
-            entity.Value = viewModel.Value;
-            entity.Direction = viewModel.Direction;
 
-            if (entity.NodeType != null)
+            entity.Name = viewModel.Name;
+            entity.SetOperatorTypeEnum(OperatorTypeEnum.PatchInlet, operatorTypeRepository);
+
+            var wrapper = new PatchInlet_OperatorWrapper(entity);
+            wrapper.SortOrder = viewModel.SortOrder;
+
+            return entity;
+        }
+
+        public static Operator ToEntity(
+            this OperatorPropertiesViewModel_ForPatchOutlet viewModel,
+            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
             {
-                entity.NodeType = nodeTypeRepository.Get(viewModel.NodeType.ID);
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            entity.SetOperatorTypeEnum(OperatorTypeEnum.PatchOutlet, operatorTypeRepository);
+
+            var wrapper = new PatchOutlet_OperatorWrapper(entity);
+            wrapper.SortOrder = viewModel.SortOrder;
+
+            return entity;
+        }
+
+        public static Operator ToEntity(
+            this OperatorPropertiesViewModel_ForSample viewModel,
+            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, ISampleRepository sampleRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            entity.SetOperatorTypeEnum(OperatorTypeEnum.Sample, operatorTypeRepository);
+
+            // Sample
+            var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
+            bool sampleIsFilledIn = viewModel.Sample != null && viewModel.Sample.ID != 0;
+            if (sampleIsFilledIn)
+            {
+                wrapper.SampleID = viewModel.Sample.ID;
+            }
+            else
+            {
+                wrapper.SampleID = null;
             }
 
             return entity;
         }
 
-        // AudioFileOutput
-
-        public static AudioFileOutput ToEntityWithRelatedEntities(this AudioFileOutputPropertiesViewModel viewModel, AudioFileOutputRepositories audioFileOutputRepositories)
-        {
-            return viewModel.Entity.ToEntityWithRelatedEntities(audioFileOutputRepositories);
-        }
-
-        public static AudioFileOutput ToEntityWithRelatedEntities(this AudioFileOutputViewModel sourceViewModel, AudioFileOutputRepositories audioFileOutputRepositories)
-        {
-            if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (audioFileOutputRepositories == null) throw new NullException(() => audioFileOutputRepositories);
-
-            AudioFileOutput destAudioFileOutput = sourceViewModel.ToEntity(audioFileOutputRepositories);
-
-            ToEntityHelper.ToAudioFileOutputChannels(
-                sourceViewModel.Channels,
-                destAudioFileOutput,
-                audioFileOutputRepositories.AudioFileOutputChannelRepository,
-                audioFileOutputRepositories.OutletRepository);
-
-            return destAudioFileOutput;
-        }
-
-        public static AudioFileOutput ToEntity(this AudioFileOutputViewModel viewModel, AudioFileOutputRepositories audioFileOutputRepositories)
+        public static Operator ToEntity(
+            this OperatorPropertiesViewModel_ForValue viewModel,
+            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (audioFileOutputRepositories == null) throw new NullException(() => audioFileOutputRepositories);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
 
-            AudioFileOutput audioFileOutput = audioFileOutputRepositories.AudioFileOutputRepository.TryGet(viewModel.ID);
-            if (audioFileOutput == null)
-            {
-                audioFileOutput = new AudioFileOutput();
-                audioFileOutput.ID = viewModel.ID;
-                audioFileOutputRepositories.AudioFileOutputRepository.Insert(audioFileOutput);
-            }
-            audioFileOutput.Name = viewModel.Name;
-            audioFileOutput.Amplifier = viewModel.Amplifier;
-            audioFileOutput.TimeMultiplier = viewModel.TimeMultiplier;
-            audioFileOutput.StartTime = viewModel.StartTime;
-            audioFileOutput.Duration = viewModel.Duration;
-            audioFileOutput.SamplingRate = viewModel.SamplingRate;
-            audioFileOutput.FilePath = viewModel.FilePath;
-
-            if (viewModel.AudioFileFormat != null)
-            {
-                audioFileOutput.AudioFileFormat = audioFileOutputRepositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
-            }
-
-            if (viewModel.SampleDataType != null)
-            {
-                audioFileOutput.SampleDataType = audioFileOutputRepositories.SampleDataTypeRepository.Get(viewModel.SampleDataType.ID);
-            }
-
-            if (viewModel.SpeakerSetup != null)
-            {
-                audioFileOutput.SpeakerSetup = audioFileOutputRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
-            }
-
-            return audioFileOutput;
-        }
-
-        public static AudioFileOutputChannel ToEntity(this AudioFileOutputChannelViewModel viewModel, IAudioFileOutputChannelRepository audioFileOutputChannelRepository, IOutletRepository outletRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-
-            AudioFileOutputChannel entity = audioFileOutputChannelRepository.TryGet(viewModel.ID);
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
-                entity = new AudioFileOutputChannel();
+                entity = new Operator();
                 entity.ID = viewModel.ID;
-                audioFileOutputChannelRepository.Insert(entity);
+                operatorRepository.Insert(entity);
             }
 
-            entity.IndexNumber = viewModel.IndexNumber;
+            entity.Name = viewModel.Name;
+            entity.SetOperatorTypeEnum(OperatorTypeEnum.Value, operatorTypeRepository);
 
-            if (viewModel.Outlet != null)
-            {
-                entity.Outlet = outletRepository.Get(viewModel.Outlet.ID);
-            }
+            entity.Data = viewModel.Value;
 
             return entity;
         }
@@ -735,165 +824,76 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entityPosition;
         }
 
-        // Operator Properties
+        // Sample
 
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel viewModel, 
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+        public static Sample ToEntity(this SamplePropertiesViewModel viewModel, SampleRepositories sampleRepositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
-
-            // Added this so operator properties lose focus on a new operator would be able to do some basic validation.
-            entity.OperatorType = operatorTypeRepository.TryGet(viewModel.OperatorType.ID);
-
-            entity.Name = viewModel.Name;
-            return entity;
+            return viewModel.Entity.ToEntity(sampleRepositories);
         }
 
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForCustomOperator viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, IDocumentRepository documentRepository)
+        public static Sample ToEntity(this SampleViewModel viewModel, SampleRepositories sampleRepositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
+            Sample sample = sampleRepositories.SampleRepository.TryGet(viewModel.ID);
+            if (sample == null)
             {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
+                sample = new Sample();
+                sample.ID = viewModel.ID;
+                sampleRepositories.SampleRepository.Insert(sample);
+            }
+            sample.Name = viewModel.Name;
+            sample.Amplifier = viewModel.Amplifier;
+            sample.TimeMultiplier = viewModel.TimeMultiplier;
+            sample.IsActive = viewModel.IsActive;
+            sample.SamplingRate = viewModel.SamplingRate;
+            sample.BytesToSkip = viewModel.BytesToSkip;
+            sample.OriginalLocation = viewModel.OriginalLocation;
+
+            if (viewModel.AudioFileFormat != null)
+            {
+                sample.AudioFileFormat = sampleRepositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
             }
 
-            entity.Name = viewModel.Name;
-            entity.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, operatorTypeRepository);
-
-            // UnderlyingDocument
-            var wrapper = new Custom_OperatorWrapper(entity, documentRepository);
-            bool underlyingDocumentIsFilledIn = viewModel.UnderlyingDocument != null && viewModel.UnderlyingDocument.ID != 0;
-            if (underlyingDocumentIsFilledIn)
+            if (viewModel.InterpolationType != null)
             {
-                wrapper.UnderlyingDocumentID = viewModel.UnderlyingDocument.ID;
-            }
-            else
-            {
-                wrapper.UnderlyingDocumentID = null;
+                sample.InterpolationType = sampleRepositories.InterpolationTypeRepository.Get(viewModel.InterpolationType.ID);
             }
 
-            return entity;
+            if (viewModel.SampleDataType != null)
+            {
+                sample.SampleDataType = sampleRepositories.SampleDataTypeRepository.Get(viewModel.SampleDataType.ID);
+            }
+
+            if (viewModel.SpeakerSetup != null)
+            {
+                sample.SpeakerSetup = sampleRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
+            }
+
+            sampleRepositories.SampleRepository.SetBytes(viewModel.ID, viewModel.Bytes);
+
+            return sample;
         }
 
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForPatchInlet viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+        /// <summary> Converts to a Sample with an ID but no other properties assigned. </summary>
+        public static Sample ToHollowEntity(this SampleViewModel viewModel, ISampleRepository sampleRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
+            Sample sample = sampleRepository.TryGet(viewModel.ID);
+            if (sample == null)
             {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
+                sample = new Sample();
+                sample.ID = viewModel.ID;
+                sampleRepository.Insert(sample);
             }
 
-            entity.Name = viewModel.Name;
-            entity.SetOperatorTypeEnum(OperatorTypeEnum.PatchInlet, operatorTypeRepository);
-
-            var wrapper = new PatchInlet_OperatorWrapper(entity);
-            wrapper.SortOrder = viewModel.SortOrder;
-
-            return entity;
-        }
-
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForPatchOutlet viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
-
-            entity.Name = viewModel.Name;
-            entity.SetOperatorTypeEnum(OperatorTypeEnum.PatchOutlet, operatorTypeRepository);
-
-            var wrapper = new PatchOutlet_OperatorWrapper(entity);
-            wrapper.SortOrder = viewModel.SortOrder;
-
-            return entity;
-        }
-
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForSample viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, ISampleRepository sampleRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
-
-            entity.Name = viewModel.Name;
-            entity.SetOperatorTypeEnum(OperatorTypeEnum.Sample, operatorTypeRepository);
-
-            // Sample
-            var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
-            bool sampleIsFilledIn = viewModel.Sample != null && viewModel.Sample.ID != 0;
-            if (sampleIsFilledIn)
-            {
-                wrapper.SampleID = viewModel.Sample.ID;
-            }
-            else
-            {
-                wrapper.SampleID = null;
-            }
-
-            return entity;
-        }
-
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForValue viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
-
-            entity.Name = viewModel.Name;
-            entity.SetOperatorTypeEnum(OperatorTypeEnum.Value, operatorTypeRepository);
-
-            entity.Data = viewModel.Value;
-
-            return entity;
+            return sample;
         }
     }
 }
