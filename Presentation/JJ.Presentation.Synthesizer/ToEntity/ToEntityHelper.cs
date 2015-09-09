@@ -328,13 +328,16 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return null;
         }
 
+        /// <summary>
+        /// Hack back in a PatchInlet's Inlet, that was excluded from the view model.
+        /// </summary>
         public static Inlet HACK_CreatePatchInletInletIfNeeded(Operator op, IInletRepository inletRepository, IIDRepository idRepository)
         {
             if (op == null) throw new NullException(() => op);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (idRepository == null) throw new NullException(() => idRepository);
 
-            // Hack back in a PatchInlet's Inlet, that was excluded from the view model.
+            // 
             if (op.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
             {
                 Inlet inlet = op.Inlets.Where(x => String.Equals(x.Name, PropertyNames.Input)).FirstOrDefault();

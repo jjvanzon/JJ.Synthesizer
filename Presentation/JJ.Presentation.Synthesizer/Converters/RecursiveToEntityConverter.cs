@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.Converters
     /// </summary>
     internal class RecursiveToEntityConverter
     {
-        private readonly PatchRepositories _patchRepositories;
+        private readonly PatchRepositories _repositories;
         private readonly Dictionary<int, Operator> _operatorDictionary = new Dictionary<int, Operator>();
         private readonly Dictionary<int, Outlet> _outletDictionary = new Dictionary<int, Outlet>();
 
@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.Converters
         {
             if (patchRepositories == null) throw new NullException(() => patchRepositories);
 
-            _patchRepositories = patchRepositories;
+            _repositories = patchRepositories;
         }
 
         public Operator Convert(OperatorViewModel operatorViewModel)
@@ -45,11 +45,11 @@ namespace JJ.Presentation.Synthesizer.Converters
                 return op;
             }
 
-            op = viewModel.ToEntity(_patchRepositories.OperatorRepository, _patchRepositories.OperatorTypeRepository);
+            op = viewModel.ToEntity(_repositories.OperatorRepository, _repositories.OperatorTypeRepository);
 
             _operatorDictionary.Add(op.ID, op);
 
-            viewModel.ToEntityPosition(_patchRepositories.EntityPositionRepository);
+            viewModel.ToEntityPosition(_repositories.EntityPositionRepository);
 
             ConvertToInletsRecursive(viewModel.Inlets, op);
             ConvertToOutletsRecursive(viewModel.Outlets, op);
@@ -69,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.Converters
             }
 
             Inlet patchInletInlet = ToEntityHelper.HACK_CreatePatchInletInletIfNeeded(
-                destOperator, _patchRepositories.InletRepository, _patchRepositories.IDRepository);
+                destOperator, _repositories.InletRepository, _repositories.IDRepository);
             if (patchInletInlet != null)
             {
                 idsToKeep.Add(patchInletInlet.ID);
@@ -80,9 +80,9 @@ namespace JJ.Presentation.Synthesizer.Converters
 
             foreach (int idToDelete in idsToDelete)
             {
-                Inlet entityToDelete = _patchRepositories.InletRepository.Get(idToDelete);
+                Inlet entityToDelete = _repositories.InletRepository.Get(idToDelete);
                 entityToDelete.UnlinkRelatedEntities();
-                _patchRepositories.InletRepository.Delete(entityToDelete);
+                _repositories.InletRepository.Delete(entityToDelete);
             }
         }
 
@@ -98,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.Converters
             }
 
             Outlet patchOutletOutlet = ToEntityHelper.HACK_CreatePatchOutletOutletIfNeeded(
-                destOperator, _patchRepositories.OutletRepository, _patchRepositories.IDRepository);
+                destOperator, _repositories.OutletRepository, _repositories.IDRepository);
             if (patchOutletOutlet != null)
             {
                 idsToKeep.Add(patchOutletOutlet.ID);
@@ -109,15 +109,15 @@ namespace JJ.Presentation.Synthesizer.Converters
 
             foreach (int outletIDToDelete in idsToDelete)
             {
-                Outlet entityToDelete = _patchRepositories.OutletRepository.Get(outletIDToDelete);
+                Outlet entityToDelete = _repositories.OutletRepository.Get(outletIDToDelete);
                 entityToDelete.UnlinkRelatedEntities();
-                _patchRepositories.OutletRepository.Delete(entityToDelete);
+                _repositories.OutletRepository.Delete(entityToDelete);
             }
         }
 
         private Inlet ToEntityRecursive(InletViewModel inletViewModel)
         {
-            Inlet inlet = inletViewModel.ToEntity(_patchRepositories.InletRepository);
+            Inlet inlet = inletViewModel.ToEntity(_repositories.InletRepository);
 
             if (inletViewModel.InputOutlet == null)
             {
@@ -154,7 +154,7 @@ namespace JJ.Presentation.Synthesizer.Converters
             // then it starts converting outlets, and this method,
             // which delegate in turn to convert operator,
             // which returns the operator without related entities and then I try to convert the outlet it here.
-            outlet = outletViewModel.ToEntity(_patchRepositories.OutletRepository);
+            outlet = outletViewModel.ToEntity(_repositories.OutletRepository);
             outlet.LinkTo(op);
             // The 'if' here is like a chicken-or-egg detection, if you will.
             if (!_outletDictionary.ContainsKey(outletViewModel.ID))
