@@ -2,14 +2,14 @@
 using System.Linq;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Framework.Presentation.Svg.Models.Elements;
-using JJ.Framework.Presentation.Svg.Gestures;
+using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
+using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.Svg.Gestures;
-using JJ.Presentation.Synthesizer.Svg.Converters;
-using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
+using JJ.Presentation.Synthesizer.VectorGraphics.Converters;
+using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
-namespace JJ.Presentation.Synthesizer.Svg
+namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
     public class ViewModelToDiagramConverter
     {
@@ -96,11 +96,11 @@ namespace JJ.Presentation.Synthesizer.Svg
 
             IList<Rectangle> destExistingOperatorRectangles = result.Diagram.Canvas.Children
                                                                                    .OfType<Rectangle>()
-                                                                                   .Where(x => SvgTagHelper.IsOperatorTag(x.Tag))
+                                                                                   .Where(x => VectorGraphicsTagHelper.IsOperatorTag(x.Tag))
                                                                                    .ToArray();
             IList<Curve> destExistingCurves = result.Diagram.Canvas.Children
                                                                    .OfType<Curve>()
-                                                                   .Where(x => SvgTagHelper.IsInletTag(x.Tag))
+                                                                   .Where(x => VectorGraphicsTagHelper.IsInletTag(x.Tag))
                                                                    .ToArray();
             _result = result;
             _result.Diagram.Canvas.Gestures.Clear();
@@ -145,15 +145,15 @@ namespace JJ.Presentation.Synthesizer.Svg
 
         private OperatorElements ConvertToRectangles_WithRelatedObject_Recursive(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
         {
-            OperatorElements operatorSvgElements1;
-            if (_convertedOperatorDictionary.TryGetValue(sourceOperatorViewModel, out operatorSvgElements1))
+            OperatorElements operatorVectorGraphicsElements1;
+            if (_convertedOperatorDictionary.TryGetValue(sourceOperatorViewModel, out operatorVectorGraphicsElements1))
             {
-                return operatorSvgElements1;
+                return operatorVectorGraphicsElements1;
             }
 
-            operatorSvgElements1 = ConvertToRectangle_WithRelatedObjects(sourceOperatorViewModel, destDiagram);
+            operatorVectorGraphicsElements1 = ConvertToRectangle_WithRelatedObjects(sourceOperatorViewModel, destDiagram);
 
-            _convertedOperatorDictionary.Add(sourceOperatorViewModel, operatorSvgElements1);
+            _convertedOperatorDictionary.Add(sourceOperatorViewModel, operatorVectorGraphicsElements1);
 
             // Go recursive and tie operators together with curves.
             for (int i = 0; i < sourceOperatorViewModel.Inlets.Count; i++)
@@ -163,7 +163,7 @@ namespace JJ.Presentation.Synthesizer.Svg
                 if (inletViewModel.InputOutlet != null)
                 {
                     // Recursive call
-                    OperatorElements operatorSvgElements2 = ConvertToRectangles_WithRelatedObject_Recursive(inletViewModel.InputOutlet.Operator, destDiagram);
+                    OperatorElements operatorVectorGraphicsElements2 = ConvertToRectangles_WithRelatedObject_Recursive(inletViewModel.InputOutlet.Operator, destDiagram);
 
                     int id = inletViewModel.ID;
                     
@@ -175,28 +175,28 @@ namespace JJ.Presentation.Synthesizer.Svg
                         {
                             LineStyle = StyleHelper.LineStyleThin,
                             ZIndex = -1,
-                            Tag = SvgTagHelper.GetInletTag(id),
+                            Tag = VectorGraphicsTagHelper.GetInletTag(id),
                             Diagram = destDiagram,
                             Parent = destDiagram.Canvas
                         };
                         _inletCurveDictionary.Add(id, destCurve);
                     }
 
-                    destCurve.PointA = operatorSvgElements1.InletPoints[i];
-                    destCurve.ControlPointA = operatorSvgElements1.InletControlPoints[i];
+                    destCurve.PointA = operatorVectorGraphicsElements1.InletPoints[i];
+                    destCurve.ControlPointA = operatorVectorGraphicsElements1.InletControlPoints[i];
 
                     _convertedCurves.Add(destCurve);
 
-                    int? outletIndex = operatorSvgElements2.OutletPoints.TryGetIndexOf(x => SvgTagHelper.GetOutletID(x.Tag) == inletViewModel.InputOutlet.ID);
+                    int? outletIndex = operatorVectorGraphicsElements2.OutletPoints.TryGetIndexOf(x => VectorGraphicsTagHelper.GetOutletID(x.Tag) == inletViewModel.InputOutlet.ID);
                     if (outletIndex.HasValue) 
                     {
-                        destCurve.PointB = operatorSvgElements2.OutletPoints[outletIndex.Value];
-                        destCurve.ControlPointB = operatorSvgElements2.OutletControlPoints[outletIndex.Value];
+                        destCurve.PointB = operatorVectorGraphicsElements2.OutletPoints[outletIndex.Value];
+                        destCurve.ControlPointB = operatorVectorGraphicsElements2.OutletControlPoints[outletIndex.Value];
                     }
                 }
             }
 
-            return operatorSvgElements1;
+            return operatorVectorGraphicsElements1;
         }
 
         private Dictionary<int, Curve> _inletCurveDictionary = new Dictionary<int, Curve>();
@@ -208,7 +208,7 @@ namespace JJ.Presentation.Synthesizer.Svg
             {
                 curve = _result.Diagram.Canvas.Children
                                               .OfType<Curve>()
-                                              .Where(x => SvgTagHelper.TryGetInletID(x.Tag) == id)
+                                              .Where(x => VectorGraphicsTagHelper.TryGetInletID(x.Tag) == id)
                                               .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
 
                 if (curve != null)

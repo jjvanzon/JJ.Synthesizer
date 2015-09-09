@@ -1,10 +1,10 @@
-﻿using JJ.Framework.Presentation.Svg.Enums;
-using JJ.Framework.Presentation.Svg.EventArg;
-using JJ.Framework.Presentation.Svg.Gestures;
+﻿using JJ.Framework.Presentation.VectorGraphics.Enums;
+using JJ.Framework.Presentation.VectorGraphics.EventArg;
+using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Reflection.Exceptions;
 using System;
 
-namespace JJ.Presentation.Synthesizer.Svg.Gestures
+namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
     public class DeleteOperatorGesture : GestureBase
     {

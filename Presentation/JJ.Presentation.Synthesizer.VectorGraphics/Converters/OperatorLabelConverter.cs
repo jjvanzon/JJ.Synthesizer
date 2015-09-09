@@ -1,10 +1,10 @@
-﻿using JJ.Framework.Presentation.Svg.Models.Elements;
+﻿using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Linq;
 
-namespace JJ.Presentation.Synthesizer.Svg.Converters
+namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OperatorLabelConverter
     {

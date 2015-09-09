@@ -1,11 +1,11 @@
-﻿using JJ.Framework.Presentation.Svg.Models.Elements;
+﻿using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JJ.Presentation.Synthesizer.Svg.Converters
+namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class InletPointConverter
     {
@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 destInletPoint = new Point();
                 destInletPoint.Diagram = destOperatorRectangle.Diagram;
                 destInletPoint.Parent = destOperatorRectangle;
-                destInletPoint.Tag = SvgTagHelper.GetInletTag(id);
+                destInletPoint.Tag = VectorGraphicsTagHelper.GetInletTag(id);
 
                 _destInletPointDictionary.Add(id, destInletPoint);
             }
@@ -69,7 +69,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             {
                 destPoint = destParent.Children
                                       .OfType<Point>()
-                                      .Where(x => SvgTagHelper.TryGetInletID(x.Tag) == id)
+                                      .Where(x => VectorGraphicsTagHelper.TryGetInletID(x.Tag) == id)
                                       .FirstOrDefault(); // First instead of Single will make sure that excessive ones are cleaned up.
 
                 if (destPoint != null)

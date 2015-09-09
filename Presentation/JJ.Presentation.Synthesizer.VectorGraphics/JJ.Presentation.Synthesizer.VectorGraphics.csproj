@@ -7,8 +7,8 @@
     <ProjectGuid>{DA036CC8-85CC-4A2B-B557-0A222A4486C3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JJ.Presentation.Synthesizer.Svg</RootNamespace>
-    <AssemblyName>JJ.Presentation.Synthesizer.Svg</AssemblyName>
+    <RootNamespace>JJ.Presentation.Synthesizer.VectorGraphics</RootNamespace>
+    <AssemblyName>JJ.Presentation.Synthesizer.VectorGraphics</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -80,9 +80,9 @@
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation.Svg\JJ.Framework.Presentation.Svg.csproj">
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation.VectorGraphics\JJ.Framework.Presentation.VectorGraphics.csproj">
       <Project>{52e03e08-331a-4ca7-8d8f-6f598c94eed4}</Project>
-      <Name>JJ.Framework.Presentation.Svg</Name>
+      <Name>JJ.Framework.Presentation.VectorGraphics</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>

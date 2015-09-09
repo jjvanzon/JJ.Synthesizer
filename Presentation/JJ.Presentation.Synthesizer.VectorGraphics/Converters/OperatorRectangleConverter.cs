@@ -1,15 +1,15 @@
 ﻿using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Presentation.Svg.Gestures;
-using JJ.Framework.Presentation.Svg.Helpers;
-using JJ.Framework.Presentation.Svg.Models.Elements;
+using JJ.Framework.Presentation.VectorGraphics.Gestures;
+using JJ.Framework.Presentation.VectorGraphics.Helpers;
+using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Svg.Gestures;
-using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
+using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JJ.Presentation.Synthesizer.Svg.Converters
+namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OperatorRectangleConverter
     {
@@ -43,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 {
                     Diagram = destDiagram,
                     Parent = destDiagram.Canvas,
-                    Tag = SvgTagHelper.GetOperatorTag(sourceOperatorViewModel.ID)
+                    Tag = VectorGraphicsTagHelper.GetOperatorTag(sourceOperatorViewModel.ID)
                 };
 
                 _destOperatorRectangleDictionary.Add(sourceOperatorViewModel.ID, destOperatorRectangle);
@@ -95,8 +95,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             {
                 destRectangle = _diagram.Elements
                                         .OfType<Rectangle>()
-                                        .Where(x => SvgTagHelper.IsOperatorTag(x.Tag) &&
-                                                    SvgTagHelper.GetOperatorID(x.Tag) == id)
+                                        .Where(x => VectorGraphicsTagHelper.IsOperatorTag(x.Tag) &&
+                                                    VectorGraphicsTagHelper.GetOperatorID(x.Tag) == id)
                                         .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
 
                 if (destRectangle != null)

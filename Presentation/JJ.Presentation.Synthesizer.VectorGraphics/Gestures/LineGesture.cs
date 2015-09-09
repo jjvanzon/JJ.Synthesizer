@@ -1,12 +1,12 @@
-﻿using JJ.Framework.Presentation.Svg.EventArg;
-using JJ.Framework.Presentation.Svg.Gestures;
-using JJ.Framework.Presentation.Svg.Models.Elements;
-using JJ.Framework.Presentation.Svg.Models.Styling;
+﻿using JJ.Framework.Presentation.VectorGraphics.EventArg;
+using JJ.Framework.Presentation.VectorGraphics.Gestures;
+using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
+using JJ.Framework.Presentation.VectorGraphics.Models.Styling;
 using JJ.Framework.Reflection.Exceptions;
 using System;
 using System.Collections.Generic;
 
-namespace JJ.Presentation.Synthesizer.Svg.Gestures
+namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
     // TODO: Make this internal if it proves we are never going to expose this type.
     public class LineGesture : GestureBase, IDisposable

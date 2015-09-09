@@ -1,6 +1,6 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 
-namespace JJ.Presentation.Synthesizer.Svg.Helpers
+namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 {
     internal class PositionHelper
     {

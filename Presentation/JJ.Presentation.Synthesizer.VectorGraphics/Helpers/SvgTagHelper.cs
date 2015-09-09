@@ -2,9 +2,9 @@
 using JJ.Framework.Common;
 using System;
 
-namespace JJ.Presentation.Synthesizer.Svg.Helpers
+namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 {
-    public static class SvgTagHelper
+    public static class VectorGraphicsTagHelper
     {
         // The the shorter the prefixes, the faster it will be.
         private const string OPERATOR_TAG_PREFIX = "op ";

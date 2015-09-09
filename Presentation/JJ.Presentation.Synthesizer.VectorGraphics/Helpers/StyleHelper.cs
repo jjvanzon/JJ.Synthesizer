@@ -1,8 +1,8 @@
-﻿using JJ.Framework.Presentation.Svg.Enums;
-using JJ.Framework.Presentation.Svg.Helpers;
-using JJ.Framework.Presentation.Svg.Models.Styling;
+﻿using JJ.Framework.Presentation.VectorGraphics.Enums;
+using JJ.Framework.Presentation.VectorGraphics.Helpers;
+using JJ.Framework.Presentation.VectorGraphics.Models.Styling;
 
-namespace JJ.Presentation.Synthesizer.Svg.Helpers
+namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 {
     internal static class StyleHelper
     {

@@ -393,9 +393,9 @@
       <Project>{40a53175-8048-4f2d-93ca-383074c0267e}</Project>
       <Name>JJ.Framework.Presentation.Resources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation.Svg\JJ.Framework.Presentation.Svg.csproj">
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation.VectorGraphics\JJ.Framework.Presentation.VectorGraphics.csproj">
       <Project>{52e03e08-331a-4ca7-8d8f-6f598c94eed4}</Project>
-      <Name>JJ.Framework.Presentation.Svg</Name>
+      <Name>JJ.Framework.Presentation.VectorGraphics</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Presentation.WinForms\JJ.Framework.Presentation.WinForms.csproj">
       <Project>{84a66716-c686-4b8e-a092-cfe38ca7dde0}</Project>
@@ -429,9 +429,9 @@
       <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
       <Name>JJ.Data.Synthesizer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\JJ.Presentation.Synthesizer.Svg\JJ.Presentation.Synthesizer.Svg.csproj">
+    <ProjectReference Include="..\JJ.Presentation.Synthesizer.VectorGraphics\JJ.Presentation.Synthesizer.VectorGraphics.csproj">
       <Project>{da036cc8-85cc-4a2b-b557-0a222a4486c3}</Project>
-      <Name>JJ.Presentation.Synthesizer.Svg</Name>
+      <Name>JJ.Presentation.Synthesizer.VectorGraphics</Name>
     </ProjectReference>
     <ProjectReference Include="..\JJ.Presentation.Synthesizer\JJ.Presentation.Synthesizer.csproj">
       <Project>{919ae8a0-c964-4746-94a9-bc61a2546e78}</Project>

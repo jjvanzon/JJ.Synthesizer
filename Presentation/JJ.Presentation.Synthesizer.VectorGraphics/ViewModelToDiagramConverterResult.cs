@@ -1,8 +1,8 @@
-﻿using JJ.Framework.Presentation.Svg.Gestures;
-using JJ.Framework.Presentation.Svg.Models.Elements;
-using JJ.Presentation.Synthesizer.Svg.Gestures;
+﻿using JJ.Framework.Presentation.VectorGraphics.Gestures;
+using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
+using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 
-namespace JJ.Presentation.Synthesizer.Svg
+namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
     public class ViewModelToDiagramConverterResult
     {

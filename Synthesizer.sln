@@ -61,17 +61,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Synthesizer.SqlClie
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer", "Presentation\JJ.Presentation.Synthesizer\JJ.Presentation.Synthesizer.csproj", "{919AE8A0-C964-4746-94A9-BC61A2546E78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.Svg", "Framework\JJ.Framework.Presentation.Svg\JJ.Framework.Presentation.Svg.csproj", "{52E03E08-331A-4CA7-8D8F-6F598C94EED4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.VectorGraphics", "Framework\JJ.Framework.Presentation.VectorGraphics\JJ.Framework.Presentation.VectorGraphics.csproj", "{52E03E08-331A-4CA7-8D8F-6F598C94EED4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.Drawing", "Framework\JJ.Framework.Presentation.Drawing\JJ.Framework.Presentation.Drawing.csproj", "{21802A52-F4F7-4366-B61D-06E1FB337B86}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.WinForms.TestForms", "Framework\JJ.Framework.Presentation.WinForms.TestForms\JJ.Framework.Presentation.WinForms.TestForms.csproj", "{1ED07700-D0FE-4397-A6A2-5FAAB025A0D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.Svg.Tests", "Framework\JJ.Framework.Presentation.Svg.Tests\JJ.Framework.Presentation.Svg.Tests.csproj", "{AE5758E9-37E7-41FE-844D-A91471DB8FA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation.VectorGraphics.Tests", "Framework\JJ.Framework.Presentation.VectorGraphics.Tests\JJ.Framework.Presentation.VectorGraphics.Tests.csproj", "{AE5758E9-37E7-41FE-844D-A91471DB8FA5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer.WinForms", "Presentation\JJ.Presentation.Synthesizer.WinForms\JJ.Presentation.Synthesizer.WinForms.csproj", "{5B200A79-0358-438D-8DCE-F3E40E9E88A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer.Svg", "Presentation\JJ.Presentation.Synthesizer.Svg\JJ.Presentation.Synthesizer.Svg.csproj", "{DA036CC8-85CC-4A2B-B557-0A222A4486C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer.VectorGraphics", "Presentation\JJ.Presentation.Synthesizer.VectorGraphics\JJ.Presentation.Synthesizer.VectorGraphics.csproj", "{DA036CC8-85CC-4A2B-B557-0A222A4486C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Logging", "Framework\JJ.Framework.Logging\JJ.Framework.Logging.csproj", "{CEEB755D-DE12-4E70-816E-546C429B44B7}"
 EndProject
@@ -934,10 +934,10 @@ Global
 		SccProjectUniqueName28 = Presentation\\JJ.Presentation.Synthesizer\\JJ.Presentation.Synthesizer.csproj
 		SccProjectName28 = Presentation/JJ.Presentation.Synthesizer
 		SccLocalPath28 = Presentation\\JJ.Presentation.Synthesizer
-		SccProjectUniqueName29 = Framework\\JJ.Framework.Presentation.Svg\\JJ.Framework.Presentation.Svg.csproj
+		SccProjectUniqueName29 = Framework\\JJ.Framework.Presentation.VectorGraphics\\JJ.Framework.Presentation.VectorGraphics.csproj
 		SccProjectTopLevelParentUniqueName29 = Synthesizer.sln
-		SccProjectName29 = Framework/JJ.Framework.Presentation.Svg
-		SccLocalPath29 = Framework\\JJ.Framework.Presentation.Svg
+		SccProjectName29 = Framework/JJ.Framework.Presentation.VectorGraphics
+		SccLocalPath29 = Framework\\JJ.Framework.Presentation.VectorGraphics
 		SccProjectUniqueName30 = Framework\\JJ.Framework.Presentation.Drawing\\JJ.Framework.Presentation.Drawing.csproj
 		SccProjectTopLevelParentUniqueName30 = Synthesizer.sln
 		SccProjectName30 = Framework/JJ.Framework.Presentation.Drawing
@@ -946,16 +946,16 @@ Global
 		SccProjectTopLevelParentUniqueName31 = Synthesizer.sln
 		SccProjectName31 = Framework/JJ.Framework.Presentation.WinForms.TestForms
 		SccLocalPath31 = Framework\\JJ.Framework.Presentation.WinForms.TestForms
-		SccProjectUniqueName32 = Framework\\JJ.Framework.Presentation.Svg.Tests\\JJ.Framework.Presentation.Svg.Tests.csproj
+		SccProjectUniqueName32 = Framework\\JJ.Framework.Presentation.VectorGraphics.Tests\\JJ.Framework.Presentation.VectorGraphics.Tests.csproj
 		SccProjectTopLevelParentUniqueName32 = Synthesizer.sln
-		SccProjectName32 = Framework/JJ.Framework.Presentation.Svg.Tests
-		SccLocalPath32 = Framework\\JJ.Framework.Presentation.Svg.Tests
+		SccProjectName32 = Framework/JJ.Framework.Presentation.VectorGraphics.Tests
+		SccLocalPath32 = Framework\\JJ.Framework.Presentation.VectorGraphics.Tests
 		SccProjectUniqueName33 = Presentation\\JJ.Presentation.Synthesizer.WinForms\\JJ.Presentation.Synthesizer.WinForms.csproj
 		SccProjectName33 = Presentation/JJ.Presentation.Synthesizer.WinForms
 		SccLocalPath33 = Presentation\\JJ.Presentation.Synthesizer.WinForms
-		SccProjectUniqueName34 = Presentation\\JJ.Presentation.Synthesizer.Svg\\JJ.Presentation.Synthesizer.Svg.csproj
-		SccProjectName34 = Presentation/JJ.Presentation.Synthesizer.Svg
-		SccLocalPath34 = Presentation\\JJ.Presentation.Synthesizer.Svg
+		SccProjectUniqueName34 = Presentation\\JJ.Presentation.Synthesizer.VectorGraphics\\JJ.Presentation.Synthesizer.VectorGraphics.csproj
+		SccProjectName34 = Presentation/JJ.Presentation.Synthesizer.VectorGraphics
+		SccLocalPath34 = Presentation\\JJ.Presentation.Synthesizer.VectorGraphics
 		SccProjectUniqueName35 = Framework\\JJ.Framework.Logging\\JJ.Framework.Logging.csproj
 		SccProjectTopLevelParentUniqueName35 = Synthesizer.sln
 		SccProjectName35 = Framework/JJ.Framework.Logging

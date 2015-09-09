@@ -1,12 +1,12 @@
-﻿using JJ.Framework.Presentation.Svg.Models.Elements;
+﻿using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Svg.Gestures;
-using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
+using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JJ.Presentation.Synthesizer.Svg.Converters
+namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OperatorToolTipRectangleConverter
     {
@@ -31,7 +31,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 {
                     Diagram = destOperatorRectangle.Diagram,
                     Parent = destOperatorRectangle,
-                    Tag = SvgTagHelper.GetOperatorTag(sourceOperatorViewModel.ID)
+                    Tag = VectorGraphicsTagHelper.GetOperatorTag(sourceOperatorViewModel.ID)
                 };
 
                 _destOperatorToolTipRectangleDictionary.Add(sourceOperatorViewModel.ID, destOperatorToolTipRectangle);
@@ -61,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             {
                 destOperatorToolTipRectangle = destParent.Children
                                                          .OfType<Rectangle>()
-                                                         .Where(x => SvgTagHelper.TryGetOperatorID(x.Tag) == id)
+                                                         .Where(x => VectorGraphicsTagHelper.TryGetOperatorID(x.Tag) == id)
                                                          .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
 
                 if (destOperatorToolTipRectangle != null)

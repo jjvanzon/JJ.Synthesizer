@@ -20,7 +20,7 @@
 
             base.Dispose(disposing);
 
-            UnbindSvgEvents();
+            UnbindVectorGraphicsEvents();
         }
 
         #region Windows Form Designer generated code

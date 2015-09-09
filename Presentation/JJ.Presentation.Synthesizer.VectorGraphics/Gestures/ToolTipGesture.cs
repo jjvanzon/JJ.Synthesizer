@@ -1,13 +1,13 @@
-﻿using JJ.Framework.Presentation.Svg.EventArg;
-using JJ.Framework.Presentation.Svg.Gestures;
-using JJ.Framework.Presentation.Svg.Models.Elements;
-using JJ.Framework.Presentation.Svg.Models.Styling;
+﻿using JJ.Framework.Presentation.VectorGraphics.EventArg;
+using JJ.Framework.Presentation.VectorGraphics.Gestures;
+using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
+using JJ.Framework.Presentation.VectorGraphics.Models.Styling;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Svg.EventArg;
+using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using System;
-using JJ.Framework.Presentation.Svg.Helpers;
+using JJ.Framework.Presentation.VectorGraphics.Helpers;
 
-namespace JJ.Presentation.Synthesizer.Svg.Gestures
+namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
     public class ToolTipGesture : GestureBase
     {

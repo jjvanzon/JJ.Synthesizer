@@ -1,13 +1,13 @@
-﻿using JJ.Framework.Presentation.Svg.Gestures;
-using JJ.Framework.Presentation.Svg.Models.Elements;
+﻿using JJ.Framework.Presentation.VectorGraphics.Gestures;
+using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Svg.Gestures;
-using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
+using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JJ.Presentation.Synthesizer.Svg.Converters
+namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OutletRectangleConverter
     {
@@ -72,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 destOutletRectangle = new Rectangle();
                 destOutletRectangle.Diagram = destOperatorRectangle.Diagram;
                 destOutletRectangle.Parent = destOperatorRectangle;
-                destOutletRectangle.Tag = SvgTagHelper.GetOutletTag(id);
+                destOutletRectangle.Tag = VectorGraphicsTagHelper.GetOutletTag(id);
 
                 _destOutletRectangleDictionary.Add(id, destOutletRectangle);
             }
@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             {
                 destRectangle = destParent.Children
                                           .OfType<Rectangle>()
-                                          .Where(x => SvgTagHelper.TryGetOutletID(x.Tag) == id)
+                                          .Where(x => VectorGraphicsTagHelper.TryGetOutletID(x.Tag) == id)
                                           .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
 
                 if (destRectangle != null)

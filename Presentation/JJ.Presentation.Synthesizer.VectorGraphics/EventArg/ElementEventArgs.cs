@@ -1,15 +1,14 @@
-﻿using JJ.Framework.Presentation.Svg.Models.Elements;
+﻿using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
 using System;
 
-namespace JJ.Presentation.Synthesizer.Svg.EventArg
+namespace JJ.Presentation.Synthesizer.VectorGraphics.EventArg
 {
-    public class ToolTipTextEventArgs : EventArgs
+    public class ElementEventArgs : EventArgs
     {
         public Element Element { get; private set; }
-        public string ToolTipText { get; set; }
 
-        public ToolTipTextEventArgs(Element element)
+        public ElementEventArgs(Element element)
         {
             if (element == null) throw new NullException(() => element);
 

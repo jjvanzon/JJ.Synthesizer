@@ -1,11 +1,11 @@
-﻿using JJ.Framework.Presentation.Svg.Models.Elements;
+﻿using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.Svg.Helpers;
+using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JJ.Presentation.Synthesizer.Svg.Converters
+namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OutletPointConverter
     {
@@ -49,7 +49,7 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
                 destOutletPoint = new Point();
                 destOutletPoint.Diagram = destOperatorRectangle.Diagram;
                 destOutletPoint.Parent = destOperatorRectangle;
-                destOutletPoint.Tag = SvgTagHelper.GetOutletTag(id);
+                destOutletPoint.Tag = VectorGraphicsTagHelper.GetOutletTag(id);
 
                 _destOutletPointDictionary.Add(id, destOutletPoint);
             }
@@ -68,8 +68,8 @@ namespace JJ.Presentation.Synthesizer.Svg.Converters
             {
                 destPoint = destParent.Children
                                       .OfType<Point>()
-                                      .Where(x => SvgTagHelper.IsOutletTag(x.Tag) &&
-                                                  SvgTagHelper.GetOutletID(x.Tag) == id)
+                                      .Where(x => VectorGraphicsTagHelper.IsOutletTag(x.Tag) &&
+                                                  VectorGraphicsTagHelper.GetOutletID(x.Tag) == id)
                                       .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
 
                 if (destPoint != null)
