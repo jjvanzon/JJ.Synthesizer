@@ -43,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _line = new Line
             { 
                 Diagram = _diagram,
-                Parent = diagram.Canvas,
+                Parent = diagram.Background,
                 ZIndex = lineZIndex,
                 Visible = false,
                 Tag = "LineGesture Line"

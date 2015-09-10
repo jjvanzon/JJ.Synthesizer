@@ -114,17 +114,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             _convertedOperatorDictionary = new Dictionary<OperatorViewModel, OperatorElements>();
             _convertedCurves = new List<Curve>();
 
-            IList<Rectangle> destExistingOperatorRectangles = result.Diagram.Canvas.Children
+            IList<Rectangle> destExistingOperatorRectangles = result.Diagram.Background.Children
                                                                                    .OfType<Rectangle>()
                                                                                    .Where(x => VectorGraphicsTagHelper.IsOperatorTag(x.Tag))
                                                                                    .ToArray();
-            IList<Curve> destExistingCurves = result.Diagram.Canvas.Children
+            IList<Curve> destExistingCurves = result.Diagram.Background.Children
                                                                    .OfType<Curve>()
                                                                    .Where(x => VectorGraphicsTagHelper.IsInletTag(x.Tag))
                                                                    .ToArray();
             _result = result;
-            _result.Diagram.Canvas.Gestures.Clear();
-            _result.Diagram.Canvas.Gestures.Add(_result.DeleteOperatorGesture);
+            _result.Diagram.Background.Gestures.Clear();
+            _result.Diagram.Background.Gestures.Add(_result.DeleteOperatorGesture);
             foreach (OperatorViewModel sourceOperatorViewModel in sourcePatchViewModel.Operators)
             {
                 ConvertToRectangles_WithRelatedObject_Recursive(sourceOperatorViewModel, result.Diagram);
@@ -197,7 +197,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                             ZIndex = -1,
                             Tag = VectorGraphicsTagHelper.GetInletTag(id),
                             Diagram = destDiagram,
-                            Parent = destDiagram.Canvas
+                            Parent = destDiagram.Background
                         };
                         _inletCurveDictionary.Add(id, destCurve);
                     }
@@ -226,7 +226,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             Curve curve;
             if (!_inletCurveDictionary.TryGetValue(id, out curve))
             {
-                curve = _result.Diagram.Canvas.Children
+                curve = _result.Diagram.Background.Children
                                               .OfType<Curve>()
                                               .Where(x => VectorGraphicsTagHelper.TryGetInletID(x.Tag) == id)
                                               .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.

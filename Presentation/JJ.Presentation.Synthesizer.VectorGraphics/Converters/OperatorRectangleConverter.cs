@@ -46,7 +46,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
                 destOperatorRectangle = new Rectangle
                 {
                     Diagram = destDiagram,
-                    Parent = destDiagram.Canvas,
+                    Parent = destDiagram.Background,
                     Tag = VectorGraphicsTagHelper.GetOperatorTag(sourceOperatorViewModel.ID)
                 };
 

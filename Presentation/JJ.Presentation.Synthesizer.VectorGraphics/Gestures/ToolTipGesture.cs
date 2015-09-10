@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _rectangle = new Rectangle
             {
                 Diagram = diagram,
-                Parent = diagram.Canvas,
+                Parent = diagram.Background,
                 BackStyle = backStyle,
                 LineStyle = lineStyle,
                 Visible = false,
