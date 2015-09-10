@@ -16,19 +16,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
         private Diagram _diagram;
         private MoveGesture _moveGesture;
         private SelectOperatorGesture _selectOperatorGesture;
+        private DoubleClickGesture _doubleClickOperatorGesture;
 
         public OperatorRectangleConverter(
             Diagram diagram,
             MoveGesture moveGesture,
-            SelectOperatorGesture selectOperatorGesture)
+            SelectOperatorGesture selectOperatorGesture,
+            DoubleClickGesture doubleClickOperatorGesture)
         {
             if (diagram == null) throw new NullException(() => diagram);
             if (moveGesture == null) throw new NullException(() => moveGesture);
             if (selectOperatorGesture == null) throw new NullException(() => selectOperatorGesture);
+            if (doubleClickOperatorGesture == null) throw new NullException(() => doubleClickOperatorGesture);
 
             _diagram = diagram;
             _moveGesture = moveGesture;
             _selectOperatorGesture = selectOperatorGesture;
+            _doubleClickOperatorGesture = doubleClickOperatorGesture;
         }
 
         public Rectangle ConvertToOperatorRectangle(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
@@ -69,6 +73,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             destOperatorRectangle.Gestures.Clear();
             destOperatorRectangle.Gestures.Add(_moveGesture);
             destOperatorRectangle.Gestures.Add(_selectOperatorGesture);
+            destOperatorRectangle.Gestures.Add(_doubleClickOperatorGesture);
 
             return destOperatorRectangle;
         }

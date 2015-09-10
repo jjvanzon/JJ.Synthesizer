@@ -22,6 +22,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             public IList<Point> OutletControlPoints { get; set; }
         }
 
+        private readonly int _doubleClickSpeedInMilliseconds;
+        private readonly int _doubleClickDeltaInPixels;
         private bool _tooltipFeatureEnabled;
         private ViewModelToDiagramConverterResult _result;
         private Dictionary<OperatorViewModel, OperatorElements> _convertedOperatorDictionary;
@@ -38,9 +40,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private OperatorToolTipRectangleConverter _operatorToolTipRectangleConverter;
 
         /// <param name="mustShowInvisibleElements">for debugging</param>
-        public ViewModelToDiagramConverter(bool mustShowInvisibleElements = false, bool tooltipFeatureEnabled = true)
+        public ViewModelToDiagramConverter(
+            int doubleClickSpeedInMilliseconds,
+            int doubleClickDeltaInPixels,
+            bool mustShowInvisibleElements = false,
+            bool tooltipFeatureEnabled = true)
         {
             _tooltipFeatureEnabled = tooltipFeatureEnabled;
+            _doubleClickSpeedInMilliseconds = doubleClickSpeedInMilliseconds;
+            _doubleClickDeltaInPixels = doubleClickDeltaInPixels;
 
             if (mustShowInvisibleElements)
             {
@@ -64,6 +72,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 var lineGesture = new LineGesture(destDiagram, StyleHelper.LineStyleDashed, lineZIndex: -1);
                 var selectOperatorGesture = new SelectOperatorGesture();
                 var deleteOperatorGesture = new DeleteOperatorGesture();
+                var doubleClickOperatorGesture = new DoubleClickGesture(_doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
 
                 ToolTipGesture operatorToolTipGesture = null;
                 ToolTipGesture inletToolTipGesture = null;
@@ -75,7 +84,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     outletToolTipGesture = new ToolTipGesture(destDiagram, StyleHelper.ToolTipBackStyle, StyleHelper.ToolTipLineStyle, StyleHelper.ToolTipTextStyle, zIndex: 2);
                 }
 
-                _operatorToRectangleConverter = new OperatorRectangleConverter(destDiagram, moveGesture, selectOperatorGesture);
+                _operatorToRectangleConverter = new OperatorRectangleConverter(destDiagram, moveGesture, selectOperatorGesture, doubleClickOperatorGesture);
                 _operatorToLabelConverter = new OperatorLabelConverter();
                 _inletRectangleConverter = new InletRectangleConverter(dropGesture, inletToolTipGesture);
                 _inletPointConverter = new InletPointConverter();
@@ -88,7 +97,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     _operatorToolTipRectangleConverter = new OperatorToolTipRectangleConverter(operatorToolTipGesture);
                 }
 
-                result = new ViewModelToDiagramConverterResult(destDiagram, moveGesture, dragGesture, dropGesture, lineGesture, selectOperatorGesture, deleteOperatorGesture, operatorToolTipGesture, inletToolTipGesture, outletToolTipGesture);
+                result = new ViewModelToDiagramConverterResult(
+                    destDiagram, 
+                    moveGesture, 
+                    dragGesture, 
+                    dropGesture, 
+                    lineGesture, 
+                    selectOperatorGesture, 
+                    deleteOperatorGesture,
+                    doubleClickOperatorGesture,
+                    operatorToolTipGesture, 
+                    inletToolTipGesture, 
+                    outletToolTipGesture);
             }
 
             _convertedOperatorDictionary = new Dictionary<OperatorViewModel, OperatorElements>();
@@ -200,7 +220,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         }
 
         private Dictionary<int, Curve> _inletCurveDictionary = new Dictionary<int, Curve>();
-        
+
         private Curve TryGetInletCurve(int id)
         {
             Curve curve;

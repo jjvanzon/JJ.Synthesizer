@@ -53,7 +53,6 @@
     <Compile Include="Helpers\SvgTagHelper.cs" />
     <Compile Include="ViewModelToDiagramConverter.cs" />
     <Compile Include="EventArg\ToolTipTextEventArgs.cs" />
-    <Compile Include="EventArg\ElementEventArgs.cs" />
     <Compile Include="Gestures\AddLineGesture.cs" />
     <Compile Include="Gestures\ChangeLineGesture.cs" />
     <Compile Include="Gestures\DeleteOperatorGesture.cs" />

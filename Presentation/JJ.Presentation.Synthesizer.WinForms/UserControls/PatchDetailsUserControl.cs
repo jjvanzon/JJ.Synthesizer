@@ -92,13 +92,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 UnbindVectorGraphicsEvents();
 
-                _converter = new ViewModelToDiagramConverter(_mustShowInvisibleElements, _toolTipFeatureEnabled);
+                _converter = new ViewModelToDiagramConverter( 
+                    SystemInformation.DoubleClickTime,
+                    SystemInformation.DoubleClickSize.Width,
+                    _mustShowInvisibleElements, 
+                    _toolTipFeatureEnabled);
+
                 _vectorGraphics = _converter.Execute(_viewModel.Entity);
 
                 _vectorGraphics.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
                 _vectorGraphics.MoveGesture.Moved += MoveGesture_Moved;
                 _vectorGraphics.DropGesture.Dropped += DropGesture_Dropped;
                 _vectorGraphics.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
+                _vectorGraphics.DoubleClickOperatorGesture.DoubleClick += DoubleClickOperatorGesture_DoubleClick;
 
                 if (_toolTipFeatureEnabled)
                 {
@@ -265,7 +271,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ChangeInputOutlet(inletID, outletID);
         }
 
-        private void MoveGesture_Moved(object sender, MoveEventArgs e)
+        private void MoveGesture_Moved(object sender, ElementEventArgs e)
         {
             int operatorIndexNumber = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
 
@@ -286,10 +292,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SelectOperatorGesture_OperatorSelected(object sender, ElementEventArgs e)
         {
             int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
-
             SelectOperator(operatorID);
 
-            // TODO: Low Priority: Program double click gesture in Vector Graphics system,
+            // In Progress: Program double click gesture in Vector Graphics system,
             // and respond to double click instead.
             ShowOperatorProperties(operatorID);
         }
@@ -297,6 +302,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
         {
             DeleteOperator();
+        }
+
+        private void DoubleClickOperatorGesture_DoubleClick(object sender, ElementEventArgs e)
+        {
+            // TODO: This event handler does not work yet, because the whole diagram is regenerated all the time,
+            // making the second click be on a completely new element.
+
+            //int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
+            //ShowOperatorProperties(operatorID);
         }
 
         private void buttonPlay_Click(object sender, EventArgs e)
