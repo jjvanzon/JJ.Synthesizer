@@ -9,21 +9,12 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
-    public class DragLineGesture : GestureBase, IDisposable
+    public class DragLineGesture : DragGesture, IDisposable
     {
         private Diagram _diagram;
         private Line _line;
         private float _mouseDownX;
         private float _mouseDownY;
-
-        private DragGesture _dragGesture;
-        internal DragGesture DragGesture { get { return _dragGesture; } }
-
-        public event EventHandler<DraggingEventArgs> Dragging
-        {
-            add { _dragGesture.Dragging += value; }
-            remove { _dragGesture.Dragging -= value; }
-        }
 
         public DragLineGesture(Diagram diagram, LineStyle lineStyle = null, int lineZIndex = 0)
         {
@@ -33,9 +24,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
             _line = LineGestureHelper.CreateLine(diagram, lineStyle, lineZIndex);
 
-            _dragGesture = new DragGesture();
-            _dragGesture.Dragging += _dragGesture_Dragging;
-            _dragGesture.DragCanceled += _dragGesture_DragCancelled;
+            this.Dragging += this_Dragging;
+            this.DragCanceled += this_DragCancelled;
         }
 
         ~DragLineGesture()
@@ -45,38 +35,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
         public void Dispose()
         {
-            if (_dragGesture != null)
-            {
-                _dragGesture.Dragging -= _dragGesture_Dragging;
-                _dragGesture.DragCanceled -= _dragGesture_DragCancelled;
-            }
+            this.Dragging -= this_Dragging;
+            this.DragCanceled -= this_DragCancelled;
 
             GC.SuppressFinalize(this);
         }
 
-        // IGesture
-
         public override void HandleMouseDown(object sender, MouseEventArgs e)
         {
-            _dragGesture.HandleMouseDown(sender, e);
-
             _mouseDownX = e.X;
             _mouseDownY = e.Y;
+
+            base.HandleMouseDown(sender, e);
         }
 
-        public override void HandleMouseMove(object sender, MouseEventArgs e)
-        {
-            _dragGesture.HandleMouseMove(sender, e);
-        }
-
-        public override void HandleMouseUp(object sender, MouseEventArgs e)
-        {
-            _dragGesture.HandleMouseUp(sender, e);
-        }
-
-        // Events
-
-        private void _dragGesture_Dragging(object sender, DraggingEventArgs e)
+        private void this_Dragging(object sender, DraggingEventArgs e)
         {
             _line.PointA.X = _mouseDownX;
             _line.PointA.Y = _mouseDownY;
@@ -92,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
         }
 
-        private void _dragGesture_DragCancelled(object sender, EventArgs e)
+        private void this_DragCancelled(object sender, EventArgs e)
         {
             // TODO: _line.Visible does not seem to work.
             _line.Visible = false;

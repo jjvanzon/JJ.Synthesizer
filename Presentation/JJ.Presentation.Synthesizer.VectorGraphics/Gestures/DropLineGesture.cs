@@ -10,18 +10,10 @@ using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
-    public class DropLineGesture : GestureBase, IDisposable
+    public class DropLineGesture : DropGesture, IDisposable
     {
         private Diagram _diagram;
         private Line _line;
-
-        private DropGesture _dropGesture;
-
-        public event EventHandler<DroppedEventArgs> Dropped
-        {
-            add { _dropGesture.Dropped += value; }
-            remove { _dropGesture.Dropped -= value; }
-        }
 
         public DropLineGesture(Diagram diagram, params DragLineGesture[] dragLineGestures)
             : this(diagram, (IList<DragLineGesture>)dragLineGestures)
@@ -32,13 +24,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         { }
 
         public DropLineGesture(Diagram diagram, IList<DragLineGesture> dragLineGestures = null, LineStyle lineStyle = null, int lineZIndex = 0)
+            : base(dragLineGestures.OfType<DragGesture>().ToArray())
         {
             if (diagram == null) throw new NullException(() => diagram);
 
             _diagram = diagram;
             _line = LineGestureHelper.CreateLine(diagram, lineStyle, lineZIndex);
-            _dropGesture = new DropGesture(dragLineGestures.Select(x => x.DragGesture).ToArray());
-            _dropGesture.Dropped += _dropGesture_Dropped;
+
+            this.Dropped += this_Dropped;
         }
 
         ~DropLineGesture()
@@ -48,34 +41,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
         public void Dispose()
         {
-            if (_dropGesture != null)
-            {
-                _dropGesture.Dropped -= _dropGesture_Dropped;
-            }
+            this.Dropped -= this_Dropped;
 
             GC.SuppressFinalize(this);
         }
 
-        // IGesture
-
-        public override void HandleMouseDown(object sender, MouseEventArgs e)
-        {
-            _dropGesture.HandleMouseDown(sender, e);
-        }
-
-        public override void HandleMouseMove(object sender, MouseEventArgs e)
-        {
-            _dropGesture.HandleMouseMove(sender, e);
-        }
-
-        public override void HandleMouseUp(object sender, MouseEventArgs e)
-        {
-            _dropGesture.HandleMouseUp(sender, e);
-        }
-
         // Events
 
-        private void _dropGesture_Dropped(object sender, DroppedEventArgs e)
+        private void this_Dropped(object sender, DroppedEventArgs e)
         {
             // TODO: _line.Visible does not seem to work.
             _line.Visible = false;
