@@ -50,9 +50,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
         private void this_Dropped(object sender, DroppedEventArgs e)
         {
-            // TODO: _line.Visible does not seem to work.
             _line.Visible = false;
-            _line.LineStyle.Visible = false;
         }
     }
 }

@@ -58,18 +58,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             _line.PointB.Y = e.Y;
 
             _line.Visible = true;
-
-            // TODO: _line.Visible does not seem to work.
-            _line.Visible = true;
-            _line.LineStyle.Visible = true;
-
         }
 
         private void this_DragCancelled(object sender, EventArgs e)
         {
-            // TODO: _line.Visible does not seem to work.
             _line.Visible = false;
-            _line.LineStyle.Visible = false;
         }
     }
 }
