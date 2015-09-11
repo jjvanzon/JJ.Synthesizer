@@ -67,9 +67,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 var destDiagram = new Diagram();
                 var moveGesture = new MoveGesture();
-                var dragGesture = new DragGesture();
-                var dropGesture = new DropGesture(dragGesture);
-                var lineGesture = new LineGesture(destDiagram, StyleHelper.LineStyleDashed, lineZIndex: -1);
+                var dragLineGesture = new DragLineGesture(destDiagram, StyleHelper.LineStyleDashed);
+                var dropLineGesture = new DropLineGesture(destDiagram, dragLineGesture);
                 var selectOperatorGesture = new SelectOperatorGesture();
                 var deleteOperatorGesture = new DeleteOperatorGesture();
                 var doubleClickOperatorGesture = new DoubleClickGesture(_doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
@@ -86,10 +85,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                 _operatorToRectangleConverter = new OperatorRectangleConverter(destDiagram, moveGesture, selectOperatorGesture, doubleClickOperatorGesture);
                 _operatorToLabelConverter = new OperatorLabelConverter();
-                _inletRectangleConverter = new InletRectangleConverter(dropGesture, inletToolTipGesture);
+                _inletRectangleConverter = new InletRectangleConverter(dropLineGesture, inletToolTipGesture);
                 _inletPointConverter = new InletPointConverter();
                 _inletControlPointConverter = new InletControlPointConverter();
-                _outletRectangleConverter = new OutletRectangleConverter(dragGesture, lineGesture, outletToolTipGesture);
+                _outletRectangleConverter = new OutletRectangleConverter(dragLineGesture, outletToolTipGesture);
                 _outletPointConverter = new OutletPointConverter();
                 _outletControlPointConverter = new OutletControlPointConverter();
                 if (_tooltipFeatureEnabled)
@@ -100,9 +99,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 result = new ViewModelToDiagramConverterResult(
                     destDiagram, 
                     moveGesture, 
-                    dragGesture, 
-                    dropGesture, 
-                    lineGesture, 
+                    dragLineGesture, 
+                    dropLineGesture, 
                     selectOperatorGesture, 
                     deleteOperatorGesture,
                     doubleClickOperatorGesture,
@@ -123,8 +121,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                                                                    .Where(x => VectorGraphicsTagHelper.IsInletTag(x.Tag))
                                                                    .ToArray();
             _result = result;
-            _result.Diagram.Background.Gestures.Clear();
-            _result.Diagram.Background.Gestures.Add(_result.DeleteOperatorGesture);
+
+            // Do not do Gestures.Clear, because that would mess up DragCancelled in the DragLine gesture.
+            if (!_result.Diagram.Background.Gestures.Contains(_result.DeleteOperatorGesture))
+            {
+                _result.Diagram.Background.Gestures.Add(_result.DeleteOperatorGesture);
+            }
+
             foreach (OperatorViewModel sourceOperatorViewModel in sourcePatchViewModel.Operators)
             {
                 ConvertToRectangles_WithRelatedObject_Recursive(sourceOperatorViewModel, result.Diagram);

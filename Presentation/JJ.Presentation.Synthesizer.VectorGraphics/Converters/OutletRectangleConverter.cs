@@ -11,18 +11,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OutletRectangleConverter
     {
-        private DragGesture _dragGesture;
-        private LineGesture _lineGesture;
+        private IGesture _dragLineGesture;
         private ToolTipGesture _outletToolTipGesture;
 
         /// <param name="outletToolTipGesture">nullable</param>
-        public OutletRectangleConverter(DragGesture dragGesture, LineGesture lineGesture, ToolTipGesture outletToolTipGesture)
+        public OutletRectangleConverter(DragLineGesture dragLineGesture, ToolTipGesture outletToolTipGesture)
         {
-            if (dragGesture == null) throw new NullException(() => dragGesture);
-            if (lineGesture == null) throw new NullException(() => lineGesture);
-
-            _dragGesture = dragGesture;
-            _lineGesture = lineGesture;
+            if (dragLineGesture == null) throw new NullException(() => dragLineGesture);
+            
+            _dragLineGesture = dragLineGesture;
             _outletToolTipGesture = outletToolTipGesture;
         }
 
@@ -81,8 +78,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             destOutletRectangle.LineStyle = StyleHelper.BorderStyleInvisible;
 
             destOutletRectangle.Gestures.Clear();
-            destOutletRectangle.Gestures.Add(_dragGesture);
-            destOutletRectangle.Gestures.Add(_lineGesture);
+            destOutletRectangle.Gestures.Add(_dragLineGesture);
             destOutletRectangle.MustBubble = false; // So drag does not result in a move.
 
             if (_outletToolTipGesture != null)

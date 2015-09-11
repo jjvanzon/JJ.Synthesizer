@@ -9,9 +9,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         public ViewModelToDiagramConverterResult(
             Diagram diagram,
             MoveGesture moveGesture,
-            DragGesture dragGesture,
-            DropGesture dropGesture,
-            LineGesture lineGesture,
+            DragLineGesture dragLineGesture,
+            DropLineGesture dropLineGesture,
             SelectOperatorGesture selectOperatorGesture,
             DeleteOperatorGesture deleteOperatorGesture,
             DoubleClickGesture doubleClickOperatorGesture,
@@ -21,9 +20,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         {
             Diagram = diagram;
             MoveGesture = moveGesture;
-            DragGesture = dragGesture;
-            DropGesture = dropGesture;
-            LineGesture = lineGesture;
+            DragLineGesture = dragLineGesture;
+            DropLineGesture = dropLineGesture;
             SelectOperatorGesture = selectOperatorGesture;
             DeleteOperatorGesture = deleteOperatorGesture;
             DoubleClickOperatorGesture = doubleClickOperatorGesture;
@@ -34,9 +32,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         public Diagram Diagram { get; private set; }
         public MoveGesture MoveGesture { get; private set; }
-        public DragGesture DragGesture { get; private set; }
-        public DropGesture DropGesture { get; private set; }
-        public LineGesture LineGesture { get; private set; }
+        public DragLineGesture DragLineGesture { get; private set; }
+        public DropLineGesture DropLineGesture { get; private set; }
         public SelectOperatorGesture SelectOperatorGesture { get; private set; }
         public DeleteOperatorGesture DeleteOperatorGesture { get; private set; }
         public DoubleClickGesture DoubleClickOperatorGesture { get; private set; }

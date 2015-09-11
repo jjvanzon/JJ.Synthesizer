@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                 _vectorGraphics.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
                 _vectorGraphics.MoveGesture.Moved += MoveGesture_Moved;
-                _vectorGraphics.DropGesture.Dropped += DropGesture_Dropped;
+                _vectorGraphics.DropLineGesture.Dropped += DropLineGesture_Dropped;
                 _vectorGraphics.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
                 _vectorGraphics.DoubleClickOperatorGesture.DoubleClick += DoubleClickOperatorGesture_DoubleClick;
 
@@ -131,7 +131,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 _vectorGraphics.SelectOperatorGesture.OperatorSelected -= SelectOperatorGesture_OperatorSelected;
                 _vectorGraphics.MoveGesture.Moved -= MoveGesture_Moved;
-                _vectorGraphics.DropGesture.Dropped -= DropGesture_Dropped;
+                _vectorGraphics.DropLineGesture.Dropped -= DropLineGesture_Dropped;
                 _vectorGraphics.DeleteOperatorGesture.DeleteRequested -= DeleteOperatorGesture_DeleteRequested;
 
                 if (_toolTipFeatureEnabled)
@@ -263,7 +263,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             Close();
         }
 
-        private void DropGesture_Dropped(object sender, DroppedEventArgs e)
+        private void DropLineGesture_Dropped(object sender, DroppedEventArgs e)
         {
             int inletID =  VectorGraphicsTagHelper.GetInletID(e.DroppedOnElement.Tag);
             int outletID = VectorGraphicsTagHelper.GetOutletID(e.DraggedElement.Tag);

@@ -11,15 +11,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class InletRectangleConverter
     {
-        private DropGesture _dropGesture;
-        private ToolTipGesture _inletToolTipGesture;
+        private IGesture _dropLineGesture;
+        private IGesture _inletToolTipGesture;
 
         /// <param name="inletToolTipGesture">nullable</param>
-        public InletRectangleConverter(DropGesture dropGesture, ToolTipGesture inletToolTipGesture)
+        public InletRectangleConverter(DropLineGesture dropLineGesture, ToolTipGesture inletToolTipGesture)
         {
-            if (dropGesture == null) throw new NullException(() => dropGesture);
+            if (dropLineGesture == null) throw new NullException(() => dropLineGesture);
 
-            _dropGesture = dropGesture;
+            _dropLineGesture = dropLineGesture;
             _inletToolTipGesture = inletToolTipGesture;
         }
 
@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             destInletRectangle.LineStyle = StyleHelper.BorderStyleInvisible;
 
             destInletRectangle.Gestures.Clear();
-            destInletRectangle.Gestures.Add(_dropGesture);
+            destInletRectangle.Gestures.Add(_dropLineGesture);
 
             if (_inletToolTipGesture != null)
             {
