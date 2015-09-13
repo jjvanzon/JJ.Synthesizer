@@ -158,12 +158,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void DocumentOpen(int id)
         {
+            ForceLoseFocus();
+
             _presenter.DocumentOpen(id);
             ApplyViewModel();
         }
 
         private void DocumentClose()
         {
+            ForceLoseFocus();
+
             _presenter.DocumentClose();
             ApplyViewModel();
         }
@@ -200,6 +204,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void DocumentSave()
         {
+            ForceLoseFocus();
+
             _presenter.DocumentSave();
             ApplyViewModel();
         }

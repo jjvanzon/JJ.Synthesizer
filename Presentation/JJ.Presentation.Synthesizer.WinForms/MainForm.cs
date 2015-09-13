@@ -9,6 +9,7 @@ using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.WinForms.Forms;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using ConfigurationSection = JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection;
+using System.Reflection;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -166,6 +167,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
         {
             splitContainerProperties.SplitterWidth = StyleHelper.DefaultSpacing;
             splitContainerTree.SplitterWidth = StyleHelper.DefaultSpacing;
+        }
+
+        private void ForceLoseFocus()
+        {
+            // Quite a hack, and making the method name lie,
+            // but the ForceLoseFocus is there to make LoseFocus go off
+            // when doing actions on controls that do not trigger a LoseFocus themselves (such as the Menu control).
+            // The control that has to loose focus, is one in which you enter data (e.g. a Properties view).
+            // No data is entered in the DocumentTree view at the moment,
+            // so if another control is focused, focusing the DocumentTree control would do the trick.
+            documentTreeUserControl.Focus();
         }
     }
 }
