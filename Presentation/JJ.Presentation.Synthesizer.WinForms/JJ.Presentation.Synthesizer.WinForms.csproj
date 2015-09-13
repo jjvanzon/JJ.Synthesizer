@@ -77,6 +77,15 @@
     </Compile>
     <Compile Include="Helpers\MessageBoxHelper.cs" />
     <Compile Include="Helpers\TagHelper.cs" />
+    <Compile Include="MainForm.ApplyViewModel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Events.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Actions.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
