@@ -8,11 +8,14 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OperatorRectangleConverter
     {
+        private Dictionary<int, Rectangle> _destOperatorRectangleDictionary = new Dictionary<int, Rectangle>();
+
         private Diagram _diagram;
         private MoveGesture _moveGesture;
         private SelectOperatorGesture _selectOperatorGesture;
@@ -90,8 +93,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             }
             return width;
         }
-
-        private Dictionary<int, Rectangle> _destOperatorRectangleDictionary = new Dictionary<int, Rectangle>();
 
         private Rectangle TryGetOperatorRectangle(int id)
         {

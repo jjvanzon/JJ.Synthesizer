@@ -4,11 +4,14 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class InletPointConverter
     {
+        private Dictionary<int, Point> _destInletPointDictionary = new Dictionary<int, Point>();
+
         public IList<Point> ConvertToInletPoints(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
         {
             if (sourceOperatorViewModel == null) throw new NullException(() => sourceOperatorViewModel);
@@ -59,8 +62,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             return destInletPoint;
         }
-
-        private Dictionary<int, Point> _destInletPointDictionary = new Dictionary<int, Point>();
 
         private Point TryGetInletPoint(Element destParent, int id)
         {

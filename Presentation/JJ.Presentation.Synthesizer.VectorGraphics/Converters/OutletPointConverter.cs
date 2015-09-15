@@ -4,11 +4,14 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OutletPointConverter
     {
+        private Dictionary<int, Point> _destOutletPointDictionary = new Dictionary<int, Point>();
+
         public IList<Point> ConvertToOutletPoints(OperatorViewModel sourceOperatorViewModel, Rectangle destOperatorRectangle)
         {
             if (sourceOperatorViewModel == null) throw new NullException(() => sourceOperatorViewModel);
@@ -58,8 +61,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             return destOutletPoint;
         }
-
-        private Dictionary<int, Point> _destOutletPointDictionary = new Dictionary<int, Point>();
 
         private Point TryGetOutletPoint(Element destParent, int id)
         {

@@ -1,16 +1,20 @@
 ﻿using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OutletRectangleConverter
     {
+        private Dictionary<int, Rectangle> _destOutletRectangleDictionary = new Dictionary<int, Rectangle>();
+
         private IGesture _dragLineGesture;
         private ToolTipGesture _outletToolTipGesture;
 
@@ -88,8 +92,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             return destOutletRectangle;
         }
-
-        private Dictionary<int, Rectangle> _destOutletRectangleDictionary = new Dictionary<int, Rectangle>();
 
         private Rectangle TryGetOutletRectangle(Element destParent, int id)
         {

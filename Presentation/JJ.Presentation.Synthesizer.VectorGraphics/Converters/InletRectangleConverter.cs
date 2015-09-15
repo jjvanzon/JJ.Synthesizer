@@ -6,11 +6,14 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class InletRectangleConverter
     {
+        private Dictionary<int, Rectangle> _destInletRectangleDictionary = new Dictionary<int, Rectangle>();
+
         private IGesture _dropLineGesture;
         private IGesture _inletToolTipGesture;
 
@@ -87,8 +90,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             return destInletRectangle;
         }
-
-        private Dictionary<int, Rectangle> _destInletRectangleDictionary = new Dictionary<int, Rectangle>();
 
         private Rectangle TryGetInletRectangle(Element destParent, int inletID)
         {

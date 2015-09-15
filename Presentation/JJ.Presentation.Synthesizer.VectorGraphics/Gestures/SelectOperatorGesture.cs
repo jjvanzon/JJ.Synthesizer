@@ -1,6 +1,5 @@
 ﻿using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
-using JJ.Framework.Reflection.Exceptions;
 using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
@@ -9,21 +8,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
     {
         public event EventHandler<ElementEventArgs> OperatorSelected;
 
-        //public override void HandleMouseDown(object sender, MouseEventArgs e)
-        //{
-        //    if (OperatorSelected != null)
-        //    {
-        //        OperatorSelected(sender, new ElementEventArgs(e.Element));
-        //    }
-        //}
-
-        public override void HandleMouseUp(object sender, MouseEventArgs e)
+        public override void HandleMouseDown(object sender, MouseEventArgs e)
         {
-            if (e == null) throw new NullException(() => e);
-
-            // This event is handled, in case a mouse down causes a regeneration of the diagram.
-            // upon which the element upon which mouse down went off is gone.
-
             if (OperatorSelected != null)
             {
                 OperatorSelected(sender, new ElementEventArgs(e.Element));

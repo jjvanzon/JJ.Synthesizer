@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
@@ -8,6 +8,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Converters;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
+using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
@@ -24,13 +25,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private readonly int _doubleClickSpeedInMilliseconds;
         private readonly int _doubleClickDeltaInPixels;
-        private bool _tooltipFeatureEnabled;
+        private readonly bool _tooltipFeatureEnabled;
         private ViewModelToDiagramConverterResult _result;
         private Dictionary<OperatorViewModel, OperatorElements> _convertedOperatorDictionary;
         private IList<Curve> _convertedCurves;
 
-        private OperatorRectangleConverter _operatorToRectangleConverter;
-        private OperatorLabelConverter _operatorToLabelConverter;
+        private OperatorRectangleConverter _operatorRectangleConverter;
+        private OperatorLabelConverter _operatorLabelConverter;
         private InletRectangleConverter _inletRectangleConverter;
         private InletPointConverter _inletPointConverter;
         private InletControlPointConverter _inletControlPointConverter;
@@ -38,8 +39,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private OutletPointConverter _outletPointConverter;
         private OutletControlPointConverter _outletControlPointConverter;
         private OperatorToolTipRectangleConverter _operatorToolTipRectangleConverter;
-
-        private int _currentPatchID;
+        private int _previousPatchID;
 
         /// <param name="mustShowInvisibleElements">for debugging</param>
         public ViewModelToDiagramConverter(
@@ -65,10 +65,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         {
             if (sourcePatchViewModel == null) throw new NullException(() => sourcePatchViewModel);
 
-            if (result == null || sourcePatchViewModel.ID != _currentPatchID)
+            bool mustCreateNewResult = result == null || 
+                                       _previousPatchID != sourcePatchViewModel.ID; // Start a new diagram when it is a different patch.
+            if (mustCreateNewResult)
             {
-                _currentPatchID = sourcePatchViewModel.ID;
-
                 var destDiagram = new Diagram();
                 var moveGesture = new MoveGesture();
                 var dragLineGesture = new DragLineGesture(destDiagram, StyleHelper.LineStyleDashed);
@@ -87,8 +87,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     outletToolTipGesture = new ToolTipGesture(destDiagram, StyleHelper.ToolTipBackStyle, StyleHelper.ToolTipLineStyle, StyleHelper.ToolTipTextStyle, zIndex: 2);
                 }
 
-                _operatorToRectangleConverter = new OperatorRectangleConverter(destDiagram, moveGesture, selectOperatorGesture, doubleClickOperatorGesture);
-                _operatorToLabelConverter = new OperatorLabelConverter();
+                result = new ViewModelToDiagramConverterResult(
+                    destDiagram,
+                    moveGesture,
+                    dragLineGesture,
+                    dropLineGesture,
+                    selectOperatorGesture,
+                    deleteOperatorGesture,
+                    doubleClickOperatorGesture,
+                    operatorToolTipGesture,
+                    inletToolTipGesture,
+                    outletToolTipGesture);
+
+                _operatorRectangleConverter = new OperatorRectangleConverter(destDiagram, moveGesture, selectOperatorGesture, doubleClickOperatorGesture);
+                _operatorLabelConverter = new OperatorLabelConverter();
                 _inletRectangleConverter = new InletRectangleConverter(dropLineGesture, inletToolTipGesture);
                 _inletPointConverter = new InletPointConverter();
                 _inletControlPointConverter = new InletControlPointConverter();
@@ -100,31 +112,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     _operatorToolTipRectangleConverter = new OperatorToolTipRectangleConverter(operatorToolTipGesture);
                 }
 
-                result = new ViewModelToDiagramConverterResult(
-                    destDiagram, 
-                    moveGesture, 
-                    dragLineGesture, 
-                    dropLineGesture, 
-                    selectOperatorGesture, 
-                    deleteOperatorGesture,
-                    doubleClickOperatorGesture,
-                    operatorToolTipGesture, 
-                    inletToolTipGesture, 
-                    outletToolTipGesture);
+                _result = result;
+                _previousPatchID = sourcePatchViewModel.ID;
             }
 
             _convertedOperatorDictionary = new Dictionary<OperatorViewModel, OperatorElements>();
             _convertedCurves = new List<Curve>();
 
-            IList<Rectangle> destExistingOperatorRectangles = result.Diagram.Background.Children
-                                                                                   .OfType<Rectangle>()
-                                                                                   .Where(x => VectorGraphicsTagHelper.IsOperatorTag(x.Tag))
-                                                                                   .ToArray();
-            IList<Curve> destExistingCurves = result.Diagram.Background.Children
-                                                                   .OfType<Curve>()
-                                                                   .Where(x => VectorGraphicsTagHelper.IsInletTag(x.Tag))
-                                                                   .ToArray();
-            _result = result;
+            IList<Rectangle> destExistingOperatorRectangles = _result.Diagram.Background.Children
+                                                                                        .OfType<Rectangle>()
+                                                                                        .Where(x => VectorGraphicsTagHelper.IsOperatorTag(x.Tag))
+                                                                                        .ToArray();
+            IList<Curve> destExistingCurves = _result.Diagram.Background.Children
+                                                                        .OfType<Curve>()
+                                                                        .Where(x => VectorGraphicsTagHelper.IsInletTag(x.Tag))
+                                                                        .ToArray();
 
             // Do not do Gestures.Clear, because that would mess up DragCancelled in the DragLine gesture.
             if (!_result.Diagram.Background.Gestures.Contains(_result.DeleteOperatorGesture))
@@ -134,7 +136,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             foreach (OperatorViewModel sourceOperatorViewModel in sourcePatchViewModel.Operators)
             {
-                ConvertToRectangles_WithRelatedObject_Recursive(sourceOperatorViewModel, result.Diagram);
+                ConvertToRectangles_WithRelatedObject_Recursive(sourceOperatorViewModel, _result.Diagram);
             }
 
             // Delete operator rectangles + descendants
@@ -249,8 +251,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private OperatorElements ConvertToRectangle_WithRelatedObjects(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
         {
-            Rectangle destOperatorRectangle = _operatorToRectangleConverter.ConvertToOperatorRectangle(sourceOperatorViewModel, destDiagram);
-            Label destLabel = _operatorToLabelConverter.ConvertToOperatorLabel(sourceOperatorViewModel, destOperatorRectangle);
+            Rectangle destOperatorRectangle = _operatorRectangleConverter.ConvertToOperatorRectangle(sourceOperatorViewModel, destDiagram);
+            Label destLabel = _operatorLabelConverter.ConvertToOperatorLabel(sourceOperatorViewModel, destOperatorRectangle);
             IList<Rectangle> destInletRectangles = _inletRectangleConverter.ConvertToInletRectangles(sourceOperatorViewModel, destOperatorRectangle);
             IList<Point> destInletPoints = _inletPointConverter.ConvertToInletPoints(sourceOperatorViewModel, destOperatorRectangle);
             IList<Point> destInletControlPoints = _inletControlPointConverter.ConvertToInletControlPoints(destInletPoints);

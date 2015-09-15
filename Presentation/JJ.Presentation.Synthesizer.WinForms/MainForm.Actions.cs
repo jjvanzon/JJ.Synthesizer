@@ -8,7 +8,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 {
     internal partial class MainForm
     {
-        // General Actions
+        // General
 
         private void Open()
         {
@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // AudioFileOutput Actions
+        // AudioFileOutput
 
         private void AudioFileOutputListShow()
         {
@@ -66,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // ChildDocument Actions
+        // ChildDocument
 
         private void ChildDocumentPropertiesShow(int childDocumentID)
         {
@@ -86,7 +86,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // Curve Actions
+        // Curve
 
         private void CurveListShow(int documentID)
         {
@@ -112,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // Document List Actions
+        // Document List
 
         private void DocumentListShow(int pageNumber = 1)
         {
@@ -126,7 +126,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // Document Details Actions
+        // Document Details
 
         private void DocumentDetailsCreate()
         {
@@ -154,7 +154,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // Document Actions
+        // Document
 
         private void DocumentOpen(int id)
         {
@@ -210,7 +210,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // Document Tree Actions
+        // Document Tree
 
         private void DocumentTreeShow()
         {
@@ -236,7 +236,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // Document Properties Actions
+        // Document Properties
 
         private void DocumentPropertiesShow()
         {
@@ -256,7 +256,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // Effect Actions
+        // Effect
 
         private void EffectListShow()
         {
@@ -282,7 +282,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // Instrument Actions
+        // Instrument
 
         private void InstrumentListShow()
         {
@@ -308,7 +308,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // Operator Actions
+        // Operator
 
         private void OperatorPropertiesShow(int operatorID)
         {
@@ -322,21 +322,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void OperatorPropertiesLoseFocus()
-        {
-            _presenter.OperatorPropertiesLoseFocus();
-            ApplyViewModel();
-        }
-
         private void OperatorPropertiesClose_ForCustomOperator()
         {
             _presenter.OperatorPropertiesClose_ForCustomOperator();
-            ApplyViewModel();
-        }
-
-        private void OperatorPropertiesLoseFocus_ForCustomOperator()
-        {
-            _presenter.OperatorPropertiesLoseFocus_ForCustomOperator();
             ApplyViewModel();
         }
 
@@ -346,21 +334,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void OperatorPropertiesLoseFocus_ForPatchInlet()
-        {
-            _presenter.OperatorPropertiesLoseFocus_ForPatchInlet();
-            ApplyViewModel();
-        }
-
         private void OperatorPropertiesClose_ForPatchOutlet()
         {
             _presenter.OperatorPropertiesClose_ForPatchOutlet();
-            ApplyViewModel();
-        }
-
-        private void OperatorPropertiesLoseFocus_ForPatchOutlet()
-        {
-            _presenter.OperatorPropertiesLoseFocus_ForPatchOutlet();
             ApplyViewModel();
         }
 
@@ -370,15 +346,39 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void OperatorPropertiesLoseFocus_ForSample()
-        {
-            _presenter.OperatorPropertiesLoseFocus_ForSample();
-            ApplyViewModel();
-        }
-
         private void OperatorPropertiesClose_ForValue()
         {
             _presenter.OperatorPropertiesClose_ForValue();
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesLoseFocus()
+        {
+            _presenter.OperatorPropertiesLoseFocus();
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesLoseFocus_ForCustomOperator()
+        {
+            _presenter.OperatorPropertiesLoseFocus_ForCustomOperator();
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesLoseFocus_ForPatchInlet()
+        {
+            _presenter.OperatorPropertiesLoseFocus_ForPatchInlet();
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesLoseFocus_ForPatchOutlet()
+        {
+            _presenter.OperatorPropertiesLoseFocus_ForPatchOutlet();
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesLoseFocus_ForSample()
+        {
+            _presenter.OperatorPropertiesLoseFocus_ForSample();
             ApplyViewModel();
         }
 
@@ -400,7 +400,25 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // Patch Actions
+        private void OperatorMove(int operatorID, float centerX, float centerY)
+        {
+            _presenter.OperatorMove(operatorID, centerX, centerY);
+            ApplyViewModel();
+        }
+
+        private void OperatorChangeInputOutlet(int inletID, int inputOutletID)
+        {
+            _presenter.OperatorChangeInputOutlet(inletID, inputOutletID);
+            ApplyViewModel();
+        }
+
+        private void OperatorSelect(int operatorID)
+        {
+            _presenter.OperatorSelect(operatorID);
+            ApplyViewModel();
+        }
+
+        // Patch
 
         private void PatchListShow(int documentID)
         {
@@ -444,24 +462,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void PatchDetailsMoveOperator(int operatorID, float centerX, float centerY)
-        {
-            _presenter.PatchDetailsMoveOperator(operatorID, centerX, centerY);
-            ApplyViewModel();
-        }
-
-        private void PatchDetailsChangeInputOutlet(int inletID, int inputOutletID)
-        {
-            _presenter.PatchDetailsChangeInputOutlet(inletID, inputOutletID);
-            ApplyViewModel();
-        }
-
-        private void PatchDetailsSelectOperator(int operatorID)
-        {
-            _presenter.PatchDetailsSelectOperator(operatorID);
-            ApplyViewModel();
-        }
-
         private void PatchPlay()
         {
             string outputFilePath = _presenter.PatchPlay();
@@ -475,7 +475,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
         }
 
-        // Sample Actions
+        // Sample
 
         private void SampleListShow(int documentID)
         {

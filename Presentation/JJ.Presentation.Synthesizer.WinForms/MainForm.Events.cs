@@ -338,7 +338,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void patchDetailsUserControl_SelectOperatorRequested(object sender, Int32EventArgs e)
         {
-            PatchDetailsSelectOperator(e.Value);
+            OperatorSelect(e.Value);
         }
 
         private void patchDetailsUserControl_OperatorPropertiesRequested(object sender, Int32EventArgs e)
@@ -348,12 +348,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void patchDetailsUserControl_ChangeInputOutletRequested(object sender, ChangeInputOutletEventArgs e)
         {
-            PatchDetailsChangeInputOutlet(e.InletID, e.InputOutletID);
+            OperatorChangeInputOutlet(e.InletID, e.InputOutletID);
         }
 
         private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e)
         {
-            PatchDetailsMoveOperator(e.OperatorID, e.CenterX, e.CenterY);
+            OperatorMove(e.OperatorID, e.CenterX, e.CenterY);
         }
 
         private void patchDetailsUserControl_CreateOperatorRequested(object sender, CreateOperatorEventArgs e)

@@ -1,22 +1,22 @@
-﻿using JJ.Business.Synthesizer.Resources;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Drawing;
+using System.Linq;
+using System.Windows.Forms;
 using JJ.Framework.Configuration;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
+using JJ.Framework.Presentation.WinForms.Extensions;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
+using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Drawing;
-using System.Windows.Forms;
-using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
-using System.ComponentModel;
-using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
-using JJ.Framework.Presentation.WinForms.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -293,10 +293,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
             SelectOperator(operatorID);
-
-            // In Progress: Program double click gesture in Vector Graphics system,
-            // and respond to double click instead.
-            ShowOperatorProperties(operatorID);
         }
 
         private void DeleteOperatorGesture_DeleteRequested(object sender, EventArgs e)
@@ -306,11 +302,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void DoubleClickOperatorGesture_DoubleClick(object sender, ElementEventArgs e)
         {
-            // TODO: This event handler does not work yet, because the whole diagram is regenerated all the time,
-            // making the second click be on a completely new element.
-
-            //int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
-            //ShowOperatorProperties(operatorID);
+            int operatorID = VectorGraphicsTagHelper.GetOperatorID(e.Element.Tag);
+            ShowOperatorProperties(operatorID);
         }
 
         private void buttonPlay_Click(object sender, EventArgs e)

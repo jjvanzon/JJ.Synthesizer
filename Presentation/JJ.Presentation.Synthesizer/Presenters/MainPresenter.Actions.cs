@@ -1457,6 +1457,45 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        public void OperatorMove(int operatorID, float centerX, float centerY)
+        {
+            try
+            {
+                _patchDetailsPresenter.MoveOperator(operatorID, centerX, centerY);
+                DispatchViewModel(_patchDetailsPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void OperatorChangeInputOutlet(int inletID, int inputOutletID)
+        {
+            try
+            {
+                _patchDetailsPresenter.ChangeInputOutlet(inletID, inputOutletID);
+                DispatchViewModel(_patchDetailsPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void OperatorSelect(int operatorID)
+        {
+            try
+            {
+                _patchDetailsPresenter.SelectOperator(operatorID);
+                DispatchViewModel(_patchDetailsPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
         // Patch Actions
 
         public void PatchGridShow(int documentID)
@@ -1624,45 +1663,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     RefreshPatchGrid(documentID);
                 }
 
-                DispatchViewModel(_patchDetailsPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        public void PatchDetailsMoveOperator(int operatorID, float centerX, float centerY)
-        {
-            try
-            {
-                _patchDetailsPresenter.MoveOperator(operatorID, centerX, centerY);
-                DispatchViewModel(_patchDetailsPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        public void PatchDetailsChangeInputOutlet(int inletID, int inputOutletID)
-        {
-            try
-            {
-                _patchDetailsPresenter.ChangeInputOutlet(inletID, inputOutletID);
-                DispatchViewModel(_patchDetailsPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        public void PatchDetailsSelectOperator(int operatorID)
-        {
-            try
-            {
-                _patchDetailsPresenter.SelectOperator(operatorID);
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
             }
             finally

@@ -10,6 +10,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OperatorToolTipRectangleConverter
     {
+        private Dictionary<int, Rectangle> _destOperatorToolTipRectangleDictionary = new Dictionary<int, Rectangle>();
+
         private ToolTipGesture _operatorToolTipGesture;
 
         public OperatorToolTipRectangleConverter(ToolTipGesture operatorToolTipGesture)
@@ -51,8 +53,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             return destOperatorToolTipRectangle;
         }
-
-        private Dictionary<int, Rectangle> _destOperatorToolTipRectangleDictionary = new Dictionary<int, Rectangle>();
 
         private Rectangle TryGetRectangle(Element destParent, int id)
         {

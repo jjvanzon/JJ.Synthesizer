@@ -12,8 +12,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
         public override void HandleKeyDown(object sender, KeyEventArgs e)
         {
-            if (e == null) throw new NullException(() => e);
-
             if (e.KeyCode == KeyCodeEnum.Delete ||
                 e.KeyCode == KeyCodeEnum.Back)
             {
