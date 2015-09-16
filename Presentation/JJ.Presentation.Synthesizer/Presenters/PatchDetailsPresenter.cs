@@ -293,19 +293,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private AudioFileOutputManager CreateAudioFileOutputManager(RepositoryWrapper repositoryWrapper)
+        private AudioFileOutputManager CreateAudioFileOutputManager(RepositoryWrapper repositories)
         {
-            var manager = new AudioFileOutputManager(
-                repositoryWrapper.AudioFileOutputRepository,
-                repositoryWrapper.AudioFileOutputChannelRepository,
-                repositoryWrapper.SampleDataTypeRepository,
-                repositoryWrapper.SpeakerSetupRepository,
-                repositoryWrapper.AudioFileFormatRepository,
-                repositoryWrapper.CurveRepository,
-                repositoryWrapper.SampleRepository,
-                repositoryWrapper.DocumentRepository,
-                repositoryWrapper.IDRepository);
-
+            var manager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
             return manager;
         }
 

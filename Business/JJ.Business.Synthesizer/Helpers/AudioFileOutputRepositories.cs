@@ -12,6 +12,8 @@ namespace JJ.Business.Synthesizer.Helpers
         public ISpeakerSetupRepository SpeakerSetupRepository { get; private set; }
         public IAudioFileOutputChannelRepository AudioFileOutputChannelRepository { get; private set; }
         public IOutletRepository OutletRepository { get; private set; }
+        public ICurveRepository CurveRepository { get; private set; }
+        public ISampleRepository SampleRepository { get; private set; }
         public IIDRepository IDRepository { get; private set; }
 
         public AudioFileOutputRepositories(RepositoryWrapper repositoryWrapper)
@@ -25,6 +27,8 @@ namespace JJ.Business.Synthesizer.Helpers
             SpeakerSetupRepository = repositoryWrapper.SpeakerSetupRepository;
             AudioFileOutputChannelRepository = repositoryWrapper.AudioFileOutputChannelRepository;
             OutletRepository = repositoryWrapper.OutletRepository;
+            CurveRepository = repositoryWrapper.CurveRepository;
+            SampleRepository = repositoryWrapper.SampleRepository;
             IDRepository = repositoryWrapper.IDRepository;
         }
 
@@ -36,6 +40,8 @@ namespace JJ.Business.Synthesizer.Helpers
             ISpeakerSetupRepository speakerSetupRepository,
             IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
             IOutletRepository outletRepository,
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
             IIDRepository idRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
@@ -45,6 +51,8 @@ namespace JJ.Business.Synthesizer.Helpers
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
             if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (idRepository == null) throw new NullException(() => idRepository);
 
             DocumentRepository = documentRepository;
@@ -55,6 +63,8 @@ namespace JJ.Business.Synthesizer.Helpers
             SpeakerSetupRepository = speakerSetupRepository;
             AudioFileOutputChannelRepository = audioFileOutputChannelRepository;
             OutletRepository = outletRepository;
+            CurveRepository = curveRepository;
+            SampleRepository = sampleRepository;
             IDRepository = idRepository;
         }
 

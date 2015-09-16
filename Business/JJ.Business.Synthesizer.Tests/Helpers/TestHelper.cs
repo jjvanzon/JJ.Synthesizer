@@ -28,11 +28,11 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             }
         }
 
-        public static CurveFactory CreateCurveFactory(RepositoryWrapper repositoryWrapper)
+        public static CurveFactory CreateCurveFactory(RepositoryWrapper repositories)
         {
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            var factory = new CurveFactory(repositoryWrapper.CurveRepository, repositoryWrapper.NodeRepository, repositoryWrapper.NodeTypeRepository, repositoryWrapper.IDRepository);
+            var factory = new CurveFactory(repositories.CurveRepository, repositories.NodeRepository, repositories.NodeTypeRepository, repositories.IDRepository);
             return factory;
         }
 
@@ -43,27 +43,18 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             return manager;
         }
 
-        public static SampleManager CreateSampleManager(RepositoryWrapper repositoryWrapper)
+        public static SampleManager CreateSampleManager(RepositoryWrapper repositories)
         {
-            var sampleRepositories = new SampleRepositories(repositoryWrapper);
+            var sampleRepositories = new SampleRepositories(repositories);
             var manager = new SampleManager(sampleRepositories);
             return manager;
         }
 
-        public static AudioFileOutputManager CreateAudioFileOutputManager(RepositoryWrapper repositoryWrapper)
+        public static AudioFileOutputManager CreateAudioFileOutputManager(RepositoryWrapper repositories)
         {
-            if (repositoryWrapper == null) throw new NotImplementedException();
+            if (repositories == null) throw new NotImplementedException();
 
-            var audioFileOutputManager = new AudioFileOutputManager(
-                repositoryWrapper.AudioFileOutputRepository,
-                repositoryWrapper.AudioFileOutputChannelRepository,
-                repositoryWrapper.SampleDataTypeRepository,
-                repositoryWrapper.SpeakerSetupRepository,
-                repositoryWrapper.AudioFileFormatRepository,
-                repositoryWrapper.CurveRepository,
-                repositoryWrapper.SampleRepository,
-                repositoryWrapper.DocumentRepository,
-                repositoryWrapper.IDRepository);
+            var audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
 
             return audioFileOutputManager;
         }

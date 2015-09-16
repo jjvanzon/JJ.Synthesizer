@@ -29,6 +29,12 @@ namespace JJ.Business.Synthesizer.Managers
             _idRepository = idRepository;
         }
 
+        public VoidResult DeleteWithRelatedEntities(int curveID)
+        {
+            Curve curve = _curveRepository.Get(curveID);
+            return DeleteWithRelatedEntities(curve);
+        }
+
         public VoidResult DeleteWithRelatedEntities(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);

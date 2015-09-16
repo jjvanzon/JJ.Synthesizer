@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
-    public static class DeleteRelatedEntitiesExtensions
+    internal static class DeleteRelatedEntitiesExtensions
     {
         public static void DeleteRelatedEntities(this Document document, RepositoryWrapper repositoryWrapper)
         {

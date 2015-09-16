@@ -12,6 +12,8 @@ using System.Linq;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.CanonicalModel;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
@@ -123,11 +125,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Document destDocument, 
             ICurveRepository curveRepository,
             INodeRepository nodeRepository, 
-            INodeTypeRepository nodeTypeRepository)
+            INodeTypeRepository nodeTypeRepository,
+            IIDRepository idRepository)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destDocument == null) throw new NullException(() => destDocument);
             if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
 
             var idsToKeep = new HashSet<int>();
 
@@ -142,14 +146,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 }
             }
 
+            var curveManager = new CurveManager(curveRepository, nodeRepository, idRepository);
+
             IList<int> existingIDs = destDocument.Curves.Select(x => x.ID).ToArray();
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                Curve entityToDelete = curveRepository.Get(idToDelete);
-                entityToDelete.UnlinkRelatedEntities();
-                entityToDelete.DeleteRelatedEntities(nodeRepository);
-                curveRepository.Delete(entityToDelete);
+                IResult result = curveManager.DeleteWithRelatedEntities(idToDelete);
+
+                ResultHelper.Assert(result);
             }
         }
 
@@ -160,17 +165,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static void ToPatchesWithRelatedEntities(
             IList<PatchDetailsViewModel> viewModelList, 
             Document destDocument,
-            PatchRepositories patchRepositories)
+            PatchRepositories repositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destDocument == null) throw new NullException(() => destDocument);
-            if (patchRepositories == null) throw new NullException(() => patchRepositories);
+            if (repositories == null) throw new NullException(() => repositories);
 
             var idsToKeep = new HashSet<int>();
 
             foreach (PatchDetailsViewModel viewModel in viewModelList)
             {
-                Patch entity = viewModel.Entity.ToEntityWithRelatedEntities(patchRepositories);
+                Patch entity = viewModel.Entity.ToEntityWithRelatedEntities(repositories);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -183,14 +188,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                Patch entityToDelete = patchRepositories.PatchRepository.Get(idToDelete);
-                entityToDelete.UnlinkRelatedEntities();
-                entityToDelete.DeleteRelatedEntities(
-                    patchRepositories.OperatorRepository, 
-                    patchRepositories.InletRepository, 
-                    patchRepositories.OutletRepository, 
-                    patchRepositories.EntityPositionRepository);
-                patchRepositories.PatchRepository.Delete(entityToDelete);
+                Patch entityToDelete = repositories.PatchRepository.Get(idToDelete);
+                PatchManager patchManager = new PatchManager(repositories);
+                IResult result = patchManager.DeleteWithRelatedEntities();
+                ResultHelper.Assert(result);
             }
         }
 
@@ -200,17 +201,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static void ToAudioFileOutputsWithRelatedEntities(
             IList<AudioFileOutputPropertiesViewModel> viewModelList, 
             Document destDocument, 
-            AudioFileOutputRepositories audioFileOutputRepositories)
+            AudioFileOutputRepositories repositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destDocument == null) throw new NullException(() => destDocument);
-            if (audioFileOutputRepositories == null) throw new NullException(() => audioFileOutputRepositories);
+            if (repositories == null) throw new NullException(() => repositories);
 
             var idsToKeep = new HashSet<int>();
 
             foreach (AudioFileOutputPropertiesViewModel viewModel in viewModelList)
             {
-                AudioFileOutput entity = viewModel.Entity.ToEntityWithRelatedEntities(audioFileOutputRepositories);
+                AudioFileOutput entity = viewModel.Entity.ToEntityWithRelatedEntities(repositories);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -219,14 +220,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 }
             }
 
+            var audioFileOutputManager = new AudioFileOutputManager(repositories);
+
             IList<int> existingIDs = destDocument.AudioFileOutputs.Select(x => x.ID).ToArray();
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                AudioFileOutput entityToDelete = audioFileOutputRepositories.AudioFileOutputRepository.Get(idToDelete);
-                entityToDelete.UnlinkRelatedEntities();
-                entityToDelete.DeleteRelatedEntities(audioFileOutputRepositories.AudioFileOutputChannelRepository);
-                audioFileOutputRepositories.AudioFileOutputRepository.Delete(entityToDelete);
+                audioFileOutputManager.DeleteWithRelatedEntities(idToDelete);
             }
         }
 

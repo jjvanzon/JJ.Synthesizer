@@ -13,6 +13,8 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Presentation.Synthesizer.Converters;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
@@ -105,52 +107,53 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Child Document
 
-        public static Document ToEntityWithRelatedEntities(this ChildDocumentViewModel userInput, RepositoryWrapper repositoryWrapper)
+        public static Document ToEntityWithRelatedEntities(this ChildDocumentViewModel userInput, RepositoryWrapper repositories)
         {
             if (userInput == null) throw new NullException(() => userInput);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            Document destDocument = userInput.ToEntity(repositoryWrapper.DocumentRepository, repositoryWrapper.ChildDocumentTypeRepository);
+            Document destDocument = userInput.ToEntity(repositories.DocumentRepository, repositories.ChildDocumentTypeRepository);
 
-            ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositoryWrapper));
+            ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositories));
             ToEntityHelper.ToCurvesWithRelatedEntities(
                 userInput.CurveDetailsList,
                 destDocument,
-                repositoryWrapper.CurveRepository,
-                repositoryWrapper.NodeRepository,
-                repositoryWrapper.NodeTypeRepository);
-            ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, new PatchRepositories(repositoryWrapper));
+                repositories.CurveRepository,
+                repositories.NodeRepository,
+                repositories.NodeTypeRepository,
+                repositories.IDRepository);
+            ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, new PatchRepositories(repositories));
 
             // Operator Properties
             // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
             foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesList)
             {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
             {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository, repositoryWrapper.DocumentRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DocumentRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchInlets)
             {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchOutlets)
             {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in userInput.OperatorPropertiesList_ForSamples)
             {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository, repositoryWrapper.SampleRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.SampleRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForValue operatorPropertiesViewModel_ForValue in userInput.OperatorPropertiesList_ForValues)
             {
-                operatorPropertiesViewModel_ForValue.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
+                operatorPropertiesViewModel_ForValue.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
             return destDocument;
@@ -300,58 +303,59 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return userInput.Document.ToEntityWithRelatedEntities(repositoryWrapper);
         }
 
-        public static Document ToEntityWithRelatedEntities(this DocumentViewModel userInput, RepositoryWrapper repositoryWrapper)
+        public static Document ToEntityWithRelatedEntities(this DocumentViewModel userInput, RepositoryWrapper repositories)
         {
             if (userInput == null) throw new NullException(() => userInput);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            Document destDocument = userInput.ToEntity(repositoryWrapper.DocumentRepository);
+            Document destDocument = userInput.ToEntity(repositories.DocumentRepository);
 
-            ToEntityHelper.ToChildDocumentsWithRelatedEntities(userInput.ChildDocumentList, destDocument, repositoryWrapper);
+            ToEntityHelper.ToChildDocumentsWithRelatedEntities(userInput.ChildDocumentList, destDocument, repositories);
             // NOTE: 
             // There is order dependency between converting ChildDocumentList and ChildDocumentPropertiesList.
             // ChildDocumentProperties can reference a MainPatch, converted from the ChildDocumentList.
-            ToEntityHelper.ToChildDocuments(userInput.ChildDocumentPropertiesList, destDocument, repositoryWrapper);
-            ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositoryWrapper));
+            ToEntityHelper.ToChildDocuments(userInput.ChildDocumentPropertiesList, destDocument, repositories);
+            ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositories));
             ToEntityHelper.ToCurvesWithRelatedEntities(
                 userInput.CurveDetailsList,
                 destDocument,
-                repositoryWrapper.CurveRepository,
-                repositoryWrapper.NodeRepository,
-                repositoryWrapper.NodeTypeRepository);
-            ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, new PatchRepositories(repositoryWrapper));
-            ToEntityHelper.ToAudioFileOutputsWithRelatedEntities(userInput.AudioFileOutputPropertiesList, destDocument, new AudioFileOutputRepositories(repositoryWrapper));
+                repositories.CurveRepository,
+                repositories.NodeRepository,
+                repositories.NodeTypeRepository,
+                repositories.IDRepository);
+            ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, new PatchRepositories(repositories));
+            ToEntityHelper.ToAudioFileOutputsWithRelatedEntities(userInput.AudioFileOutputPropertiesList, destDocument, new AudioFileOutputRepositories(repositories));
 
             // Operator Properties
             // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
             foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesList)
             {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
             {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository, repositoryWrapper.DocumentRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DocumentRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchInlets)
             {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchOutlets)
             {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in userInput.OperatorPropertiesList_ForSamples)
             {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository, repositoryWrapper.SampleRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.SampleRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForValue propertiesViewModel in userInput.OperatorPropertiesList_ForValues)
             {
-                propertiesViewModel.ToEntity(repositoryWrapper.OperatorRepository, repositoryWrapper.OperatorTypeRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
             return destDocument;
@@ -654,13 +658,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return patch;
         }
 
-        public static Patch ToEntityWithRelatedEntities(this PatchViewModel viewModel, PatchRepositories patchRepositories)
+        public static Patch ToEntityWithRelatedEntities(this PatchViewModel viewModel, PatchRepositories repositories)
         {
-            if (patchRepositories == null) throw new NullException(() => patchRepositories);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            Patch patch = viewModel.ToEntity(patchRepositories.PatchRepository);
+            Patch patch = viewModel.ToEntity(repositories.PatchRepository);
 
-            var converter = new RecursiveToEntityConverter(patchRepositories);
+            var converter = new RecursiveToEntityConverter(repositories);
 
             var convertedOperators = new HashSet<Operator>();
 
@@ -672,12 +676,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 convertedOperators.Add(op);
             }
 
+            var patchManager = new PatchManager(repositories);
+
             IList<Operator> operatorsToDelete = patch.Operators.Except(convertedOperators).ToArray();
             foreach (Operator op in operatorsToDelete)
             {
-                op.UnlinkRelatedEntities();
-                op.DeleteRelatedEntities(patchRepositories.InletRepository, patchRepositories.OutletRepository, patchRepositories.EntityPositionRepository);
-                patchRepositories.OperatorRepository.Delete(op);
+                patchManager.DeleteOperator(op);
             }
 
             return patch;

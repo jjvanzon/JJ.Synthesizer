@@ -9,7 +9,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
     internal static class AudioFileOutputCalculatorFactory
     {
-        public static IAudioFileOutputCalculator CreateAudioFileOutputCalculator(ICurveRepository curveRepository, ISampleRepository sampleRepository, IDocumentRepository documentRepository, AudioFileOutput audioFileOutput)
+        public static IAudioFileOutputCalculator CreateAudioFileOutputCalculator(AudioFileOutput audioFileOutput, ICurveRepository curveRepository, ISampleRepository sampleRepository, IDocumentRepository documentRepository)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 

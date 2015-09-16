@@ -106,7 +106,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public VoidResult DeleteWithRelatedEntities()
         {
-
             bool isMainPatch = _patch.Document.MainPatch != null &&
                                (_patch.Document.MainPatch == _patch ||
                                 _patch.Document.MainPatch.ID == _patch.ID);

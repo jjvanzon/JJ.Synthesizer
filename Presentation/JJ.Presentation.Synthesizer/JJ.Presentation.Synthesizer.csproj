@@ -45,6 +45,7 @@
     <Compile Include="Helpers\MustNotConvertToOutletViewModelException.cs" />
     <Compile Include="Helpers\MustNotConvertToInletViewModelException.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
+    <Compile Include="Helpers\ResultHelper.cs" />
     <Compile Include="Presenters\ChildDocumentGridPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.Actions.cs" />
     <Compile Include="Presenters\MainPresenter.DispatchViewModel.cs" />

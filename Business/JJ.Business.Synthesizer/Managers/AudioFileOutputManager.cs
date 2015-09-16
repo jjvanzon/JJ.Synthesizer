@@ -7,56 +7,23 @@ using JJ.Framework.Business;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Managers
 {
     public class AudioFileOutputManager
     {
-        private IAudioFileOutputRepository _audioFileOutputRepository;
-        private IAudioFileOutputChannelRepository _audioFileOutputChannelRepository;
-        private ISampleDataTypeRepository _sampleDataTypeRepository;
-        private ISpeakerSetupRepository _speakerSetupRepository;
-        private IAudioFileFormatRepository _audioFileFormatRepository;
-        private ICurveRepository _curveRepository;
-        private ISampleRepository _sampleRepository;
-        private IDocumentRepository _documentRepository;
-        private IIDRepository _idRepository;
+        private AudioFileOutputRepositories _repositories;
 
-        public AudioFileOutputManager(
-            IAudioFileOutputRepository audioFileOutputRepository,
-            IAudioFileOutputChannelRepository audioFileOutputChannelRepository,
-            ISampleDataTypeRepository sampleDataTypeRepository,
-            ISpeakerSetupRepository speakerSetupRepository,
-            IAudioFileFormatRepository audioFileFormatRepository,
-            ICurveRepository curveRepository,
-            ISampleRepository sampleRepository,
-            IDocumentRepository documentRepository,
-            IIDRepository idRepository)
+        public AudioFileOutputManager(AudioFileOutputRepositories repositories)
         {
-            if (audioFileOutputRepository == null) throw new NullException(() => audioFileOutputRepository);
-            if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
-            if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
-            if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            _audioFileOutputRepository = audioFileOutputRepository;
-            _audioFileOutputChannelRepository = audioFileOutputChannelRepository;
-            _sampleDataTypeRepository = sampleDataTypeRepository;
-            _speakerSetupRepository = speakerSetupRepository;
-            _audioFileFormatRepository = audioFileFormatRepository;
-            _curveRepository = curveRepository;
-            _sampleRepository = sampleRepository;
-            _documentRepository = documentRepository;
-            _idRepository = idRepository;
+            _repositories = repositories;
         }
 
         /// <summary>
@@ -66,11 +33,13 @@ namespace JJ.Business.Synthesizer.Managers
         public AudioFileOutput CreateWithRelatedEntities(Document document = null, bool mustGenerateName = false)
         {
             var audioFileOutput = new AudioFileOutput();
-            audioFileOutput.ID = _idRepository.GetID();
-            _audioFileOutputRepository.Insert(audioFileOutput);
+            audioFileOutput.ID = _repositories.IDRepository.GetID();
+            _repositories.AudioFileOutputRepository.Insert(audioFileOutput);
             audioFileOutput.LinkTo(document);
 
-            ISideEffect sideEffect1 = new AudioFileOutput_SideEffect_SetDefaults(audioFileOutput, _sampleDataTypeRepository, _speakerSetupRepository, _audioFileFormatRepository);
+            ISideEffect sideEffect1 = new AudioFileOutput_SideEffect_SetDefaults(
+                audioFileOutput, 
+                _repositories.SampleDataTypeRepository, _repositories.SpeakerSetupRepository, _repositories.AudioFileFormatRepository);
             sideEffect1.Execute();
 
             if (mustGenerateName)
@@ -83,6 +52,21 @@ namespace JJ.Business.Synthesizer.Managers
             SetSpeakerSetup(audioFileOutput, audioFileOutput.SpeakerSetup);
 
             return audioFileOutput;
+        }
+
+        public void DeleteWithRelatedEntities(int id)
+        {
+            AudioFileOutput audioFileOutput = _repositories.AudioFileOutputRepository.Get(id);
+            DeleteWithRelatedEntities(audioFileOutput);
+        }
+
+        public void DeleteWithRelatedEntities(AudioFileOutput entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            entity.UnlinkRelatedEntities();
+            entity.DeleteRelatedEntities(_repositories.AudioFileOutputChannelRepository);
+            _repositories.AudioFileOutputRepository.Delete(entity);
         }
 
         public IValidator Validate(AudioFileOutput audioFileOutput)
@@ -101,7 +85,7 @@ namespace JJ.Business.Synthesizer.Managers
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             if (speakerSetupEnum == SpeakerSetupEnum.Undefined) throw new Exception("speakerSetupEnum cannot be 'Undefined'.");
 
-            SpeakerSetup speakerSetup = _speakerSetupRepository.Get((int)speakerSetupEnum);
+            SpeakerSetup speakerSetup = _repositories.SpeakerSetupRepository.Get((int)speakerSetupEnum);
             SetSpeakerSetup(audioFileOutput, speakerSetup);
         }
 
@@ -128,9 +112,9 @@ namespace JJ.Business.Synthesizer.Managers
                 if (audioFileOutputChannel == null)
                 {
                     audioFileOutputChannel = new AudioFileOutputChannel();
-                    audioFileOutputChannel.ID = _idRepository.GetID();
+                    audioFileOutputChannel.ID = _repositories.IDRepository.GetID();
                     audioFileOutputChannel.LinkTo(audioFileOutput);
-                    _audioFileOutputChannelRepository.Insert(audioFileOutputChannel);
+                    _repositories.AudioFileOutputChannelRepository.Insert(audioFileOutputChannel);
                 }
                 audioFileOutputChannel.IndexNumber = channel.IndexNumber;
 
@@ -141,7 +125,7 @@ namespace JJ.Business.Synthesizer.Managers
             foreach (AudioFileOutputChannel entityToDelete in entitiesToDelete)
             {
                 entityToDelete.UnlinkRelatedEntities();
-                _audioFileOutputChannelRepository.Delete(entityToDelete);
+                _repositories.AudioFileOutputChannelRepository.Delete(entityToDelete);
             }
         }
 
@@ -157,7 +141,10 @@ namespace JJ.Business.Synthesizer.Managers
 
         public void Execute(AudioFileOutput audioFileOutput)
         {
-            IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(_curveRepository, _sampleRepository, _documentRepository, audioFileOutput);
+            IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(
+                audioFileOutput,
+                _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository);
+
             audioFileOutputCalculator.Execute();
         }
     }

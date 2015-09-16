@@ -69,16 +69,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositories = repositoryWrapper;
             _patchRepositories = new PatchRepositories(_repositories);
 
-            _audioFileOutputManager = new AudioFileOutputManager(
-                _repositories.AudioFileOutputRepository,
-                _repositories.AudioFileOutputChannelRepository,
-                _repositories.SampleDataTypeRepository,
-                _repositories.SpeakerSetupRepository,
-                _repositories.AudioFileFormatRepository,
-                _repositories.CurveRepository,
-                _repositories.SampleRepository,
-                _repositories.DocumentRepository,
-                _repositories.IDRepository);
+            _audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(_repositories));
             _curveManager = new CurveManager(_repositories.CurveRepository, _repositories.NodeRepository, _repositories.IDRepository);
             _documentManager = new DocumentManager(_repositories);
             _entityPositionManager = new EntityPositionManager(_repositories.EntityPositionRepository, _repositories.IDRepository);
