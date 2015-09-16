@@ -1,13 +1,12 @@
-﻿using JJ.Framework.Presentation.VectorGraphics.Gestures;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Framework.Common;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using System.Collections.Generic;
-using System.Linq;
-using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
@@ -41,7 +40,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             float outletWidth = destOperatorRectangle.Width / sourceOperatorViewModel.Outlets.Count;
             float rowHeight = destOperatorRectangle.Height / 4;
-            float heightOverflow = StyleHelper.PointStyle.Width / 2;
+            // TODO: Remove outcommented code.
+            //float heightOverflow = StyleHelper.PointStyle.Width / 2;
+            float heightOverflow = 10;
             float x = 0;
             float y = rowHeight * 3;
 
