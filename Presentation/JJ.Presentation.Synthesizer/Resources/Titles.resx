@@ -129,6 +129,9 @@
   <data name="Play" xml:space="preserve">
     <value>Play</value>
   </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
   <data name="ViewMenuItem" xml:space="preserve">
     <value>View</value>
   </data>

@@ -129,6 +129,9 @@
   <data name="Play" xml:space="preserve">
     <value>Afspelen</value>
   </data>
+  <data name="Type" xml:space="preserve">
+    <value>Soort</value>
+  </data>
   <data name="ViewMenuItem" xml:space="preserve">
     <value>Bekijk</value>
   </data>

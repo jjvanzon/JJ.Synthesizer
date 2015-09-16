@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
+using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -50,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.ChildDocument);
             labelName.Text = CommonTitles.Name;
-            labelChildDocumentType.Text = PropertyDisplayNames.ChildDocumentType;
+            labelChildDocumentType.Text = Titles.Type;
             labelMainPatch.Text = PropertyDisplayNames.MainPatch;
         }
 
