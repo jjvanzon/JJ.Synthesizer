@@ -23,7 +23,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             : this(diagram, dragLineGestures, null, 0)
         { }
 
-        public DropLineGesture(Diagram diagram, IList<DragLineGesture> dragLineGestures = null, LineStyle lineStyle = null, int lineZIndex = 0)
+        public DropLineGesture(Diagram diagram,
+            IList<DragLineGesture> dragLineGestures = null,
+            LineStyle lineStyle = null,
+            int lineZIndex = 0) 
             : base(dragLineGestures.OfType<DragGesture>().ToArray())
         {
             if (diagram == null) throw new NullException(() => diagram);

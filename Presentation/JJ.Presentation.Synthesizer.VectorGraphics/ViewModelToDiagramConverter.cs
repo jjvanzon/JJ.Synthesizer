@@ -71,8 +71,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                 var destDiagram = new Diagram();
                 var moveGesture = new MoveGesture();
-                var dragLineGesture = new DragLineGesture(destDiagram, StyleHelper.LineStyleDashed);
-                var dropLineGesture = new DropLineGesture(destDiagram, dragLineGesture);
+                var dragLineGesture = new DragLineGesture(destDiagram, StyleHelper.LineStyleDashed, StyleHelper.DRAG_DROP_LINE_ZINDEX);
+                var dropLineGesture = new DropLineGesture(
+                    destDiagram, new DragLineGesture[] { dragLineGesture }, StyleHelper.LineStyleDashed, StyleHelper.DRAG_DROP_LINE_ZINDEX );
                 var selectOperatorGesture = new SelectOperatorGesture();
                 var deleteOperatorGesture = new DeleteOperatorGesture();
                 var doubleClickOperatorGesture = new DoubleClickGesture(_doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
