@@ -116,14 +116,16 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             _convertedOperatorDictionary = new Dictionary<OperatorViewModel, OperatorElements>();
             _convertedCurves = new List<Curve>();
 
-            IList<Rectangle> destExistingOperatorRectangles = result.Diagram.Background.Children
-                                                                                   .OfType<Rectangle>()
-                                                                                   .Where(x => VectorGraphicsTagHelper.IsOperatorTag(x.Tag))
-                                                                                   .ToArray();
-            IList<Curve> destExistingCurves = result.Diagram.Background.Children
-                                                                   .OfType<Curve>()
-                                                                   .Where(x => VectorGraphicsTagHelper.IsInletTag(x.Tag))
-                                                                   .ToArray();
+            IList<Rectangle> destExistingOperatorRectangles = result.Diagram.Background
+                                                                            .Children
+                                                                            .OfType<Rectangle>()
+                                                                            .Where(x => VectorGraphicsTagHelper.IsOperatorTag(x.Tag))
+                                                                            .ToArray();
+            IList<Curve> destExistingCurves = result.Diagram.Background
+                                                            .Children
+                                                            .OfType<Curve>()
+                                                            .Where(x => VectorGraphicsTagHelper.IsInletTag(x.Tag))
+                                                            .ToArray();
             _result = result;
 
             // Do not do Gestures.Clear, because that would mess up DragCancelled in the DragLine gesture.

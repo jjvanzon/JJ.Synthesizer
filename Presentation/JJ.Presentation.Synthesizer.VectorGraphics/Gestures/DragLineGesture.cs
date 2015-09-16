@@ -6,6 +6,7 @@ using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Presentation.VectorGraphics.Models.Styling;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
@@ -13,8 +14,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
     {
         private Diagram _diagram;
         private Line _line;
-        private float _mouseDownX;
-        private float _mouseDownY;
+        private float _sourceX;
+        private float _sourceY;
 
         public DragLineGesture(Diagram diagram, LineStyle lineStyle = null, int lineZIndex = 0)
         {
@@ -43,16 +44,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
         public override void HandleMouseDown(object sender, MouseEventArgs e)
         {
-            _mouseDownX = e.X;
-            _mouseDownY = e.Y;
+            GetSourceCoordinates(e.Element, out _sourceX, out _sourceY);
 
             base.HandleMouseDown(sender, e);
         }
 
         private void this_Dragging(object sender, DraggingEventArgs e)
         {
-            _line.PointA.X = _mouseDownX;
-            _line.PointA.Y = _mouseDownY;
+            _line.PointA.X = _sourceX;
+            _line.PointA.Y = _sourceY;
 
             _line.PointB.X = e.X;
             _line.PointB.Y = e.Y;
@@ -63,6 +63,22 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         private void this_DragCancelled(object sender, EventArgs e)
         {
             _line.Visible = false;
+        }
+
+        private void GetSourceCoordinates(Element element, out float x, out float y)
+        {
+            // Right now this only works if the OutletRectangle's center is the same as the OutletPoint,
+            // but it would perform worse to query for the OutletPoint.
+            var rectangle = element as Rectangle;
+            if (rectangle == null)
+            {
+                throw new InvalidTypeException<Rectangle>(() => element);
+            }
+
+            Geometry.GetCenter_ByWidthAndHeight(
+                rectangle.CalculatedX, rectangle.CalculatedY,
+                rectangle.Width, rectangle.Height,
+                out x, out y);
         }
     }
 }
