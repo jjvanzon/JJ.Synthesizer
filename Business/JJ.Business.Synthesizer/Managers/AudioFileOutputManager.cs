@@ -147,5 +147,19 @@ namespace JJ.Business.Synthesizer.Managers
 
             audioFileOutputCalculator.Execute();
         }
+
+        public void DeleteAudioFileOutputChannel(int id)
+        {
+            AudioFileOutputChannel entity = _repositories.AudioFileOutputChannelRepository.Get(id);
+            DeleteAudioFileOutputChannel(entity);
+        }
+
+        public void DeleteAudioFileOutputChannel(AudioFileOutputChannel entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            entity.UnlinkRelatedEntities();
+            _repositories.AudioFileOutputChannelRepository.Delete(entity);
+        }
     }
 }

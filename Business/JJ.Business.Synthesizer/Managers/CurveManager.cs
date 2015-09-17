@@ -1,7 +1,6 @@
 ﻿using JJ.Business.CanonicalModel;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
@@ -9,29 +8,24 @@ using System;
 using JJ.Framework.Business;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Managers
 {
     public class CurveManager
     {
-        private ICurveRepository _curveRepository;
-        private INodeRepository _nodeRepository;
-        private IIDRepository _idRepository;
+        private CurveRepositories _repositories;
 
-        public CurveManager(ICurveRepository curveRepository, INodeRepository nodeRepository, IIDRepository idRepository)
+        public CurveManager(CurveRepositories repositories)
         {
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (nodeRepository == null) throw new NullException(() => nodeRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            _curveRepository = curveRepository;
-            _nodeRepository = nodeRepository;
-            _idRepository = idRepository;
+            _repositories = repositories;
         }
 
         public VoidResult DeleteWithRelatedEntities(int curveID)
         {
-            Curve curve = _curveRepository.Get(curveID);
+            Curve curve = _repositories.CurveRepository.Get(curveID);
             return DeleteWithRelatedEntities(curve);
         }
 
@@ -39,7 +33,7 @@ namespace JJ.Business.Synthesizer.Managers
         {
             if (curve == null) throw new NullException(() => curve);
 
-            IValidator validator = new CurveValidator_Delete(curve, _curveRepository);
+            IValidator validator = new CurveValidator_Delete(curve, _repositories.CurveRepository);
             if (!validator.IsValid)
             {
                 return new VoidResult
@@ -51,8 +45,8 @@ namespace JJ.Business.Synthesizer.Managers
             else
             {
                 curve.UnlinkRelatedEntities();
-                curve.DeleteRelatedEntities(_nodeRepository);
-                _curveRepository.Delete(curve);
+                curve.DeleteRelatedEntities(_repositories.NodeRepository);
+                _repositories.CurveRepository.Delete(curve);
 
                 return new VoidResult
                 {
@@ -64,8 +58,8 @@ namespace JJ.Business.Synthesizer.Managers
         public Curve Create(Document document, bool mustGenerateName)
         {
             var curve = new Curve();
-            curve.ID = _idRepository.GetID();
-            _curveRepository.Insert(curve);
+            curve.ID = _repositories.IDRepository.GetID();
+            _repositories.CurveRepository.Insert(curve);
             curve.LinkTo(document);
 
             if (mustGenerateName)
@@ -75,6 +69,19 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             return curve;
+        }
+
+        public void DeleteNode(int nodeID)
+        {
+            Node node = _repositories.NodeRepository.Get(nodeID);
+            DeleteNode(node);
+        }
+
+        public void DeleteNode(Node node)
+        {
+            if (node == null) throw new NullException(() => node);
+            node.UnlinkRelatedEntities();
+            _repositories.NodeRepository.Delete(node);
         }
     }
 }

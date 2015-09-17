@@ -7,6 +7,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToEntity;
+using JJ.Business.Synthesizer.Managers;
 
 namespace JJ.Presentation.Synthesizer.Converters
 {
@@ -75,14 +76,14 @@ namespace JJ.Presentation.Synthesizer.Converters
                 idsToKeep.Add(patchInletInlet.ID);
             }
 
+            var patchManager = new PatchManager(destOperator.Patch, _repositories);
+
             int[] existingIDs = destOperator.Inlets.Select(x => x.ID).ToArray();
             int[] idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 
             foreach (int idToDelete in idsToDelete)
             {
-                Inlet entityToDelete = _repositories.InletRepository.Get(idToDelete);
-                entityToDelete.UnlinkRelatedEntities();
-                _repositories.InletRepository.Delete(entityToDelete);
+                patchManager.DeleteInlet(idToDelete);
             }
         }
 
@@ -104,14 +105,14 @@ namespace JJ.Presentation.Synthesizer.Converters
                 idsToKeep.Add(patchOutletOutlet.ID);
             }
 
+            var patchManager = new PatchManager(destOperator.Patch, _repositories);
+
             int[] existingIDs = destOperator.Outlets.Select(x => x.ID).ToArray();
             int[] idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 
-            foreach (int outletIDToDelete in idsToDelete)
+            foreach (int idToDelete in idsToDelete)
             {
-                Outlet entityToDelete = _repositories.OutletRepository.Get(outletIDToDelete);
-                entityToDelete.UnlinkRelatedEntities();
-                _repositories.OutletRepository.Delete(entityToDelete);
+                patchManager.DeleteOutlet(idToDelete);
             }
         }
 

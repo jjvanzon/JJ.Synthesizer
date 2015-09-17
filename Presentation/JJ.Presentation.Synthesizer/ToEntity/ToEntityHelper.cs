@@ -90,17 +90,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
-        public static void ToSamples(IList<SamplePropertiesViewModel> viewModelList, Document destDocument, SampleRepositories sampleRepositories)
+        public static void ToSamples(IList<SamplePropertiesViewModel> viewModelList, Document destDocument, SampleRepositories repositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destDocument == null) throw new NullException(() => destDocument);
-            if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
+            if (repositories == null) throw new NullException(() => repositories);
 
             var idsToKeep = new HashSet<int>();
 
             foreach (SamplePropertiesViewModel viewModel in viewModelList)
             {
-                Sample entity = viewModel.Entity.ToEntity(sampleRepositories);
+                Sample entity = viewModel.Entity.ToEntity(repositories);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -108,36 +108,28 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                     idsToKeep.Add(entity.ID);
                 }
             }
+
+            var sampleManager = new SampleManager(repositories);
             
-            // Delete
             IList<int> existingIDs = destDocument.Samples.Select(x => x.ID).ToArray();
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                Sample entityToDelete = sampleRepositories.SampleRepository.Get(idToDelete);
-                entityToDelete.UnlinkRelatedEntities();
-                sampleRepositories.SampleRepository.Delete(entityToDelete);
+                sampleManager.Delete(idToDelete);
             }
         }
 
-        public static void ToCurvesWithRelatedEntities(
-            IList<CurveDetailsViewModel> viewModelList, 
-            Document destDocument, 
-            ICurveRepository curveRepository,
-            INodeRepository nodeRepository, 
-            INodeTypeRepository nodeTypeRepository,
-            IIDRepository idRepository)
-        {
+        public static void ToCurvesWithRelatedEntities(IList<CurveDetailsViewModel> viewModelList, Document destDocument, CurveRepositories repositories)
+        { 
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destDocument == null) throw new NullException(() => destDocument);
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
             var idsToKeep = new HashSet<int>();
 
             foreach (CurveDetailsViewModel viewModel in viewModelList)
             {
-                Curve entity = viewModel.Entity.ToEntityWithRelatedEntities(curveRepository, nodeRepository, nodeTypeRepository);
+                Curve entity = viewModel.Entity.ToEntityWithRelatedEntities(repositories);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -146,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 }
             }
 
-            var curveManager = new CurveManager(curveRepository, nodeRepository, idRepository);
+            var curveManager = new CurveManager(repositories);
 
             IList<int> existingIDs = destDocument.Curves.Select(x => x.ID).ToArray();
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
@@ -233,19 +225,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static void ToAudioFileOutputChannels(
             IList<AudioFileOutputChannelViewModel> viewModelList, 
             AudioFileOutput destAudioFileOutput, 
-            IAudioFileOutputChannelRepository audioFileOutputChannelRepository, 
-            IOutletRepository outletRepository)
+            AudioFileOutputRepositories repositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destAudioFileOutput == null) throw new NullException(() => destAudioFileOutput);
-            if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
             var idsToKeep = new HashSet<int>();
 
             foreach (AudioFileOutputChannelViewModel viewModel in viewModelList)
             {
-                AudioFileOutputChannel entity = viewModel.ToEntity(audioFileOutputChannelRepository, outletRepository);
+                AudioFileOutputChannel entity = viewModel.ToEntity(repositories.AudioFileOutputChannelRepository, repositories.OutletRepository);
                 entity.LinkTo(destAudioFileOutput);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -254,33 +244,27 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 }
             }
 
+            var audioFileOutputManager = new AudioFileOutputManager(repositories);
+
             IList<int> existingIDs = destAudioFileOutput.AudioFileOutputChannels.Select(x => x.ID).ToArray();
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                AudioFileOutputChannel entityToDelete = audioFileOutputChannelRepository.Get(idToDelete);
-                entityToDelete.UnlinkRelatedEntities();
-                audioFileOutputChannelRepository.Delete(entityToDelete);
+                audioFileOutputManager.DeleteAudioFileOutputChannel(idToDelete);
             }
         }
 
-        public static void ToNodes(
-            IList<NodeViewModel> viewModelList, 
-            Curve destCurve, 
-            INodeRepository nodeRepository, 
-            INodeTypeRepository
-            nodeTypeRepository)
+        public static void ToNodes(IList<NodeViewModel> viewModelList, Curve destCurve, CurveRepositories repositories)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destCurve == null) throw new NullException(() => destCurve);
-            if (nodeRepository == null) throw new NullException(() => nodeRepository);
-            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
-
+            if (repositories == null) throw new NullException(() => repositories);
+            
             var idsToKeep = new HashSet<int>();
 
             foreach (NodeViewModel viewModel in viewModelList)
             {
-                Node entity = viewModel.ToEntity(nodeRepository, nodeTypeRepository);
+                Node entity = viewModel.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository);
                 entity.LinkTo(destCurve);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -289,13 +273,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 }
             }
 
+            var curveManager = new CurveManager(repositories);
+
             IList<int> existingIDs = destCurve.Nodes.Select(x => x.ID).ToArray();
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                Node entityToDelete = nodeRepository.Get(idToDelete);
-                entityToDelete.UnlinkRelatedEntities();
-                nodeRepository.Delete(entityToDelete);
+                curveManager.DeleteNode(idToDelete);
             }
         }
 

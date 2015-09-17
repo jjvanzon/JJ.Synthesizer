@@ -9,29 +9,21 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class CurveDetailsPresenter
     {
-        private ICurveRepository _curveRepository;
-        private INodeRepository _nodeRepository;
-        private INodeTypeRepository _nodeTypeRepository;
-
         public CurveDetailsViewModel ViewModel { get; set; }
 
-        public CurveDetailsPresenter(
-            ICurveRepository curveRepository,
-            INodeRepository nodeRepository,
-            INodeTypeRepository nodeTypeRepository)
-        {
-            if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (nodeRepository == null) throw new NullException(() => nodeRepository);
-            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
+        private CurveRepositories _repositories;
 
-            _curveRepository = curveRepository;
-            _nodeRepository = nodeRepository;
-            _nodeTypeRepository = nodeTypeRepository;
+        public CurveDetailsPresenter(CurveRepositories repositories)
+        {
+            if (repositories == null) throw new NullException(() => repositories);
+
+            _repositories = repositories;
         }
 
         public void Show()
@@ -45,10 +37,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Curve entity = _curveRepository.Get(ViewModel.Entity.ID);
+            Curve entity = _repositories.CurveRepository.Get(ViewModel.Entity.ID);
 
             bool visible = ViewModel.Visible;
-            ViewModel = entity.ToDetailsViewModel(_nodeTypeRepository);
+            ViewModel = entity.ToDetailsViewModel(_repositories.NodeTypeRepository);
             ViewModel.Visible = true;
         }
 
@@ -73,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Curve entity = ViewModel.ToEntityWithRelatedEntities(_curveRepository, _nodeRepository, _nodeTypeRepository);
+            Curve entity = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             IValidator validator = new CurveValidator(entity);
             if (!validator.IsValid)

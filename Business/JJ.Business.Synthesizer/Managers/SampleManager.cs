@@ -35,7 +35,13 @@ namespace JJ.Business.Synthesizer.Managers
             return sampleValidator;
         }
 
-        public VoidResult DeleteWithRelatedEntities(Sample sample)
+        public void Delete(int id)
+        {
+            Sample entity = _repositories.SampleRepository.Get(id);
+            Delete(entity);
+        }
+
+        public VoidResult Delete(Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
 

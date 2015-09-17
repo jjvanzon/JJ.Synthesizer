@@ -1744,7 +1744,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document document = _repositories.DocumentRepository.Get(documentID);
 
                 // Business
-                Sample sample = _sampleManager.CreateSample(document);
+                Sample sample = _sampleManager.CreateSample(document, mustGenerateName: true);
 
                 // ToViewModel
                 SampleGridViewModel gridViewModel = ChildDocumentHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
@@ -1790,7 +1790,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 bool isRootDocument = sample.Document.ParentDocument == null;
 
                 // Business
-                VoidResult result = _sampleManager.DeleteWithRelatedEntities(sample);
+                VoidResult result = _sampleManager.Delete(sample);
                 if (result.Successful)
                 {
                     // ToViewModel

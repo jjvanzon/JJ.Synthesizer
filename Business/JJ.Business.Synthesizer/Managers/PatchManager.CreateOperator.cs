@@ -8,8 +8,6 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Framework.Business;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Business.CanonicalModel;
 
 namespace JJ.Business.Synthesizer.Managers
 {

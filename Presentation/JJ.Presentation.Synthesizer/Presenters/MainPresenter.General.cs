@@ -69,8 +69,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositories = repositoryWrapper;
             _patchRepositories = new PatchRepositories(_repositories);
 
+            var curveRepositories = new CurveRepositories(_repositories);
+
             _audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(_repositories));
-            _curveManager = new CurveManager(_repositories.CurveRepository, _repositories.NodeRepository, _repositories.IDRepository);
+            _curveManager = new CurveManager(curveRepositories);
             _documentManager = new DocumentManager(_repositories);
             _entityPositionManager = new EntityPositionManager(_repositories.EntityPositionRepository, _repositories.IDRepository);
             _sampleManager = new SampleManager(new SampleRepositories(_repositories));
@@ -78,10 +80,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_repositories.DocumentRepository);
             _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(new AudioFileOutputRepositories(_repositories));
             _childDocumentPropertiesPresenter = new ChildDocumentPropertiesPresenter(_repositories);
-            _curveDetailsPresenter = new CurveDetailsPresenter(
-                _repositories.CurveRepository,
-                _repositories.NodeRepository,
-                _repositories.NodeTypeRepository);
+            _curveDetailsPresenter = new CurveDetailsPresenter(curveRepositories);
             _curveGridPresenter = new CurveGridPresenter(_repositories.DocumentRepository);
             _documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositories.DocumentRepository);
             _documentDeletedPresenter = new DocumentDeletedPresenter();

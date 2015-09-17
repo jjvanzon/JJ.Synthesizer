@@ -27,18 +27,16 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return viewModel.Entity.ToEntityWithRelatedEntities(audioFileOutputRepositories);
         }
 
-        public static AudioFileOutput ToEntityWithRelatedEntities(this AudioFileOutputViewModel sourceViewModel, AudioFileOutputRepositories audioFileOutputRepositories)
+        public static AudioFileOutput ToEntityWithRelatedEntities(
+            this AudioFileOutputViewModel sourceViewModel, 
+            AudioFileOutputRepositories repositories)
         {
             if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
-            if (audioFileOutputRepositories == null) throw new NullException(() => audioFileOutputRepositories);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            AudioFileOutput destAudioFileOutput = sourceViewModel.ToEntity(audioFileOutputRepositories);
+            AudioFileOutput destAudioFileOutput = sourceViewModel.ToEntity(repositories);
 
-            ToEntityHelper.ToAudioFileOutputChannels(
-                sourceViewModel.Channels,
-                destAudioFileOutput,
-                audioFileOutputRepositories.AudioFileOutputChannelRepository,
-                audioFileOutputRepositories.OutletRepository);
+            ToEntityHelper.ToAudioFileOutputChannels(sourceViewModel.Channels, destAudioFileOutput, repositories);
 
             return destAudioFileOutput;
         }
@@ -115,13 +113,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Document destDocument = userInput.ToEntity(repositories.DocumentRepository, repositories.ChildDocumentTypeRepository);
 
             ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositories));
-            ToEntityHelper.ToCurvesWithRelatedEntities(
-                userInput.CurveDetailsList,
-                destDocument,
-                repositories.CurveRepository,
-                repositories.NodeRepository,
-                repositories.NodeTypeRepository,
-                repositories.IDRepository);
+            ToEntityHelper.ToCurvesWithRelatedEntities(userInput.CurveDetailsList, destDocument, new CurveRepositories(repositories));
             ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, new PatchRepositories(repositories));
 
             // Operator Properties
@@ -227,26 +219,22 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Curve
 
-        public static Curve ToEntityWithRelatedEntities(
-            this CurveDetailsViewModel viewModel,
-            ICurveRepository curveRepository,
-            INodeRepository nodeRepository,
-            INodeTypeRepository nodeTypeRepository)
-        {
-            return viewModel.Entity.ToEntityWithRelatedEntities(curveRepository, nodeRepository, nodeTypeRepository);
-        }
-
-        public static Curve ToEntityWithRelatedEntities(
-            this CurveViewModel viewModel,
-            ICurveRepository curveRepository,
-            INodeRepository nodeRepository,
-            INodeTypeRepository nodeTypeRepository)
+        public static Curve ToEntityWithRelatedEntities(this CurveDetailsViewModel viewModel, CurveRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            Curve curve = viewModel.ToEntity(curveRepository);
+            return viewModel.Entity.ToEntityWithRelatedEntities(repositories);
+        }
 
-            ToEntityHelper.ToNodes(viewModel.Nodes, curve, nodeRepository, nodeTypeRepository);
+        public static Curve ToEntityWithRelatedEntities(this CurveViewModel viewModel, CurveRepositories repositories)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (repositories == null) throw new NullException(() => repositories);
+
+            Curve curve = viewModel.ToEntity(repositories.CurveRepository);
+
+            ToEntityHelper.ToNodes(viewModel.Nodes, curve, repositories);
 
             return curve;
         }
@@ -316,13 +304,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             // ChildDocumentProperties can reference a MainPatch, converted from the ChildDocumentList.
             ToEntityHelper.ToChildDocuments(userInput.ChildDocumentPropertiesList, destDocument, repositories);
             ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositories));
-            ToEntityHelper.ToCurvesWithRelatedEntities(
-                userInput.CurveDetailsList,
-                destDocument,
-                repositories.CurveRepository,
-                repositories.NodeRepository,
-                repositories.NodeTypeRepository,
-                repositories.IDRepository);
+            ToEntityHelper.ToCurvesWithRelatedEntities(userInput.CurveDetailsList, destDocument, new CurveRepositories(repositories));
             ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, new PatchRepositories(repositories));
             ToEntityHelper.ToAudioFileOutputsWithRelatedEntities(userInput.AudioFileOutputPropertiesList, destDocument, new AudioFileOutputRepositories(repositories));
 

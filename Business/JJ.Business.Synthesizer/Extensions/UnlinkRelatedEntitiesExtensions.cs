@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Extensions
     /// <summary>
     /// Unlinks related entities that are not intrinsically part of the entity.
     /// </summary>
-    public static class UnlinkRelatedEntitiesExtensions
+    internal static class UnlinkRelatedEntitiesExtensions
     {
         public static void UnlinkRelatedEntities(this Document document)
         {

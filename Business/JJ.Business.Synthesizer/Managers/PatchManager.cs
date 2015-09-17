@@ -337,6 +337,35 @@ namespace JJ.Business.Synthesizer.Managers
             }
         }
 
+
+        public void DeleteInlet(int id)
+        {
+            Inlet entity = _repositories.InletRepository.Get(id);
+            DeleteInlet(entity);
+        }
+
+        private void DeleteInlet(Inlet entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            entity.UnlinkRelatedEntities();
+            _repositories.InletRepository.Delete(entity);
+        }
+
+        public void DeleteOutlet(int id)
+        {
+            Outlet entity = _repositories.OutletRepository.Get(id);
+            DeleteOutlet(entity);
+        }
+
+        private void DeleteOutlet(Outlet entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            entity.UnlinkRelatedEntities();
+            _repositories.OutletRepository.Delete(entity);
+        }
+
         // TODO: These overloads are ugly, e.g. CreateCalculator(true, outlet1)
 
         /// <param name="optimized">

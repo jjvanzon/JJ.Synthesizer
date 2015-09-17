@@ -145,6 +145,7 @@
     <Compile Include="EntityWrappers\Custom_OperatorWrapper_Outlets.cs" />
     <Compile Include="Extensions\PatchExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helpers\CurveRepositories.cs" />
     <Compile Include="Helpers\OperatorConstants.cs" />
     <Compile Include="Helpers\PatchRepositories.cs" />
     <Compile Include="Helpers\SampleInfo.cs" />
