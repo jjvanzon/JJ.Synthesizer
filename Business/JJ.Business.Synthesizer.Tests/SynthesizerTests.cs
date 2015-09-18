@@ -811,8 +811,8 @@ namespace JJ.Business.Synthesizer.Tests
                 // Create Reusable Document and Patch
                 Document underlyingDocument = documentManager.Create();
 
-                PatchManager underlyingPatchManager = new PatchManager(underlyingDocument, new PatchRepositories(repositories));
-                Patch underlyingPatch = underlyingPatchManager.Patch;
+                PatchManager underlyingPatchManager = new PatchManager(new PatchRepositories(repositories));
+                Patch underlyingPatch = underlyingPatchManager.Create(underlyingDocument);
                 underlyingDocument.LinkToMainPatch(underlyingPatch);
 
                 PatchManager x;

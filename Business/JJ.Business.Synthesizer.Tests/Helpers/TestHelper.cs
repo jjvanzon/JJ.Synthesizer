@@ -73,8 +73,14 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         public static PatchManager CreatePatchManager(RepositoryWrapper repositoryWrapper, Patch patch = null)
         {
-            var patchManager = new PatchManager(patch, new PatchRepositories(repositoryWrapper));
-            return patchManager;
+            if (patch == null)
+            {
+                return new PatchManager(new PatchRepositories(repositoryWrapper));
+            }
+            else
+            { 
+                return new PatchManager(patch, new PatchRepositories(repositoryWrapper));
+            }
         }
 
         public static Stream GetViolin16BitMonoRawStream()

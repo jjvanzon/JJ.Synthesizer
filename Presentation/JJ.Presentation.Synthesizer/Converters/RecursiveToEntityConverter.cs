@@ -4,7 +4,6 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Business.Synthesizer.LinkTo;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Business.Synthesizer.Managers;
@@ -23,12 +22,10 @@ namespace JJ.Presentation.Synthesizer.Converters
         private readonly Dictionary<int, Outlet> _outletDictionary = new Dictionary<int, Outlet>();
         private readonly Patch _patch;
 
-        public RecursiveToEntityConverter(Patch patch, PatchRepositories patchRepositories)
+        public RecursiveToEntityConverter(PatchRepositories patchRepositories)
         {
-            if (patch == null) throw new NullException(() => patch);
             if (patchRepositories == null) throw new NullException(() => patchRepositories);
 
-            _patch = patch;
             _repositories = patchRepositories;
         }
 
@@ -37,7 +34,6 @@ namespace JJ.Presentation.Synthesizer.Converters
             if (operatorViewModel == null) throw new NullException(() => operatorViewModel);
 
             Operator op = ToEntityRecursive(operatorViewModel);
-            op.LinkTo(_patch);
 
             return op;
         }
@@ -80,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.Converters
                 idsToKeep.Add(patchInletInlet.ID);
             }
 
-            var patchManager = new PatchManager(_patch, _repositories);
+            var patchManager = new PatchManager(_repositories);
 
             int[] existingIDs = destOperator.Inlets.Select(x => x.ID).ToArray();
             int[] idsToDelete = existingIDs.Except(idsToKeep).ToArray();
@@ -109,7 +105,7 @@ namespace JJ.Presentation.Synthesizer.Converters
                 idsToKeep.Add(patchOutletOutlet.ID);
             }
 
-            var patchManager = new PatchManager(_patch, _repositories);
+            var patchManager = new PatchManager(_repositories);
 
             int[] existingIDs = destOperator.Outlets.Select(x => x.ID).ToArray();
             int[] idsToDelete = existingIDs.Except(idsToKeep).ToArray();

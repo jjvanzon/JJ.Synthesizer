@@ -283,12 +283,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Document
 
-        public static Document ToEntityWithRelatedEntities(this MainViewModel userInput, RepositoryWrapper repositoryWrapper)
+        public static Document ToEntityWithRelatedEntities(this MainViewModel userInput, RepositoryWrapper repositories)
         {
             if (userInput == null) throw new NullException(() => userInput);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            return userInput.Document.ToEntityWithRelatedEntities(repositoryWrapper);
+            return userInput.Document.ToEntityWithRelatedEntities(repositories);
         }
 
         public static Document ToEntityWithRelatedEntities(this DocumentViewModel userInput, RepositoryWrapper repositories)
@@ -434,7 +434,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         /// Used for OperatorProperties view for Sample operators, to partially convert to entity,
         /// just enoughto make a few entity validations work.
         /// </summary> 
-        public static Document ToHollowDocumentWithHollowChildDocumentsWithHollowSamples(
+        public static Document ToHollowDocumentWithHollowChildDocumentsWithHollowSampleWithName(
             this DocumentViewModel viewModel,
             IDocumentRepository documentRepository,
             IChildDocumentTypeRepository childDocumentTypeRepository,
@@ -450,6 +450,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             foreach (SamplePropertiesViewModel samplePropertiesViewModel in viewModel.SamplePropertiesList)
             {
                 Sample sample = samplePropertiesViewModel.Entity.ToHollowEntity(sampleRepository);
+                sample.Name = samplePropertiesViewModel.Entity.Name;
                 sample.LinkTo(rootDocument);
             }
 
@@ -461,6 +462,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 foreach (SamplePropertiesViewModel samplePropertiesViewModel in childDocumentViewModel.SamplePropertiesList)
                 {
                     Sample sample = samplePropertiesViewModel.Entity.ToHollowEntity(sampleRepository);
+                    sample.Name = samplePropertiesViewModel.Entity.Name;
                     sample.LinkTo(childDocument);
                 }
             }
@@ -644,15 +646,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         {
             if (repositories == null) throw new NullException(() => repositories);
 
-            Patch patch = viewModel.ToEntity(repositories.PatchRepository);
-
-            var converter = new RecursiveToEntityConverter(patch, repositories);
-
+            var converter = new RecursiveToEntityConverter(repositories);
             var convertedOperators = new HashSet<Operator>();
+
+            Patch patch = viewModel.ToEntity(repositories.PatchRepository);
 
             foreach (OperatorViewModel operatorViewModel in viewModel.Operators)
             {
                 Operator op = converter.Convert(operatorViewModel);
+                op.LinkTo(patch);
 
                 convertedOperators.Add(op);
             }

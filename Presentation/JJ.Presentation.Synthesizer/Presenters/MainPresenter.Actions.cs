@@ -1076,17 +1076,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 OperatorPropertiesPresenter_ForSample partialPresenter = _operatorPropertiesPresenter_ForSample;
 
-                // Convert OperatorViewModel (from PatchDetail) to entity, because we are about to validate
-                // the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
-                OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
-                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
+                //// Convert OperatorViewModel (from PatchDetail) to entity, because we are about to validate
+                //// the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
+                //OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
+                //Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
 
-                // Convert the document, child documents + samples
-                // because we are about to validate a sample operator's reference to its sample.
-                ViewModel.Document.ToHollowDocumentWithHollowChildDocumentsWithHollowSamples(
-                    _repositories.DocumentRepository,
-                    _repositories.ChildDocumentTypeRepository,
-                    _repositories.SampleRepository);
+                //// Convert the document, child documents + samples
+                //// because we are about to validate a sample operator's reference to its sample.
+                //ViewModel.Document.ToHollowDocumentWithHollowChildDocumentsWithHollowSampleWithName(
+                //    _repositories.DocumentRepository,
+                //    _repositories.ChildDocumentTypeRepository,
+                //    _repositories.SampleRepository);
+
+                // We also need the relationship between the operator and the patch,
+                // so by now it might be time to just say: convert the whole view model.
+                ViewModel.ToEntityWithRelatedEntities(_repositories);
+                OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
+                Operator entity = _repositories.OperatorRepository.Get(operatorViewModel.ID);
 
                 partialAction();
 
@@ -1109,10 +1115,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 OperatorPropertiesPresenter_ForValue partialPresenter = _operatorPropertiesPresenter_ForValue;
 
-                // Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
-                // the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
+                //// Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
+                //// the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
+                //OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
+                //Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
+
+
+                // We also need more... (describe it)
+                // so by now it might be time to just say: convert the whole view model.
+                ViewModel.ToEntityWithRelatedEntities(_repositories);
                 OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
-                Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
+                Operator entity = _repositories.OperatorRepository.Get(operatorViewModel.ID);
 
                 partialAction();
 
@@ -1240,7 +1253,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.ID);
 
                 // Business
-                var patchManager = new PatchManager(patch, new PatchRepositories(_repositories));
+                var patchManager = new PatchManager(patch, _patchRepositories);
                 Operator op = patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
 
                 // ToViewModel
@@ -1542,8 +1555,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document document = _repositories.DocumentRepository.TryGet(documentID);
 
                 // Business
-                var patchManager = new PatchManager(document, _patchRepositories, mustGenerateName: true);
-                Patch patch = patchManager.Patch;
+                var patchManager = new PatchManager(_patchRepositories);
+                Patch patch = patchManager.Create(document, mustGenerateName: true);
 
                 // ToViewModel
                 PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, document.ID);

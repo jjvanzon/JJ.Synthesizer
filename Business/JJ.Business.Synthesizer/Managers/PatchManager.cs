@@ -21,138 +21,74 @@ namespace JJ.Business.Synthesizer.Managers
 {
     /// <summary>
     /// Manages a Patch and its Operators.
-    /// If you do not supply a patch, one will be created for you.
+    /// You can supply a patch, Create a new one using the Create method
+    /// or omit the Patch to only call methods that do not require it.
     /// </summary>
     public partial class PatchManager
     {
-        /// <summary> not nullable </summary>
-        private Patch _patch;
         private PatchRepositories _repositories;
         private OperatorFactory _operatorFactory;
 
-        /// <summary> not nullable </summary>
-        public Patch Patch
-        {
-            get { return _patch; }
-        }
+        /// <summary> nullable </summary>
+        public Patch Patch { get; set; }
 
-        /// <summary> Creates a new patch. </summary>
-        public PatchManager(PatchRepositories repositories)
-        {
-            Initialize(null, null, repositories, false);
-        }
-
-        /// <param name="patch">If null, creates a new Patch. </param>
         public PatchManager(Patch patch, PatchRepositories repositories)
         {
             if (patch == null) throw new NullException(() => patch);
-
-            Initialize(patch, null, repositories, false);
-        }
-
-        /// <summary> Creates a new Patch. </summary>
-        /// <param name="document">nullable</param>
-        public PatchManager(Document document, PatchRepositories repositories)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            Initialize(null, document, repositories, false);
-        }
-
-        /// <summary> Creates a new patch. </summary>
-        /// <param name="document">nullable</param>
-        /// <param name="mustGenerateName">only possible if you also pass a document</param>
-        public PatchManager(Document document, PatchRepositories repositories, bool mustGenerateName)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            Initialize(null, document, repositories, mustGenerateName);
-        }
-
-        /// <summary> If patch is null, one with be created using the document and mustGeneratePatchName parameters. </summary>
-        /// <param name="patch">nullable</param>
-        /// <param name="document">nullable</param>
-        /// <param name="mustGenerateName">only possible if you also pass a document</param>
-        private void Initialize(Patch patch, Document document, PatchRepositories repositories, bool mustGenerateName)
-        {
             if (repositories == null) throw new NullException(() => repositories);
 
-            _patch = patch;
             _repositories = repositories;
-
-            if (_patch == null)
-            {
-                _patch = Create(document, mustGenerateName);
-            }
+            Patch = patch;
 
             _operatorFactory = new OperatorFactory(repositories);
         }
 
-        private Patch Create(Document document = null, bool mustGenerateName = false)
+        public PatchManager(PatchRepositories repositories)
         {
-            var patch = new Patch();
-            patch.ID = _repositories.IDRepository.GetID();
-            _repositories.PatchRepository.Insert(patch);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            patch.LinkTo(document);
+            _repositories = repositories;
+
+            _operatorFactory = new OperatorFactory(repositories);
+        }
+
+        /// <param name="document">Nullable. Used e.g. to generate a unique name for a Patch.</param>
+        /// <param name="mustGenerateName">Only possible if you also pass a document.</param>
+        public Patch Create(Document document = null, bool mustGenerateName = false)
+        {
+            Patch = new Patch();
+            Patch.ID = _repositories.IDRepository.GetID();
+            _repositories.PatchRepository.Insert(Patch);
+
+            Patch.LinkTo(document);
 
             if (mustGenerateName)
             {
-                ISideEffect sideEffect = new Patch_SideEffect_GenerateName(patch);
+                ISideEffect sideEffect = new Patch_SideEffect_GenerateName(Patch);
                 sideEffect.Execute();
             }
 
-            return patch;
+            return Patch;
         }
 
         public VoidResult Save()
         {
+            AssertPatch();
+
             return Validate();
-        }
-
-        public VoidResult DeleteWithRelatedEntities()
-        {
-            bool isMainPatch = _patch.Document.MainPatch != null &&
-                               (_patch.Document.MainPatch == _patch ||
-                                _patch.Document.MainPatch.ID == _patch.ID);
-            if (isMainPatch)
-            {
-                var message = new Message
-                {
-                    PropertyKey = PropertyNames.Patch,
-                    Text = MessageFormatter.CannotDeletePatchBecauseIsMainPatch(_patch.Name)
-                };
-
-                return new VoidResult
-                {
-                    Successful = false,
-                    Messages = new Message[] { message }
-                };
-            }
-            else
-            {
-                _patch.DeleteRelatedEntities(_repositories.OperatorRepository, _repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
-                _patch.UnlinkRelatedEntities();
-                _repositories.PatchRepository.Delete(_patch);
-
-                return new VoidResult
-                {
-                    Successful = true
-                };
-            }
         }
 
         private VoidResult Validate()
         {
             var messages = new List<Message>();
 
-            if (_patch.Document != null)
+            if (Patch.Document != null)
             {
-                IValidator validator1 = new PatchValidator_InDocument(_patch);
+                IValidator validator1 = new PatchValidator_InDocument(Patch);
                 messages.AddRange(validator1.ValidationMessages.ToCanonical());
             }
 
-            IValidator validator2 = new PatchValidator_Recursive(_patch, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository, new HashSet<object>());
+            IValidator validator2 = new PatchValidator_Recursive(Patch, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository, new HashSet<object>());
             messages.AddRange(validator2.ValidationMessages.ToCanonical());
 
             bool successful = messages.Count == 0;
@@ -164,6 +100,41 @@ namespace JJ.Business.Synthesizer.Managers
             };
         }
 
+        public VoidResult DeleteWithRelatedEntities()
+        {
+            AssertPatch();
+
+            bool isMainPatch = Patch.Document != null &&
+                               Patch.Document.MainPatch != null &&
+                               (Patch.Document.MainPatch == Patch ||
+                                Patch.Document.MainPatch.ID == Patch.ID);
+            if (isMainPatch)
+            {
+                var message = new Message
+                {
+                    PropertyKey = PropertyNames.Patch,
+                    Text = MessageFormatter.CannotDeletePatchBecauseIsMainPatch(Patch.Name)
+                };
+
+                return new VoidResult
+                {
+                    Successful = false,
+                    Messages = new Message[] { message }
+                };
+            }
+            else
+            {
+                Patch.DeleteRelatedEntities(_repositories.OperatorRepository, _repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
+                Patch.UnlinkRelatedEntities();
+                _repositories.PatchRepository.Delete(Patch);
+
+                return new VoidResult
+                {
+                    Successful = true
+                };
+            }
+        }
+
         /// <summary>
         /// Related operators will also be added to the patch.
         /// If one of the related operators has a different patch assigned to it,
@@ -171,6 +142,8 @@ namespace JJ.Business.Synthesizer.Managers
         /// </summary>
         public VoidResult SaveOperator(Operator op)
         {
+            AssertPatch();
+
             if (op == null) throw new NullException(() => op);
 
             VoidResult result = AddToPatchRecursive(op);
@@ -247,7 +220,7 @@ namespace JJ.Business.Synthesizer.Managers
         {
             if (op == null) throw new NullException(() => op);
 
-            IValidator validator = new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(op, _patch);
+            IValidator validator = new OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull(op, Patch);
             if (!validator.IsValid)
             {
                 return new VoidResult
@@ -264,7 +237,7 @@ namespace JJ.Business.Synthesizer.Managers
 
         private void AddToPatchRecursive_WithoutValidation(Operator op)
         {
-            op.LinkTo(_patch);
+            op.LinkTo(Patch);
 
             foreach (Inlet inlet in op.Inlets)
             {
@@ -290,17 +263,14 @@ namespace JJ.Business.Synthesizer.Managers
         /// Deletes the operator, its inlets and outlets
         /// and connections to its inlets and outlets.
         /// Also applies changes to underlying documents to dependent CustomOperators.
-        /// Also cleans up obsolete inlets and outlets from custom operators
+        /// Also cleans up obsolete inlets and outlets from custom operators.
         /// </summary>
-        /// <param name="op"></param>
         public void DeleteOperator(Operator op)
         {
-            // TODO: Lower priority: Delegate to DeleteOperator method everywhere you now have inlined it.
-            // This is postponed, because it is part of a bigger concern that more must be encapsulated in the business layer,
-            // and only exposed through the manager, for instance cascading and inverse property management and possibly more.
+            AssertPatch();
 
             if (op == null) throw new NullException(() => op);
-            if (op.Patch != _patch) throw new NotEqualException(() => op.Patch, Patch);
+            if (op.Patch != Patch) throw new NotEqualException(() => op.Patch, Patch);
 
             IList<Operator> connectedCustomOperators = 
                 Enumerable.Union(
@@ -313,10 +283,10 @@ namespace JJ.Business.Synthesizer.Managers
             op.DeleteRelatedEntities(_repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
             _repositories.OperatorRepository.Delete(op);
 
-            if (_patch.Document != null)
+            if (Patch.Document != null)
             {
                 ISideEffect sideEffect = new Document_SideEffect_UpdateDependentCustomOperators(
-                    _patch.Document,
+                    Patch.Document,
                     _repositories.InletRepository,
                     _repositories.OutletRepository,
                     _repositories.DocumentRepository,
@@ -388,7 +358,7 @@ namespace JJ.Business.Synthesizer.Managers
         /// </param>
         public IPatchCalculator CreateCalculator(bool optimized, params Outlet[] channelOutlets)
         {
-            return CreateCalculator((IList<Outlet>)channelOutlets, optimized);
+            return CreateCalculator(channelOutlets, optimized);
         }
 
         /// <param name="optimized">
@@ -410,6 +380,11 @@ namespace JJ.Business.Synthesizer.Managers
             {
                 return new InterpretedPatchCalculator(channelOutlets, whiteNoiseCalculator, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository);
             }
+        }
+
+        private void AssertPatch()
+        {
+            if (Patch == null) throw new NullException(() => Patch);
         }
     }
 }

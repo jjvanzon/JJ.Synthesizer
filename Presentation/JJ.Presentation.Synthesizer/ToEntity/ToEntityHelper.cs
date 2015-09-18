@@ -180,8 +180,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
             foreach (int idToDelete in idsToDelete)
             {
-                Patch entityToDelete = repositories.PatchRepository.Get(idToDelete);
-                PatchManager patchManager = new PatchManager(repositories);
+                Patch patchToDelete = repositories.PatchRepository.Get(idToDelete);
+                PatchManager patchManager = new PatchManager(patchToDelete, repositories);
                 IResult result = patchManager.DeleteWithRelatedEntities();
                 ResultHelper.Assert(result);
             }
