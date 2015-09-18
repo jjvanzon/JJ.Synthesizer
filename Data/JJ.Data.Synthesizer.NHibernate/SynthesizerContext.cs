@@ -24,7 +24,7 @@ namespace JJ.Data.Synthesizer.NHibernate
     /// We cannot cache in repositories, because we need to purge cache entries upon rollback or upon deletion.
     /// Such transactionality can only be managed in an IContext implementation, not in a repository.
     /// 
-    /// In a stateless environment you might be able to get away with not purging cached entries,
+    /// In a stateless environment you might be able to get away with not purging cached byte arrays,
     /// but Synthesizer is a stateful application and the context is long lived and the repositories are long lived,
     /// so the cached data must also be deleted.
     /// 
@@ -136,6 +136,8 @@ namespace JJ.Data.Synthesizer.NHibernate
                     _sampleBytesToSaveDictionary.Clear();
                     _sampleBytesReadDictionary.Clear();
                 }
+
+                throw;
             }
         }
     }

@@ -25,8 +25,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private readonly int _doubleClickSpeedInMilliseconds;
         private readonly int _doubleClickDeltaInPixels;
         private bool _tooltipFeatureEnabled;
+
         private ViewModelToDiagramConverterResult _result;
         private Dictionary<OperatorViewModel, OperatorElements> _convertedOperatorDictionary;
+        private Dictionary<int, Curve> _inletCurveDictionary;
         private IList<Curve> _convertedCurves;
 
         private OperatorRectangleConverter _operatorToRectangleConverter;
@@ -115,6 +117,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             }
 
             _convertedOperatorDictionary = new Dictionary<OperatorViewModel, OperatorElements>();
+            _inletCurveDictionary = new Dictionary<int, Curve>();
             _convertedCurves = new List<Curve>();
 
             IList<Rectangle> destExistingOperatorRectangles = result.Diagram.Background
@@ -197,7 +200,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                     int id = inletViewModel.ID;
                     
-
                     Curve destCurve = TryGetInletCurve(id);
                     if (destCurve == null)
                     {
@@ -229,22 +231,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return operatorVectorGraphicsElements1;
         }
 
-        private Dictionary<int, Curve> _inletCurveDictionary = new Dictionary<int, Curve>();
-
         private Curve TryGetInletCurve(int id)
         {
             Curve curve;
-            if (!_inletCurveDictionary.TryGetValue(id, out curve))
+            if (_inletCurveDictionary.TryGetValue(id, out curve))
             {
-                curve = _result.Diagram.Background.Children
+                return curve;
+            }
+
+            curve = _result.Diagram.Background.Children
                                               .OfType<Curve>()
                                               .Where(x => VectorGraphicsTagHelper.TryGetInletID(x.Tag) == id)
                                               .FirstOrDefault(); // First instead of Single will result in excessive ones being cleaned up.
-
-                if (curve != null)
-                {
-                    _inletCurveDictionary.Add(id, curve);
-                }
+            if (curve != null)
+            {
+                _inletCurveDictionary.Add(id, curve);
             }
 
             return curve;

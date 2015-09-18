@@ -84,10 +84,23 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public void SetSampleLookup(IList<IDAndName> sampleLookup)
         {
             // Always refill the lookup, so changes to the patch collection are reflected.
+            int? selectedID = TryGetSelectedSampleID();
             comboBoxSample.DataSource = null; // Do this or WinForms will not refresh the list.
-            comboBoxSample.DataSource = sampleLookup;
             comboBoxSample.ValueMember = PropertyNames.ID;
             comboBoxSample.DisplayMember = PropertyNames.Name;
+            comboBoxSample.DataSource = sampleLookup;
+            if (selectedID != null)
+            {
+                comboBoxSample.SelectedValue = selectedID;
+            }
+        }
+
+        private int? TryGetSelectedSampleID()
+        {
+            if (comboBoxSample.DataSource == null) return null;
+            IDAndName idAndName = (IDAndName)comboBoxSample.SelectedItem;
+            if (idAndName == null) return null;
+            return idAndName.ID;
         }
 
         private void ApplyControlsToViewModel()
@@ -123,24 +136,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void OperatorPropertiesUserControl_ForSample_VisibleChanged(object sender, EventArgs e)
-        {
-            if (Visible)
-            {
-                textBoxName.Focus();
-                textBoxName.Select(0, 0);
-            }
-        }
-
-        // This event goes off when I call OperatorPropertiesUserControl_ForSample.SetFocus after clicking on a DataGridView,
-        // but does not go off when I call OperatorPropertiesUserControl_ForSample.SetFocus after clicking on a TreeView.
-        // Thanks, WinForms...
-        private void OperatorPropertiesUserControl_ForSample_Enter(object sender, EventArgs e)
-        {
-            textBoxName.Focus();
-            textBoxName.Select(0, 0);
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.

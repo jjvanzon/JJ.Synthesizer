@@ -21,11 +21,14 @@ namespace JJ.Presentation.Synthesizer.Converters
         private readonly PatchRepositories _repositories;
         private readonly Dictionary<int, Operator> _operatorDictionary = new Dictionary<int, Operator>();
         private readonly Dictionary<int, Outlet> _outletDictionary = new Dictionary<int, Outlet>();
+        private readonly Patch _patch;
 
-        public RecursiveToEntityConverter(PatchRepositories patchRepositories)
+        public RecursiveToEntityConverter(Patch patch, PatchRepositories patchRepositories)
         {
+            if (patch == null) throw new NullException(() => patch);
             if (patchRepositories == null) throw new NullException(() => patchRepositories);
 
+            _patch = patch;
             _repositories = patchRepositories;
         }
 
@@ -34,6 +37,7 @@ namespace JJ.Presentation.Synthesizer.Converters
             if (operatorViewModel == null) throw new NullException(() => operatorViewModel);
 
             Operator op = ToEntityRecursive(operatorViewModel);
+            op.LinkTo(_patch);
 
             return op;
         }
@@ -76,7 +80,7 @@ namespace JJ.Presentation.Synthesizer.Converters
                 idsToKeep.Add(patchInletInlet.ID);
             }
 
-            var patchManager = new PatchManager(destOperator.Patch, _repositories);
+            var patchManager = new PatchManager(_patch, _repositories);
 
             int[] existingIDs = destOperator.Inlets.Select(x => x.ID).ToArray();
             int[] idsToDelete = existingIDs.Except(idsToKeep).ToArray();
@@ -105,7 +109,7 @@ namespace JJ.Presentation.Synthesizer.Converters
                 idsToKeep.Add(patchOutletOutlet.ID);
             }
 
-            var patchManager = new PatchManager(destOperator.Patch, _repositories);
+            var patchManager = new PatchManager(_patch, _repositories);
 
             int[] existingIDs = destOperator.Outlets.Select(x => x.ID).ToArray();
             int[] idsToDelete = existingIDs.Except(idsToKeep).ToArray();

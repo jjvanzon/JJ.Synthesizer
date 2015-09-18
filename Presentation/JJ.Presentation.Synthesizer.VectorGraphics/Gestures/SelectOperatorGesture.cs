@@ -8,7 +8,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
     {
         public event EventHandler<ElementEventArgs> OperatorSelected;
 
-        public override void HandleMouseDown(object sender, MouseEventArgs e)
+        // Handle MouseUp instead of MouseDown as a work-around,
+        // because in WinForms the MouseDown event of one control goes off
+        // before the LostFocus event of the other control,
+        // so SelectOperator goes off overwriting the properties
+        // before saving the properties.
+        public override void HandleMouseUp(object sender, MouseEventArgs e)
         {
             if (OperatorSelected != null)
             {

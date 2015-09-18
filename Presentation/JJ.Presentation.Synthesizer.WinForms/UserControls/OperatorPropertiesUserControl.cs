@@ -99,24 +99,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             Close();
         }
 
-        private void OperatorPropertiesUserControl_VisibleChanged(object sender, EventArgs e)
-        {
-            if (Visible)
-            {
-                textBoxName.Focus();
-                textBoxName.Select(0, 0);
-            }
-        }
-
-        // This event goes off when I call DocumentPropertiesUserControl.SetFocus after clicking on a DataGridView,
-        // but does not go off when I call DocumentPropertiesUserControl.SetFocus after clicking on a TreeView.
-        // Thanks, WinForms...
-        private void OperatorPropertiesUserControl_Enter(object sender, EventArgs e)
-        {
-            textBoxName.Focus();
-            textBoxName.Select(0, 0);
-        }
-
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
         private void OperatorPropertiesUserControl_Leave(object sender, EventArgs e)
         {

@@ -165,8 +165,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Name = "OperatorPropertiesUserControl_ForValue";
             this.Size = new System.Drawing.Size(10, 10);
             this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_ForValue_Load);
-            this.VisibleChanged += new System.EventHandler(this.OperatorPropertiesUserControl_ForValue_VisibleChanged);
-            this.Enter += new System.EventHandler(this.OperatorPropertiesUserControl_ForValue_Enter);
             this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_ForValue_Leave);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanelProperties.ResumeLayout(false);

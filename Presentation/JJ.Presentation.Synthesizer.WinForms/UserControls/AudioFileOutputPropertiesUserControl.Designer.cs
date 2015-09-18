@@ -475,8 +475,6 @@
             this.Name = "AudioFileOutputPropertiesUserControl";
             this.Size = new System.Drawing.Size(50, 34);
             this.Load += new System.EventHandler(this.AudioFileOutputPropertiesUserControl_Load);
-            this.VisibleChanged += new System.EventHandler(this.AudioFileOutputPropertiesUserControl_VisibleChanged);
-            this.Enter += new System.EventHandler(this.AudioFileOutputPropertiesUserControl_Enter);
             this.Leave += new System.EventHandler(this.AudioFileOutputPropertiesUserControl_Leave);
             this.groupBoxFilePath.ResumeLayout(false);
             this.tableLayoutPanelFilePath.ResumeLayout(false);

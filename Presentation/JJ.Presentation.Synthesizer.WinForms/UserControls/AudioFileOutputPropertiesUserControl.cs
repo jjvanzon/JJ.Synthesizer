@@ -75,25 +75,25 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (comboBoxAudioFileFormat.DataSource == null)
             {
-                comboBoxAudioFileFormat.DataSource = _viewModel.AudioFileFormats;
                 comboBoxAudioFileFormat.ValueMember = PropertyNames.ID;
                 comboBoxAudioFileFormat.DisplayMember = PropertyNames.Name;
+                comboBoxAudioFileFormat.DataSource = _viewModel.AudioFileFormats;
             }
             comboBoxAudioFileFormat.SelectedValue = _viewModel.Entity.AudioFileFormat.ID;
 
             if (comboBoxSampleDataType.DataSource == null)
             {
-                comboBoxSampleDataType.DataSource = _viewModel.SampleDataTypes;
                 comboBoxSampleDataType.ValueMember = PropertyNames.ID;
                 comboBoxSampleDataType.DisplayMember = PropertyNames.Name;
+                comboBoxSampleDataType.DataSource = _viewModel.SampleDataTypes;
             }
             comboBoxSampleDataType.SelectedValue = _viewModel.Entity.SampleDataType.ID;
 
             if (comboBoxSpeakerSetup.DataSource == null)
             {
-                comboBoxSpeakerSetup.DataSource = _viewModel.SpeakerSetups;
                 comboBoxSpeakerSetup.ValueMember = PropertyNames.ID;
                 comboBoxSpeakerSetup.DisplayMember = PropertyNames.Name;
+                comboBoxSpeakerSetup.DataSource = _viewModel.SpeakerSetups;
             }
             comboBoxSpeakerSetup.SelectedValue = _viewModel.Entity.SpeakerSetup.ID;
 
@@ -154,24 +154,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void AudioFileOutputPropertiesUserControl_VisibleChanged(object sender, EventArgs e)
-        {
-            if (Visible)
-            {
-                textBoxName.Focus();
-                textBoxName.Select(0, 0);
-            }
-        }
-
-        // This event goes off when I call AudioFileOutputPropertiesUserControl.SetFocus after clicking on a DataGridView,
-        // but does not go off when I call AudioFileOutputPropertiesUserControl.SetFocus after clicking on a TreeView.
-        // Thanks, WinForms...
-        private void AudioFileOutputPropertiesUserControl_Enter(object sender, EventArgs e)
-        {
-            textBoxName.Focus();
-            textBoxName.Select(0, 0);
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.

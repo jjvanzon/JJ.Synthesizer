@@ -53,9 +53,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (comboBoxOutlet.DataSource == null)
             {
-                comboBoxOutlet.DataSource = _outletLookup;
                 comboBoxOutlet.ValueMember = PropertyNames.ID;
                 comboBoxOutlet.DisplayMember = PropertyNames.Name;
+                comboBoxOutlet.DataSource = _outletLookup;
             }
         }
 

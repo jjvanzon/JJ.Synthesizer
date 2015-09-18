@@ -140,8 +140,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Name = "DocumentPropertiesUserControl";
             this.Size = new System.Drawing.Size(10, 10);
             this.Load += new System.EventHandler(this.DocumentPropertiesUserControl_Load);
-            this.VisibleChanged += new System.EventHandler(this.DocumentPropertiesUserControl_VisibleChanged);
-            this.Enter += new System.EventHandler(this.DocumentPropertiesUserControl_Enter);
             this.Leave += new System.EventHandler(this.DocumentPropertiesUserControl_Leave);
             this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelProperties.ResumeLayout(false);

@@ -52,7 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelMain.RowCount = 2;
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 21F));
             this.tableLayoutPanelMain.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelMain.Size = new System.Drawing.Size(30, 30);
+            this.tableLayoutPanelMain.Size = new System.Drawing.Size(10, 10);
             this.tableLayoutPanelMain.TabIndex = 8;
             // 
             // tableLayoutPanelProperties
@@ -71,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanelProperties.Size = new System.Drawing.Size(24, 10);
+            this.tableLayoutPanelProperties.Size = new System.Drawing.Size(10, 10);
             this.tableLayoutPanelProperties.TabIndex = 8;
             // 
             // labelName
@@ -126,7 +126,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
             this.titleBarUserControl.RemoveButtonVisible = false;
-            this.titleBarUserControl.Size = new System.Drawing.Size(30, 21);
+            this.titleBarUserControl.Size = new System.Drawing.Size(16, 21);
             this.titleBarUserControl.TabIndex = 7;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
@@ -138,10 +138,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanelMain);
             this.Name = "OperatorPropertiesUserControl";
-            this.Size = new System.Drawing.Size(30, 30);
+            this.Size = new System.Drawing.Size(10, 10);
             this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_Load);
-            this.VisibleChanged += new System.EventHandler(this.OperatorPropertiesUserControl_VisibleChanged);
-            this.Enter += new System.EventHandler(this.OperatorPropertiesUserControl_Enter);
             this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_Leave);
             this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelProperties.ResumeLayout(false);

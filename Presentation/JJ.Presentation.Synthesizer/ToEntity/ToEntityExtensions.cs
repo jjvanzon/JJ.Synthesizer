@@ -646,19 +646,18 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Patch patch = viewModel.ToEntity(repositories.PatchRepository);
 
-            var converter = new RecursiveToEntityConverter(repositories);
+            var converter = new RecursiveToEntityConverter(patch, repositories);
 
             var convertedOperators = new HashSet<Operator>();
 
             foreach (OperatorViewModel operatorViewModel in viewModel.Operators)
             {
                 Operator op = converter.Convert(operatorViewModel);
-                op.LinkTo(patch);
 
                 convertedOperators.Add(op);
             }
 
-            var patchManager = new PatchManager(repositories);
+            var patchManager = new PatchManager(patch, repositories);
 
             IList<Operator> operatorsToDelete = patch.Operators.Except(convertedOperators).ToArray();
             foreach (Operator op in operatorsToDelete)

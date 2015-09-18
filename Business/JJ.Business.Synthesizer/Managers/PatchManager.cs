@@ -45,6 +45,8 @@ namespace JJ.Business.Synthesizer.Managers
         /// <param name="patch">If null, creates a new Patch. </param>
         public PatchManager(Patch patch, PatchRepositories repositories)
         {
+            if (patch == null) throw new NullException(() => patch);
+
             Initialize(patch, null, repositories, false);
         }
 
@@ -52,6 +54,8 @@ namespace JJ.Business.Synthesizer.Managers
         /// <param name="document">nullable</param>
         public PatchManager(Document document, PatchRepositories repositories)
         {
+            if (document == null) throw new NullException(() => document);
+
             Initialize(null, document, repositories, false);
         }
 
@@ -60,6 +64,8 @@ namespace JJ.Business.Synthesizer.Managers
         /// <param name="mustGenerateName">only possible if you also pass a document</param>
         public PatchManager(Document document, PatchRepositories repositories, bool mustGenerateName)
         {
+            if (document == null) throw new NullException(() => document);
+
             Initialize(null, document, repositories, mustGenerateName);
         }
 
@@ -336,7 +342,6 @@ namespace JJ.Business.Synthesizer.Managers
                 }
             }
         }
-
 
         public void DeleteInlet(int id)
         {

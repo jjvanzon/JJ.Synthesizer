@@ -27,6 +27,7 @@
             this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
             this.sampleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SampleGridUserControl();
             this.patchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchGridUserControl();
+            this.operatorPropertiesUserControl_ForSample = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForSample();
             this.operatorPropertiesUserControl_ForCustomOperator = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCustomOperator();
             this.operatorPropertiesUserControl_ForValue = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForValue();
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
@@ -37,7 +38,6 @@
             this.samplePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SamplePropertiesUserControl();
             this.audioFileOutputPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputPropertiesUserControl();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
-            this.operatorPropertiesUserControl_ForSample = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForSample();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -97,16 +97,16 @@
             // 
             // splitContainerProperties.Panel2
             // 
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForSample);
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCustomOperator);
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForValue);
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForPatchOutlet);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForPatchInlet);
             this.splitContainerProperties.Panel2.Controls.Add(this.documentPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.childDocumentPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.samplePropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.audioFileOutputPropertiesUserControl);
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForSample);
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCustomOperator);
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForValue);
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForPatchOutlet);
             this.splitContainerProperties.Size = new System.Drawing.Size(891, 657);
             this.splitContainerProperties.SplitterDistance = 621;
             this.splitContainerProperties.TabIndex = 2;
@@ -213,6 +213,18 @@
             this.patchGridUserControl.Size = new System.Drawing.Size(621, 657);
             this.patchGridUserControl.TabIndex = 8;
             this.patchGridUserControl.Visible = false;
+            // 
+            // operatorPropertiesUserControl_ForSample
+            // 
+            this.operatorPropertiesUserControl_ForSample.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_ForSample.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForSample.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_ForSample.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_ForSample.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_ForSample.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.operatorPropertiesUserControl_ForSample.Name = "operatorPropertiesUserControl_ForSample";
+            this.operatorPropertiesUserControl_ForSample.Size = new System.Drawing.Size(266, 657);
+            this.operatorPropertiesUserControl_ForSample.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForCustomOperator
             // 
@@ -330,18 +342,6 @@
             this.menuUserControl.Name = "menuUserControl";
             this.menuUserControl.Size = new System.Drawing.Size(1094, 24);
             this.menuUserControl.TabIndex = 3;
-            // 
-            // operatorPropertiesUserControl_ForSample
-            // 
-            this.operatorPropertiesUserControl_ForSample.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForSample.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForSample.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForSample.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForSample.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForSample.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.operatorPropertiesUserControl_ForSample.Name = "operatorPropertiesUserControl_ForSample";
-            this.operatorPropertiesUserControl_ForSample.Size = new System.Drawing.Size(266, 657);
-            this.operatorPropertiesUserControl_ForSample.TabIndex = 1;
             // 
             // MainForm
             // 

@@ -70,17 +70,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (comboBoxChildDocumentType.DataSource == null)
             {
-                comboBoxChildDocumentType.DataSource = _viewModel.ChildDocumentTypeLookup;
                 comboBoxChildDocumentType.ValueMember = PropertyNames.ID;
                 comboBoxChildDocumentType.DisplayMember = PropertyNames.Name;
+                comboBoxChildDocumentType.DataSource = _viewModel.ChildDocumentTypeLookup;
             }
             comboBoxChildDocumentType.SelectedValue = _viewModel.ChildDocumentType.ID;
 
             // Always refill the MainPatch lookup, so changes to the patch collection are reflected.
             comboBoxMainPatch.DataSource = null;
-            comboBoxMainPatch.DataSource = _viewModel.MainPatchLookup;
             comboBoxMainPatch.ValueMember = PropertyNames.ID;
             comboBoxMainPatch.DisplayMember = PropertyNames.Name;
+            comboBoxMainPatch.DataSource = _viewModel.MainPatchLookup;
             if (_viewModel.MainPatch != null)
             {
                 comboBoxMainPatch.SelectedValue = _viewModel.MainPatch.ID;
@@ -125,24 +125,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void ChildDocumentPropertiesUserControl_VisibleChanged(object sender, EventArgs e)
-        {
-            if (Visible)
-            {
-                textBoxName.Focus();
-                textBoxName.Select(0, 0);
-            }
-        }
-
-        // This event goes off when I call DocumentPropertiesUserControl.SetFocus after clicking on a DataGridView,
-        // but does not go off when I call DocumentPropertiesUserControl.SetFocus after clicking on a TreeView.
-        // Thanks, WinForms...
-        private void ChildDocumentPropertiesUserControl_Enter(object sender, EventArgs e)
-        {
-            textBoxName.Focus();
-            textBoxName.Select(0, 0);
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.

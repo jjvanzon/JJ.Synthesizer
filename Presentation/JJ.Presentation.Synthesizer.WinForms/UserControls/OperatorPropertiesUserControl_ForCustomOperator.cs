@@ -84,10 +84,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public void SetUnderlyingDocumentLookup(IList<IDAndName> underlyingDocumentLookup)
         {
             // Always refill the document lookup, so changes to the document collection are reflected.
+
+            int? selectedID = TryGetSelectedSampleID();
             comboBoxUnderlyingDocument.DataSource = null; // Do this or WinForms will not refresh the list.
-            comboBoxUnderlyingDocument.DataSource = underlyingDocumentLookup;
             comboBoxUnderlyingDocument.ValueMember = PropertyNames.ID;
             comboBoxUnderlyingDocument.DisplayMember = PropertyNames.Name;
+            comboBoxUnderlyingDocument.DataSource = underlyingDocumentLookup;
+            if (selectedID != null)
+            {
+                comboBoxUnderlyingDocument.SelectedValue = selectedID;
+            }
+        }
+
+        private int? TryGetSelectedSampleID()
+        {
+            if (comboBoxUnderlyingDocument.DataSource == null) return null;
+            IDAndName idAndName = (IDAndName)comboBoxUnderlyingDocument.SelectedItem;
+            if (idAndName == null) return null;
+            return idAndName.ID;
         }
 
         private void ApplyControlsToViewModel()
@@ -123,24 +137,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void OperatorPropertiesUserControl_ForCustomOperator_VisibleChanged(object sender, EventArgs e)
-        {
-            if (Visible)
-            {
-                textBoxName.Focus();
-                textBoxName.Select(0, 0);
-            }
-        }
-
-        // This event goes off when I call OperatorPropertiesUserControl_ForCustomOperator.SetFocus after clicking on a DataGridView,
-        // but does not go off when I call OperatorPropertiesUserControl_ForCustomOperator.SetFocus after clicking on a TreeView.
-        // Thanks, WinForms...
-        private void OperatorPropertiesUserControl_ForCustomOperator_Enter(object sender, EventArgs e)
-        {
-            textBoxName.Focus();
-            textBoxName.Select(0, 0);
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.

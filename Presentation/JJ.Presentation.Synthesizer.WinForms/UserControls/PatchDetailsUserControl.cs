@@ -88,41 +88,45 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
+            UnbindVectorGraphicsEvents();
+
             if (_vectorGraphics == null || _alwaysRecreateDiagram)
             {
-                UnbindVectorGraphicsEvents();
 
-                _converter = new ViewModelToDiagramConverter( 
+                _converter = new ViewModelToDiagramConverter(
                     SystemInformation.DoubleClickTime,
                     SystemInformation.DoubleClickSize.Width,
-                    _mustShowInvisibleElements, 
+                    _mustShowInvisibleElements,
                     _toolTipFeatureEnabled);
 
                 _vectorGraphics = _converter.Execute(_viewModel.Entity);
-
-                _vectorGraphics.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
-                _vectorGraphics.MoveGesture.Moved += MoveGesture_Moved;
-                _vectorGraphics.DropLineGesture.Dropped += DropLineGesture_Dropped;
-                _vectorGraphics.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
-                _vectorGraphics.DoubleClickOperatorGesture.DoubleClick += DoubleClickOperatorGesture_DoubleClick;
-
-                if (_toolTipFeatureEnabled)
-                {
-                    _vectorGraphics.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
-                    _vectorGraphics.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
-                    _vectorGraphics.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
-                }
-
-                //_vectorGraphics.LineGesture.Dropped += DropGesture_Dropped;
             }
             else
             {
                 _vectorGraphics = _converter.Execute(_viewModel.Entity, _vectorGraphics);
             }
 
+            BindVectorGraphicsEvents();
+
             diagramControl1.Diagram = _vectorGraphics.Diagram;
 
             ApplyOperatorToolboxItemsViewModel(_viewModel.OperatorToolboxItems);
+        }
+
+        private void BindVectorGraphicsEvents()
+        {
+            _vectorGraphics.SelectOperatorGesture.OperatorSelected += SelectOperatorGesture_OperatorSelected;
+            _vectorGraphics.MoveGesture.Moved += MoveGesture_Moved;
+            _vectorGraphics.DropLineGesture.Dropped += DropLineGesture_Dropped;
+            _vectorGraphics.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
+            _vectorGraphics.DoubleClickOperatorGesture.DoubleClick += DoubleClickOperatorGesture_DoubleClick;
+
+            if (_toolTipFeatureEnabled)
+            {
+                _vectorGraphics.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
+                _vectorGraphics.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
+                _vectorGraphics.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
+            }
         }
 
         private void UnbindVectorGraphicsEvents()
@@ -133,6 +137,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _vectorGraphics.MoveGesture.Moved -= MoveGesture_Moved;
                 _vectorGraphics.DropLineGesture.Dropped -= DropLineGesture_Dropped;
                 _vectorGraphics.DeleteOperatorGesture.DeleteRequested -= DeleteOperatorGesture_DeleteRequested;
+                _vectorGraphics.DoubleClickOperatorGesture.DoubleClick -= DoubleClickOperatorGesture_DoubleClick;
 
                 if (_toolTipFeatureEnabled)
                 {
@@ -140,8 +145,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                     _vectorGraphics.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
                     _vectorGraphics.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
                 }
-
-                //_vectorGraphics.LineGesture.Dropped -= DropGesture_Dropped;
             }
         }
 

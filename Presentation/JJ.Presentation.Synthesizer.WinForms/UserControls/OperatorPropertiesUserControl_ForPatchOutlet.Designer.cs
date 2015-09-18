@@ -181,8 +181,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.Name = "OperatorPropertiesUserControl_ForPatchOutlet";
             this.Size = new System.Drawing.Size(10, 10);
             this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_ForPatchOutlet_Load);
-            this.VisibleChanged += new System.EventHandler(this.OperatorPropertiesUserControl_ForPatchOutlet_VisibleChanged);
-            this.Enter += new System.EventHandler(this.OperatorPropertiesUserControl_ForPatchOutlet_Enter);
             this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_ForPatchOutlet_Leave);
             this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelProperties.ResumeLayout(false);
