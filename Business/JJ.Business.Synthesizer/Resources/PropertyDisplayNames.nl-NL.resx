@@ -168,8 +168,8 @@
   <data name="Substract" xml:space="preserve">
     <value>Min</value>
   </data>
-  <data name="TimeAdd" xml:space="preserve">
-    <value>Tijd optellen</value>
+  <data name="Delay" xml:space="preserve">
+    <value>Uitstellen</value>
   </data>
   <data name="TimeDivide" xml:space="preserve">
     <value>Tijd delen</value>
@@ -178,7 +178,7 @@
     <value>Tijd factor</value>
   </data>
   <data name="TimePower" xml:space="preserve">
-    <value>Tijd macht</value>
+    <value>Tijd exponent</value>
   </data>
   <data name="Node" xml:space="preserve">
     <value>Knooppunt</value>

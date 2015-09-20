@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants.CURVE_IN_RESULT_INDEX); }
+            get { return GetOutlet(OperatorConstants.CURVE_OPERATOR_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(Curve_OperatorWrapper wrapper)

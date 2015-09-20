@@ -232,6 +232,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delay.
+        /// </summary>
+        public static string Delay {
+            get {
+                return ResourceManager.GetString("Delay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Divide.
         /// </summary>
         public static string Divide {
@@ -673,15 +682,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Time Add.
-        /// </summary>
-        public static string TimeAdd {
-            get {
-                return ResourceManager.GetString("TimeAdd", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Time Divide.
         /// </summary>
         public static string TimeDivide {
@@ -709,7 +709,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Time Power.
+        ///   Looks up a localized string similar to Time Exponent.
         /// </summary>
         public static string TimePower {
             get {

@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
             for (int i = 0; i < count; i++)
             {
                 Outlet divide = x.Divide(signal, x.Value(cumulativeDenominator));
-                Outlet timeAdd = x.TimeAdd(divide, x.Value(cumulativeDelay));
+                Outlet timeAdd = x.Delay(divide, x.Value(cumulativeDelay));
                 repeats.Add(timeAdd);
 
                 cumulativeDenominator *= denominator;

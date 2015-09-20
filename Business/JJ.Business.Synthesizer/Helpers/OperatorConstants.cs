@@ -8,7 +8,7 @@
         public const int ADD_OPERAND_B_INDEX = 1;
         public const int ADD_RESULT_INDEX = 0;
 
-        public const int CURVE_IN_RESULT_INDEX = 0;
+        public const int CURVE_OPERATOR_RESULT_INDEX = 0;
 
         public const int DIVIDE_NUMERATOR_INDEX = 0;
         public const int DIVIDE_DENOMINATOR_INDEX = 1;
@@ -42,9 +42,9 @@
         public const int SUBSTRACT_OPERAND_B_INDEX = 1;
         public const int SUBSTRACT_RESULT_INDEX = 0;
 
-        public const int TIME_ADD_SIGNAL_INDEX = 0;
-        public const int TIME_ADD_TIME_DIFFERENCE_INDEX = 1;
-        public const int TIME_ADD_RESULT_INDEX = 0;
+        public const int DELAY_SIGNAL_INDEX = 0;
+        public const int DELAY_TIME_DIFFERENCE_INDEX = 1;
+        public const int DELAY_RESULT_INDEX = 0;
 
         public const int TIME_DIVIDE_SIGNAL_INDEX = 0;
         public const int TIME_DIVIDE_TIME_DIVIDER_INDEX = 1;

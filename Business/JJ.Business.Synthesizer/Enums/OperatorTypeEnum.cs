@@ -12,7 +12,7 @@
         Power = 7,
         Sine = 8,
         Substract = 9,
-        TimeAdd = 10,
+        Delay = 10,
         TimeDivide = 11,
         TimeMultiply = 12,
         TimePower = 13,

@@ -12,7 +12,7 @@
         public const string Power = "Power";
         public const string Sine = "Sine";
         public const string Substract = "Substract";
-        public const string TimeAdd = "TimeAdd";
+        public const string Delay = "Delay";
         public const string TimeDivide = "TimeDivide";
         public const string TimeMultiply = "TimeMultiply";
         public const string TimePower = "TimePower";

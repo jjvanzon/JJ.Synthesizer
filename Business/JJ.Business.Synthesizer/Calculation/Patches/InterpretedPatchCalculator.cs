@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Sample, CalculateSampleOperator },
                 { OperatorTypeEnum.Sine, CalculateSine },
                 { OperatorTypeEnum.Substract, CalculateSubstract },
-                { OperatorTypeEnum.TimeAdd, CalculateTimeAdd },
+                { OperatorTypeEnum.Delay, CalculateDelay },
                 { OperatorTypeEnum.TimeDivide, CalculateTimeDivide },
                 { OperatorTypeEnum.TimeMultiply, CalculateTimeMultiply },
                 { OperatorTypeEnum.TimePower, CalculateTimePower },
@@ -244,9 +244,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return Math.Pow(@base, exponent);
         }
 
-        private double CalculateTimeAdd(Operator op, double time)
+        private double CalculateDelay(Operator op, double time)
         {
-            var wrapper = new TimeAdd_OperatorWrapper(op);
+            var wrapper = new Delay_OperatorWrapper(op);
 
             Outlet signalOutlet = wrapper.Signal;
             if (signalOutlet == null) return 0;

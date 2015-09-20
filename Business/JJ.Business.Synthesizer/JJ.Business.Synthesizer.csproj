@@ -82,7 +82,7 @@
     <Compile Include="Calculation\Operators\TimeMultiply_WithoutOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TimeMultiply_WithoutOrigin_WithConstTimeMultiplier_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TimeSubstract_WithConstTimeDifference_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\TimeAdd_WithConstTimeDifference_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Delay_WithConstTimeDifference_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power_WithConstExponent_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power_WithConstBase_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Multiply_WithConstOrigin_AndOperandB_OperatorCalculator.cs" />
@@ -114,7 +114,7 @@
     <Compile Include="Calculation\Operators\Sine_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Sine_WithOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Substract_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\TimeAdd_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Delay_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TimePower_WithoutOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TimePower_WithOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TimeSubstract_OperatorCalculator.cs" />
@@ -177,7 +177,7 @@
     <Compile Include="EntityWrappers\TimeMultiply_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimePower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimeDivide_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\TimeAdd_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Delay_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Sine_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Power_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\PatchOutlet_OperatorWrapper.cs" />
@@ -268,7 +268,7 @@
     <Compile Include="Validation\OperatorValidator_TimeSubstract.cs" />
     <Compile Include="Validation\OperatorValidator_TimePower.cs" />
     <Compile Include="Validation\OperatorValidator_TimeDivide.cs" />
-    <Compile Include="Validation\OperatorValidator_TimeAdd.cs" />
+    <Compile Include="Validation\OperatorValidator_Delay.cs" />
     <Compile Include="Validation\OperatorValidator_Sine.cs" />
     <Compile Include="Validation\OperatorValidator_Power.cs" />
     <Compile Include="Validation\OperatorValidator_PatchOutlet.cs" />
@@ -302,7 +302,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_TimePower.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_TimeMultiply.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_TimeDivide.cs" />
-    <Compile Include="Warnings\OperatorWarningValidator_TimeAdd.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Delay.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Sine.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Power.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Base_FirstXInletsNotFilledIn.cs" />

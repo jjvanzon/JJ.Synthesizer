@@ -252,14 +252,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public TimeAdd_OperatorWrapper TimeAdd(Outlet signal = null, Outlet timeDifference = null)
+        public Delay_OperatorWrapper Delay(Outlet signal = null, Outlet timeDifference = null)
         {
             Operator op = CreateOperatorBase(
-                OperatorTypeEnum.TimeAdd, 2,
+                OperatorTypeEnum.Delay, 2,
                 PropertyNames.Signal, PropertyNames.TimeDifference,
                 PropertyNames.Result);
 
-            var wrapper = new TimeAdd_OperatorWrapper(op)
+            var wrapper = new Delay_OperatorWrapper(op)
             {
                 Signal = signal,
                 TimeDifference = timeDifference

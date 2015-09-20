@@ -169,8 +169,8 @@
   <data name="Substract" xml:space="preserve">
     <value>Substract</value>
   </data>
-  <data name="TimeAdd" xml:space="preserve">
-    <value>Time Add</value>
+  <data name="Delay" xml:space="preserve">
+    <value>Delay</value>
   </data>
   <data name="TimeDivide" xml:space="preserve">
     <value>Time Divide</value>
@@ -179,7 +179,7 @@
     <value>Time Multiply</value>
   </data>
   <data name="TimePower" xml:space="preserve">
-    <value>Time Power</value>
+    <value>Time Exponent</value>
   </data>
   <data name="Node" xml:space="preserve">
     <value>Node</value>

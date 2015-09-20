@@ -101,9 +101,9 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public TimeAdd_OperatorWrapper TimeAdd(Outlet signal = null, Outlet timeDifference = null)
+        public Delay_OperatorWrapper Delay(Outlet signal = null, Outlet timeDifference = null)
         {
-            var wrapper = _operatorFactory.TimeAdd(signal, timeDifference);
+            var wrapper = _operatorFactory.Delay(signal, timeDifference);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }

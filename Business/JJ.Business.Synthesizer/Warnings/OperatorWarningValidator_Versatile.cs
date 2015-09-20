@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.Sample, typeof(OperatorWarningValidator_Sample) },
             { OperatorTypeEnum.Sine, typeof(OperatorWarningValidator_Sine) },
             { OperatorTypeEnum.Substract, typeof(OperatorWarningValidator_Substract) },
-            { OperatorTypeEnum.TimeAdd, typeof(OperatorWarningValidator_TimeAdd) },
+            { OperatorTypeEnum.Delay, typeof(OperatorWarningValidator_Delay) },
             { OperatorTypeEnum.TimeDivide, typeof(OperatorWarningValidator_TimeDivide) },
             { OperatorTypeEnum.TimeMultiply, typeof(OperatorWarningValidator_TimeMultiply) },
             { OperatorTypeEnum.TimePower, typeof(OperatorWarningValidator_TimePower) },

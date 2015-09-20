@@ -436,7 +436,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitTimeAdd(Operator op)
+        protected override void VisitDelay(Operator op)
         {
             OperatorCalculatorBase calculator;
 
@@ -466,11 +466,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (timeDifferenceIsConst)
             {
-                calculator = new TimeAdd_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
+                calculator = new Delay_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
             }
             else
             {
-                calculator = new TimeAdd_OperatorCalculator(signalCalculator, timeDifferenceCalculator);
+                calculator = new Delay_OperatorCalculator(signalCalculator, timeDifferenceCalculator);
             }
 
             _stack.Push(calculator);
