@@ -127,9 +127,6 @@
   <data name="Curve" xml:space="preserve">
     <value>Curve</value>
   </data>
-  <data name="CurveIn" xml:space="preserve">
-    <value>Curve In</value>
-  </data>
   <data name="Divide" xml:space="preserve">
     <value>Divide</value>
   </data>

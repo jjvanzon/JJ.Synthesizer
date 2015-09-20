@@ -18,7 +18,7 @@
         TimePower = 13,
         TimeSubstract = 14,
         Value = 15,
-        CurveIn = 16,
+        Curve = 16,
         Sample = 17,
         WhiteNoise = 18,
         Resample = 19,

@@ -753,11 +753,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitCurveIn(Operator op)
+        protected override void VisitCurveOperator(Operator op)
         {
             OperatorCalculatorBase calculator;
 
-            var wrapper = new CurveIn_OperatorWrapper(op, _curveRepository);
+            var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
 
             if (wrapper.Curve == null)
             {
@@ -765,7 +765,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
-                calculator = new CurveIn_OperatorCalculator(wrapper.Curve);
+                calculator = new Curve_OperatorCalculator(wrapper.Curve);
             }
 
             _stack.Push(calculator);

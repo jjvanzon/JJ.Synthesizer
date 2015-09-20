@@ -18,7 +18,6 @@
         public const string TimePower = "TimePower";
         public const string TimeSubstract = "TimeSubstract";
         public const string Value = "Value";
-        public const string CurveIn = "CurveIn";
         public const string Sample = "Sample";
 
         // Inlet Names

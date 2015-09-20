@@ -8,10 +8,10 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class OperatorValidator_CurveIn : OperatorValidator_Base
+    public class OperatorValidator_Curve : OperatorValidator_Base
     {
-        public OperatorValidator_CurveIn(Operator op)
-            : base(op, OperatorTypeEnum.CurveIn, 0, PropertyNames.Result)
+        public OperatorValidator_Curve(Operator op)
+            : base(op, OperatorTypeEnum.Curve, 0, PropertyNames.Result)
         { }
 
         protected override void Execute()

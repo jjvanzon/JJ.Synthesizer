@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Curve curve = Object;
 
-            bool hasOperators = EnumerateCurveInOperators(curve).Any();
+            bool hasOperators = EnumerateCurveOperators(curve).Any();
             if (hasOperators)
             {
                 // TODO: It might be handy to know what patch and possibly what operator still uses it.
@@ -36,18 +36,18 @@ namespace JJ.Business.Synthesizer.Validation
             }
         }
 
-        private IEnumerable<Operator> EnumerateCurveInOperators(Curve curve)
+        private IEnumerable<Operator> EnumerateCurveOperators(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
 
             foreach (Operator op in curve.Document.Patches.SelectMany(x => x.Operators))
             {
-                if (op.GetOperatorTypeEnum() != OperatorTypeEnum.CurveIn)
+                if (op.GetOperatorTypeEnum() != OperatorTypeEnum.Curve)
                 {
                     continue;
                 }
 
-                var wrapper = new CurveIn_OperatorWrapper(op, _curveRepository);
+                var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
 
                 if (wrapper.Curve == curve ||
                     wrapper.CurveID == curve.ID)

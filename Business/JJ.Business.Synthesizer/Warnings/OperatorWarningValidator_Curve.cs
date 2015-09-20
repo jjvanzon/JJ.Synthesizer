@@ -3,9 +3,9 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class OperatorWarningValidator_CurveIn : OperatorWarningValidator_Base
+    public class OperatorWarningValidator_Curve : OperatorWarningValidator_Base
     {
-        public OperatorWarningValidator_CurveIn(Operator op)
+        public OperatorWarningValidator_Curve(Operator op)
             : base(op)
         { }
 

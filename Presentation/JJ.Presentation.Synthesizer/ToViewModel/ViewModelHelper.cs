@@ -253,9 +253,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             // Use Curve Name as fallback.
-            if (operatorTypeEnum == OperatorTypeEnum.CurveIn)
+            if (operatorTypeEnum == OperatorTypeEnum.Curve)
             {
-                var wrapper = new CurveIn_OperatorWrapper(entity, curveRepository);
+                var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
                 Curve underlyingEntity = wrapper.Curve;
                 if (underlyingEntity != null)
                 {

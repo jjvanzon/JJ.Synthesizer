@@ -131,9 +131,9 @@ namespace JJ.Business.Synthesizer.Validation
                         break;
                     }
 
-                case OperatorTypeEnum.CurveIn:
+                case OperatorTypeEnum.Curve:
                     {
-                        var wrapper = new CurveIn_OperatorWrapper(entity, curveRepository);
+                        var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
                         Curve underlyingEntity = wrapper.Curve;
                         if (underlyingEntity != null)
                         {

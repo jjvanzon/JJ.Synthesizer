@@ -349,13 +349,13 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public CurveIn_OperatorWrapper CurveIn(Curve curve = null)
+        public Curve_OperatorWrapper Curve(Curve curve = null)
         {
             Operator op = CreateOperatorBase(
-                OperatorTypeEnum.CurveIn, 0,
+                OperatorTypeEnum.Curve, 0,
                 PropertyNames.Result);
 
-            var wrapper = new CurveIn_OperatorWrapper(op, _repositories.CurveRepository);
+            var wrapper = new Curve_OperatorWrapper(op, _repositories.CurveRepository);
 
             if (curve != null)
             {

@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 { OperatorTypeEnum.Add, CalculateAdd },
                 { OperatorTypeEnum.Adder, CalculateAdder },
-                { OperatorTypeEnum.CurveIn, CalculateCurveIn },
+                { OperatorTypeEnum.Curve, CalculateCurveOperator },
                 { OperatorTypeEnum.Divide, CalculateDivide },
                 { OperatorTypeEnum.Multiply, CalculateMultiply },
                 { OperatorTypeEnum.PatchInlet, CalculatePatchInlet },
@@ -509,16 +509,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return result;
         }
 
-        private Dictionary<Operator, Curve> _curveIn_Curve_Dictionary = new Dictionary<Operator, Curve>();
+        private Dictionary<Operator, Curve> _curveOperator_Curve_Dictionary = new Dictionary<Operator, Curve>();
 
-        private double CalculateCurveIn(Operator op, double time)
+        private double CalculateCurveOperator(Operator op, double time)
         {
             Curve curve;
-            if (!_curveIn_Curve_Dictionary.TryGetValue(op, out curve))
+            if (!_curveOperator_Curve_Dictionary.TryGetValue(op, out curve))
             {
-                var wrapper = new CurveIn_OperatorWrapper(op, _curveRepository);
+                var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
                 curve = wrapper.Curve;
-                _curveIn_Curve_Dictionary.Add(op, curve);
+                _curveOperator_Curve_Dictionary.Add(op, curve);
             }
 
             if (curve == null) return 0;

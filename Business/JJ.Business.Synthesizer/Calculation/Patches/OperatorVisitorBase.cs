@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 { OperatorTypeEnum.Add, VisitAdd },
                 { OperatorTypeEnum.Adder, VisitAdder },
-                { OperatorTypeEnum.CurveIn, VisitCurveIn },
+                { OperatorTypeEnum.Curve, VisitCurveOperator },
                 { OperatorTypeEnum.Divide, VisitDivide },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
                 { OperatorTypeEnum.Power, VisitPower },
@@ -81,7 +81,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitAdder(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitCurveIn(Operator op) { }
+        protected virtual void VisitCurveOperator(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitDivide(Operator op) { }

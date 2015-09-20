@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Curve curve = curveFactory.CreateCurve(1, 0, 1, 0.8, null, null, 0.8, 0);
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
-                Sine_OperatorWrapper sine = x.Sine(x.CurveIn(curve), x.Value(440));
+                Sine_OperatorWrapper sine = x.Sine(x.Curve(curve), x.Value(440));
 
                 CultureHelper.SetThreadCulture("nl-NL");
                 IValidator[] validators = 
@@ -670,7 +670,7 @@ namespace JJ.Business.Synthesizer.Tests
                     new NodeInfo(0, NodeTypeEnum.Line)
                 );
 
-                Outlet curveIn = x.Multiply(x.CurveIn(curve), x.Value(amplification));
+                Outlet curveIn = x.Multiply(x.Curve(curve), x.Value(amplification));
                 Outlet resampled = x.Resample(curveIn, x.Value(alternativeSamplingRate));
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
@@ -714,7 +714,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Curve curve = curveFactory.CreateCurve(duration, samplingRate1, samplingRate2);
 
                 Outlet input = x.Multiply(x.WhiteNoise(), x.Value(amplification));
-                Outlet outlet = x.Resample(input, x.CurveIn(curve));
+                Outlet outlet = x.Resample(input, x.Curve(curve));
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
@@ -752,7 +752,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sample.BytesToSkip = 200;
 
                 Outlet input = x.Sample(sample);
-                Outlet outlet = x.Resample(input, x.CurveIn(curve));
+                Outlet outlet = x.Resample(input, x.Curve(curve));
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;

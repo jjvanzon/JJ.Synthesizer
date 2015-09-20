@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
-            if (operatorTypeEnum == OperatorTypeEnum.CurveIn)
+            if (operatorTypeEnum == OperatorTypeEnum.Curve)
             {
                 int curveID;
                 if (Int32.TryParse(op.Data, out curveID))

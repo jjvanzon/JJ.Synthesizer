@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.Warnings
         {
             { OperatorTypeEnum.Add, typeof(OperatorWarningValidator_Add) },
             { OperatorTypeEnum.Adder, typeof(OperatorWarningValidator_Adder) },
-            { OperatorTypeEnum.CurveIn, typeof(OperatorWarningValidator_CurveIn) },
+            { OperatorTypeEnum.Curve, typeof(OperatorWarningValidator_Curve) },
             { OperatorTypeEnum.Divide, typeof(OperatorWarningValidator_Divide) },
             { OperatorTypeEnum.Multiply, typeof(OperatorWarningValidator_Multiply) },
             { OperatorTypeEnum.PatchOutlet, typeof(OperatorWarningValidator_PatchOutlet) },

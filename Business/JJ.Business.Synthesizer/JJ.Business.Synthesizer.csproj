@@ -107,7 +107,7 @@
     <Compile Include="Calculation\Operators\Sine_WithOrigin_AndPhaseStart_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Sine_WithPhaseStart_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Multiply_WithOrigin_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\CurveIn_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Curve_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Multiply_WithoutOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power_OperatorCalculator.cs" />
@@ -172,7 +172,7 @@
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="Factories\CurveFactory.cs" />
     <Compile Include="EntityWrappers\Adder_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\CurveIn_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Curve_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimeSubstract_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimeMultiply_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimePower_OperatorWrapper.cs" />
@@ -243,7 +243,7 @@
     <Compile Include="Validation\DocumentValidator_Recursive.cs" />
     <Compile Include="Validation\OperatorValidator_Adder.cs" />
     <Compile Include="Validation\OperatorValidator_Sample.cs" />
-    <Compile Include="Validation\OperatorValidator_CurveIn.cs" />
+    <Compile Include="Validation\OperatorValidator_Curve.cs" />
     <Compile Include="Validation\SampleValidator.cs" />
     <Compile Include="Validation\AudioFileOutputValidator.cs" />
     <Compile Include="Validation\OperatorValidator_Base_WithoutData.cs" />
@@ -293,7 +293,7 @@
     <Compile Include="Validation\OperatorValidator_Add.cs" />
     <Compile Include="Validation\OperatorValidator_Basic.cs" />
     <Compile Include="Validation\OperatorValidator_Versatile.cs" />
-    <Compile Include="Warnings\OperatorWarningValidator_CurveIn.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Curve.cs" />
     <Compile Include="Warnings\DocumentWarningValidator_Recursive.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Versatile.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Adder.cs" />

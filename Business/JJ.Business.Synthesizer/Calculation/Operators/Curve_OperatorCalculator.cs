@@ -3,11 +3,11 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class CurveIn_OperatorCalculator : OperatorCalculatorBase
+    internal class Curve_OperatorCalculator : OperatorCalculatorBase
     {
         private CurveCalculator _curveCalculator;
 
-        public CurveIn_OperatorCalculator(Curve curve)
+        public Curve_OperatorCalculator(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
 

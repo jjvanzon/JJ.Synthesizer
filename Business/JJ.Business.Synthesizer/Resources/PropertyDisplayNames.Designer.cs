@@ -205,15 +205,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Curve In.
-        /// </summary>
-        public static string CurveIn {
-            get {
-                return ResourceManager.GetString("CurveIn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Curves.
         /// </summary>
         public static string Curves {

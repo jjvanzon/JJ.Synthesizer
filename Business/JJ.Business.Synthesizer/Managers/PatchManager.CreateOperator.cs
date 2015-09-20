@@ -143,9 +143,9 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public CurveIn_OperatorWrapper CurveIn(Curve curve = null)
+        public Curve_OperatorWrapper Curve(Curve curve = null)
         {
-            var wrapper = _operatorFactory.CurveIn(curve);
+            var wrapper = _operatorFactory.Curve(curve);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }

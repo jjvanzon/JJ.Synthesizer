@@ -6,11 +6,11 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class CurveIn_OperatorWrapper : OperatorWrapperBase
+    public class Curve_OperatorWrapper : OperatorWrapperBase
     {
         private ICurveRepository _curveRepository;
 
-        public CurveIn_OperatorWrapper(Operator op, ICurveRepository curveRepository)
+        public Curve_OperatorWrapper(Operator op, ICurveRepository curveRepository)
             : base(op)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return GetOutlet(OperatorConstants.CURVE_IN_RESULT_INDEX); }
         }
 
-        public static implicit operator Outlet(CurveIn_OperatorWrapper wrapper)
+        public static implicit operator Outlet(Curve_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 
