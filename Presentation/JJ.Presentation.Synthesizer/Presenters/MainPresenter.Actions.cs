@@ -1090,6 +1090,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // We also need the relationship between the operator and the patch,
                 // so by now it might be time to just say: convert the whole view model.
+                // TODO: Low priority: be more sparse about what you convert to Entity.
                 ViewModel.ToEntityWithRelatedEntities(_repositories);
                 OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
                 Operator entity = _repositories.OperatorRepository.Get(operatorViewModel.ID);
@@ -1120,9 +1121,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 //OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
                 //Operator entity = operatorViewModel.ToEntityWithInletsAndOutlets(_patchRepositories);
 
-
-                // We also need more... (describe it)
+                // We also need other data...
                 // so by now it might be time to just say: convert the whole view model.
+                // TODO: Low priority: be more sparse about what you convert to Entity.
                 ViewModel.ToEntityWithRelatedEntities(_repositories);
                 OperatorViewModel operatorViewModel = ChildDocumentHelper.GetOperatorViewModel(ViewModel.Document, partialPresenter.ViewModel.ID);
                 Operator entity = _repositories.OperatorRepository.Get(operatorViewModel.ID);

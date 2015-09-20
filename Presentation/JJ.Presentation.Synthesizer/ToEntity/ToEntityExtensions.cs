@@ -394,81 +394,84 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return document;
         }
 
-        /// <summary>
-        /// Used for OperatorProperties view for CustomOperators, to partially convert to entity,
-        /// just enoughto make a few entity validations work.
-        /// </summary> 
-        public static Document ToHollowDocumentWithHollowChildDocumentsWithHollowMainPatches(
-            this DocumentViewModel viewModel,
-            IDocumentRepository documentRepository,
-            IChildDocumentTypeRepository childDocumentTypeRepository,
-            IPatchRepository patchRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
+        // TODO: Remove outcommented code IF you will not use something like this for the actions in MainPresenter,
+        // that now convert the full view model.
 
-            Document rootDocument = viewModel.ToEntity(documentRepository);
+        ///// <summary>
+        ///// Used for OperatorProperties view for CustomOperators, to partially convert to entity,
+        ///// just enoughto make a few entity validations work.
+        ///// </summary> 
+        //public static Document ToHollowDocumentWithHollowChildDocumentsWithHollowMainPatches(
+        //    this DocumentViewModel viewModel,
+        //    IDocumentRepository documentRepository,
+        //    IChildDocumentTypeRepository childDocumentTypeRepository,
+        //    IPatchRepository patchRepository)
+        //{
+        //    if (viewModel == null) throw new NullException(() => viewModel);
+        //    if (documentRepository == null) throw new NullException(() => documentRepository);
+        //    if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
+        //    if (patchRepository == null) throw new NullException(() => patchRepository);
 
-            foreach (ChildDocumentPropertiesViewModel childDocumentPropertiesViewModel in viewModel.ChildDocumentPropertiesList)
-            {
-                bool mainPatchIsFilledIn = childDocumentPropertiesViewModel.MainPatch != null &&
-                                           childDocumentPropertiesViewModel.MainPatch.ID != 0;
-                if (mainPatchIsFilledIn)
-                {
-                    Patch mainPatch = childDocumentPropertiesViewModel.MainPatch.ToPatch(patchRepository);
-                }
+        //    Document rootDocument = viewModel.ToEntity(documentRepository);
 
-                Document childDocument = childDocumentPropertiesViewModel.ToEntityWithMainPatchReference(
-                    documentRepository,
-                    childDocumentTypeRepository,
-                    patchRepository);
-                childDocument.LinkToParentDocument(rootDocument);
-            }
+        //    foreach (ChildDocumentPropertiesViewModel childDocumentPropertiesViewModel in viewModel.ChildDocumentPropertiesList)
+        //    {
+        //        bool mainPatchIsFilledIn = childDocumentPropertiesViewModel.MainPatch != null &&
+        //                                   childDocumentPropertiesViewModel.MainPatch.ID != 0;
+        //        if (mainPatchIsFilledIn)
+        //        {
+        //            Patch mainPatch = childDocumentPropertiesViewModel.MainPatch.ToPatch(patchRepository);
+        //        }
 
-            return rootDocument;
-        }
+        //        Document childDocument = childDocumentPropertiesViewModel.ToEntityWithMainPatchReference(
+        //            documentRepository,
+        //            childDocumentTypeRepository,
+        //            patchRepository);
+        //        childDocument.LinkToParentDocument(rootDocument);
+        //    }
 
-        /// <summary>
-        /// Used for OperatorProperties view for Sample operators, to partially convert to entity,
-        /// just enoughto make a few entity validations work.
-        /// </summary> 
-        public static Document ToHollowDocumentWithHollowChildDocumentsWithHollowSampleWithName(
-            this DocumentViewModel viewModel,
-            IDocumentRepository documentRepository,
-            IChildDocumentTypeRepository childDocumentTypeRepository,
-            ISampleRepository sampleRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
-            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+        //    return rootDocument;
+        //}
 
-            Document rootDocument = viewModel.ToEntity(documentRepository);
+        ///// <summary>
+        ///// Used for OperatorProperties view for Sample operators, to partially convert to entity,
+        ///// just enoughto make a few entity validations work.
+        ///// </summary> 
+        //public static Document ToHollowDocumentWithHollowChildDocumentsWithHollowSampleWithName(
+        //    this DocumentViewModel viewModel,
+        //    IDocumentRepository documentRepository,
+        //    IChildDocumentTypeRepository childDocumentTypeRepository,
+        //    ISampleRepository sampleRepository)
+        //{
+        //    if (viewModel == null) throw new NullException(() => viewModel);
+        //    if (documentRepository == null) throw new NullException(() => documentRepository);
+        //    if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
+        //    if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
-            foreach (SamplePropertiesViewModel samplePropertiesViewModel in viewModel.SamplePropertiesList)
-            {
-                Sample sample = samplePropertiesViewModel.Entity.ToHollowEntity(sampleRepository);
-                sample.Name = samplePropertiesViewModel.Entity.Name;
-                sample.LinkTo(rootDocument);
-            }
+        //    Document rootDocument = viewModel.ToEntity(documentRepository);
 
-            foreach (ChildDocumentViewModel childDocumentViewModel in viewModel.ChildDocumentList)
-            {
-                Document childDocument = childDocumentViewModel.ToEntity(documentRepository, childDocumentTypeRepository);
-                childDocument.LinkToParentDocument(rootDocument);
+        //    foreach (SamplePropertiesViewModel samplePropertiesViewModel in viewModel.SamplePropertiesList)
+        //    {
+        //        Sample sample = samplePropertiesViewModel.Entity.ToHollowEntity(sampleRepository);
+        //        sample.Name = samplePropertiesViewModel.Entity.Name;
+        //        sample.LinkTo(rootDocument);
+        //    }
 
-                foreach (SamplePropertiesViewModel samplePropertiesViewModel in childDocumentViewModel.SamplePropertiesList)
-                {
-                    Sample sample = samplePropertiesViewModel.Entity.ToHollowEntity(sampleRepository);
-                    sample.Name = samplePropertiesViewModel.Entity.Name;
-                    sample.LinkTo(childDocument);
-                }
-            }
+        //    foreach (ChildDocumentViewModel childDocumentViewModel in viewModel.ChildDocumentList)
+        //    {
+        //        Document childDocument = childDocumentViewModel.ToEntity(documentRepository, childDocumentTypeRepository);
+        //        childDocument.LinkToParentDocument(rootDocument);
 
-            return rootDocument;
-        }
+        //        foreach (SamplePropertiesViewModel samplePropertiesViewModel in childDocumentViewModel.SamplePropertiesList)
+        //        {
+        //            Sample sample = samplePropertiesViewModel.Entity.ToHollowEntity(sampleRepository);
+        //            sample.Name = samplePropertiesViewModel.Entity.Name;
+        //            sample.LinkTo(childDocument);
+        //        }
+        //    }
+
+        //    return rootDocument;
+        //}
 
         // Operator Properties
 

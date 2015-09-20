@@ -478,10 +478,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             Outlet volumeOutlet = wrapper.Volume;
             Outlet pitchOutlet = wrapper.Pitch;
-
-            if (volumeOutlet == null || pitchOutlet == null) return 0;
-
             Outlet levelOutlet = wrapper.Level;
+
+            if (volumeOutlet == null || pitchOutlet == null)
+            {
+                if (levelOutlet != null)
+                {
+                    return Calculate(levelOutlet, time);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
             Outlet phaseStartOutlet = wrapper.PhaseStart;
 
             double volume = Calculate(volumeOutlet, time);
