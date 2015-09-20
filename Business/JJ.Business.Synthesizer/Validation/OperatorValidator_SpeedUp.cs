@@ -4,11 +4,11 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class OperatorValidator_TimeDivide : OperatorValidator_Base_WithoutData
+    public class OperatorValidator_SpeedUp : OperatorValidator_Base_WithoutData
     {
-        public OperatorValidator_TimeDivide(Operator obj)
+        public OperatorValidator_SpeedUp(Operator obj)
             : base(obj,
-                OperatorTypeEnum.TimeDivide, 3,
+                OperatorTypeEnum.SpeedUp, 3,
                 PropertyNames.Signal, PropertyNames.TimeDivider, PropertyNames.Origin, 
                 PropertyNames.Result)
         { }

@@ -46,10 +46,10 @@
         public const int DELAY_TIME_DIFFERENCE_INDEX = 1;
         public const int DELAY_RESULT_INDEX = 0;
 
-        public const int TIME_DIVIDE_SIGNAL_INDEX = 0;
-        public const int TIME_DIVIDE_TIME_DIVIDER_INDEX = 1;
-        public const int TIME_DIVIDE_ORIGIN_INDEX = 2;
-        public const int TIME_DIVIDE_RESULT_INDEX = 0;
+        public const int SPEED_UP_SIGNAL_INDEX = 0;
+        public const int SPEED_UP_TIME_DIVIDER_INDEX = 1;
+        public const int SPEED_UP_ORIGIN_INDEX = 2;
+        public const int SPEED_UP_RESULT_INDEX = 0;
 
         public const int SLOW_DOWN_SIGNAL_INDEX = 0;
         public const int SLOW_DOWN_TIME_MULTIPLIER_INDEX = 1;

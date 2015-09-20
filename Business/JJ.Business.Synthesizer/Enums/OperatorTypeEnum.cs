@@ -13,7 +13,7 @@
         Sine = 8,
         Substract = 9,
         Delay = 10,
-        TimeDivide = 11,
+        SpeedUp = 11,
         SlowDown = 12,
         TimePower = 13,
         TimeSubstract = 14,

@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.Sine, typeof(OperatorWarningValidator_Sine) },
             { OperatorTypeEnum.Substract, typeof(OperatorWarningValidator_Substract) },
             { OperatorTypeEnum.Delay, typeof(OperatorWarningValidator_Delay) },
-            { OperatorTypeEnum.TimeDivide, typeof(OperatorWarningValidator_TimeDivide) },
+            { OperatorTypeEnum.SpeedUp, typeof(OperatorWarningValidator_SpeedUp) },
             { OperatorTypeEnum.SlowDown, typeof(OperatorWarningValidator_SlowDown) },
             { OperatorTypeEnum.TimePower, typeof(OperatorWarningValidator_TimePower) },
             { OperatorTypeEnum.TimeSubstract, typeof(OperatorWarningValidator_TimeSubstract) },

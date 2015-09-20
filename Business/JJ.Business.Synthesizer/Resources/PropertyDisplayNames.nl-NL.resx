@@ -171,8 +171,8 @@
   <data name="Delay" xml:space="preserve">
     <value>Uitstellen</value>
   </data>
-  <data name="TimeDivide" xml:space="preserve">
-    <value>Tijd delen</value>
+  <data name="SpeedUp" xml:space="preserve">
+    <value>Versnellen</value>
   </data>
   <data name="SlowDown" xml:space="preserve">
     <value>Vertragen</value>

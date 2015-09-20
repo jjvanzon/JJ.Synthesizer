@@ -108,9 +108,9 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public TimeDivide_OperatorWrapper TimeDivide(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
+        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
         {
-            var wrapper = _operatorFactory.TimeDivide(signal, timeDivider, origin);
+            var wrapper = _operatorFactory.SpeedUp(signal, timeDivider, origin);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }

@@ -580,7 +580,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitTimeDivide(Operator op)
+        protected override void VisitSpeedUp(Operator op)
         {
             OperatorCalculatorBase calculator;
 
@@ -621,23 +621,23 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (originIsConstZero && timeDividerIsConst)
             {
-                calculator = new TimeDivide_WithoutOrigin_WithConstTimeDivider_OperatorCalculator(signalCalculator, timeDivider);
+                calculator = new SpeedUp_WithoutOrigin_WithConstTimeDivider_OperatorCalculator(signalCalculator, timeDivider);
             }
             else if (originIsConstZero && !timeDividerIsConst)
             {
-                calculator = new TimeDivide_WithoutOrigin_OperatorCalculator(signalCalculator, timeDividerCalculator);
+                calculator = new SpeedUp_WithoutOrigin_OperatorCalculator(signalCalculator, timeDividerCalculator);
             }
             else if (timeDividerIsConst)
             {
-                calculator = new TimeDivide_WithOrigin_WithConstTimeDivider_OperatorCalculator(signalCalculator, timeDivider, originCalculator);
+                calculator = new SpeedUp_WithOrigin_WithConstTimeDivider_OperatorCalculator(signalCalculator, timeDivider, originCalculator);
             }
             else if (originIsConst)
             {
-                calculator = new TimeDivide_WithConstOrigin_OperatorCalculator(signalCalculator, timeDividerCalculator, origin);
+                calculator = new SpeedUp_WithConstOrigin_OperatorCalculator(signalCalculator, timeDividerCalculator, origin);
             }
             else
             {
-                calculator = new TimeDivide_WithOrigin_OperatorCalculator(signalCalculator, timeDividerCalculator, originCalculator);
+                calculator = new SpeedUp_WithOrigin_OperatorCalculator(signalCalculator, timeDividerCalculator, originCalculator);
             }
             
             _stack.Push(calculator);

@@ -13,7 +13,7 @@
         public const string Sine = "Sine";
         public const string Substract = "Substract";
         public const string Delay = "Delay";
-        public const string TimeDivide = "TimeDivide";
+        public const string SpeedUp = "SpeedUp";
         public const string SlowDown = "SlowDown";
         public const string TimePower = "TimePower";
         public const string TimeSubstract = "TimeSubstract";

@@ -268,14 +268,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public TimeDivide_OperatorWrapper TimeDivide(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
+        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(
-                OperatorTypeEnum.TimeDivide, 3,
+                OperatorTypeEnum.SpeedUp, 3,
                 PropertyNames.Signal, PropertyNames.TimeDivider, PropertyNames.Origin,
                 PropertyNames.Result);
 
-            var wrapper = new TimeDivide_OperatorWrapper(op)
+            var wrapper = new SpeedUp_OperatorWrapper(op)
             {
                 Signal = signal,
                 TimeDivider = timeDivider,

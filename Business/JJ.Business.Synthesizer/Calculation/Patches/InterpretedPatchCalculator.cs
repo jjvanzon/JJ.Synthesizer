@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Sine, CalculateSine },
                 { OperatorTypeEnum.Substract, CalculateSubstract },
                 { OperatorTypeEnum.Delay, CalculateDelay },
-                { OperatorTypeEnum.TimeDivide, CalculateTimeDivide },
+                { OperatorTypeEnum.SpeedUp, CalculateSpeedUp },
                 { OperatorTypeEnum.SlowDown, CalculateSlowDown },
                 { OperatorTypeEnum.TimePower, CalculateTimePower },
                 { OperatorTypeEnum.TimeSubstract, CalculateTimeSubstract },
@@ -341,9 +341,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        private double CalculateTimeDivide(Operator op, double time)
+        private double CalculateSpeedUp(Operator op, double time)
         {
-            var wrapper = new TimeDivide_OperatorWrapper(op);
+            var wrapper = new SpeedUp_OperatorWrapper(op);
 
             // Determine origin
             Outlet originOutlet = wrapper.Origin;

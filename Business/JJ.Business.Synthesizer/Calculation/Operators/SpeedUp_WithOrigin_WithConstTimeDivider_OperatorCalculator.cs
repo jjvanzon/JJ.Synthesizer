@@ -3,13 +3,13 @@ using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class TimeDivide_WithOrigin_WithConstTimeDivider_OperatorCalculator : OperatorCalculatorBase
+    internal class SpeedUp_WithOrigin_WithConstTimeDivider_OperatorCalculator : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _signalCalculator;
         private double _timeDividerValue;
         private OperatorCalculatorBase _originCalculator;
 
-        public TimeDivide_WithOrigin_WithConstTimeDivider_OperatorCalculator(
+        public SpeedUp_WithOrigin_WithConstTimeDivider_OperatorCalculator(
             OperatorCalculatorBase signalCalculator, 
             double timeDividerValue, 
             OperatorCalculatorBase originCalculator)

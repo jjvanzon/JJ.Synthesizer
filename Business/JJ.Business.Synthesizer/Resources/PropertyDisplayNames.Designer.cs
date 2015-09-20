@@ -664,6 +664,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Speed Up.
+        /// </summary>
+        public static string SpeedUp {
+            get {
+                return ResourceManager.GetString("SpeedUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start Time.
         /// </summary>
         public static string StartTime {
@@ -687,15 +696,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Substract {
             get {
                 return ResourceManager.GetString("Substract", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Time Divide.
-        /// </summary>
-        public static string TimeDivide {
-            get {
-                return ResourceManager.GetString("TimeDivide", resourceCulture);
             }
         }
         
