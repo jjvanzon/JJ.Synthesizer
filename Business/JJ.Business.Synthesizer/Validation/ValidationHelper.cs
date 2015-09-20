@@ -110,10 +110,10 @@ namespace JJ.Business.Synthesizer.Validation
             // No Operator Name: do specific thing for specific OperatorType
             switch (operatorTypeEnum)
             {
-                case OperatorTypeEnum.Value:
+                case OperatorTypeEnum.Number:
                     {
-                        var wrapper = new Value_OperatorWrapper(entity);
-                        string formattedValue = wrapper.Value.ToString("0.######");
+                        var wrapper = new Number_OperatorWrapper(entity);
+                        string formattedValue = wrapper.Number.ToString("0.######");
                         return String.Format("{0} '{1}': ", ResourceHelper.GetOperatorTypeDisplayName(entity), formattedValue);
                     }
 

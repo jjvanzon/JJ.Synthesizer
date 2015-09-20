@@ -17,7 +17,7 @@
         public const string SlowDown = "SlowDown";
         public const string TimePower = "TimePower";
         public const string TimeSubstract = "TimeSubstract";
-        public const string Value = "Value";
+        public const string Number = "Number";
         public const string Sample = "Sample";
 
         // Inlet Names

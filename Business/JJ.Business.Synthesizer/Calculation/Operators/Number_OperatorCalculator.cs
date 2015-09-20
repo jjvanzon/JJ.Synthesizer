@@ -3,18 +3,18 @@
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     [DebuggerDisplay("{_value}")]
-    internal class Value_OperatorCalculator : OperatorCalculatorBase
+    internal class Number_OperatorCalculator : OperatorCalculatorBase
     {
-        private double _value;
+        private double _number;
 
-        public Value_OperatorCalculator(double value)
+        public Number_OperatorCalculator(double number)
         {
-            _value = value;
+            _number = number;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            return _value;
+            return _number;
         }
     }
 }

@@ -137,11 +137,11 @@
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_ForValue.cs">
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForNumber.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_ForValue.Designer.cs">
-      <DependentUpon>OperatorPropertiesUserControl_ForValue.cs</DependentUpon>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForNumber.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_ForNumber.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForPatchOutlet.cs">
       <SubType>UserControl</SubType>
@@ -276,8 +276,8 @@
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForValue.resx">
-      <DependentUpon>OperatorPropertiesUserControl_ForValue.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForNumber.resx">
+      <DependentUpon>OperatorPropertiesUserControl_ForNumber.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForPatchOutlet.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForPatchOutlet.cs</DependentUpon>

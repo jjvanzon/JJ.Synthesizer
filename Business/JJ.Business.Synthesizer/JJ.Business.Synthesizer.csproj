@@ -118,7 +118,7 @@
     <Compile Include="Calculation\Operators\TimePower_WithoutOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TimePower_WithOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TimeSubstract_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Value_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Number_OperatorCalculator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.VisitAdder.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -274,13 +274,13 @@
     <Compile Include="Validation\OperatorValidator_PatchOutlet.cs" />
     <Compile Include="Validation\OperatorValidator_PatchInlet.cs" />
     <Compile Include="Validation\OperatorValidator_Divide.cs" />
-    <Compile Include="Validation\OperatorValidator_Value.cs" />
+    <Compile Include="Validation\OperatorValidator_Number.cs" />
     <Compile Include="Validation\OperatorValidator_Multiply.cs" />
     <Compile Include="Validation\OperatorValidator_Recursive.cs" />
     <Compile Include="Validation\OperatorValidator_Substract.cs" />
     <Compile Include="Validation\OperatorValidator_Base.cs" />
     <Compile Include="EntityWrappers\Add_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\Value_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\Number_OperatorWrapper.cs" />
     <Compile Include="LinkTo\LinkToExtensions.cs" />
     <Compile Include="Helpers\PropertyNames.cs" />
     <Compile Include="Factories\OperatorFactory.cs" />
@@ -311,7 +311,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_Multiply.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Recursive.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Substract.cs" />
-    <Compile Include="Warnings\OperatorWarningValidator_Value.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Number.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Business\JJ.Framework.Business.csproj">

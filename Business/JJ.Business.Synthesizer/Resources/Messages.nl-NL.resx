@@ -206,8 +206,8 @@
   <data name="UnsupportedOperatorTypeEnumValue" xml:space="preserve">
     <value>Operator type '{0}' wordt niet ondersteund.</value>
   </data>
-  <data name="ValueIs0WithName" xml:space="preserve">
-    <value>Waarde genaamd '{0}' is 0.</value>
+  <data name="NumberIs0WithName" xml:space="preserve">
+    <value>Getal genaamd '{0}' is 0.</value>
   </data>
   <data name="InletSortOrdersAreNotUnique" xml:space="preserve">
     <value>De ingang volgnummers zijn niet uniek.</value>

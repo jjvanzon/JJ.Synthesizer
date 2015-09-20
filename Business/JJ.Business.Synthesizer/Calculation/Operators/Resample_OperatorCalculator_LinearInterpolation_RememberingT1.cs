@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);
-            if (samplingRateCalculator is Value_OperatorCalculator) throw new Exception("samplingRateCalculator cannot be a Value_OperatorCalculator.");
+            if (samplingRateCalculator is Number_OperatorCalculator) throw new Exception("samplingRateCalculator cannot be a Value_OperatorCalculator.");
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;

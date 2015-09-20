@@ -29,7 +29,7 @@
             this.patchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchGridUserControl();
             this.operatorPropertiesUserControl_ForSample = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForSample();
             this.operatorPropertiesUserControl_ForCustomOperator = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCustomOperator();
-            this.operatorPropertiesUserControl_ForValue = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForValue();
+            this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.operatorPropertiesUserControl_ForPatchInlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchInlet();
             this.documentPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentPropertiesUserControl();
@@ -105,7 +105,7 @@
             this.splitContainerProperties.Panel2.Controls.Add(this.audioFileOutputPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForSample);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCustomOperator);
-            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForValue);
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForNumber);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForPatchOutlet);
             this.splitContainerProperties.Size = new System.Drawing.Size(891, 657);
             this.splitContainerProperties.SplitterDistance = 621;
@@ -238,17 +238,17 @@
             this.operatorPropertiesUserControl_ForCustomOperator.Size = new System.Drawing.Size(266, 657);
             this.operatorPropertiesUserControl_ForCustomOperator.TabIndex = 1;
             // 
-            // operatorPropertiesUserControl_ForValue
+            // operatorPropertiesUserControl_ForNumber
             // 
-            this.operatorPropertiesUserControl_ForValue.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForValue.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForValue.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForValue.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForValue.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.operatorPropertiesUserControl_ForValue.Name = "operatorPropertiesUserControl_ForValue";
-            this.operatorPropertiesUserControl_ForValue.Size = new System.Drawing.Size(266, 657);
-            this.operatorPropertiesUserControl_ForValue.TabIndex = 1;
+            this.operatorPropertiesUserControl_ForNumber.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_ForNumber.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForNumber.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_ForNumber.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_ForNumber.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_ForNumber.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.operatorPropertiesUserControl_ForNumber.Name = "operatorPropertiesUserControl_ForNumber";
+            this.operatorPropertiesUserControl_ForNumber.Size = new System.Drawing.Size(266, 657);
+            this.operatorPropertiesUserControl_ForNumber.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForPatchOutlet
             // 
@@ -388,7 +388,7 @@
         private UserControls.OperatorPropertiesUserControl operatorPropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForPatchInlet operatorPropertiesUserControl_ForPatchInlet;
         private UserControls.OperatorPropertiesUserControl_ForPatchOutlet operatorPropertiesUserControl_ForPatchOutlet;
-        private UserControls.OperatorPropertiesUserControl_ForValue operatorPropertiesUserControl_ForValue;
+        private UserControls.OperatorPropertiesUserControl_ForNumber operatorPropertiesUserControl_ForNumber;
         private UserControls.OperatorPropertiesUserControl_ForCustomOperator operatorPropertiesUserControl_ForCustomOperator;
         private UserControls.OperatorPropertiesUserControl_ForSample operatorPropertiesUserControl_ForSample;
     }

@@ -335,15 +335,15 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Value_OperatorWrapper Value(double value = 0)
+        public Number_OperatorWrapper Number(double number = 0)
         {
             Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Value, 0,
+                OperatorTypeEnum.Number, 0,
                 PropertyNames.Result);
 
-            var wrapper = new Value_OperatorWrapper(op)
+            var wrapper = new Number_OperatorWrapper(op)
             {
-                Value = value
+                Number = number
             };
 
             return wrapper;

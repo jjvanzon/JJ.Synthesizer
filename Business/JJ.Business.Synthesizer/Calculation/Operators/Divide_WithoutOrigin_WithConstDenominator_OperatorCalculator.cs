@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator(OperatorCalculatorBase numeratorCalculator, double denominatorValue)
         {
             if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
-            if (numeratorCalculator is Value_OperatorCalculator) throw new Exception("numeratorCalculator cannot be a Value_OperatorCalculator.");
+            if (numeratorCalculator is Number_OperatorCalculator) throw new Exception("numeratorCalculator cannot be a Value_OperatorCalculator.");
             if (denominatorValue == 0) throw new Exception("denominatorValue cannot be 0.");
 
             _numeratorCalculator = numeratorCalculator;

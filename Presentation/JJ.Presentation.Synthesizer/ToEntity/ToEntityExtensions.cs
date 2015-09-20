@@ -143,9 +143,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.SampleRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_ForValue operatorPropertiesViewModel_ForValue in userInput.OperatorPropertiesList_ForValues)
+            foreach (OperatorPropertiesViewModel_ForNumber operatorPropertiesViewModel_ForNumber in userInput.OperatorPropertiesList_ForNumbers)
             {
-                operatorPropertiesViewModel_ForValue.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+                operatorPropertiesViewModel_ForNumber.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
             return destDocument;
@@ -335,7 +335,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.SampleRepository);
             }
 
-            foreach (OperatorPropertiesViewModel_ForValue propertiesViewModel in userInput.OperatorPropertiesList_ForValues)
+            foreach (OperatorPropertiesViewModel_ForNumber propertiesViewModel in userInput.OperatorPropertiesList_ForNumbers)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
@@ -612,7 +612,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForValue viewModel,
+            this OperatorPropertiesViewModel_ForNumber viewModel,
             IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -627,9 +627,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             entity.Name = viewModel.Name;
-            entity.SetOperatorTypeEnum(OperatorTypeEnum.Value, operatorTypeRepository);
+            entity.SetOperatorTypeEnum(OperatorTypeEnum.Number, operatorTypeRepository);
 
-            entity.Data = viewModel.Value;
+            entity.Data = viewModel.Number;
 
             return entity;
         }

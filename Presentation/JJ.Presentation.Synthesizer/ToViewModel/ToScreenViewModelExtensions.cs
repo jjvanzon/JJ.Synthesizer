@@ -167,7 +167,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     operatorTypeEnum != OperatorTypeEnum.PatchInlet &&
                     operatorTypeEnum != OperatorTypeEnum.PatchOutlet &&
                     operatorTypeEnum != OperatorTypeEnum.Sample &&
-                    operatorTypeEnum != OperatorTypeEnum.Value)
+                    operatorTypeEnum != OperatorTypeEnum.Number)
                 {
                     OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
                     viewModels.Add(viewModel);
@@ -213,12 +213,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_ForValue> ToPropertiesViewModelList_ForValues(this Patch patch)
+        public static IList<OperatorPropertiesViewModel_ForNumber> ToPropertiesViewModelList_ForNumbers(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.GetOperatorsOfType(OperatorTypeEnum.Value)
-                        .Select(x => x.ToPropertiesViewModel_ForValue())
+            return patch.GetOperatorsOfType(OperatorTypeEnum.Number)
+                        .Select(x => x.ToPropertiesViewModel_ForNumber())
                         .ToList();
         }
 
@@ -324,17 +324,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForValue ToPropertiesViewModel_ForValue(this Operator entity)
+        public static OperatorPropertiesViewModel_ForNumber ToPropertiesViewModel_ForNumber(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var wrapper = new Value_OperatorWrapper(entity);
+            var wrapper = new Number_OperatorWrapper(entity);
 
-            var viewModel = new OperatorPropertiesViewModel_ForValue
+            var viewModel = new OperatorPropertiesViewModel_ForNumber
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                Value = wrapper.Value.ToString(),
+                Number = wrapper.Number.ToString(),
                 Successful = true,
                 ValidationMessages = new List<Message>()
             };

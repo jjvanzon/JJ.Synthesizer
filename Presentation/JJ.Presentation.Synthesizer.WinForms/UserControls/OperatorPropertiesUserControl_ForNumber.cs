@@ -9,14 +9,14 @@ using JJ.Framework.Presentation.WinForms.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_ForValue : UserControl
+    internal partial class OperatorPropertiesUserControl_ForNumber : UserControl
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
 
-        private OperatorPropertiesViewModel_ForValue _viewModel;
+        private OperatorPropertiesViewModel_ForNumber _viewModel;
 
-        public OperatorPropertiesUserControl_ForValue()
+        public OperatorPropertiesUserControl_ForNumber()
         {
             InitializeComponent();
 
@@ -25,14 +25,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutomaticallyAssignTabIndexes();
         }
 
-        private void OperatorPropertiesUserControl_ForValue_Load(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_ForNumber_Load(object sender, EventArgs e)
         {
             ApplyStyling();
         }
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public OperatorPropertiesViewModel_ForValue ViewModel
+        public OperatorPropertiesViewModel_ForNumber ViewModel
         {
             get { return _viewModel; }
             set
@@ -50,9 +50,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
-            labelValue.Text = PropertyDisplayNames.Value;
+            labelNumber.Text = PropertyDisplayNames.Number;
 
-            labelOperatorTypeValue.Text = PropertyDisplayNames.Value;
+            labelOperatorTypeValue.Text = PropertyDisplayNames.Number;
         }
 
         private void ApplyStyling()
@@ -65,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             textBoxName.Text = _viewModel.Name;
-            textBoxValue.Text = _viewModel.Value;
+            textBoxNumber.Text = _viewModel.Number;
         }
 
         private void ApplyControlsToViewModel()
@@ -73,7 +73,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             _viewModel.Name = textBoxName.Text;
-            _viewModel.Value = textBoxValue.Text;
+            _viewModel.Number = textBoxNumber.Text;
         }
 
         // Actions
@@ -104,7 +104,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
-        private void OperatorPropertiesUserControl_ForValue_Leave(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_ForNumber_Leave(object sender, EventArgs e)
         {
             // This Visible check is there because the leave event (lose focus) goes off after I closed, 
             // making it want to save again, even though view model is empty

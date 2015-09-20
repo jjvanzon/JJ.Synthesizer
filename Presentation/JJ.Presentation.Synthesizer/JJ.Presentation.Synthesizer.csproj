@@ -51,7 +51,7 @@
     <Compile Include="Presenters\MainPresenter.DispatchViewModel.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForSample.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCustomOperator.cs" />
-    <Compile Include="Presenters\OperatorPropertiesPresenter_ForValue.cs" />
+    <Compile Include="Presenters\OperatorPropertiesPresenter_ForNumber.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchOutlet.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchInlet.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter.cs" />
@@ -137,7 +137,7 @@
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForSample.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCustomOperator.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel.cs" />
-    <Compile Include="ViewModels\OperatorPropertiesViewModel_ForValue.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel_ForNumber.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForPatchOutlet.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForPatchInlet.cs" />
     <Compile Include="ViewModels\Partials\ChildDocumentTreeNodeViewModel.cs" />

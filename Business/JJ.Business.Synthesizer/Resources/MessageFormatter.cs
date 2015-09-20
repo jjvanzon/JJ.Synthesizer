@@ -20,9 +20,9 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.InletNotSet, operatorTypeName, operatorName, operandName);
         }
 
-        public static string ValueIs0WithName(string name)
+        public static string NumberIs0WithName(string name)
         {
-            return String.Format(Messages.ValueIs0WithName, name);
+            return String.Format(Messages.NumberIs0WithName, name);
         }
 
         public static string UnsupportedOperatorTypeEnumValue(OperatorTypeEnum operatorTypeEnum)

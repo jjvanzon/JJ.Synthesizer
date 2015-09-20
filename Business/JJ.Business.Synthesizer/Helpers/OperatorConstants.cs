@@ -65,7 +65,7 @@
         public const int TIME_SUBSTRACT_TIME_DIFFERENCE_INDEX = 1;
         public const int TIME_SUBSTRACT_RESULT_INDEX = 0;
 
-        public const int VALUE_OPERATOR_RESULT_INDEX = 0;
+        public const int NUMBER_OPERATOR_RESULT_INDEX = 0;
 
         public const int WHITE_NOISE_RESULT_INDEX = 0;
 

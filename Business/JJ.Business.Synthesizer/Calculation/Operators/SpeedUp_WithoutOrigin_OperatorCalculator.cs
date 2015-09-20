@@ -11,9 +11,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public SpeedUp_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeDividerCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Value_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_OperatorCalculator.");
+            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_OperatorCalculator.");
             if (timeDividerCalculator == null) throw new NullException(() => timeDividerCalculator);
-            if (timeDividerCalculator is Value_OperatorCalculator) throw new Exception("timeDividerCalculator cannot be a Value_OperatorCalculator.");
+            if (timeDividerCalculator is Number_OperatorCalculator) throw new Exception("timeDividerCalculator cannot be a Value_OperatorCalculator.");
 
             _signalCalculator = signalCalculator;
             _timeDividerCalculator = timeDividerCalculator;

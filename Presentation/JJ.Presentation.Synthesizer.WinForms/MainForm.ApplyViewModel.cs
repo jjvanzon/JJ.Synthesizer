@@ -107,11 +107,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     }
                 }
 
-                // OperatorProperties_ForValue
-                operatorPropertiesUserControl_ForValue.ViewModel =
+                // OperatorProperties_ForNumber
+                operatorPropertiesUserControl_ForNumber.ViewModel =
                     Enumerable.Union(
-                        _presenter.ViewModel.Document.OperatorPropertiesList_ForValues,
-                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForValues))
+                        _presenter.ViewModel.Document.OperatorPropertiesList_ForNumbers,
+                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers))
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
@@ -188,8 +188,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                                 operatorPropertiesUserControl_ForPatchOutlet.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForSample = operatorPropertiesUserControl_ForSample.ViewModel != null &&
                                                            operatorPropertiesUserControl_ForSample.ViewModel.Visible;
-                bool operatorPropertiesVisible_ForValue = operatorPropertiesUserControl_ForValue.ViewModel != null &&
-                                                          operatorPropertiesUserControl_ForValue.ViewModel.Visible;
+                bool operatorPropertiesVisible_ForNumber = operatorPropertiesUserControl_ForNumber.ViewModel != null &&
+                                                           operatorPropertiesUserControl_ForNumber.ViewModel.Visible;
                 bool patchGridVisible = patchGridUserControl.ViewModel != null &&
                                         patchGridUserControl.ViewModel.Visible;
                 bool patchDetailsVisible = patchDetailsUserControl.ViewModel != null &&
@@ -215,7 +215,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (operatorPropertiesVisible_ForPatchInlet) operatorPropertiesUserControl_ForPatchInlet.Visible = true;
                 if (operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = true;
                 if (operatorPropertiesVisible_ForSample) operatorPropertiesUserControl_ForSample.Visible = true;
-                if (operatorPropertiesVisible_ForValue) operatorPropertiesUserControl_ForValue.Visible = true;
+                if (operatorPropertiesVisible_ForNumber) operatorPropertiesUserControl_ForNumber.Visible = true;
                 if (patchGridVisible) patchGridUserControl.Visible = true;
                 if (patchDetailsVisible) patchDetailsUserControl.Visible = true;
                 if (sampleGridVisible) sampleGridUserControl.Visible = true;
@@ -236,7 +236,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!operatorPropertiesVisible_ForPatchInlet) operatorPropertiesUserControl_ForPatchInlet.Visible = false;
                 if (!operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = false;
                 if (!operatorPropertiesVisible_ForSample) operatorPropertiesUserControl_ForSample.Visible = false;
-                if (!operatorPropertiesVisible_ForValue) operatorPropertiesUserControl_ForValue.Visible = false;
+                if (!operatorPropertiesVisible_ForNumber) operatorPropertiesUserControl_ForNumber.Visible = false;
                 if (!patchGridVisible) patchGridUserControl.Visible = false;
                 if (!patchDetailsVisible) patchDetailsUserControl.Visible = false;
                 if (!sampleGridVisible) sampleGridUserControl.Visible = false;
@@ -254,7 +254,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                     operatorPropertiesVisible_ForPatchInlet ||
                                                     operatorPropertiesVisible_ForPatchOutlet ||
                                                     operatorPropertiesVisible_ForSample ||
-                                                    operatorPropertiesVisible_ForValue ||
+                                                    operatorPropertiesVisible_ForNumber ||
                                                     samplePropertiesVisible;
 
                 SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
@@ -355,11 +355,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 operatorPropertiesUserControl_ForSample.Focus();
             }
 
-            bool mustFocusOperatorPropertiesUserControl_ForValue = operatorPropertiesUserControl_ForValue.Visible &&
-                                                                  !operatorPropertiesUserControl_ForValue.ViewModel.Successful;
-            if (mustFocusOperatorPropertiesUserControl_ForValue)
+            bool mustFocusOperatorPropertiesUserControl_ForNumber = operatorPropertiesUserControl_ForNumber.Visible &&
+                                                                   !operatorPropertiesUserControl_ForNumber.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl_ForNumber)
             {
-                operatorPropertiesUserControl_ForValue.Focus();
+                operatorPropertiesUserControl_ForNumber.Focus();
             }
 
             bool mustFocusSamplePropertiesUserControl = samplePropertiesUserControl.Visible &&

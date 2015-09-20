@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.SlowDown, typeof(OperatorValidator_SlowDown) },
             { OperatorTypeEnum.TimePower, typeof(OperatorValidator_TimePower) },
             { OperatorTypeEnum.TimeSubstract, typeof(OperatorValidator_TimeSubstract) },
-            { OperatorTypeEnum.Value, typeof(OperatorValidator_Value) },
+            { OperatorTypeEnum.Number, typeof(OperatorValidator_Number) },
             { OperatorTypeEnum.WhiteNoise, typeof(OperatorValidator_WhiteNoise) },
         };
 

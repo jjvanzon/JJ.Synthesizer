@@ -346,9 +346,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void OperatorPropertiesClose_ForValue()
+        private void OperatorPropertiesClose_ForNumber()
         {
-            _presenter.OperatorPropertiesClose_ForValue();
+            _presenter.OperatorPropertiesClose_ForNumber();
             ApplyViewModel();
         }
 
@@ -382,9 +382,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void OperatorPropertiesLoseFocus_ForValue()
+        private void OperatorPropertiesLoseFocus_ForNumber()
         {
-            _presenter.OperatorPropertiesLoseFocus_ForValue();
+            _presenter.OperatorPropertiesLoseFocus_ForNumber();
             ApplyViewModel();
         }
 

@@ -217,10 +217,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
 
             // Value Operator: display name and value or only value.
-            if (operatorTypeEnum == OperatorTypeEnum.Value)
+            if (operatorTypeEnum == OperatorTypeEnum.Number)
             {
-                var wrapper = new Value_OperatorWrapper(entity);
-                string formattedValue = wrapper.Value.ToString("0.####");
+                var wrapper = new Number_OperatorWrapper(entity);
+                string formattedValue = wrapper.Number.ToString("0.####");
 
                 if (String.IsNullOrWhiteSpace(entity.Name))
                 {

@@ -15,11 +15,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Value_OperatorCalculator) throw new Exception("operandACalculator cannot be a Value_OperatorCalculator.");
+            if (operandACalculator is Number_OperatorCalculator) throw new Exception("operandACalculator cannot be a Value_OperatorCalculator.");
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Value_OperatorCalculator) throw new Exception("operandBCalculator cannot be a Value_OperatorCalculator.");
+            if (operandBCalculator is Number_OperatorCalculator) throw new Exception("operandBCalculator cannot be a Value_OperatorCalculator.");
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Value_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
+            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
 
             _operandACalculator = operandACalculator;
             _operandBCalculator = operandBCalculator;

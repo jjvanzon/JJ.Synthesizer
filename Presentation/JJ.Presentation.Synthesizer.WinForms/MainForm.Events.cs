@@ -299,14 +299,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             OperatorPropertiesClose_ForSample();
         }
 
-        private void operatorPropertiesUserControl_ForValue_LoseFocusRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForNumber_LoseFocusRequested(object sender, EventArgs e)
         {
-            OperatorPropertiesLoseFocus_ForValue();
+            OperatorPropertiesLoseFocus_ForNumber();
         }
 
-        private void operatorPropertiesUserControl_ForValue_CloseRequested(object sender, EventArgs e)
+        private void operatorPropertiesUserControl_ForNumber_CloseRequested(object sender, EventArgs e)
         {
-            OperatorPropertiesClose_ForValue();
+            OperatorPropertiesClose_ForNumber();
         }
 
         // Patch Events

@@ -83,7 +83,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.SlowDown, CalculateSlowDown },
                 { OperatorTypeEnum.TimePower, CalculateTimePower },
                 { OperatorTypeEnum.TimeSubstract, CalculateTimeSubstract },
-                { OperatorTypeEnum.Value, CalculateValueOperator },
+                { OperatorTypeEnum.Number, CalculateNumberOperator },
                 { OperatorTypeEnum.WhiteNoise, CalculateWhiteNoise },
             };
         }
@@ -119,16 +119,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // so they could all work with multiple outlets if needed.
         }
 
-        private Dictionary<Operator, double> _valueOperatorValueDictionary = new Dictionary<Operator, double>();
+        private Dictionary<Operator, double> _numberOperatorValueDictionary = new Dictionary<Operator, double>();
 
-        private double CalculateValueOperator(Operator op, double time)
+        private double CalculateNumberOperator(Operator op, double time)
         {
             double value;
-            if (!_valueOperatorValueDictionary.TryGetValue(op, out value))
+            if (!_numberOperatorValueDictionary.TryGetValue(op, out value))
             {
-                var wrapper = new Value_OperatorWrapper(op);
-                value = wrapper.Value;
-                _valueOperatorValueDictionary.Add(op, value);
+                var wrapper = new Number_OperatorWrapper(op);
+                value = wrapper.Number;
+                _numberOperatorValueDictionary.Add(op, value);
             }
             return value;
         }

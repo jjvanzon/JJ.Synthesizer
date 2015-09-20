@@ -86,7 +86,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             float width = TextHelper.ApproximateTextWidth(sourceOperatorViewModel.Caption, StyleHelper.DefaultFont) + StyleHelper.SpacingTimes2;
 
             // Compensate for the fact that numbers are averagely wider than letters.
-            bool isValueOperator = sourceOperatorViewModel.OperatorType.ID == (int)OperatorTypeEnum.Value;
+            bool isValueOperator = sourceOperatorViewModel.OperatorType.ID == (int)OperatorTypeEnum.Number;
             if (isValueOperator)
             {
                 width += StyleHelper.SpacingTimes2;

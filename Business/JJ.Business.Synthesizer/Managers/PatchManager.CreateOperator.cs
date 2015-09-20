@@ -136,9 +136,9 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public Value_OperatorWrapper Value(double value = 0)
+        public Number_OperatorWrapper Number(double number = 0)
         {
-            var wrapper = _operatorFactory.Value(value);
+            var wrapper = _operatorFactory.Number(number);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }

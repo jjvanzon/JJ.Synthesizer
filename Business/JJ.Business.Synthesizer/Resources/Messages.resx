@@ -212,8 +212,8 @@
     <value>Operator type '{0}' is not supported.</value>
     <comment>{0} = number</comment>
   </data>
-  <data name="ValueIs0WithName" xml:space="preserve">
-    <value>Value named '{0}' is 0.</value>
+  <data name="NumberIs0WithName" xml:space="preserve">
+    <value>Number named '{0}' is 0.</value>
     <comment>{0} = Value operator name.</comment>
   </data>
   <data name="InletSortOrdersAreNotUnique" xml:space="preserve">

@@ -48,7 +48,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly OperatorPropertiesPresenter_ForPatchInlet _operatorPropertiesPresenter_ForPatchInlet;
         private readonly OperatorPropertiesPresenter_ForPatchOutlet _operatorPropertiesPresenter_ForPatchOutlet;
         private readonly OperatorPropertiesPresenter_ForSample _operatorPropertiesPresenter_ForSample;
-        private readonly OperatorPropertiesPresenter_ForValue _operatorPropertiesPresenter_ForValue;
+        private readonly OperatorPropertiesPresenter_ForNumber _operatorPropertiesPresenter_ForNumber;
         private readonly PatchDetailsPresenter _patchDetailsPresenter;
         private readonly PatchGridPresenter _patchGridPresenter;
         private readonly SampleGridPresenter _sampleGridPresenter;
@@ -98,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_ForPatchInlet = new OperatorPropertiesPresenter_ForPatchInlet(_patchRepositories);
             _operatorPropertiesPresenter_ForPatchOutlet = new OperatorPropertiesPresenter_ForPatchOutlet(_patchRepositories);
             _operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_patchRepositories);
-            _operatorPropertiesPresenter_ForValue = new OperatorPropertiesPresenter_ForValue(_patchRepositories);
+            _operatorPropertiesPresenter_ForNumber = new OperatorPropertiesPresenter_ForNumber(_patchRepositories);
             _patchDetailsPresenter = _patchDetailsPresenter = new PatchDetailsPresenter(_patchRepositories, _entityPositionManager);
             _patchGridPresenter = new PatchGridPresenter(_repositories.DocumentRepository);
             _sampleGridPresenter = new SampleGridPresenter(_repositories.DocumentRepository, _repositories.SampleRepository);
@@ -157,7 +157,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.OperatorPropertiesList_ForPatchInlets.ForEach(x => x.Visible = false);
             ViewModel.Document.OperatorPropertiesList_ForPatchOutlets.ForEach(x => x.Visible = false);
             ViewModel.Document.OperatorPropertiesList_ForSamples.ForEach(x => x.Visible = false);
-            ViewModel.Document.OperatorPropertiesList_ForValues.ForEach(x => x.Visible = false);
+            ViewModel.Document.OperatorPropertiesList_ForNumbers.ForEach(x => x.Visible = false);
             ViewModel.Document.SamplePropertiesList.ForEach(x => x.Visible = false);
             
             // Note that the not all entity types have Properties view inside the child documents.
@@ -167,7 +167,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchInlets).ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets).ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSamples).ForEach(x => x.Visible = false);
-            ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForValues).ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers).ForEach(x => x.Visible = false);
         }
     }
 }

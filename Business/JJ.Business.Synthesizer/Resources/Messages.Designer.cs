@@ -196,6 +196,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number named &apos;{0}&apos; is 0..
+        /// </summary>
+        internal static string NumberIs0WithName {
+            get {
+                return ResourceManager.GetString("NumberIs0WithName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Amplifier of &apos;{0}&apos; named &apos;{1}&apos; is 0..
         /// </summary>
         internal static string ObjectAmplifier0 {
@@ -318,15 +327,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string UnsupportedOperatorTypeEnumValue {
             get {
                 return ResourceManager.GetString("UnsupportedOperatorTypeEnumValue", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Value named &apos;{0}&apos; is 0..
-        /// </summary>
-        internal static string ValueIs0WithName {
-            get {
-                return ResourceManager.GetString("ValueIs0WithName", resourceCulture);
             }
         }
     }

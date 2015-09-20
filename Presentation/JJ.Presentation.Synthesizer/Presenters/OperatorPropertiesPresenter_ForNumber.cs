@@ -10,13 +10,13 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class OperatorPropertiesPresenter_ForValue
+    internal class OperatorPropertiesPresenter_ForNumber
     {
         private PatchRepositories _repositories;
 
-        public OperatorPropertiesViewModel_ForValue ViewModel { get; set; }
+        public OperatorPropertiesViewModel_ForNumber ViewModel { get; set; }
 
-        public OperatorPropertiesPresenter_ForValue(PatchRepositories repositories)
+        public OperatorPropertiesPresenter_ForNumber(PatchRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Operator entity = _repositories.OperatorRepository.Get(ViewModel.ID);
             bool visible = ViewModel.Visible;
-            ViewModel = entity.ToPropertiesViewModel_ForValue();
+            ViewModel = entity.ToPropertiesViewModel_ForNumber();
             ViewModel.Visible = visible;
         }
 

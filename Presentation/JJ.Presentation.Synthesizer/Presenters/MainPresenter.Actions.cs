@@ -964,10 +964,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                 }
                 {
-                    OperatorPropertiesViewModel_ForValue viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForValue(ViewModel.Document, id);
+                    OperatorPropertiesViewModel_ForNumber viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForNumber(ViewModel.Document, id);
                     if (viewModel != null)
                     {
-                        OperatorPropertiesPresenter_ForValue partialPresenter = _operatorPropertiesPresenter_ForValue;
+                        OperatorPropertiesPresenter_ForNumber partialPresenter = _operatorPropertiesPresenter_ForNumber;
                         partialPresenter.ViewModel = viewModel;
                         partialPresenter.Show();
                         DispatchViewModel(partialPresenter.ViewModel);
@@ -1008,9 +1008,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForSample(() => _operatorPropertiesPresenter_ForSample.Close());
         }
 
-        public void OperatorPropertiesClose_ForValue()
+        public void OperatorPropertiesClose_ForNumber()
         {
-            OperatorPropertiesCloseOrLoseFocus_ForValue(() => _operatorPropertiesPresenter_ForValue.Close());
+            OperatorPropertiesCloseOrLoseFocus_ForNumber(() => _operatorPropertiesPresenter_ForNumber.Close());
         }
 
         public void OperatorPropertiesLoseFocus()
@@ -1038,9 +1038,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForSample(() => _operatorPropertiesPresenter_ForSample.LoseFocus());
         }
 
-        public void OperatorPropertiesLoseFocus_ForValue()
+        public void OperatorPropertiesLoseFocus_ForNumber()
         {
-            OperatorPropertiesCloseOrLoseFocus_ForValue(() => _operatorPropertiesPresenter_ForValue.LoseFocus());
+            OperatorPropertiesCloseOrLoseFocus_ForNumber(() => _operatorPropertiesPresenter_ForNumber.LoseFocus());
         }
 
         private void OperatorPropertiesCloseOrLoseFocus(Action partialAction)
@@ -1110,11 +1110,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void OperatorPropertiesCloseOrLoseFocus_ForValue(Action partialAction)
+        private void OperatorPropertiesCloseOrLoseFocus_ForNumber(Action partialAction)
         {
             try
             {
-                OperatorPropertiesPresenter_ForValue partialPresenter = _operatorPropertiesPresenter_ForValue;
+                OperatorPropertiesPresenter_ForNumber partialPresenter = _operatorPropertiesPresenter_ForNumber;
 
                 //// Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
                 //// the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
@@ -1341,10 +1341,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                             break;
                         }
 
-                    case OperatorTypeEnum.Value:
+                    case OperatorTypeEnum.Number:
                         {
-                            OperatorPropertiesViewModel_ForValue propertiesViewModel = op.ToPropertiesViewModel_ForValue();
-                            IList<OperatorPropertiesViewModel_ForValue> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForValues_ByPatchID(ViewModel.Document, patch.ID);
+                            OperatorPropertiesViewModel_ForNumber propertiesViewModel = op.ToPropertiesViewModel_ForNumber();
+                            IList<OperatorPropertiesViewModel_ForNumber> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForNumbers_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;
                         }
@@ -1412,8 +1412,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                     ViewModel.Document.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
                                     break;
 
-                                case OperatorTypeEnum.Value:
-                                    ViewModel.Document.OperatorPropertiesList_ForValues.RemoveFirst(x => x.ID == op.ID);
+                                case OperatorTypeEnum.Number:
+                                    ViewModel.Document.OperatorPropertiesList_ForNumbers.RemoveFirst(x => x.ID == op.ID);
                                     break;
 
                                 case OperatorTypeEnum.Undefined:
@@ -1445,8 +1445,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                     childDocumentViewModel.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
                                     break;
 
-                                case OperatorTypeEnum.Value:
-                                    childDocumentViewModel.OperatorPropertiesList_ForValues.RemoveFirst(x => x.ID == op.ID);
+                                case OperatorTypeEnum.Number:
+                                    childDocumentViewModel.OperatorPropertiesList_ForNumbers.RemoveFirst(x => x.ID == op.ID);
                                     break;
 
                                 case OperatorTypeEnum.Undefined:

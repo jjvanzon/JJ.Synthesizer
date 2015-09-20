@@ -15,9 +15,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double originValue)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Value_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_OperatorCalculator.");
+            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_OperatorCalculator.");
             if (timeMultiplierCalculator == null) throw new NullException(() => timeMultiplierCalculator);
-            if (timeMultiplierCalculator is Value_OperatorCalculator) throw new Exception("timeMultiplierCalculator cannot be a Value_OperatorCalculator.");
+            if (timeMultiplierCalculator is Number_OperatorCalculator) throw new Exception("timeMultiplierCalculator cannot be a Value_OperatorCalculator.");
 
             _signalCalculator = signalCalculator;
             _timeMultiplierCalculator = timeMultiplierCalculator;

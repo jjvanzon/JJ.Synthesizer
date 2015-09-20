@@ -11,9 +11,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public SlowDown_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeMultiplierCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Value_OperatorCalculator) throw new Exception("signalCalculator cannot be a ValueCalculator.");
+            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signalCalculator cannot be a ValueCalculator.");
             if (timeMultiplierCalculator == null) throw new NullException(() => timeMultiplierCalculator);
-            if (timeMultiplierCalculator is Value_OperatorCalculator) throw new Exception("timeMultiplierCalculator cannot be a ValueCalculator.");
+            if (timeMultiplierCalculator is Number_OperatorCalculator) throw new Exception("timeMultiplierCalculator cannot be a ValueCalculator.");
 
             _signalCalculator = signalCalculator;
             _timeMultiplierCalculator = timeMultiplierCalculator;

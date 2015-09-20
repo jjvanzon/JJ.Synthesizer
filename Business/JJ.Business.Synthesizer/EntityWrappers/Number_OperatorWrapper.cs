@@ -5,35 +5,35 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Value_OperatorWrapper : OperatorWrapperBase
+    public class Number_OperatorWrapper : OperatorWrapperBase
     {
-        public Value_OperatorWrapper(Operator op)
+        public Number_OperatorWrapper(Operator op)
             : base(op)
         { }
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants.VALUE_OPERATOR_RESULT_INDEX); }
+            get { return GetOutlet(OperatorConstants.NUMBER_OPERATOR_RESULT_INDEX); }
         }
 
-        public double Value
+        public double Number
         {
             get { return Double.Parse(Operator.Data); }
             set { Operator.Data = value.ToString(); }
         }
 
-        public static implicit operator Outlet(Value_OperatorWrapper wrapper)
+        public static implicit operator Outlet(Number_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 
             return wrapper.Result;
         }
 
-        public static implicit operator double(Value_OperatorWrapper wrapper)
+        public static implicit operator double(Number_OperatorWrapper wrapper)
         {
             if (wrapper == null) throw new NullException(() => wrapper);
 
-            return wrapper.Value;
+            return wrapper.Number;
         }
     }
 }

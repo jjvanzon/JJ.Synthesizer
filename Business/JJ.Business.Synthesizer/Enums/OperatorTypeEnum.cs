@@ -17,7 +17,7 @@
         SlowDown = 12,
         TimePower = 13,
         TimeSubstract = 14,
-        Value = 15,
+        Number = 15,
         Curve = 16,
         Sample = 17,
         WhiteNoise = 18,

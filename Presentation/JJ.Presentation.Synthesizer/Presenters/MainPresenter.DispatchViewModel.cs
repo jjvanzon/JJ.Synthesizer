@@ -38,7 +38,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForPatchInlet), DispatchOperatorPropertiesViewModel_ForPatchInlet },
                 { typeof(OperatorPropertiesViewModel_ForPatchOutlet), DispatchOperatorPropertiesViewModel_ForPatchOutlet },
                 { typeof(OperatorPropertiesViewModel_ForSample), DispatchOperatorPropertiesViewModel_ForSample },
-                { typeof(OperatorPropertiesViewModel_ForValue), DispatchOperatorPropertiesViewModel_ForValue },
+                { typeof(OperatorPropertiesViewModel_ForNumber), DispatchOperatorPropertiesViewModel_ForNumber },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
                 { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
                 { typeof(SampleGridViewModel), DispatchSampleGridViewModel },
@@ -350,9 +350,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchOperatorPropertiesViewModel_ForValue(object viewModel2)
+        private void DispatchOperatorPropertiesViewModel_ForNumber(object viewModel2)
         {
-            var castedViewModel = (OperatorPropertiesViewModel_ForValue)viewModel2;
+            var castedViewModel = (OperatorPropertiesViewModel_ForNumber)viewModel2;
 
             if (castedViewModel.Visible)
             {

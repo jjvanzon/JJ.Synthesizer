@@ -15,10 +15,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Value_OperatorCalculator) throw new Exception("signal cannot be a ValueCalculator.");
+            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signal cannot be a ValueCalculator.");
             if (timeMultiplierValue == 0) throw new Exception("timeMultiplierValue cannot be 0.");
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Value_OperatorCalculator) throw new Exception("originCalculator cannot be a ValueCalculator.");
+            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a ValueCalculator.");
 
             _signalCalculator = signalCalculator;
             _timeMultiplierValue = timeMultiplierValue;

@@ -273,7 +273,7 @@
   <data name="OriginalLocation" xml:space="preserve">
     <value>Oorspronkelijke locatie</value>
   </data>
-  <data name="Value" xml:space="preserve">
+  <data name="Number" xml:space="preserve">
     <value>Getal</value>
   </data>
   <data name="OperatorType" xml:space="preserve">

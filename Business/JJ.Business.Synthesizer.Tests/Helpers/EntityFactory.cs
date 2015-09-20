@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             if (x == null) throw new NullException(() => x);
 
-            Substract_OperatorWrapper substract = x.Substract(x.Add(x.Value(2), x.Value(3)), x.Value(1));
+            Substract_OperatorWrapper substract = x.Substract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
             return substract;
         }
 
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             if (x == null) throw new NullException(() => x);
 
-            Outlet multiply = x.Multiply(signal, x.Value(1.5));
+            Outlet multiply = x.Multiply(signal, x.Number(1.5));
             Outlet echo = CreateEcho(x, multiply);
             //Outlet myOutlet = x.Add(x.Sample(sample1), x.Multiply(x.Sample(sample2), x.Value(0.5)));
             return echo;
@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             if (x == null) throw new NullException(() => x);
 
-            Outlet outlet = x.TimePower(signal, x.Value(1.5));
+            Outlet outlet = x.TimePower(signal, x.Number(1.5));
             return outlet;
         }
 
@@ -52,8 +52,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
             for (int i = 0; i < count; i++)
             {
-                Outlet divide = x.Divide(signal, x.Value(cumulativeDenominator));
-                Outlet timeAdd = x.Delay(divide, x.Value(cumulativeDelay));
+                Outlet divide = x.Divide(signal, x.Number(cumulativeDenominator));
+                Outlet timeAdd = x.Delay(divide, x.Number(cumulativeDelay));
                 repeats.Add(timeAdd);
 
                 cumulativeDenominator *= denominator;

@@ -38,8 +38,8 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
 
-                var add = x.Add(x.Value(2), x.Value(3));
-                var substract = x.Substract(add, x.Value(1));
+                var add = x.Add(x.Number(2), x.Number(3));
+                var substract = x.Substract(add, x.Number(1));
 
                 IPatchCalculator calculator1 = x.CreateCalculator(add);
                 double value = calculator1.Calculate(0, 0);
@@ -53,8 +53,8 @@ namespace JJ.Business.Synthesizer.Tests
                 CultureHelper.SetThreadCulture("nl-NL");
 
                 add.OperandA = null;
-                var valueOperatorWrapper = new Value_OperatorWrapper(substract.OperandB.Operator);
-                valueOperatorWrapper.Value = 0;
+                var valueOperatorWrapper = new Number_OperatorWrapper(substract.OperandB.Operator);
+                valueOperatorWrapper.Number = 0;
                 substract.Operator.Inlets[0].Name = "134";
 
                 IValidator validator2 = new OperatorValidator_Recursive(substract.Operator, repositoryWrapper.CurveRepository, repositoryWrapper.SampleRepository, repositoryWrapper.DocumentRepository, alreadyDone: new HashSet<object>());
@@ -93,7 +93,7 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager patchManager = TestHelper.CreatePatchManager(context);
 
                 IValidator validator1 = new OperatorWarningValidator_Add(patchManager.Add().Operator);
-                IValidator validator2 = new OperatorWarningValidator_Value(patchManager.Value().Operator);
+                IValidator validator2 = new OperatorWarningValidator_Number(patchManager.Number().Operator);
 
                 bool isValid = validator1.IsValid &&
                                validator2.IsValid;
@@ -109,9 +109,9 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
-                Value_OperatorWrapper val1 = patchManager.Value(1);
-                Value_OperatorWrapper val2 = patchManager.Value(2);
-                Value_OperatorWrapper val3 = patchManager.Value(3);
+                Number_OperatorWrapper val1 = patchManager.Number(1);
+                Number_OperatorWrapper val2 = patchManager.Number(2);
+                Number_OperatorWrapper val3 = patchManager.Number(3);
                 Adder_OperatorWrapper adder = patchManager.Adder(val1, val2, val3);
 
                 IValidator validator = new OperatorValidator_Adder(adder.Operator);
@@ -135,16 +135,16 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
 
-                Substract_OperatorWrapper substract = x.Substract(x.Add(x.Value(2), x.Value(3)), x.Value(1));
+                Substract_OperatorWrapper substract = x.Substract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
 
                 Substract_OperatorWrapper substract2 = x.Substract
                 (
                     x.Add
                     (
-                        x.Value(2),
-                        x.Value(3)
+                        x.Number(2),
+                        x.Number(3)
                     ),
-                    x.Value(1)
+                    x.Number(1)
                 );
             }
         }
@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Curve curve = curveFactory.CreateCurve(1, 0, 1, 0.8, null, null, 0.8, 0);
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
-                Sine_OperatorWrapper sine = x.Sine(x.Curve(curve), x.Value(440));
+                Sine_OperatorWrapper sine = x.Sine(x.Curve(curve), x.Number(440));
 
                 CultureHelper.SetThreadCulture("nl-NL");
                 IValidator[] validators = 
@@ -394,7 +394,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
 
-                Outlet outlet = x.Add(x.Value(1), x.Value(2));
+                Outlet outlet = x.Add(x.Number(1), x.Number(2));
                 var calculator =  x.CreateCalculator(false, outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(3.0, result, 0.0001);
@@ -411,7 +411,7 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
                 PatchManager x = TestHelper.CreatePatchManager(context);
-                Outlet outlet = x.Add(null, x.Value(2));
+                Outlet outlet = x.Add(null, x.Number(2));
                 IPatchCalculator calculator = patchManager.CreateCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(2.0, result, 0.000000001);
@@ -428,7 +428,7 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
                 PatchManager x = TestHelper.CreatePatchManager(context);
-                Outlet outlet = x.Add(x.Value(1), x.Add(x.Value(2), null));
+                Outlet outlet = x.Add(x.Number(1), x.Add(x.Number(2), null));
                 IPatchCalculator calculator = patchManager.CreateCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(3.0, result, 0.000000001);
@@ -444,7 +444,7 @@ namespace JJ.Business.Synthesizer.Tests
                 RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
 
-                Outlet outlet = x.Add(x.Add(x.Value(1), x.Value(2)), x.Value(4));
+                Outlet outlet = x.Add(x.Add(x.Number(1), x.Number(2)), x.Number(4));
                 IPatchCalculator calculator = x.CreateCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(7.0, result, 0.000000001);
@@ -460,8 +460,8 @@ namespace JJ.Business.Synthesizer.Tests
                 RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
 
-                Outlet outlet1 = x.Add(x.Add(x.Value(1), x.Value(2)), x.Value(4));
-                Outlet outlet2 = x.Add(x.Value(5), x.Value(6));
+                Outlet outlet1 = x.Add(x.Add(x.Number(1), x.Number(2)), x.Number(4));
+                Outlet outlet2 = x.Add(x.Number(5), x.Number(6));
                 IPatchCalculator calculator = x.CreateCalculator(outlet1, outlet2);
                 double result1 = calculator.Calculate(0, 0);
                 double result2 = calculator.Calculate(0, 1);
@@ -478,9 +478,9 @@ namespace JJ.Business.Synthesizer.Tests
             {
                 RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
-                Outlet sharedOutlet = x.Value(1);
-                Outlet outlet1 = x.Add(sharedOutlet, x.Value(2));
-                Outlet outlet2 = x.Add(sharedOutlet, x.Value(3));
+                Outlet sharedOutlet = x.Number(1);
+                Outlet outlet1 = x.Add(sharedOutlet, x.Number(2));
+                Outlet outlet2 = x.Add(sharedOutlet, x.Number(3));
                 IPatchCalculator calculator = x.CreateCalculator(outlet1, outlet2);
                 double result1 = calculator.Calculate(0, 0);
                 double result2 = calculator.Calculate(0, 1);
@@ -500,7 +500,7 @@ namespace JJ.Business.Synthesizer.Tests
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
                 PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
-                Outlet outlet = x.Multiply(x.WhiteNoise(), x.Value(Int16.MaxValue));
+                Outlet outlet = x.Multiply(x.WhiteNoise(), x.Number(Int16.MaxValue));
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.FilePath = "Test_Synthesizer_WhiteNoiseOperator.wav";
@@ -544,8 +544,8 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(repositoryWrapper);
 
-                Outlet whiteNoise = x.Multiply(x.WhiteNoise(), x.Value(amplification));
-                Outlet resampledWhiteNoise = x.Resample(whiteNoise, x.Value(alternativeSamplingRate));
+                Outlet whiteNoise = x.Multiply(x.WhiteNoise(), x.Number(amplification));
+                Outlet resampledWhiteNoise = x.Resample(whiteNoise, x.Number(alternativeSamplingRate));
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
@@ -609,7 +609,7 @@ namespace JJ.Business.Synthesizer.Tests
                 sample.BytesToSkip = 200;
 
                 Outlet input = x.Sample(sample);
-                Outlet resampled = x.Resample(input, x.Value(alternativeSamplingRate));
+                Outlet resampled = x.Resample(input, x.Number(alternativeSamplingRate));
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
@@ -670,8 +670,8 @@ namespace JJ.Business.Synthesizer.Tests
                     new NodeInfo(0, NodeTypeEnum.Line)
                 );
 
-                Outlet curveIn = x.Multiply(x.Curve(curve), x.Value(amplification));
-                Outlet resampled = x.Resample(curveIn, x.Value(alternativeSamplingRate));
+                Outlet curveIn = x.Multiply(x.Curve(curve), x.Number(amplification));
+                Outlet resampled = x.Resample(curveIn, x.Number(alternativeSamplingRate));
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
@@ -713,7 +713,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 Curve curve = curveFactory.CreateCurve(duration, samplingRate1, samplingRate2);
 
-                Outlet input = x.Multiply(x.WhiteNoise(), x.Value(amplification));
+                Outlet input = x.Multiply(x.WhiteNoise(), x.Number(amplification));
                 Outlet outlet = x.Resample(input, x.Curve(curve));
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
@@ -778,10 +778,10 @@ namespace JJ.Business.Synthesizer.Tests
                 double pitch = 1.0;
                 //double phase = 0.128;
                 double phase = 0;
-                Outlet sine = x.Sine(x.Value(volume), x.Value(pitch), phaseStart: x.Value(phase));
+                Outlet sine = x.Sine(x.Number(volume), x.Number(pitch), phaseStart: x.Number(phase));
 
                 double newSamplingRate = 4;
-                Outlet resampled = x.Resample(sine, x.Value(newSamplingRate));
+                Outlet resampled = x.Resample(sine, x.Number(newSamplingRate));
 
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = 2;

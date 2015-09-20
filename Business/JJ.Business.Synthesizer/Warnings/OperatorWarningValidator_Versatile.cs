@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.SlowDown, typeof(OperatorWarningValidator_SlowDown) },
             { OperatorTypeEnum.TimePower, typeof(OperatorWarningValidator_TimePower) },
             { OperatorTypeEnum.TimeSubstract, typeof(OperatorWarningValidator_TimeSubstract) },
-            { OperatorTypeEnum.Value, typeof(OperatorWarningValidator_Value) }
+            { OperatorTypeEnum.Number, typeof(OperatorWarningValidator_Number) }
         };
 
         public OperatorWarningValidator_Versatile(Operator obj)

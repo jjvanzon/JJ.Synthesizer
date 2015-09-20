@@ -280,8 +280,8 @@
   <data name="OperatorType" xml:space="preserve">
     <value>Operator Type</value>
   </data>
-  <data name="Value" xml:space="preserve">
-    <value>Value</value>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
   </data>
   <data name="Resample" xml:space="preserve">
     <value>Resample</value>

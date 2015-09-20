@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_ForPatchInlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToList(),
                 OperatorPropertiesList_ForPatchOutlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToList(),
                 OperatorPropertiesList_ForSamples = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForSamples(repositoryWrapper.SampleRepository)).ToList(),
-                OperatorPropertiesList_ForValues = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForValues()).ToList(),
+                OperatorPropertiesList_ForNumbers = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForNumbers()).ToList(),
                 PatchDetailsList = document.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, repositoryWrapper.SampleRepository, repositoryWrapper.CurveRepository, repositoryWrapper.DocumentRepository, entityPositionManager)).ToList(),
                 PatchGrid = document.Patches.ToGridViewModel(document.ID),
                 SampleGrid = document.Samples.ToGridViewModel(document.ID),
@@ -70,7 +70,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_ForPatchInlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToList(),
                 OperatorPropertiesList_ForPatchOutlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToList(),
                 OperatorPropertiesList_ForSamples = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForSamples(repositoryWrapper.SampleRepository)).ToList(),
-                OperatorPropertiesList_ForValues = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForValues()).ToList(),
+                OperatorPropertiesList_ForNumbers = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForNumbers()).ToList(),
                 PatchGrid = childDocument.Patches.ToGridViewModel(childDocument.ID),
                 PatchDetailsList = childDocument.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, repositoryWrapper.SampleRepository, repositoryWrapper.CurveRepository, repositoryWrapper.DocumentRepository, entityPositionManager)).ToList(),
                 SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(childDocument.ParentDocument, childDocument)
