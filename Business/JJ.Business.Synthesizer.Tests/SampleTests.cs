@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests
                 double duration = sample.GetDuration(stream.Length);
 
                 PatchManager x = TestHelper.CreatePatchManager(context);
-                Outlet outlet = x.TimeMultiply(x.Sample(sample), x.Value(timeMultiplier));
+                Outlet outlet = x.SlowDown(x.Sample(sample), x.Value(timeMultiplier));
 
                 AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();

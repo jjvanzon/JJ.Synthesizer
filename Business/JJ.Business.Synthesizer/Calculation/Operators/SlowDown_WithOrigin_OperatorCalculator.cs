@@ -3,13 +3,13 @@ using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class TimeMultiply_WithOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class SlowDown_WithOrigin_OperatorCalculator : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _timeMultiplierCalculator;
         private OperatorCalculatorBase _originOutletCalculator;
 
-        public TimeMultiply_WithOrigin_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeMultiplierCalculator, OperatorCalculatorBase originOutletCalculator)
+        public SlowDown_WithOrigin_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeMultiplierCalculator, OperatorCalculatorBase originOutletCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (signalCalculator is Value_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_OperatorCalculator.");

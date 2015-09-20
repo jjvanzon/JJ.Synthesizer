@@ -174,8 +174,8 @@
   <data name="TimeDivide" xml:space="preserve">
     <value>Tijd delen</value>
   </data>
-  <data name="TimeMultiply" xml:space="preserve">
-    <value>Tijd factor</value>
+  <data name="SlowDown" xml:space="preserve">
+    <value>Vertragen</value>
   </data>
   <data name="TimePower" xml:space="preserve">
     <value>Tijd exponent</value>

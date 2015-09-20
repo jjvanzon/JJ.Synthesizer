@@ -14,7 +14,7 @@
         Substract = 9,
         Delay = 10,
         TimeDivide = 11,
-        TimeMultiply = 12,
+        SlowDown = 12,
         TimePower = 13,
         TimeSubstract = 14,
         Value = 15,

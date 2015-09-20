@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Substract, VisitSubstract },
                 { OperatorTypeEnum.Delay, VisitDelay },
                 { OperatorTypeEnum.TimeDivide, VisitTimeDivide },
-                { OperatorTypeEnum.TimeMultiply, VisitTimeMultiply },
+                { OperatorTypeEnum.SlowDown, VisitSlowDown },
                 { OperatorTypeEnum.TimePower, VisitTimePower },
                 { OperatorTypeEnum.TimeSubstract, VisitTimeSubstract },
                 { OperatorTypeEnum.Value, VisitValue },
@@ -111,7 +111,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitTimeDivide(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitTimeMultiply(Operator op) { }
+        protected virtual void VisitSlowDown(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitTimePower(Operator op) { }

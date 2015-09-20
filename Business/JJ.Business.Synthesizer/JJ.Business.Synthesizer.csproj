@@ -76,11 +76,11 @@
     <Compile Include="Calculation\Operators\TimeDivide_WithConstOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TimeDivide_WithOrigin_WithConstTimeDivider_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TimeDivide_WithoutOrigin_WithConstTimeDivider_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\TimeMultiply_WithOrigin_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\TimeMultiply_WithConstOrigin_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\TimeMultiply_WithOrigin_WithConstTimeMultiplier_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\TimeMultiply_WithoutOrigin_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\TimeMultiply_WithoutOrigin_WithConstTimeMultiplier_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SlowDown_WithOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SlowDown_WithConstOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SlowDown_WithOrigin_WithConstTimeMultiplier_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SlowDown_WithoutOrigin_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SlowDown_WithoutOrigin_WithConstTimeMultiplier_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TimeSubstract_WithConstTimeDifference_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Delay_WithConstTimeDifference_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power_WithConstExponent_OperatorCalculator.cs" />
@@ -174,7 +174,7 @@
     <Compile Include="EntityWrappers\Adder_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Curve_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimeSubstract_OperatorWrapper.cs" />
-    <Compile Include="EntityWrappers\TimeMultiply_OperatorWrapper.cs" />
+    <Compile Include="EntityWrappers\SlowDown_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimePower_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\TimeDivide_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Delay_OperatorWrapper.cs" />
@@ -264,7 +264,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_Sample.cs" />
     <Compile Include="Validation\CurveValidator.cs" />
     <Compile Include="Validation\NodeValidator.cs" />
-    <Compile Include="Validation\OperatorValidator_TimeMultiply.cs" />
+    <Compile Include="Validation\OperatorValidator_SlowDown.cs" />
     <Compile Include="Validation\OperatorValidator_TimeSubstract.cs" />
     <Compile Include="Validation\OperatorValidator_TimePower.cs" />
     <Compile Include="Validation\OperatorValidator_TimeDivide.cs" />
@@ -300,7 +300,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_Add.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_TimeSubstract.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_TimePower.cs" />
-    <Compile Include="Warnings\OperatorWarningValidator_TimeMultiply.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_SlowDown.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_TimeDivide.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Delay.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Sine.cs" />

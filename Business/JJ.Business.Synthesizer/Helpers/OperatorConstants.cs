@@ -51,10 +51,10 @@
         public const int TIME_DIVIDE_ORIGIN_INDEX = 2;
         public const int TIME_DIVIDE_RESULT_INDEX = 0;
 
-        public const int TIME_MULTIPLY_SIGNAL_INDEX = 0;
-        public const int TIME_MULTIPLY_TIME_MULTIPLIER_INDEX = 1;
-        public const int TIME_MULTIPLY_ORIGIN_INDEX = 2;
-        public const int TIME_MULTIPLY_RESULT_INDEX = 0;
+        public const int SLOW_DOWN_SIGNAL_INDEX = 0;
+        public const int SLOW_DOWN_TIME_MULTIPLIER_INDEX = 1;
+        public const int SLOW_DOWN_ORIGIN_INDEX = 2;
+        public const int SLOW_DOWN_RESULT_INDEX = 0;
 
         public const int TIME_POWER_SIGNAL_INDEX = 0;
         public const int TIME_POWER_EXPONENT_INDEX = 1;

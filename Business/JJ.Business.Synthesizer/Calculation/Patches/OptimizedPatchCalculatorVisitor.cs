@@ -516,7 +516,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitTimeMultiply(Operator op)
+        protected override void VisitSlowDown(Operator op)
         {
             OperatorCalculatorBase calculator;
 
@@ -558,23 +558,23 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (originIsConstZero && timeMultiplierIsConst)
             {
-                calculator = new TimeMultiply_WithoutOrigin_WithConstTimeMultiplier_OperatorCalculator(signalCalculator, timeMultiplier);
+                calculator = new SlowDown_WithoutOrigin_WithConstTimeMultiplier_OperatorCalculator(signalCalculator, timeMultiplier);
             }
             else if (originIsConstZero && !timeMultiplierIsConst)
             {
-                calculator = new TimeMultiply_WithoutOrigin_OperatorCalculator(signalCalculator, timeMultiplierCalculator);
+                calculator = new SlowDown_WithoutOrigin_OperatorCalculator(signalCalculator, timeMultiplierCalculator);
             }
             else if (timeMultiplierIsConst)
             {
-                calculator = new TimeMultiply_WithOrigin_WithConstTimeMultiplier_OperatorCalculator(signalCalculator, timeMultiplier, originCalculator);
+                calculator = new SlowDown_WithOrigin_WithConstTimeMultiplier_OperatorCalculator(signalCalculator, timeMultiplier, originCalculator);
             }
             else if (originIsConst)
             {
-                calculator = new TimeMultiply_WithConstOrigin_OperatorCalculator(signalCalculator, timeMultiplierCalculator, origin);
+                calculator = new SlowDown_WithConstOrigin_OperatorCalculator(signalCalculator, timeMultiplierCalculator, origin);
             }
             else
             {
-                calculator = new TimeMultiply_WithOrigin_OperatorCalculator(signalCalculator, timeMultiplierCalculator, originCalculator);
+                calculator = new SlowDown_WithOrigin_OperatorCalculator(signalCalculator, timeMultiplierCalculator, originCalculator);
             }
 
             _stack.Push(calculator);

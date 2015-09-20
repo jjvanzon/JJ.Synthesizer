@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.Substract, typeof(OperatorValidator_Substract) },
             { OperatorTypeEnum.Delay, typeof(OperatorValidator_Delay) },
             { OperatorTypeEnum.TimeDivide, typeof(OperatorValidator_TimeDivide) },
-            { OperatorTypeEnum.TimeMultiply, typeof(OperatorValidator_TimeMultiply) },
+            { OperatorTypeEnum.SlowDown, typeof(OperatorValidator_SlowDown) },
             { OperatorTypeEnum.TimePower, typeof(OperatorValidator_TimePower) },
             { OperatorTypeEnum.TimeSubstract, typeof(OperatorValidator_TimeSubstract) },
             { OperatorTypeEnum.Value, typeof(OperatorValidator_Value) },

@@ -175,8 +175,8 @@
   <data name="TimeDivide" xml:space="preserve">
     <value>Time Divide</value>
   </data>
-  <data name="TimeMultiply" xml:space="preserve">
-    <value>Time Multiply</value>
+  <data name="SlowDown" xml:space="preserve">
+    <value>Slow Down</value>
   </data>
   <data name="TimePower" xml:space="preserve">
     <value>Time Exponent</value>

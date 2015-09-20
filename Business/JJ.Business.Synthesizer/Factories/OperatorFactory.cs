@@ -284,15 +284,15 @@ namespace JJ.Business.Synthesizer.Factories
 
             return wrapper;
         }
-
-        public TimeMultiply_OperatorWrapper TimeMultiply(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
+        
+        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(
-                OperatorTypeEnum.TimeMultiply, 3,
+                OperatorTypeEnum.SlowDown, 3,
                 PropertyNames.Signal, PropertyNames.TimeMultiplier, PropertyNames.Origin,
                 PropertyNames.Result);
 
-            var wrapper = new TimeMultiply_OperatorWrapper(op)
+            var wrapper = new SlowDown_OperatorWrapper(op)
             {
                 Signal = signal,
                 TimeMultiplier = timeMultiplier,

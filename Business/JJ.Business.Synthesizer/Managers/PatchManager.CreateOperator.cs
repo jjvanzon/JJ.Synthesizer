@@ -115,9 +115,9 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public TimeMultiply_OperatorWrapper TimeMultiply(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
+        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
         {
-            var wrapper = _operatorFactory.TimeMultiply(signal, timeMultiplier, origin);
+            var wrapper = _operatorFactory.SlowDown(signal, timeMultiplier, origin);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
