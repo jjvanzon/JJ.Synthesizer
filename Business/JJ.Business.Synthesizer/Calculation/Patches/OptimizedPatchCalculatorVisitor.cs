@@ -703,51 +703,51 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OperatorCalculatorBase volumeCalculator = _stack.Pop();
             OperatorCalculatorBase pitchCalculator = _stack.Pop();
-            OperatorCalculatorBase levelCalculator = _stack.Pop();
+            OperatorCalculatorBase originCalculator = _stack.Pop();
             OperatorCalculatorBase phaseStartCalculator = _stack.Pop();
 
             volumeCalculator = volumeCalculator ?? new Value_OperatorCalculator(0);
             pitchCalculator = pitchCalculator ?? new Value_OperatorCalculator(0);
-            levelCalculator = levelCalculator ?? new Value_OperatorCalculator(0);
+            originCalculator = originCalculator ?? new Value_OperatorCalculator(0);
             phaseStartCalculator = phaseStartCalculator ?? new Value_OperatorCalculator(0);
             double volume = volumeCalculator.Calculate(0, 0);
             double pitch = pitchCalculator.Calculate(0, 0);
-            double level = levelCalculator.Calculate(0, 0);
+            double origin = originCalculator.Calculate(0, 0);
             double phaseStart = phaseStartCalculator.Calculate(0, 0);
             bool volumeIsConst = volumeCalculator is Value_OperatorCalculator;
             bool pitchIsConst = pitchCalculator is Value_OperatorCalculator;
-            bool levelIsConst = levelCalculator is Value_OperatorCalculator;
+            bool originIsConst = originCalculator is Value_OperatorCalculator;
             bool phaseStartIsConst = phaseStartCalculator is Value_OperatorCalculator;
             bool volumeIsConstZero = volumeIsConst && volume == 0;
             bool pitchIsConstZero = pitchIsConst && pitch == 0;
-            bool levelIsConstZero = levelIsConst && level == 0;
+            bool originIsConstZero = originIsConst && origin == 0;
             bool phaseStartIsConstZero = phaseStartIsConst && phaseStart % (Math.PI * 2) == 0; // TODO: Precision problem in the comparison to 0?
             bool volumeIsConstOne = volumeIsConst && volume == 1; // Not used yet, but could be used for optimization too.
 
             if (volumeIsConstZero)
             {
-                calculator = levelCalculator;
+                calculator = originCalculator;
             }
             else if (pitchIsConstZero)
             {
                 // Weird number
-                calculator = levelCalculator;
+                calculator = originCalculator;
             }
-            else if (levelIsConstZero && phaseStartIsConstZero)
+            else if (originIsConstZero && phaseStartIsConstZero)
             {
                 calculator = new Sine_OperatorCalculator(volumeCalculator, pitchCalculator);
             }
-            else if (levelIsConstZero && !phaseStartIsConstZero)
+            else if (originIsConstZero && !phaseStartIsConstZero)
             {
                 calculator = new Sine_WithPhaseStart_OperatorCalculator(volumeCalculator, pitchCalculator, phaseStartCalculator);
             }
-            else if (!levelIsConstZero && phaseStartIsConstZero)
+            else if (!originIsConstZero && phaseStartIsConstZero)
             {
-                calculator = new Sine_WithLevel_OperatorCalculator(volumeCalculator, pitchCalculator, levelCalculator);
+                calculator = new Sine_WithOrigin_OperatorCalculator(volumeCalculator, pitchCalculator, originCalculator);
             }
             else
             {
-                calculator = new Sine_WithLevel_AndPhaseStart_OperatorCalculator(volumeCalculator, pitchCalculator, levelCalculator, phaseStartCalculator);
+                calculator = new Sine_WithOrigin_AndPhaseStart_OperatorCalculator(volumeCalculator, pitchCalculator, originCalculator, phaseStartCalculator);
             }
 
             _stack.Push(calculator);

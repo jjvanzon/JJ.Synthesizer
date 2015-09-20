@@ -478,13 +478,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             Outlet volumeOutlet = wrapper.Volume;
             Outlet pitchOutlet = wrapper.Pitch;
-            Outlet levelOutlet = wrapper.Level;
+            Outlet originOutlet = wrapper.Origin;
 
             if (volumeOutlet == null || pitchOutlet == null)
             {
-                if (levelOutlet != null)
+                if (originOutlet != null)
                 {
-                    return Calculate(levelOutlet, time);
+                    return Calculate(originOutlet, time);
                 }
                 else
                 {
@@ -497,15 +497,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double volume = Calculate(volumeOutlet, time);
             double pitch = Calculate(pitchOutlet, time);
 
-            if (levelOutlet == null && phaseStartOutlet == null)
+            if (originOutlet == null && phaseStartOutlet == null)
             {
                 return volume * Math.Sin(2 * Math.PI * pitch * time);
             }
 
-            double level = levelOutlet != null ? Calculate(levelOutlet, time) : 0;
+            double origin = originOutlet != null ? Calculate(originOutlet, time) : 0;
             double phaseStart = phaseStartOutlet != null ? Calculate(phaseStartOutlet, time) : 0;
 
-            double result = level + volume * Math.Sin(2 * (Math.PI * phaseStart + Math.PI * pitch * time));
+            double result = origin + volume * Math.Sin(2 * (Math.PI * phaseStart + Math.PI * pitch * time));
             return result;
         }
 

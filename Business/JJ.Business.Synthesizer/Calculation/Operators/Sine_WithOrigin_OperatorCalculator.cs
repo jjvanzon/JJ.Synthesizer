@@ -3,33 +3,33 @@ using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Sine_WithLevel_OperatorCalculator : OperatorCalculatorBase
+    internal class Sine_WithOrigin_OperatorCalculator : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _volumeCalculator;
         private OperatorCalculatorBase _pitchCalculator;
-        private OperatorCalculatorBase _levelCalculator;
+        private OperatorCalculatorBase _originCalculator;
 
-        public Sine_WithLevel_OperatorCalculator(
+        public Sine_WithOrigin_OperatorCalculator(
             OperatorCalculatorBase volumeCalculator, 
             OperatorCalculatorBase pitchCalculator, 
-            OperatorCalculatorBase levelCalculator)
+            OperatorCalculatorBase originCalculator)
         {
             if (volumeCalculator == null) throw new NullException(() => volumeCalculator);
             if (pitchCalculator == null) throw new NullException(() => pitchCalculator);
-            if (levelCalculator == null) throw new NullException(() => levelCalculator);
+            if (originCalculator == null) throw new NullException(() => originCalculator);
 
             _volumeCalculator = volumeCalculator;
             _pitchCalculator = pitchCalculator;
-            _levelCalculator = levelCalculator;
+            _originCalculator = originCalculator;
         }
             
         public override double Calculate(double time, int channelIndex)
         {
             double volume = _volumeCalculator.Calculate(time, channelIndex);
             double pitch = _pitchCalculator.Calculate(time, channelIndex); 
-            double level = _levelCalculator.Calculate(time, channelIndex);
+            double origin = _originCalculator.Calculate(time, channelIndex);
 
-            return level + volume * Math.Sin(2 * Math.PI * pitch * time);
+            return origin + volume * Math.Sin(2 * Math.PI * pitch * time);
         }
     }
 }

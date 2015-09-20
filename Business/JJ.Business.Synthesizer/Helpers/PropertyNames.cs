@@ -32,7 +32,6 @@
         public const string Exponent = "Exponent";
         public const string Volume = "Volume";
         public const string Pitch = "Pitch";
-        public const string Level = "Level";
         public const string PhaseStart = "PhaseStart";
         public const string Signal = "Signal";
         public const string TimeDifference = "TimeDifference";

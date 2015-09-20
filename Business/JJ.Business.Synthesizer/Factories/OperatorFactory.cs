@@ -218,18 +218,18 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Sine_OperatorWrapper Sine(Outlet volume = null, Outlet pitch = null, Outlet level = null, Outlet phaseStart = null)
+        public Sine_OperatorWrapper Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseStart = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Sine, 4,
-                PropertyNames.Volume, PropertyNames.Pitch, PropertyNames.Level, PropertyNames.PhaseStart,
+                PropertyNames.Volume, PropertyNames.Pitch, PropertyNames.Origin, PropertyNames.PhaseStart,
                 PropertyNames.Result);
 
             var wrapper = new Sine_OperatorWrapper(op)
             {
                 Volume = volume,
                 Pitch = pitch,
-                Level = level,
+                Origin = origin,
                 PhaseStart = phaseStart
             };
 

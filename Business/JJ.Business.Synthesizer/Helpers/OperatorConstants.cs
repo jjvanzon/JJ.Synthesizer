@@ -34,7 +34,7 @@
 
         public const int SINE_VOLUME_INDEX = 0;
         public const int SINE_PITCH_INDEX = 1;
-        public const int SINE_LEVEL_INDEX = 2;
+        public const int SINE_ORIGIN_INDEX = 2;
         public const int SINE_PHASE_START_INDEX = 3;
         public const int SINE_RESULT_INDEX = 0;
 

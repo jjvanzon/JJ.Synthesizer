@@ -22,10 +22,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { GetInlet(OperatorConstants.SINE_PITCH_INDEX).LinkTo(value); }
         }
 
-        public Outlet Level
+        public Outlet Origin
         {
-            get { return GetInlet(OperatorConstants.SINE_LEVEL_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.SINE_LEVEL_INDEX).LinkTo(value); }
+            get { return GetInlet(OperatorConstants.SINE_ORIGIN_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.SINE_ORIGIN_INDEX).LinkTo(value); }
         }
 
         public Outlet PhaseStart

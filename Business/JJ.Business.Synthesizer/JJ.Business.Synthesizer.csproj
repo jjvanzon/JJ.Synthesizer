@@ -104,7 +104,7 @@
     <Compile Include="Calculation\Operators\Sample_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Sample_MonoToStereo_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Sample_StereoToMono_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Sine_WithLevel_AndPhaseStart_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Sine_WithOrigin_AndPhaseStart_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Sine_WithPhaseStart_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Multiply_WithOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\CurveIn_OperatorCalculator.cs" />
@@ -112,7 +112,7 @@
     <Compile Include="Calculation\Operators\Multiply_WithoutOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Sine_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Sine_WithLevel_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Sine_WithOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Substract_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TimeAdd_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TimePower_WithoutOrigin_OperatorCalculator.cs" />

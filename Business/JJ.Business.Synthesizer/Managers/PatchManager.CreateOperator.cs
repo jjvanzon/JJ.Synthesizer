@@ -87,9 +87,9 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public Sine_OperatorWrapper Sine(Outlet volume = null, Outlet pitch = null, Outlet level = null, Outlet phaseStart = null)
+        public Sine_OperatorWrapper Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseStart = null)
         {
-            var wrapper = _operatorFactory.Sine(volume, pitch, level, phaseStart);
+            var wrapper = _operatorFactory.Sine(volume, pitch, origin, phaseStart);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
