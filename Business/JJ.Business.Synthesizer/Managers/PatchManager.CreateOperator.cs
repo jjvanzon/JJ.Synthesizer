@@ -15,8 +15,6 @@ namespace JJ.Business.Synthesizer.Managers
     {
         public Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, int inletCountForAdder = 16)
         {
-            AssertPatch();
-
             Operator op = _operatorFactory.CreateOperatorPolymorphic(operatorTypeEnum, inletCountForAdder);
             op.LinkTo(Patch);
 
@@ -27,8 +25,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Add_OperatorWrapper Add(Outlet operandA = null, Outlet operandB = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.Add(operandA, operandB);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -36,8 +32,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Adder_OperatorWrapper Adder(params Outlet[] operands)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.Adder(operands);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -45,8 +39,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Adder_OperatorWrapper Adder(IList<Outlet> operands)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.Adder(operands);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -54,8 +46,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Divide_OperatorWrapper Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.Divide(numerator, denominator, origin);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -63,8 +53,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Multiply_OperatorWrapper Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.Multiply(operandA, operandB, origin);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -72,8 +60,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public PatchInlet_OperatorWrapper PatchInlet(Outlet input = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.PatchInlet(input);
 
             wrapper.Operator.LinkTo(Patch);
@@ -85,8 +71,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.PatchOutlet(input);
 
             wrapper.Operator.LinkTo(Patch);
@@ -98,8 +82,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Power_OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.Power(@base, exponent);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -107,8 +89,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Sine_OperatorWrapper Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseStart = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.Sine(volume, pitch, origin, phaseStart);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -116,8 +96,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Substract_OperatorWrapper Substract(Outlet operandA = null, Outlet operandB = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.Substract(operandA, operandB);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -125,8 +103,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Delay_OperatorWrapper Delay(Outlet signal = null, Outlet timeDifference = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.Delay(signal, timeDifference);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -134,8 +110,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public TimeDivide_OperatorWrapper TimeDivide(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.TimeDivide(signal, timeDivider, origin);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -143,8 +117,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public TimeMultiply_OperatorWrapper TimeMultiply(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.TimeMultiply(signal, timeMultiplier, origin);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -152,8 +124,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public TimePower_OperatorWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.TimePower(signal, exponent, origin);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -161,8 +131,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public TimeSubstract_OperatorWrapper TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.TimeSubstract(signal, timeDifference);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -170,8 +138,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Value_OperatorWrapper Value(double value = 0)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.Value(value);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -179,8 +145,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Curve_OperatorWrapper Curve(Curve curve = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.Curve(curve);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -188,8 +152,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Sample_OperatorWrapper Sample(Sample sample = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.Sample(sample);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -197,8 +159,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public WhiteNoise_OperatorWrapper WhiteNoise()
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.WhiteNoise();
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -206,8 +166,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Resample_OperatorWrapper Resample(Outlet signal = null, Outlet samplingRate = null)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.Resample(signal, samplingRate);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -215,8 +173,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Custom_OperatorWrapper CustomOperator()
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.CustomOperator();
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -224,8 +180,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Custom_OperatorWrapper CustomOperator(Document document)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.CustomOperator(document);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -233,8 +187,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Custom_OperatorWrapper CustomOperator(Document document, params Outlet[] operands)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.CustomOperator(document, operands);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -242,8 +194,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Custom_OperatorWrapper CustomOperator(Document document, IList<Outlet> operands)
         {
-            AssertPatch();
-
             var wrapper = _operatorFactory.CustomOperator(document, operands);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
