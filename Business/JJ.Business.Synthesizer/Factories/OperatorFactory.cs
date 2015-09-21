@@ -84,14 +84,14 @@ namespace JJ.Business.Synthesizer.Factories
             return op;
         }
 
-        public Add_OperatorWrapper Add(Outlet operandA = null, Outlet operandB = null)
+        public OperatorWrapper_Add Add(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Add, 2,
                 PropertyNames.OperandA, PropertyNames.OperandB,
                 PropertyNames.Result);
 
-            var wrapper = new Add_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_Add(op)
             {
                 OperandA = operandA,
                 OperandB = operandB
@@ -100,12 +100,12 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Adder_OperatorWrapper Adder(params Outlet[] operands)
+        public OperatorWrapper_Adder Adder(params Outlet[] operands)
         {
             return Adder((IList<Outlet>)operands);
         }
 
-        public Adder_OperatorWrapper Adder(IList<Outlet> operands)
+        public OperatorWrapper_Adder Adder(IList<Outlet> operands)
         {
             if (operands == null) throw new NullException(() => operands);
 
@@ -132,18 +132,18 @@ namespace JJ.Business.Synthesizer.Factories
             outlet.LinkTo(op);
             _repositories.OutletRepository.Insert(outlet);
 
-            var wrapper = new Adder_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_Adder(op);
             return wrapper;
         }
 
-        public Divide_OperatorWrapper Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
+        public OperatorWrapper_Divide Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Divide, 3,
                 PropertyNames.Numerator, PropertyNames.Denominator, PropertyNames.Origin,
                 PropertyNames.Result);
 
-            var wrapper = new Divide_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_Divide(op)
             {
                 Numerator = numerator,
                 Denominator = denominator,
@@ -153,14 +153,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Multiply_OperatorWrapper Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
+        public OperatorWrapper_Multiply Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Multiply, 3,
                 PropertyNames.OperandA, PropertyNames.OperandB, PropertyNames.Origin,
                 PropertyNames.Result);
 
-            var wrapper = new Multiply_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_Multiply(op)
             {
                 OperandA = operandA,
                 OperandB = operandB,
@@ -170,14 +170,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(Outlet input = null)
+        public OperatorWrapper_PatchInlet PatchInlet(Outlet input = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.PatchInlet, 1,
                 PropertyNames.Input,
                 PropertyNames.Result);
 
-            var wrapper = new PatchInlet_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_PatchInlet(op)
             {
                 Input = input,
                 SortOrder = 0 // You have to set this or the wrapper's SortOrder getter would crash.
@@ -186,14 +186,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
+        public OperatorWrapper_PatchOutlet PatchOutlet(Outlet input = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.PatchOutlet, 1,
                 PropertyNames.Input,
                 PropertyNames.Result);
 
-            var wrapper = new PatchOutlet_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_PatchOutlet(op)
             {
                 Input = input,
                 SortOrder = 0 // You have to set this or the wrapper's SortOrder getter would crash.
@@ -202,14 +202,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Power_OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)
+        public OperatorWrapper_Power Power(Outlet @base = null, Outlet exponent = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Power, 2,
                 PropertyNames.Base, PropertyNames.Exponent,
                 PropertyNames.Result);
 
-            var wrapper = new Power_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_Power(op)
             {
                 Base = @base,
                 Exponent = exponent
@@ -218,14 +218,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Sine_OperatorWrapper Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseStart = null)
+        public OperatorWrapper_Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseStart = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Sine, 4,
                 PropertyNames.Volume, PropertyNames.Pitch, PropertyNames.Origin, PropertyNames.PhaseStart,
                 PropertyNames.Result);
 
-            var wrapper = new Sine_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_Sine(op)
             {
                 Volume = volume,
                 Pitch = pitch,
@@ -236,14 +236,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Substract_OperatorWrapper Substract(Outlet operandA = null, Outlet operandB = null)
+        public OperatorWrapper_Substract Substract(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Substract, 2,
                 PropertyNames.OperandA, PropertyNames.OperandB,
                 PropertyNames.Result);
 
-            var wrapper = new Substract_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_Substract(op)
             {
                 OperandA = operandA,
                 OperandB = operandB
@@ -252,14 +252,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Delay_OperatorWrapper Delay(Outlet signal = null, Outlet timeDifference = null)
+        public OperatorWrapper_Delay Delay(Outlet signal = null, Outlet timeDifference = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Delay, 2,
                 PropertyNames.Signal, PropertyNames.TimeDifference,
                 PropertyNames.Result);
 
-            var wrapper = new Delay_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_Delay(op)
             {
                 Signal = signal,
                 TimeDifference = timeDifference
@@ -268,14 +268,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
+        public OperatorWrapper_SpeedUp SpeedUp(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.SpeedUp, 3,
                 PropertyNames.Signal, PropertyNames.TimeDivider, PropertyNames.Origin,
                 PropertyNames.Result);
 
-            var wrapper = new SpeedUp_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_SpeedUp(op)
             {
                 Signal = signal,
                 TimeDivider = timeDivider,
@@ -285,14 +285,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
         
-        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
+        public OperatorWrapper_SlowDown SlowDown(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.SlowDown, 3,
                 PropertyNames.Signal, PropertyNames.TimeMultiplier, PropertyNames.Origin,
                 PropertyNames.Result);
 
-            var wrapper = new SlowDown_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_SlowDown(op)
             {
                 Signal = signal,
                 TimeMultiplier = timeMultiplier,
@@ -302,14 +302,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public TimePower_OperatorWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
+        public OperatorWrapper_TimePower TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.TimePower, 3,
                 PropertyNames.Signal, PropertyNames.Exponent, PropertyNames.Origin,
                 PropertyNames.Result);
 
-            var wrapper = new TimePower_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_TimePower(op)
             {
                 Signal = signal,
                 Exponent = exponent,
@@ -319,14 +319,14 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public TimeSubstract_OperatorWrapper TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
+        public OperatorWrapper_TimeSubstract TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.TimeSubstract, 2,
                 PropertyNames.Signal, PropertyNames.TimeDifference,
                 PropertyNames.Result);
 
-            var wrapper = new TimeSubstract_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_TimeSubstract(op)
             {
                 Signal = signal,
                 TimeDifference = timeDifference
@@ -335,13 +335,13 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Number_OperatorWrapper Number(double number = 0)
+        public OperatorWrapper_Number Number(double number = 0)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Number, 0,
                 PropertyNames.Result);
 
-            var wrapper = new Number_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_Number(op)
             {
                 Number = number
             };
@@ -349,13 +349,13 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Curve_OperatorWrapper Curve(Curve curve = null)
+        public OperatorWrapper_Curve Curve(Curve curve = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Curve, 0,
                 PropertyNames.Result);
 
-            var wrapper = new Curve_OperatorWrapper(op, _repositories.CurveRepository);
+            var wrapper = new OperatorWrapper_Curve(op, _repositories.CurveRepository);
 
             if (curve != null)
             {
@@ -365,13 +365,13 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public Sample_OperatorWrapper Sample(Sample sample = null)
+        public OperatorWrapper_Sample Sample(Sample sample = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Sample, 0,
                 PropertyNames.Result);
 
-            var wrapper = new Sample_OperatorWrapper(op, _repositories.SampleRepository);
+            var wrapper = new OperatorWrapper_Sample(op, _repositories.SampleRepository);
             if (sample != null)
             {
                 wrapper.SampleID = sample.ID;
@@ -380,25 +380,25 @@ namespace JJ.Business.Synthesizer.Factories
             return wrapper;
         }
 
-        public WhiteNoise_OperatorWrapper WhiteNoise()
+        public OperatorWrapper_WhiteNoise WhiteNoise()
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.WhiteNoise, 0,
                 PropertyNames.Result);
 
-            var wrapper = new WhiteNoise_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_WhiteNoise(op);
 
             return wrapper;
         }
 
-        public Resample_OperatorWrapper Resample(Outlet signal = null, Outlet samplingRate = null)
+        public OperatorWrapper_Resample Resample(Outlet signal = null, Outlet samplingRate = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Resample, 2,
                 PropertyNames.Signal, PropertyNames.SamplingRate,
                 PropertyNames.Result);
 
-            var wrapper = new Resample_OperatorWrapper(op)
+            var wrapper = new OperatorWrapper_Resample(op)
             {
                 Signal = signal,
                 SamplingRate = samplingRate
@@ -409,19 +409,19 @@ namespace JJ.Business.Synthesizer.Factories
 
         // Custom Operator
 
-        public Custom_OperatorWrapper CustomOperator()
+        public OperatorWrapper_CustomOperator CustomOperator()
         {
             var op = new Operator();
             op.ID = _repositories.IDRepository.GetID();
             op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
             _repositories.OperatorRepository.Insert(op);
 
-            var wrapper = new Custom_OperatorWrapper(op, _repositories.DocumentRepository);
+            var wrapper = new OperatorWrapper_CustomOperator(op, _repositories.DocumentRepository);
             return wrapper;
         }
 
         /// <param name="underlyingDocument">The Document to base the CustomOperator on.</param>
-        public Custom_OperatorWrapper CustomOperator(Document underlyingDocument)
+        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument)
         {
             if (underlyingDocument == null) throw new NullException(() => underlyingDocument);
             if (underlyingDocument.MainPatch == null) throw new NullException(() => underlyingDocument.MainPatch);
@@ -451,7 +451,7 @@ namespace JJ.Business.Synthesizer.Factories
                 _repositories.OutletRepository.Insert(outlet);
             }
 
-            var wrapper = new Custom_OperatorWrapper(op, _repositories.DocumentRepository);
+            var wrapper = new OperatorWrapper_CustomOperator(op, _repositories.DocumentRepository);
 
             wrapper.UnderlyingDocument = underlyingDocument;
 
@@ -459,18 +459,18 @@ namespace JJ.Business.Synthesizer.Factories
         }
 
         /// <param name="document">The Document to base the CustomOperator on.</param>
-        public Custom_OperatorWrapper CustomOperator(Document document, params Outlet[] operands)
+        public OperatorWrapper_CustomOperator CustomOperator(Document document, params Outlet[] operands)
         {
             return CustomOperator(document, (IList<Outlet>)operands);
         }
 
         /// <param name="document">The Document to base the CustomOperator on.</param>
-        public Custom_OperatorWrapper CustomOperator(Document document, IList<Outlet> operands)
+        public OperatorWrapper_CustomOperator CustomOperator(Document document, IList<Outlet> operands)
         {
             if (document == null) throw new NullException(() => document);
             if (operands == null) throw new NullException(() => operands);
 
-            Custom_OperatorWrapper wrapper = CustomOperator(document);
+            OperatorWrapper_CustomOperator wrapper = CustomOperator(document);
 
             SetOperands(wrapper.Operator, operands);
 

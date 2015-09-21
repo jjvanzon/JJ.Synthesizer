@@ -112,7 +112,7 @@ namespace JJ.Business.Synthesizer.Extensions
             }
             alreadyDone.Add(op);
 
-            var wrapper = new Custom_OperatorWrapper(op, documentRepository);
+            var wrapper = new OperatorWrapper_CustomOperator(op, documentRepository);
             Document underlyingDocument = wrapper.UnderlyingDocument;
 
             if (underlyingDocument != null)

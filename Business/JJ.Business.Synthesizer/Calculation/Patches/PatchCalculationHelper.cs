@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             Operator customOperator = customOperatorOutlet.Operator;
 
-            var customOperatorWrapper = new Custom_OperatorWrapper(customOperator, documentRepository);
+            var customOperatorWrapper = new OperatorWrapper_CustomOperator(customOperator, documentRepository);
             Document underlyingDocument = customOperatorWrapper.UnderlyingDocument;
 
             if (underlyingDocument == null)
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 Operator underlyingPatchInlet = tuple.UnderlyingPatchInlet;
                 Inlet customOperatorInlet = tuple.CustomOperatorInlet;
 
-                var underlyingPatchInletWrapper = new PatchInlet_OperatorWrapper(underlyingPatchInlet);
+                var underlyingPatchInletWrapper = new OperatorWrapper_PatchInlet(underlyingPatchInlet);
                 underlyingPatchInletWrapper.Input = customOperatorInlet.InputOutlet;
             }
 
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                                                          .First();
 
             // Return the result of that Document MainPatch's outlet.
-            var underlyingPatchOutletWrapper = new PatchOutlet_OperatorWrapper(underlyingPatchOutlet);
+            var underlyingPatchOutletWrapper = new OperatorWrapper_PatchOutlet(underlyingPatchOutlet);
             return underlyingPatchOutletWrapper.Result;
         }
     }

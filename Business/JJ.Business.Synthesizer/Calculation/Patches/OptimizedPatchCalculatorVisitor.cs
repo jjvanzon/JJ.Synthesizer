@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitNumber(Operator op)
         {
-            var wrapper = new Number_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_Number(op);
             double number = wrapper.Number;
 
             var calculator = new Number_OperatorCalculator(number);
@@ -757,7 +757,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
-            var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
+            var wrapper = new OperatorWrapper_Curve(op, _curveRepository);
 
             if (wrapper.Curve == null)
             {
@@ -775,7 +775,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
-            var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
+            var wrapper = new OperatorWrapper_Sample(op, _sampleRepository);
 
             SampleInfo sampleInfo = wrapper.SampleInfo;
             if (sampleInfo.Sample == null)

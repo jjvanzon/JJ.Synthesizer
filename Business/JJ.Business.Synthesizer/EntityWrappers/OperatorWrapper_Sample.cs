@@ -6,11 +6,11 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Sample_OperatorWrapper : OperatorWrapperBase
+    public class OperatorWrapper_Sample : OperatorWrapperBase
     {
         private ISampleRepository _sampleRepository;
 
-        public Sample_OperatorWrapper(Operator op, ISampleRepository sampleRepository)
+        public OperatorWrapper_Sample(Operator op, ISampleRepository sampleRepository)
             : base(op)
         {
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
@@ -82,7 +82,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return GetOutlet(OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX); }
         }
 
-        public static implicit operator Outlet(Sample_OperatorWrapper wrapper)
+        public static implicit operator Outlet(OperatorWrapper_Sample wrapper)
         {
             if (wrapper == null) return null;
 

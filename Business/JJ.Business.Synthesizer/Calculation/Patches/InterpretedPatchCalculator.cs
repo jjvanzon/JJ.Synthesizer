@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double value;
             if (!_numberOperatorValueDictionary.TryGetValue(op, out value))
             {
-                var wrapper = new Number_OperatorWrapper(op);
+                var wrapper = new OperatorWrapper_Number(op);
                 value = wrapper.Number;
                 _numberOperatorValueDictionary.Add(op, value);
             }
@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculateAdd(Operator op, double time)
         {
-            var wrapper = new Add_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_Add(op);
 
             Outlet operandAOutlet = wrapper.OperandA;
             Outlet operandBOutlet = wrapper.OperandB;
@@ -149,7 +149,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculateSubstract(Operator op, double time)
         {
-            var wrapper = new Substract_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_Substract(op);
 
             Outlet operandAOutlet = wrapper.OperandA;
             Outlet operandBOutlet = wrapper.OperandB;
@@ -164,7 +164,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculateMultiply(Operator op, double time)
         {
-            var wrapper = new Multiply_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_Multiply(op);
 
             Outlet originOutlet = wrapper.Origin;
             Outlet operandAOutlet = wrapper.OperandA;
@@ -192,7 +192,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculateDivide(Operator op, double time)
         {
-            var wrapper = new Divide_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_Divide(op);
 
             Outlet originOutlet = wrapper.Origin;
             Outlet numeratorOutlet = wrapper.Numerator;
@@ -231,7 +231,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculatePower(Operator op, double time)
         {
-            var wrapper = new Power_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_Power(op);
 
             Outlet baseOutlet = wrapper.Base;
             Outlet exponentOutlet = wrapper.Exponent;
@@ -246,7 +246,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculateDelay(Operator op, double time)
         {
-            var wrapper = new Delay_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_Delay(op);
 
             Outlet signalOutlet = wrapper.Signal;
             if (signalOutlet == null) return 0;
@@ -267,7 +267,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculateTimeSubstract(Operator op, double time)
         {
-            var wrapper = new TimeSubstract_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_TimeSubstract(op);
 
             Outlet signalOutlet = wrapper.Signal;
             if (signalOutlet == null) return 0;
@@ -288,7 +288,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculateSlowDown(Operator op, double time)
         {
-            var wrapper = new SlowDown_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_SlowDown(op);
 
             // Determine origin
             Outlet originOutlet = wrapper.Origin;
@@ -343,7 +343,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculateSpeedUp(Operator op, double time)
         {
-            var wrapper = new SpeedUp_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_SpeedUp(op);
 
             // Determine origin
             Outlet originOutlet = wrapper.Origin;
@@ -397,7 +397,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculateTimePower(Operator op, double time)
         {
-            var wrapper = new TimePower_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_TimePower(op);
 
             Outlet signalOutlet = wrapper.Signal;
             Outlet exponentOutlet = wrapper.Exponent;
@@ -453,7 +453,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculateAdder(Operator op, double time)
         {
-            var wrapper = new Adder_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_Adder(op);
 
             Outlet[] operands = wrapper.Operands.ToArray();
 
@@ -474,7 +474,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculateSine(Operator op, double time)
         {
-            var wrapper = new Sine_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_Sine(op);
 
             Outlet volumeOutlet = wrapper.Volume;
             Outlet pitchOutlet = wrapper.Pitch;
@@ -516,7 +516,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             Curve curve;
             if (!_curveOperator_Curve_Dictionary.TryGetValue(op, out curve))
             {
-                var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
+                var wrapper = new OperatorWrapper_Curve(op, _curveRepository);
                 curve = wrapper.Curve;
                 _curveOperator_Curve_Dictionary.Add(op, curve);
             }
@@ -538,7 +538,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             SampleInfo sampleInfo;
             if (!_sampleOperator_SampleInfo_Dictionary.TryGetValue(op, out sampleInfo))
             {
-                var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
+                var wrapper = new OperatorWrapper_Sample(op, _sampleRepository);
                 sampleInfo = wrapper.SampleInfo;
                 _sampleOperator_SampleInfo_Dictionary.Add(op, sampleInfo);
             }
@@ -571,7 +571,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculatePatchInlet(Operator op, double time)
         {
-            var wrapper = new PatchInlet_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_PatchInlet(op);
 
             Outlet inputOutlet = wrapper.Input;
 
@@ -582,7 +582,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculatePatchOutlet(Operator op, double time)
         {
-            var wrapper = new PatchOutlet_OperatorWrapper(op);
+            var wrapper = new OperatorWrapper_PatchOutlet(op);
 
             Outlet inputOutlet = wrapper.Input;
 

@@ -6,26 +6,25 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Custom_OperatorWrapper_Operands : IEnumerable<Outlet>
+    public class OperatorWrapper_CustomOperator_Inlets : IEnumerable<Inlet>
     {
         private Operator _operator;
 
-        internal Custom_OperatorWrapper_Operands(Operator op)
+        internal OperatorWrapper_CustomOperator_Inlets(Operator op)
         {
             _operator = op;
         }
 
-        public Outlet this[string name]
+        public Inlet this[string name]
         {
-            get { return _operator.Inlets.Single(x => String.Equals(x.Name, name)).InputOutlet; }
-            set { _operator.Inlets.Single(x => String.Equals(x.Name, name)).InputOutlet = value; }
+            get { return _operator.Inlets.Single(x => String.Equals(x.Name, name)); }
         }
 
-        public IEnumerator<Outlet> GetEnumerator()
+        public IEnumerator<Inlet> GetEnumerator()
         {
             for (int i = 0; i < _operator.Inlets.Count; i++)
             {
-                yield return _operator.Inlets[i].InputOutlet;
+                yield return _operator.Inlets[i];
             }
         }
 
@@ -33,7 +32,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             for (int i = 0; i < _operator.Inlets.Count; i++)
             {
-                yield return _operator.Inlets[i].InputOutlet;
+                yield return _operator.Inlets[i];
             }
         }
     }

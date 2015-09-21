@@ -4,9 +4,9 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Sine_OperatorWrapper : OperatorWrapperBase
+    public class OperatorWrapper_Sine : OperatorWrapperBase
     {
-        public Sine_OperatorWrapper(Operator op)
+        public OperatorWrapper_Sine(Operator op)
             : base(op)
         { }
 
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return GetOutlet(OperatorConstants.SINE_RESULT_INDEX); }
         }
 
-        public static implicit operator Outlet(Sine_OperatorWrapper wrapper)
+        public static implicit operator Outlet(OperatorWrapper_Sine wrapper)
         {
             if (wrapper == null) return null;
 

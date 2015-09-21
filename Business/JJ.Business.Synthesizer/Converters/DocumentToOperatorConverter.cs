@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Converters
             ConvertInlets(sourcePatchInlets, destOperator);
             ConvertOutlets(sourcePatchOutlets, destOperator);
 
-            var destOperatorWrapper = new Custom_OperatorWrapper(destOperator, _documentRepository);
+            var destOperatorWrapper = new OperatorWrapper_CustomOperator(destOperator, _documentRepository);
             destOperatorWrapper.UnderlyingDocument = sourceUnderlyingDocument;
 
             destOperator.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _operatorTypeRepository);
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Converters
 
             foreach (Operator sourcePatchInlet in sourcePatchInlets)
             {
-                var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
+                var sourcePatchInletWrapper = new OperatorWrapper_PatchInlet(sourcePatchInlet);
 
                 Inlet destInlet = TryGetInlet(destOperator.Inlets, sourcePatchInlet);
                 if (destInlet == null)
@@ -134,7 +134,7 @@ namespace JJ.Business.Synthesizer.Converters
 
             foreach (Inlet destInlet in destInlets)
             { 
-                var wrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
+                var wrapper = new OperatorWrapper_PatchInlet(sourcePatchInlet);
                 if (destInlet.SortOrder == wrapper.SortOrder)
                 {
                     return destInlet;
@@ -150,7 +150,7 @@ namespace JJ.Business.Synthesizer.Converters
 
             foreach (Operator sourcePatchOutlet in sourcePatchOutlets)
             {
-                var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
+                var sourcePatchOutletWrapper = new OperatorWrapper_PatchOutlet(sourcePatchOutlet);
 
                 Outlet destOutlet = TryGetOutlet(destOperator.Outlets, sourcePatchOutlet);
                 if (destOutlet == null)
@@ -194,7 +194,7 @@ namespace JJ.Business.Synthesizer.Converters
 
             foreach (Outlet destOutlet in destOutlets)
             {
-                var wrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
+                var wrapper = new OperatorWrapper_PatchOutlet(sourcePatchOutlet);
                 if (destOutlet.SortOrder == wrapper.SortOrder)
                 {
                     return destOutlet;

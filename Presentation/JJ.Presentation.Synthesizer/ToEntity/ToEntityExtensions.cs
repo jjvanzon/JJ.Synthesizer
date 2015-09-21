@@ -478,7 +478,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, operatorTypeRepository);
 
             // UnderlyingDocument
-            var wrapper = new Custom_OperatorWrapper(entity, documentRepository);
+            var wrapper = new OperatorWrapper_CustomOperator(entity, documentRepository);
             bool underlyingDocumentIsFilledIn = viewModel.UnderlyingDocument != null && viewModel.UnderlyingDocument.ID != 0;
             if (underlyingDocumentIsFilledIn)
             {
@@ -510,7 +510,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.PatchInlet, operatorTypeRepository);
 
-            var wrapper = new PatchInlet_OperatorWrapper(entity);
+            var wrapper = new OperatorWrapper_PatchInlet(entity);
             wrapper.SortOrder = viewModel.SortOrder;
 
             return entity;
@@ -534,7 +534,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.PatchOutlet, operatorTypeRepository);
 
-            var wrapper = new PatchOutlet_OperatorWrapper(entity);
+            var wrapper = new OperatorWrapper_PatchOutlet(entity);
             wrapper.SortOrder = viewModel.SortOrder;
 
             return entity;
@@ -559,7 +559,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Sample, operatorTypeRepository);
 
             // Sample
-            var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
+            var wrapper = new OperatorWrapper_Sample(entity, sampleRepository);
             bool sampleIsFilledIn = viewModel.Sample != null && viewModel.Sample.ID != 0;
             if (sampleIsFilledIn)
             {

@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.SideEffects
             }
 
             IList<int> sortOrders = _entity.Patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                                 .Select(x => new PatchInlet_OperatorWrapper(x).SortOrder)
+                                                 .Select(x => new OperatorWrapper_PatchInlet(x).SortOrder)
                                                  .ToArray();
             int suggestedSortOrder = 1;
             bool sortOrderExists = sortOrders.Contains(suggestedSortOrder);
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.SideEffects
                 sortOrderExists = sortOrders.Contains(suggestedSortOrder);
             }
 
-            var wrapper = new PatchInlet_OperatorWrapper(_entity);
+            var wrapper = new OperatorWrapper_PatchInlet(_entity);
             wrapper.SortOrder = suggestedSortOrder;
         }
     }

@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Validation
         private void ValidatePatchInletSortOrdersAreUnique()
         {
             IList<int> sortOrders = Object.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                             .Select(x => new PatchInlet_OperatorWrapper(x))
+                                             .Select(x => new OperatorWrapper_PatchInlet(x))
                                              .Select(x => x.SortOrder)
                                              .ToArray();
 
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Validation
         private void ValidatePatchOutletSortOrdersAreUnique()
         {
             IList<int> sortOrders = Object.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                             .Select(x => new PatchOutlet_OperatorWrapper(x))
+                                             .Select(x => new OperatorWrapper_PatchOutlet(x))
                                              .Select(x => x.SortOrder)
                                              .ToArray();
 

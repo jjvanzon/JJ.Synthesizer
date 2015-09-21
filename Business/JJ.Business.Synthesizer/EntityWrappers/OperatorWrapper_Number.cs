@@ -5,9 +5,9 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Number_OperatorWrapper : OperatorWrapperBase
+    public class OperatorWrapper_Number : OperatorWrapperBase
     {
-        public Number_OperatorWrapper(Operator op)
+        public OperatorWrapper_Number(Operator op)
             : base(op)
         { }
 
@@ -22,14 +22,14 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { Operator.Data = value.ToString(); }
         }
 
-        public static implicit operator Outlet(Number_OperatorWrapper wrapper)
+        public static implicit operator Outlet(OperatorWrapper_Number wrapper)
         {
             if (wrapper == null) return null;
 
             return wrapper.Result;
         }
 
-        public static implicit operator double(Number_OperatorWrapper wrapper)
+        public static implicit operator double(OperatorWrapper_Number wrapper)
         {
             if (wrapper == null) throw new NullException(() => wrapper);
 

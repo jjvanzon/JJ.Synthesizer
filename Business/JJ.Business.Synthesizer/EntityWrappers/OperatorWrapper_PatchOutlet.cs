@@ -5,9 +5,9 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class PatchOutlet_OperatorWrapper : OperatorWrapperBase
+    public class OperatorWrapper_PatchOutlet : OperatorWrapperBase
     {
-        public PatchOutlet_OperatorWrapper(Operator op)
+        public OperatorWrapper_PatchOutlet(Operator op)
             : base(op)
         { }
 
@@ -28,7 +28,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { Operator.Data = value.ToString(); }
         }
 
-        public static implicit operator Outlet(PatchOutlet_OperatorWrapper wrapper)
+        public static implicit operator Outlet(OperatorWrapper_PatchOutlet wrapper)
         {
             if (wrapper == null) return null;
 

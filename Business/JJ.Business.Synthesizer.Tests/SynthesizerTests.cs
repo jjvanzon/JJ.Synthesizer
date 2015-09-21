@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests
                 CultureHelper.SetThreadCulture("nl-NL");
 
                 add.OperandA = null;
-                var valueOperatorWrapper = new Number_OperatorWrapper(substract.OperandB.Operator);
+                var valueOperatorWrapper = new OperatorWrapper_Number(substract.OperandB.Operator);
                 valueOperatorWrapper.Number = 0;
                 substract.Operator.Inlets[0].Name = "134";
 
@@ -109,10 +109,10 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
 
-                Number_OperatorWrapper val1 = patchManager.Number(1);
-                Number_OperatorWrapper val2 = patchManager.Number(2);
-                Number_OperatorWrapper val3 = patchManager.Number(3);
-                Adder_OperatorWrapper adder = patchManager.Adder(val1, val2, val3);
+                OperatorWrapper_Number val1 = patchManager.Number(1);
+                OperatorWrapper_Number val2 = patchManager.Number(2);
+                OperatorWrapper_Number val3 = patchManager.Number(3);
+                OperatorWrapper_Adder adder = patchManager.Adder(val1, val2, val3);
 
                 IValidator validator = new OperatorValidator_Adder(adder.Operator);
                 validator.Verify();
@@ -135,9 +135,9 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
 
-                Substract_OperatorWrapper substract = x.Substract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
+                OperatorWrapper_Substract substract = x.Substract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
 
-                Substract_OperatorWrapper substract2 = x.Substract
+                OperatorWrapper_Substract substract2 = x.Substract
                 (
                     x.Add
                     (
@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
 
-                Sine_OperatorWrapper sine = x.Sine(x.Curve(curve), x.Number(440));
+                OperatorWrapper_Sine sine = x.Sine(x.Curve(curve), x.Number(440));
 
                 CultureHelper.SetThreadCulture("nl-NL");
                 IValidator[] validators = 

@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Custom_OperatorWrapper_Outlets : IEnumerable<Outlet>
+    public class OperatorWrapper_CustomOperator_Outlets : IEnumerable<Outlet>
     {
         private Operator _operator;
 
-        internal Custom_OperatorWrapper_Outlets(Operator op)
+        internal OperatorWrapper_CustomOperator_Outlets(Operator op)
         {
             _operator = op;
         }

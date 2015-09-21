@@ -67,7 +67,7 @@ namespace JJ.Business.Synthesizer.Validation
                 return GetMessagePrefix(ResourceHelper.GetOperatorTypeDisplayName(entity), entity.Name);
             }
 
-            var wrapper = new Custom_OperatorWrapper(entity, documentRepository);
+            var wrapper = new OperatorWrapper_CustomOperator(entity, documentRepository);
             Document underlyingEntity = wrapper.UnderlyingDocument;
             string underlyingEntityName = null;
             if (underlyingEntity != null)
@@ -112,14 +112,14 @@ namespace JJ.Business.Synthesizer.Validation
             {
                 case OperatorTypeEnum.Number:
                     {
-                        var wrapper = new Number_OperatorWrapper(entity);
+                        var wrapper = new OperatorWrapper_Number(entity);
                         string formattedValue = wrapper.Number.ToString("0.######");
                         return String.Format("{0} '{1}': ", ResourceHelper.GetOperatorTypeDisplayName(entity), formattedValue);
                     }
 
                 case OperatorTypeEnum.Sample:
                     {
-                        var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
+                        var wrapper = new OperatorWrapper_Sample(entity, sampleRepository);
                         Sample underlyingEntity = wrapper.Sample;
                         if (underlyingEntity != null)
                         {
@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Validation
 
                 case OperatorTypeEnum.Curve:
                     {
-                        var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
+                        var wrapper = new OperatorWrapper_Curve(entity, curveRepository);
                         Curve underlyingEntity = wrapper.Curve;
                         if (underlyingEntity != null)
                         {

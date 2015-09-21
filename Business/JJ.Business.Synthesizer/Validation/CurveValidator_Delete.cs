@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Validation
                     continue;
                 }
 
-                var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
+                var wrapper = new OperatorWrapper_Curve(op, _curveRepository);
 
                 if (wrapper.Curve == curve ||
                     wrapper.CurveID == curve.ID)

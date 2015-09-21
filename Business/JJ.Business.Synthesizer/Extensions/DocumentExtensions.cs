@@ -89,7 +89,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
         private static bool UnderlyingDocumentIsMatch(Document underlyingDocument, Operator customOperator, IDocumentRepository documentRepository)
         {
-            var wrapper = new Custom_OperatorWrapper(customOperator, documentRepository);
+            var wrapper = new OperatorWrapper_CustomOperator(customOperator, documentRepository);
 
             Document underlyingDocument2 = wrapper.UnderlyingDocument;
 

@@ -254,7 +254,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ValidationMessages = new List<Message>()
             };
 
-            var wrapper = new Custom_OperatorWrapper(entity, documentRepository);
+            var wrapper = new OperatorWrapper_CustomOperator(entity, documentRepository);
 
             Document underlyingDocument = wrapper.UnderlyingDocument;
             if (underlyingDocument != null)
@@ -269,7 +269,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var wrapper = new PatchInlet_OperatorWrapper(entity);
+            var wrapper = new OperatorWrapper_PatchInlet(entity);
 
             var viewModel = new OperatorPropertiesViewModel_ForPatchInlet
             {
@@ -287,7 +287,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var wrapper = new PatchOutlet_OperatorWrapper(entity);
+            var wrapper = new OperatorWrapper_PatchOutlet(entity);
 
             var viewModel = new OperatorPropertiesViewModel_ForPatchOutlet
             {
@@ -313,7 +313,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ValidationMessages = new List<Message>()
             };
 
-            var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
+            var wrapper = new OperatorWrapper_Sample(entity, sampleRepository);
 
             Sample sample = wrapper.Sample;
             if (sample != null)
@@ -328,7 +328,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var wrapper = new Number_OperatorWrapper(entity);
+            var wrapper = new OperatorWrapper_Number(entity);
 
             var viewModel = new OperatorPropertiesViewModel_ForNumber
             {

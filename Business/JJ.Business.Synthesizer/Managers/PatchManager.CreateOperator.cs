@@ -23,42 +23,42 @@ namespace JJ.Business.Synthesizer.Managers
             return op;
         }
 
-        public Add_OperatorWrapper Add(Outlet operandA = null, Outlet operandB = null)
+        public OperatorWrapper_Add Add(Outlet operandA = null, Outlet operandB = null)
         {
             var wrapper = _operatorFactory.Add(operandA, operandB);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Adder_OperatorWrapper Adder(params Outlet[] operands)
+        public OperatorWrapper_Adder Adder(params Outlet[] operands)
         {
             var wrapper = _operatorFactory.Adder(operands);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Adder_OperatorWrapper Adder(IList<Outlet> operands)
+        public OperatorWrapper_Adder Adder(IList<Outlet> operands)
         {
             var wrapper = _operatorFactory.Adder(operands);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Divide_OperatorWrapper Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
+        public OperatorWrapper_Divide Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
         {
             var wrapper = _operatorFactory.Divide(numerator, denominator, origin);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Multiply_OperatorWrapper Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
+        public OperatorWrapper_Multiply Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
         {
             var wrapper = _operatorFactory.Multiply(operandA, operandB, origin);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(Outlet input = null)
+        public OperatorWrapper_PatchInlet PatchInlet(Outlet input = null)
         {
             var wrapper = _operatorFactory.PatchInlet(input);
 
@@ -69,7 +69,7 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
+        public OperatorWrapper_PatchOutlet PatchOutlet(Outlet input = null)
         {
             var wrapper = _operatorFactory.PatchOutlet(input);
 
@@ -80,119 +80,119 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public Power_OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)
+        public OperatorWrapper_Power Power(Outlet @base = null, Outlet exponent = null)
         {
             var wrapper = _operatorFactory.Power(@base, exponent);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Sine_OperatorWrapper Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseStart = null)
+        public OperatorWrapper_Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseStart = null)
         {
             var wrapper = _operatorFactory.Sine(volume, pitch, origin, phaseStart);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Substract_OperatorWrapper Substract(Outlet operandA = null, Outlet operandB = null)
+        public OperatorWrapper_Substract Substract(Outlet operandA = null, Outlet operandB = null)
         {
             var wrapper = _operatorFactory.Substract(operandA, operandB);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Delay_OperatorWrapper Delay(Outlet signal = null, Outlet timeDifference = null)
+        public OperatorWrapper_Delay Delay(Outlet signal = null, Outlet timeDifference = null)
         {
             var wrapper = _operatorFactory.Delay(signal, timeDifference);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
+        public OperatorWrapper_SpeedUp SpeedUp(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
         {
             var wrapper = _operatorFactory.SpeedUp(signal, timeDivider, origin);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
+        public OperatorWrapper_SlowDown SlowDown(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
         {
             var wrapper = _operatorFactory.SlowDown(signal, timeMultiplier, origin);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public TimePower_OperatorWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
+        public OperatorWrapper_TimePower TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
         {
             var wrapper = _operatorFactory.TimePower(signal, exponent, origin);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public TimeSubstract_OperatorWrapper TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
+        public OperatorWrapper_TimeSubstract TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
         {
             var wrapper = _operatorFactory.TimeSubstract(signal, timeDifference);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Number_OperatorWrapper Number(double number = 0)
+        public OperatorWrapper_Number Number(double number = 0)
         {
             var wrapper = _operatorFactory.Number(number);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Curve_OperatorWrapper Curve(Curve curve = null)
+        public OperatorWrapper_Curve Curve(Curve curve = null)
         {
             var wrapper = _operatorFactory.Curve(curve);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Sample_OperatorWrapper Sample(Sample sample = null)
+        public OperatorWrapper_Sample Sample(Sample sample = null)
         {
             var wrapper = _operatorFactory.Sample(sample);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public WhiteNoise_OperatorWrapper WhiteNoise()
+        public OperatorWrapper_WhiteNoise WhiteNoise()
         {
             var wrapper = _operatorFactory.WhiteNoise();
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Resample_OperatorWrapper Resample(Outlet signal = null, Outlet samplingRate = null)
+        public OperatorWrapper_Resample Resample(Outlet signal = null, Outlet samplingRate = null)
         {
             var wrapper = _operatorFactory.Resample(signal, samplingRate);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Custom_OperatorWrapper CustomOperator()
+        public OperatorWrapper_CustomOperator CustomOperator()
         {
             var wrapper = _operatorFactory.CustomOperator();
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Custom_OperatorWrapper CustomOperator(Document document)
+        public OperatorWrapper_CustomOperator CustomOperator(Document document)
         {
             var wrapper = _operatorFactory.CustomOperator(document);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Custom_OperatorWrapper CustomOperator(Document document, params Outlet[] operands)
+        public OperatorWrapper_CustomOperator CustomOperator(Document document, params Outlet[] operands)
         {
             var wrapper = _operatorFactory.CustomOperator(document, operands);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public Custom_OperatorWrapper CustomOperator(Document document, IList<Outlet> operands)
+        public OperatorWrapper_CustomOperator CustomOperator(Document document, IList<Outlet> operands)
         {
             var wrapper = _operatorFactory.CustomOperator(document, operands);
             wrapper.Operator.LinkTo(Patch);

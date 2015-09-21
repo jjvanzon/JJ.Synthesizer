@@ -6,27 +6,27 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class Custom_OperatorWrapper : OperatorWrapperBase
+    public class OperatorWrapper_CustomOperator : OperatorWrapperBase
     {
         private IDocumentRepository _documentRepository;
 
-        public Custom_OperatorWrapper(Operator op, IDocumentRepository documentRepository)
+        public OperatorWrapper_CustomOperator(Operator op, IDocumentRepository documentRepository)
             : base(op)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
 
             _documentRepository = documentRepository;
 
-            Operands = new Custom_OperatorWrapper_Operands(op);
-            Inlets = new Custom_OperatorWrapper_Inlets(op);
-            Outlets = new Custom_OperatorWrapper_Outlets(op);
+            Operands = new OperatorWrapper_CustomOperator_Operands(op);
+            Inlets = new OperatorWrapper_CustomOperator_Inlets(op);
+            Outlets = new OperatorWrapper_CustomOperator_Outlets(op);
         }
 
-        public Custom_OperatorWrapper_Operands Operands { get; private set; }
+        public OperatorWrapper_CustomOperator_Operands Operands { get; private set; }
 
-        public Custom_OperatorWrapper_Inlets Inlets { get; private set; }
+        public OperatorWrapper_CustomOperator_Inlets Inlets { get; private set; }
 
-        public Custom_OperatorWrapper_Outlets Outlets { get; private set; }
+        public OperatorWrapper_CustomOperator_Outlets Outlets { get; private set; }
 
         public int? UnderlyingDocumentID
         {
