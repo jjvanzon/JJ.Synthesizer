@@ -69,13 +69,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             try
             {
                 _applyViewModelIsBusy = true;
+                treeView.SuspendLayout();
+                treeView.BeginUpdate();
 
                 _samplesTreeNodes = new HashSet<TreeNode>();
                 _curvesTreeNodes = new HashSet<TreeNode>();
                 _patchesTreeNodes = new HashSet<TreeNode>();
                 _childDocumentTreeNodes = new HashSet<TreeNode>();
-
-                treeView.SuspendLayout();
 
                 treeView.Nodes.Clear();
 
@@ -118,11 +118,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                 _documentTreeNode.Expand();
 
-                treeView.ResumeLayout();
             }
             finally
             {
                 _applyViewModelIsBusy = false;
+                treeView.EndUpdate();
+                treeView.ResumeLayout();
             }
         }
 
