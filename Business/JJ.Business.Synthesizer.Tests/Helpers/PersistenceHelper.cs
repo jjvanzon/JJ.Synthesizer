@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             if (context == null) throw new NullException(() => context);
 
-            var repositoryWrapper = new RepositoryWrapper
+            var repositories = new RepositoryWrapper
             (
                 CreateRepository<IDocumentRepository>(context),
                 CreateRepository<ICurveRepository>(context),
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 CreateRepository<IIDRepository>(context)
             );
 
-            return repositoryWrapper;
+            return repositories;
         }
     }
 }

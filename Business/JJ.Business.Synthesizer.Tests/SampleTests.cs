@@ -29,7 +29,8 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                SampleManager sampleManager = TestHelper.CreateSampleManager(context);
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
+                SampleManager sampleManager =  new SampleManager(new SampleRepositories(repositories));
                 Stream stream = TestHelper.GetViolin16BitMonoRawStream();
                 SampleInfo sampleInfo = sampleManager.CreateSample(stream, AudioFileFormatEnum.Raw);
                 Sample sample = sampleInfo.Sample;
@@ -40,10 +41,10 @@ namespace JJ.Business.Synthesizer.Tests
                 double timeMultiplier = 1;
                 double duration = sample.GetDuration(stream.Length);
 
-                PatchManager x = TestHelper.CreatePatchManager(context);
+                PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 Outlet outlet = x.SlowDown(x.Sample(sample), x.Number(timeMultiplier));
 
-                AudioFileOutputManager audioFileOutputManager = TestHelper.CreateAudioFileOutputManager(context);
+                AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
                 audioFileOutput.FilePath = OUTPUT_FILE_NAME;
@@ -62,21 +63,19 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
                 Stream stream = TestHelper.GetViolin16BitMono44100WavStream();
 
-                SampleManager sampleManager = TestHelper.CreateSampleManager(context);
+                SampleManager sampleManager = new SampleManager(new SampleRepositories(repositories));
                 SampleInfo sampleInfo = sampleManager.CreateSample(stream, AudioFileFormatEnum.Wav);
                 Sample sample = sampleInfo.Sample;
 
-                PatchManager x = TestHelper.CreatePatchManager(context);
+                PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 Outlet outlet = x.Sample(sample);
 
-                var patchManager = TestHelper.CreatePatchManager(repositoryWrapper);
-
                 // Trigger SampleCalculation
-                IPatchCalculator calculator = patchManager.CreateCalculator(outlet);
+                IPatchCalculator calculator = x.CreateCalculator(outlet);
                 double value = calculator.Calculate(0, 0);
             }
         }
@@ -86,7 +85,9 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                SampleManager sampleManager = TestHelper.CreateSampleManager(context);
+                var repositories = PersistenceHelper.CreateRepositories(context);
+
+                SampleManager sampleManager = new SampleManager(new SampleRepositories(repositories));
 
                 Stream wavStream = TestHelper.GetViolin16BitMono44100WavStream();
                 Stream rawStream = TestHelper.GetViolin16BitMonoRawStream();

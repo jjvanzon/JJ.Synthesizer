@@ -15,7 +15,6 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.Factories;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -27,7 +26,8 @@ namespace JJ.Business.Synthesizer.Managers
     public partial class PatchManager
     {
         private PatchRepositories _repositories;
-        private OperatorFactory _operatorFactory;
+        // TODO: Remove outcommented code.
+        //private OperatorFactory _operatorFactory;
 
         /// <summary> nullable </summary>
         public Patch Patch { get; set; }
@@ -40,7 +40,8 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories = repositories;
             Patch = patch;
 
-            _operatorFactory = new OperatorFactory(repositories);
+            // TODO: Remove outcommented code.
+            //_operatorFactory = new OperatorFactory(repositories);
         }
 
         public PatchManager(PatchRepositories repositories)
@@ -49,7 +50,8 @@ namespace JJ.Business.Synthesizer.Managers
 
             _repositories = repositories;
 
-            _operatorFactory = new OperatorFactory(repositories);
+            // TODO: Remove outcommented code.
+            //_operatorFactory = new OperatorFactory(repositories);
         }
 
         /// <param name="document">Nullable. Used e.g. to generate a unique name for a Patch.</param>

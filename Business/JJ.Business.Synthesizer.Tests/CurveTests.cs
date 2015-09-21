@@ -11,6 +11,7 @@ using JJ.Framework.Testing;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Configuration;
+using JJ.Business.Synthesizer.Managers;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -84,10 +85,10 @@ namespace JJ.Business.Synthesizer.Tests
         {
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
-                RepositoryWrapper repositoryWrapper = PersistenceHelper.CreateRepositories(context);
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
 
-                var curveFactory = TestHelper.CreateCurveFactory(repositoryWrapper);
-                Curve curve = curveFactory.CreateCurve
+                var curveFactory = new CurveManager(new CurveRepositories(repositories));
+                Curve curve = curveFactory.Create
                 (
                     3,
                     new NodeInfo(0.5, NodeTypeEnum.Off),
