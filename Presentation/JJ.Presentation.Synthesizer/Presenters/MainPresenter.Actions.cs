@@ -1665,7 +1665,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                ViewModel.ToEntityWithRelatedEntities(_repositories);
+                Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+                HACK_CreateCurves(rootDocument);
 
                 string outputFilePath = _patchDetailsPresenter.Play(_repositories);
 

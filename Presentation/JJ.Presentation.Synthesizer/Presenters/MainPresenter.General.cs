@@ -6,6 +6,11 @@ using JJ.Business.Synthesizer.Managers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Data.Synthesizer;
+using JJ.Business.Synthesizer.Extensions;
+using System.Collections.Generic;
+using System;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -170,5 +175,101 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSamples).ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers).ForEach(x => x.Visible = false);
         }
+
+        /// <summary>
+        /// A hack for using Curves even though there is no Curve editor yet.
+        /// </summary>
+        private void HACK_CreateCurves(Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            var curveManager = new CurveManager(new CurveRepositories(_repositories));
+            Curve curve = curveManager.Create(document, 1.5, 0, 0.9, 1, 0.9, 0.6, 0.6, 0.6, 0.4, 0);
+            curve.ID = _repositories.IDRepository.GetID();
+            _repositories.CurveRepository.Insert(curve);
+
+            IList<Operator> curveOperators = document.EnumerateSelfAndParentAndChildren()
+                                                     .SelectMany(x => x.Patches)
+                                                     .SelectMany(x => x.GetOperatorsOfType(OperatorTypeEnum.Curve))
+                                                     .ToArray();
+
+            foreach (Operator curveOperator in curveOperators)
+            {
+                var wrapper = new OperatorWrapper_Curve(curveOperator, _repositories.CurveRepository);
+
+                wrapper.Curve = curve;
+            }
+        }
+
+        ///// <summary>
+        ///// A hack for using Curves even though there is no Curve editor yet.
+        ///// </summary>
+        //private void HACK_CreateCurves_Old(Document document)
+        //{
+        //    if (document == null) throw new NullException(() => document);
+
+        //    var curveManager = new CurveManager(new CurveRepositories(_repositories));
+
+        //    IList<Curve> curves = document.EnumerateSelfAndParentAndChildren()
+        //                                  .SelectMany(x => x.Curves)
+        //                                  .Where(x => !x.Nodes.Any())
+        //                                  .ToArray();
+
+        //    foreach (Curve curve in curves)
+        //    {
+        //        {
+        //            var node = new Node
+        //            {
+        //                ID = _repositories.IDRepository.GetID(),
+        //                Time = 0,
+        //                Value = 0,
+        //            };
+        //            node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
+        //            _repositories.NodeRepository.Insert(node);
+        //        }
+        //        {
+        //            var node = new Node
+        //            {
+        //                ID = _repositories.IDRepository.GetID(),
+        //                Time = 0.1,
+        //                Value = 1
+        //            };
+        //            node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
+        //            _repositories.NodeRepository.Insert(node);
+        //        }
+        //        {
+        //            var node = new Node
+        //            {
+        //                ID = _repositories.IDRepository.GetID(),
+        //                Time = 0.3,
+        //                Value = 0.7
+        //            };
+        //            node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
+        //            _repositories.NodeRepository.Insert(node);
+        //        }
+        //        {
+        //            var node = new Node
+        //            {
+        //                ID = _repositories.IDRepository.GetID(),
+        //                Time = 0.8,
+        //                Value = 0.7
+        //            };
+        //            node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
+        //            _repositories.NodeRepository.Insert(node);
+        //        }
+        //        {
+        //            var node = new Node
+        //            {
+        //                ID = _repositories.IDRepository.GetID(),
+        //                Time = 1,
+        //                Value = 0
+        //            };
+        //            node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
+        //            _repositories.NodeRepository.Insert(node);
+        //        }
+        //    }
+        //}
+
+
     }
 }

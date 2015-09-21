@@ -15,6 +15,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

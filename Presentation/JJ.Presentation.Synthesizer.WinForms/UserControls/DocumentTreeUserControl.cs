@@ -223,14 +223,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void ShowDocumentProperties()
-        {
-            if (DocumentPropertiesRequested != null)
-            {
-                DocumentPropertiesRequested(this, EventArgs.Empty);
-            }
-        }
-
         // Events
 
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
@@ -301,7 +293,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (node == _documentTreeNode)
             {
-                ShowDocumentProperties();
+                if (DocumentPropertiesRequested != null)
+                {
+                    DocumentPropertiesRequested(this, EventArgs.Empty);
+                }
             }
 
             if (node == _audioFileOutputsTreeNode)

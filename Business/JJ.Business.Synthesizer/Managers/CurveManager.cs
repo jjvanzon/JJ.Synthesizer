@@ -128,6 +128,14 @@ namespace JJ.Business.Synthesizer.Managers
 
             return curve;
         }
+        /// <param name="values">When a value is null, a node will not be created at that point in time.</param>
+        public Curve Create(Document document, double timeSpan, params double?[] values)
+        {
+            if (document == null) throw new NullException(() => document);
+            Curve curve = Create(timeSpan, values);
+            curve.LinkTo(document);
+            return curve;
+        }
 
         /// <param name="values">When a value is null, a node will not be created at that point in time.</param>
         public Curve Create(double timeSpan, params double?[] values)
