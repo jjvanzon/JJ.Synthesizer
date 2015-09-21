@@ -339,5 +339,30 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             return null;
         }
+
+        /// <summary>
+        /// Convert OperatorViewModel from PatchDetail to entity, because we are about to validate
+        /// the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
+        /// Also, we need to associate the Operator with its patch (derived from the PatchDetailsViewModel),
+        /// because other code uses the PatchManager.
+        /// 
+        /// TODO: If lookups in view models were fast, you might not need to return the OperatorViewModel for performance,
+        /// but instead do a second lookups, so it becomes a regular ToEntity method,
+        /// which return the entity and move this to the ToEntityExcentions.
+        /// </summary>
+        public static OperatorEntityAndViewModel ToOperatorWithInletsAndOutletsAndPatch(DocumentViewModel documentViewModel, int operatorID, PatchRepositories repositories)
+        {
+            if (documentViewModel == null) throw new NullException(() => documentViewModel);
+            if (repositories == null) throw new NullException(() => repositories);
+
+            PatchDetailsViewModel patchDetailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByOperatorID(documentViewModel, operatorID);
+            OperatorViewModel operatorViewModel = patchDetailsViewModel.Entity.Operators.Where(x => x.ID == operatorID).First();
+            Patch patch = patchDetailsViewModel.Entity.ToEntity(repositories.PatchRepository);
+            Operator op = operatorViewModel.ToEntityWithInletsAndOutlets(repositories);
+            PatchManager patchManager = new PatchManager(patch, repositories);
+            patchManager.SaveOperator(op);
+
+            return new OperatorEntityAndViewModel(op, operatorViewModel);
+        }
     }
 }

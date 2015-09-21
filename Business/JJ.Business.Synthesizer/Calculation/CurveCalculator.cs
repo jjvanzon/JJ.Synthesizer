@@ -26,6 +26,10 @@ namespace JJ.Business.Synthesizer.Calculation
             Node nodeA = null;
             Node nodeB = null;
 
+            // TODO: Performance for this might be kind of crappy.
+            // You might want to precalculate samples and do a simple linear interpolation here.
+            // You may actually delegate to a sample calculator for that.
+
             // Find the nodes the time is in between
             foreach (var node in _curve.Nodes)
             {

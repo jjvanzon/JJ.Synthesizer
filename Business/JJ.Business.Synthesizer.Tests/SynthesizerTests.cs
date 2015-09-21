@@ -160,6 +160,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Curve curve = curveFactory.CreateCurve(1, 0, 1, 0.8, null, null, 0.8, 0);
 
                 PatchManager x = TestHelper.CreatePatchManager(repositoryWrapper);
+
                 Sine_OperatorWrapper sine = x.Sine(x.Curve(curve), x.Number(440));
 
                 CultureHelper.SetThreadCulture("nl-NL");

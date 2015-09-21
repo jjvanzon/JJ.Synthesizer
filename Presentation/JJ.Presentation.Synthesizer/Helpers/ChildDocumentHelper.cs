@@ -459,6 +459,16 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
+        public static PatchDetailsViewModel GetPatchDetailsViewModel_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            PatchDetailsViewModel detailsViewModel = ChildDocumentHelper.EnumeratePatchDetailsViewModels(rootDocumentViewModel)
+                                                                        .Where(x => x.Entity.Operators.Any(y => y.ID == operatorID))
+                                                                        .First();
+            return detailsViewModel;
+        }
+
         private static IEnumerable<PatchDetailsViewModel> EnumeratePatchDetailsViewModels(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -514,7 +524,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             SampleGridViewModel gridViewModel = ChildDocumentHelper.EnumerateSampleGridViewModels(rootDocumentViewModel)
                                                                    .Where(x => x.List.Any(y => y.ID == sampleID))
-                                                                   .Single();
+                                                                   .First();
             return gridViewModel;
         }
 
@@ -561,7 +571,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
                     yield return samplePropertiesViewModel;
                 }
             }
-
         }
     }
 }
