@@ -90,7 +90,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurveDetailsViewModel
             {
                 Entity = curve.ToViewModelWithRelatedEntities(),
-                NodeTypes = ViewModelHelper.CreateNodeTypesLookupViewModel(nodeTypeRepository)
+                NodeTypeLookup = ViewModelHelper.CreateNodeTypesLookupViewModel(nodeTypeRepository)
             };
 
             return viewModel;
@@ -376,6 +376,23 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             byte[] bytes = sampleRepositories.SampleRepository.TryGetBytes(entity.ID);
             viewModel.Entity = entity.ToViewModel(bytes);
+
+            return viewModel;
+        }
+
+        // Scale
+
+        public static ScaleDetailsViewModel ToDetailsViewModel(this Scale entity, IScaleTypeRepository scaleTypeRepository)
+        {
+            if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
+
+            var viewModel = new ScaleDetailsViewModel
+            {
+                Entity = entity.ToViewModelWithRelatedEntities(),
+                ScaleTypeLookup = ViewModelHelper.CreateScaleTypeLookupViewModel(scaleTypeRepository),
+                ValidationMessages = new List<Message>(),
+                Successful = true
+            };
 
             return viewModel;
         }

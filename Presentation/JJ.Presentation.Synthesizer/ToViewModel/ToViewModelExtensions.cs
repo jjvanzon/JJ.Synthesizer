@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.Helpers;
+using System;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -301,6 +302,49 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.InterpolationType = entity.InterpolationType.ToIDAndDisplayName();
             }
+
+            return viewModel;
+        }
+
+        // Scale
+
+        public static ScaleViewModel ToViewModelWithRelatedEntities(this Scale entity)
+        {
+            ScaleViewModel viewModel = entity.ToViewModel();
+
+            viewModel.Tones = entity.Tones.OrderBy(x => x.Octave)
+                                          .ThenBy(x => x.Number)
+                                          .Select(x => x.ToViewModel())
+                                          .ToArray();
+            return viewModel;
+        }
+
+        public static ScaleViewModel ToViewModel(this Scale entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new ScaleViewModel
+            {
+                ID = entity.ID,
+                BaseFrequency = entity.BaseFrequency,
+                Name = entity.Name,
+                ScaleType = entity.ScaleType.ToIDAndName(),
+                Tones = new List<ToneViewModel>()
+            };
+
+            return viewModel;
+        }
+
+        public static ToneViewModel ToViewModel(this Tone entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new ToneViewModel
+            {
+                 ID = entity.ID,
+                 Number = entity.Number,
+                 Octave = entity.Octave
+            };
 
             return viewModel;
         }

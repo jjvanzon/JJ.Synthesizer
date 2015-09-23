@@ -50,6 +50,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_ForNumbers = new List<OperatorPropertiesViewModel_ForNumber>(),
                 PatchGrid = CreateEmptyPatchGridViewModel(),
                 PatchDetailsList = new List<PatchDetailsViewModel>(),
+                ScaleGrid = CreateEmptyScaleGridViewModel(),
+                ScaleDetailsList = new List<ScaleDetailsViewModel>(),
                 AudioFileOutputGrid = CreateEmptyAudioFileOutputGridViewModel(),
                 AudioFileOutputPropertiesList = new List<AudioFileOutputPropertiesViewModel>(),
                 UnderlyingDocumentLookup = new List<IDAndName>(),
@@ -113,7 +115,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new ChildDocumentGridViewModel
             {
-                List = new List<ChildDocumentListItemViewModel>(),
+                List = new List<IDAndName>(),
                 RootDocumentID = 0,
                 ChildDocumentTypeID = childDocumentTypeID
             };
@@ -187,7 +189,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new CurveGridViewModel
             {
-                List = new List<CurveListItemViewModel>()
+                List = new List<IDAndName>()
             };
 
             return viewModel;
@@ -197,7 +199,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchGridViewModel
             {
-                List = new List<PatchListItemViewModel>()
+                List = new List<IDAndName>()
+            };
+
+            return viewModel;
+        }
+
+        public static ScaleGridViewModel CreateEmptyScaleGridViewModel()
+        {
+            var viewModel = new ScaleGridViewModel
+            {
+                List = new List<IDAndName>()
             };
 
             return viewModel;

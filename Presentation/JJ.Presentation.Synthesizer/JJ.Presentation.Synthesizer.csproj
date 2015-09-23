@@ -81,7 +81,8 @@
     <Compile Include="ToViewModel\ViewModelHelper.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.Lookups.cs" />
     <Compile Include="ToViewModel\ToGridViewModelExtensions.cs" />
-    <Compile Include="ViewModels\Entities\ChildDocumentListItemViewModel.cs" />
+    <Compile Include="ViewModels\Entities\ScaleViewModel.cs" />
+    <Compile Include="ViewModels\Entities\ToneViewModel.cs" />
     <Compile Include="ViewModels\Entities\ChildDocumentViewModel.cs" />
     <Compile Include="ViewModels\ChildDocumentPropertiesViewModel.cs" />
     <Compile Include="ViewModels\ChildDocumentGridViewModel.cs" />
@@ -120,11 +121,9 @@
     <Compile Include="ViewModels\Entities\AudioFileOutputChannelViewModel.cs" />
     <Compile Include="ViewModels\Entities\AudioFileOutputListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\AudioFileOutputViewModel.cs" />
-    <Compile Include="ViewModels\Entities\CurveListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\CurveViewModel.cs" />
     <Compile Include="ViewModels\Entities\DocumentViewModel.cs" />
     <Compile Include="ViewModels\Entities\NodeViewModel.cs" />
-    <Compile Include="ViewModels\Entities\PatchListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\SampleListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\InletViewModel.cs" />
     <Compile Include="ViewModels\Entities\OperatorViewModel.cs" />
@@ -150,6 +149,8 @@
     <Compile Include="ViewModels\PatchGridViewModel.cs" />
     <Compile Include="ViewModels\SamplePropertiesViewModel.cs" />
     <Compile Include="ViewModels\SampleGridViewModel.cs" />
+    <Compile Include="ViewModels\ScaleDetailsViewModel.cs" />
+    <Compile Include="ViewModels\ScaleGridViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">

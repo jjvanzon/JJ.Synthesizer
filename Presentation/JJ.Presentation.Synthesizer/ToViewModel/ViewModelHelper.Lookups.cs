@@ -140,5 +140,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return list;
         }
+
+        public static IList<IDAndName> CreateScaleTypeLookupViewModel(IScaleTypeRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            IList<ScaleType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
+            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndName()).ToArray();
+
+            return idNames;
+        }
     }
 }

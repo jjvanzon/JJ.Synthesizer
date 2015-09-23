@@ -1,4 +1,6 @@
-﻿using JJ.Business.CanonicalModel;
+﻿using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
@@ -30,6 +32,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = displayName
+            };
+        }
+
+        public static IDAndName ToIDAndName(this Curve entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return new IDAndName
+            {
+                Name = entity.Name,
+                ID = entity.ID
             };
         }
 
@@ -126,6 +139,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = displayName
+            };
+        }
+
+        public static IDAndName ToIDAndName(this Scale entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return new IDAndName
+            {
+                ID = entity.ID,
+                Name = entity.Name
+            };
+        }
+
+        public static IDAndName ToIDAndName(this ScaleType entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return new IDAndName
+            {
+                ID = entity.ID,
+                Name = entity.Name
             };
         }
     }

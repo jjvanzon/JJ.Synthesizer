@@ -57,7 +57,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new ChildDocumentGridViewModel
             {
-                List = entities.ToChildDocumentListItemViewModels(),
+                List = entities.OrderBy(x => x.Name)
+                               .Select(x => x.ToIDAndName())
+                               .ToList(),
                 RootDocumentID = rootDocumentID,
                 ChildDocumentTypeID = childDocumentTypeID
             };
@@ -72,8 +74,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurveGridViewModel
             {
                 DocumentID = documentID,
-                List = entities.ToListItemViewModels()
-            };
+                List = entities.OrderBy(x => x.Name)
+                               .Select(x => x.ToIDAndName())
+                               .ToList()
+           };
 
             return viewModel;
         }
@@ -98,7 +102,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new PatchGridViewModel
             {
                 DocumentID = documentID,
-                List = entities.ToListItemViewModels()
+                List = entities.OrderBy(x => x.Name)
+                               .Select(x => x.ToIDAndName())
+                               .ToList()
             };
 
             return viewModel;
@@ -112,6 +118,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 DocumentID = documentID,
                 List = entities.ToListItemViewModels()
+            };
+
+            return viewModel;
+        }
+
+        public static ScaleGridViewModel ToGridViewModel(this IList<Scale> entities, int documentID)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            var viewModel = new ScaleGridViewModel
+            {
+                DocumentID = documentID,
+                List = entities.OrderBy(x => x.Name)
+                               .Select(x => x.ToIDAndName())
+                               .ToArray()
             };
 
             return viewModel;

@@ -295,7 +295,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // ToViewModel
                 CurveGridViewModel curveGridViewModel = ChildDocumentHelper.GetCurveGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
-                CurveListItemViewModel listItemViewModel = curve.ToListItemViewModel();
+                IDAndName listItemViewModel = curve.ToIDAndName();
                 curveGridViewModel.List.Add(listItemViewModel);
                 curveGridViewModel.List = curveGridViewModel.List.OrderBy(x => x.Name).ToList();
 
@@ -757,7 +757,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document effect = _documentManager.CreateChildDocument(parentDocument, ChildDocumentTypeEnum.Effect, mustGenerateName: true);
 
                 // ToViewModel
-                ChildDocumentListItemViewModel listItemViewModel = effect.ToChildDocumentListItemViewModel();
+                IDAndName listItemViewModel = effect.ToIDAndName();
                 ViewModel.Document.EffectGrid.List.Add(listItemViewModel);
                 ViewModel.Document.EffectGrid.List = ViewModel.Document.EffectGrid.List.OrderBy(x => x.Name).ToList();
 
@@ -849,7 +849,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document childDocument = _documentManager.CreateChildDocument(parentDocument, ChildDocumentTypeEnum.Instrument, mustGenerateName: true);
 
                 // ToViewModel
-                ChildDocumentListItemViewModel listItemViewModel = childDocument.ToChildDocumentListItemViewModel();
+                IDAndName listItemViewModel = childDocument.ToIDAndName();
                 ViewModel.Document.InstrumentGrid.List.Add(listItemViewModel);
                 ViewModel.Document.InstrumentGrid.List = ViewModel.Document.InstrumentGrid.List.OrderBy(x => x.Name).ToList();
 
@@ -1536,7 +1536,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // ToViewModel
                 PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
-                PatchListItemViewModel listItemViewModel = patch.ToListItemViewModel();
+                IDAndName listItemViewModel = patch.ToIDAndName();
                 gridViewModel.List.Add(listItemViewModel);
                 gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
 
@@ -1552,7 +1552,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ChildDocumentPropertiesViewModel childDocumentPropertiesViewModel = ChildDocumentHelper.TryGetChildDocumentPropertiesViewModel(ViewModel.Document, document.ID);
                 if (childDocumentPropertiesViewModel != null)
                 {
-                    IDAndName idAndName = patch.ToIDAndName();
+                    IDAndName idAndName = ToIDAndNameExtensions.ToIDAndName(patch);
                     childDocumentPropertiesViewModel.MainPatchLookup.Add(idAndName);
                     childDocumentPropertiesViewModel.MainPatchLookup = childDocumentPropertiesViewModel.MainPatchLookup.OrderBy(x => x.Name).ToList();
                 }

@@ -20,7 +20,6 @@ namespace JJ.Presentation.Synthesizer.Converters
         private readonly PatchRepositories _repositories;
         private readonly Dictionary<int, Operator> _operatorDictionary = new Dictionary<int, Operator>();
         private readonly Dictionary<int, Outlet> _outletDictionary = new Dictionary<int, Outlet>();
-        private readonly Patch _patch;
 
         public RecursiveToEntityConverter(PatchRepositories patchRepositories)
         {

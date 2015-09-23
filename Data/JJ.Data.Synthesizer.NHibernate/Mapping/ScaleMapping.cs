@@ -10,7 +10,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
     {
         public ScaleMapping()
         {
-            Id(x => x.ID, ColumnNames.ScaleID).GeneratedBy.Assigned();
+            Id(x => x.ID).GeneratedBy.Assigned();
             Map(x => x.Name);
             Map(x => x.BaseFrequency);
             References(x => x.ScaleType, ColumnNames.ScaleTypeID);

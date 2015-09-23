@@ -4,6 +4,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -46,77 +47,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.SpeakerSetup = PropertyDisplayNames.ResourceManager.GetString(entity.SpeakerSetup.Name);
             }
-
-            return viewModel;
-        }
-
-        // Curve
-
-        public static IList<CurveListItemViewModel> ToListItemViewModels(this IList<Curve> entities)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            IList<CurveListItemViewModel> viewModels = entities.OrderBy(x => x.Name)
-                                                               .Select(x => x.ToListItemViewModel())
-                                                               .ToList();
-            return viewModels;
-        }
-
-        public static CurveListItemViewModel ToListItemViewModel(this Curve entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            return new CurveListItemViewModel
-            {
-                Name = entity.Name,
-                ID = entity.ID
-            };
-        }
-
-        // ChildDocument
-
-        public static IList<ChildDocumentListItemViewModel> ToChildDocumentListItemViewModels(this IList<Document> sourceEntities)
-        {
-            if (sourceEntities == null) throw new NullException(() => sourceEntities);
-
-            IList<ChildDocumentListItemViewModel> destList = sourceEntities.OrderBy(x => x.Name)
-                                                                           .Select(x => x.ToChildDocumentListItemViewModel())
-                                                                           .ToList();
-            return destList;
-        }
-
-        public static ChildDocumentListItemViewModel ToChildDocumentListItemViewModel(this Document entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            return new ChildDocumentListItemViewModel
-            {
-                Name = entity.Name,
-                ID = entity.ID,
-            };
-        }
-
-        // Patch
-
-        public static IList<PatchListItemViewModel> ToListItemViewModels(this IList<Patch> entities)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            IList<PatchListItemViewModel> viewModels = entities.OrderBy(x => x.Name)
-                                                               .Select(x => x.ToListItemViewModel())
-                                                               .ToList();
-            return viewModels;
-        }
-
-        public static PatchListItemViewModel ToListItemViewModel(this Patch entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var viewModel = new PatchListItemViewModel
-            {
-                Name = entity.Name,
-                ID = entity.ID
-            };
 
             return viewModel;
         }
