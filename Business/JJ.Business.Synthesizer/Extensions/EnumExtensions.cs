@@ -82,6 +82,32 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
 
+        // Document
+
+        public static ChildDocumentTypeEnum GetChildDocumentTypeEnum(this Document entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            if (entity.ChildDocumentType == null) return ChildDocumentTypeEnum.Undefined;
+
+            return (ChildDocumentTypeEnum)entity.ChildDocumentType.ID;
+        }
+
+        public static void SetChildDocumentTypeEnum(this Document entity, ChildDocumentTypeEnum enumValue, IChildDocumentTypeRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            if (enumValue == ChildDocumentTypeEnum.Undefined)
+            {
+                entity.UnlinkChildDocumentType();
+            }
+            else
+            {
+                ChildDocumentType enumEntity = repository.Get((int)enumValue);
+                entity.LinkTo(enumEntity);
+            }
+        }
+
         // Node
 
         public static NodeTypeEnum GetNodeTypeEnum(this Node node)
@@ -232,29 +258,29 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
 
-        // Document
+        // Scale
 
-        public static ChildDocumentTypeEnum GetChildDocumentTypeEnum(this Document entity)
+        public static ScaleTypeEnum GetScaleTypeEnum(this Scale scale)
         {
-            if (entity == null) throw new NullException(() => entity);
+            if (scale == null) throw new NullException(() => scale);
 
-            if (entity.ChildDocumentType == null) return ChildDocumentTypeEnum.Undefined;
+            if (scale.ScaleType == null) return ScaleTypeEnum.Undefined;
 
-            return (ChildDocumentTypeEnum)entity.ChildDocumentType.ID;
+            return (ScaleTypeEnum)scale.ScaleType.ID;
         }
 
-        public static void SetChildDocumentTypeEnum(this Document entity, ChildDocumentTypeEnum enumValue, IChildDocumentTypeRepository repository)
+        public static void SetScaleTypeEnum(this Scale entity, ScaleTypeEnum enumValue, IScaleTypeRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
-            if (enumValue == ChildDocumentTypeEnum.Undefined)
+            if (enumValue == ScaleTypeEnum.Undefined)
             {
-                entity.UnlinkChildDocumentType();
+                entity.UnlinkScaleType();
             }
             else
             {
-                ChildDocumentType enumEntity = repository.Get((int)enumValue);
-                entity.LinkTo(enumEntity);
+                ScaleType scaleType = repository.Get((int)enumValue);
+                entity.LinkTo(scaleType);
             }
         }
     }

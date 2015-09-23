@@ -115,6 +115,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base Frequency.
+        /// </summary>
+        public static string BaseFrequency {
+            get {
+                return ResourceManager.GetString("BaseFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Block.
         /// </summary>
         public static string Block {
@@ -295,6 +304,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exponent.
+        /// </summary>
+        public static string Exponent {
+            get {
+                return ResourceManager.GetString("Exponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Factor.
+        /// </summary>
+        public static string Factor {
+            get {
+                return ResourceManager.GetString("Factor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inlet.
         /// </summary>
         public static string Inlet {
@@ -376,6 +403,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Literal Frequency.
+        /// </summary>
+        public static string LiteralFrequency {
+            get {
+                return ResourceManager.GetString("LiteralFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Main Patch.
         /// </summary>
         public static string MainPatch {
@@ -435,6 +471,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Number {
             get {
                 return ResourceManager.GetString("Number", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Octave.
+        /// </summary>
+        public static string Octave {
+            get {
+                return ResourceManager.GetString("Octave", resourceCulture);
             }
         }
         
@@ -628,6 +673,33 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scale.
+        /// </summary>
+        public static string Scale {
+            get {
+                return ResourceManager.GetString("Scale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scale Type.
+        /// </summary>
+        public static string ScaleType {
+            get {
+                return ResourceManager.GetString("ScaleType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Semitone.
+        /// </summary>
+        public static string SemiTone {
+            get {
+                return ResourceManager.GetString("SemiTone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sine.
         /// </summary>
         public static string Sine {
@@ -732,6 +804,24 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string TimeSubstract {
             get {
                 return ResourceManager.GetString("TimeSubstract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tone.
+        /// </summary>
+        public static string Tone {
+            get {
+                return ResourceManager.GetString("Tone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tone Count.
+        /// </summary>
+        public static string ToneCount {
+            get {
+                return ResourceManager.GetString("ToneCount", resourceCulture);
             }
         }
         

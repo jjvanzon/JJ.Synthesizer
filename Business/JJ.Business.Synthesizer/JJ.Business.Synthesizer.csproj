@@ -143,12 +143,15 @@
     <Compile Include="EntityWrappers\OperatorWrapper_CustomOperator_Inlets.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_CustomOperator_Operands.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_CustomOperator_Outlets.cs" />
+    <Compile Include="Enums\ScaleTypeEnum.cs" />
     <Compile Include="Extensions\PatchExtensions.cs" />
+    <Compile Include="Extensions\ToneExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\CurveRepositories.cs" />
     <Compile Include="Helpers\OperatorConstants.cs" />
     <Compile Include="Helpers\PatchRepositories.cs" />
     <Compile Include="Helpers\SampleInfo.cs" />
+    <Compile Include="Helpers\ScaleRepositories.cs" />
     <Compile Include="Helpers\WavHeaderConstants.cs" />
     <Compile Include="Converters\AudioFileInfoToWavHeaderStructConverter.cs" />
     <Compile Include="Converters\WavHeaderStructToAudioFileInfoConverter.cs" />
@@ -203,6 +206,7 @@
     <Compile Include="Managers\PatchManager.CreateOperator.cs" />
     <Compile Include="Managers\PatchManager.cs" />
     <Compile Include="Managers\SampleManager.cs" />
+    <Compile Include="Managers\ScaleManager.cs" />
     <Compile Include="Managers\WavHeaderManager.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -214,6 +218,7 @@
     <Compile Include="Resources\ResourceHelper.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_GenerateName.cs" />
+    <Compile Include="SideEffects\Scale_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchOutletSortOrder.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchInletSortOrder.cs" />
@@ -248,6 +253,15 @@
     <Compile Include="Validation\OperatorValidator_Base_WithoutData.cs" />
     <Compile Include="Validation\PatchValidator_Recursive.cs" />
     <Compile Include="Validation\SampleValidator_Delete.cs" />
+    <Compile Include="Validation\ScaleValidator_InDocument.cs" />
+    <Compile Include="Validation\ScaleValidator_SemiTone.cs" />
+    <Compile Include="Validation\ScaleValidator_Exponent.cs" />
+    <Compile Include="Validation\ScaleValidator_Factor.cs" />
+    <Compile Include="Validation\ScaleValidator_LiteralFrequency.cs" />
+    <Compile Include="Validation\ScaleValidator_Basic.cs" />
+    <Compile Include="Validation\DocumentValidator_Unicity.cs" />
+    <Compile Include="Validation\ScaleValidator_Versatile.cs" />
+    <Compile Include="Validation\ToneValidator.cs" />
     <Compile Include="Validation\ValidationHelper.cs" />
     <Compile Include="Validation\OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
@@ -310,6 +324,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_Recursive.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Substract.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Number.cs" />
+    <Compile Include="Warnings\ScaleWarningValidator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Business\JJ.Framework.Business.csproj">

@@ -46,6 +46,12 @@
     <Compile Include="IDRepository.cs" />
     <Compile Include="Interfaces\IChildDocumentTypeRepository.cs" />
     <Compile Include="Interfaces\IIDRepository.cs" />
+    <Compile Include="Interfaces\IScaleRepository.cs" />
+    <Compile Include="Interfaces\IScaleTypeRepository.cs" />
+    <Compile Include="Interfaces\IToneRepository.cs" />
+    <Compile Include="ScaleTypeRepository.cs" />
+    <Compile Include="ScaleRepository.cs" />
+    <Compile Include="ToneRepository.cs" />
     <Compile Include="OperatorTypeRepository.cs" />
     <Compile Include="DocumentRepository.cs" />
     <Compile Include="DocumentReferenceRepository.cs" />

@@ -17,6 +17,8 @@ namespace JJ.Business.Synthesizer.Helpers
         public IOperatorTypeRepository OperatorTypeRepository { get; set; }
         public IInletRepository InletRepository { get; set; }
         public IOutletRepository OutletRepository { get; set; }
+        public IScaleRepository ScaleRepository { get; internal set; }
+        public IToneRepository ToneRepository { get; internal set; }
         public IEntityPositionRepository EntityPositionRepository { get; set; }
 
         public IAudioFileFormatRepository AudioFileFormatRepository { get; set; }
@@ -25,8 +27,10 @@ namespace JJ.Business.Synthesizer.Helpers
         public ISampleDataTypeRepository SampleDataTypeRepository { get; set; }
         public ISpeakerSetupRepository SpeakerSetupRepository { get; set; }
         public IChildDocumentTypeRepository ChildDocumentTypeRepository { get; set; }
+        public IScaleTypeRepository ScaleTypeRepository { get; internal set; }
 
         public IIDRepository IDRepository { get; set; }
+
 
         public RepositoryWrapper(
             IDocumentRepository documentRepository,
@@ -41,6 +45,9 @@ namespace JJ.Business.Synthesizer.Helpers
             IOperatorTypeRepository operatorTypeRepository,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
+            IScaleRepository scaleRepository,
+            IToneRepository toneRepository,
+
             IEntityPositionRepository entityPositionRepository,
 
             IAudioFileFormatRepository audioFileFormatRepository,
@@ -49,6 +56,7 @@ namespace JJ.Business.Synthesizer.Helpers
             ISampleDataTypeRepository sampleDataTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository,
             IChildDocumentTypeRepository childDocumentTypeRepository,
+            IScaleTypeRepository scaleTypeRepository,
 
             IIDRepository idRepository)
         {
@@ -64,6 +72,9 @@ namespace JJ.Business.Synthesizer.Helpers
             if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
+            if (scaleRepository == null) throw new NullException(() => scaleRepository);
+            if (toneRepository == null) throw new NullException(() => toneRepository);
+
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
 
             if (audioFileFormatRepository == null) throw new NullException(() => audioFileFormatRepository);
@@ -72,6 +83,7 @@ namespace JJ.Business.Synthesizer.Helpers
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
             if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
+            if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
 
             if (idRepository == null) throw new NullException(() => idRepository);
 
@@ -88,6 +100,8 @@ namespace JJ.Business.Synthesizer.Helpers
             InletRepository = inletRepository;
             OutletRepository = outletRepository;
             EntityPositionRepository = entityPositionRepository;
+            ScaleRepository = scaleRepository;
+            ToneRepository = toneRepository;
 
             AudioFileFormatRepository = audioFileFormatRepository;
             InterpolationTypeRepository = interpolationTypeRepository;
@@ -95,6 +109,7 @@ namespace JJ.Business.Synthesizer.Helpers
             SampleDataTypeRepository = sampleDataTypeRepository;
             SpeakerSetupRepository = speakerSetupRepository;
             ChildDocumentTypeRepository = childDocumentTypeRepository;
+            ScaleTypeRepository = scaleTypeRepository;
 
             IDRepository = idRepository;
         }

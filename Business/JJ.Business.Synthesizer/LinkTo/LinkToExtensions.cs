@@ -5,6 +5,250 @@ namespace JJ.Business.Synthesizer.LinkTo
 {
     public static class LinkToExtensions
     {
+        public static void LinkTo(this AudioFileOutput audioFileOutput, Document document)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+
+            if (audioFileOutput.Document != null)
+            {
+                if (audioFileOutput.Document.AudioFileOutputs.Contains(audioFileOutput))
+                {
+                    audioFileOutput.Document.AudioFileOutputs.Remove(audioFileOutput);
+                }
+            }
+
+            audioFileOutput.Document = document;
+
+            if (audioFileOutput.Document != null)
+            {
+                if (!audioFileOutput.Document.AudioFileOutputs.Contains(audioFileOutput))
+                {
+                    audioFileOutput.Document.AudioFileOutputs.Add(audioFileOutput);
+                }
+            }
+        }
+
+        public static void LinkTo(this AudioFileOutputChannel audioFileOutputChannel, AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutputChannel == null) throw new NullException(() => audioFileOutputChannel);
+
+            if (audioFileOutputChannel.AudioFileOutput != null)
+            {
+                if (audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Contains(audioFileOutputChannel))
+                {
+                    audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Remove(audioFileOutputChannel);
+                }
+            }
+
+            audioFileOutputChannel.AudioFileOutput = audioFileOutput;
+
+            if (audioFileOutputChannel.AudioFileOutput != null)
+            {
+                if (!audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Contains(audioFileOutputChannel))
+                {
+                    audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Add(audioFileOutputChannel);
+                }
+            }
+        }
+
+        public static void LinkTo(this AudioFileOutputChannel audioFileOutputChannel, Outlet outlet)
+        {
+            if (audioFileOutputChannel == null) throw new NullException(() => audioFileOutputChannel);
+
+            if (audioFileOutputChannel.Outlet != null)
+            {
+                if (audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Contains(audioFileOutputChannel))
+                {
+                    audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Remove(audioFileOutputChannel);
+                }
+            }
+
+            audioFileOutputChannel.Outlet = outlet;
+
+            if (audioFileOutputChannel.Outlet != null)
+            {
+                if (!audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Contains(audioFileOutputChannel))
+                {
+                    audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Add(audioFileOutputChannel);
+                }
+            }
+        }
+
+        public static void LinkTo(this Curve curve, Document document)
+        {
+            if (curve == null) throw new NullException(() => curve);
+
+            if (curve.Document != null)
+            {
+                if (curve.Document.Curves.Contains(curve))
+                {
+                    curve.Document.Curves.Remove(curve);
+                }
+            }
+
+            curve.Document = document;
+
+            if (curve.Document != null)
+            {
+                if (!curve.Document.Curves.Contains(curve))
+                {
+                    curve.Document.Curves.Add(curve);
+                }
+            }
+        }
+
+        public static void LinkTo(this Node node, Curve curve)
+        {
+            if (node == null) throw new NullException(() => node);
+
+            if (node.Curve != null)
+            {
+                if (node.Curve.Nodes.Contains(node))
+                {
+                    node.Curve.Nodes.Remove(node);
+                }
+            }
+
+            node.Curve = curve;
+
+            if (node.Curve != null)
+            {
+                if (!node.Curve.Nodes.Contains(node))
+                {
+                    node.Curve.Nodes.Add(node);
+                }
+            }
+        }
+
+        public static void LinkToParentDocument(this Document childDocument, Document parentDocument)
+        {
+            if (childDocument == null) throw new NullException(() => childDocument);
+
+            if (childDocument.ParentDocument != null)
+            {
+                if (childDocument.ParentDocument.ChildDocuments.Contains(childDocument))
+                {
+                    childDocument.ParentDocument.ChildDocuments.Remove(childDocument);
+                }
+            }
+
+            childDocument.ParentDocument = parentDocument;
+
+            if (childDocument.ParentDocument != null)
+            {
+                if (!childDocument.ParentDocument.ChildDocuments.Contains(childDocument))
+                {
+                    childDocument.ParentDocument.ChildDocuments.Add(childDocument);
+                }
+            }
+        }
+
+        public static void LinkToMainPatch(this Document document, Patch mainPatch)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            document.MainPatch = mainPatch;
+            // No inverse property.
+        }
+
+        public static void LinkToDependentDocument(this DocumentReference documentReference, Document dependentDocument)
+        {
+            // DocumentReference -> DependentDocument
+            // Document -> DependentDocuments
+
+            if (documentReference == null) throw new NullException(() => documentReference);
+
+            if (documentReference.DependentDocument != null)
+            {
+                if (documentReference.DependentDocument.DependentDocuments.Contains(documentReference))
+                {
+                    documentReference.DependentDocument.DependentDocuments.Remove(documentReference);
+                }
+            }
+
+            documentReference.DependentDocument = dependentDocument;
+
+            if (documentReference.DependentDocument != null)
+            {
+                if (!documentReference.DependentDocument.DependentDocuments.Contains(documentReference))
+                {
+                    documentReference.DependentDocument.DependentDocuments.Add(documentReference);
+                }
+            }
+        }
+
+        public static void LinkToDependentOnDocument(this DocumentReference documentReference, Document dependentOnDocument)
+        {
+            // DocumentReference -> DependentOnDocument
+            // Document -> DependentOnDocuments
+
+            if (documentReference == null) throw new NullException(() => documentReference);
+
+            if (documentReference.DependentOnDocument != null)
+            {
+                if (documentReference.DependentOnDocument.DependentOnDocuments.Contains(documentReference))
+                {
+                    documentReference.DependentOnDocument.DependentOnDocuments.Remove(documentReference);
+                }
+            }
+
+            documentReference.DependentOnDocument = dependentOnDocument;
+
+            if (documentReference.DependentOnDocument != null)
+            {
+                if (!documentReference.DependentOnDocument.DependentOnDocuments.Contains(documentReference))
+                {
+                    documentReference.DependentOnDocument.DependentOnDocuments.Add(documentReference);
+                }
+            }
+        }
+
+        public static void LinkTo(this Patch patch, Document document)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            if (patch.Document != null)
+            {
+                if (patch.Document.Patches.Contains(patch))
+                {
+                    patch.Document.Patches.Remove(patch);
+                }
+            }
+
+            patch.Document = document;
+
+            if (patch.Document != null)
+            {
+                if (!patch.Document.Patches.Contains(patch))
+                {
+                    patch.Document.Patches.Add(patch);
+                }
+            }
+        }
+
+        public static void LinkTo(this Operator op, Patch patch)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            if (op.Patch != null)
+            {
+                if (op.Patch.Operators.Contains(op))
+                {
+                    op.Patch.Operators.Remove(op);
+                }
+            }
+
+            op.Patch = patch;
+
+            if (op.Patch != null)
+            {
+                if (!op.Patch.Operators.Contains(op))
+                {
+                    op.Patch.Operators.Add(op);
+                }
+            }
+        }
+
         public static void LinkTo(this Inlet inlet, Operator op)
         {
             if (inlet == null) throw new NullException(() => inlet);
@@ -74,140 +318,48 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo(this Node node, Curve curve)
+        public static void LinkTo(this Scale sample, Document document)
         {
-            if (node == null) throw new NullException(() => node);
+            if (sample == null) throw new NullException(() => sample);
 
-            if (node.Curve != null)
+            if (sample.Document != null)
             {
-                if (node.Curve.Nodes.Contains(node))
+                if (sample.Document.Scales.Contains(sample))
                 {
-                    node.Curve.Nodes.Remove(node);
+                    sample.Document.Scales.Remove(sample);
                 }
             }
 
-            node.Curve = curve;
+            sample.Document = document;
 
-            if (node.Curve != null)
+            if (sample.Document != null)
             {
-                if (!node.Curve.Nodes.Contains(node))
+                if (!sample.Document.Scales.Contains(sample))
                 {
-                    node.Curve.Nodes.Add(node);
+                    sample.Document.Scales.Add(sample);
                 }
             }
         }
 
-        public static void LinkTo(this AudioFileOutputChannel audioFileOutputChannel, AudioFileOutput audioFileOutput)
+        public static void LinkTo(this Tone tone, Scale scale)
         {
-            if (audioFileOutputChannel == null) throw new NullException(() => audioFileOutputChannel);
+            if (tone == null) throw new NullException(() => tone);
 
-            if (audioFileOutputChannel.AudioFileOutput != null)
+            if (tone.Scale != null)
             {
-                if (audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Contains(audioFileOutputChannel))
+                if (tone.Scale.Tones.Contains(tone))
                 {
-                    audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Remove(audioFileOutputChannel);
+                    tone.Scale.Tones.Remove(tone);
                 }
             }
 
-            audioFileOutputChannel.AudioFileOutput = audioFileOutput;
+            tone.Scale = scale;
 
-            if (audioFileOutputChannel.AudioFileOutput != null)
+            if (tone.Scale != null)
             {
-                if (!audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Contains(audioFileOutputChannel))
+                if (!tone.Scale.Tones.Contains(tone))
                 {
-                    audioFileOutputChannel.AudioFileOutput.AudioFileOutputChannels.Add(audioFileOutputChannel);
-                }
-            }
-        }
-        
-        public static void LinkTo(this AudioFileOutputChannel audioFileOutputChannel, Outlet outlet)
-        {
-            if (audioFileOutputChannel == null) throw new NullException(() => audioFileOutputChannel);
-
-            if (audioFileOutputChannel.Outlet != null)
-            {
-                if (audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Contains(audioFileOutputChannel))
-                {
-                    audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Remove(audioFileOutputChannel);
-                }
-            }
-
-            audioFileOutputChannel.Outlet = outlet;
-
-            if (audioFileOutputChannel.Outlet != null)
-            {
-                if (!audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Contains(audioFileOutputChannel))
-                {
-                    audioFileOutputChannel.Outlet.AsAudioFileOutputChannels.Add(audioFileOutputChannel);
-                }
-            }
-        }
-        
-        public static void LinkTo(this Operator op, Patch patch)
-        {
-            if (op == null) throw new NullException(() => op);
-
-            if (op.Patch != null)
-            {
-                if (op.Patch.Operators.Contains(op))
-                {
-                    op.Patch.Operators.Remove(op);
-                }
-            }
-
-            op.Patch = patch;
-
-            if (op.Patch != null)
-            {
-                if (!op.Patch.Operators.Contains(op))
-                {
-                    op.Patch.Operators.Add(op);
-                }
-            }
-        }
-
-        public static void LinkTo(this Patch patch, Document document)
-        {
-            if (patch == null) throw new NullException(() => patch);
-
-            if (patch.Document != null)
-            {
-                if (patch.Document.Patches.Contains(patch))
-                {
-                    patch.Document.Patches.Remove(patch);
-                }
-            }
-
-            patch.Document = document;
-
-            if (patch.Document != null)
-            {
-                if (!patch.Document.Patches.Contains(patch))
-                {
-                    patch.Document.Patches.Add(patch);
-                }
-            }
-        }
-
-        public static void LinkTo(this Curve curve, Document document)
-        {
-            if (curve == null) throw new NullException(() => curve);
-
-            if (curve.Document != null)
-            {
-                if (curve.Document.Curves.Contains(curve))
-                {
-                    curve.Document.Curves.Remove(curve);
-                }
-            }
-
-            curve.Document = document;
-
-            if (curve.Document != null)
-            {
-                if (!curve.Document.Curves.Contains(curve))
-                {
-                    curve.Document.Curves.Add(curve);
+                    tone.Scale.Tones.Add(tone);
                 }
             }
         }
@@ -235,113 +387,43 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkTo(this AudioFileOutput audioFileOutput, Document document)
+        // Enum-Like Entities
+
+        public static void LinkTo(this AudioFileOutput audioFileOutput, SpeakerSetup speakerSetup)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
-            if (audioFileOutput.Document != null)
-            {
-                if (audioFileOutput.Document.AudioFileOutputs.Contains(audioFileOutput))
-                {
-                    audioFileOutput.Document.AudioFileOutputs.Remove(audioFileOutput);
-                }
-            }
+            audioFileOutput.SpeakerSetup = speakerSetup;
 
-            audioFileOutput.Document = document;
-
-            if (audioFileOutput.Document != null)
-            {
-                if (!audioFileOutput.Document.AudioFileOutputs.Contains(audioFileOutput))
-                {
-                    audioFileOutput.Document.AudioFileOutputs.Add(audioFileOutput);
-                }
-            }
-        }
-
-        public static void LinkToParentDocument(this Document childDocument, Document parentDocument)
-        {
-            if (childDocument == null) throw new NullException(() => childDocument);
-
-            if (childDocument.ParentDocument != null)
-            {
-                if (childDocument.ParentDocument.ChildDocuments.Contains(childDocument))
-                {
-                    childDocument.ParentDocument.ChildDocuments.Remove(childDocument);
-                }
-            }
-
-            childDocument.ParentDocument = parentDocument;
-
-            if (childDocument.ParentDocument != null)
-            {
-                if (!childDocument.ParentDocument.ChildDocuments.Contains(childDocument))
-                {
-                    childDocument.ParentDocument.ChildDocuments.Add(childDocument);
-                }
-            }
-        }
-
-        public static void LinkToDependentDocument(this DocumentReference documentReference, Document dependentDocument)
-        {
-            // DocumentReference -> DependentDocument
-            // Document -> DependentDocuments
-
-            if (documentReference == null) throw new NullException(() => documentReference);
-
-            if (documentReference.DependentDocument != null)
-            {
-                if (documentReference.DependentDocument.DependentDocuments.Contains(documentReference))
-                {
-                    documentReference.DependentDocument.DependentDocuments.Remove(documentReference);
-                }
-            }
-
-            documentReference.DependentDocument = dependentDocument;
-
-            if (documentReference.DependentDocument != null)
-            {
-                if (!documentReference.DependentDocument.DependentDocuments.Contains(documentReference))
-                {
-                    documentReference.DependentDocument.DependentDocuments.Add(documentReference);
-                }
-            }
-        }
-
-        public static void LinkToDependentOnDocument(this DocumentReference documentReference, Document dependentOnDocument)
-        {
-            // DocumentReference -> DependentOnDocument
-            // Document -> DependentOnDocuments
-
-            if (documentReference == null) throw new NullException(() => documentReference);
-
-            if (documentReference.DependentOnDocument != null)
-            {
-                if (documentReference.DependentOnDocument.DependentOnDocuments.Contains(documentReference))
-                {
-                    documentReference.DependentOnDocument.DependentOnDocuments.Remove(documentReference);
-                }
-            }
-
-            documentReference.DependentOnDocument = dependentOnDocument;
-
-            if (documentReference.DependentOnDocument != null)
-            {
-                if (!documentReference.DependentOnDocument.DependentOnDocuments.Contains(documentReference))
-                {
-                    documentReference.DependentOnDocument.DependentOnDocuments.Add(documentReference);
-                }
-            }
-        }
-        
-        public static void LinkToMainPatch(this Document document, Patch mainPatch)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            document.MainPatch = mainPatch;
             // No inverse property.
         }
 
-        // Enum-Like Entities
+        public static void LinkTo(this AudioFileOutput audioFileOutput, SampleDataType sampleDataType)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+
+            audioFileOutput.SampleDataType = sampleDataType;
+
+            // No inverse property.
+        }
+
+        public static void LinkTo(this AudioFileOutput audioFileOutput, AudioFileFormat audioFileFormat)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+
+            audioFileOutput.AudioFileFormat = audioFileFormat;
+
+            // No inverse property.
+        }
+
+        public static void LinkTo(this Document document, ChildDocumentType childDocumentType)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            document.ChildDocumentType = childDocumentType;
+
+            // No inverse property.
+        }
 
         public static void LinkTo(this Node node, NodeType nodeType)
         {
@@ -397,38 +479,11 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo(this AudioFileOutput audioFileOutput, SpeakerSetup speakerSetup)
+        public static void LinkTo(this Scale scale, ScaleType scaleType)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            if (scale == null) throw new NullException(() => scale);
 
-            audioFileOutput.SpeakerSetup = speakerSetup;
-
-            // No inverse property.
-        }
-
-        public static void LinkTo(this AudioFileOutput audioFileOutput, SampleDataType sampleDataType)
-        {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-
-            audioFileOutput.SampleDataType = sampleDataType;
-
-            // No inverse property.
-        }
-
-        public static void LinkTo(this AudioFileOutput audioFileOutput, AudioFileFormat audioFileFormat)
-        {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-
-            audioFileOutput.AudioFileFormat = audioFileFormat;
-
-            // No inverse property.
-        }
-
-        public static void LinkTo(this Document document, ChildDocumentType childDocumentType)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            document.ChildDocumentType = childDocumentType;
+            scale.ScaleType = scaleType;
 
             // No inverse property.
         }

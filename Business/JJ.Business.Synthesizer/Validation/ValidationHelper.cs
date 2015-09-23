@@ -179,6 +179,21 @@ namespace JJ.Business.Synthesizer.Validation
             return GetMessagePrefix(PropertyDisplayNames.Sample, entity.Name);
         }
 
+        public static string GetMessagePrefix(Scale entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return GetMessagePrefix(PropertyDisplayNames.Scale, entity.Name);
+        }
+
+        internal static string GetMessagePrefix(Tone entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            // TODO: Make a better message prefix
+            return PropertyDisplayNames.Tone;
+        }
+
         /// <summary>
         /// Uses the name in the message or otherwise the entityTypeDisplayName.
         /// </summary>

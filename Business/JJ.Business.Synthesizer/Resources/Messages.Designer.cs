@@ -304,6 +304,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scale names are not unique..
+        /// </summary>
+        internal static string ScaleNamesNotUnique {
+            get {
+                return ResourceManager.GetString("ScaleNamesNotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is a circular dependency with its underlying document..
         /// </summary>
         internal static string UnderlyingDocumentIsCircular {

@@ -5,7 +5,6 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
     internal class Byteless_SampleCalculator : ISampleCalculator
     {
         private int _channelCount;
-        private Sample _sample;
 
         public Byteless_SampleCalculator(int channelCount)
         {

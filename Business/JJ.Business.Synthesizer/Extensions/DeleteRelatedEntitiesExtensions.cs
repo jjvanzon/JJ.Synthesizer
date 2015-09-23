@@ -7,8 +7,35 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
+    /// <summary>
+    /// Deletes related entities that are intrinsically part of the entity.
+    /// </summary>
     internal static class DeleteRelatedEntitiesExtensions
     {
+        public static void DeleteRelatedEntities(this AudioFileOutput audioFileOutput, IAudioFileOutputChannelRepository audioFileOutputChannelRepository)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
+
+            foreach (AudioFileOutputChannel audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels.ToArray())
+            {
+                audioFileOutputChannel.UnlinkRelatedEntities();
+                audioFileOutputChannelRepository.Delete(audioFileOutputChannel);
+            }
+        }
+
+        public static void DeleteRelatedEntities(this Curve curve, INodeRepository nodeRepository)
+        {
+            if (curve == null) throw new NullException(() => curve);
+            if (nodeRepository == null) throw new NullException(() => nodeRepository);
+
+            foreach (Node node in curve.Nodes.ToArray())
+            {
+                node.UnlinkRelatedEntities();
+                nodeRepository.Delete(node);
+            }
+        }
+
         public static void DeleteRelatedEntities(this Document document, RepositoryWrapper repositoryWrapper)
         {
             if (document == null) throw new NullException(() => document);
@@ -53,30 +80,6 @@ namespace JJ.Business.Synthesizer.Extensions
             {
                 documentReference.UnlinkRelatedEntities();
                 repositoryWrapper.DocumentReferenceRepository.Delete(documentReference);
-            }
-        }
-
-        public static void DeleteRelatedEntities(this Curve curve, INodeRepository nodeRepository)
-        {
-            if (curve == null) throw new NullException(() => curve);
-            if (nodeRepository == null) throw new NullException(() => nodeRepository);
-
-            foreach (Node node in curve.Nodes.ToArray())
-            {
-                node.UnlinkRelatedEntities();
-                nodeRepository.Delete(node);
-            }
-        }
-
-        public static void DeleteRelatedEntities(this AudioFileOutput audioFileOutput, IAudioFileOutputChannelRepository audioFileOutputChannelRepository)
-        {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-            if (audioFileOutputChannelRepository == null) throw new NullException(() => audioFileOutputChannelRepository);
-
-            foreach (AudioFileOutputChannel audioFileOutputChannel in audioFileOutput.AudioFileOutputChannels.ToArray())
-            {
-                audioFileOutputChannel.UnlinkRelatedEntities();
-                audioFileOutputChannelRepository.Delete(audioFileOutputChannel);
             }
         }
 
@@ -129,6 +132,16 @@ namespace JJ.Business.Synthesizer.Extensions
             if (entityPosition != null)
             {
                 entityPositionRepository.Delete(entityPosition);
+            }
+        }
+
+        public static void DeleteRelatedEntities(this Scale scale, IToneRepository toneRepository)
+        {
+            if (scale == null) throw new NullException(() => scale);
+
+            foreach (Tone tone in scale.Tones.ToArray())
+            {
+                toneRepository.Delete(tone);
             }
         }
     }

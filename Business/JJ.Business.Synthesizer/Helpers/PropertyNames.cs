@@ -69,5 +69,6 @@
         public const string Inlets = "Inlets";
         public const string Outlets = "Outlets";
         public const string UnderlyingDocument = "UnderlyingDocument";
+        public const string Scales = "Scales";
     }
 }

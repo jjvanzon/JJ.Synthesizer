@@ -225,4 +225,7 @@
   <data name="CannotDeleteBecauseHasReferences" xml:space="preserve">
     <value>Cannot delete item, because there are things still linking to it.</value>
   </data>
+  <data name="ScaleNamesNotUnique" xml:space="preserve">
+    <value>Scale names are not unique.</value>
+  </data>
 </root>

@@ -36,6 +36,11 @@ namespace JJ.Business.Synthesizer.Validation
 
             Execute<DocumentValidator_Basic>();
 
+            foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
+            {
+                Execute(new AudioFileOutputValidator(audioFileOutput), ValidationHelper.GetMessagePrefix(audioFileOutput));
+            }
+
             foreach (Curve curve in document.Curves)
             {
                 if (_alreadyDone.Contains(curve))
@@ -54,6 +59,13 @@ namespace JJ.Business.Synthesizer.Validation
                 Execute(new PatchValidator_InDocument(patch), messagePrefix);
             }
 
+            foreach (Scale scale in document.Scales)
+            {
+                string messagePrefix = ValidationHelper.GetMessagePrefix(scale);
+                Execute(new ScaleValidator_InDocument(scale), messagePrefix);
+                Execute(new ScaleValidator_Versatile(scale), messagePrefix);
+            }
+
             foreach (Sample sample in document.Samples)
             {
                 if (_alreadyDone.Contains(sample))
@@ -63,11 +75,6 @@ namespace JJ.Business.Synthesizer.Validation
                 _alreadyDone.Add(sample);
 
                 Execute(new SampleValidator(sample), ValidationHelper.GetMessagePrefix(sample));
-            }
-
-            foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
-            {
-                Execute(new AudioFileOutputValidator(audioFileOutput), ValidationHelper.GetMessagePrefix(audioFileOutput));
             }
 
             foreach (Document childDocument in document.ChildDocuments)

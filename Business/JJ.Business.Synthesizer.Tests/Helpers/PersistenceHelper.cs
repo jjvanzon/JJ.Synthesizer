@@ -55,13 +55,19 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 CreateRepository<IOperatorTypeRepository>(context),
                 CreateRepository<IInletRepository>(context),
                 CreateRepository<IOutletRepository>(context),
+                CreateRepository<IScaleRepository>(context),
+                CreateRepository<IToneRepository>(context),
+
                 CreateRepository<IEntityPositionRepository>(context),
+
                 CreateRepository<IAudioFileFormatRepository>(context),
                 CreateRepository<IInterpolationTypeRepository>(context),
                 CreateRepository<INodeTypeRepository>(context),
                 CreateRepository<ISampleDataTypeRepository>(context),
                 CreateRepository<ISpeakerSetupRepository>(context),
                 CreateRepository<IChildDocumentTypeRepository>(context),
+                CreateRepository<IScaleTypeRepository>(context),
+
                 CreateRepository<IIDRepository>(context)
             );
 

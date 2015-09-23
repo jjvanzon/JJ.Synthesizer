@@ -51,29 +51,20 @@ namespace JJ.Business.Synthesizer.Extensions
             return false;
         }
 
-        /// <summary>
-        /// Tells us whether the document contains custom operators that have circular references to their associated documents.
-        /// </summary>
-        public static bool HasCircularUnderlyingDocuments(this Document document, IDocumentRepository documentRepository)
+        public static bool HasCircularUnderlyingDocument(this Document document, IDocumentRepository documentRepository)
         {
             if (document == null) throw new NullException(() => document);
 
             return document.HasCircularUnderlyingDocument(documentRepository, new HashSet<object>());
         }
 
-        /// <summary>
-        /// Tells us whether the patch contains custom operators that have circular references to their associated documents.
-        /// </summary>
-        public static bool HasCircularUnderlyingDocuments(this Patch patch, IDocumentRepository documentRepository)
+        public static bool HasCircularUnderlyingDocument(this Patch patch, IDocumentRepository documentRepository)
         {
             if (patch == null) throw new NullException(() => patch);
 
             return patch.HasCircularUnderlyingDocument(documentRepository, new HashSet<object>());
         }
 
-        /// <summary>
-        /// Tells us whether the custom operators has a circular reference to its associated document.
-        /// </summary>
         public static bool HasCircularUnderlyingDocument(this Operator op, IDocumentRepository documentRepository)
         {
             if (op == null) throw new NullException(() => op);
