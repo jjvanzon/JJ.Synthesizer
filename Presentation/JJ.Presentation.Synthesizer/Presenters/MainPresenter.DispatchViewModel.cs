@@ -43,6 +43,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
                 { typeof(SampleGridViewModel), DispatchSampleGridViewModel },
                 { typeof(SamplePropertiesViewModel), DispatchSamplePropertiesViewModel },
+                { typeof(ScaleGridViewModel), DispatchScaleGridViewModel },
+                { typeof(ScaleDetailsViewModel), DispatchScaleDetailsViewModel },
             };
 
             return dictionary;
@@ -434,6 +436,33 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 HideAllListAndDetailViewModels();
                 gridViewModel.Visible = true;
             }
+        }
+
+        private void DispatchScaleGridViewModel(object viewModel2)
+        {
+            var castedViewModel = (ScaleGridViewModel)viewModel2;
+
+            ViewModel.Document.ScaleGrid = (ScaleGridViewModel)viewModel2;
+
+            if (castedViewModel.Visible)
+            {
+                HideAllListAndDetailViewModels();
+                castedViewModel.Visible = true;
+            }
+        }
+
+        private void DispatchScaleDetailsViewModel(object viewModel2)
+        {
+            var audioFileOutputDetailsViewModel = (ScaleDetailsViewModel)viewModel2;
+
+            if (audioFileOutputDetailsViewModel.Visible)
+            {
+                HideAllListAndDetailViewModels();
+                audioFileOutputDetailsViewModel.Visible = true;
+            }
+
+            ViewModel.PopupMessages.AddRange(audioFileOutputDetailsViewModel.ValidationMessages);
+            audioFileOutputDetailsViewModel.ValidationMessages.Clear();
         }
     }
 }

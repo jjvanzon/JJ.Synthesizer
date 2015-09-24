@@ -60,12 +60,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly PatchGridPresenter _patchGridPresenter;
         private readonly SampleGridPresenter _sampleGridPresenter;
         private readonly SamplePropertiesPresenter _samplePropertiesPresenter;
+        private readonly ScaleGridPresenter _scaleGridPresenter;
+        private readonly ScaleDetailsPresenter _scaleDetailsPresenter;
 
         private readonly AudioFileOutputManager _audioFileOutputManager;
         private readonly CurveManager _curveManager;
         private readonly DocumentManager _documentManager;
         private readonly EntityPositionManager _entityPositionManager;
         private readonly SampleManager _sampleManager;
+        private readonly ScaleManager _scaleManager;
 
         public MainViewModel ViewModel { get; private set; }
 
@@ -76,6 +79,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositories = repositoryWrapper;
             _patchRepositories = new PatchRepositories(_repositories);
             _sampleRepositories = new SampleRepositories(_repositories);
+            var scaleRepositories = new ScaleRepositories(_repositories);
 
             var curveRepositories = new CurveRepositories(_repositories);
 
@@ -84,6 +88,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentManager = new DocumentManager(_repositories);
             _entityPositionManager = new EntityPositionManager(_repositories.EntityPositionRepository, _repositories.IDRepository);
             _sampleManager = new SampleManager(_sampleRepositories);
+            _scaleManager = new ScaleManager(scaleRepositories);
 
             _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_repositories.DocumentRepository);
             _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(new AudioFileOutputRepositories(_repositories));
@@ -111,6 +116,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchGridPresenter = new PatchGridPresenter(_repositories.DocumentRepository);
             _sampleGridPresenter = new SampleGridPresenter(_repositories.DocumentRepository, _repositories.SampleRepository);
             _samplePropertiesPresenter = new SamplePropertiesPresenter(_sampleRepositories);
+            _scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository);
+            _scaleDetailsPresenter = new ScaleDetailsPresenter(new ScaleRepositories(_repositories));
 
             _dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
         }
@@ -119,15 +126,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void HideAllListAndDetailViewModels()
         {
-            ViewModel.DocumentGrid.Visible = false;
-            ViewModel.DocumentDetails.Visible = false;
-
-            ViewModel.Document.InstrumentGrid.Visible = false;
-            ViewModel.Document.EffectGrid.Visible = false;
-            ViewModel.Document.SampleGrid.Visible = false;
-            ViewModel.Document.CurveGrid.Visible = false;
             ViewModel.Document.AudioFileOutputGrid.Visible = false;
+            ViewModel.Document.CurveGrid.Visible = false;
+            ViewModel.Document.EffectGrid.Visible = false;
+            ViewModel.Document.InstrumentGrid.Visible = false;
             ViewModel.Document.PatchGrid.Visible = false;
+            ViewModel.Document.SampleGrid.Visible = false;
+            ViewModel.Document.ScaleGrid.Visible = false;
+            ViewModel.DocumentDetails.Visible = false;
+            ViewModel.DocumentGrid.Visible = false;
 
             foreach (CurveDetailsViewModel curveDetailsViewModel in ViewModel.Document.CurveDetailsList)
             {

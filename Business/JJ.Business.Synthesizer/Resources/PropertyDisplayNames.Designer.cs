@@ -682,6 +682,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Scales.
+        /// </summary>
+        public static string Scales {
+            get {
+                return ResourceManager.GetString("Scales", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scale Type.
         /// </summary>
         public static string ScaleType {

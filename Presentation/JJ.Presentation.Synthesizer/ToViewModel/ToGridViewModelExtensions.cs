@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             IList<Document> childDocuments = rootDocument.ChildDocuments
                                                          .Where(x => x.ChildDocumentType != null && 
                                                                      x.ChildDocumentType.ID == childDocumentTypeID)
-                                                         .ToArray();
+                                                         .ToList();
 
             ChildDocumentGridViewModel viewModel = childDocuments.ToChildDocumentGridViewModel(rootDocument.ID, childDocumentTypeID);
 
@@ -132,7 +132,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentID = documentID,
                 List = entities.OrderBy(x => x.Name)
                                .Select(x => x.ToIDAndName())
-                               .ToArray()
+                               .ToList()
             };
 
             return viewModel;

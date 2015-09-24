@@ -14,7 +14,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Presentation.Synthesizer.Converters;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Presentation.Synthesizer.Helpers;
+using System;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {
@@ -41,42 +41,60 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return destAudioFileOutput;
         }
 
-        public static AudioFileOutput ToEntity(this AudioFileOutputViewModel viewModel, AudioFileOutputRepositories audioFileOutputRepositories)
+        public static AudioFileOutput ToEntity(this AudioFileOutputViewModel viewModel, AudioFileOutputRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (audioFileOutputRepositories == null) throw new NullException(() => audioFileOutputRepositories);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            AudioFileOutput audioFileOutput = audioFileOutputRepositories.AudioFileOutputRepository.TryGet(viewModel.ID);
-            if (audioFileOutput == null)
+            AudioFileOutput entity = repositories.AudioFileOutputRepository.TryGet(viewModel.ID);
+            if (entity == null)
             {
-                audioFileOutput = new AudioFileOutput();
-                audioFileOutput.ID = viewModel.ID;
-                audioFileOutputRepositories.AudioFileOutputRepository.Insert(audioFileOutput);
+                entity = new AudioFileOutput();
+                entity.ID = viewModel.ID;
+                repositories.AudioFileOutputRepository.Insert(entity);
             }
-            audioFileOutput.Name = viewModel.Name;
-            audioFileOutput.Amplifier = viewModel.Amplifier;
-            audioFileOutput.TimeMultiplier = viewModel.TimeMultiplier;
-            audioFileOutput.StartTime = viewModel.StartTime;
-            audioFileOutput.Duration = viewModel.Duration;
-            audioFileOutput.SamplingRate = viewModel.SamplingRate;
-            audioFileOutput.FilePath = viewModel.FilePath;
+            entity.Name = viewModel.Name;
+            entity.Amplifier = viewModel.Amplifier;
+            entity.TimeMultiplier = viewModel.TimeMultiplier;
+            entity.StartTime = viewModel.StartTime;
+            entity.Duration = viewModel.Duration;
+            entity.SamplingRate = viewModel.SamplingRate;
+            entity.FilePath = viewModel.FilePath;
 
-            if (viewModel.AudioFileFormat != null)
+            bool audioFileFormatIsFilledIn = viewModel.AudioFileFormat != null && viewModel.AudioFileFormat.ID != 0;
+            if (audioFileFormatIsFilledIn)
             {
-                audioFileOutput.AudioFileFormat = audioFileOutputRepositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
+                AudioFileFormat audioFileFormat = repositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
+                entity.LinkTo(audioFileFormat);
             }
-
-            if (viewModel.SampleDataType != null)
+            else
             {
-                audioFileOutput.SampleDataType = audioFileOutputRepositories.SampleDataTypeRepository.Get(viewModel.SampleDataType.ID);
-            }
-
-            if (viewModel.SpeakerSetup != null)
-            {
-                audioFileOutput.SpeakerSetup = audioFileOutputRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
+                entity.UnlinkAudioFileFormat();
             }
 
-            return audioFileOutput;
+            bool sampleDataTypeIsFilledIn = viewModel.AudioFileFormat != null && viewModel.AudioFileFormat.ID != 0;
+            if (sampleDataTypeIsFilledIn)
+            {
+                AudioFileFormat sampleDataType = repositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
+                entity.LinkTo(sampleDataType);
+            }
+            else
+            {
+                entity.UnlinkAudioFileFormat();
+            }
+
+            bool speakerSetupIsFilledIn = viewModel.AudioFileFormat != null && viewModel.AudioFileFormat.ID != 0;
+            if (speakerSetupIsFilledIn)
+            {
+                AudioFileFormat speakerSetup = repositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
+                entity.LinkTo(speakerSetup);
+            }
+            else
+            {
+                entity.UnlinkAudioFileFormat();
+            }
+
+            return entity;
         }
 
         public static AudioFileOutputChannel ToEntity(this AudioFileOutputChannelViewModel viewModel, IAudioFileOutputChannelRepository audioFileOutputChannelRepository, IOutletRepository outletRepository)
@@ -95,9 +113,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             entity.IndexNumber = viewModel.IndexNumber;
 
-            if (viewModel.Outlet != null)
+            bool outletIsFilledIn = viewModel.Outlet != null && viewModel.Outlet.ID != 0;
+            if (outletIsFilledIn)
             {
-                entity.Outlet = outletRepository.Get(viewModel.Outlet.ID);
+                Outlet outlet = outletRepository.Get(viewModel.Outlet.ID);
+                entity.LinkTo(outlet);
+            }
+            else
+            {
+                entity.UnlinkOutlet();
             }
 
             return entity;
@@ -157,17 +181,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (documentRepository == null) throw new NullException(() => documentRepository);
             if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
 
-            Document childDocument = documentRepository.TryGet(viewModel.ID);
-            if (childDocument == null)
+            Document entity = documentRepository.TryGet(viewModel.ID);
+            if (entity == null)
             {
-                childDocument = new Document();
-                childDocument.ID = viewModel.ID;
-                documentRepository.Insert(childDocument);
+                entity = new Document();
+                entity.ID = viewModel.ID;
+                documentRepository.Insert(entity);
             }
 
             // Leave setting the simple properties to the the properties view model (properties such as Name and ChildDocumentType).
 
-            return childDocument;
+            return entity;
         }
 
         public static Document ToEntityWithMainPatchReference(
@@ -273,9 +297,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Value = viewModel.Value;
             entity.Direction = viewModel.Direction;
 
-            if (entity.NodeType != null)
+            bool nodeTypeIsFilledIn = viewModel.NodeType != null && viewModel.NodeType.ID != 0;
+            if (nodeTypeIsFilledIn)
             {
-                entity.NodeType = nodeTypeRepository.Get(viewModel.NodeType.ID);
+                NodeType nodeType = nodeTypeRepository.Get(viewModel.NodeType.ID);
+                entity.LinkTo(nodeType);
+            }
+            else
+            {
+                entity.UnlinkNodeType();
             }
 
             return entity;
@@ -298,15 +328,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Document destDocument = userInput.ToEntity(repositories.DocumentRepository);
 
-            ToEntityHelper.ToChildDocumentsWithRelatedEntities(userInput.ChildDocumentList, destDocument, repositories);
             // NOTE: 
             // There is order dependency between converting ChildDocumentList and ChildDocumentPropertiesList.
             // ChildDocumentProperties can reference a MainPatch, converted from the ChildDocumentList.
+            ToEntityHelper.ToChildDocumentsWithRelatedEntities(userInput.ChildDocumentList, destDocument, repositories);
             ToEntityHelper.ToChildDocuments(userInput.ChildDocumentPropertiesList, destDocument, repositories);
-            ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositories));
+
+            ToEntityHelper.ToAudioFileOutputsWithRelatedEntities(userInput.AudioFileOutputPropertiesList, destDocument, new AudioFileOutputRepositories(repositories));
             ToEntityHelper.ToCurvesWithRelatedEntities(userInput.CurveDetailsList, destDocument, new CurveRepositories(repositories));
             ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, new PatchRepositories(repositories));
-            ToEntityHelper.ToAudioFileOutputsWithRelatedEntities(userInput.AudioFileOutputPropertiesList, destDocument, new AudioFileOutputRepositories(repositories));
+            ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositories));
+            ToEntityHelper.ToScales(userInput.ScaleDetailsList, destDocument, new ScaleRepositories(repositories));
 
             // Operator Properties
             // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
@@ -381,19 +413,18 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (idAndName == null) throw new NullException(() => idAndName);
             if (documentRepository == null) throw new NullException(() => documentRepository);
 
-            Document document = documentRepository.TryGet(idAndName.ID);
-            if (document == null)
+            Document entity = documentRepository.TryGet(idAndName.ID);
+            if (entity == null)
             {
-                document = new Document();
-                document.ID = idAndName.ID;
-                documentRepository.Insert(document);
+                entity = new Document();
+                entity.ID = idAndName.ID;
+                documentRepository.Insert(entity);
             }
 
-            document.Name = idAndName.Name;
+            entity.Name = idAndName.Name;
 
-            return document;
+            return entity;
         }
-
 
         /// <summary>
         /// Used for OperatorProperties view for Sample operators, to partially convert to entity,
@@ -435,7 +466,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return rootDocument;
         }
 
-        // Operator Properties
+        // Operator 
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel viewModel,
@@ -452,10 +483,20 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 operatorRepository.Insert(entity);
             }
 
-            // Added this so operator properties lose focus on a new operator would be able to do some basic validation.
-            entity.OperatorType = operatorTypeRepository.TryGet(viewModel.OperatorType.ID);
-
             entity.Name = viewModel.Name;
+
+            // Added this so operator properties lose focus on a new operator would be able to do some basic validation.
+            bool operatorTypeIsFilledIn = viewModel.OperatorType != null && viewModel.OperatorType.ID != 0;
+            if (operatorTypeIsFilledIn)
+            {
+                OperatorType operatorType = operatorTypeRepository.Get(viewModel.OperatorType.ID);
+                entity.LinkTo(operatorType);
+            }
+            else
+            {
+                entity.UnlinkOperatorType();
+            }
+
             return entity;
         }
 
@@ -712,7 +753,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             entity.Name = viewModel.Name;
-            entity.OperatorType = operatorTypeRepository.TryGet(viewModel.OperatorType.ID);
+
+            bool operatorTypeIsFilledIn = viewModel.OperatorType != null && viewModel.OperatorType.ID != 0;
+            if (operatorTypeIsFilledIn)
+            {
+                OperatorType operatorType = operatorTypeRepository.Get(viewModel.OperatorType.ID);
+                entity.LinkTo(operatorType);
+            }
+            else
+            {
+                entity.UnlinkOperatorType();
+            }
 
             return entity;
         }
@@ -791,44 +842,72 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (viewModel == null) throw new NullException(() => viewModel);
             if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
 
-            Sample sample = sampleRepositories.SampleRepository.TryGet(viewModel.ID);
-            if (sample == null)
+            Sample entity = sampleRepositories.SampleRepository.TryGet(viewModel.ID);
+            if (entity == null)
             {
-                sample = new Sample();
-                sample.ID = viewModel.ID;
-                sampleRepositories.SampleRepository.Insert(sample);
+                entity = new Sample();
+                entity.ID = viewModel.ID;
+                sampleRepositories.SampleRepository.Insert(entity);
             }
-            sample.Name = viewModel.Name;
-            sample.Amplifier = viewModel.Amplifier;
-            sample.TimeMultiplier = viewModel.TimeMultiplier;
-            sample.IsActive = viewModel.IsActive;
-            sample.SamplingRate = viewModel.SamplingRate;
-            sample.BytesToSkip = viewModel.BytesToSkip;
-            sample.OriginalLocation = viewModel.OriginalLocation;
+            entity.Name = viewModel.Name;
+            entity.Amplifier = viewModel.Amplifier;
+            entity.TimeMultiplier = viewModel.TimeMultiplier;
+            entity.IsActive = viewModel.IsActive;
+            entity.SamplingRate = viewModel.SamplingRate;
+            entity.BytesToSkip = viewModel.BytesToSkip;
+            entity.OriginalLocation = viewModel.OriginalLocation;
 
-            if (viewModel.AudioFileFormat != null)
+            // AudioFileFormat
+            bool audioFileFormatIsFilledIn = viewModel.AudioFileFormat != null && viewModel.AudioFileFormat.ID != 0;
+            if (audioFileFormatIsFilledIn)
             {
-                sample.AudioFileFormat = sampleRepositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
+                AudioFileFormat audioFileFormat = sampleRepositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
+                entity.LinkTo(audioFileFormat);
             }
-
-            if (viewModel.InterpolationType != null)
+            else
             {
-                sample.InterpolationType = sampleRepositories.InterpolationTypeRepository.Get(viewModel.InterpolationType.ID);
-            }
-
-            if (viewModel.SampleDataType != null)
-            {
-                sample.SampleDataType = sampleRepositories.SampleDataTypeRepository.Get(viewModel.SampleDataType.ID);
+                entity.UnlinkAudioFileFormat();
             }
 
-            if (viewModel.SpeakerSetup != null)
+            // InterpolationType
+            bool interpolationTypeIsFilledIn = viewModel.InterpolationType != null && viewModel.InterpolationType.ID != 0;
+            if (interpolationTypeIsFilledIn)
             {
-                sample.SpeakerSetup = sampleRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
+                InterpolationType interpolationType = sampleRepositories.InterpolationTypeRepository.Get(viewModel.InterpolationType.ID);
+                entity.LinkTo(interpolationType);
+            }
+            else
+            {
+                entity.UnlinkInterpolationType();
+            }
+
+            // SampleDataType
+            bool sampleDataTypeIsFilledIn = viewModel.SampleDataType != null && viewModel.SampleDataType.ID != 0;
+            if (sampleDataTypeIsFilledIn)
+            {
+                SampleDataType sampleDataType = sampleRepositories.SampleDataTypeRepository.Get(viewModel.SampleDataType.ID);
+                entity.LinkTo(sampleDataType);
+            }
+            else
+            {
+                entity.UnlinkSampleDataType();
+            }
+
+            // SpeakerSetup
+            bool speakerSetupIsFilledIn = viewModel.SpeakerSetup != null && viewModel.SpeakerSetup.ID != 0;
+            if (speakerSetupIsFilledIn)
+            {
+                SpeakerSetup speakerSetup = sampleRepositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
+                entity.LinkTo(speakerSetup);
+            }
+            else
+            {
+                entity.UnlinkSpeakerSetup();
             }
 
             sampleRepositories.SampleRepository.SetBytes(viewModel.ID, viewModel.Bytes);
 
-            return sample;
+            return entity;
         }
 
         /// <summary> Converts to a Sample with an ID but no other properties assigned. </summary>
@@ -846,6 +925,106 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             return sample;
+        }
+
+        // Scale
+
+        public static Scale ToEntityWithRelatedEntities(this ScaleDetailsViewModel viewModel, ScaleRepositories repositories)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (repositories == null) throw new NullException(() => viewModel);
+
+            Scale entity = viewModel.Entity.ToEntity(repositories);
+            return entity;
+        }
+
+        public static Scale ToEntityWithRelatedEntities(this ScaleViewModel viewModel, ScaleRepositories repositories)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (repositories == null) throw new NullException(() => viewModel);
+
+            Scale scale = viewModel.ToEntity(repositories);
+
+            viewModel.Tones.ToEntities(scale, repositories);
+
+            return scale;
+        }
+
+        public static void ToEntities(this IList<ToneViewModel> viewModelList, Scale destScale, ScaleRepositories repositories)
+        {
+            if (viewModelList == null) throw new NullException(() => viewModelList);
+            if (destScale == null) throw new NullException(() => destScale);
+            if (repositories == null) throw new NullException(() => repositories);
+
+            var idsToKeep = new HashSet<int>();
+
+            foreach (ToneViewModel viewModel in viewModelList)
+            {
+                Tone entity = viewModel.ToEntity(repositories.ToneRepository);
+                entity.LinkTo(destScale);
+
+                if (!idsToKeep.Contains(entity.ID))
+                {
+                    idsToKeep.Add(entity.ID);
+                }
+            }
+
+            var scaleManager = new ScaleManager(repositories);
+
+            IList<int> existingIDs = destScale.Tones.Select(x => x.ID).ToArray();
+            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+            foreach (int idToDelete in idsToDelete)
+            {
+                scaleManager.DeleteTone(idToDelete);
+            }
+        }
+
+        public static Scale ToEntity(this ScaleViewModel viewModel, ScaleRepositories repositories)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (repositories == null) throw new NullException(() => viewModel);
+
+            Scale entity = repositories.ScaleRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Scale();
+                entity.ID = viewModel.ID;
+                repositories.ScaleRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+
+            bool scaleTypeIsFilledIn = viewModel.ScaleType != null && viewModel.ScaleType.ID != 0;
+            if (scaleTypeIsFilledIn)
+            {
+                ScaleType scaleType = repositories.ScaleTypeRepository.Get(viewModel.ScaleType.ID);
+                entity.LinkTo(scaleType);
+            }
+            else
+            {
+                entity.UnlinkScaleType();
+            }
+
+            return entity;
+        }
+
+        public static Tone ToEntity(this ToneViewModel viewModel, IToneRepository toneRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (toneRepository == null) throw new NullException(() => toneRepository);
+
+            Tone entity = toneRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Tone();
+                entity.ID = viewModel.ID;
+                toneRepository.Insert(entity);
+            }
+
+            entity.Number = viewModel.Number;
+            entity.Octave = viewModel.Octave;
+
+            return entity;
         }
     }
 }

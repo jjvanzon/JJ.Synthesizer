@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void audioFileOutputGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            AudioFileOutputListClose();
+            AudioFileOutputGridClose();
         }
 
         private void audioFileOutputGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
@@ -65,14 +65,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void curveGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            CurveListClose();
+            CurveGridClose();
         }
 
-        // Document List Events
+        // Document Grid Events
 
         private void documentGridUserControl_ShowRequested(object sender, Int32EventArgs e)
         {
-            DocumentListShow(e.Value);
+            DocumentGridShow(e.Value);
         }
 
         private void documentGridUserControl_CreateRequested(object sender, EventArgs e)
@@ -92,7 +92,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            DocumentListClose();
+            DocumentGridClose();
         }
 
         // Document Details Events
@@ -114,19 +114,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Document Tree Events
 
+        private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
+        {
+            AudioFileOutputGridShow();
+        }
+
+        private void documentTreeUserControl_ShowChildDocumentPropertiesRequested(object sender, Int32EventArgs e)
+        {
+            ChildDocumentPropertiesShow(e.Value);
+        }
+
         private void documentTreeUserControl_CloseRequested(object sender, EventArgs e)
         {
             DocumentTreeClose();
-        }
-
-        private void documentTreeUserControl_DocumentPropertiesRequested(object sender, EventArgs e)
-        {
-            DocumentPropertiesShow();
-        }
-
-        private void documentTreeUserControl_ExpandNodeRequested(object sender, Int32EventArgs e)
-        {
-            DocumentTreeExpandNode(e.Value);
         }
 
         private void documentTreeUserControl_CollapseNodeRequested(object sender, Int32EventArgs e)
@@ -134,39 +134,44 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentTreeCollapseNode(e.Value);
         }
 
-        private void documentTreeUserControl_ShowInstrumentsRequested(object sender, EventArgs e)
+        private void documentTreeUserControl_DocumentPropertiesRequested(object sender, EventArgs e)
         {
-            InstrumentListShow();
-        }
-
-        private void documentTreeUserControl_ShowEffectsRequested(object sender, EventArgs e)
-        {
-            EffectListShow();
-        }
-
-        private void documentTreeUserControl_ShowSamplesRequested(object sender, Int32EventArgs e)
-        {
-            SampleListShow(e.Value);
+            DocumentPropertiesShow();
         }
 
         private void documentTreeUserControl_ShowCurvesRequested(object sender, Int32EventArgs e)
         {
-            CurveListShow(e.Value);
+            CurveGridShow(e.Value);
+        }
+
+        private void documentTreeUserControl_ShowEffectsRequested(object sender, EventArgs e)
+        {
+            EffectGridShow();
+        }
+
+        private void documentTreeUserControl_ShowInstrumentsRequested(object sender, EventArgs e)
+        {
+            InstrumentGridShow();
+        }
+
+        private void documentTreeUserControl_ExpandNodeRequested(object sender, Int32EventArgs e)
+        {
+            DocumentTreeExpandNode(e.Value);
         }
 
         private void documentTreeUserControl_ShowPatchesRequested(object sender, Int32EventArgs e)
         {
-            PatchListShow(e.Value);
+            PatchGridShow(e.Value);
         }
 
-        private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
+        private void documentTreeUserControl_ShowSamplesRequested(object sender, Int32EventArgs e)
         {
-            AudioFileOutputListShow();
+            SampleGridShow(e.Value);
         }
 
-        private void documentTreeUserControl_ShowChildDocumentPropertiesRequested(object sender, Int32EventArgs e)
+        private void documentTreeUserControl_ShowScalesRequested(object sender, EventArgs e)
         {
-            ChildDocumentPropertiesShow(e.Value);
+            ScaleGridShow();
         }
 
         // Document Properties Events
@@ -195,7 +200,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void effectGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            EffectListClose();
+            EffectGridClose();
         }
 
         private void effectGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
@@ -217,7 +222,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void instrumentGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            InstrumentListClose();
+            InstrumentGridClose();
         }
 
         private void instrumentGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
@@ -227,9 +232,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Menu Events
 
-        private void menuUserControl_ShowDocumentListRequested(object sender, EventArgs e)
+        private void menuUserControl_ShowDocumentGridRequested(object sender, EventArgs e)
         {
-            DocumentListShow();
+            DocumentGridShow();
         }
 
         private void menuUserControl_ShowDocumentTreeRequested(object sender, EventArgs e)
@@ -323,7 +328,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void patchGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            PatchListClose();
+            PatchGridClose();
         }
 
         private void patchGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
@@ -390,7 +395,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void sampleGridUserControl_CloseRequested(object sender, EventArgs e)
         {
-            SampleListClose();
+            SampleGridClose();
         }
 
         private void sampleGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
@@ -406,6 +411,38 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void samplePropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
             SamplePropertiesClose();
+        }
+
+        // Scale Events
+
+        private void scaleGridUserControl_CreateRequested(object sender, EventArgs e)
+        {
+            ScaleCreate();
+        }
+
+        private void scaleGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            ScaleDelete(e.Value);
+        }
+
+        private void scaleGridUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            ScaleGridClose();
+        }
+
+        private void scaleGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
+        {
+            ScaleDetailsShow(e.Value);
+        }
+
+        private void scaleDetailsUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            ScaleDetailsClose();
+        }
+
+        private void scaleDetailsUserControl_LoseFocusRequested(object sender, EventArgs e)
+        {
+            ScaleDetailsLoseFocus();
         }
 
         // Message Box Events

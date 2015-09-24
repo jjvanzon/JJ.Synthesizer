@@ -94,6 +94,12 @@ namespace JJ.Business.Synthesizer.Managers
 
         // Delete
 
+        public void Delete(int id)
+        {
+            Scale scale = _repositories.ScaleRepository.Get(id);
+            Delete(scale);
+        }        
+
         public void Delete(Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
@@ -131,6 +137,12 @@ namespace JJ.Business.Synthesizer.Managers
                 Successful = validator.IsValid,
                 Messages = validator.ValidationMessages.ToCanonical()
             };
+        }
+
+        public void DeleteTone(int id)
+        {
+            Tone tone = _repositories.ToneRepository.Get(id);
+            DeleteTone(tone);
         }
 
         public void DeleteTone(Tone tone)

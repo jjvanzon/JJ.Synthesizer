@@ -136,7 +136,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
         {
             PointStyleInvisible.Visible = true;
             PointStyleInvisible.Color = ColorHelper.GetColor(128, 40, 128, 192);
-            PointStyleInvisible.Width = 10;
+            PointStyleInvisible.Width = 5;
 
             BackStyleInvisible.Visible = true;
             BackStyleInvisible.Color = ColorHelper.GetColor(64, 40, 128, 192);

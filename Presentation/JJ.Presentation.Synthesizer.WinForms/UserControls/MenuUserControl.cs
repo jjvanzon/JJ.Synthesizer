@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 {
     internal partial class MenuUserControl : UserControl
     {
-        public event EventHandler ShowDocumentListRequested;
+        public event EventHandler ShowDocumentGridRequested;
         public event EventHandler ShowDocumentTreeRequested;
         public event EventHandler DocumentCloseRequested;
         public event EventHandler DocumentSaveRequested;
@@ -149,9 +149,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
         private void documentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (ShowDocumentListRequested != null)
+            if (ShowDocumentGridRequested != null)
             {
-                ShowDocumentListRequested(sender, EventArgs.Empty);
+                ShowDocumentGridRequested(sender, EventArgs.Empty);
             }
         }
 

@@ -39,9 +39,6 @@ namespace JJ.Business.Synthesizer.Validation
                 case ScaleTypeEnum.SemiTone:
                     Execute<ScaleValidator_SemiTone>();
                     break;
-
-                default:
-                    throw new InvalidValueException(scaleTypeEnum);
             }
         }
     }

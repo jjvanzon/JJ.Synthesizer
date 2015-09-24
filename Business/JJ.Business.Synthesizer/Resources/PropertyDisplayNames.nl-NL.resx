@@ -384,4 +384,7 @@
   <data name="Octave" xml:space="preserve">
     <value>Octaaf</value>
   </data>
+  <data name="Scales" xml:space="preserve">
+    <value>Toonladders</value>
+  </data>
 </root>

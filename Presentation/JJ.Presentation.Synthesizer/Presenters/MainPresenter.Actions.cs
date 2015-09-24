@@ -543,10 +543,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 ViewModel.Document = document.ToViewModel(_repositories, _entityPositionManager);
 
+                // Here only the view models are assigned that cannot vary.
+                // E.g. PatchGrid can be show for both chile documents and root document.
                 _audioFileOutputGridPresenter.ViewModel = ViewModel.Document.AudioFileOutputGrid;
                 _effectGridPresenter.ViewModel = ViewModel.Document.EffectGrid;
                 _instrumentGridPresenter.ViewModel = ViewModel.Document.InstrumentGrid;
                 _documentTreePresenter.ViewModel = ViewModel.Document.DocumentTree;
+                _scaleGridPresenter.ViewModel = ViewModel.Document.ScaleGrid;
 
                 ViewModel.WindowTitle = String.Format("{0} - {1}", document.Name, Titles.ApplicationName);
 
@@ -647,6 +650,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                     .Select(x => x.Entity)
                                                     .ForEach(x => x.ToEntity(_repositories.PatchRepository));
                 ToEntityHelper.ToChildDocuments(ViewModel.Document.ChildDocumentPropertiesList, document, _repositories);
+
 
                 _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;
 
@@ -1857,6 +1861,127 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     RefreshSampleGridItem(sampleID);
                     RefreshSampleLookupsItems(sampleID);
+                }
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        // Scale Actions
+
+        public void ScaleGridShow()
+        {
+            try
+            {
+                _scaleGridPresenter.Show();
+                DispatchViewModel(_scaleGridPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void ScaleGridClose()
+        {
+            try
+            {
+                _scaleGridPresenter.Close();
+                DispatchViewModel(_scaleGridPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void ScaleCreate()
+        {
+            try
+            {
+                // ToEntity
+                Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+                // Business
+                Scale scale = _scaleManager.Create(document, mustGenerateName: true);
+
+                // ToViewModel
+                IDAndName listItemViewModel = scale.ToIDAndName();
+                ViewModel.Document.ScaleGrid.List.Add(listItemViewModel);
+                ViewModel.Document.ScaleGrid.List = ViewModel.Document.ScaleGrid.List.OrderBy(x => x.Name).ToList();
+
+                ScaleDetailsViewModel detailsViewModel = scale.ToDetailsViewModel(_repositories.ScaleTypeRepository);
+                ViewModel.Document.ScaleDetailsList.Add(detailsViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void ScaleDelete(int id)
+        {
+            try
+            {
+                // TODO: It is not very clean to assume business logic will also not in the future have any delete constraints.
+
+                // 'Business' / ToViewModel
+                ViewModel.Document.ScaleDetailsList.RemoveFirst(x => x.Entity.ID == id);
+                ViewModel.Document.ScaleGrid.List.RemoveFirst(x => x.ID == id);
+
+                // No need to do ToEntity, 
+                // because we are not executing any additional business logic or refreshing 
+                // that uses the entity models.
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void ScaleDetailsShow(int id)
+        {
+            try
+            {
+                _scaleDetailsPresenter.ViewModel = ViewModel.Document.ScaleDetailsList.First(x => x.Entity.ID == id);
+
+                _scaleDetailsPresenter.Show();
+
+                DispatchViewModel(_scaleDetailsPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void ScaleDetailsClose()
+        {
+            ScaleDetailsCloseOrLoseFocus(() => _scaleDetailsPresenter.Close());
+        }
+
+        public void ScaleDetailsLoseFocus()
+        {
+            ScaleDetailsCloseOrLoseFocus(() => _scaleDetailsPresenter.LoseFocus());
+        }
+
+        private void ScaleDetailsCloseOrLoseFocus(Action partialAction)
+        {
+            try
+            {
+                // TODO: Can I get away with converting only part of the user input to entities?
+                // Do consider that channels reference patch outlets.
+                ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+                partialAction();
+
+                DispatchViewModel(_scaleDetailsPresenter.ViewModel);
+
+                if (_scaleDetailsPresenter.ViewModel.Successful)
+                {
+                    RefreshScaleGrid();
                 }
             }
             finally

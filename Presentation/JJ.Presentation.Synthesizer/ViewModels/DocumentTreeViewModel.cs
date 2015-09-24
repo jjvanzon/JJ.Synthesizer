@@ -19,5 +19,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public DummyViewModel SamplesNode { get; set; }
         public DummyViewModel AudioFileOutputsNode { get; set; }
         public DummyViewModel PatchesNode { get; set; }
+        public DummyViewModel ScalesNode { get; set; }
     }
 }

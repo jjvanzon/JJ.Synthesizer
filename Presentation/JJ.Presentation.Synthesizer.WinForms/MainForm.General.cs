@@ -57,17 +57,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentGridUserControl.DeleteRequested += documentGridUserControl_DeleteRequested;
             documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
             documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
+
             documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
-            documentTreeUserControl.ExpandNodeRequested += documentTreeUserControl_ExpandNodeRequested;
             documentTreeUserControl.CollapseNodeRequested += documentTreeUserControl_CollapseNodeRequested;
             documentTreeUserControl.DocumentPropertiesRequested += documentTreeUserControl_DocumentPropertiesRequested;
-            documentTreeUserControl.ShowInstrumentsRequested += documentTreeUserControl_ShowInstrumentsRequested;
-            documentTreeUserControl.ShowEffectsRequested += documentTreeUserControl_ShowEffectsRequested;
-            documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
-            documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
-            documentTreeUserControl.ShowPatchesRequested += documentTreeUserControl_ShowPatchesRequested;
+            documentTreeUserControl.ExpandNodeRequested += documentTreeUserControl_ExpandNodeRequested;
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
             documentTreeUserControl.ShowChildDocumentPropertiesRequested += documentTreeUserControl_ShowChildDocumentPropertiesRequested;
+            documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
+            documentTreeUserControl.ShowEffectsRequested += documentTreeUserControl_ShowEffectsRequested;
+            documentTreeUserControl.ShowInstrumentsRequested += documentTreeUserControl_ShowInstrumentsRequested;
+            documentTreeUserControl.ShowPatchesRequested += documentTreeUserControl_ShowPatchesRequested;
+            documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
+            documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
             effectGridUserControl.CloseRequested += effectGridUserControl_CloseRequested;
             effectGridUserControl.CreateRequested += effectGridUserControl_CreateRequested;
             effectGridUserControl.DeleteRequested += effectGridUserControl_DeleteRequested;
@@ -76,7 +78,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             instrumentGridUserControl.CreateRequested += instrumentGridUserControl_CreateRequested;
             instrumentGridUserControl.DeleteRequested += instrumentGridUserControl_DeleteRequested;
             instrumentGridUserControl.ShowPropertiesRequested += instrumentGridUserControl_ShowPropertiesRequested;
-            menuUserControl.ShowDocumentListRequested += menuUserControl_ShowDocumentListRequested;
+            menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
             menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
             menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
@@ -111,6 +113,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             sampleGridUserControl.ShowPropertiesRequested += sampleGridUserControl_ShowPropertiesRequested;
             samplePropertiesUserControl.CloseRequested += samplePropertiesUserControl_CloseRequested;
             samplePropertiesUserControl.LoseFocusRequested += samplePropertiesUserControl_LoseFocusRequested;
+            scaleGridUserControl.CloseRequested += scaleGridUserControl_CloseRequested;
+            scaleGridUserControl.CreateRequested += scaleGridUserControl_CreateRequested;
+            scaleGridUserControl.DeleteRequested += scaleGridUserControl_DeleteRequested;
+            scaleGridUserControl.ShowDetailsRequested += scaleGridUserControl_ShowDetailsRequested;
+            scaleDetailsUserControl.CloseRequested += scaleDetailsUserControl_CloseRequested;
+            scaleDetailsUserControl.LoseFocusRequested += scaleDetailsUserControl_LoseFocusRequested;
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
 

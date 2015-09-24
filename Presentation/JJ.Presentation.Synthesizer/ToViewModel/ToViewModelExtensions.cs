@@ -328,9 +328,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 BaseFrequency = entity.BaseFrequency,
                 Name = entity.Name,
-                ScaleType = entity.ScaleType.ToIDAndName(),
                 Tones = new List<ToneViewModel>()
             };
+
+            if (entity.ScaleType != null)
+            {
+                viewModel.ScaleType = entity.ScaleType.ToIDAndName();
+            }
 
             return viewModel;
         }

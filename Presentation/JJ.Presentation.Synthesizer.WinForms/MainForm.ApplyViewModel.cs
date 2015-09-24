@@ -26,6 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 audioFileOutputPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.AudioFileOutputPropertiesList
                                                                                               .Where(x => x.Visible)
                                                                                               .FirstOrDefault();
+
                 childDocumentPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.ChildDocumentPropertiesList
                                                                                             .Where(x => x.Visible)
                                                                                             .FirstOrDefault();
@@ -157,6 +158,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
                    .Where(x => x.Visible)
                    .FirstOrDefault();
 
+                // Scale
+                scaleGridUserControl.ViewModel = _presenter.ViewModel.Document.ScaleGrid;
+                scaleDetailsUserControl.ViewModel = _presenter.ViewModel.Document.ScaleDetailsList
+                                                                                 .Where(x => x.Visible)
+                                                                                 .FirstOrDefault();
                 // Set Visible Properties
                 bool audioFileOutputGridVisible = audioFileOutputGridUserControl.ViewModel != null &&
                                                   audioFileOutputGridUserControl.ViewModel.Visible;
@@ -198,6 +204,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                          sampleGridUserControl.ViewModel.Visible;
                 bool samplePropertiesVisible = samplePropertiesUserControl.ViewModel != null &&
                                                samplePropertiesUserControl.ViewModel.Visible;
+                bool scaleGridVisible = scaleGridUserControl.ViewModel != null &&
+                                        scaleGridUserControl.ViewModel.Visible;
+                bool scaleDetailsVisible = scaleDetailsUserControl.ViewModel != null &&
+                                           scaleDetailsUserControl.ViewModel.Visible;
 
                 // Applying Visible = true first and then Visible = false prevents flickering.
                 if (audioFileOutputGridVisible) audioFileOutputGridUserControl.Visible = true;
@@ -220,6 +230,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (patchDetailsVisible) patchDetailsUserControl.Visible = true;
                 if (sampleGridVisible) sampleGridUserControl.Visible = true;
                 if (samplePropertiesVisible) samplePropertiesUserControl.Visible = true;
+                if (scaleGridVisible) scaleGridUserControl.Visible = true;
+                if (scaleDetailsVisible) scaleDetailsUserControl.Visible = true;
 
                 if (!audioFileOutputGridVisible) audioFileOutputGridUserControl.Visible = false;
                 if (!audioFileOutputPropertiesVisible) audioFileOutputPropertiesUserControl.Visible = false;
@@ -241,6 +253,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!patchDetailsVisible) patchDetailsUserControl.Visible = false;
                 if (!sampleGridVisible) sampleGridUserControl.Visible = false;
                 if (!samplePropertiesVisible) samplePropertiesUserControl.Visible = false;
+                if (!scaleGridVisible) scaleGridUserControl.Visible = false;
+                if (!scaleDetailsVisible) scaleDetailsUserControl.Visible = false;
 
                 // Panel Visibility
                 bool treePanelMustBeVisible = documentTreeVisible;
@@ -368,6 +382,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 samplePropertiesUserControl.Focus();
             }
+
+            // TODO: Uncomment code when the control is finished.
+            //bool mustFocusScaleDetailsUserControl = scaleDetailsUserControl.Visible &&
+            //                                        !scaleDetailsUserControl.ViewModel.Successful;
+            //if (mustFocusScaleDetailsUserControl)
+            //{
+            //    scaleDetailsUserControl.Focus();
+            //}
         }
     }
 }

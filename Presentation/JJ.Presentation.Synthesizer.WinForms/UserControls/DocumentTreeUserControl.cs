@@ -25,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> ShowCurvesRequested;
         public event EventHandler<Int32EventArgs> ShowPatchesRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
+        public event EventHandler ShowScalesRequested;
 
         private DocumentTreeViewModel _viewModel;
 
@@ -35,6 +36,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private HashSet<TreeNode> _curvesTreeNodes;
         private HashSet<TreeNode> _patchesTreeNodes;
         private HashSet<TreeNode> _childDocumentTreeNodes;
+        private TreeNode _scalesTreeNode;
         private TreeNode _audioFileOutputsTreeNode;
 
         public DocumentTreeUserControl()
@@ -188,6 +190,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             var patchesTreeNode = new TreeNode(PropertyDisplayNames.Patches);
             parentNode.Nodes.Add(patchesTreeNode);
             _patchesTreeNodes.Add(patchesTreeNode);
+
+            _scalesTreeNode = new TreeNode(PropertyDisplayNames.Scales);
+            parentNode.Nodes.Add(_scalesTreeNode);
 
             _audioFileOutputsTreeNode = new TreeNode(PropertyDisplayNames.AudioFileOutputs);
             parentNode.Nodes.Add(_audioFileOutputsTreeNode);
@@ -357,6 +362,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 {
                     Int32EventArgs e2 = GetChildDocumentEventArgs(node.Tag);
                     ShowSamplesRequested(this, e2);
+                }
+            }
+
+            if (node == _scalesTreeNode)
+            {
+                if (ShowScalesRequested != null)
+                {
+                    ShowScalesRequested(this, EventArgs.Empty);
                 }
             }
         }

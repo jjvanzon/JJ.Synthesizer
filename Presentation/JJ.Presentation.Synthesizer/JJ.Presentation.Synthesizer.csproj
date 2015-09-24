@@ -56,6 +56,8 @@
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchOutlet.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchInlet.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter.cs" />
+    <Compile Include="Presenters\ScaleDetailsPresenter.cs" />
+    <Compile Include="Presenters\ScaleGridPresenter.cs" />
     <Compile Include="Resources\PresentationMessages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

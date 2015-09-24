@@ -24,13 +24,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // AudioFileOutput
 
-        private void AudioFileOutputListShow()
+        private void AudioFileOutputGridShow()
         {
             _presenter.AudioFileOutputGridShow();
             ApplyViewModel();
         }
 
-        private void AudioFileOutputListClose()
+        private void AudioFileOutputGridClose()
         {
             _presenter.AudioFileOutputGridClose();
             ApplyViewModel();
@@ -88,13 +88,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Curve
 
-        private void CurveListShow(int documentID)
+        private void CurveGridShow(int documentID)
         {
             _presenter.CurveGridShow(documentID);
             ApplyViewModel();
         }
 
-        private void CurveListClose()
+        private void CurveGridClose()
         {
             _presenter.CurveGridClose();
             ApplyViewModel();
@@ -112,15 +112,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        // Document List
+        // Document Grid
 
-        private void DocumentListShow(int pageNumber = 1)
+        private void DocumentGridShow(int pageNumber = 1)
         {
             _presenter.DocumentGridShow(pageNumber);
             ApplyViewModel();
         }
 
-        private void DocumentListClose()
+        private void DocumentGridClose()
         {
             _presenter.DocumentGridClose();
             ApplyViewModel();
@@ -258,13 +258,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Effect
 
-        private void EffectListShow()
+        private void EffectGridShow()
         {
             _presenter.EffectGridShow();
             ApplyViewModel();
         }
 
-        private void EffectListClose()
+        private void EffectGridClose()
         {
             _presenter.EffectGridClose();
             ApplyViewModel();
@@ -284,13 +284,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Instrument
 
-        private void InstrumentListShow()
+        private void InstrumentGridShow()
         {
             _presenter.InstrumentGridShow();
             ApplyViewModel();
         }
 
-        private void InstrumentListClose()
+        private void InstrumentGridClose()
         {
             _presenter.InstrumentGridClose();
             ApplyViewModel();
@@ -420,13 +420,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Patch
 
-        private void PatchListShow(int documentID)
+        private void PatchGridShow(int documentID)
         {
             _presenter.PatchGridShow(documentID);
             ApplyViewModel();
         }
 
-        private void PatchListClose()
+        private void PatchGridClose()
         {
             _presenter.PatchGridClose();
             ApplyViewModel();
@@ -477,13 +477,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Sample
 
-        private void SampleListShow(int documentID)
+        private void SampleGridShow(int documentID)
         {
             _presenter.SampleGridShow(documentID);
             ApplyViewModel();
         }
 
-        private void SampleListClose()
+        private void SampleGridClose()
         {
             _presenter.SampleGridClose();
             ApplyViewModel();
@@ -516,6 +516,50 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void SamplePropertiesLoseFocus()
         {
             _presenter.SamplePropertiesLoseFocus();
+            ApplyViewModel();
+        }
+
+        // Scale
+
+        private void ScaleGridShow()
+        {
+            _presenter.ScaleGridShow();
+            ApplyViewModel();
+        }
+
+        private void ScaleGridClose()
+        {
+            _presenter.ScaleGridClose();
+            ApplyViewModel();
+        }
+
+        private void ScaleDelete(int id)
+        {
+            _presenter.ScaleDelete(id);
+            ApplyViewModel();
+        }
+
+        private void ScaleCreate()
+        {
+            _presenter.ScaleCreate();
+            ApplyViewModel();
+        }
+
+        private void ScaleDetailsShow(int id)
+        {
+            _presenter.ScaleDetailsShow(id);
+            ApplyViewModel();
+        }
+
+        private void ScaleDetailsClose()
+        {
+            _presenter.ScaleDetailsClose();
+            ApplyViewModel();
+        }
+
+        private void ScaleDetailsLoseFocus()
+        {
+            _presenter.ScaleDetailsLoseFocus();
             ApplyViewModel();
         }
     }

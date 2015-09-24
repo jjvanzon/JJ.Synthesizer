@@ -167,6 +167,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        private void RefreshScaleGrid()
+        {
+            object viewModel2 = _audioFileOutputGridPresenter.Refresh();
+            DispatchViewModel(viewModel2);
+        }
+
         private void RefreshUnderylingDocumentLookup()
         {
             Document rootDocument = _repositories.DocumentRepository.Get(ViewModel.Document.ID);

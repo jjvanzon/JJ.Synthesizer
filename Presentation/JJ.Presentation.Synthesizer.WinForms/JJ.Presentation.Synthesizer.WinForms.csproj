@@ -86,11 +86,11 @@
     <Compile Include="MainForm.Actions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.cs">
+    <Compile Include="MainForm.General.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="MainForm.General.Designer.cs">
+      <DependentUpon>MainForm.General.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\StyleHelper.cs" />
@@ -106,6 +106,12 @@
     </Compile>
     <Compile Include="UserControls\AudioFileOutputGridUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ScaleDetailsUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ScaleDetailsUserControl.Designer.cs">
+      <DependentUpon>ScaleDetailsUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\AudioFileOutputPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
@@ -166,6 +172,12 @@
     </Compile>
     <Compile Include="UserControls\ChildDocumentPropertiesUserControl.Designer.cs">
       <DependentUpon>ChildDocumentPropertiesUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ScaleGridUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\ScaleGridUserControl.Designer.cs">
+      <DependentUpon>ScaleGridUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\SamplePropertiesUserControl.cs">
       <SubType>UserControl</SubType>
@@ -251,8 +263,8 @@
     <EmbeddedResource Include="Forms\DocumentCannotDeleteForm.resx">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.General.resx">
+      <DependentUpon>MainForm.General.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -260,6 +272,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputGridUserControl.resx">
       <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ScaleDetailsUserControl.resx">
+      <DependentUpon>ScaleDetailsUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputPropertiesUserControl.resx">
       <DependentUpon>AudioFileOutputPropertiesUserControl.cs</DependentUpon>
@@ -290,6 +305,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ChildDocumentPropertiesUserControl.resx">
       <DependentUpon>ChildDocumentPropertiesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\ScaleGridUserControl.resx">
+      <DependentUpon>ScaleGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\SamplePropertiesUserControl.resx">
       <DependentUpon>SamplePropertiesUserControl.cs</DependentUpon>
