@@ -32,6 +32,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private readonly RepositoryWrapper _repositories;
         private readonly PatchRepositories _patchRepositories;
+        private readonly SampleRepositories _sampleRepositories;
 
         private readonly AudioFileOutputGridPresenter _audioFileOutputGridPresenter;
         private readonly AudioFileOutputPropertiesPresenter _audioFileOutputPropertiesPresenter;
@@ -74,6 +75,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             _repositories = repositoryWrapper;
             _patchRepositories = new PatchRepositories(_repositories);
+            _sampleRepositories = new SampleRepositories(_repositories);
 
             var curveRepositories = new CurveRepositories(_repositories);
 
@@ -81,7 +83,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _curveManager = new CurveManager(curveRepositories);
             _documentManager = new DocumentManager(_repositories);
             _entityPositionManager = new EntityPositionManager(_repositories.EntityPositionRepository, _repositories.IDRepository);
-            _sampleManager = new SampleManager(new SampleRepositories(_repositories));
+            _sampleManager = new SampleManager(_sampleRepositories);
 
             _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_repositories.DocumentRepository);
             _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(new AudioFileOutputRepositories(_repositories));
@@ -108,7 +110,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchDetailsPresenter = _patchDetailsPresenter = new PatchDetailsPresenter(_patchRepositories, _entityPositionManager);
             _patchGridPresenter = new PatchGridPresenter(_repositories.DocumentRepository);
             _sampleGridPresenter = new SampleGridPresenter(_repositories.DocumentRepository, _repositories.SampleRepository);
-            _samplePropertiesPresenter = new SamplePropertiesPresenter(new SampleRepositories(_repositories));
+            _samplePropertiesPresenter = new SamplePropertiesPresenter(_sampleRepositories);
 
             _dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
         }

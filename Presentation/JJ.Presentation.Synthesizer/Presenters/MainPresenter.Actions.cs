@@ -1744,7 +1744,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
 
                 IList<SamplePropertiesViewModel> propertiesViewModels = ChildDocumentHelper.GetSamplePropertiesViewModels_ByDocumentID(ViewModel.Document, document.ID);
-                SamplePropertiesViewModel propertiesViewModel = sample.ToPropertiesViewModel(new SampleRepositories(_repositories));
+                SamplePropertiesViewModel propertiesViewModel = sample.ToPropertiesViewModel(_sampleRepositories);
                 propertiesViewModels.Add(propertiesViewModel);
 
                 // NOTE: Samples in a child document are only added to the sample lookup of that child document,

@@ -449,17 +449,6 @@ namespace JJ.Business.Synthesizer.Managers
             }
         }
 
-        private void TryExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(Operator op)
-        {
-            switch (op.GetOperatorTypeEnum())
-            {
-                case OperatorTypeEnum.PatchInlet:
-                case OperatorTypeEnum.PatchOutlet:
-                    ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(op);
-                    break;
-            }
-        }
-
         private void ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(Operator op)
         {
             ISideEffect sideEffect1 = new Operator_SideEffect_GenerateName(op);
@@ -535,9 +524,6 @@ namespace JJ.Business.Synthesizer.Managers
             OperatorWrapperBase wrapper = (OperatorWrapperBase)methodInfo.Invoke(this, nullParameters); ;
             Operator op = wrapper.Operator;
             op.LinkTo(Patch);
-
-            // TODO: Consider if the side-effects were already executed.
-            TryExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(op);
 
             return op;
         }
