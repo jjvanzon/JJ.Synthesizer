@@ -119,6 +119,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             scaleGridUserControl.ShowDetailsRequested += scaleGridUserControl_ShowDetailsRequested;
             scaleDetailsUserControl.CloseRequested += scaleDetailsUserControl_CloseRequested;
             scaleDetailsUserControl.LoseFocusRequested += scaleDetailsUserControl_LoseFocusRequested;
+            scalePropertiesUserControl.CloseRequested += scalePropertiesUserControl_CloseRequested;
+            scalePropertiesUserControl.LoseFocusRequested += scalePropertiesUserControl_LoseFocusRequested;
 
             _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
 

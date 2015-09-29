@@ -432,7 +432,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void scaleGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
         {
-            ScaleDetailsShow(e.Value);
+            ScaleShow(e.Value);
         }
 
         private void scaleDetailsUserControl_CloseRequested(object sender, EventArgs e)
@@ -443,6 +443,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void scaleDetailsUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
             ScaleDetailsLoseFocus();
+        }
+
+        private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            ScalePropertiesClose();
+        }
+
+        private void scalePropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        {
+            ScalePropertiesLoseFocus();
         }
 
         // Message Box Events

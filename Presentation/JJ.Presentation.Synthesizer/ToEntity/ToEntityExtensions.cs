@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static AudioFileOutput ToEntityWithRelatedEntities(
-            this AudioFileOutputViewModel sourceViewModel, 
+            this AudioFileOutputViewModel sourceViewModel,
             AudioFileOutputRepositories repositories)
         {
             if (sourceViewModel == null) throw new NullException(() => sourceViewModel);
@@ -195,8 +195,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Document ToEntityWithMainPatchReference(
-            this ChildDocumentPropertiesViewModel viewModel, 
-            IDocumentRepository documentRepository, 
+            this ChildDocumentPropertiesViewModel viewModel,
+            IDocumentRepository documentRepository,
             IChildDocumentTypeRepository childDocumentTypeRepository,
             IPatchRepository patchRepository)
         {
@@ -338,7 +338,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             ToEntityHelper.ToCurvesWithRelatedEntities(userInput.CurveDetailsList, destDocument, new CurveRepositories(repositories));
             ToEntityHelper.ToPatchesWithRelatedEntities(userInput.PatchDetailsList, destDocument, new PatchRepositories(repositories));
             ToEntityHelper.ToSamples(userInput.SamplePropertiesList, destDocument, new SampleRepositories(repositories));
-            ToEntityHelper.ToScales(userInput.ScaleDetailsList, destDocument, new ScaleRepositories(repositories));
+
+            var scaleRepositories = new ScaleRepositories(repositories);
+            userInput.ScalePropertiesList.ToEntities(scaleRepositories, destDocument);
+
+            userInput.ScaleDetailsList.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
 
             // Operator Properties
             // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
@@ -932,25 +936,54 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static Scale ToEntityWithRelatedEntities(this ScaleDetailsViewModel viewModel, ScaleRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (repositories == null) throw new NullException(() => viewModel);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            Scale entity = viewModel.Entity.ToEntity(repositories);
-            return entity;
-        }
-
-        public static Scale ToEntityWithRelatedEntities(this ScaleViewModel viewModel, ScaleRepositories repositories)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (repositories == null) throw new NullException(() => viewModel);
-
-            Scale scale = viewModel.ToEntity(repositories);
-
-            viewModel.Tones.ToEntities(scale, repositories);
+            Scale scale = repositories.ScaleRepository.Get(viewModel.ScaleID);
+            viewModel.Tones.ToEntities(repositories, scale);
 
             return scale;
         }
 
-        public static void ToEntities(this IList<ToneViewModel> viewModelList, Scale destScale, ScaleRepositories repositories)
+        public static void ToEntities(this IList<ScalePropertiesViewModel> viewModelList, ScaleRepositories repositories, Document destDocument)
+        {
+            if (viewModelList == null) throw new NullException(() => viewModelList);
+            if (destDocument == null) throw new NullException(() => destDocument);
+            if (repositories == null) throw new NullException(() => repositories);
+
+            var idsToKeep = new HashSet<int>();
+
+            foreach (ScalePropertiesViewModel viewModel in viewModelList)
+            {
+                Scale entity = viewModel.Entity.ToEntity(repositories.ScaleRepository, repositories.ScaleTypeRepository);
+                entity.LinkTo(destDocument);
+
+                if (!idsToKeep.Contains(entity.ID))
+                {
+                    idsToKeep.Add(entity.ID);
+                }
+            }
+
+            var sampleManager = new ScaleManager(repositories);
+
+            IList<int> existingIDs = destDocument.Scales.Select(x => x.ID).ToArray();
+            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+            foreach (int idToDelete in idsToDelete)
+            {
+                sampleManager.DeleteWithRelatedEntities(idToDelete);
+            }
+        }
+
+        public static Scale ToEntity(this ScalePropertiesViewModel viewModel, IScaleRepository scaleRepository, IScaleTypeRepository scaleTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (scaleRepository == null) throw new NullException(() => scaleRepository);
+            if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
+
+            Scale entity = viewModel.Entity.ToEntity(scaleRepository, scaleTypeRepository);
+            return entity;
+        }
+
+        public static void ToEntities(this IList<ToneViewModel> viewModelList, ScaleRepositories repositories, Scale destScale)
         {
             if (viewModelList == null) throw new NullException(() => viewModelList);
             if (destScale == null) throw new NullException(() => destScale);
@@ -979,25 +1012,27 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
-        public static Scale ToEntity(this ScaleViewModel viewModel, ScaleRepositories repositories)
+        public static Scale ToEntity(this ScaleViewModel viewModel, IScaleRepository scaleRepository, IScaleTypeRepository scaleTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (repositories == null) throw new NullException(() => viewModel);
+            if (scaleRepository == null) throw new NullException(() => scaleRepository);
+            if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
 
-            Scale entity = repositories.ScaleRepository.TryGet(viewModel.ID);
+            Scale entity = scaleRepository.TryGet(viewModel.ID);
             if (entity == null)
             {
                 entity = new Scale();
                 entity.ID = viewModel.ID;
-                repositories.ScaleRepository.Insert(entity);
+                scaleRepository.Insert(entity);
             }
 
             entity.Name = viewModel.Name;
+            entity.BaseFrequency = viewModel.BaseFrequency;
 
             bool scaleTypeIsFilledIn = viewModel.ScaleType != null && viewModel.ScaleType.ID != 0;
             if (scaleTypeIsFilledIn)
             {
-                ScaleType scaleType = repositories.ScaleTypeRepository.Get(viewModel.ScaleType.ID);
+                ScaleType scaleType = scaleTypeRepository.Get(viewModel.ScaleType.ID);
                 entity.LinkTo(scaleType);
             }
             else

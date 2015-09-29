@@ -60,8 +60,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly PatchGridPresenter _patchGridPresenter;
         private readonly SampleGridPresenter _sampleGridPresenter;
         private readonly SamplePropertiesPresenter _samplePropertiesPresenter;
-        private readonly ScaleGridPresenter _scaleGridPresenter;
         private readonly ScaleDetailsPresenter _scaleDetailsPresenter;
+        private readonly ScaleGridPresenter _scaleGridPresenter;
+        private readonly ScalePropertiesPresenter _scalePropertiesPresenter;
 
         private readonly AudioFileOutputManager _audioFileOutputManager;
         private readonly CurveManager _curveManager;
@@ -116,8 +117,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchGridPresenter = new PatchGridPresenter(_repositories.DocumentRepository);
             _sampleGridPresenter = new SampleGridPresenter(_repositories.DocumentRepository, _repositories.SampleRepository);
             _samplePropertiesPresenter = new SamplePropertiesPresenter(_sampleRepositories);
-            _scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository);
             _scaleDetailsPresenter = new ScaleDetailsPresenter(new ScaleRepositories(_repositories));
+            _scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository);
+            _scalePropertiesPresenter = new ScalePropertiesPresenter(new ScaleRepositories(_repositories));
 
             _dispatchDelegateDictionary = CreateDispatchDelegateDictionary();
         }
@@ -126,6 +128,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void HideAllListAndDetailViewModels()
         {
+            ViewModel.DocumentDetails.Visible = false;
+            ViewModel.DocumentGrid.Visible = false;
+
             ViewModel.Document.AudioFileOutputGrid.Visible = false;
             ViewModel.Document.CurveGrid.Visible = false;
             ViewModel.Document.EffectGrid.Visible = false;
@@ -133,29 +138,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.PatchGrid.Visible = false;
             ViewModel.Document.SampleGrid.Visible = false;
             ViewModel.Document.ScaleGrid.Visible = false;
-            ViewModel.DocumentDetails.Visible = false;
-            ViewModel.DocumentGrid.Visible = false;
 
-            foreach (CurveDetailsViewModel curveDetailsViewModel in ViewModel.Document.CurveDetailsList)
-            {
-                curveDetailsViewModel.Visible = false;
-            }
-
-            foreach (PatchDetailsViewModel patchDetailsViewModel in ViewModel.Document.PatchDetailsList)
-            {
-                patchDetailsViewModel.Visible = false;
-            }
+            ViewModel.Document.CurveDetailsList.ForEach(x => x.Visible = false);
+            ViewModel.Document.PatchDetailsList.ForEach(x => x.Visible = false);
+            ViewModel.Document.ScaleDetailsList.ForEach(x => x.Visible = false);
 
             foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.ChildDocumentList)
             {
                 childDocumentViewModel.SampleGrid.Visible = false;
                 childDocumentViewModel.CurveGrid.Visible = false;
                 childDocumentViewModel.PatchGrid.Visible = false;
-
-                foreach (PatchDetailsViewModel patchDetailsViewModel in childDocumentViewModel.PatchDetailsList)
-                {
-                    patchDetailsViewModel.Visible = false;
-                }
+                childDocumentViewModel.PatchDetailsList.ForEach(x => x.Visible = false);
             }
         }
 
@@ -174,6 +167,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.OperatorPropertiesList_ForSamples.ForEach(x => x.Visible = false);
             ViewModel.Document.OperatorPropertiesList_ForNumbers.ForEach(x => x.Visible = false);
             ViewModel.Document.SamplePropertiesList.ForEach(x => x.Visible = false);
+            ViewModel.Document.ScalePropertiesList.ForEach(x => x.Visible = false);
             
             // Note that the not all entity types have Properties view inside the child documents.
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
@@ -209,76 +203,5 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 wrapper.Curve = curve;
             }
         }
-
-        ///// <summary>
-        ///// A hack for using Curves even though there is no Curve editor yet.
-        ///// </summary>
-        //private void HACK_CreateCurves_Old(Document document)
-        //{
-        //    if (document == null) throw new NullException(() => document);
-
-        //    var curveManager = new CurveManager(new CurveRepositories(_repositories));
-
-        //    IList<Curve> curves = document.EnumerateSelfAndParentAndChildren()
-        //                                  .SelectMany(x => x.Curves)
-        //                                  .Where(x => !x.Nodes.Any())
-        //                                  .ToArray();
-
-        //    foreach (Curve curve in curves)
-        //    {
-        //        {
-        //            var node = new Node
-        //            {
-        //                ID = _repositories.IDRepository.GetID(),
-        //                Time = 0,
-        //                Value = 0,
-        //            };
-        //            node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
-        //            _repositories.NodeRepository.Insert(node);
-        //        }
-        //        {
-        //            var node = new Node
-        //            {
-        //                ID = _repositories.IDRepository.GetID(),
-        //                Time = 0.1,
-        //                Value = 1
-        //            };
-        //            node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
-        //            _repositories.NodeRepository.Insert(node);
-        //        }
-        //        {
-        //            var node = new Node
-        //            {
-        //                ID = _repositories.IDRepository.GetID(),
-        //                Time = 0.3,
-        //                Value = 0.7
-        //            };
-        //            node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
-        //            _repositories.NodeRepository.Insert(node);
-        //        }
-        //        {
-        //            var node = new Node
-        //            {
-        //                ID = _repositories.IDRepository.GetID(),
-        //                Time = 0.8,
-        //                Value = 0.7
-        //            };
-        //            node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
-        //            _repositories.NodeRepository.Insert(node);
-        //        }
-        //        {
-        //            var node = new Node
-        //            {
-        //                ID = _repositories.IDRepository.GetID(),
-        //                Time = 1,
-        //                Value = 0
-        //            };
-        //            node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
-        //            _repositories.NodeRepository.Insert(node);
-        //        }
-        //    }
-        //}
-
-
     }
 }

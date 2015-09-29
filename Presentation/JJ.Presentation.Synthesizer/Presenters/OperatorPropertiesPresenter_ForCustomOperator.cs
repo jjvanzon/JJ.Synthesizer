@@ -71,16 +71,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var patchManager = new PatchManager(entity.Patch, _repositories);
             VoidResult result = patchManager.SaveOperator(entity);
 
-            if (!result.Successful)
-            {
-                ViewModel.Successful = false;
-                ViewModel.ValidationMessages = result.Messages;
-            }
-            else
-            {
-                ViewModel.Successful = true;
-                ViewModel.ValidationMessages = new List<Message>();
-            }
+            ViewModel.Successful = result.Successful;
+            ViewModel.ValidationMessages = result.Messages;
         }
 
         // Helpers

@@ -121,35 +121,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
-        public static void ToScales(IList<ScaleDetailsViewModel> viewModelList, Document destDocument, ScaleRepositories repositories)
-        {
-            if (viewModelList == null) throw new NullException(() => viewModelList);
-            if (destDocument == null) throw new NullException(() => destDocument);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            var idsToKeep = new HashSet<int>();
-
-            foreach (ScaleDetailsViewModel viewModel in viewModelList)
-            {
-                Scale entity = viewModel.Entity.ToEntity(repositories);
-                entity.LinkTo(destDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            var sampleManager = new ScaleManager(repositories);
-
-            IList<int> existingIDs = destDocument.Scales.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                sampleManager.Delete(idToDelete);
-            }
-        }
-
         public static void ToCurvesWithRelatedEntities(IList<CurveDetailsViewModel> viewModelList, Document destDocument, CurveRepositories repositories)
         { 
             if (viewModelList == null) throw new NullException(() => viewModelList);

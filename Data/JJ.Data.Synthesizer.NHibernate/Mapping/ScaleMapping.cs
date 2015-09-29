@@ -15,7 +15,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Map(x => x.BaseFrequency);
             References(x => x.ScaleType, ColumnNames.ScaleTypeID);
             References(x => x.Document, ColumnNames.DocumentID);
-            HasMany(x => x.Tones).KeyColumn(ColumnNames.ToneID).Inverse();
+            HasMany(x => x.Tones).KeyColumn(ColumnNames.ScaleID).Inverse();
         }
     }
 }

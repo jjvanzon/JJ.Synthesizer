@@ -133,8 +133,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static IList<IDAndName> CreateUnderlyingDocumentLookupViewModel(IList<Document> underlyingDocuments)
         {
             if (underlyingDocuments == null) throw new NullException(() => underlyingDocuments);
-            var list = new List<IDAndName>();
 
+            var list = new List<IDAndName>();
             list.Add(new IDAndName { ID = 0, Name = null });
             list.AddRange(underlyingDocuments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
 
@@ -146,9 +146,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (repository == null) throw new NullException(() => repository);
 
             IList<ScaleType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
-            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndName()).ToArray();
 
-            return idNames;
+            var list = new List<IDAndName>();
+            list.Add(new IDAndName { ID = 0, Name = null });
+            list.AddRange(entities.OrderBy(x => x.ID).Select(x => x.ToIDAndName()));
+
+            return list;
         }
     }
 }

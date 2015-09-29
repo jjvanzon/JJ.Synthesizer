@@ -107,6 +107,12 @@
     <Compile Include="UserControls\AudioFileOutputGridUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ScaleDetailsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -137,11 +143,11 @@
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForSample.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForSample.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.cs">
+    <Compile Include="UserControls\ScalePropertiesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.Designer.cs">
-      <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>
+    <Compile Include="UserControls\ScalePropertiesUserControl.Designer.cs">
+      <DependentUpon>ScalePropertiesUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForNumber.cs">
       <SubType>UserControl</SubType>
@@ -273,6 +279,9 @@
     <EmbeddedResource Include="UserControls\AudioFileOutputGridUserControl.resx">
       <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.resx">
+      <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ScaleDetailsUserControl.resx">
       <DependentUpon>ScaleDetailsUserControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -288,8 +297,8 @@
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForSample.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForSample.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.resx">
-      <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\ScalePropertiesUserControl.resx">
+      <DependentUpon>ScalePropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForNumber.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForNumber.cs</DependentUpon>

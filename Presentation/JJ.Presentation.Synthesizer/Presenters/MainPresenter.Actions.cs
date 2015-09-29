@@ -1905,15 +1905,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
                 // Business
-                Scale scale = _scaleManager.Create(document, mustGenerateName: true);
+                Scale scale = _scaleManager.Create(document, mustSetDefaults: true, mustGenerateName: true);
 
                 // ToViewModel
                 IDAndName listItemViewModel = scale.ToIDAndName();
                 ViewModel.Document.ScaleGrid.List.Add(listItemViewModel);
                 ViewModel.Document.ScaleGrid.List = ViewModel.Document.ScaleGrid.List.OrderBy(x => x.Name).ToList();
 
-                ScaleDetailsViewModel detailsViewModel = scale.ToDetailsViewModel(_repositories.ScaleTypeRepository);
+                ScaleDetailsViewModel detailsViewModel = scale.ToDetailsViewModel();
                 ViewModel.Document.ScaleDetailsList.Add(detailsViewModel);
+
+                ScalePropertiesViewModel propertiesViewModel = scale.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
+                ViewModel.Document.ScalePropertiesList.Add(propertiesViewModel);
             }
             finally
             {
@@ -1928,8 +1931,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // TODO: It is not very clean to assume business logic will also not in the future have any delete constraints.
 
                 // 'Business' / ToViewModel
-                ViewModel.Document.ScaleDetailsList.RemoveFirst(x => x.Entity.ID == id);
+                ViewModel.Document.ScaleDetailsList.RemoveFirst(x => x.ScaleID == id);
                 ViewModel.Document.ScaleGrid.List.RemoveFirst(x => x.ID == id);
+                ViewModel.Document.ScalePropertiesList.RemoveFirst(x => x.Entity.ID == id);
 
                 // No need to do ToEntity, 
                 // because we are not executing any additional business logic or refreshing 
@@ -1941,15 +1945,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void ScaleDetailsShow(int id)
+        public void ScaleShow(int id)
         {
             try
             {
-                _scaleDetailsPresenter.ViewModel = ViewModel.Document.ScaleDetailsList.First(x => x.Entity.ID == id);
-
+                _scaleDetailsPresenter.ViewModel = ViewModel.Document.ScaleDetailsList.First(x => x.ScaleID == id);
                 _scaleDetailsPresenter.Show();
-
                 DispatchViewModel(_scaleDetailsPresenter.ViewModel);
+
+                _scalePropertiesPresenter.ViewModel = ViewModel.Document.ScalePropertiesList.First(x => x.Entity.ID == id);
+                _scalePropertiesPresenter.Show();
+                DispatchViewModel(_scalePropertiesPresenter.ViewModel);
             }
             finally
             {
@@ -1972,14 +1978,40 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 // TODO: Can I get away with converting only part of the user input to entities?
-                // Do consider that channels reference patch outlets.
                 ViewModel.ToEntityWithRelatedEntities(_repositories);
 
                 partialAction();
 
                 DispatchViewModel(_scaleDetailsPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
 
-                if (_scaleDetailsPresenter.ViewModel.Successful)
+        public void ScalePropertiesClose()
+        {
+            ScalePropertiesCloseOrLoseFocus(() => _scalePropertiesPresenter.Close());
+        }
+
+        public void ScalePropertiesLoseFocus()
+        {
+            ScalePropertiesCloseOrLoseFocus(() => _scalePropertiesPresenter.LoseFocus());
+        }
+
+        private void ScalePropertiesCloseOrLoseFocus(Action partialAction)
+        {
+            try
+            {
+                // TODO: Can I get away with converting only part of the user input to entities?
+                ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+                partialAction();
+
+                DispatchViewModel(_scalePropertiesPresenter.ViewModel);
+
+                if (_scalePropertiesPresenter.ViewModel.Successful)
                 {
                     RefreshScaleGrid();
                 }

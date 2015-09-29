@@ -362,6 +362,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static SamplePropertiesViewModel ToPropertiesViewModel(this Sample entity, SampleRepositories sampleRepositories)
         {
+            if (entity == null) throw new NullException(() => entity);
             if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
 
             var viewModel = new SamplePropertiesViewModel
@@ -382,13 +383,32 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Scale
 
-        public static ScaleDetailsViewModel ToDetailsViewModel(this Scale entity, IScaleTypeRepository scaleTypeRepository)
+        public static ScaleDetailsViewModel ToDetailsViewModel(this Scale entity)
         {
-            if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
+            if (entity == null) throw new NullException(() => entity);
 
             var viewModel = new ScaleDetailsViewModel
             {
-                Entity = entity.ToViewModelWithRelatedEntities(),
+                ScaleID = entity.ID,
+                Tones = entity.Tones.OrderBy(x => x.Octave)
+                                    .ThenBy(x => x.Number)
+                                    .Select(x => x.ToViewModel())
+                                    .ToList(),
+                ValidationMessages = new List<Message>(),
+                Successful = true
+            };
+
+            return viewModel;
+        }
+
+        public static ScalePropertiesViewModel ToPropertiesViewModel(this Scale entity, IScaleTypeRepository scaleTypeRepository)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
+
+            var viewModel = new ScalePropertiesViewModel
+            {
+                Entity = entity.ToViewModel(),
                 ScaleTypeLookup = ViewModelHelper.CreateScaleTypeLookupViewModel(scaleTypeRepository),
                 ValidationMessages = new List<Message>(),
                 Successful = true

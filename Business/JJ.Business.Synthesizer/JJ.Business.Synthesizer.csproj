@@ -230,6 +230,7 @@
     <Compile Include="SideEffects\Document_SideEffect_GenerateChildDocumentName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_SetDefaults.cs" />
     <Compile Include="Helpers\WavHeaderStruct.cs" />
+    <Compile Include="SideEffects\Scale_SideEffect_SetDefaults.cs" />
     <Compile Include="Validation\ChildDocumentValidator.cs" />
     <Compile Include="Validation\AudioFileOutputValidator_InDocument.cs" />
     <Compile Include="Validation\InletValidator_ForCustomOperator.cs" />

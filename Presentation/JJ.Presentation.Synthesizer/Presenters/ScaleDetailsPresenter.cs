@@ -1,11 +1,8 @@
 ﻿using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToEntity;
-using JJ.Presentation.Synthesizer.Helpers;
 using System.Collections.Generic;
-using JJ.Framework.Validation;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Helpers;
@@ -39,11 +36,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Scale entity = _repositories.ScaleRepository.Get(ViewModel.Entity.ID);
+            Scale entity = _repositories.ScaleRepository.Get(ViewModel.ScaleID);
 
             bool visible = ViewModel.Visible;
 
-            ViewModel = entity.ToDetailsViewModel(_repositories.ScaleTypeRepository);
+            ViewModel = entity.ToDetailsViewModel();
 
             ViewModel.Visible = visible;
         }
@@ -73,16 +70,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             VoidResult result = _scaleManager.Save(scale);
 
-            if (!result.Successful)
-            {
-                ViewModel.Successful = false;
-                ViewModel.ValidationMessages = result.Messages;
-            }
-            else
-            {
-                ViewModel.ValidationMessages = new List<Message>();
-                ViewModel.Successful = true;
-            }
+            ViewModel.Successful = result.Successful;
+            ViewModel.ValidationMessages = result.Messages;
         }
 
         // Helpers

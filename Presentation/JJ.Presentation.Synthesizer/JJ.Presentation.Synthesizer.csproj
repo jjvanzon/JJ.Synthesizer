@@ -56,6 +56,7 @@
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchOutlet.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchInlet.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter.cs" />
+    <Compile Include="Presenters\ScalePropertiesPresenter.cs" />
     <Compile Include="Presenters\ScaleDetailsPresenter.cs" />
     <Compile Include="Presenters\ScaleGridPresenter.cs" />
     <Compile Include="Resources\PresentationMessages.Designer.cs">
@@ -153,6 +154,7 @@
     <Compile Include="ViewModels\SampleGridViewModel.cs" />
     <Compile Include="ViewModels\ScaleDetailsViewModel.cs" />
     <Compile Include="ViewModels\ScaleGridViewModel.cs" />
+    <Compile Include="ViewModels\ScalePropertiesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
@@ -219,6 +221,7 @@
   <ItemGroup>
     <Compile Include="Presenters\MainPresenter.Refresh.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

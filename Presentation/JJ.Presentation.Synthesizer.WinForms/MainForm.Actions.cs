@@ -545,9 +545,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void ScaleDetailsShow(int id)
+        private void ScaleShow(int id)
         {
-            _presenter.ScaleDetailsShow(id);
+            _presenter.ScaleShow(id);
             ApplyViewModel();
         }
 
@@ -560,6 +560,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void ScaleDetailsLoseFocus()
         {
             _presenter.ScaleDetailsLoseFocus();
+            ApplyViewModel();
+        }
+
+        private void ScalePropertiesClose()
+        {
+            _presenter.ScalePropertiesClose();
+            ApplyViewModel();
+        }
+
+        private void ScalePropertiesLoseFocus()
+        {
+            _presenter.ScalePropertiesLoseFocus();
             ApplyViewModel();
         }
     }

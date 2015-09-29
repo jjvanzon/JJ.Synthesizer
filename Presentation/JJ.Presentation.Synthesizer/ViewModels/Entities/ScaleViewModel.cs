@@ -11,6 +11,5 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public string Name { get; set; }
         public IDAndName ScaleType { get; set; }
         public double? BaseFrequency { get; set; }
-        public IList<ToneViewModel> Tones { get; set; }
     }
 }

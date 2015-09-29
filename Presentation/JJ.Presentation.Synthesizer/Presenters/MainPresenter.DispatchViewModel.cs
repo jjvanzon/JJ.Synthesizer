@@ -43,8 +43,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
                 { typeof(SampleGridViewModel), DispatchSampleGridViewModel },
                 { typeof(SamplePropertiesViewModel), DispatchSamplePropertiesViewModel },
-                { typeof(ScaleGridViewModel), DispatchScaleGridViewModel },
                 { typeof(ScaleDetailsViewModel), DispatchScaleDetailsViewModel },
+                { typeof(ScaleGridViewModel), DispatchScaleGridViewModel },
+                { typeof(ScalePropertiesViewModel), DispatchScalePropertiesViewModel },
             };
 
             return dictionary;
@@ -86,16 +87,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DispatchAudioFileOutputPropertiesViewModel(object viewModel2)
         {
-            var audioFileOutputPropertiesViewModel = (AudioFileOutputPropertiesViewModel)viewModel2;
+            var castedViewModel = (AudioFileOutputPropertiesViewModel)viewModel2;
 
-            if (audioFileOutputPropertiesViewModel.Visible)
+            if (castedViewModel.Visible)
             {
                 HideAllPropertiesViewModels();
-                audioFileOutputPropertiesViewModel.Visible = true;
+                castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(audioFileOutputPropertiesViewModel.ValidationMessages);
-            audioFileOutputPropertiesViewModel.ValidationMessages.Clear();
+            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
         }
 
         private void DispatchChildDocumentGridViewModel(object viewModel2)
@@ -127,30 +128,30 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DispatchChildDocumentPropertiesViewModel(object viewModel2)
         {
-            var childDocumentPropertiesViewModel = (ChildDocumentPropertiesViewModel)viewModel2;
+            var castedViewModel = (ChildDocumentPropertiesViewModel)viewModel2;
 
-            if (childDocumentPropertiesViewModel.Visible)
+            if (castedViewModel.Visible)
             {
                 HideAllPropertiesViewModels();
-                childDocumentPropertiesViewModel.Visible = true;
+                castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(childDocumentPropertiesViewModel.ValidationMessages);
-            childDocumentPropertiesViewModel.ValidationMessages.Clear();
+            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
         }
 
         private void DispatchCurveDetailsViewModel(object viewModel2)
         {
-            var curveDetailsViewModel = (CurveDetailsViewModel)viewModel2;
+            var castedViewModel = (CurveDetailsViewModel)viewModel2;
 
-            if (curveDetailsViewModel.Visible)
+            if (castedViewModel.Visible)
             {
                 HideAllListAndDetailViewModels();
-                curveDetailsViewModel.Visible = true;
+                castedViewModel.Visible = true;
             }
 
-            ViewModel.ValidationMessages.AddRange(curveDetailsViewModel.ValidationMessages);
-            curveDetailsViewModel.ValidationMessages.Clear();
+            ViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
         }
 
         private void DispatchCurveGridViewModel(object viewModel2)
@@ -177,22 +178,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DispatchDocumentCannotDeleteViewModel(object viewModel2)
         {
-            var documentCannotDeleteViewModel = (DocumentCannotDeleteViewModel)viewModel2;
+            var castedViewModel = (DocumentCannotDeleteViewModel)viewModel2;
 
-            ViewModel.DocumentCannotDelete = documentCannotDeleteViewModel;
+            ViewModel.DocumentCannotDelete = castedViewModel;
         }
 
         private void DispatchDocumentDeletedViewModel(object viewModel2)
         {
-            var documentDeletedViewModel = (DocumentDeletedViewModel)viewModel2;
+            var castedViewModel = (DocumentDeletedViewModel)viewModel2;
 
-            ViewModel.DocumentDeleted = documentDeletedViewModel;
+            ViewModel.DocumentDeleted = castedViewModel;
 
             // TODO: This is quite an assumption.
             ViewModel.DocumentDelete.Visible = false;
             ViewModel.DocumentDetails.Visible = false;
 
-            if (!documentDeletedViewModel.Visible)
+            if (!castedViewModel.Visible)
             {
                 // Also: this might better be done in the action method.
                 RefreshDocumentGrid();
@@ -201,8 +202,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DispatchDocumentDeleteViewModel(object viewModel2)
         {
-            var documentDeleteViewModel = (DocumentDeleteViewModel)viewModel2;
-            ViewModel.DocumentDelete = documentDeleteViewModel;
+            var castedViewModel = (DocumentDeleteViewModel)viewModel2;
+            ViewModel.DocumentDelete = castedViewModel;
         }
 
         private void DispatchDocumentDetailsViewModel(object viewModel2)
@@ -223,14 +224,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DispatchDocumentGridViewModel(object viewModel2)
         {
-            var gridViewModel = (DocumentGridViewModel)viewModel2;
+            var castedViewModel = (DocumentGridViewModel)viewModel2;
 
-            ViewModel.DocumentGrid = gridViewModel;
+            ViewModel.DocumentGrid = castedViewModel;
 
-            if (gridViewModel.Visible)
+            if (castedViewModel.Visible)
             {
                 HideAllListAndDetailViewModels();
-                gridViewModel.Visible = true;
+                castedViewModel.Visible = true;
             }
         }
 
@@ -252,21 +253,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DispatchDocumentTreeViewModel(object viewModel2)
         {
-            var documentTreeViewModel = (DocumentTreeViewModel)viewModel2;
-            ViewModel.Document.DocumentTree = documentTreeViewModel;
+            var castedViewModel = (DocumentTreeViewModel)viewModel2;
+            ViewModel.Document.DocumentTree = castedViewModel;
         }
 
         private void DispatchMenuViewModel(object viewModel2)
         {
-            var menuViewModel = (MenuViewModel)viewModel2;
-            ViewModel.Menu = menuViewModel;
+            var castedViewModel = (MenuViewModel)viewModel2;
+            ViewModel.Menu = castedViewModel;
         }
 
         private void DispatchNotFoundViewModel(object viewModel2)
         {
-            var notFoundViewModel = (NotFoundViewModel)viewModel2;
+            var castedViewModel = (NotFoundViewModel)viewModel2;
 
-            ViewModel.NotFound = notFoundViewModel;
+            ViewModel.NotFound = castedViewModel;
 
             // HACK: Checking visibility of the NotFound view model
             // prevents refreshing the DocumentList twice:
@@ -276,7 +277,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // TODO: Low priority: Eventually the NotFoundViewModel will create even more ambiguity,
             // when it is reused for multiple entity types.
 
-            if (notFoundViewModel.Visible)
+            if (castedViewModel.Visible)
             {
                 RefreshDocumentGrid();
             }
@@ -368,16 +369,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DispatchPatchDetailsViewModel(object viewModel2)
         {
-            var patchDetailsViewModel = (PatchDetailsViewModel)viewModel2;
+            var castedViewModel = (PatchDetailsViewModel)viewModel2;
 
-            if (patchDetailsViewModel.Visible)
+            if (castedViewModel.Visible)
             {
                 HideAllListAndDetailViewModels();
-                patchDetailsViewModel.Visible = true;
+                castedViewModel.Visible = true;
             }
 
-            ViewModel.ValidationMessages.AddRange(patchDetailsViewModel.ValidationMessages);
-            patchDetailsViewModel.ValidationMessages.Clear();
+            ViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
         }
 
         private void DispatchPatchGridViewModel(object viewModel2)
@@ -404,37 +405,37 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DispatchSamplePropertiesViewModel(object viewModel2)
         {
-            var samplePropertiesViewModel = (SamplePropertiesViewModel)viewModel2;
+            var castedViewModel = (SamplePropertiesViewModel)viewModel2;
 
-            if (samplePropertiesViewModel.Visible)
+            if (castedViewModel.Visible)
             {
                 HideAllPropertiesViewModels();
-                samplePropertiesViewModel.Visible = true;
+                castedViewModel.Visible = true;
             }
 
-            ViewModel.ValidationMessages.AddRange(samplePropertiesViewModel.ValidationMessages);
-            samplePropertiesViewModel.ValidationMessages.Clear();
+            ViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
         }
 
         private void DispatchSampleGridViewModel(object viewModel2)
         {
-            var gridViewModel = (SampleGridViewModel)viewModel2;
+            var castedViewModel = (SampleGridViewModel)viewModel2;
 
-            bool isRootDocument = ViewModel.Document.ID == gridViewModel.DocumentID;
+            bool isRootDocument = ViewModel.Document.ID == castedViewModel.DocumentID;
             if (isRootDocument)
             {
-                ViewModel.Document.SampleGrid = gridViewModel;
+                ViewModel.Document.SampleGrid = castedViewModel;
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, gridViewModel.DocumentID);
-                childDocumentViewModel.SampleGrid = gridViewModel;
+                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, castedViewModel.DocumentID);
+                childDocumentViewModel.SampleGrid = castedViewModel;
             }
 
-            if (gridViewModel.Visible)
+            if (castedViewModel.Visible)
             {
                 HideAllListAndDetailViewModels();
-                gridViewModel.Visible = true;
+                castedViewModel.Visible = true;
             }
         }
 
@@ -453,16 +454,30 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DispatchScaleDetailsViewModel(object viewModel2)
         {
-            var audioFileOutputDetailsViewModel = (ScaleDetailsViewModel)viewModel2;
+            var castedViewModel = (ScaleDetailsViewModel)viewModel2;
 
-            if (audioFileOutputDetailsViewModel.Visible)
+            if (castedViewModel.Visible)
             {
                 HideAllListAndDetailViewModels();
-                audioFileOutputDetailsViewModel.Visible = true;
+                castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(audioFileOutputDetailsViewModel.ValidationMessages);
-            audioFileOutputDetailsViewModel.ValidationMessages.Clear();
+            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchScalePropertiesViewModel(object viewModel2)
+        {
+            var castedViewModel = (ScalePropertiesViewModel)viewModel2;
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
         }
     }
 }

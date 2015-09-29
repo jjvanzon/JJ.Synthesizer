@@ -28,40 +28,42 @@ namespace JJ.Business.Synthesizer.Managers
 
         // Create
 
-        public Scale Create(Document document)
+        public Scale Create(Document document, bool mustSetDefaults, bool mustGenerateName)
         {
-            return Create(document, default(ScaleTypeEnum), false);
+            return Create(document, default(ScaleTypeEnum), mustSetDefaults, mustGenerateName);
         }
 
-        public Scale Create(Document document, ScaleTypeEnum scaleTypeEnum)
+        public Scale Create(
+            Document document,
+            ScaleTypeEnum scaleTypeEnum = ScaleTypeEnum.Undefined, 
+            bool mustSetDefaults = false, 
+            bool mustGenerateName = false)
         {
-            return Create(document, scaleTypeEnum, false);
+            if (document == null) throw new NullException(() => document);
+
+            Scale scale = Create(scaleTypeEnum, mustSetDefaults);
+            scale.LinkTo(document);
+
+            // NOTE: This side-effect can only be executed if the scale has a document.
+            if (mustGenerateName)
+            {
+                ISideEffect sideEffect = new Scale_SideEffect_GenerateName(scale);
+                sideEffect.Execute();
+            }
+
+            return scale;
         }
 
-        public Scale Create(Document document, bool mustGenerateName)
-        {
-            return Create(document, default(ScaleTypeEnum), mustGenerateName);
-        }
-
-        public Scale Create(ScaleTypeEnum scaleTypeEnum)
+        public Scale Create(ScaleTypeEnum scaleTypeEnum, bool mustSetDefaults = false)
         {
             var scale = new Scale();
             scale.ID = _repositories.IDRepository.GetID();
             scale.SetScaleTypeEnum(scaleTypeEnum, _repositories.ScaleTypeRepository);
             _repositories.ScaleRepository.Insert(scale);
-            return scale;
-        }
 
-        public Scale Create(Document document, ScaleTypeEnum scaleTypeEnum, bool mustGenerateName)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            Scale scale = Create(scaleTypeEnum);
-            scale.LinkTo(document);
-
-            if (mustGenerateName)
+            if (mustSetDefaults)
             {
-                ISideEffect sideEffect = new Scale_SideEffect_GenerateName(scale);
+                ISideEffect sideEffect = new Scale_SideEffect_SetDefaults(scale, _repositories.ScaleTypeRepository);
                 sideEffect.Execute();
             }
 
@@ -94,13 +96,13 @@ namespace JJ.Business.Synthesizer.Managers
 
         // Delete
 
-        public void Delete(int id)
+        public void DeleteWithRelatedEntities(int id)
         {
             Scale scale = _repositories.ScaleRepository.Get(id);
-            Delete(scale);
+            DeleteWithRelatedEntities(scale);
         }        
 
-        public void Delete(Scale scale)
+        public void DeleteWithRelatedEntities(Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
 
@@ -109,8 +111,6 @@ namespace JJ.Business.Synthesizer.Managers
             scale.DeleteRelatedEntities(_repositories.ToneRepository);
             scale.UnlinkRelatedEntities();
             _repositories.ScaleRepository.Delete(scale);
-
-            _repositories.Commit();
         }
 
         // Tone Actions

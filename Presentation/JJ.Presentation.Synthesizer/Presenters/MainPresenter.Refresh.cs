@@ -169,7 +169,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void RefreshScaleGrid()
         {
-            object viewModel2 = _audioFileOutputGridPresenter.Refresh();
+            object viewModel2 = _scaleGridPresenter.Refresh();
             DispatchViewModel(viewModel2);
         }
 

@@ -1,26 +1,28 @@
-﻿using JJ.Business.CanonicalModel;
-using JJ.Data.Synthesizer;
+﻿using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToEntity;
 using System.Collections.Generic;
-using JJ.Business.Synthesizer.Managers;
-using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Managers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class OperatorPropertiesPresenter_ForPatchInlet
+    internal class ScalePropertiesPresenter
     {
-        private PatchRepositories _repositories;
+        private ScaleRepositories _repositories;
+        private ScaleManager _scaleManager;
 
-        public OperatorPropertiesViewModel_ForPatchInlet ViewModel { get; set; }
+        public ScalePropertiesViewModel ViewModel { get; set; }
 
-        public OperatorPropertiesPresenter_ForPatchInlet(PatchRepositories repositories)
+        public ScalePropertiesPresenter(ScaleRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
             _repositories = repositories;
+            _scaleManager = new ScaleManager(_repositories);
         }
 
         public void Show()
@@ -34,9 +36,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Operator entity = _repositories.OperatorRepository.Get(ViewModel.ID);
+            Scale entity = _repositories.ScaleRepository.Get(ViewModel.Entity.ID);
+
             bool visible = ViewModel.Visible;
-            ViewModel = entity.ToPropertiesViewModel_ForPatchInlet();
+
+            ViewModel = entity.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
+
             ViewModel.Visible = visible;
         }
 
@@ -54,21 +59,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void LoseFocus()
         {
-            AssertViewModel();
-
             Update();
         }
 
         private void Update()
         {
-            // ToEntity
-            Operator op = ViewModel.ToEntity(_repositories.OperatorRepository, _repositories.OperatorTypeRepository);
+            AssertViewModel();
 
-            // Business
-            PatchManager patchManager = new PatchManager(op.Patch, _repositories);
-            VoidResult result = patchManager.SaveOperator(op);
+            Scale scale = ViewModel.ToEntity(_repositories.ScaleRepository, _repositories.ScaleTypeRepository);
 
-            // ToViewModel
+            VoidResult result = _scaleManager.Save(scale);
+
             ViewModel.Successful = result.Successful;
             ViewModel.ValidationMessages = result.Messages;
         }

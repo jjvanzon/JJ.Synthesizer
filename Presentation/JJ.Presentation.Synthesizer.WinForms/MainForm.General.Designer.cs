@@ -18,6 +18,8 @@
             this.splitContainerTree = new System.Windows.Forms.SplitContainer();
             this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
             this.splitContainerProperties = new System.Windows.Forms.SplitContainer();
+            this.scaleDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleDetailsUserControl();
+            this.scaleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleGridUserControl();
             this.curveGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveGridUserControl();
             this.audioFileOutputGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputGridUserControl();
             this.instrumentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ChildDocumentGridUserControl();
@@ -38,8 +40,7 @@
             this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
-            this.scaleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleGridUserControl();
-            this.scaleDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleDetailsUserControl();
+            this.scalePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScalePropertiesUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -101,6 +102,7 @@
             // 
             // splitContainerProperties.Panel2
             // 
+            this.splitContainerProperties.Panel2.Controls.Add(this.scalePropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForPatchInlet);
             this.splitContainerProperties.Panel2.Controls.Add(this.documentPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl);
@@ -114,6 +116,26 @@
             this.splitContainerProperties.Size = new System.Drawing.Size(891, 657);
             this.splitContainerProperties.SplitterDistance = 621;
             this.splitContainerProperties.TabIndex = 2;
+            // 
+            // scaleDetailsUserControl
+            // 
+            this.scaleDetailsUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.scaleDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scaleDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.scaleDetailsUserControl.Location = new System.Drawing.Point(0, 0);
+            this.scaleDetailsUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.scaleDetailsUserControl.Name = "scaleDetailsUserControl";
+            this.scaleDetailsUserControl.Size = new System.Drawing.Size(621, 657);
+            this.scaleDetailsUserControl.TabIndex = 1;
+            // 
+            // scaleGridUserControl
+            // 
+            this.scaleGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scaleGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.scaleGridUserControl.Location = new System.Drawing.Point(0, 0);
+            this.scaleGridUserControl.Name = "scaleGridUserControl";
+            this.scaleGridUserControl.Size = new System.Drawing.Size(621, 657);
+            this.scaleGridUserControl.TabIndex = 11;
             // 
             // curveGridUserControl
             // 
@@ -347,25 +369,17 @@
             this.menuUserControl.Size = new System.Drawing.Size(1094, 24);
             this.menuUserControl.TabIndex = 3;
             // 
-            // scaleGridUserControl
+            // scalePropertiesUserControl
             // 
-            this.scaleGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scaleGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.scaleGridUserControl.Location = new System.Drawing.Point(0, 0);
-            this.scaleGridUserControl.Name = "scaleGridUserControl";
-            this.scaleGridUserControl.Size = new System.Drawing.Size(621, 657);
-            this.scaleGridUserControl.TabIndex = 11;
-            // 
-            // scaleDetailsUserControl
-            // 
-            this.scaleDetailsUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.scaleDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scaleDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.scaleDetailsUserControl.Location = new System.Drawing.Point(0, 0);
-            this.scaleDetailsUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.scaleDetailsUserControl.Name = "scaleDetailsUserControl";
-            this.scaleDetailsUserControl.Size = new System.Drawing.Size(621, 657);
-            this.scaleDetailsUserControl.TabIndex = 1;
+            this.scalePropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.scalePropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.scalePropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.scalePropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.scalePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
+            this.scalePropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.scalePropertiesUserControl.Name = "scalePropertiesUserControl";
+            this.scalePropertiesUserControl.Size = new System.Drawing.Size(266, 657);
+            this.scalePropertiesUserControl.TabIndex = 1;
             // 
             // MainForm
             // 
@@ -417,5 +431,6 @@
         private UserControls.OperatorPropertiesUserControl_ForSample operatorPropertiesUserControl_ForSample;
         private UserControls.ScaleGridUserControl scaleGridUserControl;
         private UserControls.ScaleDetailsUserControl scaleDetailsUserControl;
+        private UserControls.ScalePropertiesUserControl scalePropertiesUserControl;
     }
 }
