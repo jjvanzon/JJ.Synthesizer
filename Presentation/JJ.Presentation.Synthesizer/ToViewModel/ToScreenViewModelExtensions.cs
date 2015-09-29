@@ -11,6 +11,9 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.Converters;
+using System;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -390,15 +393,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ScaleDetailsViewModel
             {
                 ScaleID = entity.ID,
-                Tones = entity.Tones.OrderBy(x => x.Octave)
-                                    .ThenBy(x => x.Number)
-                                    .Select(x => x.ToViewModel())
-                                    .ToList(),
+                NumberTitle = ResourceHelper.GetScaleTypeDisplayName(entity),
+                Tones = entity.Tones.ToToneViewModels(),
                 ValidationMessages = new List<Message>(),
                 Successful = true
             };
 
             return viewModel;
+        }
+
+        public static IList<ToneViewModel> ToToneViewModels(this IList<Tone> entities)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            IList<ToneViewModel> viewModels = entities.OrderBy(x => x.Octave)
+                                                      .ThenBy(x => x.Number)
+                                                      .Select(x => x.ToViewModel())
+                                                      .ToList();
+            return viewModels;
         }
 
         public static ScalePropertiesViewModel ToPropertiesViewModel(this Scale entity, IScaleTypeRepository scaleTypeRepository)

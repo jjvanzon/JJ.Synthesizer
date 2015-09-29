@@ -28,15 +28,23 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
+            this.specializedDataGridView = new JJ.Presentation.Synthesizer.WinForms.UserControls.SpecializedDataGridView();
+            this.IDColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OctaveColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.NumberColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanelMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanelMain
             // 
             this.tableLayoutPanelMain.ColumnCount = 1;
             this.tableLayoutPanelMain.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanelMain.Controls.Add(this.specializedDataGridView, 0, 1);
             this.tableLayoutPanelMain.Controls.Add(this.titleBarUserControl, 0, 0);
             this.tableLayoutPanelMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelMain.Location = new System.Drawing.Point(0, 0);
@@ -47,19 +55,74 @@
             this.tableLayoutPanelMain.Size = new System.Drawing.Size(467, 495);
             this.tableLayoutPanelMain.TabIndex = 8;
             // 
+            // specializedDataGridView
+            // 
+            this.specializedDataGridView.AllowUserToAddRows = false;
+            this.specializedDataGridView.AllowUserToDeleteRows = false;
+            this.specializedDataGridView.AllowUserToResizeRows = false;
+            this.specializedDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.specializedDataGridView.BackgroundColor = System.Drawing.SystemColors.Control;
+            this.specializedDataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.specializedDataGridView.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
+            this.specializedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            this.specializedDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.IDColumn,
+            this.OctaveColumn,
+            this.NumberColumn});
+            this.specializedDataGridView.Location = new System.Drawing.Point(0, 21);
+            this.specializedDataGridView.Margin = new System.Windows.Forms.Padding(0);
+            this.specializedDataGridView.Name = "specializedDataGridView";
+            this.specializedDataGridView.RowHeadersVisible = false;
+            this.specializedDataGridView.Size = new System.Drawing.Size(467, 474);
+            this.specializedDataGridView.TabIndex = 9;
+            this.specializedDataGridView.KeyDown += new System.Windows.Forms.KeyEventHandler(this.specializedDataGridView_KeyDown);
+            // 
+            // IDColumn
+            // 
+            this.IDColumn.DataPropertyName = "ID";
+            this.IDColumn.HeaderText = "ID";
+            this.IDColumn.Name = "IDColumn";
+            this.IDColumn.ReadOnly = true;
+            this.IDColumn.Visible = false;
+            this.IDColumn.Width = 80;
+            // 
+            // OctaveColumn
+            // 
+            this.OctaveColumn.DataPropertyName = "Octave";
+            dataGridViewCellStyle1.Format = "0";
+            this.OctaveColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            this.OctaveColumn.FillWeight = 40F;
+            this.OctaveColumn.HeaderText = "Octave";
+            this.OctaveColumn.Name = "OctaveColumn";
+            this.OctaveColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // NumberColumn
+            // 
+            this.NumberColumn.DataPropertyName = "Number";
+            dataGridViewCellStyle2.Format = "0.#################";
+            this.NumberColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            this.NumberColumn.HeaderText = "Number";
+            this.NumberColumn.MaxInputLength = 18;
+            this.NumberColumn.Name = "NumberColumn";
+            this.NumberColumn.Width = 150;
+            // 
             // titleBarUserControl
             // 
-            this.titleBarUserControl.AddButtonVisible = false;
+            this.titleBarUserControl.AddButtonVisible = true;
             this.titleBarUserControl.BackColor = System.Drawing.SystemColors.Control;
             this.titleBarUserControl.CloseButtonVisible = true;
             this.titleBarUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.titleBarUserControl.Location = new System.Drawing.Point(0, 0);
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
-            this.titleBarUserControl.RemoveButtonVisible = false;
+            this.titleBarUserControl.RemoveButtonVisible = true;
             this.titleBarUserControl.Size = new System.Drawing.Size(467, 21);
             this.titleBarUserControl.TabIndex = 8;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
+            this.titleBarUserControl.RemoveClicked += new System.EventHandler(this.titleBarUserControl_RemoveClicked);
+            this.titleBarUserControl.AddClicked += new System.EventHandler(this.titleBarUserControl_AddClicked);
             // 
             // ScaleDetailsUserControl
             // 
@@ -69,9 +132,9 @@
             this.Controls.Add(this.tableLayoutPanelMain);
             this.Name = "ScaleDetailsUserControl";
             this.Size = new System.Drawing.Size(467, 495);
-            this.Load += new System.EventHandler(this.ScaleDetailsUserControl_Load);
             this.Leave += new System.EventHandler(this.ScaleDetailsUserControl_Leave);
             this.tableLayoutPanelMain.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -79,5 +142,9 @@
         #endregion
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelMain;
         private Partials.TitleBarUserControl titleBarUserControl;
+        private SpecializedDataGridView specializedDataGridView;
+        private System.Windows.Forms.DataGridViewTextBoxColumn IDColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OctaveColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn NumberColumn;
     }
 }

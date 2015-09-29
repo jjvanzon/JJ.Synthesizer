@@ -1902,6 +1902,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 // ToEntity
+                // TODO: Can I get away with converting only part of the user input to entities?
                 Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
                 // Business
@@ -2020,6 +2021,37 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 _repositories.Rollback();
             }
+        }
+
+        // Tone
+
+        public void ToneCreate(int scaleID)
+        {
+            try
+            {
+                // ToEntity
+                // TODO: Can I get away with converting only part of the user input to entities?
+                Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
+                Scale scale = _repositories.ScaleRepository.Get(scaleID);
+
+                // Business
+                Tone tone = _scaleManager.CreateTone(scale);
+
+                // ToViewModel
+                ScaleDetailsViewModel gridViewModel = ChildDocumentHelper.GetScaleDetailsViewModel(ViewModel.Document, scale.ID);
+                ToneViewModel toneViewModel = tone.ToViewModel();
+                gridViewModel.Tones.Add(toneViewModel);
+                // Do not sort grid, so that the new item appears at the bottom.
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void ToneDelete(int toneID)
+        {
+            throw new NotImplementedException();
         }
     }
 }

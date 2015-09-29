@@ -574,5 +574,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _presenter.ScalePropertiesLoseFocus();
             ApplyViewModel();
         }
+
+        // Tone
+
+        private void ToneCreate(int scaleID)
+        {
+            _presenter.ToneCreate(scaleID);
+            ApplyViewModel();
+        }
+
+        private void ToneDelete(int toneID)
+        {
+            _presenter.ToneDelete(toneID);
+            ApplyViewModel();
+        }
     }
 }

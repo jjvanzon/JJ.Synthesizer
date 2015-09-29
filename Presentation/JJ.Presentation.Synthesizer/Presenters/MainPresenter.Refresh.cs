@@ -8,6 +8,7 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

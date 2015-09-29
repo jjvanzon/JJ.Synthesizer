@@ -52,10 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ApplyViewModel()
         {
-            if (_viewModel == null)
-            {
-                return;
-            }
+            if (_viewModel == null) return;
 
             specializedDataGridView.DataSource = _viewModel.List.Select(x => new
             {

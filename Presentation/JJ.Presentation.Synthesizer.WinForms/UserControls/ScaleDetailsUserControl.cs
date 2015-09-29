@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Linq;
 using System.ComponentModel;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation.Resources;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Framework.Presentation.WinForms.Extensions;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class ScaleDetailsUserControl : UserControl
     {
+        private const string ID_COLUMN_NAME = "IDColumn";
+
+        public event EventHandler<Int32EventArgs> CreateToneRequested;
+        public event EventHandler<Int32EventArgs> DeleteToneRequested;
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
 
@@ -20,14 +22,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public ScaleDetailsUserControl()
         {
             InitializeComponent();
-
             SetTitles();
-
-            this.AutomaticallyAssignTabIndexes();
-        }
-
-        private void ScaleDetailsUserControl_Load(object sender, EventArgs e)
-        {
         }
 
         [Browsable(false)]
@@ -47,15 +42,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void SetTitles()
         {
             titleBarUserControl.Text = PropertyDisplayNames.Scale;
+            OctaveColumn.HeaderText = PropertyDisplayNames.Octave;
         }
 
         private void ApplyViewModelToControls()
         {
             if (_viewModel == null) return;
 
-            //throw new NotImplementedException();
+            NumberColumn.HeaderText = _viewModel.NumberTitle;
+
+            specializedDataGridView.DataSource = _viewModel.Tones;
         }
 
+        // TODO: Remove method if it proves it is not necessary.
         private void ApplyControlsToViewModel()
         {
             if (_viewModel == null) return;
@@ -65,10 +64,33 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Actions
 
+        private void CreateTone()
+        {
+            if (CreateToneRequested != null)
+            {
+                var e = new Int32EventArgs(ViewModel.ScaleID);
+                CreateToneRequested(this, e);
+            }
+        }
+
+        private void DeleteTone()
+        {
+            if (DeleteToneRequested != null)
+            {
+                int? id = TryGetSelectedID();
+                if (id.HasValue)
+                {
+                    var e = new Int32EventArgs(id.Value);
+                    DeleteToneRequested(this, e);
+                }
+            }
+        }
+
         private void Close()
         {
             if (CloseRequested != null)
             {
+                // TODO: Consider if the following code line is necessary at all
                 ApplyControlsToViewModel();
                 CloseRequested(this, EventArgs.Empty);
             }
@@ -78,6 +100,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (LoseFocusRequested != null)
             {
+                // TODO: Consider if the following code line is necessary at all
                 ApplyControlsToViewModel();
                 LoseFocusRequested(this, EventArgs.Empty);
             }
@@ -85,9 +108,29 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Events
 
+        private void titleBarUserControl_AddClicked(object sender, EventArgs e)
+        {
+            CreateTone();
+        }
+
+        private void titleBarUserControl_RemoveClicked(object sender, EventArgs e)
+        {
+            DeleteTone();
+        }
+
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Delete:
+                    DeleteTone();
+                    break;
+            }
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
@@ -101,5 +144,20 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 LoseFocus();
             }
         }
+
+        // Helpers
+
+        private int? TryGetSelectedID()
+        {
+            if (specializedDataGridView.CurrentRow != null)
+            {
+                DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
+                int id = (int)cell.Value;
+                return id;
+            }
+
+            return null;
+        }
+
     }
 }
