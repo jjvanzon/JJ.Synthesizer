@@ -3,11 +3,11 @@
     public enum ScaleTypeEnum
     {
         Undefined = 0,
-        LiteralFrequency = 1,
+        LiteralFrequencies = 1,
         /// <summary> Base frequency times a factor. </summary>
-        Factor = 2,
-        Exponent = 3,
+        Factors = 2,
+        Exponents = 3,
         /// <summary> Tones are specified as a fraction of a semi tone. summary>
-        SemiTone = 4
+        SemiTones = 4
     }
 }

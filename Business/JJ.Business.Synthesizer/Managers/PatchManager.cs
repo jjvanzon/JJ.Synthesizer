@@ -26,8 +26,6 @@ namespace JJ.Business.Synthesizer.Managers
     public partial class PatchManager
     {
         private PatchRepositories _repositories;
-        // TODO: Remove outcommented code.
-        //private OperatorFactory _operatorFactory;
 
         /// <summary> nullable </summary>
         public Patch Patch { get; set; }
@@ -39,9 +37,6 @@ namespace JJ.Business.Synthesizer.Managers
 
             _repositories = repositories;
             Patch = patch;
-
-            // TODO: Remove outcommented code.
-            //_operatorFactory = new OperatorFactory(repositories);
         }
 
         public PatchManager(PatchRepositories repositories)
@@ -49,9 +44,6 @@ namespace JJ.Business.Synthesizer.Managers
             if (repositories == null) throw new NullException(() => repositories);
 
             _repositories = repositories;
-
-            // TODO: Remove outcommented code.
-            //_operatorFactory = new OperatorFactory(repositories);
         }
 
         /// <param name="document">Nullable. Used e.g. to generate a unique name for a Patch.</param>

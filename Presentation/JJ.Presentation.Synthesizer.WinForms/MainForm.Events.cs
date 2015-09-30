@@ -455,6 +455,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ToneDelete(e.Value);
         }
 
+        private void scaleDetailsUserControl_PlayToneRequested(object sender, Int32EventArgs e)
+        {
+            TonePlay(e.Value);
+        }
+
         private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
             ScalePropertiesClose();

@@ -24,19 +24,19 @@ namespace JJ.Business.Synthesizer.Validation
 
             switch (scaleTypeEnum)
             {
-                case ScaleTypeEnum.LiteralFrequency:
+                case ScaleTypeEnum.LiteralFrequencies:
                     Execute<ScaleValidator_LiteralFrequency>();
                     break;
 
-                case ScaleTypeEnum.Factor:
+                case ScaleTypeEnum.Factors:
                     Execute<ScaleValidator_Factor>();
                     break;
 
-                case ScaleTypeEnum.Exponent:
+                case ScaleTypeEnum.Exponents:
                     Execute<ScaleValidator_Exponent>();
                     break;
 
-                case ScaleTypeEnum.SemiTone:
+                case ScaleTypeEnum.SemiTones:
                     Execute<ScaleValidator_SemiTone>();
                     break;
             }

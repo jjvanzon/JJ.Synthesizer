@@ -583,10 +583,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void ToneDelete(int toneID)
+        private void ToneDelete(int id)
         {
-            _presenter.ToneDelete(toneID);
+            _presenter.ToneDelete(id);
             ApplyViewModel();
+        }
+
+        private void TonePlay(int id)
+        {
+            string outputFilePath = _presenter.TonePlay(id);
+
+            SoundPlayer soundPlayer = new SoundPlayer(outputFilePath);
+            soundPlayer.Play();
         }
     }
 }

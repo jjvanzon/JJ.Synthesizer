@@ -259,7 +259,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             audioFileOutput.Duration = _patchPlayDuration;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
-            audioFileOutputManager.Execute(audioFileOutput);
+            audioFileOutputManager.WriteFile(audioFileOutput);
 
             ViewModel.Successful = true;
 

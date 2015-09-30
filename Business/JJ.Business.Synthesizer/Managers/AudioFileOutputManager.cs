@@ -139,7 +139,7 @@ namespace JJ.Business.Synthesizer.Managers
             return audioFileOutputChannels[i];
         }
 
-        public void Execute(AudioFileOutput audioFileOutput)
+        public void WriteFile(AudioFileOutput audioFileOutput)
         {
             IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(
                 audioFileOutput,

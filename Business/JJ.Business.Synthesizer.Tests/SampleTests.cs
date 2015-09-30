@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests
                 IValidator audioFileOutputValidator = audioFileOutputManager.Validate(audioFileOutput);
                 audioFileOutputValidator.Verify();
 
-                audioFileOutputManager.Execute(audioFileOutput);
+                audioFileOutputManager.WriteFile(audioFileOutput);
             }
         }
 

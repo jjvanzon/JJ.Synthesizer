@@ -304,20 +304,20 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exponent.
+        ///   Looks up a localized string similar to Exponents.
         /// </summary>
-        public static string Exponent {
+        public static string Exponents {
             get {
-                return ResourceManager.GetString("Exponent", resourceCulture);
+                return ResourceManager.GetString("Exponents", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Factor.
+        ///   Looks up a localized string similar to Factors.
         /// </summary>
-        public static string Factor {
+        public static string Factors {
             get {
-                return ResourceManager.GetString("Factor", resourceCulture);
+                return ResourceManager.GetString("Factors", resourceCulture);
             }
         }
         
@@ -403,11 +403,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Literal Frequency.
+        ///   Looks up a localized string similar to Literal Frequencies.
         /// </summary>
-        public static string LiteralFrequency {
+        public static string LiteralFrequencies {
             get {
-                return ResourceManager.GetString("LiteralFrequency", resourceCulture);
+                return ResourceManager.GetString("LiteralFrequencies", resourceCulture);
             }
         }
         
@@ -700,11 +700,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Semitone.
+        ///   Looks up a localized string similar to Semitones.
         /// </summary>
-        public static string SemiTone {
+        public static string SemiTones {
             get {
-                return ResourceManager.GetString("SemiTone", resourceCulture);
+                return ResourceManager.GetString("SemiTones", resourceCulture);
             }
         }
         

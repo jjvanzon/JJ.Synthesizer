@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -14,6 +15,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public event EventHandler<Int32EventArgs> CreateToneRequested;
         public event EventHandler<Int32EventArgs> DeleteToneRequested;
+        public event EventHandler<Int32EventArgs> PlayToneRequested;
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
 
@@ -43,6 +45,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             titleBarUserControl.Text = PropertyDisplayNames.Scale;
             OctaveColumn.HeaderText = PropertyDisplayNames.Octave;
+            PlayColumn.HeaderText = Titles.Play;
+            PlayColumn.Text = Titles.Play;
+            PlayColumn.UseColumnTextForButtonValue = true;
         }
 
         private void ApplyViewModelToControls()
@@ -52,14 +57,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             NumberColumn.HeaderText = _viewModel.NumberTitle;
 
             specializedDataGridView.DataSource = _viewModel.Tones;
-        }
-
-        // TODO: Remove method if it proves it is not necessary.
-        private void ApplyControlsToViewModel()
-        {
-            if (_viewModel == null) return;
-
-            //throw new NotImplementedException();
         }
 
         // Actions
@@ -90,8 +87,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (CloseRequested != null)
             {
-                // TODO: Consider if the following code line is necessary at all
-                ApplyControlsToViewModel();
                 CloseRequested(this, EventArgs.Empty);
             }
         }
@@ -100,8 +95,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (LoseFocusRequested != null)
             {
-                // TODO: Consider if the following code line is necessary at all
-                ApplyControlsToViewModel();
                 LoseFocusRequested(this, EventArgs.Empty);
             }
         }
@@ -121,6 +114,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void specializedDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (PlayToneRequested != null)
+            {
+                int toneID = (int)specializedDataGridView.Rows[e.RowIndex].Cells[ID_COLUMN_NAME].Value;
+                var e2 = new Int32EventArgs(toneID);
+                PlayToneRequested(this, e2);
+            }
         }
 
         private void specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
@@ -158,6 +161,5 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             return null;
         }
-
     }
 }

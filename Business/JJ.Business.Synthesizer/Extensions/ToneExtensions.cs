@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Extensions
 {
     public static class ToneExtensions
     {
-        public static double GetFrequency(Tone tone)
+        public static double GetFrequency(this Tone tone)
         {
             if (tone == null) throw new NullException(() => tone);
 
@@ -21,33 +21,33 @@ namespace JJ.Business.Synthesizer.Extensions
 
             switch (scaleTypeEnum)
             {
-                case ScaleTypeEnum.LiteralFrequency:
+                case ScaleTypeEnum.LiteralFrequencies:
                     return tone.Number;
 
-                case ScaleTypeEnum.Factor:
+                case ScaleTypeEnum.Factors:
                     {
-                        AssertBaseFrequency(tone);
                         // BaseFrequency * 2 ^ octave * number
+                        AssertBaseFrequency(tone);
                         double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave - 1) * tone.Number;
                         return frequency;
                     }
 
-                case ScaleTypeEnum.Exponent:
+                case ScaleTypeEnum.Exponents:
                     {
                         // BaseFrequency * 2 ^ octave ^ number
                         // Notice that the multiplication is equvalent to (2 ^ octave) ^ number.
                         AssertBaseFrequency(tone);
-                        double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave - 1 * tone.Number);
+                        double frequency = tone.Scale.BaseFrequency.Value;
+                        frequency *= Math.Pow(2, (tone.Octave - 1));
+                        frequency = Math.Pow(frequency, tone.Number);
                         return frequency;
                     }
 
-                case ScaleTypeEnum.SemiTone:
+                case ScaleTypeEnum.SemiTones:
                     {
-                        // BaseFrequency * (2 ^ octave) ^ (1 / 12 * tone)
-                        // You can probably simplify this formula, but it is more readable this way,
-                        // and this method is not supposed to be called frequently.
+                        // BaseFrequency * 2 ^ (octave + 1 / 12 * tone)
                         AssertBaseFrequency(tone);
-                        double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave - 1) * Math.Pow(1.0 / 12.0, tone.Number);
+                        double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave - 1 + 1.0 / 12.0 * (tone.Number - 1));
                         return frequency;
                     }
 

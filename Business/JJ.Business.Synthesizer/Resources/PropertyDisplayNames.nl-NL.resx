@@ -354,14 +354,14 @@
   <data name="Stereo" xml:space="preserve">
     <value>Stereo</value>
   </data>
-  <data name="Exponent" xml:space="preserve">
-    <value>Exponent</value>
+  <data name="Exponents" xml:space="preserve">
+    <value>Exponenten</value>
   </data>
-  <data name="Factor" xml:space="preserve">
-    <value>Factor</value>
+  <data name="Factors" xml:space="preserve">
+    <value>Factoren</value>
   </data>
-  <data name="LiteralFrequency" xml:space="preserve">
-    <value>Letterlijke frequentie</value>
+  <data name="LiteralFrequencies" xml:space="preserve">
+    <value>Letterlijke frequenties</value>
   </data>
   <data name="Scale" xml:space="preserve">
     <value>Toonladder</value>
@@ -369,8 +369,8 @@
   <data name="ScaleType" xml:space="preserve">
     <value>Toonladder soort</value>
   </data>
-  <data name="SemiTone" xml:space="preserve">
-    <value>Halve toon</value>
+  <data name="SemiTones" xml:space="preserve">
+    <value>Halve tonen</value>
   </data>
   <data name="Tone" xml:space="preserve">
     <value>Toon</value>

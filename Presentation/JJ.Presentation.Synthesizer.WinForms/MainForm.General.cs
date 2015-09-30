@@ -115,6 +115,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             scaleDetailsUserControl.CreateToneRequested += scaleDetailsUserControl_CreateToneRequested;
             scaleDetailsUserControl.DeleteToneRequested += scaleDetailsUserControl_DeleteToneRequested;
             scaleDetailsUserControl.LoseFocusRequested += scaleDetailsUserControl_LoseFocusRequested;
+            scaleDetailsUserControl.PlayToneRequested += scaleDetailsUserControl_PlayToneRequested;
             scaleGridUserControl.CloseRequested += scaleGridUserControl_CloseRequested;
             scaleGridUserControl.CreateRequested += scaleGridUserControl_CreateRequested;
             scaleGridUserControl.DeleteRequested += scaleGridUserControl_DeleteRequested;

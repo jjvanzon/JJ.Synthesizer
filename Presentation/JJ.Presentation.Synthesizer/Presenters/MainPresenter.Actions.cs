@@ -2049,9 +2049,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void ToneDelete(int toneID)
+        public void ToneDelete(int id)
         {
-            throw new NotImplementedException();
+            foreach (IList<ToneViewModel> tonesViewModel in ViewModel.Document.ScaleDetailsList.Select(x => x.Tones))
+            {
+                bool isRemoved = tonesViewModel.TryRemoveFirst(x => x.ID == id);
+                if (isRemoved)
+                {
+                    break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Writes a sine sound with the pitch of the tone to an audio file with a configurable duration.
+        /// Returns the output file path.
+        /// TODO: This action is too dependent on infrastructure, because the AudioFileOutput business logic is.
+        /// Instead of writing to a file it had better write to a stream.
+        /// </summary>
+        public string TonePlay(int id)
+        {
+            // ToEntity
+            // TODO: Can I get away with converting only part of the user input to entities?
+            Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            return _scaleDetailsPresenter.PlayTone(id);
         }
     }
 }
