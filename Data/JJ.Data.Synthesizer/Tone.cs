@@ -20,11 +20,12 @@ namespace JJ.Data.Synthesizer
 
         /// <summary>
         /// Depending on Scale.ScaleType this is either the 
-        /// frequency, factor, exponent or a fraction of a semitone.
+        /// frequency, factor, exponential grade or a fraction of a semitone.
         /// 
-        /// It is 1-based for semitones.
+        /// It is 1-based for semitones. The exponential grade is one that goes from 0 to 1 between
+        /// this octace and the next.
         /// 
-        /// It is also a substitute for the ordinal number within an octave.
+        /// This number is also a substitute for the ordinal number within an octave.
         /// You can derive an integer number from it by sorting it and taking the list position.
         /// </summary>
         public virtual double Number { get; set; }

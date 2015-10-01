@@ -34,18 +34,15 @@ namespace JJ.Business.Synthesizer.Extensions
 
                 case ScaleTypeEnum.Exponents:
                     {
-                        // BaseFrequency * 2 ^ octave ^ number
-                        // Notice that the multiplication is equvalent to (2 ^ octave) ^ number.
+                        // BaseFrequency * 2 ^ (octave + number)
                         AssertBaseFrequency(tone);
-                        double frequency = tone.Scale.BaseFrequency.Value;
-                        frequency *= Math.Pow(2, (tone.Octave - 1));
-                        frequency = Math.Pow(frequency, tone.Number);
+                        double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave - 1 + tone.Number);
                         return frequency;
                     }
 
                 case ScaleTypeEnum.SemiTones:
                     {
-                        // BaseFrequency * 2 ^ (octave + 1 / 12 * tone)
+                        // BaseFrequency * 2 ^ (octave + 1/12 * tone)
                         AssertBaseFrequency(tone);
                         double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave - 1 + 1.0 / 12.0 * (tone.Number - 1));
                         return frequency;
