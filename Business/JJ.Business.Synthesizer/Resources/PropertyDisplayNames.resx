@@ -400,4 +400,10 @@
   <data name="SemiTone" xml:space="preserve">
     <value>Semitone</value>
   </data>
+  <data name="Cent" xml:space="preserve">
+    <value>Cent</value>
+  </data>
+  <data name="Cents" xml:space="preserve">
+    <value>Cents</value>
+  </data>
 </root>

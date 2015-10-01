@@ -19,6 +19,11 @@
         /// Tones are specified as a fraction of a semi tone.
         /// 1 is the first semi-tone, while 12 is the last semi-tone.
         /// </summary>
-        SemiTone = 4
+        SemiTone = 4,
+
+        /// <summary>
+        /// Makes you go from this octave to the next gradually specifying a number between 0 and 1200.
+        /// </summary>
+        Cent = 5
     }
 }

@@ -74,5 +74,6 @@
         public const string Factors = "Factors";
         public const string Exponents = "Exponents";
         public const string SemiTones = "SemiTones";
+        public const string Cents = "Cents";
     }
 }

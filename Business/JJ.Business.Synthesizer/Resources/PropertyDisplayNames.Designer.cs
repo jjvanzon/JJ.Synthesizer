@@ -151,6 +151,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cent.
+        /// </summary>
+        public static string Cent {
+            get {
+                return ResourceManager.GetString("Cent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cents.
+        /// </summary>
+        public static string Cents {
+            get {
+                return ResourceManager.GetString("Cents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Channel.
         /// </summary>
         public static string Channel {

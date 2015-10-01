@@ -100,6 +100,9 @@ namespace JJ.Business.Synthesizer.Resources
                 case ScaleTypeEnum.SemiTone:
                     return GetPropertyDisplayName(PropertyNames.SemiTones);
 
+                case ScaleTypeEnum.Cent:
+                    return GetPropertyDisplayName(PropertyNames.Cents);
+
                 case ScaleTypeEnum.Undefined:
                     // A direct call to ResourceManager.GetString does not crash if the key does not exist,
                     // so do not throw an exception here.

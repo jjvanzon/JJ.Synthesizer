@@ -399,4 +399,10 @@
   <data name="SemiTone" xml:space="preserve">
     <value>Halve toon</value>
   </data>
+  <data name="Cent" xml:space="preserve">
+    <value>Cent</value>
+  </data>
+  <data name="Cents" xml:space="preserve">
+    <value>Centen</value>
+  </data>
 </root>

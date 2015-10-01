@@ -48,6 +48,14 @@ namespace JJ.Business.Synthesizer.Extensions
                         return frequency;
                     }
 
+                case ScaleTypeEnum.Cent:
+                    {
+                        // BaseFrequency * 2 ^ (octave + number / 1200)
+                        AssertBaseFrequency(tone);
+                        double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave - 1 + tone.Number / 1200.0);
+                        return frequency;
+                    }
+
                 default:
                     throw new InvalidValueException(scaleTypeEnum);
             }

@@ -1,0 +1,1 @@
+insert into ScaleType (ID, Name) values (5, 'Cent');

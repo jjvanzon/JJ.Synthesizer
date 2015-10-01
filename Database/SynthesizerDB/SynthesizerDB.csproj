@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F9370CA4-AB57-4BC8-BAA5-FDAEA8DB3F3F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SynthesizerDB</RootNamespace>
+    <AssemblyName>SynthesizerDB</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="2015-07-24 005 SynthesizerDB.bak" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="2015-07-24 010 SynthesizerDB Document.ParentDocumentID.sql" />
+    <Content Include="2015-07-24 020 SynthesizerDB FK_Document_ParentDocument.sql" />
+    <Content Include="2015-07-24 030 SynthesizerDB IX_Document_ParentDocumentID.sql" />
+    <Content Include="2015-07-24 035 SynthesizerDB ChildDocumentType.sql" />
+    <Content Include="2015-07-24 040 SynthesizerDB Document.ChildDocumentTypeID.sql" />
+    <Content Include="2015-07-24 050 SynthesizerDB FK_Document_ChildDocumentType.sql" />
+    <Content Include="2015-07-24 060 SynthesizerDB IX_Document_ChildDocumentTypeID.sql" />
+    <Content Include="2015-07-24 070 SynthesizerDB ChildDocumentType 1.sql" />
+    <Content Include="2015-07-24 080 SynthesizerDB ChildDocumentType 2.sql" />
+    <Content Include="2015-07-24 200 SynthesizerDB fill Document.ParentDocumentID and Document.ChildDocumentTypeID NOT TESTED.sql" />
+    <Content Include="2015-07-24 210 SynthesizerDB Document drop columns AsInstrumentDocument and AsEffectInDocument with IX and FK.sql" />
+    <Content Include="2015-07-29 010 SynthesizerDB OperatorType 20 - CustomOperator.sql" />
+    <Content Include="2015-08-17 010 SynthesizerDB Inlet.SortOrder.sql" />
+    <Content Include="2015-08-17 020 SynthesizerDB Outlet.SortOrder.sql" />
+    <Content Include="2015-08-17 030 SynthesizerDB fill Inlet.SortOrder.sql" />
+    <Content Include="2015-08-17 040 SynthesizerDB fill Outlet.SortOrder.sql" />
+    <Content Include="2015-08-17 050 SynthesizerDB Inlet.SortOrder not null.sql" />
+    <Content Include="2015-08-17 060 SynthesizerDB Outlet.SortOrder not null.sql" />
+    <Content Include="2015-08-21 010 SynthesizerDB set Operator.Data %28SortOrder%29 for PatchInlets and PatchOutlets.sql" />
+    <Content Include="2015-08-29 010 SynthesizerDB rename Sample.Location to OriginalLocation.sql" />
+    <Content Include="2015-09-20 010 SynthesizerDB change Inlet.Name Level to Origin.sql" />
+    <Content Include="2015-09-20 020 SynthesizerDB change OperatorType.Name CurveIn to Curve.sql" />
+    <Content Include="2015-09-20 030 SynthesizerDB change OperatorType.Name TimeAdd to Delay.sql" />
+    <Content Include="2015-09-20 040 SynthesizerDB change OperatorType.Name TimeMultiply to SlowDown.sql" />
+    <Content Include="2015-09-20 050 SynthesizerDB change OperatorType.Name TimeDivide to SpeedUp.sql" />
+    <Content Include="2015-09-20 060 SynthesizerDB change OperatorType.Name Value to Number.sql" />
+    <Content Include="2015-09-23 010 SynthesizerDB ScaleType.sql" />
+    <Content Include="2015-09-23 020 SynthesizerDB IX_ScaleType_Name_Unique.sql" />
+    <Content Include="2015-09-23 030 SynthesizerDB ScaleType records.sql" />
+    <Content Include="2015-09-23 040 SynthesizerDB Scale.sql" />
+    <Content Include="2015-09-23 050 SynthesizerDB IX_Scale_DocumentID.sql" />
+    <Content Include="2015-09-23 060 SynthesizerDB Tone.sql" />
+    <Content Include="2015-09-23 070 SynthesizerDB IX_Tone_ScaleID.sql" />
+    <Content Include="2015-09-30 010 SynthesizerDB ScaleType change Names.sql" />
+    <Content Include="2015-10-01 010 SynthesizerDB ScaleType change Names to singular again.sql" />
+    <Content Include="2015-10-01 020 SynthesizerDB ScaleType 5 - Cent.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
