@@ -34,10 +34,10 @@ namespace JJ.Business.Synthesizer.SideEffects
 
             if (scaleTypeEnum == ScaleTypeEnum.Undefined)
             {
-                _scale.SetScaleTypeEnum(ScaleTypeEnum.SemiTones, _scaleTypeRepository);
+                _scale.SetScaleTypeEnum(ScaleTypeEnum.SemiTone, _scaleTypeRepository);
             }
 
-            if (scaleTypeEnum == ScaleTypeEnum.LiteralFrequencies)
+            if (scaleTypeEnum == ScaleTypeEnum.LiteralFrequency)
             {
                 _scale.BaseFrequency = null;
             }

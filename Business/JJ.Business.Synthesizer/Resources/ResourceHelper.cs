@@ -1,18 +1,28 @@
 ﻿using System;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Resources
 {
     public static class ResourceHelper
     {
+        /// <summary> You can use this overload if the object resourceName's ToString converts it to the resource key. </summary>
+        public static string GetPropertyDisplayName(object resourceName)
+        {
+            return GetPropertyDisplayName(resourceName.ToString());
+        }
+
         public static string GetPropertyDisplayName(string resourceName)
         {
             string str = PropertyDisplayNames.ResourceManager.GetString(resourceName);
             return str;
         }
+
+        // OperatorType
 
         public static string GetOperatorTypeDisplayName(Operator op)
         {
@@ -25,23 +35,79 @@ namespace JJ.Business.Synthesizer.Resources
             return PropertyDisplayNames.ResourceManager.GetString(operatorTypeEnum.ToString());
         }
 
-        public static string GetScaleTypeDisplayName(Scale scale)
+        // ScaleType Singular
+
+        public static string GetScaleTypeDisplayNameSingular(Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
 
-            return GetScaleTypeDisplayName(scale.ScaleType);
+            return GetScaleTypeDisplayNameSingular(scale.ScaleType);
         }
 
-        public static string GetScaleTypeDisplayName(ScaleType scaleType)
+        public static string GetScaleTypeDisplayNameSingular(ScaleType scaleType)
         {
             if (scaleType == null) throw new NullException(() => scaleType);
 
-            return PropertyDisplayNames.ResourceManager.GetString(scaleType.Name);
+            return GetScaleTypeDisplayNameSingular(scaleType.Name);
         }
 
-        public static string GetScaleTypeDisplayName(ScaleTypeEnum operatorTypeEnum)
+        public static string GetScaleTypeDisplayNameSingular(ScaleTypeEnum scaleTypeEnum)
         {
-            return PropertyDisplayNames.ResourceManager.GetString(operatorTypeEnum.ToString());
+            return GetScaleTypeDisplayNameSingular(scaleTypeEnum.ToString());
+        }
+
+        public static string GetScaleTypeDisplayNameSingular(string scaleTypeName)
+        {
+            return PropertyDisplayNames.ResourceManager.GetString(scaleTypeName);
+        }
+
+        // ScaleType Plural
+
+        public static string GetScaleTypeDisplayNamePlural(Scale scale)
+        {
+            if (scale == null) throw new NullException(() => scale);
+
+            return GetScaleTypeDisplayNamePlural(scale.ScaleType);
+        }
+
+        public static string GetScaleTypeDisplayNamePlural(ScaleType scaleType)
+        {
+            if (scaleType == null) throw new NullException(() => scaleType);
+
+            return GetScaleTypeDisplayNamePlural(scaleType.Name);
+        }
+
+        public static string GetScaleTypeDisplayNamePlural(string scaleTypeName)
+        {
+            ScaleTypeEnum scaleTypeEnum = EnumHelper.Parse<ScaleTypeEnum>(scaleTypeName);
+            return GetScaleTypeDisplayNamePlural(scaleTypeEnum);
+        }
+
+        // Notice that the deepest overload has a different parameter than the singular variation.
+        public static string GetScaleTypeDisplayNamePlural(ScaleTypeEnum scaleTypeEnum)
+        {
+            switch (scaleTypeEnum)
+            {
+                case ScaleTypeEnum.LiteralFrequency:
+                    return GetPropertyDisplayName(PropertyNames.LiteralFrequencies);
+
+                case ScaleTypeEnum.Factor:
+                    return GetPropertyDisplayName(PropertyNames.Factors);
+
+                case ScaleTypeEnum.Exponent:
+                    return GetPropertyDisplayName(PropertyNames.Exponents);
+
+                case ScaleTypeEnum.SemiTone:
+                    return GetPropertyDisplayName(PropertyNames.SemiTones);
+
+                case ScaleTypeEnum.Undefined:
+                    // A direct call to ResourceManager.GetString does not crash if the key does not exist,
+                    // so do not throw an exception here.
+                    return GetScaleTypeDisplayNameSingular(scaleTypeEnum);
+
+                default:
+                    throw new InvalidValueException(scaleTypeEnum);
+            }
         }
     }
 }

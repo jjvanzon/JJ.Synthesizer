@@ -21,10 +21,10 @@ namespace JJ.Business.Synthesizer.Extensions
 
             switch (scaleTypeEnum)
             {
-                case ScaleTypeEnum.LiteralFrequencies:
+                case ScaleTypeEnum.LiteralFrequency:
                     return tone.Number;
 
-                case ScaleTypeEnum.Factors:
+                case ScaleTypeEnum.Factor:
                     {
                         // BaseFrequency * 2 ^ octave * number
                         AssertBaseFrequency(tone);
@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Extensions
                         return frequency;
                     }
 
-                case ScaleTypeEnum.Exponents:
+                case ScaleTypeEnum.Exponent:
                     {
                         // BaseFrequency * 2 ^ (octave + number)
                         AssertBaseFrequency(tone);
@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.Extensions
                         return frequency;
                     }
 
-                case ScaleTypeEnum.SemiTones:
+                case ScaleTypeEnum.SemiTone:
                     {
                         // BaseFrequency * 2 ^ (octave + 1/12 * tone)
                         AssertBaseFrequency(tone);

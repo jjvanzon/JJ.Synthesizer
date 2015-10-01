@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            For(() => Object.GetScaleTypeEnum(), PropertyDisplayNames.ScaleType).Is(ScaleTypeEnum.LiteralFrequencies);
+            For(() => Object.GetScaleTypeEnum(), PropertyDisplayNames.ScaleType).Is(ScaleTypeEnum.LiteralFrequency);
         }
     }
 }

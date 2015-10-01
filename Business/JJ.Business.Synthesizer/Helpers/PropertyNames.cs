@@ -70,5 +70,9 @@
         public const string Outlets = "Outlets";
         public const string UnderlyingDocument = "UnderlyingDocument";
         public const string Scales = "Scales";
+        public const string LiteralFrequencies = "LiteralFrequencies";
+        public const string Factors = "Factors";
+        public const string Exponents = "Exponents";
+        public const string SemiTones = "SemiTones";
     }
 }

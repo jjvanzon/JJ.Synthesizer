@@ -304,11 +304,29 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exponent.
+        /// </summary>
+        public static string Exponent {
+            get {
+                return ResourceManager.GetString("Exponent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exponents.
         /// </summary>
         public static string Exponents {
             get {
                 return ResourceManager.GetString("Exponents", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Factor.
+        /// </summary>
+        public static string Factor {
+            get {
+                return ResourceManager.GetString("Factor", resourceCulture);
             }
         }
         
@@ -408,6 +426,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string LiteralFrequencies {
             get {
                 return ResourceManager.GetString("LiteralFrequencies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Literal Frequency.
+        /// </summary>
+        public static string LiteralFrequency {
+            get {
+                return ResourceManager.GetString("LiteralFrequency", resourceCulture);
             }
         }
         
@@ -696,6 +723,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string ScaleType {
             get {
                 return ResourceManager.GetString("ScaleType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Semitone.
+        /// </summary>
+        public static string SemiTone {
+            get {
+                return ResourceManager.GetString("SemiTone", resourceCulture);
             }
         }
         

@@ -393,7 +393,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ScaleDetailsViewModel
             {
                 ScaleID = entity.ID,
-                NumberTitle = ResourceHelper.GetScaleTypeDisplayName(entity),
+                NumberTitle = ResourceHelper.GetScaleTypeDisplayNameSingular(entity),
                 Tones = entity.Tones.ToToneViewModels(),
                 ValidationMessages = new List<Message>(),
                 Successful = true

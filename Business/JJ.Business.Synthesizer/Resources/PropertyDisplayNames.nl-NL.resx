@@ -387,4 +387,16 @@
   <data name="Scales" xml:space="preserve">
     <value>Toonladders</value>
   </data>
+  <data name="Exponent" xml:space="preserve">
+    <value>Exponent</value>
+  </data>
+  <data name="Factor" xml:space="preserve">
+    <value>Factor</value>
+  </data>
+  <data name="LiteralFrequency" xml:space="preserve">
+    <value>Letterlijke frequentie</value>
+  </data>
+  <data name="SemiTone" xml:space="preserve">
+    <value>Halve toon</value>
+  </data>
 </root>

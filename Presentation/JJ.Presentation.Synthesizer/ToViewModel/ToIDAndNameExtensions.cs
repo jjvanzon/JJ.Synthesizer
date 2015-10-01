@@ -157,7 +157,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string displayName = ResourceHelper.GetScaleTypeDisplayName(entity);
+            string displayName = ResourceHelper.GetScaleTypeDisplayNamePlural(entity);
 
             return new IDAndName
             {

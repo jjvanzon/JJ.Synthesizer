@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Validation
             //For(() => Object.Octave, PropertyDisplayNames.Octave).MinValue(1);
 
             bool isSemiTone = Object.Scale != null &&
-                              Object.Scale.GetScaleTypeEnum() == ScaleTypeEnum.SemiTones;
+                              Object.Scale.GetScaleTypeEnum() == ScaleTypeEnum.SemiTone;
             if (isSemiTone)
             {
                 //For(() => Object.Number, PropertyDisplayNames.Octave).MinValue(1);
