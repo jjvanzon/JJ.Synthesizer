@@ -53,9 +53,9 @@ namespace JJ.Business.Synthesizer.SideEffects
             double a = 440;
             // Then turn it into a C
             double c = a * Math.Pow(2, 3.0 / 12.0);
-            // Then lower it to the lowest octave (sub-sub-contra).
-            // TODO: I wonder if we shouldn't make it the sub-contra octave.
-            c = c / Math.Pow(2.0, 6.0);
+            // Then lower it to the sub-contra octave, which according to Wikipedia
+            // is octave 0, even though you can go to octave -1 to get the sub-sub-contra octave.
+            c = c / Math.Pow(2.0, 5.0);
             return c;
         }
     }

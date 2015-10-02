@@ -17,23 +17,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            // TODO: Adapt other business logic so the poor choice of bounds on the octave and tone numbers is undone.
-
             For(() => Object.Scale, PropertyDisplayNames.Scale).NotNull();
-
-            // TODO: Comment out this validation message again.
-            //For(() => Object.Octave, PropertyDisplayNames.Octave).MinValue(1);
-
-            bool isSemiTone = Object.Scale != null &&
-                              Object.Scale.GetScaleTypeEnum() == ScaleTypeEnum.SemiTone;
-            if (isSemiTone)
-            {
-                //For(() => Object.Number, PropertyDisplayNames.Octave).MinValue(1);
-            }
-            else
-            {
-                //For(() => Object.Number, PropertyDisplayNames.Octave).MinValue(0);
-            }
         }
     }
 }

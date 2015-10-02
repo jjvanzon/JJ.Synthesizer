@@ -114,6 +114,7 @@
             this.OctaveColumn.DefaultCellStyle = dataGridViewCellStyle1;
             this.OctaveColumn.FillWeight = 40F;
             this.OctaveColumn.HeaderText = "Octave";
+            this.OctaveColumn.MaxInputLength = 12;
             this.OctaveColumn.Name = "OctaveColumn";
             this.OctaveColumn.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             // 
