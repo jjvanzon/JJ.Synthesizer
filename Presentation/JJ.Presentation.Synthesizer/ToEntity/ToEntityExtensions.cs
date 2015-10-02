@@ -1056,8 +1056,19 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 toneRepository.Insert(entity);
             }
 
-            entity.Number = viewModel.Number;
-            entity.Octave = viewModel.Octave;
+            double number;
+            if (!Double.TryParse(viewModel.Number, out number))
+            {
+                throw new NotDoubleException(() => viewModel.Number);
+            }
+            entity.Number = number;
+
+            int octave;
+            if (!Int32.TryParse(viewModel.Octave, out octave))
+            {
+                throw new NotIntegerException(() => viewModel.Octave);
+            }
+            entity.Octave = octave;
 
             return entity;
         }

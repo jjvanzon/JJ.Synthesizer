@@ -82,6 +82,9 @@
     <Compile Include="ToViewModel\ToScreenViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.Lookups.cs" />
+    <Compile Include="Validators\ToneGridEditViewModelValidator.cs" />
+    <Compile Include="Validators\ToneViewModelValidator.cs" />
+    <Compile Include="Validators\ValidationHelper.cs" />
     <Compile Include="ViewModels\Entities\ScaleViewModel.cs" />
     <Compile Include="ViewModels\Entities\ToneViewModel.cs" />
     <Compile Include="ViewModels\Entities\ChildDocumentViewModel.cs" />

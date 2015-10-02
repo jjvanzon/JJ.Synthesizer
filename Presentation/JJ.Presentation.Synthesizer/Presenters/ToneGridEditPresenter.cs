@@ -14,6 +14,8 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Framework.Validation;
+using JJ.Presentation.Synthesizer.Validators;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -77,6 +79,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void Update()
         {
             AssertViewModel();
+
+            // TODO:
+            // This validator might be better off going off here instead of in the MainViewModel 
+            // if we can get away with a partial ToEntity here and do not do a full-document ToEntity in the MainPresenter.
+            //IValidator validator = new ToneGridEditViewModelValidator(ViewModel);
+            //if (!validator.IsValid)
+            //{
+            //    ViewModel.Successful = false;
+            //    ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+            //    return;
+            //}
 
             Scale scale = ViewModel.ToEntityWithRelatedEntities(_repositories);
 

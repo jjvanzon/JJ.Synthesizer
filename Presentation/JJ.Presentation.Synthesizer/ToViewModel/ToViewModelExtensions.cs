@@ -336,8 +336,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ToneViewModel
             {
                  ID = entity.ID,
-                 Number = entity.Number,
-                 Octave = entity.Octave
+                 Number = entity.Number.ToString(),
+                 Octave = entity.Octave.ToString()
             };
 
             return viewModel;

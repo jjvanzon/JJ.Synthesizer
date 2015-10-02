@@ -18,6 +18,7 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
+using JJ.Presentation.Synthesizer.Validators;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -1964,33 +1965,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void ToneGridEditClose()
-        {
-            ToneGridEditCloseOrLoseFocus(() => _toneGridEditPresenter.Close());
-        }
-
-        public void ToneGridEditLoseFocus()
-        {
-            ToneGridEditCloseOrLoseFocus(() => _toneGridEditPresenter.LoseFocus());
-        }
-
-        private void ToneGridEditCloseOrLoseFocus(Action partialAction)
-        {
-            try
-            {
-                // TODO: Can I get away with converting only part of the user input to entities?
-                ViewModel.ToEntityWithRelatedEntities(_repositories);
-
-                partialAction();
-
-                DispatchViewModel(_toneGridEditPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
         public void ScalePropertiesClose()
         {
             ScalePropertiesCloseOrLoseFocus(() => _scalePropertiesPresenter.Close());
@@ -2069,17 +2043,66 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         /// <summary>
         /// Writes a sine sound with the pitch of the tone to an audio file with a configurable duration.
-        /// Returns the output file path.
+        /// Returns the output file path if successful.
         /// TODO: This action is too dependent on infrastructure, because the AudioFileOutput business logic is.
         /// Instead of writing to a file it had better write to a stream.
         /// </summary>
         public string TonePlay(int id)
         {
+            // TODO: You might be able to do this validation in the partial presenter,
+            // if you do not do a full-document ToEntity in the MainPresenter.
+            IValidator validator = new ToneGridEditViewModelValidator(_toneGridEditPresenter.ViewModel);
+            if (!validator.IsValid)
+            {
+                _toneGridEditPresenter.ViewModel.Successful = false;
+                _toneGridEditPresenter.ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                DispatchViewModel(_toneGridEditPresenter.ViewModel);
+                return null;
+            }
+
             // ToEntity
             // TODO: Can I get away with converting only part of the user input to entities?
             Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             return _toneGridEditPresenter.PlayTone(id);
+        }
+
+        public void ToneGridEditClose()
+        {
+            ToneGridEditCloseOrLoseFocus(() => _toneGridEditPresenter.Close());
+        }
+
+        public void ToneGridEditLoseFocus()
+        {
+            ToneGridEditCloseOrLoseFocus(() => _toneGridEditPresenter.LoseFocus());
+        }
+
+        private void ToneGridEditCloseOrLoseFocus(Action partialAction)
+        {
+            try
+            {
+                // TODO: You might be able to do this validation in the partial presenter,
+                // if you do not do a full-document ToEntity in the MainPresenter.
+                IValidator validator = new ToneGridEditViewModelValidator(_toneGridEditPresenter.ViewModel);
+                if (!validator.IsValid)
+                {
+                    _toneGridEditPresenter.ViewModel.Successful = false;
+                    _toneGridEditPresenter.ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                    DispatchViewModel(_toneGridEditPresenter.ViewModel);
+                    return;
+                }
+
+                // TODO: Can I get away with converting only part of the user input to entities?
+                ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+                partialAction();
+
+                DispatchViewModel(_toneGridEditPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
         }
     }
 }
