@@ -1,6 +1,6 @@
 ﻿namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    partial class ScaleDetailsUserControl
+    partial class ToneGridEditUserControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -132,15 +132,15 @@
             this.PlayColumn.HeaderText = "Play";
             this.PlayColumn.Name = "PlayColumn";
             // 
-            // ScaleDetailsUserControl
+            // ToneGridEditUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanelMain);
-            this.Name = "ScaleDetailsUserControl";
+            this.Name = "ToneGridEditUserControl";
             this.Size = new System.Drawing.Size(467, 495);
-            this.Leave += new System.EventHandler(this.ScaleDetailsUserControl_Leave);
+            this.Leave += new System.EventHandler(this.ToneGridEditUserControl_Leave);
             this.tableLayoutPanelMain.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).EndInit();
             this.ResumeLayout(false);

@@ -113,11 +113,11 @@
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ScaleDetailsUserControl.cs">
+    <Compile Include="UserControls\ToneGridEditUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\ScaleDetailsUserControl.Designer.cs">
-      <DependentUpon>ScaleDetailsUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\ToneGridEditUserControl.Designer.cs">
+      <DependentUpon>ToneGridEditUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\AudioFileOutputPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
@@ -282,8 +282,8 @@
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\ScaleDetailsUserControl.resx">
-      <DependentUpon>ScaleDetailsUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\ToneGridEditUserControl.resx">
+      <DependentUpon>ToneGridEditUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputPropertiesUserControl.resx">
       <DependentUpon>AudioFileOutputPropertiesUserControl.cs</DependentUpon>

@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class ScaleDetailsUserControl : UserControl
+    internal partial class ToneGridEditUserControl : UserControl
     {
         private const string ID_COLUMN_NAME = "IDColumn";
         private const int PLAY_COLUMN_INDEX = 3;
@@ -20,9 +20,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
 
-        private ScaleDetailsViewModel _viewModel;
+        private ToneGridEditViewModel _viewModel;
 
-        public ScaleDetailsUserControl()
+        public ToneGridEditUserControl()
         {
             InitializeComponent();
             SetTitles();
@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ScaleDetailsViewModel ViewModel
+        public ToneGridEditViewModel ViewModel
         {
             get { return _viewModel; }
             set
@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = PropertyDisplayNames.Scale;
+            titleBarUserControl.Text = PropertyDisplayNames.Tones;
             OctaveColumn.HeaderText = PropertyDisplayNames.Octave;
             PlayColumn.HeaderText = Titles.Play;
             PlayColumn.Text = Titles.Play;
@@ -154,7 +154,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
-        private void ScaleDetailsUserControl_Leave(object sender, EventArgs e)
+        private void ToneGridEditUserControl_Leave(object sender, EventArgs e)
         {
             // This Visible check is there because the leave event (lose focus) goes off after I closed, 
             // making it want to save again, even though view model is empty

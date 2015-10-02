@@ -111,11 +111,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             sampleGridUserControl.ShowPropertiesRequested += sampleGridUserControl_ShowPropertiesRequested;
             samplePropertiesUserControl.CloseRequested += samplePropertiesUserControl_CloseRequested;
             samplePropertiesUserControl.LoseFocusRequested += samplePropertiesUserControl_LoseFocusRequested;
-            scaleDetailsUserControl.CloseRequested += scaleDetailsUserControl_CloseRequested;
-            scaleDetailsUserControl.CreateToneRequested += scaleDetailsUserControl_CreateToneRequested;
-            scaleDetailsUserControl.DeleteToneRequested += scaleDetailsUserControl_DeleteToneRequested;
-            scaleDetailsUserControl.LoseFocusRequested += scaleDetailsUserControl_LoseFocusRequested;
-            scaleDetailsUserControl.PlayToneRequested += scaleDetailsUserControl_PlayToneRequested;
+            toneGridEditUserControl.CloseRequested += toneGridEditUserControl_CloseRequested;
+            toneGridEditUserControl.CreateToneRequested += toneGridEditUserControl_CreateToneRequested;
+            toneGridEditUserControl.DeleteToneRequested += toneGridEditUserControl_DeleteToneRequested;
+            toneGridEditUserControl.LoseFocusRequested += toneGridEditUserControl_LoseFocusRequested;
+            toneGridEditUserControl.PlayToneRequested += toneGridEditUserControl_PlayToneRequested;
             scaleGridUserControl.CloseRequested += scaleGridUserControl_CloseRequested;
             scaleGridUserControl.CreateRequested += scaleGridUserControl_CreateRequested;
             scaleGridUserControl.DeleteRequested += scaleGridUserControl_DeleteRequested;

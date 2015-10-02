@@ -18,7 +18,7 @@
             this.splitContainerTree = new System.Windows.Forms.SplitContainer();
             this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
             this.splitContainerProperties = new System.Windows.Forms.SplitContainer();
-            this.scaleDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleDetailsUserControl();
+            this.toneGridEditUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ToneGridEditUserControl();
             this.scaleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleGridUserControl();
             this.curveGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveGridUserControl();
             this.audioFileOutputGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputGridUserControl();
@@ -88,7 +88,7 @@
             // 
             // splitContainerProperties.Panel1
             // 
-            this.splitContainerProperties.Panel1.Controls.Add(this.scaleDetailsUserControl);
+            this.splitContainerProperties.Panel1.Controls.Add(this.toneGridEditUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.scaleGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.curveGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.audioFileOutputGridUserControl);
@@ -117,16 +117,16 @@
             this.splitContainerProperties.SplitterDistance = 621;
             this.splitContainerProperties.TabIndex = 2;
             // 
-            // scaleDetailsUserControl
+            // toneGridEditUserControl
             // 
-            this.scaleDetailsUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.scaleDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.scaleDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.scaleDetailsUserControl.Location = new System.Drawing.Point(0, 0);
-            this.scaleDetailsUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.scaleDetailsUserControl.Name = "scaleDetailsUserControl";
-            this.scaleDetailsUserControl.Size = new System.Drawing.Size(621, 657);
-            this.scaleDetailsUserControl.TabIndex = 1;
+            this.toneGridEditUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.toneGridEditUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toneGridEditUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.toneGridEditUserControl.Location = new System.Drawing.Point(0, 0);
+            this.toneGridEditUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.toneGridEditUserControl.Name = "toneGridEditUserControl";
+            this.toneGridEditUserControl.Size = new System.Drawing.Size(621, 657);
+            this.toneGridEditUserControl.TabIndex = 1;
             // 
             // scaleGridUserControl
             // 
@@ -430,7 +430,7 @@
         private UserControls.OperatorPropertiesUserControl_ForCustomOperator operatorPropertiesUserControl_ForCustomOperator;
         private UserControls.OperatorPropertiesUserControl_ForSample operatorPropertiesUserControl_ForSample;
         private UserControls.ScaleGridUserControl scaleGridUserControl;
-        private UserControls.ScaleDetailsUserControl scaleDetailsUserControl;
+        private UserControls.ToneGridEditUserControl toneGridEditUserControl;
         private UserControls.ScalePropertiesUserControl scalePropertiesUserControl;
     }
 }

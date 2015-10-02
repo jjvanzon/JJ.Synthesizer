@@ -406,4 +406,7 @@
   <data name="Cents" xml:space="preserve">
     <value>Cents</value>
   </data>
+  <data name="Tones" xml:space="preserve">
+    <value>Tones</value>
+  </data>
 </root>

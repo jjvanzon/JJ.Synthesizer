@@ -285,7 +285,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return caption;
         }
 
-        public static string GetScaleDetailsNumberTitle(Scale entity)
+        public static string GetToneGridEditNumberTitle(Scale entity)
         {
             if (entity == null) throw new NullException(() => entity);
 

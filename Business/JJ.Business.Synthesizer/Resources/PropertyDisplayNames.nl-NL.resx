@@ -405,4 +405,7 @@
   <data name="Cents" xml:space="preserve">
     <value>Centen</value>
   </data>
+  <data name="Tones" xml:space="preserve">
+    <value>Tonen</value>
+  </data>
 </root>

@@ -551,15 +551,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void ScaleDetailsClose()
+        private void ToneGridEditClose()
         {
-            _presenter.ScaleDetailsClose();
+            _presenter.ToneGridEditClose();
             ApplyViewModel();
         }
 
-        private void ScaleDetailsLoseFocus()
+        private void ToneGridEditLoseFocus()
         {
-            _presenter.ScaleDetailsLoseFocus();
+            _presenter.ToneGridEditLoseFocus();
             ApplyViewModel();
         }
 

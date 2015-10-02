@@ -29,7 +29,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public PatchGridViewModel PatchGrid { get; set; }
         public IList<PatchDetailsViewModel> PatchDetailsList { get; set; }
 
-        public IList<ScaleDetailsViewModel> ScaleDetailsList { get; set; }
+        public IList<ToneGridEditViewModel> ToneGridEditList { get; set; }
         public ScaleGridViewModel ScaleGrid { get; set; }
         public List<ScalePropertiesViewModel> ScalePropertiesList { get; internal set; }
 

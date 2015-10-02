@@ -575,18 +575,18 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // Scale
 
-        public static ScaleDetailsViewModel GetScaleDetailsViewModel(DocumentViewModel rootDocumentViewModel, int scaleID)
+        public static ToneGridEditViewModel GetToneGridEditViewModel(DocumentViewModel rootDocumentViewModel, int scaleID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            ScaleDetailsViewModel detailsViewModel = rootDocumentViewModel.ScaleDetailsList.Where(x => x.ScaleID == scaleID).FirstOrDefault();
+            ToneGridEditViewModel viewModel = rootDocumentViewModel.ToneGridEditList.Where(x => x.ScaleID == scaleID).FirstOrDefault();
 
-            if (detailsViewModel == null)
+            if (viewModel == null)
             {
-                throw new Exception(String.Format("ScaleDetailsViewModel with ScaleID '{0}' not found in rootDocumentViewModel.", scaleID));
+                throw new Exception(String.Format("ToneGridEditViewModel with ScaleID '{0}' not found in rootDocumentViewModel.", scaleID));
             }
 
-            return detailsViewModel;
+            return viewModel;
         }
 
     }

@@ -889,6 +889,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tones.
+        /// </summary>
+        public static string Tones {
+            get {
+                return ResourceManager.GetString("Tones", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Underlying Document.
         /// </summary>
         public static string UnderlyingDocument {

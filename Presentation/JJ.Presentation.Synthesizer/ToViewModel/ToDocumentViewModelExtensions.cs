@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchGrid = document.Patches.ToGridViewModel(document.ID),
                 SampleGrid = document.Samples.ToGridViewModel(document.ID),
                 SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList(),
-                ScaleDetailsList = document.Scales.Select(x => x.ToDetailsViewModel()).ToList(),
+                ToneGridEditList = document.Scales.Select(x => x.ToDetailsViewModel()).ToList(),
                 ScaleGrid = document.Scales.ToGridViewModel(document.ID),
                 ScalePropertiesList = document.Scales.Select(x => x.ToPropertiesViewModel(repositoryWrapper.ScaleTypeRepository)).ToList(),
                 UnderlyingDocumentLookup = ViewModelHelper.CreateUnderlyingDocumentLookupViewModel(document.ChildDocuments),

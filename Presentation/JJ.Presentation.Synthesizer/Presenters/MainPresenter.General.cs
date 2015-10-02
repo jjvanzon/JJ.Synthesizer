@@ -60,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly PatchGridPresenter _patchGridPresenter;
         private readonly SampleGridPresenter _sampleGridPresenter;
         private readonly SamplePropertiesPresenter _samplePropertiesPresenter;
-        private readonly ScaleDetailsPresenter _scaleDetailsPresenter;
+        private readonly ToneGridEditPresenter _toneGridEditPresenter;
         private readonly ScaleGridPresenter _scaleGridPresenter;
         private readonly ScalePropertiesPresenter _scalePropertiesPresenter;
 
@@ -117,7 +117,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchGridPresenter = new PatchGridPresenter(_repositories.DocumentRepository);
             _sampleGridPresenter = new SampleGridPresenter(_repositories.DocumentRepository, _repositories.SampleRepository);
             _samplePropertiesPresenter = new SamplePropertiesPresenter(_sampleRepositories);
-            _scaleDetailsPresenter = new ScaleDetailsPresenter(new ScaleRepositories(_repositories));
+            _toneGridEditPresenter = new ToneGridEditPresenter(new ScaleRepositories(_repositories));
             _scaleGridPresenter = new ScaleGridPresenter(_repositories.DocumentRepository);
             _scalePropertiesPresenter = new ScalePropertiesPresenter(new ScaleRepositories(_repositories));
 
@@ -141,7 +141,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             ViewModel.Document.CurveDetailsList.ForEach(x => x.Visible = false);
             ViewModel.Document.PatchDetailsList.ForEach(x => x.Visible = false);
-            ViewModel.Document.ScaleDetailsList.ForEach(x => x.Visible = false);
+            ViewModel.Document.ToneGridEditList.ForEach(x => x.Visible = false);
 
             foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.ChildDocumentList)
             {

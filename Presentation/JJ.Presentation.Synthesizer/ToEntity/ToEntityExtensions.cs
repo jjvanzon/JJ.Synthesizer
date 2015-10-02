@@ -342,7 +342,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             var scaleRepositories = new ScaleRepositories(repositories);
             userInput.ScalePropertiesList.ToEntities(scaleRepositories, destDocument);
 
-            userInput.ScaleDetailsList.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
+            userInput.ToneGridEditList.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
 
             // Operator Properties
             // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
@@ -933,7 +933,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Scale
 
-        public static Scale ToEntityWithRelatedEntities(this ScaleDetailsViewModel viewModel, ScaleRepositories repositories)
+        public static Scale ToEntityWithRelatedEntities(this ToneGridEditViewModel viewModel, ScaleRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);

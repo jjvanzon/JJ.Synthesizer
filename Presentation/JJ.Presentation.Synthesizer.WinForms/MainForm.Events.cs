@@ -435,27 +435,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ScaleShow(e.Value);
         }
 
-        private void scaleDetailsUserControl_CloseRequested(object sender, EventArgs e)
+        private void toneGridEditUserControl_CloseRequested(object sender, EventArgs e)
         {
-            ScaleDetailsClose();
+            ToneGridEditClose();
         }
 
-        private void scaleDetailsUserControl_LoseFocusRequested(object sender, EventArgs e)
+        private void toneGridEditUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            ScaleDetailsLoseFocus();
+            ToneGridEditLoseFocus();
         }
 
-        private void scaleDetailsUserControl_CreateToneRequested(object sender, Int32EventArgs e)
+        private void toneGridEditUserControl_CreateToneRequested(object sender, Int32EventArgs e)
         {
             ToneCreate(e.Value);
         }
 
-        private void scaleDetailsUserControl_DeleteToneRequested(object sender, Int32EventArgs e)
+        private void toneGridEditUserControl_DeleteToneRequested(object sender, Int32EventArgs e)
         {
             ToneDelete(e.Value);
         }
 
-        private void scaleDetailsUserControl_PlayToneRequested(object sender, Int32EventArgs e)
+        private void toneGridEditUserControl_PlayToneRequested(object sender, Int32EventArgs e)
         {
             TonePlay(e.Value);
         }

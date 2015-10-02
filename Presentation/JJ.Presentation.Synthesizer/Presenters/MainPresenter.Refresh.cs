@@ -180,17 +180,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.UnderlyingDocumentLookup = ViewModelHelper.CreateUnderlyingDocumentLookupViewModel(rootDocument.ChildDocuments);
         }
 
-        private void RefreshScaleDetails(int scaleID)
+        private void RefreshToneGridEdit(int scaleID)
         {
-            ScaleDetailsViewModel viewModel = ChildDocumentHelper.GetScaleDetailsViewModel(ViewModel.Document, scaleID);
-            RefreshScaleDetails(viewModel);
+            ToneGridEditViewModel viewModel = ChildDocumentHelper.GetToneGridEditViewModel(ViewModel.Document, scaleID);
+            RefreshToneGridEdit(viewModel);
         }
 
-        private void RefreshScaleDetails(ScaleDetailsViewModel viewModel)
+        private void RefreshToneGridEdit(ToneGridEditViewModel viewModel)
         {
-            _scaleDetailsPresenter.ViewModel = viewModel;
-            _scaleDetailsPresenter.Refresh();
-            DispatchViewModel(_scaleDetailsPresenter.ViewModel);
+            _toneGridEditPresenter.ViewModel = viewModel;
+            _toneGridEditPresenter.Refresh();
+            DispatchViewModel(_toneGridEditPresenter.ViewModel);
         }
     }
 }

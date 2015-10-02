@@ -43,7 +43,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
                 { typeof(SampleGridViewModel), DispatchSampleGridViewModel },
                 { typeof(SamplePropertiesViewModel), DispatchSamplePropertiesViewModel },
-                { typeof(ScaleDetailsViewModel), DispatchScaleDetailsViewModel },
+                { typeof(ToneGridEditViewModel), DispatchToneGridEditViewModel },
                 { typeof(ScaleGridViewModel), DispatchScaleGridViewModel },
                 { typeof(ScalePropertiesViewModel), DispatchScalePropertiesViewModel },
             };
@@ -452,18 +452,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void DispatchScaleDetailsViewModel(object viewModel2)
+        private void DispatchToneGridEditViewModel(object viewModel2)
         {
-            var castedViewModel = (ScaleDetailsViewModel)viewModel2;
+            var castedViewModel = (ToneGridEditViewModel)viewModel2;
 
-            int? index = ViewModel.Document.ScaleDetailsList.TryGetIndexOf(x => x.ScaleID == castedViewModel.ScaleID);
+            int? index = ViewModel.Document.ToneGridEditList.TryGetIndexOf(x => x.ScaleID == castedViewModel.ScaleID);
             if (index.HasValue)
             {
-                ViewModel.Document.ScaleDetailsList[index.Value] = castedViewModel;
+                ViewModel.Document.ToneGridEditList[index.Value] = castedViewModel;
             }
             else
             {
-                ViewModel.Document.ScaleDetailsList.Add(castedViewModel);
+                ViewModel.Document.ToneGridEditList.Add(castedViewModel);
             }
 
             if (castedViewModel.Visible)

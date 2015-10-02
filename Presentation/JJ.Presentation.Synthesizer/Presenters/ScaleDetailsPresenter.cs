@@ -17,7 +17,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class ScaleDetailsPresenter
+    internal class ToneGridEditPresenter
     {
         private const double DEFAULT_VOLUME = 6000;
         private static double DEFAULT_DURATION = 0.75;
@@ -27,9 +27,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ScaleRepositories _repositories;
         private ScaleManager _scaleManager;
 
-        public ScaleDetailsViewModel ViewModel { get; set; }
+        public ToneGridEditViewModel ViewModel { get; set; }
 
-        public ScaleDetailsPresenter(ScaleRepositories repositories)
+        public ToneGridEditPresenter(ScaleRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 

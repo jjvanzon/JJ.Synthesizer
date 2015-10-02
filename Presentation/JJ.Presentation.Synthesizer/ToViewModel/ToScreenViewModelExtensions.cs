@@ -553,14 +553,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Scale
 
-        public static ScaleDetailsViewModel ToDetailsViewModel(this Scale entity)
+        public static ToneGridEditViewModel ToDetailsViewModel(this Scale entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var viewModel = new ScaleDetailsViewModel
+            var viewModel = new ToneGridEditViewModel
             {
                 ScaleID = entity.ID,
-                NumberTitle =  ViewModelHelper.GetScaleDetailsNumberTitle(entity),
+                NumberTitle =  ViewModelHelper.GetToneGridEditNumberTitle(entity),
                 Tones = entity.Tones.ToToneViewModels(),
                 ValidationMessages = new List<Message>(),
                 Successful = true

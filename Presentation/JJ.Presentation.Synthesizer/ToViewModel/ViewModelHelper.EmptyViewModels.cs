@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_ForNumbers = new List<OperatorPropertiesViewModel_ForNumber>(),
                 PatchDetailsList = new List<PatchDetailsViewModel>(),
                 PatchGrid = CreateEmptyPatchGridViewModel(),
-                ScaleDetailsList = new List<ScaleDetailsViewModel>(),
+                ToneGridEditList = new List<ToneGridEditViewModel>(),
                 ScaleGrid = CreateEmptyScaleGridViewModel(),
                 ScalePropertiesList = new List<ScalePropertiesViewModel>(),
                 AudioFileOutputGrid = CreateEmptyAudioFileOutputGridViewModel(),

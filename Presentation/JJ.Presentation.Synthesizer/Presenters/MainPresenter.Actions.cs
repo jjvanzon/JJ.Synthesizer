@@ -1913,8 +1913,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel.Document.ScaleGrid.List.Add(listItemViewModel);
                 ViewModel.Document.ScaleGrid.List = ViewModel.Document.ScaleGrid.List.OrderBy(x => x.Name).ToList();
 
-                ScaleDetailsViewModel detailsViewModel = scale.ToDetailsViewModel();
-                ViewModel.Document.ScaleDetailsList.Add(detailsViewModel);
+                ToneGridEditViewModel toneGridEditViewModel = scale.ToDetailsViewModel();
+                ViewModel.Document.ToneGridEditList.Add(toneGridEditViewModel);
 
                 ScalePropertiesViewModel propertiesViewModel = scale.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
                 ViewModel.Document.ScalePropertiesList.Add(propertiesViewModel);
@@ -1932,7 +1932,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // TODO: It is not very clean to assume business logic will also not in the future have any delete constraints.
 
                 // 'Business' / ToViewModel
-                ViewModel.Document.ScaleDetailsList.RemoveFirst(x => x.ScaleID == id);
+                ViewModel.Document.ToneGridEditList.RemoveFirst(x => x.ScaleID == id);
                 ViewModel.Document.ScaleGrid.List.RemoveFirst(x => x.ID == id);
                 ViewModel.Document.ScalePropertiesList.RemoveFirst(x => x.Entity.ID == id);
 
@@ -1950,9 +1950,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                _scaleDetailsPresenter.ViewModel = ViewModel.Document.ScaleDetailsList.First(x => x.ScaleID == id);
-                _scaleDetailsPresenter.Show();
-                DispatchViewModel(_scaleDetailsPresenter.ViewModel);
+                _toneGridEditPresenter.ViewModel = ViewModel.Document.ToneGridEditList.First(x => x.ScaleID == id);
+                _toneGridEditPresenter.Show();
+                DispatchViewModel(_toneGridEditPresenter.ViewModel);
 
                 _scalePropertiesPresenter.ViewModel = ViewModel.Document.ScalePropertiesList.First(x => x.Entity.ID == id);
                 _scalePropertiesPresenter.Show();
@@ -1964,17 +1964,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void ScaleDetailsClose()
+        public void ToneGridEditClose()
         {
-            ScaleDetailsCloseOrLoseFocus(() => _scaleDetailsPresenter.Close());
+            ToneGridEditCloseOrLoseFocus(() => _toneGridEditPresenter.Close());
         }
 
-        public void ScaleDetailsLoseFocus()
+        public void ToneGridEditLoseFocus()
         {
-            ScaleDetailsCloseOrLoseFocus(() => _scaleDetailsPresenter.LoseFocus());
+            ToneGridEditCloseOrLoseFocus(() => _toneGridEditPresenter.LoseFocus());
         }
 
-        private void ScaleDetailsCloseOrLoseFocus(Action partialAction)
+        private void ToneGridEditCloseOrLoseFocus(Action partialAction)
         {
             try
             {
@@ -1983,7 +1983,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 partialAction();
 
-                DispatchViewModel(_scaleDetailsPresenter.ViewModel);
+                DispatchViewModel(_toneGridEditPresenter.ViewModel);
             }
             finally
             {
@@ -2010,11 +2010,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 partialAction();
 
-                // Update Number Column Title of the ScaleDetails's ToneGrid.
+                // Update Number Column Title of the ToneGridEdit's ToneGrid.
                 int scaleID = _scalePropertiesPresenter.ViewModel.Entity.ID;
                 Scale scale = _repositories.ScaleRepository.Get(scaleID);
-                ScaleDetailsViewModel detailsViewModel = ChildDocumentHelper.GetScaleDetailsViewModel(ViewModel.Document, scaleID);
-                detailsViewModel.NumberTitle = ViewModelHelper.GetScaleDetailsNumberTitle(scale);
+                ToneGridEditViewModel toneGridEditViewModel = ChildDocumentHelper.GetToneGridEditViewModel(ViewModel.Document, scaleID);
+                toneGridEditViewModel.NumberTitle = ViewModelHelper.GetToneGridEditNumberTitle(scale);
 
                 DispatchViewModel(_scalePropertiesPresenter.ViewModel);
 
@@ -2044,9 +2044,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Tone tone = _scaleManager.CreateTone(scale);
 
                 // ToViewModel
-                ScaleDetailsViewModel gridViewModel = ChildDocumentHelper.GetScaleDetailsViewModel(ViewModel.Document, scale.ID);
+                ToneGridEditViewModel toneGridEditViewModel = ChildDocumentHelper.GetToneGridEditViewModel(ViewModel.Document, scale.ID);
                 ToneViewModel toneViewModel = tone.ToViewModel();
-                gridViewModel.Tones.Add(toneViewModel);
+                toneGridEditViewModel.Tones.Add(toneViewModel);
                 // Do not sort grid, so that the new item appears at the bottom.
             }
             finally
@@ -2057,7 +2057,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void ToneDelete(int id)
         {
-            foreach (IList<ToneViewModel> tonesViewModel in ViewModel.Document.ScaleDetailsList.Select(x => x.Tones))
+            foreach (IList<ToneViewModel> tonesViewModel in ViewModel.Document.ToneGridEditList.Select(x => x.Tones))
             {
                 bool isRemoved = tonesViewModel.TryRemoveFirst(x => x.ID == id);
                 if (isRemoved)
@@ -2079,7 +2079,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // TODO: Can I get away with converting only part of the user input to entities?
             Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            return _scaleDetailsPresenter.PlayTone(id);
+            return _toneGridEditPresenter.PlayTone(id);
         }
     }
 }

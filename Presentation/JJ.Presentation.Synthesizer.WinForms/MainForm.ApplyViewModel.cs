@@ -160,7 +160,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 // Scale
                 scaleGridUserControl.ViewModel = _presenter.ViewModel.Document.ScaleGrid;
-                scaleDetailsUserControl.ViewModel = _presenter.ViewModel.Document.ScaleDetailsList
+                toneGridEditUserControl.ViewModel = _presenter.ViewModel.Document.ToneGridEditList
                                                                                  .Where(x => x.Visible)
                                                                                  .FirstOrDefault();
                 scalePropertiesUserControl.ViewModel = _presenter.ViewModel.Document.ScalePropertiesList
@@ -209,8 +209,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                samplePropertiesUserControl.ViewModel.Visible;
                 bool scaleGridVisible = scaleGridUserControl.ViewModel != null &&
                                         scaleGridUserControl.ViewModel.Visible;
-                bool scaleDetailsVisible = scaleDetailsUserControl.ViewModel != null &&
-                                           scaleDetailsUserControl.ViewModel.Visible;
+                bool toneGridEditVisible = toneGridEditUserControl.ViewModel != null &&
+                                           toneGridEditUserControl.ViewModel.Visible;
                 bool scalePropertiesVisible = scalePropertiesUserControl.ViewModel != null &&
                                               scalePropertiesUserControl.ViewModel.Visible;
 
@@ -236,7 +236,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (sampleGridVisible) sampleGridUserControl.Visible = true;
                 if (samplePropertiesVisible) samplePropertiesUserControl.Visible = true;
                 if (scaleGridVisible) scaleGridUserControl.Visible = true;
-                if (scaleDetailsVisible) scaleDetailsUserControl.Visible = true;
+                if (toneGridEditVisible) toneGridEditUserControl.Visible = true;
                 if (scalePropertiesVisible) scalePropertiesUserControl.Visible = true;
 
                 if (!audioFileOutputGridVisible) audioFileOutputGridUserControl.Visible = false;
@@ -260,7 +260,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!sampleGridVisible) sampleGridUserControl.Visible = false;
                 if (!samplePropertiesVisible) samplePropertiesUserControl.Visible = false;
                 if (!scaleGridVisible) scaleGridUserControl.Visible = false;
-                if (!scaleDetailsVisible) scaleDetailsUserControl.Visible = false;
+                if (!toneGridEditVisible) toneGridEditUserControl.Visible = false;
                 if (!scalePropertiesVisible) scalePropertiesUserControl.Visible = false;
 
                 // Panel Visibility
@@ -392,11 +392,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
 
             // TODO: Consider what to do with this.
-            //bool mustFocusScaleDetailsUserControl = scaleDetailsUserControl.Visible &&
-            //                                        !scaleDetailsUserControl.ViewModel.Successful;
-            //if (mustFocusScaleDetailsUserControl)
+            //bool mustFocusToneGridEditUserControl = toneGridEditUserControl.Visible &&
+            //                                        !toneGridEditUserControl.ViewModel.Successful;
+            //if (mustFocusToneGridEditUserControl)
             //{
-            //    scaleDetailsUserControl.Focus();
+            //    toneGridEditUserControl.Focus();
             //}
 
             bool mustFocusScalePropertiesUserControl = scalePropertiesUserControl.Visible &&

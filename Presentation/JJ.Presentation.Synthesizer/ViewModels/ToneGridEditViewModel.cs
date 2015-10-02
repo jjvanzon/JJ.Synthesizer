@@ -6,7 +6,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {
-    public sealed class ScaleDetailsViewModel
+    public sealed class ToneGridEditViewModel
     {
         public int ScaleID { get; set; }
         public IList<ToneViewModel> Tones { get; set; }
