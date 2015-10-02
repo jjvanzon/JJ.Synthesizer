@@ -588,5 +588,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             return detailsViewModel;
         }
+
     }
 }

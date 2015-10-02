@@ -82,6 +82,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             VoidResult result = _scaleManager.Save(scale);
 
+            // Reapply sorting
+            ViewModel.Tones = scale.Tones.ToToneViewModels();
+
             ViewModel.Successful = result.Successful;
             ViewModel.ValidationMessages = result.Messages;
         }

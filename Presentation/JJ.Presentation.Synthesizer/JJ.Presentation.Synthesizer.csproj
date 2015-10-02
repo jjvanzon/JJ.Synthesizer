@@ -78,12 +78,10 @@
     <Compile Include="Presenters\MainPresenter.General.cs" />
     <Compile Include="ToEntity\ToEntityHelper.cs" />
     <Compile Include="ToViewModel\ToDocumentViewModelExtensions.cs" />
-    <Compile Include="ToViewModel\ToTreeViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToListItemViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ToScreenViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.Lookups.cs" />
-    <Compile Include="ToViewModel\ToGridViewModelExtensions.cs" />
     <Compile Include="ViewModels\Entities\ScaleViewModel.cs" />
     <Compile Include="ViewModels\Entities\ToneViewModel.cs" />
     <Compile Include="ViewModels\Entities\ChildDocumentViewModel.cs" />

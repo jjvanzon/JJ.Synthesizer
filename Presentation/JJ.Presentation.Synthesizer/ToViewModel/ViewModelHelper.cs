@@ -207,7 +207,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return mustConvert;
         }
 
-        private static string GetOperatorCaption(Operator entity, ISampleRepository sampleRepository, ICurveRepository curveRepository, IDocumentRepository documentRepository)
+        public static string GetOperatorCaption(Operator entity, ISampleRepository sampleRepository, ICurveRepository curveRepository, IDocumentRepository documentRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
@@ -283,6 +283,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use OperatorType DisplayName as fallback.
             string caption = ResourceHelper.GetOperatorTypeDisplayName(entity.GetOperatorTypeEnum());
             return caption;
+        }
+
+        public static string GetScaleDetailsNumberTitle(Scale entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return ResourceHelper.GetScaleTypeDisplayNameSingular(entity);
         }
     }
 }

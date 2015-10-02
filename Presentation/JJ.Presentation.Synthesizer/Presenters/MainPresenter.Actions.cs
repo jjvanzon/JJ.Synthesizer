@@ -2010,6 +2010,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 partialAction();
 
+                // Update Number Column Title of the ScaleDetails's ToneGrid.
+                int scaleID = _scalePropertiesPresenter.ViewModel.Entity.ID;
+                Scale scale = _repositories.ScaleRepository.Get(scaleID);
+                ScaleDetailsViewModel detailsViewModel = ChildDocumentHelper.GetScaleDetailsViewModel(ViewModel.Document, scaleID);
+                detailsViewModel.NumberTitle = ViewModelHelper.GetScaleDetailsNumberTitle(scale);
+
                 DispatchViewModel(_scalePropertiesPresenter.ViewModel);
 
                 if (_scalePropertiesPresenter.ViewModel.Successful)

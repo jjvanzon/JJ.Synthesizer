@@ -1,24 +1,35 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Common;
+using JJ.Framework.Presentation;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Converters;
-using System;
-using JJ.Business.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToScreenViewModelExtensions
     {
+        private static int _maxVisiblePageNumbers = GetMaxVisiblePageNumbers();
+
+        private static int GetMaxVisiblePageNumbers()
+        {
+            ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
+            return config.MaxVisiblePageNumbers;
+        }
+
         // AudioFileOutput
 
         public static AudioFileOutputPropertiesViewModel ToPropertiesViewModel(
@@ -54,6 +65,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static AudioFileOutputGridViewModel ToAudioFileOutputGridViewModel(this Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            IList<AudioFileOutput> sortedEntities = document.AudioFileOutputs.OrderBy(x => x.Name).ToList();
+
+            var viewModel = new AudioFileOutputGridViewModel
+            {
+                List = sortedEntities.ToListItemViewModels(),
+                DocumentID = document.ID
+            };
+
+            return viewModel;
+        }
+
         // ChildDocument
 
         public static ChildDocumentPropertiesViewModel ToChildDocumentPropertiesViewModel(this Document childDocument, IChildDocumentTypeRepository childDocumentTypeRepository)
@@ -84,6 +110,39 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static ChildDocumentGridViewModel ToChildDocumentGridViewModel(this Document rootDocument, int childDocumentTypeID)
+        {
+            if (rootDocument == null) throw new NullException(() => rootDocument);
+
+            IList<Document> childDocuments = rootDocument.ChildDocuments
+                                                         .Where(x => x.ChildDocumentType != null &&
+                                                                     x.ChildDocumentType.ID == childDocumentTypeID)
+                                                         .ToList();
+
+            ChildDocumentGridViewModel viewModel = childDocuments.ToChildDocumentGridViewModel(rootDocument.ID, childDocumentTypeID);
+
+            return viewModel;
+        }
+
+        private static ChildDocumentGridViewModel ToChildDocumentGridViewModel(
+            this IList<Document> entities,
+            int rootDocumentID,
+            int childDocumentTypeID)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            var viewModel = new ChildDocumentGridViewModel
+            {
+                List = entities.OrderBy(x => x.Name)
+                               .Select(x => x.ToIDAndName())
+                               .ToList(),
+                RootDocumentID = rootDocumentID,
+                ChildDocumentTypeID = childDocumentTypeID
+            };
+
+            return viewModel;
+        }
+
         // Curve
 
         public static CurveDetailsViewModel ToDetailsViewModel(this Curve curve, INodeTypeRepository nodeTypeRepository)
@@ -94,6 +153,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Entity = curve.ToViewModelWithRelatedEntities(),
                 NodeTypeLookup = ViewModelHelper.CreateNodeTypesLookupViewModel(nodeTypeRepository)
+            };
+
+            return viewModel;
+        }
+
+        public static CurveGridViewModel ToGridViewModel(this IList<Curve> entities, int documentID)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            var viewModel = new CurveGridViewModel
+            {
+                DocumentID = documentID,
+                List = entities.OrderBy(x => x.Name)
+                               .Select(x => x.ToIDAndName())
+                               .ToList()
             };
 
             return viewModel;
@@ -148,6 +222,71 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Document = entity.ToIDAndName(),
                 Messages = messages
+            };
+
+            return viewModel;
+        }
+
+        public static DocumentTreeViewModel ToTreeViewModel(this Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            var viewModel = new DocumentTreeViewModel
+            {
+                ID = document.ID,
+                Name = document.Name,
+                CurvesNode = new DummyViewModel(),
+                SamplesNode = new DummyViewModel(),
+                AudioFileOutputsNode = new DummyViewModel(),
+                PatchesNode = new DummyViewModel(),
+                Instruments = new List<ChildDocumentTreeNodeViewModel>(),
+                Effects = new List<ChildDocumentTreeNodeViewModel>(),
+                ReferencedDocuments = new ReferencedDocumentsTreeNodeViewModel
+                {
+                    List = new List<ReferencedDocumentViewModel>()
+                }
+            };
+
+            viewModel.ReferencedDocuments.List = document.DependentOnDocuments.Select(x => x.DependentOnDocument)
+                                                                              .Select(x => x.ToReferencedDocumentViewModelWithRelatedEntities())
+                                                                              .OrderBy(x => x.Name)
+                                                                              .ToList();
+            viewModel.Instruments = document.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == ChildDocumentTypeEnum.Instrument)
+                                                           .OrderBy(x => x.Name)
+                                                           .Select(x => x.ToChildDocumentTreeNodeViewModel())
+                                                           .ToList();
+
+            viewModel.Effects = document.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == ChildDocumentTypeEnum.Effect)
+                                                       .OrderBy(x => x.Name)
+                                                       .Select(x => x.ToChildDocumentTreeNodeViewModel())
+                                                       .ToList();
+            return viewModel;
+        }
+
+        public static ChildDocumentTreeNodeViewModel ToChildDocumentTreeNodeViewModel(this Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            var viewModel = new ChildDocumentTreeNodeViewModel
+            {
+                Name = document.Name,
+                CurvesNode = new DummyViewModel(),
+                SamplesNode = new DummyViewModel(),
+                PatchesNode = new DummyViewModel(),
+                ChildDocumentID = document.ID
+            };
+
+            return viewModel;
+        }
+
+        public static DocumentGridViewModel ToGridViewModel(this IList<Document> pageOfEntities, int pageIndex, int pageSize, int totalCount)
+        {
+            if (pageOfEntities == null) throw new NullException(() => pageOfEntities);
+
+            var viewModel = new DocumentGridViewModel
+            {
+                List = pageOfEntities.Select(x => x.ToIDAndName()).ToList(),
+                Pager = PagerViewModelFactory.Create(pageIndex, pageSize, totalCount, _maxVisiblePageNumbers)
             };
 
             return viewModel;
@@ -361,6 +500,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return converter.ConvertToDetailsViewModel(patch);
         }
 
+        public static PatchGridViewModel ToGridViewModel(this IList<Patch> entities, int documentID)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            var viewModel = new PatchGridViewModel
+            {
+                DocumentID = documentID,
+                List = entities.OrderBy(x => x.Name)
+                               .Select(x => x.ToIDAndName())
+                               .ToList()
+            };
+
+            return viewModel;
+        }
+
         // Sample
 
         public static SamplePropertiesViewModel ToPropertiesViewModel(this Sample entity, SampleRepositories sampleRepositories)
@@ -384,6 +538,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static SampleGridViewModel ToGridViewModel(this IList<Sample> entities, int documentID)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            var viewModel = new SampleGridViewModel
+            {
+                DocumentID = documentID,
+                List = entities.ToListItemViewModels()
+            };
+
+            return viewModel;
+        }
+
         // Scale
 
         public static ScaleDetailsViewModel ToDetailsViewModel(this Scale entity)
@@ -393,7 +560,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ScaleDetailsViewModel
             {
                 ScaleID = entity.ID,
-                NumberTitle = ResourceHelper.GetScaleTypeDisplayNameSingular(entity),
+                NumberTitle =  ViewModelHelper.GetScaleDetailsNumberTitle(entity),
                 Tones = entity.Tones.ToToneViewModels(),
                 ValidationMessages = new List<Message>(),
                 Successful = true
@@ -424,6 +591,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ScaleTypeLookup = ViewModelHelper.CreateScaleTypeLookupViewModel(scaleTypeRepository),
                 ValidationMessages = new List<Message>(),
                 Successful = true
+            };
+
+            return viewModel;
+        }
+
+        public static ScaleGridViewModel ToGridViewModel(this IList<Scale> entities, int documentID)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            var viewModel = new ScaleGridViewModel
+            {
+                DocumentID = documentID,
+                List = entities.OrderBy(x => x.Name)
+                               .Select(x => x.ToIDAndName())
+                               .ToList()
             };
 
             return viewModel;

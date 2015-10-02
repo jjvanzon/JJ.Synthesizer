@@ -179,5 +179,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document rootDocument = _repositories.DocumentRepository.Get(ViewModel.Document.ID);
             ViewModel.Document.UnderlyingDocumentLookup = ViewModelHelper.CreateUnderlyingDocumentLookupViewModel(rootDocument.ChildDocuments);
         }
+
+        private void RefreshScaleDetails(int scaleID)
+        {
+            ScaleDetailsViewModel viewModel = ChildDocumentHelper.GetScaleDetailsViewModel(ViewModel.Document, scaleID);
+            RefreshScaleDetails(viewModel);
+        }
+
+        private void RefreshScaleDetails(ScaleDetailsViewModel viewModel)
+        {
+            _scaleDetailsPresenter.ViewModel = viewModel;
+            _scaleDetailsPresenter.Refresh();
+            DispatchViewModel(_scaleDetailsPresenter.ViewModel);
+        }
     }
 }

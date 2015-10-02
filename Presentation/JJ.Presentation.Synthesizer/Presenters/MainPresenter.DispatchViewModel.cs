@@ -456,6 +456,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (ScaleDetailsViewModel)viewModel2;
 
+            int? index = ViewModel.Document.ScaleDetailsList.TryGetIndexOf(x => x.ScaleID == castedViewModel.ScaleID);
+            if (index.HasValue)
+            {
+                ViewModel.Document.ScaleDetailsList[index.Value] = castedViewModel;
+            }
+            else
+            {
+                ViewModel.Document.ScaleDetailsList.Add(castedViewModel);
+            }
+
             if (castedViewModel.Visible)
             {
                 HideAllListAndDetailViewModels();
