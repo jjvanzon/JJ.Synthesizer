@@ -68,7 +68,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Scale scale = ViewModel.ToEntity(_repositories.ScaleRepository, _repositories.ScaleTypeRepository);
 
-            VoidResult result = _scaleManager.Save(scale);
+            VoidResult result = _scaleManager.ValidateWithoutTones(scale);
 
             ViewModel.Successful = result.Successful;
             ViewModel.ValidationMessages = result.Messages;

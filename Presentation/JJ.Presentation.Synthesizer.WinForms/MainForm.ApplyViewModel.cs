@@ -391,13 +391,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 samplePropertiesUserControl.Focus();
             }
 
-            // TODO: Consider what to do with this.
-            //bool mustFocusToneGridEditUserControl = toneGridEditUserControl.Visible &&
-            //                                        !toneGridEditUserControl.ViewModel.Successful;
-            //if (mustFocusToneGridEditUserControl)
-            //{
-            //    toneGridEditUserControl.Focus();
-            //}
+            bool mustFocusToneGridEditUserControl = toneGridEditUserControl.Visible &&
+                                                    !toneGridEditUserControl.ViewModel.Successful;
+            if (mustFocusToneGridEditUserControl)
+            {
+                toneGridEditUserControl.Focus();
+            }
 
             bool mustFocusScalePropertiesUserControl = scalePropertiesUserControl.Visible &&
                                                       !scalePropertiesUserControl.ViewModel.Successful;

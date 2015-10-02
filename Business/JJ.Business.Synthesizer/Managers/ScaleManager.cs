@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Managers
 
         // Save
 
-        public VoidResult Save(Scale scale)
+        public VoidResult ValidateWithoutTones(Scale scale)
         {
             if (scale == null) throw new NullException(() => scale);
             if (scale.ID == 0) throw new ZeroException(() => scale.ID);
@@ -80,18 +80,31 @@ namespace JJ.Business.Synthesizer.Managers
             IValidator validator1 = new ScaleValidator_Versatile(scale);
             IValidator validator2 = new ScaleValidator_InDocument(scale);
 
-            if (!validator1.IsValid || !validator2.IsValid)
-            {
-                return new VoidResult
-                {
-                    Messages = validator1.ValidationMessages.Union(validator2.ValidationMessages).ToCanonical()
-                };
-            }
+            var result = new VoidResult();
+            result.Messages = validator1.ValidationMessages.Union(validator2.ValidationMessages).ToCanonical();
+            result.Successful = result.Messages.Count == 0;
 
-            return new VoidResult
-            {
-                Successful = true
-            };
+            return result;
+        }
+
+        public VoidResult Save(Scale scale)
+        {
+            if (scale == null) throw new NullException(() => scale);
+            if (scale.ID == 0) throw new ZeroException(() => scale.ID);
+
+            IValidator validator1 = new ScaleValidator_Versatile(scale);
+            IValidator validator2 = new ScaleValidator_Tones(scale);
+            IValidator validator3 = new ScaleValidator_InDocument(scale);
+
+            var result = new VoidResult();
+
+            result.Messages = validator1.ValidationMessages.Union(
+                              validator2.ValidationMessages.Union(
+                              validator3.ValidationMessages)).ToCanonical();
+
+            result.Successful = result.Messages.Count == 0;
+
+            return result;
         }
 
         // Delete

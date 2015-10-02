@@ -9,22 +9,19 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class ScaleValidator_Basic : FluentValidator<Scale>
+    internal class ScaleValidator_Tones : FluentValidator<Scale>
     {
-        public ScaleValidator_Basic(Scale obj)
+        public ScaleValidator_Tones(Scale obj)
             : base(obj)
         { }
 
         protected override void Execute()
         {
-            if (Object.BaseFrequency.HasValue)
+            foreach (Tone tone in Object.Tones)
             {
-                For(() => Object.BaseFrequency, PropertyDisplayNames.BaseFrequency).Above(0);
+                string messagePrefix = ValidationHelper.GetMessagePrefix(tone);
+                Execute(new ToneValidator(tone), messagePrefix);
             }
-
-            For(() => Object.GetScaleTypeEnum(), PropertyDisplayNames.ScaleType)
-                .IsEnumValue<ScaleTypeEnum>()
-                .IsNot(ScaleTypeEnum.Undefined);
         }
     }
 }

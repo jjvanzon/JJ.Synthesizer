@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     internal class ToneGridEditPresenter
     {
         private const double DEFAULT_VOLUME = 6000;
-        private static double DEFAULT_DURATION = 0.75;
+        private const double DEFAULT_DURATION = 0.75;
 
         private static string _playOutputFilePath = GetPlayOutputFilePath();
 

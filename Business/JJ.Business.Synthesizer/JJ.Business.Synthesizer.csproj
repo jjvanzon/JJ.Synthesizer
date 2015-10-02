@@ -261,6 +261,7 @@
     <Compile Include="Validation\ScaleValidator_LiteralFrequency.cs" />
     <Compile Include="Validation\ScaleValidator_Basic.cs" />
     <Compile Include="Validation\DocumentValidator_Unicity.cs" />
+    <Compile Include="Validation\ScaleValidator_Tones.cs" />
     <Compile Include="Validation\ScaleValidator_Versatile.cs" />
     <Compile Include="Validation\ToneValidator.cs" />
     <Compile Include="Validation\ValidationHelper.cs" />
