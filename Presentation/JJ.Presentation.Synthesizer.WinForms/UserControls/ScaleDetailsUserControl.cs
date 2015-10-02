@@ -12,6 +12,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     internal partial class ScaleDetailsUserControl : UserControl
     {
         private const string ID_COLUMN_NAME = "IDColumn";
+        private const int PLAY_COLUMN_INDEX = 3;
 
         public event EventHandler<Int32EventArgs> CreateToneRequested;
         public event EventHandler<Int32EventArgs> DeleteToneRequested;
@@ -85,6 +86,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Close()
         {
+            specializedDataGridView.EndEdit();
+
             if (CloseRequested != null)
             {
                 CloseRequested(this, EventArgs.Empty);
@@ -93,6 +96,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void LoseFocus()
         {
+            specializedDataGridView.EndEdit();
+
             if (LoseFocusRequested != null)
             {
                 LoseFocusRequested(this, EventArgs.Empty);
@@ -118,12 +123,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void specializedDataGridView_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (PlayToneRequested != null)
+            if (PlayToneRequested == null)
             {
-                int toneID = (int)specializedDataGridView.Rows[e.RowIndex].Cells[ID_COLUMN_NAME].Value;
-                var e2 = new Int32EventArgs(toneID);
-                PlayToneRequested(this, e2);
+                return;
             }
+
+            if (e.RowIndex == -1)
+            {
+                return;
+            }
+
+            if (e.ColumnIndex != PLAY_COLUMN_INDEX)
+            {
+                return;
+            }
+
+            int toneID = (int)specializedDataGridView.Rows[e.RowIndex].Cells[ID_COLUMN_NAME].Value;
+            var e2 = new Int32EventArgs(toneID);
+            PlayToneRequested(this, e2);
         }
 
         private void specializedDataGridView_KeyDown(object sender, KeyEventArgs e)
