@@ -63,14 +63,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            // ToEntity
             Operator entity = ViewModel.ToEntity(_repositories.OperatorRepository, _repositories.OperatorTypeRepository);
 
-            // Business
             var patchManager = new PatchManager(entity.Patch, _repositories);
             VoidResult result = patchManager.SaveOperator(entity);
 
-            // ToViewModel
             ViewModel.Successful = result.Successful;
             ViewModel.ValidationMessages = result.Messages;
         }

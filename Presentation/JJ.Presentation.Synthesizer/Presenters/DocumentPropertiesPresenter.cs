@@ -66,16 +66,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = ViewModel.ToEntity(_documentRepository);
 
             IValidator validator = new DocumentValidator_Basic(document);
-            if (!validator.IsValid)
-            {
-                ViewModel.Successful = false;
-                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
-            }
-            else
-            {
-                ViewModel.ValidationMessages = new List<Message>();
-                ViewModel.Successful = true;
-            }
+
+            ViewModel.Successful = validator.IsValid;
+            ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
         }
 
         // Helpers

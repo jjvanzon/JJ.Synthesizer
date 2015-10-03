@@ -61,14 +61,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void Update()
         {
-            // ToEntity
             Operator op = ViewModel.ToEntity(_repositories.OperatorRepository, _repositories.OperatorTypeRepository);
 
-            // Business
             PatchManager patchManager = new PatchManager(op.Patch, _repositories);
             VoidResult result = patchManager.SaveOperator(op);
 
-            // ToViewModel
             ViewModel.Successful = result.Successful;
             ViewModel.ValidationMessages = result.Messages;
         }

@@ -94,7 +94,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (rootDocument == null) throw new NullException(() => rootDocument);
 
-            var list = new List<IDAndName>();
+            var list = new List<IDAndName>(rootDocument.Samples.Count + 1);
 
             list.Add(new IDAndName { ID = 0, Name = null });
 
@@ -134,7 +134,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (underlyingDocuments == null) throw new NullException(() => underlyingDocuments);
 
-            var list = new List<IDAndName>();
+            var list = new List<IDAndName>(underlyingDocuments.Count + 1);
             list.Add(new IDAndName { ID = 0, Name = null });
             list.AddRange(underlyingDocuments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
 
@@ -147,7 +147,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             IList<ScaleType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
 
-            var list = new List<IDAndName>();
+            var list = new List<IDAndName>(entities.Count + 1);
             list.Add(new IDAndName { ID = 0, Name = null });
             list.AddRange(entities.OrderBy(x => x.ID).Select(x => x.ToIDAndName()));
 

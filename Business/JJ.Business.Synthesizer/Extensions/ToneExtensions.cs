@@ -10,6 +10,7 @@ namespace JJ.Business.Synthesizer.Extensions
 {
     public static class ToneExtensions
     {
+        /// <summary> Do not call this method repeatedly to get the same value, because that would harm performance. </summary>
         public static double GetFrequency(this Tone tone)
         {
             if (tone == null) throw new NullException(() => tone);
@@ -26,7 +27,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
                 case ScaleTypeEnum.Factor:
                     {
-                        // BaseFrequency * 2 ^ octave * number
+                        // BaseFrequency * (2 ^ octave) * number
                         AssertBaseFrequency(tone);
                         double frequency = tone.Scale.BaseFrequency.Value * Math.Pow(2, tone.Octave) * tone.Number;
                         return frequency;

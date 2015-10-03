@@ -98,14 +98,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            // ToEntity
             Patch patch = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            // Business
             var patchManager = new PatchManager(patch, _repositories);
             VoidResult result = patchManager.Save();
 
-            // ToViewModel
             ViewModel.ValidationMessages = result.Messages;
             ViewModel.Successful = result.Successful;
         }

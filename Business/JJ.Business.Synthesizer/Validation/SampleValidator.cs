@@ -27,21 +27,21 @@ namespace JJ.Business.Synthesizer.Validation
             if (sample.AudioFileFormat != null)
             {
                 For(() => sample.AudioFileFormat.ID, PropertyDisplayNames.AudioFileFormat)
-                    .IsEnumValue<AudioFileFormatEnum>()
+                    .IsEnum<AudioFileFormatEnum>()
                     .IsNot(AudioFileFormatEnum.Undefined);
             }
 
             if (sample.SampleDataType != null)
             {
                 For(() => sample.SampleDataType.ID, PropertyDisplayNames.SampleDataType)
-                    .IsEnumValue<SampleDataTypeEnum>()
+                    .IsEnum<SampleDataTypeEnum>()
                     .IsNot(SampleDataTypeEnum.Undefined);
             }
 
             if (sample.InterpolationType != null)
             {
                 For(() => sample.InterpolationType.ID, PropertyDisplayNames.InterpolationType)
-                    .IsEnumValue<InterpolationTypeEnum>()
+                    .IsEnum<InterpolationTypeEnum>()
                     .IsNot(InterpolationTypeEnum.Undefined);
             }
         }

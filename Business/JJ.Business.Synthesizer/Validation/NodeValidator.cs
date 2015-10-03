@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Validation
             if (Object.NodeType != null)
             {
                 For(() => Object.NodeType.ID, PropertyDisplayNames.NodeType)
-                    .IsEnumValue<NodeTypeEnum>()
+                    .IsEnum<NodeTypeEnum>()
                     .IsNot(NodeTypeEnum.Undefined);
             }
         }

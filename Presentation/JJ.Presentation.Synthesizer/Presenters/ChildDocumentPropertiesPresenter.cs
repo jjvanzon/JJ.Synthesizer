@@ -66,16 +66,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            // ToEntity
             Document entity = ViewModel.ToEntityWithMainPatchReference(
                 _repositories.DocumentRepository, 
                 _repositories.ChildDocumentTypeRepository, 
                 _repositories.PatchRepository);
 
-            // Business
             VoidResult result = _documentManager.SaveChildDocument(entity);
 
-            // ToViewModel
             ViewModel.ValidationMessages = result.Messages;
             ViewModel.Successful = result.Successful;
         }

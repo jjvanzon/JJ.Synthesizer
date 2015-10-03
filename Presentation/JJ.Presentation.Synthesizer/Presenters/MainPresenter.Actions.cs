@@ -650,7 +650,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList)
                                                     .Select(x => x.Entity)
                                                     .ForEach(x => x.ToEntity(_repositories.PatchRepository));
-                ToEntityHelper.ToChildDocuments(ViewModel.Document.ChildDocumentPropertiesList, document, _repositories);
+                ViewModel.Document.ChildDocumentPropertiesList.ToChildDocuments(document, _repositories);
 
 
                 _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;

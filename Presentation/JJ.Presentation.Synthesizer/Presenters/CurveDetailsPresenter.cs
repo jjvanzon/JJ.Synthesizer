@@ -68,16 +68,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Curve entity = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             IValidator validator = new CurveValidator(entity);
-            if (!validator.IsValid)
-            {
-                ViewModel.Successful = true;
-                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
-            }
-            else
-            {
-                ViewModel.ValidationMessages = new List<Message>();
-                ViewModel.Successful = false;
-            }
+
+            ViewModel.Successful = validator.IsValid;
+            ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
         }
 
         // Helpers

@@ -28,14 +28,14 @@ namespace JJ.Business.Synthesizer.Validation
             if (audioFileOutput.AudioFileFormat != null)
             {
                 For(() => audioFileOutput.AudioFileFormat.ID, PropertyDisplayNames.AudioFileFormat)
-                    .IsEnumValue<AudioFileFormatEnum>()
+                    .IsEnum<AudioFileFormatEnum>()
                     .IsNot(AudioFileFormatEnum.Undefined);
             }
 
             if (audioFileOutput.SampleDataType != null)
             {
                 For(() => audioFileOutput.SampleDataType.ID, PropertyDisplayNames.SampleDataType)
-                    .IsEnumValue<SampleDataTypeEnum>()
+                    .IsEnum<SampleDataTypeEnum>()
                     .IsNot(SampleDataTypeEnum.Undefined);
             }
 

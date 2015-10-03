@@ -75,16 +75,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Sample entity = ViewModel.ToEntity(_repositories);
 
             IValidator validator = new SampleValidator_InDocument(entity);
-            if (!validator.IsValid)
-            {
-                ViewModel.Successful = false;
-                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
-            }
-            else
-            {
-                ViewModel.ValidationMessages = new List<Message>();
-                ViewModel.Successful = true;
-            }
+
+            ViewModel.Successful = validator.IsValid;
+            ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
         }
 
         // Helpers

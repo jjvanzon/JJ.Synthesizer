@@ -51,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 return;
             }
 
-            specializedDataGridView.DataSource = _viewModel.List.Select(x => new { x.Name, x.ID }).ToArray();
+            specializedDataGridView.DataSource = _viewModel.List;
         }
 
         // Actions

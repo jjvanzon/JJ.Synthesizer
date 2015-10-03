@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Validation
             if (document.ChildDocumentType != null)
             {
                 For(() => document.ChildDocumentType.ID, PropertyDisplayNames.ChildDocumentType)
-                    .IsEnumValue<ChildDocumentTypeEnum>();
+                    .IsEnum<ChildDocumentTypeEnum>();
             }
         }
     }

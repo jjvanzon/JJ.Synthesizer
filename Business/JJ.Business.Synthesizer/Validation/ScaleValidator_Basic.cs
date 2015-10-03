@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
 
             For(() => Object.GetScaleTypeEnum(), PropertyDisplayNames.ScaleType)
-                .IsEnumValue<ScaleTypeEnum>()
+                .IsEnum<ScaleTypeEnum>()
                 .IsNot(ScaleTypeEnum.Undefined);
         }
     }

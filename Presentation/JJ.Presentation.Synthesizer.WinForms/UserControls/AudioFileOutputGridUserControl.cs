@@ -54,15 +54,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (_viewModel == null) return;
 
-            specializedDataGridView.DataSource = _viewModel.List.Select(x => new 
-            {
-                ID = x.ID,
-                Name = x.Name,
-                AudioFileFormat = x.AudioFileFormat,
-                SampleDataType = x.SampleDataType,
-                SpeakerSetup = x.SpeakerSetup,
-                SamplingRate = x.SamplingRate
-            }).ToArray();
+            specializedDataGridView.DataSource = _viewModel.List;
         }
 
         // Actions
