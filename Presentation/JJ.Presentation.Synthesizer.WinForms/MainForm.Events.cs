@@ -68,6 +68,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             CurveGridClose();
         }
 
+        private void CurveGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
+        {
+            CurveDetailsShow(e.Value);
+        }
+
         // Document Grid Events
 
         private void documentGridUserControl_ShowRequested(object sender, Int32EventArgs e)

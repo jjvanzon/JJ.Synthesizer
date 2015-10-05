@@ -4,9 +4,9 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
-    public class ViewModelToDiagramConverterResult
+    public class PatchViewModelToDiagramConverterResult
     {
-        public ViewModelToDiagramConverterResult(
+        public PatchViewModelToDiagramConverterResult(
             Diagram diagram,
             MoveGesture moveGesture,
             DragLineGesture dragLineGesture,

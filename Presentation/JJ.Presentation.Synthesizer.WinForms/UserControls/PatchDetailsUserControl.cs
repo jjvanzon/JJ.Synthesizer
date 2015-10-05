@@ -33,8 +33,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> OperatorPropertiesRequested;
 
         private PatchDetailsViewModel _viewModel;
-        private ViewModelToDiagramConverter _converter;
-        private ViewModelToDiagramConverterResult _vectorGraphics;
+        private PatchViewModelToDiagramConverter _converter;
+        private PatchViewModelToDiagramConverterResult _vectorGraphics;
         private static bool _alwaysRecreateDiagram;
         private static bool _mustShowInvisibleElements;
         private static bool _toolTipFeatureEnabled;
@@ -92,8 +92,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (_vectorGraphics == null || _alwaysRecreateDiagram)
             {
-
-                _converter = new ViewModelToDiagramConverter(
+                _converter = new PatchViewModelToDiagramConverter(
                     SystemInformation.DoubleClickTime,
                     SystemInformation.DoubleClickSize.Width,
                     _mustShowInvisibleElements,

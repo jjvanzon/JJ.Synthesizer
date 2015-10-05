@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
         public static LineStyle BorderStyleSelected { get; set; }
         public static LineStyle BorderStyleInvisible { get; set; }
         public static LineStyle LineStyleDashed { get; set; }
-        public static LineStyle LineStyleThin { get; set; }
+        public static LineStyle LineStyle { get; set; }
         public static PointStyle PointStyle { get; set; }
         public static PointStyle PointStyleInvisible { get; set; }
 
@@ -65,7 +65,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
                 Color = ColorHelper.GetColor(200, 200, 200)
             };
 
-            LineStyleThin = new LineStyle
+            LineStyle = new LineStyle
             {
                 Width = 1,
                 Color = ColorHelper.GetColor(120, 120, 120)

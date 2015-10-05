@@ -15,6 +15,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> CreateRequested;
         public event EventHandler<Int32EventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
+        public event EventHandler<Int32EventArgs> ShowDetailsRequested;
 
         private CurveGridViewModel _viewModel;
 
@@ -82,6 +83,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
+        private void ShowDetails()
+        {
+            if (ShowDetailsRequested != null)
+            {
+                int? id = TryGetSelectedID();
+                if (id.HasValue)
+                {
+                    var e = new Int32EventArgs(id.Value);
+                    ShowDetailsRequested(this, e);
+                }
+            }
+        }
+
         // Events
 
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
@@ -106,7 +120,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 case Keys.Delete:
                     Delete();
                     break;
+
+                case Keys.Enter:
+                    ShowDetails();
+                    break;
             }
+        }
+
+        private void specializedDataGridView_DoubleClick(object sender, EventArgs e)
+        {
+            ShowDetails();
         }
 
         // Helpers

@@ -11,7 +11,7 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
-    public class ViewModelToDiagramConverter
+    public class PatchViewModelToDiagramConverter
     {
         private class OperatorElements
         {
@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private readonly int _doubleClickDeltaInPixels;
         private bool _tooltipFeatureEnabled;
 
-        private ViewModelToDiagramConverterResult _result;
+        private PatchViewModelToDiagramConverterResult _result;
         private Dictionary<OperatorViewModel, OperatorElements> _convertedOperatorDictionary;
         private Dictionary<int, Curve> _inletCurveDictionary;
         private IList<Curve> _convertedCurves;
@@ -44,7 +44,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private int _currentPatchID;
 
         /// <param name="mustShowInvisibleElements">for debugging</param>
-        public ViewModelToDiagramConverter(
+        public PatchViewModelToDiagramConverter(
             int doubleClickSpeedInMilliseconds,
             int doubleClickDeltaInPixels,
             bool mustShowInvisibleElements = false,
@@ -59,11 +59,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 StyleHelper.MakeHiddenStylesVisible();
             }
         }
-        
+
         // General
 
         /// <param name="result">Pass an existing result to update an existing diagram.</param>
-        public ViewModelToDiagramConverterResult Execute(PatchViewModel sourcePatchViewModel, ViewModelToDiagramConverterResult result = null)
+        public PatchViewModelToDiagramConverterResult Execute(PatchViewModel sourcePatchViewModel, PatchViewModelToDiagramConverterResult result = null)
         {
             if (sourcePatchViewModel == null) throw new NullException(() => sourcePatchViewModel);
 
@@ -103,7 +103,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     _operatorToolTipRectangleConverter = new OperatorToolTipRectangleConverter(operatorToolTipGesture);
                 }
 
-                result = new ViewModelToDiagramConverterResult(
+                result = new PatchViewModelToDiagramConverterResult(
                     destDiagram, 
                     moveGesture, 
                     dragLineGesture, 
@@ -205,7 +205,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     {
                         destCurve = new Curve
                         {
-                            LineStyle = StyleHelper.LineStyleThin,
+                            LineStyle = StyleHelper.LineStyle,
                             ZIndex = -1,
                             Tag = VectorGraphicsTagHelper.GetInletTag(id),
                             Diagram = destDiagram,
@@ -281,7 +281,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             foreach (Element childToDelete in childrenToDelete)
             {
                 // TODO: This is pretty dirty.
-                bool isToolTipElement = childToDelete.Tag != null  && !childToDelete.Tag.ToString().Contains("Tooltip");
+                bool isToolTipElement = childToDelete.Tag != null && childToDelete.Tag.ToString().Contains("Tooltip");
                 if (isToolTipElement)
                 {
                     continue;

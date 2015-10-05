@@ -152,7 +152,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurveDetailsViewModel
             {
                 Entity = curve.ToViewModelWithRelatedEntities(),
-                NodeTypeLookup = ViewModelHelper.CreateNodeTypesLookupViewModel(nodeTypeRepository)
+                NodeTypeLookup = ViewModelHelper.CreateNodeTypesLookupViewModel(nodeTypeRepository),
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;

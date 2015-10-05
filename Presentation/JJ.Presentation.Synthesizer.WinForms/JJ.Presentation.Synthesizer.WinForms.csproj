@@ -56,6 +56,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -106,6 +107,12 @@
     </Compile>
     <Compile Include="UserControls\AudioFileOutputGridUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CurveDetailsUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CurveDetailsUserControl.Designer.cs">
+      <DependentUpon>CurveDetailsUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.cs">
       <SubType>UserControl</SubType>
@@ -279,6 +286,9 @@
     <EmbeddedResource Include="UserControls\AudioFileOutputGridUserControl.resx">
       <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CurveDetailsUserControl.resx">
+      <DependentUpon>CurveDetailsUserControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>
     </EmbeddedResource>
@@ -376,6 +386,10 @@
     <ProjectReference Include="..\..\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
       <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
       <Name>JJ.Business.CanonicalModel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer.Api\JJ.Business.Synthesizer.Api.csproj">
+      <Project>{9451509b-96e7-43a7-87a2-74e5e582c0cd}</Project>
+      <Name>JJ.Business.Synthesizer.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer.Tests\JJ.Business.Synthesizer.Tests.csproj">
       <Project>{5c26af7b-1c83-49bd-9ed1-6a880103d293}</Project>

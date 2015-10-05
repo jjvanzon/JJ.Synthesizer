@@ -1,0 +1,61 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.LinkTo;
+using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Framework.Business;
+using JJ.Framework.Reflection.Exceptions;
+
+namespace JJ.Business.Synthesizer.SideEffects
+{
+    internal class Curve_SideEffect_SetDefaults : ISideEffect
+    {
+        private readonly Curve _curve;
+        private readonly INodeRepository _nodeRepository;
+        private readonly INodeTypeRepository _nodeTypeRepository;
+        private readonly IIDRepository _idRepository;
+
+        public Curve_SideEffect_SetDefaults(
+            Curve curve, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository, IIDRepository idRepository)
+        {
+            if (curve == null) throw new NullException(() => curve);
+            if (nodeRepository == null) throw new NullException(() => nodeRepository);
+            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
+            if (idRepository == null) throw new NullException(() => idRepository);
+
+            _curve = curve;
+            _nodeRepository = nodeRepository;
+            _nodeTypeRepository = nodeTypeRepository;
+            _idRepository = idRepository;
+        }
+
+        public void Execute()
+        {
+            {
+                var node = new Node();
+                node.ID = _idRepository.GetID();
+                node.Time = 0;
+                node.Value = 1;
+                node.SetNodeTypeEnum(NodeTypeEnum.Line, _nodeTypeRepository);
+                node.LinkTo(_curve);
+                _nodeRepository.Insert(node);
+            }
+
+            {
+                var node = new Node();
+                node.ID = _idRepository.GetID();
+                node.Time = 1;
+                // TODO: Temporary for testing. Change back to 1.
+                //node.Value = 1;
+                node.Value = 0.5;
+                node.LinkTo(_curve);
+                node.SetNodeTypeEnum(NodeTypeEnum.Off, _nodeTypeRepository);
+                _nodeRepository.Insert(node);
+            }
+        }
+    }
+}

@@ -30,6 +30,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 childDocumentPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.ChildDocumentPropertiesList
                                                                                             .Where(x => x.Visible)
                                                                                             .FirstOrDefault();
+                // CurveDetails
+                curveDetailsUserControl.ViewModel =
+                    Enumerable.Union(
+                        _presenter.ViewModel.Document.CurveDetailsList,
+                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.CurveDetailsList))
+                   .Where(x => x.Visible)
+                   .FirstOrDefault();
+
                 // CurveGrid
                 if (_presenter.ViewModel.Document.CurveGrid.Visible)
                 {
@@ -43,6 +51,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                                                   .FirstOrDefault();
                 }
 
+                // Misc
                 documentDetailsUserControl.ViewModel = _presenter.ViewModel.DocumentDetails;
                 documentGridUserControl.ViewModel = _presenter.ViewModel.DocumentGrid;
                 documentPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.DocumentProperties;
@@ -173,6 +182,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                         audioFileOutputPropertiesUserControl.ViewModel.Visible;
                 bool childDocumentPropertiesVisible = childDocumentPropertiesUserControl.ViewModel != null &&
                                                       childDocumentPropertiesUserControl.ViewModel.Visible;
+                bool curveDetailsVisible = curveDetailsUserControl.ViewModel != null &&
+                                           curveDetailsUserControl.ViewModel.Visible;
                 bool curveGridVisible = curveGridUserControl.ViewModel != null &&
                                         curveGridUserControl.ViewModel.Visible;
                 bool documentDetailsVisible = documentDetailsUserControl.ViewModel != null &&
@@ -218,6 +229,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (audioFileOutputGridVisible) audioFileOutputGridUserControl.Visible = true;
                 if (audioFileOutputPropertiesVisible) audioFileOutputPropertiesUserControl.Visible = true;
                 if (childDocumentPropertiesVisible) childDocumentPropertiesUserControl.Visible = true;
+                if (curveDetailsVisible) curveDetailsUserControl.Visible = true;
                 if (curveGridVisible) curveGridUserControl.Visible = true;
                 if (documentDetailsVisible) documentDetailsUserControl.Visible = true;
                 if (documentGridVisible) documentGridUserControl.Visible = true;
@@ -242,6 +254,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!audioFileOutputGridVisible) audioFileOutputGridUserControl.Visible = false;
                 if (!audioFileOutputPropertiesVisible) audioFileOutputPropertiesUserControl.Visible = false;
                 if (!childDocumentPropertiesVisible) childDocumentPropertiesUserControl.Visible = false;
+                if (!curveDetailsVisible) curveDetailsUserControl.Visible = false;
                 if (!curveGridVisible) curveGridUserControl.Visible = false;
                 if (!documentDetailsVisible) documentDetailsUserControl.Visible = false;
                 if (!documentGridVisible) documentGridUserControl.Visible = false;
@@ -335,6 +348,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 childDocumentPropertiesUserControl.Focus();
             }
 
+            bool mustFocusCurveDetailsUserControl = curveDetailsUserControl.Visible &&
+                                                   !curveDetailsUserControl.ViewModel.Successful;
+            if (mustFocusCurveDetailsUserControl)
+            {
+                curveDetailsUserControl.Focus();
+            }
+
             bool mustFocusDocumentPropertiesUserControl = documentPropertiesUserControl.Visible &&
                                                          !documentPropertiesUserControl.ViewModel.Successful;
             if (mustFocusDocumentPropertiesUserControl)
@@ -392,7 +412,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
 
             bool mustFocusToneGridEditUserControl = toneGridEditUserControl.Visible &&
-                                                    !toneGridEditUserControl.ViewModel.Successful;
+                                                   !toneGridEditUserControl.ViewModel.Successful;
             if (mustFocusToneGridEditUserControl)
             {
                 toneGridEditUserControl.Focus();

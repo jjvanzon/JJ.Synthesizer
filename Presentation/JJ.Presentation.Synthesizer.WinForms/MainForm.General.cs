@@ -46,6 +46,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             curveGridUserControl.CloseRequested += curveGridUserControl_CloseRequested;
             curveGridUserControl.CreateRequested += curveGridUserControl_CreateRequested;
             curveGridUserControl.DeleteRequested += curveGridUserControl_DeleteRequested;
+            curveGridUserControl.ShowDetailsRequested += CurveGridUserControl_ShowDetailsRequested;
             documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
             documentDetailsUserControl.DeleteRequested += documentDetailsUserControl_DeleteRequested;
             documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;

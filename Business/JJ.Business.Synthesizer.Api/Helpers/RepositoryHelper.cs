@@ -11,26 +11,6 @@ namespace JJ.Business.Synthesizer.Api.Helpers
 {
     internal static class RepositoryHelper
     {
-        // PatchRepositories
-
-        private static PatchRepositories _patchRepositories = CreatePatchRepositories();
-
-        public static PatchRepositories PatchRepositories { get { return _patchRepositories; } }
-
-        private static PatchRepositories CreatePatchRepositories()
-        {
-            return new PatchRepositories(
-                CreateRepository<IPatchRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IOperatorRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IOperatorTypeRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IInletRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IOutletRepository>(ContextHelper.MemoryContext),
-                CreateRepository<ICurveRepository>(ContextHelper.MemoryContext),
-                CreateRepository<ISampleRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IDocumentRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IEntityPositionRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
-        }
 
         // AudioFileOutputRepositories
 
@@ -52,6 +32,43 @@ namespace JJ.Business.Synthesizer.Api.Helpers
                 CreateRepository<ISampleRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
         }
+
+        // PatchRepositories
+
+        private static PatchRepositories _patchRepositories = CreatePatchRepositories();
+
+        public static PatchRepositories PatchRepositories { get { return _patchRepositories; } }
+
+        private static PatchRepositories CreatePatchRepositories()
+        {
+            return new PatchRepositories(
+                CreateRepository<IPatchRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IOperatorRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IOperatorTypeRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IInletRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IOutletRepository>(ContextHelper.MemoryContext),
+                CreateRepository<ICurveRepository>(ContextHelper.MemoryContext),
+                CreateRepository<ISampleRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IDocumentRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IEntityPositionRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
+        }
+
+        // CurveRepositories
+
+        private static CurveRepositories _curveRepositories = CreateCurveRepositories();
+
+        public static CurveRepositories CurveRepositories { get { return _curveRepositories; } }
+
+        private static CurveRepositories CreateCurveRepositories()
+        {
+            return new CurveRepositories(
+                CreateRepository<ICurveRepository>(ContextHelper.MemoryContext),
+                CreateRepository<INodeRepository>(ContextHelper.MemoryContext),
+                CreateRepository<INodeTypeRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
+        }
+
         // Helpers
 
         private static TRepositoryInterface CreateRepository<TRepositoryInterface>(IContext context)

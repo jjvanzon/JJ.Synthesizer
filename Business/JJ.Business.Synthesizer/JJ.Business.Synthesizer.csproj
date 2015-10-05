@@ -218,6 +218,7 @@
     <Compile Include="Resources\ResourceHelper.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_GenerateName.cs" />
+    <Compile Include="SideEffects\Curve_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Scale_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchOutletSortOrder.cs" />

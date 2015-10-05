@@ -112,6 +112,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void CurveDetailsShow(int curveID)
+        {
+            _presenter.CurveDetailsShow(curveID);
+            ApplyViewModel();
+        }
+
         // Document Grid
 
         private void DocumentGridShow(int pageNumber = 1)

@@ -1,5 +1,4 @@
 ﻿using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToEntity;
@@ -7,9 +6,9 @@ using System.Collections.Generic;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Api;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -29,6 +28,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void Show()
         {
             AssertViewModel();
+
+            Curve mockCurve = CurveApi.Create(10.0, 0, 0.8, 1.0, null, 0.8, null, null, 0.2, null, null, 0.0);
+            ViewModel.Entity = mockCurve.ToViewModelWithRelatedEntities();
 
             ViewModel.Visible = true;
         }

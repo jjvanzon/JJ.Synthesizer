@@ -24,51 +24,25 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories = repositories;
         }
 
-        public VoidResult DeleteWithRelatedEntities(int curveID)
-        {
-            Curve curve = _repositories.CurveRepository.Get(curveID);
-            return DeleteWithRelatedEntities(curve);
-        }
-
-        public VoidResult DeleteWithRelatedEntities(Curve curve)
-        {
-            if (curve == null) throw new NullException(() => curve);
-
-            IValidator validator = new CurveValidator_Delete(curve, _repositories.CurveRepository);
-            if (!validator.IsValid)
-            {
-                return new VoidResult
-                {
-                    Successful = false,
-                    Messages = validator.ValidationMessages.ToCanonical()
-                };
-            }
-            else
-            {
-                curve.UnlinkRelatedEntities();
-                curve.DeleteRelatedEntities(_repositories.NodeRepository);
-                _repositories.CurveRepository.Delete(curve);
-
-                return new VoidResult
-                {
-                    Successful = true
-                };
-            }
-        }
-
         // TODO: These Create overloads seem inconsistent.
 
         public Curve Create(Document document, bool mustGenerateName)
         {
+            if (document == null) throw new NullException(() => document);
+
             var curve = new Curve();
             curve.ID = _repositories.IDRepository.GetID();
             _repositories.CurveRepository.Insert(curve);
             curve.LinkTo(document);
 
+            ISideEffect sideEffect1 = new Curve_SideEffect_SetDefaults(
+                curve, _repositories.NodeRepository, _repositories.NodeTypeRepository, _repositories.IDRepository);
+            sideEffect1.Execute();
+
             if (mustGenerateName)
             {
-                ISideEffect sideEffect = new Curve_SideEffect_GenerateName(curve);
-                sideEffect.Execute();
+                ISideEffect sideEffect2 = new Curve_SideEffect_GenerateName(curve);
+                sideEffect2.Execute();
             }
 
             return curve;
@@ -128,6 +102,7 @@ namespace JJ.Business.Synthesizer.Managers
 
             return curve;
         }
+
         /// <param name="values">When a value is null, a node will not be created at that point in time.</param>
         public Curve Create(Document document, double timeSpan, params double?[] values)
         {
@@ -185,6 +160,38 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             return times;
+        }
+
+        public VoidResult DeleteWithRelatedEntities(int curveID)
+        {
+            Curve curve = _repositories.CurveRepository.Get(curveID);
+            return DeleteWithRelatedEntities(curve);
+        }
+
+        public VoidResult DeleteWithRelatedEntities(Curve curve)
+        {
+            if (curve == null) throw new NullException(() => curve);
+
+            IValidator validator = new CurveValidator_Delete(curve, _repositories.CurveRepository);
+            if (!validator.IsValid)
+            {
+                return new VoidResult
+                {
+                    Successful = false,
+                    Messages = validator.ValidationMessages.ToCanonical()
+                };
+            }
+            else
+            {
+                curve.UnlinkRelatedEntities();
+                curve.DeleteRelatedEntities(_repositories.NodeRepository);
+                _repositories.CurveRepository.Delete(curve);
+
+                return new VoidResult
+                {
+                    Successful = true
+                };
+            }
         }
 
         public void DeleteNode(int nodeID)
