@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Api.Helpers;
 using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Data.Synthesizer;
-using JJ.Framework.Data;
 
 namespace JJ.Business.Synthesizer.Api
 {

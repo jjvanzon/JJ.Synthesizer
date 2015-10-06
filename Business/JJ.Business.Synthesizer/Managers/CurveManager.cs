@@ -6,10 +6,15 @@ using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Validation;
 using System;
 using JJ.Framework.Business;
+using JJ.Framework.Common;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
+using System.Linq;
+using System.Collections.Generic;
+using JJ.Framework.Validation.Resources;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -58,13 +63,10 @@ namespace JJ.Business.Synthesizer.Managers
 
             foreach (NodeInfo nodeInfo in nodeInfos)
             {
-                var node = new Node();
-                node.ID = _repositories.IDRepository.GetID();
+                Node node = CreateNode(curve);
                 node.Time = nodeInfo.Time;
                 node.Value = nodeInfo.Value;
                 node.SetNodeTypeEnum(nodeInfo.NodeTypeEnum, _repositories.NodeTypeRepository);
-                node.LinkTo(curve);
-                _repositories.NodeRepository.Insert(node);
             }
 
             return curve;
@@ -90,13 +92,10 @@ namespace JJ.Business.Synthesizer.Managers
 
                 if (nodeInfo != null)
                 {
-                    var node = new Node();
-                    node.ID = _repositories.IDRepository.GetID();
+                    Node node = CreateNode(curve);
                     node.Time = time;
                     node.Value = nodeInfo.Value;
                     node.SetNodeTypeEnum(nodeInfo.NodeTypeEnum, _repositories.NodeTypeRepository);
-                    node.LinkTo(curve);
-                    _repositories.NodeRepository.Insert(node);
                 }
             }
 
@@ -132,13 +131,10 @@ namespace JJ.Business.Synthesizer.Managers
 
                 if (value.HasValue)
                 {
-                    var node = new Node();
-                    node.ID = _repositories.IDRepository.GetID();
+                    Node node = CreateNode(curve);
                     node.Time = time;
                     node.Value = value.Value;
                     node.SetNodeTypeEnum(NodeTypeEnum.Line, _repositories.NodeTypeRepository);
-                    node.LinkTo(curve);
-                    _repositories.NodeRepository.Insert(node);
                 }
             }
 
@@ -191,6 +187,72 @@ namespace JJ.Business.Synthesizer.Managers
                 {
                     Successful = true
                 };
+            }
+        }
+
+        public Node CreateNode(Curve curve)
+        {
+            if (curve == null) throw new NullException(() => curve);
+
+            var node = new Node();
+            node.ID = _repositories.IDRepository.GetID();
+            node.LinkTo(curve);
+            _repositories.NodeRepository.Insert(node);
+
+            return node;
+        }
+
+        public Node CreateNode(Curve curve, Node afterNode)
+        {
+            if (curve == null) throw new NullException(() => curve);
+            if (curve.Nodes.Count < 2) throw new LessThanException(() => curve.Nodes.Count, 2);
+            if (afterNode == null) throw new NullException(() => afterNode);
+
+            IList<Node> sortedNodes = curve.Nodes.OrderBy(x => x.Time).ToArray(); // TODO: Low priority: You could optimize this if there would be an isntance Curve.
+            int afterNodeIndex = sortedNodes.IndexOf(afterNode);
+
+            bool isLastNode = afterNodeIndex == sortedNodes.Count - 1;
+            if (isLastNode)
+            {
+                // Insert node at the right.
+                Node previousNode = sortedNodes[afterNodeIndex - 1];
+
+                Node node = CreateNode(curve);
+                node.NodeType = afterNode.NodeType;
+                node.Value = afterNode.Value;
+
+                // Take the previous distance between nodes as the default for the next node.
+                double dt = afterNode.Time - previousNode.Time;
+                node.Time = afterNode.Time + dt;
+
+                return node;
+            }
+            else
+            {
+                // Not last node? Insert node in between two nodes.
+                Node beforeNode = sortedNodes[afterNodeIndex + 1];
+
+                Node node = CreateNode(curve);
+                node.NodeType = afterNode.NodeType;
+                node.Time = afterNode.Time + (beforeNode.Time - afterNode.Time) / 2.0;
+
+                NodeTypeEnum nodeTypeEnum = afterNode.GetNodeTypeEnum();
+                switch (nodeTypeEnum)
+                {
+                    case NodeTypeEnum.Block:
+                    case NodeTypeEnum.Off:
+                        node.Value = afterNode.Value;
+                        break;
+
+                    case NodeTypeEnum.Line:
+                        node.Value = (beforeNode.Value - afterNode.Value) / 2.0;
+                        break;
+
+                    default:
+                        throw new ValueNotSupportedException(nodeTypeEnum);
+                }
+
+                return node;
             }
         }
 

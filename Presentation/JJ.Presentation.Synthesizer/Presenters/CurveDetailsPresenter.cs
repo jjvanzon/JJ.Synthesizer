@@ -9,6 +9,11 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Api;
+using System;
+using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -17,20 +22,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public CurveDetailsViewModel ViewModel { get; set; }
 
         private CurveRepositories _repositories;
+        private CurveManager _curveManager;
 
         public CurveDetailsPresenter(CurveRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
             _repositories = repositories;
+            _curveManager = new CurveManager(_repositories);
         }
 
         public void Show()
         {
             AssertViewModel();
 
-            Curve mockCurve = CurveApi.Create(10.0, 0, 0.8, 1.0, null, 0.8, null, null, 0.2, null, null, 0.0);
-            ViewModel.Entity = mockCurve.ToViewModelWithRelatedEntities();
+            // TODO: Remove outcommente code.
+            //Curve mockCurve = CurveApi.Create(10.0, 0, 0.8, 1.0, null, 0.8, null, null, 0.2, null, null, 0.0);
+            //ViewModel.Entity = mockCurve.ToViewModelWithRelatedEntities();
 
             ViewModel.Visible = true;
         }
@@ -75,11 +83,36 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
         }
 
+        public void CreateNode()
+        {
+            AssertViewModel();
+
+            // ToEntity
+            Curve curve = ViewModel.ToEntityWithRelatedEntities(_repositories);
+            Node afterNode = null;
+            if (ViewModel.SelectedNode != null)
+            {
+                afterNode = _repositories.NodeRepository.Get(ViewModel.SelectedNode.ID);
+            }
+            else
+            {
+                // Insert after last node if none selected.
+                afterNode = curve.Nodes.OrderBy(x => x.Time).Last();
+            }
+
+            // Business
+            Node node = _curveManager.CreateNode(curve, afterNode);
+
+            // ToViewModel
+            NodeViewModel nodeViewModel = node.ToViewModel();
+            ViewModel.Entity.Nodes.Add(nodeViewModel);
+        }
+
         // Helpers
 
         private void AssertViewModel()
         {
             if (ViewModel == null) throw new NullException(() => ViewModel);
         }
-    }
+   }
 }

@@ -21,7 +21,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
         public static LineStyle BorderStyleInvisible { get; set; }
         public static LineStyle LineStyleDashed { get; set; }
         public static LineStyle LineStyle { get; set; }
+        public static LineStyle LineStyleThicker { get; set; }
         public static PointStyle PointStyle { get; set; }
+        public static PointStyle PointStyleThicker { get; set; }
         public static PointStyle PointStyleInvisible { get; set; }
 
         public static BackStyle ToolTipBackStyle { get; set; }
@@ -41,6 +43,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             {
                 Color = ColorHelper.GetColor(120, 120, 120),
                 Width = 5
+            };
+
+            PointStyleThicker = new PointStyle
+            {
+                Color = ColorHelper.GetColor(120, 120, 120),
+                Width = 10
             };
 
             BackStyle = new BackStyle
@@ -68,6 +76,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             LineStyle = new LineStyle
             {
                 Width = 1,
+                Color = ColorHelper.GetColor(120, 120, 120)
+            };
+
+            LineStyleThicker = new LineStyle
+            {
+                Width = 2,
                 Color = ColorHelper.GetColor(120, 120, 120)
             };
 

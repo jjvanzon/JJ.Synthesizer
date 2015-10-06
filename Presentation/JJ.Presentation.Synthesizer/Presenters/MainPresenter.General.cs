@@ -33,6 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly RepositoryWrapper _repositories;
         private readonly PatchRepositories _patchRepositories;
         private readonly SampleRepositories _sampleRepositories;
+        private readonly CurveRepositories _curveRepositories;
 
         private readonly AudioFileOutputGridPresenter _audioFileOutputGridPresenter;
         private readonly AudioFileOutputPropertiesPresenter _audioFileOutputPropertiesPresenter;
@@ -80,12 +81,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _repositories = repositoryWrapper;
             _patchRepositories = new PatchRepositories(_repositories);
             _sampleRepositories = new SampleRepositories(_repositories);
+            _curveRepositories = new CurveRepositories(_repositories);
             var scaleRepositories = new ScaleRepositories(_repositories);
 
-            var curveRepositories = new CurveRepositories(_repositories);
-
             _audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(_repositories));
-            _curveManager = new CurveManager(curveRepositories);
+            _curveManager = new CurveManager(_curveRepositories);
             _documentManager = new DocumentManager(_repositories);
             _entityPositionManager = new EntityPositionManager(_repositories.EntityPositionRepository, _repositories.IDRepository);
             _sampleManager = new SampleManager(_sampleRepositories);
@@ -94,7 +94,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_repositories.DocumentRepository);
             _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(new AudioFileOutputRepositories(_repositories));
             _childDocumentPropertiesPresenter = new ChildDocumentPropertiesPresenter(_repositories);
-            _curveDetailsPresenter = new CurveDetailsPresenter(curveRepositories);
+            _curveDetailsPresenter = new CurveDetailsPresenter(_curveRepositories);
             _curveGridPresenter = new CurveGridPresenter(_repositories.DocumentRepository);
             _documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositories.DocumentRepository);
             _documentDeletedPresenter = new DocumentDeletedPresenter();

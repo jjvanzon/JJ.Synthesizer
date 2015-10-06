@@ -72,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        // AudioFileOutput Actions
+        // AudioFileOutput
 
         public void AudioFileOutputGridShow()
         {
@@ -191,7 +191,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        // Child Document Actions
+        // Child Document
 
         public void ChildDocumentPropertiesShow(int id)
         {
@@ -246,7 +246,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        // Curve Actions
+        // Curve
 
         public void CurveGridShow(int documentID)
         {
@@ -392,7 +392,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        // Document List Actions
+        // Document List
 
         public void DocumentGridShow(int pageNumber)
         {
@@ -534,7 +534,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        // Document Actions
+        // Document
 
         public void DocumentOpen(int documentID)
         {
@@ -723,7 +723,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        // Effect Actions
+        // Effect
 
         public void EffectGridShow()
         {
@@ -815,7 +815,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        // Instrument Actions
+        // Instrument
 
         public void InstrumentGridShow()
         {
@@ -907,7 +907,38 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        // Operator Actions
+        // Node
+
+        public void NodeCreate()
+        {
+            try
+            {
+                _curveDetailsPresenter.CreateNode();
+                DispatchViewModel(_curveDetailsPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void NodeDelete()
+        {
+            try
+            {
+                //_curveDetailsPresenter.DeleteNode();
+
+                //DispatchViewModel(_curveDetailsPresenter.ViewModel);
+
+                throw new NotImplementedException();
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        // Operator
 
         public void OperatorPropertiesShow(int id)
         {
@@ -1490,7 +1521,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        // Patch Actions
+        // Patch
 
         public void PatchGridShow(int documentID)
         {
@@ -1694,7 +1725,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        // Sample Actions
+        // Sample
 
         public void SampleGridShow(int documentID)
         {
@@ -1870,7 +1901,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        // Scale Actions
+        // Scale
 
         public void ScaleGridShow()
         {

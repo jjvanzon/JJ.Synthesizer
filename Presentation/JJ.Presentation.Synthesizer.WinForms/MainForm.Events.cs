@@ -73,6 +73,24 @@ namespace JJ.Presentation.Synthesizer.WinForms
             CurveDetailsShow(e.Value);
         }
 
+        private void CurveDetailsUserControl_CreateNodeRequested(object sender, EventArgs e)
+        {
+            _presenter.NodeCreate();
+            ApplyViewModel();
+        }
+
+        private void CurveDetailsUserControl_DeleteNodeRequested(object sender, EventArgs e)
+        {
+            _presenter.NodeDelete();
+            ApplyViewModel();
+        }
+
+        private void CurveDetailsUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            _presenter.CurveDetailsClose();
+            ApplyViewModel();
+        }
+
         // Document Grid Events
 
         private void documentGridUserControl_ShowRequested(object sender, Int32EventArgs e)

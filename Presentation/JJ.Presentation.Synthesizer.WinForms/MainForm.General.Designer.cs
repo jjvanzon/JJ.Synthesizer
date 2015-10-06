@@ -18,6 +18,7 @@
             this.splitContainerTree = new System.Windows.Forms.SplitContainer();
             this.documentTreeUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentTreeUserControl();
             this.splitContainerProperties = new System.Windows.Forms.SplitContainer();
+            this.curveDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveDetailsUserControl();
             this.toneGridEditUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ToneGridEditUserControl();
             this.scaleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleGridUserControl();
             this.curveGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveGridUserControl();
@@ -41,7 +42,6 @@
             this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
-            this.curveDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveDetailsUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -118,6 +118,15 @@
             this.splitContainerProperties.Size = new System.Drawing.Size(891, 657);
             this.splitContainerProperties.SplitterDistance = 621;
             this.splitContainerProperties.TabIndex = 2;
+            // 
+            // curveDetailsUserControl
+            // 
+            this.curveDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.curveDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.curveDetailsUserControl.Location = new System.Drawing.Point(0, 0);
+            this.curveDetailsUserControl.Name = "curveDetailsUserControl";
+            this.curveDetailsUserControl.Size = new System.Drawing.Size(621, 657);
+            this.curveDetailsUserControl.TabIndex = 12;
             // 
             // toneGridEditUserControl
             // 
@@ -382,16 +391,6 @@
             this.menuUserControl.Name = "menuUserControl";
             this.menuUserControl.Size = new System.Drawing.Size(1094, 24);
             this.menuUserControl.TabIndex = 3;
-            // 
-            // curveDetailsUserControl
-            // 
-            this.curveDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.curveDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.curveDetailsUserControl.Location = new System.Drawing.Point(0, 0);
-            this.curveDetailsUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.curveDetailsUserControl.Name = "curveDetailsUserControl";
-            this.curveDetailsUserControl.Size = new System.Drawing.Size(621, 657);
-            this.curveDetailsUserControl.TabIndex = 12;
             // 
             // MainForm
             // 

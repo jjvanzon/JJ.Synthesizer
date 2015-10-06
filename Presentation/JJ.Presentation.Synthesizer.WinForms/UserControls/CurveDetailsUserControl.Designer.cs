@@ -47,7 +47,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 26F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(280, 222);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(10, 10);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // titleBarUserControl
@@ -60,8 +60,11 @@
             this.titleBarUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.titleBarUserControl.Name = "titleBarUserControl";
             this.titleBarUserControl.RemoveButtonVisible = true;
-            this.titleBarUserControl.Size = new System.Drawing.Size(280, 26);
+            this.titleBarUserControl.Size = new System.Drawing.Size(10, 26);
             this.titleBarUserControl.TabIndex = 0;
+            this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
+            this.titleBarUserControl.RemoveClicked += new System.EventHandler(this.titleBarUserControl_RemoveClicked);
+            this.titleBarUserControl.AddClicked += new System.EventHandler(this.titleBarUserControl_AddClicked);
             // 
             // diagramControl
             // 
@@ -70,16 +73,15 @@
             this.diagramControl.Location = new System.Drawing.Point(0, 26);
             this.diagramControl.Margin = new System.Windows.Forms.Padding(0);
             this.diagramControl.Name = "diagramControl";
-            this.diagramControl.Size = new System.Drawing.Size(280, 196);
+            this.diagramControl.Size = new System.Drawing.Size(10, 10);
             this.diagramControl.TabIndex = 1;
             // 
             // CurveDetailsUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "CurveDetailsUserControl";
-            this.Size = new System.Drawing.Size(280, 222);
+            this.Size = new System.Drawing.Size(10, 10);
             this.Resize += new System.EventHandler(this.CurveDetailsUserControl_Resize);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
