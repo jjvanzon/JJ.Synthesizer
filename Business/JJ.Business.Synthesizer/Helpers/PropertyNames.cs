@@ -76,5 +76,6 @@
         public const string SemiTones = "SemiTones";
         public const string Cents = "Cents";
         public const string Node = "Node";
+        public const string Nodes = "Nodes";
     }
 }

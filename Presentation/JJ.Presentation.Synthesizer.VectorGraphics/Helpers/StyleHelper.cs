@@ -21,9 +21,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
         public static LineStyle BorderStyleInvisible { get; set; }
         public static LineStyle LineStyleDashed { get; set; }
         public static LineStyle LineStyle { get; set; }
-        public static LineStyle LineStyleThicker { get; set; }
+        public static LineStyle LineStyleThick { get; set; }
         public static PointStyle PointStyle { get; set; }
-        public static PointStyle PointStyleThicker { get; set; }
+        public static PointStyle PointStyleThick { get; set; }
+        public static PointStyle PointStyleThickSelected { get; internal set; }
         public static PointStyle PointStyleInvisible { get; set; }
 
         public static BackStyle ToolTipBackStyle { get; set; }
@@ -39,56 +40,69 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
             SpacingTimes2 = Spacing + Spacing;
 
+            int almostBlack = ColorHelper.GetColor(20, 20, 20);
+            int mediumGrey = ColorHelper.GetColor(120, 120, 120);
+            int lightGrey = ColorHelper.GetColor(220, 220, 220);
+            int lessLightGrey = ColorHelper.GetColor(200, 200, 200);
+            int transparentGrey = ColorHelper.GetColor(128, 45, 45, 45);
+            int blue = ColorHelper.GetColor(122, 189, 254);
+
             PointStyle = new PointStyle
             {
-                Color = ColorHelper.GetColor(120, 120, 120),
+                Color = mediumGrey,
                 Width = 5
             };
 
-            PointStyleThicker = new PointStyle
+            PointStyleThick = new PointStyle
             {
-                Color = ColorHelper.GetColor(120, 120, 120),
+                Color = mediumGrey,
+                Width = 10
+            };
+
+            PointStyleThickSelected = new PointStyle
+            {
+                Color = blue,
                 Width = 10
             };
 
             BackStyle = new BackStyle
             {
-                Color = ColorHelper.GetColor(220, 220, 220)
+                Color = lightGrey
             };
 
             BackStyleSelected = new BackStyle
             {
-                Color = ColorHelper.GetColor(122, 189, 254)
+                Color = blue
             };
 
             BorderStyle = new LineStyle
             {
                 Width = 1,
-                Color = ColorHelper.GetColor(200, 200, 200)
+                Color = lessLightGrey
             };
 
             BorderStyleSelected = new LineStyle
             {
                 Width = 1,
-                Color = ColorHelper.GetColor(200, 200, 200)
+                Color = lessLightGrey
             };
 
             LineStyle = new LineStyle
             {
                 Width = 1,
-                Color = ColorHelper.GetColor(120, 120, 120)
+                Color = mediumGrey
             };
 
-            LineStyleThicker = new LineStyle
+            LineStyleThick = new LineStyle
             {
                 Width = 2,
-                Color = ColorHelper.GetColor(120, 120, 120)
+                Color = mediumGrey
             };
 
             LineStyleDashed = new LineStyle
             {
                 Width = 2,
-                Color = ColorHelper.GetColor(128, 45, 45, 45),
+                Color = transparentGrey,
                 DashStyleEnum = DashStyleEnum.Dotted
             };
 
@@ -103,7 +117,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
                 HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center,
                 VerticalAlignmentEnum = VerticalAlignmentEnum.Center,
                 Font = DefaultFont,
-                Color = ColorHelper.GetColor(20, 20, 20)
+                Color = almostBlack
             };
 
             PointStyleInvisible = new PointStyle

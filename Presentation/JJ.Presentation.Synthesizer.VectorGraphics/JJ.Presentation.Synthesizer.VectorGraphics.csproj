@@ -48,13 +48,15 @@
     <Compile Include="Converters\OutletControlPointConverter.cs" />
     <Compile Include="Converters\OutletPointConverter.cs" />
     <Compile Include="Converters\OutletRectangleConverter.cs" />
-    <Compile Include="NodeViewModelsToDiagramConverter.cs" />
+    <Compile Include="Gestures\SelectNodeGesture.cs" />
+    <Compile Include="CurveDetailsViewModelToDiagramConverter.cs" />
     <Compile Include="Gestures\DropLineGesture.cs" />
     <Compile Include="Gestures\DragLineGesture.cs" />
     <Compile Include="Helpers\LineGestureHelper.cs" />
     <Compile Include="Helpers\PositionHelper.cs" />
     <Compile Include="Helpers\StyleHelper.cs" />
     <Compile Include="Helpers\SvgTagHelper.cs" />
+    <Compile Include="NodeViewModelsToDiagramConverterResult.cs" />
     <Compile Include="PatchViewModelToDiagramConverter.cs" />
     <Compile Include="EventArg\ToolTipTextEventArgs.cs" />
     <Compile Include="Gestures\ChangeLineGesture.cs" />

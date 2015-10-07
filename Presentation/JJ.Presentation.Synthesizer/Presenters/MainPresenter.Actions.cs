@@ -909,6 +909,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Node
 
+        public void NodeSelect(int nodeID)
+        {
+            try
+            {
+                _curveDetailsPresenter.SelectNode(nodeID);
+                DispatchViewModel(_curveDetailsPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
         public void NodeCreate()
         {
             try
@@ -926,11 +939,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                //_curveDetailsPresenter.DeleteNode();
-
-                //DispatchViewModel(_curveDetailsPresenter.ViewModel);
-
-                throw new NotImplementedException();
+                _curveDetailsPresenter.DeleteNode();
+                DispatchViewModel(_curveDetailsPresenter.ViewModel);
             }
             finally
             {

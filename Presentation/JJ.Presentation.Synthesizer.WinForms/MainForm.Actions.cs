@@ -118,6 +118,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void CurveDetailsClose()
+        {
+            _presenter.CurveDetailsClose();
+            ApplyViewModel();
+        }
+
         // Document Grid
 
         private void DocumentGridShow(int pageNumber = 1)
@@ -311,6 +317,26 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void InstrumentDelete(int id)
         {
             _presenter.InstrumentDelete(id);
+            ApplyViewModel();
+        }
+
+        // Node
+
+        private void NodeSelect(int nodeID)
+        {
+            _presenter.NodeSelect(nodeID);
+            ApplyViewModel();
+        }
+
+        private void NodeCreate()
+        {
+            _presenter.NodeCreate();
+            ApplyViewModel();
+        }
+
+        private void NodeDelete()
+        {
+            _presenter.NodeDelete();
             ApplyViewModel();
         }
 

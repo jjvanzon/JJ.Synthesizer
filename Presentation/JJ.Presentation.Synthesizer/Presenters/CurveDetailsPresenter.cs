@@ -1,19 +1,23 @@
-﻿using JJ.Data.Synthesizer;
-using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ToEntity;
-using System.Collections.Generic;
-using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Presentation.Synthesizer.ToViewModel;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Api;
-using System;
-using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Managers;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
+﻿using System;
 using System.Linq;
+using System.Collections.Generic;
+using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Validation;
+using JJ.Data.Synthesizer;
+using JJ.Framework.Common;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Validation;
+using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.ToEntity;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Framework.Validation.Resources;
+using JJ.Framework.Presentation.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -50,8 +54,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Curve entity = _repositories.CurveRepository.Get(ViewModel.Entity.ID);
 
             bool visible = ViewModel.Visible;
+            int? selectedNodeID = ViewModel.SelectedNodeID;
+
             ViewModel = entity.ToDetailsViewModel(_repositories.NodeTypeRepository);
+
             ViewModel.Visible = true;
+            ViewModel.SelectedNodeID = selectedNodeID;
         }
 
         public void Close()
@@ -83,6 +91,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
         }
 
+        public void SelectNode(int nodeID)
+        {
+            AssertViewModel();
+
+            ViewModel.SelectedNodeID = nodeID;
+        }
+
         public void CreateNode()
         {
             AssertViewModel();
@@ -90,9 +105,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToEntity
             Curve curve = ViewModel.ToEntityWithRelatedEntities(_repositories);
             Node afterNode = null;
-            if (ViewModel.SelectedNode != null)
+            if (ViewModel.SelectedNodeID.HasValue)
             {
-                afterNode = _repositories.NodeRepository.Get(ViewModel.SelectedNode.ID);
+                afterNode = _repositories.NodeRepository.Get(ViewModel.SelectedNodeID.Value);
             }
             else
             {
@@ -108,11 +123,41 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Entity.Nodes.Add(nodeViewModel);
         }
 
+        public void DeleteNode()
+        {
+            AssertViewModel();
+
+            if (!ViewModel.SelectedNodeID.HasValue)
+            {
+                ViewModel.ValidationMessages.Add(new Message
+                {
+                    PropertyKey = PresentationPropertyNames.SelectedNodeID,
+                    Text = PresentationMessages.SelectANodeFirst
+                });
+                return;
+            }
+
+            if (ViewModel.Entity.Nodes.Count <= 2)
+            {
+                ViewModel.ValidationMessages.Add(new Message
+                {
+                    PropertyKey = PropertyNames.Nodes,
+                    // TODO: If you would just have done the ToEntity-Business-ToViewModel roundtrip, the validator would have taken care of it.
+                    Text = ValidationMessageFormatter.Min(CommonTitleFormatter.EntityCount(PropertyDisplayNames.Nodes), 2)
+                });
+                return;
+            }
+
+            ViewModel.Entity.Nodes.RemoveFirst(x => x.ID == ViewModel.SelectedNodeID);
+
+            ViewModel.SelectedNodeID = null;
+        }
+
         // Helpers
 
         private void AssertViewModel()
         {
             if (ViewModel == null) throw new NullException(() => ViewModel);
         }
-   }
+    }
 }

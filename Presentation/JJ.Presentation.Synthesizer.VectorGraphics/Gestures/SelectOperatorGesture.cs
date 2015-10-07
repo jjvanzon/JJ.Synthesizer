@@ -4,6 +4,11 @@ using System;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
+    /// <summary>
+    /// It is handy to abstract a mouse event to a specialized gesture,
+    /// in case you want to switch between mouse down or mouse up,
+    /// or other ways of selecting it.
+    /// </summary>
     public class SelectOperatorGesture : GestureBase
     {
         public event EventHandler<ElementEventArgs> OperatorSelected;

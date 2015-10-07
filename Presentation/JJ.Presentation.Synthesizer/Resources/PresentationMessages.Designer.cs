@@ -61,6 +61,15 @@ namespace JJ.Presentation.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select a node first..
+        /// </summary>
+        internal static string SelectANodeFirst {
+            get {
+                return ResourceManager.GetString("SelectANodeFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select an operator first..
         /// </summary>
         internal static string SelectAnOperatorFirst {

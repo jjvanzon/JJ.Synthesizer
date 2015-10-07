@@ -6,19 +6,21 @@ using JJ.Framework.Common;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
-    public class NodeViewModelsToDiagramConverter
+    public class CurveDetailsViewModelToDiagramConverter
     {
-        private float _margin = StyleHelper.PointStyleThicker.Width / 2f;
+        private float _margin = StyleHelper.PointStyleThick.Width / 2f;
         private const float _regionSize = 20;
         private const float _regionSizeOver2 = _regionSize / 2;
 
         /// <param name="mustShowInvisibleElements">for debugging</param>
-        public NodeViewModelsToDiagramConverter(bool mustShowInvisibleElements)
+        public CurveDetailsViewModelToDiagramConverter(bool mustShowInvisibleElements)
         {
             if (mustShowInvisibleElements)
             {
@@ -26,17 +28,27 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             }
         }
 
-        public void Execute(IList<NodeViewModel> viewModels, Diagram diagram)
+        /// <param name="result">Pass an existing result to update an existing diagram.</param>
+        public NodeViewModelsToDiagramConverterResult Execute(
+            CurveDetailsViewModel detailsViewModel,
+            NodeViewModelsToDiagramConverterResult result)
         {
-            if (viewModels == null) throw new NullException(() => viewModels);
-            if (diagram == null) throw new NullException(() => diagram);
+            if (detailsViewModel == null) throw new NullException(() => detailsViewModel);
+            if (detailsViewModel.Entity == null) throw new NullException(() => detailsViewModel.Entity);
 
+            if (result == null)
+            {
+                result = new NodeViewModelsToDiagramConverterResult(new Diagram(), new KeyDownGesture(), new SelectNodeGesture());
+                result.Diagram.Gestures.Add(result.KeyDownGesture);
+            }
+
+            Diagram diagram = result.Diagram;
             diagram.Elements.ForEach(x => x.Parent = null);
             diagram.Elements.Clear();
 
-            if (viewModels.Count < 2)
+            if (detailsViewModel.Entity.Nodes.Count < 2)
             {
-                return;
+                return result;
             }
 
             // Calculate Scaling and Margin
@@ -51,10 +63,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 heightWithinMargin = 0;
             }
 
-            viewModels = viewModels.OrderBy(x => x.Time).ToArray();
+            IList<NodeViewModel> sortedNodeViewModels = detailsViewModel.Entity.Nodes.OrderBy(x => x.Time).ToArray();
 
-            float minTime = (float)viewModels.First().Time;
-            float maxTime = (float)viewModels.Last().Time;
+            float minTime = (float)sortedNodeViewModels.First().Time;
+            float maxTime = (float)sortedNodeViewModels.Last().Time;
             float timeDiff = maxTime - minTime;
             float xFactor = 1;
             if (timeDiff != 0)
@@ -62,8 +74,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 xFactor = widthWithinMargin / timeDiff;
             }
 
-            float minValue = (float)viewModels.Select(x => x.Value).Union(0f).Min();
-            float maxValue = (float)viewModels.Select(x => x.Value).Union(0f).Max();
+            float minValue = (float)sortedNodeViewModels.Select(x => x.Value).Union(0f).Min();
+            float maxValue = (float)sortedNodeViewModels.Select(x => x.Value).Union(0f).Max();
             float valueDiff = maxValue - minValue;
             float yFactor = 1;
             if (valueDiff != 0)
@@ -75,10 +87,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             Point previousPoint = null;
 
-            foreach (NodeViewModel viewModel in viewModels)
+            foreach (NodeViewModel nodeViewModel in sortedNodeViewModels)
             {
-                float x = _margin + ((float)viewModel.Time - minTime) * xFactor;
-                float y = _margin + heightWithinMargin - ((float)viewModel.Value - minValue) * yFactor;
+                float x = _margin + ((float)nodeViewModel.Time - minTime) * xFactor;
+                float y = _margin + heightWithinMargin - ((float)nodeViewModel.Value - minValue) * yFactor;
 
                 var rectangle = new Rectangle()
                 {
@@ -89,9 +101,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     Width = _regionSize,
                     Height = _regionSize,
                     LineStyle = StyleHelper.BorderStyleInvisible,
-                    BackStyle = StyleHelper.BackStyleInvisible
+                    BackStyle = StyleHelper.BackStyleInvisible,
+                    Tag = nodeViewModel.ID
                 };
-                rectangle.Gestures.Add(moveGesture);
+                rectangle.Gestures.Add(moveGesture, result.SelectNodeGesture);
 
                 var point = new Point
                 {
@@ -99,8 +112,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     Parent = rectangle,
                     X = _regionSizeOver2,
                     Y = _regionSizeOver2,
-                    PointStyle = StyleHelper.PointStyleThicker
+                    PointStyle = StyleHelper.PointStyleThick,
+                    ZIndex = 1
                 };
+
+                // TODO: Low priority: If NodeViewModel had a property IsSelected,
+                // you would not have had to pass the CurveDetailsViewModel to this converter,
+                // but only an IList<NodeViewModel>.
+                if (nodeViewModel.ID == detailsViewModel.SelectedNodeID)
+                {
+                    point.PointStyle = StyleHelper.PointStyleThickSelected;
+                }
 
                 if (previousPoint != null)
                 {
@@ -110,12 +132,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                         Parent = diagram.Background,
                         PointA = previousPoint,
                         PointB = point,
-                        LineStyle = StyleHelper.LineStyleThicker
+                        LineStyle = StyleHelper.LineStyleThick
                     };
                 }
 
                 previousPoint = point;
             }
+
+            return result;
         }
     }
 }

@@ -2,12 +2,117 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
     internal partial class MainForm
     {
-        // AudioFileOutput Events
+        private void BindEvents()
+        {
+            audioFileOutputGridUserControl.CloseRequested += audioFileOutputGridUserControl_CloseRequested;
+            audioFileOutputGridUserControl.CreateRequested += audioFileOutputGridUserControl_CreateRequested;
+            audioFileOutputGridUserControl.DeleteRequested += audioFileOutputGridUserControl_DeleteRequested;
+            audioFileOutputGridUserControl.ShowPropertiesRequested += audioFileOutputGridUserControl_ShowPropertiesRequested;
+            audioFileOutputPropertiesUserControl.CloseRequested += audioFileOutputPropertiesUserControl_CloseRequested;
+            audioFileOutputPropertiesUserControl.LoseFocusRequested += audioFileOutputPropertiesUserControl_LoseFocusRequested;
+            childDocumentPropertiesUserControl.CloseRequested += childDocumentPropertiesUserControl_CloseRequested;
+            childDocumentPropertiesUserControl.LoseFocusRequested += childDocumentPropertiesUserControl_LoseFocusRequested;
+            curveGridUserControl.CloseRequested += curveGridUserControl_CloseRequested;
+            curveGridUserControl.CreateRequested += curveGridUserControl_CreateRequested;
+            curveGridUserControl.DeleteRequested += curveGridUserControl_DeleteRequested;
+            curveGridUserControl.ShowDetailsRequested += CurveGridUserControl_ShowDetailsRequested;
+            curveDetailsUserControl.CloseRequested += CurveDetailsUserControl_CloseRequested;
+            curveDetailsUserControl.CreateNodeRequested += CurveDetailsUserControl_CreateNodeRequested;
+            curveDetailsUserControl.DeleteNodeRequested += CurveDetailsUserControl_DeleteNodeRequested;
+            curveDetailsUserControl.SelectNodeRequested += CurveDetailsUserControl_SelectNodeRequested;
+            documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
+            documentDetailsUserControl.DeleteRequested += documentDetailsUserControl_DeleteRequested;
+            documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;
+            documentGridUserControl.CloseRequested += documentGridUserControl_CloseRequested;
+            documentGridUserControl.CreateRequested += documentGridUserControl_CreateRequested;
+            documentGridUserControl.DeleteRequested += documentGridUserControl_DeleteRequested;
+            documentGridUserControl.OpenRequested += documentGridUserControl_OpenRequested;
+            documentGridUserControl.ShowRequested += documentGridUserControl_ShowRequested;
+            documentPropertiesUserControl.CloseRequested += documentPropertiesUserControl_CloseRequested;
+            documentPropertiesUserControl.LoseFocusRequested += documentPropertiesUserControl_LoseFocusRequested;
+            documentTreeUserControl.CloseRequested += documentTreeUserControl_CloseRequested;
+            documentTreeUserControl.CollapseNodeRequested += documentTreeUserControl_CollapseNodeRequested;
+            documentTreeUserControl.DocumentPropertiesRequested += documentTreeUserControl_DocumentPropertiesRequested;
+            documentTreeUserControl.ExpandNodeRequested += documentTreeUserControl_ExpandNodeRequested;
+            documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
+            documentTreeUserControl.ShowChildDocumentPropertiesRequested += documentTreeUserControl_ShowChildDocumentPropertiesRequested;
+            documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
+            documentTreeUserControl.ShowEffectsRequested += documentTreeUserControl_ShowEffectsRequested;
+            documentTreeUserControl.ShowInstrumentsRequested += documentTreeUserControl_ShowInstrumentsRequested;
+            documentTreeUserControl.ShowPatchesRequested += documentTreeUserControl_ShowPatchesRequested;
+            documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
+            documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
+            effectGridUserControl.CloseRequested += effectGridUserControl_CloseRequested;
+            effectGridUserControl.CreateRequested += effectGridUserControl_CreateRequested;
+            effectGridUserControl.DeleteRequested += effectGridUserControl_DeleteRequested;
+            effectGridUserControl.ShowPropertiesRequested += effectGridUserControl_ShowPropertiesRequested;
+            instrumentGridUserControl.CloseRequested += instrumentGridUserControl_CloseRequested;
+            instrumentGridUserControl.CreateRequested += instrumentGridUserControl_CreateRequested;
+            instrumentGridUserControl.DeleteRequested += instrumentGridUserControl_DeleteRequested;
+            instrumentGridUserControl.ShowPropertiesRequested += instrumentGridUserControl_ShowPropertiesRequested;
+            menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
+            menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
+            menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
+            menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
+            operatorPropertiesUserControl.CloseRequested += operatorPropertiesUserControl_CloseRequested;
+            operatorPropertiesUserControl.LoseFocusRequested += operatorPropertiesUserControl_LoseFocusRequested;
+            operatorPropertiesUserControl_ForCustomOperator.CloseRequested += operatorPropertiesUserControl_ForCustomOperator_CloseRequested;
+            operatorPropertiesUserControl_ForCustomOperator.LoseFocusRequested += operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested;
+            operatorPropertiesUserControl_ForNumber.CloseRequested += operatorPropertiesUserControl_ForNumber_CloseRequested;
+            operatorPropertiesUserControl_ForNumber.LoseFocusRequested += operatorPropertiesUserControl_ForNumber_LoseFocusRequested;
+            operatorPropertiesUserControl_ForPatchInlet.CloseRequested += operatorPropertiesUserControl_ForPatchInlet_CloseRequested;
+            operatorPropertiesUserControl_ForPatchInlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested;
+            operatorPropertiesUserControl_ForPatchOutlet.CloseRequested += operatorPropertiesUserControl_ForPatchOutlet_CloseRequested;
+            operatorPropertiesUserControl_ForPatchOutlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested;
+            operatorPropertiesUserControl_ForSample.CloseRequested += operatorPropertiesUserControl_ForSample_CloseRequested;
+            operatorPropertiesUserControl_ForSample.LoseFocusRequested += operatorPropertiesUserControl_ForSample_LoseFocusRequested;
+            patchDetailsUserControl.ChangeInputOutletRequested += patchDetailsUserControl_ChangeInputOutletRequested;
+            patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
+            patchDetailsUserControl.CreateOperatorRequested += patchDetailsUserControl_CreateOperatorRequested;
+            patchDetailsUserControl.DeleteOperatorRequested += patchDetailsUserControl_DeleteOperatorRequested;
+            patchDetailsUserControl.LoseFocusRequested += patchDetailsUserControl_LoseFocusRequested;
+            patchDetailsUserControl.MoveOperatorRequested += patchDetailsUserControl_MoveOperatorRequested;
+            patchDetailsUserControl.OperatorPropertiesRequested += patchDetailsUserControl_OperatorPropertiesRequested;
+            patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
+            patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
+            patchGridUserControl.CloseRequested += patchGridUserControl_CloseRequested;
+            patchGridUserControl.CreateRequested += patchGridUserControl_CreateRequested;
+            patchGridUserControl.DeleteRequested += patchGridUserControl_DeleteRequested;
+            patchGridUserControl.ShowDetailsRequested += patchGridUserControl_ShowDetailsRequested;
+            sampleGridUserControl.CloseRequested += sampleGridUserControl_CloseRequested;
+            sampleGridUserControl.CreateRequested += sampleGridUserControl_CreateRequested;
+            sampleGridUserControl.DeleteRequested += sampleGridUserControl_DeleteRequested;
+            sampleGridUserControl.ShowPropertiesRequested += sampleGridUserControl_ShowPropertiesRequested;
+            samplePropertiesUserControl.CloseRequested += samplePropertiesUserControl_CloseRequested;
+            samplePropertiesUserControl.LoseFocusRequested += samplePropertiesUserControl_LoseFocusRequested;
+            toneGridEditUserControl.CloseRequested += toneGridEditUserControl_CloseRequested;
+            toneGridEditUserControl.CreateToneRequested += toneGridEditUserControl_CreateToneRequested;
+            toneGridEditUserControl.DeleteToneRequested += toneGridEditUserControl_DeleteToneRequested;
+            toneGridEditUserControl.LoseFocusRequested += toneGridEditUserControl_LoseFocusRequested;
+            toneGridEditUserControl.PlayToneRequested += toneGridEditUserControl_PlayToneRequested;
+            scaleGridUserControl.CloseRequested += scaleGridUserControl_CloseRequested;
+            scaleGridUserControl.CreateRequested += scaleGridUserControl_CreateRequested;
+            scaleGridUserControl.DeleteRequested += scaleGridUserControl_DeleteRequested;
+            scaleGridUserControl.ShowDetailsRequested += scaleGridUserControl_ShowDetailsRequested;
+            scalePropertiesUserControl.CloseRequested += scalePropertiesUserControl_CloseRequested;
+            scalePropertiesUserControl.LoseFocusRequested += scalePropertiesUserControl_LoseFocusRequested;
+
+            _documentCannotDeleteForm.OKClicked += _documentCannotDeleteForm_OKClicked;
+
+            MessageBoxHelper.NotFoundOK += MessageBoxHelper_NotFoundOK;
+            MessageBoxHelper.DocumentDeleteConfirmed += MessageBoxHelper_DocumentDeleteConfirmed;
+            MessageBoxHelper.DocumentDeleteCanceled += MessageBoxHelper_DocumentDeleteCanceled;
+            MessageBoxHelper.DocumentDeletedOK += MessageBoxHelper_DocumentDeletedOK;
+            MessageBoxHelper.PopupMessagesOK += MessageBoxHelper_PopupMessagesOK;
+        }
+
+        // AudioFileOutput
 
         private void audioFileOutputGridUserControl_CreateRequested(object sender, EventArgs e)
         {
@@ -39,7 +144,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             AudioFileOutputPropertiesLoseFocus();
         }
 
-        // Child Document Events
+        // Child Document
 
         private void childDocumentPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
@@ -51,7 +156,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ChildDocumentPropertiesClose();
         }
 
-        // Curve Events
+        // Curve
 
         private void curveGridUserControl_CreateRequested(object sender, Int32EventArgs e)
         {
@@ -73,25 +178,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
             CurveDetailsShow(e.Value);
         }
 
+        private void CurveDetailsUserControl_SelectNodeRequested(object sender, Int32EventArgs e)
+        {
+            NodeSelect(e.Value);
+        }
+
         private void CurveDetailsUserControl_CreateNodeRequested(object sender, EventArgs e)
         {
-            _presenter.NodeCreate();
-            ApplyViewModel();
+            NodeCreate();
         }
 
         private void CurveDetailsUserControl_DeleteNodeRequested(object sender, EventArgs e)
         {
-            _presenter.NodeDelete();
-            ApplyViewModel();
+            NodeDelete();
         }
 
         private void CurveDetailsUserControl_CloseRequested(object sender, EventArgs e)
         {
-            _presenter.CurveDetailsClose();
-            ApplyViewModel();
+            CurveDetailsClose();
         }
 
-        // Document Grid Events
+        // Document Grid
 
         private void documentGridUserControl_ShowRequested(object sender, Int32EventArgs e)
         {
@@ -118,7 +225,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentGridClose();
         }
 
-        // Document Details Events
+        // Document Details
 
         private void documentDetailsUserControl_SaveRequested(object sender, EventArgs e)
         {
@@ -135,7 +242,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentDetailsClose();
         }
 
-        // Document Tree Events
+        // Document Tree
 
         private void documentTreeUserControl_ShowAudioFileOutputsRequested(object sender, EventArgs e)
         {
@@ -197,7 +304,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ScaleGridShow();
         }
 
-        // Document Properties Events
+        // Document Properties
 
         private void documentPropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
@@ -209,7 +316,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentPropertiesLoseFocus();
         }
 
-        // Effect Events
+        // Effect
 
         private void effectGridUserControl_CreateRequested(object sender, EventArgs e)
         {
@@ -231,7 +338,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ChildDocumentPropertiesShow(e.Value);
         }
 
-        // Instrument Events
+        // Instrument
 
         private void instrumentGridUserControl_CreateRequested(object sender, EventArgs e)
         {
@@ -253,7 +360,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ChildDocumentPropertiesShow(e.Value);
         }
 
-        // Menu Events
+        // Menu
 
         private void menuUserControl_ShowDocumentGridRequested(object sender, EventArgs e)
         {
@@ -275,7 +382,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             DocumentSave();
         }
 
-        // Operator Events
+        // Operator
 
         private void operatorPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
@@ -337,7 +444,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             OperatorPropertiesClose_ForNumber();
         }
 
-        // Patch Events
+        // Patch
 
         private void patchGridUserControl_CreateRequested(object sender, Int32EventArgs e)
         {
@@ -404,7 +511,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             PatchDetailsClose();
         }
 
-        // Sample Events
+        // Sample
 
         private void sampleGridUserControl_CreateRequested(object sender, Int32EventArgs e)
         {
@@ -436,7 +543,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             SamplePropertiesClose();
         }
 
-        // Scale Events
+        // Scale
 
         private void scaleGridUserControl_CreateRequested(object sender, EventArgs e)
         {
@@ -493,7 +600,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ScalePropertiesLoseFocus();
         }
 
-        // Message Box Events
+        // Message Boxes
 
         private void MessageBoxHelper_NotFoundOK(object sender, EventArgs e)
         {
@@ -520,7 +627,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             PopupMessagesOK();
         }
 
-        // DocumentCannotDeleteForm Events
+        // DocumentCannotDeleteForm
 
         private void _documentCannotDeleteForm_OKClicked(object sender, EventArgs e)
         {

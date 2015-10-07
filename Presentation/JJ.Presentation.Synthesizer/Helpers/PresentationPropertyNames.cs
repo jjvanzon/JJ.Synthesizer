@@ -3,5 +3,6 @@
     internal static class PresentationPropertyNames
     {
         public const string SelectedOperator = "SelectedOperator";
+        public const string SelectedNodeID = "SelectedNodeID";
     }
 }

@@ -245,7 +245,7 @@ namespace JJ.Business.Synthesizer.Managers
                         break;
 
                     case NodeTypeEnum.Line:
-                        node.Value = (beforeNode.Value - afterNode.Value) / 2.0;
+                        node.Value = (beforeNode.Value + afterNode.Value) / 2.0;
                         break;
 
                     default:
