@@ -24,7 +24,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private CurveDetailsViewModel _viewModel;
         private CurveDetailsViewModelToDiagramConverter _converter;
-        private NodeViewModelsToDiagramConverterResult _converterResult;
+        private CurveDetailsViewModelToDiagramConverterResult _converterResult;
         private static bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
 
         private static bool GetMustShowInvisibleElements()

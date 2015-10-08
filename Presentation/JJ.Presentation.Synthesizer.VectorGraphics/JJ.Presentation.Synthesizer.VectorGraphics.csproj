@@ -56,7 +56,7 @@
     <Compile Include="Helpers\PositionHelper.cs" />
     <Compile Include="Helpers\StyleHelper.cs" />
     <Compile Include="Helpers\SvgTagHelper.cs" />
-    <Compile Include="NodeViewModelsToDiagramConverterResult.cs" />
+    <Compile Include="CurveDetailsViewModelToDiagramConverterResult.cs" />
     <Compile Include="PatchViewModelToDiagramConverter.cs" />
     <Compile Include="EventArg\ToolTipTextEventArgs.cs" />
     <Compile Include="Gestures\ChangeLineGesture.cs" />

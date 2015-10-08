@@ -8,24 +8,28 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
-    public class NodeViewModelsToDiagramConverterResult
+    public class CurveDetailsViewModelToDiagramConverterResult
     {
         public Diagram Diagram { get; private set; }
         public KeyDownGesture KeyDownGesture { get; private set; }
         public SelectNodeGesture SelectNodeGesture { get; private set; }
+        public MoveGesture MoveNodeGesture { get; private set; }
 
-        public NodeViewModelsToDiagramConverterResult(
+        public CurveDetailsViewModelToDiagramConverterResult(
             Diagram diagram, 
             KeyDownGesture keyDownGesture,
-            SelectNodeGesture selectNodeGesture)
+            SelectNodeGesture selectNodeGesture,
+            MoveGesture moveNodeGesture)
         {
             if (diagram == null) throw new NullException(() => diagram);
             if (keyDownGesture == null) throw new NullException(() => keyDownGesture);
             if (selectNodeGesture == null) throw new NullException(() => selectNodeGesture);
+            if (moveNodeGesture == null) throw new NullException(() => moveNodeGesture);
 
             Diagram = diagram;
             KeyDownGesture = keyDownGesture;
             SelectNodeGesture = selectNodeGesture;
+            MoveNodeGesture = moveNodeGesture;
         }
     }
 }

@@ -29,16 +29,19 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         }
 
         /// <param name="result">Pass an existing result to update an existing diagram.</param>
-        public NodeViewModelsToDiagramConverterResult Execute(
+        public CurveDetailsViewModelToDiagramConverterResult Execute(
             CurveDetailsViewModel detailsViewModel,
-            NodeViewModelsToDiagramConverterResult result)
+            CurveDetailsViewModelToDiagramConverterResult result)
         {
             if (detailsViewModel == null) throw new NullException(() => detailsViewModel);
             if (detailsViewModel.Entity == null) throw new NullException(() => detailsViewModel.Entity);
 
             if (result == null)
             {
-                result = new NodeViewModelsToDiagramConverterResult(new Diagram(), new KeyDownGesture(), new SelectNodeGesture());
+                // TODO: It looks like you may as well instantiate the things you pass to the constructor right inside the class.
+                result = new CurveDetailsViewModelToDiagramConverterResult(
+                    new Diagram(), new KeyDownGesture(), new SelectNodeGesture(), new MoveGesture());
+
                 result.Diagram.Gestures.Add(result.KeyDownGesture);
             }
 
@@ -83,8 +86,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 yFactor = heightWithinMargin / valueDiff;
             }
 
-            var moveGesture = new MoveGesture();
-
             Point previousPoint = null;
 
             foreach (NodeViewModel nodeViewModel in sortedNodeViewModels)
@@ -104,7 +105,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     BackStyle = StyleHelper.BackStyleInvisible,
                     Tag = nodeViewModel.ID
                 };
-                rectangle.Gestures.Add(moveGesture, result.SelectNodeGesture);
+                rectangle.Gestures.Add(result.MoveNodeGesture, result.SelectNodeGesture);
 
                 var point = new Point
                 {
