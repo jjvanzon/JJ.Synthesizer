@@ -80,6 +80,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
             if (!String.IsNullOrEmpty(e2.ToolTipText))
             {
+                ICalculatedValues calculatedValues = e.Element;
+
                 // Set text width
                 float margin = 3f;
                 float textWidth = TextHelper.ApproximateTextWidth(e2.ToolTipText, _label.TextStyle.Font);
@@ -89,8 +91,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
                 _rectangle.Diagram = _diagram;
                 _rectangle.Parent = e.Element;
-                _rectangle.X = e.X - e.Element.CalculatedXInPixels - margin; // The relative coordinate, move some distance to the left.
-                _rectangle.Y = e.Y - e.Element.CalculatedYInPixels - _rectangle.Height - margin; // The relative coordinate, transposed to above the mouse arrow, plus some distance upward.
+                // TODO: You might not need to use ICalculatedValues if you use the public conversion methods of the main interfaces of Element or Diagram.
+                _rectangle.X = e.X - calculatedValues.CalculatedXInPixels - margin; // The relative coordinate, move some distance to the left.
+                _rectangle.Y = e.Y - calculatedValues.CalculatedYInPixels - _rectangle.Height - margin; // The relative coordinate, transposed to above the mouse arrow, plus some distance upward.
                 _label.Text = e2.ToolTipText;
                 _rectangle.Visible = true;
 
