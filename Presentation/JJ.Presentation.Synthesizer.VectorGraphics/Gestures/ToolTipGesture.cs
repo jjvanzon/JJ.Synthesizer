@@ -61,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             }
         }
 
-        public override void HandleMouseMove(object sender, MouseEventArgs e)
+        protected override void HandleMouseMove(object sender, MouseEventArgs e)
         {
             if (ToolTipTextRequested == null)
             {

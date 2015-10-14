@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Business.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Framework.Configuration;
-using JJ.Presentation.Synthesizer.WinForms.Configuration;
+using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
+using JJ.Business.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Presentation.Synthesizer.VectorGraphics;
+using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls

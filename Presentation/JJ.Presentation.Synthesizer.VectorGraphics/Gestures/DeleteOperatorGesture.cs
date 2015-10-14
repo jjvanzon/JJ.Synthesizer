@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
     {
         public EventHandler DeleteRequested;
 
-        public override void HandleKeyDown(object sender, KeyEventArgs e)
+        protected override void HandleKeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == KeyCodeEnum.Delete ||
                 e.KeyCode == KeyCodeEnum.Back)

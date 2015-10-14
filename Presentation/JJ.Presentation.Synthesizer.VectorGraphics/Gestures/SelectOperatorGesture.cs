@@ -18,7 +18,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         // before the LostFocus event of the other control,
         // so SelectOperator goes off overwriting the properties
         // before saving the properties.
-        public override void HandleMouseUp(object sender, MouseEventArgs e)
+        protected override void HandleMouseUp(object sender, MouseEventArgs e)
         {
             if (OperatorSelected != null)
             {

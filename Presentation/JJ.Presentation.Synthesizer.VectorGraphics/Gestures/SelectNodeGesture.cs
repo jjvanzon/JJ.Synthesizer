@@ -20,7 +20,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
         // before the LostFocus event of another control.
         // Also: when a mousedown would regenerate the diagram,
         // the move gesture does not work, because it tries to move the already disappeared element.
-        public override void HandleMouseUp(object sender, MouseEventArgs e)
+        protected override void HandleMouseUp(object sender, MouseEventArgs e)
         {
             if (SelectNodeRequested != null)
             {

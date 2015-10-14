@@ -42,7 +42,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             GC.SuppressFinalize(this);
         }
 
-        public override void HandleMouseDown(object sender, MouseEventArgs e)
+        protected override void HandleMouseDown(object sender, MouseEventArgs e)
         {
             GetSourceCoordinates(e.Element, out _sourceX, out _sourceY);
 
