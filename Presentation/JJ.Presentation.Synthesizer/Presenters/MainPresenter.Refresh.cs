@@ -20,6 +20,42 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel2);
         }
 
+        private void RefreshCurveGrid(CurveGridViewModel curveGridViewModel)
+        {
+            _curveGridPresenter.ViewModel = curveGridViewModel;
+            object viewModel2 = _curveGridPresenter.Refresh();
+            DispatchViewModel(viewModel2);
+        }
+
+        private void RefreshCurveGridItem(int curveID)
+        {
+            CurveGridViewModel gridViewModel = ChildDocumentHelper.GetCurveGridViewModel_ByCurveID(ViewModel.Document, curveID);
+            _curveGridPresenter.ViewModel = gridViewModel;
+            _curveGridPresenter.RefreshListItem(curveID);
+        }
+
+        private void RefreshCurveLookupsItems(int curveID)
+        {
+            Curve curve = _repositories.CurveRepository.Get(curveID);
+
+            // Update curve lookup
+            IDAndName idAndName = ViewModel.Document.CurveLookup.Where(x => x.ID == curve.ID).FirstOrDefault();
+            if (idAndName != null)
+            {
+                idAndName.Name = curve.Name;
+                ViewModel.Document.CurveLookup = ViewModel.Document.CurveLookup.OrderBy(x => x.Name).ToList();
+            }
+            foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.ChildDocumentList)
+            {
+                IDAndName idAndName2 = childDocumentViewModel.CurveLookup.Where(x => x.ID == curve.ID).FirstOrDefault();
+                if (idAndName2 != null)
+                {
+                    idAndName2.Name = curve.Name;
+                    childDocumentViewModel.CurveLookup = childDocumentViewModel.CurveLookup.OrderBy(x => x.Name).ToList();
+                }
+            }
+        }
+
         private void RefreshChildDocumentGrid(ChildDocumentTypeEnum childDocumentTypeEnum)
         {
             switch (childDocumentTypeEnum)

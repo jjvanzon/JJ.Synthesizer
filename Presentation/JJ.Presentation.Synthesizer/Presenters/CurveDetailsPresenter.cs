@@ -153,6 +153,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.SelectedNodeID = null;
         }
 
+
+        public void MoveNode(int nodeID, double time, double value)
+        {
+            AssertViewModel();
+
+            NodeViewModel nodeViewModel = ViewModel.Entity.Nodes.Where(x => x.ID == nodeID).Single();
+            nodeViewModel.Time = time;
+            nodeViewModel.Value = value;
+        }
+
         // Helpers
 
         private void AssertViewModel()

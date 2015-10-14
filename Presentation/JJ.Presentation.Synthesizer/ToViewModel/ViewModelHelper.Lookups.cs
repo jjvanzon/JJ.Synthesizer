@@ -34,6 +34,35 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idNames;
         }
 
+        public static IList<IDAndName> CreateCurveLookupViewModel(Document rootDocument)
+        {
+            if (rootDocument == null) throw new NullException(() => rootDocument);
+
+            var list = new List<IDAndName>(rootDocument.Curves.Count + 1);
+
+            list.Add(new IDAndName { ID = 0, Name = null });
+
+            list.AddRange(rootDocument.Curves
+                                      .OrderBy(x => x.Name)
+                                      .Select(x => x.ToIDAndName()));
+            return list;
+        }
+
+        public static IList<IDAndName> CreateCurveLookupViewModel(Document rootDocument, Document childDocument)
+        {
+            if (rootDocument == null) throw new NullException(() => rootDocument);
+            if (childDocument == null) throw new NullException(() => childDocument);
+
+            var list = new List<IDAndName>();
+
+            list.Add(new IDAndName { ID = 0, Name = null });
+
+            list.AddRange(Enumerable.Union(rootDocument.Curves, childDocument.Curves)
+                                    .OrderBy(x => x.Name)
+                                    .Select(x => x.ToIDAndName()));
+            return list;
+        }
+
         public static IList<IDAndName> CreateInterpolationTypesLookupViewModel(IInterpolationTypeRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
@@ -119,6 +148,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return list;
         }
 
+        public static IList<IDAndName> CreateScaleTypeLookupViewModel(IScaleTypeRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            IList<ScaleType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
+
+            var list = new List<IDAndName>(entities.Count + 1);
+            list.Add(new IDAndName { ID = 0, Name = null });
+            list.AddRange(entities.OrderBy(x => x.ID).Select(x => x.ToIDAndName()));
+
+            return list;
+        }
+
         public static IList<IDAndName> CreateSpeakerSetupLookupViewModel(ISpeakerSetupRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
@@ -137,19 +179,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var list = new List<IDAndName>(underlyingDocuments.Count + 1);
             list.Add(new IDAndName { ID = 0, Name = null });
             list.AddRange(underlyingDocuments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
-
-            return list;
-        }
-
-        public static IList<IDAndName> CreateScaleTypeLookupViewModel(IScaleTypeRepository repository)
-        {
-            if (repository == null) throw new NullException(() => repository);
-
-            IList<ScaleType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
-
-            var list = new List<IDAndName>(entities.Count + 1);
-            list.Add(new IDAndName { ID = 0, Name = null });
-            list.AddRange(entities.OrderBy(x => x.ID).Select(x => x.ToIDAndName()));
 
             return list;
         }

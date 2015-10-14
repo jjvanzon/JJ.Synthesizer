@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler LoseFocusRequested;
         public event EventHandler DeleteOperatorRequested;
         public event EventHandler<CreateOperatorEventArgs> CreateOperatorRequested;
-        public event EventHandler<MoveOperatorEventArgs> MoveOperatorRequested;
+        public event EventHandler<MoveEntityEventArgs> MoveOperatorRequested;
         public event EventHandler<ChangeInputOutletEventArgs> ChangeInputOutletRequested;
         public event EventHandler<Int32EventArgs> SelectOperatorRequested;
         public event EventHandler PlayRequested;
@@ -210,7 +210,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (MoveOperatorRequested != null)
             {
-                var e = new MoveOperatorEventArgs(operatorID, centerX, centerY);
+                var e = new MoveEntityEventArgs(operatorID, centerX, centerY);
                 MoveOperatorRequested(this, e);
             }
         }

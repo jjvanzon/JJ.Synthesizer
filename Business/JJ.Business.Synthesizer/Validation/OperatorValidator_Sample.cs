@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Validation
             int sampleID;
             if (Int32.TryParse(op.Data, out sampleID))
             {
-                // Check reference constraint of the Curve.
+                // Check reference constraint of the Sample.
                 // (We are quite tollerant here: we omit the check if it is not in a patch or document.)
                 bool mustCheckReference = op.Patch != null && op.Patch.Document != null;
                 if (mustCheckReference)

@@ -72,6 +72,17 @@ namespace JJ.Business.Synthesizer.Managers
             return curve;
         }
 
+        public VoidResult ValidateWithoutRelatedEntities(Curve entity)
+        {
+            IValidator validator = new CurveValidator_WithoutNodes(entity);
+
+            return new VoidResult
+            {
+                Successful = validator.IsValid,
+                Messages = validator.ValidationMessages.ToCanonical()
+            };
+        }
+
         /// <param name="nodeInfos">When a NodeInfo is null, a node will not be created at that point in time.</param>
         public Curve Create(double timeSpan, params NodeInfo[] nodeInfos)
         {

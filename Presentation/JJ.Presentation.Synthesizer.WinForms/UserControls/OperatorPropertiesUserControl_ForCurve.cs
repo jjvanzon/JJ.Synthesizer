@@ -12,14 +12,14 @@ using JJ.Framework.Presentation.WinForms.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class OperatorPropertiesUserControl_ForSample : UserControl
+    internal partial class OperatorPropertiesUserControl_ForCurve : UserControl
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
 
-        private OperatorPropertiesViewModel_ForSample _viewModel;
+        private OperatorPropertiesViewModel_ForCurve _viewModel;
 
-        public OperatorPropertiesUserControl_ForSample()
+        public OperatorPropertiesUserControl_ForCurve()
         {
             InitializeComponent();
 
@@ -28,14 +28,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutomaticallyAssignTabIndexes();
         }
 
-        private void OperatorPropertiesUserControl_ForSample_Load(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_ForCurve_Load(object sender, EventArgs e)
         {
             ApplyStyling();
         }
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public OperatorPropertiesViewModel_ForSample ViewModel
+        public OperatorPropertiesViewModel_ForCurve ViewModel
         {
             get { return _viewModel; }
             set
@@ -53,9 +53,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
-            labelSample.Text = PropertyDisplayNames.Sample;
+            labelCurve.Text = PropertyDisplayNames.Curve;
 
-            labelOperatorTypeValue.Text = PropertyDisplayNames.Sample;
+            labelOperatorTypeValue.Text = PropertyDisplayNames.Curve;
         }
 
         private void ApplyStyling()
@@ -71,34 +71,34 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             textBoxName.Text = _viewModel.Name;
 
-            if (_viewModel.Sample != null)
+            if (_viewModel.Curve != null)
             {
-                comboBoxSample.SelectedValue = _viewModel.Sample.ID;
+                comboBoxCurve.SelectedValue = _viewModel.Curve.ID;
             }
             else
             {
-                comboBoxSample.SelectedValue = 0;
+                comboBoxCurve.SelectedValue = 0;
             }
         }
 
-        public void SetSampleLookup(IList<IDAndName> sampleLookup)
+        public void SetCurveLookup(IList<IDAndName> curveLookup)
         {
-            // Always refill the lookup, so changes to the sample collection are reflected.
-            int? selectedID = TryGetSelectedSampleID();
-            comboBoxSample.DataSource = null; // Do this or WinForms will not refresh the list.
-            comboBoxSample.ValueMember = PropertyNames.ID;
-            comboBoxSample.DisplayMember = PropertyNames.Name;
-            comboBoxSample.DataSource = sampleLookup;
+            // Always refill the lookup, so changes to the curve collection are reflected.
+            int? selectedID = TryGetSelectedCurveID();
+            comboBoxCurve.DataSource = null; // Do this or WinForms will not refresh the list.
+            comboBoxCurve.ValueMember = PropertyNames.ID;
+            comboBoxCurve.DisplayMember = PropertyNames.Name;
+            comboBoxCurve.DataSource = curveLookup;
             if (selectedID != null)
             {
-                comboBoxSample.SelectedValue = selectedID;
+                comboBoxCurve.SelectedValue = selectedID;
             }
         }
 
-        private int? TryGetSelectedSampleID()
+        private int? TryGetSelectedCurveID()
         {
-            if (comboBoxSample.DataSource == null) return null;
-            IDAndName idAndName = (IDAndName)comboBoxSample.SelectedItem;
+            if (comboBoxCurve.DataSource == null) return null;
+            IDAndName idAndName = (IDAndName)comboBoxCurve.SelectedItem;
             if (idAndName == null) return null;
             return idAndName.ID;
         }
@@ -108,7 +108,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             _viewModel.Name = textBoxName.Text;
-            _viewModel.Sample = (IDAndName)comboBoxSample.SelectedItem;
+            _viewModel.Curve = (IDAndName)comboBoxCurve.SelectedItem;
         }
 
         // Actions
@@ -139,7 +139,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
-        private void OperatorPropertiesUserControl_ForSample_Leave(object sender, EventArgs e)
+        private void OperatorPropertiesUserControl_ForCurve_Leave(object sender, EventArgs e)
         {
             // This Visible check is there because the leave event (lose focus) goes off after I closed, 
             // making it want to save again, even though view model is empty

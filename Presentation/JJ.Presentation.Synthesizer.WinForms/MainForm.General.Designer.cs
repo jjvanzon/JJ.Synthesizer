@@ -30,6 +30,8 @@
             this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
             this.sampleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SampleGridUserControl();
             this.patchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchGridUserControl();
+            this.curvePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurvePropertiesUserControl();
+            this.operatorPropertiesUserControl_ForCurve = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCurve();
             this.scalePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScalePropertiesUserControl();
             this.operatorPropertiesUserControl_ForPatchInlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchInlet();
             this.documentPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentPropertiesUserControl();
@@ -104,6 +106,8 @@
             // 
             // splitContainerProperties.Panel2
             // 
+            this.splitContainerProperties.Panel2.Controls.Add(this.curvePropertiesUserControl);
+            this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCurve);
             this.splitContainerProperties.Panel2.Controls.Add(this.scalePropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForPatchInlet);
             this.splitContainerProperties.Panel2.Controls.Add(this.documentPropertiesUserControl);
@@ -250,6 +254,30 @@
             this.patchGridUserControl.Size = new System.Drawing.Size(621, 657);
             this.patchGridUserControl.TabIndex = 8;
             this.patchGridUserControl.Visible = false;
+            // 
+            // curvePropertiesUserControl
+            // 
+            this.curvePropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.curvePropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.curvePropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.curvePropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.curvePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
+            this.curvePropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.curvePropertiesUserControl.Name = "curvePropertiesUserControl";
+            this.curvePropertiesUserControl.Size = new System.Drawing.Size(266, 657);
+            this.curvePropertiesUserControl.TabIndex = 1;
+            // 
+            // operatorPropertiesUserControl_ForCurve
+            // 
+            this.operatorPropertiesUserControl_ForCurve.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_ForCurve.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForCurve.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_ForCurve.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_ForCurve.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_ForCurve.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.operatorPropertiesUserControl_ForCurve.Name = "operatorPropertiesUserControl_ForCurve";
+            this.operatorPropertiesUserControl_ForCurve.Size = new System.Drawing.Size(266, 657);
+            this.operatorPropertiesUserControl_ForCurve.TabIndex = 1;
             // 
             // scalePropertiesUserControl
             // 
@@ -444,5 +472,7 @@
         private UserControls.ToneGridEditUserControl toneGridEditUserControl;
         private UserControls.ScalePropertiesUserControl scalePropertiesUserControl;
         private UserControls.CurveDetailsUserControl curveDetailsUserControl;
+        private UserControls.OperatorPropertiesUserControl_ForCurve operatorPropertiesUserControl_ForCurve;
+        private UserControls.CurvePropertiesUserControl curvePropertiesUserControl;
     }
 }

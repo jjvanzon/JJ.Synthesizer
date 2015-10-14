@@ -1,22 +1,28 @@
-﻿using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+﻿using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class CurveGridPresenter
     {
         private IDocumentRepository _documentRepository;
+        private ICurveRepository _curveRepository;
 
         public CurveGridViewModel ViewModel { get; set; }
 
-        public CurveGridPresenter(IDocumentRepository documentRepository)
+        public CurveGridPresenter(IDocumentRepository documentRepository, ICurveRepository curveRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
 
             _documentRepository = documentRepository;
+            _curveRepository = curveRepository;
         }
 
         public void Show()
@@ -44,6 +50,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Visible = visible;
 
             return ViewModel;
+        }
+
+        public void RefreshListItem(int curveID)
+        {
+            Curve curve = _curveRepository.Get(curveID);
+
+            int listIndex = ViewModel.List.IndexOf(x => x.ID == curveID);
+
+            IDAndName viewModel2 = curve.ToIDAndName();
+            ViewModel.List[listIndex] = viewModel2;
+
+            ViewModel.List = ViewModel.List.OrderBy(x => x.Name).ToList();
         }
 
         public void Close()

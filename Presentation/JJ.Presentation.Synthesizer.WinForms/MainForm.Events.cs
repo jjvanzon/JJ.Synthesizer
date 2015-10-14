@@ -21,11 +21,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
             curveGridUserControl.CloseRequested += curveGridUserControl_CloseRequested;
             curveGridUserControl.CreateRequested += curveGridUserControl_CreateRequested;
             curveGridUserControl.DeleteRequested += curveGridUserControl_DeleteRequested;
-            curveGridUserControl.ShowDetailsRequested += CurveGridUserControl_ShowDetailsRequested;
-            curveDetailsUserControl.CloseRequested += CurveDetailsUserControl_CloseRequested;
-            curveDetailsUserControl.CreateNodeRequested += CurveDetailsUserControl_CreateNodeRequested;
-            curveDetailsUserControl.DeleteNodeRequested += CurveDetailsUserControl_DeleteNodeRequested;
-            curveDetailsUserControl.SelectNodeRequested += CurveDetailsUserControl_SelectNodeRequested;
+            curveGridUserControl.ShowDetailsRequested += curveGridUserControl_ShowDetailsRequested;
+            curveDetailsUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
+            curveDetailsUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
+            curveDetailsUserControl.DeleteNodeRequested += curveDetailsUserControl_DeleteNodeRequested;
+            curveDetailsUserControl.MoveNodeRequested += curveDetailsUserControl_MoveNodeRequested;
+            curveDetailsUserControl.SelectNodeRequested += curveDetailsUserControl_SelectNodeRequested;
+            curveDetailsUserControl.ShowCurvePropertiesRequested += curveDetailsUserControl_ShowCurvePropertiesRequested;
+            curvePropertiesUserControl.CloseRequested += curvePropertiesUserControl_CloseRequested;
+            curvePropertiesUserControl.LoseFocusRequested += curvePropertiesUserControl_LoseFocusRequested;
             documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
             documentDetailsUserControl.DeleteRequested += documentDetailsUserControl_DeleteRequested;
             documentDetailsUserControl.SaveRequested += documentDetailsUserControl_SaveRequested;
@@ -62,6 +66,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
             operatorPropertiesUserControl.CloseRequested += operatorPropertiesUserControl_CloseRequested;
             operatorPropertiesUserControl.LoseFocusRequested += operatorPropertiesUserControl_LoseFocusRequested;
+            operatorPropertiesUserControl_ForCurve.CloseRequested += operatorPropertiesUserControl_ForCurve_CloseRequested;
+            operatorPropertiesUserControl_ForCurve.LoseFocusRequested += operatorPropertiesUserControl_ForCurve_LoseFocusRequested;
             operatorPropertiesUserControl_ForCustomOperator.CloseRequested += operatorPropertiesUserControl_ForCustomOperator_CloseRequested;
             operatorPropertiesUserControl_ForCustomOperator.LoseFocusRequested += operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested;
             operatorPropertiesUserControl_ForNumber.CloseRequested += operatorPropertiesUserControl_ForNumber_CloseRequested;
@@ -173,29 +179,56 @@ namespace JJ.Presentation.Synthesizer.WinForms
             CurveGridClose();
         }
 
-        private void CurveGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
+        private void curveGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
         {
             CurveDetailsShow(e.Value);
         }
 
-        private void CurveDetailsUserControl_SelectNodeRequested(object sender, Int32EventArgs e)
+        private void curveDetailsUserControl_SelectNodeRequested(object sender, Int32EventArgs e)
         {
             NodeSelect(e.Value);
         }
 
-        private void CurveDetailsUserControl_CreateNodeRequested(object sender, EventArgs e)
+        private void curveDetailsUserControl_CreateNodeRequested(object sender, EventArgs e)
         {
             NodeCreate();
         }
 
-        private void CurveDetailsUserControl_DeleteNodeRequested(object sender, EventArgs e)
+        private void curveDetailsUserControl_DeleteNodeRequested(object sender, EventArgs e)
         {
             NodeDelete();
         }
 
-        private void CurveDetailsUserControl_CloseRequested(object sender, EventArgs e)
+        private void curveDetailsUserControl_CloseRequested(object sender, EventArgs e)
         {
             CurveDetailsClose();
+        }
+
+        private void curveDetailsUserControl_MoveNodeRequested(object sender, MoveEntityEventArgs e)
+        {
+            // TODO: Remove this return statement once the MoveGesture with ScaleMode ViewPort is not out of wack anymore.
+            //return;
+
+            _presenter.NodeMove(e.EntityID, e.X, e.Y);
+            ApplyViewModel();
+        }
+
+        private void curveDetailsUserControl_ShowCurvePropertiesRequested(object sender, EventArgs e)
+        {
+            _presenter.CurvePropertiesShow(curveDetailsUserControl.ViewModel.Entity.ID); // TODO: Getting the ID seems to be done different from the other actions... figure out why this is inconsistent.
+            ApplyViewModel();
+        }
+
+        private void curvePropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        {
+            _presenter.CurvePropertiesLoseFocus();
+            ApplyViewModel();
+        }
+
+        private void curvePropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            _presenter.CurvePropertiesClose();
+            ApplyViewModel();
         }
 
         // Document Grid
@@ -394,6 +427,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
             OperatorPropertiesClose();
         }
 
+        private void operatorPropertiesUserControl_ForCurve_LoseFocusRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesLoseFocus_ForCurve();
+        }
+
+        private void operatorPropertiesUserControl_ForCurve_CloseRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesClose_ForCurve();
+        }
+
         private void operatorPropertiesUserControl_ForCustomOperator_LoseFocusRequested(object sender, EventArgs e)
         {
             OperatorPropertiesLoseFocus_ForCustomOperator();
@@ -402,6 +445,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void operatorPropertiesUserControl_ForCustomOperator_CloseRequested(object sender, EventArgs e)
         {
             OperatorPropertiesClose_ForCustomOperator();
+        }
+
+        private void operatorPropertiesUserControl_ForNumber_LoseFocusRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesLoseFocus_ForNumber();
+        }
+
+        private void operatorPropertiesUserControl_ForNumber_CloseRequested(object sender, EventArgs e)
+        {
+            OperatorPropertiesClose_ForNumber();
         }
 
         private void operatorPropertiesUserControl_ForPatchInlet_LoseFocusRequested(object sender, EventArgs e)
@@ -432,16 +485,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void operatorPropertiesUserControl_ForSample_CloseRequested(object sender, EventArgs e)
         {
             OperatorPropertiesClose_ForSample();
-        }
-
-        private void operatorPropertiesUserControl_ForNumber_LoseFocusRequested(object sender, EventArgs e)
-        {
-            OperatorPropertiesLoseFocus_ForNumber();
-        }
-
-        private void operatorPropertiesUserControl_ForNumber_CloseRequested(object sender, EventArgs e)
-        {
-            OperatorPropertiesClose_ForNumber();
         }
 
         // Patch
@@ -486,9 +529,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             OperatorChangeInputOutlet(e.InletID, e.InputOutletID);
         }
 
-        private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveOperatorEventArgs e)
+        private void patchDetailsUserControl_MoveOperatorRequested(object sender, MoveEntityEventArgs e)
         {
-            OperatorMove(e.OperatorID, e.CenterX, e.CenterY);
+            OperatorMove(e.EntityID, e.X, e.Y);
         }
 
         private void patchDetailsUserControl_CreateOperatorRequested(object sender, CreateOperatorEventArgs e)

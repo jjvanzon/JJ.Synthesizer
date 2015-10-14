@@ -31,11 +31,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 EffectGrid = document.ToChildDocumentGridViewModel((int)ChildDocumentTypeEnum.Effect),
                 CurveDetailsList = document.Curves.Select(x => x.ToDetailsViewModel(repositoryWrapper.NodeTypeRepository)).ToList(),
                 CurveGrid = document.Curves.ToGridViewModel(document.ID),
+                CurvePropertiesList = document.Curves.Select(x => x.ToPropertiesViewModel()).ToList(),
                 OperatorPropertiesList = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList()).ToList(),
                 OperatorPropertiesList_ForCustomOperators = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForCustomOperators(repositoryWrapper.DocumentRepository)).ToList(),
                 OperatorPropertiesList_ForPatchInlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToList(),
                 OperatorPropertiesList_ForPatchOutlets = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToList(),
                 OperatorPropertiesList_ForSamples = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForSamples(repositoryWrapper.SampleRepository)).ToList(),
+                OperatorPropertiesList_ForCurves = document.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForCurves(repositoryWrapper.CurveRepository)).ToList(),
                 OperatorPropertiesList_ForNumbers = document.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForNumbers()).ToList(),
                 PatchDetailsList = document.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, repositoryWrapper.SampleRepository, repositoryWrapper.CurveRepository, repositoryWrapper.DocumentRepository, entityPositionManager)).ToList(),
                 PatchGrid = document.Patches.ToGridViewModel(document.ID),
@@ -45,7 +47,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ScaleGrid = document.Scales.ToGridViewModel(document.ID),
                 ScalePropertiesList = document.Scales.Select(x => x.ToPropertiesViewModel(repositoryWrapper.ScaleTypeRepository)).ToList(),
                 UnderlyingDocumentLookup = ViewModelHelper.CreateUnderlyingDocumentLookupViewModel(document.ChildDocuments),
-                SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(document)
+                SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(document),
+                CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(document)
             };
 
             return viewModel;
@@ -67,15 +70,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SamplePropertiesList = childDocument.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositoryWrapper))).ToList(),
                 CurveGrid = childDocument.Curves.ToGridViewModel(childDocument.ID),
                 CurveDetailsList = childDocument.Curves.Select(x => x.ToDetailsViewModel(repositoryWrapper.NodeTypeRepository)).ToList(),
+                CurvePropertiesList = childDocument.Curves.Select(x => x.ToPropertiesViewModel()).ToList(),
                 OperatorPropertiesList = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList()).ToList(),
                 OperatorPropertiesList_ForCustomOperators = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForCustomOperators(repositoryWrapper.DocumentRepository)).ToList(),
                 OperatorPropertiesList_ForPatchInlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchInlets()).ToList(),
                 OperatorPropertiesList_ForPatchOutlets = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForPatchOutlets()).ToList(),
                 OperatorPropertiesList_ForSamples = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForSamples(repositoryWrapper.SampleRepository)).ToList(),
+                OperatorPropertiesList_ForCurves = childDocument.Patches.SelectMany(x => x.ToOperatorPropertiesViewModelList_ForCurves(repositoryWrapper.CurveRepository)).ToList(),
                 OperatorPropertiesList_ForNumbers = childDocument.Patches.SelectMany(x => x.ToPropertiesViewModelList_ForNumbers()).ToList(),
                 PatchGrid = childDocument.Patches.ToGridViewModel(childDocument.ID),
                 PatchDetailsList = childDocument.Patches.Select(x => x.ToDetailsViewModel(repositoryWrapper.OperatorTypeRepository, repositoryWrapper.SampleRepository, repositoryWrapper.CurveRepository, repositoryWrapper.DocumentRepository, entityPositionManager)).ToList(),
-                SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(childDocument.ParentDocument, childDocument)
+                SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(childDocument.ParentDocument, childDocument),
+                CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(childDocument.ParentDocument, childDocument)
             };
 
             return viewModel;

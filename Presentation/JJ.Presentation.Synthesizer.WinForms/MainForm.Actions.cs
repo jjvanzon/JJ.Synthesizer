@@ -354,6 +354,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void OperatorPropertiesClose_ForCurve()
+        {
+            _presenter.OperatorPropertiesClose_ForCurve();
+            ApplyViewModel();
+        }
+
         private void OperatorPropertiesClose_ForCustomOperator()
         {
             _presenter.OperatorPropertiesClose_ForCustomOperator();
@@ -387,6 +393,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void OperatorPropertiesLoseFocus()
         {
             _presenter.OperatorPropertiesLoseFocus();
+            ApplyViewModel();
+        }
+
+        private void OperatorPropertiesLoseFocus_ForCurve()
+        {
+            _presenter.OperatorPropertiesLoseFocus_ForCurve();
             ApplyViewModel();
         }
 

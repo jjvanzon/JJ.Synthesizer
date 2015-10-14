@@ -68,7 +68,7 @@
     <Compile Include="Configuration\TestingConfiguration.cs" />
     <Compile Include="EventArg\CreateOperatorEventArgs.cs" />
     <Compile Include="EventArg\ChangeInputOutletEventArgs.cs" />
-    <Compile Include="EventArg\MoveOperatorEventArgs.cs" />
+    <Compile Include="EventArg\MoveEntityEventArgs.cs" />
     <Compile Include="EventArg\Int32EventArgs.cs" />
     <Compile Include="Forms\DocumentCannotDeleteForm.cs">
       <SubType>Form</SubType>
@@ -114,11 +114,23 @@
     <Compile Include="UserControls\CurveDetailsUserControl.Designer.cs">
       <DependentUpon>CurveDetailsUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\CurvePropertiesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CurvePropertiesUserControl.Designer.cs">
+      <DependentUpon>CurvePropertiesUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForCurve.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForCurve.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_ForCurve.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ToneGridEditUserControl.cs">
       <SubType>UserControl</SubType>
@@ -289,8 +301,14 @@
     <EmbeddedResource Include="UserControls\CurveDetailsUserControl.resx">
       <DependentUpon>CurveDetailsUserControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CurvePropertiesUserControl.resx">
+      <DependentUpon>CurvePropertiesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCurve.resx">
+      <DependentUpon>OperatorPropertiesUserControl_ForCurve.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ToneGridEditUserControl.resx">
       <DependentUpon>ToneGridEditUserControl.cs</DependentUpon>

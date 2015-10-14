@@ -201,15 +201,22 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Document destDocument = userInput.ToEntity(repositories.DocumentRepository, repositories.ChildDocumentTypeRepository);
 
-            userInput.SamplePropertiesList.ToSamples(destDocument, new SampleRepositories(repositories));
-            userInput.CurveDetailsList.ToCurvesWithRelatedEntities(destDocument, new CurveRepositories(repositories));
+            var curveRepositories = new CurveRepositories(repositories);
+            userInput.CurvePropertiesList.ToEntities(destDocument, curveRepositories);
+            userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(destDocument, curveRepositories);
             userInput.PatchDetailsList.ToPatchesWithRelatedEntities(destDocument, new PatchRepositories(repositories));
+            userInput.SamplePropertiesList.ToSamples(destDocument, new SampleRepositories(repositories));
 
             // Operator Properties
             // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
             foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesList)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForCurve propertiesViewModel in userInput.OperatorPropertiesList_ForCurves)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.CurveRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
@@ -379,12 +386,82 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Curve
 
+        public static void ToEntitiesWithRelatedEntities(this IList<CurveDetailsViewModel> viewModelList, Document destDocument, CurveRepositories repositories)
+        {
+            if (viewModelList == null) throw new NullException(() => viewModelList);
+            if (destDocument == null) throw new NullException(() => destDocument);
+            if (repositories == null) throw new NullException(() => repositories);
+
+            var idsToKeep = new HashSet<int>();
+
+            foreach (CurveDetailsViewModel viewModel in viewModelList)
+            {
+                Curve entity = viewModel.Entity.ToEntityWithRelatedEntities(repositories);
+                entity.LinkTo(destDocument);
+
+                if (!idsToKeep.Contains(entity.ID))
+                {
+                    idsToKeep.Add(entity.ID);
+                }
+            }
+
+            var curveManager = new CurveManager(repositories);
+
+            IList<int> existingIDs = destDocument.Curves.Select(x => x.ID).ToArray();
+            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+            foreach (int idToDelete in idsToDelete)
+            {
+                IResult result = curveManager.DeleteWithRelatedEntities(idToDelete);
+
+                ResultHelper.Assert(result);
+            }
+        }
+
+        public static void ToEntities(this IList<CurvePropertiesViewModel> viewModelList, Document destDocument, CurveRepositories repositories)
+        {
+            if (viewModelList == null) throw new NullException(() => viewModelList);
+            if (destDocument == null) throw new NullException(() => destDocument);
+            if (repositories == null) throw new NullException(() => repositories);
+
+            var idsToKeep = new HashSet<int>();
+
+            foreach (CurvePropertiesViewModel viewModel in viewModelList)
+            {
+                Curve entity = viewModel.Entity.ToCurve(repositories.CurveRepository);
+                entity.LinkTo(destDocument);
+
+                if (!idsToKeep.Contains(entity.ID))
+                {
+                    idsToKeep.Add(entity.ID);
+                }
+            }
+
+            var curveManager = new CurveManager(repositories);
+
+            IList<int> existingIDs = destDocument.Curves.Select(x => x.ID).ToArray();
+            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+            foreach (int idToDelete in idsToDelete)
+            {
+                IResult result = curveManager.DeleteWithRelatedEntities(idToDelete);
+
+                ResultHelper.Assert(result);
+            }
+        }
+
         public static Curve ToEntityWithRelatedEntities(this CurveDetailsViewModel viewModel, CurveRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
 
             return viewModel.Entity.ToEntityWithRelatedEntities(repositories);
+        }
+
+        public static Curve ToEntity(this CurvePropertiesViewModel viewModel, ICurveRepository curveRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+
+            return viewModel.Entity.ToCurve(curveRepository);
         }
 
         public static Curve ToEntityWithRelatedEntities(this CurveViewModel viewModel, CurveRepositories repositories)
@@ -414,6 +491,35 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             curve.Name = viewModel.Name;
 
             return curve;
+        }
+
+        public static void ToNodes(this IList<NodeViewModel> viewModelList, Curve destCurve, CurveRepositories repositories)
+        {
+            if (viewModelList == null) throw new NullException(() => viewModelList);
+            if (destCurve == null) throw new NullException(() => destCurve);
+            if (repositories == null) throw new NullException(() => repositories);
+
+            var idsToKeep = new HashSet<int>();
+
+            foreach (NodeViewModel viewModel in viewModelList)
+            {
+                Node entity = viewModel.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository);
+                entity.LinkTo(destCurve);
+
+                if (!idsToKeep.Contains(entity.ID))
+                {
+                    idsToKeep.Add(entity.ID);
+                }
+            }
+
+            var curveManager = new CurveManager(repositories);
+
+            IList<int> existingIDs = destCurve.Nodes.Select(x => x.ID).ToArray();
+            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+            foreach (int idToDelete in idsToDelete)
+            {
+                curveManager.DeleteNode(idToDelete);
+            }
         }
 
         public static Node ToEntity(this NodeViewModel viewModel, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
@@ -447,64 +553,21 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static void ToCurvesWithRelatedEntities(this IList<CurveDetailsViewModel> viewModelList, Document destDocument, CurveRepositories repositories)
+        public static Curve ToCurve(this IDAndName idAndName, ICurveRepository curveRepository)
         {
-            if (viewModelList == null) throw new NullException(() => viewModelList);
-            if (destDocument == null) throw new NullException(() => destDocument);
-            if (repositories == null) throw new NullException(() => repositories);
+            if (idAndName == null) throw new NullException(() => idAndName);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
 
-            var idsToKeep = new HashSet<int>();
-
-            foreach (CurveDetailsViewModel viewModel in viewModelList)
+            Curve entity = curveRepository.TryGet(idAndName.ID);
+            if (entity == null)
             {
-                Curve entity = viewModel.Entity.ToEntityWithRelatedEntities(repositories);
-                entity.LinkTo(destDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
+                entity = new Curve();
+                entity.ID = idAndName.ID;
+                curveRepository.Insert(entity);
             }
+            entity.Name = idAndName.Name;
 
-            var curveManager = new CurveManager(repositories);
-
-            IList<int> existingIDs = destDocument.Curves.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                IResult result = curveManager.DeleteWithRelatedEntities(idToDelete);
-
-                ResultHelper.Assert(result);
-            }
-        }
-
-        public static void ToNodes(this IList<NodeViewModel> viewModelList, Curve destCurve, CurveRepositories repositories)
-        {
-            if (viewModelList == null) throw new NullException(() => viewModelList);
-            if (destCurve == null) throw new NullException(() => destCurve);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            var idsToKeep = new HashSet<int>();
-
-            foreach (NodeViewModel viewModel in viewModelList)
-            {
-                Node entity = viewModel.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository);
-                entity.LinkTo(destCurve);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            var curveManager = new CurveManager(repositories);
-
-            IList<int> existingIDs = destCurve.Nodes.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                curveManager.DeleteNode(idToDelete);
-            }
+            return entity;
         }
 
         // Document
@@ -531,7 +594,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             userInput.ChildDocumentPropertiesList.ToChildDocuments(destDocument, repositories);
 
             userInput.AudioFileOutputPropertiesList.ToAudioFileOutputsWithRelatedEntities(destDocument, new AudioFileOutputRepositories(repositories));
-            userInput.CurveDetailsList.ToCurvesWithRelatedEntities(destDocument, new CurveRepositories(repositories));
+            var curveRepositories = new CurveRepositories(repositories);
+            userInput.CurvePropertiesList.ToEntities(destDocument, curveRepositories);
+            userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(destDocument, curveRepositories);
             userInput.PatchDetailsList.ToPatchesWithRelatedEntities(destDocument, new PatchRepositories(repositories));
             userInput.SamplePropertiesList.ToSamples(destDocument, new SampleRepositories(repositories));
 
@@ -545,6 +610,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesList)
             {
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForCurve propertiesViewModel in userInput.OperatorPropertiesList_ForCurves)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.CurveRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
@@ -666,6 +736,48 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return rootDocument;
         }
 
+        /// <summary>
+        /// Used for OperatorProperties view for Curve operators, to partially convert to entity,
+        /// just enoughto make a few entity validations work.
+        /// </summary> 
+        public static Document ToHollowDocumentWithHollowChildDocumentsWithCurvesWithName(
+            this DocumentViewModel viewModel,
+            IDocumentRepository documentRepository,
+            IChildDocumentTypeRepository childDocumentTypeRepository,
+            ICurveRepository curveRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+
+            Document rootDocument = viewModel.ToEntity(documentRepository);
+
+            // TODO: Use CurvePropertiesViewModel instead of CurveDetailsViewModel instead, after you programmed those.
+
+            foreach (CurveDetailsViewModel curveDetailsViewModel in viewModel.CurveDetailsList)
+            {
+                Curve curve = curveDetailsViewModel.Entity.ToEntity(curveRepository);
+                curve.Name = curveDetailsViewModel.Entity.Name;
+                curve.LinkTo(rootDocument);
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in viewModel.ChildDocumentList)
+            {
+                Document childDocument = childDocumentViewModel.ToEntity(documentRepository, childDocumentTypeRepository);
+                childDocument.LinkToParentDocument(rootDocument);
+
+                foreach (CurveDetailsViewModel curveDetailsViewModel in childDocumentViewModel.CurveDetailsList)
+                {
+                    Curve curve = curveDetailsViewModel.Entity.ToEntity(curveRepository);
+                    curve.Name = curveDetailsViewModel.Entity.Name;
+                    curve.LinkTo(childDocument);
+                }
+            }
+
+            return rootDocument;
+        }
+
         // Operator 
 
         public static Operator ToEntity(
@@ -695,6 +807,39 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             else
             {
                 entity.UnlinkOperatorType();
+            }
+
+            return entity;
+        }
+
+        public static Operator ToEntity(
+            this OperatorPropertiesViewModel_ForCurve viewModel,
+            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, ICurveRepository curveRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+            entity.SetOperatorTypeEnum(OperatorTypeEnum.Curve, operatorTypeRepository);
+
+            // Curve
+            var wrapper = new OperatorWrapper_Curve(entity, curveRepository);
+            bool curveIsFilledIn = viewModel.Curve != null && viewModel.Curve.ID != 0;
+            if (curveIsFilledIn)
+            {
+                wrapper.CurveID = viewModel.Curve.ID;
+            }
+            else
+            {
+                wrapper.CurveID = null;
             }
 
             return entity;

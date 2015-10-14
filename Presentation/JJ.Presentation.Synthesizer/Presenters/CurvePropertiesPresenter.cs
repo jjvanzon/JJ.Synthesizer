@@ -9,20 +9,25 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class SamplePropertiesPresenter
+    internal class CurvePropertiesPresenter
     {
-        private SampleRepositories _repositories;
+        private CurveRepositories _repositories;
+        private CurveManager _curveManager;
 
-        public SamplePropertiesViewModel ViewModel { get; set; }
+        public CurvePropertiesViewModel ViewModel { get; set; }
 
-        public SamplePropertiesPresenter(SampleRepositories repositories)
+        public CurvePropertiesPresenter(CurveRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
             _repositories = repositories;
+            _curveManager = new CurveManager(_repositories);
         }
 
         public void Show()
@@ -36,9 +41,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Sample entity = _repositories.SampleRepository.Get(ViewModel.Entity.ID);
+            Curve entity = _repositories.CurveRepository.Get(ViewModel.Entity.ID);
             bool visible = ViewModel.Visible;
-            ViewModel = entity.ToPropertiesViewModel(_repositories);
+            ViewModel = entity.ToPropertiesViewModel();
             ViewModel.Visible = visible;
         }
 
@@ -50,8 +55,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (ViewModel.Successful)
             {
-                RefreshDuration();
-
                 ViewModel.Visible = false;
             }
         }
@@ -61,22 +64,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AssertViewModel();
 
             Update();
-
-            if (ViewModel.Successful)
-            {
-                RefreshDuration();
-            }
         }
 
         private void Update()
         {
-            // TODO: Consider letting ToEntity return SampleInfo, because it also updates the sample's Bytes.
-            Sample entity = ViewModel.ToEntity(_repositories);
+            Curve entity = ViewModel.ToEntity(_repositories.CurveRepository);
 
-            IValidator validator = new SampleValidator_InDocument(entity);
+            VoidResult result = _curveManager.ValidateWithoutRelatedEntities(entity);
 
-            ViewModel.Successful = validator.IsValid;
-            ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+            ViewModel.Successful = result.Successful;
+            ViewModel.ValidationMessages = result.Messages;
         }
 
         // Helpers
@@ -84,12 +81,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void AssertViewModel()
         {
             if (ViewModel == null) throw new NullException(() => ViewModel);
-        }
-
-        private void RefreshDuration()
-        {
-            Sample sample = _repositories.SampleRepository.Get(ViewModel.Entity.ID);
-            ViewModel.Entity.Duration = sample.GetDuration(ViewModel.Entity.Bytes);
         }
     }
 }

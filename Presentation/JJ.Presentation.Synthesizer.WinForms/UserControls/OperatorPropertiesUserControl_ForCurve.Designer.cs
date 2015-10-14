@@ -1,7 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    partial class OperatorPropertiesUserControl_ForSample
+    partial class OperatorPropertiesUserControl_ForCurve
     {
         /// <summary> 
         /// Required designer variable.
@@ -31,8 +31,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelProperties = new System.Windows.Forms.TableLayoutPanel();
-            this.labelSample = new System.Windows.Forms.Label();
-            this.comboBoxSample = new System.Windows.Forms.ComboBox();
+            this.labelCurve = new System.Windows.Forms.Label();
+            this.comboBoxCurve = new System.Windows.Forms.ComboBox();
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.labelOperatorTypeTitle = new System.Windows.Forms.Label();
@@ -62,8 +62,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.ColumnCount = 2;
             this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelProperties.Controls.Add(this.labelSample, 0, 2);
-            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxSample, 1, 2);
+            this.tableLayoutPanelProperties.Controls.Add(this.labelCurve, 0, 2);
+            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxCurve, 1, 2);
             this.tableLayoutPanelProperties.Controls.Add(this.labelName, 0, 1);
             this.tableLayoutPanelProperties.Controls.Add(this.textBoxName, 1, 1);
             this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeTitle, 0, 0);
@@ -79,27 +79,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Size = new System.Drawing.Size(10, 10);
             this.tableLayoutPanelProperties.TabIndex = 8;
             // 
-            // labelSample
+            // labelCurve
             // 
-            this.labelSample.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelSample.Location = new System.Drawing.Point(0, 48);
-            this.labelSample.Margin = new System.Windows.Forms.Padding(0);
-            this.labelSample.Name = "labelSample";
-            this.labelSample.Size = new System.Drawing.Size(120, 24);
-            this.labelSample.TabIndex = 15;
-            this.labelSample.Text = "labelSample";
-            this.labelSample.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelCurve.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelCurve.Location = new System.Drawing.Point(0, 48);
+            this.labelCurve.Margin = new System.Windows.Forms.Padding(0);
+            this.labelCurve.Name = "labelCurve";
+            this.labelCurve.Size = new System.Drawing.Size(120, 24);
+            this.labelCurve.TabIndex = 15;
+            this.labelCurve.Text = "labelCurve";
+            this.labelCurve.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // comboBoxSample
+            // comboBoxCurve
             // 
-            this.comboBoxSample.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBoxSample.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxSample.FormattingEnabled = true;
-            this.comboBoxSample.Location = new System.Drawing.Point(120, 48);
-            this.comboBoxSample.Margin = new System.Windows.Forms.Padding(0);
-            this.comboBoxSample.Name = "comboBoxSample";
-            this.comboBoxSample.Size = new System.Drawing.Size(10, 21);
-            this.comboBoxSample.TabIndex = 16;
+            this.comboBoxCurve.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxCurve.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxCurve.FormattingEnabled = true;
+            this.comboBoxCurve.Location = new System.Drawing.Point(120, 48);
+            this.comboBoxCurve.Margin = new System.Windows.Forms.Padding(0);
+            this.comboBoxCurve.Name = "comboBoxCurve";
+            this.comboBoxCurve.Size = new System.Drawing.Size(10, 21);
+            this.comboBoxCurve.TabIndex = 16;
             // 
             // labelName
             // 
@@ -157,17 +157,17 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.TabIndex = 7;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
-            // OperatorPropertiesUserControl_ForSample
+            // OperatorPropertiesUserControl_ForCurve
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanelMain);
-            this.Name = "OperatorPropertiesUserControl_ForSample";
+            this.Name = "OperatorPropertiesUserControl_ForCurve";
             this.Size = new System.Drawing.Size(10, 10);
-            this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_ForSample_Load);
-            this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_ForSample_Leave);
+            this.Load += new System.EventHandler(this.OperatorPropertiesUserControl_ForCurve_Load);
+            this.Leave += new System.EventHandler(this.OperatorPropertiesUserControl_ForCurve_Leave);
             this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelProperties.ResumeLayout(false);
             this.tableLayoutPanelProperties.PerformLayout();
@@ -182,8 +182,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelProperties;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.TextBox textBoxName;
-        private System.Windows.Forms.Label labelSample;
-        private System.Windows.Forms.ComboBox comboBoxSample;
+        private System.Windows.Forms.Label labelCurve;
+        private System.Windows.Forms.ComboBox comboBoxCurve;
         private System.Windows.Forms.Label labelOperatorTypeTitle;
         private System.Windows.Forms.Label labelOperatorTypeValue;
     }

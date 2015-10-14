@@ -25,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 
         public CurveGridViewModel CurveGrid { get; set; }
         public IList<CurveDetailsViewModel> CurveDetailsList { get; set; }
+        public IList<CurvePropertiesViewModel> CurvePropertiesList { get; set; }
 
         public PatchGridViewModel PatchGrid { get; set; }
         public IList<PatchDetailsViewModel> PatchDetailsList { get; set; }
@@ -37,11 +38,12 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public IList<AudioFileOutputPropertiesViewModel> AudioFileOutputPropertiesList { get; set; }
 
         public IList<OperatorPropertiesViewModel> OperatorPropertiesList { get; set; }
+        public IList<OperatorPropertiesViewModel_ForCurve> OperatorPropertiesList_ForCurves { get; set; }
         public IList<OperatorPropertiesViewModel_ForCustomOperator> OperatorPropertiesList_ForCustomOperators { get; set; }
+        public IList<OperatorPropertiesViewModel_ForNumber> OperatorPropertiesList_ForNumbers { get; set; }
         public IList<OperatorPropertiesViewModel_ForPatchInlet> OperatorPropertiesList_ForPatchInlets { get; set; }
         public IList<OperatorPropertiesViewModel_ForPatchOutlet> OperatorPropertiesList_ForPatchOutlets { get; set; }
         public IList<OperatorPropertiesViewModel_ForSample> OperatorPropertiesList_ForSamples { get; set; }
-        public IList<OperatorPropertiesViewModel_ForNumber> OperatorPropertiesList_ForNumbers { get; set; }
 
         // Central Lookups
 
@@ -53,5 +55,11 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         /// (The child documents have their own sample collection.)
         /// </summary>
         public IList<IDAndName> SampleLookup { get; set; }
+
+        /// <summary> 
+        /// This lookup is used by OperatorProperties_ForCurves in the root Document.
+        /// (The child documents have their own sample collection.)
+        /// </summary>
+        public IList<IDAndName> CurveLookup { get; set; }
     }
 }

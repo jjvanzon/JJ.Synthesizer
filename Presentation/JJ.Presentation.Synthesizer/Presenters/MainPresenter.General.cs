@@ -42,6 +42,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly ChildDocumentPropertiesPresenter _childDocumentPropertiesPresenter;
         private readonly CurveDetailsPresenter _curveDetailsPresenter;
         private readonly CurveGridPresenter _curveGridPresenter;
+        private readonly CurvePropertiesPresenter _curvePropertiesPresenter;
         private readonly DocumentCannotDeletePresenter _documentCannotDeletePresenter;
         private readonly DocumentDeletedPresenter _documentDeletedPresenter;
         private readonly DocumentDeletePresenter _documentDeletePresenter;
@@ -52,11 +53,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly MenuPresenter _menuPresenter;
         private readonly NotFoundPresenter _notFoundPresenter;
         private readonly OperatorPropertiesPresenter _operatorPropertiesPresenter;
+        private readonly OperatorPropertiesPresenter_ForCurve _operatorPropertiesPresenter_ForCurve;
         private readonly OperatorPropertiesPresenter_ForCustomOperator _operatorPropertiesPresenter_ForCustomOperator;
+        private readonly OperatorPropertiesPresenter_ForNumber _operatorPropertiesPresenter_ForNumber;
         private readonly OperatorPropertiesPresenter_ForPatchInlet _operatorPropertiesPresenter_ForPatchInlet;
         private readonly OperatorPropertiesPresenter_ForPatchOutlet _operatorPropertiesPresenter_ForPatchOutlet;
         private readonly OperatorPropertiesPresenter_ForSample _operatorPropertiesPresenter_ForSample;
-        private readonly OperatorPropertiesPresenter_ForNumber _operatorPropertiesPresenter_ForNumber;
         private readonly PatchDetailsPresenter _patchDetailsPresenter;
         private readonly PatchGridPresenter _patchGridPresenter;
         private readonly SampleGridPresenter _sampleGridPresenter;
@@ -79,9 +81,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
 
             _repositories = repositoryWrapper;
+            _curveRepositories = new CurveRepositories(_repositories);
             _patchRepositories = new PatchRepositories(_repositories);
             _sampleRepositories = new SampleRepositories(_repositories);
-            _curveRepositories = new CurveRepositories(_repositories);
             var scaleRepositories = new ScaleRepositories(_repositories);
 
             _audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(_repositories));
@@ -95,7 +97,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(new AudioFileOutputRepositories(_repositories));
             _childDocumentPropertiesPresenter = new ChildDocumentPropertiesPresenter(_repositories);
             _curveDetailsPresenter = new CurveDetailsPresenter(_curveRepositories);
-            _curveGridPresenter = new CurveGridPresenter(_repositories.DocumentRepository);
+            _curveGridPresenter = new CurveGridPresenter(_repositories.DocumentRepository, _repositories.CurveRepository);
+            _curvePropertiesPresenter = new CurvePropertiesPresenter(_curveRepositories);
             _documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositories.DocumentRepository);
             _documentDeletedPresenter = new DocumentDeletedPresenter();
             _documentDeletePresenter = new DocumentDeletePresenter(_repositories);
@@ -108,6 +111,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _menuPresenter = new MenuPresenter();
             _notFoundPresenter = new NotFoundPresenter();
             _operatorPropertiesPresenter = new OperatorPropertiesPresenter(_patchRepositories);
+            _operatorPropertiesPresenter_ForCurve = new OperatorPropertiesPresenter_ForCurve(_patchRepositories);
             _operatorPropertiesPresenter_ForCustomOperator = new OperatorPropertiesPresenter_ForCustomOperator(_patchRepositories);
             _operatorPropertiesPresenter_ForPatchInlet = new OperatorPropertiesPresenter_ForPatchInlet(_patchRepositories);
             _operatorPropertiesPresenter_ForPatchOutlet = new OperatorPropertiesPresenter_ForPatchOutlet(_patchRepositories);
@@ -148,6 +152,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 childDocumentViewModel.SampleGrid.Visible = false;
                 childDocumentViewModel.CurveGrid.Visible = false;
                 childDocumentViewModel.PatchGrid.Visible = false;
+                childDocumentViewModel.CurveDetailsList.ForEach(x => x.Visible = false);
                 childDocumentViewModel.PatchDetailsList.ForEach(x => x.Visible = false);
             }
         }
@@ -158,9 +163,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.AudioFileOutputPropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentPropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentPropertiesList.ForEach(x => x.Visible = false);
-            ViewModel.Document.CurveDetailsList.ForEach(x => x.Visible = false);
+            ViewModel.Document.CurvePropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.DocumentProperties.Visible = false;
             ViewModel.Document.OperatorPropertiesList.ForEach(x => x.Visible = false);
+            ViewModel.Document.OperatorPropertiesList_ForCurves.ForEach(x => x.Visible = false);
             ViewModel.Document.OperatorPropertiesList_ForCustomOperators.ForEach(x => x.Visible = false);
             ViewModel.Document.OperatorPropertiesList_ForPatchInlets.ForEach(x => x.Visible = false);
             ViewModel.Document.OperatorPropertiesList_ForPatchOutlets.ForEach(x => x.Visible = false);
@@ -170,38 +176,43 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.ScalePropertiesList.ForEach(x => x.Visible = false);
             
             // Note that the not all entity types have Properties view inside the child documents.
-            ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentList.SelectMany(x => x.CurvePropertiesList).ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList).ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCurves).ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators).ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchInlets).ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets).ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSamples).ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers).ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
         }
 
-        /// <summary>
-        /// A hack for using Curves even though there is no Curve editor yet.
-        /// </summary>
-        private void HACK_CreateCurves(Document document)
-        {
-            if (document == null) throw new NullException(() => document);
+        // TODO: Remove outcommented code.
+        //// TODO: Remove this hack.
 
-            var curveManager = new CurveManager(new CurveRepositories(_repositories));
-            Curve curve = curveManager.Create(document, 1.5, 0, 0.9, 1, 0.9, 0.6, 0.6, 0.6, 0.4, 0);
-            curve.ID = _repositories.IDRepository.GetID();
-            _repositories.CurveRepository.Insert(curve);
+        ///// <summary>
+        ///// A hack for using Curves even though there is no Curve editor yet.
+        ///// </summary>
+        //private void HACK_CreateCurves(Document document)
+        //{
+        //    if (document == null) throw new NullException(() => document);
 
-            IList<Operator> curveOperators = document.EnumerateSelfAndParentAndChildren()
-                                                     .SelectMany(x => x.Patches)
-                                                     .SelectMany(x => x.GetOperatorsOfType(OperatorTypeEnum.Curve))
-                                                     .ToArray();
+        //    var curveManager = new CurveManager(new CurveRepositories(_repositories));
+        //    Curve curve = curveManager.Create(document, 1.5, 0, 0.9, 1, 0.9, 0.6, 0.6, 0.6, 0.4, 0);
+        //    curve.ID = _repositories.IDRepository.GetID();
+        //    _repositories.CurveRepository.Insert(curve);
 
-            foreach (Operator curveOperator in curveOperators)
-            {
-                var wrapper = new OperatorWrapper_Curve(curveOperator, _repositories.CurveRepository);
+        //    IList<Operator> curveOperators = document.EnumerateSelfAndParentAndChildren()
+        //                                             .SelectMany(x => x.Patches)
+        //                                             .SelectMany(x => x.GetOperatorsOfType(OperatorTypeEnum.Curve))
+        //                                             .ToArray();
 
-                wrapper.Curve = curve;
-            }
-        }
+        //    foreach (Operator curveOperator in curveOperators)
+        //    {
+        //        var wrapper = new OperatorWrapper_Curve(curveOperator, _repositories.CurveRepository);
+
+        //        wrapper.Curve = curve;
+        //    }
+        //}
     }
 }

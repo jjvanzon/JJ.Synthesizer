@@ -24,6 +24,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(ChildDocumentPropertiesViewModel), DispatchChildDocumentPropertiesViewModel },
                 { typeof(CurveDetailsViewModel), DispatchCurveDetailsViewModel },
                 { typeof(CurveGridViewModel), DispatchCurveGridViewModel },
+                { typeof(CurvePropertiesViewModel), DispatchCurvePropertiesViewModel },
                 { typeof(DocumentCannotDeleteViewModel), DispatchDocumentCannotDeleteViewModel },
                 { typeof(DocumentDeletedViewModel), DispatchDocumentDeletedViewModel },
                 { typeof(DocumentDeleteViewModel), DispatchDocumentDeleteViewModel },
@@ -34,6 +35,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(MenuViewModel), DispatchMenuViewModel },
                 { typeof(NotFoundViewModel), DispatchNotFoundViewModel },
                 { typeof(OperatorPropertiesViewModel), DispatchOperatorPropertiesViewModel },
+                { typeof(OperatorPropertiesViewModel_ForCurve), DispatchOperatorPropertiesViewModel_ForCurve },
                 { typeof(OperatorPropertiesViewModel_ForCustomOperator), DispatchOperatorPropertiesViewModel_ForCustomOperator },
                 { typeof(OperatorPropertiesViewModel_ForPatchInlet), DispatchOperatorPropertiesViewModel_ForPatchInlet },
                 { typeof(OperatorPropertiesViewModel_ForPatchOutlet), DispatchOperatorPropertiesViewModel_ForPatchOutlet },
@@ -43,9 +45,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
                 { typeof(SampleGridViewModel), DispatchSampleGridViewModel },
                 { typeof(SamplePropertiesViewModel), DispatchSamplePropertiesViewModel },
-                { typeof(ToneGridEditViewModel), DispatchToneGridEditViewModel },
                 { typeof(ScaleGridViewModel), DispatchScaleGridViewModel },
                 { typeof(ScalePropertiesViewModel), DispatchScalePropertiesViewModel },
+                { typeof(ToneGridEditViewModel), DispatchToneGridEditViewModel },
             };
 
             return dictionary;
@@ -176,6 +178,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        private void DispatchCurvePropertiesViewModel(object viewModel2)
+        {
+            var castedViewModel = (CurvePropertiesViewModel)viewModel2;
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            ViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
         private void DispatchDocumentCannotDeleteViewModel(object viewModel2)
         {
             var castedViewModel = (DocumentCannotDeleteViewModel)viewModel2;
@@ -286,6 +302,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DispatchOperatorPropertiesViewModel(object viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel)viewModel2;
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
+        private void DispatchOperatorPropertiesViewModel_ForCurve(object viewModel2)
+        {
+            var castedViewModel = (OperatorPropertiesViewModel_ForCurve)viewModel2;
 
             if (castedViewModel.Visible)
             {

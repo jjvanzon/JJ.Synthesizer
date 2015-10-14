@@ -50,12 +50,14 @@
     <Compile Include="Presenters\ChildDocumentGridPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.Actions.cs" />
     <Compile Include="Presenters\MainPresenter.DispatchViewModel.cs" />
+    <Compile Include="Presenters\OperatorPropertiesPresenter_ForCurve.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForSample.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForCustomOperator.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForNumber.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchOutlet.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchInlet.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter.cs" />
+    <Compile Include="Presenters\CurvePropertiesPresenter.cs" />
     <Compile Include="Presenters\ScalePropertiesPresenter.cs" />
     <Compile Include="Presenters\ToneGridEditPresenter.cs" />
     <Compile Include="Presenters\ScaleGridPresenter.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MenuViewModel.cs" />
     <Compile Include="ViewModels\NotFoundViewModel.cs" />
+    <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCurve.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForSample.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForCustomOperator.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel.cs" />
@@ -151,6 +154,7 @@
     <Compile Include="ViewModels\Partials\ReferencedDocumentsTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
     <Compile Include="ViewModels\PatchGridViewModel.cs" />
+    <Compile Include="ViewModels\CurvePropertiesViewModel.cs" />
     <Compile Include="ViewModels\SamplePropertiesViewModel.cs" />
     <Compile Include="ViewModels\SampleGridViewModel.cs" />
     <Compile Include="ViewModels\ToneGridEditViewModel.cs" />

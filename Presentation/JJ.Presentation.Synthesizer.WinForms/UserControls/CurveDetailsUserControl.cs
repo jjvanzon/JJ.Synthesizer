@@ -21,6 +21,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler DeleteNodeRequested;
         public event EventHandler CloseRequested;
         public event EventHandler<Int32EventArgs> SelectNodeRequested;
+        public event EventHandler<MoveEntityEventArgs> MoveNodeRequested;
+        public event EventHandler ShowCurvePropertiesRequested;
 
         private CurveDetailsViewModel _viewModel;
         private CurveDetailsViewModelToDiagramConverter _converter;
@@ -42,7 +44,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         public CurveDetailsUserControl()
         {
-            _converter = new CurveDetailsViewModelToDiagramConverter(_mustShowInvisibleElements);
+            _converter = new CurveDetailsViewModelToDiagramConverter(
+                SystemInformation.DoubleClickTime,
+                SystemInformation.DoubleClickSize.Width,
+                _mustShowInvisibleElements);
 
             InitializeComponent();
             SetTitles();
@@ -75,12 +80,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 _converterResult.KeyDownGesture.KeyDown -= Diagram_KeyDown;
                 _converterResult.SelectNodeGesture.SelectNodeRequested -= Diagram_NodeSelected;
+                _converterResult.MoveNodeGesture.Moved -= MoveNodeGesture_Moved;
+                _converterResult.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested -= ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
             }
 
             _converterResult = _converter.Execute(_viewModel, _converterResult);
 
             _converterResult.KeyDownGesture.KeyDown += Diagram_KeyDown;
             _converterResult.SelectNodeGesture.SelectNodeRequested += Diagram_NodeSelected;
+            _converterResult.MoveNodeGesture.Moved += MoveNodeGesture_Moved;
+            _converterResult.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested += ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
 
             diagramControl.Diagram = _converterResult.Diagram;
 
@@ -131,6 +140,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             int nodeID = (int)e.Element.Tag;
             SelectNode(nodeID);
+        }
+
+
+        private void MoveNodeGesture_Moved(object sender, ElementEventArgs e)
+        {
+            if (MoveNodeRequested != null)
+            {
+                int nodeID = (int)e.Element.Tag;
+                // TODO: Again more places where we correct coordinates.
+                float x = e.Element.X + e.Element.Diagram.Background.X + e.Element.Width / 2;
+                float y = e.Element.Y + e.Element.Diagram.Background.Y + e.Element.Height / 2;
+                MoveNodeRequested(this, new MoveEntityEventArgs(nodeID, x, y));
+            }
+        }
+
+        private void ShowCurvePropertiesGesture_ShowCurvePropertiesRequested(object sender, EventArgs e)
+        {
+            if (ShowCurvePropertiesRequested != null)
+            {
+                ShowCurvePropertiesRequested(this, EventArgs.Empty);
+            }
         }
 
         // Actions

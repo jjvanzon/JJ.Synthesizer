@@ -32,31 +32,34 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new DocumentViewModel
             {
-                DocumentTree = CreateEmptyDocumentTreeViewModel(),
-                DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
-                ChildDocumentPropertiesList = new List<ChildDocumentPropertiesViewModel>(),
+                AudioFileOutputGrid = CreateEmptyAudioFileOutputGridViewModel(),
+                AudioFileOutputPropertiesList = new List<AudioFileOutputPropertiesViewModel>(),
                 ChildDocumentList = new List<ChildDocumentViewModel>(),
-                InstrumentGrid = CreateEmptyChildDocumentGridViewModel((int)ChildDocumentTypeEnum.Instrument),
-                EffectGrid = CreateEmptyChildDocumentGridViewModel((int)ChildDocumentTypeEnum.Effect),
-                SampleGrid = CreateEmptySampleGridViewModel(),
-                SamplePropertiesList = new List<SamplePropertiesViewModel>(),
-                CurveGrid = CreateEmptyCurveGridViewModel(),
+                ChildDocumentPropertiesList = new List<ChildDocumentPropertiesViewModel>(),
                 CurveDetailsList = new List<CurveDetailsViewModel>(),
+                CurveGrid = CreateEmptyCurveGridViewModel(),
+                CurveLookup = new List<IDAndName>(),
+                CurvePropertiesList = new List<CurvePropertiesViewModel>(),
+                DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
+                DocumentTree = CreateEmptyDocumentTreeViewModel(),
+                EffectGrid = CreateEmptyChildDocumentGridViewModel((int)ChildDocumentTypeEnum.Effect),
+                InstrumentGrid = CreateEmptyChildDocumentGridViewModel((int)ChildDocumentTypeEnum.Instrument),
                 OperatorPropertiesList = new List<OperatorPropertiesViewModel>(),
+                OperatorPropertiesList_ForCurves = new List<OperatorPropertiesViewModel_ForCurve>(),
                 OperatorPropertiesList_ForCustomOperators = new List<OperatorPropertiesViewModel_ForCustomOperator>(),
+                OperatorPropertiesList_ForNumbers = new List<OperatorPropertiesViewModel_ForNumber>(),
                 OperatorPropertiesList_ForPatchInlets = new List<OperatorPropertiesViewModel_ForPatchInlet>(),
                 OperatorPropertiesList_ForPatchOutlets = new List<OperatorPropertiesViewModel_ForPatchOutlet>(),
                 OperatorPropertiesList_ForSamples = new List<OperatorPropertiesViewModel_ForSample>(),
-                OperatorPropertiesList_ForNumbers = new List<OperatorPropertiesViewModel_ForNumber>(),
                 PatchDetailsList = new List<PatchDetailsViewModel>(),
                 PatchGrid = CreateEmptyPatchGridViewModel(),
-                ToneGridEditList = new List<ToneGridEditViewModel>(),
+                SampleGrid = CreateEmptySampleGridViewModel(),
+                SampleLookup = new List<IDAndName>(),
+                SamplePropertiesList = new List<SamplePropertiesViewModel>(),
                 ScaleGrid = CreateEmptyScaleGridViewModel(),
                 ScalePropertiesList = new List<ScalePropertiesViewModel>(),
-                AudioFileOutputGrid = CreateEmptyAudioFileOutputGridViewModel(),
-                AudioFileOutputPropertiesList = new List<AudioFileOutputPropertiesViewModel>(),
-                UnderlyingDocumentLookup = new List<IDAndName>(),
-                SampleLookup = new List<IDAndName>()
+                ToneGridEditList = new List<ToneGridEditViewModel>(),
+                UnderlyingDocumentLookup = new List<IDAndName>()
             };
 
             return viewModel;

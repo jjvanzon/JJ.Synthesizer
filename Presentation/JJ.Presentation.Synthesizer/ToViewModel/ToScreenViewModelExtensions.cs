@@ -174,6 +174,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static CurvePropertiesViewModel ToPropertiesViewModel(this Curve entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new CurvePropertiesViewModel
+            {
+                Entity = entity.ToIDAndName(),
+                ValidationMessages = new List<Message>(),
+                Successful = true
+            };
+
+            return viewModel;
+        }
+
         // Document
 
         public static DocumentDetailsViewModel ToDetailsViewModel(this Document document)
@@ -306,11 +320,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
-                if (operatorTypeEnum != OperatorTypeEnum.CustomOperator &&
+                if (operatorTypeEnum != OperatorTypeEnum.Curve &&
+                    operatorTypeEnum != OperatorTypeEnum.CustomOperator &&
                     operatorTypeEnum != OperatorTypeEnum.PatchInlet &&
                     operatorTypeEnum != OperatorTypeEnum.PatchOutlet &&
-                    operatorTypeEnum != OperatorTypeEnum.Sample &&
-                    operatorTypeEnum != OperatorTypeEnum.Number)
+                    operatorTypeEnum != OperatorTypeEnum.Number &&
+                    operatorTypeEnum != OperatorTypeEnum.Sample)
                 {
                     OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
                     viewModels.Add(viewModel);
@@ -318,6 +333,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             }
 
             return viewModels;
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForCurve> ToOperatorPropertiesViewModelList_ForCurves(this Patch patch, ICurveRepository curveRepository)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.GetOperatorsOfType(OperatorTypeEnum.Curve)
+                        .Select(x => x.ToOperatorPropertiesViewModel_ForCurve(curveRepository))
+                        .ToList();
         }
 
         public static IList<OperatorPropertiesViewModel_ForCustomOperator> ToOperatorPropertiesViewModelList_ForCustomOperators(this Patch patch, IDocumentRepository documentRepository)
@@ -380,6 +404,29 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (entity.OperatorType != null)
             {
                 viewModel.OperatorType = entity.OperatorType.ToViewModel();
+            }
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForCurve ToOperatorPropertiesViewModel_ForCurve(this Operator entity, ICurveRepository curveRepository)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new OperatorPropertiesViewModel_ForCurve
+            {
+                ID = entity.ID,
+                Name = entity.Name,
+                Successful = true,
+                ValidationMessages = new List<Message>()
+            };
+
+            var wrapper = new OperatorWrapper_Curve(entity, curveRepository);
+
+            Curve curve = wrapper.Curve;
+            if (curve != null)
+            {
+                viewModel.Curve = curve.ToIDAndName();
             }
 
             return viewModel;
@@ -518,22 +565,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Sample
 
-        public static SamplePropertiesViewModel ToPropertiesViewModel(this Sample entity, SampleRepositories sampleRepositories)
+        public static SamplePropertiesViewModel ToPropertiesViewModel(this Sample entity, SampleRepositories repositories)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (sampleRepositories == null) throw new NullException(() => sampleRepositories);
+            if (repositories == null) throw new NullException(() => repositories);
 
             var viewModel = new SamplePropertiesViewModel
             {
-                AudioFileFormats = ViewModelHelper.CreateAudioFileFormatLookupViewModel(sampleRepositories.AudioFileFormatRepository),
-                SampleDataTypes = ViewModelHelper.CreateSampleDataTypeLookupViewModel(sampleRepositories.SampleDataTypeRepository),
-                SpeakerSetups = ViewModelHelper.CreateSpeakerSetupLookupViewModel(sampleRepositories.SpeakerSetupRepository),
-                InterpolationTypes = ViewModelHelper.CreateInterpolationTypesLookupViewModel(sampleRepositories.InterpolationTypeRepository),
+                AudioFileFormats = ViewModelHelper.CreateAudioFileFormatLookupViewModel(repositories.AudioFileFormatRepository),
+                SampleDataTypes = ViewModelHelper.CreateSampleDataTypeLookupViewModel(repositories.SampleDataTypeRepository),
+                SpeakerSetups = ViewModelHelper.CreateSpeakerSetupLookupViewModel(repositories.SpeakerSetupRepository),
+                InterpolationTypes = ViewModelHelper.CreateInterpolationTypesLookupViewModel(repositories.InterpolationTypeRepository),
                 ValidationMessages = new List<Message>(),
                 Successful = true
             };
 
-            byte[] bytes = sampleRepositories.SampleRepository.TryGetBytes(entity.ID);
+            byte[] bytes = repositories.SampleRepository.TryGetBytes(entity.ID);
             viewModel.Entity = entity.ToViewModel(bytes);
 
             return viewModel;

@@ -51,6 +51,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                                                   .FirstOrDefault();
                 }
 
+                // CurveProperties
+                curvePropertiesUserControl.ViewModel =
+                    Enumerable.Union(
+                        _presenter.ViewModel.Document.CurvePropertiesList,
+                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.CurvePropertiesList))
+                   .Where(x => x.Visible)
+                   .FirstOrDefault();
+
                 // Misc
                 documentDetailsUserControl.ViewModel = _presenter.ViewModel.DocumentDetails;
                 documentGridUserControl.ViewModel = _presenter.ViewModel.DocumentGrid;
@@ -66,6 +74,31 @@ namespace JJ.Presentation.Synthesizer.WinForms
                         _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList))
                     .Where(x => x.Visible)
                     .FirstOrDefault();
+
+                // OperatorProperties_ForCurve
+                // (Needs slightly different code, because the CurveLookup is different for root documents and child documents.
+                operatorPropertiesUserControl_ForCurve.ViewModel = null;
+                OperatorPropertiesViewModel_ForCurve visibleOperatorPropertiesViewModel_ForCurve =
+                    _presenter.ViewModel.Document.OperatorPropertiesList_ForCurves.Where(x => x.Visible).FirstOrDefault();
+                if (visibleOperatorPropertiesViewModel_ForCurve != null)
+                {
+                    operatorPropertiesUserControl_ForCurve.SetCurveLookup(_presenter.ViewModel.Document.CurveLookup);
+                    operatorPropertiesUserControl_ForCurve.ViewModel = visibleOperatorPropertiesViewModel_ForCurve;
+                }
+                else
+                {
+                    foreach (ChildDocumentViewModel childDocumentViewModel in _presenter.ViewModel.Document.ChildDocumentList)
+                    {
+                        visibleOperatorPropertiesViewModel_ForCurve =
+                            childDocumentViewModel.OperatorPropertiesList_ForCurves.Where(x => x.Visible).FirstOrDefault();
+                        if (visibleOperatorPropertiesViewModel_ForCurve != null)
+                        {
+                            operatorPropertiesUserControl_ForCurve.SetCurveLookup(childDocumentViewModel.CurveLookup);
+                            operatorPropertiesUserControl_ForCurve.ViewModel = visibleOperatorPropertiesViewModel_ForCurve;
+                            break;
+                        }
+                    }
+                }
 
                 // OperatorProperties_ForCustomOperator
                 operatorPropertiesUserControl_ForCustomOperator.ViewModel =
@@ -186,6 +219,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                            curveDetailsUserControl.ViewModel.Visible;
                 bool curveGridVisible = curveGridUserControl.ViewModel != null &&
                                         curveGridUserControl.ViewModel.Visible;
+                bool curvePropertiesVisible = curvePropertiesUserControl.ViewModel != null &&
+                                              curvePropertiesUserControl.ViewModel.Visible;
                 bool documentDetailsVisible = documentDetailsUserControl.ViewModel != null &&
                                               documentDetailsUserControl.ViewModel.Visible;
                 bool documentGridVisible = documentGridUserControl.ViewModel != null &&
@@ -200,6 +235,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                          effectGridUserControl.ViewModel.Visible;
                 bool operatorPropertiesVisible = operatorPropertiesUserControl.ViewModel != null &&
                                                  operatorPropertiesUserControl.ViewModel.Visible;
+                bool operatorPropertiesVisible_ForCurve = operatorPropertiesUserControl_ForCurve.ViewModel != null &&
+                                                          operatorPropertiesUserControl_ForCurve.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForCustomOperator = operatorPropertiesUserControl_ForCustomOperator.ViewModel != null &&
                                                                    operatorPropertiesUserControl_ForCustomOperator.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForPatchInlet = operatorPropertiesUserControl_ForPatchInlet.ViewModel != null &&
@@ -231,6 +268,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (childDocumentPropertiesVisible) childDocumentPropertiesUserControl.Visible = true;
                 if (curveDetailsVisible) curveDetailsUserControl.Visible = true;
                 if (curveGridVisible) curveGridUserControl.Visible = true;
+                if (curvePropertiesVisible) curvePropertiesUserControl.Visible = true;
                 if (documentDetailsVisible) documentDetailsUserControl.Visible = true;
                 if (documentGridVisible) documentGridUserControl.Visible = true;
                 if (documentPropertiesVisible) documentPropertiesUserControl.Visible = true;
@@ -238,6 +276,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (instrumentGridVisible) instrumentGridUserControl.Visible = true;
                 if (effectGridVisible) effectGridUserControl.Visible = true;
                 if (operatorPropertiesVisible) operatorPropertiesUserControl.Visible = true;
+                if (operatorPropertiesVisible_ForCurve) operatorPropertiesUserControl_ForCurve.Visible = true;
                 if (operatorPropertiesVisible_ForCustomOperator) operatorPropertiesUserControl_ForCustomOperator.Visible = true;
                 if (operatorPropertiesVisible_ForPatchInlet) operatorPropertiesUserControl_ForPatchInlet.Visible = true;
                 if (operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = true;
@@ -256,6 +295,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!childDocumentPropertiesVisible) childDocumentPropertiesUserControl.Visible = false;
                 if (!curveDetailsVisible) curveDetailsUserControl.Visible = false;
                 if (!curveGridVisible) curveGridUserControl.Visible = false;
+                if (!curvePropertiesVisible) curvePropertiesUserControl.Visible = false;
                 if (!documentDetailsVisible) documentDetailsUserControl.Visible = false;
                 if (!documentGridVisible) documentGridUserControl.Visible = false;
                 if (!documentPropertiesVisible) documentPropertiesUserControl.Visible = false;
@@ -263,6 +303,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!instrumentGridVisible) instrumentGridUserControl.Visible = false;
                 if (!effectGridVisible) effectGridUserControl.Visible = false;
                 if (!operatorPropertiesVisible) operatorPropertiesUserControl.Visible = false;
+                if (!operatorPropertiesVisible_ForCurve) operatorPropertiesUserControl_ForCurve.Visible = false;
                 if (!operatorPropertiesVisible_ForCustomOperator) operatorPropertiesUserControl_ForCustomOperator.Visible = false;
                 if (!operatorPropertiesVisible_ForPatchInlet) operatorPropertiesUserControl_ForPatchInlet.Visible = false;
                 if (!operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = false;
@@ -282,8 +323,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 bool propertiesPanelMustBeVisible = documentPropertiesVisible ||
                                                     audioFileOutputPropertiesVisible ||
+                                                    curvePropertiesVisible ||
                                                     childDocumentPropertiesVisible ||
                                                     operatorPropertiesVisible ||
+                                                    operatorPropertiesVisible_ForCurve ||
                                                     operatorPropertiesVisible_ForCustomOperator ||
                                                     operatorPropertiesVisible_ForPatchInlet ||
                                                     operatorPropertiesVisible_ForPatchOutlet ||
@@ -353,6 +396,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (mustFocusCurveDetailsUserControl)
             {
                 curveDetailsUserControl.Focus();
+            }
+
+            bool mustFocusCurvePropertiesUserControl = curvePropertiesUserControl.Visible &&
+                                                      !curvePropertiesUserControl.ViewModel.Successful;
+            if (mustFocusCurvePropertiesUserControl)
+            {
+                curvePropertiesUserControl.Focus();
             }
 
             bool mustFocusDocumentPropertiesUserControl = documentPropertiesUserControl.Visible &&

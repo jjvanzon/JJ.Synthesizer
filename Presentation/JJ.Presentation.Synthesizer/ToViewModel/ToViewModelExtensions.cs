@@ -82,10 +82,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
+            CurveViewModel viewModel = entity.ToViewModel();
+
+            viewModel.Nodes = entity.Nodes.ToViewModels();
+
+            return viewModel;
+        }
+
+        public static CurveViewModel ToViewModel(this Curve entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
             var viewModel = new CurveViewModel
             {
                 Name = entity.Name,
-                Nodes = entity.Nodes.ToViewModels(),
                 ID = entity.ID
             };
 

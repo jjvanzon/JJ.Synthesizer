@@ -5,6 +5,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
@@ -31,7 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation
             // You may actually delegate to a sample calculator for that.
 
             // Find the nodes the time is in between
-            foreach (var node in _curve.Nodes)
+            foreach (var node in _curve.Nodes.OrderBy(x => x.Time))
             {
                 if (node.Time > time)
                 {
