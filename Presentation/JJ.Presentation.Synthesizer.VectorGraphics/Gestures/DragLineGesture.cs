@@ -76,7 +76,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             }
 
             Geometry.GetCenter_ByWidthAndHeight(
-                rectangle.CalculatedX, rectangle.CalculatedY,
+                rectangle.CalculatedXInPixels, rectangle.CalculatedYInPixels,
                 rectangle.Width, rectangle.Height,
                 out x, out y);
         }

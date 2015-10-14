@@ -73,8 +73,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             float minTime = (float)sortedNodeViewModels.First().Time;
             float maxTime = (float)sortedNodeViewModels.Last().Time;
             float timeDiff = maxTime - minTime;
-            diagram.ScaleX = minTime;
-            diagram.ScaleWidth = timeDiff;
+            diagram.ScaledX = minTime;
+            diagram.ScaledWidth = timeDiff;
 
             float minValue = (float)sortedNodeViewModels.Select(x => x.Value).Union(0f).Min();
             float maxValue = (float)sortedNodeViewModels.Select(x => x.Value).Union(0f).Max();
@@ -82,8 +82,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             float valueDiff;
             // Temporarily DO NOT invert the direction of the Y axis.
             valueDiff = maxValue - minValue;
-            diagram.ScaleY = minValue;
-            diagram.ScaleHeight = valueDiff;
+            diagram.ScaledY = minValue;
+            diagram.ScaledHeight = valueDiff;
             // Do invert the direction of the Y axis.
             //valueDiff = minValue - maxValue;
             //diagram.ScaleY = maxValue;
@@ -169,8 +169,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     break;
 
                 case ScaleModeEnum.ViewPort:
-                    scaledX = absoluteX / diagram.AbsoluteWidth * diagram.ScaleWidth;
-                    scaledY = absoluteY / diagram.AbsoluteHeight * diagram.ScaleHeight;
+                    scaledX = absoluteX / diagram.WidthInPixels * diagram.ScaledWidth;
+                    scaledY = absoluteY / diagram.HeightInPixels * diagram.ScaledHeight;
                     break;
 
                 default:

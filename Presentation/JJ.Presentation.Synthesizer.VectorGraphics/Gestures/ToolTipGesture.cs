@@ -89,8 +89,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 
                 _rectangle.Diagram = _diagram;
                 _rectangle.Parent = e.Element;
-                _rectangle.X = e.X - e.Element.CalculatedX - margin; // The relative coordinate, move some distance to the left.
-                _rectangle.Y = e.Y - e.Element.CalculatedY - _rectangle.Height - margin; // The relative coordinate, transposed to above the mouse arrow, plus some distance upward.
+                _rectangle.X = e.X - e.Element.CalculatedXInPixels - margin; // The relative coordinate, move some distance to the left.
+                _rectangle.Y = e.Y - e.Element.CalculatedYInPixels - _rectangle.Height - margin; // The relative coordinate, transposed to above the mouse arrow, plus some distance upward.
                 _label.Text = e2.ToolTipText;
                 _rectangle.Visible = true;
 
