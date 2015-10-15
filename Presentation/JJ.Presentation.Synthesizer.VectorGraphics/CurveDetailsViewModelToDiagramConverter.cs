@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
     public class CurveDetailsViewModelToDiagramConverter
     {
-        private const float NODE_RECTANGLE_SIZE_ABSOLUTE = 20;
+        private const float NODE_RECTANGLE_SIZE_IN_PIXELS = 20;
 
         private readonly int _doubleClickSpeedInMilliseconds;
         private readonly int _doubleClickDeltaInPixels;
@@ -92,10 +92,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             // TODO: Use the helper methods in Diagram to scale the coordinates.
             float scaledNodeRectangleWidth;
             float scaledNodeRectangleHeight;
+
             ToScaledCoordinates(
-                diagram, 
-                NODE_RECTANGLE_SIZE_ABSOLUTE, NODE_RECTANGLE_SIZE_ABSOLUTE, 
+                diagram,
+                NODE_RECTANGLE_SIZE_IN_PIXELS, NODE_RECTANGLE_SIZE_IN_PIXELS,
                 out scaledNodeRectangleWidth, out scaledNodeRectangleHeight);
+
+            //scaledNodeRectangleWidth = diagram.PixelsToScaledX(NODE_RECTANGLE_SIZE_IN_PIXELS);
+            //scaledNodeRectangleHeight = diagram.PixelsToScaledY(NODE_RECTANGLE_SIZE_IN_PIXELS);
+
+            //scaledNodeRectangleWidth = diagram.Background.PixelsToRelativeX(NODE_RECTANGLE_SIZE_IN_PIXELS);
+            //scaledNodeRectangleHeight = diagram.Background.PixelsToRelativeY(NODE_RECTANGLE_SIZE_IN_PIXELS);
 
             float scaledNodeRectangleWidthOver2 = scaledNodeRectangleWidth / 2;
             float scaledNodeRectangleHeightOver2 = scaledNodeRectangleHeight / 2;
@@ -159,18 +166,18 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return result;
         }
 
-        private void ToScaledCoordinates(Diagram diagram, float absoluteX, float absoluteY, out float scaledX, out float scaledY)
+        private void ToScaledCoordinates(Diagram diagram, float xInPixels, float yInPixels, out float scaledX, out float scaledY)
         {
             switch (diagram.ScaleModeEnum)
             {
                 case ScaleModeEnum.None:
-                    scaledX = absoluteX;
-                    scaledY = absoluteY;
+                    scaledX = xInPixels;
+                    scaledY = yInPixels;
                     break;
 
                 case ScaleModeEnum.ViewPort:
-                    scaledX = absoluteX / diagram.WidthInPixels * diagram.ScaledWidth;
-                    scaledY = absoluteY / diagram.HeightInPixels * diagram.ScaledHeight;
+                    scaledX = xInPixels / diagram.WidthInPixels * diagram.ScaledWidth;
+                    scaledY = yInPixels / diagram.HeightInPixels * diagram.ScaledHeight;
                     break;
 
                 default:

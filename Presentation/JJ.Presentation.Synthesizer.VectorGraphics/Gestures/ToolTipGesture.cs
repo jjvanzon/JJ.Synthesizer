@@ -92,8 +92,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
                 _rectangle.Diagram = _diagram;
                 _rectangle.Parent = e.Element;
                 // TODO: You might not need to use ICalculatedValues if you use the public conversion methods of the main interfaces of Element or Diagram.
-                _rectangle.X = e.X - calculatedValues.CalculatedXInPixels - margin; // The relative coordinate, move some distance to the left.
-                _rectangle.Y = e.Y - calculatedValues.CalculatedYInPixels - _rectangle.Height - margin; // The relative coordinate, transposed to above the mouse arrow, plus some distance upward.
+                _rectangle.X = e.XInPixels - calculatedValues.CalculatedXInPixels - margin; // The relative coordinate, move some distance to the left.
+                _rectangle.Y = e.YInPixels - calculatedValues.CalculatedYInPixels - _rectangle.Height - margin; // The relative coordinate, transposed to above the mouse arrow, plus some distance upward.
                 _label.Text = e2.ToolTipText;
                 _rectangle.Visible = true;
 
