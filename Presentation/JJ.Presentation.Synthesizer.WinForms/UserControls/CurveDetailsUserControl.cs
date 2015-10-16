@@ -153,8 +153,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 Rectangle rectangle = (Rectangle)e.Element;
                 Point point = (Point)e.Element.Children.Single();
 
-                float x = point.RelativeToAbsoluteX(0);
-                float y = point.RelativeToAbsoluteY(0);
+                float x = point.AbsoluteX;
+                float y = point.AbsoluteY;
 
                 MoveNodeRequested(this, new MoveEntityEventArgs(nodeID, x, y));
             }

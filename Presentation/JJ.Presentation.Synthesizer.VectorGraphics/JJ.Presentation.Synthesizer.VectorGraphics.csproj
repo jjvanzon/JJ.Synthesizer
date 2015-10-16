@@ -48,7 +48,6 @@
     <Compile Include="Converters\OutletControlPointConverter.cs" />
     <Compile Include="Converters\OutletPointConverter.cs" />
     <Compile Include="Converters\OutletRectangleConverter.cs" />
-    <Compile Include="~CurveDetailsViewModelToDiagramConverter_Old.cs" />
     <Compile Include="Gestures\SelectNodeGesture.cs" />
     <Compile Include="CurveDetailsViewModelToDiagramConverter.cs" />
     <Compile Include="Gestures\DropLineGesture.cs" />
