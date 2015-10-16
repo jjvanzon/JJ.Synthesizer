@@ -89,20 +89,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             //diagram.ScaleY = maxValue;
             //diagram.ScaleHeight = valueDiff;
 
-            // TODO: Use the helper methods in Diagram to scale the coordinates.
-            float scaledNodeRectangleWidth;
-            float scaledNodeRectangleHeight;
-
-            ToScaledCoordinates(
-                diagram,
-                NODE_RECTANGLE_SIZE_IN_PIXELS, NODE_RECTANGLE_SIZE_IN_PIXELS,
-                out scaledNodeRectangleWidth, out scaledNodeRectangleHeight);
-
-            //scaledNodeRectangleWidth = diagram.PixelsToScaledX(NODE_RECTANGLE_SIZE_IN_PIXELS);
-            //scaledNodeRectangleHeight = diagram.PixelsToScaledY(NODE_RECTANGLE_SIZE_IN_PIXELS);
-
-            //scaledNodeRectangleWidth = diagram.Background.PixelsToRelativeX(NODE_RECTANGLE_SIZE_IN_PIXELS);
-            //scaledNodeRectangleHeight = diagram.Background.PixelsToRelativeY(NODE_RECTANGLE_SIZE_IN_PIXELS);
+            // You need to scale from pixels to scaled relative to the background, because pixels of the background start counting at 0.
+            float scaledNodeRectangleWidth = diagram.Background.PixelsToRelativeX(NODE_RECTANGLE_SIZE_IN_PIXELS);
+            float scaledNodeRectangleHeight = diagram.Background.PixelsToRelativeY(NODE_RECTANGLE_SIZE_IN_PIXELS);
 
             float scaledNodeRectangleWidthOver2 = scaledNodeRectangleWidth / 2;
             float scaledNodeRectangleHeightOver2 = scaledNodeRectangleHeight / 2;
@@ -164,25 +153,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             }
 
             return result;
-        }
-
-        private void ToScaledCoordinates(Diagram diagram, float xInPixels, float yInPixels, out float scaledX, out float scaledY)
-        {
-            switch (diagram.ScaleModeEnum)
-            {
-                case ScaleModeEnum.None:
-                    scaledX = xInPixels;
-                    scaledY = yInPixels;
-                    break;
-
-                case ScaleModeEnum.ViewPort:
-                    scaledX = xInPixels / diagram.WidthInPixels * diagram.ScaledWidth;
-                    scaledY = yInPixels / diagram.HeightInPixels * diagram.ScaledHeight;
-                    break;
-
-                default:
-                    throw new ValueNotSupportedException(diagram.ScaleModeEnum);
-            }
         }
     }
 }
