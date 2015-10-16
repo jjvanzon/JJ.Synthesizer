@@ -12,6 +12,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -142,18 +143,19 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             SelectNode(nodeID);
         }
 
+
         private void MoveNodeGesture_Moved(object sender, ElementEventArgs e)
         {
             if (MoveNodeRequested != null)
             {
                 int nodeID = (int)e.Element.Tag;
-                // TODO: Again more places where we correct coordinates.
-                // TODO: Also: e.Element.Diagram is often null. Probably has to do with recreating the diagram all the time.
-                // TODO: Not only should you solve recreating the diagram all the time,
-                // you might also want to check in the GestureHandling system of VectorGraphics
-                // that e.Element is still part of the diagram, so that no event goes off.
-                float x = e.Element.X + e.Element.Diagram.Background.X + e.Element.Width / 2;
-                float y = e.Element.Y + e.Element.Diagram.Background.Y + e.Element.Height / 2;
+
+                Rectangle rectangle = (Rectangle)e.Element;
+                Point point = (Point)e.Element.Children.Single();
+
+                float x = point.RelativeToAbsoluteX(0);
+                float y = point.RelativeToAbsoluteY(0);
+
                 MoveNodeRequested(this, new MoveEntityEventArgs(nodeID, x, y));
             }
         }
