@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using JJ.Framework.Common;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
@@ -89,7 +88,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             //diagram.ScaleY = maxValue;
             //diagram.ScaleHeight = valueDiff;
 
-            // You need to scale from pixels to scaled relative to the background, because pixels of the background start counting at 0.
+            // You need to scale from pixels to scaled relative to the background,
+            // because pixels of the background start counting at 0.
+            // You basically misuse the Background's pixel origin of (0, 0) in order to calculate relative Widths and Heights.
             float scaledNodeRectangleWidth = diagram.Background.PixelsToRelativeX(NODE_RECTANGLE_SIZE_IN_PIXELS);
             float scaledNodeRectangleHeight = diagram.Background.PixelsToRelativeY(NODE_RECTANGLE_SIZE_IN_PIXELS);
 
@@ -100,10 +101,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             foreach (NodeViewModel nodeViewModel in sortedNodeViewModels)
             {
-                // TODO: Coordinates are always relative to the BackGround!
-                // That means we can STILL not map the values one to one to the Vector Graphics coordinates.
-                float x = (float)nodeViewModel.Time - minTime;
-                float y = (float)nodeViewModel.Value - minValue;
+                // Coordinates are always relative to the Background
+                float x = diagram.Background.AbsoluteToRelativeX((float)nodeViewModel.Time);
+                float y = diagram.Background.AbsoluteToRelativeY((float)nodeViewModel.Value);
 
                 var rectangle = new Rectangle()
                 {
