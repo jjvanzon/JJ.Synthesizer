@@ -88,11 +88,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             //diagram.ScaleY = maxValue;
             //diagram.ScaleHeight = valueDiff;
 
-            // You need to scale from pixels to scaled relative to the background,
-            // because pixels of the background start counting at 0.
-            // You basically misuse the Background's pixel origin of (0, 0) in order to calculate relative Widths and Heights.
-            float scaledNodeRectangleWidth = diagram.Background.PixelsToRelativeX(NODE_RECTANGLE_SIZE_IN_PIXELS);
-            float scaledNodeRectangleHeight = diagram.Background.PixelsToRelativeY(NODE_RECTANGLE_SIZE_IN_PIXELS);
+            float scaledNodeRectangleWidth = diagram.PixelsToAbsoluteWidth(NODE_RECTANGLE_SIZE_IN_PIXELS);
+            float scaledNodeRectangleHeight = diagram.PixelsToAbsoluteHeight(NODE_RECTANGLE_SIZE_IN_PIXELS);
 
             float scaledNodeRectangleWidthOver2 = scaledNodeRectangleWidth / 2;
             float scaledNodeRectangleHeightOver2 = scaledNodeRectangleHeight / 2;
@@ -101,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             foreach (NodeViewModel nodeViewModel in sortedNodeViewModels)
             {
-                // Coordinates are always relative to the Background
+                // Coordinates are always relative to the Background (lowest time translates to x = 0, relative to the background)
                 float x = diagram.Background.AbsoluteToRelativeX((float)nodeViewModel.Time);
                 float y = diagram.Background.AbsoluteToRelativeY((float)nodeViewModel.Value);
 
