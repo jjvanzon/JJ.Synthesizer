@@ -47,7 +47,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             int lessLightGrey = ColorHelper.GetColor(200, 200, 200);
             int transparentGrey = ColorHelper.GetColor(128, 45, 45, 45);
             int blue = ColorHelper.GetColor(122, 189, 254);
-            int darkBlue = ColorHelper.SetBrightness(blue, 0.5);
+            int darkerBlue = ColorHelper.SetBrightness(blue, 0.8);
 
             PointStyle = new PointStyle
             {
@@ -63,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
             PointStyleThickSelected = new PointStyle
             {
-                Color = darkBlue,
+                Color = darkerBlue,
                 Width = 10
             };
 
