@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
+using JJ.Framework.Mathematics;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
+using JJ.Framework.Presentation.VectorGraphics.Helpers;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
+using JJ.Framework.Presentation.VectorGraphics.Models.Styling;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
@@ -82,9 +86,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             diagram.ScaledY = maxValue;
             diagram.ScaledHeight = valueDiff;
 
-            // Axes
+            // Misc Elements
             CreateXAxis(diagram);
             CreateYAxis(diagram);
+            CreateLeftBoundLabel(diagram, minTime);
+            CreateRightBoundLabel(diagram, maxTime);
+            CreateTopBoundLabel(diagram, maxValue);
+            CreateBottomBoundLabel(diagram, minValue);
 
             // Points, Lines and Clickable Regions
             float scaledNodeRectangleWidth = diagram.PixelsToWidth(NODE_RECTANGLE_SIZE_IN_PIXELS);
@@ -93,6 +101,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             float scaledNodeRectangleHeightOver2 = scaledNodeRectangleHeight / 2;
 
             Point previousPoint = null;
+            NodeViewModel previousNodeViewModel = null;
 
             foreach (NodeViewModel nodeViewModel in sortedNodeViewModels)
             {
@@ -134,25 +143,67 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                 if (previousPoint != null)
                 {
-                    var line = new Line
-                    {
-                        Diagram = diagram,
-                        Parent = diagram.Background,
-                        PointA = previousPoint,
-                        PointB = point,
-                        LineStyle = StyleHelper.LineStyleThick
-                    };
+                    NodeTypeEnum nodeTypeEnum = (NodeTypeEnum)previousNodeViewModel.NodeType.ID;
+                    TryCreateLine(diagram, previousPoint, point, nodeTypeEnum);
                 }
 
                 previousPoint = point;
+                previousNodeViewModel = nodeViewModel;
             }
 
             return result;
         }
 
-        private static void CreateXAxis(Diagram diagram)
+        /// <summary> Does not create a line in case of NodeTypeEnum.Off. </summary>
+        private static Line TryCreateLine(Diagram diagram, Point previousPoint, Point nextPoint, NodeTypeEnum nodeTypeEnum)
         {
-            var xAxis = new Line
+            switch (nodeTypeEnum)
+            {
+                case NodeTypeEnum.Line:
+                    {
+                        var line = new Line
+                        {
+                            Diagram = diagram,
+                            Parent = diagram.Background,
+                            PointA = previousPoint,
+                            PointB = nextPoint,
+                            LineStyle = StyleHelper.LineStyleThick
+                        };
+                        return line;
+                    }
+
+                case NodeTypeEnum.Block:
+                    {
+                        var line = new Line
+                        {
+                            Diagram = diagram,
+                            Parent = diagram.Background,
+                            PointA = previousPoint,
+                            // Create a point that creates a horizontal line up to the next node.
+                            PointB = new Point
+                            {
+                                Diagram = diagram,
+                                Parent = diagram.Background,
+                                X = nextPoint.X,
+                                Y = previousPoint.Y,
+                                PointStyle = StyleHelper.PointStyleInvisible
+                            },
+                            LineStyle = StyleHelper.LineStyleThick
+                        };
+                        return line;
+                    }
+
+                case NodeTypeEnum.Off:
+                    return null;
+
+                default:
+                    throw new InvalidValueException(nodeTypeEnum);
+            }
+        }
+
+        private static Line CreateXAxis(Diagram diagram)
+        {
+            var line = new Line
             {
                 Diagram = diagram,
                 Parent = diagram.Background,
@@ -174,11 +225,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     PointStyle = StyleHelper.PointStyleInvisible
                 }
             };
+
+            return line;
         }
 
-        private static void CreateYAxis(Diagram diagram)
+        private Line CreateYAxis(Diagram diagram)
         {
-            var xAxis = new Line
+            var line = new Line
             {
                 Diagram = diagram,
                 Parent = diagram.Background,
@@ -200,6 +253,93 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     PointStyle = StyleHelper.PointStyleInvisible
                 }
             };
+            return line;
+        }
+
+        private static Label CreateLeftBoundLabel(Diagram diagram, float minTime)
+        {
+            var label = new Label
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                X = 0,
+                Y = diagram.Background.Height / 2,
+                Text = minTime.ToString("0.###"),
+            };
+
+            label.TextStyle = CreateLabelTextStyle();
+            label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Center;
+            label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left;
+
+            return label;
+        }
+
+        private static Label CreateRightBoundLabel(Diagram diagram, float maxTime)
+        {
+            var label = new Label
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                X = diagram.Background.Width,
+                Y = diagram.Background.Height / 2,
+                Text = maxTime.ToString("0.###"),
+            };
+
+            label.TextStyle = CreateLabelTextStyle();
+            label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Center;
+            label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Right;
+
+            return label;
+        }
+
+        private static Label CreateTopBoundLabel(Diagram diagram, float maxValue)
+        {
+            var label = new Label
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                X = diagram.Background.Width / 2,
+                Y = 0,
+                Text = maxValue.ToString("0.###"),
+            };
+
+            label.TextStyle = CreateLabelTextStyle();
+            label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Top;
+            label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center;
+
+            return label;
+        }
+
+        private static Label CreateBottomBoundLabel(Diagram diagram, float minValue)
+        {
+            var label = new Label
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                X = diagram.Background.Width / 2,
+                Y = diagram.Background.Height,
+                Text = minValue.ToString("0.###"),
+            };
+
+            label.TextStyle = CreateLabelTextStyle();
+            label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Bottom;
+            label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center;
+
+            return label;
+        }
+
+        private static TextStyle CreateLabelTextStyle()
+        {
+            var textStyle = new TextStyle
+            {
+                Color = ColorHelper.GetColor(128, 0, 0, 0), // TODO: Put this in StyleHelper.
+                Font = new Font
+                {
+                    Name = StyleHelper.DefaultFont.Name,
+                    Size = StyleHelper.DefaultFont.Size / 1.2f
+                }
+            };
+            return textStyle;
         }
     }
 }
