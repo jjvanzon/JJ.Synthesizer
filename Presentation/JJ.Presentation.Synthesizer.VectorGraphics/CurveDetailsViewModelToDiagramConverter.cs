@@ -16,6 +16,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
     public class CurveDetailsViewModelToDiagramConverter
     {
+        private const int MINIMUM_NODE_COUNT = 2;
         private const float NODE_RECTANGLE_SIZE_IN_PIXELS = 20;
 
         private readonly int _doubleClickSpeedInMilliseconds;
@@ -55,7 +56,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             }
 
             Diagram diagram = result.Diagram;
-            diagram.ScaleModeEnum = ScaleModeEnum.ViewPort;
             // Clear Elements
             diagram.Elements.ForEach(x => x.Parent = null);
             diagram.Elements.Clear();
@@ -63,25 +63,36 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             diagram.Background.Gestures.Clear();
             diagram.Background.Gestures.Add(result.ShowCurvePropertiesGesture);
 
-            if (detailsViewModel.Entity.Nodes.Count < 2)
+            if (detailsViewModel.Entity.Nodes.Count < MINIMUM_NODE_COUNT)
             {
                 return result;
             }
 
             IList<NodeViewModel> sortedNodeViewModels = detailsViewModel.Entity.Nodes.OrderBy(x => x.Time).ToArray();
-
             float minTime = (float)sortedNodeViewModels.First().Time;
             float maxTime = (float)sortedNodeViewModels.Last().Time;
-            float timeDiff = maxTime - minTime;
-            diagram.ScaledX = minTime;
-            diagram.ScaledWidth = timeDiff;
-
             float minValue = (float)sortedNodeViewModels.Select(x => x.Value).Min();
             float maxValue = (float)sortedNodeViewModels.Select(x => x.Value).Max();
-            float valueDiff;
-            valueDiff = minValue - maxValue; // NOTE: The direction of the y-axis is inverted.
+
+            // Set Scaling
+            diagram.ScaleModeEnum = ScaleModeEnum.ViewPort;
+            diagram.ScaledX = minTime;
+            diagram.ScaledWidth = maxTime - minTime;
+            // NOTE: The direction of the y-axis is inverted.
             diagram.ScaledY = maxValue;
-            diagram.ScaledHeight = valueDiff;
+            diagram.ScaledHeight = minValue - maxValue;
+
+            // Set Margin
+            // (This is not full-proof, since margin is calculated based on the point's pixel width and scaling without margin,
+            //  But then the scaling is changed based on the margin, making the point's scaled width a little off.
+            //  The difference will probably be marginal, but it can get noticable when you make the diagram very small.)
+            float marginInPixels = StyleHelper.PointStyleThick.Width / 2;
+            float marginX = diagram.PixelsToWidth(marginInPixels);
+            float marginY = diagram.PixelsToHeight(marginInPixels);
+            diagram.ScaledX -= marginX;
+            diagram.ScaledWidth += marginX * 2;
+            diagram.ScaledY -= marginY;
+            diagram.ScaledHeight += marginY * 2;
 
             // Misc Elements
             CreateXAxis(diagram);
