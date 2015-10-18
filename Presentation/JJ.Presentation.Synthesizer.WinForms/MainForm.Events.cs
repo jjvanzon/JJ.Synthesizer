@@ -22,6 +22,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             curveGridUserControl.CreateRequested += curveGridUserControl_CreateRequested;
             curveGridUserControl.DeleteRequested += curveGridUserControl_DeleteRequested;
             curveGridUserControl.ShowDetailsRequested += curveGridUserControl_ShowDetailsRequested;
+            curveDetailsUserControl.ChangeNodeTypeRequested += curveDetailsUserControl_ChangeNodeTypeRequested;
             curveDetailsUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
             curveDetailsUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
             curveDetailsUserControl.DeleteNodeRequested += curveDetailsUserControl_DeleteNodeRequested;
@@ -210,6 +211,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             //return;
 
             _presenter.NodeMove(e.EntityID, e.X, e.Y);
+            ApplyViewModel();
+        }
+
+        private void curveDetailsUserControl_ChangeNodeTypeRequested(object sender, EventArgs e)
+        {
+            _presenter.NodeChangeNodeType();
             ApplyViewModel();
         }
 

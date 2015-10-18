@@ -52,6 +52,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly DocumentTreePresenter _documentTreePresenter;
         private readonly MenuPresenter _menuPresenter;
         private readonly NotFoundPresenter _notFoundPresenter;
+        private readonly NodePropertiesPresenter _nodePropertiesPresenter;
         private readonly OperatorPropertiesPresenter _operatorPropertiesPresenter;
         private readonly OperatorPropertiesPresenter_ForCurve _operatorPropertiesPresenter_ForCurve;
         private readonly OperatorPropertiesPresenter_ForCustomOperator _operatorPropertiesPresenter_ForCustomOperator;
@@ -110,6 +111,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _instrumentGridPresenter = new ChildDocumentGridPresenter(_repositories.DocumentRepository);
             _menuPresenter = new MenuPresenter();
             _notFoundPresenter = new NotFoundPresenter();
+            _nodePropertiesPresenter = new NodePropertiesPresenter(_curveRepositories);
             _operatorPropertiesPresenter = new OperatorPropertiesPresenter(_patchRepositories);
             _operatorPropertiesPresenter_ForCurve = new OperatorPropertiesPresenter_ForCurve(_patchRepositories);
             _operatorPropertiesPresenter_ForCustomOperator = new OperatorPropertiesPresenter_ForCustomOperator(_patchRepositories);
@@ -165,6 +167,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.ChildDocumentPropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.CurvePropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.DocumentProperties.Visible = false;
+            ViewModel.Document.NodePropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.OperatorPropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.OperatorPropertiesList_ForCurves.ForEach(x => x.Visible = false);
             ViewModel.Document.OperatorPropertiesList_ForCustomOperators.ForEach(x => x.Visible = false);
@@ -177,6 +180,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             
             // Note that the not all entity types have Properties view inside the child documents.
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.CurvePropertiesList).ForEach(x => x.Visible = false);
+            ViewModel.Document.ChildDocumentList.SelectMany(x => x.NodePropertiesList).ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList).ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCurves).ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators).ForEach(x => x.Visible = false);
@@ -186,33 +190,5 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers).ForEach(x => x.Visible = false);
             ViewModel.Document.ChildDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
         }
-
-        // TODO: Remove outcommented code.
-        //// TODO: Remove this hack.
-
-        ///// <summary>
-        ///// A hack for using Curves even though there is no Curve editor yet.
-        ///// </summary>
-        //private void HACK_CreateCurves(Document document)
-        //{
-        //    if (document == null) throw new NullException(() => document);
-
-        //    var curveManager = new CurveManager(new CurveRepositories(_repositories));
-        //    Curve curve = curveManager.Create(document, 1.5, 0, 0.9, 1, 0.9, 0.6, 0.6, 0.6, 0.4, 0);
-        //    curve.ID = _repositories.IDRepository.GetID();
-        //    _repositories.CurveRepository.Insert(curve);
-
-        //    IList<Operator> curveOperators = document.EnumerateSelfAndParentAndChildren()
-        //                                             .SelectMany(x => x.Patches)
-        //                                             .SelectMany(x => x.GetOperatorsOfType(OperatorTypeEnum.Curve))
-        //                                             .ToArray();
-
-        //    foreach (Operator curveOperator in curveOperators)
-        //    {
-        //        var wrapper = new OperatorWrapper_Curve(curveOperator, _repositories.CurveRepository);
-
-        //        wrapper.Curve = curve;
-        //    }
-        //}
     }
 }

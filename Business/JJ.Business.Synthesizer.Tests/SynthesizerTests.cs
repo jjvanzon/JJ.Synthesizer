@@ -17,6 +17,8 @@ using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Managers;
+using JJ.Business.CanonicalModel;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -166,11 +168,17 @@ namespace JJ.Business.Synthesizer.Tests
                 CultureHelper.SetThreadCulture("nl-NL");
                 IValidator[] validators = 
                 {
-                    new CurveValidator(curve), 
                     new OperatorValidator_Versatile(sine.Operator, repositories.DocumentRepository),
                     new OperatorWarningValidator_Versatile(sine.Operator)
                 };
                 validators.ForEach(y => y.Verify());
+
+                VoidResult result = curveManager.Validate(curve);
+                if (!result.Successful)
+                {
+                    string messages = String.Join(", ", result.Messages.Select(y => y.Text));
+                    throw new Exception(messages);
+                }
 
                 PatchManager patchManager = new PatchManager(new PatchRepositories(repositories));
 

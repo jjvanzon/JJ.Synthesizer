@@ -493,66 +493,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return curve;
         }
 
-        public static void ToNodes(this IList<NodeViewModel> viewModelList, Curve destCurve, CurveRepositories repositories)
-        {
-            if (viewModelList == null) throw new NullException(() => viewModelList);
-            if (destCurve == null) throw new NullException(() => destCurve);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            var idsToKeep = new HashSet<int>();
-
-            foreach (NodeViewModel viewModel in viewModelList)
-            {
-                Node entity = viewModel.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository);
-                entity.LinkTo(destCurve);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            var curveManager = new CurveManager(repositories);
-
-            IList<int> existingIDs = destCurve.Nodes.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                curveManager.DeleteNode(idToDelete);
-            }
-        }
-
-        public static Node ToEntity(this NodeViewModel viewModel, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (nodeRepository == null) throw new NullException(() => nodeRepository);
-            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
-
-            Node entity = nodeRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Node();
-                entity.ID = viewModel.ID;
-                nodeRepository.Insert(entity);
-            }
-            entity.Time = viewModel.Time;
-            entity.Value = viewModel.Value;
-            entity.Direction = viewModel.Direction;
-
-            bool nodeTypeIsFilledIn = viewModel.NodeType != null && viewModel.NodeType.ID != 0;
-            if (nodeTypeIsFilledIn)
-            {
-                NodeType nodeType = nodeTypeRepository.Get(viewModel.NodeType.ID);
-                entity.LinkTo(nodeType);
-            }
-            else
-            {
-                entity.UnlinkNodeType();
-            }
-
-            return entity;
-        }
-
         public static Curve ToCurve(this IDAndName idAndName, ICurveRepository curveRepository)
         {
             if (idAndName == null) throw new NullException(() => idAndName);
@@ -585,6 +525,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (userInput == null) throw new NullException(() => userInput);
             if (repositories == null) throw new NullException(() => repositories);
 
+            var curveRepositories = new CurveRepositories(repositories);
+            var scaleRepositories = new ScaleRepositories(repositories);
+
             Document destDocument = userInput.ToEntity(repositories.DocumentRepository);
 
             // NOTE: 
@@ -594,15 +537,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             userInput.ChildDocumentPropertiesList.ToChildDocuments(destDocument, repositories);
 
             userInput.AudioFileOutputPropertiesList.ToAudioFileOutputsWithRelatedEntities(destDocument, new AudioFileOutputRepositories(repositories));
-            var curveRepositories = new CurveRepositories(repositories);
             userInput.CurvePropertiesList.ToEntities(destDocument, curveRepositories);
             userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(destDocument, curveRepositories);
+            // userInput.NodePropertiesList's data is also present in the CurveDetails so nothing additional needs to be converted.
             userInput.PatchDetailsList.ToPatchesWithRelatedEntities(destDocument, new PatchRepositories(repositories));
             userInput.SamplePropertiesList.ToSamples(destDocument, new SampleRepositories(repositories));
-
-            var scaleRepositories = new ScaleRepositories(repositories);
             userInput.ScalePropertiesList.ToEntities(scaleRepositories, destDocument);
-
             userInput.ToneGridEditList.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
 
             // Operator Properties
@@ -776,6 +716,75 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             return rootDocument;
+        }
+
+        // Nodes
+
+        public static void ToNodes(this IList<NodeViewModel> viewModelList, Curve destCurve, CurveRepositories repositories)
+        {
+            if (viewModelList == null) throw new NullException(() => viewModelList);
+            if (destCurve == null) throw new NullException(() => destCurve);
+            if (repositories == null) throw new NullException(() => repositories);
+
+            var idsToKeep = new HashSet<int>();
+
+            foreach (NodeViewModel viewModel in viewModelList)
+            {
+                Node entity = viewModel.ToEntity(repositories.NodeRepository, repositories.NodeTypeRepository);
+                entity.LinkTo(destCurve);
+
+                if (!idsToKeep.Contains(entity.ID))
+                {
+                    idsToKeep.Add(entity.ID);
+                }
+            }
+
+            var curveManager = new CurveManager(repositories);
+
+            IList<int> existingIDs = destCurve.Nodes.Select(x => x.ID).ToArray();
+            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+            foreach (int idToDelete in idsToDelete)
+            {
+                curveManager.DeleteNode(idToDelete);
+            }
+        }
+
+        public static Node ToEntity(this NodeViewModel viewModel, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (nodeRepository == null) throw new NullException(() => nodeRepository);
+            if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
+
+            Node entity = nodeRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Node();
+                entity.ID = viewModel.ID;
+                nodeRepository.Insert(entity);
+            }
+            entity.Time = viewModel.Time;
+            entity.Value = viewModel.Value;
+
+            bool nodeTypeIsFilledIn = viewModel.NodeType != null && viewModel.NodeType.ID != 0;
+            if (nodeTypeIsFilledIn)
+            {
+                NodeType nodeType = nodeTypeRepository.Get(viewModel.NodeType.ID);
+                entity.LinkTo(nodeType);
+            }
+            else
+            {
+                entity.UnlinkNodeType();
+            }
+
+            return entity;
+        }
+
+        public static Node ToEntity(this NodePropertiesViewModel viewModel, INodeRepository nodeRepository, INodeTypeRepository nodeTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            Node entity = viewModel.Entity.ToEntity(nodeRepository, nodeTypeRepository);
+            return entity;
         }
 
         // Operator 
@@ -1386,35 +1395,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static void ToEntities(this IList<ToneViewModel> viewModelList, ScaleRepositories repositories, Scale destScale)
-        {
-            if (viewModelList == null) throw new NullException(() => viewModelList);
-            if (destScale == null) throw new NullException(() => destScale);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            var idsToKeep = new HashSet<int>();
-
-            foreach (ToneViewModel viewModel in viewModelList)
-            {
-                Tone entity = viewModel.ToEntity(repositories.ToneRepository);
-                entity.LinkTo(destScale);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            var scaleManager = new ScaleManager(repositories);
-
-            IList<int> existingIDs = destScale.Tones.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                scaleManager.DeleteTone(idToDelete);
-            }
-        }
-
         public static Scale ToEntity(this ScaleViewModel viewModel, IScaleRepository scaleRepository, IScaleTypeRepository scaleTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -1444,6 +1424,37 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
 
             return entity;
+        }
+
+        // Tone
+
+        public static void ToEntities(this IList<ToneViewModel> viewModelList, ScaleRepositories repositories, Scale destScale)
+        {
+            if (viewModelList == null) throw new NullException(() => viewModelList);
+            if (destScale == null) throw new NullException(() => destScale);
+            if (repositories == null) throw new NullException(() => repositories);
+
+            var idsToKeep = new HashSet<int>();
+
+            foreach (ToneViewModel viewModel in viewModelList)
+            {
+                Tone entity = viewModel.ToEntity(repositories.ToneRepository);
+                entity.LinkTo(destScale);
+
+                if (!idsToKeep.Contains(entity.ID))
+                {
+                    idsToKeep.Add(entity.ID);
+                }
+            }
+
+            var scaleManager = new ScaleManager(repositories);
+
+            IList<int> existingIDs = destScale.Tones.Select(x => x.ID).ToArray();
+            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+            foreach (int idToDelete in idsToDelete)
+            {
+                scaleManager.DeleteTone(idToDelete);
+            }
         }
 
         public static Tone ToEntity(this ToneViewModel viewModel, IToneRepository toneRepository)

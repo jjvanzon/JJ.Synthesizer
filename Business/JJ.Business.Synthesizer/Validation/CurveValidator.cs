@@ -5,7 +5,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class CurveValidator : FluentValidator<Curve>
+    internal class CurveValidator : FluentValidator<Curve>
     {
         public CurveValidator(Curve obj)
             : base(obj)

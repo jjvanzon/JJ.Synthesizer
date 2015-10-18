@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return list;
         }
 
-        public static IList<IDAndName> CreateNodeTypesLookupViewModel(INodeTypeRepository repository)
+        public static IList<IDAndName> CreateNodeTypeLookupViewModel(INodeTypeRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 

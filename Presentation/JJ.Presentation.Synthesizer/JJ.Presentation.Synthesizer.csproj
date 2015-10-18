@@ -58,6 +58,7 @@
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForPatchInlet.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter.cs" />
     <Compile Include="Presenters\CurvePropertiesPresenter.cs" />
+    <Compile Include="Presenters\NodePropertiesPresenter.cs" />
     <Compile Include="Presenters\ScalePropertiesPresenter.cs" />
     <Compile Include="Presenters\ToneGridEditPresenter.cs" />
     <Compile Include="Presenters\ScaleGridPresenter.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="ViewModels\CurvePropertiesViewModel.cs" />
     <Compile Include="ViewModels\SamplePropertiesViewModel.cs" />
     <Compile Include="ViewModels\SampleGridViewModel.cs" />
+    <Compile Include="ViewModels\NodePropertiesViewModel.cs" />
     <Compile Include="ViewModels\ToneGridEditViewModel.cs" />
     <Compile Include="ViewModels\ScaleGridViewModel.cs" />
     <Compile Include="ViewModels\ScalePropertiesViewModel.cs" />

@@ -8,15 +8,10 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
     {
         public int ID { get; set; }
 
-        public SampleGridViewModel SampleGrid { get; set; }
-        public IList<SamplePropertiesViewModel> SamplePropertiesList { get; set; }
-
         public CurveGridViewModel CurveGrid { get; set; }
         public IList<CurveDetailsViewModel> CurveDetailsList { get; set; }
         public IList<CurvePropertiesViewModel> CurvePropertiesList { get; set; }
-
-        public PatchGridViewModel PatchGrid { get; set; }
-        public IList<PatchDetailsViewModel> PatchDetailsList { get; set; }
+        public IList<NodePropertiesViewModel> NodePropertiesList { get; set; }
 
         public IList<OperatorPropertiesViewModel> OperatorPropertiesList { get; set; }
         public IList<OperatorPropertiesViewModel_ForCurve> OperatorPropertiesList_ForCurves { get; set; }
@@ -26,12 +21,11 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public IList<OperatorPropertiesViewModel_ForPatchOutlet> OperatorPropertiesList_ForPatchOutlets { get; set; }
         public IList<OperatorPropertiesViewModel_ForSample> OperatorPropertiesList_ForSamples { get; set; }
 
-        /// <summary> 
-        /// This lookup is used by OperatorProperties_ForSamples in this child Document.
-        /// That sample collection should include both samples in the root document as well as samples
-        /// in this child document.
-        /// </summary>
-        public IList<IDAndName> SampleLookup { get; set; }
+        public PatchGridViewModel PatchGrid { get; set; }
+        public IList<PatchDetailsViewModel> PatchDetailsList { get; set; }
+
+        public SampleGridViewModel SampleGrid { get; set; }
+        public IList<SamplePropertiesViewModel> SamplePropertiesList { get; set; }
 
         /// <summary> 
         /// This lookup is used by OperatorProperties_ForSamples in this child Document.
@@ -39,5 +33,12 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         /// in this child document.
         /// </summary>
         public IList<IDAndName> CurveLookup { get; set; }
+
+        /// <summary> 
+        /// This lookup is used by OperatorProperties_ForSamples in this child Document.
+        /// That sample collection should include both samples in the root document as well as samples
+        /// in this child document.
+        /// </summary>
+        public IList<IDAndName> SampleLookup { get; set; }
     }
 }

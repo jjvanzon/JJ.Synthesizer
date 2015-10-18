@@ -23,6 +23,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler<Int32EventArgs> SelectNodeRequested;
         public event EventHandler<MoveEntityEventArgs> MoveNodeRequested;
         public event EventHandler ShowCurvePropertiesRequested;
+        public event EventHandler ChangeNodeTypeRequested;
 
         private CurveDetailsViewModel _viewModel;
         private CurveDetailsViewModelToDiagramConverter _converter;
@@ -82,6 +83,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _converterResult.SelectNodeGesture.SelectNodeRequested -= Diagram_NodeSelected;
                 _converterResult.MoveNodeGesture.Moved -= MoveNodeGesture_Moved;
                 _converterResult.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested -= ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
+                _converterResult.ChangeNodeTypeGesture.ChangeNodeTypeRequested -= ChangeNodeTypeGesture_ChangeNodeTypeRequested;
             }
 
             _converterResult = _converter.Execute(_viewModel, _converterResult);
@@ -90,6 +92,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _converterResult.SelectNodeGesture.SelectNodeRequested += Diagram_NodeSelected;
             _converterResult.MoveNodeGesture.Moved += MoveNodeGesture_Moved;
             _converterResult.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested += ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
+            _converterResult.ChangeNodeTypeGesture.ChangeNodeTypeRequested += ChangeNodeTypeGesture_ChangeNodeTypeRequested;
 
             diagramControl.Diagram = _converterResult.Diagram;
 
@@ -97,6 +100,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // resulted in the show of the Curvedetails not properly scaling the diagram,
             // and resize also does not scale the diagram in time, when it is a mamimize or restore.
             // If that was even the cause.
+
+            // Temporarily enable again. It might just be the cause of the missing refreshes.
+            // Refresh made ChangeNodeType gesture go off twice???
             //diagramControl.Refresh();
         }
 
@@ -150,10 +156,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 int nodeID = (int)e.Element.Tag;
 
                 Rectangle rectangle = (Rectangle)e.Element;
-                Point point = (Point)e.Element.Children.Single();
 
-                float x = point.AbsoluteX;
-                float y = point.AbsoluteY;
+                float x = rectangle.AbsoluteX + rectangle.Width / 2;
+                float y = rectangle.AbsoluteY + rectangle.Height / 2;
 
                 MoveNodeRequested(this, new MoveEntityEventArgs(nodeID, x, y));
             }
@@ -164,6 +169,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (ShowCurvePropertiesRequested != null)
             {
                 ShowCurvePropertiesRequested(this, EventArgs.Empty);
+            }
+        }
+
+        private void ChangeNodeTypeGesture_ChangeNodeTypeRequested(object sender, EventArgs e)
+        {
+            if (ChangeNodeTypeRequested != null)
+            {
+                ChangeNodeTypeRequested(this, EventArgs.Empty);
             }
         }
 

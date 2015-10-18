@@ -40,10 +40,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            // TODO: Remove outcommente code.
-            //Curve mockCurve = CurveApi.Create(10.0, 0, 0.8, 1.0, null, 0.8, null, null, 0.2, null, null, 0.0);
-            //ViewModel.Entity = mockCurve.ToViewModelWithRelatedEntities();
-
             ViewModel.Visible = true;
         }
 
@@ -85,10 +81,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Curve entity = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            IValidator validator = new CurveValidator(entity);
+            VoidResult result = _curveManager.Validate(entity);
 
-            ViewModel.Successful = validator.IsValid;
-            ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+            ViewModel.Successful = result.Successful;
+            ViewModel.ValidationMessages = result.Messages;
         }
 
         public void SelectNode(int nodeID)
@@ -98,70 +94,45 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.SelectedNodeID = nodeID;
         }
 
-        public void CreateNode()
-        {
-            AssertViewModel();
+        // TODO: Remove outcommented code.
+        //public void DeleteNode()
+        //{
+        //    AssertViewModel();
 
-            // ToEntity
-            Curve curve = ViewModel.ToEntityWithRelatedEntities(_repositories);
-            Node afterNode = null;
-            if (ViewModel.SelectedNodeID.HasValue)
-            {
-                afterNode = _repositories.NodeRepository.Get(ViewModel.SelectedNodeID.Value);
-            }
-            else
-            {
-                // Insert after last node if none selected.
-                afterNode = curve.Nodes.OrderBy(x => x.Time).Last();
-            }
+        //    if (!ViewModel.SelectedNodeID.HasValue)
+        //    {
+        //        ViewModel.ValidationMessages.Add(new Message
+        //        {
+        //            PropertyKey = PresentationPropertyNames.SelectedNodeID,
+        //            Text = PresentationMessages.SelectANodeFirst
+        //        });
+        //        return;
+        //    }
 
-            // Business
-            Node node = _curveManager.CreateNode(curve, afterNode);
+        //    if (ViewModel.Entity.Nodes.Count <= 2)
+        //    {
+        //        ViewModel.ValidationMessages.Add(new Message
+        //        {
+        //            PropertyKey = PropertyNames.Nodes,
+        //            // TODO: If you would just have done the ToEntity-Business-ToViewModel roundtrip, the validator would have taken care of it.
+        //            Text = ValidationMessageFormatter.Min(CommonTitleFormatter.EntityCount(PropertyDisplayNames.Nodes), 2)
+        //        });
+        //        return;
+        //    }
 
-            // ToViewModel
-            NodeViewModel nodeViewModel = node.ToViewModel();
-            ViewModel.Entity.Nodes.Add(nodeViewModel);
-        }
+        //    ViewModel.Entity.Nodes.RemoveFirst(x => x.ID == ViewModel.SelectedNodeID);
 
-        public void DeleteNode()
-        {
-            AssertViewModel();
+        //    ViewModel.SelectedNodeID = null;
+        //}
 
-            if (!ViewModel.SelectedNodeID.HasValue)
-            {
-                ViewModel.ValidationMessages.Add(new Message
-                {
-                    PropertyKey = PresentationPropertyNames.SelectedNodeID,
-                    Text = PresentationMessages.SelectANodeFirst
-                });
-                return;
-            }
+        //public void MoveNode(int nodeID, double time, double value)
+        //{
+        //    AssertViewModel();
 
-            if (ViewModel.Entity.Nodes.Count <= 2)
-            {
-                ViewModel.ValidationMessages.Add(new Message
-                {
-                    PropertyKey = PropertyNames.Nodes,
-                    // TODO: If you would just have done the ToEntity-Business-ToViewModel roundtrip, the validator would have taken care of it.
-                    Text = ValidationMessageFormatter.Min(CommonTitleFormatter.EntityCount(PropertyDisplayNames.Nodes), 2)
-                });
-                return;
-            }
-
-            ViewModel.Entity.Nodes.RemoveFirst(x => x.ID == ViewModel.SelectedNodeID);
-
-            ViewModel.SelectedNodeID = null;
-        }
-
-
-        public void MoveNode(int nodeID, double time, double value)
-        {
-            AssertViewModel();
-
-            NodeViewModel nodeViewModel = ViewModel.Entity.Nodes.Where(x => x.ID == nodeID).Single();
-            nodeViewModel.Time = time;
-            nodeViewModel.Value = value;
-        }
+        //    NodeViewModel nodeViewModel = ViewModel.Entity.Nodes.Where(x => x.ID == nodeID).Single();
+        //    nodeViewModel.Time = time;
+        //    nodeViewModel.Value = value;
+        //}
 
         // Helpers
 

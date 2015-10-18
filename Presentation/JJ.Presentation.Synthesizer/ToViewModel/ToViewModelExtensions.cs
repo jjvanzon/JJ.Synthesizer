@@ -121,7 +121,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Time = entity.Time,
                 Value = entity.Value,
                 NodeType = entity.NodeType.ToIDAndDisplayName(),
-                Direction = entity.Direction,
                 ID = entity.ID
             };
 

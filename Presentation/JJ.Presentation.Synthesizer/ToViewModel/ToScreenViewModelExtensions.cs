@@ -152,7 +152,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurveDetailsViewModel
             {
                 Entity = curve.ToViewModelWithRelatedEntities(),
-                NodeTypeLookup = ViewModelHelper.CreateNodeTypesLookupViewModel(nodeTypeRepository),
+                NodeTypeLookup = ViewModelHelper.CreateNodeTypeLookupViewModel(nodeTypeRepository),
                 ValidationMessages = new List<Message>()
             };
 
@@ -182,6 +182,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Entity = entity.ToIDAndName(),
                 ValidationMessages = new List<Message>(),
+                Successful = true
+            };
+
+            return viewModel;
+        }
+
+        public static NodePropertiesViewModel ToPropertiesViewModel(this Node entity, INodeTypeRepository nodeTypeRepository)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new NodePropertiesViewModel
+            {
+                Entity = entity.ToViewModel(),
+                ValidationMessages = new List<Message>(),
+                NodeTypeLookup = ViewModelHelper.CreateNodeTypeLookupViewModel(nodeTypeRepository),
                 Successful = true
             };
 

@@ -7,6 +7,8 @@ using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Helpers
 {
+    // TODO: Low priority. A lot of sequential lookups are done here. In the future it might be an idea to use Dictionaries instead
+    // of Lists in these view models, to make it O(1) instead of O(n)
     internal static class ChildDocumentHelper
     {
         // ChildDocument
@@ -63,6 +65,15 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return propertiesViewModel;
         }
 
+        public static CurveDetailsViewModel GetCurveDetailsViewModel_ByNodeID(DocumentViewModel rootDocumentViewModel, int nodeID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            CurveDetailsViewModel detailsViewModel = ChildDocumentHelper.EnumerateCurveDetailsViewModels(rootDocumentViewModel)
+                                                                        .Where(x => x.Entity.Nodes.Any(y => y.ID == nodeID))
+                                                                        .First();
+            return detailsViewModel;
+        }
         public static IList<CurveDetailsViewModel> GetCurveDetailsViewModels_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -164,6 +175,60 @@ namespace JJ.Presentation.Synthesizer.Helpers
                     yield return curvePropertiesViewModel;
                 }
             }
+        }
+
+        // Node
+
+        public static NodePropertiesViewModel GetNodePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int nodeID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            NodePropertiesViewModel viewModel = ChildDocumentHelper.EnumerateNodePropertiesViewModels(rootDocumentViewModel)
+                                                                   .FirstOrDefault(x => x.Entity.ID == nodeID); // First for performance.
+            if (viewModel == null)
+            {
+                throw new Exception(String.Format("NodePropertiesViewModel with Entity.ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", nodeID));
+            }
+
+            return viewModel;
+        }
+
+        private static IEnumerable<NodePropertiesViewModel> EnumerateNodePropertiesViewModels(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (NodePropertiesViewModel propertiesViewModel in rootDocumentViewModel.NodePropertiesList)
+            {
+                yield return propertiesViewModel;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                foreach (NodePropertiesViewModel propertiesViewModel in childDocumentViewModel.NodePropertiesList)
+                {
+                    yield return propertiesViewModel;
+                }
+            }
+        }
+
+        public static IList<NodePropertiesViewModel> GetNodePropertiesViewModelList_ByCurveID(DocumentViewModel rootDocumentViewModel, int curveID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            if (rootDocumentViewModel.CurveDetailsList.Any(x => x.Entity.ID == curveID))
+            {
+                return rootDocumentViewModel.NodePropertiesList;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                if (childDocumentViewModel.CurveDetailsList.Any(x => x.Entity.ID == curveID))
+                {
+                    return childDocumentViewModel.NodePropertiesList;
+                }
+            }
+
+            throw new Exception(String.Format("IList<NodePropertiesViewModel> for Curve ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", curveID));
         }
 
         // Operator

@@ -19,6 +19,9 @@ using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Presentation.Synthesizer.Validators;
+using JJ.Framework.Validation.Resources;
+using JJ.Framework.Presentation.Resources;
+using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -308,6 +311,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 CurvePropertiesViewModel curvePropertiesViewModel = curve.ToPropertiesViewModel();
                 propertiesViewModels.Add(curvePropertiesViewModel);
 
+                IList<NodePropertiesViewModel> nodePropertiesViewModelList = ChildDocumentHelper.GetNodePropertiesViewModelList_ByCurveID(ViewModel.Document, curve.ID);
+                foreach (Node node in curve.Nodes)
+                {
+                    NodePropertiesViewModel nodePropertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+                    nodePropertiesViewModelList.Add(nodePropertiesViewModel);
+                }
+
                 // NOTE: Curves in a child document are only added to the curve lookup of that child document,
                 // while curve in the root document are added to both root and child documents.
                 bool isRootDocument = document.ParentDocument == null;
@@ -338,14 +348,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // ToEntity
                 ViewModel.ToEntityWithRelatedEntities(_repositories);
                 Curve curve = _repositories.CurveRepository.Get(curveID);
+                IList<int> nodeIDs = curve.Nodes.Select(x => x.ID).ToArray();
                 int documentID = curve.Document.ID;
                 bool isRootDocument = curve.Document.ParentDocument == null;
-
+                
                 // Business
                 VoidResult result = _curveManager.DeleteWithRelatedEntities(curve);
                 if (result.Successful)
                 {
                     // ToViewModel
+
+                    // NOTE: Order-dependence:
+                    // The ChildDocument helper methods uses the existence of CurveDetailsViewModel to find a match,
+                    // so execute this before removing CurveDetailsViewModel
+                    IList<NodePropertiesViewModel> nodePropertiesViewModelList = ChildDocumentHelper.GetNodePropertiesViewModelList_ByCurveID(ViewModel.Document, curveID);
+                    foreach (int nodeID in nodeIDs)
+                    {
+                        nodePropertiesViewModelList.RemoveFirst(x => x.Entity.ID == nodeID);
+                    }
+
                     IList<CurveDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetCurveDetailsViewModels_ByDocumentID(ViewModel.Document, documentID);
                     detailsViewModels.RemoveFirst(x => x.Entity.ID == curveID);
 
@@ -988,6 +1009,53 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Node
 
+        public void NodePropertiesShow(int nodeID)
+        {
+            try
+            {
+                NodePropertiesViewModel viewModel = ChildDocumentHelper.GetNodePropertiesViewModel(ViewModel.Document, nodeID);
+                _nodePropertiesPresenter.ViewModel = viewModel;
+                _nodePropertiesPresenter.Show();
+                DispatchViewModel(_nodePropertiesPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void NodePropertiesClose()
+        {
+            NodePropertiesCloseOrLoseFocus(() => _nodePropertiesPresenter.Close());
+        }
+
+        public void NodePropertiesLoseFocus()
+        {
+            NodePropertiesCloseOrLoseFocus(() => _nodePropertiesPresenter.LoseFocus());
+        }
+
+        public void NodePropertiesCloseOrLoseFocus(Action partialAction)
+        {
+            try
+            {
+                NodePropertiesPresenter partialPresenter = _nodePropertiesPresenter;
+
+                partialAction();
+
+                if (partialPresenter.ViewModel.Successful)
+                {
+                    int nodeID = partialPresenter.ViewModel.Entity.ID;
+                    RefreshCurveDetailsNode(nodeID);
+                }
+
+                DispatchViewModel(partialPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
         public void NodeSelect(int nodeID)
         {
             try
@@ -1005,8 +1073,35 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                _curveDetailsPresenter.CreateNode();
-                DispatchViewModel(_curveDetailsPresenter.ViewModel);
+                if (_curveDetailsPresenter.ViewModel == null) throw new NullException(() => _curveDetailsPresenter.ViewModel);
+
+                // ToEntity
+                // Note that the name of the curve is missing in the CurveDetails view.
+                Curve curve = _curveDetailsPresenter.ViewModel.ToEntityWithRelatedEntities(_curveRepositories);
+                Node afterNode;
+                if (_curveDetailsPresenter.ViewModel.SelectedNodeID.HasValue)
+                {
+                    afterNode = _repositories.NodeRepository.Get(_curveDetailsPresenter.ViewModel.SelectedNodeID.Value);
+                }
+                else
+                {
+                    // Insert after last node if none selected.
+                    afterNode = curve.Nodes.OrderBy(x => x.Time).Last();
+                }
+
+                // Business
+                Node node = _curveManager.CreateNode(curve, afterNode);
+
+                // ToViewModel
+
+                // CurveDetails NodeViewModel
+                NodeViewModel nodeViewModel = node.ToViewModel();
+                _curveDetailsPresenter.ViewModel.Entity.Nodes.Add(nodeViewModel);
+
+                // NodeProperties
+                NodePropertiesViewModel propertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+                IList<NodePropertiesViewModel> propertiesViewModelList = ChildDocumentHelper.GetNodePropertiesViewModelList_ByCurveID(ViewModel.Document, curve.ID);
+                propertiesViewModelList.Add(propertiesViewModel);
             }
             finally
             {
@@ -1018,8 +1113,67 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                _curveDetailsPresenter.DeleteNode();
-                DispatchViewModel(_curveDetailsPresenter.ViewModel);
+                if (_curveDetailsPresenter.ViewModel == null) throw new NullException(() => _curveDetailsPresenter.ViewModel);
+
+                if (!_curveDetailsPresenter.ViewModel.SelectedNodeID.HasValue)
+                {
+                    ViewModel.ValidationMessages.Add(new Message
+                    {
+                        PropertyKey = PresentationPropertyNames.SelectedNodeID,
+                        Text = PresentationMessages.SelectANodeFirst
+                    });
+                    return;
+                }
+
+                // TODO: Verify this in the business.
+                if (_curveDetailsPresenter.ViewModel.Entity.Nodes.Count <= 2)
+                {
+                    ViewModel.ValidationMessages.Add(new Message
+                    {
+                        PropertyKey = PropertyNames.Nodes,
+                        // TODO: If you would just have done the ToEntity-Business-ToViewModel roundtrip, the validator would have taken care of it.
+                        Text = ValidationMessageFormatter.Min(CommonTitleFormatter.EntityCount(PropertyDisplayNames.Nodes), 2)
+                    });
+                    return;
+                }
+
+                // ToEntity
+                // TODO: You might only convert the CurveDetails view models?
+                int nodeID = _curveDetailsPresenter.ViewModel.SelectedNodeID.Value;
+                Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+                Curve curve = _repositories.CurveRepository.Get(_curveDetailsPresenter.ViewModel.Entity.ID);
+                Document document = curve.Document;
+                Node node = _repositories.NodeRepository.Get(nodeID);
+
+                // Business
+                _curveManager.DeleteNode(node);
+
+                // ToViewModel
+
+                // CurveDetails NodeViewModel
+                _curveDetailsPresenter.ViewModel.Entity.Nodes.RemoveFirst(x => x.ID == nodeID);
+                _curveDetailsPresenter.ViewModel.SelectedNodeID = null;
+
+                // NodeProperties
+                bool isRemoved = ViewModel.Document.NodePropertiesList.TryRemoveFirst(x => x.Entity.ID == nodeID);
+                if (!isRemoved)
+                {
+                    foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.ChildDocumentList)
+                    {
+                        isRemoved = childDocumentViewModel.NodePropertiesList.TryRemoveFirst(x => x.Entity.ID == nodeID);
+                        if (isRemoved)
+                        {
+                            break;
+                        }
+                    }
+                }
+                if (!isRemoved)
+                {
+                    throw new Exception(String.Format("NodeProperties with Entity.ID '{0}' not found in either root DocumentViewModel or its ChildDocumentViewModels.", nodeID));
+                }
+
+                // TODO: Remove outcommented code.
+                //DispatchViewModel(_curveDetailsPresenter.ViewModel);
             }
             finally
             {
@@ -1031,13 +1185,64 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                _curveDetailsPresenter.MoveNode(nodeID, time, value);
-                DispatchViewModel(_curveDetailsPresenter.ViewModel);
+                if (_curveDetailsPresenter.ViewModel == null) throw new NullException(() => _curveDetailsPresenter.ViewModel);
+
+                NodeViewModel nodeViewModel = _curveDetailsPresenter.ViewModel.Entity.Nodes.Where(x => x.ID == nodeID).Single();
+                nodeViewModel.Time = time;
+                nodeViewModel.Value = value;
+
+                NodePropertiesViewModel propertiesViewModel = ChildDocumentHelper.GetNodePropertiesViewModel(ViewModel.Document, nodeID);
+                propertiesViewModel.Entity.Time = time;
+                propertiesViewModel.Entity.Value = value;
             }
             finally
             {
                 _repositories.Rollback();
             }
+        }
+
+        /// <summary>
+        /// Rotates between node types for the selected node.
+        /// If no node is selected, nothing happens.
+        /// </summary>
+        public void NodeChangeNodeType()
+        {
+            if (_curveDetailsPresenter.ViewModel == null) throw new NullException(() => _curveDetailsPresenter.ViewModel);
+
+            if (!_curveDetailsPresenter.ViewModel.SelectedNodeID.HasValue)
+            {
+                return;
+            }
+
+            int nodeID = _curveDetailsPresenter.ViewModel.SelectedNodeID.Value;
+
+            NodeViewModel nodeViewModel1 = _curveDetailsPresenter.ViewModel.Entity.Nodes.Where(x => x.ID == nodeID).Single();
+
+            NodeTypeEnum nodeTypeEnum = (NodeTypeEnum)nodeViewModel1.NodeType.ID;
+            switch (nodeTypeEnum)
+            {
+                case NodeTypeEnum.Line:
+                    nodeTypeEnum = NodeTypeEnum.Block;
+                    break;
+
+                case NodeTypeEnum.Block:
+                    nodeTypeEnum = NodeTypeEnum.Off;
+                    break;
+
+                case NodeTypeEnum.Off:
+                    nodeTypeEnum = NodeTypeEnum.Line;
+                    break;
+
+                default:
+                    throw new InvalidValueException(nodeTypeEnum);
+            }
+
+            NodeType nodeType = _repositories.NodeTypeRepository.Get((int)nodeTypeEnum);
+
+            nodeViewModel1.NodeType = nodeType.ToIDAndDisplayName();
+
+            NodePropertiesViewModel propertiesViewModel = ChildDocumentHelper.GetNodePropertiesViewModel(ViewModel.Document, nodeID);
+            propertiesViewModel.Entity.NodeType = nodeType.ToIDAndDisplayName();
         }
 
         // Operator
@@ -1562,7 +1767,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // ToViewModel
                     if (_patchDetailsPresenter.ViewModel.Successful)
                     {
-                        // Do a lot of if'ing and switching to be a little faster in removing the item a specific place in the view model,
+                        // Do a lot of if'ing and switching to be a little faster in removing the item a specific place in the view model.
                         bool isRootDocument = rootDocument.ID == document.ID;
                         if (isRootDocument)
                         {

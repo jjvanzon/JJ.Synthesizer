@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 // TODO: It looks like you may as well instantiate the things you pass to the constructor right inside the class.
                 var showCurvePropertiesGesture = new ShowCurvePropertiesGesture(_doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
                 result = new CurveDetailsViewModelToDiagramConverterResult(
-                    new Diagram(), new KeyDownGesture(), new SelectNodeGesture(), new MoveGesture(), showCurvePropertiesGesture);
+                    new Diagram(), new KeyDownGesture(), new SelectNodeGesture(), new MoveGesture(), showCurvePropertiesGesture, new ChangeNodeTypeGesture());
 
                 result.Diagram.Gestures.Add(result.KeyDownGesture);
             }
@@ -62,6 +62,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             // Clear Gestures
             diagram.Background.Gestures.Clear();
             diagram.Background.Gestures.Add(result.ShowCurvePropertiesGesture);
+            diagram.Background.Gestures.Add(result.ChangeNodeTypeGesture);
 
             if (detailsViewModel.Entity.Nodes.Count < MINIMUM_NODE_COUNT)
             {
@@ -163,9 +164,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         }
 
         /// <summary> Does not create a line in case of NodeTypeEnum.Off. </summary>
-        private static Line TryCreateLine(Diagram diagram, Point previousPoint, Point nextPoint, NodeTypeEnum nodeTypeEnum)
+        private static Line TryCreateLine(Diagram diagram, Point previousPoint, Point nextPoint, NodeTypeEnum previousNodeTypeEnum)
         {
-            switch (nodeTypeEnum)
+            switch (previousNodeTypeEnum)
             {
                 case NodeTypeEnum.Line:
                     {
@@ -182,22 +183,44 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                 case NodeTypeEnum.Block:
                     {
+                        var pointParent = previousPoint.Parent;
+
+                        // Create horizontal line to the next node.
                         var line = new Line
                         {
                             Diagram = diagram,
                             Parent = diagram.Background,
                             PointA = previousPoint,
-                            // Create a point that creates a horizontal line up to the next node.
-                            PointB = new Point
-                            {
-                                Diagram = diagram,
-                                Parent = diagram.Background,
-                                X = nextPoint.X,
-                                Y = previousPoint.Y,
-                                PointStyle = StyleHelper.PointStyleInvisible
-                            },
                             LineStyle = StyleHelper.LineStyleThick
                         };
+
+                        line.PointB = new Point
+                        {
+                            Diagram = diagram,
+                            Parent = pointParent,
+                            X = pointParent.AbsoluteToRelativeX(nextPoint.AbsoluteX),
+                            Y = previousPoint.Y,
+                            PointStyle = StyleHelper.PointStyleInvisible
+                        };
+
+                        // Create vertical line down.
+                        var line2 = new Line
+                        {
+                            Diagram = diagram,
+                            Parent = diagram.Background,
+                            PointA = line.PointB,
+                            LineStyle = StyleHelper.LineStyleThick
+                        };
+
+                        line2.PointB = new Point
+                        {
+                            Diagram = diagram,
+                            Parent = pointParent,
+                            X = line.PointB.X,
+                            Y = pointParent.AbsoluteToRelativeY(nextPoint.AbsoluteY)
+                        };
+
+                        // TODO: Return value does not make sense anymore, since we created two lines
                         return line;
                     }
 
@@ -205,7 +228,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     return null;
 
                 default:
-                    throw new InvalidValueException(nodeTypeEnum);
+                    throw new InvalidValueException(previousNodeTypeEnum);
             }
         }
 

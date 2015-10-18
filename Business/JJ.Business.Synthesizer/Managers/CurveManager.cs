@@ -72,9 +72,31 @@ namespace JJ.Business.Synthesizer.Managers
             return curve;
         }
 
+        public VoidResult Validate(Curve entity)
+        {
+            IValidator validator = new CurveValidator(entity);
+
+            return new VoidResult
+            {
+                Successful = validator.IsValid,
+                Messages = validator.ValidationMessages.ToCanonical()
+            };
+        }
+
         public VoidResult ValidateWithoutRelatedEntities(Curve entity)
         {
             IValidator validator = new CurveValidator_WithoutNodes(entity);
+
+            return new VoidResult
+            {
+                Successful = validator.IsValid,
+                Messages = validator.ValidationMessages.ToCanonical()
+            };
+        }
+
+        public VoidResult ValidateNode(Node entity)
+        {
+            IValidator validator = new NodeValidator(entity);
 
             return new VoidResult
             {

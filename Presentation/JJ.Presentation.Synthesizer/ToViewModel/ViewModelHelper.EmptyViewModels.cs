@@ -44,6 +44,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentTree = CreateEmptyDocumentTreeViewModel(),
                 EffectGrid = CreateEmptyChildDocumentGridViewModel((int)ChildDocumentTypeEnum.Effect),
                 InstrumentGrid = CreateEmptyChildDocumentGridViewModel((int)ChildDocumentTypeEnum.Instrument),
+                NodePropertiesList = new List<NodePropertiesViewModel>(),
                 OperatorPropertiesList = new List<OperatorPropertiesViewModel>(),
                 OperatorPropertiesList_ForCurves = new List<OperatorPropertiesViewModel_ForCurve>(),
                 OperatorPropertiesList_ForCustomOperators = new List<OperatorPropertiesViewModel_ForCustomOperator>(),

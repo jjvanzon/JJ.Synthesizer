@@ -33,6 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(DocumentPropertiesViewModel), DispatchDocumentPropertiesViewModel },
                 { typeof(DocumentTreeViewModel), DispatchDocumentTreeViewModel },
                 { typeof(MenuViewModel), DispatchMenuViewModel },
+                { typeof(NodePropertiesViewModel), DispatchNodePropertiesViewModel },
                 { typeof(NotFoundViewModel), DispatchNotFoundViewModel },
                 { typeof(OperatorPropertiesViewModel), DispatchOperatorPropertiesViewModel },
                 { typeof(OperatorPropertiesViewModel_ForCurve), DispatchOperatorPropertiesViewModel_ForCurve },
@@ -277,6 +278,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (MenuViewModel)viewModel2;
             ViewModel.Menu = castedViewModel;
+        }
+
+        private void DispatchNodePropertiesViewModel(object viewModel2)
+        {
+            var castedViewModel = (NodePropertiesViewModel)viewModel2;
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
         }
 
         private void DispatchNotFoundViewModel(object viewModel2)

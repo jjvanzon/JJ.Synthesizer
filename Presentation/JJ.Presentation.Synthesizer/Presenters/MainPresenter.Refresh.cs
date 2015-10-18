@@ -56,6 +56,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        private void RefreshCurveDetailsNode(int nodeID)
+        {
+            // TODO: This is not very fast.
+            CurveDetailsViewModel detailsViewModel = ChildDocumentHelper.GetCurveDetailsViewModel_ByNodeID(ViewModel.Document, nodeID);
+
+            // Remove original node
+            detailsViewModel.Entity.Nodes.RemoveFirst(x => x.ID == nodeID);
+
+            // Add new version of the node
+            Node node = _repositories.NodeRepository.Get(nodeID);
+            NodeViewModel nodeViewModel = node.ToViewModel();
+            detailsViewModel.Entity.Nodes.Add(nodeViewModel);
+        }
+
         private void RefreshChildDocumentGrid(ChildDocumentTypeEnum childDocumentTypeEnum)
         {
             switch (childDocumentTypeEnum)
@@ -108,6 +122,33 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        /// <summary>
+        /// When an underlying document of a custom operator is changed,
+        /// we do not know which PatchDetails OperatorViewModels are affected,
+        /// because no OperatorViewModel has as property saying what UnderlyingDocument it is. 
+        /// Therefore we refresh all CustomOperators.
+        /// 
+        /// But also, a custom operator would need to be updated if something connected to it is deleted,
+        /// because then the obsolete inlets and outlets might be cleaned up.
+        /// </summary>
+        private void RefreshOperatorViewModels_OfTypeCustomOperators()
+        {
+            IList<PatchDetailsViewModel> patchDetailsViewModels =
+                ViewModel.Document.PatchDetailsList.Union(
+                ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList))
+                .ToArray();
+
+            IList<OperatorViewModel> operatorViewModels =
+                patchDetailsViewModels.SelectMany(x => x.Entity.Operators)
+                                      .Where(x => x.OperatorType.ID == (int)OperatorTypeEnum.CustomOperator)
+                                      .ToArray();
+
+            foreach (OperatorViewModel operatorViewModel in operatorViewModels)
+            {
+                RefreshPatchDetailsOperator(operatorViewModel);
+            }
+        }
+
         private void RefreshPatchGrid(int documentID)
         {
             PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, documentID);
@@ -139,33 +180,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModelHelper.UpdateViewModel_WithInletsAndOutlets_WithoutEntityPosition(
                 entity, operatorViewModel,
                 _repositories.SampleRepository, _repositories.CurveRepository, _repositories.DocumentRepository);
-        }
-
-        /// <summary>
-        /// When an underlying document of a custom operator is changed,
-        /// we do not know which PatchDetails OperatorViewModels are affected,
-        /// because no OperatorViewModel has as property saying what UnderlyingDocument it is. 
-        /// Therefore we refresh all CustomOperators.
-        /// 
-        /// But also, a custom operator would need to be updated if something connected to it is deleted,
-        /// because then the obsolete inlets and outlets might be cleaned up.
-        /// </summary>
-        private void RefreshOperatorViewModels_OfTypeCustomOperators()
-        {
-            IList<PatchDetailsViewModel> patchDetailsViewModels =
-                ViewModel.Document.PatchDetailsList.Union(
-                ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList))
-                .ToArray();
-
-            IList<OperatorViewModel> operatorViewModels =
-                patchDetailsViewModels.SelectMany(x => x.Entity.Operators)
-                                      .Where(x => x.OperatorType.ID == (int)OperatorTypeEnum.CustomOperator)
-                                      .ToArray();
-
-            foreach (OperatorViewModel operatorViewModel in operatorViewModels)
-            {
-                RefreshPatchDetailsOperator(operatorViewModel);
-            }
         }
 
         private void RefreshSampleGrid(SampleGridViewModel sampleGridViewModel)
@@ -210,12 +224,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel2);
         }
 
-        private void RefreshUnderylingDocumentLookup()
-        {
-            Document rootDocument = _repositories.DocumentRepository.Get(ViewModel.Document.ID);
-            ViewModel.Document.UnderlyingDocumentLookup = ViewModelHelper.CreateUnderlyingDocumentLookupViewModel(rootDocument.ChildDocuments);
-        }
-
         private void RefreshToneGridEdit(int scaleID)
         {
             ToneGridEditViewModel viewModel = ChildDocumentHelper.GetToneGridEditViewModel(ViewModel.Document, scaleID);
@@ -227,6 +235,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _toneGridEditPresenter.ViewModel = viewModel;
             _toneGridEditPresenter.Refresh();
             DispatchViewModel(_toneGridEditPresenter.ViewModel);
+        }
+
+        private void RefreshUnderylingDocumentLookup()
+        {
+            Document rootDocument = _repositories.DocumentRepository.Get(ViewModel.Document.ID);
+            ViewModel.Document.UnderlyingDocumentLookup = ViewModelHelper.CreateUnderlyingDocumentLookupViewModel(rootDocument.ChildDocuments);
         }
     }
 }
