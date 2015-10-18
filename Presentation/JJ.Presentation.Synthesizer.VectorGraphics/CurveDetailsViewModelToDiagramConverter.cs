@@ -207,13 +207,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 LineStyle = StyleHelper.LineStyleThick
             };
 
-            Element pointParent = nextPoint.Parent;
             line.PointB = new Point
             {
                 Diagram = diagram,
-                Parent = pointParent,
-                X = nextPoint.X,
-                Y = pointParent.AbsoluteToRelativeY(previousPoint.AbsoluteY),
+                Parent = nextPoint,
+                X = 0,
+                Y = nextPoint.AbsoluteToRelativeY(previousPoint.AbsoluteY),
                 PointStyle = StyleHelper.PointStyleInvisible
             };
 
@@ -223,16 +222,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Diagram = diagram,
                 Parent = diagram.Background,
                 PointA = line.PointB,
+                PointB = nextPoint,
                 LineStyle = StyleHelper.LineStyleThick
             };
-
-            line2.PointB = nextPoint;
         }
 
         private void CreateLines_ForNodeTypeOff(Diagram diagram, Point previousPoint, Point nextPoint)
         {
-            // Create vertical line to 0.
-            var line = new Line
+            var verticalLineTo0 = new Line
             {
                 Diagram = diagram,
                 Parent = diagram.Background,
@@ -240,27 +237,40 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 LineStyle = StyleHelper.LineStyleThick
             };
             
-            Element pointParent = previousPoint.Parent;
-            line.PointB = new Point
+            verticalLineTo0.PointB = new Point
             {
                 Diagram = diagram,
-                Parent = pointParent,
-                X = previousPoint.X,
-                Y = pointParent.AbsoluteToRelativeY(0),
+                Parent = previousPoint,
+                X = 0,
+                Y = previousPoint.AbsoluteToRelativeY(0),
                 PointStyle = StyleHelper.PointStyleInvisible
             };
 
-            // Horizontal line to next node.
-            //pointParent = nextPoint.Parent
-            //var line2 = new Line
-            //{
-            //    Diagram = diagram,
-            //    Parent = diagram.Background,
-            //    PointA = line.PointB,
-            //    LineStyle = StyleHelper.LineStyleThick
-            //};
+            var horizontalLine = new Line
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                PointA = verticalLineTo0.PointB,
+                LineStyle = StyleHelper.LineStyleThick
+            };
 
-            //line2.PointB = nextPoint;
+            horizontalLine.PointB = new Point
+            {
+                Diagram = diagram,
+                Parent = nextPoint,
+                X = 0,
+                Y = nextPoint.AbsoluteToRelativeY(0),
+                PointStyle = StyleHelper.PointStyleInvisible
+            };
+
+            var verticalLineToNextPoint = new Line
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                PointA = horizontalLine.PointB,
+                PointB = nextPoint,
+                LineStyle = StyleHelper.LineStyleThick
+            };
         }
 
         private static Line CreateXAxis(Diagram diagram)
