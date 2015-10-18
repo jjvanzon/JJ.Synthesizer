@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using JJ.Framework.Common;
-using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
@@ -13,15 +13,17 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
-    public class CurveDetailsViewModelToDiagramConverter
+    public class CurveDetailsViewModelToDiagramConverter_Old
     {
-        private const float NODE_RECTANGLE_SIZE_IN_PIXELS = 20;
+        private float _margin = StyleHelper.PointStyleThick.Width / 2f;
+        private const float _regionSize = 20;
+        private const float _regionSizeOver2 = _regionSize / 2;
 
         private readonly int _doubleClickSpeedInMilliseconds;
         private readonly int _doubleClickDeltaInPixels;
 
         /// <param name="mustShowInvisibleElements">for debugging</param>
-        public CurveDetailsViewModelToDiagramConverter(
+        public CurveDetailsViewModelToDiagramConverter_Old(
             int doubleClickSpeedInMilliseconds,
             int doubleClickDeltaInPixels,
             bool mustShowInvisibleElements)
@@ -54,17 +56,24 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             }
 
             Diagram diagram = result.Diagram;
-            diagram.ScaleModeEnum = ScaleModeEnum.ViewPort;
-
             diagram.Elements.ForEach(x => x.Parent = null);
             diagram.Elements.Clear();
-
-            diagram.Background.Gestures.Clear();
-            diagram.Background.Gestures.Add(result.ShowCurvePropertiesGesture);
 
             if (detailsViewModel.Entity.Nodes.Count < 2)
             {
                 return result;
+            }
+
+            // Calculate Scaling and Margin
+            float widthWithinMargin = diagram.Background.Width - _margin - _margin;
+            if (widthWithinMargin < 0)
+            {
+                widthWithinMargin = 0;
+            }
+            float heightWithinMargin = diagram.Background.Height - _margin - _margin;
+            if (heightWithinMargin < 0)
+            {
+                heightWithinMargin = 0;
             }
 
             IList<NodeViewModel> sortedNodeViewModels = detailsViewModel.Entity.Nodes.OrderBy(x => x.Time).ToArray();
@@ -72,44 +81,36 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             float minTime = (float)sortedNodeViewModels.First().Time;
             float maxTime = (float)sortedNodeViewModels.Last().Time;
             float timeDiff = maxTime - minTime;
-            diagram.ScaledX = minTime;
-            diagram.ScaledWidth = timeDiff;
+            float xFactor = 1;
+            if (timeDiff != 0)
+            {
+                xFactor = widthWithinMargin / timeDiff;
+            }
 
             float minValue = (float)sortedNodeViewModels.Select(x => x.Value).Union(0f).Min();
             float maxValue = (float)sortedNodeViewModels.Select(x => x.Value).Union(0f).Max();
-
-            float valueDiff;
-            // Temporarily DO NOT invert the direction of the Y axis.
-            valueDiff = maxValue - minValue;
-            diagram.ScaledY = minValue;
-            diagram.ScaledHeight = valueDiff;
-            // Do invert the direction of the Y axis.
-            valueDiff = minValue - maxValue;
-            diagram.ScaledY = maxValue;
-            diagram.ScaledHeight = valueDiff;
-
-            float scaledNodeRectangleWidth = diagram.PixelsToWidth(NODE_RECTANGLE_SIZE_IN_PIXELS);
-            float scaledNodeRectangleHeight = diagram.PixelsToHeight(NODE_RECTANGLE_SIZE_IN_PIXELS);
-
-            float scaledNodeRectangleWidthOver2 = scaledNodeRectangleWidth / 2;
-            float scaledNodeRectangleHeightOver2 = scaledNodeRectangleHeight / 2;
+            float valueDiff = maxValue - minValue;
+            float yFactor = 1;
+            if (valueDiff != 0)
+            {
+                yFactor = heightWithinMargin / valueDiff;
+            }
 
             Point previousPoint = null;
 
             foreach (NodeViewModel nodeViewModel in sortedNodeViewModels)
             {
-                // Coordinates are always relative to the Background (lowest time translates to x = 0, relative to the background)
-                float x = diagram.Background.AbsoluteToRelativeX((float)nodeViewModel.Time);
-                float y = diagram.Background.AbsoluteToRelativeY((float)nodeViewModel.Value);
+                float x = _margin + ((float)nodeViewModel.Time - minTime) * xFactor;
+                float y = _margin + heightWithinMargin - ((float)nodeViewModel.Value - minValue) * yFactor;
 
                 var rectangle = new Rectangle()
                 {
                     Diagram = diagram,
                     Parent = diagram.Background,
-                    X = x - scaledNodeRectangleWidthOver2,
-                    Y = y - scaledNodeRectangleHeightOver2,
-                    Width = scaledNodeRectangleWidth,
-                    Height = scaledNodeRectangleHeight,
+                    X = x - _regionSizeOver2,
+                    Y = y - _regionSizeOver2,
+                    Width = _regionSize,
+                    Height = _regionSize,
                     LineStyle = StyleHelper.BorderStyleInvisible,
                     BackStyle = StyleHelper.BackStyleInvisible,
                     Tag = nodeViewModel.ID
@@ -120,8 +121,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 {
                     Diagram = diagram,
                     Parent = rectangle,
-                    X = scaledNodeRectangleWidthOver2,
-                    Y = scaledNodeRectangleHeightOver2,
+                    X = _regionSizeOver2,
+                    Y = _regionSizeOver2,
                     PointStyle = StyleHelper.PointStyleThick,
                     ZIndex = 1
                 };
