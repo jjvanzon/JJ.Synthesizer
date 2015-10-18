@@ -153,7 +153,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 if (previousPoint != null)
                 {
                     NodeTypeEnum nodeTypeEnum = (NodeTypeEnum)previousNodeViewModel.NodeType.ID;
-                    TryCreateLine(diagram, previousPoint, point, nodeTypeEnum);
+                    CreateLines(diagram, previousPoint, point, nodeTypeEnum);
                 }
 
                 previousPoint = point;
@@ -163,73 +163,77 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return result;
         }
 
-        /// <summary> Does not create a line in case of NodeTypeEnum.Off. </summary>
-        private static Line TryCreateLine(Diagram diagram, Point previousPoint, Point nextPoint, NodeTypeEnum previousNodeTypeEnum)
+        private void CreateLines(Diagram diagram, Point previousPoint, Point nextPoint, NodeTypeEnum previousNodeTypeEnum)
         {
             switch (previousNodeTypeEnum)
             {
                 case NodeTypeEnum.Line:
-                    {
-                        var line = new Line
-                        {
-                            Diagram = diagram,
-                            Parent = diagram.Background,
-                            PointA = previousPoint,
-                            PointB = nextPoint,
-                            LineStyle = StyleHelper.LineStyleThick
-                        };
-                        return line;
-                    }
+                    CreateLines_ForNodeTypeLine(diagram, previousPoint, nextPoint);
+                    break;
 
                 case NodeTypeEnum.Block:
-                    {
-                        var pointParent = previousPoint.Parent;
-
-                        // Create horizontal line to the next node.
-                        var line = new Line
-                        {
-                            Diagram = diagram,
-                            Parent = diagram.Background,
-                            PointA = previousPoint,
-                            LineStyle = StyleHelper.LineStyleThick
-                        };
-
-                        line.PointB = new Point
-                        {
-                            Diagram = diagram,
-                            Parent = pointParent,
-                            X = pointParent.AbsoluteToRelativeX(nextPoint.AbsoluteX),
-                            Y = previousPoint.Y,
-                            PointStyle = StyleHelper.PointStyleInvisible
-                        };
-
-                        // Create vertical line down.
-                        var line2 = new Line
-                        {
-                            Diagram = diagram,
-                            Parent = diagram.Background,
-                            PointA = line.PointB,
-                            LineStyle = StyleHelper.LineStyleThick
-                        };
-
-                        line2.PointB = new Point
-                        {
-                            Diagram = diagram,
-                            Parent = pointParent,
-                            X = line.PointB.X,
-                            Y = pointParent.AbsoluteToRelativeY(nextPoint.AbsoluteY)
-                        };
-
-                        // TODO: Return value does not make sense anymore, since we created two lines
-                        return line;
-                    }
+                    CreateLines_ForNodeTypeBlock(diagram, previousPoint, nextPoint);
+                    break;
 
                 case NodeTypeEnum.Off:
-                    return null;
+                    // Do nothing (yet).
+                    break;
 
                 default:
                     throw new InvalidValueException(previousNodeTypeEnum);
             }
+        }
+
+        private void CreateLines_ForNodeTypeLine(Diagram diagram, Point previousPoint, Point nextPoint)
+        {
+            var line = new Line
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                PointA = previousPoint,
+                PointB = nextPoint,
+                LineStyle = StyleHelper.LineStyleThick
+            };
+        }
+
+        private void CreateLines_ForNodeTypeBlock(Diagram diagram, Point previousPoint, Point nextPoint)
+        {
+            var pointParent = previousPoint.Parent;
+
+            // Create horizontal line to the next node.
+            var line = new Line
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                PointA = previousPoint,
+                LineStyle = StyleHelper.LineStyleThick
+            };
+
+            line.PointB = new Point
+            {
+                Diagram = diagram,
+                Parent = pointParent,
+                X = pointParent.AbsoluteToRelativeX(nextPoint.AbsoluteX),
+                Y = previousPoint.Y,
+                PointStyle = StyleHelper.PointStyleInvisible
+            };
+
+            // Create vertical line down.
+            var line2 = new Line
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                PointA = line.PointB,
+                LineStyle = StyleHelper.LineStyleThick
+            };
+
+            line2.PointB = new Point
+            {
+                Diagram = diagram,
+                Parent = pointParent,
+                X = line.PointB.X,
+                Y = pointParent.AbsoluteToRelativeY(nextPoint.AbsoluteY)
+            };
         }
 
         private static Line CreateXAxis(Diagram diagram)
@@ -287,7 +291,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return line;
         }
 
-        private static Label CreateLeftBoundLabel(Diagram diagram, float minTime)
+        private Label CreateLeftBoundLabel(Diagram diagram, float minTime)
         {
             var label = new Label
             {
@@ -305,7 +309,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return label;
         }
 
-        private static Label CreateRightBoundLabel(Diagram diagram, float maxTime)
+        private Label CreateRightBoundLabel(Diagram diagram, float maxTime)
         {
             var label = new Label
             {
@@ -323,7 +327,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return label;
         }
 
-        private static Label CreateTopBoundLabel(Diagram diagram, float maxValue)
+        private Label CreateTopBoundLabel(Diagram diagram, float maxValue)
         {
             var label = new Label
             {
@@ -341,7 +345,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return label;
         }
 
-        private static Label CreateBottomBoundLabel(Diagram diagram, float minValue)
+        private Label CreateBottomBoundLabel(Diagram diagram, float minValue)
         {
             var label = new Label
             {
@@ -358,6 +362,5 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             return label;
         }
-
     }
 }
