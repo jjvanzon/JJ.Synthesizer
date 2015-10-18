@@ -55,10 +55,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             Diagram diagram = result.Diagram;
             diagram.ScaleModeEnum = ScaleModeEnum.ViewPort;
-
+            // Clear Elements
             diagram.Elements.ForEach(x => x.Parent = null);
             diagram.Elements.Clear();
-
+            // Clear Gestures
             diagram.Background.Gestures.Clear();
             diagram.Background.Gestures.Add(result.ShowCurvePropertiesGesture);
 
@@ -75,22 +75,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             diagram.ScaledX = minTime;
             diagram.ScaledWidth = timeDiff;
 
-            float minValue = (float)sortedNodeViewModels.Select(x => x.Value).Union(0f).Min();
-            float maxValue = (float)sortedNodeViewModels.Select(x => x.Value).Union(0f).Max();
-
+            float minValue = (float)sortedNodeViewModels.Select(x => x.Value).Min();
+            float maxValue = (float)sortedNodeViewModels.Select(x => x.Value).Max();
             float valueDiff;
-            // Temporarily DO NOT invert the direction of the Y axis.
-            valueDiff = maxValue - minValue;
-            diagram.ScaledY = minValue;
-            diagram.ScaledHeight = valueDiff;
-            // Do invert the direction of the Y axis.
-            valueDiff = minValue - maxValue;
+            valueDiff = minValue - maxValue; // NOTE: The direction of the y-axis is inverted.
             diagram.ScaledY = maxValue;
             diagram.ScaledHeight = valueDiff;
 
+            // Axes
+            CreateXAxis(diagram);
+            CreateYAxis(diagram);
+
+            // Points, Lines and Clickable Regions
             float scaledNodeRectangleWidth = diagram.PixelsToWidth(NODE_RECTANGLE_SIZE_IN_PIXELS);
             float scaledNodeRectangleHeight = diagram.PixelsToHeight(NODE_RECTANGLE_SIZE_IN_PIXELS);
-
             float scaledNodeRectangleWidthOver2 = scaledNodeRectangleWidth / 2;
             float scaledNodeRectangleHeightOver2 = scaledNodeRectangleHeight / 2;
 
@@ -150,6 +148,58 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             }
 
             return result;
+        }
+
+        private static void CreateXAxis(Diagram diagram)
+        {
+            var xAxis = new Line
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                LineStyle = StyleHelper.LineStyleDashed,
+                PointA = new Point
+                {
+                    Diagram = diagram,
+                    Parent = diagram.Background,
+                    X = 0,
+                    Y = diagram.Background.AbsoluteToRelativeY(0),
+                    PointStyle = StyleHelper.PointStyleInvisible
+                },
+                PointB = new Point
+                {
+                    Diagram = diagram,
+                    Parent = diagram.Background,
+                    X = diagram.Background.Width,
+                    Y = diagram.Background.AbsoluteToRelativeY(0),
+                    PointStyle = StyleHelper.PointStyleInvisible
+                }
+            };
+        }
+
+        private static void CreateYAxis(Diagram diagram)
+        {
+            var xAxis = new Line
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                LineStyle = StyleHelper.LineStyleDashed,
+                PointA = new Point
+                {
+                    Diagram = diagram,
+                    Parent = diagram.Background,
+                    X = diagram.Background.AbsoluteToRelativeX(0),
+                    Y = 0,
+                    PointStyle = StyleHelper.PointStyleInvisible
+                },
+                PointB = new Point
+                {
+                    Diagram = diagram,
+                    Parent = diagram.Background,
+                    X = diagram.Background.AbsoluteToRelativeX(0),
+                    Y = diagram.Background.Height,
+                    PointStyle = StyleHelper.PointStyleInvisible
+                }
+            };
         }
     }
 }

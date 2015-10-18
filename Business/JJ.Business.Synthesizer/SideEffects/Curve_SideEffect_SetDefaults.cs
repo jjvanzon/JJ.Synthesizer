@@ -49,9 +49,7 @@ namespace JJ.Business.Synthesizer.SideEffects
                 var node = new Node();
                 node.ID = _idRepository.GetID();
                 node.Time = 1;
-                // TODO: Temporary for testing. Change back to 1.
-                //node.Value = 1;
-                node.Value = 0.5;
+                node.Value = 0;
                 node.LinkTo(_curve);
                 node.SetNodeTypeEnum(NodeTypeEnum.Off, _nodeTypeRepository);
                 _nodeRepository.Insert(node);
