@@ -198,7 +198,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private void CreateLines_ForNodeTypeBlock(Diagram diagram, Point previousPoint, Point nextPoint)
         {
-            var pointParent = previousPoint.Parent;
+            var pointParent = nextPoint.Parent;
 
             // Create horizontal line to the next node.
             var line = new Line
@@ -213,8 +213,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 Diagram = diagram,
                 Parent = pointParent,
-                X = pointParent.AbsoluteToRelativeX(nextPoint.AbsoluteX),
-                Y = previousPoint.Y,
+                X = 0,
+                Y = pointParent.AbsoluteToRelativeY(previousPoint.AbsoluteY),
                 PointStyle = StyleHelper.PointStyleInvisible
             };
 
@@ -227,13 +227,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 LineStyle = StyleHelper.LineStyleThick
             };
 
-            line2.PointB = new Point
-            {
-                Diagram = diagram,
-                Parent = pointParent,
-                X = line.PointB.X,
-                Y = pointParent.AbsoluteToRelativeY(nextPoint.AbsoluteY)
-            };
+            line2.PointB = nextPoint;
         }
 
         private static Line CreateXAxis(Diagram diagram)
