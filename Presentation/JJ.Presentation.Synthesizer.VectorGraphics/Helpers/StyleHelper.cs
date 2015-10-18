@@ -21,6 +21,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
         public static LineStyle BorderStyleInvisible { get; set; }
         public static LineStyle LineStyleDashed { get; set; }
         public static LineStyle LineStyle { get; set; }
+        public static LineStyle LineStyleTransparent { get; set; }
         public static LineStyle LineStyleThick { get; set; }
         public static PointStyle PointStyle { get; set; }
         public static PointStyle PointStyleThick { get; set; }
@@ -46,6 +47,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             int lessLightGrey = ColorHelper.GetColor(200, 200, 200);
             int transparentGrey = ColorHelper.GetColor(128, 45, 45, 45);
             int blue = ColorHelper.GetColor(122, 189, 254);
+            int darkBlue = ColorHelper.SetBrightness(blue, 0.5);
 
             PointStyle = new PointStyle
             {
@@ -61,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
 
             PointStyleThickSelected = new PointStyle
             {
-                Color = blue,
+                Color = darkBlue,
                 Width = 10
             };
 
@@ -91,6 +93,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             {
                 Width = 1,
                 Color = mediumGrey
+            };
+
+            LineStyleTransparent = new LineStyle
+            {
+                Width = 1,
+                Color = transparentGrey
             };
 
             LineStyleThick = new LineStyle
@@ -158,6 +166,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Helpers
             {
                 Color = ColorHelper.GetColor(0xFF575757)
             };
+        }
+
+        public static TextStyle CreateTextStyleSmallerTransparent()
+        {
+            var textStyle = new TextStyle
+            {
+                Color = ColorHelper.GetColor(128, 0, 0, 0),
+                Font = new Font
+                {
+                    Name = DefaultFont.Name,
+                    Size = DefaultFont.Size / 1.2f
+                }
+            };
+            return textStyle;
         }
 
         public static void MakeHiddenStylesVisible()

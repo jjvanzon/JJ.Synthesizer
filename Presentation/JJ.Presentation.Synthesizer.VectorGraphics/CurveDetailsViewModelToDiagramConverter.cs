@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
-using JJ.Framework.Mathematics;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
-using JJ.Framework.Presentation.VectorGraphics.Helpers;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
-using JJ.Framework.Presentation.VectorGraphics.Models.Styling;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
@@ -105,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             foreach (NodeViewModel nodeViewModel in sortedNodeViewModels)
             {
-                // Coordinates are always relative to the Background (lowest time translates to x = 0, relative to the background)
+                // Coordinates are always relative. (Lowest time translates to x = 0, relative to the background.)
                 float x = diagram.Background.AbsoluteToRelativeX((float)nodeViewModel.Time);
                 float y = diagram.Background.AbsoluteToRelativeY((float)nodeViewModel.Value);
 
@@ -207,7 +204,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 Diagram = diagram,
                 Parent = diagram.Background,
-                LineStyle = StyleHelper.LineStyleDashed,
+                LineStyle = StyleHelper.LineStyleTransparent,
                 PointA = new Point
                 {
                     Diagram = diagram,
@@ -235,7 +232,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 Diagram = diagram,
                 Parent = diagram.Background,
-                LineStyle = StyleHelper.LineStyleDashed,
+                LineStyle = StyleHelper.LineStyleTransparent,
                 PointA = new Point
                 {
                     Diagram = diagram,
@@ -267,7 +264,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Text = minTime.ToString("0.###"),
             };
 
-            label.TextStyle = CreateLabelTextStyle();
+            label.TextStyle = StyleHelper.CreateTextStyleSmallerTransparent();
             label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Center;
             label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left;
 
@@ -285,7 +282,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Text = maxTime.ToString("0.###"),
             };
 
-            label.TextStyle = CreateLabelTextStyle();
+            label.TextStyle = StyleHelper.CreateTextStyleSmallerTransparent();
             label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Center;
             label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Right;
 
@@ -303,7 +300,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Text = maxValue.ToString("0.###"),
             };
 
-            label.TextStyle = CreateLabelTextStyle();
+            label.TextStyle = StyleHelper.CreateTextStyleSmallerTransparent();
             label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Top;
             label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center;
 
@@ -321,25 +318,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Text = minValue.ToString("0.###"),
             };
 
-            label.TextStyle = CreateLabelTextStyle();
+            label.TextStyle = StyleHelper.CreateTextStyleSmallerTransparent();
             label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Bottom;
             label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center;
 
             return label;
         }
 
-        private static TextStyle CreateLabelTextStyle()
-        {
-            var textStyle = new TextStyle
-            {
-                Color = ColorHelper.GetColor(128, 0, 0, 0), // TODO: Put this in StyleHelper.
-                Font = new Font
-                {
-                    Name = StyleHelper.DefaultFont.Name,
-                    Size = StyleHelper.DefaultFont.Size / 1.2f
-                }
-            };
-            return textStyle;
-        }
     }
 }
