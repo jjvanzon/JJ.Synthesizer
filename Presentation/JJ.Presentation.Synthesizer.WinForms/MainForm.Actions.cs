@@ -618,32 +618,5 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _presenter.ScalePropertiesLoseFocus();
             ApplyViewModel();
         }
-
-        // Tone
-
-        private void ToneCreate(int scaleID)
-        {
-            _presenter.ToneCreate(scaleID);
-            ApplyViewModel();
-        }
-
-        private void ToneDelete(int id)
-        {
-            _presenter.ToneDelete(id);
-            ApplyViewModel();
-        }
-
-        private void TonePlay(int id)
-        {
-            string outputFilePath = _presenter.TonePlay(id);
-
-            if (!String.IsNullOrEmpty(outputFilePath))
-            {
-                SoundPlayer soundPlayer = new SoundPlayer(outputFilePath);
-                soundPlayer.Play();
-            }
-
-            ApplyViewModel();
-        }
     }
 }

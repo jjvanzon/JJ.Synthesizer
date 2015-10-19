@@ -181,14 +181,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void Close()
-        {
-            if (CloseRequested != null)
-            {
-                CloseRequested(this, EventArgs.Empty);
-            }
-        }
-
         private void LoseFocus()
         {
             if (LoseFocusRequested != null)
@@ -262,7 +254,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
-            Close();
+            if (CloseRequested != null)
+            {
+                CloseRequested(this, EventArgs.Empty);
+            }
         }
 
         private void DropLineGesture_Dropped(object sender, DroppedEventArgs e)
@@ -346,6 +341,18 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                                                                          .Where(x => x.ID == id)
                                                                          .Single();
             e.ToolTipText = outletViewModel.Name;
+        }
+
+        // This event does not go off, if not clicked on a control that according to WinForms can get focus.
+        private void PatchDetailsUserControl_Leave(object sender, EventArgs e)
+        {
+            // This Visible check is there because the leave event (lose focus) goes off after I closed, 
+            // making it want to save again, even though view model is empty
+            // which makes it say that now clear fields are required.
+            if (Visible)
+            {
+                LoseFocus();
+            }
         }
     }
 }

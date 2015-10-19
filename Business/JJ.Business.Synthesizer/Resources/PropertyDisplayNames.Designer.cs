@@ -844,6 +844,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        public static string Time {
+            get {
+                return ResourceManager.GetString("Time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Time Multiplier.
         /// </summary>
         public static string TimeMultiplier {
@@ -903,6 +912,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string UnderlyingDocument {
             get {
                 return ResourceManager.GetString("UnderlyingDocument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value.
+        /// </summary>
+        public static string Value {
+            get {
+                return ResourceManager.GetString("Value", resourceCulture);
             }
         }
         

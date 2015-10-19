@@ -120,6 +120,12 @@
     <Compile Include="UserControls\CurvePropertiesUserControl.Designer.cs">
       <DependentUpon>CurvePropertiesUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\NodePropertiesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\NodePropertiesUserControl.Designer.cs">
+      <DependentUpon>NodePropertiesUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -303,6 +309,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurvePropertiesUserControl.resx">
       <DependentUpon>CurvePropertiesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\NodePropertiesUserControl.resx">
+      <DependentUpon>NodePropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>

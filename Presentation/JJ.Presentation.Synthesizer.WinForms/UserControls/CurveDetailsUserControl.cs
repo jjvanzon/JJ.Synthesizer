@@ -12,6 +12,8 @@ using JJ.Presentation.Synthesizer.VectorGraphics;
 using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
+using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -20,10 +22,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CreateNodeRequested;
         public event EventHandler DeleteNodeRequested;
         public event EventHandler CloseRequested;
+        public event EventHandler LoseFocusRequested;
         public event EventHandler<Int32EventArgs> SelectNodeRequested;
         public event EventHandler<MoveEntityEventArgs> MoveNodeRequested;
         public event EventHandler ShowCurvePropertiesRequested;
         public event EventHandler ChangeNodeTypeRequested;
+        public event EventHandler<Int32EventArgs> ShowNodePropertiesRequested;
 
         private CurveDetailsViewModel _viewModel;
         private CurveDetailsViewModelToDiagramConverter _converter;
@@ -84,6 +88,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _converterResult.MoveNodeGesture.Moved -= MoveNodeGesture_Moved;
                 _converterResult.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested -= ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
                 _converterResult.ChangeNodeTypeGesture.ChangeNodeTypeRequested -= ChangeNodeTypeGesture_ChangeNodeTypeRequested;
+                _converterResult.ShowNodePropertiesGesture.ShowNodePropertiesRequested -= ShowNodePropertiesGesture_ShowNodePropertiesRequested;
+                _converterResult.ShowSelectedNodePropertiesGesture.ShowSelectedNodePropertiesRequested -= ShowSelectedNodePropertiesGesture_ShowSelectedNodePropertiesRequested;
             }
 
             _converterResult = _converter.Execute(_viewModel, _converterResult);
@@ -93,6 +99,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _converterResult.MoveNodeGesture.Moved += MoveNodeGesture_Moved;
             _converterResult.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested += ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
             _converterResult.ChangeNodeTypeGesture.ChangeNodeTypeRequested += ChangeNodeTypeGesture_ChangeNodeTypeRequested;
+            _converterResult.ShowNodePropertiesGesture.ShowNodePropertiesRequested += ShowNodePropertiesGesture_ShowNodePropertiesRequested;
+            _converterResult.ShowSelectedNodePropertiesGesture.ShowSelectedNodePropertiesRequested += ShowSelectedNodePropertiesGesture_ShowSelectedNodePropertiesRequested;
 
             diagramControl.Diagram = _converterResult.Diagram;
 
@@ -125,7 +133,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
-            Close();
+            if (CloseRequested != null)
+            {
+                CloseRequested(this, EventArgs.Empty);
+            }
         }
 
         private void Diagram_KeyDown(object sender, JJ.Framework.Presentation.VectorGraphics.EventArg.KeyEventArgs e)
@@ -144,10 +155,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void Diagram_NodeSelected(object sender, ElementEventArgs e)
         {
-            int nodeID = (int)e.Element.Tag;
-            SelectNode(nodeID);
+            if (SelectNodeRequested != null)
+            {
+                int nodeID = (int)e.Element.Tag;
+                SelectNodeRequested(this, new Int32EventArgs(nodeID));
+            }
         }
-
 
         private void MoveNodeGesture_Moved(object sender, ElementEventArgs e)
         {
@@ -180,6 +193,40 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
+        private void ShowNodePropertiesGesture_ShowNodePropertiesRequested(object sender, NodeIDEventArgs e)
+        {
+            if (ShowNodePropertiesRequested != null)
+            {
+                ShowNodePropertiesRequested(this, new Int32EventArgs(e.NodeID));
+            }
+        }
+
+        private void ShowSelectedNodePropertiesGesture_ShowSelectedNodePropertiesRequested(object sender, EventArgs e)
+        {
+            if (ShowNodePropertiesRequested != null)
+            {
+                if (ViewModel == null) throw new NullException(() => ViewModel);
+
+                if (ViewModel.SelectedNodeID.HasValue)
+                {
+                    int nodeID = ViewModel.SelectedNodeID.Value;
+                    ShowNodePropertiesRequested(this, new Int32EventArgs(nodeID));
+                }
+            }
+        }
+
+        // This event does not go off, if not clicked on a control that according to WinForms can get focus.
+        private void CurveDetailsUserControl_Leave(object sender, EventArgs e)
+        {
+            // This Visible check is there because the leave event (lose focus) goes off after I closed, 
+            // making it want to save again, even though view model is empty
+            // which makes it say that now clear fields are required.
+            if (Visible)
+            {
+                LoseFocus();
+            }
+        }
+
         // Actions
 
         private void CreateNode()
@@ -198,19 +245,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void Close()
+        private void LoseFocus()
         {
-            if (CloseRequested != null)
+            if (LoseFocusRequested != null)
             {
-                CloseRequested(this, EventArgs.Empty);
-            }
-        }
-
-        private void SelectNode(int nodeID)
-        {
-            if (SelectNodeRequested != null)
-            {
-                SelectNodeRequested(this, new Int32EventArgs(nodeID));
+                LoseFocusRequested(this, EventArgs.Empty);
             }
         }
     }

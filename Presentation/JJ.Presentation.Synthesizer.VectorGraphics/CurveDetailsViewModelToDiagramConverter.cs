@@ -49,8 +49,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             {
                 // TODO: It looks like you may as well instantiate the things you pass to the constructor right inside the class.
                 var showCurvePropertiesGesture = new ShowCurvePropertiesGesture(_doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
+                var showNodePropertiesGesture = new ShowNodePropertiesGesture(_doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
                 result = new CurveDetailsViewModelToDiagramConverterResult(
-                    new Diagram(), new KeyDownGesture(), new SelectNodeGesture(), new MoveGesture(), showCurvePropertiesGesture, new ChangeNodeTypeGesture());
+                    new Diagram(), 
+                    new KeyDownGesture(), new SelectNodeGesture(), new MoveGesture(), 
+                    showCurvePropertiesGesture, new ChangeNodeTypeGesture(), showNodePropertiesGesture, new ShowSelectedNodePropertiesGesture());
 
                 result.Diagram.Gestures.Add(result.KeyDownGesture);
             }
@@ -63,6 +66,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             diagram.Background.Gestures.Clear();
             diagram.Background.Gestures.Add(result.ShowCurvePropertiesGesture);
             diagram.Background.Gestures.Add(result.ChangeNodeTypeGesture);
+            diagram.Background.Gestures.Add(result.ShowSelectedNodePropertiesGesture);
 
             if (detailsViewModel.Entity.Nodes.Count < MINIMUM_NODE_COUNT)
             {
@@ -118,7 +122,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 float x = diagram.Background.AbsoluteToRelativeX((float)nodeViewModel.Time);
                 float y = diagram.Background.AbsoluteToRelativeY((float)nodeViewModel.Value);
 
-                var rectangle = new Rectangle()
+                var rectangle = new Rectangle
                 {
                     Diagram = diagram,
                     Parent = diagram.Background,
@@ -130,7 +134,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     BackStyle = StyleHelper.BackStyleInvisible,
                     Tag = nodeViewModel.ID
                 };
-                rectangle.Gestures.Add(result.MoveNodeGesture, result.SelectNodeGesture);
+                rectangle.Gestures.Add(result.MoveNodeGesture, result.SelectNodeGesture, result.ShowNodePropertiesGesture);
+                rectangle.MustBubble = false;
 
                 var point = new Point
                 {

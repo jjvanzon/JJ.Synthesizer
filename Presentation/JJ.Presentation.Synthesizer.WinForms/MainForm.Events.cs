@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 
@@ -26,9 +27,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             curveDetailsUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
             curveDetailsUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
             curveDetailsUserControl.DeleteNodeRequested += curveDetailsUserControl_DeleteNodeRequested;
+            curveDetailsUserControl.LoseFocusRequested += curveDetailsUserControl_LoseFocusRequested;
             curveDetailsUserControl.MoveNodeRequested += curveDetailsUserControl_MoveNodeRequested;
             curveDetailsUserControl.SelectNodeRequested += curveDetailsUserControl_SelectNodeRequested;
             curveDetailsUserControl.ShowCurvePropertiesRequested += curveDetailsUserControl_ShowCurvePropertiesRequested;
+            curveDetailsUserControl.ShowNodePropertiesRequested += curveDetailsUserControl_ShowNodePropertiesRequested;
             curvePropertiesUserControl.CloseRequested += curvePropertiesUserControl_CloseRequested;
             curvePropertiesUserControl.LoseFocusRequested += curvePropertiesUserControl_LoseFocusRequested;
             documentDetailsUserControl.CloseRequested += documentDetailsUserControl_CloseRequested;
@@ -65,6 +68,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
             menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
+            nodePropertiesUserControl.CloseRequested += nodePropertiesUserControl_CloseRequested;
+            nodePropertiesUserControl.LoseFocusRequested += nodePropertiesUserControl_LoseFocusRequested;
             operatorPropertiesUserControl.CloseRequested += operatorPropertiesUserControl_CloseRequested;
             operatorPropertiesUserControl.LoseFocusRequested += operatorPropertiesUserControl_LoseFocusRequested;
             operatorPropertiesUserControl_ForCurve.CloseRequested += operatorPropertiesUserControl_ForCurve_CloseRequested;
@@ -207,9 +212,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void curveDetailsUserControl_MoveNodeRequested(object sender, MoveEntityEventArgs e)
         {
-            // TODO: Remove this return statement once the MoveGesture with ScaleMode ViewPort is not out of wack anymore.
-            //return;
-
             _presenter.NodeMove(e.EntityID, e.X, e.Y);
             ApplyViewModel();
         }
@@ -220,9 +222,21 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void curveDetailsUserControl_LoseFocusRequested(object sender, EventArgs e)
+        {
+            _presenter.CurveDetailsLoseFocus();
+            ApplyViewModel();
+        }
+
         private void curveDetailsUserControl_ShowCurvePropertiesRequested(object sender, EventArgs e)
         {
-            _presenter.CurvePropertiesShow(curveDetailsUserControl.ViewModel.Entity.ID); // TODO: Getting the ID seems to be done different from the other actions... figure out why this is inconsistent.
+            _presenter.CurvePropertiesShow(curveDetailsUserControl.ViewModel.Entity.ID);
+            ApplyViewModel();
+        }
+
+        private void curveDetailsUserControl_ShowNodePropertiesRequested(object sender, Int32EventArgs e)
+        {
+            _presenter.NodePropertiesShow(e.Value);
             ApplyViewModel();
         }
 
@@ -420,6 +434,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void menuUserControl_DocumentSaveRequested(object sender, EventArgs e)
         {
             DocumentSave();
+        }
+
+        // Node
+
+        private void nodePropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
+        {
+            _presenter.NodePropertiesLoseFocus();
+            ApplyViewModel();
+        }
+
+        private void nodePropertiesUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            _presenter.NodePropertiesClose();
+            ApplyViewModel();
         }
 
         // Operator
@@ -627,17 +655,27 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void toneGridEditUserControl_CreateToneRequested(object sender, Int32EventArgs e)
         {
-            ToneCreate(e.Value);
+            _presenter.ToneCreate(e.Value);
+            ApplyViewModel();
         }
 
         private void toneGridEditUserControl_DeleteToneRequested(object sender, Int32EventArgs e)
         {
-            ToneDelete(e.Value);
+            _presenter.ToneDelete(e.Value);
+            ApplyViewModel();
         }
 
         private void toneGridEditUserControl_PlayToneRequested(object sender, Int32EventArgs e)
         {
-            TonePlay(e.Value);
+            string outputFilePath = _presenter.TonePlay(e.Value);
+
+            if (!String.IsNullOrEmpty(outputFilePath))
+            {
+                SoundPlayer soundPlayer = new SoundPlayer(outputFilePath);
+                soundPlayer.Play();
+            }
+
+            ApplyViewModel();
         }
 
         private void scalePropertiesUserControl_CloseRequested(object sender, EventArgs e)

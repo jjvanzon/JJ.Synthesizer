@@ -408,4 +408,10 @@
   <data name="Tones" xml:space="preserve">
     <value>Tonen</value>
   </data>
+  <data name="Time" xml:space="preserve">
+    <value>Tijd</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Waarde</value>
+  </data>
 </root>

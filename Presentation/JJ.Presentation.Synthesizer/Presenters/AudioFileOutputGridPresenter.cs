@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Visible = true;
         }
 
-        /// <summary> return AudioFileOutputGridViewModel or NotFoundViewModel. summary>
+        /// <summary> return AudioFileOutputGridViewModel or NotFoundViewModel. <summary>
         public object Refresh()
         {
             AssertViewModel();

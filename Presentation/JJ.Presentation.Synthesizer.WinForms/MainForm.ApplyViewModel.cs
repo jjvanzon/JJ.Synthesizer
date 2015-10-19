@@ -67,6 +67,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 instrumentGridUserControl.ViewModel = _presenter.ViewModel.Document.InstrumentGrid;
                 effectGridUserControl.ViewModel = _presenter.ViewModel.Document.EffectGrid;
 
+                // NodeProperties
+                nodePropertiesUserControl.ViewModel =
+                    Enumerable.Union(
+                        _presenter.ViewModel.Document.NodePropertiesList,
+                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.NodePropertiesList))
+                   .Where(x => x.Visible)
+                   .FirstOrDefault();
+
                 // OperatorProperties
                 operatorPropertiesUserControl.ViewModel =
                     Enumerable.Union(
@@ -233,6 +241,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                              instrumentGridUserControl.ViewModel.Visible;
                 bool effectGridVisible = effectGridUserControl.ViewModel != null &&
                                          effectGridUserControl.ViewModel.Visible;
+                bool nodePropertiesVisible = nodePropertiesUserControl.ViewModel != null &&
+                                             nodePropertiesUserControl.ViewModel.Visible;
                 bool operatorPropertiesVisible = operatorPropertiesUserControl.ViewModel != null &&
                                                  operatorPropertiesUserControl.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForCurve = operatorPropertiesUserControl_ForCurve.ViewModel != null &&
@@ -275,6 +285,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (documentTreeVisible) documentTreeUserControl.Visible = true;
                 if (instrumentGridVisible) instrumentGridUserControl.Visible = true;
                 if (effectGridVisible) effectGridUserControl.Visible = true;
+                if (nodePropertiesVisible) nodePropertiesUserControl.Visible = true;
                 if (operatorPropertiesVisible) operatorPropertiesUserControl.Visible = true;
                 if (operatorPropertiesVisible_ForCurve) operatorPropertiesUserControl_ForCurve.Visible = true;
                 if (operatorPropertiesVisible_ForCustomOperator) operatorPropertiesUserControl_ForCustomOperator.Visible = true;
@@ -300,6 +311,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!documentGridVisible) documentGridUserControl.Visible = false;
                 if (!documentPropertiesVisible) documentPropertiesUserControl.Visible = false;
                 if (!documentTreeVisible) documentTreeUserControl.Visible = false;
+                if (!nodePropertiesVisible) nodePropertiesUserControl.Visible = false;
                 if (!instrumentGridVisible) instrumentGridUserControl.Visible = false;
                 if (!effectGridVisible) effectGridUserControl.Visible = false;
                 if (!operatorPropertiesVisible) operatorPropertiesUserControl.Visible = false;
@@ -325,6 +337,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                     audioFileOutputPropertiesVisible ||
                                                     curvePropertiesVisible ||
                                                     childDocumentPropertiesVisible ||
+                                                    nodePropertiesVisible ||
                                                     operatorPropertiesVisible ||
                                                     operatorPropertiesVisible_ForCurve ||
                                                     operatorPropertiesVisible_ForCustomOperator ||
@@ -410,6 +423,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (mustFocusDocumentPropertiesUserControl)
             {
                 documentPropertiesUserControl.Focus();
+            }
+
+            bool mustFocusNodePropertiesUserControl = nodePropertiesUserControl.Visible &&
+                                                     !nodePropertiesUserControl.ViewModel.Successful;
+            if (mustFocusNodePropertiesUserControl)
+            {
+                nodePropertiesUserControl.Focus();
             }
 
             bool mustFocusOperatorPropertiesUserControl = operatorPropertiesUserControl.Visible &&

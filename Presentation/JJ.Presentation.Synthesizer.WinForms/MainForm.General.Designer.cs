@@ -44,6 +44,7 @@
             this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
+            this.nodePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.NodePropertiesUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -106,6 +107,7 @@
             // 
             // splitContainerProperties.Panel2
             // 
+            this.splitContainerProperties.Panel2.Controls.Add(this.nodePropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.curvePropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForCurve);
             this.splitContainerProperties.Panel2.Controls.Add(this.scalePropertiesUserControl);
@@ -420,6 +422,18 @@
             this.menuUserControl.Size = new System.Drawing.Size(1094, 24);
             this.menuUserControl.TabIndex = 3;
             // 
+            // nodePropertiesUserControl
+            // 
+            this.nodePropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.nodePropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.nodePropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nodePropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.nodePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
+            this.nodePropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.nodePropertiesUserControl.Name = "nodePropertiesUserControl";
+            this.nodePropertiesUserControl.Size = new System.Drawing.Size(266, 657);
+            this.nodePropertiesUserControl.TabIndex = 1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -474,5 +488,6 @@
         private UserControls.CurveDetailsUserControl curveDetailsUserControl;
         private UserControls.OperatorPropertiesUserControl_ForCurve operatorPropertiesUserControl_ForCurve;
         private UserControls.CurvePropertiesUserControl curvePropertiesUserControl;
+        private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
     }
 }

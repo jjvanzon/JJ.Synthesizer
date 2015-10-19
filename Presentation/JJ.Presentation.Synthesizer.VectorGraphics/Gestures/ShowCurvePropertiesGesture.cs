@@ -19,6 +19,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             DoubleClick += this_DoubleClick;
         }
 
+        ~ShowCurvePropertiesGesture()
+        {
+            DoubleClick -= this_DoubleClick;
+        }
+
         private void this_DoubleClick(object sender, ElementEventArgs e)
         {
             if (ShowCurvePropertiesRequested != null)

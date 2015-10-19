@@ -2070,7 +2070,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        /// <summary> Returns output file path if ViewModel.Successful. summary>
+        /// <summary> Returns output file path if ViewModel.Successful. <summary>
         public string PatchPlay()
         {
             try

@@ -8,7 +8,7 @@ namespace JJ.Data.Synthesizer
     {
         public virtual int ID { get; set; }
 
-        /// <summary> parent, not nullable summary>
+        /// <summary> parent, not nullable <summary>
         public virtual Scale Scale { get; set; }
 
         /// <summary>

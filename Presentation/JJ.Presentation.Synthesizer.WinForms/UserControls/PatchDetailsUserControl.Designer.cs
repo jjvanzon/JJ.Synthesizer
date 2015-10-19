@@ -141,6 +141,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "PatchDetailsUserControl";
             this.Size = new System.Drawing.Size(713, 325);
+            this.Leave += new System.EventHandler(this.PatchDetailsUserControl_Leave);
             this.tableLayoutPanelTitleAndContent.ResumeLayout(false);
             this.tableLayoutPanelToolboxAndPatch.ResumeLayout(false);
             this.ResumeLayout(false);
