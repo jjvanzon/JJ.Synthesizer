@@ -19,33 +19,21 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         public ShowNodePropertiesGesture ShowNodePropertiesGesture { get; private set; }
         public ShowSelectedNodePropertiesGesture ShowSelectedNodePropertiesGesture { get; private set; }
 
-        public CurveDetailsViewModelToDiagramConverterResult(
-            Diagram diagram, 
-            KeyDownGesture keyDownGesture,
-            SelectNodeGesture selectNodeGesture,
-            MoveGesture moveNodeGesture,
-            ShowCurvePropertiesGesture showCurvePropertiesGesture,
-            ChangeNodeTypeGesture changeNodeTypeGesture,
-            ShowNodePropertiesGesture showNodePropertiesGesture,
-            ShowSelectedNodePropertiesGesture showSelectedNodePropertiesGesture)
+        public CurveDetailsViewModelToDiagramConverterResult(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
         {
-            if (diagram == null) throw new NullException(() => diagram);
-            if (keyDownGesture == null) throw new NullException(() => keyDownGesture);
-            if (selectNodeGesture == null) throw new NullException(() => selectNodeGesture);
-            if (moveNodeGesture == null) throw new NullException(() => moveNodeGesture);
-            if (showCurvePropertiesGesture == null) throw new NullException(() => showCurvePropertiesGesture);
-            if (changeNodeTypeGesture == null) throw new NullException(() => changeNodeTypeGesture);
-            if (showNodePropertiesGesture == null) throw new NullException(() => showNodePropertiesGesture);
-            if (showSelectedNodePropertiesGesture == null) throw new NullException(() => showSelectedNodePropertiesGesture);
+            Diagram = new Diagram();
+            KeyDownGesture = new KeyDownGesture();
+            SelectNodeGesture = new SelectNodeGesture();
+            MoveNodeGesture = new MoveGesture();
+            ShowCurvePropertiesGesture = new ShowCurvePropertiesGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
+            ChangeNodeTypeGesture = new ChangeNodeTypeGesture();
+            ShowNodePropertiesGesture = new ShowNodePropertiesGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
+            ShowSelectedNodePropertiesGesture = new ShowSelectedNodePropertiesGesture();
 
-            Diagram = diagram;
-            KeyDownGesture = keyDownGesture;
-            SelectNodeGesture = selectNodeGesture;
-            MoveNodeGesture = moveNodeGesture;
-            ShowCurvePropertiesGesture = showCurvePropertiesGesture;
-            ChangeNodeTypeGesture = changeNodeTypeGesture;
-            ShowNodePropertiesGesture = showNodePropertiesGesture;
-            ShowSelectedNodePropertiesGesture = showSelectedNodePropertiesGesture;
+            Diagram.Gestures.Add(KeyDownGesture);
+            Diagram.Background.Gestures.Add(ShowCurvePropertiesGesture);
+            Diagram.Background.Gestures.Add(ChangeNodeTypeGesture);
+            Diagram.Background.Gestures.Add(ShowSelectedNodePropertiesGesture);
         }
     }
 }

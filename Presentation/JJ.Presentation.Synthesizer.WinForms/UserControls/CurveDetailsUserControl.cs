@@ -31,7 +31,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private CurveDetailsViewModel _viewModel;
         private CurveDetailsViewModelToDiagramConverter _converter;
-        private CurveDetailsViewModelToDiagramConverterResult _converterResult;
         private static bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
 
         private static bool GetMustShowInvisibleElements()
@@ -54,8 +53,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 SystemInformation.DoubleClickSize.Width,
                 _mustShowInvisibleElements);
 
+            _converter.Result.KeyDownGesture.KeyDown += Diagram_KeyDown;
+            _converter.Result.SelectNodeGesture.SelectNodeRequested += Diagram_NodeSelected;
+            _converter.Result.MoveNodeGesture.Moved += MoveNodeGesture_Moved;
+            _converter.Result.MoveNodeGesture.Moving += MoveNodeGesture_Moving;
+            _converter.Result.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested += ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
+            _converter.Result.ChangeNodeTypeGesture.ChangeNodeTypeRequested += ChangeNodeTypeGesture_ChangeNodeTypeRequested;
+            _converter.Result.ShowNodePropertiesGesture.ShowNodePropertiesRequested += ShowNodePropertiesGesture_ShowNodePropertiesRequested;
+            _converter.Result.ShowSelectedNodePropertiesGesture.ShowSelectedNodePropertiesRequested += ShowSelectedNodePropertiesGesture_ShowSelectedNodePropertiesRequested;
+
             InitializeComponent();
             SetTitles();
+        }
+
+        private void CurveDetailsUserControl_Load(object sender, EventArgs e)
+        {
+            diagramControl.Diagram = _converter.Result.Diagram;
         }
 
         [Browsable(false)]
@@ -81,37 +94,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (_viewModel == null) return;
 
-            if (_converterResult != null)
-            {
-                _converterResult.KeyDownGesture.KeyDown -= Diagram_KeyDown;
-                _converterResult.SelectNodeGesture.SelectNodeRequested -= Diagram_NodeSelected;
-                _converterResult.MoveNodeGesture.Moved -= MoveNodeGesture_Moved;
-                _converterResult.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested -= ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
-                _converterResult.ChangeNodeTypeGesture.ChangeNodeTypeRequested -= ChangeNodeTypeGesture_ChangeNodeTypeRequested;
-                _converterResult.ShowNodePropertiesGesture.ShowNodePropertiesRequested -= ShowNodePropertiesGesture_ShowNodePropertiesRequested;
-                _converterResult.ShowSelectedNodePropertiesGesture.ShowSelectedNodePropertiesRequested -= ShowSelectedNodePropertiesGesture_ShowSelectedNodePropertiesRequested;
-            }
-
-            _converterResult = _converter.Execute(_viewModel, _converterResult);
-
-            _converterResult.KeyDownGesture.KeyDown += Diagram_KeyDown;
-            _converterResult.SelectNodeGesture.SelectNodeRequested += Diagram_NodeSelected;
-            _converterResult.MoveNodeGesture.Moved += MoveNodeGesture_Moved;
-            _converterResult.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested += ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
-            _converterResult.ChangeNodeTypeGesture.ChangeNodeTypeRequested += ChangeNodeTypeGesture_ChangeNodeTypeRequested;
-            _converterResult.ShowNodePropertiesGesture.ShowNodePropertiesRequested += ShowNodePropertiesGesture_ShowNodePropertiesRequested;
-            _converterResult.ShowSelectedNodePropertiesGesture.ShowSelectedNodePropertiesRequested += ShowSelectedNodePropertiesGesture_ShowSelectedNodePropertiesRequested;
-
-            diagramControl.Diagram = _converterResult.Diagram;
-
-            // TODO: Now I can no longer test why not re-assigning the Diagram property
-            // resulted in the show of the Curvedetails not properly scaling the diagram,
-            // and resize also does not scale the diagram in time, when it is a mamimize or restore.
-            // If that was even the cause.
-
-            // Temporarily enable again. It might just be the cause of the missing refreshes.
-            // Refresh made ChangeNodeType gesture go off twice???
-            //diagramControl.Refresh();
+            _converter.Execute(_viewModel);
+            diagramControl.Refresh();
         }
 
         // Events
@@ -162,6 +146,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
+        private void MoveNodeGesture_Moving(object sender, ElementEventArgs e)
+        {
+        }
+
         private void MoveNodeGesture_Moved(object sender, ElementEventArgs e)
         {
             if (MoveNodeRequested != null)
@@ -174,6 +162,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 float y = rectangle.AbsoluteY + rectangle.Height / 2;
 
                 MoveNodeRequested(this, new MoveEntityEventArgs(nodeID, x, y));
+
+                ApplyViewModel();
             }
         }
 

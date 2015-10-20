@@ -4,10 +4,8 @@ using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Framework.Common;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
-using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
@@ -18,18 +16,34 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
     {
         private const int MINIMUM_NODE_COUNT = 2;
         private const float NODE_RECTANGLE_SIZE_IN_PIXELS = 20;
+        private const string NODE_LINE_TAG = "Node Line";
+        private const string HELPER_POINT_TAG = "Helper Point";
 
-        private readonly int _doubleClickSpeedInMilliseconds;
-        private readonly int _doubleClickDeltaInPixels;
+        /// <summary> Not nullable. Never replaced with a new instance. Neither are its properties. </summary>
+        public CurveDetailsViewModelToDiagramConverterResult Result { get; private set; }
+
+        private readonly Line _xAxis;
+        private readonly Line _yAxis;
+        private readonly Label _topBoundLabel;
+        private readonly Label _bottomBoundLabel;
+        private readonly Label _rightBoundLabel;
+        private readonly Label _leftBoundLabel;
+        /// <summary> Key is Node.ID. </summary>
+        private readonly Dictionary<int, Point> _pointDictionary = new Dictionary<int, Point>();
+        /// <summary> Key is Node.ID. </summary>
+        private readonly Dictionary<int, Rectangle> _rectangleDictionary = new Dictionary<int, Rectangle>();
 
         /// <param name="mustShowInvisibleElements">for debugging</param>
-        public CurveDetailsViewModelToDiagramConverter(
-            int doubleClickSpeedInMilliseconds,
-            int doubleClickDeltaInPixels,
-            bool mustShowInvisibleElements)
+        public CurveDetailsViewModelToDiagramConverter(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels, bool mustShowInvisibleElements)
         {
-            _doubleClickSpeedInMilliseconds = doubleClickSpeedInMilliseconds;
-            _doubleClickDeltaInPixels = doubleClickDeltaInPixels;
+            Result = new CurveDetailsViewModelToDiagramConverterResult(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
+
+            _xAxis = CreateXAxis(Result.Diagram);
+            _yAxis = CreateYAxis(Result.Diagram);
+            _topBoundLabel = CreateTopBoundLabel(Result.Diagram);
+            _bottomBoundLabel = CreateBottomBoundLabel(Result.Diagram);
+            _rightBoundLabel = CreateRightBoundLabel(Result.Diagram);
+            _leftBoundLabel = CreateLeftBoundLabel(Result.Diagram);
 
             if (mustShowInvisibleElements)
             {
@@ -37,79 +51,61 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             }
         }
 
-        /// <param name="result">Pass an existing result to update an existing diagram.</param>
-        public CurveDetailsViewModelToDiagramConverterResult Execute(
-            CurveDetailsViewModel detailsViewModel,
-            CurveDetailsViewModelToDiagramConverterResult result)
+        public void Execute(CurveDetailsViewModel curveDetailsViewModel)
         {
-            if (detailsViewModel == null) throw new NullException(() => detailsViewModel);
-            if (detailsViewModel.Entity == null) throw new NullException(() => detailsViewModel.Entity);
+            if (curveDetailsViewModel == null) throw new NullException(() => curveDetailsViewModel);
+            if (curveDetailsViewModel.Entity == null) throw new NullException(() => curveDetailsViewModel.Entity);
+            if (curveDetailsViewModel.Entity.Nodes.Count < MINIMUM_NODE_COUNT) throw new LessThanException(() => curveDetailsViewModel.Entity.Nodes.Count, MINIMUM_NODE_COUNT);
 
-            if (result == null)
+            // Delete All Lines
+            IList<Element> elementsToDelete = Result.Diagram.Elements
+                                                            .Where(x => String.Equals(Convert.ToString(x.Tag), NODE_LINE_TAG) ||
+                                                                        String.Equals(Convert.ToString(x.Tag), HELPER_POINT_TAG))
+                                                            .ToArray();
+                                                            
+            foreach (Element elementToDelete in elementsToDelete)
             {
-                // TODO: It looks like you may as well instantiate the things you pass to the constructor right inside the class.
-                var showCurvePropertiesGesture = new ShowCurvePropertiesGesture(_doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
-                var showNodePropertiesGesture = new ShowNodePropertiesGesture(_doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
-                result = new CurveDetailsViewModelToDiagramConverterResult(
-                    new Diagram(), 
-                    new KeyDownGesture(), new SelectNodeGesture(), new MoveGesture(), 
-                    showCurvePropertiesGesture, new ChangeNodeTypeGesture(), showNodePropertiesGesture, new ShowSelectedNodePropertiesGesture());
-
-                result.Diagram.Gestures.Add(result.KeyDownGesture);
+                elementToDelete.Parent = null;
+                elementToDelete.Diagram = null;
             }
 
-            Diagram diagram = result.Diagram;
-            // Clear Elements
-            diagram.Elements.ForEach(x => x.Parent = null);
-            diagram.Elements.Clear();
-            // Clear Gestures
-            diagram.Background.Gestures.Clear();
-            diagram.Background.Gestures.Add(result.ShowCurvePropertiesGesture);
-            diagram.Background.Gestures.Add(result.ChangeNodeTypeGesture);
-            diagram.Background.Gestures.Add(result.ShowSelectedNodePropertiesGesture);
-
-            if (detailsViewModel.Entity.Nodes.Count < MINIMUM_NODE_COUNT)
-            {
-                return result;
-            }
-
-            IList<NodeViewModel> sortedNodeViewModels = detailsViewModel.Entity.Nodes.OrderBy(x => x.Time).ToArray();
+            IList<NodeViewModel> sortedNodeViewModels = curveDetailsViewModel.Entity.Nodes.OrderBy(x => x.Time).ToArray();
             float minTime = (float)sortedNodeViewModels.First().Time;
             float maxTime = (float)sortedNodeViewModels.Last().Time;
             float minValue = (float)sortedNodeViewModels.Select(x => x.Value).Min();
             float maxValue = (float)sortedNodeViewModels.Select(x => x.Value).Max();
 
             // Set Scaling
-            diagram.ScaleModeEnum = ScaleModeEnum.ViewPort;
-            diagram.ScaledX = minTime;
-            diagram.ScaledWidth = maxTime - minTime;
+            Result.Diagram.ScaleModeEnum = ScaleModeEnum.ViewPort;
+            Result.Diagram.ScaledX = minTime;
+            Result.Diagram.ScaledWidth = maxTime - minTime;
             // NOTE: The direction of the y-axis is inverted.
-            diagram.ScaledY = maxValue;
-            diagram.ScaledHeight = minValue - maxValue;
+            Result.Diagram.ScaledY = maxValue;
+            Result.Diagram.ScaledHeight = minValue - maxValue;
 
             // Set Margin
             // (This is not full-proof, since margin is calculated based on the point's pixel width and scaling without margin,
             //  But then the scaling is changed based on the margin, making the point's scaled width a little off.
             //  The difference will probably be marginal, but it can get noticable when you make the diagram very small.)
             float marginInPixels = StyleHelper.PointStyleThick.Width / 2;
-            float marginX = diagram.PixelsToWidth(marginInPixels);
-            float marginY = diagram.PixelsToHeight(marginInPixels);
-            diagram.ScaledX -= marginX;
-            diagram.ScaledWidth += marginX * 2;
-            diagram.ScaledY -= marginY;
-            diagram.ScaledHeight += marginY * 2;
+            float marginX = Result.Diagram.PixelsToWidth(marginInPixels);
+            float marginY = Result.Diagram.PixelsToHeight(marginInPixels);
+            Result.Diagram.ScaledX -= marginX;
+            Result.Diagram.ScaledWidth += marginX * 2;
+            Result.Diagram.ScaledY -= marginY;
+            Result.Diagram.ScaledHeight += marginY * 2;
 
-            // Misc Elements
-            CreateXAxis(diagram);
-            CreateYAxis(diagram);
-            CreateLeftBoundLabel(diagram, minTime);
-            CreateRightBoundLabel(diagram, maxTime);
-            CreateTopBoundLabel(diagram, maxValue);
-            CreateBottomBoundLabel(diagram, minValue);
+            // Update Misc Elements
+            UpdateXAxis();
+            UpdateYAxis();
+            UpdateLeftBoundLabel(minTime);
+            UpdateRightBoundLabel(maxTime);
+            UpdateTopBoundLabel(maxValue);
+            UpdateBottomBoundLabel(minValue);
 
             // Points, Lines and Clickable Regions
-            float scaledNodeRectangleWidth = diagram.PixelsToWidth(NODE_RECTANGLE_SIZE_IN_PIXELS);
-            float scaledNodeRectangleHeight = diagram.PixelsToHeight(NODE_RECTANGLE_SIZE_IN_PIXELS);
+            float scaledNodeRectangleWidth = Result.Diagram.PixelsToWidth(NODE_RECTANGLE_SIZE_IN_PIXELS);
+            float scaledNodeRectangleHeight = Result.Diagram.PixelsToHeight(NODE_RECTANGLE_SIZE_IN_PIXELS);
             float scaledNodeRectangleWidthOver2 = scaledNodeRectangleWidth / 2;
             float scaledNodeRectangleHeightOver2 = scaledNodeRectangleHeight / 2;
 
@@ -119,69 +115,118 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             foreach (NodeViewModel nodeViewModel in sortedNodeViewModels)
             {
                 // Coordinates are always relative. (Lowest time translates to x = 0, relative to the background.)
-                float x = diagram.Background.AbsoluteToRelativeX((float)nodeViewModel.Time);
-                float y = diagram.Background.AbsoluteToRelativeY((float)nodeViewModel.Value);
+                float x = Result.Diagram.Background.AbsoluteToRelativeX((float)nodeViewModel.Time);
+                float y = Result.Diagram.Background.AbsoluteToRelativeY((float)nodeViewModel.Value);
 
-                var rectangle = new Rectangle
+                // Convert Rectangle
+                Rectangle rectangle;
+                if (!_rectangleDictionary.TryGetValue(nodeViewModel.ID, out rectangle))
                 {
-                    Diagram = diagram,
-                    Parent = diagram.Background,
-                    X = x - scaledNodeRectangleWidthOver2,
-                    Y = y - scaledNodeRectangleHeightOver2,
-                    Width = scaledNodeRectangleWidth,
-                    Height = scaledNodeRectangleHeight,
-                    LineStyle = StyleHelper.BorderStyleInvisible,
-                    BackStyle = StyleHelper.BackStyleInvisible,
-                    Tag = nodeViewModel.ID
-                };
-                rectangle.Gestures.Add(result.MoveNodeGesture, result.SelectNodeGesture, result.ShowNodePropertiesGesture);
-                rectangle.MustBubble = false;
+                    rectangle = new Rectangle
+                    {
+                        Diagram = Result.Diagram,
+                        Parent = Result.Diagram.Background,
+                        LineStyle = StyleHelper.BorderStyleInvisible,
+                        BackStyle = StyleHelper.BackStyleInvisible,
+                        Tag = nodeViewModel.ID
+                    };
+                    rectangle.Gestures.Add(Result.MoveNodeGesture, Result.SelectNodeGesture, Result.ShowNodePropertiesGesture);
+                    rectangle.MustBubble = false;
 
-                var point = new Point
+                    _rectangleDictionary.Add(nodeViewModel.ID, rectangle);
+                }
+                rectangle.X = x - scaledNodeRectangleWidthOver2;
+                rectangle.Y = y - scaledNodeRectangleHeightOver2;
+                rectangle.Width = scaledNodeRectangleWidth;
+                rectangle.Height = scaledNodeRectangleHeight;
+
+                // Convert Point
+                Point point;
+                if (!_pointDictionary.TryGetValue(nodeViewModel.ID, out point))
                 {
-                    Diagram = diagram,
-                    Parent = rectangle,
-                    X = scaledNodeRectangleWidthOver2,
-                    Y = scaledNodeRectangleHeightOver2,
-                    PointStyle = StyleHelper.PointStyleThick,
-                    ZIndex = 1
-                };
+                    point = new Point
+                    {
+                        Diagram = Result.Diagram,
+                        Parent = rectangle,
+                        PointStyle = StyleHelper.PointStyleThick,
+                        ZIndex = 1,
+                        Tag = nodeViewModel.ID
+                    };
+
+                    _pointDictionary.Add(nodeViewModel.ID, point);
+                }
+                point.X = scaledNodeRectangleWidthOver2;
+                point.Y = scaledNodeRectangleHeightOver2;
 
                 // TODO: Low priority: If NodeViewModel had a property IsSelected,
                 // you would not have had to pass the CurveDetailsViewModel to this converter,
                 // but only an IList<NodeViewModel>.
-                if (nodeViewModel.ID == detailsViewModel.SelectedNodeID)
+                if (nodeViewModel.ID == curveDetailsViewModel.SelectedNodeID)
                 {
                     point.PointStyle = StyleHelper.PointStyleThickSelected;
+                }
+                else
+                {
+                    point.PointStyle = StyleHelper.PointStyleThick;
                 }
 
                 if (previousPoint != null)
                 {
                     NodeTypeEnum nodeTypeEnum = (NodeTypeEnum)previousNodeViewModel.NodeType.ID;
-                    CreateLines(diagram, previousPoint, point, nodeTypeEnum);
+                    CreateLines_WithRelatedElements(Result.Diagram, previousPoint, point, nodeTypeEnum);
                 }
 
                 previousPoint = point;
                 previousNodeViewModel = nodeViewModel;
             }
 
-            return result;
+            // Delete accessory points and rectangles.
+            IEnumerable<int> existingIDs = Result.Diagram.Elements.Select(x => x.Tag).OfType<int>();
+            IEnumerable<int> idsToKeep = curveDetailsViewModel.Entity.Nodes.Select(x => x.ID);
+            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+
+            foreach (int idToDelete in idsToDelete)
+            {
+                // NOTE: The tollerant TryGetValue calls are done for defensive programming.
+                // This class is long-lived and if an exception occurs and then you assign another view model, 
+                // you do not want to be stuck with even more exceptions.
+                // By being tollerant about what is in the dictionaries,
+                // you have a chance that state may actually be cleaned up.
+
+                // Delete point
+                Point pointToDelete;
+                if (_pointDictionary.TryGetValue(idToDelete, out pointToDelete))
+                {
+                    pointToDelete.Parent = null;
+                    pointToDelete.Diagram = null;
+                    _pointDictionary.Remove(idToDelete);
+                }
+
+                // Delete rectangle
+                Rectangle rectangleToDelete;
+                if (_rectangleDictionary.TryGetValue(idToDelete, out rectangleToDelete))
+                {
+                    rectangleToDelete.Parent = null;
+                    rectangleToDelete.Diagram = null;
+                    _rectangleDictionary.Remove(idToDelete);
+                }
+            }
         }
 
-        private void CreateLines(Diagram diagram, Point previousPoint, Point nextPoint, NodeTypeEnum previousNodeTypeEnum)
+        private void CreateLines_WithRelatedElements(Diagram diagram, Point previousPoint, Point nextPoint, NodeTypeEnum previousNodeTypeEnum)
         {
             switch (previousNodeTypeEnum)
             {
                 case NodeTypeEnum.Line:
-                    CreateLines_ForNodeTypeLine(diagram, previousPoint, nextPoint);
+                    CreateLines_WithRelatedElements_ForNodeTypeLine(diagram, previousPoint, nextPoint);
                     break;
 
                 case NodeTypeEnum.Block:
-                    CreateLines_ForNodeTypeBlock(diagram, previousPoint, nextPoint);
+                    CreateLines_WithRelatedElements_ForNodeTypeBlock(diagram, previousPoint, nextPoint);
                     break;
 
                 case NodeTypeEnum.Off:
-                    CreateLines_ForNodeTypeOff(diagram, previousPoint, nextPoint);
+                    CreateLines_WithRelatedElements_ForNodeTypeOff(diagram, previousPoint, nextPoint);
                     break;
 
                 default:
@@ -189,7 +234,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             }
         }
 
-        private void CreateLines_ForNodeTypeLine(Diagram diagram, Point previousPoint, Point nextPoint)
+        private void CreateLines_WithRelatedElements_ForNodeTypeLine(Diagram diagram, Point previousPoint, Point nextPoint)
         {
             var line = new Line
             {
@@ -197,11 +242,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Parent = diagram.Background,
                 PointA = previousPoint,
                 PointB = nextPoint,
-                LineStyle = StyleHelper.LineStyleThick
+                LineStyle = StyleHelper.LineStyleThick,
+                Tag = NODE_LINE_TAG
             };
         }
 
-        private void CreateLines_ForNodeTypeBlock(Diagram diagram, Point previousPoint, Point nextPoint)
+        private void CreateLines_WithRelatedElements_ForNodeTypeBlock(Diagram diagram, Point previousPoint, Point nextPoint)
         {
             // Create horizontal line to the next node.
             var line = new Line
@@ -209,7 +255,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Diagram = diagram,
                 Parent = diagram.Background,
                 PointA = previousPoint,
-                LineStyle = StyleHelper.LineStyleThick
+                LineStyle = StyleHelper.LineStyleThick,
+                Tag = NODE_LINE_TAG
             };
 
             line.PointB = new Point
@@ -218,7 +265,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Parent = nextPoint,
                 X = 0,
                 Y = nextPoint.AbsoluteToRelativeY(previousPoint.AbsoluteY),
-                PointStyle = StyleHelper.PointStyleInvisible
+                PointStyle = StyleHelper.PointStyleInvisible,
+                Tag = HELPER_POINT_TAG
             };
 
             // Create vertical line down.
@@ -228,18 +276,20 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Parent = diagram.Background,
                 PointA = line.PointB,
                 PointB = nextPoint,
-                LineStyle = StyleHelper.LineStyleThick
+                LineStyle = StyleHelper.LineStyleThick,
+                Tag = HELPER_POINT_TAG
             };
         }
 
-        private void CreateLines_ForNodeTypeOff(Diagram diagram, Point previousPoint, Point nextPoint)
+        private void CreateLines_WithRelatedElements_ForNodeTypeOff(Diagram diagram, Point previousPoint, Point nextPoint)
         {
             var verticalLineTo0 = new Line
             {
                 Diagram = diagram,
                 Parent = diagram.Background,
                 PointA = previousPoint,
-                LineStyle = StyleHelper.LineStyleThick
+                LineStyle = StyleHelper.LineStyleThick,
+                Tag = NODE_LINE_TAG
             };
             
             verticalLineTo0.PointB = new Point
@@ -248,7 +298,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Parent = previousPoint,
                 X = 0,
                 Y = previousPoint.AbsoluteToRelativeY(0),
-                PointStyle = StyleHelper.PointStyleInvisible
+                PointStyle = StyleHelper.PointStyleInvisible,
+                Tag = HELPER_POINT_TAG
             };
 
             var horizontalLine = new Line
@@ -256,7 +307,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Diagram = diagram,
                 Parent = diagram.Background,
                 PointA = verticalLineTo0.PointB,
-                LineStyle = StyleHelper.LineStyleThick
+                LineStyle = StyleHelper.LineStyleThick,
+                Tag = NODE_LINE_TAG
             };
 
             horizontalLine.PointB = new Point
@@ -265,7 +317,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Parent = nextPoint,
                 X = 0,
                 Y = nextPoint.AbsoluteToRelativeY(0),
-                PointStyle = StyleHelper.PointStyleInvisible
+                PointStyle = StyleHelper.PointStyleInvisible,
+                Tag = HELPER_POINT_TAG
             };
 
             var verticalLineToNextPoint = new Line
@@ -274,11 +327,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Parent = diagram.Background,
                 PointA = horizontalLine.PointB,
                 PointB = nextPoint,
-                LineStyle = StyleHelper.LineStyleThick
+                LineStyle = StyleHelper.LineStyleThick,
+                Tag = NODE_LINE_TAG
             };
         }
 
-        private static Line CreateXAxis(Diagram diagram)
+        private Line CreateXAxis(Diagram diagram)
         {
             var line = new Line
             {
@@ -290,20 +344,28 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     Diagram = diagram,
                     Parent = diagram.Background,
                     X = 0,
-                    Y = diagram.Background.AbsoluteToRelativeY(0),
                     PointStyle = StyleHelper.PointStyleInvisible
                 },
                 PointB = new Point
                 {
                     Diagram = diagram,
                     Parent = diagram.Background,
-                    X = diagram.Background.Width,
-                    Y = diagram.Background.AbsoluteToRelativeY(0),
                     PointStyle = StyleHelper.PointStyleInvisible
                 }
             };
-
+#if DEBUG
+            line.Tag = "X-Axis";
+            line.PointA.Tag = "X-Axis";
+            line.PointB.Tag = "X-Axis";
+#endif
             return line;
+        }
+
+        private void UpdateXAxis()
+        {
+            _xAxis.PointA.Y = Result.Diagram.Background.AbsoluteToRelativeY(0);
+            _xAxis.PointB.X = Result.Diagram.Background.Width;
+            _xAxis.PointB.Y = Result.Diagram.Background.AbsoluteToRelativeY(0);
         }
 
         private Line CreateYAxis(Diagram diagram)
@@ -317,7 +379,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 {
                     Diagram = diagram,
                     Parent = diagram.Background,
-                    X = diagram.Background.AbsoluteToRelativeX(0),
                     Y = 0,
                     PointStyle = StyleHelper.PointStyleInvisible
                 },
@@ -325,84 +386,118 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 {
                     Diagram = diagram,
                     Parent = diagram.Background,
-                    X = diagram.Background.AbsoluteToRelativeX(0),
-                    Y = diagram.Background.Height,
                     PointStyle = StyleHelper.PointStyleInvisible
                 }
             };
+#if DEBUG
+            line.Tag = "Y-Axis";
+            line.PointA.Tag = "Y-Axis";
+            line.PointB.Tag = "Y-Axis";
+#endif
             return line;
         }
 
-        private Label CreateLeftBoundLabel(Diagram diagram, float minTime)
+        private void UpdateYAxis()
+        {
+            _yAxis.PointA.X = Result.Diagram.Background.AbsoluteToRelativeX(0);
+            _yAxis.PointB.X = Result.Diagram.Background.AbsoluteToRelativeX(0);
+            _yAxis.PointB.Y = Result.Diagram.Background.Height;
+        }
+
+        private Label CreateLeftBoundLabel(Diagram diagram)
         {
             var label = new Label
             {
                 Diagram = diagram,
                 Parent = diagram.Background,
-                X = 0,
-                Y = diagram.Background.Height / 2,
-                Text = minTime.ToString("0.###"),
+                X = 0
             };
 
             label.TextStyle = StyleHelper.CreateTextStyleSmallerTransparent();
             label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Center;
             label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Left;
-
+#if DEBUG
+            label.Tag = "Left-Bound Label";
+#endif
             return label;
         }
 
-        private Label CreateRightBoundLabel(Diagram diagram, float maxTime)
+        private void UpdateLeftBoundLabel(float minTime)
+        {
+            _leftBoundLabel.Y = Result.Diagram.Background.Height / 2;
+            _leftBoundLabel.Text = minTime.ToString("0.###");
+        }
+
+        private Label CreateRightBoundLabel(Diagram diagram)
         {
             var label = new Label
             {
                 Diagram = diagram,
                 Parent = diagram.Background,
-                X = diagram.Background.Width,
-                Y = diagram.Background.Height / 2,
-                Text = maxTime.ToString("0.###"),
             };
 
             label.TextStyle = StyleHelper.CreateTextStyleSmallerTransparent();
             label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Center;
             label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Right;
-
+#if DEBUG
+            label.Tag = "Right-Bound Label";
+#endif
             return label;
         }
 
-        private Label CreateTopBoundLabel(Diagram diagram, float maxValue)
+        private void UpdateRightBoundLabel(float maxTime)
+        {
+            _rightBoundLabel.X = Result.Diagram.Background.Width;
+            _rightBoundLabel.Y = Result.Diagram.Background.Height / 2;
+            _rightBoundLabel.Text = maxTime.ToString("0.###");
+        }
+
+        private Label CreateTopBoundLabel(Diagram diagram)
         {
             var label = new Label
             {
                 Diagram = diagram,
                 Parent = diagram.Background,
-                X = diagram.Background.Width / 2,
-                Y = 0,
-                Text = maxValue.ToString("0.###"),
+                Y = 0
             };
 
             label.TextStyle = StyleHelper.CreateTextStyleSmallerTransparent();
             label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Top;
             label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center;
-
+#if DEBUG
+            label.Tag = "Top-Bound Label";
+#endif
             return label;
         }
 
-        private Label CreateBottomBoundLabel(Diagram diagram, float minValue)
+        private void UpdateTopBoundLabel(float maxValue)
+        {
+            _topBoundLabel.X = Result.Diagram.Background.Width / 2;
+            _topBoundLabel.Text = maxValue.ToString("0.###");
+        }
+
+        private Label CreateBottomBoundLabel(Diagram diagram)
         {
             var label = new Label
             {
                 Diagram = diagram,
                 Parent = diagram.Background,
-                X = diagram.Background.Width / 2,
-                Y = diagram.Background.Height,
-                Text = minValue.ToString("0.###"),
             };
 
             label.TextStyle = StyleHelper.CreateTextStyleSmallerTransparent();
             label.TextStyle.VerticalAlignmentEnum = VerticalAlignmentEnum.Bottom;
             label.TextStyle.HorizontalAlignmentEnum = HorizontalAlignmentEnum.Center;
-
+#if DEBUG
+            label.Tag = "Bottom-Bound Label";
+#endif
             return label;
+        }
+
+        private void UpdateBottomBoundLabel(float minValue)
+        {
+            _bottomBoundLabel.X = Result.Diagram.Background.Width / 2;
+            _bottomBoundLabel.Y = Result.Diagram.Background.Height;
+            _bottomBoundLabel.Text = minValue.ToString("0.###");
         }
     }
 }
