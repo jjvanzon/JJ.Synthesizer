@@ -54,7 +54,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _mustShowInvisibleElements);
 
             _converter.Result.KeyDownGesture.KeyDown += Diagram_KeyDown;
-            _converter.Result.SelectNodeGesture.SelectNodeRequested += Diagram_NodeSelected;
+            _converter.Result.SelectNodeGesture.SelectNodeRequested += SelectNodeGesture_NodeSelected;
             _converter.Result.MoveNodeGesture.Moved += MoveNodeGesture_Moved;
             _converter.Result.MoveNodeGesture.Moving += MoveNodeGesture_Moving;
             _converter.Result.ShowCurvePropertiesGesture.ShowCurvePropertiesRequested += ShowCurvePropertiesGesture_ShowCurvePropertiesRequested;
@@ -105,6 +105,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             ApplyViewModel();
         }
 
+        private void CurveDetailsUserControl_Paint(object sender, PaintEventArgs e)
+        {
+            ApplyViewModel();
+        }
+
         private void titleBarUserControl_AddClicked(object sender, EventArgs e)
         {
             CreateNode();
@@ -137,7 +142,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void Diagram_NodeSelected(object sender, ElementEventArgs e)
+        private void SelectNodeGesture_NodeSelected(object sender, ElementEventArgs e)
         {
             if (SelectNodeRequested != null)
             {

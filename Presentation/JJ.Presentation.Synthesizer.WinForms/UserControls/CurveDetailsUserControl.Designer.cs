@@ -83,6 +83,7 @@
             this.Name = "CurveDetailsUserControl";
             this.Size = new System.Drawing.Size(10, 10);
             this.Load += new System.EventHandler(this.CurveDetailsUserControl_Load);
+            this.Paint += new System.Windows.Forms.PaintEventHandler(this.CurveDetailsUserControl_Paint);
             this.Leave += new System.EventHandler(this.CurveDetailsUserControl_Leave);
             this.Resize += new System.EventHandler(this.CurveDetailsUserControl_Resize);
             this.tableLayoutPanel1.ResumeLayout(false);
