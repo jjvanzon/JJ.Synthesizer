@@ -704,24 +704,24 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase volumeCalculator = _stack.Pop();
             OperatorCalculatorBase pitchCalculator = _stack.Pop();
             OperatorCalculatorBase originCalculator = _stack.Pop();
-            OperatorCalculatorBase phaseStartCalculator = _stack.Pop();
+            OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
             volumeCalculator = volumeCalculator ?? new Number_OperatorCalculator(0);
             pitchCalculator = pitchCalculator ?? new Number_OperatorCalculator(0);
             originCalculator = originCalculator ?? new Number_OperatorCalculator(0);
-            phaseStartCalculator = phaseStartCalculator ?? new Number_OperatorCalculator(0);
+            phaseShiftCalculator = phaseShiftCalculator ?? new Number_OperatorCalculator(0);
             double volume = volumeCalculator.Calculate(0, 0);
             double pitch = pitchCalculator.Calculate(0, 0);
             double origin = originCalculator.Calculate(0, 0);
-            double phaseStart = phaseStartCalculator.Calculate(0, 0);
+            double phaseShift = phaseShiftCalculator.Calculate(0, 0);
             bool volumeIsConst = volumeCalculator is Number_OperatorCalculator;
             bool pitchIsConst = pitchCalculator is Number_OperatorCalculator;
             bool originIsConst = originCalculator is Number_OperatorCalculator;
-            bool phaseStartIsConst = phaseStartCalculator is Number_OperatorCalculator;
+            bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
             bool volumeIsConstZero = volumeIsConst && volume == 0;
             bool pitchIsConstZero = pitchIsConst && pitch == 0;
             bool originIsConstZero = originIsConst && origin == 0;
-            bool phaseStartIsConstZero = phaseStartIsConst && phaseStart % (Math.PI * 2) == 0; // TODO: Precision problem in the comparison to 0?
+            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % (Math.PI * 2) == 0; // TODO: Precision problem in the comparison to 0?
             bool volumeIsConstOne = volumeIsConst && volume == 1; // Not used yet, but could be used for optimization too.
 
             if (volumeIsConstZero)
@@ -733,21 +733,21 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // Weird number
                 calculator = originCalculator;
             }
-            else if (originIsConstZero && phaseStartIsConstZero)
+            else if (originIsConstZero && phaseShiftIsConstZero)
             {
                 calculator = new Sine_OperatorCalculator(volumeCalculator, pitchCalculator);
             }
-            else if (originIsConstZero && !phaseStartIsConstZero)
+            else if (originIsConstZero && !phaseShiftIsConstZero)
             {
-                calculator = new Sine_WithPhaseStart_OperatorCalculator(volumeCalculator, pitchCalculator, phaseStartCalculator);
+                calculator = new Sine_WithPhaseShift_OperatorCalculator(volumeCalculator, pitchCalculator, phaseShiftCalculator);
             }
-            else if (!originIsConstZero && phaseStartIsConstZero)
+            else if (!originIsConstZero && phaseShiftIsConstZero)
             {
                 calculator = new Sine_WithOrigin_OperatorCalculator(volumeCalculator, pitchCalculator, originCalculator);
             }
             else
             {
-                calculator = new Sine_WithOrigin_AndPhaseStart_OperatorCalculator(volumeCalculator, pitchCalculator, originCalculator, phaseStartCalculator);
+                calculator = new Sine_WithOrigin_AndPhaseShift_OperatorCalculator(volumeCalculator, pitchCalculator, originCalculator, phaseShiftCalculator);
             }
 
             _stack.Push(calculator);

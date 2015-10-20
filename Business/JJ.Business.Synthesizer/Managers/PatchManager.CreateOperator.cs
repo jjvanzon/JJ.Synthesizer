@@ -165,11 +165,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseStart = null)
+        public OperatorWrapper_Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Sine, 4,
-                PropertyNames.Volume, PropertyNames.Pitch, PropertyNames.Origin, PropertyNames.PhaseStart,
+                PropertyNames.Volume, PropertyNames.Pitch, PropertyNames.Origin, PropertyNames.PhaseShift,
                 PropertyNames.Result);
 
             var wrapper = new OperatorWrapper_Sine(op)
@@ -177,7 +177,7 @@ namespace JJ.Business.Synthesizer.Managers
                 Volume = volume,
                 Pitch = pitch,
                 Origin = origin,
-                PhaseStart = phaseStart
+                PhaseShift = phaseShift
             };
 
             wrapper.Operator.LinkTo(Patch);

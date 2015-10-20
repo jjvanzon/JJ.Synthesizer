@@ -492,20 +492,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 }
             }
 
-            Outlet phaseStartOutlet = wrapper.PhaseStart;
+            Outlet phaseShiftOutlet = wrapper.PhaseShift;
 
             double volume = Calculate(volumeOutlet, time);
             double pitch = Calculate(pitchOutlet, time);
 
-            if (originOutlet == null && phaseStartOutlet == null)
+            if (originOutlet == null && phaseShiftOutlet == null)
             {
                 return volume * Math.Sin(2 * Math.PI * pitch * time);
             }
 
             double origin = originOutlet != null ? Calculate(originOutlet, time) : 0;
-            double phaseStart = phaseStartOutlet != null ? Calculate(phaseStartOutlet, time) : 0;
+            double phaseShift = phaseShiftOutlet != null ? Calculate(phaseShiftOutlet, time) : 0;
 
-            double result = origin + volume * Math.Sin(2 * (Math.PI * phaseStart + Math.PI * pitch * time));
+            double result = origin + volume * Math.Sin(2 * (Math.PI * phaseShift + Math.PI * pitch * time));
             return result;
         }
 

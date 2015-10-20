@@ -786,7 +786,7 @@ namespace JJ.Business.Synthesizer.Tests
                 double pitch = 1.0;
                 //double phase = 0.128;
                 double phase = 0;
-                Outlet sine = x.Sine(x.Number(volume), x.Number(pitch), phaseStart: x.Number(phase));
+                Outlet sine = x.Sine(x.Number(volume), x.Number(pitch), phaseShift: x.Number(phase));
 
                 double newSamplingRate = 4;
                 Outlet resampled = x.Resample(sine, x.Number(newSamplingRate));

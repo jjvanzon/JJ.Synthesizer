@@ -28,10 +28,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { GetInlet(OperatorConstants.SINE_ORIGIN_INDEX).LinkTo(value); }
         }
 
-        public Outlet PhaseStart
+        public Outlet PhaseShift
         {
-            get { return GetInlet(OperatorConstants.SINE_PHASE_START_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.SINE_PHASE_START_INDEX).LinkTo(value); }
+            get { return GetInlet(OperatorConstants.SINE_PHASE_SHIFT_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.SINE_PHASE_SHIFT_INDEX).LinkTo(value); }
         }
 
         public Outlet Result

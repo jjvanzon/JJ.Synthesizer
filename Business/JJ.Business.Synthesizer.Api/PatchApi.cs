@@ -20,9 +20,9 @@ namespace JJ.Business.Synthesizer.Api
             _patchManager.Create();
         }
 
-        public OperatorWrapper_Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseStart = null)
+        public OperatorWrapper_Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseShift = null)
         {
-            return _patchManager.Sine(volume, pitch, origin, phaseStart);
+            return _patchManager.Sine(volume, pitch, origin, phaseShift);
         }
 
         public OperatorWrapper_Number Number(double number = 0)

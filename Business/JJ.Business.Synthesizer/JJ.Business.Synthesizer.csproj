@@ -74,7 +74,6 @@
     <Compile Include="Calculation\Operators\Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Sine_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Sine_OperatorCalculator_Old.cs" />
     <Compile Include="Calculation\Operators\SpeedUp_WithConstOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SpeedUp_WithOrigin_WithConstTimeDivider_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SpeedUp_WithoutOrigin_WithConstTimeDivider_OperatorCalculator.cs" />
@@ -106,8 +105,8 @@
     <Compile Include="Calculation\Operators\Sample_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Sample_MonoToStereo_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Sample_StereoToMono_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Sine_WithOrigin_AndPhaseStart_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Sine_WithPhaseStart_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Sine_WithOrigin_AndPhaseShift_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Sine_WithPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Multiply_WithOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Curve_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />

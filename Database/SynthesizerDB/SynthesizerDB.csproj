@@ -80,6 +80,7 @@
     <Content Include="2015-09-30 010 SynthesizerDB ScaleType change Names.sql" />
     <Content Include="2015-10-01 010 SynthesizerDB ScaleType change Names to singular again.sql" />
     <Content Include="2015-10-01 020 SynthesizerDB ScaleType 5 - Cent.sql" />
+    <Content Include="2015-10-20 010 SynthesizerDB Rename Sine Outlet PhaseStart to PhaseShift.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
