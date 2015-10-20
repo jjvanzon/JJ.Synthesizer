@@ -1,5 +1,6 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using System;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -8,6 +9,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private OperatorCalculatorBase _volumeCalculator;
         private OperatorCalculatorBase _pitchCalculator;
         private OperatorCalculatorBase _phaseStartCalculator;
+
+        private double _phase;
+        private double _previousTime;
 
         public Sine_WithPhaseStart_OperatorCalculator(
             OperatorCalculatorBase volumeCalculator, 
@@ -29,7 +33,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double pitch = _pitchCalculator.Calculate(time, channelIndex);
             double phaseStart = _phaseStartCalculator.Calculate(time, channelIndex);
 
-            double result = volume * Math.Sin(2 * (Math.PI * phaseStart + Math.PI * pitch * time));
+            double dt = time - _previousTime;
+            _phase = _phase + Maths.TWO_PI * dt * pitch;
+            _previousTime = time;
+
+            double result = volume * Math.Sin(Maths.TWO_PI * phaseStart + _phase);
             return result;
         }
     }

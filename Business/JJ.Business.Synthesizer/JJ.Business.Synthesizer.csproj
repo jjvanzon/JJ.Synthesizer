@@ -73,6 +73,7 @@
     <Compile Include="Calculation\Operators\Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Sine_OperatorCalculator_New.cs" />
     <Compile Include="Calculation\Operators\SpeedUp_WithConstOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SpeedUp_WithOrigin_WithConstTimeDivider_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SpeedUp_WithoutOrigin_WithConstTimeDivider_OperatorCalculator.cs" />
@@ -111,7 +112,6 @@
     <Compile Include="Calculation\Operators\OperatorCalculatorBase.cs" />
     <Compile Include="Calculation\Operators\Multiply_WithoutOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\Sine_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Sine_WithOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Substract_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Delay_OperatorCalculator.cs" />
