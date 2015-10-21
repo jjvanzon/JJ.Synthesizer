@@ -94,14 +94,27 @@ namespace JJ.Business.Synthesizer.Managers
             };
         }
 
-        public VoidResult ValidateNode(Node entity)
+        public VoidResult ValidateNodeWithoutParent(Node entity)
         {
-            IValidator validator = new NodeValidator(entity);
+            // TODO: Low priority: I doubt it is a good idea to even offer this method. 
+            IValidator validator1 = new NodeValidator_WithoutParent(entity);
 
             return new VoidResult
             {
-                Successful = validator.IsValid,
-                Messages = validator.ValidationMessages.ToCanonical()
+                Successful = validator1.IsValid,
+                Messages = validator1.ValidationMessages.ToCanonical()
+            };
+        }
+
+        public VoidResult ValidateNode(Node entity)
+        {
+            IValidator validator1 = new NodeValidator_WithoutParent(entity);
+            IValidator validator2 = new NodeValidator_Parent(entity);
+
+            return new VoidResult
+            {
+                Successful = validator1.IsValid && validator2.IsValid,
+                Messages = validator1.ValidationMessages.Union(validator2.ValidationMessages).ToCanonical()
             };
         }
 

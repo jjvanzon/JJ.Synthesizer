@@ -5,15 +5,14 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class NodeValidator : FluentValidator<Node>
+    internal class NodeValidator_WithoutParent : FluentValidator<Node>
     {
-        public NodeValidator(Node obj)
+        public NodeValidator_WithoutParent(Node obj)
             : base(obj)
         { }
 
         protected override void Execute()
         {
-            For(() => Object.Curve, PropertyDisplayNames.Curve).NotNull();
             For(() => Object.NodeType, PropertyDisplayNames.NodeType).NotNull();
 
             if (Object.NodeType != null)

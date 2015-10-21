@@ -68,7 +68,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Node node = ViewModel.ToEntity(_repositories.NodeRepository, _repositories.NodeTypeRepository);
 
-            VoidResult result = _curveManager.ValidateNode(node);
+            // TODO: Low priority: I doubt it is wise to validate without parent,
+            // because it is incorrect data.
+            VoidResult result = _curveManager.ValidateNodeWithoutParent(node);
 
             ViewModel.Successful = result.Successful;
             ViewModel.ValidationMessages = result.Messages;

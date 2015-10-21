@@ -22,7 +22,8 @@ namespace JJ.Business.Synthesizer.Validation
             int i = 1;
             foreach (Node node in curve.Nodes)
             {
-                Execute(new NodeValidator(node), ValidationHelper.GetMessagePrefix(node, i));
+                Execute(new NodeValidator_WithoutParent(node), ValidationHelper.GetMessagePrefix(node, i));
+                Execute(new NodeValidator_Parent(node), ValidationHelper.GetMessagePrefix(node, i));
 
                 i++;
             }

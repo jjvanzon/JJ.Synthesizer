@@ -236,6 +236,7 @@
     <Compile Include="Validation\AudioFileOutputValidator_InDocument.cs" />
     <Compile Include="Validation\CurveValidator_WithoutNodes.cs" />
     <Compile Include="Validation\InletValidator_ForCustomOperator.cs" />
+    <Compile Include="Validation\NodeValidator_Parent.cs" />
     <Compile Include="Validation\OutletValidator_ForCustomOperator.cs" />
     <Compile Include="Validation\OperatorValidator_CustomOperator.cs" />
     <Compile Include="Validation\OperatorValidator_Resample.cs" />
@@ -280,7 +281,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_Base.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Sample.cs" />
     <Compile Include="Validation\CurveValidator.cs" />
-    <Compile Include="Validation\NodeValidator.cs" />
+    <Compile Include="Validation\NodeValidator_WithoutParent.cs" />
     <Compile Include="Validation\OperatorValidator_SlowDown.cs" />
     <Compile Include="Validation\OperatorValidator_TimeSubstract.cs" />
     <Compile Include="Validation\OperatorValidator_TimePower.cs" />
