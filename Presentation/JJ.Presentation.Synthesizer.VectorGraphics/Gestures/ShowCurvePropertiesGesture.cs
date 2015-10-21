@@ -6,25 +6,42 @@ using JJ.Framework.Presentation.VectorGraphics.Gestures;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
 {
-    // TODO: Perhaps not derive from DoubleClickGesture, but wrap DoubleClickGesture and pass Diagram to the constructor,
-    // upon which the private DoubleClickGesture is added to Diagram.BackGround.Gestures
-    // and responded to upone which ShowCurvePropertiesRequested is raised.
-    public class ShowCurvePropertiesGesture : DoubleClickGesture
+    public class ShowCurvePropertiesGesture : GestureBase
     {
         public event EventHandler ShowCurvePropertiesRequested;
 
+        private DoubleClickGesture _doubleClickGesture;
+
         internal ShowCurvePropertiesGesture(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
-            : base(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels)
         {
-            DoubleClick += this_DoubleClick;
+            _doubleClickGesture = new DoubleClickGesture(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
+            _doubleClickGesture.DoubleClick += _doubleClickGesture_DoubleClick;
         }
 
         ~ShowCurvePropertiesGesture()
         {
-            DoubleClick -= this_DoubleClick;
+            if (_doubleClickGesture != null)
+            {
+                _doubleClickGesture.DoubleClick -= _doubleClickGesture_DoubleClick;
+            }
         }
 
-        private void this_DoubleClick(object sender, ElementEventArgs e)
+        protected override void HandleMouseDown(object sender, MouseEventArgs e)
+        {
+            ((IGesture)_doubleClickGesture).HandleMouseDown(sender, e);
+        }
+
+        protected override void HandleMouseMove(object sender, MouseEventArgs e)
+        {
+            ((IGesture)_doubleClickGesture).HandleMouseMove(sender, e);
+        }
+
+        protected override void HandleMouseUp(object sender, MouseEventArgs e)
+        {
+            ((IGesture)_doubleClickGesture).HandleMouseUp(sender, e);
+        }
+
+        private void _doubleClickGesture_DoubleClick(object sender, ElementEventArgs e)
         {
             if (ShowCurvePropertiesRequested != null)
             {
