@@ -35,9 +35,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             double dt = time - _previousTime;
             _phase = _phase + Maths.TWO_PI * dt * pitch;
+
+            double result = volume * Math.Sin(_phase + Maths.TWO_PI * phaseShift);
+
             _previousTime = time;
 
-            double result = volume * Math.Sin(Maths.TWO_PI * phaseShift + _phase);
             return result;
         }
     }

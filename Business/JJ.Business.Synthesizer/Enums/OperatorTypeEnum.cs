@@ -22,6 +22,7 @@
         Sample = 17,
         WhiteNoise = 18,
         Resample = 19,
-        CustomOperator = 20
+        CustomOperator = 20,
+        SawTooth = 21
     }
 }

@@ -20,18 +20,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Adder, VisitAdder },
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
                 { OperatorTypeEnum.Divide, VisitDivide },
+                { OperatorTypeEnum.Delay, VisitDelay },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
+                { OperatorTypeEnum.Number, VisitNumber },
                 { OperatorTypeEnum.Power, VisitPower },
                 { OperatorTypeEnum.Resample, VisitResample },
+                { OperatorTypeEnum.SawTooth, VisitSawTooth },
                 { OperatorTypeEnum.Sample, VisitSampleOperator },
                 { OperatorTypeEnum.Sine, VisitSine },
                 { OperatorTypeEnum.Substract, VisitSubstract },
-                { OperatorTypeEnum.Delay, VisitDelay },
                 { OperatorTypeEnum.SpeedUp, VisitSpeedUp },
                 { OperatorTypeEnum.SlowDown, VisitSlowDown },
                 { OperatorTypeEnum.TimePower, VisitTimePower },
                 { OperatorTypeEnum.TimeSubstract, VisitTimeSubstract },
-                { OperatorTypeEnum.Number, VisitNumber },
                 { OperatorTypeEnum.WhiteNoise, VisitWhiteNoise }
             };
         }
@@ -97,6 +98,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitSampleOperator(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitSawTooth(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitSine(Operator op) { }

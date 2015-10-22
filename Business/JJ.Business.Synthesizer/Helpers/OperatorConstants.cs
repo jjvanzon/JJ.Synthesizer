@@ -30,6 +30,10 @@
         public const int POWER_EXPONENT_INDEX = 1;
         public const int POWER_RESULT_INDEX = 0;
 
+        public const int SAW_TOOTH_PITCH_INDEX = 1;
+        public const int SAW_TOOTH_PHASE_SHIFT_INDEX = 1;
+        public const int SAW_TOOTH_RESULT_INDEX = 0;
+
         public const int SAMPLE_OPERATOR_RESULT_INDEX = 0;
 
         public const int SINE_VOLUME_INDEX = 0;

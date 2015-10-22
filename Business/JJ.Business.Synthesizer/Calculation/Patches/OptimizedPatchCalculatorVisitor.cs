@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -82,30 +83,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return list;
         }
 
-        protected override void VisitOutlet(Outlet outlet)
-        {
-            // As soon as you encounter a CustomOperator's Outlet,
-            // the evaluation has to take a completely different course.
-            if (outlet.Operator.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
-            {
-                Outlet customOperatorOutlet = outlet;
-                Outlet patchOutletOutlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _documentRepository);
-                VisitOperator(patchOutletOutlet.Operator);
-                return;
-            }
-
-            base.VisitOutlet(outlet);
-        }
-
-        protected override void VisitNumber(Operator op)
-        {
-            var wrapper = new OperatorWrapper_Number(op);
-            double number = wrapper.Number;
-
-            var calculator = new Number_OperatorCalculator(number);
-            _stack.Push(calculator);
-        }
-
         protected override void VisitAdd(Operator op)
         {
             OperatorCalculatorBase calculator;
@@ -155,135 +132,59 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitSubstract(Operator op)
+        protected override void VisitCurveOperator(Operator op)
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase operandACalculator = _stack.Pop();
-            OperatorCalculatorBase operandBCalculator = _stack.Pop();
+            var wrapper = new OperatorWrapper_Curve(op, _curveRepository);
 
-            operandACalculator = operandACalculator ?? new Number_OperatorCalculator(0);
-            operandBCalculator = operandBCalculator ?? new Number_OperatorCalculator(0);
-
-            double a = operandACalculator.Calculate(0, 0);
-            double b = operandBCalculator.Calculate(0, 0);
-            bool operandAIsConst = operandACalculator is Number_OperatorCalculator;
-            bool operandBIsConst = operandBCalculator is Number_OperatorCalculator;
-            bool operandAIsConstZero = operandAIsConst && a == 0;
-            bool operandBIsConstZero = operandBIsConst && a == 0;
-
-            if (operandAIsConstZero && operandBIsConstZero)
+            if (wrapper.Curve == null)
             {
                 calculator = new Number_OperatorCalculator(0);
             }
-            else if (operandBIsConstZero)
-            {
-                calculator = operandACalculator;
-            }
-            else if (operandAIsConst && operandBIsConst)
-            {
-                calculator = new Number_OperatorCalculator(a - b);
-            }
-            else if (operandAIsConst)
-            {
-                calculator = new Substract_WithConstOperandA_OperatorCalculator(a, operandBCalculator);
-            }
-            else if (operandBIsConst)
-            {
-                calculator = new Substract_WithConstOperandB_OperatorCalculator(operandACalculator, b);
-            }
             else
             {
-                calculator = new Substract_OperatorCalculator(operandACalculator, operandBCalculator);
+                calculator = new Curve_OperatorCalculator(wrapper.Curve);
             }
 
             _stack.Push(calculator);
         }
 
-        protected override void VisitMultiply(Operator op)
+        protected override void VisitDelay(Operator op)
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase operandACalculator = _stack.Pop();
-            OperatorCalculatorBase operandBCalculator = _stack.Pop();
-            OperatorCalculatorBase originCalculator = _stack.Pop();
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase timeDifferenceCalculator = _stack.Pop();
 
-            operandACalculator = operandACalculator ?? new Number_OperatorCalculator(1);
-            operandBCalculator = operandBCalculator ?? new Number_OperatorCalculator(1);
-            originCalculator = originCalculator ?? new Number_OperatorCalculator(0);
+            signalCalculator = signalCalculator ?? new Number_OperatorCalculator(0);
+            timeDifferenceCalculator = timeDifferenceCalculator ?? new Number_OperatorCalculator(0);
+            double signal = signalCalculator.Calculate(0, 0);
+            double timeDifference = timeDifferenceCalculator.Calculate(0, 0);
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool timeDifferenceIsConst = timeDifferenceCalculator is Number_OperatorCalculator;
+            bool signalIsConstZero = signalIsConst && signal == 0;
+            bool timeDifferenceIsConstZero = timeDifferenceIsConst && timeDifference == 0;
 
-            double a = operandACalculator.Calculate(0, 0);
-            double b = operandBCalculator.Calculate(0, 0);
-            double origin = originCalculator.Calculate(0, 0);
-            bool operandAIsConst = operandACalculator is Number_OperatorCalculator;
-            bool operandBIsConst = operandBCalculator is Number_OperatorCalculator;
-            bool originIsConst = originCalculator is Number_OperatorCalculator;
-            bool operandAIsConstZero = operandAIsConst && a == 0;
-            bool operandBIsConstZero = operandBIsConst && b == 0;
-            bool originIsConstZero = originIsConst && origin == 0;
-            bool operandAIsConstOne = operandAIsConst && a == 1;
-            bool operandBIsConstOne = operandBIsConst && b == 1;
-
-            if (operandAIsConstZero || operandBIsConstZero)
+            if (signalIsConstZero)
             {
                 calculator = new Number_OperatorCalculator(0);
             }
-            else if (operandAIsConstOne)
+            else if (timeDifferenceIsConstZero)
             {
-                calculator = operandBCalculator;
+                calculator = signalCalculator;
             }
-            else if (operandBIsConstOne)
+            else if (signalIsConst)
             {
-                calculator = operandACalculator;
+                calculator = signalCalculator;
             }
-            else if (originIsConstZero && operandAIsConst && operandBIsConst)
+            else if (timeDifferenceIsConst)
             {
-                calculator = new Number_OperatorCalculator(a * b);
-            }
-            else if (originIsConst && operandAIsConst && operandBIsConst)
-            {
-                double value = (a - origin) * b + origin;
-                calculator = new Number_OperatorCalculator(value);
-            }
-            else if (originIsConstZero && operandAIsConst && !operandBIsConst)
-            {
-                calculator = new Multiply_WithoutOrigin_WithConstOperandA_OperatorCalculator(a, operandBCalculator);
-            }
-            else if (originIsConstZero && !operandAIsConst && operandBIsConst)
-            {
-                calculator = new Multiply_WithoutOrigin_WithConstOperandB_OperatorCalculator(operandACalculator, b);
-            }
-            else if (originIsConstZero && !operandAIsConst && !operandBIsConst)
-            {
-                calculator = new Multiply_WithoutOrigin_OperatorCalculator(operandACalculator, operandBCalculator);
-            }
-            else if (originIsConst && operandAIsConst && !operandBIsConst)
-            {
-                calculator = new Multiply_WithConstOrigin_AndOperandA_OperatorCalculator(a, operandBCalculator, origin);
-            }
-            else if (originIsConst && !operandAIsConst && operandBIsConst)
-            {
-                calculator = new Multiply_WithConstOrigin_AndOperandB_OperatorCalculator(operandACalculator, b, origin);
-            }
-            else if (!originIsConst && !operandAIsConst && !operandBIsConst)
-            {
-                calculator = new Multiply_WithConstOrigin_OperatorCalculator(operandACalculator, operandBCalculator, origin);
-            }
-            else if (!originIsConst && operandAIsConst && operandBIsConst)
-            {
-                calculator = new Multiply_WithOrigin_AndConstOperandA_AndOperandB_OperatorCalculator(a, b, originCalculator);
-            }
-            else if (!originIsConst && operandAIsConst && !operandBIsConst)
-            {
-                calculator = new Multiply_WithOrigin_AndConstOperandA_OperatorCalculator(a, operandBCalculator, originCalculator);
-            }
-            else if (!originIsConst && !operandAIsConst && operandBIsConst)
-            {
-                calculator = new Multiply_WithOrigin_AndConstOperandB_OperatorCalculator(operandACalculator, b, originCalculator);
+                calculator = new Delay_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
             }
             else
             {
-                calculator = new Multiply_WithOrigin_OperatorCalculator(operandACalculator, operandBCalculator, originCalculator);
+                calculator = new Delay_OperatorCalculator(signalCalculator, timeDifferenceCalculator);
             }
 
             _stack.Push(calculator);
@@ -381,8 +282,121 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Divide_WithOrigin_OperatorCalculator(numeratorCalculator, denominatorCalculator, originCalculator);
             }
-            
+
             _stack.Push(calculator);
+        }
+
+        protected override void VisitMultiply(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase operandACalculator = _stack.Pop();
+            OperatorCalculatorBase operandBCalculator = _stack.Pop();
+            OperatorCalculatorBase originCalculator = _stack.Pop();
+
+            operandACalculator = operandACalculator ?? new Number_OperatorCalculator(1);
+            operandBCalculator = operandBCalculator ?? new Number_OperatorCalculator(1);
+            originCalculator = originCalculator ?? new Number_OperatorCalculator(0);
+
+            double a = operandACalculator.Calculate(0, 0);
+            double b = operandBCalculator.Calculate(0, 0);
+            double origin = originCalculator.Calculate(0, 0);
+            bool operandAIsConst = operandACalculator is Number_OperatorCalculator;
+            bool operandBIsConst = operandBCalculator is Number_OperatorCalculator;
+            bool originIsConst = originCalculator is Number_OperatorCalculator;
+            bool operandAIsConstZero = operandAIsConst && a == 0;
+            bool operandBIsConstZero = operandBIsConst && b == 0;
+            bool originIsConstZero = originIsConst && origin == 0;
+            bool operandAIsConstOne = operandAIsConst && a == 1;
+            bool operandBIsConstOne = operandBIsConst && b == 1;
+
+            if (operandAIsConstZero || operandBIsConstZero)
+            {
+                calculator = new Number_OperatorCalculator(0);
+            }
+            else if (operandAIsConstOne)
+            {
+                calculator = operandBCalculator;
+            }
+            else if (operandBIsConstOne)
+            {
+                calculator = operandACalculator;
+            }
+            else if (originIsConstZero && operandAIsConst && operandBIsConst)
+            {
+                calculator = new Number_OperatorCalculator(a * b);
+            }
+            else if (originIsConst && operandAIsConst && operandBIsConst)
+            {
+                double value = (a - origin) * b + origin;
+                calculator = new Number_OperatorCalculator(value);
+            }
+            else if (originIsConstZero && operandAIsConst && !operandBIsConst)
+            {
+                calculator = new Multiply_WithoutOrigin_WithConstOperandA_OperatorCalculator(a, operandBCalculator);
+            }
+            else if (originIsConstZero && !operandAIsConst && operandBIsConst)
+            {
+                calculator = new Multiply_WithoutOrigin_WithConstOperandB_OperatorCalculator(operandACalculator, b);
+            }
+            else if (originIsConstZero && !operandAIsConst && !operandBIsConst)
+            {
+                calculator = new Multiply_WithoutOrigin_OperatorCalculator(operandACalculator, operandBCalculator);
+            }
+            else if (originIsConst && operandAIsConst && !operandBIsConst)
+            {
+                calculator = new Multiply_WithConstOrigin_AndOperandA_OperatorCalculator(a, operandBCalculator, origin);
+            }
+            else if (originIsConst && !operandAIsConst && operandBIsConst)
+            {
+                calculator = new Multiply_WithConstOrigin_AndOperandB_OperatorCalculator(operandACalculator, b, origin);
+            }
+            else if (!originIsConst && !operandAIsConst && !operandBIsConst)
+            {
+                calculator = new Multiply_WithConstOrigin_OperatorCalculator(operandACalculator, operandBCalculator, origin);
+            }
+            else if (!originIsConst && operandAIsConst && operandBIsConst)
+            {
+                calculator = new Multiply_WithOrigin_AndConstOperandA_AndOperandB_OperatorCalculator(a, b, originCalculator);
+            }
+            else if (!originIsConst && operandAIsConst && !operandBIsConst)
+            {
+                calculator = new Multiply_WithOrigin_AndConstOperandA_OperatorCalculator(a, operandBCalculator, originCalculator);
+            }
+            else if (!originIsConst && !operandAIsConst && operandBIsConst)
+            {
+                calculator = new Multiply_WithOrigin_AndConstOperandB_OperatorCalculator(operandACalculator, b, originCalculator);
+            }
+            else
+            {
+                calculator = new Multiply_WithOrigin_OperatorCalculator(operandACalculator, operandBCalculator, originCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitNumber(Operator op)
+        {
+            var wrapper = new OperatorWrapper_Number(op);
+            double number = wrapper.Number;
+
+            var calculator = new Number_OperatorCalculator(number);
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitOutlet(Outlet outlet)
+        {
+            // As soon as you encounter a CustomOperator's Outlet,
+            // the evaluation has to take a completely different course.
+            if (outlet.Operator.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
+            {
+                Outlet customOperatorOutlet = outlet;
+                Outlet patchOutletOutlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _documentRepository);
+                VisitOperator(patchOutletOutlet.Operator);
+                return;
+            }
+
+            base.VisitOutlet(outlet);
         }
 
         protected override void VisitPower(Operator op)
@@ -436,81 +450,136 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitDelay(Operator op)
+        protected override void VisitResample(Operator op)
         {
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase timeDifferenceCalculator = _stack.Pop();
+            OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Number_OperatorCalculator(0);
-            timeDifferenceCalculator = timeDifferenceCalculator ?? new Number_OperatorCalculator(0);
-            double signal = signalCalculator.Calculate(0, 0);
-            double timeDifference = timeDifferenceCalculator.Calculate(0, 0);
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool timeDifferenceIsConst = timeDifferenceCalculator is Number_OperatorCalculator;
-            bool signalIsConstZero = signalIsConst && signal == 0;
-            bool timeDifferenceIsConstZero = timeDifferenceIsConst && timeDifference == 0;
+            samplingRateCalculator = samplingRateCalculator ?? new Number_OperatorCalculator(0);
 
-            if (signalIsConstZero)
+            double signal = signalCalculator.Calculate(0, 0);
+            double samplingRate = samplingRateCalculator.Calculate(0, 0);
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool samplingRateIsConst = samplingRateCalculator is Number_OperatorCalculator;
+            bool signalIsConstZero = signalIsConst && signal == 0;
+            bool samplingRateIsConstZero = samplingRateIsConst && samplingRate == 0;
+
+            if (samplingRateIsConstZero)
+            {
+                // Weird number
+                calculator = new Number_OperatorCalculator(0);
+            }
+            else if (signalIsConstZero)
             {
                 calculator = new Number_OperatorCalculator(0);
             }
-            else if (timeDifferenceIsConstZero)
-            {
-                calculator = signalCalculator;
-            }
             else if (signalIsConst)
             {
-                calculator = signalCalculator;
+                calculator = new Number_OperatorCalculator(signal);
             }
-            else if (timeDifferenceIsConst)
-            {
-                calculator = new Delay_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
-            }
+            // TODO: Uncomment if the specialized calculator is up-to-date.
+            //else if (samplingRateIsConst)
+            //{
+            //    calculator = new Resample_WithConstSamplingRate_OperatorCalculator(signalCalculator, samplingRate);
+            //}
             else
             {
-                calculator = new Delay_OperatorCalculator(signalCalculator, timeDifferenceCalculator);
+                calculator = new Resample_OperatorCalculator(signalCalculator, samplingRateCalculator);
             }
 
             _stack.Push(calculator);
         }
 
-        protected override void VisitTimeSubstract(Operator op)
+        protected override void VisitSawTooth(Operator op)
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase timeDifferenceCalculator = _stack.Pop();
+            OperatorCalculatorBase pitchCalculator = _stack.Pop();
+            OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator(0);
-            timeDifferenceCalculator = timeDifferenceCalculator ?? new Number_OperatorCalculator(0);
-            double signal = signalCalculator.Calculate(0, 0);
-            double timeDifference = timeDifferenceCalculator.Calculate(0, 0);
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool timeDifferenceIsConst = timeDifferenceCalculator is Number_OperatorCalculator;
-            bool signalIsConstZero = signalIsConst && signal == 0;
-            bool timeDifferenceIsConstZero = timeDifferenceIsConst && signal == 0;
+            pitchCalculator = pitchCalculator ?? new Number_OperatorCalculator(0);
+            phaseShiftCalculator = phaseShiftCalculator ?? new Number_OperatorCalculator(0);
+            double pitch = pitchCalculator.Calculate(0, 0);
+            double phaseShift = phaseShiftCalculator.Calculate(0, 0);
+            bool pitchIsConst = pitchCalculator is Number_OperatorCalculator;
+            bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
+            bool pitchIsConstZero = pitchIsConst && pitch == 0;
+            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % Maths.TWO_PI == 0; // TODO: Precision problem in the comparison to 0?
 
-            if (signalIsConstZero)
+            //if (pitchIsConstZero)
+            //{
+            //    // Weird number
+            //    calculator = new Number_OperatorCalculator(0);
+            //}
+            //else if (phaseShiftIsConstZero)
+            //{
+                calculator = new SawTooth_WithoutPhaseShift_OperatorCalculator(pitchCalculator);
+            //}
+            //else if (phaseShiftIsConst && pitchIsConst)
+            //{
+            //    calculator = new SawTooth_AndConstPitch_WithConstPhaseShift_OperatorCalculator(pitchCalculator, phaseShift);
+            //}
+            //else if (!phaseShiftIsConst && !pitchIsConst)
+            //{
+            //    calculator = new SawTooth_WithPhaseShift_OperatorCalculator(pitchCalculator, phaseShiftCalculator);
+            //}
+            //else if (phaseShiftIsConst && !pitchIsConst)
+            //{
+            //    calculator = new SawTooth_WithConstPhaseShift_OperatorCalculator(pitchCalculator, phaseShift);
+            //}
+            //else if (!phaseShiftIsConst && pitchIsConst)
+            //{
+            //    calculator = new SawTooth_WithConstPitch_OperatorCalculator(pitchCalculator, phaseShift);
+            //}
+
+            _stack.Push(calculator);
+        }
+
+
+
+        protected override void VisitSubstract(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase operandACalculator = _stack.Pop();
+            OperatorCalculatorBase operandBCalculator = _stack.Pop();
+
+            operandACalculator = operandACalculator ?? new Number_OperatorCalculator(0);
+            operandBCalculator = operandBCalculator ?? new Number_OperatorCalculator(0);
+
+            double a = operandACalculator.Calculate(0, 0);
+            double b = operandBCalculator.Calculate(0, 0);
+            bool operandAIsConst = operandACalculator is Number_OperatorCalculator;
+            bool operandBIsConst = operandBCalculator is Number_OperatorCalculator;
+            bool operandAIsConstZero = operandAIsConst && a == 0;
+            bool operandBIsConstZero = operandBIsConst && a == 0;
+
+            if (operandAIsConstZero && operandBIsConstZero)
             {
                 calculator = new Number_OperatorCalculator(0);
             }
-            else if (timeDifferenceIsConstZero)
+            else if (operandBIsConstZero)
             {
-                calculator = signalCalculator;
+                calculator = operandACalculator;
             }
-            else if (signalIsConst)
+            else if (operandAIsConst && operandBIsConst)
             {
-                calculator = signalCalculator;
+                calculator = new Number_OperatorCalculator(a - b);
             }
-            else if (timeDifferenceIsConst)
+            else if (operandAIsConst)
             {
-                calculator = new TimeSubstract_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
+                calculator = new Substract_WithConstOperandA_OperatorCalculator(a, operandBCalculator);
+            }
+            else if (operandBIsConst)
+            {
+                calculator = new Substract_WithConstOperandB_OperatorCalculator(operandACalculator, b);
             }
             else
             {
-                calculator = new TimeSubstract_OperatorCalculator(signalCalculator, timeDifferenceCalculator);
+                calculator = new Substract_OperatorCalculator(operandACalculator, operandBCalculator);
             }
 
             _stack.Push(calculator);
@@ -643,60 +712,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitTimePower(Operator op)
-        {
-            OperatorCalculatorBase calculator;
-
-            OperatorCalculatorBase signalCalculator = _stack.Pop();;
-            OperatorCalculatorBase exponentCalculator = _stack.Pop();
-            OperatorCalculatorBase originCalculator = _stack.Pop();
-
-            // When nulls should make the operator do nothing but pass the signal.
-            if (exponentCalculator == null && signalCalculator != null)
-            {
-                _stack.Push(signalCalculator);
-                return;
-            }
-
-            signalCalculator = signalCalculator ?? new Number_OperatorCalculator(0);
-            exponentCalculator = exponentCalculator ?? new Number_OperatorCalculator(0);
-            originCalculator = originCalculator ?? new Number_OperatorCalculator(0);
-
-            double signal = signalCalculator.Calculate(0, 0);
-            double exponent = exponentCalculator.Calculate(0, 0);
-            double origin = originCalculator.Calculate(0, 0);
-            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool exponentIsConst = exponentCalculator is Number_OperatorCalculator;
-            bool originIsConst = originCalculator is Number_OperatorCalculator;
-            bool signalIsConstZero = signalIsConst && signal == 0;
-            bool exponentIsConstZero = exponentIsConst && exponent == 0;
-            bool originIsConstZero = originIsConst && origin == 0;
-            bool exponentIsConstOne = exponentIsConst && exponent == 1;
-
-            if (signalIsConstZero)
-            {
-                calculator = new Number_OperatorCalculator(0);
-            }
-            else if (exponentIsConstZero)
-            {
-                calculator = new Number_OperatorCalculator(1); // TODO: I cannot image this one... Look into later.
-            }
-            else if (exponentIsConstOne)
-            {
-                calculator = signalCalculator;
-            }
-            else if (originIsConstZero)
-            {
-                calculator = new TimePower_WithoutOrigin_OperatorCalculator(signalCalculator, exponentCalculator);
-            }
-            else
-            {
-                calculator = new TimePower_WithOrigin_OperatorCalculator(signalCalculator, exponentCalculator, originCalculator);
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitSine(Operator op)
         {
             OperatorCalculatorBase calculator;
@@ -753,24 +768,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitCurveOperator(Operator op)
-        {
-            OperatorCalculatorBase calculator;
-
-            var wrapper = new OperatorWrapper_Curve(op, _curveRepository);
-
-            if (wrapper.Curve == null)
-            {
-                calculator = new Number_OperatorCalculator(0);
-            }
-            else
-            {
-                calculator = new Curve_OperatorCalculator(wrapper.Curve);
-            }
-
-            _stack.Push(calculator);
-        }
-
         protected override void VisitSampleOperator(Operator op)
         {
             OperatorCalculatorBase calculator;
@@ -806,52 +803,103 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitWhiteNoise(Operator op)
-        {
-            var calculator = new WhiteNoise_OperatorCalculator(_whiteNoiseCalculator);
-            _stack.Push(calculator);
-        }
-
-        protected override void VisitResample(Operator op)
+        protected override void VisitTimeSubstract(Operator op)
         {
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase samplingRateCalculator = _stack.Pop();
+            OperatorCalculatorBase timeDifferenceCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Number_OperatorCalculator(0);
-            samplingRateCalculator = samplingRateCalculator ?? new Number_OperatorCalculator(0);
-
+            timeDifferenceCalculator = timeDifferenceCalculator ?? new Number_OperatorCalculator(0);
             double signal = signalCalculator.Calculate(0, 0);
-            double samplingRate = samplingRateCalculator.Calculate(0, 0);
+            double timeDifference = timeDifferenceCalculator.Calculate(0, 0);
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool samplingRateIsConst = samplingRateCalculator is Number_OperatorCalculator;
+            bool timeDifferenceIsConst = timeDifferenceCalculator is Number_OperatorCalculator;
             bool signalIsConstZero = signalIsConst && signal == 0;
-            bool samplingRateIsConstZero = samplingRateIsConst && samplingRate == 0;
+            bool timeDifferenceIsConstZero = timeDifferenceIsConst && signal == 0;
 
-            if (samplingRateIsConstZero)
+            if (signalIsConstZero)
             {
-                // Weird number
                 calculator = new Number_OperatorCalculator(0);
             }
-            else if (signalIsConstZero)
+            else if (timeDifferenceIsConstZero)
             {
-                calculator = new Number_OperatorCalculator(0);
+                calculator = signalCalculator;
             }
             else if (signalIsConst)
             {
-                calculator = new Number_OperatorCalculator(signal);
+                calculator = signalCalculator;
             }
-            // TODO: Uncomment if the specialized calculator is up-to-date.
-            //else if (samplingRateIsConst)
-            //{
-            //    calculator = new Resample_WithConstSamplingRate_OperatorCalculator(signalCalculator, samplingRate);
-            //}
+            else if (timeDifferenceIsConst)
+            {
+                calculator = new TimeSubstract_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
+            }
             else
             {
-                calculator = new Resample_OperatorCalculator(signalCalculator, samplingRateCalculator);
+                calculator = new TimeSubstract_OperatorCalculator(signalCalculator, timeDifferenceCalculator);
             }
 
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitTimePower(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();;
+            OperatorCalculatorBase exponentCalculator = _stack.Pop();
+            OperatorCalculatorBase originCalculator = _stack.Pop();
+
+            // When nulls should make the operator do nothing but pass the signal.
+            if (exponentCalculator == null && signalCalculator != null)
+            {
+                _stack.Push(signalCalculator);
+                return;
+            }
+
+            signalCalculator = signalCalculator ?? new Number_OperatorCalculator(0);
+            exponentCalculator = exponentCalculator ?? new Number_OperatorCalculator(0);
+            originCalculator = originCalculator ?? new Number_OperatorCalculator(0);
+
+            double signal = signalCalculator.Calculate(0, 0);
+            double exponent = exponentCalculator.Calculate(0, 0);
+            double origin = originCalculator.Calculate(0, 0);
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool exponentIsConst = exponentCalculator is Number_OperatorCalculator;
+            bool originIsConst = originCalculator is Number_OperatorCalculator;
+            bool signalIsConstZero = signalIsConst && signal == 0;
+            bool exponentIsConstZero = exponentIsConst && exponent == 0;
+            bool originIsConstZero = originIsConst && origin == 0;
+            bool exponentIsConstOne = exponentIsConst && exponent == 1;
+
+            if (signalIsConstZero)
+            {
+                calculator = new Number_OperatorCalculator(0);
+            }
+            else if (exponentIsConstZero)
+            {
+                calculator = new Number_OperatorCalculator(1); // TODO: I cannot image this one... Look into later.
+            }
+            else if (exponentIsConstOne)
+            {
+                calculator = signalCalculator;
+            }
+            else if (originIsConstZero)
+            {
+                calculator = new TimePower_WithoutOrigin_OperatorCalculator(signalCalculator, exponentCalculator);
+            }
+            else
+            {
+                calculator = new TimePower_WithOrigin_OperatorCalculator(signalCalculator, exponentCalculator, originCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
+        protected override void VisitWhiteNoise(Operator op)
+        {
+            var calculator = new WhiteNoise_OperatorCalculator(_whiteNoiseCalculator);
             _stack.Push(calculator);
         }
 

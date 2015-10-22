@@ -165,6 +165,23 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
+        public OperatorWrapper_SawTooth SawTooth(Outlet pitch = null, Outlet phaseShift = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.SawTooth, 2,
+                PropertyNames.Pitch, PropertyNames.PhaseShift,
+                PropertyNames.Result);
+
+            var wrapper = new OperatorWrapper_SawTooth(op)
+            {
+                Pitch = pitch,
+                PhaseShift = phaseShift
+            };
+
+            wrapper.Operator.LinkTo(Patch);
+            return wrapper;
+        }
+
         public OperatorWrapper_Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(

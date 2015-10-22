@@ -1,0 +1,1 @@
+insert into OperatorType (ID, Name, SortOrder) values (21, 'Sawtooth', 21)

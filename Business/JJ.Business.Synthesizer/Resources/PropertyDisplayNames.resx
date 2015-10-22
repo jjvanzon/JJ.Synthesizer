@@ -415,4 +415,7 @@
   <data name="Value" xml:space="preserve">
     <value>Value</value>
   </data>
+  <data name="SawTooth" xml:space="preserve">
+    <value>Sawtooth</value>
+  </data>
 </root>

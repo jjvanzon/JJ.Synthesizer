@@ -718,6 +718,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sawtooth.
+        /// </summary>
+        public static string SawTooth {
+            get {
+                return ResourceManager.GetString("SawTooth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scale.
         /// </summary>
         public static string Scale {

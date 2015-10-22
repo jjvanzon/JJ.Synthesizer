@@ -28,6 +28,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.Sine, typeof(OperatorValidator_Sine) },
             { OperatorTypeEnum.Substract, typeof(OperatorValidator_Substract) },
             { OperatorTypeEnum.Delay, typeof(OperatorValidator_Delay) },
+            { OperatorTypeEnum.SawTooth, typeof(OperatorValidator_Sawtooth) },
             { OperatorTypeEnum.SpeedUp, typeof(OperatorValidator_SpeedUp) },
             { OperatorTypeEnum.SlowDown, typeof(OperatorValidator_SlowDown) },
             { OperatorTypeEnum.TimePower, typeof(OperatorValidator_TimePower) },
