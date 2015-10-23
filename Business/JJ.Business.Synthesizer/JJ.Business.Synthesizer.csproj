@@ -54,6 +54,7 @@
     </Compile>
     <Compile Include="Calculation\Operators\Add_WithConstOperandA_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Add_WithConstOperandB_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicRamses.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_HermiteInterpolation.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CurveInterpolation_Org.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator_CubicEquidistantInterpolation.cs" />

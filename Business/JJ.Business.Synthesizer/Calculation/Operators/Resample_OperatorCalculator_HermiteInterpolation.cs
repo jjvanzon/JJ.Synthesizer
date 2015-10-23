@@ -5,7 +5,7 @@ using System;
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     /// <summary>
-    /// This is the currently used variation on the Resample_OperatorCalculator.
+    /// This is the variation used before the Ramses interpolation.
     /// </summary>
     internal class Resample_OperatorCalculator_HermiteInterpolation : OperatorCalculatorBase
     {
