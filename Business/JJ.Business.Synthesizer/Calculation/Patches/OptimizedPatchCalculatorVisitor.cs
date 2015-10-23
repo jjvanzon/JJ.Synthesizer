@@ -507,38 +507,40 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool pitchIsConst = pitchCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
             bool pitchIsConstZero = pitchIsConst && pitch == 0;
-            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % Maths.TWO_PI == 0; // TODO: Precision problem in the comparison to 0?
+            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
 
-            //if (pitchIsConstZero)
-            //{
-            //    // Weird number
-            //    calculator = new Number_OperatorCalculator(0);
-            //}
-            //else if (phaseShiftIsConstZero)
-            //{
-                calculator = new SawTooth_WithoutPhaseShift_OperatorCalculator(pitchCalculator);
-            //}
-            //else if (phaseShiftIsConst && pitchIsConst)
-            //{
-            //    calculator = new SawTooth_AndConstPitch_WithConstPhaseShift_OperatorCalculator(pitchCalculator, phaseShift);
-            //}
-            //else if (!phaseShiftIsConst && !pitchIsConst)
-            //{
-            //    calculator = new SawTooth_WithPhaseShift_OperatorCalculator(pitchCalculator, phaseShiftCalculator);
-            //}
-            //else if (phaseShiftIsConst && !pitchIsConst)
-            //{
-            //    calculator = new SawTooth_WithConstPhaseShift_OperatorCalculator(pitchCalculator, phaseShift);
-            //}
-            //else if (!phaseShiftIsConst && pitchIsConst)
-            //{
-            //    calculator = new SawTooth_WithConstPitch_OperatorCalculator(pitchCalculator, phaseShift);
-            //}
+            if (pitchIsConstZero)
+            {
+                // Weird number
+                calculator = new Number_OperatorCalculator(0);
+            }
+            else if (pitchIsConst && phaseShiftIsConstZero)
+            {
+                calculator = new SawTooth_WithConstPitch_WithoutPhaseShift_OperatorCalculator(pitch);
+            }
+            else if (!pitchIsConst && phaseShiftIsConstZero)
+            {
+                calculator = new SawTooth_WithVarPitch_WithoutPhaseShift_OperatorCalculator(pitchCalculator);
+            }
+            else if (pitchIsConst && phaseShiftIsConst)
+            {
+                calculator = new SawTooth_WithConstPitch_WithConstPhaseShift_OperatorCalculator(pitch, phaseShift);
+            }
+            else if (!pitchIsConst && phaseShiftIsConst)
+            {
+                calculator = new SawTooth_WithVarPitch_WithConstPhaseShift_OperatorCalculator(pitchCalculator, phaseShift);
+            }
+            else if (pitchIsConst && !phaseShiftIsConst)
+            {
+                calculator = new SawTooth_WithConstPitch_WithVarPhaseShift_OperatorCalculator(pitch, phaseShiftCalculator);
+            }
+            else
+            {
+                calculator = new SawTooth_WithVarPitch_WithVarPhaseShift_OperatorCalculator(pitchCalculator, phaseShiftCalculator);
+            }
 
             _stack.Push(calculator);
         }
-
-
 
         protected override void VisitSubstract(Operator op)
         {
@@ -736,7 +738,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool volumeIsConstZero = volumeIsConst && volume == 0;
             bool pitchIsConstZero = pitchIsConst && pitch == 0;
             bool originIsConstZero = originIsConst && origin == 0;
-            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % (Math.PI * 2) == 0; // TODO: Precision problem in the comparison to 0?
+            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
             bool volumeIsConstOne = volumeIsConst && volume == 1; // Not used yet, but could be used for optimization too.
 
             if (volumeIsConstZero)

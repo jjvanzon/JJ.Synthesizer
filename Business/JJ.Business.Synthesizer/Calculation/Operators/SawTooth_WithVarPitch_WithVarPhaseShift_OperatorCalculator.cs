@@ -4,7 +4,7 @@ using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SawTooth_WithPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class SawTooth_WithVarPitch_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _pitchCalculator;
         private OperatorCalculatorBase _phaseShiftCalculator;
@@ -12,7 +12,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousTime;
 
-        public SawTooth_WithPhaseShift_OperatorCalculator(OperatorCalculatorBase pitchCalculator, OperatorCalculatorBase phaseShiftCalculator)
+        public SawTooth_WithVarPitch_WithVarPhaseShift_OperatorCalculator(
+            OperatorCalculatorBase pitchCalculator,
+            OperatorCalculatorBase phaseShiftCalculator)
         {
             if (pitchCalculator == null) throw new NullException(() => pitchCalculator);
             if (phaseShiftCalculator == null) throw new NullException(() => phaseShiftCalculator);
@@ -27,13 +29,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            _phase = _phase + Maths.TWO_PI * dt * pitch;
+            _phase = _phase + dt * pitch;
+
+            double shiftedPhase = _phase + phaseShift;
+            double value = -1 + (2 * shiftedPhase % 2);
+
             _previousTime = time;
 
-            //double value = Math.Sin(Maths.TWO_PI * phaseShift + _phase);
-            //return value;
-
-            throw new NotImplementedException();
+            return value;
         }
     }
 }
