@@ -19,6 +19,7 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.CanonicalModel;
 using System.Linq;
+using JJ.Business.Synthesizer.Api;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -42,11 +43,11 @@ namespace JJ.Business.Synthesizer.Tests
                 var add = x.Add(x.Number(2), x.Number(3));
                 var substract = x.Substract(add, x.Number(1));
 
-                IPatchCalculator calculator1 = x.CreateCalculator(add);
+                IPatchCalculator calculator1 = x.CreateOptimizedCalculator(add);
                 double value = calculator1.Calculate(0, 0);
                 Assert.AreEqual(5, value, 0.0001);
 
-                IPatchCalculator calculator2 = x.CreateCalculator(substract);
+                IPatchCalculator calculator2 = x.CreateOptimizedCalculator(substract);
                 value = calculator2.Calculate(0, 0);
                 Assert.AreEqual(4, value, 0.0001);
 
@@ -119,7 +120,7 @@ namespace JJ.Business.Synthesizer.Tests
                 IValidator validator = new OperatorValidator_Adder(adder.Operator);
                 validator.Verify();
 
-                IPatchCalculator calculator = patchManager.CreateCalculator(true, adder);
+                IPatchCalculator calculator = patchManager.CreateOptimizedCalculator(adder);
                 double value = calculator.Calculate(0, 0);
 
                 adder.Operator.Inlets[0].Name = "qwer";
@@ -182,7 +183,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager patchManager = new PatchManager(new PatchRepositories(repositories));
 
-                var calculator = patchManager.CreateCalculator(false, sine);
+                var calculator = patchManager.CreateInterpretedCalculator(sine);
                 var values = new double[]
                 {
                     calculator.Calculate(0.00, 0),
@@ -407,7 +408,7 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
 
                 Outlet outlet = x.Add(x.Number(1), x.Number(2));
-                var calculator =  x.CreateCalculator(false, outlet);
+                var calculator =  x.CreateInterpretedCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(3.0, result, 0.0001);
             }
@@ -422,7 +423,7 @@ namespace JJ.Business.Synthesizer.Tests
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 Outlet outlet = x.Add(null, x.Number(2));
-                IPatchCalculator calculator = x.CreateCalculator(outlet);
+                IPatchCalculator calculator = x.CreateOptimizedCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(2.0, result, 0.000000001);
             }
@@ -437,7 +438,7 @@ namespace JJ.Business.Synthesizer.Tests
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 Outlet outlet = x.Add(x.Number(1), x.Add(x.Number(2), null));
-                IPatchCalculator calculator = x.CreateCalculator(outlet);
+                IPatchCalculator calculator = x.CreateOptimizedCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(3.0, result, 0.000000001);
             }
@@ -453,7 +454,7 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
 
                 Outlet outlet = x.Add(x.Add(x.Number(1), x.Number(2)), x.Number(4));
-                IPatchCalculator calculator = x.CreateCalculator(outlet);
+                IPatchCalculator calculator = x.CreateOptimizedCalculator(outlet);
                 double result = calculator.Calculate(0, 0);
                 Assert.AreEqual(7.0, result, 0.000000001);
             }
@@ -470,7 +471,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 Outlet outlet1 = x.Add(x.Add(x.Number(1), x.Number(2)), x.Number(4));
                 Outlet outlet2 = x.Add(x.Number(5), x.Number(6));
-                IPatchCalculator calculator = x.CreateCalculator(outlet1, outlet2);
+                IPatchCalculator calculator = x.CreateOptimizedCalculator(outlet1, outlet2);
                 double result1 = calculator.Calculate(0, 0);
                 double result2 = calculator.Calculate(0, 1);
                 Assert.AreEqual(7.0, result1, 0.000000001);
@@ -489,7 +490,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet sharedOutlet = x.Number(1);
                 Outlet outlet1 = x.Add(sharedOutlet, x.Number(2));
                 Outlet outlet2 = x.Add(sharedOutlet, x.Number(3));
-                IPatchCalculator calculator = x.CreateCalculator(outlet1, outlet2);
+                IPatchCalculator calculator = x.CreateOptimizedCalculator(outlet1, outlet2);
                 double result1 = calculator.Calculate(0, 0);
                 double result2 = calculator.Calculate(0, 1);
                 Assert.AreEqual(3.0, result1, 0.000000001);
@@ -526,7 +527,7 @@ namespace JJ.Business.Synthesizer.Tests
                 string message = String.Format("Ratio: {0:0.00}%, {1}ms.", ratio * 100, sw.ElapsedMilliseconds);
 
                 // Also test interpreted calculator
-                IPatchCalculator calculator = patchManager.CreateCalculator(false, outlet);
+                IPatchCalculator calculator = patchManager.CreateInterpretedCalculator(outlet);
                 double value = calculator.Calculate(0.2, 0);
                 value = calculator.Calculate(0.2, 0);
                 value = calculator.Calculate(0.3, 0);
@@ -864,9 +865,48 @@ namespace JJ.Business.Synthesizer.Tests
                 }
 
                 // Calculator
-                IPatchCalculator calculator = x.CreateCalculator(false, customOperator.Operator.Outlets[0]);
+                IPatchCalculator calculator = x.CreateInterpretedCalculator(customOperator.Operator.Outlets[0]);
                 double result = calculator.Calculate(0, 0);
             }
+        }
+
+        [TestMethod]
+        public void Test_Synthesizer_SawTooth()
+        {
+            var x = new PatchApi();
+            var saw = x.SawTooth(x.Number(0.5));
+
+            IPatchCalculator patchCalculator = x.CreateOptimizedCalculator(saw);
+
+            double value1 = patchCalculator.Calculate(0.00, 0);
+            double value2 = patchCalculator.Calculate(0.25, 0);
+            double value3 = patchCalculator.Calculate(0.50, 0);
+            double value4 = patchCalculator.Calculate(0.75, 0);
+            double value5 = patchCalculator.Calculate(1.00, 0);
+            double value6 = patchCalculator.Calculate(1.25, 0);
+            double value7 = patchCalculator.Calculate(1.50, 0);
+            double value8 = patchCalculator.Calculate(1.75, 0);
+            double value9 = patchCalculator.Calculate(2.00, 0);
+        }
+
+        [TestMethod]
+        public void Test_Synthesizer_SawTooth_WithPhaseShift()
+        {
+            // With a phase shift of 0.25 I would expect it to start counting at -0.5
+            var x = new PatchApi();
+            var saw = x.SawTooth(x.Number(1), x.Number(0.25));
+
+            IPatchCalculator patchCalculator = x.CreateOptimizedCalculator(saw);
+
+            double value1 = patchCalculator.Calculate(0.00, 0);
+            double value2 = patchCalculator.Calculate(0.25, 0);
+            double value3 = patchCalculator.Calculate(0.50, 0);
+            double value4 = patchCalculator.Calculate(0.75, 0);
+            double value5 = patchCalculator.Calculate(1.00, 0);
+            double value6 = patchCalculator.Calculate(1.25, 0);
+            double value7 = patchCalculator.Calculate(1.50, 0);
+            double value8 = patchCalculator.Calculate(1.75, 0);
+            double value9 = patchCalculator.Calculate(2.00, 0);
         }
     }
 }

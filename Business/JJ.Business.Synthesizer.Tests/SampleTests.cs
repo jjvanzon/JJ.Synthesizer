@@ -75,7 +75,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet outlet = x.Sample(sample);
 
                 // Trigger SampleCalculation
-                IPatchCalculator calculator = x.CreateCalculator(outlet);
+                IPatchCalculator calculator = x.CreateOptimizedCalculator(outlet);
                 double value = calculator.Calculate(0, 0);
             }
         }

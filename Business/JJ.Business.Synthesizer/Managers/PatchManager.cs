@@ -335,45 +335,41 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories.OutletRepository.Delete(entity);
         }
 
-        // TODO: These overloads are ugly, e.g. CreateCalculator(true, outlet1)
-
-        /// <param name="optimized">
-        /// Set to true for slower initialization and faster sound generation (best for outputting sound).
-        /// Set to false for fast initialization and slow sound generation (best for previewing values or drawing out plots).
-        /// </param>
-        public IPatchCalculator CreateCalculator(params Outlet[] channelOutlets)
+        /// <summary>
+        /// Optimized has slower initialization and faster sound generation (best for outputting sound).
+        /// </summary>
+        public IPatchCalculator CreateOptimizedCalculator(params Outlet[] channelOutlets)
         {
-            return CreateCalculator((IList<Outlet>)channelOutlets);
+            return CreateOptimizedCalculator((IList<Outlet>)channelOutlets);
         }
 
-        /// <param name="optimized">
-        /// Set to true for slower initialization and faster sound generation (best for outputting sound).
-        /// Set to false for fast initialization and slow sound generation (best for previewing values or drawing out plots).
-        /// </param>
-        public IPatchCalculator CreateCalculator(bool optimized, params Outlet[] channelOutlets)
+        /// <summary>
+        /// Optimized has slower initialization and faster sound generation (best for outputting sound).
+        /// </summary>
+        public IPatchCalculator CreateOptimizedCalculator(IList<Outlet> channelOutlets)
         {
-            return CreateCalculator(channelOutlets, optimized);
-        }
-
-        /// <param name="optimized">
-        /// Set to true for slower initialization and faster sound generation (best for outputting sound).
-        /// Set to false for fast initialization and slow sound generation (best for previewing values or drawing out plots).
-        /// </param>
-        public IPatchCalculator CreateCalculator(IList<Outlet> channelOutlets, bool optimized = true)
-        {
-            // TODO: Verify channel outlets.
-
             int assumedSamplingRate = 44100;
             var whiteNoiseCalculator = new WhiteNoiseCalculator(assumedSamplingRate);
 
-            if (optimized)
-            {
-                return new OptimizedPatchCalculator(channelOutlets, whiteNoiseCalculator, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository);
-            }
-            else
-            {
-                return new InterpretedPatchCalculator(channelOutlets, whiteNoiseCalculator, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository);
-            }
+            return new OptimizedPatchCalculator(channelOutlets, whiteNoiseCalculator, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository);
+        }
+
+        /// <summary>
+        /// Interpreted mode has fast initialization and slow sound generation (best for previewing values or drawing out plots).
+        /// </summary>
+        public IPatchCalculator CreateInterpretedCalculator(params Outlet[] channelOutlets)
+        {
+            return CreateInterpretedCalculator((IList<Outlet>)channelOutlets);
+        }
+
+        /// <summary>
+        /// Interpreted mode has fast initialization and slow sound generation (best for previewing values or drawing out plots).
+        /// </summary>
+        public IPatchCalculator CreateInterpretedCalculator(IList<Outlet> channelOutlets)
+        {
+            int assumedSamplingRate = 44100;
+            var whiteNoiseCalculator = new WhiteNoiseCalculator(assumedSamplingRate);
+            return new InterpretedPatchCalculator(channelOutlets, whiteNoiseCalculator, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository);
         }
 
         private void AssertPatch()
