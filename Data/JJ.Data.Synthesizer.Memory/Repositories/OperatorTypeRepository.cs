@@ -29,6 +29,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 19, "Resample");
             RepositoryHelper.EnsureEnumEntity(this, 20, "CustomOperator");
             RepositoryHelper.EnsureEnumEntity(this, 21, "SawTooth");
+            RepositoryHelper.EnsureEnumEntity(this, 22, "SquareWave");
         }
     }
 }

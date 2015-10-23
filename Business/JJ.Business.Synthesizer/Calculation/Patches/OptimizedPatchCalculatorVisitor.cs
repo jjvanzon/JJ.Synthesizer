@@ -493,6 +493,41 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitSampleOperator(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            var wrapper = new OperatorWrapper_Sample(op, _sampleRepository);
+
+            SampleInfo sampleInfo = wrapper.SampleInfo;
+            if (sampleInfo.Sample == null)
+            {
+                calculator = new Number_OperatorCalculator(0);
+            }
+            else
+            {
+                int sampleChannelCount = sampleInfo.Sample.GetChannelCount();
+                if (sampleChannelCount == _channelCount)
+                {
+                    calculator = new Sample_OperatorCalculator(sampleInfo.Sample, sampleInfo.Bytes);
+                }
+                else if (sampleChannelCount == 1 && _channelCount == 2)
+                {
+                    calculator = new Sample_MonoToStereo_OperatorCalculator(sampleInfo.Sample, sampleInfo.Bytes);
+                }
+                else if (sampleChannelCount == 2 && _channelCount == 1)
+                {
+                    calculator = new Sample_StereoToMono_OperatorCalculator(sampleInfo.Sample, sampleInfo.Bytes);
+                }
+                else
+                {
+                    throw new Exception(String.Format("Combination of sampleChannelCount '{0}' and _channelCount '{1}' not supported.", sampleChannelCount, _channelCount));
+                }
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitSawTooth(Operator op)
         {
             OperatorCalculatorBase calculator;
@@ -542,46 +577,57 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitSubstract(Operator op)
+        protected override void VisitSine(Operator op)
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase operandACalculator = _stack.Pop();
-            OperatorCalculatorBase operandBCalculator = _stack.Pop();
+            OperatorCalculatorBase volumeCalculator = _stack.Pop();
+            OperatorCalculatorBase pitchCalculator = _stack.Pop();
+            OperatorCalculatorBase originCalculator = _stack.Pop();
+            OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
-            operandACalculator = operandACalculator ?? new Number_OperatorCalculator(0);
-            operandBCalculator = operandBCalculator ?? new Number_OperatorCalculator(0);
+            volumeCalculator = volumeCalculator ?? new Number_OperatorCalculator(0);
+            pitchCalculator = pitchCalculator ?? new Number_OperatorCalculator(0);
+            originCalculator = originCalculator ?? new Number_OperatorCalculator(0);
+            phaseShiftCalculator = phaseShiftCalculator ?? new Number_OperatorCalculator(0);
+            double volume = volumeCalculator.Calculate(0, 0);
+            double pitch = pitchCalculator.Calculate(0, 0);
+            double origin = originCalculator.Calculate(0, 0);
+            double phaseShift = phaseShiftCalculator.Calculate(0, 0);
+            bool volumeIsConst = volumeCalculator is Number_OperatorCalculator;
+            bool pitchIsConst = pitchCalculator is Number_OperatorCalculator;
+            bool originIsConst = originCalculator is Number_OperatorCalculator;
+            bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
+            bool volumeIsConstZero = volumeIsConst && volume == 0;
+            bool pitchIsConstZero = pitchIsConst && pitch == 0;
+            bool originIsConstZero = originIsConst && origin == 0;
+            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
+            bool volumeIsConstOne = volumeIsConst && volume == 1; // Not used yet, but could be used for optimization too.
 
-            double a = operandACalculator.Calculate(0, 0);
-            double b = operandBCalculator.Calculate(0, 0);
-            bool operandAIsConst = operandACalculator is Number_OperatorCalculator;
-            bool operandBIsConst = operandBCalculator is Number_OperatorCalculator;
-            bool operandAIsConstZero = operandAIsConst && a == 0;
-            bool operandBIsConstZero = operandBIsConst && a == 0;
-
-            if (operandAIsConstZero && operandBIsConstZero)
+            if (volumeIsConstZero)
             {
-                calculator = new Number_OperatorCalculator(0);
+                calculator = originCalculator;
             }
-            else if (operandBIsConstZero)
+            else if (pitchIsConstZero)
             {
-                calculator = operandACalculator;
+                // Weird number
+                calculator = originCalculator;
             }
-            else if (operandAIsConst && operandBIsConst)
+            else if (originIsConstZero && phaseShiftIsConstZero)
             {
-                calculator = new Number_OperatorCalculator(a - b);
+                calculator = new Sine_OperatorCalculator(volumeCalculator, pitchCalculator);
             }
-            else if (operandAIsConst)
+            else if (originIsConstZero && !phaseShiftIsConstZero)
             {
-                calculator = new Substract_WithConstOperandA_OperatorCalculator(a, operandBCalculator);
+                calculator = new Sine_WithPhaseShift_OperatorCalculator(volumeCalculator, pitchCalculator, phaseShiftCalculator);
             }
-            else if (operandBIsConst)
+            else if (!originIsConstZero && phaseShiftIsConstZero)
             {
-                calculator = new Substract_WithConstOperandB_OperatorCalculator(operandACalculator, b);
+                calculator = new Sine_WithOrigin_OperatorCalculator(volumeCalculator, pitchCalculator, originCalculator);
             }
             else
             {
-                calculator = new Substract_OperatorCalculator(operandACalculator, operandBCalculator);
+                calculator = new Sine_WithOrigin_AndPhaseShift_OperatorCalculator(volumeCalculator, pitchCalculator, originCalculator, phaseShiftCalculator);
             }
 
             _stack.Push(calculator);
@@ -710,96 +756,99 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new SpeedUp_WithOrigin_OperatorCalculator(signalCalculator, timeDividerCalculator, originCalculator);
             }
-            
+
             _stack.Push(calculator);
         }
 
-        protected override void VisitSine(Operator op)
+        protected override void VisitSquareWave(Operator op)
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase volumeCalculator = _stack.Pop();
             OperatorCalculatorBase pitchCalculator = _stack.Pop();
-            OperatorCalculatorBase originCalculator = _stack.Pop();
             OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
-            volumeCalculator = volumeCalculator ?? new Number_OperatorCalculator(0);
             pitchCalculator = pitchCalculator ?? new Number_OperatorCalculator(0);
-            originCalculator = originCalculator ?? new Number_OperatorCalculator(0);
             phaseShiftCalculator = phaseShiftCalculator ?? new Number_OperatorCalculator(0);
-            double volume = volumeCalculator.Calculate(0, 0);
             double pitch = pitchCalculator.Calculate(0, 0);
-            double origin = originCalculator.Calculate(0, 0);
             double phaseShift = phaseShiftCalculator.Calculate(0, 0);
-            bool volumeIsConst = volumeCalculator is Number_OperatorCalculator;
             bool pitchIsConst = pitchCalculator is Number_OperatorCalculator;
-            bool originIsConst = originCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
-            bool volumeIsConstZero = volumeIsConst && volume == 0;
             bool pitchIsConstZero = pitchIsConst && pitch == 0;
-            bool originIsConstZero = originIsConst && origin == 0;
             bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
-            bool volumeIsConstOne = volumeIsConst && volume == 1; // Not used yet, but could be used for optimization too.
 
-            if (volumeIsConstZero)
-            {
-                calculator = originCalculator;
-            }
-            else if (pitchIsConstZero)
+            if (pitchIsConstZero)
             {
                 // Weird number
-                calculator = originCalculator;
+                calculator = new Number_OperatorCalculator(0);
             }
-            else if (originIsConstZero && phaseShiftIsConstZero)
+            else if (pitchIsConst && phaseShiftIsConstZero)
             {
-                calculator = new Sine_OperatorCalculator(volumeCalculator, pitchCalculator);
+                calculator = new SquareWave_WithConstPitch_WithoutPhaseShift_OperatorCalculator(pitch);
             }
-            else if (originIsConstZero && !phaseShiftIsConstZero)
+            else if (!pitchIsConst && phaseShiftIsConstZero)
             {
-                calculator = new Sine_WithPhaseShift_OperatorCalculator(volumeCalculator, pitchCalculator, phaseShiftCalculator);
+                calculator = new SquareWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator(pitchCalculator);
             }
-            else if (!originIsConstZero && phaseShiftIsConstZero)
+            else if (pitchIsConst && phaseShiftIsConst)
             {
-                calculator = new Sine_WithOrigin_OperatorCalculator(volumeCalculator, pitchCalculator, originCalculator);
+                calculator = new SquareWave_WithConstPitch_WithConstPhaseShift_OperatorCalculator(pitch, phaseShift);
+            }
+            else if (!pitchIsConst && phaseShiftIsConst)
+            {
+                calculator = new SquareWave_WithVarPitch_WithConstPhaseShift_OperatorCalculator(pitchCalculator, phaseShift);
+            }
+            else if (pitchIsConst && !phaseShiftIsConst)
+            {
+                calculator = new SquareWave_WithConstPitch_WithVarPhaseShift_OperatorCalculator(pitch, phaseShiftCalculator);
             }
             else
             {
-                calculator = new Sine_WithOrigin_AndPhaseShift_OperatorCalculator(volumeCalculator, pitchCalculator, originCalculator, phaseShiftCalculator);
+                calculator = new SquareWave_WithVarPitch_WithVarPhaseShift_OperatorCalculator(pitchCalculator, phaseShiftCalculator);
             }
 
             _stack.Push(calculator);
         }
 
-        protected override void VisitSampleOperator(Operator op)
+        protected override void VisitSubstract(Operator op)
         {
             OperatorCalculatorBase calculator;
 
-            var wrapper = new OperatorWrapper_Sample(op, _sampleRepository);
+            OperatorCalculatorBase operandACalculator = _stack.Pop();
+            OperatorCalculatorBase operandBCalculator = _stack.Pop();
 
-            SampleInfo sampleInfo = wrapper.SampleInfo;
-            if (sampleInfo.Sample == null)
+            operandACalculator = operandACalculator ?? new Number_OperatorCalculator(0);
+            operandBCalculator = operandBCalculator ?? new Number_OperatorCalculator(0);
+
+            double a = operandACalculator.Calculate(0, 0);
+            double b = operandBCalculator.Calculate(0, 0);
+            bool operandAIsConst = operandACalculator is Number_OperatorCalculator;
+            bool operandBIsConst = operandBCalculator is Number_OperatorCalculator;
+            bool operandAIsConstZero = operandAIsConst && a == 0;
+            bool operandBIsConstZero = operandBIsConst && a == 0;
+
+            if (operandAIsConstZero && operandBIsConstZero)
             {
                 calculator = new Number_OperatorCalculator(0);
             }
+            else if (operandBIsConstZero)
+            {
+                calculator = operandACalculator;
+            }
+            else if (operandAIsConst && operandBIsConst)
+            {
+                calculator = new Number_OperatorCalculator(a - b);
+            }
+            else if (operandAIsConst)
+            {
+                calculator = new Substract_WithConstOperandA_OperatorCalculator(a, operandBCalculator);
+            }
+            else if (operandBIsConst)
+            {
+                calculator = new Substract_WithConstOperandB_OperatorCalculator(operandACalculator, b);
+            }
             else
             {
-                int sampleChannelCount = sampleInfo.Sample.GetChannelCount();
-                if (sampleChannelCount == _channelCount)
-                {
-                    calculator = new Sample_OperatorCalculator(sampleInfo.Sample, sampleInfo.Bytes);
-                }
-                else if (sampleChannelCount == 1 && _channelCount == 2)
-                {
-                    calculator = new Sample_MonoToStereo_OperatorCalculator(sampleInfo.Sample, sampleInfo.Bytes);
-                }
-                else if (sampleChannelCount == 2 && _channelCount == 1)
-                {
-                    calculator = new Sample_StereoToMono_OperatorCalculator(sampleInfo.Sample, sampleInfo.Bytes);
-                }
-                else
-                {
-                    throw new Exception(String.Format("Combination of sampleChannelCount '{0}' and _channelCount '{1}' not supported.", sampleChannelCount, _channelCount));
-                }
+                calculator = new Substract_OperatorCalculator(operandACalculator, operandBCalculator);
             }
 
             _stack.Push(calculator);

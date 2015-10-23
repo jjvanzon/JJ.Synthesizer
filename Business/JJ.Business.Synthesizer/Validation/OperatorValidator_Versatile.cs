@@ -26,6 +26,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.Resample, typeof(OperatorValidator_Resample) },
             { OperatorTypeEnum.Sample, typeof(OperatorValidator_Sample) },
             { OperatorTypeEnum.Sine, typeof(OperatorValidator_Sine) },
+            { OperatorTypeEnum.SquareWave, typeof(OperatorValidator_SquareWave) },
             { OperatorTypeEnum.Substract, typeof(OperatorValidator_Substract) },
             { OperatorTypeEnum.Delay, typeof(OperatorValidator_Delay) },
             { OperatorTypeEnum.SawTooth, typeof(OperatorValidator_Sawtooth) },

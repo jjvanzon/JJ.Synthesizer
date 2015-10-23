@@ -23,6 +23,7 @@
         WhiteNoise = 18,
         Resample = 19,
         CustomOperator = 20,
-        SawTooth = 21
+        SawTooth = 21,
+        SquareWave = 22
     }
 }

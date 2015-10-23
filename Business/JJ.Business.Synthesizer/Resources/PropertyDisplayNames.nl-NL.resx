@@ -417,4 +417,7 @@
   <data name="SawTooth" xml:space="preserve">
     <value>Zaagtand</value>
   </data>
+  <data name="SquareWave" xml:space="preserve">
+    <value>Blokgolf</value>
+  </data>
 </root>

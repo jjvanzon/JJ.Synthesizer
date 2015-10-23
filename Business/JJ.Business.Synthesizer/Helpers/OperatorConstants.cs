@@ -30,17 +30,21 @@
         public const int POWER_EXPONENT_INDEX = 1;
         public const int POWER_RESULT_INDEX = 0;
 
+        public const int SAMPLE_OPERATOR_RESULT_INDEX = 0;
+
         public const int SAW_TOOTH_PITCH_INDEX = 0;
         public const int SAW_TOOTH_PHASE_SHIFT_INDEX = 1;
         public const int SAW_TOOTH_RESULT_INDEX = 0;
-
-        public const int SAMPLE_OPERATOR_RESULT_INDEX = 0;
 
         public const int SINE_VOLUME_INDEX = 0;
         public const int SINE_PITCH_INDEX = 1;
         public const int SINE_ORIGIN_INDEX = 2;
         public const int SINE_PHASE_SHIFT_INDEX = 3;
         public const int SINE_RESULT_INDEX = 0;
+
+        public const int SQUARE_WAVE_PITCH_INDEX = 0;
+        public const int SQUARE_WAVE_PHASE_SHIFT_INDEX = 1;
+        public const int SQUARE_WAVE_RESULT_INDEX = 0;
 
         public const int SUBSTRACT_OPERAND_A_INDEX = 0;
         public const int SUBSTRACT_OPERAND_B_INDEX = 1;

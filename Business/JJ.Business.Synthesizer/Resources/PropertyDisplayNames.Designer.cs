@@ -826,6 +826,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Square Wave.
+        /// </summary>
+        public static string SquareWave {
+            get {
+                return ResourceManager.GetString("SquareWave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start Time.
         /// </summary>
         public static string StartTime {

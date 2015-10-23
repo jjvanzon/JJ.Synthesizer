@@ -271,6 +271,23 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
+        public OperatorWrapper_SquareWave SquareWave(Outlet pitch = null, Outlet phaseShift = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.SquareWave, 2,
+                PropertyNames.Pitch, PropertyNames.PhaseShift,
+                PropertyNames.Result);
+
+            var wrapper = new OperatorWrapper_SquareWave(op)
+            {
+                Pitch = pitch,
+                PhaseShift = phaseShift
+            };
+
+            wrapper.Operator.LinkTo(Patch);
+            return wrapper;
+        }
+
         public OperatorWrapper_TimePower TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(

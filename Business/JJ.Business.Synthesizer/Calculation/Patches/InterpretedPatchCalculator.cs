@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -19,9 +20,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         // The InterpretedPatchCalculator may not have the exact same behavior as the OptimizedPatchCalculator,
         // because it has not been used lately (2015-07-30) and it has not been maintained very much.
 
-        private ICurveRepository _curveRepository;
-        private ISampleRepository _sampleRepository;
-        private IDocumentRepository _documentRepository;
+        private readonly ICurveRepository _curveRepository;
+        private readonly ISampleRepository _sampleRepository;
+        private readonly IDocumentRepository _documentRepository;
 
         private WhiteNoiseCalculator _whiteNoiseCalculator;
 
@@ -32,6 +33,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private int _channelIndex;
         private Outlet[] _channelOutlets;
         private Dictionary<OperatorTypeEnum, Func<Operator, double, double>> _funcDictionary;
+
+        // TODO: This phase tracking by operator ID does not work,
+        // because the same operator might be reused.
+        private Dictionary<int, double> _previousTimeDictionary = new Dictionary<int, double>();
+        private Dictionary<int, double> _phaseDictionary = new Dictionary<int, double>();
 
         public InterpretedPatchCalculator(
             IList<Outlet> channelOutlets,
@@ -76,6 +82,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.PatchOutlet, CalculatePatchOutlet },
                 { OperatorTypeEnum.Power, CalculatePower },
                 { OperatorTypeEnum.Sample, CalculateSampleOperator },
+                { OperatorTypeEnum.SawTooth, CalculateSawToothOperator },
                 { OperatorTypeEnum.Sine, CalculateSine },
                 { OperatorTypeEnum.Substract, CalculateSubstract },
                 { OperatorTypeEnum.Delay, CalculateDelay },
@@ -109,7 +116,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // The _funcDictionary will only work for operators with one outlet.
 
                 // Oh: plus Resample operator is missing from interpreted mode too.
-                Func<Operator, double, double> func = _funcDictionary[operatorTypeEnum];
+                Func<Operator, double, double> func;
+                if (!_funcDictionary.TryGetValue(operatorTypeEnum, out func))
+                {
+                    throw new ValueNotSupportedException(operatorTypeEnum);
+                }
                 double value = func(outlet.Operator, time);
                 return value;
             }
@@ -470,6 +481,47 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             return result;
+        }
+
+        private double CalculateSawToothOperator(Operator op, double time)
+        {
+            var wrapper = new OperatorWrapper_SawTooth(op);
+
+            Outlet phaseShiftOutlet = wrapper.PhaseShift;
+            Outlet pitchOutlet = wrapper.Pitch;
+
+            double pitch = 0;
+            double phaseShift = 0;
+
+            if (pitchOutlet != null)
+            {
+                pitch = Calculate(pitchOutlet, time);
+            }
+
+            if (phaseShiftOutlet != null)
+            {
+                phaseShift = Calculate(phaseShiftOutlet, time);
+            }
+
+            // Get phase variables
+            double previousTime = 0;
+            _previousTimeDictionary.TryGetValue(op.ID, out previousTime);
+            double phase = 0;
+            _phaseDictionary.TryGetValue(op.ID, out phase);
+
+            // Calculate new phase
+            double dt = time - previousTime;
+            phase = phase + dt * pitch;
+
+            // Calculate value
+            double shiftedPhase = phase + phaseShift;
+            double value = -1 + (2 * shiftedPhase % 2);
+
+            // Store phase variables
+            _phaseDictionary[op.ID] = phase;
+            _previousTimeDictionary[op.ID] = time;
+
+            return value;
         }
 
         private double CalculateSine(Operator op, double time)

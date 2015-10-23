@@ -75,6 +75,12 @@
     <Compile Include="Calculation\Operators\Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SawTooth_WithConstPitch_WithoutPhaseShift_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SquareWave_WithConstPitch_WithoutPhaseShift_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SquareWave_WithConstPitch_WithConstPhaseShift_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SquareWave_WithVarPitch_WithConstPhaseShift_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SquareWave_WithConstPitch_WithVarPhaseShift_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SquareWave_WithVarPitch_WithVarPhaseShift_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\SquareWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SawTooth_WithVarPitch_WithoutPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SawTooth_WithVarPitch_WithConstPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SawTooth_WithConstPitch_WithConstPhaseShift_OperatorCalculator.cs" />
@@ -150,6 +156,7 @@
     <Compile Include="EntityWrappers\OperatorWrapper_CustomOperator_Inlets.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_CustomOperator_Operands.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_CustomOperator_Outlets.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapper_SquareWave.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Sawtooth.cs" />
     <Compile Include="Enums\ScaleTypeEnum.cs" />
     <Compile Include="Extensions\PatchExtensions.cs" />
@@ -245,6 +252,7 @@
     <Compile Include="Validation\CurveValidator_WithoutNodes.cs" />
     <Compile Include="Validation\InletValidator_ForCustomOperator.cs" />
     <Compile Include="Validation\NodeValidator_Parent.cs" />
+    <Compile Include="Validation\OperatorValidator_SquareWave.cs" />
     <Compile Include="Validation\OperatorValidator_Sawtooth.cs" />
     <Compile Include="Validation\OutletValidator_ForCustomOperator.cs" />
     <Compile Include="Validation\OperatorValidator_CustomOperator.cs" />
@@ -285,7 +293,8 @@
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_CustomOperator.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Resample.cs" />
-    <Compile Include="Warnings\OperatorWarningValidator_Sawtooth.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_SquareWave.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_SawTooth.cs" />
     <Compile Include="Warnings\PatchWarningValidator_Recursive.cs" />
     <Compile Include="Warnings\SampleWarningValidator.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Base.cs" />
