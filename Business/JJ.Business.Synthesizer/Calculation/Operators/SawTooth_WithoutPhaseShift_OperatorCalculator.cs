@@ -25,17 +25,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double dt = time - _previousTime;
             _phase = _phase + dt * pitch;
 
+            // Module phase
             double period = 1 / pitch;
-
-            double timeInCycle = _phase % period;
-            if (timeInCycle < 0)
+            double relativePhase = _phase % period;
+            if (relativePhase < 0)
             {
-                timeInCycle = period + timeInCycle; // A subtraction in disguise.
+                relativePhase = period + relativePhase; // A subtraction in disguise.
             }
 
-            double positionInCycle = timeInCycle / period;
+            // Make phase 1-based
+            double normalizedPhase = relativePhase / period;
 
-            double value = 1 - 2 * positionInCycle;
+            // TODO: Mod something should take care of the sawtooth waveform.
+            // You do not need trickery to get it to start at the top again:
+            // you can do it algebraically with a mod.
+            // But then a saw up would be better.
+            // Then you would not need the relativePhase or the normalizedPhase.
+
+            //double value = -1 + 2 /(_phase % period) * 2
+
+            // Get value
+            double value = 1 - 2 * normalizedPhase;
 
             _previousTime = time;
 
