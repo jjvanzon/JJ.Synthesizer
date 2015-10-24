@@ -15,6 +15,7 @@ using System.Linq;
 using System.Collections.Generic;
 using JJ.Framework.Validation.Resources;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Calculation;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -29,16 +30,11 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories = repositories;
         }
 
-        // TODO: These Create overloads seem inconsistent.
-
-        public Curve Create(Document document, bool mustGenerateName)
+        public Curve Create(bool mustGenerateName = false)
         {
-            if (document == null) throw new NullException(() => document);
-
             var curve = new Curve();
             curve.ID = _repositories.IDRepository.GetID();
             _repositories.CurveRepository.Insert(curve);
-            curve.LinkTo(document);
 
             ISideEffect sideEffect1 = new Curve_SideEffect_SetDefaults(
                 curve, _repositories.NodeRepository, _repositories.NodeTypeRepository, _repositories.IDRepository);
@@ -49,6 +45,16 @@ namespace JJ.Business.Synthesizer.Managers
                 ISideEffect sideEffect2 = new Curve_SideEffect_GenerateName(curve);
                 sideEffect2.Execute();
             }
+
+            return curve;
+        }
+
+        public Curve Create(Document document, bool mustGenerateName = false)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            Curve curve = Create(mustGenerateName);
+            curve.LinkTo(document);
 
             return curve;
         }
@@ -70,52 +76,6 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             return curve;
-        }
-
-        public VoidResult Validate(Curve entity)
-        {
-            IValidator validator = new CurveValidator(entity);
-
-            return new VoidResult
-            {
-                Successful = validator.IsValid,
-                Messages = validator.ValidationMessages.ToCanonical()
-            };
-        }
-
-        public VoidResult ValidateWithoutRelatedEntities(Curve entity)
-        {
-            IValidator validator = new CurveValidator_WithoutNodes(entity);
-
-            return new VoidResult
-            {
-                Successful = validator.IsValid,
-                Messages = validator.ValidationMessages.ToCanonical()
-            };
-        }
-
-        public VoidResult ValidateNodeWithoutParent(Node entity)
-        {
-            // TODO: Low priority: I doubt it is a good idea to even offer this method. 
-            IValidator validator1 = new NodeValidator_WithoutParent(entity);
-
-            return new VoidResult
-            {
-                Successful = validator1.IsValid,
-                Messages = validator1.ValidationMessages.ToCanonical()
-            };
-        }
-
-        public VoidResult ValidateNode(Node entity)
-        {
-            IValidator validator1 = new NodeValidator_WithoutParent(entity);
-            IValidator validator2 = new NodeValidator_Parent(entity);
-
-            return new VoidResult
-            {
-                Successful = validator1.IsValid && validator2.IsValid,
-                Messages = validator1.ValidationMessages.Union(validator2.ValidationMessages).ToCanonical()
-            };
         }
 
         /// <param name="nodeInfos">When a NodeInfo is null, a node will not be created at that point in time.</param>
@@ -185,6 +145,52 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             return curve;
+        }
+
+        public VoidResult Validate(Curve entity)
+        {
+            IValidator validator = new CurveValidator(entity);
+
+            return new VoidResult
+            {
+                Successful = validator.IsValid,
+                Messages = validator.ValidationMessages.ToCanonical()
+            };
+        }
+
+        public VoidResult ValidateWithoutRelatedEntities(Curve entity)
+        {
+            IValidator validator = new CurveValidator_WithoutNodes(entity);
+
+            return new VoidResult
+            {
+                Successful = validator.IsValid,
+                Messages = validator.ValidationMessages.ToCanonical()
+            };
+        }
+
+        public VoidResult ValidateNodeWithoutParent(Node entity)
+        {
+            // TODO: Low priority: I doubt it is a good idea to even offer this method. 
+            IValidator validator1 = new NodeValidator_WithoutParent(entity);
+
+            return new VoidResult
+            {
+                Successful = validator1.IsValid,
+                Messages = validator1.ValidationMessages.ToCanonical()
+            };
+        }
+
+        public VoidResult ValidateNode(Node entity)
+        {
+            IValidator validator1 = new NodeValidator_WithoutParent(entity);
+            IValidator validator2 = new NodeValidator_Parent(entity);
+
+            return new VoidResult
+            {
+                Successful = validator1.IsValid && validator2.IsValid,
+                Messages = validator1.ValidationMessages.Union(validator2.ValidationMessages).ToCanonical()
+            };
         }
 
         private double[] GetEquidistantPointsInTime(double timeSpan, int pointCount)
@@ -294,6 +300,11 @@ namespace JJ.Business.Synthesizer.Managers
                         node.Value = (beforeNode.Value + afterNode.Value) / 2.0;
                         break;
 
+                    case NodeTypeEnum.Curve:
+                        // TODO: Calculate the right intermediate value.
+                        node.Value = (beforeNode.Value + afterNode.Value) / 2.0;
+                        break;
+
                     default:
                         throw new ValueNotSupportedException(nodeTypeEnum);
                 }
@@ -313,6 +324,11 @@ namespace JJ.Business.Synthesizer.Managers
             if (node == null) throw new NullException(() => node);
             node.UnlinkRelatedEntities();
             _repositories.NodeRepository.Delete(node);
+        }
+
+        public CurveCalculator CreateCalculator(Curve curve)
+        {
+            return new CurveCalculator(curve);
         }
     }
 }

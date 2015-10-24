@@ -113,14 +113,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Tone tone = _repositories.ToneRepository.Get(id);
             double frequency = tone.GetFrequency();
 
-            var p = new PatchApi();
+            var p = new Patcher();
             var sine = p.Sine(p.Number(DEFAULT_VOLUME), p.Number(frequency));
 
-            AudioFileOutput audioFileOutput = AudioFileOutputApi.CreateWithRelatedEntities();
+            AudioFileOutput audioFileOutput = AudioFileGenerator.CreateWithRelatedEntities();
             audioFileOutput.FilePath = _playOutputFilePath;
             audioFileOutput.Duration = DEFAULT_DURATION;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = sine;
-            AudioFileOutputApi.WriteFile(audioFileOutput);
+            AudioFileGenerator.WriteFile(audioFileOutput);
 
             return _playOutputFilePath;
         }

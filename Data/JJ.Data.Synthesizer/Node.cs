@@ -1,5 +1,9 @@
-﻿namespace JJ.Data.Synthesizer
+﻿using System.Diagnostics;
+using JJ.Data.Synthesizer.Helpers;
+
+namespace JJ.Data.Synthesizer
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class Node
     {
         public virtual int ID { get; set; }
@@ -10,5 +14,10 @@
 
         /// <summary> parent </summary>
         public virtual Curve Curve { get; set; }
+
+        private string DebuggerDisplay
+        {
+            get { return DebugHelper.GetDebuggerDisplay(this); }
+        }
     }
 }

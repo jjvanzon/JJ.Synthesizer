@@ -1,15 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Enums;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Common;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.Helpers;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Business.Synthesizer.Api;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
@@ -214,190 +220,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             }
         }
 
-        private void CreateLines_WithRelatedElements(Diagram diagram, Point previousPoint, Point nextPoint, NodeTypeEnum previousNodeTypeEnum)
-        {
-            switch (previousNodeTypeEnum)
-            {
-                case NodeTypeEnum.Line:
-                    CreateLines_WithRelatedElements_ForNodeTypeLine(diagram, previousPoint, nextPoint);
-                    break;
-
-                case NodeTypeEnum.Block:
-                    CreateLines_WithRelatedElements_ForNodeTypeBlock(diagram, previousPoint, nextPoint);
-                    break;
-
-                case NodeTypeEnum.Off:
-                    CreateLines_WithRelatedElements_ForNodeTypeOff(diagram, previousPoint, nextPoint);
-                    break;
-
-                case NodeTypeEnum.Curve:
-                    CreateLines_WithRelatedElements_ForNodeTypeCurve(diagram, previousPoint, nextPoint);
-                    break;
-
-                default:
-                    throw new InvalidValueException(previousNodeTypeEnum);
-            }
-        }
-
-        private void CreateLines_WithRelatedElements_ForNodeTypeLine(Diagram diagram, Point previousPoint, Point nextPoint)
-        {
-            var line = new Line
-            {
-                Diagram = diagram,
-                Parent = diagram.Background,
-                PointA = previousPoint,
-                PointB = nextPoint,
-                LineStyle = StyleHelper.LineStyleThick,
-                Tag = NODE_LINE_TAG
-            };
-        }
-
-        private void CreateLines_WithRelatedElements_ForNodeTypeCurve(Diagram diagram, Point previousPoint, Point nextPoint)
-        {
-            // TODO: Use the CurveCalculator to plot the line segments.
-
-            //throw new NotImplementedException();
-
-            //var destPoints = new List<Point>(sourceCurve.LineCount + 1);
-
-            //float step = 1f / sourceCurve.LineCount;
-            //float t = 0;
-            //for (int i = 0; i < sourceCurve.LineCount + 1; i++)
-            //{
-            //    float calculatedX;
-            //    float calculatedY;
-
-            //    Interpolator.Interpolate_Cubic_FromT(
-            //        sourceCurve.PointA.CalculatedXInPixels, sourceCurve.ControlPointA.CalculatedXInPixels, sourceCurve.ControlPointB.CalculatedXInPixels, sourceCurve.PointB.CalculatedXInPixels,
-            //        sourceCurve.PointA.CalculatedYInPixels, sourceCurve.ControlPointA.CalculatedYInPixels, sourceCurve.ControlPointB.CalculatedYInPixels, sourceCurve.PointB.CalculatedYInPixels,
-            //        t, out calculatedX, out calculatedY);
-
-            //    var destPoint = new Point
-            //    {
-            //        CalculatedXInPixels = calculatedX,
-            //        CalculatedYInPixels = calculatedY,
-            //        // Fill in meaningful values for the other properties.
-            //        X = calculatedX,
-            //        Y = calculatedY,
-            //        CalculatedVisible = false,
-            //        CalculatedLayer = sourceCurve.CalculatedLayer,
-            //        PointStyle = new PointStyle { Visible = false }
-            //    };
-
-            //    destPoints.Add(destPoint);
-
-            //    t += step;
-            //}
-
-            //var destLines = new List<Line>(sourceCurve.LineCount);
-
-            //for (int i = 0; i < destPoints.Count - 1; i++)
-            //{
-            //    Point destPointA = destPoints[i];
-            //    Point destPointB = destPoints[i + 1];
-
-            //    var destLine = new Line
-            //    {
-            //        PointA = destPointA,
-            //        PointB = destPointB,
-            //        // Fill in meaningful values for the other properties.
-            //        CalculatedVisible = true,
-            //        CalculatedZIndex = sourceCurve.CalculatedZIndex,
-            //        CalculatedLayer = sourceCurve.CalculatedLayer,
-            //        LineStyle = sourceCurve.LineStyle
-            //    };
-
-            //    destLines.Add(destLine);
-            //}
-
-            //sourceCurve.CalculatedLines = destLines;
-        }
-
-        private void CreateLines_WithRelatedElements_ForNodeTypeBlock(Diagram diagram, Point previousPoint, Point nextPoint)
-        {
-            // Create horizontal line to the next node.
-            var line = new Line
-            {
-                Diagram = diagram,
-                Parent = diagram.Background,
-                PointA = previousPoint,
-                LineStyle = StyleHelper.LineStyleThick,
-                Tag = NODE_LINE_TAG
-            };
-
-            line.PointB = new Point
-            {
-                Diagram = diagram,
-                Parent = nextPoint,
-                X = 0,
-                Y = ScaleHelper.AbsoluteToRelativeY(nextPoint, previousPoint.AbsoluteY),
-                PointStyle = StyleHelper.PointStyleInvisible,
-                Tag = HELPER_POINT_TAG
-            };
-
-            // Create vertical line down.
-            var line2 = new Line
-            {
-                Diagram = diagram,
-                Parent = diagram.Background,
-                PointA = line.PointB,
-                PointB = nextPoint,
-                LineStyle = StyleHelper.LineStyleThick,
-                Tag = HELPER_POINT_TAG
-            };
-        }
-
-        private void CreateLines_WithRelatedElements_ForNodeTypeOff(Diagram diagram, Point previousPoint, Point nextPoint)
-        {
-            var verticalLineTo0 = new Line
-            {
-                Diagram = diagram,
-                Parent = diagram.Background,
-                PointA = previousPoint,
-                LineStyle = StyleHelper.LineStyleThick,
-                Tag = NODE_LINE_TAG
-            };
-            
-            verticalLineTo0.PointB = new Point
-            {
-                Diagram = diagram,
-                Parent = previousPoint,
-                X = 0,
-                Y = ScaleHelper.AbsoluteToRelativeY(previousPoint, 0),
-                PointStyle = StyleHelper.PointStyleInvisible,
-                Tag = HELPER_POINT_TAG
-            };
-
-            var horizontalLine = new Line
-            {
-                Diagram = diagram,
-                Parent = diagram.Background,
-                PointA = verticalLineTo0.PointB,
-                LineStyle = StyleHelper.LineStyleThick,
-                Tag = NODE_LINE_TAG
-            };
-
-            horizontalLine.PointB = new Point
-            {
-                Diagram = diagram,
-                Parent = nextPoint,
-                X = 0,
-                Y = ScaleHelper.AbsoluteToRelativeY(nextPoint, 0),
-                PointStyle = StyleHelper.PointStyleInvisible,
-                Tag = HELPER_POINT_TAG
-            };
-
-            var verticalLineToNextPoint = new Line
-            {
-                Diagram = diagram,
-                Parent = diagram.Background,
-                PointA = horizontalLine.PointB,
-                PointB = nextPoint,
-                LineStyle = StyleHelper.LineStyleThick,
-                Tag = NODE_LINE_TAG
-            };
-        }
-
         private Line CreateXAxis(Diagram diagram)
         {
             var line = new Line
@@ -564,6 +386,188 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             _bottomBoundLabel.X = Result.Diagram.Background.Width / 2;
             _bottomBoundLabel.Y = Result.Diagram.Background.Height;
             _bottomBoundLabel.Text = minValue.ToString("0.###");
+        }
+
+        private void CreateLines_WithRelatedElements(Diagram diagram, Point previousPoint, Point nextPoint, NodeTypeEnum previousNodeTypeEnum)
+        {
+            switch (previousNodeTypeEnum)
+            {
+                case NodeTypeEnum.Line:
+                    CreateLines_WithRelatedElements_ForNodeTypeLine(diagram, previousPoint, nextPoint);
+                    break;
+
+                case NodeTypeEnum.Block:
+                    CreateLines_WithRelatedElements_ForNodeTypeBlock(diagram, previousPoint, nextPoint);
+                    break;
+
+                case NodeTypeEnum.Off:
+                    CreateLines_WithRelatedElements_ForNodeTypeOff(diagram, previousPoint, nextPoint);
+                    break;
+
+                case NodeTypeEnum.Curve:
+                    CreateLines_WithRelatedElements_ForNodeTypeCurve(diagram, previousPoint, nextPoint);
+                    break;
+
+                default:
+                    throw new InvalidValueException(previousNodeTypeEnum);
+            }
+        }
+
+        private void CreateLines_WithRelatedElements_ForNodeTypeOff(Diagram diagram, Point previousPoint, Point nextPoint)
+        {
+            var verticalLineTo0 = new Line
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                PointA = previousPoint,
+                LineStyle = StyleHelper.LineStyleThick,
+                Tag = NODE_LINE_TAG
+            };
+
+            verticalLineTo0.PointB = new Point
+            {
+                Diagram = diagram,
+                Parent = previousPoint,
+                X = 0,
+                Y = ScaleHelper.AbsoluteToRelativeY(previousPoint, 0),
+                PointStyle = StyleHelper.PointStyleInvisible,
+                Tag = HELPER_POINT_TAG
+            };
+
+            var horizontalLine = new Line
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                PointA = verticalLineTo0.PointB,
+                LineStyle = StyleHelper.LineStyleThick,
+                Tag = NODE_LINE_TAG
+            };
+
+            horizontalLine.PointB = new Point
+            {
+                Diagram = diagram,
+                Parent = nextPoint,
+                X = 0,
+                Y = ScaleHelper.AbsoluteToRelativeY(nextPoint, 0),
+                PointStyle = StyleHelper.PointStyleInvisible,
+                Tag = HELPER_POINT_TAG
+            };
+
+            var verticalLineToNextPoint = new Line
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                PointA = horizontalLine.PointB,
+                PointB = nextPoint,
+                LineStyle = StyleHelper.LineStyleThick,
+                Tag = NODE_LINE_TAG
+            };
+        }
+
+        private void CreateLines_WithRelatedElements_ForNodeTypeBlock(Diagram diagram, Point previousPoint, Point nextPoint)
+        {
+            // Create horizontal line to the next node.
+            var line = new Line
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                PointA = previousPoint,
+                LineStyle = StyleHelper.LineStyleThick,
+                Tag = NODE_LINE_TAG
+            };
+
+            line.PointB = new Point
+            {
+                Diagram = diagram,
+                Parent = nextPoint,
+                X = 0,
+                Y = ScaleHelper.AbsoluteToRelativeY(nextPoint, previousPoint.AbsoluteY),
+                PointStyle = StyleHelper.PointStyleInvisible,
+                Tag = HELPER_POINT_TAG
+            };
+
+            // Create vertical line down.
+            var line2 = new Line
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                PointA = line.PointB,
+                PointB = nextPoint,
+                LineStyle = StyleHelper.LineStyleThick,
+                Tag = HELPER_POINT_TAG
+            };
+        }
+
+        private void CreateLines_WithRelatedElements_ForNodeTypeLine(Diagram diagram, Point previousPoint, Point nextPoint)
+        {
+            var line = new Line
+            {
+                Diagram = diagram,
+                Parent = diagram.Background,
+                PointA = previousPoint,
+                PointB = nextPoint,
+                LineStyle = StyleHelper.LineStyleThick,
+                Tag = NODE_LINE_TAG
+            };
+        }
+
+        private void CreateLines_WithRelatedElements_ForNodeTypeCurve(Diagram diagram, Point previousPoint, Point nextPoint)
+        {
+            // We can only be dependent on the view model,
+            // but we want to use the exact calculations from the business logic,
+            // to draw out the curve right.
+
+            // TODO: This does not take care of the dependency on point-1 and point2.
+
+            JJ.Data.Synthesizer.Curve curve = CurveGenerator.Create(
+                new NodeInfo(previousPoint.AbsoluteX, previousPoint.AbsoluteY, NodeTypeEnum.Curve),
+                new NodeInfo(nextPoint.AbsoluteX, nextPoint.AbsoluteY));
+
+            CurveCalculator calculator = CurveGenerator.CreateCalculator(curve);
+
+            const int LINE_COUNT = 30;
+            var destPoints = new List<Point>(LINE_COUNT + 1);
+
+            double step = (curve.Nodes[1].Time - curve.Nodes[0].Time) / LINE_COUNT;
+            double time = previousPoint.AbsoluteX;
+            for (int i = 0; i < LINE_COUNT + 1; i++)
+            {
+                double value = calculator.CalculateValue(time);
+
+                var destPoint = new Point
+                {
+                    Diagram = previousPoint.Diagram,
+                    Parent = previousPoint,
+                    X = ScaleHelper.AbsoluteToRelativeX(previousPoint, (float)time),
+                    Y = ScaleHelper.AbsoluteToRelativeY(previousPoint, (float)value),
+                    PointStyle = StyleHelper.PointStyleInvisible,
+                    Tag = HELPER_POINT_TAG
+                };
+
+                destPoints.Add(destPoint);
+
+                time += step;
+            }
+
+            var destLines = new List<Line>(LINE_COUNT);
+
+            for (int i = 0; i < destPoints.Count - 1; i++)
+            {
+                Point destPointA = destPoints[i];
+                Point destPointB = destPoints[i + 1];
+
+                var destLine = new Line
+                {
+                    Diagram = previousPoint.Diagram,
+                    Parent = previousPoint,
+                    PointA = destPointA,
+                    PointB = destPointB,
+                    LineStyle = StyleHelper.LineStyleThick,
+                    Tag = NODE_LINE_TAG
+                };
+
+                destLines.Add(destLine);
+            }
         }
     }
 }

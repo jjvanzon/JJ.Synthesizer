@@ -1,0 +1,73 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Api.Helpers;
+using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Data.Synthesizer;
+using JJ.Framework.Reflection.Exceptions;
+
+namespace JJ.Business.Synthesizer.Api
+{
+    public class CurveGenerator
+    {
+        private static CurveManager _curveManager = CreateCurveManager();
+
+        private static CurveManager CreateCurveManager()
+        {
+            return new CurveManager(RepositoryHelper.CurveRepositories);
+        }
+
+        public static Curve Create(bool mustGenerateName = false)
+        {
+            return _curveManager.Create(mustGenerateName);
+        }
+
+        public static Curve Create(Document document, bool mustGenerateName = false)
+        {
+            return _curveManager.Create(document, mustGenerateName);
+        }
+
+        public static Curve Create(params NodeInfo[] nodeInfos)
+        {
+            return _curveManager.Create(nodeInfos);
+        }
+
+        /// <param name="values">When a value is null, a node will not be created at that point in time.</param>
+        public static Curve Create(double timeSpan, params double?[] values)
+        {
+            return _curveManager.Create(timeSpan, values);
+        }
+
+        /// <param name="nodeInfos">When a NodeInfo is null, a node will not be created at that point in time.</param>
+        public static Curve Create(double timeSpan, params NodeInfo[] nodeInfos)
+        {
+            return _curveManager.Create(timeSpan, nodeInfos);
+        }
+
+        /// <param name="values">When a value is null, a node will not be created at that point in time.</param>
+        public static Curve Create(Document document, double timeSpan, params double?[] values)
+        {
+            return _curveManager.Create(document, timeSpan, values);
+        }
+
+        public static Node CreateNode(Curve curve)
+        {
+            return _curveManager.CreateNode(curve);
+        }
+
+        public static void SetNodeType(Node node, NodeTypeEnum nodeTypeEnum)
+        {
+            if (node == null) throw new NullException(() => nodeTypeEnum);
+            node.SetNodeTypeEnum(nodeTypeEnum, RepositoryHelper.CurveRepositories.NodeTypeRepository);
+        }
+
+        public static CurveCalculator CreateCalculator(Curve curve)
+        {
+            return _curveManager.CreateCalculator(curve);
+        }
+    }
+}

@@ -16,6 +16,12 @@ namespace JJ.Business.Synthesizer.Calculation
     {
         private Curve _curve;
 
+        /// <summary>
+        /// Contains the nodes of the curve and also additional nodes before and after,
+        /// to accomodate interpolation that requires 4 points to calculate a value.
+        /// </summary>
+        private IList<Node> _sortedNodes;
+
         public CurveCalculator(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
@@ -23,6 +29,54 @@ namespace JJ.Business.Synthesizer.Calculation
 
             IValidator validator = new CurveValidator(_curve);
             validator.Verify();
+
+            _sortedNodes = CreateSortedNodes(_curve);
+        }
+
+        private IList<Node> CreateSortedNodes(Curve curve)
+        {
+            IList<Node> sortedNodes = _curve.Nodes.OrderBy(x => x.Time).ToArray();
+
+            Node firstNode = sortedNodes[0];
+            Node lastNode = sortedNodes.Last();
+
+            var nodeMinus2 = new Node
+            {
+                Time = Double.MinValue,
+                Value = firstNode.Value,
+                NodeType = firstNode.NodeType
+            };
+
+            double timeBeforeFirstNode = firstNode.Time - Double.MinValue;
+            var nodeMinus1 = new Node
+            {
+                Time = Double.MinValue + timeBeforeFirstNode / 2.0,
+                Value = firstNode.Value,
+                NodeType = firstNode.NodeType
+            };
+
+            double timeAfterLastNode = Double.MaxValue - lastNode.Time;
+            var nodePlus1 = new Node
+            {
+                Time = Double.MaxValue - timeAfterLastNode / 2.0,
+                Value = lastNode.Value,
+                NodeType = lastNode.NodeType
+            };
+
+            var nodePlus2 = new Node
+            {
+                Time = Double.MaxValue,
+                Value = lastNode.Value,
+                NodeType = lastNode.NodeType
+            };
+
+            List<Node> sortedNodesIncludingFakeNodes = new List<Node>(curve.Nodes.Count + 4);
+            sortedNodesIncludingFakeNodes.Add(nodeMinus2);
+            sortedNodesIncludingFakeNodes.Add(nodeMinus1);
+            sortedNodesIncludingFakeNodes.AddRange(sortedNodes);
+            sortedNodesIncludingFakeNodes.Add(nodePlus1);
+            sortedNodesIncludingFakeNodes.Add(nodePlus2);
+            return sortedNodesIncludingFakeNodes;
         }
 
         public double CalculateValue(double time)
@@ -30,71 +84,23 @@ namespace JJ.Business.Synthesizer.Calculation
             // TODO: This performs badly. Precalculate samples and do a simple linear interpolation here.
             // You may actually delegate to a sample calculator for that.
 
-            IList<Node> sortedNodes = _curve.Nodes.OrderBy(x => x.Time).ToArray();
-
             // Find the node right after the time.
             Node node1 = null;
-            int i;
-            for (i = 0; i < sortedNodes.Count; i++)
+            int node1Index = 0;
+            for (int i = 0; i < _sortedNodes.Count; i++)
             {
-                node1 = sortedNodes[i];
+                node1 = _sortedNodes[i];
 
                 if (node1.Time > time)
                 {
+                    node1Index = i;
                     break;
                 }
             }
 
-            if (node1 == null) return 0.0;
-
-            // TODO: Eventually you might create a fake set of nodes that include some dummy nodes at the beginning and end,
-            // to have enough of them so that the indexers do not go wrong.
-
-            // TODO: The fake time should be way more out there, for maximum 'stretch'.
-
-            // TODO: The value should not go to 0. It should be set to the value to the right or to the left of it.
-
-            int nodeMinus1Index = i - 2;
-            Node nodeMinus1 = null;
-            if (nodeMinus1Index >= 0)
-            {
-                nodeMinus1 = sortedNodes[nodeMinus1Index];
-            }
-            else
-            {
-                nodeMinus1 = new Node
-                {
-                    Time = node1.Time - 2
-                };
-            }
-
-            int node0Index = i - 1;
-            Node node0 = null;
-            if (node0Index >= 0 && node0Index <= sortedNodes.Count - 1)
-            {
-                node0 = sortedNodes[node0Index];
-            }
-            else
-            {
-                node0 = new Node
-                {
-                    Time = node1.Time - 1
-                };
-            }
-
-            int node2Index = i + 1;
-            Node node2 = null;
-            if (node2Index >= 0 && node2Index <= sortedNodes.Count - 1)
-            {
-                node2 = sortedNodes[node2Index];
-            }
-            else
-            {
-                node2 = new Node
-                {
-                    Time = node1.Time + 1
-                };
-            }
+            Node nodeMinus1 = _sortedNodes[node1Index - 2];
+            Node node0 = _sortedNodes[node1Index - 1];
+            Node node2 = _sortedNodes[node1Index + 1];
 
             // Calculate the Value
             NodeTypeEnum nodeTypeEnum = node0.GetNodeTypeEnum();

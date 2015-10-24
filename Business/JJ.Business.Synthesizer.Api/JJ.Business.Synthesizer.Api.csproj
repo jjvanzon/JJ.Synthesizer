@@ -39,11 +39,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioFileOutputApi.cs" />
-    <Compile Include="CurveApi.cs" />
+    <Compile Include="AudioFileGenerator.cs" />
+    <Compile Include="CurveGenerator.cs" />
     <Compile Include="Helpers\ContextHelper.cs" />
     <Compile Include="Helpers\RepositoryHelper.cs" />
-    <Compile Include="PatchApi.cs" />
+    <Compile Include="Patcher.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +66,10 @@
     <ProjectReference Include="..\..\Framework\JJ.Framework.Data\JJ.Framework.Data.csproj">
       <Project>{7adeddce-6903-4a58-94f5-d0b39b21330f}</Project>
       <Name>JJ.Framework.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
+      <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
+      <Name>JJ.Framework.Reflection</Name>
     </ProjectReference>
     <ProjectReference Include="..\JJ.Business.Synthesizer\JJ.Business.Synthesizer.csproj">
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>

@@ -873,7 +873,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_SawTooth()
         {
-            var x = new PatchApi();
+            var x = new Patcher();
             var saw = x.SawTooth(x.Number(0.5));
 
             IPatchCalculator patchCalculator = x.CreateOptimizedCalculator(saw);
@@ -893,7 +893,7 @@ namespace JJ.Business.Synthesizer.Tests
         public void Test_Synthesizer_SawTooth_WithPhaseShift()
         {
             // With a phase shift of 0.25 I would expect it to start counting at -0.5
-            var x = new PatchApi();
+            var x = new Patcher();
             var saw = x.SawTooth(x.Number(1), x.Number(0.25));
 
             IPatchCalculator patchCalculator = x.CreateOptimizedCalculator(saw);
@@ -912,7 +912,7 @@ namespace JJ.Business.Synthesizer.Tests
         [TestMethod]
         public void Test_Synthesizer_TriangleWave()
         {
-            var patcher = new PatchApi();
+            var patcher = new Patcher();
             var outlet = patcher.TriangleWave(patcher.Number(1));
 
             IPatchCalculator patchCalculator = patcher.CreateOptimizedCalculator(outlet);
