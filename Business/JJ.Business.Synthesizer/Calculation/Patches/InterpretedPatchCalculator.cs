@@ -100,6 +100,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.SlowDown, CalculateSlowDown },
                 { OperatorTypeEnum.TimePower, CalculateTimePower },
                 { OperatorTypeEnum.TimeSubstract, CalculateTimeSubstract },
+                { OperatorTypeEnum.TriangleWave, CalculateTriangleWaveOperator },
                 { OperatorTypeEnum.Number, CalculateNumberOperator },
                 { OperatorTypeEnum.WhiteNoise, CalculateWhiteNoise },
             };
@@ -713,6 +714,62 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 double result = Calculate(signalOutlet, transformedTime);
                 return result;
             }
+        }
+
+        private double CalculateTriangleWaveOperator(Operator op, double time)
+        {
+            var wrapper = new OperatorWrapper_TriangleWave(op);
+
+            Outlet phaseShiftOutlet = wrapper.PhaseShift;
+            Outlet pitchOutlet = wrapper.Pitch;
+
+            double pitch = 0;
+            double phaseShift = 0;
+
+            if (pitchOutlet != null)
+            {
+                pitch = Calculate(pitchOutlet, time);
+            }
+
+            if (phaseShiftOutlet != null)
+            {
+                phaseShift = Calculate(phaseShiftOutlet, time);
+            }
+
+            // Get phase variables
+            string key = GetOperatorPathKey();
+            double previousTime = 0;
+            _previousTimeDictionary.TryGetValue(key, out previousTime);
+            double phase = 0;
+            _phaseDictionary.TryGetValue(key, out phase);
+
+            // Calculate new phase
+            double dt = time - previousTime;
+            phase = phase + dt * pitch;
+
+            // Calculate value
+            double shiftedPhase = phase + phaseShift;
+            // Correct the phase, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
+            shiftedPhase += 0.25;
+            double relativePhase = shiftedPhase % 1.0;
+            double value;
+            if (relativePhase < 0.5)
+            {
+                // Starts going up at a rate of 2 up over 1/2 a cycle.
+                value = -1.0 + 4.0 * relativePhase;
+            }
+            else
+            {
+                // And then going down at phase 1/2.
+                // (Extending the line to x = 0 it ends up at y = 3.)
+                value = 3.0 - 4.0 * relativePhase;
+            }
+
+            // Store phase variables
+            _phaseDictionary[key] = phase;
+            _previousTimeDictionary[key] = time;
+
+            return value;
         }
 
         private double CalculateWhiteNoise(Operator op, double time)
