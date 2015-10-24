@@ -21,9 +21,9 @@ namespace JJ.Business.Synthesizer.Api
             return new CurveManager(RepositoryHelper.CurveRepositories);
         }
 
-        public static Curve Create(bool mustGenerateName = false)
+        public static Curve Create()
         {
-            return _curveManager.Create(mustGenerateName);
+            return _curveManager.Create();
         }
 
         public static Curve Create(Document document, bool mustGenerateName = false)

@@ -30,7 +30,7 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories = repositories;
         }
 
-        public Curve Create(bool mustGenerateName = false)
+        public Curve Create()
         {
             var curve = new Curve();
             curve.ID = _repositories.IDRepository.GetID();
@@ -40,12 +40,6 @@ namespace JJ.Business.Synthesizer.Managers
                 curve, _repositories.NodeRepository, _repositories.NodeTypeRepository, _repositories.IDRepository);
             sideEffect1.Execute();
 
-            if (mustGenerateName)
-            {
-                ISideEffect sideEffect2 = new Curve_SideEffect_GenerateName(curve);
-                sideEffect2.Execute();
-            }
-
             return curve;
         }
 
@@ -53,8 +47,14 @@ namespace JJ.Business.Synthesizer.Managers
         {
             if (document == null) throw new NullException(() => document);
 
-            Curve curve = Create(mustGenerateName);
+            Curve curve = Create();
             curve.LinkTo(document);
+
+            if (mustGenerateName)
+            {
+                ISideEffect sideEffect2 = new Curve_SideEffect_GenerateName(curve);
+                sideEffect2.Execute();
+            }
 
             return curve;
         }
@@ -289,32 +289,43 @@ namespace JJ.Business.Synthesizer.Managers
                 // Not last node? Insert node in between two nodes.
                 Node beforeNode = sortedNodes[afterNodeIndex + 1];
 
+                // Make sure you do this before creating the new node.
+                double value = CalculateIntermediateValue(beforeNode, afterNode);
+
                 Node node = CreateNode(curve);
                 node.NodeType = afterNode.NodeType;
                 node.Time = afterNode.Time + (beforeNode.Time - afterNode.Time) / 2.0;
-
-                NodeTypeEnum nodeTypeEnum = afterNode.GetNodeTypeEnum();
-                switch (nodeTypeEnum)
-                {
-                    case NodeTypeEnum.Block:
-                    case NodeTypeEnum.Off:
-                        node.Value = afterNode.Value;
-                        break;
-
-                    case NodeTypeEnum.Line:
-                        node.Value = (beforeNode.Value + afterNode.Value) / 2.0;
-                        break;
-
-                    case NodeTypeEnum.Curve:
-                        // TODO: Calculate the right intermediate value.
-                        node.Value = (beforeNode.Value + afterNode.Value) / 2.0;
-                        break;
-
-                    default:
-                        throw new ValueNotSupportedException(nodeTypeEnum);
-                }
+                node.Value = value;
 
                 return node;
+            }
+        }
+
+        private double CalculateIntermediateValue(Node beforeNode, Node afterNode)
+        {
+            NodeTypeEnum nodeTypeEnum = afterNode.GetNodeTypeEnum();
+            switch (nodeTypeEnum)
+            {
+                case NodeTypeEnum.Block:
+                case NodeTypeEnum.Off:
+                    return afterNode.Value;
+
+                case NodeTypeEnum.Line:
+                    {
+                        double value = (beforeNode.Value + afterNode.Value) / 2.0;
+                        return value;
+                    }
+
+                case NodeTypeEnum.Curve:
+                    {
+                        CurveCalculator calculator = CreateCalculator(beforeNode.Curve);
+                        double time = (beforeNode.Time + afterNode.Time) / 2;
+                        double value =  calculator.CalculateValue(time);
+                        return value;
+                    }
+
+                default:
+                    throw new ValueNotSupportedException(nodeTypeEnum);
             }
         }
 

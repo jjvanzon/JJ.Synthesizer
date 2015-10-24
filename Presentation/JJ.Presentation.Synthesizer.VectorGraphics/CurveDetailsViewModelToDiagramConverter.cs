@@ -583,12 +583,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 var destPoint = new Point
                 {
                     Diagram = previousPoint.Diagram,
-                    Parent = previousPoint,
-                    X = ScaleHelper.AbsoluteToRelativeX(previousPoint, (float)time),
-                    Y = ScaleHelper.AbsoluteToRelativeY(previousPoint, (float)value),
+                    Parent = previousPoint.Diagram.Background,
                     PointStyle = StyleHelper.PointStyleInvisible,
                     Tag = HELPER_POINT_TAG
                 };
+
+                destPoint.X = ScaleHelper.AbsoluteToRelativeX(destPoint.Parent, (float)time);
+                destPoint.Y = ScaleHelper.AbsoluteToRelativeY(destPoint.Parent, (float)value);
 
                 destPoints.Add(destPoint);
 

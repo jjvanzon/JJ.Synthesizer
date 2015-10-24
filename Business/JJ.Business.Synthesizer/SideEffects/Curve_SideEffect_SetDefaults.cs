@@ -40,7 +40,7 @@ namespace JJ.Business.Synthesizer.SideEffects
                 node.ID = _idRepository.GetID();
                 node.Time = 0;
                 node.Value = 1;
-                node.SetNodeTypeEnum(NodeTypeEnum.Line, _nodeTypeRepository);
+                node.SetNodeTypeEnum(NodeTypeEnum.Curve, _nodeTypeRepository);
                 node.LinkTo(_curve);
                 _nodeRepository.Insert(node);
             }
@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.SideEffects
                 node.Time = 1;
                 node.Value = 0;
                 node.LinkTo(_curve);
-                node.SetNodeTypeEnum(NodeTypeEnum.Off, _nodeTypeRepository);
+                node.SetNodeTypeEnum(NodeTypeEnum.Curve, _nodeTypeRepository);
                 _nodeRepository.Insert(node);
             }
         }

@@ -14,6 +14,7 @@ using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -153,9 +154,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void MoveNodeGesture_Moving(object sender, ElementEventArgs e)
         {
+            // HACK:
+            // At the moment, moving a node outside of bounds does not work well,
+            // so limit immediate application of the move while dragging,
+            // to the intermediate nodes, to prevent wonkiness (not full-proof).
+            int nodeID = (int)e.Element.Tag;
+            IList<NodeViewModel> sortedNodeViewModels = _viewModel.Entity.Nodes.OrderBy(x => x.Time).ToList();
+            bool mustDoMove = nodeID != sortedNodeViewModels.First().ID &&
+                              nodeID != sortedNodeViewModels.Last().ID;
+
+            if (mustDoMove)
+            {
+                DoMoveNode(e);
+            }
         }
 
         private void MoveNodeGesture_Moved(object sender, ElementEventArgs e)
+        {
+            DoMoveNode(e);
+        }
+
+        private void DoMoveNode(ElementEventArgs e)
         {
             if (MoveNodeRequested != null)
             {
