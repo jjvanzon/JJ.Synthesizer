@@ -4,18 +4,22 @@ using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class TriangleWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class TriangleWave_WithVarPitch_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly OperatorCalculatorBase _pitchCalculator;
+        private readonly double _phaseShift;
         private double _phase;
         private double _previousTime;
 
-        public TriangleWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator(OperatorCalculatorBase pitchCalculator)
+        public TriangleWave_WithVarPitch_WithConstPhaseShift_OperatorCalculator(
+            OperatorCalculatorBase pitchCalculator,
+            double phaseShift)
         {
             if (pitchCalculator == null) throw new NullException(() => pitchCalculator);
             //if (pitchCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => pitchCalculator);
 
             _pitchCalculator = pitchCalculator;
+            _phaseShift = phaseShift;
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -25,8 +29,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double dt = time - _previousTime;
             _phase = _phase + dt * pitch;
 
+            double shiftedPhase = _phase + _phaseShift;
+            double relativePhase = shiftedPhase % 1.0;
+
             double value;
-            double relativePhase = _phase % 1.0;
             if (relativePhase < 0.5)
             {
                 // Starts going up at a rate of 2 up over 1/2 a cycle.

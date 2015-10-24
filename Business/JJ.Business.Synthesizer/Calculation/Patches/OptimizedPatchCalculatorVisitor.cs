@@ -961,8 +961,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double phaseShift = phaseShiftCalculator.Calculate(0, 0);
             bool pitchIsConst = pitchCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
+
             bool pitchIsConstZero = pitchIsConst && pitch == 0;
-            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
+            bool phaseShiftIsConstQuarter = phaseShiftIsConst && phaseShift % 1 == 0.25;
 
             if (pitchIsConstZero)
             {
@@ -976,7 +977,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             else //if (!pitchIsConst && phaseShiftIsConstZero)
             {
                 //calculator = new TriangleWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator(pitchCalculator);
-                calculator = new TriangleWave_WithVarPitch_WithPhaseShiftMinusQuarter_OperatorCalculator(pitchCalculator);
+                calculator = new TriangleWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator(pitchCalculator);
             }
             //else if (pitchIsConst && phaseShiftIsConst)
             //{

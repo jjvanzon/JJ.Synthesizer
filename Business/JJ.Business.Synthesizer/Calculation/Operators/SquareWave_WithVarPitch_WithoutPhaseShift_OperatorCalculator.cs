@@ -42,4 +42,3 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 }
-
