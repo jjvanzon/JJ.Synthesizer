@@ -34,6 +34,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.SlowDown, VisitSlowDown },
                 { OperatorTypeEnum.TimePower, VisitTimePower },
                 { OperatorTypeEnum.TimeSubstract, VisitTimeSubstract },
+                { OperatorTypeEnum.TriangleWave, VisitTriangleWave },
                 { OperatorTypeEnum.WhiteNoise, VisitWhiteNoise }
             };
         }
@@ -129,6 +130,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitNumber(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitTriangleWave(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitWhiteNoise(Operator op) { }

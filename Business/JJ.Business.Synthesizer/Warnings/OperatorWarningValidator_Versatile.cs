@@ -28,6 +28,7 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.Delay, typeof(OperatorWarningValidator_Delay) },
             { OperatorTypeEnum.SpeedUp, typeof(OperatorWarningValidator_SpeedUp) },
             { OperatorTypeEnum.SlowDown, typeof(OperatorWarningValidator_SlowDown) },
+            { OperatorTypeEnum.TriangleWave, typeof(OperatorWarningValidator_TriangleWave) },
             { OperatorTypeEnum.TimePower, typeof(OperatorWarningValidator_TimePower) },
             { OperatorTypeEnum.TimeSubstract, typeof(OperatorWarningValidator_TimeSubstract) },
             { OperatorTypeEnum.Number, typeof(OperatorWarningValidator_Number) }

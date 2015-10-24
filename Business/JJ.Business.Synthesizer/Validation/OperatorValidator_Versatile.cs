@@ -29,11 +29,12 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.SquareWave, typeof(OperatorValidator_SquareWave) },
             { OperatorTypeEnum.Substract, typeof(OperatorValidator_Substract) },
             { OperatorTypeEnum.Delay, typeof(OperatorValidator_Delay) },
-            { OperatorTypeEnum.SawTooth, typeof(OperatorValidator_Sawtooth) },
+            { OperatorTypeEnum.SawTooth, typeof(OperatorValidator_SawTooth) },
             { OperatorTypeEnum.SpeedUp, typeof(OperatorValidator_SpeedUp) },
             { OperatorTypeEnum.SlowDown, typeof(OperatorValidator_SlowDown) },
             { OperatorTypeEnum.TimePower, typeof(OperatorValidator_TimePower) },
             { OperatorTypeEnum.TimeSubstract, typeof(OperatorValidator_TimeSubstract) },
+            { OperatorTypeEnum.TriangleWave, typeof(OperatorValidator_TriangleWave) },
             { OperatorTypeEnum.Number, typeof(OperatorValidator_Number) },
             { OperatorTypeEnum.WhiteNoise, typeof(OperatorValidator_WhiteNoise) },
         };

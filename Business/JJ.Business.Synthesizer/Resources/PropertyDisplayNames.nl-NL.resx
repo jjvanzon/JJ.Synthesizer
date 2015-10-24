@@ -418,6 +418,9 @@
     <value>Zaagtand</value>
   </data>
   <data name="SquareWave" xml:space="preserve">
-    <value>Blokgolf</value>
+    <value>Blok golf</value>
+  </data>
+  <data name="TriangleWave" xml:space="preserve">
+    <value>Driehoeksgolf</value>
   </data>
 </root>

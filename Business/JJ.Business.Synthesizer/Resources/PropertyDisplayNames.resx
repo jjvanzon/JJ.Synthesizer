@@ -421,4 +421,7 @@
   <data name="SquareWave" xml:space="preserve">
     <value>Square Wave</value>
   </data>
+  <data name="TriangleWave" xml:space="preserve">
+    <value>Triangle Wave</value>
+  </data>
 </root>

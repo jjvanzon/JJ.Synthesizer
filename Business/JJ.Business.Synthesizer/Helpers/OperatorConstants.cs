@@ -15,6 +15,10 @@
         public const int DIVIDE_ORIGIN_INDEX = 2;
         public const int DIVIDE_RESULT_INDEX = 0;
 
+        public const int DELAY_SIGNAL_INDEX = 0;
+        public const int DELAY_TIME_DIFFERENCE_INDEX = 1;
+        public const int DELAY_RESULT_INDEX = 0;
+
         public const int MULTIPLY_OPERAND_A_INDEX = 0;
         public const int MULTIPLY_OPERAND_B_INDEX = 1;
         public const int MULTIPLY_ORIGIN_INDEX = 2;
@@ -50,9 +54,9 @@
         public const int SUBSTRACT_OPERAND_B_INDEX = 1;
         public const int SUBSTRACT_RESULT_INDEX = 0;
 
-        public const int DELAY_SIGNAL_INDEX = 0;
-        public const int DELAY_TIME_DIFFERENCE_INDEX = 1;
-        public const int DELAY_RESULT_INDEX = 0;
+        public const int TRIANGLE_WAVE_PITCH_INDEX = 0;
+        public const int TRIANGLE_WAVE_PHASE_SHIFT_INDEX = 1;
+        public const int TRIANGLE_WAVE_RESULT_INDEX = 0;
 
         public const int SPEED_UP_SIGNAL_INDEX = 0;
         public const int SPEED_UP_TIME_DIVIDER_INDEX = 1;

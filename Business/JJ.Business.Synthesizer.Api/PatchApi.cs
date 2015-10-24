@@ -23,6 +23,11 @@ namespace JJ.Business.Synthesizer.Api
 
         // TODO: Delegate to more PatchManager methods.
 
+        public OperatorWrapper_Number Number(double number = 0)
+        {
+            return _patchManager.Number(number);
+        }
+
         public OperatorWrapper_Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseShift = null)
         {
             return _patchManager.Sine(volume, pitch, origin, phaseShift);
@@ -33,9 +38,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.SawTooth(pitch, phaseShift);
         }
 
-        public OperatorWrapper_Number Number(double number = 0)
+        public OperatorWrapper_TriangleWave TriangleWave(Outlet pitch = null, Outlet phaseShift = null)
         {
-            return _patchManager.Number(number);
+            return _patchManager.TriangleWave(pitch, phaseShift);
         }
 
         public IPatchCalculator CreateOptimizedCalculator(params Outlet[] channelOutlets)

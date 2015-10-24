@@ -24,6 +24,7 @@
         Resample = 19,
         CustomOperator = 20,
         SawTooth = 21,
-        SquareWave = 22
+        SquareWave = 22,
+        TriangleWave = 23
     }
 }

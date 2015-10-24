@@ -32,6 +32,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private Dictionary<OperatorTypeEnum, Func<Operator, double, double>> _funcDictionary;
 
         private Stack<Operator> _operatorStack = new Stack<Operator>();
+
+        // TODO: The _previousTimeDictionary and _phaseDictionary have not been well debugged yet.
+        // The effect on the output sound should be inspected: if the phase is reused at the right moments,
+        // if the previous time is remembered independently where needed.
+
         /// <summary> Key is a composite string with the path of operator ID's in it. </summary>
         private Dictionary<string, double> _previousTimeDictionary = new Dictionary<string, double>();
         /// <summary> Key is a composite string with the path of operator ID's in it. </summary>

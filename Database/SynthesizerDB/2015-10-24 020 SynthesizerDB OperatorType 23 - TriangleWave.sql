@@ -1,0 +1,1 @@
+insert into OperatorType (ID, Name, SortOrder) values (23, 'TriangleWave', 23);

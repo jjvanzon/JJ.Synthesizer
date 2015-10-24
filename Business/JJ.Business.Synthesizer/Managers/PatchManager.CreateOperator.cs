@@ -323,6 +323,23 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
+        public OperatorWrapper_TriangleWave TriangleWave(Outlet pitch = null, Outlet phaseShift = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.TriangleWave, 2,
+                PropertyNames.Pitch, PropertyNames.PhaseShift,
+                PropertyNames.Result);
+
+            var wrapper = new OperatorWrapper_TriangleWave(op)
+            {
+                Pitch = pitch,
+                PhaseShift = phaseShift
+            };
+
+            wrapper.Operator.LinkTo(Patch);
+            return wrapper;
+        }
+
         public OperatorWrapper_Number Number(double number = 0)
         {
             Operator op = CreateOperatorBase(

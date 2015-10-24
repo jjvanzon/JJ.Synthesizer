@@ -925,6 +925,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Triangle Wave.
+        /// </summary>
+        public static string TriangleWave {
+            get {
+                return ResourceManager.GetString("TriangleWave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Underlying Document.
         /// </summary>
         public static string UnderlyingDocument {

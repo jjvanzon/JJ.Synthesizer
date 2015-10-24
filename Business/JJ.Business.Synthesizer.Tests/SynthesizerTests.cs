@@ -908,5 +908,34 @@ namespace JJ.Business.Synthesizer.Tests
             double value8 = patchCalculator.Calculate(1.75, 0);
             double value9 = patchCalculator.Calculate(2.00, 0);
         }
+
+        [TestMethod]
+        public void Test_Synthesizer_TriangleWave()
+        {
+            var patcher = new PatchApi();
+            var outlet = patcher.TriangleWave(patcher.Number(1));
+
+            IPatchCalculator patchCalculator = patcher.CreateOptimizedCalculator(outlet);
+
+            double[] values =
+            {
+                patchCalculator.Calculate(0.000, 0),
+                patchCalculator.Calculate(0.125, 0),
+                patchCalculator.Calculate(0.250, 0),
+                patchCalculator.Calculate(0.375, 0),
+                patchCalculator.Calculate(0.500, 0),
+                patchCalculator.Calculate(0.625, 0),
+                patchCalculator.Calculate(0.750, 0),
+                patchCalculator.Calculate(0.875, 0),
+                patchCalculator.Calculate(1.125, 0),
+                patchCalculator.Calculate(1.250, 0),
+                patchCalculator.Calculate(1.375, 0),
+                patchCalculator.Calculate(1.500, 0),
+                patchCalculator.Calculate(1.625, 0),
+                patchCalculator.Calculate(1.750, 0),
+                patchCalculator.Calculate(1.875, 0),
+                patchCalculator.Calculate(2.000, 0)
+            };
+        }
     }
 }
