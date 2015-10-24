@@ -13,6 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public SquareWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator(OperatorCalculatorBase pitchCalculator)
         {
             if (pitchCalculator == null) throw new NullException(() => pitchCalculator);
+            if (pitchCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => pitchCalculator);
 
             _pitchCalculator = pitchCalculator;
         }

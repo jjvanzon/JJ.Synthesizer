@@ -26,18 +26,22 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private WhiteNoiseCalculator _whiteNoiseCalculator;
 
-        /// <summary>
-        /// Is set in the Calculate method
-        /// and used in other methods.
-        /// </summary>
+        /// <summary> Is set in the Calculate method and used in other methods. </summary>
         private int _channelIndex;
         private Outlet[] _channelOutlets;
         private Dictionary<OperatorTypeEnum, Func<Operator, double, double>> _funcDictionary;
 
-        // TODO: This phase tracking by operator ID does not work,
-        // because the same operator might be reused.
-        private Dictionary<int, double> _previousTimeDictionary = new Dictionary<int, double>();
-        private Dictionary<int, double> _phaseDictionary = new Dictionary<int, double>();
+        private Stack<Operator> _operatorStack = new Stack<Operator>();
+        /// <summary> Key is a composite string with the path of operator ID's in it. </summary>
+        private Dictionary<string, double> _previousTimeDictionary = new Dictionary<string, double>();
+        /// <summary> Key is a composite string with the path of operator ID's in it. </summary>
+        private Dictionary<string, double> _phaseDictionary = new Dictionary<string, double>();
+        private Dictionary<Operator, double> _numberOperatorValueDictionary = new Dictionary<Operator, double>();
+        private Dictionary<Operator, Curve> _curveOperator_Curve_Dictionary = new Dictionary<Operator, Curve>();
+        private Dictionary<Operator, SampleInfo> _sampleOperator_SampleInfo_Dictionary = new Dictionary<Operator, SampleInfo>();
+        private Dictionary<int, ISampleCalculator> _sampleCalculatorDictionary = new Dictionary<int, ISampleCalculator>();
+        /// <summary> Key is operator ID, value is offset in seconds. </summary>
+        private Dictionary<int, double> _whiteNoiseOffsetDictionary = new Dictionary<int, double>();
 
         public InterpretedPatchCalculator(
             IList<Outlet> channelOutlets,
@@ -84,6 +88,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Sample, CalculateSampleOperator },
                 { OperatorTypeEnum.SawTooth, CalculateSawToothOperator },
                 { OperatorTypeEnum.Sine, CalculateSine },
+                { OperatorTypeEnum.SquareWave, CalculateSquareWaveOperator },
                 { OperatorTypeEnum.Substract, CalculateSubstract },
                 { OperatorTypeEnum.Delay, CalculateDelay },
                 { OperatorTypeEnum.SpeedUp, CalculateSpeedUp },
@@ -103,12 +108,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double Calculate(Outlet outlet, double time)
         {
+            _operatorStack.Push(outlet.Operator);
+
             OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
 
+            double value;
             if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
             {
-                double value = CalculateCustomOperator(outlet, time);
-                return value;
+                value = CalculateCustomOperator(outlet, time);
             }
             else
             {
@@ -121,27 +128,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 {
                     throw new ValueNotSupportedException(operatorTypeEnum);
                 }
-                double value = func(outlet.Operator, time);
-                return value;
+                value = func(outlet.Operator, time);
             }
+
+            _operatorStack.Pop();
+
+            return value;
 
             // TODO: Low priority:
             // Make the all the Calculate methods in the _funcDictionary take Outlet instead of Operator,
             // so they could all work with multiple outlets if needed.
-        }
-
-        private Dictionary<Operator, double> _numberOperatorValueDictionary = new Dictionary<Operator, double>();
-
-        private double CalculateNumberOperator(Operator op, double time)
-        {
-            double value;
-            if (!_numberOperatorValueDictionary.TryGetValue(op, out value))
-            {
-                var wrapper = new OperatorWrapper_Number(op);
-                value = wrapper.Number;
-                _numberOperatorValueDictionary.Add(op, value);
-            }
-            return value;
         }
 
         private double CalculateAdd(Operator op, double time)
@@ -158,47 +154,77 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return a + b;
         }
 
-        private double CalculateSubstract(Operator op, double time)
+        private double CalculateAdder(Operator op, double time)
         {
-            var wrapper = new OperatorWrapper_Substract(op);
+            var wrapper = new OperatorWrapper_Adder(op);
 
-            Outlet operandAOutlet = wrapper.OperandA;
-            Outlet operandBOutlet = wrapper.OperandB;
+            Outlet[] operands = wrapper.Operands.ToArray();
 
-            if (operandAOutlet == null || operandBOutlet == null) return 0;
+            double result = 0;
 
-            double a = Calculate(operandAOutlet, time);
-            double b = Calculate(operandBOutlet, time);
+            for (int i = 0; i < operands.Length; i++)
+            {
+                Outlet operand = operands[i];
 
-            return a - b;
+                if (operand != null)
+                {
+                    result += Calculate(operand, time);
+                }
+            }
+
+            return result;
         }
 
-        private double CalculateMultiply(Operator op, double time)
+        private double CalculateCurveOperator(Operator op, double time)
         {
-            var wrapper = new OperatorWrapper_Multiply(op);
-
-            Outlet originOutlet = wrapper.Origin;
-            Outlet operandAOutlet = wrapper.OperandA;
-            Outlet operandBOutlet = wrapper.OperandB;
-
-            if (originOutlet == null)
+            Curve curve;
+            if (!_curveOperator_Curve_Dictionary.TryGetValue(op, out curve))
             {
-                if (operandAOutlet == null || operandBOutlet == null) return 0;
-
-                double a = Calculate(operandAOutlet, time);
-                double b = Calculate(operandBOutlet, time);
-                return a * b;
+                var wrapper = new OperatorWrapper_Curve(op, _curveRepository);
+                curve = wrapper.Curve;
+                _curveOperator_Curve_Dictionary.Add(op, curve);
             }
-            else
+
+            if (curve == null) return 0;
+
+            // TODO: Cache CurveCalculators?
+            var curveCalculator = new CurveCalculator(curve);
+            double result = curveCalculator.CalculateValue(time);
+            return result;
+        }
+
+        private double CalculateCustomOperator(Outlet customOperatorOutlet, double time)
+        {
+            Outlet outlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _documentRepository);
+
+            if (outlet == null)
             {
-                double origin = Calculate(originOutlet, time);
-
-                if (operandAOutlet == null || operandBOutlet == null) return origin;
-
-                double a = Calculate(operandAOutlet, time);
-                double b = Calculate(operandBOutlet, time);
-                return (a - origin) * b + origin;
+                return 0.0;
             }
+
+            double result = Calculate(outlet, time);
+            return result;
+        }
+
+        private double CalculateDelay(Operator op, double time)
+        {
+            var wrapper = new OperatorWrapper_Delay(op);
+
+            Outlet signalOutlet = wrapper.Signal;
+            if (signalOutlet == null) return 0;
+
+            Outlet timeDifferenceOutlet = wrapper.TimeDifference;
+            if (timeDifferenceOutlet == null)
+            {
+                double result = Calculate(signalOutlet, time);
+                return result;
+            }
+
+            // IMPORTANT: To add time to the output, you have substract time from the input.
+            double timeDifference = Calculate(timeDifferenceOutlet, time);
+            double transformedTime = time - timeDifference;
+            double result2 = Calculate(signalOutlet, transformedTime);
+            return result2;
         }
 
         private double CalculateDivide(Operator op, double time)
@@ -240,6 +266,46 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
+        private double CalculateMultiply(Operator op, double time)
+        {
+            var wrapper = new OperatorWrapper_Multiply(op);
+
+            Outlet originOutlet = wrapper.Origin;
+            Outlet operandAOutlet = wrapper.OperandA;
+            Outlet operandBOutlet = wrapper.OperandB;
+
+            if (originOutlet == null)
+            {
+                if (operandAOutlet == null || operandBOutlet == null) return 0;
+
+                double a = Calculate(operandAOutlet, time);
+                double b = Calculate(operandBOutlet, time);
+                return a * b;
+            }
+            else
+            {
+                double origin = Calculate(originOutlet, time);
+
+                if (operandAOutlet == null || operandBOutlet == null) return origin;
+
+                double a = Calculate(operandAOutlet, time);
+                double b = Calculate(operandBOutlet, time);
+                return (a - origin) * b + origin;
+            }
+        }
+
+        private double CalculateNumberOperator(Operator op, double time)
+        {
+            double value;
+            if (!_numberOperatorValueDictionary.TryGetValue(op, out value))
+            {
+                var wrapper = new OperatorWrapper_Number(op);
+                value = wrapper.Number;
+                _numberOperatorValueDictionary.Add(op, value);
+            }
+            return value;
+        }
+
         private double CalculatePower(Operator op, double time)
         {
             var wrapper = new OperatorWrapper_Power(op);
@@ -255,46 +321,26 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return Math.Pow(@base, exponent);
         }
 
-        private double CalculateDelay(Operator op, double time)
+        private double CalculatePatchInlet(Operator op, double time)
         {
-            var wrapper = new OperatorWrapper_Delay(op);
+            var wrapper = new OperatorWrapper_PatchInlet(op);
 
-            Outlet signalOutlet = wrapper.Signal;
-            if (signalOutlet == null) return 0;
+            Outlet inputOutlet = wrapper.Input;
 
-            Outlet timeDifferenceOutlet = wrapper.TimeDifference;
-            if (timeDifferenceOutlet == null)
-            {
-                double result = Calculate(signalOutlet, time);
-                return result;
-            }
+            if (inputOutlet == null) return 0;
 
-            // IMPORTANT: To add time to the output, you have substract time from the input.
-            double timeDifference = Calculate(timeDifferenceOutlet, time);
-            double transformedTime = time - timeDifference;
-            double result2 = Calculate(signalOutlet, transformedTime);
-            return result2;
+            return Calculate(inputOutlet, time);
         }
 
-        private double CalculateTimeSubstract(Operator op, double time)
+        private double CalculatePatchOutlet(Operator op, double time)
         {
-            var wrapper = new OperatorWrapper_TimeSubstract(op);
+            var wrapper = new OperatorWrapper_PatchOutlet(op);
 
-            Outlet signalOutlet = wrapper.Signal;
-            if (signalOutlet == null) return 0;
+            Outlet inputOutlet = wrapper.Input;
 
-            Outlet timeDifferenceOutlet = wrapper.TimeDifference;
-            if (timeDifferenceOutlet == null)
-            {
-                double result = Calculate(signalOutlet, time);
-                return result;
-            }
+            if (inputOutlet == null) return 0;
 
-            // IMPORTANT: To substract time from the output, you have add time to the input.
-            double timeDifference = Calculate(timeDifferenceOutlet, time);
-            double transformedTime = time + timeDifference;
-            double result2 = Calculate(signalOutlet, transformedTime);
-            return result2;
+            return Calculate(inputOutlet, time);
         }
 
         private double CalculateSlowDown(Operator op, double time)
@@ -352,6 +398,21 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
+        private double CalculateSubstract(Operator op, double time)
+        {
+            var wrapper = new OperatorWrapper_Substract(op);
+
+            Outlet operandAOutlet = wrapper.OperandA;
+            Outlet operandBOutlet = wrapper.OperandB;
+
+            if (operandAOutlet == null || operandBOutlet == null) return 0;
+
+            double a = Calculate(operandAOutlet, time);
+            double b = Calculate(operandBOutlet, time);
+
+            return a - b;
+        }
+
         private double CalculateSpeedUp(Operator op, double time)
         {
             var wrapper = new OperatorWrapper_SpeedUp(op);
@@ -404,6 +465,193 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 double result = Calculate(signalOutlet, transformedTime);
                 return result;
             }
+        }
+
+        private double CalculateSawToothOperator(Operator op, double time)
+        {
+            var wrapper = new OperatorWrapper_SawTooth(op);
+
+            Outlet phaseShiftOutlet = wrapper.PhaseShift;
+            Outlet pitchOutlet = wrapper.Pitch;
+
+            double pitch = 0;
+            double phaseShift = 0;
+
+            if (pitchOutlet != null)
+            {
+                pitch = Calculate(pitchOutlet, time);
+            }
+
+            if (phaseShiftOutlet != null)
+            {
+                phaseShift = Calculate(phaseShiftOutlet, time);
+            }
+
+            // Get phase variables
+            string key = GetOperatorPathKey();
+            double previousTime = 0;
+            _previousTimeDictionary.TryGetValue(key, out previousTime);
+            double phase = 0;
+            _phaseDictionary.TryGetValue(key, out phase);
+
+            // Calculate new phase
+            double dt = time - previousTime;
+            phase = phase + dt * pitch;
+
+            // Calculate value
+            double shiftedPhase = phase + phaseShift;
+            double value = -1 + (2 * shiftedPhase % 2);
+
+            // Store phase variables
+            _phaseDictionary[key] = phase;
+            _previousTimeDictionary[key] = time;
+
+            return value;
+        }
+
+        private double CalculateSquareWaveOperator(Operator op, double time)
+        {
+            var wrapper = new OperatorWrapper_SquareWave(op);
+
+            Outlet phaseShiftOutlet = wrapper.PhaseShift;
+            Outlet pitchOutlet = wrapper.Pitch;
+
+            double pitch = 0;
+            double phaseShift = 0;
+
+            if (pitchOutlet != null)
+            {
+                pitch = Calculate(pitchOutlet, time);
+            }
+
+            if (phaseShiftOutlet != null)
+            {
+                phaseShift = Calculate(phaseShiftOutlet, time);
+            }
+
+            // Get phase variables
+            string key = GetOperatorPathKey();
+            double previousTime = 0;
+            _previousTimeDictionary.TryGetValue(key, out previousTime);
+            double phase = 0;
+            _phaseDictionary.TryGetValue(key, out phase);
+
+            // Calculate new phase
+            double dt = time - previousTime;
+            phase = phase + dt * pitch;
+
+            // Calculate value
+            double value;
+            double shiftedPhase = phase + phaseShift;
+            double relativePhase = shiftedPhase % 1;
+            if (relativePhase < 0.5)
+            {
+                value = -1;
+            }
+            else
+            {
+                value = 1;
+            }
+
+            // Store phase variables
+            _phaseDictionary[key] = phase;
+            _previousTimeDictionary[key] = time;
+
+            return value;
+        }
+
+        private double CalculateSine(Operator op, double time)
+        {
+            var wrapper = new OperatorWrapper_Sine(op);
+
+            Outlet volumeOutlet = wrapper.Volume;
+            Outlet pitchOutlet = wrapper.Pitch;
+            Outlet originOutlet = wrapper.Origin;
+
+            if (volumeOutlet == null || pitchOutlet == null)
+            {
+                if (originOutlet != null)
+                {
+                    return Calculate(originOutlet, time);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            Outlet phaseShiftOutlet = wrapper.PhaseShift;
+
+            double volume = Calculate(volumeOutlet, time);
+            double pitch = Calculate(pitchOutlet, time);
+
+            if (originOutlet == null && phaseShiftOutlet == null)
+            {
+                return volume * Math.Sin(2 * Math.PI * pitch * time);
+            }
+
+            double origin = originOutlet != null ? Calculate(originOutlet, time) : 0;
+            double phaseShift = phaseShiftOutlet != null ? Calculate(phaseShiftOutlet, time) : 0;
+
+            double result = origin + volume * Math.Sin(2 * (Math.PI * phaseShift + Math.PI * pitch * time));
+            return result;
+        }
+
+        private double CalculateSampleOperator(Operator op, double time)
+        {
+            SampleInfo sampleInfo;
+            if (!_sampleOperator_SampleInfo_Dictionary.TryGetValue(op, out sampleInfo))
+            {
+                var wrapper = new OperatorWrapper_Sample(op, _sampleRepository);
+                sampleInfo = wrapper.SampleInfo;
+                _sampleOperator_SampleInfo_Dictionary.Add(op, sampleInfo);
+            }
+
+            if (sampleInfo.Sample == null) return 0;
+
+            ISampleCalculator sampleCalculator;
+            if (!_sampleCalculatorDictionary.TryGetValue(sampleInfo.Sample.ID, out sampleCalculator))
+            {
+                sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sampleInfo.Sample, sampleInfo.Bytes);
+                _sampleCalculatorDictionary.Add(sampleInfo.Sample.ID, sampleCalculator);
+            }
+
+            // This is a solution for when the sample channels do not match the channel we want.
+            // But this is only a fallback that will work for mono and stereo,
+            // and not for e.g. 5.1 surround sound.
+            int channelIndex;
+            if (sampleCalculator.ChannelCount < _channelIndex)
+            {
+                channelIndex = 0;
+            }
+            else
+            {
+                channelIndex = _channelIndex;
+            }
+
+            double result = sampleCalculator.CalculateValue(time, channelIndex);
+            return result;
+        }
+
+        private double CalculateTimeSubstract(Operator op, double time)
+        {
+            var wrapper = new OperatorWrapper_TimeSubstract(op);
+
+            Outlet signalOutlet = wrapper.Signal;
+            if (signalOutlet == null) return 0;
+
+            Outlet timeDifferenceOutlet = wrapper.TimeDifference;
+            if (timeDifferenceOutlet == null)
+            {
+                double result = Calculate(signalOutlet, time);
+                return result;
+            }
+
+            // IMPORTANT: To substract time from the output, you have add time to the input.
+            double timeDifference = Calculate(timeDifferenceOutlet, time);
+            double transformedTime = time + timeDifference;
+            double result2 = Calculate(signalOutlet, transformedTime);
+            return result2;
         }
 
         private double CalculateTimePower(Operator op, double time)
@@ -462,192 +710,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        private double CalculateAdder(Operator op, double time)
-        {
-            var wrapper = new OperatorWrapper_Adder(op);
-
-            Outlet[] operands = wrapper.Operands.ToArray();
-
-            double result = 0;
-
-            for (int i = 0; i < operands.Length; i++)
-            {
-                Outlet operand = operands[i];
-
-                if (operand != null)
-                {
-                    result += Calculate(operand, time);
-                }
-            }
-
-            return result;
-        }
-
-        private double CalculateSawToothOperator(Operator op, double time)
-        {
-            var wrapper = new OperatorWrapper_SawTooth(op);
-
-            Outlet phaseShiftOutlet = wrapper.PhaseShift;
-            Outlet pitchOutlet = wrapper.Pitch;
-
-            double pitch = 0;
-            double phaseShift = 0;
-
-            if (pitchOutlet != null)
-            {
-                pitch = Calculate(pitchOutlet, time);
-            }
-
-            if (phaseShiftOutlet != null)
-            {
-                phaseShift = Calculate(phaseShiftOutlet, time);
-            }
-
-            // Get phase variables
-            double previousTime = 0;
-            _previousTimeDictionary.TryGetValue(op.ID, out previousTime);
-            double phase = 0;
-            _phaseDictionary.TryGetValue(op.ID, out phase);
-
-            // Calculate new phase
-            double dt = time - previousTime;
-            phase = phase + dt * pitch;
-
-            // Calculate value
-            double shiftedPhase = phase + phaseShift;
-            double value = -1 + (2 * shiftedPhase % 2);
-
-            // Store phase variables
-            _phaseDictionary[op.ID] = phase;
-            _previousTimeDictionary[op.ID] = time;
-
-            return value;
-        }
-
-        private double CalculateSine(Operator op, double time)
-        {
-            var wrapper = new OperatorWrapper_Sine(op);
-
-            Outlet volumeOutlet = wrapper.Volume;
-            Outlet pitchOutlet = wrapper.Pitch;
-            Outlet originOutlet = wrapper.Origin;
-
-            if (volumeOutlet == null || pitchOutlet == null)
-            {
-                if (originOutlet != null)
-                {
-                    return Calculate(originOutlet, time);
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-
-            Outlet phaseShiftOutlet = wrapper.PhaseShift;
-
-            double volume = Calculate(volumeOutlet, time);
-            double pitch = Calculate(pitchOutlet, time);
-
-            if (originOutlet == null && phaseShiftOutlet == null)
-            {
-                return volume * Math.Sin(2 * Math.PI * pitch * time);
-            }
-
-            double origin = originOutlet != null ? Calculate(originOutlet, time) : 0;
-            double phaseShift = phaseShiftOutlet != null ? Calculate(phaseShiftOutlet, time) : 0;
-
-            double result = origin + volume * Math.Sin(2 * (Math.PI * phaseShift + Math.PI * pitch * time));
-            return result;
-        }
-
-        private Dictionary<Operator, Curve> _curveOperator_Curve_Dictionary = new Dictionary<Operator, Curve>();
-
-        private double CalculateCurveOperator(Operator op, double time)
-        {
-            Curve curve;
-            if (!_curveOperator_Curve_Dictionary.TryGetValue(op, out curve))
-            {
-                var wrapper = new OperatorWrapper_Curve(op, _curveRepository);
-                curve = wrapper.Curve;
-                _curveOperator_Curve_Dictionary.Add(op, curve);
-            }
-
-            if (curve == null) return 0;
-
-            // TODO: Cache CurveCalculators?
-            var curveCalculator = new CurveCalculator(curve);
-            double result = curveCalculator.CalculateValue(time);
-            return result;
-        }
-
-        private Dictionary<Operator, SampleInfo> _sampleOperator_SampleInfo_Dictionary = new Dictionary<Operator, SampleInfo>();
-        private Dictionary<int, ISampleCalculator> _sampleCalculatorDictionary =
-            new Dictionary<int, ISampleCalculator>();
-
-        private double CalculateSampleOperator(Operator op, double time)
-        {
-            SampleInfo sampleInfo;
-            if (!_sampleOperator_SampleInfo_Dictionary.TryGetValue(op, out sampleInfo))
-            {
-                var wrapper = new OperatorWrapper_Sample(op, _sampleRepository);
-                sampleInfo = wrapper.SampleInfo;
-                _sampleOperator_SampleInfo_Dictionary.Add(op, sampleInfo);
-            }
-
-            if (sampleInfo.Sample == null) return 0;
-
-            ISampleCalculator sampleCalculator;
-            if (!_sampleCalculatorDictionary.TryGetValue(sampleInfo.Sample.ID, out sampleCalculator))
-            {
-                sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sampleInfo.Sample, sampleInfo.Bytes);
-                _sampleCalculatorDictionary.Add(sampleInfo.Sample.ID, sampleCalculator);
-            }
-
-            // This is a solution for when the sample channels do not match the channel we want.
-            // But this is only a fallback that will work for mono and stereo,
-            // and not for e.g. 5.1 surround sound.
-            int channelIndex;
-            if (sampleCalculator.ChannelCount < _channelIndex)
-            {
-                channelIndex = 0;
-            }
-            else
-            {
-                channelIndex = _channelIndex;
-            }
-
-            double result = sampleCalculator.CalculateValue(time, channelIndex);
-            return result;
-        }
-
-        private double CalculatePatchInlet(Operator op, double time)
-        {
-            var wrapper = new OperatorWrapper_PatchInlet(op);
-
-            Outlet inputOutlet = wrapper.Input;
-
-            if (inputOutlet == null) return 0;
-
-            return Calculate(inputOutlet, time);
-        }
-
-        private double CalculatePatchOutlet(Operator op, double time)
-        {
-            var wrapper = new OperatorWrapper_PatchOutlet(op);
-
-            Outlet inputOutlet = wrapper.Input;
-
-            if (inputOutlet == null) return 0;
-
-            return Calculate(inputOutlet, time);
-        }
-
-        /// <summary>
-        /// Key is operator ID, value is offset in seconds.
-        /// </summary>
-        private Dictionary<int, double> _whiteNoiseOffsetDictionary = new Dictionary<int, double>();
-
         private double CalculateWhiteNoise(Operator op, double time)
         {
             double offset;
@@ -662,17 +724,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
-        private double CalculateCustomOperator(Outlet customOperatorOutlet, double time)
+        // Helpers
+
+        private string GetOperatorPathKey()
         {
-            Outlet outlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _documentRepository);
-
-            if (outlet == null)
-            {
-                return 0.0;
-            }
-
-            double result = Calculate(outlet, time);
-            return result;
+            string key = String.Join("|", _operatorStack.Select(x => x.ID));
+            return key;
         }
     }
 }

@@ -72,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Gestures
             var rectangle = element as Rectangle;
             if (rectangle == null)
             {
-                throw new InvalidTypeException<Rectangle>(() => element);
+                throw new IsNotTypeException<Rectangle>(() => element);
             }
 
             ICalculatedValues calculatedValues = rectangle;

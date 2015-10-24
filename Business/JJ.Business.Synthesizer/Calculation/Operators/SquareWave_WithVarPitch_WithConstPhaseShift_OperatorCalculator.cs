@@ -15,6 +15,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double phaseShift)
         {
             if (pitchCalculator == null) throw new NullException(() => pitchCalculator);
+            if (pitchCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => pitchCalculator);
+            if (phaseShift == 0) throw new ZeroException(() => phaseShift);
 
             _pitchCalculator = pitchCalculator;
             _phaseShift = phaseShift;

@@ -11,6 +11,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
+            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
+            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
 
             _operandACalculator = operandACalculator;
             _operandBCalculator = operandBCalculator;

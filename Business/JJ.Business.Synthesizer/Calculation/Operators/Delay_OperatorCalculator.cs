@@ -11,9 +11,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Delay_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeDifferenceCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_OperatorCalculator.");
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (timeDifferenceCalculator == null) throw new NullException(() => timeDifferenceCalculator);
-            if (timeDifferenceCalculator is Number_OperatorCalculator) throw new Exception("timeDifferenceCalculator cannot be a Value_OperatorCalculator.");
+            if (timeDifferenceCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => timeDifferenceCalculator);
 
             _signalCalculator = signalCalculator;
             _timeDifferenceCalculator = timeDifferenceCalculator;

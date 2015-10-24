@@ -15,8 +15,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double originValue)
         {
             if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
-            if (numeratorCalculator is Number_OperatorCalculator) throw new Exception("numeratorCalculator cannot be a Value_OperatorCalculator.");
-            if (denominatorValue == 0) throw new Exception("denominatorValue cannot be 0.");
+            if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
+            if (denominatorValue == 0) throw new ZeroException(() => denominatorValue);
 
             _numeratorCalculator = numeratorCalculator;
             _denominatorValue = denominatorValue;

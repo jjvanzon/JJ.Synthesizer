@@ -12,6 +12,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public SawTooth_WithConstPitch_WithoutPhaseShift_OperatorCalculator(double pitch)
         {
+            if (pitch == 0) throw new ZeroException(() => pitch);
+
             _pitch = pitch;
         }
 

@@ -11,10 +11,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private double _phase;
         private double _previousTime;
 
-        public SawTooth_WithConstPitch_WithConstPhaseShift_OperatorCalculator(
-            double pitch,
-            double phaseShift)
+        public SawTooth_WithConstPitch_WithConstPhaseShift_OperatorCalculator(double pitch, double phaseShift)
         {
+            if (pitch == 0) throw new ZeroException(() => pitch);
+            if (phaseShift == 0) throw new ZeroException(() => phaseShift);
+
             _pitch = pitch;
             _phaseShift = phaseShift;
         }
