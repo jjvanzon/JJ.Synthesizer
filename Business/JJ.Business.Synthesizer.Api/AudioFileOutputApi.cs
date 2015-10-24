@@ -7,7 +7,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Api
 {
-    public static class AudioFileGenerator
+    public static class AudioFileOutputApi
     {
         private static AudioFileOutputManager _audioFileOutputManager = CreateAudioFileOutputManager();
 

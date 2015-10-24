@@ -8,21 +8,31 @@ using JJ.Framework.Presentation.VectorGraphics.Helpers;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Framework.Mathematics;
+using JJ.Data.Synthesizer;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
     public class CurveDetailsViewModelToDiagramConverter
     {
+        private class CurveInfo
+        {
+            public JJ.Data.Synthesizer.Curve MockCurve { get; set; }
+            public IList<NodeTuple> NodeTuples { get; set; }
+        }
+
+        private class NodeTuple
+        {
+            public NodeViewModel NodeViewModel { get; set; }
+            public Node MockNode { get; set; }
+        }
+
         private const int MINIMUM_NODE_COUNT = 2;
-        private const float NODE_RECTANGLE_SIZE_IN_PIXELS = 20;
+        private const float NODE_RECTANGLE_SIZE_IN_PIXELS = 20; // TODO: Make setting?
         private const string NODE_LINE_TAG = "Node Line";
         private const string HELPER_POINT_TAG = "Helper Point";
 
@@ -39,6 +49,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private readonly Dictionary<int, Point> _pointDictionary = new Dictionary<int, Point>();
         /// <summary> Key is Node.ID. </summary>
         private readonly Dictionary<int, Rectangle> _rectangleDictionary = new Dictionary<int, Rectangle>();
+
+        /// <summary>
+        /// A mock curve is created out of the view model,
+        /// to calculate intermediate points for curvy lines 
+        /// using the same calculation as in the sound.
+        /// </summary>
+        private CurveInfo _currentCurveInfo;
+        private CurveCalculator _currentCurveCalculator;
 
         /// <param name="mustShowInvisibleElements">for debugging</param>
         public CurveDetailsViewModelToDiagramConverter(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels, bool mustShowInvisibleElements)
@@ -63,6 +81,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             if (curveDetailsViewModel == null) throw new NullException(() => curveDetailsViewModel);
             if (curveDetailsViewModel.Entity == null) throw new NullException(() => curveDetailsViewModel.Entity);
             if (curveDetailsViewModel.Entity.Nodes.Count < MINIMUM_NODE_COUNT) throw new LessThanException(() => curveDetailsViewModel.Entity.Nodes.Count, MINIMUM_NODE_COUNT);
+
+            _currentCurveInfo = CreateCurveInfo(curveDetailsViewModel.Entity.Nodes);
+            _currentCurveCalculator = CurveApi.CreateCalculator(_currentCurveInfo.MockCurve);
 
             // Delete All Lines
             IList<Element> elementsToDelete = Result.Diagram.Elements
@@ -511,28 +532,53 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             };
         }
 
+        private CurveInfo CreateCurveInfo(IList<NodeViewModel> nodeViewModels)
+        {
+            IList<NodeInfo> nodeInfoList = nodeViewModels.Select(x => new NodeInfo(x.Time, x.Value, (NodeTypeEnum)x.NodeType.ID)).ToArray();
+
+            JJ.Data.Synthesizer.Curve mockCurve = CurveApi.Create(nodeInfoList);
+
+            IList<NodeTuple> nodeTuples = new List<NodeTuple>(nodeViewModels.Count);
+
+            for (int i = 0; i < nodeViewModels.Count; i++)
+            {
+                nodeTuples.Add(new NodeTuple
+                {
+                    MockNode = mockCurve.Nodes[i],
+                    NodeViewModel = nodeViewModels[i]
+                });
+            }
+
+            return new CurveInfo
+            {
+                MockCurve = mockCurve,
+                NodeTuples = nodeTuples
+            };
+        }
+
         private void CreateLines_WithRelatedElements_ForNodeTypeCurve(Diagram diagram, Point previousPoint, Point nextPoint)
         {
-            // We can only be dependent on the view model,
-            // but we want to use the exact calculations from the business logic,
-            // to draw out the curve right.
+            Node mockNode0 = _currentCurveInfo.NodeTuples
+                                       .Where(x => x.NodeViewModel.ID == (int)previousPoint.Tag)
+                                       .Select(x => x.MockNode)
+                                       .Single();
 
-            // TODO: This does not take care of the dependency on point-1 and point2.
+            Node mockNode1 = _currentCurveInfo.NodeTuples
+                                       .Where(x => x.NodeViewModel.ID == (int)nextPoint.Tag)
+                                       .Select(x => x.MockNode)
+                                       .Single();
 
-            JJ.Data.Synthesizer.Curve curve = CurveGenerator.Create(
-                new NodeInfo(previousPoint.AbsoluteX, previousPoint.AbsoluteY, NodeTypeEnum.Curve),
-                new NodeInfo(nextPoint.AbsoluteX, nextPoint.AbsoluteY));
+            const int LINE_COUNT = 30; // TODO: Make setting.
+            const int POINT_COUNT = LINE_COUNT + 1;
+            var destPoints = new List<Point>(POINT_COUNT);
 
-            CurveCalculator calculator = CurveGenerator.CreateCalculator(curve);
+            destPoints.Add(previousPoint);
 
-            const int LINE_COUNT = 30;
-            var destPoints = new List<Point>(LINE_COUNT + 1);
-
-            double step = (curve.Nodes[1].Time - curve.Nodes[0].Time) / LINE_COUNT;
-            double time = previousPoint.AbsoluteX;
-            for (int i = 0; i < LINE_COUNT + 1; i++)
+            double step = (mockNode1.Time - mockNode0.Time) / LINE_COUNT;
+            double time = mockNode0.Time + step;
+            for (int i = 0; i < POINT_COUNT - 2; i++)
             {
-                double value = calculator.CalculateValue(time);
+                double value = _currentCurveCalculator.CalculateValue(time);
 
                 var destPoint = new Point
                 {
@@ -548,6 +594,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                 time += step;
             }
+
+            destPoints.Add(nextPoint);
 
             var destLines = new List<Line>(LINE_COUNT);
 

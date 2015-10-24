@@ -94,46 +94,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.SelectedNodeID = nodeID;
         }
 
-        // TODO: Remove outcommented code.
-        //public void DeleteNode()
-        //{
-        //    AssertViewModel();
-
-        //    if (!ViewModel.SelectedNodeID.HasValue)
-        //    {
-        //        ViewModel.ValidationMessages.Add(new Message
-        //        {
-        //            PropertyKey = PresentationPropertyNames.SelectedNodeID,
-        //            Text = PresentationMessages.SelectANodeFirst
-        //        });
-        //        return;
-        //    }
-
-        //    if (ViewModel.Entity.Nodes.Count <= 2)
-        //    {
-        //        ViewModel.ValidationMessages.Add(new Message
-        //        {
-        //            PropertyKey = PropertyNames.Nodes,
-        //            // TODO: If you would just have done the ToEntity-Business-ToViewModel roundtrip, the validator would have taken care of it.
-        //            Text = ValidationMessageFormatter.Min(CommonTitleFormatter.EntityCount(PropertyDisplayNames.Nodes), 2)
-        //        });
-        //        return;
-        //    }
-
-        //    ViewModel.Entity.Nodes.RemoveFirst(x => x.ID == ViewModel.SelectedNodeID);
-
-        //    ViewModel.SelectedNodeID = null;
-        //}
-
-        //public void MoveNode(int nodeID, double time, double value)
-        //{
-        //    AssertViewModel();
-
-        //    NodeViewModel nodeViewModel = ViewModel.Entity.Nodes.Where(x => x.ID == nodeID).Single();
-        //    nodeViewModel.Time = time;
-        //    nodeViewModel.Value = value;
-        //}
-
         // Helpers
 
         private void AssertViewModel()

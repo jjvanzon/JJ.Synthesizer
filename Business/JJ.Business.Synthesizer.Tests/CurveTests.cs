@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Curve curve = CreateTestCurve();
                 curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Off, nodeTypeRepository));
 
-                CurveCalculator calculator = CurveGenerator.CreateCalculator(curve);
+                CurveCalculator calculator = CurveApi.CreateCalculator(curve);
                 AssertHelper.AreEqual(0, () => calculator.CalculateValue(0.0));
                 AssertHelper.AreEqual(0, () => calculator.CalculateValue(0.5));
                 AssertHelper.AreEqual(0, () => calculator.CalculateValue(1.0));
@@ -53,7 +53,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Curve curve = CreateTestCurve();
                 curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Block, nodeTypeRepository));
 
-                CurveCalculator calculator = CurveGenerator.CreateCalculator(curve);
+                CurveCalculator calculator = CurveApi.CreateCalculator(curve);
                 AssertHelper.AreEqual(1, () => calculator.CalculateValue(0.0));
                 AssertHelper.AreEqual(1, () => calculator.CalculateValue(0.5));
                 AssertHelper.AreEqual(2, () => calculator.CalculateValue(1.0));
@@ -72,7 +72,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Curve curve = CreateTestCurve();
                 curve.Nodes.ForEach(x => x.SetNodeTypeEnum(NodeTypeEnum.Line, nodeTypeRepository));
 
-                CurveCalculator calculator = CurveGenerator.CreateCalculator(curve);
+                CurveCalculator calculator = CurveApi.CreateCalculator(curve);
                 AssertHelper.AreEqual(1.0, () => calculator.CalculateValue(0.0));
                 AssertHelper.AreEqual(1.5, () => calculator.CalculateValue(0.5));
                 AssertHelper.AreEqual(2.0, () => calculator.CalculateValue(1.0));
@@ -98,7 +98,7 @@ namespace JJ.Business.Synthesizer.Tests
                     new NodeInfo(0.5, NodeTypeEnum.Off)
                 );
 
-                CurveCalculator calculator = CurveGenerator.CreateCalculator(curve);
+                CurveCalculator calculator = CurveApi.CreateCalculator(curve);
 
                 // Off
                 AssertHelper.AreEqual(0.00, () => calculator.CalculateValue(0.0));
@@ -121,7 +121,7 @@ namespace JJ.Business.Synthesizer.Tests
 
         public static Curve CreateTestCurve()
         {
-            Curve curve = CurveGenerator.Create(2, 1, 2, 0);
+            Curve curve = CurveApi.Create(2, 1, 2, 0);
             curve.Name = "Curve";
             return curve;
         }

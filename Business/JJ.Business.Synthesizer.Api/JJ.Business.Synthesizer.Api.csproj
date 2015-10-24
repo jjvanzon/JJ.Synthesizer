@@ -39,11 +39,11 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioFileGenerator.cs" />
-    <Compile Include="CurveGenerator.cs" />
+    <Compile Include="AudioFileOutputApi.cs" />
+    <Compile Include="CurveApi.cs" />
     <Compile Include="Helpers\ContextHelper.cs" />
     <Compile Include="Helpers\RepositoryHelper.cs" />
-    <Compile Include="Patcher.cs" />
+    <Compile Include="PatchApi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

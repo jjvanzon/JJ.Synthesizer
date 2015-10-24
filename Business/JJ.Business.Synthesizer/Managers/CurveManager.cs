@@ -61,6 +61,11 @@ namespace JJ.Business.Synthesizer.Managers
 
         public Curve Create(params NodeInfo[] nodeInfos)
         {
+            return Create((IList<NodeInfo>)nodeInfos);
+        }
+
+        public Curve Create(IList<NodeInfo> nodeInfos)
+        {
             if (nodeInfos == null) throw new NullException(() => nodeInfos);
 
             var curve = new Curve();

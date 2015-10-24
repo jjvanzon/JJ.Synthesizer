@@ -9,13 +9,13 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Api
 {
-    public class Patcher
+    public class PatchApi
     {
         private PatchManager _patchManager;
 
         public Patch Patch { get; private set; }
 
-        public Patcher()
+        public PatchApi()
         {
             _patchManager = new PatchManager(RepositoryHelper.PatchRepositories);
             _patchManager.Create();

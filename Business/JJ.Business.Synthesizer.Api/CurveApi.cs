@@ -12,7 +12,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Api
 {
-    public class CurveGenerator
+    public class CurveApi
     {
         private static CurveManager _curveManager = CreateCurveManager();
 
@@ -32,6 +32,10 @@ namespace JJ.Business.Synthesizer.Api
         }
 
         public static Curve Create(params NodeInfo[] nodeInfos)
+        {
+            return _curveManager.Create(nodeInfos);
+        }
+        public static Curve Create(IList<NodeInfo> nodeInfos)
         {
             return _curveManager.Create(nodeInfos);
         }

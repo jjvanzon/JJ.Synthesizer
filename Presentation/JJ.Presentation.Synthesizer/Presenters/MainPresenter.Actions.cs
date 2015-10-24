@@ -1221,20 +1221,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             NodeTypeEnum nodeTypeEnum = (NodeTypeEnum)nodeViewModel1.NodeType.ID;
             switch (nodeTypeEnum)
             {
-                case NodeTypeEnum.Curve:
-                    nodeTypeEnum = NodeTypeEnum.Line;
-                    break;
-
-                case NodeTypeEnum.Line:
+                case NodeTypeEnum.Off:
                     nodeTypeEnum = NodeTypeEnum.Block;
                     break;
 
                 case NodeTypeEnum.Block:
-                    nodeTypeEnum = NodeTypeEnum.Off;
+                    nodeTypeEnum = NodeTypeEnum.Line;
                     break;
 
-                case NodeTypeEnum.Off:
+                case NodeTypeEnum.Line:
                     nodeTypeEnum = NodeTypeEnum.Curve;
+                    break;
+
+                case NodeTypeEnum.Curve:
+                    nodeTypeEnum = NodeTypeEnum.Off;
                     break;
 
                 default:
