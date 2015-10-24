@@ -3,7 +3,7 @@ using JJ.Data.Synthesizer.Memory.Helpers;
 
 namespace JJ.Data.Synthesizer.Memory.Repositories
 {
-    public class AudioFileFormatRepository : JJ.Data.Synthesizer.DefaultRepositories.AudioFileFormatRepository
+    public class AudioFileFormatRepository : DefaultRepositories.AudioFileFormatRepository
     {
         public AudioFileFormatRepository(IContext context)
             : base(context)

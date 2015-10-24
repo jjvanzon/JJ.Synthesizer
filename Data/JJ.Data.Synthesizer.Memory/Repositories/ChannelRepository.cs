@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace JJ.Data.Synthesizer.Memory.Repositories
 {
-    public class ChannelRepository : JJ.Data.Synthesizer.DefaultRepositories.ChannelRepository
+    public class ChannelRepository : DefaultRepositories.ChannelRepository
     {
         public ChannelRepository(IContext context)
             : base(context)

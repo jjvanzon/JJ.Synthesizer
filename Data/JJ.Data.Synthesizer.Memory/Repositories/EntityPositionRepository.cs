@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace JJ.Data.Synthesizer.Memory.Repositories
 {
-    public class EntityPositionRepository : JJ.Data.Synthesizer.DefaultRepositories.EntityPositionRepository
+    public class EntityPositionRepository : DefaultRepositories.EntityPositionRepository
     {
         private new MemoryContext _context;
 

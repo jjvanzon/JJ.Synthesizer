@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace JJ.Data.Synthesizer.Memory.Repositories
 {
-    public class SpeakerSetupRepository : JJ.Data.Synthesizer.DefaultRepositories.SpeakerSetupRepository
+    public class SpeakerSetupRepository : DefaultRepositories.SpeakerSetupRepository
     {
         public SpeakerSetupRepository(IContext context)
             : base(context)

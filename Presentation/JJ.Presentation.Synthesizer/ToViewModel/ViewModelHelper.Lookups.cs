@@ -89,7 +89,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<NodeType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
+            IList<NodeType> entities = repository.GetAll().OrderBy(x => x.ID).ToArray();
 
             IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
 

@@ -81,6 +81,11 @@
     <Content Include="2015-10-01 010 SynthesizerDB ScaleType change Names to singular again.sql" />
     <Content Include="2015-10-01 020 SynthesizerDB ScaleType 5 - Cent.sql" />
     <Content Include="2015-10-20 010 SynthesizerDB Rename Sine Outlet PhaseStart to PhaseShift.sql" />
+    <Content Include="2015-10-21 010 SynthesizerDB OperatorType 21 - Sawtooth.sql" />
+    <Content Include="2015-10-21 020 SynthesizerDB rename OperatorType 21 from %27Sawtooth%27 to %27SawTooth%27.sql" />
+    <Content Include="2015-10-24 010 SynthesizerDB OperatorType 22 - SquareWave.sql" />
+    <Content Include="2015-10-24 020 SynthesizerDB OperatorType 23 - TriangleWave.sql" />
+    <Content Include="2015-10-24 030 SynthesizerDB NodeType 4 - Curve.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

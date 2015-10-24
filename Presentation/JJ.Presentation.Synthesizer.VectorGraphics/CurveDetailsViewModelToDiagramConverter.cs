@@ -230,6 +230,10 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     CreateLines_WithRelatedElements_ForNodeTypeOff(diagram, previousPoint, nextPoint);
                     break;
 
+                case NodeTypeEnum.Curve:
+                    CreateLines_WithRelatedElements_ForNodeTypeCurve(diagram, previousPoint, nextPoint);
+                    break;
+
                 default:
                     throw new InvalidValueException(previousNodeTypeEnum);
             }
@@ -246,6 +250,67 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 LineStyle = StyleHelper.LineStyleThick,
                 Tag = NODE_LINE_TAG
             };
+        }
+
+        private void CreateLines_WithRelatedElements_ForNodeTypeCurve(Diagram diagram, Point previousPoint, Point nextPoint)
+        {
+            // TODO: Use the CurveCalculator to plot the line segments.
+
+            //throw new NotImplementedException();
+
+            //var destPoints = new List<Point>(sourceCurve.LineCount + 1);
+
+            //float step = 1f / sourceCurve.LineCount;
+            //float t = 0;
+            //for (int i = 0; i < sourceCurve.LineCount + 1; i++)
+            //{
+            //    float calculatedX;
+            //    float calculatedY;
+
+            //    Interpolator.Interpolate_Cubic_FromT(
+            //        sourceCurve.PointA.CalculatedXInPixels, sourceCurve.ControlPointA.CalculatedXInPixels, sourceCurve.ControlPointB.CalculatedXInPixels, sourceCurve.PointB.CalculatedXInPixels,
+            //        sourceCurve.PointA.CalculatedYInPixels, sourceCurve.ControlPointA.CalculatedYInPixels, sourceCurve.ControlPointB.CalculatedYInPixels, sourceCurve.PointB.CalculatedYInPixels,
+            //        t, out calculatedX, out calculatedY);
+
+            //    var destPoint = new Point
+            //    {
+            //        CalculatedXInPixels = calculatedX,
+            //        CalculatedYInPixels = calculatedY,
+            //        // Fill in meaningful values for the other properties.
+            //        X = calculatedX,
+            //        Y = calculatedY,
+            //        CalculatedVisible = false,
+            //        CalculatedLayer = sourceCurve.CalculatedLayer,
+            //        PointStyle = new PointStyle { Visible = false }
+            //    };
+
+            //    destPoints.Add(destPoint);
+
+            //    t += step;
+            //}
+
+            //var destLines = new List<Line>(sourceCurve.LineCount);
+
+            //for (int i = 0; i < destPoints.Count - 1; i++)
+            //{
+            //    Point destPointA = destPoints[i];
+            //    Point destPointB = destPoints[i + 1];
+
+            //    var destLine = new Line
+            //    {
+            //        PointA = destPointA,
+            //        PointB = destPointB,
+            //        // Fill in meaningful values for the other properties.
+            //        CalculatedVisible = true,
+            //        CalculatedZIndex = sourceCurve.CalculatedZIndex,
+            //        CalculatedLayer = sourceCurve.CalculatedLayer,
+            //        LineStyle = sourceCurve.LineStyle
+            //    };
+
+            //    destLines.Add(destLine);
+            //}
+
+            //sourceCurve.CalculatedLines = destLines;
         }
 
         private void CreateLines_WithRelatedElements_ForNodeTypeBlock(Diagram diagram, Point previousPoint, Point nextPoint)

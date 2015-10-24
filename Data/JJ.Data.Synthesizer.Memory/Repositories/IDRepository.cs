@@ -2,7 +2,7 @@
 
 namespace JJ.Data.Synthesizer.Memory.Repositories
 {
-    public class IDRepository : JJ.Data.Synthesizer.DefaultRepositories.IDRepository
+    public class IDRepository : DefaultRepositories.IDRepository
     {
         private static object _lock = new object();
         private static int _id = 1;

@@ -1,0 +1,1 @@
+insert into NodeType (ID, Name) values (4, 'Curve');

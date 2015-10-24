@@ -6,5 +6,6 @@
         Off = 1,
         Block = 2,
         Line = 3,
+        Curve = 4
     }
 }

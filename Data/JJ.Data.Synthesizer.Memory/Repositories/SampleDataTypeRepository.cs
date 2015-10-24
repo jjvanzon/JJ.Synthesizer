@@ -3,7 +3,7 @@ using JJ.Data.Synthesizer.Memory.Helpers;
 
 namespace JJ.Data.Synthesizer.Memory.Repositories
 {
-    public class SampleDataTypeRepository : JJ.Data.Synthesizer.DefaultRepositories.SampleDataTypeRepository
+    public class SampleDataTypeRepository : DefaultRepositories.SampleDataTypeRepository
     {
         public SampleDataTypeRepository(IContext context)
             : base(context)
