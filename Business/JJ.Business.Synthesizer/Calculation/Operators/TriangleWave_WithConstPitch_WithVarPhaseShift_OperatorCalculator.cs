@@ -30,6 +30,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _phase = _phase + dt * _pitch;
 
             double shiftedPhase = _phase + phaseShift;
+
+            // Correct the phase, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
+            shiftedPhase += 0.25;
+
             double relativePhase = shiftedPhase % 1.0;
             double value;
             if (relativePhase < 0.5)

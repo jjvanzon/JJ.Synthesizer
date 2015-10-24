@@ -19,6 +19,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _pitchCalculator = pitchCalculator;
             _phase = phaseShift;
+
+            // Correct the phase, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
+            _phase += 0.25;
         }
 
         public override double Calculate(double time, int channelIndex)
