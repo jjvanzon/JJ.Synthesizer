@@ -74,8 +74,8 @@
     <Compile Include="Calculation\Operators\Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Resample_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\SawTooth_WithConstPitch_WithoutPhaseShift_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\SquareWave_WithConstPitch_WithoutPhaseShift_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\~SawTooth_WithConstPitch_WithoutPhaseShift_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\~SquareWave_WithConstPitch_WithoutPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SquareWave_WithConstPitch_WithConstPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SquareWave_WithVarPitch_WithConstPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SquareWave_WithConstPitch_WithVarPhaseShift_OperatorCalculator.cs" />
@@ -84,8 +84,8 @@
     <Compile Include="Calculation\Operators\TriangleWave_WithVarPitch_WithVarPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TriangleWave_WithVarPitch_WithConstPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SquareWave_WithVarPitch_WithVarPhaseShift_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\SquareWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator.cs" />
-    <Compile Include="Calculation\Operators\SawTooth_WithVarPitch_WithoutPhaseShift_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\~SquareWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\~SawTooth_WithVarPitch_WithoutPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SawTooth_WithVarPitch_WithConstPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SawTooth_WithConstPitch_WithConstPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SawTooth_WithConstPitch_WithVarPhaseShift_OperatorCalculator.cs" />

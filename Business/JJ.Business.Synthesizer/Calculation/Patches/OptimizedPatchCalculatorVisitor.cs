@@ -549,14 +549,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // Weird number
                 calculator = new Number_OperatorCalculator(0);
             }
-            else if (pitchIsConst && phaseShiftIsConstZero)
-            {
-                calculator = new SawTooth_WithConstPitch_WithoutPhaseShift_OperatorCalculator(pitch);
-            }
-            else if (!pitchIsConst && phaseShiftIsConstZero)
-            {
-                calculator = new SawTooth_WithVarPitch_WithoutPhaseShift_OperatorCalculator(pitchCalculator);
-            }
             else if (pitchIsConst && phaseShiftIsConst)
             {
                 calculator = new SawTooth_WithConstPitch_WithConstPhaseShift_OperatorCalculator(pitch, phaseShift);
@@ -780,14 +772,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 // Weird number
                 calculator = new Number_OperatorCalculator(0);
-            }
-            else if (pitchIsConst && phaseShiftIsConstZero)
-            {
-                calculator = new SquareWave_WithConstPitch_WithoutPhaseShift_OperatorCalculator(pitch);
-            }
-            else if (!pitchIsConst && phaseShiftIsConstZero)
-            {
-                calculator = new SquareWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator(pitchCalculator);
             }
             else if (pitchIsConst && phaseShiftIsConst)
             {
