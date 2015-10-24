@@ -4,29 +4,37 @@ using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class TriangleWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class TriangleWave_WithVarPitch_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly OperatorCalculatorBase _pitchCalculator;
+        private readonly OperatorCalculatorBase _phaseShiftCalculator;
         private double _phase;
         private double _previousTime;
 
-        public TriangleWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator(OperatorCalculatorBase pitchCalculator)
+        public TriangleWave_WithVarPitch_WithVarPhaseShift_OperatorCalculator(
+            OperatorCalculatorBase pitchCalculator,
+            OperatorCalculatorBase phaseShiftCalculator)
         {
             if (pitchCalculator == null) throw new NullException(() => pitchCalculator);
-            //if (pitchCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => pitchCalculator);
+            if (pitchCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => pitchCalculator);
+            if (phaseShiftCalculator == null) throw new NullException(() => phaseShiftCalculator);
+            if (phaseShiftCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => phaseShiftCalculator);
 
             _pitchCalculator = pitchCalculator;
+            _phaseShiftCalculator = phaseShiftCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
             double pitch = _pitchCalculator.Calculate(time, channelIndex);
+            double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
             _phase = _phase + dt * pitch;
 
+            double shiftedPhase = _phase + phaseShift;
+            double relativePhase = shiftedPhase % 1.0;
             double value;
-            double relativePhase = _phase % 1.0;
             if (relativePhase < 0.5)
             {
                 // Starts going up at a rate of 2 up over 1/2 a cycle.
