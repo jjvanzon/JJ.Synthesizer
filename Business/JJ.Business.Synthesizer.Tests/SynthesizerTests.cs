@@ -927,6 +927,7 @@ namespace JJ.Business.Synthesizer.Tests
                 patchCalculator.Calculate(0.625, 0),
                 patchCalculator.Calculate(0.750, 0),
                 patchCalculator.Calculate(0.875, 0),
+                patchCalculator.Calculate(1.000, 0),
                 patchCalculator.Calculate(1.125, 0),
                 patchCalculator.Calculate(1.250, 0),
                 patchCalculator.Calculate(1.375, 0),

@@ -79,6 +79,7 @@
     <Compile Include="Calculation\Operators\SquareWave_WithConstPitch_WithConstPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SquareWave_WithVarPitch_WithConstPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SquareWave_WithConstPitch_WithVarPhaseShift_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Operators\TriangleWave_WithVarPitch_WithPhaseShiftMinusQuarter_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\TriangleWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SquareWave_WithVarPitch_WithVarPhaseShift_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SquareWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator.cs" />

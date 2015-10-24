@@ -975,7 +975,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             //}
             else //if (!pitchIsConst && phaseShiftIsConstZero)
             {
-                calculator = new TriangleWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator(pitchCalculator);
+                //calculator = new TriangleWave_WithVarPitch_WithoutPhaseShift_OperatorCalculator(pitchCalculator);
+                calculator = new TriangleWave_WithVarPitch_WithPhaseShiftMinusQuarter_OperatorCalculator(pitchCalculator);
             }
             //else if (pitchIsConst && phaseShiftIsConst)
             //{
