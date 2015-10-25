@@ -532,30 +532,6 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             };
         }
 
-        private CurveInfo CreateCurveInfo(IList<NodeViewModel> nodeViewModels)
-        {
-            IList<NodeInfo> nodeInfoList = nodeViewModels.Select(x => new NodeInfo(x.Time, x.Value, (NodeTypeEnum)x.NodeType.ID)).ToArray();
-
-            JJ.Data.Synthesizer.Curve mockCurve = CurveApi.Create(nodeInfoList);
-
-            IList<NodeTuple> nodeTuples = new List<NodeTuple>(nodeViewModels.Count);
-
-            for (int i = 0; i < nodeViewModels.Count; i++)
-            {
-                nodeTuples.Add(new NodeTuple
-                {
-                    MockNode = mockCurve.Nodes[i],
-                    NodeViewModel = nodeViewModels[i]
-                });
-            }
-
-            return new CurveInfo
-            {
-                MockCurve = mockCurve,
-                NodeTuples = nodeTuples
-            };
-        }
-
         private void CreateLines_WithRelatedElements_ForNodeTypeCurve(Diagram diagram, Point previousPoint, Point nextPoint)
         {
             Node mockNode0 = _currentCurveInfo.NodeTuples
@@ -568,7 +544,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                                        .Select(x => x.MockNode)
                                        .Single();
 
-            const int LINE_COUNT = 30; // TODO: Make setting.
+            const int LINE_COUNT = 25; // TODO: Make setting.
             const int POINT_COUNT = LINE_COUNT + 1;
             var destPoints = new List<Point>(POINT_COUNT);
 
@@ -617,6 +593,30 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
                 destLines.Add(destLine);
             }
+        }
+
+        private CurveInfo CreateCurveInfo(IList<NodeViewModel> nodeViewModels)
+        {
+            IList<NodeInfo> nodeInfoList = nodeViewModels.Select(x => new NodeInfo(x.Time, x.Value, (NodeTypeEnum)x.NodeType.ID)).ToArray();
+
+            JJ.Data.Synthesizer.Curve mockCurve = CurveApi.Create(nodeInfoList);
+
+            IList<NodeTuple> nodeTuples = new List<NodeTuple>(nodeViewModels.Count);
+
+            for (int i = 0; i < nodeViewModels.Count; i++)
+            {
+                nodeTuples.Add(new NodeTuple
+                {
+                    MockNode = mockCurve.Nodes[i],
+                    NodeViewModel = nodeViewModels[i]
+                });
+            }
+
+            return new CurveInfo
+            {
+                MockCurve = mockCurve,
+                NodeTuples = nodeTuples
+            };
         }
     }
 }

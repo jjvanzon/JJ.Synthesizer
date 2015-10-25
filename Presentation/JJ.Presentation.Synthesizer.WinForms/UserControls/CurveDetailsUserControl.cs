@@ -15,6 +15,7 @@ using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -154,19 +155,44 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void MoveNodeGesture_Moving(object sender, ElementEventArgs e)
         {
-            // HACK:
-            // At the moment, moving a node outside of bounds does not work well,
-            // so limit immediate application of the move while dragging,
-            // to the intermediate nodes, to prevent wonkiness (not full-proof).
-            int nodeID = (int)e.Element.Tag;
-            IList<NodeViewModel> sortedNodeViewModels = _viewModel.Entity.Nodes.OrderBy(x => x.Time).ToList();
-            bool mustDoMove = nodeID != sortedNodeViewModels.First().ID &&
-                              nodeID != sortedNodeViewModels.Last().ID;
-
-            if (mustDoMove)
+            if (MustDoMove(e.Element))
             {
                 DoMoveNode(e);
             }
+        }
+
+        private bool MustDoMove(Element element)
+        {
+            // HACK:
+            // At the moment, moving a node outside of bounds does not work well,
+            // so do not recalculate while draggin then.
+
+            int nodeID = (int)element.Tag;
+
+            // This looks if it is the first or last node.
+            // Even when the node is within the diagram bounds
+            // moving the last node 'inwards' would change the scaling.
+            IList<NodeViewModel> sortedViewModels1 = _viewModel.Entity.Nodes.OrderBy(x => x.Time).ToList();
+            IList<NodeViewModel> sortedViewModels2 = _viewModel.Entity.Nodes.OrderBy(x => x.Value).ToList();
+            NodeViewModel leftViewModel = sortedViewModels1.First();
+            NodeViewModel rightViewModel = sortedViewModels1.Last();
+            NodeViewModel bottomViewModel = sortedViewModels2.First();
+            NodeViewModel topViewModel = sortedViewModels2.Last();
+
+            bool isAtBounds = nodeID == leftViewModel.ID ||
+                              nodeID == rightViewModel.ID ||
+                              nodeID == bottomViewModel.ID ||
+                              nodeID == topViewModel.ID;
+
+            // This looks it the position is in view. If you are to fast to move the first or last node,
+            // it would scale if I do not do a bounds check. I am actually not sure why...
+            bool isInRange = Geometry.IsInRectangle(
+                element.XInPixels, element.YInPixels,
+                0, 0, element.Diagram.WidthInPixels, element.Diagram.HeightInPixels);
+
+            bool mustDoMove = !isAtBounds && isInRange;
+
+            return mustDoMove;
         }
 
         private void MoveNodeGesture_Moved(object sender, ElementEventArgs e)
