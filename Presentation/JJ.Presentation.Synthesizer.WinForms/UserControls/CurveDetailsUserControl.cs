@@ -33,27 +33,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private CurveDetailsViewModel _viewModel;
         private CurveDetailsViewModelToDiagramConverter _converter;
-        private static bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
-
-        private static bool GetMustShowInvisibleElements()
-        {
-            if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-            {
-                var config = CustomConfigurationManager.GetSection<ConfigurationSection>();
-                return config.Testing.MustShowInvisibleElements;
-            }
-            else
-            {
-                return false;
-            }
-        }
 
         public CurveDetailsUserControl()
         {
             _converter = new CurveDetailsViewModelToDiagramConverter(
                 SystemInformation.DoubleClickTime,
-                SystemInformation.DoubleClickSize.Width,
-                _mustShowInvisibleElements);
+                SystemInformation.DoubleClickSize.Width);
 
             _converter.Result.KeyDownGesture.KeyDown += Diagram_KeyDown;
             _converter.Result.SelectNodeGesture.SelectNodeRequested += SelectNodeGesture_NodeSelected;

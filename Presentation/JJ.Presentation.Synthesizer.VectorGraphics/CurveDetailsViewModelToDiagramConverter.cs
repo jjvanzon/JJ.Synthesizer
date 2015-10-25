@@ -14,6 +14,8 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Configuration;
+using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
@@ -31,10 +33,15 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             public Node MockNode { get; set; }
         }
 
+        private static int _lineSegmentCount = GetLineSegmentCount();
+        private static int _lineSegmentPointCount = GetLineSegmentCount() + 1;
+        private static float _nodeClickableRegionSizeInPixels = GetNodeClickableRegionSizeInPixels();
+        private static bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
+
         private const int MINIMUM_NODE_COUNT = 2;
-        private const float NODE_RECTANGLE_SIZE_IN_PIXELS = 20; // TODO: Make setting?
-        private const string NODE_LINE_TAG = "Node Line";
-        private const string HELPER_POINT_TAG = "Helper Point";
+
+        /// <summary> Elements with this tag are deleted and recreated upon each conversion. <summary>
+        private const string HELPER_ELEMENT_TAG = "Helper Element";
 
         /// <summary> Not nullable. Never replaced with a new instance. Neither are its properties. </summary>
         public CurveDetailsViewModelToDiagramConverterResult Result { get; private set; }
@@ -59,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         private CurveCalculator _currentCurveCalculator;
 
         /// <param name="mustShowInvisibleElements">for debugging</param>
-        public CurveDetailsViewModelToDiagramConverter(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels, bool mustShowInvisibleElements)
+        public CurveDetailsViewModelToDiagramConverter(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
         {
             Result = new CurveDetailsViewModelToDiagramConverterResult(doubleClickSpeedInMilliseconds, doubleClickDeltaInPixels);
 
@@ -70,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             _rightBoundLabel = CreateRightBoundLabel(Result.Diagram);
             _leftBoundLabel = CreateLeftBoundLabel(Result.Diagram);
 
-            if (mustShowInvisibleElements)
+            if (_mustShowInvisibleElements)
             {
                 StyleHelper.MakeHiddenStylesVisible();
             }
@@ -87,8 +94,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             // Delete All Lines
             IList<Element> elementsToDelete = Result.Diagram.Elements
-                                                            .Where(x => String.Equals(Convert.ToString(x.Tag), NODE_LINE_TAG) ||
-                                                                        String.Equals(Convert.ToString(x.Tag), HELPER_POINT_TAG))
+                                                            .Where(x => String.Equals(Convert.ToString(x.Tag), HELPER_ELEMENT_TAG))
                                                             .ToArray();
                                                             
             foreach (Element elementToDelete in elementsToDelete)
@@ -132,8 +138,8 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             UpdateBottomBoundLabel(minValue);
 
             // Points, Lines and Clickable Regions
-            float scaledNodeRectangleWidth = ScaleHelper.PixelsToWidth(Result.Diagram, NODE_RECTANGLE_SIZE_IN_PIXELS);
-            float scaledNodeRectangleHeight = ScaleHelper.PixelsToHeight(Result.Diagram, NODE_RECTANGLE_SIZE_IN_PIXELS);
+            float scaledNodeRectangleWidth = ScaleHelper.PixelsToWidth(Result.Diagram, _nodeClickableRegionSizeInPixels);
+            float scaledNodeRectangleHeight = ScaleHelper.PixelsToHeight(Result.Diagram, _nodeClickableRegionSizeInPixels);
             float scaledNodeRectangleWidthOver2 = scaledNodeRectangleWidth / 2;
             float scaledNodeRectangleHeightOver2 = scaledNodeRectangleHeight / 2;
 
@@ -442,7 +448,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Parent = diagram.Background,
                 PointA = previousPoint,
                 LineStyle = StyleHelper.LineStyleThick,
-                Tag = NODE_LINE_TAG
+                Tag = HELPER_ELEMENT_TAG
             };
 
             verticalLineTo0.PointB = new Point
@@ -452,7 +458,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 X = 0,
                 Y = ScaleHelper.AbsoluteToRelativeY(previousPoint, 0),
                 PointStyle = StyleHelper.PointStyleInvisible,
-                Tag = HELPER_POINT_TAG
+                Tag = HELPER_ELEMENT_TAG
             };
 
             var horizontalLine = new Line
@@ -461,7 +467,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Parent = diagram.Background,
                 PointA = verticalLineTo0.PointB,
                 LineStyle = StyleHelper.LineStyleThick,
-                Tag = NODE_LINE_TAG
+                Tag = HELPER_ELEMENT_TAG
             };
 
             horizontalLine.PointB = new Point
@@ -471,7 +477,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 X = 0,
                 Y = ScaleHelper.AbsoluteToRelativeY(nextPoint, 0),
                 PointStyle = StyleHelper.PointStyleInvisible,
-                Tag = HELPER_POINT_TAG
+                Tag = HELPER_ELEMENT_TAG
             };
 
             var verticalLineToNextPoint = new Line
@@ -481,7 +487,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 PointA = horizontalLine.PointB,
                 PointB = nextPoint,
                 LineStyle = StyleHelper.LineStyleThick,
-                Tag = NODE_LINE_TAG
+                Tag = HELPER_ELEMENT_TAG
             };
         }
 
@@ -494,7 +500,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 Parent = diagram.Background,
                 PointA = previousPoint,
                 LineStyle = StyleHelper.LineStyleThick,
-                Tag = NODE_LINE_TAG
+                Tag = HELPER_ELEMENT_TAG
             };
 
             line.PointB = new Point
@@ -504,7 +510,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 X = 0,
                 Y = ScaleHelper.AbsoluteToRelativeY(nextPoint, previousPoint.AbsoluteY),
                 PointStyle = StyleHelper.PointStyleInvisible,
-                Tag = HELPER_POINT_TAG
+                Tag = HELPER_ELEMENT_TAG
             };
 
             // Create vertical line down.
@@ -515,7 +521,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 PointA = line.PointB,
                 PointB = nextPoint,
                 LineStyle = StyleHelper.LineStyleThick,
-                Tag = HELPER_POINT_TAG
+                Tag = HELPER_ELEMENT_TAG
             };
         }
 
@@ -528,7 +534,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 PointA = previousPoint,
                 PointB = nextPoint,
                 LineStyle = StyleHelper.LineStyleThick,
-                Tag = NODE_LINE_TAG
+                Tag = HELPER_ELEMENT_TAG
             };
         }
 
@@ -544,15 +550,13 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                                        .Select(x => x.MockNode)
                                        .Single();
 
-            const int LINE_COUNT = 25; // TODO: Make setting.
-            const int POINT_COUNT = LINE_COUNT + 1;
-            var destPoints = new List<Point>(POINT_COUNT);
+            var destPoints = new List<Point>(_lineSegmentPointCount);
 
             destPoints.Add(previousPoint);
 
-            double step = (mockNode1.Time - mockNode0.Time) / LINE_COUNT;
+            double step = (mockNode1.Time - mockNode0.Time) / _lineSegmentCount;
             double time = mockNode0.Time + step;
-            for (int i = 0; i < POINT_COUNT - 2; i++)
+            for (int i = 0; i < _lineSegmentPointCount - 2; i++)
             {
                 double value = _currentCurveCalculator.CalculateValue(time);
 
@@ -561,7 +565,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     Diagram = previousPoint.Diagram,
                     Parent = previousPoint.Diagram.Background,
                     PointStyle = StyleHelper.PointStyleInvisible,
-                    Tag = HELPER_POINT_TAG
+                    Tag = HELPER_ELEMENT_TAG
                 };
 
                 destPoint.X = ScaleHelper.AbsoluteToRelativeX(destPoint.Parent, (float)time);
@@ -574,7 +578,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             destPoints.Add(nextPoint);
 
-            var destLines = new List<Line>(LINE_COUNT);
+            var destLines = new List<Line>(_lineSegmentCount);
 
             for (int i = 0; i < destPoints.Count - 1; i++)
             {
@@ -588,7 +592,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     PointA = destPointA,
                     PointB = destPointB,
                     LineStyle = StyleHelper.LineStyleThick,
-                    Tag = NODE_LINE_TAG
+                    Tag = HELPER_ELEMENT_TAG
                 };
 
                 destLines.Add(destLine);
@@ -617,6 +621,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 MockCurve = mockCurve,
                 NodeTuples = nodeTuples
             };
+        }
+
+        // Helpers
+
+        private static int GetLineSegmentCount()
+        {
+            return CustomConfigurationManager.GetSection<ConfigurationSection>().CurveLineSegmentCount;
+        }
+
+        private static float GetNodeClickableRegionSizeInPixels()
+        {
+            return CustomConfigurationManager.GetSection<ConfigurationSection>().NodeClickableRegionSizeInPixels;
+        }
+
+        private static bool GetMustShowInvisibleElements()
+        {
+            return CustomConfigurationManager.GetSection<ConfigurationSection>().MustShowInvisibleElements;
         }
     }
 }

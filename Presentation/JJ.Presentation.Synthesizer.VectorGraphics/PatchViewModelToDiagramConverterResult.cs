@@ -37,8 +37,14 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         public SelectOperatorGesture SelectOperatorGesture { get; private set; }
         public DeleteOperatorGesture DeleteOperatorGesture { get; private set; }
         public DoubleClickGesture DoubleClickOperatorGesture { get; private set; }
+
+        // TODO: Instead of making these nullable, use the ToolTipFeatureEnabled boolean in the right places.
+
+        /// <summary> nullable </summary>
         public ToolTipGesture OperatorToolTipGesture { get; private set; }
+        /// <summary> nullable </summary>
         public ToolTipGesture InletToolTipGesture { get; private set; }
+        /// <summary> nullable </summary>
         public ToolTipGesture OutletToolTipGesture { get; private set; }
     }
 }

@@ -8,6 +8,9 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Converters;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
+using System;
+using JJ.Framework.Configuration;
+using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
@@ -22,9 +25,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             public IList<Point> OutletControlPoints { get; set; }
         }
 
+        private static bool _tooltipFeatureEnabled = GetTooltipFeatureEnabled();
+        private static int _lineSegmentCount = GetLineSegmentCount();
+        private static bool _mustShowInvisibleElements = GetMustShowInvisibleElements();
+
         private readonly int _doubleClickSpeedInMilliseconds;
         private readonly int _doubleClickDeltaInPixels;
-        private bool _tooltipFeatureEnabled;
 
         private PatchViewModelToDiagramConverterResult _result;
         private Dictionary<OperatorViewModel, OperatorElements> _convertedOperatorDictionary;
@@ -43,18 +49,12 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         private int _currentPatchID;
 
-        /// <param name="mustShowInvisibleElements">for debugging</param>
-        public PatchViewModelToDiagramConverter(
-            int doubleClickSpeedInMilliseconds,
-            int doubleClickDeltaInPixels,
-            bool mustShowInvisibleElements = false,
-            bool tooltipFeatureEnabled = true)
+        public PatchViewModelToDiagramConverter(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
         {
-            _tooltipFeatureEnabled = tooltipFeatureEnabled;
             _doubleClickSpeedInMilliseconds = doubleClickSpeedInMilliseconds;
             _doubleClickDeltaInPixels = doubleClickDeltaInPixels;
 
-            if (mustShowInvisibleElements)
+            if (_mustShowInvisibleElements)
             {
                 StyleHelper.MakeHiddenStylesVisible();
             }
@@ -205,6 +205,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     {
                         destCurve = new Curve
                         {
+                            LineCount = _lineSegmentCount,
                             LineStyle = StyleHelper.LineStyle,
                             ZIndex = -1,
                             Tag = VectorGraphicsTagHelper.GetInletTag(id),
@@ -301,6 +302,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 OutletPoints = destOutletPoints,
                 OutletControlPoints = destOutletControlPoints
             };
+        }
+
+        // Helpers
+
+        private static bool GetTooltipFeatureEnabled()
+        {
+            return CustomConfigurationManager.GetSection<ConfigurationSection>().ToolTipFeatureEnabled;
+        }
+
+        private static int GetLineSegmentCount()
+        {
+            return CustomConfigurationManager.GetSection<ConfigurationSection>().PatchLineSegmentCount;
+        }
+
+        private static bool GetMustShowInvisibleElements()
+        {
+            return CustomConfigurationManager.GetSection<ConfigurationSection>().MustShowInvisibleElements;
         }
     }
 }

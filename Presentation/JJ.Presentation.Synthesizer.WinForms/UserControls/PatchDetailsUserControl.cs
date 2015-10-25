@@ -15,7 +15,6 @@ using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
@@ -36,21 +35,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private PatchViewModelToDiagramConverter _converter;
         private PatchViewModelToDiagramConverterResult _vectorGraphics;
         private static bool _alwaysRecreateDiagram;
-        private static bool _mustShowInvisibleElements;
-        private static bool _toolTipFeatureEnabled;
 
         // Constructors
-
-        static PatchDetailsUserControl()
-        {
-            if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
-            {
-                ConfigurationSection config = CustomConfigurationManager.GetSection<ConfigurationSection>();
-                _alwaysRecreateDiagram = config.Testing.AlwaysRecreateDiagram;
-                _mustShowInvisibleElements = config.Testing.MustShowInvisibleElements;
-                _toolTipFeatureEnabled = config.Testing.ToolTipsFeatureEnabled;
-            }
-        }
 
         public PatchDetailsUserControl()
         {
@@ -94,9 +80,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 _converter = new PatchViewModelToDiagramConverter(
                     SystemInformation.DoubleClickTime,
-                    SystemInformation.DoubleClickSize.Width,
-                    _mustShowInvisibleElements,
-                    _toolTipFeatureEnabled);
+                    SystemInformation.DoubleClickSize.Width);
 
                 _vectorGraphics = _converter.Execute(_viewModel.Entity);
             }
@@ -120,10 +104,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             _vectorGraphics.DeleteOperatorGesture.DeleteRequested += DeleteOperatorGesture_DeleteRequested;
             _vectorGraphics.DoubleClickOperatorGesture.DoubleClick += DoubleClickOperatorGesture_DoubleClick;
 
-            if (_toolTipFeatureEnabled)
+            if (_vectorGraphics.OperatorToolTipGesture != null)
             {
                 _vectorGraphics.OperatorToolTipGesture.ToolTipTextRequested += OperatorToolTipGesture_ShowToolTipRequested;
+            }
+            if (_vectorGraphics.InletToolTipGesture != null)
+            {
                 _vectorGraphics.InletToolTipGesture.ToolTipTextRequested += InletToolTipGesture_ToolTipTextRequested;
+            }
+            if (_vectorGraphics.OutletToolTipGesture != null)
+            {
                 _vectorGraphics.OutletToolTipGesture.ToolTipTextRequested += OutletToolTipGesture_ToolTipTextRequested;
             }
         }
@@ -138,10 +128,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _vectorGraphics.DeleteOperatorGesture.DeleteRequested -= DeleteOperatorGesture_DeleteRequested;
                 _vectorGraphics.DoubleClickOperatorGesture.DoubleClick -= DoubleClickOperatorGesture_DoubleClick;
 
-                if (_toolTipFeatureEnabled)
+                if (_vectorGraphics.OperatorToolTipGesture != null)
                 {
                     _vectorGraphics.OperatorToolTipGesture.ToolTipTextRequested -= OperatorToolTipGesture_ShowToolTipRequested;
+                }
+                if (_vectorGraphics.InletToolTipGesture != null)
+                {
                     _vectorGraphics.InletToolTipGesture.ToolTipTextRequested -= InletToolTipGesture_ToolTipTextRequested;
+                }
+                if (_vectorGraphics.OutletToolTipGesture != null)
+                {
                     _vectorGraphics.OutletToolTipGesture.ToolTipTextRequested -= OutletToolTipGesture_ToolTipTextRequested;
                 }
             }
