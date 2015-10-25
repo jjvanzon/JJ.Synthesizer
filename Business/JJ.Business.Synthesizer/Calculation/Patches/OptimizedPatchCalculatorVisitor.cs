@@ -112,7 +112,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = operandACalculator;
             }
-            if (operandAIsConst && operandBIsConst)
+            else if (operandAIsConst && operandBIsConst)
             {
                 calculator = new Number_OperatorCalculator(a + b);
             }
@@ -304,36 +304,45 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool lowIsConst = lowCalculator is Number_OperatorCalculator;
             bool highIsConst = highCalculator is Number_OperatorCalculator;
             bool ratioIsConst = ratioCalculator is Number_OperatorCalculator;
-            bool lowIsConstZero = lowIsConst && low == 0;
-            bool highIsConstZero = lowIsConst && high == 0;
-            bool ratioIsConstZero = ratioIsConst && ratio == 0;
 
-            // TODO: Program calculator variations and this if structure.
-            //if (lowIsConstZero && highIsConstZero)
-            //{
-            //    calculator = new Number_OperatorCalculator(0);
-            //}
-            //else if (lowIsConstZero)
-            //{
-            //    calculator = highCalculator;
-            //}
-            //else if (highIsConstZero)
-            //{
-            //    calculator = lowCalculator;
-            //}
-            //if (lowIsConst && highIsConst)
-            //{
-            //    calculator = new Number_OperatorCalculator(low + high);
-            //}
-            //else if (lowIsConst)
-            //{
-            //    calculator = new Exponent_WithConstOperandA_OperatorCalculator(low, highCalculator);
-            //}
-            //else if (highIsConst)
-            //{
-            //    calculator = new Exponent_WithConstOperandB_OperatorCalculator(lowCalculator, high);
-            //}
-            //else
+            // TODO: Program specialization in case of special values later.
+            //bool lowIsConstZero = lowIsConst && low == 0;
+            //bool highIsConstZero = lowIsConst && high == 0;
+            //bool ratioIsConstZero = ratioIsConst && ratio == 0;
+            //bool lowIsConstOne = lowIsConst && low == 1;
+            //bool highIsConstOne = lowIsConst && high == 1;
+            //bool ratioIsConstOne = ratioIsConst && ratio == 1;
+
+            if (lowIsConst && highIsConst && ratioIsConst)
+            {
+                double value = low * Math.Pow(high / low, ratio);
+                calculator = new Number_OperatorCalculator(value);
+            }
+            else if (!lowIsConst && highIsConst && ratioIsConst)
+            {
+                calculator = new Exponent_WithConstHighAndConstRatio_OperatorCalculator(lowCalculator, high, ratio);
+            }
+            else if (lowIsConst && !highIsConst && ratioIsConst)
+            {
+                calculator = new Exponent_WithConstLowAndConstRatio_OperatorCalculator(low, highCalculator, ratio);
+            }
+            else if (!lowIsConst && !highIsConst && ratioIsConst)
+            {
+                calculator = new Exponent_WithConstRatio_OperatorCalculator(lowCalculator, highCalculator, ratio);
+            }
+            else if (lowIsConst && highIsConst && !ratioIsConst)
+            {
+                calculator = new Exponent_WithConstLowAndConstHigh_OperatorCalculator(low, high, ratioCalculator);
+            }
+            else if (!lowIsConst && highIsConst && !ratioIsConst)
+            {
+                calculator = new Exponent_WithConstHigh_OperatorCalculator(lowCalculator, high, ratioCalculator);
+            }
+            else if (lowIsConst && !highIsConst && !ratioIsConst)
+            {
+                calculator = new Exponent_WithConstLow_OperatorCalculator(low, highCalculator, ratioCalculator);
+            }
+            else
             {
                 calculator = new Exponent_OperatorCalculator(lowCalculator, highCalculator, ratioCalculator);
             }
