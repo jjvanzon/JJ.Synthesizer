@@ -17,11 +17,13 @@ namespace JJ.Business.Synthesizer.Validation
         private ICurveRepository _curveRepository;
 
         public CurveValidator_Delete(Curve curve, ICurveRepository curveRepository)
-            : base(curve)
+            : base(curve, postponeExecute: true)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
 
             _curveRepository = curveRepository;
+
+            Execute();
         }
 
         protected override void Execute()
