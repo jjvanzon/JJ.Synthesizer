@@ -86,6 +86,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Adder, CalculateAdder },
                 { OperatorTypeEnum.Curve, CalculateCurveOperator },
                 { OperatorTypeEnum.Divide, CalculateDivide },
+                { OperatorTypeEnum.Exponent, CalculateExponent },
                 { OperatorTypeEnum.Multiply, CalculateMultiply },
                 { OperatorTypeEnum.PatchInlet, CalculatePatchInlet },
                 { OperatorTypeEnum.PatchOutlet, CalculatePatchOutlet },
@@ -193,7 +194,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             if (curve == null) return 0;
 
-            // TODO: Cache CurveCalculators?
+            // TODO: Cache CurveCalculators? Yes, CurvCalculator asserts using a validator. Very expensive for each sample.
             var curveCalculator = new CurveCalculator(curve);
             double result = curveCalculator.CalculateValue(time);
             return result;
@@ -270,6 +271,43 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                 return (numerator - origin) / denominator + origin;
             }
+        }
+
+        private double CalculateExponent(Operator op, double time)
+        {
+            var wrapper = new OperatorWrapper_Exponent(op);
+
+            Outlet lowOutlet = wrapper.Low;
+            Outlet highOutlet = wrapper.High;
+            Outlet ratioOutlet = wrapper.Ratio;
+
+            if (lowOutlet == null)
+            {
+                return 0.0;
+            }
+
+            if (highOutlet == null)
+            {
+                return Calculate(lowOutlet, time);
+            }
+
+            if (ratioOutlet == null)
+            {
+                return Calculate(lowOutlet, time);
+            }
+
+            double low = Calculate(lowOutlet, time);
+            double high = Calculate(highOutlet, time);
+            double ratio = Calculate(ratioOutlet, time);
+
+            if (low == 0.0)
+            {
+                // Prevent NaN out of division by 0.
+                return 0.0;
+            }
+
+            double value = low * Math.Pow(high / low, ratio);
+            return value;
         }
 
         private double CalculateMultiply(Operator op, double time)
