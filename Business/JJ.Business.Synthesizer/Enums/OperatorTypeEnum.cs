@@ -25,6 +25,7 @@
         CustomOperator = 20,
         SawTooth = 21,
         SquareWave = 22,
-        TriangleWave = 23
+        TriangleWave = 23,
+        Exponent = 24
     }
 }

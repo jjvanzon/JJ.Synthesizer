@@ -31,6 +31,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 21, "SawTooth");
             RepositoryHelper.EnsureEnumEntity(this, 22, "SquareWave");
             RepositoryHelper.EnsureEnumEntity(this, 23, "TriangleWave");
+            RepositoryHelper.EnsureEnumEntity(this, 24, "Exponent");
         }
     }
 }

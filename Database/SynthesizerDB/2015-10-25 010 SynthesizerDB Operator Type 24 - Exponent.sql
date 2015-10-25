@@ -1,0 +1,1 @@
+insert into OperatorType (ID, Name, SortOrder) values (24, 'Exponent', 24)

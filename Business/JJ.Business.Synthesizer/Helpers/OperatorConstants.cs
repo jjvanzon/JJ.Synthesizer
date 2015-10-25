@@ -19,6 +19,11 @@
         public const int DELAY_TIME_DIFFERENCE_INDEX = 1;
         public const int DELAY_RESULT_INDEX = 0;
 
+        public const int EXPONENT_LOW_INDEX = 0;
+        public const int EXPONENT_HIGH_INDEX = 1;
+        public const int EXPONENT_RATIO_INDEX = 2;
+        public const int EXPONENT_RESULT_INDEX = 0;
+
         public const int MULTIPLY_OPERAND_A_INDEX = 0;
         public const int MULTIPLY_OPERAND_B_INDEX = 1;
         public const int MULTIPLY_ORIGIN_INDEX = 2;

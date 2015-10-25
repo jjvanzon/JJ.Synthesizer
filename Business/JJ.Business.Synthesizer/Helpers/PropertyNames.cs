@@ -77,5 +77,8 @@
         public const string Cents = "Cents";
         public const string Node = "Node";
         public const string Nodes = "Nodes";
+        public static string Low = "Low";
+        public static string High = "High";
+        public static string Ratio = "Ratio";
     }
 }

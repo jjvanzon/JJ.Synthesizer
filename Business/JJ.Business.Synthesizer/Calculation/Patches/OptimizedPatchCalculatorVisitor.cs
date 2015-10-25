@@ -286,6 +286,61 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitExponent(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase lowCalculator = _stack.Pop();
+            OperatorCalculatorBase highCalculator = _stack.Pop();
+            OperatorCalculatorBase ratioCalculator = _stack.Pop();
+
+            lowCalculator = lowCalculator ?? new Number_OperatorCalculator(0);
+            highCalculator = highCalculator ?? new Number_OperatorCalculator(0);
+            ratioCalculator = ratioCalculator ?? new Number_OperatorCalculator(0);
+
+            double low = lowCalculator.Calculate(0, 0);
+            double high = highCalculator.Calculate(0, 0);
+            double ratio = ratioCalculator.Calculate(0, 0);
+            bool lowIsConst = lowCalculator is Number_OperatorCalculator;
+            bool highIsConst = highCalculator is Number_OperatorCalculator;
+            bool ratioIsConst = ratioCalculator is Number_OperatorCalculator;
+            bool lowIsConstZero = lowIsConst && low == 0;
+            bool highIsConstZero = lowIsConst && high == 0;
+            bool ratioIsConstZero = ratioIsConst && ratio == 0;
+
+            // TODO: Program calculator variations and this if structure.
+            //if (lowIsConstZero && highIsConstZero)
+            //{
+            //    calculator = new Number_OperatorCalculator(0);
+            //}
+            //else if (lowIsConstZero)
+            //{
+            //    calculator = highCalculator;
+            //}
+            //else if (highIsConstZero)
+            //{
+            //    calculator = lowCalculator;
+            //}
+            //if (lowIsConst && highIsConst)
+            //{
+            //    calculator = new Number_OperatorCalculator(low + high);
+            //}
+            //else if (lowIsConst)
+            //{
+            //    calculator = new Exponent_WithConstOperandA_OperatorCalculator(low, highCalculator);
+            //}
+            //else if (highIsConst)
+            //{
+            //    calculator = new Exponent_WithConstOperandB_OperatorCalculator(lowCalculator, high);
+            //}
+            //else
+            {
+                calculator = new Exponent_OperatorCalculator(lowCalculator, highCalculator, ratioCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitMultiply(Operator op)
         {
             OperatorCalculatorBase calculator;

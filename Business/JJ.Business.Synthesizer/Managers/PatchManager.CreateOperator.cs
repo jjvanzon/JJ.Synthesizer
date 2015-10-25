@@ -90,6 +90,24 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
+        public OperatorWrapper_Exponent Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.Exponent, 3,
+                PropertyNames.Low, PropertyNames.High, PropertyNames.Ratio,
+                PropertyNames.Result);
+
+            var wrapper = new OperatorWrapper_Exponent(op)
+            {
+                Low = low,
+                High = high,
+                Ratio = ratio
+            };
+
+            wrapper.Operator.LinkTo(Patch);
+            return wrapper;
+        }
+
         public OperatorWrapper_Multiply Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(

@@ -423,4 +423,13 @@
   <data name="TriangleWave" xml:space="preserve">
     <value>Driehoeksgolf</value>
   </data>
+  <data name="High" xml:space="preserve">
+    <value>Hoog</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>Laag</value>
+  </data>
+  <data name="Ratio" xml:space="preserve">
+    <value>Verhouding</value>
+  </data>
 </root>

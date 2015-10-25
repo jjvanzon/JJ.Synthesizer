@@ -23,6 +23,11 @@ namespace JJ.Business.Synthesizer.Api
 
         // TODO: Delegate to more PatchManager methods.
 
+        public OperatorWrapper_Exponent Exponent(Outlet high = null, Outlet low = null, Outlet ratio = null)
+        {
+            return _patchManager.Exponent(high, low, ratio);
+        }
+
         public OperatorWrapper_Number Number(double number = 0)
         {
             return _patchManager.Number(number);

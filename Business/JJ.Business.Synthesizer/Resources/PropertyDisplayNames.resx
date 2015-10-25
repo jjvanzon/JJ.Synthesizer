@@ -424,4 +424,13 @@
   <data name="TriangleWave" xml:space="preserve">
     <value>Triangle Wave</value>
   </data>
+  <data name="High" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="Low" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="Ratio" xml:space="preserve">
+    <value>Ratio</value>
+  </data>
 </root>
