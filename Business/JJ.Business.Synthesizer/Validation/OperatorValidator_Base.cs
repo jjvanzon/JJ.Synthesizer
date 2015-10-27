@@ -49,9 +49,10 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (op.Inlets.Count == _expectedInletNames.Count)
             {
-                for (int i = 0; i < op.Inlets.Count; i++)
+                IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.SortOrder).ToArray();
+                for (int i = 0; i < sortedInlets.Count; i++)
                 {
-                    For(() => op.Inlets[i].Name, GetPropertyDisplayName_ForInletName(i))
+                    For(() => sortedInlets[i].Name, GetPropertyDisplayName_ForInletName(i))
                         .Is(_expectedInletNames[i]);
                 }
             }
@@ -61,9 +62,10 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (op.Outlets.Count == _expectedOutletNames.Count)
             {
-                for (int i = 0; i < op.Outlets.Count; i++)
+                IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.SortOrder).ToArray();
+                for (int i = 0; i < sortedOutlets.Count; i++)
                 {
-                    For(() => op.Outlets[i].Name, GetPropertyDisplayName_ForOutletName(i))
+                    For(() => sortedOutlets[i].Name, GetPropertyDisplayName_ForOutletName(i))
                         .Is(_expectedOutletNames[i]);
                 }
             }

@@ -466,6 +466,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loop.
+        /// </summary>
+        public static string Loop {
+            get {
+                return ResourceManager.GetString("Loop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Low.
         /// </summary>
         public static string Low {

@@ -20,6 +20,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.Curve, typeof(OperatorValidator_Curve) },
             { OperatorTypeEnum.Divide, typeof(OperatorValidator_Divide) },
             { OperatorTypeEnum.Exponent, typeof(OperatorValidator_Exponent) },
+            { OperatorTypeEnum.Loop, typeof(OperatorValidator_Loop) },
             { OperatorTypeEnum.Multiply, typeof(OperatorValidator_Multiply) },
             { OperatorTypeEnum.PatchInlet, typeof(OperatorValidator_PatchInlet) },
             { OperatorTypeEnum.PatchOutlet, typeof(OperatorValidator_PatchOutlet) },

@@ -16,6 +16,7 @@ using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
+using JJ.Presentation.Synthesizer.WinForms.Configuration;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -34,7 +35,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private PatchDetailsViewModel _viewModel;
         private PatchViewModelToDiagramConverter _converter;
         private PatchViewModelToDiagramConverterResult _vectorGraphics;
-        private static bool _alwaysRecreateDiagram;
+        private static bool _alwaysRecreateDiagram = GetAlwaysRecreateDiagram();
 
         // Constructors
 
@@ -349,6 +350,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 LoseFocus();
             }
+        }
+
+        private static bool GetAlwaysRecreateDiagram()
+        {
+            return CustomConfigurationManager.GetSection<ConfigurationSection>().Testing.AlwaysRecreateDiagram;
         }
     }
 }

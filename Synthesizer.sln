@@ -368,6 +368,7 @@ Global
 		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{499527FF-AE52-450F-B3E3-4AD53E1712AD}.Debug|x86.Build.0 = Debug|Any CPU
@@ -765,6 +766,7 @@ Global
 		{5909BFE7-93CF-4E5F-BE22-6293368AF01D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5909BFE7-93CF-4E5F-BE22-6293368AF01D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5909BFE7-93CF-4E5F-BE22-6293368AF01D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5909BFE7-93CF-4E5F-BE22-6293368AF01D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{5909BFE7-93CF-4E5F-BE22-6293368AF01D}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{5909BFE7-93CF-4E5F-BE22-6293368AF01D}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{5909BFE7-93CF-4E5F-BE22-6293368AF01D}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -782,6 +784,7 @@ Global
 		{529145D5-6CC3-4016-89B5-826563024AF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{529145D5-6CC3-4016-89B5-826563024AF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{529145D5-6CC3-4016-89B5-826563024AF1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{529145D5-6CC3-4016-89B5-826563024AF1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{529145D5-6CC3-4016-89B5-826563024AF1}.Debug|x64.ActiveCfg = Debug|Any CPU
 		{529145D5-6CC3-4016-89B5-826563024AF1}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{529145D5-6CC3-4016-89B5-826563024AF1}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -910,7 +913,6 @@ Global
 		SccProjectName8 = Framework/JJ.Framework.IO
 		SccLocalPath8 = Framework\\JJ.Framework.IO
 		SccProjectUniqueName9 = Framework\\JJ.Framework.Presentation.WinForms\\JJ.Framework.Presentation.WinForms.csproj
-		SccProjectTopLevelParentUniqueName9 = Synthesizer.sln
 		SccProjectName9 = Framework/JJ.Framework.Presentation.WinForms
 		SccLocalPath9 = Framework\\JJ.Framework.Presentation.WinForms
 		SccProjectUniqueName10 = Framework\\JJ.Framework.Validation\\JJ.Framework.Validation.csproj
@@ -982,19 +984,15 @@ Global
 		SccProjectName28 = Presentation/JJ.Presentation.Synthesizer
 		SccLocalPath28 = Presentation\\JJ.Presentation.Synthesizer
 		SccProjectUniqueName29 = Framework\\JJ.Framework.Presentation.VectorGraphics\\JJ.Framework.Presentation.VectorGraphics.csproj
-		SccProjectTopLevelParentUniqueName29 = Synthesizer.sln
 		SccProjectName29 = Framework/JJ.Framework.Presentation.VectorGraphics
 		SccLocalPath29 = Framework\\JJ.Framework.Presentation.VectorGraphics
 		SccProjectUniqueName30 = Framework\\JJ.Framework.Presentation.Drawing\\JJ.Framework.Presentation.Drawing.csproj
-		SccProjectTopLevelParentUniqueName30 = Synthesizer.sln
 		SccProjectName30 = Framework/JJ.Framework.Presentation.Drawing
 		SccLocalPath30 = Framework\\JJ.Framework.Presentation.Drawing
 		SccProjectUniqueName31 = Framework\\JJ.Framework.Presentation.WinForms.TestForms\\JJ.Framework.Presentation.WinForms.TestForms.csproj
-		SccProjectTopLevelParentUniqueName31 = Synthesizer.sln
 		SccProjectName31 = Framework/JJ.Framework.Presentation.WinForms.TestForms
 		SccLocalPath31 = Framework\\JJ.Framework.Presentation.WinForms.TestForms
 		SccProjectUniqueName32 = Framework\\JJ.Framework.Presentation.VectorGraphics.Tests\\JJ.Framework.Presentation.VectorGraphics.Tests.csproj
-		SccProjectTopLevelParentUniqueName32 = Synthesizer.sln
 		SccProjectName32 = Framework/JJ.Framework.Presentation.VectorGraphics.Tests
 		SccLocalPath32 = Framework\\JJ.Framework.Presentation.VectorGraphics.Tests
 		SccProjectUniqueName33 = Presentation\\JJ.Presentation.Synthesizer.WinForms\\JJ.Presentation.Synthesizer.WinForms.csproj

@@ -45,6 +45,7 @@
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
+    <Compile Include="Calculation\Operators\Loop_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Exponent_OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Add_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Adder_OperatorCalculator.cs" />
@@ -154,10 +155,12 @@
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Configuration\PatchCalculatorTypeEnum.cs" />
     <Compile Include="Converters\DocumentToOperatorConverter.cs" />
+    <Compile Include="EntityWrappers\2015-10-26 Backup of OperatorWrapperBase.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Exponent.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_CustomOperator_Inlets.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_CustomOperator_Operands.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_CustomOperator_Outlets.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapper_Loop.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_TriangleWave.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_SquareWave.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Sawtooth.cs" />
@@ -256,6 +259,7 @@
     <Compile Include="Validation\InletValidator_ForCustomOperator.cs" />
     <Compile Include="Validation\NodeValidator_Parent.cs" />
     <Compile Include="Validation\OperatorValidator_Exponent.cs" />
+    <Compile Include="Validation\OperatorValidator_Loop.cs" />
     <Compile Include="Validation\OperatorValidator_TriangleWave.cs" />
     <Compile Include="Validation\OperatorValidator_SquareWave.cs" />
     <Compile Include="Validation\OperatorValidator_SawTooth.cs" />
@@ -299,6 +303,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_CustomOperator.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Resample.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Exponent.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Loop.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_TriangleWave.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_SquareWave.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_SawTooth.cs" />

@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Warnings
         protected override void Execute()
         {
             int i = 0;
-            foreach (Inlet inlet in Object.Inlets.Take(_inletCount))
+            foreach (Inlet inlet in Object.Inlets.OrderBy(x => x.SortOrder).Take(_inletCount))
             {
                 if (inlet.InputOutlet == null)
                 {

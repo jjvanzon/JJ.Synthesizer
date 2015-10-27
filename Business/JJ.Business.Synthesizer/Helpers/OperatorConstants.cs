@@ -24,6 +24,12 @@
         public const int EXPONENT_RATIO_INDEX = 2;
         public const int EXPONENT_RESULT_INDEX = 0;
 
+        public const int LOOP_START_INDEX = 0;
+        public const int LOOP_LOOP_START_INDEX = 1;
+        public const int LOOP_LOOP_END_INDEX = 2;
+        public const int LOOP_END_INDEX = 3;
+        public const int LOOP_RESULT_INDEX = 0;
+
         public const int MULTIPLY_OPERAND_A_INDEX = 0;
         public const int MULTIPLY_OPERAND_B_INDEX = 1;
         public const int MULTIPLY_ORIGIN_INDEX = 2;

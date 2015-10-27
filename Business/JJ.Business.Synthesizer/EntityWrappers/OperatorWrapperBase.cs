@@ -1,6 +1,8 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -15,9 +17,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             _operator = op;
         }
 
-        /// <summary>
-        /// Wrapped object
-        /// </summary>
+        /// <summary> Wrapped object summary>
         public Operator Operator { get { return _operator; } }
 
         public string Name
@@ -26,28 +26,26 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { _operator.Name = value; }
         }
 
-        /// <summary>
-        /// Gets an item out of _operator.Inlets and verifies that the index is valid in the list.
-        /// </summary>
+        /// <summary> Gets an item out of the sorted _operator.Inlets and verifies that the index is valid in the list. </summary>
         protected Inlet GetInlet(int index)
         {
-            if (index >= _operator.Inlets.Count)
+            IList<Inlet> sortedInlets = GetSortedInlets();
+            if (index >= sortedInlets.Count)
             {
-                throw new Exception(String.Format("_operator.Inlets does not have index [{0}].", index));
+                throw new Exception(String.Format("Sorted inlets does not have index [{0}].", index));
             }
-            return _operator.Inlets[index];
+            return sortedInlets[index];
         }
 
-        /// <summary>
-        /// Gets an item out of _operator.Outlets and verifies that the index is valid in the list.
-        /// </summary>
+        /// <summary> Gets an item out of the sorted _operator.Outlets and verifies that the index is valid in the list. </summary>
         protected Outlet GetOutlet(int index)
         {
-            if (index >= _operator.Outlets.Count)
+            IList<Outlet> sortedOutlets = GetSortedOutlets();
+            if (index >= sortedOutlets.Count)
             {
-                throw new Exception(String.Format("_operator.Outlets does not have index [{0}].", index));
+                throw new Exception(String.Format("Sorted outlets does not have index [{0}].", index));
             }
-            return _operator.Outlets[index];
+            return sortedOutlets[index];
         }
 
         public static implicit operator Operator(OperatorWrapperBase wrapper)
@@ -55,6 +53,20 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             if (wrapper == null) return null;
 
             return wrapper.Operator;
+        }
+
+        // Helpers
+
+        private IList<Inlet> GetSortedInlets()
+        {
+            IList<Inlet> sortedInlets = _operator.Inlets.OrderBy(x => x.SortOrder).ToArray();
+            return sortedInlets;
+        }
+
+        private IList<Outlet> GetSortedOutlets()
+        {
+            IList<Outlet> sortedOutlets = _operator.Outlets.OrderBy(x => x.SortOrder).ToArray();
+            return sortedOutlets;
         }
     }
 }

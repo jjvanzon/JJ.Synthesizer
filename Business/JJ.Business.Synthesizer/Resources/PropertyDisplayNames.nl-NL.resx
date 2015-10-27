@@ -432,4 +432,7 @@
   <data name="Ratio" xml:space="preserve">
     <value>Verhouding</value>
   </data>
+  <data name="Loop" xml:space="preserve">
+    <value>Lus</value>
+  </data>
 </root>

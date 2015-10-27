@@ -28,6 +28,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Exponent(high, low, ratio);
         }
 
+        public OperatorWrapper_Loop Loop(Outlet start = null, Outlet loopStart = null, Outlet loopEnd = null, Outlet end = null)
+        {
+            return _patchManager.Loop(start, loopStart, loopEnd, end);
+        }
+
         public OperatorWrapper_Number Number(double number = 0)
         {
             return _patchManager.Number(number);
