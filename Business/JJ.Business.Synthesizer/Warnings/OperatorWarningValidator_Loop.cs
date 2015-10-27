@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 
@@ -9,6 +9,14 @@ namespace JJ.Business.Synthesizer.Warnings
 {
     public class OperatorWarningValidator_Loop : OperatorWarningValidator_Base
     {
+        private static int[] indexesToCheck = new int[]
+        {
+            OperatorConstants.LOOP_SIGNAL_INDEX,
+            OperatorConstants.LOOP_LOOP_START_INDEX,
+            OperatorConstants.LOOP_LOOP_DURATION,
+            OperatorConstants.LOOP_LOOP_END_INDEX
+        };
+
         public OperatorWarningValidator_Loop(Operator obj)
             : base(obj)
         { }
@@ -17,23 +25,17 @@ namespace JJ.Business.Synthesizer.Warnings
         {
             IList<Inlet> sortedInlets = Object.Inlets.OrderBy(x => x.SortOrder).ToArray();
 
-            if (sortedInlets.Count >= 2)
+            foreach (int indexToCheck in indexesToCheck)
             {
-                Inlet loopStartInlet = sortedInlets[1];
-
-                if (loopStartInlet.InputOutlet == null)
+                if (sortedInlets.Count > indexToCheck)
                 {
-                    ValidationMessages.Add(() => loopStartInlet.InputOutlet, MessageFormatter.InletNotSet(Object.GetOperatorTypeEnum(), Object.Name, loopStartInlet.Name));
-                }
-            }
+                    Inlet loopStartInlet = sortedInlets[indexToCheck];
 
-            if (sortedInlets.Count >= 3)
-            {
-                Inlet loopEndInlet = sortedInlets[2];
-
-                if (loopEndInlet.InputOutlet == null)
-                {
-                    ValidationMessages.Add(() => loopEndInlet.InputOutlet, MessageFormatter.InletNotSet(Object.GetOperatorTypeEnum(), Object.Name, loopEndInlet.Name));
+                    if (loopStartInlet.InputOutlet == null)
+                    {
+                        string message = MessageFormatter.InletNotSet(ResourceHelper.GetOperatorTypeDisplayName(Object), Object.Name, loopStartInlet.Name);
+                        ValidationMessages.Add(() => loopStartInlet.InputOutlet, message);
+                    }
                 }
             }
         }

@@ -350,6 +350,22 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitLoop(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase attackStartCalculator = _stack.Pop();
+            OperatorCalculatorBase loopStartCalculator = _stack.Pop();
+            OperatorCalculatorBase loopDurationCalculator = _stack.Pop();
+            OperatorCalculatorBase loopEndCalculator = _stack.Pop();
+            OperatorCalculatorBase releaseEndCalculator = _stack.Pop();
+
+            calculator = new Loop_OperatorCalculator(signalCalculator, attackStartCalculator, loopStartCalculator, loopDurationCalculator, loopEndCalculator, releaseEndCalculator);
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitMultiply(Operator op)
         {
             OperatorCalculatorBase calculator;

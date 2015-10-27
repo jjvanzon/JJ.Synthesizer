@@ -22,6 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Divide, VisitDivide },
                 { OperatorTypeEnum.Delay, VisitDelay },
                 { OperatorTypeEnum.Exponent, VisitExponent },
+                { OperatorTypeEnum.Loop, VisitLoop },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
                 { OperatorTypeEnum.Number, VisitNumber },
                 { OperatorTypeEnum.Power, VisitPower },
@@ -116,6 +117,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitExponent(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitLoop(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitDelay(Operator op) { }

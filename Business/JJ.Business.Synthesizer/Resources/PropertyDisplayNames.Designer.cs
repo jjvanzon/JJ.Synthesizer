@@ -808,6 +808,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Signal.
+        /// </summary>
+        public static string Signal {
+            get {
+                return ResourceManager.GetString("Signal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sine.
         /// </summary>
         public static string Sine {

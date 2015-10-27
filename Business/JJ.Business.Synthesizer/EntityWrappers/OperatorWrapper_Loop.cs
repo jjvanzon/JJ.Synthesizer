@@ -11,10 +11,16 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        public Outlet Start
+        public Outlet Signal
         {
-            get { return GetInlet(OperatorConstants.LOOP_START_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.LOOP_START_INDEX).LinkTo(value); }
+            get { return GetInlet(OperatorConstants.LOOP_SIGNAL_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.LOOP_SIGNAL_INDEX).LinkTo(value); }
+        }
+
+        public Outlet AttackStart
+        {
+            get { return GetInlet(OperatorConstants.LOOP_ATTACK_START_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.LOOP_ATTACK_START_INDEX).LinkTo(value); }
         }
 
         public Outlet LoopStart
@@ -23,16 +29,22 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { GetInlet(OperatorConstants.LOOP_LOOP_START_INDEX).LinkTo(value); }
         }
 
+        public Outlet LoopDuration
+        {
+            get { return GetInlet(OperatorConstants.LOOP_LOOP_DURATION).InputOutlet; }
+            set { GetInlet(OperatorConstants.LOOP_LOOP_DURATION).LinkTo(value); }
+        }
+
         public Outlet LoopEnd
         {
             get { return GetInlet(OperatorConstants.LOOP_LOOP_END_INDEX).InputOutlet; }
             set { GetInlet(OperatorConstants.LOOP_LOOP_END_INDEX).LinkTo(value); }
         }
 
-        public Outlet End
+        public Outlet ReleaseEnd
         {
-            get { return GetInlet(OperatorConstants.LOOP_END_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.LOOP_END_INDEX).LinkTo(value); }
+            get { return GetInlet(OperatorConstants.LOOP_RELEASE_END).InputOutlet; }
+            set { GetInlet(OperatorConstants.LOOP_RELEASE_END).LinkTo(value); }
         }
 
         public Outlet Result

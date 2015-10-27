@@ -108,19 +108,32 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Loop Loop(Outlet start = null, Outlet loopStart = null, Outlet loopEnd = null, Outlet end = null)
+        public OperatorWrapper_Loop Loop(
+            Outlet signal = null, 
+            Outlet attackStart = null, 
+            Outlet loopStart = null, 
+            Outlet loopDuration = null, 
+            Outlet loopEnd = null, 
+            Outlet releaseEnd = null)
         {
             Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Loop, 4,
-                PropertyNames.LoopStart, PropertyNames.Start, PropertyNames.End, PropertyNames.LoopEnd,
+                OperatorTypeEnum.Loop, 6,
+                PropertyNames.Signal, 
+                PropertyNames.AttackStart, 
+                PropertyNames.LoopStart, 
+                PropertyNames.LoopDuration, 
+                PropertyNames.LoopEnd,
+                PropertyNames.ReleaseEnd,
                 PropertyNames.Result);
 
             var wrapper = new OperatorWrapper_Loop(op)
             {
-                Start = start,
+                Signal = signal,
+                AttackStart = attackStart,
                 LoopStart = loopStart,
+                LoopDuration = loopDuration,
                 LoopEnd = loopEnd,
-                End = end
+                ReleaseEnd = releaseEnd
             };
 
             wrapper.Operator.LinkTo(Patch);

@@ -80,9 +80,10 @@
         public static string Low = "Low";
         public static string High = "High";
         public static string Ratio = "Ratio";
-        public static string Start = "Start";
+        public static string AttackStart = "AttackStart";
         public static string LoopStart = "LoopStart";
+        public static string LoopDuration = "LoopDuration";
         public static string LoopEnd = "LoopEnd";
-        public static string End = "End";
+        public static string ReleaseEnd = "ReleaseEnd";
     }
 }

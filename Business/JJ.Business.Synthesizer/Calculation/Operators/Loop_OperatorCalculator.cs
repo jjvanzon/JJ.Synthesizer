@@ -5,48 +5,39 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Loop_OperatorCalculator : OperatorCalculatorBase
     {
-        private OperatorCalculatorBase _startCalculator;
+        private OperatorCalculatorBase _signalCalculator;
+        private OperatorCalculatorBase _attackStartCalculator;
         private OperatorCalculatorBase _loopStartCalculator;
+        private OperatorCalculatorBase _loopDurationCalculator;
         private OperatorCalculatorBase _loopEndCalculator;
-        private OperatorCalculatorBase _endCalculator;
+        private OperatorCalculatorBase _releaseEndCalculator;
 
         public Loop_OperatorCalculator(
-            OperatorCalculatorBase startCalculator,
+            OperatorCalculatorBase signalCalculator,
+            OperatorCalculatorBase attackStartCalculator,
             OperatorCalculatorBase loopStartCalculator,
+            OperatorCalculatorBase loopDurationCalculator,
             OperatorCalculatorBase loopEndCalculator,
-            OperatorCalculatorBase endCalculator)
+            OperatorCalculatorBase releaseEndCalculator)
         {
-            if (startCalculator == null) throw new NullException(() => startCalculator);
+            if (signalCalculator == null) throw new NullException(() => signalCalculator);
+            if (attackStartCalculator == null) throw new NullException(() => attackStartCalculator);
             if (loopStartCalculator == null) throw new NullException(() => loopStartCalculator);
+            if (loopDurationCalculator == null) throw new NullException(() => loopDurationCalculator);
             if (loopEndCalculator == null) throw new NullException(() => loopEndCalculator);
-            if (endCalculator == null) throw new NullException(() => endCalculator);
+            if (releaseEndCalculator == null) throw new NullException(() => releaseEndCalculator);
 
-            _startCalculator = startCalculator;
+            _signalCalculator = signalCalculator;
+            _attackStartCalculator = attackStartCalculator;
             _loopStartCalculator = loopStartCalculator;
+            _loopDurationCalculator = loopDurationCalculator;
             _loopEndCalculator = loopEndCalculator;
-            _endCalculator = endCalculator;
+            _releaseEndCalculator = releaseEndCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double start = _startCalculator.Calculate(time, channelIndex);
-            double loopStart = _loopStartCalculator.Calculate(time, channelIndex);
-            double loopEnd = _loopEndCalculator.Calculate(time, channelIndex);
-            double end = _endCalculator.Calculate(time, channelIndex);
-
-            throw new NotImplementedException();
-            //return a + b;
-        }
-
-        private double TrySomething(double time, int channelIndex)
-        {
-            OperatorCalculatorBase signalCalculator = null;
-
-            double attackStart = 0.5; // At t = 0 we start with input t = 0.5. To cut of a piece of the start
-            double loopStart = 1;
-            double loopDuration = 6;
-            double loopEnd = 4; // After loop time we skip go 'back in time' to the releaseStart
-            double releaseEnd = 6; // To cut off a piece of the end.
+            double attackStart = _attackStartCalculator.Calculate(time, channelIndex);
 
             bool isBeforeAttack = time < attackStart;
             if (isBeforeAttack)
@@ -54,24 +45,30 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
                 return 0;
             }
 
+            double loopStart = _loopStartCalculator.Calculate(time, channelIndex);
+
             bool isInAttack = time < loopStart;
             if (isInAttack)
             {
                 double transformedTime = time + attackStart;
-                double value = signalCalculator.Calculate(transformedTime, channelIndex);
+                double value = _signalCalculator.Calculate(transformedTime, channelIndex);
                 return value;
             }
 
+            double loopEnd = _loopEndCalculator.Calculate(time, channelIndex);
+            double loopDuration = _loopDurationCalculator.Calculate(time, channelIndex);
             double shiftedLoopEnd = loopStart + loopDuration;
             bool isInLoop = time < shiftedLoopEnd;
             if (isInLoop)
             {
-                double positionInCycle = (time - loopStart) % loopDuration;
+                double cycleDuration = loopEnd - loopStart;
+                double positionInCycle = (time - loopStart) % cycleDuration;
                 double transformedTime = loopStart + positionInCycle;
-                double value = signalCalculator.Calculate(transformedTime, channelIndex);
+                double value = _signalCalculator.Calculate(transformedTime, channelIndex);
                 return value;
             }
 
+            double releaseEnd = _releaseEndCalculator.Calculate(time, channelIndex);
             double releaseDuration = releaseEnd - loopEnd;
             double shiftedReleaseEnd = shiftedLoopEnd + releaseDuration;
             bool isInRelease = time < shiftedReleaseEnd;
@@ -79,7 +76,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             {
                 double cycleDuration = loopEnd - loopStart;
                 double transformedTime = time - loopDuration + cycleDuration;
-                double value = signalCalculator.Calculate(transformedTime, channelIndex);
+                double value = _signalCalculator.Calculate(transformedTime, channelIndex);
                 return value;
             }
 

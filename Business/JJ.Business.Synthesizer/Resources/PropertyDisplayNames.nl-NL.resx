@@ -435,4 +435,7 @@
   <data name="Loop" xml:space="preserve">
     <value>Lus</value>
   </data>
+  <data name="Signal" xml:space="preserve">
+    <value>Signaal</value>
+  </data>
 </root>

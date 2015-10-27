@@ -155,7 +155,6 @@
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Configuration\PatchCalculatorTypeEnum.cs" />
     <Compile Include="Converters\DocumentToOperatorConverter.cs" />
-    <Compile Include="EntityWrappers\2015-10-26 Backup of OperatorWrapperBase.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Exponent.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_CustomOperator_Inlets.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_CustomOperator_Operands.cs" />
