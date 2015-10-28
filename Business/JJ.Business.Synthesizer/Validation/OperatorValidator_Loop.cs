@@ -9,8 +9,8 @@ namespace JJ.Business.Synthesizer.Validation
         public OperatorValidator_Loop(Operator obj)
             : base(obj,
                 OperatorTypeEnum.Loop, 6,
-                PropertyNames.Signal, PropertyNames.AttackStart, PropertyNames.LoopStart, 
-                PropertyNames.LoopDuration, PropertyNames.LoopEnd, PropertyNames.ReleaseEnd,
+                PropertyNames.Signal, PropertyNames.Attack, PropertyNames.Start, 
+                PropertyNames.Sustain, PropertyNames.End, PropertyNames.Release,
                 PropertyNames.Result)
         { }
     }

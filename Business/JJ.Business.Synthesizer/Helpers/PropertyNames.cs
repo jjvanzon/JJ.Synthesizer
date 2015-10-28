@@ -77,13 +77,13 @@
         public const string Cents = "Cents";
         public const string Node = "Node";
         public const string Nodes = "Nodes";
-        public static string Low = "Low";
-        public static string High = "High";
-        public static string Ratio = "Ratio";
-        public static string AttackStart = "AttackStart";
-        public static string LoopStart = "LoopStart";
-        public static string LoopDuration = "LoopDuration";
-        public static string LoopEnd = "LoopEnd";
-        public static string ReleaseEnd = "ReleaseEnd";
+        public const string Low = "Low";
+        public const string High = "High";
+        public const string Ratio = "Ratio";
+        public const string Attack = "Attack";
+        public const string Start = "Start";
+        public const string Sustain = "Sustain";
+        public const string End = "End";
+        public const string Release = "Release";
     }
 }

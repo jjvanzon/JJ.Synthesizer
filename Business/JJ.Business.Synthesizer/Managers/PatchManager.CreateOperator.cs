@@ -110,30 +110,30 @@ namespace JJ.Business.Synthesizer.Managers
 
         public OperatorWrapper_Loop Loop(
             Outlet signal = null, 
-            Outlet attackStart = null, 
-            Outlet loopStart = null, 
-            Outlet loopDuration = null, 
-            Outlet loopEnd = null, 
-            Outlet releaseEnd = null)
+            Outlet attack = null, 
+            Outlet start = null, 
+            Outlet sustain = null, 
+            Outlet end = null, 
+            Outlet release = null)
         {
             Operator op = CreateOperatorBase(
                 OperatorTypeEnum.Loop, 6,
                 PropertyNames.Signal, 
-                PropertyNames.AttackStart, 
-                PropertyNames.LoopStart, 
-                PropertyNames.LoopDuration, 
-                PropertyNames.LoopEnd,
-                PropertyNames.ReleaseEnd,
+                PropertyNames.Attack, 
+                PropertyNames.Start, 
+                PropertyNames.Sustain, 
+                PropertyNames.End,
+                PropertyNames.Release,
                 PropertyNames.Result);
 
             var wrapper = new OperatorWrapper_Loop(op)
             {
                 Signal = signal,
-                AttackStart = attackStart,
-                LoopStart = loopStart,
-                LoopDuration = loopDuration,
-                LoopEnd = loopEnd,
-                ReleaseEnd = releaseEnd
+                Attack = attack,
+                Start = start,
+                Sustain = sustain,
+                End = end,
+                Release = release
             };
 
             wrapper.Operator.LinkTo(Patch);

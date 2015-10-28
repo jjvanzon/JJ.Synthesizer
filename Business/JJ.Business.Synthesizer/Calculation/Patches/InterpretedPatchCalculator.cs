@@ -87,6 +87,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Curve, CalculateCurveOperator },
                 { OperatorTypeEnum.Divide, CalculateDivide },
                 { OperatorTypeEnum.Exponent, CalculateExponent },
+                { OperatorTypeEnum.Loop, CalculateLoop },
                 { OperatorTypeEnum.Multiply, CalculateMultiply },
                 { OperatorTypeEnum.PatchInlet, CalculatePatchInlet },
                 { OperatorTypeEnum.PatchOutlet, CalculatePatchOutlet },
@@ -308,6 +309,57 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             double value = low * Math.Pow(high / low, ratio);
             return value;
+        }
+
+        private double CalculateLoop(Operator op, double time)
+        {
+            var wrapper = new OperatorWrapper_Loop(op);
+
+            double outputTime = time;
+            double inputAttack = Calculate(wrapper.Attack, outputTime);
+            double inputTime = time + inputAttack;
+
+            bool isBeforeAttack = inputTime < inputAttack;
+            if (isBeforeAttack)
+            {
+                return 0;
+            }
+
+            double inputStart = Calculate(wrapper.Start, outputTime);
+            bool isInAttack = inputTime < inputStart;
+            if (isInAttack)
+            {
+                double value =  Calculate(wrapper.Signal, inputTime);
+                return value;
+            }
+
+            double inputEnd = Calculate(wrapper.End, outputTime);
+            double outputSustain = Calculate(wrapper.Sustain, outputTime);
+            double outputEnd = inputStart - inputAttack + outputSustain;
+            bool isInLoop = outputTime < outputEnd;
+            if (isInLoop)
+            {
+                double inputSustain = inputEnd - inputStart;
+                double positionInCycle = (inputTime - inputStart) % inputSustain;
+                inputTime = inputStart + positionInCycle;
+                double value = Calculate(wrapper.Signal, inputTime);
+                return value;
+            }
+
+            double inputRelease = Calculate(wrapper.Release, outputTime);
+            double releaseDuration = inputRelease - inputEnd;
+            double outputRelease = outputEnd + releaseDuration;
+            bool isInRelease = outputTime < outputRelease;
+            if (isInRelease)
+            {
+                double positionInRelease = outputTime - outputEnd;
+                inputTime = inputEnd + positionInRelease;
+                double value = Calculate(wrapper.Signal, inputTime);
+                return value;
+            }
+
+            // IsAfterRelease
+            return 0;
         }
 
         private double CalculateMultiply(Operator op, double time)

@@ -25,11 +25,11 @@
         public const int EXPONENT_RESULT_INDEX = 0;
 
         public const int LOOP_SIGNAL_INDEX = 0;
-        public const int LOOP_ATTACK_START_INDEX = 1;
-        public const int LOOP_LOOP_START_INDEX = 2;
-        public const int LOOP_LOOP_DURATION = 3;
-        public const int LOOP_LOOP_END_INDEX = 4;
-        public const int LOOP_RELEASE_END = 5;
+        public const int LOOP_ATTACK_INDEX = 1;
+        public const int LOOP_START_INDEX = 2;
+        public const int LOOP_SUSTAIN_INDEX = 3;
+        public const int LOOP_END_INDEX = 4;
+        public const int LOOP_RELEASE_INDEX = 5;
         public const int LOOP_RESULT_INDEX = 0;
 
         public const int MULTIPLY_OPERAND_A_INDEX = 0;

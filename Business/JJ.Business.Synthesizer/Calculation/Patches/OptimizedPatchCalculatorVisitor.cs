@@ -355,13 +355,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase attackStartCalculator = _stack.Pop();
-            OperatorCalculatorBase loopStartCalculator = _stack.Pop();
-            OperatorCalculatorBase loopDurationCalculator = _stack.Pop();
-            OperatorCalculatorBase loopEndCalculator = _stack.Pop();
-            OperatorCalculatorBase releaseEndCalculator = _stack.Pop();
+            OperatorCalculatorBase attackCalculator = _stack.Pop();
+            OperatorCalculatorBase startCalculator = _stack.Pop();
+            OperatorCalculatorBase sustainCalculator = _stack.Pop();
+            OperatorCalculatorBase endCalculator = _stack.Pop();
+            OperatorCalculatorBase releaseCalculator = _stack.Pop();
 
-            calculator = new Loop_OperatorCalculator(signalCalculator, attackStartCalculator, loopStartCalculator, loopDurationCalculator, loopEndCalculator, releaseEndCalculator);
+            calculator = new Loop_OperatorCalculator(signalCalculator, attackCalculator, startCalculator, sustainCalculator, endCalculator, releaseCalculator);
 
             _stack.Push(calculator);
         }

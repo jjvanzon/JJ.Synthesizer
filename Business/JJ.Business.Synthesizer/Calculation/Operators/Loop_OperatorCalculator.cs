@@ -6,76 +6,76 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Loop_OperatorCalculator : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _attackStartCalculator;
-        private OperatorCalculatorBase _loopStartCalculator;
-        private OperatorCalculatorBase _loopDurationCalculator;
-        private OperatorCalculatorBase _loopEndCalculator;
-        private OperatorCalculatorBase _releaseEndCalculator;
+        private OperatorCalculatorBase _attackCalculator;
+        private OperatorCalculatorBase _startCalculator;
+        private OperatorCalculatorBase _sustainCalculator;
+        private OperatorCalculatorBase _endCalculator;
+        private OperatorCalculatorBase _releaseCalculator;
 
         public Loop_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
-            OperatorCalculatorBase attackStartCalculator,
-            OperatorCalculatorBase loopStartCalculator,
-            OperatorCalculatorBase loopDurationCalculator,
-            OperatorCalculatorBase loopEndCalculator,
-            OperatorCalculatorBase releaseEndCalculator)
+            OperatorCalculatorBase attackCalculator,
+            OperatorCalculatorBase startCalculator,
+            OperatorCalculatorBase sustainCalculator,
+            OperatorCalculatorBase endCalculator,
+            OperatorCalculatorBase releaseCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (attackStartCalculator == null) throw new NullException(() => attackStartCalculator);
-            if (loopStartCalculator == null) throw new NullException(() => loopStartCalculator);
-            if (loopDurationCalculator == null) throw new NullException(() => loopDurationCalculator);
-            if (loopEndCalculator == null) throw new NullException(() => loopEndCalculator);
-            if (releaseEndCalculator == null) throw new NullException(() => releaseEndCalculator);
+            if (attackCalculator == null) throw new NullException(() => attackCalculator);
+            if (startCalculator == null) throw new NullException(() => startCalculator);
+            if (sustainCalculator == null) throw new NullException(() => sustainCalculator);
+            if (endCalculator == null) throw new NullException(() => endCalculator);
+            if (releaseCalculator == null) throw new NullException(() => releaseCalculator);
 
             _signalCalculator = signalCalculator;
-            _attackStartCalculator = attackStartCalculator;
-            _loopStartCalculator = loopStartCalculator;
-            _loopDurationCalculator = loopDurationCalculator;
-            _loopEndCalculator = loopEndCalculator;
-            _releaseEndCalculator = releaseEndCalculator;
+            _attackCalculator = attackCalculator;
+            _startCalculator = startCalculator;
+            _sustainCalculator = sustainCalculator;
+            _endCalculator = endCalculator;
+            _releaseCalculator = releaseCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
             double outputTime = time;
-            double inputAttackStart = _attackStartCalculator.Calculate(time, channelIndex);
-            double inputTime = time + inputAttackStart;
+            double inputAttack = _attackCalculator.Calculate(outputTime, channelIndex);
+            double inputTime = time + inputAttack;
 
-            bool isBeforeAttack = inputTime < inputAttackStart;
+            bool isBeforeAttack = inputTime < inputAttack;
             if (isBeforeAttack)
             {
                 return 0;
             }
 
-            double inputLoopStart = _loopStartCalculator.Calculate(time, channelIndex);
-            bool isInAttack = inputTime < inputLoopStart;
+            double inputStart = _startCalculator.Calculate(outputTime, channelIndex);
+            bool isInAttack = inputTime < inputStart;
             if (isInAttack)
             {
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
             }
 
-            double inputLoopEnd = _loopEndCalculator.Calculate(time, channelIndex);
-            double outputLoopDuration = _loopDurationCalculator.Calculate(time, channelIndex);
-            double outputLoopEnd = inputLoopStart - inputAttackStart + outputLoopDuration;
-            bool isInLoop = outputTime < outputLoopEnd;
+            double inputEnd = _endCalculator.Calculate(outputTime, channelIndex);
+            double outputSustain = _sustainCalculator.Calculate(outputTime, channelIndex);
+            double outputEnd = inputStart - inputAttack + outputSustain;
+            bool isInLoop = outputTime < outputEnd;
             if (isInLoop)
             {
-                double inputLoopDuration = inputLoopEnd - inputLoopStart;
-                double positionInCycle = (inputTime - inputLoopStart) % inputLoopDuration;
-                inputTime = inputLoopStart + positionInCycle;
+                double inputSustain = inputEnd - inputStart;
+                double positionInCycle = (inputTime - inputStart) % inputSustain;
+                inputTime = inputStart + positionInCycle;
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
             }
 
-            double inputReleaseEnd = _releaseEndCalculator.Calculate(time, channelIndex);
-            double releaseDuration = inputReleaseEnd - inputLoopEnd;
-            double outputReleaseEnd = outputLoopEnd + releaseDuration;
-            bool isInRelease = outputTime < outputReleaseEnd;
+            double inputRelease = _releaseCalculator.Calculate(outputTime, channelIndex);
+            double releaseDuration = inputRelease - inputEnd;
+            double outputRelease = outputEnd + releaseDuration;
+            bool isInRelease = outputTime < outputRelease;
             if (isInRelease)
             {
-                double positionInRelease = outputTime - outputLoopEnd;
-                inputTime = inputLoopEnd + positionInRelease;
+                double positionInRelease = outputTime - outputEnd;
+                inputTime = inputEnd + positionInRelease;
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
             }
