@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to AudioFileOutputs.
+        ///   Looks up a localized string similar to Audio File Outputs.
         /// </summary>
         public static string AudioFileOutputs {
             get {

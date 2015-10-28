@@ -7,14 +7,14 @@ using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
-    static class Program
+    internal static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
+            // TODO: Remove this temporary code line.
+            CultureHelper.SetThreadCulture("en-US");
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

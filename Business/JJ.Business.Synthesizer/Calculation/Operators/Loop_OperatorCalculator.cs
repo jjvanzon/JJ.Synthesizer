@@ -37,46 +37,48 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(double time, int channelIndex)
         {
-            double attackStart = _attackStartCalculator.Calculate(time, channelIndex);
+            double outputTime = time;
 
-            bool isBeforeAttack = time < attackStart;
+            double inputAttackStart = _attackStartCalculator.Calculate(time, channelIndex);
+
+            double inputTime = time + inputAttackStart;
+
+            bool isBeforeAttack = inputTime < inputAttackStart;
             if (isBeforeAttack)
             {
                 return 0;
             }
 
-            double loopStart = _loopStartCalculator.Calculate(time, channelIndex);
-
-            bool isInAttack = time < loopStart;
+            double inputLoopStart = _loopStartCalculator.Calculate(time, channelIndex);
+            bool isInAttack = inputTime < inputLoopStart;
             if (isInAttack)
             {
-                double transformedTime = time + attackStart;
-                double value = _signalCalculator.Calculate(transformedTime, channelIndex);
+                double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
             }
 
-            double loopEnd = _loopEndCalculator.Calculate(time, channelIndex);
-            double loopDuration = _loopDurationCalculator.Calculate(time, channelIndex);
-            double shiftedLoopEnd = loopStart + loopDuration;
-            bool isInLoop = time < shiftedLoopEnd;
+            double inputLoopEnd = _loopEndCalculator.Calculate(time, channelIndex);
+            double inputLoopDuration = inputLoopEnd - inputLoopStart;
+            double outputLoopDuration = _loopDurationCalculator.Calculate(time, channelIndex);
+            double outputLoopEnd = inputLoopStart - inputAttackStart + outputLoopDuration;
+            bool isInLoop = outputTime < outputLoopEnd;
             if (isInLoop)
             {
-                double cycleDuration = loopEnd - loopStart;
-                double positionInCycle = (time - loopStart) % cycleDuration;
-                double transformedTime = loopStart + positionInCycle;
-                double value = _signalCalculator.Calculate(transformedTime, channelIndex);
+                double positionInCycle = (inputTime - inputLoopStart) % inputLoopDuration;
+                inputTime = inputLoopStart + positionInCycle;
+                double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
             }
 
-            double releaseEnd = _releaseEndCalculator.Calculate(time, channelIndex);
-            double releaseDuration = releaseEnd - loopEnd;
-            double shiftedReleaseEnd = shiftedLoopEnd + releaseDuration;
-            bool isInRelease = time < shiftedReleaseEnd;
+            double inputReleaseEnd = _releaseEndCalculator.Calculate(time, channelIndex);
+            double releaseDuration = inputReleaseEnd - inputLoopEnd;
+            double outputReleaseEnd = outputLoopEnd + releaseDuration;
+            bool isInRelease = outputTime < outputReleaseEnd;
             if (isInRelease)
             {
-                double cycleDuration = loopEnd - loopStart;
-                double transformedTime = time - loopDuration + cycleDuration;
-                double value = _signalCalculator.Calculate(transformedTime, channelIndex);
+                double positionInRelease = outputTime - outputLoopEnd;
+                inputTime = inputLoopEnd + positionInRelease;
+                double value = _signalCalculator.Calculate(inputTime, channelIndex);
                 return value;
             }
 
