@@ -38,9 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             double outputTime = time;
-
             double inputAttackStart = _attackStartCalculator.Calculate(time, channelIndex);
-
             double inputTime = time + inputAttackStart;
 
             bool isBeforeAttack = inputTime < inputAttackStart;
@@ -58,12 +56,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             double inputLoopEnd = _loopEndCalculator.Calculate(time, channelIndex);
-            double inputLoopDuration = inputLoopEnd - inputLoopStart;
             double outputLoopDuration = _loopDurationCalculator.Calculate(time, channelIndex);
             double outputLoopEnd = inputLoopStart - inputAttackStart + outputLoopDuration;
             bool isInLoop = outputTime < outputLoopEnd;
             if (isInLoop)
             {
+                double inputLoopDuration = inputLoopEnd - inputLoopStart;
                 double positionInCycle = (inputTime - inputLoopStart) % inputLoopDuration;
                 inputTime = inputLoopStart + positionInCycle;
                 double value = _signalCalculator.Calculate(inputTime, channelIndex);
