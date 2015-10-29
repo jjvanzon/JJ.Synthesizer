@@ -23,6 +23,7 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.Resample, typeof(OperatorWarningValidator_Resample) },
             { OperatorTypeEnum.SawTooth, typeof(OperatorWarningValidator_SawTooth) },
             { OperatorTypeEnum.Sample, typeof(OperatorWarningValidator_Sample) },
+            { OperatorTypeEnum.Select, typeof(OperatorWarningValidator_Select) },
             { OperatorTypeEnum.Sine, typeof(OperatorWarningValidator_Sine) },
             { OperatorTypeEnum.SquareWave, typeof(OperatorWarningValidator_SquareWave) },
             { OperatorTypeEnum.Substract, typeof(OperatorWarningValidator_Substract) },

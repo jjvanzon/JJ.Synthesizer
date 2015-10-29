@@ -33,6 +33,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 23, "TriangleWave");
             RepositoryHelper.EnsureEnumEntity(this, 24, "Exponent");
             RepositoryHelper.EnsureEnumEntity(this, 25, "Loop");
+            RepositoryHelper.EnsureEnumEntity(this, 26, "Select");
         }
     }
 }

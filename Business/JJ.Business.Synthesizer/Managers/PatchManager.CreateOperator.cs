@@ -72,6 +72,111 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
+        public OperatorWrapper_Curve Curve(Curve curve = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.Curve, 0,
+                PropertyNames.Result);
+
+            var wrapper = new OperatorWrapper_Curve(op, _repositories.CurveRepository);
+
+            if (curve != null)
+            {
+                wrapper.CurveID = curve.ID;
+            }
+
+            wrapper.Operator.LinkTo(Patch);
+            return wrapper;
+        }
+
+        public OperatorWrapper_CustomOperator CustomOperator()
+        {
+            var op = new Operator();
+            op.ID = _repositories.IDRepository.GetID();
+            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
+            _repositories.OperatorRepository.Insert(op);
+
+            var wrapper = new OperatorWrapper_CustomOperator(op, _repositories.DocumentRepository);
+
+            wrapper.Operator.LinkTo(Patch);
+            return wrapper;
+        }
+
+        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument)
+        {
+            if (underlyingDocument == null) throw new NullException(() => underlyingDocument);
+            if (underlyingDocument.MainPatch == null) throw new NullException(() => underlyingDocument.MainPatch);
+
+            var op = new Operator();
+            op.ID = _repositories.IDRepository.GetID();
+            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
+            _repositories.OperatorRepository.Insert(op);
+
+            IList<Operator> patchInlets = underlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
+            foreach (Operator patchInlet in patchInlets)
+            {
+                var inlet = new Inlet();
+                inlet.ID = _repositories.IDRepository.GetID();
+                inlet.Name = patchInlet.Name;
+                inlet.LinkTo(op);
+                _repositories.InletRepository.Insert(inlet);
+            }
+
+            IList<Operator> patchOutlets = underlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
+            foreach (Operator patchOutlet in patchOutlets)
+            {
+                var outlet = new Outlet();
+                outlet.ID = _repositories.IDRepository.GetID();
+                outlet.Name = patchOutlet.Name;
+                outlet.LinkTo(op);
+                _repositories.OutletRepository.Insert(outlet);
+            }
+
+            var wrapper = new OperatorWrapper_CustomOperator(op, _repositories.DocumentRepository);
+
+            wrapper.UnderlyingDocument = underlyingDocument;
+
+            wrapper.Operator.LinkTo(Patch);
+            return wrapper;
+        }
+
+        /// <param name="underlyingDocument">The Document to base the CustomOperator on.</param>
+        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument, params Outlet[] operands)
+        {
+            return CustomOperator(underlyingDocument, (IList<Outlet>)operands);
+        }
+
+        /// <param name="underlyingDocument">The Document to base the CustomOperator on.</param>
+        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument, IList<Outlet> operands)
+        {
+            if (underlyingDocument == null) throw new NullException(() => underlyingDocument);
+            if (operands == null) throw new NullException(() => operands);
+
+            OperatorWrapper_CustomOperator wrapper = CustomOperator(underlyingDocument);
+
+            SetOperands(wrapper.Operator, operands);
+
+            wrapper.Operator.LinkTo(Patch);
+            return wrapper;
+        }
+
+        public OperatorWrapper_Delay Delay(Outlet signal = null, Outlet timeDifference = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.Delay, 2,
+                PropertyNames.Signal, PropertyNames.TimeDifference,
+                PropertyNames.Result);
+
+            var wrapper = new OperatorWrapper_Delay(op)
+            {
+                Signal = signal,
+                TimeDifference = timeDifference
+            };
+
+            wrapper.Operator.LinkTo(Patch);
+            return wrapper;
+        }
+
         public OperatorWrapper_Divide Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(
@@ -158,6 +263,21 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
+        public OperatorWrapper_Number Number(double number = 0)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.Number, 0,
+                PropertyNames.Result);
+
+            var wrapper = new OperatorWrapper_Number(op)
+            {
+                Number = number
+            };
+
+            wrapper.Operator.LinkTo(Patch);
+            return wrapper;
+        }
+
         public OperatorWrapper_PatchInlet PatchInlet(Outlet input = null)
         {
             Operator op = CreateOperatorBase(
@@ -232,6 +352,56 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
+        public OperatorWrapper_Resample Resample(Outlet signal = null, Outlet samplingRate = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.Resample, 2,
+                PropertyNames.Signal, PropertyNames.SamplingRate,
+                PropertyNames.Result);
+
+            var wrapper = new OperatorWrapper_Resample(op)
+            {
+                Signal = signal,
+                SamplingRate = samplingRate
+            };
+
+            wrapper.Operator.LinkTo(Patch);
+            return wrapper;
+        }
+
+        public OperatorWrapper_Sample Sample(Sample sample = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.Sample, 0,
+                PropertyNames.Result);
+
+            var wrapper = new OperatorWrapper_Sample(op, _repositories.SampleRepository);
+            if (sample != null)
+            {
+                wrapper.SampleID = sample.ID;
+            }
+
+            wrapper.Operator.LinkTo(Patch);
+            return wrapper;
+        }
+
+        public OperatorWrapper_Select Select(Outlet signal = null, Outlet time = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.Select, 2,
+                PropertyNames.Signal, PropertyNames.Time,
+                PropertyNames.Result);
+
+            var wrapper = new OperatorWrapper_Select(op)
+            {
+                Signal = signal,
+                Time = time
+            };
+
+            wrapper.Operator.LinkTo(Patch);
+            return wrapper;
+        }
+
         public OperatorWrapper_Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(
@@ -262,23 +432,6 @@ namespace JJ.Business.Synthesizer.Managers
             {
                 OperandA = operandA,
                 OperandB = operandB
-            };
-
-            wrapper.Operator.LinkTo(Patch);
-            return wrapper;
-        }
-
-        public OperatorWrapper_Delay Delay(Outlet signal = null, Outlet timeDifference = null)
-        {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Delay, 2,
-                PropertyNames.Signal, PropertyNames.TimeDifference,
-                PropertyNames.Result);
-
-            var wrapper = new OperatorWrapper_Delay(op)
-            {
-                Signal = signal,
-                TimeDifference = timeDifference
             };
 
             wrapper.Operator.LinkTo(Patch);
@@ -390,54 +543,6 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Number Number(double number = 0)
-        {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Number, 0,
-                PropertyNames.Result);
-
-            var wrapper = new OperatorWrapper_Number(op)
-            {
-                Number = number
-            };
-
-            wrapper.Operator.LinkTo(Patch);
-            return wrapper;
-        }
-
-        public OperatorWrapper_Curve Curve(Curve curve = null)
-        {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Curve, 0,
-                PropertyNames.Result);
-
-            var wrapper = new OperatorWrapper_Curve(op, _repositories.CurveRepository);
-
-            if (curve != null)
-            {
-                wrapper.CurveID = curve.ID;
-            }
-
-            wrapper.Operator.LinkTo(Patch);
-            return wrapper;
-        }
-
-        public OperatorWrapper_Sample Sample(Sample sample = null)
-        {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Sample, 0,
-                PropertyNames.Result);
-
-            var wrapper = new OperatorWrapper_Sample(op, _repositories.SampleRepository);
-            if (sample != null)
-            {
-                wrapper.SampleID = sample.ID;
-            }
-
-            wrapper.Operator.LinkTo(Patch);
-            return wrapper;
-        }
-
         public OperatorWrapper_WhiteNoise WhiteNoise()
         {
             Operator op = CreateOperatorBase(
@@ -445,94 +550,6 @@ namespace JJ.Business.Synthesizer.Managers
                 PropertyNames.Result);
 
             var wrapper = new OperatorWrapper_WhiteNoise(op);
-
-            wrapper.Operator.LinkTo(Patch);
-            return wrapper;
-        }
-
-        public OperatorWrapper_Resample Resample(Outlet signal = null, Outlet samplingRate = null)
-        {
-            Operator op = CreateOperatorBase(
-                OperatorTypeEnum.Resample, 2,
-                PropertyNames.Signal, PropertyNames.SamplingRate,
-                PropertyNames.Result);
-
-            var wrapper = new OperatorWrapper_Resample(op)
-            {
-                Signal = signal,
-                SamplingRate = samplingRate
-            };
-
-            wrapper.Operator.LinkTo(Patch);
-            return wrapper;
-        }
-
-        public OperatorWrapper_CustomOperator CustomOperator()
-        {
-            var op = new Operator();
-            op.ID = _repositories.IDRepository.GetID();
-            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
-            _repositories.OperatorRepository.Insert(op);
-
-            var wrapper = new OperatorWrapper_CustomOperator(op, _repositories.DocumentRepository);
-
-            wrapper.Operator.LinkTo(Patch);
-            return wrapper;
-        }
-
-        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument)
-        {
-            if (underlyingDocument == null) throw new NullException(() => underlyingDocument);
-            if (underlyingDocument.MainPatch == null) throw new NullException(() => underlyingDocument.MainPatch);
-
-            var op = new Operator();
-            op.ID = _repositories.IDRepository.GetID();
-            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
-            _repositories.OperatorRepository.Insert(op);
-
-            IList<Operator> patchInlets = underlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
-            foreach (Operator patchInlet in patchInlets)
-            {
-                var inlet = new Inlet();
-                inlet.ID = _repositories.IDRepository.GetID();
-                inlet.Name = patchInlet.Name;
-                inlet.LinkTo(op);
-                _repositories.InletRepository.Insert(inlet);
-            }
-
-            IList<Operator> patchOutlets = underlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
-            foreach (Operator patchOutlet in patchOutlets)
-            {
-                var outlet = new Outlet();
-                outlet.ID = _repositories.IDRepository.GetID();
-                outlet.Name = patchOutlet.Name;
-                outlet.LinkTo(op);
-                _repositories.OutletRepository.Insert(outlet);
-            }
-
-            var wrapper = new OperatorWrapper_CustomOperator(op, _repositories.DocumentRepository);
-
-            wrapper.UnderlyingDocument = underlyingDocument;
-
-            wrapper.Operator.LinkTo(Patch);
-            return wrapper;
-        }
-
-        /// <param name="underlyingDocument">The Document to base the CustomOperator on.</param>
-        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument, params Outlet[] operands)
-        {
-            return CustomOperator(underlyingDocument, (IList<Outlet>)operands);
-        }
-
-        /// <param name="underlyingDocument">The Document to base the CustomOperator on.</param>
-        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument, IList<Outlet> operands)
-        {
-            if (underlyingDocument == null) throw new NullException(() => underlyingDocument);
-            if (operands == null) throw new NullException(() => operands);
-
-            OperatorWrapper_CustomOperator wrapper = CustomOperator(underlyingDocument);
-
-            SetOperands(wrapper.Operator, operands);
 
             wrapper.Operator.LinkTo(Patch);
             return wrapper;

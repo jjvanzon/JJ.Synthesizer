@@ -27,6 +27,7 @@
         SquareWave = 22,
         TriangleWave = 23,
         Exponent = 24,
-        Loop = 25
+        Loop = 25,
+        Select = 26
     }
 }

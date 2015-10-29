@@ -71,6 +71,10 @@
         public const int TRIANGLE_WAVE_PHASE_SHIFT_INDEX = 1;
         public const int TRIANGLE_WAVE_RESULT_INDEX = 0;
 
+        public static int SELECT_SIGNAL_INDEX = 0;
+        public static int SELECT_TIME_INDEX = 1;
+        public static int SELECT_RESULT_INDEX = 0;
+
         public const int SPEED_UP_SIGNAL_INDEX = 0;
         public const int SPEED_UP_TIME_DIVIDER_INDEX = 1;
         public const int SPEED_UP_ORIGIN_INDEX = 2;

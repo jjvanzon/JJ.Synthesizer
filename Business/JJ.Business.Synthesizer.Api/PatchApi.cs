@@ -21,16 +21,77 @@ namespace JJ.Business.Synthesizer.Api
             _patchManager.Create();
         }
 
-        // TODO: Delegate to more PatchManager methods.
-
-        public OperatorWrapper_Exponent Exponent(Outlet high = null, Outlet low = null, Outlet ratio = null)
+        public OperatorWrapper_Add Add(Outlet operandA = null, Outlet operandB = null)
         {
-            return _patchManager.Exponent(high, low, ratio);
+            return _patchManager.Add(operandA, operandB);
         }
 
-        public OperatorWrapper_Loop Loop(Outlet start = null, Outlet loopStart = null, Outlet loopEnd = null, Outlet end = null)
+        public OperatorWrapper_Adder Adder(params Outlet[] operands)
         {
-            return _patchManager.Loop(start, loopStart, loopEnd, end);
+            return _patchManager.Adder(operands);
+        }
+
+        public OperatorWrapper_Adder Adder(IList<Outlet> operands)
+        {
+            return _patchManager.Adder(operands);
+        }
+
+        public OperatorWrapper_Curve Curve(Curve curve = null)
+        {
+            return _patchManager.Curve(curve);
+        }
+
+        public OperatorWrapper_CustomOperator CustomOperator()
+        {
+            return _patchManager.CustomOperator();
+        }
+
+        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument)
+        {
+            return _patchManager.CustomOperator(underlyingDocument);
+        }
+
+        /// <param name="underlyingDocument">The Document to base the CustomOperator on.</param>
+        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument, params Outlet[] operands)
+        {
+            return _patchManager.CustomOperator(underlyingDocument, operands);
+        }
+
+        /// <param name="underlyingDocument">The Document to base the CustomOperator on.</param>
+        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument, IList<Outlet> operands)
+        {
+            return _patchManager.CustomOperator(underlyingDocument, operands);
+        }
+
+        public OperatorWrapper_Delay Delay(Outlet signal = null, Outlet timeDifference = null)
+        {
+            return _patchManager.Delay(signal, timeDifference);
+        }
+
+        public OperatorWrapper_Divide Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
+        {
+            return _patchManager.Divide(numerator, denominator, origin);
+        }
+
+        public OperatorWrapper_Exponent Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
+        {
+            return _patchManager.Exponent(low, high, ratio);
+        }
+
+        public OperatorWrapper_Loop Loop(
+            Outlet signal = null,
+            Outlet attack = null,
+            Outlet start = null,
+            Outlet sustain = null,
+            Outlet end = null,
+            Outlet release = null)
+        {
+            return _patchManager.Loop(signal, attack, start, sustain, end, release);
+        }
+
+        public OperatorWrapper_Multiply Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
+        {
+            return _patchManager.Multiply(operandA, operandB, origin);
         }
 
         public OperatorWrapper_Number Number(double number = 0)
@@ -38,9 +99,24 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Number(number);
         }
 
-        public OperatorWrapper_Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseShift = null)
+        public OperatorWrapper_PatchInlet PatchInlet(Outlet input = null)
         {
-            return _patchManager.Sine(volume, pitch, origin, phaseShift);
+            return _patchManager.PatchInlet(input);
+        }
+
+        public OperatorWrapper_PatchOutlet PatchOutlet(Outlet input = null)
+        {
+            return _patchManager.PatchOutlet(input);
+        }
+
+        public OperatorWrapper_Power Power(Outlet @base = null, Outlet exponent = null)
+        {
+            return _patchManager.Power(@base, exponent);
+        }
+
+        public OperatorWrapper_Resample Resample(Outlet signal = null, Outlet samplingRate = null)
+        {
+            return _patchManager.Resample(signal, samplingRate);
         }
 
         public OperatorWrapper_SawTooth SawTooth(Outlet pitch = null, Outlet phaseShift = null)
@@ -48,9 +124,59 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.SawTooth(pitch, phaseShift);
         }
 
+        public OperatorWrapper_Sample Sample(Sample sample = null)
+        {
+            return _patchManager.Sample(sample);
+        }
+
+        public OperatorWrapper_Select Select(Outlet signal = null, Outlet time = null)
+        {
+            return _patchManager.Select(signal, time);
+        }
+
+        public OperatorWrapper_Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseShift = null)
+        {
+            return _patchManager.Sine(volume, pitch, origin, phaseShift);
+        }
+
+        public OperatorWrapper_Substract Substract(Outlet operandA = null, Outlet operandB = null)
+        {
+            return _patchManager.Substract(operandA, operandB);
+        }
+
+        public OperatorWrapper_SpeedUp SpeedUp(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
+        {
+            return _patchManager.SpeedUp(signal, timeDivider, origin);
+        }
+
+        public OperatorWrapper_SlowDown SlowDown(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
+        {
+            return _patchManager.SlowDown(signal, timeMultiplier, origin);
+        }
+
+        public OperatorWrapper_SquareWave SquareWave(Outlet pitch = null, Outlet phaseShift = null)
+        {
+            return _patchManager.SquareWave(pitch, phaseShift);
+        }
+
+        public OperatorWrapper_TimePower TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
+        {
+            return _patchManager.TimePower(signal, exponent, origin);
+        }
+
+        public OperatorWrapper_TimeSubstract TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
+        {
+            return _patchManager.TimeSubstract(signal, timeDifference);
+        }
+
         public OperatorWrapper_TriangleWave TriangleWave(Outlet pitch = null, Outlet phaseShift = null)
         {
             return _patchManager.TriangleWave(pitch, phaseShift);
+        }
+
+        public OperatorWrapper_WhiteNoise WhiteNoise()
+        {
+            return _patchManager.WhiteNoise();
         }
 
         public IPatchCalculator CreateOptimizedCalculator(params Outlet[] channelOutlets)

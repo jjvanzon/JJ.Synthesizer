@@ -27,6 +27,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.Power, typeof(OperatorValidator_Power) },
             { OperatorTypeEnum.Resample, typeof(OperatorValidator_Resample) },
             { OperatorTypeEnum.Sample, typeof(OperatorValidator_Sample) },
+            { OperatorTypeEnum.Select, typeof(OperatorValidator_Select) },
             { OperatorTypeEnum.Sine, typeof(OperatorValidator_Sine) },
             { OperatorTypeEnum.SquareWave, typeof(OperatorValidator_SquareWave) },
             { OperatorTypeEnum.Substract, typeof(OperatorValidator_Substract) },

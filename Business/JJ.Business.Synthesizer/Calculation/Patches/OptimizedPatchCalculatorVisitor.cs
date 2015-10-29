@@ -649,6 +649,37 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitSelect(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase timeCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Number_OperatorCalculator(0);
+            timeCalculator = timeCalculator ?? new Number_OperatorCalculator(0);
+
+            double signal = signalCalculator.Calculate(0, 0);
+            double time = timeCalculator.Calculate(0, 0);
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool timeIsConst = timeCalculator is Number_OperatorCalculator;
+
+            if (signalIsConst)
+            {
+                calculator = new Number_OperatorCalculator(signal);
+            }
+            else if (timeIsConst)
+            {
+                calculator = new Signal_WithConstTime_OperatorCalculator(signalCalculator, time);
+            }
+            else
+            {
+                calculator = new Signal_OperatorCalculator(signalCalculator, timeCalculator);
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitSine(Operator op)
         {
             OperatorCalculatorBase calculator;

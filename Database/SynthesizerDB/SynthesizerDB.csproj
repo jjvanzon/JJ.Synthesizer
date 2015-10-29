@@ -87,7 +87,8 @@
     <Content Include="2015-10-24 020 SynthesizerDB OperatorType 23 - TriangleWave.sql" />
     <Content Include="2015-10-24 030 SynthesizerDB NodeType 4 - Curve.sql" />
     <Content Include="2015-10-25 010 SynthesizerDB Operator Type 24 - Exponent.sql" />
-    <Content Include="2015-10-26 010 SynthesizerDB Operator Type 25 - LoopOperator.sql" />
+    <Content Include="2015-10-29 010 SynthesizerDB Operator Type 26 - Select.sql" />
+    <Content Include="2015-10-26 010 SynthesizerDB Operator Type 25 - Loop.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

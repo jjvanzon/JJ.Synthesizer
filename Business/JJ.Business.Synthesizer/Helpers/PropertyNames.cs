@@ -85,5 +85,6 @@
         public const string Sustain = "Sustain";
         public const string End = "End";
         public const string Release = "Release";
+        public const string Time = "Time";
     }
 }

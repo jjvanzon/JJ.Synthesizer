@@ -93,16 +93,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.PatchOutlet, CalculatePatchOutlet },
                 { OperatorTypeEnum.Power, CalculatePower },
                 { OperatorTypeEnum.Sample, CalculateSampleOperator },
-                { OperatorTypeEnum.SawTooth, CalculateSawToothOperator },
+                { OperatorTypeEnum.SawTooth, CalculateSawTooth },
+                { OperatorTypeEnum.Select, CalculateSelect },
                 { OperatorTypeEnum.Sine, CalculateSine },
-                { OperatorTypeEnum.SquareWave, CalculateSquareWaveOperator },
+                { OperatorTypeEnum.SquareWave, CalculateSquareWave },
                 { OperatorTypeEnum.Substract, CalculateSubstract },
                 { OperatorTypeEnum.Delay, CalculateDelay },
                 { OperatorTypeEnum.SpeedUp, CalculateSpeedUp },
                 { OperatorTypeEnum.SlowDown, CalculateSlowDown },
                 { OperatorTypeEnum.TimePower, CalculateTimePower },
                 { OperatorTypeEnum.TimeSubstract, CalculateTimeSubstract },
-                { OperatorTypeEnum.TriangleWave, CalculateTriangleWaveOperator },
+                { OperatorTypeEnum.TriangleWave, CalculateTriangleWave },
                 { OperatorTypeEnum.Number, CalculateNumberOperator },
                 { OperatorTypeEnum.WhiteNoise, CalculateWhiteNoise },
             };
@@ -563,7 +564,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        private double CalculateSawToothOperator(Operator op, double time)
+        private double CalculateSawTooth(Operator op, double time)
         {
             var wrapper = new OperatorWrapper_SawTooth(op);
 
@@ -605,7 +606,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
-        private double CalculateSquareWaveOperator(Operator op, double time)
+        private double CalculateSelect(Operator op, double time)
+        {
+            var wrapper = new OperatorWrapper_Select(op);
+
+            double time2  = Calculate(wrapper.Time, time);
+
+            double value = Calculate(wrapper.Signal, time2);
+            return value;
+        }
+
+        private double CalculateSquareWave(Operator op, double time)
         {
             var wrapper = new OperatorWrapper_SquareWave(op);
 
@@ -806,7 +817,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        private double CalculateTriangleWaveOperator(Operator op, double time)
+        private double CalculateTriangleWave(Operator op, double time)
         {
             var wrapper = new OperatorWrapper_TriangleWave(op);
 
