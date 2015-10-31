@@ -1,17 +1,16 @@
-﻿using JJ.Business.Synthesizer.Helpers;
+﻿using System;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
-using System;
 using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class OperatorValidator_Bundle : FluentValidator<Operator>
+    public class OperatorValidator_Unbundle : FluentValidator<Operator>
     {
-        public OperatorValidator_Bundle(Operator obj)
+        public OperatorValidator_Unbundle(Operator obj)
             : base(obj)
         { }
 
@@ -19,14 +18,10 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Operator op = Object;
 
-            For(() => op.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).Is(OperatorTypeEnum.Bundle);
-            For(() => op.Outlets.Count, GetPropertyDisplayName_ForOutletCount()).Is(1);
+            For(() => op.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).Is(OperatorTypeEnum.Unbundle);
+            For(() => op.Inlets.Count, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Inlets)).Is(1);
+            For(() => op.Outlets.Count, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Outlets)).Above(0);
             For(() => op.Data, PropertyDisplayNames.Data).IsNull();
-        }
-
-        private string GetPropertyDisplayName_ForOutletCount()
-        {
-            return CommonTitleFormatter.EntityCount(PropertyDisplayNames.Outlets);
         }
     }
 }

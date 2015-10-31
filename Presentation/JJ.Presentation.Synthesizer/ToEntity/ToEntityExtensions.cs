@@ -809,6 +809,155 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         // Operator 
 
+        public static Operator ToEntityWithInletsAndOutlets(this OperatorViewModel viewModel, PatchRepositories patchRepositories)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (patchRepositories == null) throw new NullException(() => patchRepositories);
+
+            Operator op = viewModel.ToEntity(patchRepositories.OperatorRepository, patchRepositories.OperatorTypeRepository);
+
+            // TOOD: Make sure you do not repeat so much code here and in RecursiveToEntityConverter.
+
+            var patchManager = new PatchManager(patchRepositories);
+
+            // Inlets
+            IList<Inlet> inletsToKeep = new List<Inlet>(viewModel.Inlets.Count + 1);
+
+            foreach (InletViewModel inletViewModel in viewModel.Inlets)
+            {
+                Inlet inlet = inletViewModel.ToEntity(patchRepositories.InletRepository);
+                inlet.LinkTo(op);
+
+                inletsToKeep.Add(inlet);
+            }
+
+            Inlet HACK_patchInletInlet = ToEntityHelper.HACK_CreatePatchInletInletIfNeeded(op, patchRepositories.InletRepository, patchRepositories.IDRepository);
+            if (HACK_patchInletInlet != null)
+            {
+                inletsToKeep.Add(HACK_patchInletInlet);
+            }
+
+            IList<Inlet> inletsToDelete = op.Inlets.Except(inletsToKeep).ToArray();
+            foreach (Inlet inletToDelete in inletsToDelete)
+            {
+                patchManager.DeleteInlet(inletToDelete);
+            }
+
+            // Outlets
+            IList<Outlet> outletsToKeep = new List<Outlet>(viewModel.Outlets.Count + 1);
+
+            foreach (OutletViewModel outletViewModel in viewModel.Outlets)
+            {
+                Outlet outlet = outletViewModel.ToEntity(patchRepositories.OutletRepository);
+                outlet.LinkTo(op);
+
+                outletsToKeep.Add(outlet);
+            }
+
+            Outlet HACK_patchOutletOutlet = ToEntityHelper.HACK_CreatePatchOutletOutletIfNeeded(op, patchRepositories.OutletRepository, patchRepositories.IDRepository);
+            if (HACK_patchOutletOutlet != null)
+            {
+                outletsToKeep.Add(HACK_patchOutletOutlet);
+            }
+
+            IList<Outlet> outletsToDelete = op.Outlets.Except(outletsToKeep).ToArray();
+            foreach (Outlet outletToDelete in outletsToDelete)
+            {
+                patchManager.DeleteOutlet(outletToDelete);
+            }
+
+            return op;
+        }
+
+        public static Operator ToEntity(this OperatorViewModel viewModel, IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
+
+            Operator entity = operatorRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Operator();
+                entity.ID = viewModel.ID;
+                operatorRepository.Insert(entity);
+            }
+
+            entity.Name = viewModel.Name;
+
+            bool operatorTypeIsFilledIn = viewModel.OperatorType != null && viewModel.OperatorType.ID != 0;
+            if (operatorTypeIsFilledIn)
+            {
+                OperatorType operatorType = operatorTypeRepository.Get(viewModel.OperatorType.ID);
+                entity.LinkTo(operatorType);
+            }
+            else
+            {
+                entity.UnlinkOperatorType();
+            }
+
+            return entity;
+        }
+
+        public static Inlet ToEntity(this InletViewModel viewModel, IInletRepository inletRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (inletRepository == null) throw new NullException(() => inletRepository);
+
+            Inlet entity = inletRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Inlet();
+                entity.ID = viewModel.ID;
+                inletRepository.Insert(entity);
+            }
+            entity.SortOrder = viewModel.SortOrder;
+            entity.Name = viewModel.Name;
+
+            return entity;
+        }
+
+        public static Outlet ToEntity(this OutletViewModel viewModel, IOutletRepository outletRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (outletRepository == null) throw new NullException(() => outletRepository);
+
+            Outlet entity = outletRepository.TryGet(viewModel.ID);
+            if (entity == null)
+            {
+                entity = new Outlet();
+                entity.ID = viewModel.ID;
+                outletRepository.Insert(entity);
+            }
+            entity.SortOrder = viewModel.SortOrder;
+            entity.Name = viewModel.Name;
+
+            return entity;
+        }
+
+        public static EntityPosition ToEntityPosition(this OperatorViewModel viewModel, IEntityPositionRepository entityPositionRepository)
+        {
+            // TODO: Low priority: Delegate ToEntityPosition to the EntityPositionManager?
+            // Because now the ToEntityPosition method needs to know too much about how EntityPosition works. 
+
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
+
+            EntityPosition entityPosition = entityPositionRepository.TryGet(viewModel.EntityPositionID);
+            if (entityPosition == null)
+            {
+                entityPosition = new EntityPosition();
+                entityPosition.ID = viewModel.EntityPositionID;
+                entityPositionRepository.Insert(entityPosition);
+            }
+            entityPosition.X = viewModel.CenterX;
+            entityPosition.Y = viewModel.CenterY;
+            entityPosition.EntityTypeName = typeof(Operator).Name;
+            entityPosition.EntityID = viewModel.ID;
+
+            return entityPosition;
+        }
+
         public static Operator ToEntity(
             this OperatorPropertiesViewModel viewModel,
             IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
@@ -1124,123 +1273,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = idAndName.Name;
 
             return entity;
-        }
-
-        public static Operator ToEntityWithInletsAndOutlets(this OperatorViewModel viewModel, PatchRepositories patchRepositories)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (patchRepositories == null) throw new NullException(() => patchRepositories);
-
-            Operator op = viewModel.ToEntity(patchRepositories.OperatorRepository, patchRepositories.OperatorTypeRepository);
-
-            // TODO: Also do delete operations.
-            // TOOD: Make sure you do not repeat so much code here and in RecursiveToEntityConverter.
-            foreach (InletViewModel inletViewModel in viewModel.Inlets)
-            {
-                Inlet inlet = inletViewModel.ToEntity(patchRepositories.InletRepository);
-                inlet.LinkTo(op);
-            }
-
-            ToEntityHelper.HACK_CreatePatchInletInletIfNeeded(op, patchRepositories.InletRepository, patchRepositories.IDRepository);
-
-            foreach (OutletViewModel outletViewModel in viewModel.Outlets)
-            {
-                Outlet outlet = outletViewModel.ToEntity(patchRepositories.OutletRepository);
-                outlet.LinkTo(op);
-            }
-
-            ToEntityHelper.HACK_CreatePatchOutletOutletIfNeeded(op, patchRepositories.OutletRepository, patchRepositories.IDRepository);
-
-            return op;
-        }
-
-        public static Operator ToEntity(this OperatorViewModel viewModel, IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
-
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
-            }
-
-            entity.Name = viewModel.Name;
-
-            bool operatorTypeIsFilledIn = viewModel.OperatorType != null && viewModel.OperatorType.ID != 0;
-            if (operatorTypeIsFilledIn)
-            {
-                OperatorType operatorType = operatorTypeRepository.Get(viewModel.OperatorType.ID);
-                entity.LinkTo(operatorType);
-            }
-            else
-            {
-                entity.UnlinkOperatorType();
-            }
-
-            return entity;
-        }
-
-        public static Inlet ToEntity(this InletViewModel viewModel, IInletRepository inletRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (inletRepository == null) throw new NullException(() => inletRepository);
-
-            Inlet entity = inletRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Inlet();
-                entity.ID = viewModel.ID;
-                inletRepository.Insert(entity);
-            }
-            entity.SortOrder = viewModel.SortOrder;
-            entity.Name = viewModel.Name;
-
-            return entity;
-        }
-
-        public static Outlet ToEntity(this OutletViewModel viewModel, IOutletRepository outletRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-
-            Outlet entity = outletRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Outlet();
-                entity.ID = viewModel.ID;
-                outletRepository.Insert(entity);
-            }
-            entity.SortOrder = viewModel.SortOrder;
-            entity.Name = viewModel.Name;
-
-            return entity;
-        }
-
-        public static EntityPosition ToEntityPosition(this OperatorViewModel viewModel, IEntityPositionRepository entityPositionRepository)
-        {
-            // TODO: Low priority: Delegate ToEntityPosition to the EntityPositionManager?
-            // Because now the ToEntityPosition method needs to know too much about how EntityPosition works. 
-
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
-
-            EntityPosition entityPosition = entityPositionRepository.TryGet(viewModel.EntityPositionID);
-            if (entityPosition == null)
-            {
-                entityPosition = new EntityPosition();
-                entityPosition.ID = viewModel.EntityPositionID;
-                entityPositionRepository.Insert(entityPosition);
-            }
-            entityPosition.X = viewModel.CenterX;
-            entityPosition.Y = viewModel.CenterY;
-            entityPosition.EntityTypeName = typeof(Operator).Name;
-            entityPosition.EntityID = viewModel.ID;
-
-            return entityPosition;
         }
 
         public static void ToPatchesWithRelatedEntities(

@@ -24,6 +24,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
     {
         private static int _maxVisiblePageNumbers = GetMaxVisiblePageNumbers();
 
+        private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithTheirOwnPropertyViews = new HashSet<OperatorTypeEnum>
+        {
+            OperatorTypeEnum.Bundle,
+            OperatorTypeEnum.Curve,
+            OperatorTypeEnum.CustomOperator,
+            OperatorTypeEnum.Number,
+            OperatorTypeEnum.PatchInlet,
+            OperatorTypeEnum.PatchOutlet,
+            OperatorTypeEnum.Sample,
+            OperatorTypeEnum.Unbundle
+        };
+
         private static int GetMaxVisiblePageNumbers()
         {
             ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
@@ -335,12 +347,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
-                if (operatorTypeEnum != OperatorTypeEnum.Curve &&
-                    operatorTypeEnum != OperatorTypeEnum.CustomOperator &&
-                    operatorTypeEnum != OperatorTypeEnum.PatchInlet &&
-                    operatorTypeEnum != OperatorTypeEnum.PatchOutlet &&
-                    operatorTypeEnum != OperatorTypeEnum.Number &&
-                    operatorTypeEnum != OperatorTypeEnum.Sample)
+                if (!_operatorTypeEnums_WithTheirOwnPropertyViews.Contains(operatorTypeEnum))
                 {
                     OperatorPropertiesViewModel viewModel = op.ToPropertiesViewModel();
                     viewModels.Add(viewModel);
