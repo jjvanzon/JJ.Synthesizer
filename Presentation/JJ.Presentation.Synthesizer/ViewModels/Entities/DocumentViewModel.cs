@@ -33,12 +33,14 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public IList<SamplePropertiesViewModel> SamplePropertiesList { get; set; }
 
         public IList<OperatorPropertiesViewModel> OperatorPropertiesList { get; set; }
+        public IList<OperatorPropertiesViewModel_ForBundle> OperatorPropertiesList_ForBundles { get; set; }
         public IList<OperatorPropertiesViewModel_ForCurve> OperatorPropertiesList_ForCurves { get; set; }
         public IList<OperatorPropertiesViewModel_ForCustomOperator> OperatorPropertiesList_ForCustomOperators { get; set; }
         public IList<OperatorPropertiesViewModel_ForNumber> OperatorPropertiesList_ForNumbers { get; set; }
         public IList<OperatorPropertiesViewModel_ForPatchInlet> OperatorPropertiesList_ForPatchInlets { get; set; }
         public IList<OperatorPropertiesViewModel_ForPatchOutlet> OperatorPropertiesList_ForPatchOutlets { get; set; }
         public IList<OperatorPropertiesViewModel_ForSample> OperatorPropertiesList_ForSamples { get; set; }
+        public IList<OperatorPropertiesViewModel_ForUnbundle> OperatorPropertiesList_ForUnbundles { get; set; }
 
         public PatchGridViewModel PatchGrid { get; set; }
         public IList<PatchDetailsViewModel> PatchDetailsList { get; set; }

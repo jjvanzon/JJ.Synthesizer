@@ -41,12 +41,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private Dictionary<string, double> _previousTimeDictionary = new Dictionary<string, double>();
         /// <summary> Key is a composite string with the path of operator ID's in it. </summary>
         private Dictionary<string, double> _phaseDictionary = new Dictionary<string, double>();
-        private Dictionary<Operator, double> _numberOperatorValueDictionary = new Dictionary<Operator, double>();
+
         private Dictionary<Operator, Curve> _curveOperator_Curve_Dictionary = new Dictionary<Operator, Curve>();
+        /// <summary> Value can be null of Curve Operator's Curve is not set. </summary>
+        private Dictionary<Operator, CurveCalculator> _operator_curveCalculatorDictionary = new Dictionary<Operator, CurveCalculator>();
+        private Dictionary<Operator, double> _numberOperatorValueDictionary = new Dictionary<Operator, double>();
         private Dictionary<Operator, SampleInfo> _sampleOperator_SampleInfo_Dictionary = new Dictionary<Operator, SampleInfo>();
-        private Dictionary<int, ISampleCalculator> _sampleCalculatorDictionary = new Dictionary<int, ISampleCalculator>();
+        private Dictionary<int, ISampleCalculator> _sampleID_sampleCalculatorDictionary = new Dictionary<int, ISampleCalculator>();
         /// <summary> Key is operator ID, value is offset in seconds. </summary>
-        private Dictionary<int, double> _whiteNoiseOffsetDictionary = new Dictionary<int, double>();
+        private Dictionary<int, double> _operatorID_whiteNoiseOffsetDictionary = new Dictionary<int, double>();
 
         public InterpretedPatchCalculator(
             IList<Outlet> channelOutlets,
@@ -186,18 +189,25 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculateCurveOperator(Operator op, double time)
         {
-            Curve curve;
-            if (!_curveOperator_Curve_Dictionary.TryGetValue(op, out curve))
+            CurveCalculator curveCalculator;
+            if (!_operator_curveCalculatorDictionary.TryGetValue(op, out curveCalculator))
             {
                 var wrapper = new OperatorWrapper_Curve(op, _curveRepository);
-                curve = wrapper.Curve;
-                _curveOperator_Curve_Dictionary.Add(op, curve);
+                Curve curve = wrapper.Curve;
+
+                if (curve != null)
+                {
+                    curveCalculator = new CurveCalculator(curve);
+                }
+
+                _operator_curveCalculatorDictionary.Add(op, curveCalculator);
             }
 
-            if (curve == null) return 0;
+            if (curveCalculator == null)
+            {
+                return 0;
+            }
 
-            // TODO: Cache CurveCalculators? Yes, CurvCalculator asserts using a validator. Very expensive for each sample.
-            var curveCalculator = new CurveCalculator(curve);
             double result = curveCalculator.CalculateValue(time);
             return result;
         }
@@ -717,10 +727,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             if (sampleInfo.Sample == null) return 0;
 
             ISampleCalculator sampleCalculator;
-            if (!_sampleCalculatorDictionary.TryGetValue(sampleInfo.Sample.ID, out sampleCalculator))
+            if (!_sampleID_sampleCalculatorDictionary.TryGetValue(sampleInfo.Sample.ID, out sampleCalculator))
             {
                 sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sampleInfo.Sample, sampleInfo.Bytes);
-                _sampleCalculatorDictionary.Add(sampleInfo.Sample.ID, sampleCalculator);
+                _sampleID_sampleCalculatorDictionary.Add(sampleInfo.Sample.ID, sampleCalculator);
             }
 
             // This is a solution for when the sample channels do not match the channel we want.
@@ -876,10 +886,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private double CalculateWhiteNoise(Operator op, double time)
         {
             double offset;
-            if (!_whiteNoiseOffsetDictionary.TryGetValue(op.ID, out offset))
+            if (!_operatorID_whiteNoiseOffsetDictionary.TryGetValue(op.ID, out offset))
             {
                 offset = _whiteNoiseCalculator.GetRandomOffset();
-                _whiteNoiseOffsetDictionary.Add(op.ID, offset);
+                _operatorID_whiteNoiseOffsetDictionary.Add(op.ID, offset);
             }
 
             double value = _whiteNoiseCalculator.GetValue(time + offset);

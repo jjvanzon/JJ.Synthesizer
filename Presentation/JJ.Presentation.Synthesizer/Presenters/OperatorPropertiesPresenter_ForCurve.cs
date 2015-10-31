@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Operator entity = _repositories.OperatorRepository.Get(ViewModel.ID);
             bool visible = ViewModel.Visible;
-            ViewModel = entity.ToOperatorPropertiesViewModel_ForCurve(_repositories.CurveRepository);
+            ViewModel = entity.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
             ViewModel.Visible = visible;
         }
 

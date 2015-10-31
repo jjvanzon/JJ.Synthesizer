@@ -352,9 +352,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
+        private const bool DEFAULT_ALWAYS_RECREATE_DIAGRAM = false;
+
         private static bool GetAlwaysRecreateDiagram()
         {
-            return CustomConfigurationManager.GetSection<ConfigurationSection>().Testing.AlwaysRecreateDiagram;
+            if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            {
+                return CustomConfigurationManager.GetSection<ConfigurationSection>().Testing.AlwaysRecreateDiagram;
+            }
+            return DEFAULT_ALWAYS_RECREATE_DIAGRAM;
         }
     }
 }

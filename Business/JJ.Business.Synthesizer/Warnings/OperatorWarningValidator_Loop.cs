@@ -33,7 +33,8 @@ namespace JJ.Business.Synthesizer.Warnings
 
                     if (loopStartInlet.InputOutlet == null)
                     {
-                        string message = MessageFormatter.InletNotSet(ResourceHelper.GetOperatorTypeDisplayName(Object), Object.Name, loopStartInlet.Name);
+                        string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(Object);
+                        string message = MessageFormatter.InletNotSet(operatorTypeDisplayName, Object.Name, loopStartInlet.Name);
                         ValidationMessages.Add(() => loopStartInlet.InputOutlet, message);
                     }
                 }

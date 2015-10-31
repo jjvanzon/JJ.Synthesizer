@@ -306,19 +306,31 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         // Helpers
 
+        private const bool DEFAULT_TOOL_TIP_FEATURE_ENABLED = false;
+
         private static bool GetTooltipFeatureEnabled()
         {
-            return CustomConfigurationManager.GetSection<ConfigurationSection>().ToolTipFeatureEnabled;
+            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
+            if (config == null) return DEFAULT_TOOL_TIP_FEATURE_ENABLED;
+            return config.ToolTipFeatureEnabled;
         }
+
+        private const int DEFAULT_LINE_SEGMENT_COUNT = 15;
 
         private static int GetLineSegmentCount()
         {
-            return CustomConfigurationManager.GetSection<ConfigurationSection>().PatchLineSegmentCount;
+            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
+            if (config == null) return DEFAULT_LINE_SEGMENT_COUNT;
+            return config.PatchLineSegmentCount;
         }
+
+        private const bool DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS = false;
 
         private static bool GetMustShowInvisibleElements()
         {
-            return CustomConfigurationManager.GetSection<ConfigurationSection>().MustShowInvisibleElements;
+            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
+            if (config == null) return DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS;
+            return config.MustShowInvisibleElements;
         }
     }
 }

@@ -210,5 +210,21 @@ namespace JJ.Business.Synthesizer.Validation
             }
             return messagePrefix;
         }
+
+        public static string GetOperatorIdentifier(Operator op)
+        {
+            if (!String.IsNullOrEmpty(op.Name))
+            {
+                return op.Name;
+            }
+
+            if (op.OperatorType != null)
+            {
+                string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(op.OperatorType);
+                return operatorTypeDisplayName;
+            }
+
+            return op.ID.ToString();
+        }
     }
 }

@@ -9,6 +9,7 @@ using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.WinForms.Forms;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using ConfigurationSection = JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection;
+using System.ComponentModel;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -23,8 +24,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         static MainForm()
         {
-            var config = CustomConfigurationManager.GetSection<ConfigurationSection>();
-            _titleBarExtraText = config.General.TitleBarExtraText;
+            if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
+            {
+                var config = CustomConfigurationManager.GetSection<ConfigurationSection>();
+                _titleBarExtraText = config.General.TitleBarExtraText;
+            }
         }
 
         public MainForm()

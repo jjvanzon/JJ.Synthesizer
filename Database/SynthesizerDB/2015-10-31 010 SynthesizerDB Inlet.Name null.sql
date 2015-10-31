@@ -1,0 +1,1 @@
+alter table Inlet alter column Name nvarchar(255) null;

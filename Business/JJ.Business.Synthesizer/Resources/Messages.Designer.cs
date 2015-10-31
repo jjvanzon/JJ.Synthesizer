@@ -61,6 +61,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot change the amount of inlets, because inlet {0} is still filled in..
+        /// </summary>
+        internal static string CannotChangeInletCountBecauseOneIsStillFilledIn {
+            get {
+                return ResourceManager.GetString("CannotChangeInletCountBecauseOneIsStillFilledIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot change the amount of outlets, because outlet {0} is still in use..
+        /// </summary>
+        internal static string CannotChangeOutletCountBecauseOneIsStillFilledIn {
+            get {
+                return ResourceManager.GetString("CannotChangeOutletCountBecauseOneIsStillFilledIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot delete item, because there are things still linking to it..
         /// </summary>
         internal static string CannotDeleteBecauseHasReferences {
@@ -214,6 +232,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operator &apos;{0}&apos; has no inlet filled in..
+        /// </summary>
+        internal static string OperatorHasNoInletFilledIn_WithOperatorName {
+            get {
+                return ResourceManager.GetString("OperatorHasNoInletFilledIn_WithOperatorName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operator &apos;{0}&apos; has no inlets filled in..
+        /// </summary>
+        internal static string OperatorHasNoInletsFilledIn_WithOperatorName {
+            get {
+                return ResourceManager.GetString("OperatorHasNoInletsFilledIn_WithOperatorName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Operator&apos;s inlet count does not match the inlet count of the main patch of the document it references..
         /// </summary>
         internal static string OperatorInletCountNotEqualToDocumentMainPatchInletCount {
@@ -246,6 +282,24 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string OperatorPatchIsNotTheExpectedPatch {
             get {
                 return ResourceManager.GetString("OperatorPatchIsNotTheExpectedPatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operator type must be &apos;Adder&apos; or &apos;Bundle&apos;..
+        /// </summary>
+        internal static string OperatorTypeMustBeAdderOrBundle {
+            get {
+                return ResourceManager.GetString("OperatorTypeMustBeAdderOrBundle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operator type must be &apos;{0}&apos;..
+        /// </summary>
+        internal static string OperatorTypeMustBeOfType {
+            get {
+                return ResourceManager.GetString("OperatorTypeMustBeOfType", resourceCulture);
             }
         }
         

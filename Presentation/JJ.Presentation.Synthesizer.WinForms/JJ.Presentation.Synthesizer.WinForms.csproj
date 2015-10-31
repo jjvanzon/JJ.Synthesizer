@@ -87,11 +87,11 @@
     <Compile Include="MainForm.Actions.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.General.cs">
+    <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.General.Designer.cs">
-      <DependentUpon>MainForm.General.cs</DependentUpon>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\PersistenceHelper.cs" />
     <Compile Include="Helpers\StyleHelper.cs" />
@@ -126,6 +126,12 @@
     <Compile Include="UserControls\NodePropertiesUserControl.Designer.cs">
       <DependentUpon>NodePropertiesUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForUnbundle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForUnbundle.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_ForUnbundle.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -137,6 +143,12 @@
     </Compile>
     <Compile Include="UserControls\OperatorPropertiesUserControl_ForCurve.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl_ForCurve.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForBundle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\OperatorPropertiesUserControl_ForBundle.Designer.cs">
+      <DependentUpon>OperatorPropertiesUserControl_ForBundle.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ToneGridEditUserControl.cs">
       <SubType>UserControl</SubType>
@@ -294,8 +306,8 @@
     <EmbeddedResource Include="Forms\DocumentCannotDeleteForm.resx">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainForm.General.resx">
-      <DependentUpon>MainForm.General.cs</DependentUpon>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -313,11 +325,17 @@
     <EmbeddedResource Include="UserControls\NodePropertiesUserControl.resx">
       <DependentUpon>NodePropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForUnbundle.resx">
+      <DependentUpon>OperatorPropertiesUserControl_ForUnbundle.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCustomOperator.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForCustomOperator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForCurve.resx">
       <DependentUpon>OperatorPropertiesUserControl_ForCurve.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl_ForBundle.resx">
+      <DependentUpon>OperatorPropertiesUserControl_ForBundle.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ToneGridEditUserControl.resx">
       <DependentUpon>ToneGridEditUserControl.cs</DependentUpon>

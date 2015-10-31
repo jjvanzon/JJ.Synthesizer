@@ -2,26 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Common;
+using JJ.Framework.Presentation.Resources;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
+using JJ.Framework.Validation.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings;
-using JJ.Business.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Presentation.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.ToEntity;
+using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Presentation.Synthesizer.ToViewModel;
-using JJ.Presentation.Synthesizer.ToEntity;
-using JJ.Presentation.Synthesizer.Resources;
-using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Managers;
-using JJ.Presentation.Synthesizer.Validators;
-using JJ.Framework.Validation.Resources;
-using JJ.Framework.Presentation.Resources;
-using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -1267,6 +1267,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                 }
                 {
+                    OperatorPropertiesViewModel_ForBundle viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForBundle(ViewModel.Document, id);
+                    if (viewModel != null)
+                    {
+                        OperatorPropertiesPresenter_ForBundle partialPresenter = _operatorPropertiesPresenter_ForBundle;
+                        partialPresenter.ViewModel = viewModel;
+                        partialPresenter.Show();
+                        DispatchViewModel(partialPresenter.ViewModel);
+                        return;
+                    }
+                }
+                {
                     OperatorPropertiesViewModel_ForCurve viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForCurve(ViewModel.Document, id);
                     if (viewModel != null)
                     {
@@ -1332,6 +1343,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         return;
                     }
                 }
+                {
+                    OperatorPropertiesViewModel_ForUnbundle viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForUnbundle(ViewModel.Document, id);
+                    if (viewModel != null)
+                    {
+                        OperatorPropertiesPresenter_ForUnbundle partialPresenter = _operatorPropertiesPresenter_ForUnbundle;
+                        partialPresenter.ViewModel = viewModel;
+                        partialPresenter.Show();
+                        DispatchViewModel(partialPresenter.ViewModel);
+                        return;
+                    }
+                }
 
                 throw new Exception(String.Format("Properties ViewModel not found for Operator with ID '{0}'.", id));
             }
@@ -1346,6 +1368,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus(() => _operatorPropertiesPresenter.Close());
         }
 
+        public void OperatorPropertiesClose_ForBundle()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForBundle(() => _operatorPropertiesPresenter_ForBundle.Close());
+        }
+
         public void OperatorPropertiesClose_ForCurve()
         {
             OperatorPropertiesCloseOrLoseFocus_ForCurve(() => _operatorPropertiesPresenter_ForCurve.Close());
@@ -1354,6 +1381,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void OperatorPropertiesClose_ForCustomOperator()
         {
             OperatorPropertiesCloseOrLoseFocus_ForCustomOperator(() => _operatorPropertiesPresenter_ForCustomOperator.Close());
+        }
+
+        public void OperatorPropertiesClose_ForNumber()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForNumber(() => _operatorPropertiesPresenter_ForNumber.Close());
         }
 
         public void OperatorPropertiesClose_ForPatchInlet()
@@ -1366,19 +1398,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForPatchOutlet(() => _operatorPropertiesPresenter_ForPatchOutlet.Close());
         }
 
-        public void OperatorPropertiesClose_ForNumber()
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForNumber(() => _operatorPropertiesPresenter_ForNumber.Close());
-        }
-
         public void OperatorPropertiesClose_ForSample()
         {
             OperatorPropertiesCloseOrLoseFocus_ForSample(() => _operatorPropertiesPresenter_ForSample.Close());
         }
 
+        public void OperatorPropertiesClose_ForUnbundle()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForUnbundle(() => _operatorPropertiesPresenter_ForUnbundle.Close());
+        }
+
         public void OperatorPropertiesLoseFocus()
         {
             OperatorPropertiesCloseOrLoseFocus(() => _operatorPropertiesPresenter.LoseFocus());
+        }
+
+        public void OperatorPropertiesLoseFocus_ForBundle()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForBundle(() => _operatorPropertiesPresenter_ForBundle.LoseFocus());
         }
 
         public void OperatorPropertiesLoseFocus_ForCurve()
@@ -1391,6 +1428,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForCustomOperator(() => _operatorPropertiesPresenter_ForCustomOperator.LoseFocus());
         }
 
+        public void OperatorPropertiesLoseFocus_ForNumber()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForNumber(() => _operatorPropertiesPresenter_ForNumber.LoseFocus());
+        }
+
         public void OperatorPropertiesLoseFocus_ForPatchInlet()
         {
             OperatorPropertiesCloseOrLoseFocus_ForPatchInlet(() => _operatorPropertiesPresenter_ForPatchInlet.LoseFocus());
@@ -1401,14 +1443,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             OperatorPropertiesCloseOrLoseFocus_ForPatchOutlet(() => _operatorPropertiesPresenter_ForPatchOutlet.LoseFocus());
         }
 
-        public void OperatorPropertiesLoseFocus_ForNumber()
-        {
-            OperatorPropertiesCloseOrLoseFocus_ForNumber(() => _operatorPropertiesPresenter_ForNumber.LoseFocus());
-        }
-
         public void OperatorPropertiesLoseFocus_ForSample()
         {
             OperatorPropertiesCloseOrLoseFocus_ForSample(() => _operatorPropertiesPresenter_ForSample.LoseFocus());
+        }
+
+        public void OperatorPropertiesLoseFocus_ForUnbundle()
+        {
+            OperatorPropertiesCloseOrLoseFocus_ForUnbundle(() => _operatorPropertiesPresenter_ForUnbundle.LoseFocus());
         }
 
         private void OperatorPropertiesCloseOrLoseFocus(Action partialAction)
@@ -1416,6 +1458,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 OperatorPropertiesPresenter partialPresenter = _operatorPropertiesPresenter;
+                OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(ViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
+
+                partialAction();
+
+                if (partialPresenter.ViewModel.Successful)
+                {
+                    RefreshPatchDetailsOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                }
+
+                DispatchViewModel(partialPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        private void OperatorPropertiesCloseOrLoseFocus_ForBundle(Action partialAction)
+        {
+            try
+            {
+                OperatorPropertiesPresenter_ForBundle partialPresenter = _operatorPropertiesPresenter_ForBundle;
+
                 OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(ViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
 
                 partialAction();
@@ -1496,6 +1561,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        private void OperatorPropertiesCloseOrLoseFocus_ForNumber(Action partialAction)
+        {
+            try
+            {
+                OperatorPropertiesPresenter_ForNumber partialPresenter = _operatorPropertiesPresenter_ForNumber;
+
+                OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(ViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
+
+                partialAction();
+
+                if (partialPresenter.ViewModel.Successful)
+                {
+                    RefreshPatchDetailsOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                }
+
+                DispatchViewModel(partialPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
         private void OperatorPropertiesCloseOrLoseFocus_ForPatchInlet(Action partialAction)
         {
             try
@@ -1550,13 +1638,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void OperatorPropertiesCloseOrLoseFocus_ForNumber(Action partialAction)
+        private void OperatorPropertiesCloseOrLoseFocus_ForSample(Action partialAction)
         {
             try
             {
-                OperatorPropertiesPresenter_ForNumber partialPresenter = _operatorPropertiesPresenter_ForNumber;
+                OperatorPropertiesPresenter_ForSample partialPresenter = _operatorPropertiesPresenter_ForSample;
 
                 OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(ViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
+
+                // Convert the document, child documents + samples
+                // because we are about to validate a sample operator's reference to its sample.
+                ViewModel.Document.ToHollowDocumentWithHollowChildDocumentsWithHollowSamplesWithName(
+                    _repositories.DocumentRepository,
+                    _repositories.ChildDocumentTypeRepository,
+                    _repositories.SampleRepository);
 
                 partialAction();
 
@@ -1573,20 +1668,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void OperatorPropertiesCloseOrLoseFocus_ForSample(Action partialAction)
+        private void OperatorPropertiesCloseOrLoseFocus_ForUnbundle(Action partialAction)
         {
             try
             {
-                OperatorPropertiesPresenter_ForSample partialPresenter = _operatorPropertiesPresenter_ForSample;
+                OperatorPropertiesPresenter_ForUnbundle partialPresenter = _operatorPropertiesPresenter_ForUnbundle;
 
                 OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(ViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
-
-                // Convert the document, child documents + samples
-                // because we are about to validate a sample operator's reference to its sample.
-                ViewModel.Document.ToHollowDocumentWithHollowChildDocumentsWithHollowSamplesWithName(
-                    _repositories.DocumentRepository,
-                    _repositories.ChildDocumentTypeRepository,
-                    _repositories.SampleRepository);
 
                 partialAction();
 
@@ -1698,9 +1786,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
                 switch (operatorTypeEnum)
                 {
+                    case OperatorTypeEnum.Bundle:
+                        {
+                            OperatorPropertiesViewModel_ForBundle propertiesViewModel = op.ToPropertiesViewModel_ForBundle();
+                            IList<OperatorPropertiesViewModel_ForBundle> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForBundles_ByPatchID(ViewModel.Document, patch.ID);
+                            propertiesViewModelList.Add(propertiesViewModel);
+                            break;
+                        }
+
                     case OperatorTypeEnum.Curve:
                         {
-                            OperatorPropertiesViewModel_ForCurve propertiesViewModel = op.ToOperatorPropertiesViewModel_ForCurve(_repositories.CurveRepository);
+                            OperatorPropertiesViewModel_ForCurve propertiesViewModel = op.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
                             IList<OperatorPropertiesViewModel_ForCurve> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForCurves_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;
@@ -1724,8 +1820,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     case OperatorTypeEnum.Sample:
                         {
-                            OperatorPropertiesViewModel_ForSample propertiesViewModel = op.ToOperatorPropertiesViewModel_ForSample(_repositories.SampleRepository);
+                            OperatorPropertiesViewModel_ForSample propertiesViewModel = op.ToPropertiesViewModel_ForSample(_repositories.SampleRepository);
                             IList<OperatorPropertiesViewModel_ForSample> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForSamples_ByPatchID(ViewModel.Document, patch.ID);
+                            propertiesViewModelList.Add(propertiesViewModel);
+                            break;
+                        }
+
+                    case OperatorTypeEnum.Unbundle:
+                        {
+                            OperatorPropertiesViewModel_ForUnbundle propertiesViewModel = op.ToPropertiesViewModel_ForUnbundle();
+                            IList<OperatorPropertiesViewModel_ForUnbundle> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForUnbundles_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;
                         }
@@ -1777,6 +1881,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         {
                             switch (operatorTypeEnum)
                             {
+                                case OperatorTypeEnum.Bundle:
+                                    ViewModel.Document.OperatorPropertiesList_ForBundles.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+
                                 case OperatorTypeEnum.Curve:
                                     ViewModel.Document.OperatorPropertiesList_ForCurves.RemoveFirst(x => x.ID == op.ID);
                                     break;
@@ -1801,6 +1909,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                     ViewModel.Document.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
                                     break;
 
+                                case OperatorTypeEnum.Unbundle:
+                                    ViewModel.Document.OperatorPropertiesList_ForUnbundles.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+
                                 case OperatorTypeEnum.Undefined:
                                     throw new ValueNotSupportedException(operatorTypeEnum);
 
@@ -1814,6 +1926,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                             ChildDocumentViewModel childDocumentViewModel = ViewModel.Document.ChildDocumentList.Where(x => x.ID == document.ID).First();
                             switch (operatorTypeEnum)
                             {
+                                case OperatorTypeEnum.Bundle:
+                                    childDocumentViewModel.OperatorPropertiesList_ForBundles.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+
                                 case OperatorTypeEnum.Curve:
                                     childDocumentViewModel.OperatorPropertiesList_ForCurves.RemoveFirst(x => x.ID == op.ID);
                                     break;
@@ -1836,6 +1952,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                                 case OperatorTypeEnum.Sample:
                                     childDocumentViewModel.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
+                                    break;
+
+                                case OperatorTypeEnum.Unbundle:
+                                    childDocumentViewModel.OperatorPropertiesList_ForUnbundles.RemoveFirst(x => x.ID == op.ID);
                                     break;
 
                                 case OperatorTypeEnum.Undefined:

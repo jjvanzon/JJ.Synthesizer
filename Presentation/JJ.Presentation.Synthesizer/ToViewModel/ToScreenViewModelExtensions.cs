@@ -350,12 +350,21 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModels;
         }
 
+        public static IList<OperatorPropertiesViewModel_ForBundle> ToOperatorPropertiesViewModelList_ForBundles(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.GetOperatorsOfType(OperatorTypeEnum.Bundle)
+                        .Select(x => x.ToPropertiesViewModel_ForBundle())
+                        .ToList();
+        }
+
         public static IList<OperatorPropertiesViewModel_ForCurve> ToOperatorPropertiesViewModelList_ForCurves(this Patch patch, ICurveRepository curveRepository)
         {
             if (patch == null) throw new NullException(() => patch);
 
             return patch.GetOperatorsOfType(OperatorTypeEnum.Curve)
-                        .Select(x => x.ToOperatorPropertiesViewModel_ForCurve(curveRepository))
+                        .Select(x => x.ToPropertiesViewModel_ForCurve(curveRepository))
                         .ToList();
         }
 
@@ -365,6 +374,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return patch.GetOperatorsOfType(OperatorTypeEnum.CustomOperator)
                         .Select(x => x.ToPropertiesViewModel_ForCustomOperator(documentRepository))
+                        .ToList();
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForNumber> ToPropertiesViewModelList_ForNumbers(this Patch patch)
+        {
+            if (patch == null) throw new NullException(() => patch);
+
+            return patch.GetOperatorsOfType(OperatorTypeEnum.Number)
+                        .Select(x => x.ToPropertiesViewModel_ForNumber())
                         .ToList();
         }
 
@@ -391,16 +409,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (patch == null) throw new NullException(() => patch);
 
             return patch.GetOperatorsOfType(OperatorTypeEnum.Sample)
-                        .Select(x => x.ToOperatorPropertiesViewModel_ForSample(sampleRepository))
+                        .Select(x => x.ToPropertiesViewModel_ForSample(sampleRepository))
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_ForNumber> ToPropertiesViewModelList_ForNumbers(this Patch patch)
+        public static IList<OperatorPropertiesViewModel_ForUnbundle> ToOperatorPropertiesViewModelList_ForUnbundles(this Patch patch)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.GetOperatorsOfType(OperatorTypeEnum.Number)
-                        .Select(x => x.ToPropertiesViewModel_ForNumber())
+            return patch.GetOperatorsOfType(OperatorTypeEnum.Unbundle)
+                        .Select(x => x.ToPropertiesViewModel_ForUnbundle())
                         .ToList();
         }
 
@@ -424,7 +442,25 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForCurve ToOperatorPropertiesViewModel_ForCurve(this Operator entity, ICurveRepository curveRepository)
+        public static OperatorPropertiesViewModel_ForBundle ToPropertiesViewModel_ForBundle(this Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var wrapper = new OperatorWrapper_Bundle(entity);
+
+            var viewModel = new OperatorPropertiesViewModel_ForBundle
+            {
+                ID = entity.ID,
+                Name = entity.Name,
+                InletCount = entity.Inlets.Count,
+                Successful = true,
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForCurve ToPropertiesViewModel_ForCurve(this Operator entity, ICurveRepository curveRepository)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -470,6 +506,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static OperatorPropertiesViewModel_ForNumber ToPropertiesViewModel_ForNumber(this Operator entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            var wrapper = new OperatorWrapper_Number(entity);
+
+            var viewModel = new OperatorPropertiesViewModel_ForNumber
+            {
+                ID = entity.ID,
+                Name = entity.Name,
+                Number = wrapper.Number.ToString(),
+                Successful = true,
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
         public static OperatorPropertiesViewModel_ForPatchInlet ToPropertiesViewModel_ForPatchInlet(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -506,7 +560,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForSample ToOperatorPropertiesViewModel_ForSample(this Operator entity, ISampleRepository sampleRepository)
+        public static OperatorPropertiesViewModel_ForSample ToPropertiesViewModel_ForSample(this Operator entity, ISampleRepository sampleRepository)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -529,17 +583,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForNumber ToPropertiesViewModel_ForNumber(this Operator entity)
+        public static OperatorPropertiesViewModel_ForUnbundle ToPropertiesViewModel_ForUnbundle(this Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var wrapper = new OperatorWrapper_Number(entity);
+            var wrapper = new OperatorWrapper_Unbundle(entity);
 
-            var viewModel = new OperatorPropertiesViewModel_ForNumber
+            var viewModel = new OperatorPropertiesViewModel_ForUnbundle
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                Number = wrapper.Number.ToString(),
+                OutletCount = entity.Outlets.Count,
                 Successful = true,
                 ValidationMessages = new List<Message>()
             };

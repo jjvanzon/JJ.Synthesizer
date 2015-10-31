@@ -156,6 +156,8 @@
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Configuration\PatchCalculatorTypeEnum.cs" />
     <Compile Include="Converters\DocumentToOperatorConverter.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapper_Unbundle.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapper_Bundle.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Select.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Exponent.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_CustomOperator_Inlets.cs" />
@@ -225,6 +227,7 @@
     <Compile Include="Managers\CurveManager.cs" />
     <Compile Include="Managers\DocumentManager.cs" />
     <Compile Include="Managers\EntityPositionManager.cs" />
+    <Compile Include="Validation\OperatorValidator_SetInletCount.cs" />
     <Compile Include="Managers\PatchManager.CreateOperator.cs" />
     <Compile Include="Managers\PatchManager.cs" />
     <Compile Include="Managers\SampleManager.cs" />
@@ -259,6 +262,9 @@
     <Compile Include="Validation\CurveValidator_WithoutNodes.cs" />
     <Compile Include="Validation\InletValidator_ForCustomOperator.cs" />
     <Compile Include="Validation\NodeValidator_Parent.cs" />
+    <Compile Include="Validation\OperatorValidator_SetOutletCount.cs" />
+    <Compile Include="Validation\OperatorValidator_Unbundle.cs" />
+    <Compile Include="Validation\OperatorValidator_Bundle.cs" />
     <Compile Include="Validation\OperatorValidator_Select.cs" />
     <Compile Include="Validation\OperatorValidator_Exponent.cs" />
     <Compile Include="Validation\OperatorValidator_Loop.cs" />
@@ -302,6 +308,8 @@
     <Compile Include="Calculation\Patches\OperatorVisitorBase.cs" />
     <Compile Include="Warnings\AudioFileOutputChannelWarningValidator.cs" />
     <Compile Include="Warnings\AudioFileOutputWarningValidator.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Unbundle.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Bundle.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_CustomOperator.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Select.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Resample.cs" />

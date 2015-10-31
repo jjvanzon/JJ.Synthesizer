@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Configuration
 {
-    internal class ConfigurationSection
+    public class ConfigurationSection
     {
         [XmlAttribute]
         public bool MustShowInvisibleElements { get; set; }

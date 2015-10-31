@@ -1,0 +1,1 @@
+alter table Outlet alter column Name nvarchar(255) null;

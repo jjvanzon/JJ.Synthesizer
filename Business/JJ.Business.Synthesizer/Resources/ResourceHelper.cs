@@ -30,6 +30,13 @@ namespace JJ.Business.Synthesizer.Resources
             return GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
         }
 
+        public static string GetOperatorTypeDisplayName(OperatorType operatorType)
+        {
+            if (operatorType == null) throw new NullException(() => operatorType);
+
+            return PropertyDisplayNames.ResourceManager.GetString(operatorType.Name);
+        }
+
         public static string GetOperatorTypeDisplayName(OperatorTypeEnum operatorTypeEnum)
         {
             return PropertyDisplayNames.ResourceManager.GetString(operatorTypeEnum.ToString());

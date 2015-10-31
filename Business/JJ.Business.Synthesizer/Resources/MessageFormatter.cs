@@ -30,6 +30,16 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.UnsupportedOperatorTypeEnumValue, operatorTypeEnum);
         }
 
+        public static string OperatorTypeMustBeOfType(string operatorTypeDisplayName)
+        {
+            return String.Format(Messages.OperatorTypeMustBeOfType, operatorTypeDisplayName);
+        }
+
+        internal static string OperatorTypeMustBeAdderOrBundle()
+        {
+            return Messages.OperatorTypeMustBeAdderOrBundle;
+        }
+
         public static string SampleNotLoaded(string sampleName)
         {
             return String.Format(Messages.SampleNotLoaded, sampleName);
@@ -38,6 +48,16 @@ namespace JJ.Business.Synthesizer.Resources
         public static string ObjectAmplifier0(string objectTypeName, string objectName)
         {
             return String.Format(Messages.ObjectAmplifier0, objectTypeName, objectName);
+        }
+
+        public static string CannotChangeInletsBecauseOneIsStillFilledIn(int oneBasedInletNumber)
+        {
+            return String.Format(Messages.CannotChangeInletCountBecauseOneIsStillFilledIn, oneBasedInletNumber);
+        }
+
+        public static string CannotChangeOutletsBecauseOneIsStillFilledIn(int oneBasedOutletNumber)
+        {
+            return String.Format(Messages.CannotChangeOutletCountBecauseOneIsStillFilledIn, oneBasedOutletNumber);
         }
 
         public static string SampleNotActive(string sampleName)
@@ -118,6 +138,16 @@ namespace JJ.Business.Synthesizer.Resources
         public static string CustomOperatorOutletWithNameNotFoundInDocumentMainPatch(string name)
         {
             return String.Format(Messages.CustomOperatorOutletWithNameNotFoundInDocumentMainPatch, name);
+        }
+
+        public static string OperatorHasNoInletsFilledIn_WithOperatorName(string name)
+        {
+            return String.Format(Messages.OperatorHasNoInletsFilledIn_WithOperatorName, name);
+        }
+
+        public static string OperatorHasNoInletFilledIn_WithOperatorName(string name)
+        {
+            return String.Format(Messages.OperatorHasNoInletFilledIn_WithOperatorName, name);
         }
     }
 }

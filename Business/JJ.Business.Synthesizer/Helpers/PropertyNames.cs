@@ -1,4 +1,7 @@
-﻿namespace JJ.Business.Synthesizer.Helpers
+﻿using System;
+using System.Linq.Expressions;
+
+namespace JJ.Business.Synthesizer.Helpers
 {
     public static class PropertyNames
     {
@@ -86,5 +89,8 @@
         public const string End = "End";
         public const string Release = "Release";
         public const string Time = "Time";
+        public const string InletCount = "InletCount";
+        public const string OutletCount = "OutletCount";
+        public const string InputOutlet = "InputOutlet";
     }
 }

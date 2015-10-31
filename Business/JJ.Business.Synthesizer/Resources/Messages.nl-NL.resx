@@ -221,4 +221,27 @@
   <data name="ScaleNamesNotUnique" xml:space="preserve">
     <value>Toonladder namen zijn niet uniek.</value>
   </data>
+  <data name="OperatorHasNoInletsFilledIn_WithOperatorName" xml:space="preserve">
+    <value>Er zijn geen ingangen ingevuld voor operator '{0}'.</value>
+    <comment>{0} = name or type of object</comment>
+  </data>
+  <data name="OperatorHasNoInletFilledIn_WithOperatorName" xml:space="preserve">
+    <value>Er is geen ingang ingevuld voor operator '{0}'.</value>
+    <comment>{0} = name or type of object</comment>
+  </data>
+  <data name="OperatorTypeMustBeAdderOrBundle" xml:space="preserve">
+    <value>Operator type moet 'Opteller' of 'Bundel' zijn.</value>
+  </data>
+  <data name="CannotChangeInletCountBecauseOneIsStillFilledIn" xml:space="preserve">
+    <value>Kan het aantal ingangen niet aanpassen, omdat ingang {0} nog ingevuld is.</value>
+    <comment>{0} = number</comment>
+  </data>
+  <data name="OperatorTypeMustBeOfType" xml:space="preserve">
+    <value>Operator type moet '{0}' zijn.</value>
+    <comment>{0} = operator type name</comment>
+  </data>
+  <data name="CannotChangeOutletCountBecauseOneIsStillFilledIn" xml:space="preserve">
+    <value>Kan het aantal uitgangen niet aanpassen, omdat uitgang {0} in gebruik is.</value>
+    <comment>{0} = number</comment>
+  </data>
 </root>

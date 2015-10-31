@@ -28,6 +28,8 @@
         TriangleWave = 23,
         Exponent = 24,
         Loop = 25,
-        Select = 26
+        Select = 26,
+        Bundle = 27,
+        Unbundle = 28
     }
 }

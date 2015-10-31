@@ -348,12 +348,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void OperatorPropertiesClose()
-        {
-            _presenter.OperatorPropertiesClose();
-            ApplyViewModel();
-        }
-
         private void OperatorPropertiesClose_ForCurve()
         {
             _presenter.OperatorPropertiesClose_ForCurve();
@@ -378,21 +372,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void OperatorPropertiesClose_ForSample()
-        {
-            _presenter.OperatorPropertiesClose_ForSample();
-            ApplyViewModel();
-        }
-
         private void OperatorPropertiesClose_ForNumber()
         {
             _presenter.OperatorPropertiesClose_ForNumber();
-            ApplyViewModel();
-        }
-
-        private void OperatorPropertiesLoseFocus()
-        {
-            _presenter.OperatorPropertiesLoseFocus();
             ApplyViewModel();
         }
 
@@ -417,12 +399,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void OperatorPropertiesLoseFocus_ForPatchOutlet()
         {
             _presenter.OperatorPropertiesLoseFocus_ForPatchOutlet();
-            ApplyViewModel();
-        }
-
-        private void OperatorPropertiesLoseFocus_ForSample()
-        {
-            _presenter.OperatorPropertiesLoseFocus_ForSample();
             ApplyViewModel();
         }
 

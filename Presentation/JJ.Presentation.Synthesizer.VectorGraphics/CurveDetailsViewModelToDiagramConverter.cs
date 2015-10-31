@@ -14,7 +14,6 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
-using JJ.Framework.Configuration;
 using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
@@ -625,19 +624,31 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
         // Helpers
 
+        private const int DEFAULT_LINE_SEGMENT_COUNT = 10;
+
         private static int GetLineSegmentCount()
         {
-            return CustomConfigurationManager.GetSection<ConfigurationSection>().CurveLineSegmentCount;
+            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
+            if (config == null) return DEFAULT_LINE_SEGMENT_COUNT;
+            return config.CurveLineSegmentCount;
         }
+
+        private const float DEFAULT_CLICKABLE_REGION_SIZE_IN_PIXELS = 20;
 
         private static float GetNodeClickableRegionSizeInPixels()
         {
-            return CustomConfigurationManager.GetSection<ConfigurationSection>().NodeClickableRegionSizeInPixels;
+            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
+            if (config == null) return DEFAULT_CLICKABLE_REGION_SIZE_IN_PIXELS;
+            return config.NodeClickableRegionSizeInPixels;
         }
+
+        private const bool DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS = false;
 
         private static bool GetMustShowInvisibleElements()
         {
-            return CustomConfigurationManager.GetSection<ConfigurationSection>().MustShowInvisibleElements;
+            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
+            if (config == null) return DEFAULT_MUST_SHOW_INVISIBLE_ELEMENTS;
+            return config.MustShowInvisibleElements;
         }
     }
 }

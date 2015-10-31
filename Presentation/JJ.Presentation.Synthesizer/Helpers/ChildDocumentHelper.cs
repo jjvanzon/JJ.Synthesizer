@@ -274,6 +274,15 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
+        public static OperatorPropertiesViewModel_ForBundle TryGetOperatorPropertiesViewModel_ForBundle(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForBundle viewModel = ChildDocumentHelper.EnumerateOperatorPropertiesViewModels_ForBundles(rootDocumentViewModel)
+                                                                                 .FirstOrDefault(x => x.ID == operatorID); // First for performance.
+            return viewModel;
+        }
+
         public static OperatorPropertiesViewModel_ForCurve TryGetOperatorPropertiesViewModel_ForCurve(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -289,6 +298,15 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             OperatorPropertiesViewModel_ForCustomOperator viewModel = ChildDocumentHelper.EnumerateOperatorPropertiesViewModels_ForCustomOperators(rootDocumentViewModel)
                                                                                          .FirstOrDefault(x => x.ID == operatorID); // First for performance.
+            return viewModel;
+        }
+
+        public static OperatorPropertiesViewModel_ForNumber TryGetOperatorPropertiesViewModel_ForNumber(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            OperatorPropertiesViewModel_ForNumber viewModel = ChildDocumentHelper.EnumerateOperatorPropertiesViewModels_ForNumbers(rootDocumentViewModel)
+                                                                                 .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
 
@@ -319,12 +337,12 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForNumber TryGetOperatorPropertiesViewModel_ForNumber(DocumentViewModel rootDocumentViewModel, int operatorID)
+        public static OperatorPropertiesViewModel_ForUnbundle TryGetOperatorPropertiesViewModel_ForUnbundle(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            OperatorPropertiesViewModel_ForNumber viewModel = ChildDocumentHelper.EnumerateOperatorPropertiesViewModels_ForNumbers(rootDocumentViewModel)
-                                                                                      .FirstOrDefault(x => x.ID == operatorID); // First for performance.
+            OperatorPropertiesViewModel_ForUnbundle viewModel = ChildDocumentHelper.EnumerateOperatorPropertiesViewModels_ForUnbundles(rootDocumentViewModel)
+                                                                                   .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             return viewModel;
         }
 
@@ -340,6 +358,24 @@ namespace JJ.Presentation.Synthesizer.Helpers
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
                 foreach (OperatorPropertiesViewModel propertiesViewModel in childDocumentViewModel.OperatorPropertiesList)
+                {
+                    yield return propertiesViewModel;
+                }
+            }
+        }
+
+        private static IEnumerable<OperatorPropertiesViewModel_ForBundle> EnumerateOperatorPropertiesViewModels_ForBundles(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (OperatorPropertiesViewModel_ForBundle propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList_ForBundles)
+            {
+                yield return propertiesViewModel;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                foreach (OperatorPropertiesViewModel_ForBundle propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForBundles)
                 {
                     yield return propertiesViewModel;
                 }
@@ -376,6 +412,24 @@ namespace JJ.Presentation.Synthesizer.Helpers
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
                 foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForCustomOperators)
+                {
+                    yield return propertiesViewModel;
+                }
+            }
+        }
+
+        private static IEnumerable<OperatorPropertiesViewModel_ForNumber> EnumerateOperatorPropertiesViewModels_ForNumbers(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (OperatorPropertiesViewModel_ForNumber propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList_ForNumbers)
+            {
+                yield return propertiesViewModel;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                foreach (OperatorPropertiesViewModel_ForNumber propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForNumbers)
                 {
                     yield return propertiesViewModel;
                 }
@@ -436,18 +490,18 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
         }
 
-        private static IEnumerable<OperatorPropertiesViewModel_ForNumber> EnumerateOperatorPropertiesViewModels_ForNumbers(DocumentViewModel rootDocumentViewModel)
+        private static IEnumerable<OperatorPropertiesViewModel_ForUnbundle> EnumerateOperatorPropertiesViewModels_ForUnbundles(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            foreach (OperatorPropertiesViewModel_ForNumber propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList_ForNumbers)
+            foreach (OperatorPropertiesViewModel_ForUnbundle propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList_ForUnbundles)
             {
                 yield return propertiesViewModel;
             }
 
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
-                foreach (OperatorPropertiesViewModel_ForNumber propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForNumbers)
+                foreach (OperatorPropertiesViewModel_ForUnbundle propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForUnbundles)
                 {
                     yield return propertiesViewModel;
                 }
@@ -472,6 +526,26 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel> for Patch ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForBundle> GetOperatorPropertiesViewModelList_ForBundles_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            if (rootDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+            {
+                return rootDocumentViewModel.OperatorPropertiesList_ForBundles;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                if (childDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+                {
+                    return childDocumentViewModel.OperatorPropertiesList_ForBundles;
+                }
+            }
+
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForBundle> for Patch ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForCurve> GetOperatorPropertiesViewModelList_ForCurves_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -592,6 +666,26 @@ namespace JJ.Presentation.Synthesizer.Helpers
             }
 
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForSample> with Patch ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+        }
+
+        public static IList<OperatorPropertiesViewModel_ForUnbundle> GetOperatorPropertiesViewModelList_ForUnbundles_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            if (rootDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+            {
+                return rootDocumentViewModel.OperatorPropertiesList_ForUnbundles;
+            }
+
+            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
+            {
+                if (childDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+                {
+                    return childDocumentViewModel.OperatorPropertiesList_ForUnbundles;
+                }
+            }
+
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForUnbundle> for Patch ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
         }
 
         // Patch

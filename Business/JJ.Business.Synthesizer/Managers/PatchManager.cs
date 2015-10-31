@@ -30,6 +30,8 @@ namespace JJ.Business.Synthesizer.Managers
         /// <summary> nullable </summary>
         public Patch Patch { get; set; }
 
+        // Constructors
+
         public PatchManager(Patch patch, PatchRepositories repositories)
         {
             if (patch == null) throw new NullException(() => patch);
@@ -45,6 +47,8 @@ namespace JJ.Business.Synthesizer.Managers
 
             _repositories = repositories;
         }
+
+        // Create
 
         /// <param name="document">Nullable. Used e.g. to generate a unique name for a Patch.</param>
         /// <param name="mustGenerateName">Only possible if you also pass a document.</param>
@@ -65,68 +69,39 @@ namespace JJ.Business.Synthesizer.Managers
             return Patch;
         }
 
+        public Inlet CreateInlet(Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            var inlet = new Inlet();
+            inlet.ID = _repositories.IDRepository.GetID();
+            _repositories.InletRepository.Insert(inlet);
+
+            inlet.LinkTo(op);
+
+            return inlet;
+        }
+
+        public Outlet CreateOutlet(Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            var outlet = new Outlet();
+            outlet.ID = _repositories.IDRepository.GetID();
+            _repositories.OutletRepository.Insert(outlet);
+
+            outlet.LinkTo(op);
+
+            return outlet;
+        }
+
+        // Save
+
         public VoidResult Save()
         {
             AssertPatch();
 
             return Validate();
-        }
-
-        private VoidResult Validate()
-        {
-            var messages = new List<Message>();
-
-            if (Patch.Document != null)
-            {
-                IValidator validator1 = new PatchValidator_InDocument(Patch);
-                messages.AddRange(validator1.ValidationMessages.ToCanonical());
-            }
-
-            IValidator validator2 = new PatchValidator_Recursive(Patch, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository, new HashSet<object>());
-            messages.AddRange(validator2.ValidationMessages.ToCanonical());
-
-            bool successful = messages.Count == 0;
-
-            return new VoidResult
-            {
-                Messages = messages,
-                Successful = successful
-            };
-        }
-
-        public VoidResult DeleteWithRelatedEntities()
-        {
-            AssertPatch();
-
-            bool isMainPatch = Patch.Document != null &&
-                               Patch.Document.MainPatch != null &&
-                               (Patch.Document.MainPatch == Patch ||
-                                Patch.Document.MainPatch.ID == Patch.ID);
-            if (isMainPatch)
-            {
-                var message = new Message
-                {
-                    PropertyKey = PropertyNames.Patch,
-                    Text = MessageFormatter.CannotDeletePatchBecauseIsMainPatch(Patch.Name)
-                };
-
-                return new VoidResult
-                {
-                    Successful = false,
-                    Messages = new Message[] { message }
-                };
-            }
-            else
-            {
-                Patch.DeleteRelatedEntities(_repositories.OperatorRepository, _repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
-                Patch.UnlinkRelatedEntities();
-                _repositories.PatchRepository.Delete(Patch);
-
-                return new VoidResult
-                {
-                    Successful = true
-                };
-            }
         }
 
         /// <summary>
@@ -242,15 +217,41 @@ namespace JJ.Business.Synthesizer.Managers
             }
         }
 
-        private VoidResult ValidateNonRecursive(Operator op)
-        {
-            IValidator validator = new OperatorValidator_Versatile(op, _repositories.DocumentRepository);
+        // Delete
 
-            return new VoidResult
+        public VoidResult DeleteWithRelatedEntities()
+        {
+            AssertPatch();
+
+            bool isMainPatch = Patch.Document != null &&
+                               Patch.Document.MainPatch != null &&
+                               (Patch.Document.MainPatch == Patch ||
+                                Patch.Document.MainPatch.ID == Patch.ID);
+            if (isMainPatch)
             {
-                Messages = validator.ValidationMessages.ToCanonical(),
-                Successful = validator.IsValid
-            };
+                var message = new Message
+                {
+                    PropertyKey = PropertyNames.Patch,
+                    Text = MessageFormatter.CannotDeletePatchBecauseIsMainPatch(Patch.Name)
+                };
+
+                return new VoidResult
+                {
+                    Successful = false,
+                    Messages = new Message[] { message }
+                };
+            }
+            else
+            {
+                Patch.DeleteRelatedEntities(_repositories.OperatorRepository, _repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
+                Patch.UnlinkRelatedEntities();
+                _repositories.PatchRepository.Delete(Patch);
+
+                return new VoidResult
+                {
+                    Successful = true
+                };
+            }
         }
 
         /// <summary>
@@ -313,7 +314,7 @@ namespace JJ.Business.Synthesizer.Managers
             DeleteInlet(entity);
         }
 
-        private void DeleteInlet(Inlet entity)
+        public void DeleteInlet(Inlet entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -327,12 +328,125 @@ namespace JJ.Business.Synthesizer.Managers
             DeleteOutlet(entity);
         }
 
-        private void DeleteOutlet(Outlet entity)
+        public void DeleteOutlet(Outlet entity)
         {
             if (entity == null) throw new NullException(() => entity);
 
             entity.UnlinkRelatedEntities();
             _repositories.OutletRepository.Delete(entity);
+        }
+
+        // Validate
+
+        private VoidResult Validate()
+        {
+            var messages = new List<Message>();
+
+            if (Patch.Document != null)
+            {
+                IValidator validator1 = new PatchValidator_InDocument(Patch);
+                messages.AddRange(validator1.ValidationMessages.ToCanonical());
+            }
+
+            IValidator validator2 = new PatchValidator_Recursive(Patch, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository, new HashSet<object>());
+            messages.AddRange(validator2.ValidationMessages.ToCanonical());
+
+            bool successful = messages.Count == 0;
+
+            return new VoidResult
+            {
+                Messages = messages,
+                Successful = successful
+            };
+        }
+
+        private VoidResult ValidateNonRecursive(Operator op)
+        {
+            IValidator validator = new OperatorValidator_Versatile(op, _repositories.DocumentRepository);
+
+            return new VoidResult
+            {
+                Messages = validator.ValidationMessages.ToCanonical(),
+                Successful = validator.IsValid
+            };
+        }
+
+        // Misc
+
+        /// <summary> Validates for instance that no operator connections are lost. </summary>
+        public VoidResult SetOperatorInletCount(Operator op, int inletCount)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IValidator validator = new OperatorValidator_SetInletCount(op, inletCount);
+            if (!validator.IsValid)
+            {
+                return new VoidResult
+                {
+                    Messages = validator.ValidationMessages.ToCanonical(),
+                    Successful = false
+                };
+            }
+
+            IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.SortOrder).ToArray();
+
+            // Create additional inlets
+            for (int i = sortedInlets.Count; i < inletCount; i++)
+            {
+                Inlet inlet = CreateInlet(op);
+            }
+
+            // Delete excessive inlets
+            for (int i = sortedInlets.Count - 1; i >= inletCount; i--)
+            {
+                Inlet inlet = sortedInlets[i];
+                DeleteInlet(inlet);
+            }
+
+            // Validate just in case some rule is not adhered to in the transformations above.
+            // TODO: Uncommented. Perhaps remove completely. In practice I do a validation afterwards anyway.
+            //VoidResult result = ValidateNonRecursive(entity);
+            //return result;
+
+            return new VoidResult
+            {
+                Successful = true
+            };
+        }
+
+        public VoidResult SetOperatorOutletCount(Operator op, int outletCount)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IValidator validator = new OperatorValidator_SetOutletCount(op, outletCount);
+            if (!validator.IsValid)
+            {
+                return new VoidResult
+                {
+                    Messages = validator.ValidationMessages.ToCanonical(),
+                    Successful = false
+                };
+            }
+
+            IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.SortOrder).ToArray();
+
+            // Create additional outlets
+            for (int i = sortedOutlets.Count; i < outletCount; i++)
+            {
+                Outlet outlet = CreateOutlet(op);
+            }
+
+            // Delete excessive outlets
+            for (int i = sortedOutlets.Count - 1; i >= outletCount; i--)
+            {
+                Outlet outlet = sortedOutlets[i];
+                DeleteOutlet(outlet);
+            }
+
+            return new VoidResult
+            {
+                Successful = true
+            };
         }
 
         /// <summary>

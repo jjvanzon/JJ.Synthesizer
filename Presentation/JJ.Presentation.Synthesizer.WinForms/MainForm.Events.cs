@@ -72,6 +72,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             nodePropertiesUserControl.LoseFocusRequested += nodePropertiesUserControl_LoseFocusRequested;
             operatorPropertiesUserControl.CloseRequested += operatorPropertiesUserControl_CloseRequested;
             operatorPropertiesUserControl.LoseFocusRequested += operatorPropertiesUserControl_LoseFocusRequested;
+            operatorPropertiesUserControl_ForBundle.CloseRequested += operatorPropertiesUserControl_ForBundle_CloseRequested;
+            operatorPropertiesUserControl_ForBundle.LoseFocusRequested += operatorPropertiesUserControl_ForBundle_LoseFocusRequested;
             operatorPropertiesUserControl_ForCurve.CloseRequested += operatorPropertiesUserControl_ForCurve_CloseRequested;
             operatorPropertiesUserControl_ForCurve.LoseFocusRequested += operatorPropertiesUserControl_ForCurve_LoseFocusRequested;
             operatorPropertiesUserControl_ForCustomOperator.CloseRequested += operatorPropertiesUserControl_ForCustomOperator_CloseRequested;
@@ -84,6 +86,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             operatorPropertiesUserControl_ForPatchOutlet.LoseFocusRequested += operatorPropertiesUserControl_ForPatchOutlet_LoseFocusRequested;
             operatorPropertiesUserControl_ForSample.CloseRequested += operatorPropertiesUserControl_ForSample_CloseRequested;
             operatorPropertiesUserControl_ForSample.LoseFocusRequested += operatorPropertiesUserControl_ForSample_LoseFocusRequested;
+            operatorPropertiesUserControl_ForUnbundle.CloseRequested += operatorPropertiesUserControl_ForUnbundle_CloseRequested;
+            operatorPropertiesUserControl_ForUnbundle.LoseFocusRequested += operatorPropertiesUserControl_ForUnbundle_LoseFocusRequested;
             patchDetailsUserControl.ChangeInputOutletRequested += patchDetailsUserControl_ChangeInputOutletRequested;
             patchDetailsUserControl.CloseRequested += patchDetailsUserControl_CloseRequested;
             patchDetailsUserControl.CreateOperatorRequested += patchDetailsUserControl_CreateOperatorRequested;
@@ -454,12 +458,26 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void operatorPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            OperatorPropertiesLoseFocus();
+            _presenter.OperatorPropertiesLoseFocus();
+            ApplyViewModel();
         }
 
         private void operatorPropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            OperatorPropertiesClose();
+            _presenter.OperatorPropertiesClose();
+            ApplyViewModel();
+        }
+
+        private void operatorPropertiesUserControl_ForBundle_LoseFocusRequested(object sender, EventArgs e)
+        {
+            _presenter.OperatorPropertiesLoseFocus_ForBundle();
+            ApplyViewModel();
+        }
+
+        private void operatorPropertiesUserControl_ForBundle_CloseRequested(object sender, EventArgs e)
+        {
+            _presenter.OperatorPropertiesClose_ForBundle();
+            ApplyViewModel();
         }
 
         private void operatorPropertiesUserControl_ForCurve_LoseFocusRequested(object sender, EventArgs e)
@@ -514,12 +532,26 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void operatorPropertiesUserControl_ForSample_LoseFocusRequested(object sender, EventArgs e)
         {
-            OperatorPropertiesLoseFocus_ForSample();
+            _presenter.OperatorPropertiesLoseFocus_ForSample();
+            ApplyViewModel();
         }
 
         private void operatorPropertiesUserControl_ForSample_CloseRequested(object sender, EventArgs e)
         {
-            OperatorPropertiesClose_ForSample();
+            _presenter.OperatorPropertiesClose_ForSample();
+            ApplyViewModel();
+        }
+
+        private void operatorPropertiesUserControl_ForUnbundle_LoseFocusRequested(object sender, EventArgs e)
+        {
+            _presenter.OperatorPropertiesLoseFocus_ForUnbundle();
+            ApplyViewModel();
+        }
+
+        private void operatorPropertiesUserControl_ForUnbundle_CloseRequested(object sender, EventArgs e)
+        {
+            _presenter.OperatorPropertiesClose_ForUnbundle();
+            ApplyViewModel();
         }
 
         // Patch

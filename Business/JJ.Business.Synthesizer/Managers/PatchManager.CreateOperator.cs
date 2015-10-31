@@ -12,6 +12,7 @@ using System.Reflection;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -68,6 +69,41 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories.OutletRepository.Insert(outlet);
 
             var wrapper = new OperatorWrapper_Adder(op);
+            wrapper.Operator.LinkTo(Patch);
+            return wrapper;
+        }
+
+        public OperatorWrapper_Bundle Bundle(params Outlet[] operands)
+        {
+            return Bundle((IList<Outlet>)operands);
+        }
+
+        public OperatorWrapper_Bundle Bundle(IList<Outlet> operands)
+        {
+            if (operands == null) throw new NullException(() => operands);
+
+            var op = new Operator();
+            op.ID = _repositories.IDRepository.GetID();
+            op.SetOperatorTypeEnum(OperatorTypeEnum.Bundle, _repositories.OperatorTypeRepository);
+            _repositories.OperatorRepository.Insert(op);
+
+            for (int i = 0; i < operands.Count; i++)
+            {
+                var inlet = new Inlet();
+                inlet.ID = _repositories.IDRepository.GetID();
+                inlet.LinkTo(op);
+                _repositories.InletRepository.Insert(inlet);
+
+                Outlet operand = operands[i];
+                inlet.InputOutlet = operand;
+            }
+
+            var outlet = new Outlet();
+            outlet.ID = _repositories.IDRepository.GetID();
+            outlet.LinkTo(op);
+            _repositories.OutletRepository.Insert(outlet);
+
+            var wrapper = new OperatorWrapper_Bundle(op);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
@@ -543,6 +579,22 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
+        public OperatorWrapper_Unbundle Unbundle(Outlet operand = null)
+        {
+            Operator op = CreateOperatorBase(
+                OperatorTypeEnum.Unbundle, 1,
+                PropertyNames.Operand);
+
+            var wrapper = new OperatorWrapper_Unbundle(op)
+            {
+                Operand = operand
+            };
+
+            wrapper.Operator.LinkTo(Patch);
+
+            return wrapper;
+        }
+
         public OperatorWrapper_WhiteNoise WhiteNoise()
         {
             Operator op = CreateOperatorBase(
@@ -602,7 +654,8 @@ namespace JJ.Business.Synthesizer.Managers
             foreach (OperatorTypeEnum operatorTypeEnum in enumMembers)
             {
                 if (operatorTypeEnum == OperatorTypeEnum.Undefined ||
-                    operatorTypeEnum == OperatorTypeEnum.Adder)
+                    operatorTypeEnum == OperatorTypeEnum.Adder ||
+                    operatorTypeEnum == OperatorTypeEnum.Bundle)
                 {
                     continue;
                 }
@@ -622,13 +675,19 @@ namespace JJ.Business.Synthesizer.Managers
             return methodDictionary;
         }
 
-        public Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, int inletCountForAdder = 16)
+        /// <param name="inletCount">
+        /// Applies to operators with a variable amount of inlets, such as the Adder operator and the Bundle operator.
+        /// </param>
+        public Operator CreateOperator(OperatorTypeEnum operatorTypeEnum, int inletCount = 16)
         {
-            //Operator op = _operatorFactory.CreateOperatorPolymorphic(operatorTypeEnum, inletCountForAdder);
-
-            if (operatorTypeEnum == OperatorTypeEnum.Adder)
+            // Handle operators for which we do not use a generic instantiation.
+            switch (operatorTypeEnum)
             {
-                return Adder(new Outlet[inletCountForAdder]);
+                case OperatorTypeEnum.Adder:
+                    return Adder(new Outlet[inletCount]);
+
+                case OperatorTypeEnum.Bundle:
+                    return Bundle(new Outlet[inletCount]);
             }
 
             MethodInfo methodInfo;
@@ -639,7 +698,7 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             object[] nullParameters = new object[methodInfo.GetParameters().Length];
-            OperatorWrapperBase wrapper = (OperatorWrapperBase)methodInfo.Invoke(this, nullParameters); ;
+            OperatorWrapperBase wrapper = (OperatorWrapperBase)methodInfo.Invoke(this, nullParameters);
             Operator op = wrapper.Operator;
             op.LinkTo(Patch);
 

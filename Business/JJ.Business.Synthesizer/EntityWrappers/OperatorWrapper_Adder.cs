@@ -10,9 +10,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        /// <summary>
-        /// Executes a loop, so prevent calling it multiple times.
-        /// </summary>
+        /// <summary> Executes a loop, so prevent calling it multiple times. summary>
         public IList<Outlet> Operands
         {
             get

@@ -17,6 +17,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             { OperatorTypeEnum.Adder, typeof(OperatorValidator_Adder) },
             { OperatorTypeEnum.Add, typeof(OperatorValidator_Add) },
+            { OperatorTypeEnum.Bundle, typeof(OperatorValidator_Bundle) },
             { OperatorTypeEnum.Curve, typeof(OperatorValidator_Curve) },
             { OperatorTypeEnum.Divide, typeof(OperatorValidator_Divide) },
             { OperatorTypeEnum.Exponent, typeof(OperatorValidator_Exponent) },
@@ -39,6 +40,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.TimeSubstract, typeof(OperatorValidator_TimeSubstract) },
             { OperatorTypeEnum.TriangleWave, typeof(OperatorValidator_TriangleWave) },
             { OperatorTypeEnum.Number, typeof(OperatorValidator_Number) },
+            { OperatorTypeEnum.Unbundle, typeof(OperatorValidator_Unbundle) },
             { OperatorTypeEnum.WhiteNoise, typeof(OperatorValidator_WhiteNoise) },
         };
 

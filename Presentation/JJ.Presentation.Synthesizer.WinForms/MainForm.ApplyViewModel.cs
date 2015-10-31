@@ -83,6 +83,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
+                // OperatorProperties_ForBundle
+                operatorPropertiesUserControl_ForBundle.ViewModel =
+                    Enumerable.Union(
+                        _presenter.ViewModel.Document.OperatorPropertiesList_ForBundles,
+                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForBundles))
+                    .Where(x => x.Visible)
+                    .FirstOrDefault();
+
                 // OperatorProperties_ForCurve
                 // (Needs slightly different code, because the CurveLookup is different for root documents and child documents.
                 operatorPropertiesUserControl_ForCurve.ViewModel = null;
@@ -116,6 +124,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     .Where(x => x.Visible)
                     .FirstOrDefault();
                 operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingDocumentLookup(_presenter.ViewModel.Document.UnderlyingDocumentLookup);
+
+                // OperatorProperties_ForNumber
+                operatorPropertiesUserControl_ForNumber.ViewModel =
+                    Enumerable.Union(
+                        _presenter.ViewModel.Document.OperatorPropertiesList_ForNumbers,
+                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers))
+                    .Where(x => x.Visible)
+                    .FirstOrDefault();
 
                 // OperatorProperties_ForPatchInlet
                 operatorPropertiesUserControl_ForPatchInlet.ViewModel =
@@ -158,11 +174,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     }
                 }
 
-                // OperatorProperties_ForNumber
-                operatorPropertiesUserControl_ForNumber.ViewModel =
+                // OperatorProperties_ForUnbundle
+                operatorPropertiesUserControl_ForUnbundle.ViewModel =
                     Enumerable.Union(
-                        _presenter.ViewModel.Document.OperatorPropertiesList_ForNumbers,
-                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers))
+                        _presenter.ViewModel.Document.OperatorPropertiesList_ForUnbundles,
+                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles))
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
@@ -245,18 +261,22 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                              nodePropertiesUserControl.ViewModel.Visible;
                 bool operatorPropertiesVisible = operatorPropertiesUserControl.ViewModel != null &&
                                                  operatorPropertiesUserControl.ViewModel.Visible;
+                bool operatorPropertiesVisible_ForBundle = operatorPropertiesUserControl_ForBundle.ViewModel != null &&
+                                                           operatorPropertiesUserControl_ForBundle.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForCurve = operatorPropertiesUserControl_ForCurve.ViewModel != null &&
                                                           operatorPropertiesUserControl_ForCurve.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForCustomOperator = operatorPropertiesUserControl_ForCustomOperator.ViewModel != null &&
                                                                    operatorPropertiesUserControl_ForCustomOperator.ViewModel.Visible;
+                bool operatorPropertiesVisible_ForNumber = operatorPropertiesUserControl_ForNumber.ViewModel != null &&
+                                                           operatorPropertiesUserControl_ForNumber.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForPatchInlet = operatorPropertiesUserControl_ForPatchInlet.ViewModel != null &&
                                                                operatorPropertiesUserControl_ForPatchInlet.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForPatchOutlet = operatorPropertiesUserControl_ForPatchOutlet.ViewModel != null &&
                                                                 operatorPropertiesUserControl_ForPatchOutlet.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForSample = operatorPropertiesUserControl_ForSample.ViewModel != null &&
                                                            operatorPropertiesUserControl_ForSample.ViewModel.Visible;
-                bool operatorPropertiesVisible_ForNumber = operatorPropertiesUserControl_ForNumber.ViewModel != null &&
-                                                           operatorPropertiesUserControl_ForNumber.ViewModel.Visible;
+                bool operatorPropertiesVisible_ForUnbundle = operatorPropertiesUserControl_ForUnbundle.ViewModel != null &&
+                                                             operatorPropertiesUserControl_ForUnbundle.ViewModel.Visible;
                 bool patchGridVisible = patchGridUserControl.ViewModel != null &&
                                         patchGridUserControl.ViewModel.Visible;
                 bool patchDetailsVisible = patchDetailsUserControl.ViewModel != null &&
@@ -287,12 +307,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (effectGridVisible) effectGridUserControl.Visible = true;
                 if (nodePropertiesVisible) nodePropertiesUserControl.Visible = true;
                 if (operatorPropertiesVisible) operatorPropertiesUserControl.Visible = true;
+                if (operatorPropertiesVisible_ForBundle) operatorPropertiesUserControl_ForBundle.Visible = true;
                 if (operatorPropertiesVisible_ForCurve) operatorPropertiesUserControl_ForCurve.Visible = true;
                 if (operatorPropertiesVisible_ForCustomOperator) operatorPropertiesUserControl_ForCustomOperator.Visible = true;
+                if (operatorPropertiesVisible_ForNumber) operatorPropertiesUserControl_ForNumber.Visible = true;
                 if (operatorPropertiesVisible_ForPatchInlet) operatorPropertiesUserControl_ForPatchInlet.Visible = true;
                 if (operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = true;
                 if (operatorPropertiesVisible_ForSample) operatorPropertiesUserControl_ForSample.Visible = true;
-                if (operatorPropertiesVisible_ForNumber) operatorPropertiesUserControl_ForNumber.Visible = true;
+                if (operatorPropertiesVisible_ForUnbundle) operatorPropertiesUserControl_ForUnbundle.Visible = true;
                 if (patchGridVisible) patchGridUserControl.Visible = true;
                 if (patchDetailsVisible) patchDetailsUserControl.Visible = true;
                 if (sampleGridVisible) sampleGridUserControl.Visible = true;
@@ -315,12 +337,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!instrumentGridVisible) instrumentGridUserControl.Visible = false;
                 if (!effectGridVisible) effectGridUserControl.Visible = false;
                 if (!operatorPropertiesVisible) operatorPropertiesUserControl.Visible = false;
+                if (!operatorPropertiesVisible_ForBundle) operatorPropertiesUserControl_ForBundle.Visible = false;
                 if (!operatorPropertiesVisible_ForCurve) operatorPropertiesUserControl_ForCurve.Visible = false;
                 if (!operatorPropertiesVisible_ForCustomOperator) operatorPropertiesUserControl_ForCustomOperator.Visible = false;
+                if (!operatorPropertiesVisible_ForNumber) operatorPropertiesUserControl_ForNumber.Visible = false;
                 if (!operatorPropertiesVisible_ForPatchInlet) operatorPropertiesUserControl_ForPatchInlet.Visible = false;
                 if (!operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = false;
                 if (!operatorPropertiesVisible_ForSample) operatorPropertiesUserControl_ForSample.Visible = false;
-                if (!operatorPropertiesVisible_ForNumber) operatorPropertiesUserControl_ForNumber.Visible = false;
+                if (!operatorPropertiesVisible_ForUnbundle) operatorPropertiesUserControl_ForUnbundle.Visible = false;
                 if (!patchGridVisible) patchGridUserControl.Visible = false;
                 if (!patchDetailsVisible) patchDetailsUserControl.Visible = false;
                 if (!sampleGridVisible) sampleGridUserControl.Visible = false;
@@ -339,12 +363,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                     childDocumentPropertiesVisible ||
                                                     nodePropertiesVisible ||
                                                     operatorPropertiesVisible ||
+                                                    operatorPropertiesVisible_ForBundle ||
                                                     operatorPropertiesVisible_ForCurve ||
                                                     operatorPropertiesVisible_ForCustomOperator ||
+                                                    operatorPropertiesVisible_ForNumber ||
                                                     operatorPropertiesVisible_ForPatchInlet ||
                                                     operatorPropertiesVisible_ForPatchOutlet ||
                                                     operatorPropertiesVisible_ForSample ||
-                                                    operatorPropertiesVisible_ForNumber ||
+                                                    operatorPropertiesVisible_ForUnbundle ||
                                                     samplePropertiesVisible ||
                                                     scalePropertiesVisible;
 
@@ -439,11 +465,32 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 operatorPropertiesUserControl.Focus();
             }
 
+            bool mustFocusOperatorPropertiesUserControl_ForBundle = operatorPropertiesUserControl_ForBundle.Visible &&
+                                                                   !operatorPropertiesUserControl_ForBundle.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl_ForBundle)
+            {
+                operatorPropertiesUserControl_ForBundle.Focus();
+            }
+
+            bool mustFocusOperatorPropertiesUserControl_ForCurve = operatorPropertiesUserControl_ForCurve.Visible &&
+                                                                  !operatorPropertiesUserControl_ForCurve.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl_ForCurve)
+            {
+                operatorPropertiesUserControl_ForCurve.Focus();
+            }
+
             bool mustFocusOperatorPropertiesUserControl_ForCustomOperator = operatorPropertiesUserControl_ForCustomOperator.Visible &&
                                                                            !operatorPropertiesUserControl_ForCustomOperator.ViewModel.Successful;
             if (mustFocusOperatorPropertiesUserControl_ForCustomOperator)
             {
                 operatorPropertiesUserControl_ForCustomOperator.Focus();
+            }
+
+            bool mustFocusOperatorPropertiesUserControl_ForNumber = operatorPropertiesUserControl_ForNumber.Visible &&
+                                                                   !operatorPropertiesUserControl_ForNumber.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl_ForNumber)
+            {
+                operatorPropertiesUserControl_ForNumber.Focus();
             }
 
             bool mustFocusOperatorPropertiesUserControl_ForPatchInlet = operatorPropertiesUserControl_ForPatchInlet.Visible &&
@@ -467,11 +514,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 operatorPropertiesUserControl_ForSample.Focus();
             }
 
-            bool mustFocusOperatorPropertiesUserControl_ForNumber = operatorPropertiesUserControl_ForNumber.Visible &&
-                                                                   !operatorPropertiesUserControl_ForNumber.ViewModel.Successful;
-            if (mustFocusOperatorPropertiesUserControl_ForNumber)
+            bool mustFocusOperatorPropertiesUserControl_ForUnbundle = operatorPropertiesUserControl_ForUnbundle.Visible &&
+                                                                     !operatorPropertiesUserControl_ForUnbundle.ViewModel.Successful;
+            if (mustFocusOperatorPropertiesUserControl_ForUnbundle)
             {
-                operatorPropertiesUserControl_ForNumber.Focus();
+                operatorPropertiesUserControl_ForUnbundle.Focus();
             }
 
             bool mustFocusSamplePropertiesUserControl = samplePropertiesUserControl.Visible &&
