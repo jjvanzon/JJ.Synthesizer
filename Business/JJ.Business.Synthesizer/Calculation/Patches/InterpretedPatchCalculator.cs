@@ -29,9 +29,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// <summary> Is set in the Calculate method and used in other methods. </summary>
         private int _channelIndex;
         private Outlet[] _channelOutlets;
-        private Dictionary<OperatorTypeEnum, Func<Operator, double, double>> _funcDictionary;
+        private Dictionary<OperatorTypeEnum, Func<Outlet, double, double>> _funcDictionary;
 
         private Stack<Operator> _operatorStack = new Stack<Operator>();
+        private Stack<int> _bundleIndexStack = new Stack<int>();
 
         // TODO: The _previousTimeDictionary and _phaseDictionary have not been well debugged yet.
         // The effect on the output sound should be inspected: if the phase is reused at the right moments,
@@ -83,11 +84,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             _channelOutlets = channelOutlets.ToArray();
 
-            _funcDictionary = new Dictionary<OperatorTypeEnum, Func<Operator, double, double>>
+            _funcDictionary = new Dictionary<OperatorTypeEnum, Func<Outlet, double, double>>
             {
                 { OperatorTypeEnum.Add, CalculateAdd },
                 { OperatorTypeEnum.Adder, CalculateAdder },
+                { OperatorTypeEnum.Bundle, CalculateBundle },
                 { OperatorTypeEnum.Curve, CalculateCurveOperator },
+                { OperatorTypeEnum.CustomOperator, CalculateCustomOperator },
                 { OperatorTypeEnum.Divide, CalculateDivide },
                 { OperatorTypeEnum.Exponent, CalculateExponent },
                 { OperatorTypeEnum.Loop, CalculateLoop },
@@ -108,6 +111,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.TimeSubstract, CalculateTimeSubstract },
                 { OperatorTypeEnum.TriangleWave, CalculateTriangleWave },
                 { OperatorTypeEnum.Number, CalculateNumberOperator },
+                { OperatorTypeEnum.Unbundle, CalculateUnbundle },
                 { OperatorTypeEnum.WhiteNoise, CalculateWhiteNoise },
             };
         }
@@ -124,36 +128,23 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
 
-            double value;
-            if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
+            // Resample operator is missing from interpreted mode too.
+            Func<Outlet, double, double> func;
+            if (!_funcDictionary.TryGetValue(operatorTypeEnum, out func))
             {
-                value = CalculateCustomOperator(outlet, time);
+                throw new ValueNotSupportedException(operatorTypeEnum);
             }
-            else
-            {
-                // Only the CustomOperator is missing from the _funcDictionary.
-                // The _funcDictionary will only work for operators with one outlet.
-
-                // Oh: plus Resample operator is missing from interpreted mode too.
-                Func<Operator, double, double> func;
-                if (!_funcDictionary.TryGetValue(operatorTypeEnum, out func))
-                {
-                    throw new ValueNotSupportedException(operatorTypeEnum);
-                }
-                value = func(outlet.Operator, time);
-            }
+            double value = func(outlet, time);
 
             _operatorStack.Pop();
 
             return value;
-
-            // TODO: Low priority:
-            // Make the all the Calculate methods in the _funcDictionary take Outlet instead of Operator,
-            // so they could all work with multiple outlets if needed.
         }
 
-        private double CalculateAdd(Operator op, double time)
+        private double CalculateAdd(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_Add(op);
 
             Outlet operandAOutlet = wrapper.OperandA;
@@ -166,8 +157,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return a + b;
         }
 
-        private double CalculateAdder(Operator op, double time)
+        private double CalculateAdder(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_Adder(op);
 
             Outlet[] operands = wrapper.Operands.ToArray();
@@ -187,8 +180,33 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return result;
         }
 
-        private double CalculateCurveOperator(Operator op, double time)
+        private double CalculateBundle(Outlet outlet, double time)
         {
+            if (_bundleIndexStack.Count == 0)
+            {
+                throw new NotSupportedException(String.Format("Bundle Operator with ID '{0}' encountered without first encountering an Unbundle Operator. This is not yet supported.", outlet.Operator.ID));
+            }
+
+            int bundleIndex = _bundleIndexStack.Pop();
+            if (bundleIndex >= outlet.Operator.Inlets.Count)
+            {
+                throw new Exception(String.Format("Index '{0}' does not exist in Bundle Operator with ID '{0}'.", bundleIndex, outlet.Operator.ID));
+            }
+
+            Inlet inlet = outlet.Operator.Inlets[bundleIndex];
+            if (inlet.InputOutlet == null)
+            {
+                return 0.0;
+            }
+
+            double value = Calculate(inlet.InputOutlet, time);
+            return value;
+        }
+
+        private double CalculateCurveOperator(Outlet outlet, double time)
+        {
+            Operator op = outlet.Operator;
+
             CurveCalculator curveCalculator;
             if (!_operator_curveCalculatorDictionary.TryGetValue(op, out curveCalculator))
             {
@@ -225,8 +243,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return result;
         }
 
-        private double CalculateDelay(Operator op, double time)
+        private double CalculateDelay(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_Delay(op);
 
             Outlet signalOutlet = wrapper.Signal;
@@ -246,8 +266,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return result2;
         }
 
-        private double CalculateDivide(Operator op, double time)
+        private double CalculateDivide(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_Divide(op);
 
             Outlet originOutlet = wrapper.Origin;
@@ -285,8 +307,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        private double CalculateExponent(Operator op, double time)
+        private double CalculateExponent(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_Exponent(op);
 
             Outlet lowOutlet = wrapper.Low;
@@ -322,8 +346,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
-        private double CalculateLoop(Operator op, double time)
+        private double CalculateLoop(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_Loop(op);
 
             double outputTime = time;
@@ -373,8 +399,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return 0;
         }
 
-        private double CalculateMultiply(Operator op, double time)
+        private double CalculateMultiply(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_Multiply(op);
 
             Outlet originOutlet = wrapper.Origin;
@@ -401,8 +429,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        private double CalculateNumberOperator(Operator op, double time)
+        private double CalculateNumberOperator(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             double value;
             if (!_numberOperatorValueDictionary.TryGetValue(op, out value))
             {
@@ -413,8 +443,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
-        private double CalculatePower(Operator op, double time)
+        private double CalculatePower(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_Power(op);
 
             Outlet baseOutlet = wrapper.Base;
@@ -428,8 +460,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return Math.Pow(@base, exponent);
         }
 
-        private double CalculatePatchInlet(Operator op, double time)
+        private double CalculatePatchInlet(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_PatchInlet(op);
 
             Outlet inputOutlet = wrapper.Input;
@@ -439,8 +473,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return Calculate(inputOutlet, time);
         }
 
-        private double CalculatePatchOutlet(Operator op, double time)
+        private double CalculatePatchOutlet(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_PatchOutlet(op);
 
             Outlet inputOutlet = wrapper.Input;
@@ -450,8 +486,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return Calculate(inputOutlet, time);
         }
 
-        private double CalculateSlowDown(Operator op, double time)
+        private double CalculateSlowDown(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_SlowDown(op);
 
             // Determine origin
@@ -505,8 +543,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        private double CalculateSubstract(Operator op, double time)
+        private double CalculateSubstract(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_Substract(op);
 
             Outlet operandAOutlet = wrapper.OperandA;
@@ -520,8 +560,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return a - b;
         }
 
-        private double CalculateSpeedUp(Operator op, double time)
+        private double CalculateSpeedUp(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_SpeedUp(op);
 
             // Determine origin
@@ -574,8 +616,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        private double CalculateSawTooth(Operator op, double time)
+        private double CalculateSawTooth(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_SawTooth(op);
 
             Outlet phaseShiftOutlet = wrapper.PhaseShift;
@@ -616,8 +660,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
-        private double CalculateSelect(Operator op, double time)
+        private double CalculateSelect(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_Select(op);
 
             double time2  = Calculate(wrapper.Time, time);
@@ -626,8 +672,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
-        private double CalculateSquareWave(Operator op, double time)
+        private double CalculateSquareWave(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_SquareWave(op);
 
             Outlet phaseShiftOutlet = wrapper.PhaseShift;
@@ -677,8 +725,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
-        private double CalculateSine(Operator op, double time)
+        private double CalculateSine(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_Sine(op);
 
             Outlet volumeOutlet = wrapper.Volume;
@@ -714,8 +764,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return result;
         }
 
-        private double CalculateSampleOperator(Operator op, double time)
+        private double CalculateSampleOperator(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             SampleInfo sampleInfo;
             if (!_sampleOperator_SampleInfo_Dictionary.TryGetValue(op, out sampleInfo))
             {
@@ -750,8 +802,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return result;
         }
 
-        private double CalculateTimeSubstract(Operator op, double time)
+        private double CalculateTimeSubstract(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_TimeSubstract(op);
 
             Outlet signalOutlet = wrapper.Signal;
@@ -771,8 +825,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return result2;
         }
 
-        private double CalculateTimePower(Operator op, double time)
+        private double CalculateTimePower(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_TimePower(op);
 
             Outlet signalOutlet = wrapper.Signal;
@@ -827,8 +883,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        private double CalculateTriangleWave(Operator op, double time)
+        private double CalculateTriangleWave(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+
             var wrapper = new OperatorWrapper_TriangleWave(op);
 
             Outlet phaseShiftOutlet = wrapper.PhaseShift;
@@ -883,8 +941,28 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
-        private double CalculateWhiteNoise(Operator op, double time)
+        private double CalculateUnbundle(Outlet outlet, double time)
         {
+            Operator op = outlet.Operator;
+            Inlet inlet = op.Inlets.Single();
+            Outlet inputOutlet = inlet.InputOutlet;
+            if (inputOutlet == null)
+            {
+                return 0.0;
+            }
+
+            int outletIndex = outlet.Operator.Outlets.IndexOf(outlet);
+
+            _bundleIndexStack.Push(outletIndex);
+
+            double value = Calculate(inlet.InputOutlet, time);
+            return value;
+        }
+
+        private double CalculateWhiteNoise(Outlet outlet, double time)
+        {
+            Operator op = outlet.Operator;
+
             double offset;
             if (!_operatorID_whiteNoiseOffsetDictionary.TryGetValue(op.ID, out offset))
             {
