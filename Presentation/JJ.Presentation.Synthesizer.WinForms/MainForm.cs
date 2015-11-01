@@ -43,7 +43,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             SetTitles();
             ApplyStyling();
 
-            Open();
+            _presenter.Show();
+            ApplyViewModel();
         }
 
         /// <summary>

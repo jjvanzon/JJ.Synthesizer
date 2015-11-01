@@ -144,7 +144,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             0,
             0});
             this.numericUpDownOutletCount.Minimum = new decimal(new int[] {
-            1,
+            0,
             0,
             0,
             0});

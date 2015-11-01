@@ -30,6 +30,8 @@
             this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
             this.sampleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SampleGridUserControl();
             this.patchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchGridUserControl();
+            this.operatorPropertiesUserControl_ForUnbundle = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForUnbundle();
+            this.operatorPropertiesUserControl_ForBundle = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForBundle();
             this.nodePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.NodePropertiesUserControl();
             this.curvePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurvePropertiesUserControl();
             this.operatorPropertiesUserControl_ForCurve = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForCurve();
@@ -45,8 +47,6 @@
             this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
-            this.operatorPropertiesUserControl_ForBundle = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForBundle();
-            this.operatorPropertiesUserControl_ForUnbundle = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForUnbundle();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -126,7 +126,7 @@
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForNumber);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForPatchOutlet);
             this.splitContainerProperties.Size = new System.Drawing.Size(891, 657);
-            this.splitContainerProperties.SplitterDistance = 621;
+            this.splitContainerProperties.SplitterDistance = 678;
             this.splitContainerProperties.TabIndex = 2;
             // 
             // curveDetailsUserControl
@@ -135,7 +135,7 @@
             this.curveDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.curveDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.curveDetailsUserControl.Name = "curveDetailsUserControl";
-            this.curveDetailsUserControl.Size = new System.Drawing.Size(621, 657);
+            this.curveDetailsUserControl.Size = new System.Drawing.Size(678, 657);
             this.curveDetailsUserControl.TabIndex = 12;
             // 
             // toneGridEditUserControl
@@ -146,7 +146,7 @@
             this.toneGridEditUserControl.Location = new System.Drawing.Point(0, 0);
             this.toneGridEditUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.toneGridEditUserControl.Name = "toneGridEditUserControl";
-            this.toneGridEditUserControl.Size = new System.Drawing.Size(621, 657);
+            this.toneGridEditUserControl.Size = new System.Drawing.Size(678, 657);
             this.toneGridEditUserControl.TabIndex = 1;
             // 
             // scaleGridUserControl
@@ -155,7 +155,7 @@
             this.scaleGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.scaleGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.scaleGridUserControl.Name = "scaleGridUserControl";
-            this.scaleGridUserControl.Size = new System.Drawing.Size(621, 657);
+            this.scaleGridUserControl.Size = new System.Drawing.Size(678, 657);
             this.scaleGridUserControl.TabIndex = 11;
             // 
             // curveGridUserControl
@@ -164,7 +164,7 @@
             this.curveGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.curveGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.curveGridUserControl.Name = "curveGridUserControl";
-            this.curveGridUserControl.Size = new System.Drawing.Size(621, 657);
+            this.curveGridUserControl.Size = new System.Drawing.Size(678, 657);
             this.curveGridUserControl.TabIndex = 6;
             this.curveGridUserControl.Visible = false;
             // 
@@ -175,7 +175,7 @@
             this.audioFileOutputGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.audioFileOutputGridUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.audioFileOutputGridUserControl.Name = "audioFileOutputGridUserControl";
-            this.audioFileOutputGridUserControl.Size = new System.Drawing.Size(621, 657);
+            this.audioFileOutputGridUserControl.Size = new System.Drawing.Size(678, 657);
             this.audioFileOutputGridUserControl.TabIndex = 5;
             this.audioFileOutputGridUserControl.Visible = false;
             // 
@@ -186,7 +186,7 @@
             this.instrumentGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.instrumentGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.instrumentGridUserControl.Name = "instrumentGridUserControl";
-            this.instrumentGridUserControl.Size = new System.Drawing.Size(621, 657);
+            this.instrumentGridUserControl.Size = new System.Drawing.Size(678, 657);
             this.instrumentGridUserControl.TabIndex = 4;
             this.instrumentGridUserControl.Title = "Title";
             this.instrumentGridUserControl.Visible = false;
@@ -198,7 +198,7 @@
             this.effectGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.effectGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.effectGridUserControl.Name = "effectGridUserControl";
-            this.effectGridUserControl.Size = new System.Drawing.Size(621, 657);
+            this.effectGridUserControl.Size = new System.Drawing.Size(678, 657);
             this.effectGridUserControl.TabIndex = 3;
             this.effectGridUserControl.Title = "Title";
             this.effectGridUserControl.Visible = false;
@@ -212,7 +212,7 @@
             this.documentDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.documentDetailsUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.documentDetailsUserControl.Name = "documentDetailsUserControl";
-            this.documentDetailsUserControl.Size = new System.Drawing.Size(621, 657);
+            this.documentDetailsUserControl.Size = new System.Drawing.Size(678, 657);
             this.documentDetailsUserControl.TabIndex = 1;
             this.documentDetailsUserControl.Visible = false;
             // 
@@ -224,7 +224,7 @@
             this.documentGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.documentGridUserControl.Margin = new System.Windows.Forms.Padding(2);
             this.documentGridUserControl.Name = "documentGridUserControl";
-            this.documentGridUserControl.Size = new System.Drawing.Size(621, 657);
+            this.documentGridUserControl.Size = new System.Drawing.Size(678, 657);
             this.documentGridUserControl.TabIndex = 0;
             this.documentGridUserControl.Visible = false;
             // 
@@ -236,7 +236,7 @@
             this.patchDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.patchDetailsUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.patchDetailsUserControl.Name = "patchDetailsUserControl";
-            this.patchDetailsUserControl.Size = new System.Drawing.Size(621, 657);
+            this.patchDetailsUserControl.Size = new System.Drawing.Size(678, 657);
             this.patchDetailsUserControl.TabIndex = 10;
             this.patchDetailsUserControl.Visible = false;
             // 
@@ -246,7 +246,7 @@
             this.sampleGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.sampleGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.sampleGridUserControl.Name = "sampleGridUserControl";
-            this.sampleGridUserControl.Size = new System.Drawing.Size(621, 657);
+            this.sampleGridUserControl.Size = new System.Drawing.Size(678, 657);
             this.sampleGridUserControl.TabIndex = 9;
             this.sampleGridUserControl.Visible = false;
             // 
@@ -257,9 +257,33 @@
             this.patchGridUserControl.Location = new System.Drawing.Point(0, 0);
             this.patchGridUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.patchGridUserControl.Name = "patchGridUserControl";
-            this.patchGridUserControl.Size = new System.Drawing.Size(621, 657);
+            this.patchGridUserControl.Size = new System.Drawing.Size(678, 657);
             this.patchGridUserControl.TabIndex = 8;
             this.patchGridUserControl.Visible = false;
+            // 
+            // operatorPropertiesUserControl_ForUnbundle
+            // 
+            this.operatorPropertiesUserControl_ForUnbundle.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_ForUnbundle.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForUnbundle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_ForUnbundle.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_ForUnbundle.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_ForUnbundle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.operatorPropertiesUserControl_ForUnbundle.Name = "operatorPropertiesUserControl_ForUnbundle";
+            this.operatorPropertiesUserControl_ForUnbundle.Size = new System.Drawing.Size(209, 657);
+            this.operatorPropertiesUserControl_ForUnbundle.TabIndex = 1;
+            // 
+            // operatorPropertiesUserControl_ForBundle
+            // 
+            this.operatorPropertiesUserControl_ForBundle.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.operatorPropertiesUserControl_ForBundle.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.operatorPropertiesUserControl_ForBundle.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.operatorPropertiesUserControl_ForBundle.Font = new System.Drawing.Font("Verdana", 10F);
+            this.operatorPropertiesUserControl_ForBundle.Location = new System.Drawing.Point(0, 0);
+            this.operatorPropertiesUserControl_ForBundle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.operatorPropertiesUserControl_ForBundle.Name = "operatorPropertiesUserControl_ForBundle";
+            this.operatorPropertiesUserControl_ForBundle.Size = new System.Drawing.Size(209, 657);
+            this.operatorPropertiesUserControl_ForBundle.TabIndex = 1;
             // 
             // nodePropertiesUserControl
             // 
@@ -270,7 +294,7 @@
             this.nodePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.nodePropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.nodePropertiesUserControl.Name = "nodePropertiesUserControl";
-            this.nodePropertiesUserControl.Size = new System.Drawing.Size(266, 657);
+            this.nodePropertiesUserControl.Size = new System.Drawing.Size(209, 657);
             this.nodePropertiesUserControl.TabIndex = 1;
             // 
             // curvePropertiesUserControl
@@ -282,7 +306,7 @@
             this.curvePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.curvePropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.curvePropertiesUserControl.Name = "curvePropertiesUserControl";
-            this.curvePropertiesUserControl.Size = new System.Drawing.Size(266, 657);
+            this.curvePropertiesUserControl.Size = new System.Drawing.Size(209, 657);
             this.curvePropertiesUserControl.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForCurve
@@ -294,7 +318,7 @@
             this.operatorPropertiesUserControl_ForCurve.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForCurve.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.operatorPropertiesUserControl_ForCurve.Name = "operatorPropertiesUserControl_ForCurve";
-            this.operatorPropertiesUserControl_ForCurve.Size = new System.Drawing.Size(266, 657);
+            this.operatorPropertiesUserControl_ForCurve.Size = new System.Drawing.Size(209, 657);
             this.operatorPropertiesUserControl_ForCurve.TabIndex = 1;
             // 
             // scalePropertiesUserControl
@@ -306,7 +330,7 @@
             this.scalePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.scalePropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.scalePropertiesUserControl.Name = "scalePropertiesUserControl";
-            this.scalePropertiesUserControl.Size = new System.Drawing.Size(266, 657);
+            this.scalePropertiesUserControl.Size = new System.Drawing.Size(209, 657);
             this.scalePropertiesUserControl.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForPatchInlet
@@ -318,7 +342,7 @@
             this.operatorPropertiesUserControl_ForPatchInlet.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForPatchInlet.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.operatorPropertiesUserControl_ForPatchInlet.Name = "operatorPropertiesUserControl_ForPatchInlet";
-            this.operatorPropertiesUserControl_ForPatchInlet.Size = new System.Drawing.Size(266, 657);
+            this.operatorPropertiesUserControl_ForPatchInlet.Size = new System.Drawing.Size(209, 657);
             this.operatorPropertiesUserControl_ForPatchInlet.TabIndex = 1;
             // 
             // documentPropertiesUserControl
@@ -330,7 +354,7 @@
             this.documentPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.documentPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.documentPropertiesUserControl.Name = "documentPropertiesUserControl";
-            this.documentPropertiesUserControl.Size = new System.Drawing.Size(266, 657);
+            this.documentPropertiesUserControl.Size = new System.Drawing.Size(209, 657);
             this.documentPropertiesUserControl.TabIndex = 1;
             // 
             // operatorPropertiesUserControl
@@ -342,7 +366,7 @@
             this.operatorPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.operatorPropertiesUserControl.Name = "operatorPropertiesUserControl";
-            this.operatorPropertiesUserControl.Size = new System.Drawing.Size(266, 657);
+            this.operatorPropertiesUserControl.Size = new System.Drawing.Size(209, 657);
             this.operatorPropertiesUserControl.TabIndex = 1;
             // 
             // childDocumentPropertiesUserControl
@@ -354,7 +378,7 @@
             this.childDocumentPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.childDocumentPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.childDocumentPropertiesUserControl.Name = "childDocumentPropertiesUserControl";
-            this.childDocumentPropertiesUserControl.Size = new System.Drawing.Size(266, 657);
+            this.childDocumentPropertiesUserControl.Size = new System.Drawing.Size(209, 657);
             this.childDocumentPropertiesUserControl.TabIndex = 1;
             // 
             // samplePropertiesUserControl
@@ -366,7 +390,7 @@
             this.samplePropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.samplePropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.samplePropertiesUserControl.Name = "samplePropertiesUserControl";
-            this.samplePropertiesUserControl.Size = new System.Drawing.Size(266, 657);
+            this.samplePropertiesUserControl.Size = new System.Drawing.Size(209, 657);
             this.samplePropertiesUserControl.TabIndex = 1;
             // 
             // audioFileOutputPropertiesUserControl
@@ -378,7 +402,7 @@
             this.audioFileOutputPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
             this.audioFileOutputPropertiesUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.audioFileOutputPropertiesUserControl.Name = "audioFileOutputPropertiesUserControl";
-            this.audioFileOutputPropertiesUserControl.Size = new System.Drawing.Size(266, 657);
+            this.audioFileOutputPropertiesUserControl.Size = new System.Drawing.Size(209, 657);
             this.audioFileOutputPropertiesUserControl.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForSample
@@ -390,7 +414,7 @@
             this.operatorPropertiesUserControl_ForSample.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForSample.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.operatorPropertiesUserControl_ForSample.Name = "operatorPropertiesUserControl_ForSample";
-            this.operatorPropertiesUserControl_ForSample.Size = new System.Drawing.Size(266, 657);
+            this.operatorPropertiesUserControl_ForSample.Size = new System.Drawing.Size(209, 657);
             this.operatorPropertiesUserControl_ForSample.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForCustomOperator
@@ -402,7 +426,7 @@
             this.operatorPropertiesUserControl_ForCustomOperator.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForCustomOperator.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.operatorPropertiesUserControl_ForCustomOperator.Name = "operatorPropertiesUserControl_ForCustomOperator";
-            this.operatorPropertiesUserControl_ForCustomOperator.Size = new System.Drawing.Size(266, 657);
+            this.operatorPropertiesUserControl_ForCustomOperator.Size = new System.Drawing.Size(209, 657);
             this.operatorPropertiesUserControl_ForCustomOperator.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForNumber
@@ -414,7 +438,7 @@
             this.operatorPropertiesUserControl_ForNumber.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForNumber.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.operatorPropertiesUserControl_ForNumber.Name = "operatorPropertiesUserControl_ForNumber";
-            this.operatorPropertiesUserControl_ForNumber.Size = new System.Drawing.Size(266, 657);
+            this.operatorPropertiesUserControl_ForNumber.Size = new System.Drawing.Size(209, 657);
             this.operatorPropertiesUserControl_ForNumber.TabIndex = 1;
             // 
             // operatorPropertiesUserControl_ForPatchOutlet
@@ -426,7 +450,7 @@
             this.operatorPropertiesUserControl_ForPatchOutlet.Location = new System.Drawing.Point(0, 0);
             this.operatorPropertiesUserControl_ForPatchOutlet.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.operatorPropertiesUserControl_ForPatchOutlet.Name = "operatorPropertiesUserControl_ForPatchOutlet";
-            this.operatorPropertiesUserControl_ForPatchOutlet.Size = new System.Drawing.Size(266, 657);
+            this.operatorPropertiesUserControl_ForPatchOutlet.Size = new System.Drawing.Size(209, 657);
             this.operatorPropertiesUserControl_ForPatchOutlet.TabIndex = 1;
             // 
             // menuUserControl
@@ -437,30 +461,6 @@
             this.menuUserControl.Name = "menuUserControl";
             this.menuUserControl.Size = new System.Drawing.Size(1094, 24);
             this.menuUserControl.TabIndex = 3;
-            // 
-            // operatorPropertiesUserControl_ForBundle
-            // 
-            this.operatorPropertiesUserControl_ForBundle.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForBundle.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForBundle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForBundle.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForBundle.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForBundle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.operatorPropertiesUserControl_ForBundle.Name = "operatorPropertiesUserControl_ForBundle";
-            this.operatorPropertiesUserControl_ForBundle.Size = new System.Drawing.Size(266, 657);
-            this.operatorPropertiesUserControl_ForBundle.TabIndex = 1;
-            // 
-            // operatorPropertiesUserControl_ForUnbundle
-            // 
-            this.operatorPropertiesUserControl_ForUnbundle.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.operatorPropertiesUserControl_ForUnbundle.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.operatorPropertiesUserControl_ForUnbundle.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.operatorPropertiesUserControl_ForUnbundle.Font = new System.Drawing.Font("Verdana", 10F);
-            this.operatorPropertiesUserControl_ForUnbundle.Location = new System.Drawing.Point(0, 0);
-            this.operatorPropertiesUserControl_ForUnbundle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.operatorPropertiesUserControl_ForUnbundle.Name = "operatorPropertiesUserControl_ForUnbundle";
-            this.operatorPropertiesUserControl_ForUnbundle.Size = new System.Drawing.Size(266, 657);
-            this.operatorPropertiesUserControl_ForUnbundle.TabIndex = 1;
             // 
             // MainForm
             // 
