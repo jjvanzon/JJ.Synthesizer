@@ -31,7 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private Outlet[] _channelOutlets;
         private Dictionary<OperatorTypeEnum, Func<Outlet, double, double>> _funcDictionary;
 
-        private Stack<Operator> _operatorStack = new Stack<Operator>();
+        private Stack<Outlet> _outletStack = new Stack<Outlet>();
         private Stack<int> _bundleIndexStack = new Stack<int>();
 
         // TODO: The _previousTimeDictionary and _phaseDictionary have not been well debugged yet.
@@ -124,7 +124,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double Calculate(Outlet outlet, double time)
         {
-            _operatorStack.Push(outlet.Operator);
+            _outletStack.Push(outlet);
 
             OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
 
@@ -136,7 +136,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             double value = func(outlet, time);
 
-            _operatorStack.Pop();
+            _outletStack.Pop();
 
             return value;
         }
@@ -643,7 +643,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             // Get phase variables
-            string key = GetOperatorPathKey();
+            string key = GetOutletPathKey();
             double previousTime = 0;
             _previousTimeDictionary.TryGetValue(key, out previousTime);
             double phase = 0;
@@ -699,7 +699,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             // Get phase variables
-            string key = GetOperatorPathKey();
+            string key = GetOutletPathKey();
             double previousTime = 0;
             _previousTimeDictionary.TryGetValue(key, out previousTime);
             double phase = 0;
@@ -910,7 +910,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             // Get phase variables
-            string key = GetOperatorPathKey();
+            string key = GetOutletPathKey();
             double previousTime = 0;
             _previousTimeDictionary.TryGetValue(key, out previousTime);
             double phase = 0;
@@ -984,9 +984,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         // Helpers
 
-        private string GetOperatorPathKey()
+        private string GetOutletPathKey()
         {
-            string key = String.Join("|", _operatorStack.Select(x => x.ID));
+            string key = String.Join("|", _outletStack.Select(x => x.ID));
             return key;
         }
     }

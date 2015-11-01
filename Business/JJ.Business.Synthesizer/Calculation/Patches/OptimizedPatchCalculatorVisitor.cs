@@ -10,7 +10,7 @@ using JJ.Business.Synthesizer.Calculation.Operators;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Framework.Mathematics;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -31,6 +31,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
+        private Stack<int> _bundleIndexStack = new Stack<int>();
 
         public IList<OperatorCalculatorBase> Execute(
             IList<Outlet> channelOutlets, 
@@ -462,21 +463,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var calculator = new Number_OperatorCalculator(number);
             _stack.Push(calculator);
-        }
-
-        protected override void VisitOutlet(Outlet outlet)
-        {
-            // As soon as you encounter a CustomOperator's Outlet,
-            // the evaluation has to take a completely different course.
-            if (outlet.Operator.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
-            {
-                Outlet customOperatorOutlet = outlet;
-                Outlet patchOutletOutlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _documentRepository);
-                VisitOperator(patchOutletOutlet.Operator);
-                return;
-            }
-
-            base.VisitOutlet(outlet);
         }
 
         protected override void VisitPower(Operator op)
@@ -1100,6 +1086,90 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             base.VisitInlet(inlet);
+        }
+
+        protected override void VisitOutlet(Outlet outlet)
+        {
+            OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
+            switch (operatorTypeEnum)
+            {
+                case OperatorTypeEnum.CustomOperator:
+                    VisitCustomOperatorOutlet(outlet);
+                    break;
+
+                case OperatorTypeEnum.Bundle:
+                    VisitBundleOperatorOutlet(outlet);
+                    break;
+
+                case OperatorTypeEnum.Unbundle:
+                    VisitUnbundleOperatorOutlet(outlet);
+                    break;
+
+                default:
+                    base.VisitOutlet(outlet);
+                    break;
+            }
+        }
+
+        // TODO: Low Priority: Get rid of the asymmetry in the Operators with one outlet and the ones with multiple outlets.
+
+        private void VisitCustomOperatorOutlet(Outlet outlet)
+        {
+            // As soon as you encounter a CustomOperator's Outlet,
+            // the evaluation has to take a completely different course.
+            Outlet customOperatorOutlet = outlet;
+            Outlet patchOutletOutlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _documentRepository);
+            VisitOperator(patchOutletOutlet.Operator);
+        }
+
+        private void VisitUnbundleOperatorOutlet(Outlet outlet)
+        {
+            //return;
+
+            Operator op = outlet.Operator;
+            Inlet inlet = op.Inlets.Single();
+            Outlet inputOutlet = inlet.InputOutlet;
+            if (inputOutlet == null)
+            {
+                _stack.Push(new Number_OperatorCalculator(0));
+                return;
+            }
+
+            int outletIndex = outlet.Operator.Outlets.IndexOf(outlet);
+
+            _bundleIndexStack.Push(outletIndex);
+
+            VisitOutlet(inputOutlet);
+
+            _bundleIndexStack.Pop();
+        }
+
+        private void VisitBundleOperatorOutlet(Outlet outlet)
+        {
+            //return;
+
+            if (_bundleIndexStack.Count == 0)
+            {
+                throw new NotSupportedException(String.Format("Bundle Operator with ID '{0}' encountered without first encountering an Unbundle Operator. This is not yet supported.", outlet.Operator.ID));
+            }
+
+            int bundleIndex = _bundleIndexStack.Pop();
+
+            if (bundleIndex >= outlet.Operator.Inlets.Count)
+            {
+                throw new Exception(String.Format("Index '{0}' does not exist in Bundle Operator with ID '{0}'.", bundleIndex, outlet.Operator.ID));
+            }
+
+            Inlet inlet = outlet.Operator.Inlets[bundleIndex];
+            if (inlet.InputOutlet == null)
+            {
+                _stack.Push(new Number_OperatorCalculator(0));
+                return;
+            }
+
+            VisitOutlet(inlet.InputOutlet);
+
+            _bundleIndexStack.Push(bundleIndex);
         }
     }
 }

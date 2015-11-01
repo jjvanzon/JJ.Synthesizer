@@ -18,7 +18,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 { OperatorTypeEnum.Add, VisitAdd },
                 { OperatorTypeEnum.Adder, VisitAdder },
+                { OperatorTypeEnum.Bundle, VisitBundle },
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
+                { OperatorTypeEnum.CustomOperator, VisitCustomOperator },
                 { OperatorTypeEnum.Divide, VisitDivide },
                 { OperatorTypeEnum.Delay, VisitDelay },
                 { OperatorTypeEnum.Exponent, VisitExponent },
@@ -38,6 +40,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.TimePower, VisitTimePower },
                 { OperatorTypeEnum.TimeSubstract, VisitTimeSubstract },
                 { OperatorTypeEnum.TriangleWave, VisitTriangleWave },
+                { OperatorTypeEnum.Unbundle, VisitUnbundle },
                 { OperatorTypeEnum.WhiteNoise, VisitWhiteNoise }
             };
         }
@@ -85,6 +88,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitAdder(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitBundle(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitCustomOperator(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitCurveOperator(Operator op) { }
@@ -145,6 +154,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitTriangleWave(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitUnbundle(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitWhiteNoise(Operator op) { }
