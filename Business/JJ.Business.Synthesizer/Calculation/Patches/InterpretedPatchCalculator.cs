@@ -187,7 +187,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 throw new NotSupportedException(String.Format("Bundle Operator with ID '{0}' encountered without first encountering an Unbundle Operator. This is not yet supported.", outlet.Operator.ID));
             }
 
-            int bundleIndex = _bundleIndexStack.Pop();
+            int bundleIndex = _bundleIndexStack.Peek();
             if (bundleIndex >= outlet.Operator.Inlets.Count)
             {
                 throw new Exception(String.Format("Index '{0}' does not exist in Bundle Operator with ID '{0}'.", bundleIndex, outlet.Operator.ID));
@@ -956,6 +956,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _bundleIndexStack.Push(outletIndex);
 
             double value = Calculate(inlet.InputOutlet, time);
+
+            _bundleIndexStack.Pop();
+
             return value;
         }
 
