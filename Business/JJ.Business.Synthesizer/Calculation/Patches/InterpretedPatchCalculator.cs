@@ -12,6 +12,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Common;
+using JJ.Business.Synthesizer.Calculation.Curves;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -45,7 +46,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private Dictionary<Operator, Curve> _curveOperator_Curve_Dictionary = new Dictionary<Operator, Curve>();
         /// <summary> Value can be null of Curve Operator's Curve is not set. </summary>
-        private Dictionary<Operator, CurveCalculator> _operator_curveCalculatorDictionary = new Dictionary<Operator, CurveCalculator>();
+        private Dictionary<Operator, ICurveCalculator> _operator_curveCalculatorDictionary = new Dictionary<Operator, ICurveCalculator>();
         private Dictionary<Operator, double> _numberOperatorValueDictionary = new Dictionary<Operator, double>();
         private Dictionary<Operator, SampleInfo> _sampleOperator_SampleInfo_Dictionary = new Dictionary<Operator, SampleInfo>();
         private Dictionary<int, ISampleCalculator> _sampleID_sampleCalculatorDictionary = new Dictionary<int, ISampleCalculator>();
@@ -211,7 +212,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             Operator op = outlet.Operator;
 
-            CurveCalculator curveCalculator;
+            ICurveCalculator curveCalculator;
             if (!_operator_curveCalculatorDictionary.TryGetValue(op, out curveCalculator))
             {
                 var wrapper = new OperatorWrapper_Curve(op, _curveRepository);
@@ -219,7 +220,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                 if (curve != null)
                 {
-                    curveCalculator = new CurveCalculator(curve);
+                    curveCalculator = new OptimizedCurveCalculator(curve);
                 }
 
                 _operator_curveCalculatorDictionary.Add(op, curveCalculator);

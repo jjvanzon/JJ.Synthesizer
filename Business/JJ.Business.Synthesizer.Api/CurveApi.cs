@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Api.Helpers;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
@@ -69,9 +70,16 @@ namespace JJ.Business.Synthesizer.Api
             node.SetNodeTypeEnum(nodeTypeEnum, RepositoryHelper.CurveRepositories.NodeTypeRepository);
         }
 
-        public static CurveCalculator CreateCalculator(Curve curve)
+        /// <summary> Faster initialization, slower calculation. </summary>
+        public static ICurveCalculator CreateInterpretedCalculator(Curve curve)
         {
-            return _curveManager.CreateCalculator(curve);
+            return _curveManager.CreateInterpretedCalculator(curve);
+        }
+
+        /// <summary> Slower initialization, faster calculation. </summary>
+        public static ICurveCalculator CreateOptimizedCalculator(Curve curve)
+        {
+            return _curveManager.CreateOptimizedCalculator(curve);
         }
     }
 }

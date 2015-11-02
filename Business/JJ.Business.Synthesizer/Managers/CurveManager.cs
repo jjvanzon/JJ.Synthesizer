@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using JJ.Framework.Validation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Calculation;
+using JJ.Business.Synthesizer.Calculation.Curves;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -318,7 +319,7 @@ namespace JJ.Business.Synthesizer.Managers
 
                 case NodeTypeEnum.Curve:
                     {
-                        CurveCalculator calculator = CreateCalculator(beforeNode.Curve);
+                        ICurveCalculator calculator = CreateInterpretedCalculator(beforeNode.Curve);
                         double time = (beforeNode.Time + afterNode.Time) / 2;
                         double value =  calculator.CalculateValue(time);
                         return value;
@@ -342,9 +343,16 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories.NodeRepository.Delete(node);
         }
 
-        public CurveCalculator CreateCalculator(Curve curve)
+        /// <summary> Faster initialization, slower calculation. </summary>
+        public ICurveCalculator CreateInterpretedCalculator(Curve curve)
         {
-            return new CurveCalculator(curve);
+            return new InterpretedCurveCalculator(curve);
+        }
+
+        /// <summary> Slower initialization, faster calculation. </summary>
+        public ICurveCalculator CreateOptimizedCalculator(Curve curve)
+        {
+            return new OptimizedCurveCalculator(curve);
         }
     }
 }

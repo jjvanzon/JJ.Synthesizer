@@ -10,9 +10,9 @@ using System;
 using JJ.Framework.Mathematics;
 using System.Collections.Generic;
 
-namespace JJ.Business.Synthesizer.Calculation
+namespace JJ.Business.Synthesizer.Calculation.Curves
 {
-    public class CurveCalculator
+    internal class InterpretedCurveCalculator : ICurveCalculator
     {
         private Curve _curve;
 
@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation
         /// </summary>
         private IList<Node> _sortedNodes;
 
-        public CurveCalculator(Curve curve)
+        public InterpretedCurveCalculator(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
             _curve = curve;

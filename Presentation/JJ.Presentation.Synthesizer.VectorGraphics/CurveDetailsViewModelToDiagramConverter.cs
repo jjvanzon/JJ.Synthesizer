@@ -15,6 +15,7 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
+using JJ.Business.Synthesizer.Calculation.Curves;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
@@ -62,7 +63,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         /// using the same calculation as in the sound.
         /// </summary>
         private CurveInfo _currentCurveInfo;
-        private CurveCalculator _currentCurveCalculator;
+        private ICurveCalculator _currentCurveCalculator;
 
         /// <param name="mustShowInvisibleElements">for debugging</param>
         public CurveDetailsViewModelToDiagramConverter(int doubleClickSpeedInMilliseconds, int doubleClickDeltaInPixels)
@@ -89,7 +90,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             if (curveDetailsViewModel.Entity.Nodes.Count < MINIMUM_NODE_COUNT) throw new LessThanException(() => curveDetailsViewModel.Entity.Nodes.Count, MINIMUM_NODE_COUNT);
 
             _currentCurveInfo = CreateCurveInfo(curveDetailsViewModel.Entity.Nodes);
-            _currentCurveCalculator = CurveApi.CreateCalculator(_currentCurveInfo.MockCurve);
+            _currentCurveCalculator = CurveApi.CreateInterpretedCalculator(_currentCurveInfo.MockCurve);
 
             // Delete All Lines
             IList<Element> elementsToDelete = Result.Diagram.Elements

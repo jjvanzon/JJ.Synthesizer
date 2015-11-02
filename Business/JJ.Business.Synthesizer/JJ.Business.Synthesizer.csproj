@@ -45,6 +45,7 @@
     <Compile Include="Calculation\AudioFileOutputs\ByteAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
+    <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
     <Compile Include="Calculation\Operators\Signal_OperatorCalculator classes.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Exponent_OperatorCalculator Classes.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Calculation\Operators\Substract_WithConstOperandB_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Substract_WithConstOperandA_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\WhiteNoise_OperatorCalculator.cs" />
+    <Compile Include="Calculation\Curves\OptimizedCurveCalculator.cs" />
     <Compile Include="Calculation\Patches\IPatchCalculator.cs" />
     <Compile Include="Calculation\Operators\SpeedUp_WithOrigin_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\SpeedUp_WithoutOrigin_OperatorCalculator.cs" />
@@ -143,7 +145,7 @@
     <Compile Include="Calculation\Patches\PatchCalculationHelper.cs" />
     <Compile Include="Calculation\Samples\BlockInterpolation_SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\Byte_BlockInterpolation_SampleCalculator.cs" />
-    <Compile Include="Calculation\CurveCalculator.cs" />
+    <Compile Include="Calculation\Curves\InterpretedCurveCalculator.cs" />
     <Compile Include="Calculation\Samples\Byte_LineInterpolation_SampleCalculator.cs" />
     <Compile Include="Calculation\Samples\Int16_LineInterpolation_SampleCalculator.cs" />
     <Compile Include="Calculation\Samples\LineInterpolation_SampleCalculatorBase.cs" />
