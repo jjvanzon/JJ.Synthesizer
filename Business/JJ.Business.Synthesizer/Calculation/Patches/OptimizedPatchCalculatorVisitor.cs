@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool operandAIsConst = operandACalculator is Number_OperatorCalculator;
             bool operandBIsConst = operandBCalculator is Number_OperatorCalculator;
             bool operandAIsConstZero = operandAIsConst && a == 0;
-            bool operandBIsConstZero = operandAIsConst && b == 0;
+            bool operandBIsConstZero = operandBIsConst && b == 0;
 
             if (operandAIsConstZero && operandBIsConstZero)
             {
@@ -656,11 +656,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (timeIsConst)
             {
-                calculator = new Signal_WithConstTime_OperatorCalculator(signalCalculator, time);
+                calculator = new Select_WithConstTime_OperatorCalculator(signalCalculator, time);
             }
             else
             {
-                calculator = new Signal_OperatorCalculator(signalCalculator, timeCalculator);
+                calculator = new Select_OperatorCalculator(signalCalculator, timeCalculator);
             }
 
             _stack.Push(calculator);

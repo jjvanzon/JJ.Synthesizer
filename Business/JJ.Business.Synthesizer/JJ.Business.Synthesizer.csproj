@@ -46,7 +46,7 @@
     <Compile Include="Calculation\AudioFileOutputs\IAudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\AudioFileOutputs\Int16AudioFileOutputCalculator.cs" />
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
-    <Compile Include="Calculation\Operators\Signal_OperatorCalculator classes.cs" />
+    <Compile Include="Calculation\Operators\Select_OperatorCalculator classes.cs" />
     <Compile Include="Calculation\Operators\Loop_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Exponent_OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Add_OperatorCalculator.cs" />

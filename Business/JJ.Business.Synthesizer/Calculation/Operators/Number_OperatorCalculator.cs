@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    [DebuggerDisplay("{_value}")]
+    [DebuggerDisplay("{DebuggerDisplay}")]
     internal class Number_OperatorCalculator : OperatorCalculatorBase
     {
         private double _number;
@@ -15,6 +15,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             return _number;
+        }
+
+        private string DebuggerDisplay
+        {
+            get { return _number.ToString(); }
         }
     }
 }
