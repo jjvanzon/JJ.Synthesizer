@@ -734,16 +734,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             timeMultiplierCalculator = timeMultiplierCalculator ?? new Number_OperatorCalculator(1);
             originCalculator = originCalculator ?? new Number_OperatorCalculator(0);
 
-            //double signal = signalCalculator.Calculate(0, 0); // Unused
+            double signal = signalCalculator.Calculate(0, 0);
             double timeMultiplier = timeMultiplierCalculator.Calculate(0, 0);
             double origin = originCalculator.Calculate(0, 0);
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool timeMultiplierIsConst = timeMultiplierCalculator is Number_OperatorCalculator;
             bool originIsConst = originCalculator is Number_OperatorCalculator;
-            bool signalIsConstZero = signalCalculator is Number_OperatorCalculator;
+            bool signalIsConstZero = signalIsConst && signal == 0;
             bool timeMultiplierIsConstZero = timeMultiplierIsConst && timeMultiplier == 0;
             bool originIsConstZero = originIsConst && origin == 0;
-            bool timeMultiplierIsConstOne = timeMultiplierIsConst && timeMultiplier == 0;
+            bool timeMultiplierIsConstOne = timeMultiplierIsConst && timeMultiplier == 1;
 
             if (timeMultiplierIsConstZero)
             {
@@ -905,7 +905,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool operandAIsConst = operandACalculator is Number_OperatorCalculator;
             bool operandBIsConst = operandBCalculator is Number_OperatorCalculator;
             bool operandAIsConstZero = operandAIsConst && a == 0;
-            bool operandBIsConstZero = operandBIsConst && a == 0;
+            bool operandBIsConstZero = operandBIsConst && b == 0;
 
             if (operandAIsConstZero && operandBIsConstZero)
             {
