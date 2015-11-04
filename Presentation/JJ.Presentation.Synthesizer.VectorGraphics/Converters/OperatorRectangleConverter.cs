@@ -91,6 +91,23 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             {
                 width += StyleHelper.SpacingTimes2;
             }
+
+            // Apply a minimum inlet and outlet height.
+            float minimumWidth;
+            if (sourceOperatorViewModel.Outlets.Count > sourceOperatorViewModel.Inlets.Count)
+            {
+                minimumWidth = sourceOperatorViewModel.Outlets.Count * PositionHelper.MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS;
+            }
+            else
+            {
+                minimumWidth = sourceOperatorViewModel.Inlets.Count * PositionHelper.MINIMUM_INLET_OR_OUTLET_WIDTH_IN_PIXELS;
+            }
+
+            if (width < minimumWidth)
+            {
+                width = minimumWidth;
+            }
+
             return width;
         }
 
