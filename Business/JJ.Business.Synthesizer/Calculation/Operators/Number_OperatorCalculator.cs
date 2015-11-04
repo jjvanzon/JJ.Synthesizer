@@ -5,7 +5,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     [DebuggerDisplay("{DebuggerDisplay}")]
     internal class Number_OperatorCalculator : OperatorCalculatorBase
     {
-        private double _number;
+        private readonly double _number;
+
+        protected Number_OperatorCalculator()
+        { }
 
         public Number_OperatorCalculator(double number)
         {

@@ -5,11 +5,11 @@
     /// It has Number_OperatorCalculator as a base class to make it participate in the 
     /// optimization mechanisms in OptimizedPatchCalculatorVisitor.
     /// </summary>
-    internal class Zero_OperatorCalculator : Number_OperatorCalculator
+    internal class One_OperatorCalculator : Number_OperatorCalculator
     {
         public override double Calculate(double time, int channelIndex)
         {
-            return 0;
+            return 1;
         }
     }
 }
