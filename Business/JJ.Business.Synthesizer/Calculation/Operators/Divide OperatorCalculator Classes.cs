@@ -1,0 +1,312 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Framework.Reflection.Exceptions;
+
+namespace JJ.Business.Synthesizer.Calculation.Operators
+{
+    internal class Divide_WithConstOrigin_AndDenominator_OperatorCalculator : OperatorCalculatorBase
+    {
+        private OperatorCalculatorBase _numeratorCalculator;
+        private double _denominatorValue;
+        private double _originValue;
+
+        public Divide_WithConstOrigin_AndDenominator_OperatorCalculator(
+            OperatorCalculatorBase numeratorCalculator,
+            double denominatorValue,
+            double originValue)
+        {
+            if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
+            if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
+            if (denominatorValue == 0) throw new ZeroException(() => denominatorValue);
+
+            _numeratorCalculator = numeratorCalculator;
+            _denominatorValue = denominatorValue;
+            _originValue = originValue;
+        }
+
+        public override double Calculate(double time, int channelIndex)
+        {
+            double a = _numeratorCalculator.Calculate(time, channelIndex);
+            return (a - _originValue) / _denominatorValue + _originValue;
+        }
+    }
+
+    internal class Divide_WithConstOrigin_AndNumerator_OperatorCalculator : OperatorCalculatorBase
+    {
+        private double _numeratorValue;
+        private OperatorCalculatorBase _denominatorCalculator;
+        private double _originValue;
+
+        public Divide_WithConstOrigin_AndNumerator_OperatorCalculator(
+            double numeratorValue,
+            OperatorCalculatorBase denominatorCalculator,
+            double originValue)
+        {
+            if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
+            if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
+
+            _numeratorValue = numeratorValue;
+            _denominatorCalculator = denominatorCalculator;
+            _originValue = originValue;
+        }
+
+        public override double Calculate(double time, int channelIndex)
+        {
+            double denominator = _denominatorCalculator.Calculate(time, channelIndex);
+
+            if (denominator == 0)
+            {
+                return _numeratorValue;
+            }
+
+            return (_numeratorValue - _originValue) / denominator + _originValue;
+        }
+    }
+
+    internal class Divide_WithConstOrigin_OperatorCalculator : OperatorCalculatorBase
+    {
+        private OperatorCalculatorBase _numeratorCalculator;
+        private OperatorCalculatorBase _denominatorCalculator;
+        private double _originValue;
+
+        public Divide_WithConstOrigin_OperatorCalculator(
+            OperatorCalculatorBase numeratorCalculator,
+            OperatorCalculatorBase denominatorCalculator,
+            double originValue)
+        {
+            if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
+            if (numeratorCalculator is Number_OperatorCalculator) throw new Exception("numeratorCalculator cannot be a Value_OperatorCalculator.");
+            if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
+            if (denominatorCalculator is Number_OperatorCalculator) throw new Exception("denominatorCalculator cannot be a Value_OperatorCalculator.");
+
+            _numeratorCalculator = numeratorCalculator;
+            _denominatorCalculator = denominatorCalculator;
+            _originValue = originValue;
+        }
+
+        public override double Calculate(double time, int channelIndex)
+        {
+            double numerator = _numeratorCalculator.Calculate(time, channelIndex);
+            double denominator = _denominatorCalculator.Calculate(time, channelIndex);
+
+            if (denominator == 0)
+            {
+                return numerator;
+            }
+
+            return (numerator - _originValue) / denominator + _originValue;
+        }
+    }
+
+    internal class Divide_WithOrigin_AndConstDenominator_OperatorCalculator : OperatorCalculatorBase
+    {
+        private OperatorCalculatorBase _numeratorCalculator;
+        private double _denominatorValue;
+        private OperatorCalculatorBase _originCalculator;
+
+        public Divide_WithOrigin_AndConstDenominator_OperatorCalculator(
+            OperatorCalculatorBase numeratorCalculator,
+            double denominatorValue,
+            OperatorCalculatorBase originCalculator)
+        {
+            if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
+            if (numeratorCalculator is Number_OperatorCalculator) throw new Exception("numeratorCalculator cannot be a Value_OperatorCalculator.");
+            if (denominatorValue == 0) throw new Exception("denominatorValue cannot be 0.");
+            if (originCalculator == null) throw new NullException(() => originCalculator);
+            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
+
+            _numeratorCalculator = numeratorCalculator;
+            _denominatorValue = denominatorValue;
+            _originCalculator = originCalculator;
+        }
+
+        public override double Calculate(double time, int channelIndex)
+        {
+            double origin = _originCalculator.Calculate(time, channelIndex);
+            double a = _numeratorCalculator.Calculate(time, channelIndex);
+            return (a - origin) / _denominatorValue + origin;
+        }
+    }
+
+    internal class Divide_WithOrigin_AndConstNumerator_AndDenominator_OperatorCalculator : OperatorCalculatorBase
+    {
+        private double _numeratorValue;
+        private double _denominatorValue;
+        private OperatorCalculatorBase _originCalculator;
+
+        public Divide_WithOrigin_AndConstNumerator_AndDenominator_OperatorCalculator(
+            double numeratorValue,
+            double denominatorValue,
+            OperatorCalculatorBase originCalculator)
+        {
+            if (denominatorValue == 0) throw new Exception("denominatorValue cannot be 0.");
+            if (originCalculator == null) throw new NullException(() => originCalculator);
+            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
+
+            _numeratorValue = numeratorValue;
+            _denominatorValue = denominatorValue;
+            _originCalculator = originCalculator;
+        }
+
+        public override double Calculate(double time, int channelIndex)
+        {
+            double origin = _originCalculator.Calculate(time, channelIndex);
+            return (_numeratorValue - origin) / _denominatorValue + origin;
+        }
+    }
+
+    internal class Divide_WithOrigin_AndConstNumerator_OperatorCalculator : OperatorCalculatorBase
+    {
+        private double _numeratorValue;
+        private OperatorCalculatorBase _denominatorCalculator;
+        private OperatorCalculatorBase _originCalculator;
+
+        public Divide_WithOrigin_AndConstNumerator_OperatorCalculator(
+            double numeratorValue,
+            OperatorCalculatorBase denominatorCalculator,
+            OperatorCalculatorBase originCalculator)
+        {
+            if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
+            if (denominatorCalculator is Number_OperatorCalculator) throw new Exception("denominatorCalculator cannot be a Value_OperatorCalculator.");
+            if (originCalculator == null) throw new NullException(() => originCalculator);
+            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
+
+            _numeratorValue = numeratorValue;
+            _denominatorCalculator = denominatorCalculator;
+            _originCalculator = originCalculator;
+        }
+
+        public override double Calculate(double time, int channelIndex)
+        {
+            double denominator = _denominatorCalculator.Calculate(time, channelIndex);
+
+            if (denominator == 0)
+            {
+                return _numeratorValue;
+            }
+
+            double origin = _originCalculator.Calculate(time, channelIndex);
+
+            return (_numeratorValue - origin) / denominator + origin;
+        }
+    }
+
+    internal class Divide_WithOrigin_OperatorCalculator : OperatorCalculatorBase
+    {
+        private OperatorCalculatorBase _numeratorCalculator;
+        private OperatorCalculatorBase _denominatorCalculator;
+        private OperatorCalculatorBase _originCalculator;
+
+        public Divide_WithOrigin_OperatorCalculator(
+            OperatorCalculatorBase numeratorCalculator,
+            OperatorCalculatorBase denominatorCalculator,
+            OperatorCalculatorBase originCalculator)
+        {
+            if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
+            if (numeratorCalculator is Number_OperatorCalculator) throw new Exception("numeratorCalculator cannot be a Value_OperatorCalculator.");
+            if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
+            if (denominatorCalculator is Number_OperatorCalculator) throw new Exception("denominatorCalculator cannot be a Value_OperatorCalculator.");
+            if (originCalculator == null) throw new NullException(() => originCalculator);
+            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
+
+            _numeratorCalculator = numeratorCalculator;
+            _denominatorCalculator = denominatorCalculator;
+            _originCalculator = originCalculator;
+        }
+
+        public override double Calculate(double time, int channelIndex)
+        {
+            double numerator = _numeratorCalculator.Calculate(time, channelIndex);
+            double denominator = _denominatorCalculator.Calculate(time, channelIndex);
+
+            if (denominator == 0)
+            {
+                return numerator;
+            }
+
+            double origin = _originCalculator.Calculate(time, channelIndex);
+
+            return (numerator - origin) / denominator + origin;
+        }
+    }
+
+    internal class Divide_WithoutOrigin_OperatorCalculator : OperatorCalculatorBase
+    {
+        private OperatorCalculatorBase _numeratorCalculator;
+        private OperatorCalculatorBase _denominatorCalculator;
+
+        public Divide_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase numeratorCalculator, OperatorCalculatorBase denominatorCalculator)
+        {
+            if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
+            if (numeratorCalculator is Number_OperatorCalculator) throw new Exception("numeratorCalculator cannot be a Value_OperatorCalculator.");
+            if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
+            if (denominatorCalculator is Number_OperatorCalculator) throw new Exception("denominatorCalculator cannot be a Value_OperatorCalculator.");
+
+            _numeratorCalculator = numeratorCalculator;
+            _denominatorCalculator = denominatorCalculator;
+        }
+
+        public override double Calculate(double time, int channelIndex)
+        {
+            double numerator = _numeratorCalculator.Calculate(time, channelIndex);
+            double denominator = _denominatorCalculator.Calculate(time, channelIndex);
+
+            if (denominator == 0)
+            {
+                return numerator;
+            }
+
+            return numerator / denominator;
+        }
+    }
+
+    internal class Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator : OperatorCalculatorBase
+    {
+        private OperatorCalculatorBase _numeratorCalculator;
+        private double _denominatorValue;
+
+        public Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator(OperatorCalculatorBase numeratorCalculator, double denominatorValue)
+        {
+            if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
+            if (numeratorCalculator is Number_OperatorCalculator) throw new Exception("numeratorCalculator cannot be a Value_OperatorCalculator.");
+            if (denominatorValue == 0) throw new Exception("denominatorValue cannot be 0.");
+
+            _numeratorCalculator = numeratorCalculator;
+            _denominatorValue = denominatorValue;
+        }
+
+        public override double Calculate(double time, int channelIndex)
+        {
+            double numerator = _numeratorCalculator.Calculate(time, channelIndex);
+            return numerator / _denominatorValue;
+        }
+    }
+
+    internal class Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator : OperatorCalculatorBase
+    {
+        private double _numeratorValue;
+        private OperatorCalculatorBase _denominatorCalculator;
+
+        public Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator(double numeratorValue, OperatorCalculatorBase denominatorCalculator)
+        {
+            if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
+            if (denominatorCalculator is Number_OperatorCalculator) throw new Exception("denominatorCalculator cannot be a Value_OperatorCalculator.");
+
+            _numeratorValue = numeratorValue;
+            _denominatorCalculator = denominatorCalculator;
+        }
+
+        public override double Calculate(double time, int channelIndex)
+        {
+            double denominator = _denominatorCalculator.Calculate(time, channelIndex);
+
+            if (denominator == 0)
+            {
+                return _numeratorValue;
+            }
+
+            return _numeratorValue / denominator;
+        }
+    }
+}
