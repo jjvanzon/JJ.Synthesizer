@@ -17,26 +17,18 @@ using JJ.Business.Synthesizer.Configuration;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
-    /// <summary>
-    /// Use the pre-calculated fields of the base class, when deriving from this class.
-    /// </summary>
     internal abstract class AudioFileOutputCalculatorBase : IAudioFileOutputCalculator
     {
-        private string _filePath;
+        private static PatchCalculatorTypeEnum _patchCalculatorTypeEnum = GetPatchCalculatorTypeEnum();
+
         private AudioFileOutput _audioFileOutput;
 
+        private string _filePath;
         private AudioFileOutputChannel[] _audioFileOutputChannels;
         private Outlet[] _outlets;
         private IPatchCalculator[] _patchCalculators;
 
-        private static PatchCalculatorTypeEnum _patchCalculatorTypeEnum;
-
-        static AudioFileOutputCalculatorBase()
-        {
-            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
-
-            _patchCalculatorTypeEnum = config.PatchCalculatorType;
-        }
+        private double _amplifier;
 
         public AudioFileOutputCalculatorBase(AudioFileOutput audioFileOutput, ICurveRepository curveRepository, ISampleRepository sampleRepository, IDocumentRepository documentRepository)
         {
@@ -127,6 +119,8 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                             throw new ValueNotSupportedException(audioFileFormatEnum);
                     }
 
+                    double adjustedAmplifier = GetAdjustedAmplifier(_audioFileOutput);
+
                     // Write Samples
                     for (double t = 0; t <= endTime; t += dt)
                     {
@@ -138,7 +132,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                             if (outlet != null) // TODO: I do not like this 'if'.
                             {
                                 value = _patchCalculators[i].Calculate(t, i);
-                                value *= _audioFileOutput.Amplifier;
+                                value *= adjustedAmplifier;
                             }
 
                             WriteValue(writer, value);
@@ -148,6 +142,14 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             }
         }
 
+        protected abstract double GetAdjustedAmplifier(AudioFileOutput audioFileOutput);
         protected abstract void WriteValue(BinaryWriter binaryWriter, double value);
+
+        // Helpers
+
+        private static PatchCalculatorTypeEnum GetPatchCalculatorTypeEnum()
+        {
+            return ConfigurationHelper.GetSection<ConfigurationSection>().PatchCalculatorType;
+        }
     }
 }

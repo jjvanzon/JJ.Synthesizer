@@ -1,5 +1,6 @@
-﻿using JJ.Data.Synthesizer;
+﻿using System;
 using System.IO;
+using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
@@ -14,6 +15,11 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
         {
             short convertedValue = (short)value;
             binaryWriter.Write(convertedValue);
+        }
+
+        protected override double GetAdjustedAmplifier(AudioFileOutput audioFileOutput)
+        {
+            return audioFileOutput.Amplifier * short.MaxValue;
         }
     }
 }

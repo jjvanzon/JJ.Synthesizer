@@ -13,6 +13,7 @@ using JJ.Business.Synthesizer.Validation;
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
     /// <summary>
+    /// Use the pre-calculated fields of the base class, when deriving from this class.
     /// There is null-tollerance towards the byte[],
     /// because it is considered optional in the entity model.
     /// You are playing around with data a lot and simply a not-loaded sample is only warning,
@@ -26,9 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
         protected double _rate;
         protected double[,] _samples;
 
-        /// <summary>
-        /// For performance, so we can use this value directly. 
-        /// </summary>
+        /// <summary> For performance, so we can use this value directly. </summary>
         public int ChannelCount { get; private set; }
 
         public SampleCalculatorBase(Sample sample, byte[] bytes)

@@ -16,5 +16,10 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             byte convertedValue = (byte)value;
             binaryWriter.Write(convertedValue);
         }
+
+        protected override double GetAdjustedAmplifier(AudioFileOutput audioFileOutput)
+        {
+            return audioFileOutput.Amplifier * 127.0;
+        }
     }
 }

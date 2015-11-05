@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.SideEffects
 
         public void Execute()
         {
-            _entity.Amplifier = 1;
+            _entity.Amplifier = 0.25;
             _entity.TimeMultiplier = 1;
             _entity.Duration = 1;
             _entity.SamplingRate = 44100;
