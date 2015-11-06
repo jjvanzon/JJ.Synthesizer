@@ -216,11 +216,11 @@
     <value>Number named '{0}' is 0.</value>
     <comment>{0} = Value operator name.</comment>
   </data>
-  <data name="InletSortOrdersAreNotUnique" xml:space="preserve">
-    <value>Inlet sort order numbers are not unique.</value>
+  <data name="InletListIndexesAreNotUnique" xml:space="preserve">
+    <value>Inlet numbers are not unique.</value>
   </data>
-  <data name="OutletSortOrdersAreNotUnique" xml:space="preserve">
-    <value>Outlet sort order numbers are not unique.</value>
+  <data name="OutletListIndexesAreNotUnique" xml:space="preserve">
+    <value>Outlet list indexes are not unique.</value>
   </data>
   <data name="CannotDeleteBecauseHasReferences" xml:space="preserve">
     <value>Cannot delete item, because there are things still linking to it.</value>

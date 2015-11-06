@@ -388,7 +388,7 @@ namespace JJ.Business.Synthesizer.Managers
                 };
             }
 
-            IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.SortOrder).ToArray();
+            IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.ListIndex).ToArray();
 
             // Create additional inlets
             for (int i = sortedInlets.Count; i < inletCount; i++)
@@ -428,7 +428,7 @@ namespace JJ.Business.Synthesizer.Managers
                 };
             }
 
-            IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.SortOrder).ToArray();
+            IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.ListIndex).ToArray();
 
             // Create additional outlets
             for (int i = sortedOutlets.Count; i < outletCount; i++)

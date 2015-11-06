@@ -4,9 +4,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    /// <summary>
-    /// A patch in a document has additional rules,
-    /// for instance that the name be filled in.
+    /// <summary> A patch in a document has additional rules, for instance that the name be filled in.
     /// </summary>
     public class PatchValidator_InDocument : FluentValidator<Patch>
     {

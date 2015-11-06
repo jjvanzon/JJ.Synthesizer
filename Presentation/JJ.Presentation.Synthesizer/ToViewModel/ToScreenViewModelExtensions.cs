@@ -541,7 +541,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                SortOrder = wrapper.SortOrder,
+                ListIndex = wrapper.ListIndex,
                 Successful = true,
                 ValidationMessages = new List<Message>()
             };
@@ -559,7 +559,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                SortOrder = wrapper.SortOrder,
+                ListIndex = wrapper.ListIndex,
                 Successful = true,
                 ValidationMessages = new List<Message>()
             };

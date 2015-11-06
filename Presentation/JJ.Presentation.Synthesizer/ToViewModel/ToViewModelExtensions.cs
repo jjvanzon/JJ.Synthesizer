@@ -185,7 +185,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             IList<InletViewModel> viewModels = entities.Where(x => ViewModelHelper.MustConvertToInletViewModel(x))
                                                        .Select(x => x.ToViewModel())
-                                                       .OrderBy(x => x.SortOrder)
+                                                       .OrderBy(x => x.ListIndex)
                                                        .ToList();
             return viewModels;
         }
@@ -199,7 +199,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                SortOrder = entity.SortOrder
+                ListIndex = entity.ListIndex
             };
 
             return viewModel;
@@ -211,7 +211,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             IList<OutletViewModel> viewModels = entities.Where(x => ViewModelHelper.MustConvertToOutletViewModel(x))
                                                         .Select(x => x.ToViewModel())
-                                                        .OrderBy(x => x.SortOrder)
+                                                        .OrderBy(x => x.ListIndex)
                                                         .ToList();
             return viewModels;
         }
@@ -225,7 +225,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                SortOrder = entity.SortOrder
+                ListIndex = entity.ListIndex
             };
 
             return viewModel;

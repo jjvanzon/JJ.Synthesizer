@@ -9,7 +9,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
         {
             Id(x => x.ID).GeneratedBy.Assigned();
             Map(x => x.Name);
-            Map(x => x.SortOrder);
+            Map(x => x.ListIndex);
             References(x => x.Operator, ColumnNames.OperatorID);
             HasMany(x => x.ConnectedInlets).KeyColumn(ColumnNames.InputOutletID).Inverse();
             HasMany(x => x.AsAudioFileOutputChannels).KeyColumn(ColumnNames.OutletID).Inverse();

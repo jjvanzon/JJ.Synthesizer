@@ -59,13 +59,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         private IList<Inlet> GetSortedInlets()
         {
-            IList<Inlet> sortedInlets = _operator.Inlets.OrderBy(x => x.SortOrder).ToArray();
+            IList<Inlet> sortedInlets = _operator.Inlets.OrderBy(x => x.ListIndex).ToArray();
             return sortedInlets;
         }
 
         private IList<Outlet> GetSortedOutlets()
         {
-            IList<Outlet> sortedOutlets = _operator.Outlets.OrderBy(x => x.SortOrder).ToArray();
+            IList<Outlet> sortedOutlets = _operator.Outlets.OrderBy(x => x.ListIndex).ToArray();
             return sortedOutlets;
         }
     }

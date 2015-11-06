@@ -107,7 +107,7 @@ namespace JJ.Presentation.Synthesizer.Converters
         {
             IList<InletViewModel> viewModels = entities.Where(x => ViewModelHelper.MustConvertToInletViewModel(x))
                                                        .Select(x => ConvertToViewModelRecursive(x))
-                                                       .OrderBy(x => x.SortOrder)
+                                                       .OrderBy(x => x.ListIndex)
                                                        .ToList();
             return viewModels;
         }
@@ -128,7 +128,7 @@ namespace JJ.Presentation.Synthesizer.Converters
         {
             IList<OutletViewModel> viewModels = entities.Where(x => ViewModelHelper.MustConvertToOutletViewModel(x))
                                                         .Select(x => ConvertToViewModelRecursive(x))
-                                                        .OrderBy(x => x.SortOrder)
+                                                        .OrderBy(x => x.ListIndex)
                                                         .ToList();
             return viewModels;
         }

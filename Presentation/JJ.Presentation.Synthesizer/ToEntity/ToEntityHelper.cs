@@ -56,13 +56,13 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             if (op.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
             {
-                Outlet outlet = op.Outlets.Where(x => String.Equals(x.Name, PropertyNames.Result)).FirstOrDefault();
+                //Outlet outlet = op.Outlets.Where(x => String.Equals(x.Name, PropertyNames.Result)).FirstOrDefault();
+                Outlet outlet = op.Outlets.FirstOrDefault();
                 if (outlet == null)
                 {
                     outlet = new Outlet();
                     outlet.ID = idRepository.GetID();
-                    outlet.Name = PropertyNames.Result;
-                    outlet.SortOrder = 1;
+                    outlet.ListIndex = 0;
                     outletRepository.Insert(outlet);
                     outlet.LinkTo(op);
                 }
@@ -82,16 +82,15 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (idRepository == null) throw new NullException(() => idRepository);
 
-            // 
             if (op.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
             {
-                Inlet inlet = op.Inlets.Where(x => String.Equals(x.Name, PropertyNames.Input)).FirstOrDefault();
+                //Inlet inlet = op.Inlets.Where(x => String.Equals(x.Name, PropertyNames.Input)).FirstOrDefault();
+                Inlet inlet = op.Inlets.FirstOrDefault();
                 if (inlet == null)
                 {
                     inlet = new Inlet();
                     inlet.ID = idRepository.GetID();
-                    inlet.Name = PropertyNames.Input;
-                    inlet.SortOrder = 1;
+                    inlet.ListIndex = 0;
                     inletRepository.Insert(inlet);
                     inlet.LinkTo(op);
                 }

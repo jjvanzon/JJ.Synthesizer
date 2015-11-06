@@ -7,6 +7,8 @@ namespace JJ.Data.Synthesizer
     public class Inlet
     {
         public virtual int ID { get; set; }
+
+        /// <summary> Optional. Currently (2105-11-05) only relevant for CustomOperators. </summary>
         public virtual string Name { get; set; }
 
         /// <summary> parent </summary>
@@ -20,7 +22,7 @@ namespace JJ.Data.Synthesizer
         /// This sort order is only visual. It is not a reference number.
         /// The ID is the main reference number and the name is an alternative key.
         /// </summary>
-        public virtual int SortOrder { get; set; }
+        public virtual int ListIndex { get; set; }
 
         private string DebuggerDisplay
         {

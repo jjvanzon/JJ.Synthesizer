@@ -125,7 +125,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 }
 
                 inletViewModel.Name = inlet.Name;
-                inletViewModel.SortOrder = inlet.SortOrder;
+                inletViewModel.ListIndex = inlet.ListIndex;
 
                 inletViewModelsToKeep.Add(inletViewModel);
             }
@@ -138,7 +138,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 destOperatorViewModel.Inlets.Remove(inletViewModelToDelete);
             }
 
-            destOperatorViewModel.Inlets = destOperatorViewModel.Inlets.OrderBy(x => x.SortOrder).ToList();
+            destOperatorViewModel.Inlets = destOperatorViewModel.Inlets.OrderBy(x => x.ListIndex).ToList();
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 }
 
                 outletViewModel.Name = outlet.Name;
-                outletViewModel.SortOrder = outlet.SortOrder;
+                outletViewModel.ListIndex = outlet.ListIndex;
 
                 outletViewModelsToKeep.Add(outletViewModel);
             }
@@ -184,7 +184,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 destOperatorViewModel.Outlets.Remove(outletViewModelToDelete);
             }
 
-            destOperatorViewModel.Outlets = destOperatorViewModel.Outlets.OrderBy(x => x.SortOrder).ToList();
+            destOperatorViewModel.Outlets = destOperatorViewModel.Outlets.OrderBy(x => x.ListIndex).ToList();
         }
 
         /// <summary> The inlet of a PatchInlet operator is never converted to view model. </summary>

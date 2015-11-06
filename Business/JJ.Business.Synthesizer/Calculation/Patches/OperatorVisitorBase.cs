@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // Reverse the order of evaluating the inlet,
             // so that the first inlet will be the last one pushed
             // so it will be the first one popped.
-            IList<Inlet> inlets = op.Inlets.OrderByDescending(x => x.SortOrder).ToArray();
+            IList<Inlet> inlets = op.Inlets.OrderByDescending(x => x.ListIndex).ToArray();
             foreach (Inlet inlet in inlets)
             {
                 VisitInlet(inlet);

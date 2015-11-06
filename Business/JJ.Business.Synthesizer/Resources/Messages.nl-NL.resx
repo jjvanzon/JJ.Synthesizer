@@ -209,10 +209,10 @@
   <data name="NumberIs0WithName" xml:space="preserve">
     <value>Getal genaamd '{0}' is 0.</value>
   </data>
-  <data name="InletSortOrdersAreNotUnique" xml:space="preserve">
+  <data name="InletListIndexesAreNotUnique" xml:space="preserve">
     <value>De ingang volgnummers zijn niet uniek.</value>
   </data>
-  <data name="OutletSortOrdersAreNotUnique" xml:space="preserve">
+  <data name="OutletListIndexesAreNotUnique" xml:space="preserve">
     <value>De uitgang volgnummers zijn niet uniek.</value>
   </data>
   <data name="CannotDeleteBecauseHasReferences" xml:space="preserve">

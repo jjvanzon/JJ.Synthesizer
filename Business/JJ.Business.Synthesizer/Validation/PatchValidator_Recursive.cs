@@ -44,9 +44,9 @@ namespace JJ.Business.Synthesizer.Validation
         protected override void Execute()
         {
             ValidatePatchInletNamesAreUnique();
-            ValidatePatchInletSortOrdersAreUnique();
+            ValidatePatchInletListIndexesAreUnique();
             ValidatePatchOutletNamesAreUnique();
-            ValidatePatchOutletSortOrdersAreUnique();
+            ValidatePatchOutletListIndexesAreUnique();
 
             foreach (Operator op in Object.Operators)
             {
@@ -71,17 +71,17 @@ namespace JJ.Business.Synthesizer.Validation
             }
         }
 
-        private void ValidatePatchInletSortOrdersAreUnique()
+        private void ValidatePatchInletListIndexesAreUnique()
         {
-            IList<int> sortOrders = Object.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                             .Select(x => new OperatorWrapper_PatchInlet(x))
-                                             .Select(x => x.SortOrder)
-                                             .ToArray();
+            IList<int> listIndexes = Object.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                           .Select(x => new OperatorWrapper_PatchInlet(x))
+                                           .Select(x => x.ListIndex)
+                                           .ToArray();
 
-            bool sortOrdersAreUnique = sortOrders.Distinct().Count() == sortOrders.Count;
-            if (!sortOrdersAreUnique)
+            bool listIndexesAreUnique = listIndexes.Distinct().Count() == listIndexes.Count;
+            if (!listIndexesAreUnique)
             {
-                ValidationMessages.Add(PropertyNames.PatchInlet, Messages.InletSortOrdersAreNotUnique);
+                ValidationMessages.Add(PropertyNames.PatchInlet, Messages.InletListIndexesAreNotUnique);
             }
         }
 
@@ -99,17 +99,17 @@ namespace JJ.Business.Synthesizer.Validation
             }
         }
 
-        private void ValidatePatchOutletSortOrdersAreUnique()
+        private void ValidatePatchOutletListIndexesAreUnique()
         {
-            IList<int> sortOrders = Object.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                             .Select(x => new OperatorWrapper_PatchOutlet(x))
-                                             .Select(x => x.SortOrder)
-                                             .ToArray();
+            IList<int> listIndexes = Object.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                           .Select(x => new OperatorWrapper_PatchOutlet(x))
+                                           .Select(x => x.ListIndex)
+                                           .ToArray();
 
-            bool sortOrdersAreUnique = sortOrders.Distinct().Count() == sortOrders.Count;
-            if (!sortOrdersAreUnique)
+            bool listIndexesAreUnique = listIndexes.Distinct().Count() == listIndexes.Count;
+            if (!listIndexesAreUnique)
             {
-                ValidationMessages.Add(PropertyNames.PatchOutlet, Messages.OutletSortOrdersAreNotUnique);
+                ValidationMessages.Add(PropertyNames.PatchOutlet, Messages.OutletListIndexesAreNotUnique);
             }
         }
     }

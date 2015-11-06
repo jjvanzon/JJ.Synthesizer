@@ -9,11 +9,11 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    internal class Operator_SideEffect_GeneratePatchOutletSortOrder : ISideEffect
+    internal class Operator_SideEffect_GeneratePatchOutletListIndex : ISideEffect
     {
         private Operator _entity;
 
-        public Operator_SideEffect_GeneratePatchOutletSortOrder(Operator entity)
+        public Operator_SideEffect_GeneratePatchOutletListIndex(Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);
             _entity = entity;
@@ -29,20 +29,20 @@ namespace JJ.Business.Synthesizer.SideEffects
                 return;
             }
 
-            IList<int> sortOrders = _entity.Patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                                 .Select(x => new OperatorWrapper_PatchOutlet(x).SortOrder)
-                                                 .ToArray();
-            int suggestedSortOrder = 1;
-            bool sortOrderExists = sortOrders.Contains(suggestedSortOrder);
+            IList<int> listIndexes = _entity.Patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                                  .Select(x => new OperatorWrapper_PatchOutlet(x).ListIndex)
+                                                  .ToArray();
+            int suggestedListIndex = 0;
+            bool listIndexExists = listIndexes.Contains(suggestedListIndex);
 
-            while (sortOrderExists)
+            while (listIndexExists)
             {
-                suggestedSortOrder++;
-                sortOrderExists = sortOrders.Contains(suggestedSortOrder);
+                suggestedListIndex++;
+                listIndexExists = listIndexes.Contains(suggestedListIndex);
             }
 
             var wrapper = new OperatorWrapper_PatchOutlet(_entity);
-            wrapper.SortOrder = suggestedSortOrder;
+            wrapper.ListIndex = suggestedListIndex;
         }
     }
 }

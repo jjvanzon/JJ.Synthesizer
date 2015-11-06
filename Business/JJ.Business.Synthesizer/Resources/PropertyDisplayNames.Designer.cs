@@ -457,6 +457,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number.
+        /// </summary>
+        public static string ListIndex {
+            get {
+                return ResourceManager.GetString("ListIndex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Literal Frequencies.
         /// </summary>
         public static string LiteralFrequencies {
@@ -858,15 +867,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string SlowDown {
             get {
                 return ResourceManager.GetString("SlowDown", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sort Order.
-        /// </summary>
-        public static string SortOrder {
-            get {
-                return ResourceManager.GetString("SortOrder", resourceCulture);
             }
         }
         

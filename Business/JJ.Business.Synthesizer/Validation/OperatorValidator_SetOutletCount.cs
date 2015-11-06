@@ -38,7 +38,7 @@ namespace JJ.Business.Synthesizer.Validation
                 .Above(1);
 
 
-            IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.SortOrder).ToArray();
+            IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.ListIndex).ToArray();
             for (int i = _newOutletCount; i < sortedOutlets.Count; i++)
             {
                 Outlet outlet = sortedOutlets[i];

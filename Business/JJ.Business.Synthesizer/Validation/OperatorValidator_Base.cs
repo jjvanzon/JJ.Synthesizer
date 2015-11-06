@@ -11,29 +11,26 @@ using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    /// <summary>
-    /// Validates the configuration of names, inlets and outlets.
-    /// </summary>
+    /// <summary> Validates the configuration of names, inlets and outlets. </summary>
     public abstract class OperatorValidator_Base : FluentValidator<Operator>
     {
         private OperatorTypeEnum _expectedOperatorTypeEnum;
-        private IList<string> _expectedInletNames;
-        private IList<string> _expectedOutletNames;
+        private int _expectedInletCount;
+        private int _expectedOutletCount;
 
         public OperatorValidator_Base(
             Operator obj, 
             OperatorTypeEnum expectedOperatorTypeEnum, 
             int expectedInletCount, 
-            params string[] expectedInletAndOutletNames)
+            int expectedOutletCount)
             : base(obj, postponeExecute: true)
         {
-            if (expectedInletAndOutletNames == null) throw new NullException(() => expectedInletAndOutletNames);
             if (expectedInletCount < 0) throw new LessThanException(() => expectedInletCount, 0);
-            if (expectedInletAndOutletNames.Length < expectedInletCount) throw new Exception("expectedInletAndOutletNames must have a length of at least the expectedInletCount.");
+            if (expectedOutletCount < 0) throw new LessThanException(() => expectedOutletCount, 0);
 
             _expectedOperatorTypeEnum = expectedOperatorTypeEnum;
-            _expectedInletNames = expectedInletAndOutletNames.Take(expectedInletCount).ToArray();
-            _expectedOutletNames = expectedInletAndOutletNames.Skip(expectedInletCount).ToArray();
+            _expectedInletCount = expectedInletCount;
+            _expectedOutletCount = expectedOutletCount;
 
             Execute();
         }
@@ -45,28 +42,32 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => op.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).Is(_expectedOperatorTypeEnum);
 
             For(() => op.Inlets.Count, GetPropertyDisplayName_ForInletCount())
-                .Is(_expectedInletNames.Count);
+                .Is(_expectedInletCount);
 
-            if (op.Inlets.Count == _expectedInletNames.Count)
+            if (op.Inlets.Count == _expectedInletCount)
             {
-                IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.SortOrder).ToArray();
+                IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.ListIndex).ToArray();
                 for (int i = 0; i < sortedInlets.Count; i++)
                 {
-                    For(() => sortedInlets[i].Name, GetPropertyDisplayName_ForInletName(i))
-                        .Is(_expectedInletNames[i]);
+                    // TODO: You should really be using a sub validator here.
+                    string prefix = String.Format("{0} {1}: ", PropertyDisplayNames.Inlet, i + 1);
+                    For(() => sortedInlets[i].ListIndex, prefix + PropertyDisplayNames.ListIndex).Is(i);
+                    For(() => sortedInlets[i].Name, prefix + CommonTitles.Name).IsNullOrEmpty();
                 }
             }
 
             For(() => op.Outlets.Count, GetPropertyDisplayName_ForOutletCount())
-                .Is(_expectedOutletNames.Count);
+                .Is(_expectedOutletCount);
 
-            if (op.Outlets.Count == _expectedOutletNames.Count)
+            if (op.Outlets.Count == _expectedOutletCount)
             {
-                IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.SortOrder).ToArray();
+                IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.ListIndex).ToArray();
                 for (int i = 0; i < sortedOutlets.Count; i++)
                 {
-                    For(() => sortedOutlets[i].Name, GetPropertyDisplayName_ForOutletName(i))
-                        .Is(_expectedOutletNames[i]);
+                    // TODO: You should really be using a sub validator here.
+                    string prefix = String.Format("{0} {1}: ", PropertyDisplayNames.Outlet, i + 1);
+                    For(() => sortedOutlets[i].ListIndex, prefix + PropertyDisplayNames.ListIndex).Is(i);
+                    For(() => sortedOutlets[i].Name, prefix + CommonTitles.Name).IsNullOrEmpty();
                 }
             }
         }
@@ -79,16 +80,6 @@ namespace JJ.Business.Synthesizer.Validation
         private string GetPropertyDisplayName_ForOutletCount()
         {
             return CommonTitleFormatter.EntityCount(PropertyDisplayNames.Outlets);
-        }
-
-        private string GetPropertyDisplayName_ForInletName(int index)
-        {
-            return String.Format("{0} {1}: {2}", PropertyDisplayNames.Inlet, index + 1, CommonTitles.Name);
-        }
-
-        private string GetPropertyDisplayName_ForOutletName(int index)
-        {
-            return String.Format("{0} {1}: {2}", PropertyDisplayNames.Outlet, index + 1, CommonTitles.Name);
         }
     }
 }

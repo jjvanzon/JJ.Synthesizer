@@ -14,7 +14,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public string Name { get; set; }
 
         /// <summary> Does not necessarily need to be displayed, but does need to be passed around, so it is present when a new object is saved. </summary>
-        public int SortOrder { get; set; }
+        public int ListIndex { get; set; }
 
         /// <summary>
         /// NOTE: This property has an inverse property

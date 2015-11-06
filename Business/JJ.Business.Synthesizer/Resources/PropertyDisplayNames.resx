@@ -310,8 +310,8 @@
   <data name="ChildDocumentCount" xml:space="preserve">
     <value>Child Document Count</value>
   </data>
-  <data name="SortOrder" xml:space="preserve">
-    <value>Sort Order</value>
+  <data name="ListIndex" xml:space="preserve">
+    <value>Number</value>
   </data>
   <data name="UnderlyingDocument" xml:space="preserve">
     <value>Underlying Document</value>

@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.Validation
     public class OperatorValidator_Delay : OperatorValidator_Base_WithoutData
     {
         public OperatorValidator_Delay(Operator obj)
-            : base(obj, OperatorTypeEnum.Delay, 2, PropertyNames.Signal, PropertyNames.TimeDifference, PropertyNames.Result)
+            : base(obj, OperatorTypeEnum.Delay, expectedInletCount: 2, expectedOutletCount: 1)
         { }
     }
 }

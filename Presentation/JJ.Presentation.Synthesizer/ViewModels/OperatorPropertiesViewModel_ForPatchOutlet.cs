@@ -7,7 +7,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public int SortOrder { get; set; }
+        public int ListIndex { get; set; }
 
         public bool Visible { get; set; }
         public bool Successful { get; set; }

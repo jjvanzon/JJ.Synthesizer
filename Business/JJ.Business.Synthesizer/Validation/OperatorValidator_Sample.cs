@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Validation
     public class OperatorValidator_Sample : OperatorValidator_Base
     {
         public OperatorValidator_Sample(Operator op)
-            : base(op, OperatorTypeEnum.Sample, 0, PropertyNames.Result)
+            : base(op, OperatorTypeEnum.Sample, expectedInletCount: 0, expectedOutletCount: 1)
         { }
 
         protected override void Execute()

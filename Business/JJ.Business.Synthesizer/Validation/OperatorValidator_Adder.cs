@@ -21,26 +21,24 @@ namespace JJ.Business.Synthesizer.Validation
 
             For(() => op.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).Is(OperatorTypeEnum.Adder);
 
-            For(() => op.Outlets.Count, GetPropertyDisplayName_ForOutletCount()).Is(1);
-
             for (int i = 0; i < op.Inlets.Count; i++)
             {
-                string expectedName = String.Format("{0}{1}", PropertyNames.Operand, i + 1);
-
-                For(() => op.Inlets[i].Name, GetPropertyDisplayName_ForInletName(i)).Is(expectedName);
+                For(() => op.Inlets[i].ListIndex, GetPropertyDisplayName_ForInletListIndex(i)).Is(i);
             }
+
+            For(() => op.Outlets.Count, GetPropertyDisplayName_ForOutletCount()).Is(1);
 
             if (op.Outlets.Count == 1)
             {
-                For(() => op.Outlets[0].Name, GetPropertyDisplayName_ForOutletName()).Is(PropertyNames.Result);
+                For(() => op.Outlets[0].ListIndex, GetPropertyDisplayName_ForOutletListIndex()).Is(0);
             }
 
             For(() => op.Data, PropertyDisplayNames.Data).IsNull();
         }
 
-        private string GetPropertyDisplayName_ForInletName(int index)
+        private string GetPropertyDisplayName_ForInletListIndex(int index)
         {
-            return String.Format("{0} {1}: {2}", PropertyDisplayNames.Inlet, index + 1, CommonTitles.Name);
+            return String.Format("{0} {1}: {2}", PropertyDisplayNames.Inlet, index + 1, PropertyDisplayNames.ListIndex);
         }
 
         private string GetPropertyDisplayName_ForOutletCount()
@@ -48,9 +46,9 @@ namespace JJ.Business.Synthesizer.Validation
             return CommonTitleFormatter.EntityCount(PropertyDisplayNames.Outlets);
         }
 
-        private string GetPropertyDisplayName_ForOutletName()
+        private string GetPropertyDisplayName_ForOutletListIndex()
         {
-            return String.Format("{0}: {1}", PropertyDisplayNames.Outlet, CommonTitles.Name);
+            return String.Format("{0}: {1}", PropertyDisplayNames.Outlet, PropertyDisplayNames.ListIndex);
         }
     }
 }

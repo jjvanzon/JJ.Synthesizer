@@ -25,7 +25,7 @@ namespace JJ.Business.Synthesizer.Converters
     /// that are not even in the UnderlyingDocument.
     /// 
     /// However, existing Inlets and Outlets are matches with the new Document as best as possible.
-    /// First an existing Inlet or Outlet is matched by name, otherwise an it is matched by SortOrder,
+    /// First an existing Inlet or Outlet is matched by name, otherwise an it is matched by ListIndex,
     /// and if none match, the Inlet or Outlet is deleted if not in use, or kept if it was in use.
     /// </summary>
     internal class DocumentToOperatorConverter
@@ -102,7 +102,7 @@ namespace JJ.Business.Synthesizer.Converters
                 }
 
                 destInlet.Name = sourcePatchInlet.Name;
-                destInlet.SortOrder = sourcePatchInletWrapper.SortOrder;
+                destInlet.ListIndex = sourcePatchInletWrapper.ListIndex;
 
                 idsToKeep.Add(destInlet.ID);
             }
@@ -135,7 +135,7 @@ namespace JJ.Business.Synthesizer.Converters
             foreach (Inlet destInlet in destInlets)
             { 
                 var wrapper = new OperatorWrapper_PatchInlet(sourcePatchInlet);
-                if (destInlet.SortOrder == wrapper.SortOrder)
+                if (destInlet.ListIndex == wrapper.ListIndex)
                 {
                     return destInlet;
                 }
@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Converters
                 }
 
                 destOutlet.Name = sourcePatchOutlet.Name;
-                destOutlet.SortOrder = sourcePatchOutletWrapper.SortOrder;
+                destOutlet.ListIndex = sourcePatchOutletWrapper.ListIndex;
 
                 idsToKeep.Add(destOutlet.ID);
             }
@@ -195,7 +195,7 @@ namespace JJ.Business.Synthesizer.Converters
             foreach (Outlet destOutlet in destOutlets)
             {
                 var wrapper = new OperatorWrapper_PatchOutlet(sourcePatchOutlet);
-                if (destOutlet.SortOrder == wrapper.SortOrder)
+                if (destOutlet.ListIndex == wrapper.ListIndex)
                 {
                     return destOutlet;
                 }

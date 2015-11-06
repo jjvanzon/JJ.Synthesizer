@@ -24,26 +24,37 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Sample = "Sample";
 
         // Inlet Names
-        public const string OperandA = "OperandA";
-        public const string OperandB = "OperandB";
-        public const string Origin = "Origin";
-        public const string Numerator = "Numerator";
-        public const string Denominator = "Denominator";
+
+        // Do not delete outcommented code: I might need it later again.
+
+        //public const string OperandA = "OperandA";
+        //public const string OperandB = "OperandB";
+        //public const string Origin = "Origin";
+        //public const string Numerator = "Numerator";
+        //public const string Denominator = "Denominator";
         public const string Input = "Input";
-        public const string Base = "Base";
-        public const string Exponent = "Exponent";
-        public const string Volume = "Volume";
-        public const string Pitch = "Pitch";
-        public const string PhaseShift = "PhaseShift";
-        public const string Signal = "Signal";
-        public const string TimeDifference = "TimeDifference";
-        public const string TimeDivider = "TimeDivider";
-        public const string TimeMultiplier = "TimeMultiplier";
-        public const string Operand = "Operand";
+        //public const string Base = "Base";
+        //public const string Exponent = "Exponent";
+        //public const string Volume = "Volume";
+        //public const string Pitch = "Pitch";
+        //public const string PhaseShift = "PhaseShift";
+        //public const string Signal = "Signal";
+        //public const string TimeDifference = "TimeDifference";
+        //public const string TimeDivider = "TimeDivider";
+        //public const string TimeMultiplier = "TimeMultiplier";
+        //public const string Operand = "Operand";
+        //public const string Low = "Low";
+        //public const string High = "High";
+        //public const string Ratio = "Ratio";
+        //public const string Attack = "Attack";
+        //public const string Start = "Start";
+        //public const string Sustain = "Sustain";
+        //public const string End = "End";
+        //public const string Release = "Release";
+        //public const string Time = "Time";
 
         // Outlet Names
         public const string Result = "Result";
-        public const string Outlet = "Outlet";
         
         // Wav Header Properties
         public const string ChunkID = "ChunkID";
@@ -70,6 +81,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Document = "Document";
         public const string Inlet = "Inlet";
         public const string Inlets = "Inlets";
+        public const string Outlet = "Outlet";
         public const string Outlets = "Outlets";
         public const string UnderlyingDocument = "UnderlyingDocument";
         public const string Scales = "Scales";
@@ -80,15 +92,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Cents = "Cents";
         public const string Node = "Node";
         public const string Nodes = "Nodes";
-        public const string Low = "Low";
-        public const string High = "High";
-        public const string Ratio = "Ratio";
-        public const string Attack = "Attack";
-        public const string Start = "Start";
-        public const string Sustain = "Sustain";
-        public const string End = "End";
-        public const string Release = "Release";
-        public const string Time = "Time";
         public const string InletCount = "InletCount";
         public const string OutletCount = "OutletCount";
         public const string InputOutlet = "InputOutlet";

@@ -200,8 +200,8 @@
     <Compile Include="SideEffects\Curve_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Scale_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GenerateName.cs" />
-    <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchOutletSortOrder.cs" />
-    <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchInletSortOrder.cs" />
+    <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchOutletListIndex.cs" />
+    <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchInletListIndex.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_ApplyUnderlyingDocument.cs" />
     <Compile Include="SideEffects\Document_SideEffect_UpdateDependentCustomOperators.cs" />
     <Compile Include="SideEffects\Patch_SideEffect_GenerateName.cs" />

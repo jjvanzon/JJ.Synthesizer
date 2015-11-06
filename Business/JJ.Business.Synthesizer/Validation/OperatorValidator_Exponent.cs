@@ -7,10 +7,7 @@ namespace JJ.Business.Synthesizer.Validation
     public class OperatorValidator_Exponent : OperatorValidator_Base_WithoutData
     {
         public OperatorValidator_Exponent(Operator obj)
-            : base(obj,
-                OperatorTypeEnum.Exponent, 3,
-                PropertyNames.Low, PropertyNames.High, PropertyNames.Ratio, 
-                PropertyNames.Result)
+            : base(obj, OperatorTypeEnum.Exponent, expectedInletCount: 3, expectedOutletCount: 1)
         { }
     }
 }

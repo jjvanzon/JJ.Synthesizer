@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
-            IList<Inlet> sortedInlets = Object.Inlets.OrderBy(x => x.SortOrder).ToArray();
+            IList<Inlet> sortedInlets = Object.Inlets.OrderBy(x => x.ListIndex).ToArray();
 
             foreach (int indexToCheck in indexesToCheck)
             {

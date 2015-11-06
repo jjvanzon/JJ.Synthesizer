@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return GetOutlet(OperatorConstants.PATCH_OUTLET_RESULT_INDEX); }
         }
 
-        public int SortOrder
+        public int ListIndex
         {
             get { return Int32.Parse(Operator.Data); }
             set { Operator.Data = value.ToString(); }

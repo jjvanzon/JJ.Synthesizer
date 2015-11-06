@@ -160,6 +160,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inlet numbers are not unique..
+        /// </summary>
+        internal static string InletListIndexesAreNotUnique {
+            get {
+                return ResourceManager.GetString("InletListIndexesAreNotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inlet names are not unique..
         /// </summary>
         internal static string InletNamesAreNotUnique {
@@ -174,15 +183,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string InletNotSet {
             get {
                 return ResourceManager.GetString("InletNotSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Inlet sort order numbers are not unique..
-        /// </summary>
-        internal static string InletSortOrdersAreNotUnique {
-            get {
-                return ResourceManager.GetString("InletSortOrdersAreNotUnique", resourceCulture);
             }
         }
         
@@ -304,20 +304,20 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Outlet list indexes are not unique..
+        /// </summary>
+        internal static string OutletListIndexesAreNotUnique {
+            get {
+                return ResourceManager.GetString("OutletListIndexesAreNotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Outlet names are not unique..
         /// </summary>
         internal static string OutletNamesAreNotUnique {
             get {
                 return ResourceManager.GetString("OutletNamesAreNotUnique", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Outlet sort order numbers are not unique..
-        /// </summary>
-        internal static string OutletSortOrdersAreNotUnique {
-            get {
-                return ResourceManager.GetString("OutletSortOrdersAreNotUnique", resourceCulture);
             }
         }
         

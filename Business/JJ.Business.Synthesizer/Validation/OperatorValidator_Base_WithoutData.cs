@@ -14,8 +14,8 @@ namespace JJ.Business.Synthesizer.Validation
             Operator obj,
             OperatorTypeEnum expectedOperatorTypeEnum,
             int expectedInletCount,
-            params string[] expectedInletAndOutletNames)
-            : base(obj, expectedOperatorTypeEnum, expectedInletCount, expectedInletAndOutletNames)
+            int expectedOutletCount)
+            : base(obj, expectedOperatorTypeEnum, expectedInletCount, expectedOutletCount)
         { }
 
         protected override void Execute()

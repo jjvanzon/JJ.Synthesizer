@@ -911,7 +911,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity.ID = viewModel.ID;
                 inletRepository.Insert(entity);
             }
-            entity.SortOrder = viewModel.SortOrder;
+            entity.ListIndex = viewModel.ListIndex;
             entity.Name = viewModel.Name;
 
             return entity;
@@ -929,7 +929,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity.ID = viewModel.ID;
                 outletRepository.Insert(entity);
             }
-            entity.SortOrder = viewModel.SortOrder;
+            entity.ListIndex = viewModel.ListIndex;
             entity.Name = viewModel.Name;
 
             return entity;
@@ -1119,7 +1119,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SetOperatorTypeEnum(OperatorTypeEnum.PatchInlet, operatorTypeRepository);
 
             var wrapper = new OperatorWrapper_PatchInlet(entity);
-            wrapper.SortOrder = viewModel.SortOrder;
+            wrapper.ListIndex = viewModel.ListIndex;
 
             return entity;
         }
@@ -1143,7 +1143,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SetOperatorTypeEnum(OperatorTypeEnum.PatchOutlet, operatorTypeRepository);
 
             var wrapper = new OperatorWrapper_PatchOutlet(entity);
-            wrapper.SortOrder = viewModel.SortOrder;
+            wrapper.ListIndex = viewModel.ListIndex;
 
             return entity;
         }
