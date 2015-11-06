@@ -394,15 +394,13 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseShift = null)
+        public OperatorWrapper_Sine Sine(Outlet pitch = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Sine, inletCount: 4, outletCount: 1);
 
             var wrapper = new OperatorWrapper_Sine(op)
             {
-                Volume = volume,
                 Pitch = pitch,
-                Origin = origin,
                 PhaseShift = phaseShift
             };
 
@@ -638,6 +636,10 @@ namespace JJ.Business.Synthesizer.Managers
             var op = new Operator();
             op.ID = _repositories.IDRepository.GetID();
             op.SetOperatorTypeEnum(operatorTypeEnum, _repositories.OperatorTypeRepository);
+
+            // TODO: This code line was just added on the fly, but really the whole code file must be checked,
+            // so that the operators are always linked to the (nullable) Patch.
+            op.LinkTo(Patch);
             _repositories.OperatorRepository.Insert(op);
 
             for (int i = 0; i < inletCount; i++)

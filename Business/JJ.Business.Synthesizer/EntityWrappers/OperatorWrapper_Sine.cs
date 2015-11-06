@@ -10,22 +10,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        public Outlet Volume
-        {
-            get { return GetInlet(OperatorConstants.SINE_VOLUME_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.SINE_VOLUME_INDEX).LinkTo(value); }
-        }
-
         public Outlet Pitch
         {
             get { return GetInlet(OperatorConstants.SINE_PITCH_INDEX).InputOutlet; }
             set { GetInlet(OperatorConstants.SINE_PITCH_INDEX).LinkTo(value); }
-        }
-
-        public Outlet Origin
-        {
-            get { return GetInlet(OperatorConstants.SINE_ORIGIN_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.SINE_ORIGIN_INDEX).LinkTo(value); }
         }
 
         public Outlet PhaseShift

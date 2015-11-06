@@ -736,37 +736,26 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var wrapper = new OperatorWrapper_Sine(op);
 
-            Outlet volumeOutlet = wrapper.Volume;
             Outlet pitchOutlet = wrapper.Pitch;
-            Outlet originOutlet = wrapper.Origin;
-
-            if (volumeOutlet == null || pitchOutlet == null)
-            {
-                if (originOutlet != null)
-                {
-                    return Calculate(originOutlet, time);
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-
             Outlet phaseShiftOutlet = wrapper.PhaseShift;
 
-            double volume = Calculate(volumeOutlet, time);
-            double pitch = Calculate(pitchOutlet, time);
-
-            if (originOutlet == null && phaseShiftOutlet == null)
+            if (pitchOutlet == null)
             {
-                return volume * Math.Sin(2 * Math.PI * pitch * time);
+                return 0;
             }
 
-            double origin = originOutlet != null ? Calculate(originOutlet, time) : 0;
-            double phaseShift = phaseShiftOutlet != null ? Calculate(phaseShiftOutlet, time) : 0;
+            double pitch = Calculate(pitchOutlet, time);
 
-            double result = origin + volume * Math.Sin(2 * (Math.PI * phaseShift + Math.PI * pitch * time));
-            return result;
+            if (phaseShiftOutlet == null)
+            {
+                return Math.Sin(2 * Math.PI * pitch * time);
+            }
+            else
+            {
+                double phaseShift = Calculate(phaseShiftOutlet, time);
+                double result = Math.Sin(2 * (Math.PI * phaseShift + Math.PI * pitch * time));
+                return result;
+            }
         }
 
         private double CalculateSampleOperator(Outlet outlet, double time)

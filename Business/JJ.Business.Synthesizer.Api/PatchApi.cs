@@ -134,9 +134,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Select(signal, time);
         }
 
-        public OperatorWrapper_Sine Sine(Outlet volume = null, Outlet pitch = null, Outlet origin = null, Outlet phaseShift = null)
+        public OperatorWrapper_Sine Sine(Outlet pitch = null, Outlet phaseShift = null)
         {
-            return _patchManager.Sine(volume, pitch, origin, phaseShift);
+            return _patchManager.Sine(pitch, phaseShift);
         }
 
         public OperatorWrapper_Substract Substract(Outlet operandA = null, Outlet operandB = null)

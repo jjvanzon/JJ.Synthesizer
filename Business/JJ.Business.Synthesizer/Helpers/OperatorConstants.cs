@@ -48,11 +48,9 @@
         public const int SELECT_RESULT_INDEX = 0;
         public const int SELECT_SIGNAL_INDEX = 0;
         public const int SELECT_TIME_INDEX = 1;
-        public const int SINE_ORIGIN_INDEX = 2;
-        public const int SINE_PHASE_SHIFT_INDEX = 3;
-        public const int SINE_PITCH_INDEX = 1;
+        public const int SINE_PITCH_INDEX = 0;
+        public const int SINE_PHASE_SHIFT_INDEX = 1;
         public const int SINE_RESULT_INDEX = 0;
-        public const int SINE_VOLUME_INDEX = 0;
         public const int SLOW_DOWN_ORIGIN_INDEX = 2;
         public const int SLOW_DOWN_RESULT_INDEX = 0;
         public const int SLOW_DOWN_SIGNAL_INDEX = 0;

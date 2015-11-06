@@ -670,53 +670,30 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase volumeCalculator = _stack.Pop();
             OperatorCalculatorBase pitchCalculator = _stack.Pop();
-            OperatorCalculatorBase originCalculator = _stack.Pop();
             OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
-            volumeCalculator = volumeCalculator ?? new Zero_OperatorCalculator();
             pitchCalculator = pitchCalculator ?? new Zero_OperatorCalculator();
-            originCalculator = originCalculator ?? new Zero_OperatorCalculator();
             phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
-            double volume = volumeCalculator.Calculate(0, 0);
             double pitch = pitchCalculator.Calculate(0, 0);
-            double origin = originCalculator.Calculate(0, 0);
             double phaseShift = phaseShiftCalculator.Calculate(0, 0);
-            bool volumeIsConst = volumeCalculator is Number_OperatorCalculator;
             bool pitchIsConst = pitchCalculator is Number_OperatorCalculator;
-            bool originIsConst = originCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
-            bool volumeIsConstZero = volumeIsConst && volume == 0;
             bool pitchIsConstZero = pitchIsConst && pitch == 0;
-            bool originIsConstZero = originIsConst && origin == 0;
             bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
-            bool volumeIsConstOne = volumeIsConst && volume == 1; // Not used yet, but could be used for optimization too.
 
-            if (volumeIsConstZero)
-            {
-                calculator = originCalculator;
-            }
-            else if (pitchIsConstZero)
+            if (pitchIsConstZero)
             {
                 // Weird number
-                calculator = originCalculator;
+                calculator = new Zero_OperatorCalculator();
             }
-            else if (originIsConstZero && phaseShiftIsConstZero)
+            else if (phaseShiftIsConstZero)
             {
-                calculator = new Sine_OperatorCalculator(volumeCalculator, pitchCalculator);
-            }
-            else if (originIsConstZero && !phaseShiftIsConstZero)
-            {
-                calculator = new Sine_WithPhaseShift_OperatorCalculator(volumeCalculator, pitchCalculator, phaseShiftCalculator);
-            }
-            else if (!originIsConstZero && phaseShiftIsConstZero)
-            {
-                calculator = new Sine_WithOrigin_OperatorCalculator(volumeCalculator, pitchCalculator, originCalculator);
+                calculator = new Sine_WithoutPhaseShift_OperatorCalculator(pitchCalculator);
             }
             else
             {
-                calculator = new Sine_WithOrigin_AndPhaseShift_OperatorCalculator(volumeCalculator, pitchCalculator, originCalculator, phaseShiftCalculator);
+                calculator = new Sine_WithPhaseShift_OperatorCalculator(pitchCalculator, phaseShiftCalculator);
             }
 
             _stack.Push(calculator);
