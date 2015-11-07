@@ -13,13 +13,14 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Calculation.Curves;
+using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal class InterpretedPatchCalculator : IPatchCalculator
     {
         // The InterpretedPatchCalculator may not have the exact same behavior as the OptimizedPatchCalculator,
-        // because it has not been used lately (2015-07-30) and it has not been maintained very much.
+        // because it is used much less and is not maintained as well.
 
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
@@ -736,26 +737,42 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var wrapper = new OperatorWrapper_Sine(op);
 
+            // Get Pitch
             Outlet pitchOutlet = wrapper.Pitch;
-            Outlet phaseShiftOutlet = wrapper.PhaseShift;
-
             if (pitchOutlet == null)
             {
                 return 0;
             }
-
             double pitch = Calculate(pitchOutlet, time);
 
-            if (phaseShiftOutlet == null)
-            {
-                return Math.Sin(2 * Math.PI * pitch * time);
-            }
-            else
+            // Get Phase Variables
+            string key = GetOutletPathKey();
+            double previousTime = 0;
+            _previousTimeDictionary.TryGetValue(key, out previousTime);
+            double phase = 0;
+            _phaseDictionary.TryGetValue(key, out phase);
+
+            // Change Phase
+            double dt = time - previousTime;
+            phase = phase + Maths.TWO_PI * dt * pitch;
+
+            // Apply Phase Shift
+            double shiftedPhase = phase;
+            Outlet phaseShiftOutlet = wrapper.PhaseShift;
+            if (phaseShiftOutlet != null)
             {
                 double phaseShift = Calculate(phaseShiftOutlet, time);
-                double result = Math.Sin(2 * (Math.PI * phaseShift + Math.PI * pitch * time));
-                return result;
+                shiftedPhase = shiftedPhase + Maths.TWO_PI * phaseShift;
             }
+
+            // Get Result
+            double result = Math.Sin(phase);
+
+            // Store phase variables
+            _phaseDictionary[key] = phase;
+            _previousTimeDictionary[key] = time;
+
+            return result;
         }
 
         private double CalculateSampleOperator(Outlet outlet, double time)
