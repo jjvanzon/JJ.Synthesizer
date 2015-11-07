@@ -164,9 +164,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.TimePower(signal, exponent, origin);
         }
 
-        public OperatorWrapper_TimeSubtract TimeSubtract(Outlet signal = null, Outlet timeDifference = null)
+        public OperatorWrapper_Earlier Earlier(Outlet signal = null, Outlet timeDifference = null)
         {
-            return _patchManager.TimeSubtract(signal, timeDifference);
+            return _patchManager.Earlier(signal, timeDifference);
         }
 
         public OperatorWrapper_TriangleWave TriangleWave(Outlet pitch = null, Outlet phaseShift = null)

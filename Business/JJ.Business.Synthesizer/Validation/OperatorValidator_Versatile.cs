@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.SpeedUp, typeof(OperatorValidator_SpeedUp) },
             { OperatorTypeEnum.SlowDown, typeof(OperatorValidator_SlowDown) },
             { OperatorTypeEnum.TimePower, typeof(OperatorValidator_TimePower) },
-            { OperatorTypeEnum.TimeSubtract, typeof(OperatorValidator_TimeSubtract) },
+            { OperatorTypeEnum.Earlier, typeof(OperatorValidator_Earlier) },
             { OperatorTypeEnum.TriangleWave, typeof(OperatorValidator_TriangleWave) },
             { OperatorTypeEnum.Number, typeof(OperatorValidator_Number) },
             { OperatorTypeEnum.Unbundle, typeof(OperatorValidator_Unbundle) },

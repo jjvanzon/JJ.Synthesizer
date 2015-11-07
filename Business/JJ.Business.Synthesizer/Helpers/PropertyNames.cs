@@ -19,7 +19,7 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string SpeedUp = "SpeedUp";
         public const string SlowDown = "SlowDown";
         public const string TimePower = "TimePower";
-        public const string TimeSubtract = "TimeSubtract";
+        public const string Earlier = "Earlier";
         public const string Number = "Number";
         public const string Sample = "Sample";
 

@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.SpeedUp, CalculateSpeedUp },
                 { OperatorTypeEnum.SlowDown, CalculateSlowDown },
                 { OperatorTypeEnum.TimePower, CalculateTimePower },
-                { OperatorTypeEnum.TimeSubtract, CalculateTimeSubtract },
+                { OperatorTypeEnum.Earlier, CalculateEarlier },
                 { OperatorTypeEnum.TriangleWave, CalculateTriangleWave },
                 { OperatorTypeEnum.Number, CalculateNumberOperator },
                 { OperatorTypeEnum.Unbundle, CalculateUnbundle },
@@ -817,11 +817,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return result;
         }
 
-        private double CalculateTimeSubtract(Outlet outlet, double time)
+        private double CalculateEarlier(Outlet outlet, double time)
         {
             Operator op = outlet.Operator;
 
-            var wrapper = new OperatorWrapper_TimeSubtract(op);
+            var wrapper = new OperatorWrapper_Earlier(op);
 
             Outlet signalOutlet = wrapper.Signal;
             if (signalOutlet == null) return 0;

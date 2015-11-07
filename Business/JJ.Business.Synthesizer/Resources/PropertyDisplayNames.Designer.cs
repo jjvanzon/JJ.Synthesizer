@@ -313,6 +313,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Earlier.
+        /// </summary>
+        public static string Earlier {
+            get {
+                return ResourceManager.GetString("Earlier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Effect.
         /// </summary>
         public static string Effect {
@@ -948,15 +957,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string TimePower {
             get {
                 return ResourceManager.GetString("TimePower", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Time Subtract.
-        /// </summary>
-        public static string TimeSubtract {
-            get {
-                return ResourceManager.GetString("TimeSubtract", resourceCulture);
             }
         }
         

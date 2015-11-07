@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.SlowDown, typeof(OperatorWarningValidator_SlowDown) },
             { OperatorTypeEnum.TriangleWave, typeof(OperatorWarningValidator_TriangleWave) },
             { OperatorTypeEnum.TimePower, typeof(OperatorWarningValidator_TimePower) },
-            { OperatorTypeEnum.TimeSubtract, typeof(OperatorWarningValidator_TimeSubtract) },
+            { OperatorTypeEnum.Earlier, typeof(OperatorWarningValidator_Earlier) },
             { OperatorTypeEnum.Number, typeof(OperatorWarningValidator_Number) }
         };
 

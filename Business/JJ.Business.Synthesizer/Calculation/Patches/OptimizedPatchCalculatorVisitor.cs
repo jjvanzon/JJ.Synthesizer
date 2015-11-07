@@ -928,7 +928,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitTimeSubtract(Operator op)
+        protected override void VisitEarlier(Operator op)
         {
             OperatorCalculatorBase calculator;
 
@@ -958,11 +958,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (timeDifferenceIsConst)
             {
-                calculator = new TimeSubtract_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
+                calculator = new Earlier_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
             }
             else
             {
-                calculator = new TimeSubtract_OperatorCalculator(signalCalculator, timeDifferenceCalculator);
+                calculator = new Earlier_OperatorCalculator(signalCalculator, timeDifferenceCalculator);
             }
 
             _stack.Push(calculator);

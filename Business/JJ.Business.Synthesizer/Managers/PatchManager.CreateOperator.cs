@@ -481,11 +481,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_TimeSubtract TimeSubtract(Outlet signal = null, Outlet timeDifference = null)
+        public OperatorWrapper_Earlier Earlier(Outlet signal = null, Outlet timeDifference = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.TimeSubtract, inletCount: 2, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Earlier, inletCount: 2, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_TimeSubtract(op)
+            var wrapper = new OperatorWrapper_Earlier(op)
             {
                 Signal = signal,
                 TimeDifference = timeDifference

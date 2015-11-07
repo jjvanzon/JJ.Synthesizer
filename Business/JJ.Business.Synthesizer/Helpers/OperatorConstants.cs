@@ -69,9 +69,9 @@
         public const int TIME_POWER_ORIGIN_INDEX = 2;
         public const int TIME_POWER_RESULT_INDEX = 0;
         public const int TIME_POWER_SIGNAL_INDEX = 0;
-        public const int TIME_SUBTRACT_RESULT_INDEX = 0;
-        public const int TIME_SUBTRACT_SIGNAL_INDEX = 0;
-        public const int TIME_SUBTRACT_TIME_DIFFERENCE_INDEX = 1;
+        public const int EARLIER_RESULT_INDEX = 0;
+        public const int EARLIER_SIGNAL_INDEX = 0;
+        public const int EARLIER_TIME_DIFFERENCE_INDEX = 1;
         public const int TRIANGLE_WAVE_PHASE_SHIFT_INDEX = 1;
         public const int TRIANGLE_WAVE_PITCH_INDEX = 0;
         public const int TRIANGLE_WAVE_RESULT_INDEX = 0;

@@ -16,7 +16,7 @@
         SpeedUp = 11,
         SlowDown = 12,
         TimePower = 13,
-        TimeSubtract = 14,
+        Earlier = 14,
         Number = 15,
         Curve = 16,
         Sample = 17,

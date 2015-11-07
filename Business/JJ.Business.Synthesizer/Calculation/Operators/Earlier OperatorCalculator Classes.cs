@@ -3,12 +3,12 @@ using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class TimeSubtract_OperatorCalculator : OperatorCalculatorBase
+    internal class Earlier_OperatorCalculator : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _timeDifferenceCalculator;
 
-        public TimeSubtract_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeDifferenceCalculator)
+        public Earlier_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeDifferenceCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
@@ -29,12 +29,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class TimeSubtract_WithConstTimeDifference_OperatorCalculator : OperatorCalculatorBase
+    internal class Earlier_WithConstTimeDifference_OperatorCalculator : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _signalCalculator;
         private double _timeDifferenceValue;
 
-        public TimeSubtract_WithConstTimeDifference_OperatorCalculator(
+        public Earlier_WithConstTimeDifference_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             double timeDifferenceValue)
         {

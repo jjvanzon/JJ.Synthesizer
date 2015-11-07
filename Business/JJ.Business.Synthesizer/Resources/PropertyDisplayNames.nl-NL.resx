@@ -219,8 +219,8 @@
   <data name="Patch" xml:space="preserve">
     <value>Schakeling</value>
   </data>
-  <data name="TimeSubtract" xml:space="preserve">
-    <value>Tijd aftrekken</value>
+  <data name="Earlier" xml:space="preserve">
+    <value>Eerder</value>
   </data>
   <data name="Data" xml:space="preserve">
     <value>Data</value>

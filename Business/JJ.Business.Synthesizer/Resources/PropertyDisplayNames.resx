@@ -220,8 +220,8 @@
   <data name="Patch" xml:space="preserve">
     <value>Patch</value>
   </data>
-  <data name="TimeSubtract" xml:space="preserve">
-    <value>Time Subtract</value>
+  <data name="Earlier" xml:space="preserve">
+    <value>Earlier</value>
   </data>
   <data name="Data" xml:space="preserve">
     <value>Data</value>
