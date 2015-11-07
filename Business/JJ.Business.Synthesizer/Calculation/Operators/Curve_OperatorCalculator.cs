@@ -1,18 +1,17 @@
 ﻿using JJ.Framework.Reflection.Exceptions;
-using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Calculation.Curves;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Curve_OperatorCalculator : OperatorCalculatorBase
     {
-        private ICurveCalculator _curveCalculator;
+        private OptimizedCurveCalculator _curveCalculator;
 
-        public Curve_OperatorCalculator(Curve curve)
+        public Curve_OperatorCalculator(OptimizedCurveCalculator curveCalculator)
         {
-            if (curve == null) throw new NullException(() => curve);
+            if (curveCalculator == null) throw new NullException(() => curveCalculator);
 
-            _curveCalculator = new OptimizedCurveCalculator(curve);
+            _curveCalculator = curveCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)

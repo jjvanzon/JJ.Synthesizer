@@ -396,7 +396,7 @@ namespace JJ.Business.Synthesizer.Managers
 
         public OperatorWrapper_Sine Sine(Outlet pitch = null, Outlet phaseShift = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Sine, inletCount: 4, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Sine, inletCount: 2, outletCount: 1);
 
             var wrapper = new OperatorWrapper_Sine(op)
             {

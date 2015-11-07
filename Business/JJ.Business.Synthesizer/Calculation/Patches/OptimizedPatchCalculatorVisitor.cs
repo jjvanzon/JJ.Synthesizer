@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using System.Linq;
+using JJ.Business.Synthesizer.Calculation.Curves;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -32,6 +33,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
         private Stack<int> _bundleIndexStack = new Stack<int>();
+
+        /// <summary>
+        /// This dictionary is about reusing the same CurveCalculator in multiple OperatorWrapper_Curve's
+        /// in case they uses the same Curve, more than optimizing things by using a dictionary.
+        /// </summary>
+        private Dictionary<Curve, OptimizedCurveCalculator> _curve_CurveCalculator_Dictionary =
+            new Dictionary<Curve, OptimizedCurveCalculator>();
 
         public IList<OperatorCalculatorBase> Execute(
             IList<Outlet> channelOutlets, 
@@ -138,14 +146,22 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             var wrapper = new OperatorWrapper_Curve(op, _curveRepository);
+            Curve curve = wrapper.Curve;
 
-            if (wrapper.Curve == null)
+            if (curve == null)
             {
                 calculator = new Zero_OperatorCalculator();
             }
             else
             {
-                calculator = new Curve_OperatorCalculator(wrapper.Curve);
+                OptimizedCurveCalculator curveCalculator;
+                if (!_curve_CurveCalculator_Dictionary.TryGetValue(curve, out curveCalculator))
+                {
+                    curveCalculator = new OptimizedCurveCalculator(curve);
+                    _curve_CurveCalculator_Dictionary.Add(curve, curveCalculator);
+                }
+
+                calculator = new Curve_OperatorCalculator(curveCalculator);
             }
 
             _stack.Push(calculator);
