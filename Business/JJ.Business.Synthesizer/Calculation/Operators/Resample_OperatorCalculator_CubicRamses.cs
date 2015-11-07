@@ -4,11 +4,10 @@ using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    /// <summary>
-    /// This is the currently used variation on the Resample_OperatorCalculator.
-    /// </summary>
+    /// <summary> This is the currently used variation on the Resample_OperatorCalculator. </summary>
     internal class Resample_OperatorCalculator_CubicRamses : OperatorCalculatorBase
     {
+        // TODO: This division does not seem to be right....
         private double MINIMUM_SAMPLING_RATE = 1.0 / 8.0; // 8 Hz.
 
         private OperatorCalculatorBase _signalCalculator;

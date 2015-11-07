@@ -129,6 +129,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             Result.Diagram.ScaledY -= marginY;
             Result.Diagram.ScaledHeight += marginY * 2;
 
+            // NOTE: We need to calculate so that the background element's
+            // coordinates are set, on which coordinates 
+            // of all sorts of other elements are based.
+            Result.Diagram.Recalculate();
+
             // Update Misc Elements
             UpdateXAxis();
             UpdateYAxis();

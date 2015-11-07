@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
-using JJ.Framework.Configuration;
 using JJ.Framework.Presentation.VectorGraphics.Enums;
 using JJ.Framework.Presentation.VectorGraphics.EventArg;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.VectorGraphics;
-using JJ.Presentation.Synthesizer.WinForms.Configuration;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Presentation.Synthesizer.VectorGraphics.EventArg;
@@ -82,6 +80,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             _converter.Execute(_viewModel);
+
             diagramControl.Refresh();
         }
 
