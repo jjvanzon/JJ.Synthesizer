@@ -15,9 +15,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double originValue)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_OperatorCalculator.");
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (timeDividerCalculator == null) throw new NullException(() => timeDividerCalculator);
-            if (timeDividerCalculator is Number_OperatorCalculator) throw new Exception("timeDividerCalculator cannot be a Value_OperatorCalculator.");
+            if (timeDividerCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => timeDividerCalculator);
 
             _signalCalculator = signalCalculator;
             _timeDividerCalculator = timeDividerCalculator;
@@ -47,11 +47,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_OperatorCalculator.");
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (timeDividerCalculator == null) throw new NullException(() => timeDividerCalculator);
-            if (timeDividerCalculator is Number_OperatorCalculator) throw new Exception("timeDividerCalculator cannot be a Value_OperatorCalculator.");
+            if (timeDividerCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => timeDividerCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a ValueCalculator.");
+            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
             _signalCalculator = signalCalculator;
             _timeDividerCalculator = timeDividerCalculator;
@@ -82,9 +82,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signal cannot be a ValueCalculator.");
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
+            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
             _signalCalculator = signalCalculator;
             _timeDividerValue = timeDividerValue;
@@ -109,9 +109,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public SpeedUp_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeDividerCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_OperatorCalculator.");
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (timeDividerCalculator == null) throw new NullException(() => timeDividerCalculator);
-            if (timeDividerCalculator is Number_OperatorCalculator) throw new Exception("timeDividerCalculator cannot be a Value_OperatorCalculator.");
+            if (timeDividerCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => timeDividerCalculator);
 
             _signalCalculator = signalCalculator;
             _timeDividerCalculator = timeDividerCalculator;
@@ -136,8 +136,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public SpeedUp_WithoutOrigin_WithConstTimeDivider_OperatorCalculator(OperatorCalculatorBase signalCalculator, double timeDividerValue)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_OperatorCalculator.");
-            if (timeDividerValue == 0) throw new Exception("timeDividerValue cannot be 0.");
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            if (timeDividerValue == 0) throw new ZeroException(() => timeDividerValue);
 
             _signalCalculator = signalCalculator;
             _timeDividerValue = timeDividerValue;

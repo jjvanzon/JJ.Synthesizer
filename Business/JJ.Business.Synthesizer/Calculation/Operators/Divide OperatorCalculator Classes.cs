@@ -76,9 +76,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double originValue)
         {
             if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
-            if (numeratorCalculator is Number_OperatorCalculator) throw new Exception("numeratorCalculator cannot be a Value_OperatorCalculator.");
+            if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
             if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
-            if (denominatorCalculator is Number_OperatorCalculator) throw new Exception("denominatorCalculator cannot be a Value_OperatorCalculator.");
+            if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
 
             _numeratorCalculator = numeratorCalculator;
             _denominatorCalculator = denominatorCalculator;
@@ -111,10 +111,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
         {
             if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
-            if (numeratorCalculator is Number_OperatorCalculator) throw new Exception("numeratorCalculator cannot be a Value_OperatorCalculator.");
-            if (denominatorValue == 0) throw new Exception("denominatorValue cannot be 0.");
+            if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
+            if (denominatorValue == 0) throw new ZeroException(() => denominatorValue);
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
+            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
             _numeratorCalculator = numeratorCalculator;
             _denominatorValue = denominatorValue;
@@ -140,9 +140,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double denominatorValue,
             OperatorCalculatorBase originCalculator)
         {
-            if (denominatorValue == 0) throw new Exception("denominatorValue cannot be 0.");
+            if (denominatorValue == 0) throw new ZeroException(() => denominatorValue);
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
+            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
             _numeratorValue = numeratorValue;
             _denominatorValue = denominatorValue;
@@ -168,9 +168,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
         {
             if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
-            if (denominatorCalculator is Number_OperatorCalculator) throw new Exception("denominatorCalculator cannot be a Value_OperatorCalculator.");
+            if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
+            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
             _numeratorValue = numeratorValue;
             _denominatorCalculator = denominatorCalculator;
@@ -204,11 +204,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
         {
             if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
-            if (numeratorCalculator is Number_OperatorCalculator) throw new Exception("numeratorCalculator cannot be a Value_OperatorCalculator.");
+            if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
             if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
-            if (denominatorCalculator is Number_OperatorCalculator) throw new Exception("denominatorCalculator cannot be a Value_OperatorCalculator.");
+            if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
+            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
             _numeratorCalculator = numeratorCalculator;
             _denominatorCalculator = denominatorCalculator;
@@ -239,9 +239,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Divide_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase numeratorCalculator, OperatorCalculatorBase denominatorCalculator)
         {
             if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
-            if (numeratorCalculator is Number_OperatorCalculator) throw new Exception("numeratorCalculator cannot be a Value_OperatorCalculator.");
+            if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
             if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
-            if (denominatorCalculator is Number_OperatorCalculator) throw new Exception("denominatorCalculator cannot be a Value_OperatorCalculator.");
+            if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
 
             _numeratorCalculator = numeratorCalculator;
             _denominatorCalculator = denominatorCalculator;
@@ -269,8 +269,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator(OperatorCalculatorBase numeratorCalculator, double denominatorValue)
         {
             if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
-            if (numeratorCalculator is Number_OperatorCalculator) throw new Exception("numeratorCalculator cannot be a Value_OperatorCalculator.");
-            if (denominatorValue == 0) throw new Exception("denominatorValue cannot be 0.");
+            if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
+            if (denominatorValue == 0) throw new ZeroException(() => denominatorValue);
 
             _numeratorCalculator = numeratorCalculator;
             _denominatorValue = denominatorValue;
@@ -291,7 +291,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator(double numeratorValue, OperatorCalculatorBase denominatorCalculator)
         {
             if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
-            if (denominatorCalculator is Number_OperatorCalculator) throw new Exception("denominatorCalculator cannot be a Value_OperatorCalculator.");
+            if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
 
             _numeratorValue = numeratorValue;
             _denominatorCalculator = denominatorCalculator;

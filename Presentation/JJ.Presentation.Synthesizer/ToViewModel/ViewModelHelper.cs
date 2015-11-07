@@ -85,6 +85,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 viewModel.OperatorType = null; // Should never happen.
             }
+
+            // TODO: Use this code again when you finish the numbers operators' moving along with their owner.
+            //if (entity.Outlets.Count > 0)
+            //{
+            //    viewModel.IsOwned = entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number &&
+            //                        entity.Outlets[0].ConnectedInlets.Count == 1;
+
+            //    if (viewModel.IsOwned)
+            //    {
+            //        int i = 0;
+            //    }
+            //}
         }
 
         /// <summary>

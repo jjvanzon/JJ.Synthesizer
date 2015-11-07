@@ -11,9 +11,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public TimeSubstract_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeDifferenceCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signalCalculator cannot be a ValueCalculator.");
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (timeDifferenceCalculator == null) throw new NullException(() => timeDifferenceCalculator);
-            if (timeDifferenceCalculator is Number_OperatorCalculator) throw new Exception("timeDifferenceCalculator cannot be a ValueCalculator.");
+            if (timeDifferenceCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => timeDifferenceCalculator);
 
             _signalCalculator = signalCalculator;
             _timeDifferenceCalculator = timeDifferenceCalculator;
@@ -39,7 +39,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double timeDifferenceValue)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signalCalculator cannot be a ValueCalculator.");
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
 
             _signalCalculator = signalCalculator;
             _timeDifferenceValue = timeDifferenceValue;

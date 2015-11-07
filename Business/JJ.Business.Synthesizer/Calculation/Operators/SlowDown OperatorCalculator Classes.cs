@@ -15,9 +15,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double originValue)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_OperatorCalculator.");
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (timeMultiplierCalculator == null) throw new NullException(() => timeMultiplierCalculator);
-            if (timeMultiplierCalculator is Number_OperatorCalculator) throw new Exception("timeMultiplierCalculator cannot be a Value_OperatorCalculator.");
+            if (timeMultiplierCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => timeMultiplierCalculator);
 
             _signalCalculator = signalCalculator;
             _timeMultiplierCalculator = timeMultiplierCalculator;
@@ -52,11 +52,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public SlowDown_WithOrigin_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeMultiplierCalculator, OperatorCalculatorBase originOutletCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signalCalculator cannot be a Value_OperatorCalculator.");
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (timeMultiplierCalculator == null) throw new NullException(() => timeMultiplierCalculator);
-            if (timeMultiplierCalculator is Number_OperatorCalculator) throw new Exception("timeMultiplierCalculator cannot be a Value_OperatorCalculator.");
+            if (timeMultiplierCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => timeMultiplierCalculator);
             if (originOutletCalculator == null) throw new NullException(() => originOutletCalculator);
-            if (originOutletCalculator is Number_OperatorCalculator) throw new Exception("originOutletCalculator cannot be a ValueCalculator.");
+            if (originOutletCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originOutletCalculator);
 
             _signalCalculator = signalCalculator;
             _timeMultiplierCalculator = timeMultiplierCalculator;
@@ -94,10 +94,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signal cannot be a ValueCalculator.");
-            if (timeMultiplierValue == 0) throw new Exception("timeMultiplierValue cannot be 0.");
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            if (timeMultiplierValue == 0) throw new ZeroException(() => timeMultiplierValue);
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a ValueCalculator.");
+            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
             _signalCalculator = signalCalculator;
             _timeMultiplierValue = timeMultiplierValue;
@@ -122,9 +122,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public SlowDown_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeMultiplierCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signalCalculator cannot be a ValueCalculator.");
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (timeMultiplierCalculator == null) throw new NullException(() => timeMultiplierCalculator);
-            if (timeMultiplierCalculator is Number_OperatorCalculator) throw new Exception("timeMultiplierCalculator cannot be a ValueCalculator.");
+            if (timeMultiplierCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => timeMultiplierCalculator);
 
             _signalCalculator = signalCalculator;
             _timeMultiplierCalculator = timeMultiplierCalculator;
@@ -158,8 +158,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double timeMultiplierValue)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            if (signalCalculator is Number_OperatorCalculator) throw new Exception("signalCalculator cannot be a ValueCalculator.");
-            if (timeMultiplierValue == 0) throw new Exception("timeMultiplierValue cannot be 0.");
+            if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
+            if (timeMultiplierValue == 0) throw new ZeroException(() => timeMultiplierValue);
 
             _signalCalculator = signalCalculator;
             _timeMultiplierValue = timeMultiplierValue;

@@ -15,11 +15,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            //if (signalCalculator is Value_Calculator) throw new Exception("signalCalculator cannot be a ValueCalculator.");
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
-            //if (exponentCalculator is Value_Calculator) throw new Exception("exponentCalculator cannot be a ValueCalculator.");
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            //if (originCalculator is Value_Calculator) throw new Exception("originCalculator cannot be a ValueCalculator.");
 
             _signalCalculator = signalCalculator;
             _exponentCalculator = exponentCalculator;
@@ -59,9 +56,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public TimePower_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase exponentCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
-            //if (signalCalculator is Value_Calculator) throw new Exception("signalCalculator cannot be a ValueCalculator.");
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
-            //if (exponentCalculator is Value_Calculator) throw new Exception("exponentCalculator cannot be a ValueCalculator.");
 
             _signalCalculator = signalCalculator;
             _exponentCalculator = exponentCalculator;

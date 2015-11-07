@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
@@ -8,8 +9,6 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Converters;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
-using System;
-using JJ.Framework.Configuration;
 using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
@@ -225,6 +224,22 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                     {
                         destCurve.PointB = operatorVectorGraphicsElements2.OutletPoints[outletIndex.Value];
                         destCurve.ControlPointB = operatorVectorGraphicsElements2.OutletControlPoints[outletIndex.Value];
+
+                        // TODO: This does not work yet, because the delete operations in this class
+                        // will delete the 'demoted' elements...
+
+                        //// A Number Operator can be considered 'owned' by another operator if
+                        //// it is the only operator it is connected to.
+                        //// In that case it is convenient that the Number Operator moves along
+                        //// with the operator it is connected to.
+                        //// We accomplish this by making the Number Operator Rectangle a child
+                        //// of the owning Operator's Rectangle.
+
+                        //bool operator2IsOwned = inletViewModel.InputOutlet.Operator.IsOwned;
+                        //if (operator2IsOwned)
+                        //{
+                        //    //operatorVectorGraphicsElements2.OperatorRectangle.Parent = operatorVectorGraphicsElements1.OperatorRectangle;
+                        //}
                     }
                 }
             }

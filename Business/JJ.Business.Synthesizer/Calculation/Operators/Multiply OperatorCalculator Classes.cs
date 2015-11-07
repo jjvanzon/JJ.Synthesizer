@@ -1,5 +1,5 @@
-﻿using JJ.Framework.Reflection.Exceptions;
-using System;
+﻿using System;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double originValue)
         {
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Number_OperatorCalculator) throw new Exception("operandBCalculator cannot be a Value_OperatorCalculator.");
+            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
 
             _operandAValue = operandAValue;
             _operandBCalculator = operandBCalculator;
@@ -41,7 +41,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double originValue)
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Number_OperatorCalculator) throw new Exception("operandACalculator cannot be a Value_OperatorCalculator.");
+            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
 
             _operandACalculator = operandACalculator;
             _operandBValue = operandBValue;
@@ -67,9 +67,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double originValue)
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Number_OperatorCalculator) throw new Exception("operandACalculator cannot be a Value_OperatorCalculator.");
+            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Number_OperatorCalculator) throw new Exception("operandBCalculator cannot be a Value_OperatorCalculator.");
+            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
 
             _operandACalculator = operandACalculator;
             _operandBCalculator = operandBCalculator;
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
         {
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
+            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
             _operandAValue = operandAValue;
             _operandBValue = operandBValue;
@@ -122,9 +122,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
         {
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Number_OperatorCalculator) throw new Exception("operandBCalculator cannot be a Value_OperatorCalculator.");
+            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
+            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
             _operandAValue = operandAValue;
             _operandBCalculator = operandBCalculator;
@@ -151,9 +151,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Number_OperatorCalculator) throw new Exception("operandACalculator cannot be a Value_OperatorCalculator.");
+            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
+            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
             _operandACalculator = operandACalculator;
             _operandBValue = operandBValue;
@@ -180,11 +180,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase originCalculator)
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Number_OperatorCalculator) throw new Exception("operandACalculator cannot be a Value_OperatorCalculator.");
+            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Number_OperatorCalculator) throw new Exception("operandBCalculator cannot be a Value_OperatorCalculator.");
+            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
             if (originCalculator == null) throw new NullException(() => originCalculator);
-            if (originCalculator is Number_OperatorCalculator) throw new Exception("originCalculator cannot be a Value_OperatorCalculator.");
+            if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
 
             _operandACalculator = operandACalculator;
             _operandBCalculator = operandBCalculator;
@@ -208,9 +208,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Multiply_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase operandACalculator, OperatorCalculatorBase operandBCalculator)
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Number_OperatorCalculator) throw new Exception("operandACalculator cannot be a Value_OperatorCalculator.");
+            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Number_OperatorCalculator) throw new Exception("operandBCalculator cannot be a Value_OperatorCalculator.");
+            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
 
             _operandACalculator = operandACalculator;
             _operandBCalculator = operandBCalculator;
@@ -232,7 +232,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Multiply_WithoutOrigin_WithConstOperandA_OperatorCalculator(double operandValue, OperatorCalculatorBase operandBCalculator)
         {
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
-            if (operandBCalculator is Number_OperatorCalculator) throw new Exception("operandBCalculator cannot be a Value_OperatorCalculator.");
+            if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
 
             _operandAValue = operandValue;
             _operandBCalculator = operandBCalculator;
@@ -253,7 +253,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Multiply_WithoutOrigin_WithConstOperandB_OperatorCalculator(OperatorCalculatorBase operandACalculator, double operandBValue)
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
-            if (operandACalculator is Number_OperatorCalculator) throw new Exception("operandACalculator cannot be a Value_OperatorCalculator.");
+            if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
 
             _operandACalculator = operandACalculator;
             _operandBValue = operandBValue;
