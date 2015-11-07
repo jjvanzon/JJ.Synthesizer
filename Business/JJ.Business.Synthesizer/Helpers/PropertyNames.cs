@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Helpers
         //public const string Base = "Base";
         //public const string Exponent = "Exponent";
         //public const string Volume = "Volume";
-        //public const string Pitch = "Pitch";
+        //public const string Frequency = "Frequency";
         //public const string PhaseShift = "PhaseShift";
         //public const string Signal = "Signal";
         //public const string TimeDifference = "TimeDifference";

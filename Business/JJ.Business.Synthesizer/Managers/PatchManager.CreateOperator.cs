@@ -338,13 +338,13 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_SawTooth SawTooth(Outlet pitch = null, Outlet phaseShift = null)
+        public OperatorWrapper_SawTooth SawTooth(Outlet frequency = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.SawTooth, inletCount: 2, outletCount: 1);
 
             var wrapper = new OperatorWrapper_SawTooth(op)
             {
-                Pitch = pitch,
+                Frequency = frequency,
                 PhaseShift = phaseShift
             };
 
@@ -394,13 +394,13 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Sine Sine(Outlet pitch = null, Outlet phaseShift = null)
+        public OperatorWrapper_Sine Sine(Outlet frequency = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Sine, inletCount: 2, outletCount: 1);
 
             var wrapper = new OperatorWrapper_Sine(op)
             {
-                Pitch = pitch,
+                Frequency = frequency,
                 PhaseShift = phaseShift
             };
 
@@ -452,13 +452,13 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_SquareWave SquareWave(Outlet pitch = null, Outlet phaseShift = null)
+        public OperatorWrapper_SquareWave SquareWave(Outlet frequency = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.SquareWave, inletCount: 2, outletCount: 1);
 
             var wrapper = new OperatorWrapper_SquareWave(op)
             {
-                Pitch = pitch,
+                Frequency = frequency,
                 PhaseShift = phaseShift
             };
 
@@ -495,13 +495,13 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_TriangleWave TriangleWave(Outlet pitch = null, Outlet phaseShift = null)
+        public OperatorWrapper_TriangleWave TriangleWave(Outlet frequency = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.TriangleWave, inletCount: 2, outletCount: 1);
 
             var wrapper = new OperatorWrapper_TriangleWave(op)
             {
-                Pitch = pitch,
+                Frequency = frequency,
                 PhaseShift = phaseShift
             };
 

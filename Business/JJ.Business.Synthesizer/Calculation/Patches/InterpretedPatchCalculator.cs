@@ -633,14 +633,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             var wrapper = new OperatorWrapper_SawTooth(op);
 
             Outlet phaseShiftOutlet = wrapper.PhaseShift;
-            Outlet pitchOutlet = wrapper.Pitch;
+            Outlet frequencyOutlet = wrapper.Frequency;
 
-            double pitch = 0;
+            double frequency = 0;
             double phaseShift = 0;
 
-            if (pitchOutlet != null)
+            if (frequencyOutlet != null)
             {
-                pitch = Calculate(pitchOutlet, time);
+                frequency = Calculate(frequencyOutlet, time);
             }
 
             if (phaseShiftOutlet != null)
@@ -657,7 +657,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             // Calculate new phase
             double dt = time - previousTime;
-            phase = phase + dt * pitch;
+            phase = phase + dt * frequency;
 
             // Calculate value
             double shiftedPhase = phase + phaseShift;
@@ -689,14 +689,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             var wrapper = new OperatorWrapper_SquareWave(op);
 
             Outlet phaseShiftOutlet = wrapper.PhaseShift;
-            Outlet pitchOutlet = wrapper.Pitch;
+            Outlet frequencyOutlet = wrapper.Frequency;
 
-            double pitch = 0;
+            double frequency = 0;
             double phaseShift = 0;
 
-            if (pitchOutlet != null)
+            if (frequencyOutlet != null)
             {
-                pitch = Calculate(pitchOutlet, time);
+                frequency = Calculate(frequencyOutlet, time);
             }
 
             if (phaseShiftOutlet != null)
@@ -713,7 +713,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             // Calculate new phase
             double dt = time - previousTime;
-            phase = phase + dt * pitch;
+            phase = phase + dt * frequency;
 
             // Calculate value
             double value;
@@ -741,13 +741,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var wrapper = new OperatorWrapper_Sine(op);
 
-            // Get Pitch
-            Outlet pitchOutlet = wrapper.Pitch;
-            if (pitchOutlet == null)
+            // Get Frequency
+            Outlet frequencyOutlet = wrapper.Frequency;
+            if (frequencyOutlet == null)
             {
                 return 0;
             }
-            double pitch = Calculate(pitchOutlet, time);
+            double frequency = Calculate(frequencyOutlet, time);
 
             // Get Phase Variables
             string key = GetOutletPathKey();
@@ -758,7 +758,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             // Change Phase
             double dt = time - previousTime;
-            phase = phase + Maths.TWO_PI * dt * pitch;
+            phase = phase + Maths.TWO_PI * dt * frequency;
 
             // Apply Phase Shift
             double shiftedPhase = phase;
@@ -905,14 +905,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             var wrapper = new OperatorWrapper_TriangleWave(op);
 
             Outlet phaseShiftOutlet = wrapper.PhaseShift;
-            Outlet pitchOutlet = wrapper.Pitch;
+            Outlet frequencyOutlet = wrapper.Frequency;
 
-            double pitch = 0;
+            double frequency = 0;
             double phaseShift = 0;
 
-            if (pitchOutlet != null)
+            if (frequencyOutlet != null)
             {
-                pitch = Calculate(pitchOutlet, time);
+                frequency = Calculate(frequencyOutlet, time);
             }
 
             if (phaseShiftOutlet != null)
@@ -929,7 +929,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             // Calculate new phase
             double dt = time - previousTime;
-            phase = phase + dt * pitch;
+            phase = phase + dt * frequency;
 
             // Calculate value
             double shiftedPhase = phase + phaseShift;

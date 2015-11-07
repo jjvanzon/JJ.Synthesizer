@@ -13,15 +13,11 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Framework.Validation;
-using JJ.Presentation.Synthesizer.Validators;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class ToneGridEditPresenter
     {
-        private const double DEFAULT_VOLUME = 6000;
         private const double DEFAULT_DURATION = 0.75;
 
         private static string _playOutputFilePath = GetPlayOutputFilePath();
@@ -114,7 +110,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             double frequency = tone.GetFrequency();
 
             var p = new PatchApi();
-            var sine = p.Sine(p.Number(DEFAULT_VOLUME), p.Number(frequency));
+            var sine = p.Sine(p.Number(frequency));
 
             AudioFileOutput audioFileOutput = AudioFileOutputApi.CreateWithRelatedEntities();
             audioFileOutput.FilePath = _playOutputFilePath;

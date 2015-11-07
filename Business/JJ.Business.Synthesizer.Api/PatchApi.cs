@@ -119,9 +119,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Resample(signal, samplingRate);
         }
 
-        public OperatorWrapper_SawTooth SawTooth(Outlet pitch = null, Outlet phaseShift = null)
+        public OperatorWrapper_SawTooth SawTooth(Outlet frequency = null, Outlet phaseShift = null)
         {
-            return _patchManager.SawTooth(pitch, phaseShift);
+            return _patchManager.SawTooth(frequency, phaseShift);
         }
 
         public OperatorWrapper_Sample Sample(Sample sample = null)
@@ -134,9 +134,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Select(signal, time);
         }
 
-        public OperatorWrapper_Sine Sine(Outlet pitch = null, Outlet phaseShift = null)
+        public OperatorWrapper_Sine Sine(Outlet frequency = null, Outlet phaseShift = null)
         {
-            return _patchManager.Sine(pitch, phaseShift);
+            return _patchManager.Sine(frequency, phaseShift);
         }
 
         public OperatorWrapper_Subtract Subtract(Outlet operandA = null, Outlet operandB = null)
@@ -154,9 +154,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.SlowDown(signal, timeMultiplier, origin);
         }
 
-        public OperatorWrapper_SquareWave SquareWave(Outlet pitch = null, Outlet phaseShift = null)
+        public OperatorWrapper_SquareWave SquareWave(Outlet frequency = null, Outlet phaseShift = null)
         {
-            return _patchManager.SquareWave(pitch, phaseShift);
+            return _patchManager.SquareWave(frequency, phaseShift);
         }
 
         public OperatorWrapper_TimePower TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
@@ -169,9 +169,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Earlier(signal, timeDifference);
         }
 
-        public OperatorWrapper_TriangleWave TriangleWave(Outlet pitch = null, Outlet phaseShift = null)
+        public OperatorWrapper_TriangleWave TriangleWave(Outlet frequency = null, Outlet phaseShift = null)
         {
-            return _patchManager.TriangleWave(pitch, phaseShift);
+            return _patchManager.TriangleWave(frequency, phaseShift);
         }
 
         public OperatorWrapper_WhiteNoise WhiteNoise()

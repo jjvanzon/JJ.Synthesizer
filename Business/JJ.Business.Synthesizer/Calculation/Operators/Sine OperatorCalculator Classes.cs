@@ -6,24 +6,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Sine_WithoutPhaseShift_OperatorCalculator : OperatorCalculatorBase
     {
-        private OperatorCalculatorBase _pitchCalculator;
+        private OperatorCalculatorBase _frequencyCalculator;
 
         private double _phase;
         private double _previousTime;
 
-        public Sine_WithoutPhaseShift_OperatorCalculator(OperatorCalculatorBase pitchCalculator)
+        public Sine_WithoutPhaseShift_OperatorCalculator(OperatorCalculatorBase frequencyCalculator)
         {
-            if (pitchCalculator == null) throw new NullException(() => pitchCalculator);
+            if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
 
-            _pitchCalculator = pitchCalculator;
+            _frequencyCalculator = frequencyCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double pitch = _pitchCalculator.Calculate(time, channelIndex);
+            double frequency = _frequencyCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            _phase = _phase + Maths.TWO_PI * dt * pitch;
+            _phase = _phase + Maths.TWO_PI * dt * frequency;
 
             double value = Math.Sin(_phase);
 
@@ -35,30 +35,30 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Sine_WithPhaseShift_OperatorCalculator : OperatorCalculatorBase
     {
-        private OperatorCalculatorBase _pitchCalculator;
+        private OperatorCalculatorBase _frequencyCalculator;
         private OperatorCalculatorBase _phaseShiftCalculator;
 
         private double _phase;
         private double _previousTime;
 
         public Sine_WithPhaseShift_OperatorCalculator(
-            OperatorCalculatorBase pitchCalculator,
+            OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase phaseShiftCalculator)
         {
-            if (pitchCalculator == null) throw new NullException(() => pitchCalculator);
+            if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (phaseShiftCalculator == null) throw new NullException(() => phaseShiftCalculator);
 
-            _pitchCalculator = pitchCalculator;
+            _frequencyCalculator = frequencyCalculator;
             _phaseShiftCalculator = phaseShiftCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double pitch = _pitchCalculator.Calculate(time, channelIndex);
+            double frequency = _frequencyCalculator.Calculate(time, channelIndex);
             double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            _phase = _phase + Maths.TWO_PI * dt * pitch;
+            _phase = _phase + Maths.TWO_PI * dt * frequency;
 
             double result = Math.Sin(_phase + Maths.TWO_PI * phaseShift);
 

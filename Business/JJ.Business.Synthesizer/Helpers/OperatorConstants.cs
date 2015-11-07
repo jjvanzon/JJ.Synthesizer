@@ -43,12 +43,12 @@
         public const int RESAMPLE_SIGNAL_INDEX = 0;
         public const int SAMPLE_OPERATOR_RESULT_INDEX = 0;
         public const int SAW_TOOTH_PHASE_SHIFT_INDEX = 1;
-        public const int SAW_TOOTH_PITCH_INDEX = 0;
+        public const int SAW_TOOTH_FREQUENCY_INDEX = 0;
         public const int SAW_TOOTH_RESULT_INDEX = 0;
         public const int SELECT_RESULT_INDEX = 0;
         public const int SELECT_SIGNAL_INDEX = 0;
         public const int SELECT_TIME_INDEX = 1;
-        public const int SINE_PITCH_INDEX = 0;
+        public const int SINE_FREQUENCY_INDEX = 0;
         public const int SINE_PHASE_SHIFT_INDEX = 1;
         public const int SINE_RESULT_INDEX = 0;
         public const int SLOW_DOWN_ORIGIN_INDEX = 2;
@@ -60,7 +60,7 @@
         public const int SPEED_UP_SIGNAL_INDEX = 0;
         public const int SPEED_UP_TIME_DIVIDER_INDEX = 1;
         public const int SQUARE_WAVE_PHASE_SHIFT_INDEX = 1;
-        public const int SQUARE_WAVE_PITCH_INDEX = 0;
+        public const int SQUARE_WAVE_FREQUENCY_INDEX = 0;
         public const int SQUARE_WAVE_RESULT_INDEX = 0;
         public const int SUBTRACT_OPERAND_A_INDEX = 0;
         public const int SUBTRACT_OPERAND_B_INDEX = 1;
@@ -73,7 +73,7 @@
         public const int EARLIER_SIGNAL_INDEX = 0;
         public const int EARLIER_TIME_DIFFERENCE_INDEX = 1;
         public const int TRIANGLE_WAVE_PHASE_SHIFT_INDEX = 1;
-        public const int TRIANGLE_WAVE_PITCH_INDEX = 0;
+        public const int TRIANGLE_WAVE_FREQUENCY_INDEX = 0;
         public const int TRIANGLE_WAVE_RESULT_INDEX = 0;
         public const int UNBUNDLE_OPERAND_INDEX = 0;
         public const int WHITE_NOISE_RESULT_INDEX = 0;

@@ -164,13 +164,13 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
 
-                OperatorWrapper_Sine sine = x.Sine(x.Curve(curve), x.Number(440));
+                var outlet = x.Multiply(x.Curve(curve), x.Sine(x.Number(440)));
 
                 CultureHelper.SetThreadCulture("nl-NL");
                 IValidator[] validators = 
                 {
-                    new OperatorValidator_Versatile(sine.Operator, repositories.DocumentRepository),
-                    new OperatorWarningValidator_Versatile(sine.Operator)
+                    new OperatorValidator_Versatile(outlet.Operator, repositories.DocumentRepository),
+                    new OperatorWarningValidator_Versatile(outlet.Operator)
                 };
                 validators.ForEach(y => y.Verify());
 
@@ -183,7 +183,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager patchManager = new PatchManager(new PatchRepositories(repositories));
 
-                var calculator = patchManager.CreateInterpretedCalculator(sine);
+                var calculator = patchManager.CreateInterpretedCalculator(outlet);
                 var values = new double[]
                 {
                     calculator.Calculate(0.00, 0),
@@ -783,11 +783,11 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
 
-                double volume = 30000;
-                double pitch = 1.0;
+                double volume = 1;
+                double frequency = 1.0;
                 //double phase = 0.128;
                 double phase = 0;
-                Outlet sine = x.Multiply(x.Number(volume), x.Sine(x.Number(pitch), x.Number(phase)));
+                Outlet sine = x.Multiply(x.Number(volume), x.Sine(x.Number(frequency), x.Number(phase)));
 
                 double newSamplingRate = 4;
                 Outlet resampled = x.Resample(sine, x.Number(newSamplingRate));

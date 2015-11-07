@@ -10,10 +10,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        public Outlet Pitch
+        public Outlet Frequency
         {
-            get { return GetInlet(OperatorConstants.TRIANGLE_WAVE_PITCH_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.TRIANGLE_WAVE_PITCH_INDEX).LinkTo(value); }
+            get { return GetInlet(OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX).LinkTo(value); }
         }
 
         public Outlet PhaseShift

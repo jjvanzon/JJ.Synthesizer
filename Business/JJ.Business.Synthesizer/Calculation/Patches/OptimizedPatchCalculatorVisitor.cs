@@ -614,38 +614,38 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase pitchCalculator = _stack.Pop();
+            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
             OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
-            pitchCalculator = pitchCalculator ?? new Zero_OperatorCalculator();
+            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
             phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
-            double pitch = pitchCalculator.Calculate(0, 0);
+            double frequency = frequencyCalculator.Calculate(0, 0);
             double phaseShift = phaseShiftCalculator.Calculate(0, 0);
-            bool pitchIsConst = pitchCalculator is Number_OperatorCalculator;
+            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
-            bool pitchIsConstZero = pitchIsConst && pitch == 0;
+            bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
             bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
 
-            if (pitchIsConstZero)
+            if (frequencyIsConstZero)
             {
                 // Weird number
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (pitchIsConst && phaseShiftIsConst)
+            else if (frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new SawTooth_WithConstPitch_WithConstPhaseShift_OperatorCalculator(pitch, phaseShift);
+                calculator = new SawTooth_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift);
             }
-            else if (!pitchIsConst && phaseShiftIsConst)
+            else if (!frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new SawTooth_WithVarPitch_WithConstPhaseShift_OperatorCalculator(pitchCalculator, phaseShift);
+                calculator = new SawTooth_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift);
             }
-            else if (pitchIsConst && !phaseShiftIsConst)
+            else if (frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new SawTooth_WithConstPitch_WithVarPhaseShift_OperatorCalculator(pitch, phaseShiftCalculator);
+                calculator = new SawTooth_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator);
             }
             else
             {
-                calculator = new SawTooth_WithVarPitch_WithVarPhaseShift_OperatorCalculator(pitchCalculator, phaseShiftCalculator);
+                calculator = new SawTooth_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
             }
 
             _stack.Push(calculator);
@@ -686,30 +686,30 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase pitchCalculator = _stack.Pop();
+            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
             OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
-            pitchCalculator = pitchCalculator ?? new Zero_OperatorCalculator();
+            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
             phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
-            double pitch = pitchCalculator.Calculate(0, 0);
+            double frequency = frequencyCalculator.Calculate(0, 0);
             double phaseShift = phaseShiftCalculator.Calculate(0, 0);
-            bool pitchIsConst = pitchCalculator is Number_OperatorCalculator;
+            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
-            bool pitchIsConstZero = pitchIsConst && pitch == 0;
+            bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
             bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
 
-            if (pitchIsConstZero)
+            if (frequencyIsConstZero)
             {
                 // Weird number
                 calculator = new Zero_OperatorCalculator();
             }
             else if (phaseShiftIsConstZero)
             {
-                calculator = new Sine_WithoutPhaseShift_OperatorCalculator(pitchCalculator);
+                calculator = new Sine_WithoutPhaseShift_OperatorCalculator(frequencyCalculator);
             }
             else
             {
-                calculator = new Sine_WithPhaseShift_OperatorCalculator(pitchCalculator, phaseShiftCalculator);
+                calculator = new Sine_WithPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
             }
 
             _stack.Push(calculator);
@@ -846,38 +846,38 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase pitchCalculator = _stack.Pop();
+            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
             OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
-            pitchCalculator = pitchCalculator ?? new Zero_OperatorCalculator();
+            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
             phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
-            double pitch = pitchCalculator.Calculate(0, 0);
+            double frequency = frequencyCalculator.Calculate(0, 0);
             double phaseShift = phaseShiftCalculator.Calculate(0, 0);
-            bool pitchIsConst = pitchCalculator is Number_OperatorCalculator;
+            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
-            bool pitchIsConstZero = pitchIsConst && pitch == 0;
+            bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
             bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
 
-            if (pitchIsConstZero)
+            if (frequencyIsConstZero)
             {
                 // Weird number
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (pitchIsConst && phaseShiftIsConst)
+            else if (frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new SquareWave_WithConstPitch_WithConstPhaseShift_OperatorCalculator(pitch, phaseShift);
+                calculator = new SquareWave_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift);
             }
-            else if (!pitchIsConst && phaseShiftIsConst)
+            else if (!frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new SquareWave_WithVarPitch_WithConstPhaseShift_OperatorCalculator(pitchCalculator, phaseShift);
+                calculator = new SquareWave_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift);
             }
-            else if (pitchIsConst && !phaseShiftIsConst)
+            else if (frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new SquareWave_WithConstPitch_WithVarPhaseShift_OperatorCalculator(pitch, phaseShiftCalculator);
+                calculator = new SquareWave_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator);
             }
             else
             {
-                calculator = new SquareWave_WithVarPitch_WithVarPhaseShift_OperatorCalculator(pitchCalculator, phaseShiftCalculator);
+                calculator = new SquareWave_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
             }
 
             _stack.Push(calculator);
@@ -1026,37 +1026,37 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
-            OperatorCalculatorBase pitchCalculator = _stack.Pop();
+            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
             OperatorCalculatorBase phaseShiftCalculator = _stack.Pop();
 
-            pitchCalculator = pitchCalculator ?? new Zero_OperatorCalculator();
+            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
             phaseShiftCalculator = phaseShiftCalculator ?? new Zero_OperatorCalculator();
-            double pitch = pitchCalculator.Calculate(0, 0);
+            double frequency = frequencyCalculator.Calculate(0, 0);
             double phaseShift = phaseShiftCalculator.Calculate(0, 0);
-            bool pitchIsConst = pitchCalculator is Number_OperatorCalculator;
+            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
-            bool pitchIsConstZero = pitchIsConst && pitch == 0;
+            bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
 
-            if (pitchIsConstZero)
+            if (frequencyIsConstZero)
             {
                 // Weird number
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (pitchIsConst && phaseShiftIsConst)
+            else if (frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new TriangleWave_WithConstPitch_WithConstPhaseShift_OperatorCalculator(pitch, phaseShift);
+                calculator = new TriangleWave_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift);
             }
-            else if (!pitchIsConst && phaseShiftIsConst)
+            else if (!frequencyIsConst && phaseShiftIsConst)
             {
-                calculator = new TriangleWave_WithVarPitch_WithConstPhaseShift_OperatorCalculator(pitchCalculator, phaseShift);
+                calculator = new TriangleWave_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift);
             }
-            else if (pitchIsConst && !phaseShiftIsConst)
+            else if (frequencyIsConst && !phaseShiftIsConst)
             {
-                calculator = new TriangleWave_WithConstPitch_WithVarPhaseShift_OperatorCalculator(pitch, phaseShiftCalculator);
+                calculator = new TriangleWave_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator);
             }
             else
             {
-                calculator = new TriangleWave_WithVarPitch_WithVarPhaseShift_OperatorCalculator(pitchCalculator, phaseShiftCalculator);
+                calculator = new TriangleWave_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
             }
 
             _stack.Push(calculator);
