@@ -22,7 +22,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             double timeDifference = _timeDifferenceCalculator.Calculate(time, channelIndex);
-            // IMPORTANT: To add time to the output, you have substract time from the input.
+            // IMPORTANT: To add time to the output, you have subtract time from the input.
             double transformedTime = time - timeDifference;
             double result = _signalCalculator.Calculate(transformedTime, channelIndex);
             return result;
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(double time, int channelIndex)
         {
-            // IMPORTANT: To add time to the output, you have substract time from the input.
+            // IMPORTANT: To add time to the output, you have subtract time from the input.
             double transformedTime = time - _timeDifferenceValue;
             double result = _signalCalculator.Calculate(transformedTime, channelIndex);
             return result;

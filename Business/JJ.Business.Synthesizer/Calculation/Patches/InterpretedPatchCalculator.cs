@@ -105,12 +105,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Select, CalculateSelect },
                 { OperatorTypeEnum.Sine, CalculateSine },
                 { OperatorTypeEnum.SquareWave, CalculateSquareWave },
-                { OperatorTypeEnum.Substract, CalculateSubstract },
+                { OperatorTypeEnum.Subtract, CalculateSubtract },
                 { OperatorTypeEnum.Delay, CalculateDelay },
                 { OperatorTypeEnum.SpeedUp, CalculateSpeedUp },
                 { OperatorTypeEnum.SlowDown, CalculateSlowDown },
                 { OperatorTypeEnum.TimePower, CalculateTimePower },
-                { OperatorTypeEnum.TimeSubstract, CalculateTimeSubstract },
+                { OperatorTypeEnum.TimeSubtract, CalculateTimeSubtract },
                 { OperatorTypeEnum.TriangleWave, CalculateTriangleWave },
                 { OperatorTypeEnum.Number, CalculateNumberOperator },
                 { OperatorTypeEnum.Unbundle, CalculateUnbundle },
@@ -269,7 +269,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 return result;
             }
 
-            // IMPORTANT: To add time to the output, you have substract time from the input.
+            // IMPORTANT: To add time to the output, you have subtract time from the input.
             double timeDifference = Calculate(timeDifferenceOutlet, time);
             double transformedTime = time - timeDifference;
             double result2 = Calculate(signalOutlet, transformedTime);
@@ -553,11 +553,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
         }
 
-        private double CalculateSubstract(Outlet outlet, double time)
+        private double CalculateSubtract(Outlet outlet, double time)
         {
             Operator op = outlet.Operator;
 
-            var wrapper = new OperatorWrapper_Substract(op);
+            var wrapper = new OperatorWrapper_Subtract(op);
 
             Outlet operandAOutlet = wrapper.OperandA;
             Outlet operandBOutlet = wrapper.OperandB;
@@ -817,11 +817,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return result;
         }
 
-        private double CalculateTimeSubstract(Outlet outlet, double time)
+        private double CalculateTimeSubtract(Outlet outlet, double time)
         {
             Operator op = outlet.Operator;
 
-            var wrapper = new OperatorWrapper_TimeSubstract(op);
+            var wrapper = new OperatorWrapper_TimeSubtract(op);
 
             Outlet signalOutlet = wrapper.Signal;
             if (signalOutlet == null) return 0;
@@ -833,7 +833,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 return result;
             }
 
-            // IMPORTANT: To substract time from the output, you have add time to the input.
+            // IMPORTANT: To subtract time from the output, you have add time to the input.
             double timeDifference = Calculate(timeDifferenceOutlet, time);
             double transformedTime = time + timeDifference;
             double result2 = Calculate(signalOutlet, transformedTime);

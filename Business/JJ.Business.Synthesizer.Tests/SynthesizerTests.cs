@@ -41,13 +41,13 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
 
                 var add = x.Add(x.Number(2), x.Number(3));
-                var substract = x.Substract(add, x.Number(1));
+                var subtract = x.Subtract(add, x.Number(1));
 
                 IPatchCalculator calculator1 = x.CreateOptimizedCalculator(add);
                 double value = calculator1.Calculate(0, 0);
                 Assert.AreEqual(5, value, 0.0001);
 
-                IPatchCalculator calculator2 = x.CreateOptimizedCalculator(substract);
+                IPatchCalculator calculator2 = x.CreateOptimizedCalculator(subtract);
                 value = calculator2.Calculate(0, 0);
                 Assert.AreEqual(4, value, 0.0001);
 
@@ -55,12 +55,12 @@ namespace JJ.Business.Synthesizer.Tests
                 CultureHelper.SetThreadCulture("nl-NL");
 
                 add.OperandA = null;
-                var valueOperatorWrapper = new OperatorWrapper_Number(substract.OperandB.Operator);
+                var valueOperatorWrapper = new OperatorWrapper_Number(subtract.OperandB.Operator);
                 valueOperatorWrapper.Number = 0;
-                substract.Operator.Inlets[0].Name = "134";
+                subtract.Operator.Inlets[0].Name = "134";
 
-                IValidator validator2 = new OperatorValidator_Recursive(substract.Operator, repositories.CurveRepository, repositories.SampleRepository, repositories.DocumentRepository, alreadyDone: new HashSet<object>());
-                IValidator warningValidator = new OperatorWarningValidator_Recursive(substract.Operator, repositories.SampleRepository);
+                IValidator validator2 = new OperatorValidator_Recursive(subtract.Operator, repositories.CurveRepository, repositories.SampleRepository, repositories.DocumentRepository, alreadyDone: new HashSet<object>());
+                IValidator warningValidator = new OperatorWarningValidator_Recursive(subtract.Operator, repositories.SampleRepository);
             }
         }
 
@@ -138,9 +138,9 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
 
-                OperatorWrapper_Substract substract = x.Substract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
+                OperatorWrapper_Subtract subtract = x.Subtract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
 
-                OperatorWrapper_Substract substract2 = x.Substract
+                OperatorWrapper_Subtract subtract2 = x.Subtract
                 (
                     x.Add
                     (

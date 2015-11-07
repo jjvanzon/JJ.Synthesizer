@@ -34,11 +34,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Select, VisitSelect },
                 { OperatorTypeEnum.Sine, VisitSine },
                 { OperatorTypeEnum.SquareWave, VisitSquareWave },
-                { OperatorTypeEnum.Substract, VisitSubstract },
+                { OperatorTypeEnum.Subtract, VisitSubtract },
                 { OperatorTypeEnum.SpeedUp, VisitSpeedUp },
                 { OperatorTypeEnum.SlowDown, VisitSlowDown },
                 { OperatorTypeEnum.TimePower, VisitTimePower },
-                { OperatorTypeEnum.TimeSubstract, VisitTimeSubstract },
+                { OperatorTypeEnum.TimeSubtract, VisitTimeSubtract },
                 { OperatorTypeEnum.TriangleWave, VisitTriangleWave },
                 { OperatorTypeEnum.Unbundle, VisitUnbundle },
                 { OperatorTypeEnum.WhiteNoise, VisitWhiteNoise }
@@ -126,7 +126,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitSquareWave(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitSubstract(Operator op) { }
+        protected virtual void VisitSubtract(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitExponent(Operator op) { }
@@ -147,7 +147,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitTimePower(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitTimeSubstract(Operator op) { }
+        protected virtual void VisitTimeSubtract(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitNumber(Operator op) { }

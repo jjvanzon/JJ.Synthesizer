@@ -93,6 +93,8 @@
     <Content Include="2015-10-30 020 SynthesizerDB Operator Type 28 - Unbundle.sql" />
     <Content Include="2015-10-29 010 SynthesizerDB Operator Type 26 - Select.sql" />
     <Content Include="2015-10-26 010 SynthesizerDB Operator Type 25 - Loop.sql" />
+    <Content Include="2015-11-07 010 SynthesizerDB rename OperatorType Substract to Subtract.sql" />
+    <Content Include="2015-11-07 010 SynthesizerDB rename OperatorType TimeSubstract to TimeSubtract.sql" />
     <Content Include="2015-11-06 030 SynthesizerDB update Sine Inlet ListIndexes .sql" />
     <Content Include="2015-11-06 020 SynthesizerDB delete Sine Volume and Origin Inlets.sql" />
     <Content Include="2015-11-06 010 SynthesizerDB RUN UTILITY.sql" />

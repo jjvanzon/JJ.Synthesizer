@@ -16,12 +16,12 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 6, "PatchOutlet");
             RepositoryHelper.EnsureEnumEntity(this, 7, "Power");
             RepositoryHelper.EnsureEnumEntity(this, 8, "Sine");
-            RepositoryHelper.EnsureEnumEntity(this, 9, "Substract");
+            RepositoryHelper.EnsureEnumEntity(this, 9, "Subtract");
             RepositoryHelper.EnsureEnumEntity(this, 10, "Delay");
             RepositoryHelper.EnsureEnumEntity(this, 11, "SpeedUp");
             RepositoryHelper.EnsureEnumEntity(this, 12, "SlowDown");
             RepositoryHelper.EnsureEnumEntity(this, 13, "TimePower");
-            RepositoryHelper.EnsureEnumEntity(this, 14, "TimeSubstract");
+            RepositoryHelper.EnsureEnumEntity(this, 14, "TimeSubtract");
             RepositoryHelper.EnsureEnumEntity(this, 15, "Number");
             RepositoryHelper.EnsureEnumEntity(this, 16, "Curve");
             RepositoryHelper.EnsureEnumEntity(this, 17, "Sample");

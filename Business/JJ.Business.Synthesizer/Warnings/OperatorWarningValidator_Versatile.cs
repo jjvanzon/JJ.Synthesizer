@@ -26,13 +26,13 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.Select, typeof(OperatorWarningValidator_Select) },
             { OperatorTypeEnum.Sine, typeof(OperatorWarningValidator_Sine) },
             { OperatorTypeEnum.SquareWave, typeof(OperatorWarningValidator_SquareWave) },
-            { OperatorTypeEnum.Substract, typeof(OperatorWarningValidator_Substract) },
+            { OperatorTypeEnum.Subtract, typeof(OperatorWarningValidator_Subtract) },
             { OperatorTypeEnum.Delay, typeof(OperatorWarningValidator_Delay) },
             { OperatorTypeEnum.SpeedUp, typeof(OperatorWarningValidator_SpeedUp) },
             { OperatorTypeEnum.SlowDown, typeof(OperatorWarningValidator_SlowDown) },
             { OperatorTypeEnum.TriangleWave, typeof(OperatorWarningValidator_TriangleWave) },
             { OperatorTypeEnum.TimePower, typeof(OperatorWarningValidator_TimePower) },
-            { OperatorTypeEnum.TimeSubstract, typeof(OperatorWarningValidator_TimeSubstract) },
+            { OperatorTypeEnum.TimeSubtract, typeof(OperatorWarningValidator_TimeSubtract) },
             { OperatorTypeEnum.Number, typeof(OperatorWarningValidator_Number) }
         };
 

@@ -12,8 +12,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             if (x == null) throw new NullException(() => x);
 
-            OperatorWrapper_Substract substract = x.Substract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
-            return substract;
+            OperatorWrapper_Subtract subtract = x.Subtract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
+            return subtract;
         }
 
         public static Outlet CreateTimePowerEffectWithEcho(PatchManager x, Outlet signal)

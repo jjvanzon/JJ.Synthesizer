@@ -139,9 +139,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Sine(pitch, phaseShift);
         }
 
-        public OperatorWrapper_Substract Substract(Outlet operandA = null, Outlet operandB = null)
+        public OperatorWrapper_Subtract Subtract(Outlet operandA = null, Outlet operandB = null)
         {
-            return _patchManager.Substract(operandA, operandB);
+            return _patchManager.Subtract(operandA, operandB);
         }
 
         public OperatorWrapper_SpeedUp SpeedUp(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
@@ -164,9 +164,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.TimePower(signal, exponent, origin);
         }
 
-        public OperatorWrapper_TimeSubstract TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
+        public OperatorWrapper_TimeSubtract TimeSubtract(Outlet signal = null, Outlet timeDifference = null)
         {
-            return _patchManager.TimeSubstract(signal, timeDifference);
+            return _patchManager.TimeSubtract(signal, timeDifference);
         }
 
         public OperatorWrapper_TriangleWave TriangleWave(Outlet pitch = null, Outlet phaseShift = null)

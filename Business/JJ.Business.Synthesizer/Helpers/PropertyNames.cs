@@ -14,12 +14,12 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string PatchOutlet = "PatchOutlet";
         public const string Power = "Power";
         public const string Sine = "Sine";
-        public const string Substract = "Substract";
+        public const string Subtract = "Subtract";
         public const string Delay = "Delay";
         public const string SpeedUp = "SpeedUp";
         public const string SlowDown = "SlowDown";
         public const string TimePower = "TimePower";
-        public const string TimeSubstract = "TimeSubstract";
+        public const string TimeSubtract = "TimeSubtract";
         public const string Number = "Number";
         public const string Sample = "Sample";
 

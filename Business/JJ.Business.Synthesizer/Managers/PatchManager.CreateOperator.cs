@@ -408,11 +408,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Substract Substract(Outlet operandA = null, Outlet operandB = null)
+        public OperatorWrapper_Subtract Subtract(Outlet operandA = null, Outlet operandB = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Substract, inletCount: 2, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Subtract, inletCount: 2, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Substract(op)
+            var wrapper = new OperatorWrapper_Subtract(op)
             {
                 OperandA = operandA,
                 OperandB = operandB
@@ -481,11 +481,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_TimeSubstract TimeSubstract(Outlet signal = null, Outlet timeDifference = null)
+        public OperatorWrapper_TimeSubtract TimeSubtract(Outlet signal = null, Outlet timeDifference = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.TimeSubstract, inletCount: 2, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.TimeSubtract, inletCount: 2, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_TimeSubstract(op)
+            var wrapper = new OperatorWrapper_TimeSubtract(op)
             {
                 Signal = signal,
                 TimeDifference = timeDifference

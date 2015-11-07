@@ -916,11 +916,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Substract.
+        ///   Looks up a localized string similar to Subtract.
         /// </summary>
-        public static string Substract {
+        public static string Subtract {
             get {
-                return ResourceManager.GetString("Substract", resourceCulture);
+                return ResourceManager.GetString("Subtract", resourceCulture);
             }
         }
         
@@ -954,9 +954,9 @@ namespace JJ.Business.Synthesizer.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Time Subtract.
         /// </summary>
-        public static string TimeSubstract {
+        public static string TimeSubtract {
             get {
-                return ResourceManager.GetString("TimeSubstract", resourceCulture);
+                return ResourceManager.GetString("TimeSubtract", resourceCulture);
             }
         }
         

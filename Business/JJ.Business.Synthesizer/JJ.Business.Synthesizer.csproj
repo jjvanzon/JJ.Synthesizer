@@ -153,7 +153,7 @@
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Adder.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Curve.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapper_TimeSubstract.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapper_TimeSubtract.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_SlowDown.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_TimePower.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_SpeedUp.cs" />
@@ -167,7 +167,7 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Multiply.cs" />
     <Compile Include="EntityWrappers\OperatorWrapperBase.cs" />
-    <Compile Include="EntityWrappers\OperatorWrapper_Substract.cs" />
+    <Compile Include="EntityWrappers\OperatorWrapper_Subtract.cs" />
     <Compile Include="Helpers\AudioFileOutputRepositories.cs" />
     <Compile Include="Helpers\ConversionHelper.cs" />
     <Compile Include="Helpers\RepositoryWrapper.cs" />
@@ -279,7 +279,7 @@
     <Compile Include="Validation\CurveValidator.cs" />
     <Compile Include="Validation\NodeValidator_WithoutParent.cs" />
     <Compile Include="Validation\OperatorValidator_SlowDown.cs" />
-    <Compile Include="Validation\OperatorValidator_TimeSubstract.cs" />
+    <Compile Include="Validation\OperatorValidator_TimeSubtract.cs" />
     <Compile Include="Validation\OperatorValidator_TimePower.cs" />
     <Compile Include="Validation\OperatorValidator_SpeedUp.cs" />
     <Compile Include="Validation\OperatorValidator_Delay.cs" />
@@ -291,7 +291,7 @@
     <Compile Include="Validation\OperatorValidator_Number.cs" />
     <Compile Include="Validation\OperatorValidator_Multiply.cs" />
     <Compile Include="Validation\OperatorValidator_Recursive.cs" />
-    <Compile Include="Validation\OperatorValidator_Substract.cs" />
+    <Compile Include="Validation\OperatorValidator_Subtract.cs" />
     <Compile Include="Validation\OperatorValidator_Base.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Add.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Number.cs" />
@@ -311,7 +311,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_Versatile.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Adder.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Add.cs" />
-    <Compile Include="Warnings\OperatorWarningValidator_TimeSubstract.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_TimeSubtract.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_TimePower.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_SlowDown.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_SpeedUp.cs" />
@@ -323,7 +323,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_Divide.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Multiply.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Recursive.cs" />
-    <Compile Include="Warnings\OperatorWarningValidator_Substract.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Subtract.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Number.cs" />
     <Compile Include="Warnings\ScaleWarningValidator.cs" />
   </ItemGroup>

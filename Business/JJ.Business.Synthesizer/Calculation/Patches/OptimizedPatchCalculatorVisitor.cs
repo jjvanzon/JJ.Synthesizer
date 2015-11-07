@@ -883,7 +883,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        protected override void VisitSubstract(Operator op)
+        protected override void VisitSubtract(Operator op)
         {
             OperatorCalculatorBase calculator;
 
@@ -914,21 +914,21 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (operandAIsConst)
             {
-                calculator = new Substract_WithConstOperandA_OperatorCalculator(a, operandBCalculator);
+                calculator = new Subtract_WithConstOperandA_OperatorCalculator(a, operandBCalculator);
             }
             else if (operandBIsConst)
             {
-                calculator = new Substract_WithConstOperandB_OperatorCalculator(operandACalculator, b);
+                calculator = new Subtract_WithConstOperandB_OperatorCalculator(operandACalculator, b);
             }
             else
             {
-                calculator = new Substract_OperatorCalculator(operandACalculator, operandBCalculator);
+                calculator = new Subtract_OperatorCalculator(operandACalculator, operandBCalculator);
             }
 
             _stack.Push(calculator);
         }
 
-        protected override void VisitTimeSubstract(Operator op)
+        protected override void VisitTimeSubtract(Operator op)
         {
             OperatorCalculatorBase calculator;
 
@@ -958,11 +958,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else if (timeDifferenceIsConst)
             {
-                calculator = new TimeSubstract_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
+                calculator = new TimeSubtract_WithConstTimeDifference_OperatorCalculator(signalCalculator, timeDifference);
             }
             else
             {
-                calculator = new TimeSubstract_OperatorCalculator(signalCalculator, timeDifferenceCalculator);
+                calculator = new TimeSubtract_OperatorCalculator(signalCalculator, timeDifferenceCalculator);
             }
 
             _stack.Push(calculator);

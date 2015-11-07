@@ -3,12 +3,12 @@ using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Substract_OperatorCalculator : OperatorCalculatorBase
+    internal class Subtract_OperatorCalculator : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _operandACalculator;
         private OperatorCalculatorBase _operandBCalculator;
 
-        public Substract_OperatorCalculator(
+        public Subtract_OperatorCalculator(
             OperatorCalculatorBase operandACalculator,
             OperatorCalculatorBase operandBCalculator)
         {
@@ -29,12 +29,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Substract_WithConstOperandA_OperatorCalculator : OperatorCalculatorBase
+    internal class Subtract_WithConstOperandA_OperatorCalculator : OperatorCalculatorBase
     {
         private double _operandAValue;
         private OperatorCalculatorBase _operandBCalculator;
 
-        public Substract_WithConstOperandA_OperatorCalculator(double operandAValue, OperatorCalculatorBase operandBCalculator)
+        public Subtract_WithConstOperandA_OperatorCalculator(double operandAValue, OperatorCalculatorBase operandBCalculator)
         {
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
             if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
@@ -50,12 +50,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Substract_WithConstOperandB_OperatorCalculator : OperatorCalculatorBase
+    internal class Subtract_WithConstOperandB_OperatorCalculator : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _operandACalculator;
         private double _operandBValue;
 
-        public Substract_WithConstOperandB_OperatorCalculator(OperatorCalculatorBase operandACalculator, double operandBValue)
+        public Subtract_WithConstOperandB_OperatorCalculator(OperatorCalculatorBase operandACalculator, double operandBValue)
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
             if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);

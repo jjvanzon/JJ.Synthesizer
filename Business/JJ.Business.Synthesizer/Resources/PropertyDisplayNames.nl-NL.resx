@@ -165,7 +165,7 @@
   <data name="Sine" xml:space="preserve">
     <value>Sinus</value>
   </data>
-  <data name="Substract" xml:space="preserve">
+  <data name="Subtract" xml:space="preserve">
     <value>Min</value>
   </data>
   <data name="Delay" xml:space="preserve">
@@ -219,7 +219,7 @@
   <data name="Patch" xml:space="preserve">
     <value>Schakeling</value>
   </data>
-  <data name="TimeSubstract" xml:space="preserve">
+  <data name="TimeSubtract" xml:space="preserve">
     <value>Tijd aftrekken</value>
   </data>
   <data name="Data" xml:space="preserve">
