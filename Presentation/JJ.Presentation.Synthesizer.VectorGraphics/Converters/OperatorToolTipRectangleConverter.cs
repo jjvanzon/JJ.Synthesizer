@@ -72,6 +72,5 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 
             return destOperatorToolTipRectangle;
         }
-
     }
 }

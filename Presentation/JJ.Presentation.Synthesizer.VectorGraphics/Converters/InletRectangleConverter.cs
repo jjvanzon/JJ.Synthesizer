@@ -7,20 +7,24 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
 using System.Linq;
 using System;
+using JJ.Framework.Common;
+using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class InletRectangleConverter
     {
+        private static bool _toolTipFeatureEnabled = GetTooltipFeatureEnabled();
+
         private Dictionary<int, Rectangle> _destInletRectangleDictionary = new Dictionary<int, Rectangle>();
 
         private IGesture _dropLineGesture;
         private IGesture _inletToolTipGesture;
 
-        /// <param name="inletToolTipGesture">nullable</param>
         public InletRectangleConverter(DropLineGesture dropLineGesture, ToolTipGesture inletToolTipGesture)
         {
             if (dropLineGesture == null) throw new NullException(() => dropLineGesture);
+            if (inletToolTipGesture == null) throw new NullException(() => inletToolTipGesture);
 
             _dropLineGesture = dropLineGesture;
             _inletToolTipGesture = inletToolTipGesture;
@@ -82,7 +86,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             destInletRectangle.Gestures.Clear();
             destInletRectangle.Gestures.Add(_dropLineGesture);
 
-            if (_inletToolTipGesture != null)
+            if (_toolTipFeatureEnabled)
             {
                 destInletRectangle.Gestures.Add(_inletToolTipGesture);
                 //destInletRectangle.MustBubble = false; // The is only done to make the tooltip work, so if the tooltip uses another region, it is not necessary anymore.
@@ -108,6 +112,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             }
 
             return destRectangle;
+        }
+
+        // Helpers
+
+        private const bool DEFAULT_TOOL_TIP_FEATURE_ENABLED = false;
+
+        private static bool GetTooltipFeatureEnabled()
+        {
+            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
+            if (config == null) return DEFAULT_TOOL_TIP_FEATURE_ENABLED;
+            return config.ToolTipFeatureEnabled;
         }
     }
 }

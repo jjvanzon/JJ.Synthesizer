@@ -13,7 +13,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         static void Main()
         {
             // TODO: Remove this temporary code line.
-            CultureHelper.SetThreadCulture("en-US");
+            //CultureHelper.SetThreadCulture("en-US");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

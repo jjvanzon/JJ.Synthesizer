@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Framework.Common;
 using JJ.Framework.Presentation.VectorGraphics.Gestures;
 using JJ.Framework.Presentation.VectorGraphics.Models.Elements;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
 using JJ.Presentation.Synthesizer.VectorGraphics.Gestures;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
@@ -12,15 +14,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
 {
     internal class OutletRectangleConverter
     {
+        private static bool _toolTipFeatureEnabled = GetTooltipFeatureEnabled();
+
         private Dictionary<int, Rectangle> _destOutletRectangleDictionary = new Dictionary<int, Rectangle>();
 
         private IGesture _dragLineGesture;
         private ToolTipGesture _outletToolTipGesture;
 
-        /// <param name="outletToolTipGesture">nullable</param>
         public OutletRectangleConverter(DragLineGesture dragLineGesture, ToolTipGesture outletToolTipGesture)
         {
             if (dragLineGesture == null) throw new NullException(() => dragLineGesture);
+            if (outletToolTipGesture == null) throw new NullException(() => outletToolTipGesture);
             
             _dragLineGesture = dragLineGesture;
             _outletToolTipGesture = outletToolTipGesture;
@@ -84,7 +88,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             destOutletRectangle.Gestures.Add(_dragLineGesture);
             destOutletRectangle.MustBubble = false; // So drag does not result in a move.
 
-            if (_outletToolTipGesture != null)
+            if (_toolTipFeatureEnabled)
             {
                 destOutletRectangle.Gestures.Add(_outletToolTipGesture);
             }
@@ -109,6 +113,17 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics.Converters
             }
 
             return destRectangle;
+        }
+
+        // Helpers
+
+        private const bool DEFAULT_TOOL_TIP_FEATURE_ENABLED = false;
+
+        private static bool GetTooltipFeatureEnabled()
+        {
+            var config = ConfigurationHelper.TryGetSection<ConfigurationSection>();
+            if (config == null) return DEFAULT_TOOL_TIP_FEATURE_ENABLED;
+            return config.ToolTipFeatureEnabled;
         }
     }
 }
