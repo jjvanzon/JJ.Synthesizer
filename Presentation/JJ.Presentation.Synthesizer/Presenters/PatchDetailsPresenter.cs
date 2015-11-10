@@ -112,8 +112,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AssertViewModel();
 
             OperatorViewModel operatorViewModel = ViewModel.Entity.Operators.Single(x => x.ID == operatorID);
-            operatorViewModel.CenterX = centerX;
-            operatorViewModel.CenterY = centerY;
+
+            float deltaX = centerX - operatorViewModel.CenterX;
+            float deltaY = centerY - operatorViewModel.CenterY;
+
+            operatorViewModel.CenterX += deltaX;
+            operatorViewModel.CenterY += deltaY;
+
+            // Move owned operators along with the owner.
+            foreach (InletViewModel inletViewModel in operatorViewModel.Inlets)
+            {
+                if (inletViewModel.InputOutlet != null)
+                {
+                    if (inletViewModel.InputOutlet.Operator.IsOwned)
+                    {
+                        inletViewModel.InputOutlet.Operator.CenterX += deltaX;
+                        inletViewModel.InputOutlet.Operator.CenterY += deltaY;
+                    }
+                }
+            }
         }
 
         public void ChangeInputOutlet(int inletID, int inputOutletID)

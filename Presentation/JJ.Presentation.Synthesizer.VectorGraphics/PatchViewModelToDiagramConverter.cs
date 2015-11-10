@@ -125,31 +125,34 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
             return _result;
         }
 
-        private OperatorElements ConvertToRectangles_WithRelatedObject_Recursive(OperatorViewModel sourceOperatorViewModel, Diagram destDiagram)
+        private OperatorElements ConvertToRectangles_WithRelatedObject_Recursive(OperatorViewModel sourceOperatorViewModel1, Diagram destDiagram)
         {
             OperatorElements operatorVectorGraphicsElements1;
-            if (_operatorID_OperatorElements_Dictionary.TryGetValue(sourceOperatorViewModel.ID, out operatorVectorGraphicsElements1))
+            if (_operatorID_OperatorElements_Dictionary.TryGetValue(sourceOperatorViewModel1.ID, out operatorVectorGraphicsElements1))
             {
                 return operatorVectorGraphicsElements1;
             }
 
-            operatorVectorGraphicsElements1 = ConvertToRectangle_WithRelatedObjects(sourceOperatorViewModel, destDiagram);
+            operatorVectorGraphicsElements1 = ConvertToRectangle_WithRelatedObjects(sourceOperatorViewModel1, destDiagram);
 
-            _operatorID_OperatorElements_Dictionary.Add(sourceOperatorViewModel.ID, operatorVectorGraphicsElements1);
+            _operatorID_OperatorElements_Dictionary.Add(sourceOperatorViewModel1.ID, operatorVectorGraphicsElements1);
 
             // Go recursive and tie operators together with curves.
-            for (int i = 0; i < sourceOperatorViewModel.Inlets.Count; i++)
+            for (int i = 0; i < sourceOperatorViewModel1.Inlets.Count; i++)
             {
-                InletViewModel inletViewModel = sourceOperatorViewModel.Inlets[i];
+                InletViewModel inletViewModel = sourceOperatorViewModel1.Inlets[i];
 
                 if (inletViewModel.InputOutlet != null)
                 {
-                    // Recursive call
-                    OperatorElements operatorVectorGraphicsElements2 = ConvertToRectangles_WithRelatedObject_Recursive(inletViewModel.InputOutlet.Operator, destDiagram);
+                    OperatorViewModel sourceOperatorViewModel2 = inletViewModel.InputOutlet.Operator;
 
-                    int id = inletViewModel.ID;
+                    // Recursive call
+                    OperatorElements operatorVectorGraphicsElements2 = 
+                        ConvertToRectangles_WithRelatedObject_Recursive(sourceOperatorViewModel2, destDiagram);
+
+                    int inletID = inletViewModel.ID;
                     
-                    Curve destCurve = TryGetInletCurve(id);
+                    Curve destCurve = TryGetInletCurve(inletID);
                     if (destCurve == null)
                     {
                         destCurve = new Curve
@@ -157,11 +160,11 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                             LineCount = _lineSegmentCount,
                             LineStyle = StyleHelper.LineStyle,
                             ZIndex = -1,
-                            Tag = VectorGraphicsTagHelper.GetInletTag(id),
+                            Tag = VectorGraphicsTagHelper.GetInletTag(inletID),
                             Diagram = destDiagram,
                             Parent = destDiagram.Background
                         };
-                        _inletID_Curve_Dictionary.Add(id, destCurve);
+                        _inletID_Curve_Dictionary.Add(inletID, destCurve);
                     }
 
                     _convertedElements.Add(destCurve);
@@ -175,43 +178,36 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                         destCurve.PointB = operatorVectorGraphicsElements2.OutletPoints[outletIndex.Value];
                         destCurve.ControlPointB = operatorVectorGraphicsElements2.OutletControlPoints[outletIndex.Value];
 
-                        // A Number Operator can be considered 'owned' by another operator if
-                        // it is the only operator it is connected to.
-                        // In that case it is convenient that the Number Operator moves along
-                        // with the operator it is connected to.
-                        // We accomplish this by making the Number Operator Rectangle a child
-                        // of the owning Operator's Rectangle.
-
-                        // TODO: It does not work yet.
+                        // Owned operators move along with the operator they are connected to.
                         bool operator2IsOwned = inletViewModel.InputOutlet.Operator.IsOwned;
                         if (operator2IsOwned)
                         {
-                            //Rectangle ownedRectangle = operatorVectorGraphicsElements2.OperatorRectangle;
-                            //Element newParent = operatorVectorGraphicsElements1.OperatorRectangle;
+                            operatorVectorGraphicsElements2.OperatorRectangle.Parent = operatorVectorGraphicsElements1.OperatorRectangle;
+                            operatorVectorGraphicsElements2.OperatorRectangle.MustBubble = false;
 
-                            //SetOwner(ownedRectangle, newParent);
+                            // Make coordinates relative to the owner rectangle
+                            // and take into account that the centers are stored, 
+                            // while the top-left corner is assigned to the
+                            // vector graphics elements.
+                            operatorVectorGraphicsElements2.OperatorRectangle.X =
+                                sourceOperatorViewModel2.CenterX - sourceOperatorViewModel1.CenterX
+                                - operatorVectorGraphicsElements2.OperatorRectangle.Width / 2f
+                                + operatorVectorGraphicsElements1.OperatorRectangle.Width / 2f;
+
+                            operatorVectorGraphicsElements2.OperatorRectangle.Y =
+                                sourceOperatorViewModel2.CenterY - sourceOperatorViewModel1.CenterY
+                                - operatorVectorGraphicsElements2.OperatorRectangle.Height / 2f
+                                + operatorVectorGraphicsElements1.OperatorRectangle.Height / 2f;
+                        }
+                        else
+                        {
+                            operatorVectorGraphicsElements2.OperatorRectangle.Parent = destDiagram.Background;
                         }
                     }
                 }
             }
 
             return operatorVectorGraphicsElements1;
-        }
-
-        private static void SetOwner(Rectangle ownedRectangle, Element newParent)
-        {
-            float absoluteX = ownedRectangle.AbsoluteX;
-            float absoluteY = ownedRectangle.AbsoluteY;
-
-            ownedRectangle.Parent = newParent;
-
-            float relativeX = ScaleHelper.AbsoluteToRelativeX(newParent, absoluteX);
-            float relativeY = ScaleHelper.AbsoluteToRelativeY(newParent, absoluteY);
-
-            ownedRectangle.X = relativeX;
-            ownedRectangle.Y = relativeY;
-
-            ownedRectangle.MustBubble = false;
         }
 
         private Curve TryGetInletCurve(int id)
