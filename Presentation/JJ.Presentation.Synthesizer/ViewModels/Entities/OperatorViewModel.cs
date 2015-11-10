@@ -21,8 +21,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public bool IsSelected { get; set; }
 
         // TODO: Use this code again when you finish the numbers operators' moving along with their owner.
-        ///// <summary> that the operator should move around with the operator it is connected to. </summary>
-        //public bool IsOwned { get; set; }
+        /// <summary> that the operator should move around with the operator it is connected to. </summary>
+        public bool IsOwned { get; set; }
 
         public IList<InletViewModel> Inlets { get; set; }
 
@@ -32,10 +32,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         /// </summary>
         public IList<OutletViewModel> Outlets { get; set; }
 
-        // TODO: It might make more sense if this is simplu OperatorTypeViewModel.
-        /// <summary>
-        /// For persistence. Does not need to be displayed.
-        /// </summary>
+        // TODO: It might make more sense if this is simple OperatorTypeViewModel.
+        /// <summary> persistence. Does not need to be displayed. </summary>
         public OperatorTypeViewModel OperatorType { get; set; }
 
         private string DebuggerDisplay

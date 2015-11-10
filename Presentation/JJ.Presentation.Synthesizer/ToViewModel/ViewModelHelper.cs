@@ -66,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// Is used to be able to update an existing operator view model in-place
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
-        public static void UpdateViewModel_WithoutEntityPosition(
+        public static void RefreshViewModel_WithoutEntityPosition(
             Operator entity, OperatorViewModel viewModel,
             ISampleRepository sampleRepository, ICurveRepository curveRepository, IDocumentRepository documentRepository)
         {
@@ -86,37 +86,40 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.OperatorType = null; // Should never happen.
             }
 
-            // TODO: Use this code again when you finish the numbers operators' moving along with their owner.
-            //if (entity.Outlets.Count > 0)
-            //{
-            //    viewModel.IsOwned = entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number &&
-            //                        entity.Outlets[0].ConnectedInlets.Count == 1;
+            viewModel.IsOwned = GetOperatorIsOwned(entity);
+        }
 
-            //    if (viewModel.IsOwned)
-            //    {
-            //        int i = 0;
-            //    }
-            //}
+        public static bool GetOperatorIsOwned(Operator entity)
+        {
+            if (entity.Outlets.Count > 0)
+            {
+                bool isOwned = entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number &&
+                               entity.Outlets[0].ConnectedInlets.Count == 1;
+
+                return isOwned;
+            }
+
+            return false;
         }
 
         /// <summary>
         /// Is used to be able to update an existing operator view model in-place
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
-        public static void UpdateViewModel_WithInletsAndOutlets_WithoutEntityPosition(
+        public static void RefreshViewModel_WithInletsAndOutlets_WithoutEntityPosition(
             Operator entity, OperatorViewModel operatorViewModel,
             ISampleRepository sampleRepository, ICurveRepository curveRepository, IDocumentRepository documentRepository)
         {
-            UpdateViewModel_WithoutEntityPosition(entity, operatorViewModel, sampleRepository, curveRepository, documentRepository);
-            UpdateInletViewModels(entity.Inlets, operatorViewModel);
-            UpdateOutletViewModels(entity.Outlets, operatorViewModel);
+            RefreshViewModel_WithoutEntityPosition(entity, operatorViewModel, sampleRepository, curveRepository, documentRepository);
+            RefreshInletViewModels(entity.Inlets, operatorViewModel);
+            RefreshOutletViewModels(entity.Outlets, operatorViewModel);
         }
 
         /// <summary>
         /// Is used to be able to update an existing operator view model in-place
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
-        public static void UpdateInletViewModels(IList<Inlet> sourceInlets, OperatorViewModel destOperatorViewModel)
+        public static void RefreshInletViewModels(IList<Inlet> sourceInlets, OperatorViewModel destOperatorViewModel)
         {
             if (sourceInlets == null) throw new NullException(() => sourceInlets);
             if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);
@@ -157,7 +160,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// Is used to be able to update an existing operator view model in-place
         /// without having to re-establish the intricate relations with other operators.
         /// </summary>
-        public static void UpdateOutletViewModels(IList<Outlet> sourceOutlets, OperatorViewModel destOperatorViewModel)
+        public static void RefreshOutletViewModels(IList<Outlet> sourceOutlets, OperatorViewModel destOperatorViewModel)
         {
             if (sourceOutlets == null) throw new NullException(() => sourceOutlets);
             if (destOperatorViewModel == null) throw new NullException(() => destOperatorViewModel);

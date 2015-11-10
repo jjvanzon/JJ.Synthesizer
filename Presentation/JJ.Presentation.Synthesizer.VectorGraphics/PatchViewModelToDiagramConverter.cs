@@ -8,6 +8,7 @@ using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.VectorGraphics.Converters;
 using JJ.Presentation.Synthesizer.VectorGraphics.Helpers;
 using JJ.Presentation.Synthesizer.VectorGraphics.Configuration;
+using JJ.Framework.Presentation.VectorGraphics.Helpers;
 
 namespace JJ.Presentation.Synthesizer.VectorGraphics
 {
@@ -174,26 +175,43 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                         destCurve.PointB = operatorVectorGraphicsElements2.OutletPoints[outletIndex.Value];
                         destCurve.ControlPointB = operatorVectorGraphicsElements2.OutletControlPoints[outletIndex.Value];
 
-                        // TODO: This does not work yet, because the delete operations in this class
-                        // will delete the 'demoted' elements...
+                        // A Number Operator can be considered 'owned' by another operator if
+                        // it is the only operator it is connected to.
+                        // In that case it is convenient that the Number Operator moves along
+                        // with the operator it is connected to.
+                        // We accomplish this by making the Number Operator Rectangle a child
+                        // of the owning Operator's Rectangle.
 
-                        //// A Number Operator can be considered 'owned' by another operator if
-                        //// it is the only operator it is connected to.
-                        //// In that case it is convenient that the Number Operator moves along
-                        //// with the operator it is connected to.
-                        //// We accomplish this by making the Number Operator Rectangle a child
-                        //// of the owning Operator's Rectangle.
+                        // TODO: It does not work yet.
+                        bool operator2IsOwned = inletViewModel.InputOutlet.Operator.IsOwned;
+                        if (operator2IsOwned)
+                        {
+                            //Rectangle ownedRectangle = operatorVectorGraphicsElements2.OperatorRectangle;
+                            //Element newParent = operatorVectorGraphicsElements1.OperatorRectangle;
 
-                        //bool operator2IsOwned = inletViewModel.InputOutlet.Operator.IsOwned;
-                        //if (operator2IsOwned)
-                        //{
-                        //    //operatorVectorGraphicsElements2.OperatorRectangle.Parent = operatorVectorGraphicsElements1.OperatorRectangle;
-                        //}
+                            //SetOwner(ownedRectangle, newParent);
+                        }
                     }
                 }
             }
 
             return operatorVectorGraphicsElements1;
+        }
+
+        private static void SetOwner(Rectangle ownedRectangle, Element newParent)
+        {
+            float absoluteX = ownedRectangle.AbsoluteX;
+            float absoluteY = ownedRectangle.AbsoluteY;
+
+            ownedRectangle.Parent = newParent;
+
+            float relativeX = ScaleHelper.AbsoluteToRelativeX(newParent, absoluteX);
+            float relativeY = ScaleHelper.AbsoluteToRelativeY(newParent, absoluteY);
+
+            ownedRectangle.X = relativeX;
+            ownedRectangle.Y = relativeY;
+
+            ownedRectangle.MustBubble = false;
         }
 
         private Curve TryGetInletCurve(int id)

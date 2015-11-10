@@ -170,7 +170,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new OperatorViewModel();
 
-            ViewModelHelper.UpdateViewModel_WithoutEntityPosition(entity, viewModel, sampleRepository, curveRepository, documentRepository);
+            ViewModelHelper.RefreshViewModel_WithoutEntityPosition(entity, viewModel, sampleRepository, curveRepository, documentRepository);
 
             EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(entity.ID);
             viewModel.EntityPositionID = entityPosition.ID;

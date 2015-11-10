@@ -130,6 +130,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                                    .Where(x => x.ID == inputOutletID)
                                                                    .Single();
             inletViewModel.InputOutlet = inputOutletViewModel;
+
+            // Mostly, we need to refresh the IsOwned property of the OperatorViewModel here.
+            // But for that we need the whole patch again.
+
+            // TODO: Strange that above you decide to operate on some view models,
+            // and below you decide to operator on the whole entity again.
+            Patch patch = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            OperatorViewModel operatorViewModel = inputOutletViewModel.Operator;
+            Operator op = _repositories.OperatorRepository.Get(operatorViewModel.ID);
+
+            operatorViewModel.IsOwned = ViewModelHelper.GetOperatorIsOwned(op);
         }
 
         public void SelectOperator(int operatorID)
