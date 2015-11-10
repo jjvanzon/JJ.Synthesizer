@@ -32,14 +32,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private int _channelCount;
         private Stack<OperatorCalculatorBase> _stack;
-        private Stack<int> _bundleIndexStack = new Stack<int>();
+        private Stack<int> _bundleIndexStack;
 
         /// <summary>
         /// This dictionary is about reusing the same CurveCalculator in multiple OperatorWrapper_Curve's
         /// in case they uses the same Curve, more than optimizing things by using a dictionary.
         /// </summary>
-        private Dictionary<Curve, OptimizedCurveCalculator> _curve_CurveCalculator_Dictionary =
-            new Dictionary<Curve, OptimizedCurveCalculator>();
+        private Dictionary<Curve, OptimizedCurveCalculator> _curve_CurveCalculator_Dictionary;
+
+        /// <summary> Value is offset in seconds. </summary>
+        private Dictionary<Operator, double> _operator_whiteNoiseOffsetDictionary;
 
         public IList<OperatorCalculatorBase> Execute(
             IList<Outlet> channelOutlets, 
@@ -69,6 +71,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             _stack = new Stack<OperatorCalculatorBase>();
+            _bundleIndexStack = new Stack<int>();
+            _curve_CurveCalculator_Dictionary = new Dictionary<Curve, OptimizedCurveCalculator>();
+            _operator_whiteNoiseOffsetDictionary = new Dictionary<Operator, double>();
+
             _channelCount = channelOutlets.Count;
 
             var list = new List<OperatorCalculatorBase>(_channelCount);
@@ -1064,7 +1070,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitWhiteNoise(Operator op)
         {
-            var calculator = new WhiteNoise_OperatorCalculator(_whiteNoiseCalculator);
+            double offset;
+            if (!_operator_whiteNoiseOffsetDictionary.TryGetValue(op, out offset))
+            {
+                offset = _whiteNoiseCalculator.GetRandomOffset();
+                _operator_whiteNoiseOffsetDictionary.Add(op, offset);
+            }
+            else
+            {
+                int i = 0;
+            }
+
+            var calculator = new WhiteNoise_OperatorCalculator(_whiteNoiseCalculator, offset);
             _stack.Push(calculator);
         }
 
