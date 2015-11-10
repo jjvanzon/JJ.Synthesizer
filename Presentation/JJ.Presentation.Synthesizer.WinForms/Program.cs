@@ -12,12 +12,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         [STAThread]
         static void Main()
         {
-            // TODO: Remove this temporary code line.
-            //CultureHelper.SetThreadCulture("en-US");
-
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-
             var config1 = CustomConfigurationManager.GetSection<JJ.Business.Synthesizer.Configuration.ConfigurationSection>();
             ConfigurationHelper.SetSection(config1);
 
@@ -27,8 +21,14 @@ namespace JJ.Presentation.Synthesizer.WinForms
             var config3 = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.VectorGraphics.Configuration.ConfigurationSection>();
             ConfigurationHelper.SetSection(config3);
 
+            var config4 = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection>();
+            CultureHelper.SetThreadCulture(config4.DefaultCulture);
+
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
 
             var form = new MainForm();
 

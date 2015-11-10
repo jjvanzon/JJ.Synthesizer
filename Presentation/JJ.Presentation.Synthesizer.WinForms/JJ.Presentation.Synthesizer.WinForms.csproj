@@ -64,8 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationSection.cs" />
-    <Compile Include="Configuration\GeneralConfiguration.cs" />
-    <Compile Include="Configuration\TestingConfiguration.cs" />
     <Compile Include="EventArg\CreateOperatorEventArgs.cs" />
     <Compile Include="EventArg\ChangeInputOutletEventArgs.cs" />
     <Compile Include="EventArg\MoveEntityEventArgs.cs" />

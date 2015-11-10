@@ -358,7 +358,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
-                return CustomConfigurationManager.GetSection<ConfigurationSection>().Testing.AlwaysRecreateDiagram;
+                return CustomConfigurationManager.GetSection<ConfigurationSection>().AlwaysRecreateDiagram;
             }
             return DEFAULT_ALWAYS_RECREATE_DIAGRAM;
         }

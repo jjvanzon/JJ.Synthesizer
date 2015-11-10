@@ -155,10 +155,10 @@
     <value>Outlets</value>
   </data>
   <data name="PatchInlet" xml:space="preserve">
-    <value>Patch Inlet</value>
+    <value>Inlet</value>
   </data>
   <data name="PatchOutlet" xml:space="preserve">
-    <value>Patch Outlet</value>
+    <value>Outlet</value>
   </data>
   <data name="Power" xml:space="preserve">
     <value>Power</value>

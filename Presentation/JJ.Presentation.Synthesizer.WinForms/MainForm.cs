@@ -27,7 +27,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 var config = CustomConfigurationManager.GetSection<ConfigurationSection>();
-                _titleBarExtraText = config.General.TitleBarExtraText;
+                _titleBarExtraText = config.TitleBarExtraText;
             }
         }
 

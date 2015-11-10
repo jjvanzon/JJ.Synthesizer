@@ -673,7 +673,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Patch Inlet.
+        ///   Looks up a localized string similar to Inlet.
         /// </summary>
         public static string PatchInlet {
             get {
@@ -682,7 +682,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Patch Outlet.
+        ///   Looks up a localized string similar to Outlet.
         /// </summary>
         public static string PatchOutlet {
             get {
