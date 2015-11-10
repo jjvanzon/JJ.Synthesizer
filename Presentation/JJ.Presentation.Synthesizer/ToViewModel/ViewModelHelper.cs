@@ -89,12 +89,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.IsOwned = GetOperatorIsOwned(entity);
         }
 
+
+        /// <summary>
+        /// A Number Operator can be considered 'owned' by another operator if
+        /// it is the only operator it is connected to.
+        /// In that case it is convenient that the Number Operator moves along
+        /// with the operator it is connected to.
+        /// In the Vector Graphics we accomplish this by making the Number Operator Rectangle a child of the owning Operator's Rectangle. 
+        /// But also in the MoveOperator action we must move the owned operators along with their owner.
+        /// </summary>
         public static bool GetOperatorIsOwned(Operator entity)
         {
             if (entity.Outlets.Count > 0)
             {
                 bool isOwned = entity.GetOperatorTypeEnum() == OperatorTypeEnum.Number &&
-                               entity.Outlets[0].ConnectedInlets.Count == 1;
+                               // Make sure the connected inlets are all of the same operator.
+                               entity.Outlets[0].ConnectedInlets.Select(x => x.Operator).Distinct().Count() == 1;
 
                 return isOwned;
             }

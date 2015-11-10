@@ -120,16 +120,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             operatorViewModel.CenterY += deltaY;
 
             // Move owned operators along with the owner.
-            foreach (InletViewModel inletViewModel in operatorViewModel.Inlets)
+
+            // Note that the owned operator can be connected to the same owner operator twice (in two different inlets),
+            // but make sure that this does not result in applying the move twice (with the Distinct operator below).
+            IEnumerable<OperatorViewModel> ownedOperatorViewModels = operatorViewModel.Inlets
+                                                                                      .Where(x => x.InputOutlet != null)
+                                                                                      .Where(x => x.InputOutlet.Operator.IsOwned)
+                                                                                      .Select(x => x.InputOutlet.Operator)
+                                                                                      .Distinct();
+
+            foreach (OperatorViewModel ownedOperatorViewModel in ownedOperatorViewModels)
             {
-                if (inletViewModel.InputOutlet != null)
-                {
-                    if (inletViewModel.InputOutlet.Operator.IsOwned)
-                    {
-                        inletViewModel.InputOutlet.Operator.CenterX += deltaX;
-                        inletViewModel.InputOutlet.Operator.CenterY += deltaY;
-                    }
-                }
+                ownedOperatorViewModel.CenterX += deltaX;
+                ownedOperatorViewModel.CenterY += deltaY;
             }
         }
 
