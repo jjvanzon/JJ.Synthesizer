@@ -37,11 +37,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double origin = _originCalculator.Calculate(time, channelIndex);
 
             double timeAbs = Math.Abs(time - origin);
-            double timeSign = Math.Sign(time - origin);
 
             double exponent = _exponentCalculator.Calculate(time, channelIndex);
 
-            double transformedTime = timeSign * Math.Pow(timeAbs, 1 / exponent) + origin;
+            double transformedTime = Math.Pow(timeAbs, 1 / exponent) + origin;
+
+            // TODO: Not debugged yet.
+            int timeSign = Math.Sign(time - origin);
+            if (timeSign == -1)
+            {
+                transformedTime = -transformedTime;
+            }
 
             double result = _signalCalculator.Calculate(transformedTime, channelIndex);
             return result;
@@ -75,11 +81,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             // (time: -4, exponent: 2) => -1 * Pow(4, 1/2)
             double timeAbs = Math.Abs(time);
-            double timeSign = Math.Sign(time);
 
             double exponent = _exponentCalculator.Calculate(time, channelIndex);
 
-            double transformedTime = timeSign * Math.Pow(timeAbs, 1 / exponent);
+            double transformedTime = Math.Pow(timeAbs, 1 / exponent);
+
+            // TODO: Not debugged yet.
+            int timeSign = Math.Sign(time);
+            if (timeSign == -1)
+            {
+                transformedTime = -transformedTime;
+            }
 
             double result = _signalCalculator.Calculate(transformedTime, channelIndex);
             return result;

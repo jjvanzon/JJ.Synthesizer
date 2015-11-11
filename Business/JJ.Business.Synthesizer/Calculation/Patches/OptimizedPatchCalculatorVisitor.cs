@@ -613,6 +613,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 int sampleChannelCount = sampleInfo.Sample.GetChannelCount();
                 if (sampleChannelCount == _channelCount)
                 {
+                    //calculator = new Sample_WithConstFrequency_OperatorCalculator(sampleCalculator, 440);
                     calculator = new Sample_OperatorCalculator(sampleCalculator);
                 }
                 else if (sampleChannelCount == 1 && _channelCount == 2)

@@ -7,7 +7,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Sine_WithoutPhaseShift_OperatorCalculator : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _frequencyCalculator;
-
         private double _phase;
         private double _previousTime;
 
@@ -37,7 +36,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private OperatorCalculatorBase _frequencyCalculator;
         private OperatorCalculatorBase _phaseShiftCalculator;
-
         private double _phase;
         private double _previousTime;
 
