@@ -3,6 +3,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System;
+using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -16,6 +17,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             _sampleRepository = sampleRepository;
+        }
+
+        public Outlet Frequency
+        {
+            get { return GetInlet(OperatorConstants.SAMPLE_FREQUENCY_INDEX).InputOutlet; }
+            set { GetInlet(OperatorConstants.SAMPLE_FREQUENCY_INDEX).LinkTo(value); }
         }
 
         public int? SampleID

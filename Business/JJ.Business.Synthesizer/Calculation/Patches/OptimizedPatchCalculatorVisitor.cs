@@ -593,11 +593,23 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
+            OperatorCalculatorBase frequencyCalculator = _stack.Pop();
+
+            frequencyCalculator = frequencyCalculator ?? new Zero_OperatorCalculator();
+            double frequency = frequencyCalculator.Calculate(0, 0);
+            bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
+            bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
+
             var wrapper = new OperatorWrapper_Sample(op, _sampleRepository);
 
             SampleInfo sampleInfo = wrapper.SampleInfo;
             if (sampleInfo.Sample == null)
             {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (frequencyIsConstZero)
+            {
+                // Weird number
                 calculator = new Zero_OperatorCalculator();
             }
             else
@@ -611,18 +623,39 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 }
 
                 int sampleChannelCount = sampleInfo.Sample.GetChannelCount();
+
                 if (sampleChannelCount == _channelCount)
                 {
-                    //calculator = new Sample_WithConstFrequency_OperatorCalculator(sampleCalculator, 440);
-                    calculator = new Sample_OperatorCalculator(sampleCalculator);
+                    if (frequencyIsConst)
+                    {
+                        calculator = new Sample_WithConstFrequency_OperatorCalculator(frequency, sampleCalculator);
+                    }
+                    else
+                    {
+                        calculator = new Sample_WithVarFrequency_OperatorCalculator(frequencyCalculator, sampleCalculator);
+                    }
                 }
                 else if (sampleChannelCount == 1 && _channelCount == 2)
                 {
-                    calculator = new Sample_MonoToStereo_OperatorCalculator(sampleCalculator);
+                    if (frequencyIsConst)
+                    {
+                        calculator = new Sample_WithConstFrequency_MonoToStereo_OperatorCalculator(frequency, sampleCalculator);
+                    }
+                    else
+                    {
+                        calculator = new Sample_WithVarFrequency_MonoToStereo_OperatorCalculator(frequencyCalculator, sampleCalculator);
+                    }
                 }
                 else if (sampleChannelCount == 2 && _channelCount == 1)
                 {
-                    calculator = new Sample_StereoToMono_OperatorCalculator(sampleCalculator);
+                    if (frequencyIsConst)
+                    {
+                        calculator = new Sample_WithConstFrequency_StereoToMono_OperatorCalculator(frequency, sampleCalculator);
+                    }
+                    else
+                    {
+                        calculator = new Sample_WithVarFrequency_StereoToMono_OperatorCalculator(frequencyCalculator, sampleCalculator);
+                    }
                 }
                 else
                 {

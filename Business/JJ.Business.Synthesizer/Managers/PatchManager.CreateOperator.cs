@@ -368,7 +368,7 @@ namespace JJ.Business.Synthesizer.Managers
 
         public OperatorWrapper_Sample Sample(Sample sample = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Sample, inletCount: 0, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Sample, inletCount: 1, outletCount: 1);
 
             var wrapper = new OperatorWrapper_Sample(op, _repositories.SampleRepository);
             if (sample != null)

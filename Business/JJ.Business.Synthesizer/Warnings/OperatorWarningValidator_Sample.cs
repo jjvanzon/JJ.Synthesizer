@@ -3,7 +3,7 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class OperatorWarningValidator_Sample : OperatorWarningValidator_Base
+    public class OperatorWarningValidator_Sample : OperatorWarningValidator_Base_FirstXInletsNotFilledIn
     {
         public OperatorWarningValidator_Sample(Operator obj)
             : base(obj)
@@ -11,6 +11,8 @@ namespace JJ.Business.Synthesizer.Warnings
 
         protected override void Execute()
         {
+            base.Execute();
+
             For(() => Object.Data, PropertyDisplayNames.Sample)
                 .NotNull();
         }

@@ -25,6 +25,14 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     DataMigrationExecutor.MigrateSineVolumes(x => ShowProgress(x));
                 }
             }
+            else if (radioButtonAddSampleOperatorFrequencyInlets.Checked)
+            {
+                string message = "Are you REALLY sure you want to run the process: ADD SAMPLE OPERATOR FREQUENCY INLETS???";
+                if (MessageBox.Show(message, "", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    DataMigrationExecutor.AddSampleOperatorFrequencyInlets(x => ShowProgress(x));
+                }
+            }
             else
             {
                 MessageBox.Show("Please select a radio button.");
