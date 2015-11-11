@@ -1,7 +1,4 @@
 ﻿using JJ.Business.Synthesizer.Calculation.Samples;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
@@ -10,10 +7,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private ISampleCalculator _sampleCalculator;
 
-        /// <param name="bytes">nullable</param>
-        public Sample_OperatorCalculator(Sample sample, byte[] bytes)
+        public Sample_OperatorCalculator(ISampleCalculator sampleCalculator)
         {
-            _sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sample, bytes);
+            if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+            _sampleCalculator = sampleCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -26,13 +23,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private ISampleCalculator _sampleCalculator;
 
-        /// <param name="bytes">nullable</param>
-        public Sample_MonoToStereo_OperatorCalculator(Sample sample, byte[] bytes)
+        public Sample_MonoToStereo_OperatorCalculator(ISampleCalculator sampleCalculator)
         {
-            if (sample == null) throw new NullException(() => sample);
-            if (sample.GetSpeakerSetupEnum() != SpeakerSetupEnum.Mono) throw new NotEqualException(() => sample.GetSpeakerSetupEnum(), SpeakerSetupEnum.Mono);
-
-            _sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sample, bytes);
+            if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+            _sampleCalculator = sampleCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -46,13 +40,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private ISampleCalculator _sampleCalculator;
 
-        /// <param name="bytes">nullable</param>
-        public Sample_StereoToMono_OperatorCalculator(Sample sample, byte[] bytes)
+        public Sample_StereoToMono_OperatorCalculator(ISampleCalculator sampleCalculator)
         {
-            if (sample == null) throw new NullException(() => sample);
-            if (sample.GetSpeakerSetupEnum() != SpeakerSetupEnum.Stereo) throw new NotEqualException(() => sample.GetSpeakerSetupEnum(), SpeakerSetupEnum.Stereo);
-
-            _sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sample, bytes);
+            if (sampleCalculator == null) throw new NullException(() => sampleCalculator);
+            _sampleCalculator = sampleCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)

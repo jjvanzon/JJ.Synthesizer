@@ -12,6 +12,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Curves;
+using JJ.Business.Synthesizer.Calculation.Samples;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
@@ -35,13 +36,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private Stack<int> _bundleIndexStack;
 
         /// <summary>
-        /// This dictionary is about reusing the same CurveCalculator in multiple OperatorWrapper_Curve's
+        /// This dictionary is about reusing the same CurveCalculator in multiple OperatorCalculator_Curve's
         /// in case they uses the same Curve, more than optimizing things by using a dictionary.
         /// </summary>
         private Dictionary<Curve, OptimizedCurveCalculator> _curve_CurveCalculator_Dictionary;
 
+        /// <summary>
+        /// This dictionary is about reusing the same SampleCalculator in multiple OperatorCalculator_Sample's
+        /// in case they uses the same Sample, more than optimizing things by using a dictionary.
+        /// </summary>
+        private Dictionary<Sample, ISampleCalculator> _sample_SampleCalculatorDictionary;
+
         /// <summary> Value is offset in seconds. </summary>
-        private Dictionary<Operator, double> _operator_whiteNoiseOffsetDictionary;
+        private Dictionary<Operator, double> _operator_WhiteNoiseOffsetDictionary;
 
         public IList<OperatorCalculatorBase> Execute(
             IList<Outlet> channelOutlets, 
@@ -73,7 +80,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack = new Stack<OperatorCalculatorBase>();
             _bundleIndexStack = new Stack<int>();
             _curve_CurveCalculator_Dictionary = new Dictionary<Curve, OptimizedCurveCalculator>();
-            _operator_whiteNoiseOffsetDictionary = new Dictionary<Operator, double>();
+            _sample_SampleCalculatorDictionary = new Dictionary<Sample, ISampleCalculator>();
+            _operator_WhiteNoiseOffsetDictionary = new Dictionary<Operator, double>();
 
             _channelCount = channelOutlets.Count;
 
@@ -594,18 +602,26 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
             else
             {
+                // Get SampleCalculator
+                ISampleCalculator sampleCalculator;
+                if (!_sample_SampleCalculatorDictionary.TryGetValue(sampleInfo.Sample, out sampleCalculator))
+                {
+                    sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sampleInfo.Sample, sampleInfo.Bytes);
+                    _sample_SampleCalculatorDictionary.Add(sampleInfo.Sample, sampleCalculator);
+                }
+
                 int sampleChannelCount = sampleInfo.Sample.GetChannelCount();
                 if (sampleChannelCount == _channelCount)
                 {
-                    calculator = new Sample_OperatorCalculator(sampleInfo.Sample, sampleInfo.Bytes);
+                    calculator = new Sample_OperatorCalculator(sampleCalculator);
                 }
                 else if (sampleChannelCount == 1 && _channelCount == 2)
                 {
-                    calculator = new Sample_MonoToStereo_OperatorCalculator(sampleInfo.Sample, sampleInfo.Bytes);
+                    calculator = new Sample_MonoToStereo_OperatorCalculator(sampleCalculator);
                 }
                 else if (sampleChannelCount == 2 && _channelCount == 1)
                 {
-                    calculator = new Sample_StereoToMono_OperatorCalculator(sampleInfo.Sample, sampleInfo.Bytes);
+                    calculator = new Sample_StereoToMono_OperatorCalculator(sampleCalculator);
                 }
                 else
                 {
@@ -1071,14 +1087,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitWhiteNoise(Operator op)
         {
             double offset;
-            if (!_operator_whiteNoiseOffsetDictionary.TryGetValue(op, out offset))
+            if (!_operator_WhiteNoiseOffsetDictionary.TryGetValue(op, out offset))
             {
                 offset = _whiteNoiseCalculator.GetRandomOffset();
-                _operator_whiteNoiseOffsetDictionary.Add(op, offset);
-            }
-            else
-            {
-                int i = 0;
+                _operator_WhiteNoiseOffsetDictionary.Add(op, offset);
             }
 
             var calculator = new WhiteNoise_OperatorCalculator(_whiteNoiseCalculator, offset);
