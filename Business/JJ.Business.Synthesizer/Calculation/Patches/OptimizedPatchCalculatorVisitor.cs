@@ -751,21 +751,37 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double phaseShift = phaseShiftCalculator.Calculate(0, 0);
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool phaseShiftIsConst = phaseShiftCalculator is Number_OperatorCalculator;
-            bool frequencyIsConstZero = frequencyIsConst && frequency == 0;
-            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1 == 0;
+            bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
+            bool phaseShiftIsConstZero = phaseShiftIsConst && phaseShift % 1.0 == 0.0;
 
             if (frequencyIsConstZero)
             {
                 // Weird number
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (phaseShiftIsConstZero)
+            else if (frequencyIsConst && phaseShiftIsConstZero)
             {
-                calculator = new Sine_WithoutPhaseShift_OperatorCalculator(frequencyCalculator);
+                calculator = new Sine_WithConstFrequency_WithoutPhaseShift_OperatorCalculator(frequency);
+            }
+            else if (frequencyIsConst && phaseShiftIsConst)
+            {
+                calculator = new Sine_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(frequency, phaseShift);
+            }
+            else if (frequencyIsConst && !phaseShiftIsConst)
+            {
+                calculator = new Sine_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(frequency, phaseShiftCalculator);
+            }
+            else if (!frequencyIsConst && phaseShiftIsConstZero)
+            {
+                calculator = new Sine_WithVarFrequency_WithoutPhaseShift_OperatorCalculator(frequencyCalculator);
+            }
+            else if (!frequencyIsConst && phaseShiftIsConst)
+            {
+                calculator = new Sine_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(frequencyCalculator, phaseShift);
             }
             else
             {
-                calculator = new Sine_WithPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
+                calculator = new Sine_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(frequencyCalculator, phaseShiftCalculator);
             }
 
             _stack.Push(calculator);

@@ -119,7 +119,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                             throw new ValueNotSupportedException(audioFileFormatEnum);
                     }
 
-                    double adjustedAmplifier = GetAdjustedAmplifier(_audioFileOutput);
+                    double adjustedAmplifier = GetAmplifierAdjustedToSampleDataType(_audioFileOutput);
 
                     // Write Samples
                     for (double t = 0; t <= endTime; t += dt)
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                             Outlet outlet = _outlets[i];
 
                             double value = 0;
-                            if (outlet != null) // TODO: I do not like this 'if'.
+                            if (outlet != null)
                             {
                                 value = _patchCalculators[i].Calculate(t, i);
                                 value *= adjustedAmplifier;
@@ -142,7 +142,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             }
         }
 
-        protected abstract double GetAdjustedAmplifier(AudioFileOutput audioFileOutput);
+        protected abstract double GetAmplifierAdjustedToSampleDataType(AudioFileOutput audioFileOutput);
         protected abstract void WriteValue(BinaryWriter binaryWriter, double value);
 
         // Helpers

@@ -353,7 +353,7 @@
             // 
             // numericUpDownTimeMultiplier
             // 
-            this.numericUpDownTimeMultiplier.DecimalPlaces = 3;
+            this.numericUpDownTimeMultiplier.DecimalPlaces = 6;
             this.numericUpDownTimeMultiplier.Dock = System.Windows.Forms.DockStyle.Fill;
             this.numericUpDownTimeMultiplier.Increment = new decimal(new int[] {
             1,
