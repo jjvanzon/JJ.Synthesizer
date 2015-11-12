@@ -22,6 +22,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         // The InterpretedPatchCalculator may not have the exact same behavior as the OptimizedPatchCalculator,
         // because it is used much less and is not maintained as well.
 
+        private const double SAMPLE_BASE_FREQUENCY = 440.0;
+
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly IDocumentRepository _documentRepository;
@@ -778,10 +780,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             Operator op = outlet.Operator;
 
+            var wrapper = new OperatorWrapper_Sample(op, _sampleRepository);
+
+            // Get SampleCalculator
             ISampleCalculator sampleCalculator;
             if (!_sampleIDString_SampleCalculatorDictionary.TryGetValue(op.Data, out sampleCalculator))
             {
-                var wrapper = new OperatorWrapper_Sample(op, _sampleRepository);
                 SampleInfo sampleInfo = wrapper.SampleInfo;
 
                 if (sampleInfo.Sample != null)
@@ -791,15 +795,35 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                 _sampleIDString_SampleCalculatorDictionary.Add(op.Data, sampleCalculator);
             }
-
             if (sampleCalculator == null)
             {
                 return 0.0;
             }
 
+            // Get Frequency
+            Outlet frequencyOutlet = wrapper.Frequency;
+            if (frequencyOutlet == null)
+            {
+                return 0;
+            }
+            double frequency = Calculate(frequencyOutlet, time);
+            double rate = frequency / SAMPLE_BASE_FREQUENCY;
+
+            // Get Phase Variables
+            string key = GetOutletPathKey();
+            double previousTime = 0;
+            _previousTimeDictionary.TryGetValue(key, out previousTime);
+            double phase = 0;
+            _phaseDictionary.TryGetValue(key, out phase);
+
+            // Change Phase
+            double dt = time - previousTime;
+            phase = phase + dt * rate;
+
             // This is a solution for when the sample channels do not match the channel we want.
             // But this is only a fallback that will work for mono and stereo,
             // and not for e.g. 5.1 surround sound.
+            // TODO: This is not the same behavior as the optimized calculation.
             int channelIndex;
             if (sampleCalculator.ChannelCount < _channelIndex)
             {
@@ -810,7 +834,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 channelIndex = _channelIndex;
             }
 
-            double result = sampleCalculator.CalculateValue(time, channelIndex);
+            // Get Result
+            double result = sampleCalculator.CalculateValue(phase, channelIndex);
+
+            // Store phase variables
+            _phaseDictionary[key] = phase;
+            _previousTimeDictionary[key] = time;
+
             return result;
         }
 
