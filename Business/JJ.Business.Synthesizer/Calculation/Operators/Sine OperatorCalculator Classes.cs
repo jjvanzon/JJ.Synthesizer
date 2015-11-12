@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (frequency == 0.0) throw new ZeroException(() => frequency);
             _frequencyTimesTwoPi = frequency * Maths.TWO_PI;
 
-            _sineCalculator = new SineCalculator(44100 / 8); // enough for 100% precision at 8Hz.
+            _sineCalculator = new SineCalculator();
         }
 
         public override double Calculate(double time, int channelIndex)
