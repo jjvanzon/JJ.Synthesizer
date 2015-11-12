@@ -103,15 +103,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly double _frequencyTimesTwoPi;
 
+        private readonly SineCalculator _sineCalculator;
+
         public Sine_WithConstFrequency_WithoutPhaseShift_OperatorCalculator(double frequency)
         {
             if (frequency == 0.0) throw new ZeroException(() => frequency);
             _frequencyTimesTwoPi = frequency * Maths.TWO_PI;
+
+            _sineCalculator = new SineCalculator(44100 / 8); // enough for 100% precision at 8Hz.
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double value = Math.Sin(time * _frequencyTimesTwoPi);
+            //double value = Math.Sin(time * _frequencyTimesTwoPi);
+            double value = _sineCalculator.Sin(time * _frequencyTimesTwoPi);
             return value;
         }
     }
