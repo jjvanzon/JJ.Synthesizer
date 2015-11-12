@@ -2,55 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Mathematics;
-using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation
 {
-    internal class SineCalculator
+    /// <summary>
+    /// +/- 20% faster than Math.Sin.
+    /// </summary>
+    internal static class SineCalculator
     {
-        private readonly int _samplesPerCycle;
-        private readonly double _samplesPerRadian;
-        private readonly double[] _samples;
+        private const int SAMPLES_PER_CYCLE = 44100 / 8; // 100% precision at 8Hz.
+        private const double SAMPLES_PER_RADIAN = SAMPLES_PER_CYCLE / Maths.TWO_PI;
+        private static readonly double[] _samples = CreateSamples();
 
-        public SineCalculator()
-            : this(44100 / 8) // enough for 100% precision at 8Hz.
-        { }
-
-        private SineCalculator(int samplesPerCycle)
+        private static double[] CreateSamples()
         {
-            if (samplesPerCycle < 1) throw new LessThanException(() => samplesPerCycle, 1);
-
-            _samplesPerCycle = samplesPerCycle;
-
-            // The calculation requires an extra entry at the end.
-            _samples = new double[samplesPerCycle + 1];
+            var samples = new double[SAMPLES_PER_CYCLE];
 
             double t = 0;
-            double step = Maths.TWO_PI / samplesPerCycle;
-            for (int i = 0; i < samplesPerCycle; i++)
+            double step = Maths.TWO_PI / SAMPLES_PER_CYCLE;
+            for (int i = 0; i < SAMPLES_PER_CYCLE; i++)
             {
-                double sineSample = Math.Sin(t);
-                _samples[i] = sineSample;
+                double sample = Math.Sin(t);
+                samples[i] = sample;
 
                 t += step;
             }
 
-            // The calculation requires an extra entry at the end.
-            _samples[samplesPerCycle] = _samples[0];
-
-            _samplesPerRadian = samplesPerCycle / Maths.TWO_PI;
+            return samples;
         }
 
-        // Less float operations: +/- 20% faster.
-        public double Sin(double angleInRadians)
+        public static double Sin(double angleInRadians)
         {
-            int i = (int)(angleInRadians * _samplesPerRadian);
+            int i = (int)(angleInRadians * SAMPLES_PER_RADIAN);
 
-            i = i % _samplesPerCycle;
+            i = i % SAMPLES_PER_CYCLE;
 
             if (i < 0)
             {
-                i = _samplesPerCycle - i;
+                i = i + SAMPLES_PER_CYCLE;
             }
 
             double x = _samples[i];

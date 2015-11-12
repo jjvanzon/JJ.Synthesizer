@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double dt = time - _previousTime;
             _phase = _phase + Maths.TWO_PI * dt * frequency;
 
-            double value = Math.Sin(_phase);
+            double value = SineCalculator.Sin(_phase);
 
             _previousTime = time;
 
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double dt = time - _previousTime;
             _phase = _phase + Maths.TWO_PI * dt * frequency;
 
-            double result = Math.Sin(_phase + _phaseShiftTimeTwoPi);
+            double result = SineCalculator.Sin(_phase + _phaseShiftTimeTwoPi);
 
             _previousTime = time;
 
@@ -91,7 +91,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double dt = time - _previousTime;
             _phase = _phase + Maths.TWO_PI * dt * frequency;
 
-            double result = Math.Sin(_phase + Maths.TWO_PI * phaseShift);
+            double result = SineCalculator.Sin(_phase + Maths.TWO_PI * phaseShift);
 
             _previousTime = time;
 
@@ -103,20 +103,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly double _frequencyTimesTwoPi;
 
-        private readonly SineCalculator _sineCalculator;
-
         public Sine_WithConstFrequency_WithoutPhaseShift_OperatorCalculator(double frequency)
         {
             if (frequency == 0.0) throw new ZeroException(() => frequency);
             _frequencyTimesTwoPi = frequency * Maths.TWO_PI;
-
-            _sineCalculator = new SineCalculator();
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            //double value = Math.Sin(time * _frequencyTimesTwoPi);
-            double value = _sineCalculator.Sin(time * _frequencyTimesTwoPi);
+            double value = SineCalculator.Sin(time * _frequencyTimesTwoPi);
             return value;
         }
     }
@@ -137,7 +132,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(double time, int channelIndex)
         {
-            double result = Math.Sin(time * _frequencyTimesTwoPi + _phaseShiftTimeTwoPi);
+            double result = SineCalculator.Sin(time * _frequencyTimesTwoPi + _phaseShiftTimeTwoPi);
             return result;
         }
     }
@@ -160,7 +155,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             // TODO: Not tested.
             double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
-            double result = Math.Sin(time * _frequencyTimesTwoPi + Maths.TWO_PI * phaseShift);
+            double result = SineCalculator.Sin(time * _frequencyTimesTwoPi + Maths.TWO_PI * phaseShift);
             return result;
         }
     }
