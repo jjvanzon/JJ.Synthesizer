@@ -1,32 +1,25 @@
-﻿using JJ.Framework.Reflection.Exceptions;
-using System;
-using JJ.Framework.Mathematics;
+﻿using System;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class SawTooth_WithConstFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly double _frequency;
-        private double _phase;
-        private double _previousTime;
+        private double _phaseShift;
 
         public SawTooth_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(double frequency, double phaseShift)
         {
             if (frequency == 0) throw new ZeroException(() => frequency);
 
             _frequency = frequency;
-            _phase = phaseShift;
+            _phaseShift = phaseShift;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double dt = time - _previousTime;
-            _phase = _phase + dt * _frequency;
-
-            double value = -1 + (2 * _phase % 2);
-
-            _previousTime = time;
-
+            double shiftedphase = time * _frequency + _phaseShift;
+            double value = -1.0 + (2.0 * shiftedphase % 2.0);
             return value;
         }
     }
@@ -35,8 +28,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly double _frequency;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
-        private double _phase;
-        private double _previousTime;
 
         public SawTooth_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(
             double frequency,
@@ -54,13 +45,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
 
-            double dt = time - _previousTime;
-            _phase = _phase + dt * _frequency;
+            double phase = time * _frequency;
 
-            double shiftedPhase = _phase + phaseShift;
+            double shiftedPhase = phase + phaseShift;
             double value = -1 + (2 * shiftedPhase % 2);
-
-            _previousTime = time;
 
             return value;
         }

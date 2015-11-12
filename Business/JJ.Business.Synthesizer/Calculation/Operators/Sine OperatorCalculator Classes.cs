@@ -132,7 +132,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(double time, int channelIndex)
         {
-            // TODO: Not tested.
             double result = Math.Sin(time * _frequencyTimesTwoPi + _phaseShiftTimeTwoPi);
             return result;
         }
@@ -142,8 +141,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly double _frequencyTimesTwoPi;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
-        private double _phase;
-        private double _previousTime;
 
         public Sine_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(double frequency, OperatorCalculatorBase phaseShiftCalculator)
         {
@@ -158,7 +155,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             // TODO: Not tested.
             double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
-
             double result = Math.Sin(time * _frequencyTimesTwoPi + Maths.TWO_PI * phaseShift);
             return result;
         }

@@ -6,40 +6,34 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class TriangleWave_WithConstFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly double _frequency;
-        private double _phase;
-        private double _previousTime;
+        private double _phaseShift;
 
         public TriangleWave_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(double frequency, double phaseShift)
         {
             _frequency = frequency;
-            _phase = phaseShift;
+            _phaseShift = phaseShift;
 
-            // Correct the phase, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
-            _phase += 0.25;
+            // Correct the phase shift, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
+            _phaseShift += 0.25;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double dt = time - _previousTime;
-            _phase = _phase + dt * _frequency;
-
-            double value;
-            double relativePhase = _phase % 1.0;
+            double phase = time * _frequency + _phaseShift;
+            double relativePhase = phase % 1.0;
             if (relativePhase < 0.5)
             {
                 // Starts going up at a rate of 2 up over 1/2 a cycle.
-                value = -1.0 + 4.0 * relativePhase;
+                double value = -1.0 + 4.0 * relativePhase;
+                return value;
             }
             else
             {
                 // And then going down at phase 1/2.
                 // (Extending the line to x = 0 it ends up at y = 3.)
-                value = 3.0 - 4.0 * relativePhase;
+                double value = 3.0 - 4.0 * relativePhase;
+                return value;
             }
-
-            _previousTime = time;
-
-            return value;
         }
     }
 
@@ -47,8 +41,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     {
         private readonly double _frequency;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
-        private double _phase;
-        private double _previousTime;
 
         public TriangleWave_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(
             double frequency,
@@ -59,36 +51,30 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _frequency = frequency;
             _phaseShiftCalculator = phaseShiftCalculator;
-
-            // Correct the phase, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
-            _phase = 0.25;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
             double phaseShift = _phaseShiftCalculator.Calculate(time, channelIndex);
+            double phase = time * _frequency + phaseShift;
 
-            double dt = time - _previousTime;
-            _phase = _phase + dt * _frequency;
+            // Correct the phase, because our calculation starts with value -1, but in practice you want to start at value 0 going up.
+            phase += 0.25;
 
-            double shiftedPhase = _phase + phaseShift;
-            double relativePhase = shiftedPhase % 1.0;
-            double value;
+            double relativePhase = phase % 1.0;
             if (relativePhase < 0.5)
             {
                 // Starts going up at a rate of 2 up over 1/2 a cycle.
-                value = -1.0 + 4.0 * relativePhase;
+                double value = -1.0 + 4.0 * relativePhase;
+                return value;
             }
             else
             {
                 // And then going down at phase 1/2.
                 // (Extending the line to x = 0 it ends up at y = 3.)
-                value = 3.0 - 4.0 * relativePhase;
+                double value = 3.0 - 4.0 * relativePhase;
+                return value;
             }
-
-            _previousTime = time;
-
-            return value;
         }
     }
 
