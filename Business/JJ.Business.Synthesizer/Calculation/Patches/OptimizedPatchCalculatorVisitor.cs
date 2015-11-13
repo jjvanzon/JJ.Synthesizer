@@ -336,15 +336,25 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool highIsConst = highCalculator is Number_OperatorCalculator;
             bool ratioIsConst = ratioCalculator is Number_OperatorCalculator;
 
-            // TODO: Program specialization in case of special values later.
-            //bool lowIsConstZero = lowIsConst && low == 0;
-            //bool highIsConstZero = lowIsConst && high == 0;
+            // TODO: Program more specialized cases?
+            bool lowIsConstZero = lowIsConst && low == 0;
+            bool highIsConstZero = lowIsConst && high == 0;
             //bool ratioIsConstZero = ratioIsConst && ratio == 0;
             //bool lowIsConstOne = lowIsConst && low == 1;
             //bool highIsConstOne = lowIsConst && high == 1;
             //bool ratioIsConstOne = ratioIsConst && ratio == 1;
 
-            if (lowIsConst && highIsConst && ratioIsConst)
+            if (lowIsConstZero)
+            {
+                // Weird number.
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (highIsConstZero)
+            {
+                // Would result in 0. See formula further down
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (lowIsConst && highIsConst && ratioIsConst)
             {
                 double value = low * Math.Pow(high / low, ratio);
                 calculator = new Number_OperatorCalculator(value);
@@ -576,11 +586,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Number_OperatorCalculator(signal);
             }
-            // TODO: Uncomment if the specialized calculator is up-to-date.
-            //else if (samplingRateIsConst)
-            //{
-            //    calculator = new Resample_WithConstSamplingRate_OperatorCalculator(signalCalculator, samplingRate);
-            //}
             else
             {
                 calculator = new Resample_OperatorCalculator(signalCalculator, samplingRateCalculator);

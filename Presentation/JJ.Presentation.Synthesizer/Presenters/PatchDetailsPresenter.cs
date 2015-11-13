@@ -252,7 +252,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// TODO: This action is too dependent on infrastructure, because the AudioFileOutput business logic is.
         /// Instead of writing to a file it had better write to a stream.
         /// </summary>
-        public string Play(RepositoryWrapper repositoryWrapper)
+        public string Play(RepositoryWrapper repositories)
         {
             AssertViewModel();
 
@@ -282,7 +282,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             Outlet outlet = selectedOperator.Outlets.Single();
 
-            AudioFileOutputManager audioFileOutputManager = CreateAudioFileOutputManager(repositoryWrapper);
+            // TODO: I would think you need to use the Api instead, but when I did that,
+            // I got an assertion 'Underlying Document with ID ... not found.'
+            AudioFileOutputManager audioFileOutputManager = CreateAudioFileOutputManager(repositories);
             AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
             audioFileOutput.FilePath = _patchPlayOutputFilePath;
             audioFileOutput.Duration = _patchPlayDuration;

@@ -1,6 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Calculation.Samples;
 using JJ.Data.Synthesizer;
 using System;
+using JJ.Business.Synthesizer.Api;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {
@@ -10,7 +11,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
 
         public HardCodedOperatorCalculator(Sample sample, byte[] bytes)
         {
-            _sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sample, bytes);
+            _sampleCalculator = SampleApi.CreateCalculator(sample, bytes);
         }
 
         public double CalculateTimePowerWithEcho(double time)

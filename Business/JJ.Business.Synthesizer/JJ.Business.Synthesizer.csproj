@@ -106,7 +106,6 @@
     <Compile Include="Calculation\Samples\Byteless_SampleCalculator.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorFactory.cs" />
-    <Compile Include="Calculation\2015-11-13 Backup of SineCalculator2.cs" />
     <Compile Include="Calculation\SineCalculator.cs" />
     <Compile Include="Calculation\WhiteNoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
@@ -394,6 +393,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Calculation\AudioFileOutputs\AudioFileOutputCalculators.cd" />
     <None Include="Calculation\Operators\Adder_OperatorCalculators.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Adder_OperatorCalculators.cs</LastGenOutput>

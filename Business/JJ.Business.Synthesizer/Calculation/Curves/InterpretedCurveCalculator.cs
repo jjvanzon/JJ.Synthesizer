@@ -81,9 +81,6 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 
         public double CalculateValue(double time)
         {
-            // TODO: This performs badly. Precalculate samples and do a simple linear interpolation here.
-            // You may actually delegate to a sample calculator for that.
-
             // Find the node right after the time.
             Node node1 = null;
             int node1Index = 0;

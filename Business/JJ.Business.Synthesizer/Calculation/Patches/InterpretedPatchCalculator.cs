@@ -767,7 +767,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             // Get Result
-            double result = Math.Sin(phase);
+            double result = SineCalculator.Sin(phase);
 
             // Store phase variables
             _phaseDictionary[key] = phase;

@@ -13,6 +13,9 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
         protected override void WriteValue(BinaryWriter binaryWriter, double value)
         {
+            if (value < short.MinValue) value = short.MinValue;
+            if (value > short.MaxValue) value = short.MaxValue;
+
             short convertedValue = (short)value;
             binaryWriter.Write(convertedValue);
         }

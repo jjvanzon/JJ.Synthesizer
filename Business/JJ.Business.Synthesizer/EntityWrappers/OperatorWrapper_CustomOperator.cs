@@ -77,6 +77,5 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         //    //if (document.Name 
         //}
-
     }
 }

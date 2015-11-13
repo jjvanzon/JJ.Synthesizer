@@ -1171,9 +1171,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     throw new Exception(String.Format("NodeProperties with Entity.ID '{0}' not found in either root DocumentViewModel or its ChildDocumentViewModels.", nodeID));
                 }
-
-                // TODO: Remove outcommented code.
-                //DispatchViewModel(_curveDetailsPresenter.ViewModel);
             }
             finally
             {
@@ -2200,9 +2197,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
-
-                // TODO: Remove outcommented code.
-                // HACK_CreateCurves(rootDocument);
 
                 string outputFilePath = _patchDetailsPresenter.Play(_repositories);
 

@@ -14,6 +14,7 @@ using JJ.Framework.IO;
 using JJ.Business.Synthesizer.Converters;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Calculation.Samples;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -119,6 +120,11 @@ namespace JJ.Business.Synthesizer.Managers
             byte[] bytes = StreamHelper.StreamToBytes(stream);
 
             return CreateSample(stream, bytes);
+        }
+
+        public ISampleCalculator CreateCalculator(Sample sample, byte[] bytes)
+        {
+            return SampleCalculatorFactory.CreateSampleCalculator(sample, bytes);
         }
 
         // Private Methods

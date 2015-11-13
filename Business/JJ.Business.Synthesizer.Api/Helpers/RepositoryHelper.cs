@@ -11,7 +11,6 @@ namespace JJ.Business.Synthesizer.Api.Helpers
 {
     internal static class RepositoryHelper
     {
-
         // AudioFileOutputRepositories
 
         private static AudioFileOutputRepositories _audioFileOutputRepositories = CreateAudioFileOutputRepositories();
@@ -30,6 +29,21 @@ namespace JJ.Business.Synthesizer.Api.Helpers
                 CreateRepository<IOutletRepository>(ContextHelper.MemoryContext),
                 CreateRepository<ICurveRepository>(ContextHelper.MemoryContext),
                 CreateRepository<ISampleRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
+        }
+
+        // CurveRepositories
+
+        private static CurveRepositories _curveRepositories = CreateCurveRepositories();
+
+        public static CurveRepositories CurveRepositories { get { return _curveRepositories; } }
+
+        private static CurveRepositories CreateCurveRepositories()
+        {
+            return new CurveRepositories(
+                CreateRepository<ICurveRepository>(ContextHelper.MemoryContext),
+                CreateRepository<INodeRepository>(ContextHelper.MemoryContext),
+                CreateRepository<INodeTypeRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
         }
 
@@ -54,18 +68,21 @@ namespace JJ.Business.Synthesizer.Api.Helpers
                 CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
         }
 
-        // CurveRepositories
+        // SampleRepositories
 
-        private static CurveRepositories _curveRepositories = CreateCurveRepositories();
+        private static SampleRepositories _sampleRepositories = CreateSampleRepositories();
 
-        public static CurveRepositories CurveRepositories { get { return _curveRepositories; } }
+        public static SampleRepositories SampleRepositories { get { return _sampleRepositories; } }
 
-        private static CurveRepositories CreateCurveRepositories()
+        private static SampleRepositories CreateSampleRepositories()
         {
-            return new CurveRepositories(
-                CreateRepository<ICurveRepository>(ContextHelper.MemoryContext),
-                CreateRepository<INodeRepository>(ContextHelper.MemoryContext),
-                CreateRepository<INodeTypeRepository>(ContextHelper.MemoryContext),
+            return new SampleRepositories(
+                CreateRepository<IDocumentRepository>(ContextHelper.MemoryContext),
+                CreateRepository<ISampleRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IAudioFileFormatRepository>(ContextHelper.MemoryContext),
+                CreateRepository<ISampleDataTypeRepository>(ContextHelper.MemoryContext),
+                CreateRepository<ISpeakerSetupRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IInterpolationTypeRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
         }
 

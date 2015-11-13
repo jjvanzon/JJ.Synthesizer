@@ -6,8 +6,7 @@ using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
-    // TODO: Expose through sample manager only and make this class internal.
-    public static class SampleCalculatorFactory
+    internal static class SampleCalculatorFactory
     {
         /// <param name="bytes">nullable</param>
         public static ISampleCalculator CreateSampleCalculator(Sample sample, byte[] bytes)

@@ -13,6 +13,10 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
         protected override void WriteValue(BinaryWriter binaryWriter, double value)
         {
             value += 128;
+
+            if (value < byte.MinValue) value = byte.MinValue;
+            if (value > byte.MaxValue) value = byte.MaxValue;
+
             byte convertedValue = (byte)value;
             binaryWriter.Write(convertedValue);
         }
