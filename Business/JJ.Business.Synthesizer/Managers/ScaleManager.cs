@@ -95,6 +95,7 @@ namespace JJ.Business.Synthesizer.Managers
             IValidator validator1 = new ScaleValidator_Versatile(scale);
             IValidator validator2 = new ScaleValidator_Tones(scale);
             IValidator validator3 = new ScaleValidator_InDocument(scale);
+            //IValidator validator4 = new ScaleValidator_InDocument(scale);
 
             var result = new VoidResult();
 

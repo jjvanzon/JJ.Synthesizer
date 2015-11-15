@@ -35,6 +35,7 @@ namespace JJ.Business.Synthesizer.Validation
             _alreadyDone.Add(document);
 
             Execute<DocumentValidator_Basic>();
+            Execute<DocumentValidator_Unique_ScaleNames>();
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
             {

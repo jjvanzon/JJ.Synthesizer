@@ -187,6 +187,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} names are not unique. Duplicate names: {1}..
+        /// </summary>
+        internal static string NamesNotUnique_WithEntityTypeNameAndNames {
+            get {
+                return ResourceManager.GetString("NamesNotUnique_WithEntityTypeNameAndNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} named &apos;{1}&apos; not found..
         /// </summary>
         internal static string NotFound_WithTypeName_AndName {

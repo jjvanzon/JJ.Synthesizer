@@ -11,6 +11,7 @@ namespace JJ.Business.Synthesizer.SideEffects
     {
         private Operator _entity;
 
+        /// <summary> Currently (2015-11-13) only used for generating names for PatchInlet and PatchOutlet operators. </summary>
         public Operator_SideEffect_GenerateName(Operator entity)
         {
             if (entity == null) throw new NullException(() => entity);

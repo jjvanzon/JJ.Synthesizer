@@ -1,5 +1,9 @@
 ﻿using JJ.Business.Synthesizer.Enums;
 using System;
+using System.Collections.Generic;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Common;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Resources
 {
@@ -148,6 +152,15 @@ namespace JJ.Business.Synthesizer.Resources
         public static string OperatorHasNoInletFilledIn_WithOperatorName(string name)
         {
             return String.Format(Messages.OperatorHasNoInletFilledIn_WithOperatorName, name);
+        }
+
+        public static string NamesNotUnique_WithEntityTypeNameAndNames(string entityTypeDisplayName, IList<string> duplicateNames)
+        {
+            if (duplicateNames == null) throw new NullException(() => duplicateNames);
+
+            string formattedDuplicateNames = String.Join(", ", duplicateNames.Select(x => String.Format("'{0}'", x)));
+
+            return String.Format(Messages.NamesNotUnique_WithEntityTypeNameAndNames, entityTypeDisplayName, formattedDuplicateNames);
         }
     }
 }

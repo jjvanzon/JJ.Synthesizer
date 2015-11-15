@@ -676,6 +676,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
+                // TODO: Delegate this to the manager.
                 IValidator validator = new DocumentValidator_Recursive(document, _repositories, alreadyDone: new HashSet<object>());
                 IValidator warningsValidator = new DocumentWarningValidator_Recursive(document, _repositories.SampleRepository, new HashSet<object>());
 

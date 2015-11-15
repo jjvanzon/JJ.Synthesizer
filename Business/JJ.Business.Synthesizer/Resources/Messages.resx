@@ -251,4 +251,8 @@
     <value>Cannot change the amount of outlets, because outlet {0} is still in use.</value>
     <comment>{0} = number</comment>
   </data>
+  <data name="NamesNotUnique_WithEntityTypeNameAndNames" xml:space="preserve">
+    <value>{0} names are not unique. Duplicate names: {1}.</value>
+    <comment>{0} = object type singular, e.g. 'Scale', {1} = comma separated list of names</comment>
+  </data>
 </root>

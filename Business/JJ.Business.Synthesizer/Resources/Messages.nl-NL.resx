@@ -244,4 +244,8 @@
     <value>Kan het aantal uitgangen niet aanpassen, omdat uitgang {0} in gebruik is.</value>
     <comment>{0} = number</comment>
   </data>
+  <data name="NamesNotUnique_WithEntityTypeNameAndNames" xml:space="preserve">
+    <value>{0} namen zijn niet uniek. Dubbele namen: {1}.</value>
+    <comment>{0} = object type singular, e.g. 'Scale', {1} = comma separated list of names</comment>
+  </data>
 </root>

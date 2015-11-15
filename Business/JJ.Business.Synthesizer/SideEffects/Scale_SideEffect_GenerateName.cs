@@ -5,6 +5,8 @@ using JJ.Framework.Reflection.Exceptions;
 using System;
 using System.Linq;
 using JJ.Business.Synthesizer.Extensions;
+using System.Collections.Generic;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
@@ -22,12 +24,10 @@ namespace JJ.Business.Synthesizer.SideEffects
         {
             if (_entity.Document == null) throw new NullException(() => _entity.Document);
 
-            // TODO: When it proves to work that a name becomes unique within the whole parent-child tree of documents,
-            // apply this to other GenerateName SideEffects too.
-            string[] existingNames = _entity.Document.EnumerateSelfAndParentAndChildren()
-                                                     .SelectMany(x => x.Scales)
-                                                     .Select(x => x.Name)
-                                                     .ToArray();
+            HashSet<string> existingNames = _entity.Document.EnumerateSelfAndParentAndChildren()
+                                                            .SelectMany(x => x.Scales)
+                                                            .Select(x => x.Name)
+                                                            .ToHashSet();
             int number = 1;
             string suggestedName;
             bool nameExists;
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.SideEffects
             do
             {
                 suggestedName = String.Format("{0} {1}", PropertyDisplayNames.Scale, number++);
-                nameExists = existingNames.Where(x => String.Equals(x, suggestedName)).Any();
+                nameExists = existingNames.Contains(suggestedName);
             }
             while (nameExists);
 

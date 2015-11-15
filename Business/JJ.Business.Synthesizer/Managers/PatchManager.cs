@@ -403,11 +403,6 @@ namespace JJ.Business.Synthesizer.Managers
                 DeleteInlet(inlet);
             }
 
-            // Validate just in case some rule is not adhered to in the transformations above.
-            // TODO: Uncommented. Perhaps remove completely. In practice I do a validation afterwards anyway.
-            //VoidResult result = ValidateNonRecursive(entity);
-            //return result;
-
             return new VoidResult
             {
                 Successful = true

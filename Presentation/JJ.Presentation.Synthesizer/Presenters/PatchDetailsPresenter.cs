@@ -8,14 +8,11 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Common;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ToViewModel;
-using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -151,16 +148,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                                                                    .Single();
             inletViewModel.InputOutlet = inputOutletViewModel;
 
-            // Mostly, we need to refresh the IsOwned property of the OperatorViewModel here.
-            // But for that we need the whole patch again.
-
-            // TODO: Strange that above you decide to operate on some view models,
-            // and below you decide to operator on the whole entity again.
+            // We need to restore the whole patch,
+            // because we need to update the IsOwned property,
+            // based on the state of other (uncommitted) operators.
             Patch patch = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            OperatorViewModel operatorViewModel = inputOutletViewModel.Operator;
-            Operator op = _repositories.OperatorRepository.Get(operatorViewModel.ID);
-
+            // Refresh IsOwned.
+            Operator op = _repositories.OperatorRepository.Get(inputOutletViewModel.Operator.ID);
+            OperatorViewModel operatorViewModel = ViewModel.Entity.Operators.First(x => x.ID == op.ID);
             operatorViewModel.IsOwned = ViewModelHelper.GetOperatorIsOwned(op);
         }
 

@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
+using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -226,5 +227,10 @@ namespace JJ.Business.Synthesizer.Validation
 
             return op.ID.ToString();
         }
+
+        //public static IList<string> GetDuplicateScaleNames(Document document)
+        //{
+
+        //}
     }
 }

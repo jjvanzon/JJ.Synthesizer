@@ -87,6 +87,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NAudio", "External Componen
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.OneOff.Synthesizer.DataMigration", "OneOff\JJ.OneOff.Synthesizer.DataMigration\JJ.OneOff.Synthesizer.DataMigration.csproj", "{B06307FD-4319-4C0F-BF01-43900D5B36BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Demos.Misc", "Demos\JJ.Demos.Misc\JJ.Demos.Misc.csproj", "{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -898,6 +900,30 @@ Global
 		{B06307FD-4319-4C0F-BF01-43900D5B36BB}.Release|x64.Build.0 = Release|Any CPU
 		{B06307FD-4319-4C0F-BF01-43900D5B36BB}.Release|x86.ActiveCfg = Release|Any CPU
 		{B06307FD-4319-4C0F-BF01-43900D5B36BB}.Release|x86.Build.0 = Release|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Debug|x64.Build.0 = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Debug|x86.Build.0 = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.NPDebug|Any CPU.Build.0 = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.NPDebug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.NPDebug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.NPDebug|x64.ActiveCfg = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.NPDebug|x64.Build.0 = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.NPDebug|x86.ActiveCfg = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.NPDebug|x86.Build.0 = Debug|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Release|x64.ActiveCfg = Release|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Release|x64.Build.0 = Release|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Release|x86.ActiveCfg = Release|Any CPU
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -931,9 +957,10 @@ Global
 		{5909BFE7-93CF-4E5F-BE22-6293368AF01D} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{529145D5-6CC3-4016-89B5-826563024AF1} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{DA4F02E3-0B5E-42CD-B8D9-5583FA51D66E} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 42
+		SccNumberOfProjects = 43
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://jjs-server:8080/tfs/defaultcollection
 		SccLocalPath0 = .
@@ -1088,5 +1115,9 @@ Global
 		SccProjectUniqueName41 = OneOff\\JJ.OneOff.Synthesizer.DataMigration\\JJ.OneOff.Synthesizer.DataMigration.csproj
 		SccProjectName41 = OneOff/JJ.OneOff.Synthesizer.DataMigration
 		SccLocalPath41 = OneOff\\JJ.OneOff.Synthesizer.DataMigration
+		SccProjectUniqueName42 = Demos\\JJ.Demos.Misc\\JJ.Demos.Misc.csproj
+		SccProjectTopLevelParentUniqueName42 = Synthesizer.sln
+		SccProjectName42 = Demos/JJ.Demos.Misc
+		SccLocalPath42 = Demos\\JJ.Demos.Misc
 	EndGlobalSection
 EndGlobal
