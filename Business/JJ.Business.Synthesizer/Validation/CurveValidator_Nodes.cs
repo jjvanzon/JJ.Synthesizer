@@ -5,17 +5,15 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class CurveValidator : FluentValidator<Curve>
+    internal class CurveValidator_Nodes : FluentValidator<Curve>
     {
-        public CurveValidator(Curve obj)
+        public CurveValidator_Nodes(Curve obj)
             : base(obj)
         { }
 
         protected override void Execute()
         {
             Curve curve = Object;
-
-            Execute(new NameValidator(curve.Name, required: false));
 
             For(() => curve.Nodes.Count, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Nodes)).MinValue(2);
 

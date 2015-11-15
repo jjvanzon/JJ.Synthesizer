@@ -3,22 +3,33 @@ using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using System.Collections.Generic;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class DocumentValidator_Recursive : FluentValidator<Document>
+    internal class DocumentValidator_Recursive : FluentValidator<Document>
     {
-        private RepositoryWrapper _repositoryWrapper;
+        private ICurveRepository _curveRepository;
+        private ISampleRepository _sampleRepository;
+        private IDocumentRepository _documentRepository;
         private HashSet<object> _alreadyDone;
 
-        // TODO: See if you can get away with passing less repositories than present in the RepositoryWrapper.
-        public DocumentValidator_Recursive(Document document, RepositoryWrapper repositoryWrapper, HashSet<object> alreadyDone)
+        public DocumentValidator_Recursive(
+            Document document, 
+            ICurveRepository curveRepository,
+            ISampleRepository sampleRepository,
+            IDocumentRepository documentRepository,
+            HashSet<object> alreadyDone)
             : base(document, postponeExecute: true)
         {
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            if (curveRepository == null) throw new NullException(() => curveRepository);
+            if (sampleRepository == null) throw new NullException(() => sampleRepository);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
             if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 
-            _repositoryWrapper = repositoryWrapper;
+            _curveRepository = curveRepository;
+            _sampleRepository = sampleRepository;
+            _documentRepository = documentRepository;
             _alreadyDone = alreadyDone;
 
             Execute();
@@ -35,7 +46,12 @@ namespace JJ.Business.Synthesizer.Validation
             _alreadyDone.Add(document);
 
             Execute<DocumentValidator_Basic>();
-            Execute<DocumentValidator_Unique_ScaleNames>();
+
+            bool isRootDocument = document.ParentDocument == null;
+            if (isRootDocument)
+            {
+                Execute<DocumentValidator_Unicity>();
+            }
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)
             {
@@ -50,13 +66,15 @@ namespace JJ.Business.Synthesizer.Validation
                 }
                 _alreadyDone.Add(curve);
 
-                Execute(new CurveValidator(curve), ValidationHelper.GetMessagePrefix(curve));
+                string messagePrefix = ValidationHelper.GetMessagePrefix(curve);
+                Execute(new CurveValidator_WithoutNodes(curve), messagePrefix);
+                Execute(new CurveValidator_Nodes(curve), messagePrefix);
             }
 
             foreach (Patch patch in document.Patches)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
-                Execute(new PatchValidator_Recursive(patch, _repositoryWrapper.CurveRepository, _repositoryWrapper.SampleRepository, _repositoryWrapper.DocumentRepository, _alreadyDone), messagePrefix);
+                Execute(new PatchValidator_Recursive(patch, _curveRepository, _sampleRepository, _documentRepository, _alreadyDone), messagePrefix);
                 Execute(new PatchValidator_InDocument(patch), messagePrefix);
             }
 
@@ -64,7 +82,8 @@ namespace JJ.Business.Synthesizer.Validation
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(scale);
                 Execute(new ScaleValidator_InDocument(scale), messagePrefix);
-                Execute(new ScaleValidator_Versatile(scale), messagePrefix);
+                Execute(new ScaleValidator_Versatile_WithoutTones(scale), messagePrefix);
+                Execute(new ScaleValidator_Tones(scale), messagePrefix);
             }
 
             foreach (Sample sample in document.Samples)
@@ -80,7 +99,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             foreach (Document childDocument in document.ChildDocuments)
             {
-                Execute(new DocumentValidator_Recursive(childDocument, _repositoryWrapper, _alreadyDone), ValidationHelper.GetMessagePrefixForChildDocument(childDocument));
+                Execute(new DocumentValidator_Recursive(childDocument, _curveRepository, _sampleRepository, _documentRepository, _alreadyDone), ValidationHelper.GetMessagePrefixForChildDocument(childDocument));
             }
 
             // TODO:
@@ -90,7 +109,6 @@ namespace JJ.Business.Synthesizer.Validation
             // DependentDocuments
             // MainPatch
 
-            // Name unicity within a root document.
             // TODO: Compare to validation in Circle code base.
             // TODO: Some collections / references must be filled in / empty depending on its being a root document or not.
         }

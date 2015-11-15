@@ -7,30 +7,32 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class DocumentDetailsPresenter
     {
-        private IDocumentRepository _documentRepository;
-        private IIDRepository _idRepository;
+        private RepositoryWrapper _repositories;
+        private DocumentManager _documentManager;
 
         public DocumentDetailsViewModel ViewModel { get; private set; }
 
-        public DocumentDetailsPresenter(IDocumentRepository documentRepository, IIDRepository idRepository)
+        public DocumentDetailsPresenter(RepositoryWrapper repositories)
         {
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            _documentRepository = documentRepository;
-            _idRepository = idRepository;
+            _repositories = repositories;
+            _documentManager = new DocumentManager(repositories);
         }
 
         public DocumentDetailsViewModel Create()
         {
             var document = new Document();
-            document.ID = _idRepository.GetID();
-            _documentRepository.Insert(document);
+            document.ID = _repositories.IDRepository.GetID();
+            _repositories.DocumentRepository.Insert(document);
 
             ViewModel = document.ToDetailsViewModel();
             ViewModel.IDVisible = false;
@@ -44,24 +46,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Document document = ViewModel.ToEntity(_documentRepository);
+            Document document = ViewModel.ToEntity(_repositories.DocumentRepository);
 
-            IValidator validator = new DocumentValidator_Basic(document);
-            if (!validator.IsValid)
+            VoidResult result = _documentManager.ValidateNonRecursive(document);
+            if (!result.Successful)
             {
-                if (ViewModel == null)
-                {
-                    ViewModel = document.ToDetailsViewModel();
-                    ViewModel.IDVisible = ViewModel.IDVisible;
-                    ViewModel.CanDelete = ViewModel.CanDelete;
-                }
-
-                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                ViewModel.ValidationMessages = result.Messages;
             }
             else
             {
                 // TODO: Perhaps report success and leave Committing to the MainPresenter.
-                _documentRepository.Commit();
+                _repositories.DocumentRepository.Commit();
 
                 if (ViewModel == null)
                 {

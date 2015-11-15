@@ -6,12 +6,12 @@ namespace JJ.Data.Synthesizer
     {
         public Document()
         {
+            AudioFileOutputs = new List<AudioFileOutput>();
             ChildDocuments = new List<Document>();
             Curves = new List<Curve>();
             Patches = new List<Patch>();
             Samples = new List<Sample>();
             Scales = new List<Scale>();
-            AudioFileOutputs = new List<AudioFileOutput>();
             DependentOnDocuments = new List<DocumentReference>();
             DependentDocuments = new List<DocumentReference>();
         }
@@ -19,10 +19,10 @@ namespace JJ.Data.Synthesizer
         public virtual int ID { get; set; }
         public virtual string Name { get; set; }
 
+        public virtual IList<AudioFileOutput> AudioFileOutputs { get; set; }
         public virtual IList<Curve> Curves { get; set; }
         public virtual IList<Patch> Patches { get; set; }
         public virtual IList<Sample> Samples { get; set; }
-        public virtual IList<AudioFileOutput> AudioFileOutputs { get; set; }
         public virtual IList<Scale> Scales { get; set; }
 
         public virtual ChildDocumentType ChildDocumentType { get; set; }

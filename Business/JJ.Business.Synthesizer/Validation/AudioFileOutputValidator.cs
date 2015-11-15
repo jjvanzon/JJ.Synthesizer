@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class AudioFileOutputValidator : FluentValidator<AudioFileOutput>
+    internal class AudioFileOutputValidator : FluentValidator<AudioFileOutput>
     {
         public AudioFileOutputValidator(AudioFileOutput obj)
             : base(obj)

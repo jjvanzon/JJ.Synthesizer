@@ -182,6 +182,13 @@
     <Compile Include="Managers\CurveManager.cs" />
     <Compile Include="Managers\DocumentManager.cs" />
     <Compile Include="Managers\EntityPositionManager.cs" />
+    <Compile Include="Validation\CurveValidator_InDocument.cs" />
+    <Compile Include="Validation\CurveValidator_Nodes.cs" />
+    <Compile Include="Validation\SampleValidator_UniqueName.cs" />
+    <Compile Include="Validation\PatchValidator_UniqueName.cs" />
+    <Compile Include="Validation\CurveValidator_UniqueName.cs" />
+    <Compile Include="Validation\DocumentValidator_Unicity.cs" />
+    <Compile Include="Validation\2015-11-15 Backup of DocumentValidator_UniqueCurveNames.cs" />
     <Compile Include="Validation\OperatorValidator_SetInletCount.cs" />
     <Compile Include="Managers\PatchManager.CreateOperator.cs" />
     <Compile Include="Managers\PatchManager.cs" />
@@ -247,16 +254,19 @@
     <Compile Include="Validation\PatchValidator_Recursive.cs" />
     <Compile Include="Validation\SampleValidator_Delete.cs" />
     <Compile Include="Validation\ScaleValidator_InDocument.cs" />
+    <Compile Include="Validation\AudioFileOutputValidator_UniqueName.cs" />
+    <Compile Include="Validation\ScaleValidator_UniqueName.cs" />
     <Compile Include="Validation\ScaleValidator_SemiTone.cs" />
     <Compile Include="Validation\ScaleValidator_Exponent.cs" />
     <Compile Include="Validation\ScaleValidator_Factor.cs" />
     <Compile Include="Validation\ScaleValidator_LiteralFrequency.cs" />
     <Compile Include="Validation\ScaleValidator_Basic.cs" />
-    <Compile Include="Validation\DocumentValidator_Unique_ScaleNames.cs" />
+    <Compile Include="Validation\2015-11-15 Backup of DocumentValidator_UniqueScaleNames.cs" />
     <Compile Include="Validation\ScaleValidator_Tones.cs" />
-    <Compile Include="Validation\ScaleValidator_Versatile.cs" />
+    <Compile Include="Validation\ScaleValidator_Versatile_WithoutTones.cs" />
     <Compile Include="Validation\ToneValidator.cs" />
     <Compile Include="Validation\ValidationHelper.cs" />
+    <Compile Include="Validation\ValidationHelper.MessagePrefixes.cs" />
     <Compile Include="Validation\OperatorValidator_Recursive_IsOfSamePatchOrPatchIsNull.cs" />
     <Compile Include="Validation\WavHeaderStructValidator.cs" />
     <Compile Include="Calculation\Patches\OptimizedPatchCalculatorVisitor.cs" />
@@ -277,7 +287,7 @@
     <Compile Include="Warnings\SampleWarningValidator.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Base.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Sample.cs" />
-    <Compile Include="Validation\CurveValidator.cs" />
+    <Compile Include="Validation\2015-11-15 Backup of CurveValidator.cs" />
     <Compile Include="Validation\NodeValidator_WithoutParent.cs" />
     <Compile Include="Validation\OperatorValidator_SlowDown.cs" />
     <Compile Include="Validation\OperatorValidator_Earlier.cs" />
@@ -403,6 +413,7 @@
       <LastGenOutput>OptimizedPatchCalculatorVisitor.VisitAdder.cs</LastGenOutput>
     </None>
     <None Include="Calculation\Samples\SampleCalculators.cd" />
+    <Compile Include="Validation\ValidationHelper.Unicity.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

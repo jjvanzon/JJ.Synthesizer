@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class OperatorValidator_PatchInlet : OperatorValidator_Base
+    internal class OperatorValidator_PatchInlet : OperatorValidator_Base
     {
         public OperatorValidator_PatchInlet(Operator obj)
             : base(obj, OperatorTypeEnum.PatchInlet, expectedInletCount: 1, expectedOutletCount: 1)

@@ -10,6 +10,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.CanonicalModel;
+using System;
 
 namespace JJ.Business.Synthesizer.Tests
 {
@@ -30,13 +32,18 @@ namespace JJ.Business.Synthesizer.Tests
             using (IContext context = PersistenceHelper.CreateMemoryContext())
             {
                 RepositoryWrapper repositories = PersistenceHelper.CreateRepositories(context);
-                SampleManager sampleManager =  new SampleManager(new SampleRepositories(repositories));
+                SampleManager sampleManager = new SampleManager(new SampleRepositories(repositories));
                 Stream stream = TestHelper.GetViolin16BitMonoRawStream();
                 SampleInfo sampleInfo = sampleManager.CreateSample(stream, AudioFileFormatEnum.Raw);
                 Sample sample = sampleInfo.Sample;
 
-                IValidator sampleValidator = sampleManager.Validate(sample);
-                sampleValidator.Verify();
+                {
+                    VoidResult validationResult = sampleManager.Validate(sample);
+                    if (!validationResult.Successful)
+                    {
+                        throw new Exception(String.Join(Environment.NewLine, validationResult.Messages));
+                    }
+                }
 
                 double timeMultiplier = 1;
                 double duration = sample.GetDuration(stream.Length);
@@ -50,8 +57,13 @@ namespace JJ.Business.Synthesizer.Tests
                 audioFileOutput.FilePath = OUTPUT_FILE_NAME;
                 audioFileOutput.AudioFileOutputChannels[0].LinkTo(outlet);
 
-                IValidator audioFileOutputValidator = audioFileOutputManager.Validate(audioFileOutput);
-                audioFileOutputValidator.Verify();
+                {
+                    VoidResult validationResult = audioFileOutputManager.Validate(audioFileOutput);
+                    if (!validationResult.Successful)
+                    {
+                        throw new Exception(String.Join(Environment.NewLine, validationResult.Messages));
+                    }
+                }
 
                 audioFileOutputManager.WriteFile(audioFileOutput);
             }

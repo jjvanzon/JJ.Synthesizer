@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Business;
+using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 
@@ -77,11 +78,19 @@ namespace JJ.Business.Synthesizer.Managers
             if (scale == null) throw new NullException(() => scale);
             if (scale.ID == 0) throw new ZeroException(() => scale.ID);
 
-            IValidator validator1 = new ScaleValidator_Versatile(scale);
-            IValidator validator2 = new ScaleValidator_InDocument(scale);
+            var validators = new List<IValidator>
+            {
+                new ScaleValidator_Versatile_WithoutTones(scale),
+                new ScaleValidator_UniqueName(scale)
+            };
+
+            if (scale.Document != null)
+            {
+                validators.Add(new ScaleValidator_InDocument(scale));
+            }
 
             var result = new VoidResult();
-            result.Messages = validator1.ValidationMessages.Union(validator2.ValidationMessages).ToCanonical();
+            result.Messages = validators.SelectMany(x => x.ValidationMessages).ToCanonical();
             result.Successful = result.Messages.Count == 0;
 
             return result;
@@ -92,18 +101,11 @@ namespace JJ.Business.Synthesizer.Managers
             if (scale == null) throw new NullException(() => scale);
             if (scale.ID == 0) throw new ZeroException(() => scale.ID);
 
-            IValidator validator1 = new ScaleValidator_Versatile(scale);
-            IValidator validator2 = new ScaleValidator_Tones(scale);
-            IValidator validator3 = new ScaleValidator_InDocument(scale);
-            //IValidator validator4 = new ScaleValidator_InDocument(scale);
+            VoidResult result = ValidateWithoutTones(scale);
 
-            var result = new VoidResult();
-
-            result.Messages = validator1.ValidationMessages.Union(
-                              validator2.ValidationMessages.Union(
-                              validator3.ValidationMessages)).ToCanonical();
-
-            result.Successful = result.Messages.Count == 0;
+            IValidator validator = new ScaleValidator_Tones(scale);
+            result.Successful &= validator.IsValid;
+            result.Messages.AddRange(validator.ValidationMessages.ToCanonical());
 
             return result;
         }

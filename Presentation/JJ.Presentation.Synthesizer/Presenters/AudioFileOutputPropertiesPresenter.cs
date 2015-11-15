@@ -9,12 +9,14 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Business.Synthesizer.Managers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class AudioFileOutputPropertiesPresenter
     {
         private AudioFileOutputRepositories _repositories;
+        private AudioFileOutputManager _audioFileOutputManager;
 
         public AudioFileOutputPropertiesViewModel ViewModel { get; set; }
 
@@ -23,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (repositories == null) throw new NullException(() => repositories);
 
             _repositories = repositories;
+            _audioFileOutputManager = new AudioFileOutputManager(_repositories);
         }
 
         public void Show()
@@ -40,14 +43,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             bool visible = ViewModel.Visible;
 
             ViewModel = entity.ToPropertiesViewModel(
-                _repositories.AudioFileFormatRepository, 
-                _repositories.SampleDataTypeRepository, 
+                _repositories.AudioFileFormatRepository,
+                _repositories.SampleDataTypeRepository,
                 _repositories.SpeakerSetupRepository);
 
             ViewModel.Visible = visible;
         }
 
-    public void Close()
+        public void Close()
         {
             AssertViewModel();
 
@@ -70,10 +73,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             AudioFileOutput entity = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            IValidator validator = new AudioFileOutputValidator_InDocument(entity);
+            VoidResult result = _audioFileOutputManager.Validate(entity);
 
-            ViewModel.Successful = validator.IsValid;
-            ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+            ViewModel.Successful = result.Successful;
+            ViewModel.ValidationMessages = result.Messages;
         }
 
         private void AssertViewModel()

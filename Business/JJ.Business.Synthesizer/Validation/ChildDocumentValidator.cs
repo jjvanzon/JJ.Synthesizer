@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class ChildDocumentValidator : FluentValidator<Document>
+    internal class ChildDocumentValidator : FluentValidator<Document>
     {
         public ChildDocumentValidator(Document obj)
             : base(obj)

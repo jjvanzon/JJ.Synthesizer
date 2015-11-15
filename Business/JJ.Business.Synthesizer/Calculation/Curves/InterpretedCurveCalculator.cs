@@ -27,8 +27,11 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
             if (curve == null) throw new NullException(() => curve);
             _curve = curve;
 
-            IValidator validator = new CurveValidator(_curve);
-            validator.Verify();
+            IValidator validator1 = new CurveValidator_WithoutNodes(_curve);
+            validator1.Verify();
+
+            IValidator validator2 = new CurveValidator_Nodes(_curve);
+            validator2.Verify();
 
             _sortedNodes = CreateSortedNodes(_curve);
         }

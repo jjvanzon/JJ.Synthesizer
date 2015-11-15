@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class OperatorValidator_Curve : OperatorValidator_Base
+    internal class OperatorValidator_Curve : OperatorValidator_Base
     {
         public OperatorValidator_Curve(Operator op)
             : base(op, OperatorTypeEnum.Curve, expectedInletCount: 0, expectedOutletCount: 1)

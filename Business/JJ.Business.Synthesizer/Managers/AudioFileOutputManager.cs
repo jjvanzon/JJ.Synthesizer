@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -69,12 +70,28 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories.AudioFileOutputRepository.Delete(entity);
         }
 
-        public IValidator Validate(AudioFileOutput audioFileOutput)
+        public VoidResult Validate(AudioFileOutput audioFileOutput)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
-            IValidator validator = new AudioFileOutputValidator(audioFileOutput);
-            return validator;
+            var validators = new List<IValidator>
+            {
+                new AudioFileOutputValidator(audioFileOutput),
+                new AudioFileOutputValidator_UniqueName(audioFileOutput)
+            };
+
+            if (audioFileOutput.Document != null)
+            {
+                validators.Add(new AudioFileOutputValidator_InDocument(audioFileOutput));
+            }
+
+            var result = new VoidResult
+            {
+                Successful = validators.TrueForAll(x => x.IsValid),
+                Messages = validators.SelectMany(x => x.ValidationMessages).ToCanonical()
+            };
+
+            return result;
         }
 
         /// <summary>

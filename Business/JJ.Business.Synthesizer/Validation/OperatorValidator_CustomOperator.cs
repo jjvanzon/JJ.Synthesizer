@@ -13,7 +13,7 @@ using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class OperatorValidator_CustomOperator : FluentValidator<Operator>
+    internal class OperatorValidator_CustomOperator : FluentValidator<Operator>
     {
         private IDocumentRepository _documentRepository;
 

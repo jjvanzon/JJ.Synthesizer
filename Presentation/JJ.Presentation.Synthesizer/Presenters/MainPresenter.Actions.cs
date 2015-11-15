@@ -676,11 +676,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
-                // TODO: Delegate this to the manager.
-                IValidator validator = new DocumentValidator_Recursive(document, _repositories, alreadyDone: new HashSet<object>());
+                VoidResult result = _documentManager.ValidateRecursive(document);
+
+                // TODO: Delegate to the manager
                 IValidator warningsValidator = new DocumentWarningValidator_Recursive(document, _repositories.SampleRepository, new HashSet<object>());
 
-                if (!validator.IsValid)
+                if (!result.Successful)
                 {
                     _repositories.Rollback();
                 }
@@ -689,7 +690,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     _repositories.Commit();
                 }
 
-                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                ViewModel.ValidationMessages = result.Messages;
                 ViewModel.WarningMessages = warningsValidator.ValidationMessages.ToCanonical();
             }
             finally

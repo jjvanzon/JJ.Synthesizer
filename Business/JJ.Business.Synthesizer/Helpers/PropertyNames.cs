@@ -71,29 +71,34 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string ChunkSize = "ChunkSize";
 
         // Other
-        public const string Patch = "Patch";
-        public const string DocumentReference = "DocumentReference";
-        public const string Curve = "Curve";
-        public const string ParentDocument = "ParentDocument";
-        public const string ID = "ID";
-        public const string Name = "Name";
-        public const string ChildDocument = "ChildDocument";
-        public const string Document = "Document";
-        public const string Inlet = "Inlet";
-        public const string Inlets = "Inlets";
-        public const string Outlet = "Outlet";
-        public const string Outlets = "Outlets";
-        public const string UnderlyingDocument = "UnderlyingDocument";
-        public const string Scales = "Scales";
-        public const string LiteralFrequencies = "LiteralFrequencies";
-        public const string Factors = "Factors";
-        public const string Exponents = "Exponents";
-        public const string SemiTones = "SemiTones";
+        public const string AudioFileOutputs = "AudioFileOutputs";
         public const string Cents = "Cents";
+        public const string ChildDocument = "ChildDocument";
+        public const string Curve = "Curve";
+        public const string Curves = "Curves";
+        public const string Document = "Document";
+        public const string Documents = "Documents";
+        public const string DocumentReference = "DocumentReference";
+        public const string Exponents = "Exponents";
+        public const string Factors = "Factors";
+        public const string ID = "ID";
+        public const string Inlet = "Inlet";
+        public const string InletCount = "InletCount";
+        public const string Inlets = "Inlets";
+        public const string InputOutlet = "InputOutlet";
+        public const string LiteralFrequencies = "LiteralFrequencies";
+        public const string Name = "Name";
         public const string Node = "Node";
         public const string Nodes = "Nodes";
-        public const string InletCount = "InletCount";
+        public const string Outlet = "Outlet";
         public const string OutletCount = "OutletCount";
-        public const string InputOutlet = "InputOutlet";
+        public const string Outlets = "Outlets";
+        public const string ParentDocument = "ParentDocument";
+        public const string Patch = "Patch";
+        public const string Patches = "Patches";
+        public const string Samples = "Samples";
+        public const string Scales = "Scales";
+        public const string SemiTones = "SemiTones";
+        public const string UnderlyingDocument = "UnderlyingDocument";
     }
 }

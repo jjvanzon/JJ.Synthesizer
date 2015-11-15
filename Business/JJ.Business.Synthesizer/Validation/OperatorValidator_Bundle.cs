@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class OperatorValidator_Bundle : FluentValidator<Operator>
+    internal class OperatorValidator_Bundle : FluentValidator<Operator>
     {
         public OperatorValidator_Bundle(Operator obj)
             : base(obj)

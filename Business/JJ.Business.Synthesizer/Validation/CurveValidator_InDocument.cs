@@ -4,9 +4,9 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class AudioFileOutputValidator_InDocument : FluentValidator<AudioFileOutput>
+    internal class CurveValidator_InDocument : FluentValidator<Curve>
     {
-        public AudioFileOutputValidator_InDocument(AudioFileOutput obj)
+        public CurveValidator_InDocument(Curve obj)
             : base(obj)
         { }
 
@@ -15,6 +15,8 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => Object.Document, PropertyDisplayNames.Document).NotNull();
 
             Execute(new NameValidator(Object.Name));
+
+            // TODO: Consider if more additional constraints need to be enforced in a document e.g. reference constraints. 
         }
     }
 }

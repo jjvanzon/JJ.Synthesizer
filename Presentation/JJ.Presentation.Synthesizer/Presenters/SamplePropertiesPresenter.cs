@@ -9,12 +9,15 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class SamplePropertiesPresenter
     {
         private SampleRepositories _repositories;
+        private SampleManager _sampleManager;
 
         public SamplePropertiesViewModel ViewModel { get; set; }
 
@@ -23,6 +26,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (repositories == null) throw new NullException(() => repositories);
 
             _repositories = repositories;
+            _sampleManager = new SampleManager(repositories);
         }
 
         public void Show()
@@ -73,10 +77,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // TODO: Consider letting ToEntity return SampleInfo, because it also updates the sample's Bytes.
             Sample entity = ViewModel.ToEntity(_repositories);
 
-            IValidator validator = new SampleValidator_InDocument(entity);
+            VoidResult result = _sampleManager.Validate(entity);
 
-            ViewModel.Successful = validator.IsValid;
-            ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+            ViewModel.Successful = result.Successful;
+            ViewModel.ValidationMessages = result.Messages;
         }
 
         // Helpers

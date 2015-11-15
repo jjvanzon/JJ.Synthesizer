@@ -223,6 +223,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} &apos;{1}&apos; is not unique..
+        /// </summary>
+        internal static string NotUnique_WithPropertyName_AndValue {
+            get {
+                return ResourceManager.GetString("NotUnique_WithPropertyName_AndValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number named &apos;{0}&apos; is 0..
         /// </summary>
         internal static string NumberIs0WithName {

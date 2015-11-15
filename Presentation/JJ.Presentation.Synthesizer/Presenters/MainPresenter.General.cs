@@ -101,9 +101,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentCannotDeletePresenter = new DocumentCannotDeletePresenter(_repositories.DocumentRepository);
             _documentDeletedPresenter = new DocumentDeletedPresenter();
             _documentDeletePresenter = new DocumentDeletePresenter(_repositories);
-            _documentDetailsPresenter = new DocumentDetailsPresenter(_repositories.DocumentRepository, _repositories.IDRepository);
+            _documentDetailsPresenter = new DocumentDetailsPresenter(_repositories);
             _documentGridPresenter = new DocumentGridPresenter(_repositories.DocumentRepository);
-            _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories.DocumentRepository);
+            _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
             _documentTreePresenter = new DocumentTreePresenter(_repositories.DocumentRepository);
             _effectGridPresenter = new ChildDocumentGridPresenter(_repositories.DocumentRepository);
             _instrumentGridPresenter = new ChildDocumentGridPresenter(_repositories.DocumentRepository);

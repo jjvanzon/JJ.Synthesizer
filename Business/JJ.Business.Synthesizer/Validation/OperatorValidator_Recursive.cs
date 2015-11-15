@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Validation
     /// Makes sure that objects are only validated once to 
     /// prevent problems with circularities.
     /// </summary>
-    public class OperatorValidator_Recursive : ValidatorBase<Operator>
+    internal class OperatorValidator_Recursive : ValidatorBase<Operator>
     {
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
@@ -76,7 +76,9 @@ namespace JJ.Business.Synthesizer.Validation
                         {
                             _alreadyDone.Add(curve);
 
-                            Execute(new CurveValidator(curve), ValidationHelper.GetMessagePrefix(curve));
+                            string messagePrefix = ValidationHelper.GetMessagePrefix(curve);
+                            Execute(new CurveValidator_WithoutNodes(curve), messagePrefix);
+                            Execute(new CurveValidator_Nodes(curve), messagePrefix);
                         }
                     }
                 }

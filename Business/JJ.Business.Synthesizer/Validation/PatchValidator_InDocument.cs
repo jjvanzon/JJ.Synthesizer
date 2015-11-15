@@ -4,9 +4,7 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    /// <summary> A patch in a document has additional rules, for instance that the name be filled in.
-    /// </summary>
-    public class PatchValidator_InDocument : FluentValidator<Patch>
+    internal class PatchValidator_InDocument : FluentValidator<Patch>
     {
         public PatchValidator_InDocument(Patch obj)
             : base(obj)
@@ -14,11 +12,9 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            Patch patch = Object;
+            For(() => Object.Document, PropertyDisplayNames.Document).NotNull();
 
-            For(() => patch.Document, PropertyDisplayNames.Document).NotNull();
-
-            Execute(new NameValidator(patch.Name));
+            Execute(new NameValidator(Object.Name));
         }
     }
 }

@@ -10,9 +10,9 @@ using JJ.Framework.Validation;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class ScaleValidator_Versatile : FluentValidator<Scale>
+    internal class ScaleValidator_Versatile_WithoutTones : FluentValidator<Scale>
     {
-        public ScaleValidator_Versatile(Scale obj)
+        public ScaleValidator_Versatile_WithoutTones(Scale obj)
             : base(obj)
         { }
 

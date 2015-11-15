@@ -25,6 +25,8 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories = repositories;
         }
 
+        // Create
+
         public Document Create()
         {
             var document = new Document();
@@ -56,26 +58,7 @@ namespace JJ.Business.Synthesizer.Managers
             return childDocument;
         }
 
-        public VoidResult CanDelete(Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            IValidator validator = new DocumentValidator_Delete(document, _repositories.DocumentRepository);
-
-            if (!validator.IsValid)
-            {
-                var result = new VoidResult
-                {
-                    Successful = false,
-                    Messages = validator.ValidationMessages.ToCanonical()
-                };
-                return result;
-            }
-            else
-            {
-                return new VoidResult { Successful = true };
-            }
-        }
+        // Save
 
         public VoidResult SaveChildDocument(Document entity)
         {
@@ -102,6 +85,37 @@ namespace JJ.Business.Synthesizer.Managers
             return new VoidResult { Successful = true };
         }
 
+        public VoidResult ValidateRecursive(Document entity)
+        {
+            IValidator validator = new DocumentValidator_Recursive(
+                entity, 
+                _repositories.CurveRepository, _repositories. SampleRepository, _repositories.DocumentRepository, 
+                new HashSet<object>());
+
+            var result = new VoidResult
+            {
+                Successful = validator.IsValid,
+                Messages = validator.ValidationMessages.ToCanonical()
+            };
+
+            return result;
+        }
+
+        public VoidResult ValidateNonRecursive(Document entity)
+        {
+            IValidator validator = new DocumentValidator_Basic(entity);
+
+            var result = new VoidResult
+            {
+                Successful = validator.IsValid,
+                Messages = validator.ValidationMessages.ToCanonical()
+            };
+
+            return result;
+        }
+
+        // Delete
+
         public VoidResult DeleteWithRelatedEntities(int documentID)
         {
             Document document = _repositories.DocumentRepository.Get(documentID);
@@ -123,6 +137,27 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories.DocumentRepository.Delete(document);
 
             return new VoidResult { Successful = true };
+        }
+
+        public VoidResult CanDelete(Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            IValidator validator = new DocumentValidator_Delete(document, _repositories.DocumentRepository);
+
+            if (!validator.IsValid)
+            {
+                var result = new VoidResult
+                {
+                    Successful = false,
+                    Messages = validator.ValidationMessages.ToCanonical()
+                };
+                return result;
+            }
+            else
+            {
+                return new VoidResult { Successful = true };
+            }
         }
     }
 }

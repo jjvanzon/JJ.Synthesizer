@@ -13,7 +13,7 @@ using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class PatchValidator_Recursive : FluentValidator<Patch>
+    internal class PatchValidator_Recursive : FluentValidator<Patch>
     {
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;

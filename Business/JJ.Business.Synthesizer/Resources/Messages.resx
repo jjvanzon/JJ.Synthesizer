@@ -255,4 +255,8 @@
     <value>{0} names are not unique. Duplicate names: {1}.</value>
     <comment>{0} = object type singular, e.g. 'Scale', {1} = comma separated list of names</comment>
   </data>
+  <data name="NotUnique_WithPropertyName_AndValue" xml:space="preserve">
+    <value>{0} '{1}' is not unique.</value>
+    <comment>{0} = property, {1} = value</comment>
+  </data>
 </root>

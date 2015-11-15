@@ -447,4 +447,8 @@
   <data name="Unbundle" xml:space="preserve">
     <value>Ontbundelen</value>
   </data>
+  <data name="NotUnique_WithPropertyName_AndValue" xml:space="preserve">
+    <value>{0} '{1}' is niet uniek.</value>
+    <comment>{0} = property, {1} = value</comment>
+  </data>
 </root>

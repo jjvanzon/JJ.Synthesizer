@@ -31,6 +31,8 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories = repositories;
         }
 
+        // Create
+
         public Curve Create()
         {
             var curve = new Curve();
@@ -153,101 +155,6 @@ namespace JJ.Business.Synthesizer.Managers
             return curve;
         }
 
-        public VoidResult Validate(Curve entity)
-        {
-            IValidator validator = new CurveValidator(entity);
-
-            return new VoidResult
-            {
-                Successful = validator.IsValid,
-                Messages = validator.ValidationMessages.ToCanonical()
-            };
-        }
-
-        public VoidResult ValidateWithoutRelatedEntities(Curve entity)
-        {
-            IValidator validator = new CurveValidator_WithoutNodes(entity);
-
-            return new VoidResult
-            {
-                Successful = validator.IsValid,
-                Messages = validator.ValidationMessages.ToCanonical()
-            };
-        }
-
-        public VoidResult ValidateNodeWithoutParent(Node entity)
-        {
-            // TODO: Low priority: I doubt it is a good idea to even offer this method. 
-            IValidator validator1 = new NodeValidator_WithoutParent(entity);
-
-            return new VoidResult
-            {
-                Successful = validator1.IsValid,
-                Messages = validator1.ValidationMessages.ToCanonical()
-            };
-        }
-
-        public VoidResult ValidateNode(Node entity)
-        {
-            IValidator validator1 = new NodeValidator_WithoutParent(entity);
-            IValidator validator2 = new NodeValidator_Parent(entity);
-
-            return new VoidResult
-            {
-                Successful = validator1.IsValid && validator2.IsValid,
-                Messages = validator1.ValidationMessages.Union(validator2.ValidationMessages).ToCanonical()
-            };
-        }
-
-        private double[] GetEquidistantPointsInTime(double timeSpan, int pointCount)
-        {
-            if (timeSpan <= 0) throw new Exception("timespan must be greater than 0.");
-            if (pointCount < 2) throw new Exception("pointCount must be at least 2.");
-
-            double[] times = new double[pointCount];
-            double t = 0;
-            double dt = timeSpan / (pointCount - 1);
-            for (int i = 0; i < pointCount; i++)
-            {
-                times[i] = t;
-                t += dt;
-            }
-
-            return times;
-        }
-
-        public VoidResult DeleteWithRelatedEntities(int curveID)
-        {
-            Curve curve = _repositories.CurveRepository.Get(curveID);
-            return DeleteWithRelatedEntities(curve);
-        }
-
-        public VoidResult DeleteWithRelatedEntities(Curve curve)
-        {
-            if (curve == null) throw new NullException(() => curve);
-
-            IValidator validator = new CurveValidator_Delete(curve, _repositories.CurveRepository);
-            if (!validator.IsValid)
-            {
-                return new VoidResult
-                {
-                    Successful = false,
-                    Messages = validator.ValidationMessages.ToCanonical()
-                };
-            }
-            else
-            {
-                curve.UnlinkRelatedEntities();
-                curve.DeleteRelatedEntities(_repositories.NodeRepository);
-                _repositories.CurveRepository.Delete(curve);
-
-                return new VoidResult
-                {
-                    Successful = true
-                };
-            }
-        }
-
         public Node CreateNode(Curve curve)
         {
             if (curve == null) throw new NullException(() => curve);
@@ -302,6 +209,150 @@ namespace JJ.Business.Synthesizer.Managers
             }
         }
 
+        // Validate
+
+        public VoidResult Validate(Curve entity)
+        {
+            VoidResult result = ValidateWithoutRelatedEntities(entity);
+
+            IValidator validator = new CurveValidator_Nodes(entity);
+            result.Successful &= validator.IsValid;
+            result.Messages.AddRange(validator.ValidationMessages.ToCanonical());
+
+            return result;
+        }
+
+        public VoidResult ValidateWithoutRelatedEntities(Curve entity)
+        {
+            var validators = new List<IValidator>
+            {
+                new CurveValidator_WithoutNodes(entity),
+                new CurveValidator_UniqueName(entity)
+            };
+
+            if (entity.Document != null)
+            {
+                validators.Add(new CurveValidator_InDocument(entity));
+            }
+
+            var result = new VoidResult
+            {
+                Successful = validators.All(x => x.IsValid),
+                Messages = validators.SelectMany(x => x.ValidationMessages).ToCanonical()
+            };
+
+            return result;
+        }
+
+        public VoidResult ValidateNodeWithoutParent(Node entity)
+        {
+            IValidator validator1 = new NodeValidator_WithoutParent(entity);
+
+            return new VoidResult
+            {
+                Successful = validator1.IsValid,
+                Messages = validator1.ValidationMessages.ToCanonical()
+            };
+        }
+
+        public VoidResult ValidateNode(Node entity)
+        {
+            var validators = new IValidator[]
+            {
+                new NodeValidator_WithoutParent(entity),
+                new NodeValidator_Parent(entity)
+            };
+
+            var result = new VoidResult
+            {
+                Successful = validators.All(x => x.IsValid),
+                Messages = validators.SelectMany(x => x.ValidationMessages).ToCanonical()
+            };
+
+            return result;
+
+        }
+
+        // Delete
+
+        public VoidResult DeleteWithRelatedEntities(int curveID)
+        {
+            Curve curve = _repositories.CurveRepository.Get(curveID);
+            return DeleteWithRelatedEntities(curve);
+        }
+
+        public VoidResult DeleteWithRelatedEntities(Curve curve)
+        {
+            if (curve == null) throw new NullException(() => curve);
+
+            IValidator validator = new CurveValidator_Delete(curve, _repositories.CurveRepository);
+            if (!validator.IsValid)
+            {
+                return new VoidResult
+                {
+                    Successful = false,
+                    Messages = validator.ValidationMessages.ToCanonical()
+                };
+            }
+            else
+            {
+                curve.UnlinkRelatedEntities();
+                curve.DeleteRelatedEntities(_repositories.NodeRepository);
+                _repositories.CurveRepository.Delete(curve);
+
+                return new VoidResult
+                {
+                    Successful = true
+                };
+            }
+        }
+
+        public void DeleteNode(int nodeID)
+        {
+            Node node = _repositories.NodeRepository.Get(nodeID);
+            DeleteNode(node);
+        }
+
+        public void DeleteNode(Node node)
+        {
+            if (node == null) throw new NullException(() => node);
+            node.UnlinkRelatedEntities();
+            _repositories.NodeRepository.Delete(node);
+        }
+
+        // Misc
+
+        /// <summary> Faster initialization, slower calculation. </summary>
+        public ICurveCalculator CreateInterpretedCalculator(Curve curve)
+        {
+            return new InterpretedCurveCalculator(curve);
+        }
+
+        /// <summary> Slower initialization, faster calculation. </summary>
+        public ICurveCalculator CreateOptimizedCalculator(Curve curve)
+        {
+            return new OptimizedCurveCalculator(curve);
+        }
+
+        // Helpers
+
+        private double[] GetEquidistantPointsInTime(double timeSpan, int pointCount)
+        {
+            if (timeSpan <= 0) throw new Exception("timespan must be greater than 0.");
+            if (pointCount < 2) throw new Exception("pointCount must be at least 2.");
+
+            double[] times = new double[pointCount];
+            double t = 0;
+            double dt = timeSpan / (pointCount - 1);
+            for (int i = 0; i < pointCount; i++)
+            {
+                times[i] = t;
+                t += dt;
+            }
+
+            return times;
+        }
+
         private double CalculateIntermediateValue(Node beforeNode, Node afterNode)
         {
             NodeTypeEnum nodeTypeEnum = afterNode.GetNodeTypeEnum();
@@ -321,7 +372,7 @@ namespace JJ.Business.Synthesizer.Managers
                     {
                         ICurveCalculator calculator = CreateInterpretedCalculator(beforeNode.Curve);
                         double time = (beforeNode.Time + afterNode.Time) / 2;
-                        double value =  calculator.CalculateValue(time);
+                        double value = calculator.CalculateValue(time);
                         return value;
                     }
 
@@ -330,29 +381,5 @@ namespace JJ.Business.Synthesizer.Managers
             }
         }
 
-        public void DeleteNode(int nodeID)
-        {
-            Node node = _repositories.NodeRepository.Get(nodeID);
-            DeleteNode(node);
-        }
-
-        public void DeleteNode(Node node)
-        {
-            if (node == null) throw new NullException(() => node);
-            node.UnlinkRelatedEntities();
-            _repositories.NodeRepository.Delete(node);
-        }
-
-        /// <summary> Faster initialization, slower calculation. </summary>
-        public ICurveCalculator CreateInterpretedCalculator(Curve curve)
-        {
-            return new InterpretedCurveCalculator(curve);
-        }
-
-        /// <summary> Slower initialization, faster calculation. </summary>
-        public ICurveCalculator CreateOptimizedCalculator(Curve curve)
-        {
-            return new OptimizedCurveCalculator(curve);
-        }
     }
 }

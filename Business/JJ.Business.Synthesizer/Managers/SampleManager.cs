@@ -15,6 +15,8 @@ using JJ.Business.Synthesizer.Converters;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Calculation.Samples;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -29,12 +31,31 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories = repositories;
         }
 
-        public IValidator Validate(Sample sample)
+        // Validate
+
+        public VoidResult Validate(Sample entity)
         {
-            if (sample == null) throw new NullException(() => sample);
-            IValidator sampleValidator = new SampleValidator(sample);
-            return sampleValidator;
+            var validators = new List<IValidator>
+            {
+                new SampleValidator(entity),
+                new SampleValidator_UniqueName(entity)
+            };
+
+            if (entity.Document != null)
+            {
+                validators.Add(new SampleValidator_InDocument(entity));
+            }
+
+            var result = new VoidResult
+            {
+                Successful = validators.All(x => x.IsValid),
+                Messages = validators.SelectMany(x => x.ValidationMessages).ToCanonical()
+            };
+
+            return result;
         }
+
+        // Delete
 
         public void Delete(int id)
         {
@@ -67,6 +88,8 @@ namespace JJ.Business.Synthesizer.Managers
                 };
             }
         }
+
+        // Create 
 
         /// <summary> Creates a Sample and sets its defaults. </summary>
         public Sample CreateSample(Document document = null, bool mustGenerateName = false)
@@ -121,6 +144,8 @@ namespace JJ.Business.Synthesizer.Managers
 
             return CreateSample(stream, bytes);
         }
+
+        // Misc
 
         public ISampleCalculator CreateCalculator(Sample sample, byte[] bytes)
         {

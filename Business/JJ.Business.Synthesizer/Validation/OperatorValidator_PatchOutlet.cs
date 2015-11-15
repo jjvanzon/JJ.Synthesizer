@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Resources;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class OperatorValidator_PatchOutlet : OperatorValidator_Base
+    internal class OperatorValidator_PatchOutlet : OperatorValidator_Base
     {
         public OperatorValidator_PatchOutlet(Operator obj)
             : base(obj, OperatorTypeEnum.PatchOutlet, expectedInletCount: 1, expectedOutletCount: 1)

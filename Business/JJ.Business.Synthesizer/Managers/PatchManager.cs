@@ -336,28 +336,29 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories.OutletRepository.Delete(entity);
         }
 
-        // Validate
+        // Validate (Private)
 
         private VoidResult Validate()
         {
-            var messages = new List<Message>();
+            var validators = new List<IValidator>
+            {
+                new PatchValidator_UniqueName(Patch),
+                new PatchValidator_Recursive(Patch,  _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository, new HashSet<object>())
+            };
 
             if (Patch.Document != null)
             {
-                IValidator validator1 = new PatchValidator_InDocument(Patch);
-                messages.AddRange(validator1.ValidationMessages.ToCanonical());
+                validators.Add(new PatchValidator_InDocument(Patch));
             }
 
-            IValidator validator2 = new PatchValidator_Recursive(Patch, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository, new HashSet<object>());
-            messages.AddRange(validator2.ValidationMessages.ToCanonical());
-
-            bool successful = messages.Count == 0;
-
-            return new VoidResult
+            var result = new VoidResult
             {
-                Messages = messages,
-                Successful = successful
+                Successful = validators.All(x => x.IsValid),
+                Messages = validators.SelectMany(x => x.ValidationMessages).ToCanonical()
             };
+
+            return result;
+
         }
 
         private VoidResult ValidateNonRecursive(Operator op)

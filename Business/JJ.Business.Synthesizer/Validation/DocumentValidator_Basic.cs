@@ -6,7 +6,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class DocumentValidator_Basic : FluentValidator<Document>
+    internal class DocumentValidator_Basic : FluentValidator<Document>
     {
         public DocumentValidator_Basic(Document obj)
             : base(obj)

@@ -9,7 +9,7 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    public class OperatorValidator_Versatile : ValidatorBase<Operator>
+    internal class OperatorValidator_Versatile : ValidatorBase<Operator>
     {
         private IDocumentRepository _documentRepository;
 

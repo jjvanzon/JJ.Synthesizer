@@ -9,20 +9,24 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Framework.Validation;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Managers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class DocumentPropertiesPresenter
     {
-        private IDocumentRepository _documentRepository;
+        private RepositoryWrapper _repositories;
+        private DocumentManager _documentManager;
 
         public DocumentPropertiesViewModel ViewModel { get; set; }
 
-        public DocumentPropertiesPresenter(IDocumentRepository documentRepository)
+        public DocumentPropertiesPresenter(RepositoryWrapper repositories)
         {
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            _documentRepository = documentRepository;
+            _repositories = repositories;
+            _documentManager = new DocumentManager(repositories);
         }
 
         public void Show()
@@ -36,7 +40,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Document entity = _documentRepository.Get(ViewModel.Entity.ID);
+            Document entity = _repositories.DocumentRepository.Get(ViewModel.Entity.ID);
             bool visible = ViewModel.Visible;
             ViewModel = entity.ToPropertiesViewModel();
             ViewModel.Visible = visible;
@@ -63,12 +67,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Document document = ViewModel.ToEntity(_documentRepository);
+            Document document = ViewModel.ToEntity(_repositories.DocumentRepository);
 
-            IValidator validator = new DocumentValidator_Basic(document);
+            VoidResult result = _documentManager.ValidateNonRecursive(document);
 
-            ViewModel.Successful = validator.IsValid;
-            ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+            ViewModel.Successful = result.Successful;
+            ViewModel.ValidationMessages = result.Messages;
         }
 
         // Helpers
