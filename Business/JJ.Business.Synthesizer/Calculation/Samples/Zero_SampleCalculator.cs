@@ -1,12 +1,10 @@
-﻿using JJ.Data.Synthesizer;
-
-namespace JJ.Business.Synthesizer.Calculation.Samples
+﻿namespace JJ.Business.Synthesizer.Calculation.Samples
 {
-    internal class Byteless_SampleCalculator : ISampleCalculator
+    internal class Zero_SampleCalculator : ISampleCalculator
     {
         private int _channelCount;
 
-        public Byteless_SampleCalculator(int channelCount)
+        public Zero_SampleCalculator(int channelCount)
         {
             _channelCount = channelCount;
         }

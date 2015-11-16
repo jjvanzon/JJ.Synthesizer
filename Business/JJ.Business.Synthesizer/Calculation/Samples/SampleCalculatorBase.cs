@@ -34,8 +34,9 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
         {
             if (sample == null) throw new NullException(() => sample);
             if (sample.TimeMultiplier == 0) throw new ZeroException(() => sample.TimeMultiplier);
-            if (bytes == null) throw new Exception("bytes cannot be null. A null byte array can only be handled by a Byteless_SampleCalculator.");
-            
+            if (bytes == null) throw new Exception("bytes cannot be null. A null byte array can only be handled by a Zero_SampleCalculator.");
+            if (!sample.IsActive) throw new Exception("sample.IsActive cannot be false, because it needs to be handled by a Zero_SampleCalculator.");
+
             IValidator validator = new SampleValidator(sample);
             validator.Verify();
 

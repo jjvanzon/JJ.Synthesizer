@@ -13,9 +13,9 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
         {
             if (sample == null) throw new NullException(() => sample);
 
-            if (bytes == null || bytes.Length == 0)
+            if (bytes == null || bytes.Length == 0 || !sample.IsActive)
             {
-                return new Byteless_SampleCalculator(sample.GetChannelCount());
+                return new Zero_SampleCalculator(sample.GetChannelCount());
             }
 
             SampleDataTypeEnum sampleDataType = sample.GetSampleDataTypeEnum();

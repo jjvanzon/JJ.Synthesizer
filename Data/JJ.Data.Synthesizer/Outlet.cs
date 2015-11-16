@@ -18,8 +18,8 @@ namespace JJ.Data.Synthesizer
         public virtual string Name { get; set; }
 
         /// <summary>
-        /// This sort order is only visual. It is not a reference number.
-        /// The ID is the main reference number and the name is an alternative key.
+        /// This number is often used as a key to a specific inlet.
+        /// 'Name' is another alternative key, which is currently (2015-11-13) only used for CustomOperators.
         /// </summary>
         public virtual int ListIndex { get; set; }
 

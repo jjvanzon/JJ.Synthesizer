@@ -18,8 +18,8 @@ namespace JJ.Data.Synthesizer
         public virtual Outlet InputOutlet { get; set; }
 
         /// <summary>
-        /// This number is often used as a key to a specific inlet of an operator.
-        /// The name is another alternative key, which is currently (2015-11-13) only usedd for CustomOperators.
+        /// This number is often used as a key to a specific inlet.
+        /// 'Name' is another alternative key, which is currently (2015-11-13) only used for CustomOperators.
         /// </summary>
         public virtual int ListIndex { get; set; }
 

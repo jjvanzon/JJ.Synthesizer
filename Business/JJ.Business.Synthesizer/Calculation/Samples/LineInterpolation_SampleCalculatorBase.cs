@@ -10,8 +10,6 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
 
         public override double CalculateValue(double time, int channelIndex)
         {
-            if (!_sample.IsActive) return 0;
-
             double t = time * _rate;
             int t0 = (int)t;
 

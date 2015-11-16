@@ -103,7 +103,7 @@
     <Compile Include="Calculation\Samples\LineInterpolation_SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\ISampleCalculator.cs" />
     <Compile Include="Calculation\Samples\Int16_BlockInterpolation_SampleCalculator.cs" />
-    <Compile Include="Calculation\Samples\Byteless_SampleCalculator.cs" />
+    <Compile Include="Calculation\Samples\Zero_SampleCalculator.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorBase.cs" />
     <Compile Include="Calculation\Samples\SampleCalculatorFactory.cs" />
     <Compile Include="Calculation\SineCalculator.cs" />
