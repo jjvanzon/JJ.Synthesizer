@@ -1,6 +1,4 @@
-﻿using JJ.Business.Synthesizer.Resources;
-using JJ.Framework.Presentation.Resources;
-using JJ.Framework.Validation;
+﻿using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Validation

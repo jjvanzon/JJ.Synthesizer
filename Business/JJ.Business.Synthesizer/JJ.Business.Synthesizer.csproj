@@ -188,7 +188,6 @@
     <Compile Include="Validation\PatchValidator_UniqueName.cs" />
     <Compile Include="Validation\CurveValidator_UniqueName.cs" />
     <Compile Include="Validation\DocumentValidator_Unicity.cs" />
-    <Compile Include="Validation\2015-11-15 Backup of DocumentValidator_UniqueCurveNames.cs" />
     <Compile Include="Validation\OperatorValidator_SetInletCount.cs" />
     <Compile Include="Managers\PatchManager.CreateOperator.cs" />
     <Compile Include="Managers\PatchManager.cs" />
@@ -261,7 +260,6 @@
     <Compile Include="Validation\ScaleValidator_Factor.cs" />
     <Compile Include="Validation\ScaleValidator_LiteralFrequency.cs" />
     <Compile Include="Validation\ScaleValidator_Basic.cs" />
-    <Compile Include="Validation\2015-11-15 Backup of DocumentValidator_UniqueScaleNames.cs" />
     <Compile Include="Validation\ScaleValidator_Tones.cs" />
     <Compile Include="Validation\ScaleValidator_Versatile_WithoutTones.cs" />
     <Compile Include="Validation\ToneValidator.cs" />
@@ -287,7 +285,6 @@
     <Compile Include="Warnings\SampleWarningValidator.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Base.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Sample.cs" />
-    <Compile Include="Validation\2015-11-15 Backup of CurveValidator.cs" />
     <Compile Include="Validation\NodeValidator_WithoutParent.cs" />
     <Compile Include="Validation\OperatorValidator_SlowDown.cs" />
     <Compile Include="Validation\OperatorValidator_Earlier.cs" />
