@@ -829,7 +829,8 @@ namespace JJ.Business.Synthesizer.Tests
                 Document underlyingDocument = documentManager.Create();
 
                 PatchManager underlyingPatchManager = new PatchManager(new PatchRepositories(repositories));
-                Patch underlyingPatch = underlyingPatchManager.Create(underlyingDocument);
+                underlyingPatchManager.Create(underlyingDocument);
+                Patch underlyingPatch = underlyingPatchManager.Patch;
                 underlyingDocument.LinkToMainPatch(underlyingPatch);
 
                 PatchManager x;

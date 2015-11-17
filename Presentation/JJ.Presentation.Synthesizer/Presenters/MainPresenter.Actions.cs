@@ -2065,7 +2065,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Business
                 var patchManager = new PatchManager(_patchRepositories);
-                Patch patch = patchManager.Create(document, mustGenerateName: true);
+                patchManager.Create(document, mustGenerateName: true);
+                Patch patch = patchManager.Patch;
 
                 // ToViewModel
                 PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, document.ID);

@@ -122,7 +122,10 @@
     <Compile Include="EntityWrappers\OperatorWrapper_TriangleWave.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_SquareWave.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Sawtooth.cs" />
+    <Compile Include="Enums\InletTypeEnum.cs" />
+    <Compile Include="Enums\OutletTypeEnum.cs" />
     <Compile Include="Enums\ScaleTypeEnum.cs" />
+    <Compile Include="Extensions\2015-11-17 Backup of DocumentExtensions.cs" />
     <Compile Include="Extensions\PatchExtensions.cs" />
     <Compile Include="Extensions\ToneExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -148,7 +151,6 @@
     <Compile Include="Helpers\AlreadyDoneIsNullException.cs" />
     <Compile Include="Extensions\AudioFileOutputExtensions.cs" />
     <Compile Include="Extensions\DeleteRelatedEntitiesExtensions.cs" />
-    <Compile Include="Extensions\DocumentExtensions.cs" />
     <Compile Include="Extensions\RecursionExtensions.cs" />
     <Compile Include="Extensions\UnlinkRelatedEntitiesExtensions.cs" />
     <Compile Include="Extensions\ValidationMessageExtensions.cs" />

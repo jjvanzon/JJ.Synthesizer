@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            int nameCount = document.EnumerateSelfAndParentAndChildren()
+            int nameCount = document.EnumerateSelfAndParentAndTheirChildren()
                                     .SelectMany(x => x.AudioFileOutputs)
                                     .Where(x => String.Equals(x.Name, name))
                                     .Count();
@@ -35,13 +35,12 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateNames = document.EnumerateSelfAndParentAndChildren()
+            IList<string> duplicateNames = document.EnumerateSelfAndParentAndTheirChildren()
                                                    .SelectMany(x => x.AudioFileOutputs)
                                                    .GroupBy(x => x.Name)
                                                    .Where(x => x.Count() > 1)
                                                    .Select(x => x.Key)
                                                    .ToArray();
-
             return duplicateNames;
         }
 
@@ -59,7 +58,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            int nameCount = document.EnumerateSelfAndParentAndChildren()
+            int nameCount = document.EnumerateSelfAndParentAndTheirChildren()
                                     .SelectMany(x => x.Curves)
                                     .Where(x => String.Equals(x.Name, name))
                                     .Count();
@@ -71,13 +70,12 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateNames = document.EnumerateSelfAndParentAndChildren()
+            IList<string> duplicateNames = document.EnumerateSelfAndParentAndTheirChildren()
                                                    .SelectMany(x => x.Curves)
                                                    .GroupBy(x => x.Name)
                                                    .Where(x => x.Count() > 1)
                                                    .Select(x => x.Key)
                                                    .ToArray();
-
             return duplicateNames;
         }
 
@@ -88,7 +86,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            int nameCount = document.EnumerateSelfAndParentAndChildren()
+            int nameCount = document.EnumerateSelfAndParentAndTheirChildren()
                                     .Where(x => String.Equals(x.Name, document.Name))
                                     .Count();
 
@@ -99,7 +97,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateNames = document.EnumerateSelfAndParentAndChildren()
+            IList<string> duplicateNames = document.EnumerateSelfAndParentAndTheirChildren()
                                                    .GroupBy(x => x.Name)
                                                    .Where(x => x.Count() > 1)
                                                    .Select(x => x.Key)
@@ -121,7 +119,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            int nameCount = document.EnumerateSelfAndParentAndChildren()
+            int nameCount = document.EnumerateSelfAndParentAndTheirChildren()
                                     .SelectMany(x => x.Patches)
                                     .Where(x => String.Equals(x.Name, name))
                                     .Count();
@@ -133,13 +131,12 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateNames = document.EnumerateSelfAndParentAndChildren()
+            IList<string> duplicateNames = document.EnumerateSelfAndParentAndTheirChildren()
                                                    .SelectMany(x => x.Patches)
                                                    .GroupBy(x => x.Name)
                                                    .Where(x => x.Count() > 1)
                                                    .Select(x => x.Key)
                                                    .ToArray();
-
             return duplicateNames;
         }
 
@@ -157,7 +154,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            int nameCount = document.EnumerateSelfAndParentAndChildren()
+            int nameCount = document.EnumerateSelfAndParentAndTheirChildren()
                                     .SelectMany(x => x.Samples)
                                     .Where(x => String.Equals(x.Name, name))
                                     .Count();
@@ -169,13 +166,12 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateNames = document.EnumerateSelfAndParentAndChildren()
+            IList<string> duplicateNames = document.EnumerateSelfAndParentAndTheirChildren()
                                                    .SelectMany(x => x.Samples)
                                                    .GroupBy(x => x.Name)
                                                    .Where(x => x.Count() > 1)
                                                    .Select(x => x.Key)
                                                    .ToArray();
-
             return duplicateNames;
         }
 
@@ -193,7 +189,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            int nameCount = document.EnumerateSelfAndParentAndChildren()
+            int nameCount = document.EnumerateSelfAndParentAndTheirChildren()
                                     .SelectMany(x => x.Scales)
                                     .Where(x => String.Equals(x.Name, name))
                                     .Count();
@@ -205,13 +201,12 @@ namespace JJ.Business.Synthesizer.Validation
         {
             if (document == null) throw new NullException(() => document);
 
-            IList<string> duplicateNames = document.EnumerateSelfAndParentAndChildren()
+            IList<string> duplicateNames = document.EnumerateSelfAndParentAndTheirChildren()
                                                    .SelectMany(x => x.Scales)
                                                    .GroupBy(x => x.Name)
                                                    .Where(x => x.Count() > 1)
                                                    .Select(x => x.Key)
                                                    .ToArray();
-
             return duplicateNames;
         }
     }

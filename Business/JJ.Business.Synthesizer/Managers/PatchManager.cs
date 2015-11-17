@@ -15,6 +15,7 @@ using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -50,9 +51,10 @@ namespace JJ.Business.Synthesizer.Managers
 
         // Create
 
+        /// <summary> Use the Patch property after calling this method. </summary>
         /// <param name="document">Nullable. Used e.g. to generate a unique name for a Patch.</param>
         /// <param name="mustGenerateName">Only possible if you also pass a document.</param>
-        public Patch Create(Document document = null, bool mustGenerateName = false)
+        public void Create(Document document = null, bool mustGenerateName = false)
         {
             Patch = new Patch();
             Patch.ID = _repositories.IDRepository.GetID();
@@ -65,8 +67,6 @@ namespace JJ.Business.Synthesizer.Managers
                 ISideEffect sideEffect = new Patch_SideEffect_GenerateName(Patch);
                 sideEffect.Execute();
             }
-
-            return Patch;
         }
 
         public Inlet CreateInlet(Operator op)
@@ -480,6 +480,39 @@ namespace JJ.Business.Synthesizer.Managers
             int assumedSamplingRate = 44100;
             var whiteNoiseCalculator = new WhiteNoiseCalculator(assumedSamplingRate);
             return new InterpretedPatchCalculator(channelOutlets, whiteNoiseCalculator, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository);
+        }
+
+        /// <summary>
+        /// Rollback after calling this method to prevent saving the new patch.
+        /// Use the Patch property after calling this method.
+        /// Tries to produce a new patch by tying together existing patches,
+        /// trying to match PatchInlet and PatchOutlet operators by:
+        /// 1) InletType.Name and OutletType.Name
+        /// 2) PatchInlet Operator.Name and PatchOutlet Operator.Name.
+        /// The non-matched inlets and outlets will become inlets and outlets of the new patch.
+        /// If there is overlap in type or name, they will merge to a single inlet or outlet.
+        /// </summary>
+        public void AutoPatch(IList<Document> underlyingDocuments)
+        {
+            if (underlyingDocuments == null) throw new NullException(() => underlyingDocuments);
+
+            Create();
+
+            var customOperatorWrappers = new List<OperatorWrapper_CustomOperator>(underlyingDocuments.Count);
+
+            foreach (Document underlyingDocument in underlyingDocuments)
+            {
+                OperatorWrapper_CustomOperator customOperatorWrapper = CustomOperator(underlyingDocument);
+                customOperatorWrappers.Add(customOperatorWrapper);
+            }
+
+            foreach (OperatorWrapper_CustomOperator customOperatorWrapper in customOperatorWrappers)
+            {
+                
+            }
+
+
+            throw new NotImplementedException();
         }
 
         private void AssertPatch()

@@ -48,6 +48,8 @@
     <Compile Include="DocumentReference.cs" />
     <Compile Include="EntityPosition.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
+    <Compile Include="OutletType.cs" />
+    <Compile Include="InletType.cs" />
     <Compile Include="OperatorType.cs" />
     <Compile Include="Scale.cs" />
     <Compile Include="ScaleType.cs" />

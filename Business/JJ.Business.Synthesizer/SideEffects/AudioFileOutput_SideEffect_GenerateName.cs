@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.SideEffects
         {
             if (_entity.Document == null) throw new NullException(() => _entity.Document);
 
-            HashSet<string> existingNames = _entity.Document.EnumerateSelfAndParentAndChildren()
+            HashSet<string> existingNames = _entity.Document.EnumerateSelfAndParentAndTheirChildren()
                                                             .SelectMany(x => x.AudioFileOutputs)
                                                             .Select(x => x.Name)
                                                             .ToHashSet();
