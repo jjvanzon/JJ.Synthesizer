@@ -1,0 +1,1 @@
+alter table Patch alter column Name nvarchar(256) null

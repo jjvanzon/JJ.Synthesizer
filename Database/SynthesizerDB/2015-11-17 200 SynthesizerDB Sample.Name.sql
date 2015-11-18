@@ -1,0 +1,1 @@
+alter table Sample alter column Name nvarchar(256) null

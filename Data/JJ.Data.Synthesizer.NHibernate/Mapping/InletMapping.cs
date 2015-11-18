@@ -12,6 +12,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Map(x => x.ListIndex);
             References(x => x.Operator, ColumnNames.OperatorID);
             References(x => x.InputOutlet, ColumnNames.InputOutletID);
+            References(x => x.InletType, ColumnNames.InletTypeID);
         }
     }
 }

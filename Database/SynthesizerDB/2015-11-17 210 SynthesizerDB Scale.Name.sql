@@ -1,0 +1,1 @@
+alter table Scale alter column Name nvarchar(256) null

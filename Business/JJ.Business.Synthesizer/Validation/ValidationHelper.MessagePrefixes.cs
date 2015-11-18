@@ -41,19 +41,21 @@ namespace JJ.Business.Synthesizer.Validation
             return GetMessagePrefix(PropertyDisplayNames.ChildDocument, entity.Name);
         }
 
-        public static string GetMessagePrefix(Inlet entity)
+        /// <param name="number">1-based</param>
+        public static string GetMessagePrefix(Inlet entity, int number)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            return GetMessagePrefix(PropertyDisplayNames.Inlet, entity.Name);
+            string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Inlet, number);
+            return messagePrefix;
         }
 
-        /// <param name="i">1-based</param>
-        public static string GetMessagePrefix(Node entity, int i)
+        /// <param name="number">1-based</param>
+        public static string GetMessagePrefix(Node entity, int number)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Node, i);
+            string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Node, number);
             return messagePrefix;
         }
 
@@ -160,11 +162,13 @@ namespace JJ.Business.Synthesizer.Validation
             return ResourceHelper.GetOperatorTypeDisplayName(operatorTypeEnum) + ": ";
         }
 
-        public static string GetMessagePrefix(Outlet entity)
+        /// <param name="number">1-based</param>
+        public static string GetMessagePrefix(Outlet entity, int number)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            return GetMessagePrefix(PropertyDisplayNames.Outlet, entity.Name);
+            string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Outlet, number);
+            return messagePrefix;
         }
 
         public static string GetMessagePrefix(Patch entity)

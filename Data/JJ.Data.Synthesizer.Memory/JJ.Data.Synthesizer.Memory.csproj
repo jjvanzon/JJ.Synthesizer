@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="Helpers\RepositoryHelper.cs" />
     <Compile Include="Helpers\EntityIDs.cs" />
+    <Compile Include="Mappings\OutletTypeMappings.cs" />
+    <Compile Include="Mappings\InletTypeMappings.cs" />
     <Compile Include="Mappings\ScaleTypeMapping.cs" />
     <Compile Include="Mappings\ToneMapping.cs" />
     <Compile Include="Mappings\ScaleMapping.cs" />
@@ -65,6 +67,8 @@
     <Compile Include="Repositories\ChannelRepository.cs" />
     <Compile Include="Repositories\ChildDocumentTypeRepository.cs" />
     <Compile Include="Repositories\IDRepository.cs" />
+    <Compile Include="Repositories\OutletTypeRepository.cs" />
+    <Compile Include="Repositories\InletTypeRepository.cs" />
     <Compile Include="Repositories\ScaleTypeRepository.cs" />
     <Compile Include="Repositories\OperatorTypeRepository.cs" />
     <Compile Include="Repositories\EntityPositionRepository.cs" />

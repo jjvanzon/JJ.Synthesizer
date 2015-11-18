@@ -58,6 +58,8 @@
     <Compile Include="Mapping\AudioFileOutputMapping.cs" />
     <Compile Include="Mapping\ChannelMapping.cs" />
     <Compile Include="Mapping\ChildDocumentTypeMapping.cs" />
+    <Compile Include="Mapping\OutletTypeMapping.cs" />
+    <Compile Include="Mapping\InletTypeMapping.cs" />
     <Compile Include="Mapping\OperatorTypeMapping.cs" />
     <Compile Include="Mapping\DocumentMapping.cs" />
     <Compile Include="Mapping\DocumentReferenceMapping.cs" />

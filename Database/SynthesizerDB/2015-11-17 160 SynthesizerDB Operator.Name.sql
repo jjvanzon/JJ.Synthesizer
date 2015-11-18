@@ -1,0 +1,1 @@
+alter table Operator alter column Name nvarchar(256) null

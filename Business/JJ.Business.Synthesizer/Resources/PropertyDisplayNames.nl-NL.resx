@@ -451,4 +451,34 @@
     <value>{0} '{1}' is niet uniek.</value>
     <comment>{0} = property, {1} = value</comment>
   </data>
+  <data name="Frequencies" xml:space="preserve">
+    <value>Frequenties</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Frequentie</value>
+  </data>
+  <data name="TremoloDepth" xml:space="preserve">
+    <value>Tremolo diepte</value>
+  </data>
+  <data name="TremoloSpeed" xml:space="preserve">
+    <value>Tremolo snelheid</value>
+  </data>
+  <data name="VibratoDepth" xml:space="preserve">
+    <value>Vibrato diepte</value>
+  </data>
+  <data name="VibratoSpeed" xml:space="preserve">
+    <value>Vibrato snelheid</value>
+  </data>
+  <data name="Volume" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="Volumes" xml:space="preserve">
+    <value>Volumes</value>
+  </data>
+  <data name="InletType" xml:space="preserve">
+    <value>Soort ingang</value>
+  </data>
+  <data name="OutletType" xml:space="preserve">
+    <value>Soort uitgang</value>
+  </data>
 </root>

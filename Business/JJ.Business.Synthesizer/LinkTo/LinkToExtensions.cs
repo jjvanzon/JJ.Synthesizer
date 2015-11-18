@@ -487,5 +487,23 @@ namespace JJ.Business.Synthesizer.LinkTo
 
             // No inverse property.
         }
+
+        public static void LinkTo(this Inlet inlet, InletType inletType)
+        {
+            if (inlet == null) throw new NullException(() => inlet);
+
+            inlet.InletType = inletType;
+
+            // No inverse property.
+        }
+
+        public static void LinkTo(this Outlet inlet, OutletType inletType)
+        {
+            if (inlet == null) throw new NullException(() => inlet);
+
+            inlet.OutletType = inletType;
+
+            // No inverse property.
+        }
     }
 }

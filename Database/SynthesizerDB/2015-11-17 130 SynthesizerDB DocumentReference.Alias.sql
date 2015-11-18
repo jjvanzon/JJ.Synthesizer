@@ -1,0 +1,1 @@
+alter table DocumentReference alter column Alias nvarchar(256) null

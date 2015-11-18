@@ -1,0 +1,1 @@
+alter table EntityPosition alter column EntityTypeName nvarchar(256) not null

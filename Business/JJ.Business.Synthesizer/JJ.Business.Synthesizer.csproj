@@ -125,7 +125,6 @@
     <Compile Include="Enums\InletTypeEnum.cs" />
     <Compile Include="Enums\OutletTypeEnum.cs" />
     <Compile Include="Enums\ScaleTypeEnum.cs" />
-    <Compile Include="Extensions\2015-11-17 Backup of DocumentExtensions.cs" />
     <Compile Include="Extensions\PatchExtensions.cs" />
     <Compile Include="Extensions\ToneExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -186,6 +185,10 @@
     <Compile Include="Managers\EntityPositionManager.cs" />
     <Compile Include="Validation\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\CurveValidator_Nodes.cs" />
+    <Compile Include="Validation\OutletValidator_ForOtherOperator.cs" />
+    <Compile Include="Validation\InletValidator_ForOtherOperator.cs" />
+    <Compile Include="Validation\OutletValidator_Basic.cs" />
+    <Compile Include="Validation\InletValidator_Basic.cs" />
     <Compile Include="Validation\SampleValidator_UniqueName.cs" />
     <Compile Include="Validation\PatchValidator_UniqueName.cs" />
     <Compile Include="Validation\CurveValidator_UniqueName.cs" />

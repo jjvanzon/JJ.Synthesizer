@@ -448,4 +448,34 @@
   <data name="Unbundle" xml:space="preserve">
     <value>Unbundle</value>
   </data>
+  <data name="Frequencies" xml:space="preserve">
+    <value>Frequencies</value>
+  </data>
+  <data name="Frequency" xml:space="preserve">
+    <value>Frequency</value>
+  </data>
+  <data name="TremoloDepth" xml:space="preserve">
+    <value>Tremolo Depth</value>
+  </data>
+  <data name="TremoloSpeed" xml:space="preserve">
+    <value>Tremolo Speed</value>
+  </data>
+  <data name="VibratoDepth" xml:space="preserve">
+    <value>Vibrato Depth</value>
+  </data>
+  <data name="VibratoSpeed" xml:space="preserve">
+    <value>Vibrato Speed</value>
+  </data>
+  <data name="Volume" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="Volumes" xml:space="preserve">
+    <value>Volumes</value>
+  </data>
+  <data name="InletType" xml:space="preserve">
+    <value>Inlet Type</value>
+  </data>
+  <data name="OutletType" xml:space="preserve">
+    <value>Outlet Type</value>
+  </data>
 </root>

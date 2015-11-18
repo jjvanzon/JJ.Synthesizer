@@ -376,6 +376,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Frequencies.
+        /// </summary>
+        public static string Frequencies {
+            get {
+                return ResourceManager.GetString("Frequencies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Frequency.
+        /// </summary>
+        public static string Frequency {
+            get {
+                return ResourceManager.GetString("Frequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to High.
         /// </summary>
         public static string High {
@@ -399,6 +417,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Inlets {
             get {
                 return ResourceManager.GetString("Inlets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inlet Type.
+        /// </summary>
+        public static string InletType {
+            get {
+                return ResourceManager.GetString("InletType", resourceCulture);
             }
         }
         
@@ -642,6 +669,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Outlets {
             get {
                 return ResourceManager.GetString("Outlets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outlet Type.
+        /// </summary>
+        public static string OutletType {
+            get {
+                return ResourceManager.GetString("OutletType", resourceCulture);
             }
         }
         
@@ -988,6 +1024,24 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Tremolo Depth.
+        /// </summary>
+        public static string TremoloDepth {
+            get {
+                return ResourceManager.GetString("TremoloDepth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tremolo Speed.
+        /// </summary>
+        public static string TremoloSpeed {
+            get {
+                return ResourceManager.GetString("TremoloSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Triangle Wave.
         /// </summary>
         public static string TriangleWave {
@@ -1020,6 +1074,42 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Value {
             get {
                 return ResourceManager.GetString("Value", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vibrato Depth.
+        /// </summary>
+        public static string VibratoDepth {
+            get {
+                return ResourceManager.GetString("VibratoDepth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vibrato Speed.
+        /// </summary>
+        public static string VibratoSpeed {
+            get {
+                return ResourceManager.GetString("VibratoSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volume.
+        /// </summary>
+        public static string Volume {
+            get {
+                return ResourceManager.GetString("Volume", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volumes.
+        /// </summary>
+        public static string Volumes {
+            get {
+                return ResourceManager.GetString("Volumes", resourceCulture);
             }
         }
         

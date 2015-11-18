@@ -29,14 +29,22 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Operator op = Object;
 
+            int i = 0;
             foreach (Inlet inlet in op.Inlets)
             {
-                Execute(new InletValidator_ForCustomOperator(inlet), ValidationHelper.GetMessagePrefix(inlet));
+                string messagePrefix = ValidationHelper.GetMessagePrefix(inlet, i + 1);
+                Execute(new InletValidator_Basic(inlet, i), messagePrefix);
+                Execute(new InletValidator_ForCustomOperator(inlet), messagePrefix);
+                i++;
             }
 
+            i = 0;
             foreach (Outlet outlet in op.Outlets)
             {
-                Execute(new OutletValidator_ForCustomOperator(outlet), ValidationHelper.GetMessagePrefix(outlet));
+                string messagePrefix = ValidationHelper.GetMessagePrefix(outlet, i + 1);
+                Execute(new OutletValidator_Basic(outlet, i), messagePrefix);
+                Execute(new OutletValidator_ForCustomOperator(outlet), messagePrefix);
+                i++;
             }
 
             ValidateInletNamesUnique();
@@ -121,11 +129,11 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Operator op = Object;
 
-            IList<Operator> mainPatchInletOperators = document.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
+            IList<Operator> underlyingPatch_InletOperators = document.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
 
-            foreach (Operator mainPatchInletOperator in mainPatchInletOperators)
+            foreach (Operator underlyingPatch_InletOperator in underlyingPatch_InletOperators)
             {
-                string name = mainPatchInletOperator.Name;
+                string name = underlyingPatch_InletOperator.Name;
                 bool exists = op.Inlets.Where(x => String.Equals(x.Name, name)).Any();
                 if (!exists)
                 {
@@ -138,11 +146,11 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Operator op = Object;
 
-            IList<Operator> mainPatchOutletOperators = document.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
+            IList<Operator> underlyingPatch_OutletOperators = document.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
 
-            foreach (Operator mainPatchOutletOperator in mainPatchOutletOperators)
+            foreach (Operator underlyingPatch_OutletOperator in underlyingPatch_OutletOperators)
             {
-                string name = mainPatchOutletOperator.Name;
+                string name = underlyingPatch_OutletOperator.Name;
                 bool exists = op.Outlets.Where(x => String.Equals(x.Name, name)).Any();
                 if (!exists)
                 {

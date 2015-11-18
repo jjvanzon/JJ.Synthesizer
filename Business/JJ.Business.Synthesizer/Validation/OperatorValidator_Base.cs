@@ -11,7 +11,7 @@ using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    /// <summary> Validates the configuration of names, inlets and outlets. </summary>
+    /// <summary> Validates the inlet and outlet ListIndexes and that the inlet names are NOT filled in. </summary>
     public abstract class OperatorValidator_Base : FluentValidator<Operator>
     {
         private OperatorTypeEnum _expectedOperatorTypeEnum;
@@ -49,10 +49,12 @@ namespace JJ.Business.Synthesizer.Validation
                 IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.ListIndex).ToArray();
                 for (int i = 0; i < sortedInlets.Count; i++)
                 {
-                    // TODO: You should really be using a sub validator here.
-                    string prefix = String.Format("{0} {1}: ", PropertyDisplayNames.Inlet, i + 1);
-                    For(() => sortedInlets[i].ListIndex, prefix + PropertyDisplayNames.ListIndex).Is(i);
-                    For(() => sortedInlets[i].Name, prefix + CommonTitles.Name).IsNullOrEmpty();
+                    Inlet inlet = sortedInlets[i];
+
+                    string messagePrefix = ValidationHelper.GetMessagePrefix(inlet, i + 1);
+
+                    Execute(new InletValidator_Basic(inlet, i), messagePrefix);
+                    Execute(new InletValidator_ForOtherOperator(inlet), messagePrefix);
                 }
             }
 
@@ -64,10 +66,12 @@ namespace JJ.Business.Synthesizer.Validation
                 IList<Outlet> sortedOutlets = op.Outlets.OrderBy(x => x.ListIndex).ToArray();
                 for (int i = 0; i < sortedOutlets.Count; i++)
                 {
-                    // TODO: You should really be using a sub validator here.
-                    string prefix = String.Format("{0} {1}: ", PropertyDisplayNames.Outlet, i + 1);
-                    For(() => sortedOutlets[i].ListIndex, prefix + PropertyDisplayNames.ListIndex).Is(i);
-                    For(() => sortedOutlets[i].Name, prefix + CommonTitles.Name).IsNullOrEmpty();
+                    Outlet outlet = sortedOutlets[i];
+
+                    string messagePrefix = ValidationHelper.GetMessagePrefix(outlet, i + 1);
+
+                    Execute(new OutletValidator_Basic(outlet, i), messagePrefix);
+                    Execute(new OutletValidator_ForOtherOperator(outlet), messagePrefix);
                 }
             }
         }
