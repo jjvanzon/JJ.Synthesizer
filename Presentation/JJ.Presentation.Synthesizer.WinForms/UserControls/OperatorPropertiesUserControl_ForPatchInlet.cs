@@ -67,7 +67,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             textBoxName.Text = _viewModel.Name;
-            numericUpDownSortOrder.Value = _viewModel.ListIndex;
+            numericUpDownSortOrder.Value = _viewModel.Number;
         }
 
         private void ApplyControlsToViewModel()
@@ -75,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             _viewModel.Name = textBoxName.Text;
-            _viewModel.ListIndex = (int)numericUpDownSortOrder.Value;
+            _viewModel.Number = (int)numericUpDownSortOrder.Value;
         }
 
         // Actions

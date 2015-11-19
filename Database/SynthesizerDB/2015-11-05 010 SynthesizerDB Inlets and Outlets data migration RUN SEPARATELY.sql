@@ -1,3 +1,6 @@
+-- Renumbers all Inlets' and Outlets' SortOrders and renames those columns to ListIndex.
+-- Also wipes out the names for Inlets and Outlets of operators that are not of type CustomOperator.
+
 begin try
 	print 'Begin transaction.'
 	begin transaction

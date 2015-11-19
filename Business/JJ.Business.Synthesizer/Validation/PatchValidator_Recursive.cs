@@ -76,6 +76,8 @@ namespace JJ.Business.Synthesizer.Validation
             IList<int> listIndexes = Object.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
                                            .Select(x => new OperatorWrapper_PatchInlet(x))
                                            .Select(x => x.ListIndex)
+                                           .Where(x => x.HasValue)
+                                           .Select(x => x.Value)
                                            .ToArray();
 
             bool listIndexesAreUnique = listIndexes.Distinct().Count() == listIndexes.Count;
@@ -104,6 +106,8 @@ namespace JJ.Business.Synthesizer.Validation
             IList<int> listIndexes = Object.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
                                            .Select(x => new OperatorWrapper_PatchOutlet(x))
                                            .Select(x => x.ListIndex)
+                                           .Where(x => x.HasValue)
+                                           .Select(x => x.Value)
                                            .ToArray();
 
             bool listIndexesAreUnique = listIndexes.Distinct().Count() == listIndexes.Count;

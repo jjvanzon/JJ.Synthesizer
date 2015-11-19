@@ -1119,7 +1119,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SetOperatorTypeEnum(OperatorTypeEnum.PatchInlet, operatorTypeRepository);
 
             var wrapper = new OperatorWrapper_PatchInlet(entity);
-            wrapper.ListIndex = viewModel.ListIndex;
+            wrapper.ListIndex = viewModel.Number - 1;
 
             return entity;
         }
@@ -1143,7 +1143,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SetOperatorTypeEnum(OperatorTypeEnum.PatchOutlet, operatorTypeRepository);
 
             var wrapper = new OperatorWrapper_PatchOutlet(entity);
-            wrapper.ListIndex = viewModel.ListIndex;
+            wrapper.ListIndex = viewModel.Number - 1;
 
             return entity;
         }

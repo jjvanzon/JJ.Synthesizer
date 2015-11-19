@@ -380,6 +380,5 @@ namespace JJ.Business.Synthesizer.Managers
                     throw new ValueNotSupportedException(nodeTypeEnum);
             }
         }
-
     }
 }

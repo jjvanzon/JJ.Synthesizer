@@ -19,12 +19,12 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => Object.SubChunk2ID, PropertyNames.SubChunk2ID).Is(WavHeaderConstants.BIG_ENDIAN_ASCII_CHARACTERS_DATA_LOWERCASE);
 
             // For the moment only support 1 or 2 channels
-            For(() => (int)Object.ChannelCount, PropertyNames.ChannelCount).MinValue(1).MaxValue(2);
+            For(() => (int)Object.ChannelCount, PropertyNames.ChannelCount).GreaterThanOrEqual(1).LessThanOrEqual(2);
 
             // For the moment only support 8 bit and 16 bit integers.
             For(() => (int)Object.BitsPerValue, PropertyNames.BitsPerValue).In(8, 16);
 
-            For(() => Object.SamplingRate, PropertyNames.SamplingRate).Above(0);
+            For(() => Object.SamplingRate, PropertyNames.SamplingRate).GreaterThan(0);
 
             For(() => (int)Object.BytesPerSample, PropertyNames.BytesPerSample)
                 .Is(Object.ChannelCount * Object.BitsPerValue / 8);

@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             Execute(new NameValidator(sample.Name, required: false));
 
-            For(() => sample.SamplingRate, PropertyDisplayNames.SamplingRate).Above(0);
+            For(() => sample.SamplingRate, PropertyDisplayNames.SamplingRate).GreaterThan(0);
             For(() => sample.TimeMultiplier, PropertyDisplayNames.TimeMultiplier).IsNot(0);
             For(() => sample.AudioFileFormat, PropertyDisplayNames.AudioFileFormat).NotNull();
             For(() => sample.SampleDataType, PropertyDisplayNames.SampleDataType).NotNull();

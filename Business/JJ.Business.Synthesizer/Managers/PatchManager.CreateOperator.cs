@@ -169,7 +169,8 @@ namespace JJ.Business.Synthesizer.Managers
                 var inlet = new Inlet();
                 inlet.ID = _repositories.IDRepository.GetID();
                 inlet.Name = patchInlet.Name;
-                inlet.ListIndex = patchInletWrapper.ListIndex;
+                if (!patchInletWrapper.ListIndex.HasValue) throw new NullException(() => patchInletWrapper.ListIndex);
+                inlet.ListIndex = patchInletWrapper.ListIndex.Value;
                 inlet.LinkTo(op);
                 _repositories.InletRepository.Insert(inlet);
             }
@@ -181,7 +182,8 @@ namespace JJ.Business.Synthesizer.Managers
                 var outlet = new Outlet();
                 outlet.ID = _repositories.IDRepository.GetID();
                 outlet.Name = patchOutlet.Name;
-                outlet.ListIndex = patchOutletWrapper.ListIndex;
+                if (!patchOutletWrapper.ListIndex.HasValue) throw new NullException(() => patchOutletWrapper.ListIndex);
+                outlet.ListIndex = patchOutletWrapper.ListIndex.Value;
                 outlet.LinkTo(op);
                 _repositories.OutletRepository.Insert(outlet);
             }
@@ -297,7 +299,9 @@ namespace JJ.Business.Synthesizer.Managers
             var wrapper = new OperatorWrapper_PatchInlet(op)
             {
                 Input = input,
-                ListIndex = 0 // You have to set this or the wrapper's ListIndex getter would crash.
+                // You have to set these two or the wrapper's ListIndex and InletTypeEnum getters would crash.
+                ListIndex = 0,
+                InletTypeEnum = InletTypeEnum.Undefined
             };
 
             wrapper.Operator.LinkTo(Patch);
@@ -314,7 +318,9 @@ namespace JJ.Business.Synthesizer.Managers
             var wrapper = new OperatorWrapper_PatchOutlet(op)
             {
                 Input = input,
-                ListIndex = 0 // You have to set this or the wrapper's ListIndex getter would crash.
+                // You have to set these two or the wrapper's ListIndex and InletTypeEnum getters would crash.
+                ListIndex = 0,
+                OutletTypeEnum = OutletTypeEnum.Undefined
             };
 
             wrapper.Operator.LinkTo(Patch);

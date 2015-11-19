@@ -20,7 +20,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             For(() => op.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).Is(OperatorTypeEnum.Unbundle);
             For(() => op.Inlets.Count, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Inlets)).Is(1);
-            For(() => op.Outlets.Count, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Outlets)).Above(0);
+            For(() => op.Outlets.Count, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Outlets)).GreaterThan(0);
             For(() => op.Data, PropertyDisplayNames.Data).IsNull();
         }
     }

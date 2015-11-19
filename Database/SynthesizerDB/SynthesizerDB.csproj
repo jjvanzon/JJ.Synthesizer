@@ -96,6 +96,7 @@
     <Content Include="2015-11-07 030 SynthesizerDB rename OperatorType TimeSubtract to Earlier - Copy.sql" />
     <Content Include="2015-11-11 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2015-11-07 010 SynthesizerDB rename OperatorType Substract to Subtract.sql" />
+    <Content Include="2015-11-18 010 SynthesizerDB drop Inlet.InletTypeID, FK_Inlet_InletType, Outlet.OutletTypeID, FK_Outlet_OutletType.sql" />
     <Content Include="2015-11-17 230 SynthesizerDB OutletType records.sql" />
     <Content Include="2015-11-17 220 SynthesizerDB InletType records.sql" />
     <Content Include="2015-11-17 210 SynthesizerDB Scale.Name.sql" />
@@ -124,6 +125,8 @@
     <Content Include="2015-11-06 020 SynthesizerDB delete Sine Volume and Origin Inlets.sql" />
     <Content Include="2015-11-06 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2015-11-05 010 SynthesizerDB Inlets and Outlets data migration RUN SEPARATELY.sql" />
+    <Content Include="2015-11-18 020 SynthesizerDB Migrate Inlet and Outlet ListIndexes RUN SEPARATELY.sql" />
+    <Content Include="2015-11-19 030 SynthesizerDB Add InletTypeEnum and OutletTypeEnum to InletOperator and OutletOperator Data RUN SEPARATELY.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

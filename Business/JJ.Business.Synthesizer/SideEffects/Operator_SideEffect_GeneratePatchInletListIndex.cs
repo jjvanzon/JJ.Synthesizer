@@ -31,6 +31,8 @@ namespace JJ.Business.Synthesizer.SideEffects
 
             IList<int> listIndexes = _entity.Patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
                                                   .Select(x => new OperatorWrapper_PatchInlet(x).ListIndex)
+                                                  .Where(x => x.HasValue)
+                                                  .Select(x => x.Value)
                                                   .ToArray();
             int suggestedListIndex = 0;
             bool listIndexExists = listIndexes.Contains(suggestedListIndex);

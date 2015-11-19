@@ -87,6 +87,8 @@
     <Compile Include="ToViewModel\ToScreenViewModelExtensions.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.cs" />
     <Compile Include="ToViewModel\ViewModelHelper.Lookups.cs" />
+    <Compile Include="Validators\OperatorPropertiesViewModel_ForPatchOutlet_Validator.cs" />
+    <Compile Include="Validators\OperatorPropertiesViewModel_ForPatchInlet_Validator.cs" />
     <Compile Include="Validators\ToneGridEditViewModelValidator.cs" />
     <Compile Include="Validators\ToneViewModelValidator.cs" />
     <Compile Include="Validators\ValidationHelper.cs" />

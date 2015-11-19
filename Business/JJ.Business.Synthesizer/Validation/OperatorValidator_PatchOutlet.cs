@@ -3,6 +3,7 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
+using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -16,11 +17,11 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
-            For(() => Object.Name, CommonTitles.Name).NotNullOrEmpty();
+            var wrapper = new OperatorWrapper_PatchOutlet(Object);
 
-            For(() => Object.Data, PropertyDisplayNames.ListIndex)
-                .NotNullOrEmpty()
-                .IsInteger();
+            For(() => Object.Name, CommonTitles.Name).NotNullOrEmpty();
+            For(() => wrapper.ListIndex, PropertyDisplayNames.ListIndex).NotNull().GreaterThanOrEqual(0);
+            For(() => wrapper.OutletTypeEnum, PropertyDisplayNames.OutletType).IsEnum<OutletTypeEnum>();
         }
     }
 }

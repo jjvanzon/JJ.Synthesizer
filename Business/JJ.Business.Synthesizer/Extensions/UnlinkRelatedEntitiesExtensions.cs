@@ -80,7 +80,6 @@ namespace JJ.Business.Synthesizer.Extensions
 
             inlet.UnlinkOutlet();
             inlet.UnlinkOperator();
-            inlet.UnlinkInletType();
         }
 
         public static void UnlinkRelatedEntities(this Outlet outlet)
@@ -93,7 +92,6 @@ namespace JJ.Business.Synthesizer.Extensions
             }
 
             outlet.UnlinkOperator();
-            outlet.UnlinkOutletType();
         }
 
         public static void UnlinkRelatedEntities(this Scale scale)

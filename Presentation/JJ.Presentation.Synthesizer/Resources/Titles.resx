@@ -126,6 +126,9 @@
   <data name="DocumentTree" xml:space="preserve">
     <value>Document Explorer</value>
   </data>
+  <data name="Number" xml:space="preserve">
+    <value>Number</value>
+  </data>
   <data name="Play" xml:space="preserve">
     <value>Play</value>
   </data>

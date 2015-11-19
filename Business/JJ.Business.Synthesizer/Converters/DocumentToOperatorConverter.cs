@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Converters
             if (documentRepository == null) throw new NullException(() => documentRepository);
             if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
             if (idRepository == null) throw new NullException(() => idRepository);
-
+    
             _inletRepository = inletRepository;
             _outletRepository = outletRepository;
             _documentRepository = documentRepository;
@@ -102,7 +102,9 @@ namespace JJ.Business.Synthesizer.Converters
                 }
 
                 destInlet.Name = sourcePatchInlet.Name;
-                destInlet.ListIndex = sourcePatchInletWrapper.ListIndex;
+
+                if (!sourcePatchInletWrapper.ListIndex.HasValue) throw new NullException(() => sourcePatchInletWrapper.ListIndex);
+                destInlet.ListIndex = sourcePatchInletWrapper.ListIndex.Value;
 
                 idsToKeep.Add(destInlet.ID);
             }
@@ -162,7 +164,8 @@ namespace JJ.Business.Synthesizer.Converters
                 }
 
                 destOutlet.Name = sourcePatchOutlet.Name;
-                destOutlet.ListIndex = sourcePatchOutletWrapper.ListIndex;
+                if (!sourcePatchOutletWrapper.ListIndex.HasValue) throw new NullException(() => sourcePatchOutletWrapper.ListIndex);
+                destOutlet.ListIndex = sourcePatchOutletWrapper.ListIndex.Value;
 
                 idsToKeep.Add(destOutlet.ID);
             }

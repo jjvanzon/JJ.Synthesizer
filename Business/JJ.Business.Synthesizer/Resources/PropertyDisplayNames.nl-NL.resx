@@ -310,7 +310,7 @@
     <value>Aantal onderliggende documenten</value>
   </data>
   <data name="ListIndex" xml:space="preserve">
-    <value>Volgnummer</value>
+    <value>Nummer (beginnend bij 0)</value>
   </data>
   <data name="UnderlyingDocument" xml:space="preserve">
     <value>Onderliggend document</value>
@@ -480,5 +480,8 @@
   </data>
   <data name="OutletType" xml:space="preserve">
     <value>Soort uitgang</value>
+  </data>
+  <data name="DefaultValue" xml:space="preserve">
+    <value>Standaard waarde</value>
   </data>
 </root>

@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             Curve curve = Object;
 
-            For(() => curve.Nodes.Count, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Nodes)).MinValue(2);
+            For(() => curve.Nodes.Count, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Nodes)).GreaterThanOrEqual(2);
 
             int i = 1;
             foreach (Node node in curve.Nodes)

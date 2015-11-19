@@ -311,7 +311,7 @@
     <value>Child Document Count</value>
   </data>
   <data name="ListIndex" xml:space="preserve">
-    <value>Number</value>
+    <value>Number (starting with 0)</value>
   </data>
   <data name="UnderlyingDocument" xml:space="preserve">
     <value>Underlying Document</value>
@@ -477,5 +477,8 @@
   </data>
   <data name="OutletType" xml:space="preserve">
     <value>Outlet Type</value>
+  </data>
+  <data name="DefaultValue" xml:space="preserve">
+    <value>Default Value</value>
   </data>
 </root>

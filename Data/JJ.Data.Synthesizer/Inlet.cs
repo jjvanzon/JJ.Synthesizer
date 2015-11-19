@@ -17,9 +17,6 @@ namespace JJ.Data.Synthesizer
         /// </summary>
         public virtual int ListIndex { get; set; }
 
-        /// <summary> nullable </summary>
-        public virtual InletType InletType { get; set; }
-
         /// <summary> parent </summary>
         public virtual Operator Operator { get; set; }
 

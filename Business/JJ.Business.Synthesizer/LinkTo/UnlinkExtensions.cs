@@ -202,19 +202,5 @@ namespace JJ.Business.Synthesizer.LinkTo
 
             document.LinkTo((ChildDocumentType)null);
         }
-
-        public static void UnlinkInletType(this Inlet inlet)
-        {
-            if (inlet == null) throw new NullException(() => inlet);
-
-            inlet.LinkTo((InletType)null);
-        }
-
-        public static void UnlinkOutletType(this Outlet outlet)
-        {
-            if (outlet == null) throw new NullException(() => outlet);
-
-            outlet.LinkTo((OutletType)null);
-        }
     }
 }

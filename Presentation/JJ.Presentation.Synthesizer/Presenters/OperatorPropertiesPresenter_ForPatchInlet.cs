@@ -7,6 +7,9 @@ using System.Collections.Generic;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
+using JJ.Framework.Validation;
+using JJ.Presentation.Synthesizer.Validators;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -61,6 +64,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void Update()
         {
+            IValidator validator = new OperatorPropertiesViewModel_ForPatchInlet_Validator(ViewModel);
+            if (!validator.IsValid)
+            {
+                ViewModel.Successful = validator.IsValid;
+                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                return;
+            }
+
             Operator op = ViewModel.ToEntity(_repositories.OperatorRepository, _repositories.OperatorTypeRepository);
 
             PatchManager patchManager = new PatchManager(op.Patch, _repositories);

@@ -541,10 +541,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                ListIndex = wrapper.ListIndex,
                 Successful = true,
                 ValidationMessages = new List<Message>()
             };
+
+            if (wrapper.ListIndex.HasValue)
+            {
+                viewModel.Number = wrapper.ListIndex.Value + 1;
+            }
 
             return viewModel;
         }
@@ -559,10 +563,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                ListIndex = wrapper.ListIndex,
                 Successful = true,
                 ValidationMessages = new List<Message>()
             };
+
+            if (wrapper.ListIndex.HasValue)
+            {
+                viewModel.Number = wrapper.ListIndex.Value + 1;
+            }
 
             return viewModel;
         }

@@ -2,6 +2,7 @@
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -22,10 +23,16 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return GetOutlet(OperatorConstants.PATCH_OUTLET_RESULT_INDEX); }
         }
 
-        public int ListIndex
+        public int? ListIndex
         {
-            get { return Int32.Parse(Operator.Data); }
-            set { Operator.Data = value.ToString(); }
+            get { return OperatorDataParser.TryGetInt32(_operator, PropertyNames.ListIndex); }
+            set { OperatorDataParser.SetValue(_operator, PropertyNames.ListIndex, value); }
+        }
+
+        public OutletTypeEnum? OutletTypeEnum
+        {
+            get { return OperatorDataParser.TryGetEnum<OutletTypeEnum>(_operator, PropertyNames.OutletTypeEnum); }
+            set { OperatorDataParser.SetValue(_operator, PropertyNames.OutletTypeEnum, value); }
         }
 
         public static implicit operator Outlet(OperatorWrapper_PatchOutlet wrapper)
