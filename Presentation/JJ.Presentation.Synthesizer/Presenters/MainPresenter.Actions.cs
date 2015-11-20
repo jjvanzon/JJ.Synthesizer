@@ -1741,7 +1741,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     case OperatorTypeEnum.PatchOutlet:
                         {
-                            OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel = op.ToPropertiesViewModel_ForPatchOutlet();
+                            OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel = op.ToPropertiesViewModel_ForPatchOutlet(_repositories.OutletTypeRepository);
                             IList<OperatorPropertiesViewModel_ForPatchOutlet> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForPatchOutlets_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;

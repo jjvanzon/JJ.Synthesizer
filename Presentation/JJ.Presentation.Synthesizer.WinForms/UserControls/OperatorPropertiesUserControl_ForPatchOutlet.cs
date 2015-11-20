@@ -7,6 +7,8 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -51,9 +53,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
-            labelNumber.Text = Titles.Number;
-
             labelOperatorTypeValue.Text = PropertyDisplayNames.PatchOutlet;
+            labelNumber.Text = Titles.Number;
+            labelOutletType.Text = PropertyDisplayNames.OutletType;
         }
 
         private void ApplyStyling()
@@ -67,6 +69,22 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             textBoxName.Text = _viewModel.Name;
             numericUpDownNumber.Value = _viewModel.Number;
+
+            if (comboBoxOutletType.DataSource == null)
+            {
+                comboBoxOutletType.ValueMember = PropertyNames.ID;
+                comboBoxOutletType.DisplayMember = PropertyNames.Name;
+                comboBoxOutletType.DataSource = _viewModel.OutletTypeLookup;
+            }
+
+            if (_viewModel.OutletType != null)
+            {
+                comboBoxOutletType.SelectedValue = _viewModel.OutletType.ID;
+            }
+            else
+            {
+                comboBoxOutletType.SelectedValue = 0;
+            }
         }
 
         private void ApplyControlsToViewModel()
@@ -75,6 +93,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             _viewModel.Name = textBoxName.Text;
             _viewModel.Number = (int)numericUpDownNumber.Value;
+            _viewModel.OutletType = (IDAndName)comboBoxOutletType.SelectedItem;
         }
 
         // Actions

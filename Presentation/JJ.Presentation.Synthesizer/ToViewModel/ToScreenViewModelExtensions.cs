@@ -387,7 +387,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_ForPatchInlet> ToPropertiesViewModelList_ForPatchInlets(this Patch patch, IInletTypeRepository inletTypeRepository)
+        public static IList<OperatorPropertiesViewModel_ForPatchInlet> ToPropertiesViewModelList_ForPatchInlets(
+            this Patch patch, IInletTypeRepository inletTypeRepository)
         {
             if (patch == null) throw new NullException(() => patch);
 
@@ -396,12 +397,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_ForPatchOutlet> ToPropertiesViewModelList_ForPatchOutlets(this Patch patch)
+        public static IList<OperatorPropertiesViewModel_ForPatchOutlet> ToPropertiesViewModelList_ForPatchOutlets(
+            this Patch patch, IOutletTypeRepository outletTypeRepository)
         {
             if (patch == null) throw new NullException(() => patch);
 
             return patch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                        .Select(x => x.ToPropertiesViewModel_ForPatchOutlet())
+                        .Select(x => x.ToPropertiesViewModel_ForPatchOutlet(outletTypeRepository))
                         .ToList();
         }
 
@@ -556,9 +558,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForPatchOutlet ToPropertiesViewModel_ForPatchOutlet(this Operator entity)
+        public static OperatorPropertiesViewModel_ForPatchOutlet ToPropertiesViewModel_ForPatchOutlet(
+            this Operator entity, IOutletTypeRepository outletTypeRepository)
         {
             if (entity == null) throw new NullException(() => entity);
+            if (outletTypeRepository == null) throw new NullException(() => outletTypeRepository);
 
             var wrapper = new OperatorWrapper_PatchOutlet(entity);
 
@@ -566,6 +570,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
+                OutletTypeLookup = ViewModelHelper.CreateOutletTypeLookupViewModel(outletTypeRepository),
                 Successful = true,
                 ValidationMessages = new List<Message>()
             };

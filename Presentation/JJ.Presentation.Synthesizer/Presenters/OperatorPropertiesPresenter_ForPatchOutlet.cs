@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Operator entity = _repositories.OperatorRepository.Get(ViewModel.ID);
             bool visible = ViewModel.Visible;
-            ViewModel = entity.ToPropertiesViewModel_ForPatchOutlet();
+            ViewModel = entity.ToPropertiesViewModel_ForPatchOutlet(_repositories.OutletTypeRepository);
             ViewModel.Visible = visible;
         }
 
