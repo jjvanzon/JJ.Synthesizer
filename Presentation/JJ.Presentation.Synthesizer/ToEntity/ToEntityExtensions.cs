@@ -1121,6 +1121,30 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             var wrapper = new OperatorWrapper_PatchInlet(entity);
             wrapper.ListIndex = viewModel.Number - 1;
 
+            if (String.IsNullOrEmpty(viewModel.DefaultValue))
+            {
+                wrapper.DefaultValue = null;
+            }
+            else
+            {
+                // Tollerance, to make ToEntity not fail, before view model validation goes off.
+                double defaultValue;
+                if (Double.TryParse(viewModel.DefaultValue, out defaultValue))
+                {
+                    wrapper.DefaultValue = defaultValue;
+                }
+            }
+
+            bool inletTypeIsFilledIn = viewModel.InletType != null && viewModel.InletType.ID != 0;
+            if (inletTypeIsFilledIn)
+            {
+                wrapper.InletTypeEnum = (InletTypeEnum)viewModel.InletType.ID;
+            }
+            else
+            {
+                wrapper.InletTypeEnum = null;
+            }
+
             return entity;
         }
 
@@ -1144,6 +1168,16 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             var wrapper = new OperatorWrapper_PatchOutlet(entity);
             wrapper.ListIndex = viewModel.Number - 1;
+
+            bool outletTypeIsFilledIn = viewModel.OutletType != null && viewModel.OutletType.ID != 0;
+            if (outletTypeIsFilledIn)
+            {
+                wrapper.OutletTypeEnum = (OutletTypeEnum)viewModel.OutletType.ID;
+            }
+            else
+            {
+                wrapper.OutletTypeEnum = null;
+            }
 
             return entity;
         }

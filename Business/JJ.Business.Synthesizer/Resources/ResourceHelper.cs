@@ -22,6 +22,20 @@ namespace JJ.Business.Synthesizer.Resources
             return str;
         }
 
+        // InletType
+
+        public static string GetInletTypeDisplayName(InletTypeEnum enumValue)
+        {
+            return PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
+        }
+
+        public static string GetInletTypeDisplayName(InletType entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return PropertyDisplayNames.ResourceManager.GetString(entity.Name);
+        }
+
         // OperatorType
 
         public static string GetOperatorTypeDisplayName(Operator op)
@@ -40,6 +54,20 @@ namespace JJ.Business.Synthesizer.Resources
         public static string GetOperatorTypeDisplayName(OperatorTypeEnum operatorTypeEnum)
         {
             return PropertyDisplayNames.ResourceManager.GetString(operatorTypeEnum.ToString());
+        }
+
+        // OutletType
+
+        public static string GetOutletTypeDisplayName(OutletTypeEnum enumValue)
+        {
+            return PropertyDisplayNames.ResourceManager.GetString(enumValue.ToString());
+        }
+
+        public static string GetOutletTypeDisplayName(OutletType entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return PropertyDisplayNames.ResourceManager.GetString(entity.Name);
         }
 
         // ScaleType Singular

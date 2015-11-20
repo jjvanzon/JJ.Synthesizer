@@ -47,6 +47,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Helpers
                 CreateRepository<ISpeakerSetupRepository>(context),
                 CreateRepository<IChildDocumentTypeRepository>(context),
                 CreateRepository<IScaleTypeRepository>(context),
+                CreateRepository<IInletTypeRepository>(context),
+                CreateRepository<IOutletTypeRepository>(context),
 
                 CreateRepository<IIDRepository>(context)
             );

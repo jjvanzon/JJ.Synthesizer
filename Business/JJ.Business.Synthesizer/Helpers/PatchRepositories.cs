@@ -13,6 +13,9 @@ namespace JJ.Business.Synthesizer.Helpers
         public ICurveRepository CurveRepository { get; private set; }
         public ISampleRepository SampleRepository { get; private set; }
         public IDocumentRepository DocumentRepository { get; private set; }
+        public IInletTypeRepository InletTypeRepository { get; private set; }
+        public IOutletTypeRepository OutletTypeRepository { get; private set; }
+
         public IEntityPositionRepository EntityPositionRepository { get; private set; }
         public IIDRepository IDRepository { get; private set; }
 
@@ -28,6 +31,8 @@ namespace JJ.Business.Synthesizer.Helpers
             CurveRepository = repositoryWrapper.CurveRepository;
             SampleRepository = repositoryWrapper.SampleRepository;
             DocumentRepository = repositoryWrapper.DocumentRepository;
+            InletTypeRepository = repositoryWrapper.InletTypeRepository;
+            OutletTypeRepository = repositoryWrapper.OutletTypeRepository;
             EntityPositionRepository = repositoryWrapper.EntityPositionRepository;
             IDRepository = repositoryWrapper.IDRepository;
         }
@@ -41,6 +46,8 @@ namespace JJ.Business.Synthesizer.Helpers
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
             IDocumentRepository documentRepository,
+            IInletTypeRepository inletTypeRepository,
+            IOutletTypeRepository outletTypeRepository,
             IEntityPositionRepository entityPositionRepository,
             IIDRepository idRepository)
         {
@@ -52,6 +59,8 @@ namespace JJ.Business.Synthesizer.Helpers
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (inletTypeRepository == null) throw new NullException(() => inletTypeRepository);
+            if (outletTypeRepository == null) throw new NullException(() => outletTypeRepository);
             if (entityPositionRepository == null) throw new NullException(() => entityPositionRepository);
             if (idRepository == null) throw new NullException(() => idRepository);
 
@@ -63,6 +72,8 @@ namespace JJ.Business.Synthesizer.Helpers
             CurveRepository = curveRepository;
             SampleRepository = sampleRepository;
             DocumentRepository = documentRepository;
+            InletTypeRepository = inletTypeRepository;
+            OutletTypeRepository = outletTypeRepository;
             EntityPositionRepository = entityPositionRepository;
             IDRepository = idRepository;
         }

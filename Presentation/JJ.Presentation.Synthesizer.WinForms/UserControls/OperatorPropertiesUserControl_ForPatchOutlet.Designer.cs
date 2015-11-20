@@ -35,12 +35,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.labelOperatorTypeTitle = new System.Windows.Forms.Label();
             this.labelOperatorTypeValue = new System.Windows.Forms.Label();
-            this.labelSortOrder = new System.Windows.Forms.Label();
-            this.numericUpDownSortOrder = new System.Windows.Forms.NumericUpDown();
+            this.labelNumber = new System.Windows.Forms.Label();
+            this.numericUpDownNumber = new System.Windows.Forms.NumericUpDown();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSortOrder)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumber)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanelMain
@@ -67,8 +67,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Controls.Add(this.textBoxName, 1, 1);
             this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeTitle, 0, 0);
             this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeValue, 1, 0);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelSortOrder, 0, 2);
-            this.tableLayoutPanelProperties.Controls.Add(this.numericUpDownSortOrder, 1, 2);
+            this.tableLayoutPanelProperties.Controls.Add(this.labelNumber, 0, 2);
+            this.tableLayoutPanelProperties.Controls.Add(this.numericUpDownNumber, 1, 2);
             this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProperties.Location = new System.Drawing.Point(3, 24);
             this.tableLayoutPanelProperties.Name = "tableLayoutPanelProperties";
@@ -122,36 +122,36 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelOperatorTypeValue.Text = "labelOperatorTypeValue";
             this.labelOperatorTypeValue.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // labelSortOrder
+            // labelNumber
             // 
-            this.labelSortOrder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelSortOrder.Location = new System.Drawing.Point(0, 48);
-            this.labelSortOrder.Margin = new System.Windows.Forms.Padding(0);
-            this.labelSortOrder.Name = "labelSortOrder";
-            this.labelSortOrder.Size = new System.Drawing.Size(110, 24);
-            this.labelSortOrder.TabIndex = 14;
-            this.labelSortOrder.Text = "labelSortOrder";
-            this.labelSortOrder.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelNumber.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelNumber.Location = new System.Drawing.Point(0, 48);
+            this.labelNumber.Margin = new System.Windows.Forms.Padding(0);
+            this.labelNumber.Name = "labelNumber";
+            this.labelNumber.Size = new System.Drawing.Size(110, 24);
+            this.labelNumber.TabIndex = 14;
+            this.labelNumber.Text = "labelNumber";
+            this.labelNumber.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // numericUpDownSortOrder
+            // numericUpDownNumber
             // 
-            this.numericUpDownSortOrder.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.numericUpDownSortOrder.Location = new System.Drawing.Point(110, 48);
-            this.numericUpDownSortOrder.Margin = new System.Windows.Forms.Padding(0);
-            this.numericUpDownSortOrder.Maximum = new decimal(new int[] {
+            this.numericUpDownNumber.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.numericUpDownNumber.Location = new System.Drawing.Point(110, 48);
+            this.numericUpDownNumber.Margin = new System.Windows.Forms.Padding(0);
+            this.numericUpDownNumber.Maximum = new decimal(new int[] {
             1000000000,
             0,
             0,
             0});
-            this.numericUpDownSortOrder.Minimum = new decimal(new int[] {
+            this.numericUpDownNumber.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDownSortOrder.Name = "numericUpDownSortOrder";
-            this.numericUpDownSortOrder.Size = new System.Drawing.Size(10, 20);
-            this.numericUpDownSortOrder.TabIndex = 18;
-            this.numericUpDownSortOrder.Value = new decimal(new int[] {
+            this.numericUpDownNumber.Name = "numericUpDownNumber";
+            this.numericUpDownNumber.Size = new System.Drawing.Size(10, 20);
+            this.numericUpDownNumber.TabIndex = 18;
+            this.numericUpDownNumber.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -185,7 +185,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelProperties.ResumeLayout(false);
             this.tableLayoutPanelProperties.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownSortOrder)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownNumber)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -199,7 +199,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label labelOperatorTypeTitle;
         private System.Windows.Forms.Label labelOperatorTypeValue;
-        private System.Windows.Forms.Label labelSortOrder;
-        private System.Windows.Forms.NumericUpDown numericUpDownSortOrder;
+        private System.Windows.Forms.Label labelNumber;
+        private System.Windows.Forms.NumericUpDown numericUpDownNumber;
     }
 }

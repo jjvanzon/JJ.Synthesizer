@@ -1733,7 +1733,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     case OperatorTypeEnum.PatchInlet:
                         {
-                            OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel = op.ToPropertiesViewModel_ForPatchInlet();
+                            OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel = op.ToPropertiesViewModel_ForPatchInlet(_repositories.InletTypeRepository);
                             IList<OperatorPropertiesViewModel_ForPatchInlet> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForPatchInlets_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;

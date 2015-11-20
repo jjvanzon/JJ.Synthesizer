@@ -64,6 +64,8 @@ namespace JJ.Business.Synthesizer.Api.Helpers
                 CreateRepository<ICurveRepository>(ContextHelper.MemoryContext),
                 CreateRepository<ISampleRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IDocumentRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IInletTypeRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IOutletTypeRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IEntityPositionRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
         }

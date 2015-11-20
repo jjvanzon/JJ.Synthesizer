@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
@@ -57,6 +58,30 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
+        public static IDAndName ToIDAndDisplayName(this InletType entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            string displayName = ResourceHelper.GetInletTypeDisplayName(entity);
+
+            return new IDAndName
+            {
+                ID = entity.ID,
+                Name = displayName
+            };
+        }
+
+        public static IDAndName ToIDAndDisplayName(this InletTypeEnum enumValue)
+        {
+            string displayName = ResourceHelper.GetInletTypeDisplayName(enumValue);
+
+            return new IDAndName
+            {
+                ID = (int)enumValue,
+                Name = displayName
+            };
+        }
+
         public static IDAndName ToIDAndDisplayName(this InterpolationType entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -91,6 +116,30 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name
+            };
+        }
+
+        public static IDAndName ToIDAndDisplayName(this OutletType entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            string displayName = ResourceHelper.GetOutletTypeDisplayName(entity);
+
+            return new IDAndName
+            {
+                ID = entity.ID,
+                Name = displayName
+            };
+        }
+
+        public static IDAndName ToIDAndDisplayName(this OutletTypeEnum enumValue)
+        {
+            string displayName = ResourceHelper.GetOutletTypeDisplayName(enumValue);
+
+            return new IDAndName
+            {
+                ID = (int)enumValue,
+                Name = displayName
             };
         }
 

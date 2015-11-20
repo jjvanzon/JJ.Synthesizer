@@ -6,6 +6,7 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
+using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -50,7 +51,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
-            labelSortOrder.Text = PropertyDisplayNames.ListIndex;
+            labelNumber.Text = Titles.Number;
 
             labelOperatorTypeValue.Text = PropertyDisplayNames.PatchOutlet;
         }
@@ -65,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             textBoxName.Text = _viewModel.Name;
-            numericUpDownSortOrder.Value = _viewModel.Number;
+            numericUpDownNumber.Value = _viewModel.Number;
         }
 
         private void ApplyControlsToViewModel()
@@ -73,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             _viewModel.Name = textBoxName.Text;
-            _viewModel.Number = (int)numericUpDownSortOrder.Value;
+            _viewModel.Number = (int)numericUpDownNumber.Value;
         }
 
         // Actions

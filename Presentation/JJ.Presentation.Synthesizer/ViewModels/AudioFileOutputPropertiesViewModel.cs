@@ -12,9 +12,9 @@ namespace JJ.Presentation.Synthesizer.ViewModels
 
         public AudioFileOutputViewModel Entity { get; set; }
 
-        public IList<IDAndName> AudioFileFormats { get; set; }
-        public IList<IDAndName> SampleDataTypes { get; set; }
-        public IList<IDAndName> SpeakerSetups { get; set; }
+        public IList<IDAndName> AudioFileFormatLookup { get; set; }
+        public IList<IDAndName> SampleDataTypeLookup { get; set; }
+        public IList<IDAndName> SpeakerSetupLookup { get; set; }
 
         public IList<IDAndName> OutletLookup { get; set; }
     }

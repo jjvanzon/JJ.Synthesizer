@@ -1,9 +1,9 @@
-﻿using JJ.Business.CanonicalModel;
+﻿using System.Collections.Generic;
+using JJ.Business.CanonicalModel;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToEntity;
-using System.Collections.Generic;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -39,7 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Operator entity = _repositories.OperatorRepository.Get(ViewModel.ID);
             bool visible = ViewModel.Visible;
-            ViewModel = entity.ToPropertiesViewModel_ForPatchInlet();
+            ViewModel = entity.ToPropertiesViewModel_ForPatchInlet(_repositories.InletTypeRepository);
             ViewModel.Visible = visible;
         }
 

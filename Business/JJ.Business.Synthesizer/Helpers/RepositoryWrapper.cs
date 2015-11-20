@@ -5,32 +5,33 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     public class RepositoryWrapper
     {
-        public IDocumentRepository DocumentRepository { get; set; }
-        public ICurveRepository CurveRepository { get; set; }
-        public IPatchRepository PatchRepository { get; set; }
-        public ISampleRepository SampleRepository { get; set; }
-        public IAudioFileOutputRepository AudioFileOutputRepository { get; set; }
-        public IDocumentReferenceRepository DocumentReferenceRepository { get; set; }
-        public INodeRepository NodeRepository { get; set; }
-        public IAudioFileOutputChannelRepository AudioFileOutputChannelRepository { get; set; }
-        public IOperatorRepository OperatorRepository { get; set; }
-        public IOperatorTypeRepository OperatorTypeRepository { get; set; }
-        public IInletRepository InletRepository { get; set; }
-        public IOutletRepository OutletRepository { get; set; }
-        public IScaleRepository ScaleRepository { get; internal set; }
-        public IToneRepository ToneRepository { get; internal set; }
-        public IEntityPositionRepository EntityPositionRepository { get; set; }
+        public IDocumentRepository DocumentRepository { get; private set; }
+        public ICurveRepository CurveRepository { get; private set; }
+        public IPatchRepository PatchRepository { get; private set; }
+        public ISampleRepository SampleRepository { get; private set; }
+        public IAudioFileOutputRepository AudioFileOutputRepository { get; private set; }
+        public IDocumentReferenceRepository DocumentReferenceRepository { get; private set; }
+        public INodeRepository NodeRepository { get; private set; }
+        public IAudioFileOutputChannelRepository AudioFileOutputChannelRepository { get; private set; }
+        public IOperatorRepository OperatorRepository { get; private set; }
+        public IOperatorTypeRepository OperatorTypeRepository { get; private set; }
+        public IInletRepository InletRepository { get; private set; }
+        public IOutletRepository OutletRepository { get; private set; }
+        public IScaleRepository ScaleRepository { get; private set; }
+        public IToneRepository ToneRepository { get; private set; }
+        public IEntityPositionRepository EntityPositionRepository { get; private set; }
 
-        public IAudioFileFormatRepository AudioFileFormatRepository { get; set; }
-        public IInterpolationTypeRepository InterpolationTypeRepository { get; set; }
-        public INodeTypeRepository NodeTypeRepository { get; set; }
-        public ISampleDataTypeRepository SampleDataTypeRepository { get; set; }
-        public ISpeakerSetupRepository SpeakerSetupRepository { get; set; }
-        public IChildDocumentTypeRepository ChildDocumentTypeRepository { get; set; }
-        public IScaleTypeRepository ScaleTypeRepository { get; internal set; }
+        public IAudioFileFormatRepository AudioFileFormatRepository { get; private set; }
+        public IInterpolationTypeRepository InterpolationTypeRepository { get; private set; }
+        public INodeTypeRepository NodeTypeRepository { get; private set; }
+        public ISampleDataTypeRepository SampleDataTypeRepository { get; private set; }
+        public ISpeakerSetupRepository SpeakerSetupRepository { get; private set; }
+        public IChildDocumentTypeRepository ChildDocumentTypeRepository { get; private set; }
+        public IScaleTypeRepository ScaleTypeRepository { get; private set; }
+        public IInletTypeRepository InletTypeRepository { get; private set; }
+        public IOutletTypeRepository OutletTypeRepository { get; private set; }
 
-        public IIDRepository IDRepository { get; set; }
-
+        public IIDRepository IDRepository { get; private set; }
 
         public RepositoryWrapper(
             IDocumentRepository documentRepository,
@@ -57,6 +58,8 @@ namespace JJ.Business.Synthesizer.Helpers
             ISpeakerSetupRepository speakerSetupRepository,
             IChildDocumentTypeRepository childDocumentTypeRepository,
             IScaleTypeRepository scaleTypeRepository,
+            IInletTypeRepository inletTypeRepository,
+            IOutletTypeRepository outletTypeRepository,
 
             IIDRepository idRepository)
         {
@@ -84,6 +87,8 @@ namespace JJ.Business.Synthesizer.Helpers
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
             if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
             if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
+            if (inletTypeRepository == null) throw new NullException(() => inletTypeRepository);
+            if (outletTypeRepository == null) throw new NullException(() => outletTypeRepository);
 
             if (idRepository == null) throw new NullException(() => idRepository);
 
@@ -110,6 +115,8 @@ namespace JJ.Business.Synthesizer.Helpers
             SpeakerSetupRepository = speakerSetupRepository;
             ChildDocumentTypeRepository = childDocumentTypeRepository;
             ScaleTypeRepository = scaleTypeRepository;
+            InletTypeRepository = inletTypeRepository;
+            OutletTypeRepository = outletTypeRepository;
 
             IDRepository = idRepository;
         }

@@ -93,7 +93,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 comboBoxAudioFileFormat.ValueMember = PropertyNames.ID;
                 comboBoxAudioFileFormat.DisplayMember = PropertyNames.Name;
-                comboBoxAudioFileFormat.DataSource = _viewModel.AudioFileFormats;
+                comboBoxAudioFileFormat.DataSource = _viewModel.AudioFileFormatLookup;
             }
             comboBoxAudioFileFormat.SelectedValue = _viewModel.Entity.AudioFileFormat.ID;
 
@@ -101,7 +101,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 comboBoxSampleDataType.ValueMember = PropertyNames.ID;
                 comboBoxSampleDataType.DisplayMember = PropertyNames.Name;
-                comboBoxSampleDataType.DataSource = _viewModel.SampleDataTypes;
+                comboBoxSampleDataType.DataSource = _viewModel.SampleDataTypeLookup;
             }
             comboBoxSampleDataType.SelectedValue = _viewModel.Entity.SampleDataType.ID;
 
@@ -109,7 +109,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 comboBoxSpeakerSetup.ValueMember = PropertyNames.ID;
                 comboBoxSpeakerSetup.DisplayMember = PropertyNames.Name;
-                comboBoxSpeakerSetup.DataSource = _viewModel.SpeakerSetups;
+                comboBoxSpeakerSetup.DataSource = _viewModel.SpeakerSetupLookup;
             }
             comboBoxSpeakerSetup.SelectedValue = _viewModel.Entity.SpeakerSetup.ID;
 
@@ -122,7 +122,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             {
                 comboBoxInterpolationType.ValueMember = PropertyNames.ID;
                 comboBoxInterpolationType.DisplayMember = PropertyNames.Name;
-                comboBoxInterpolationType.DataSource = _viewModel.InterpolationTypes;
+                comboBoxInterpolationType.DataSource = _viewModel.InterpolationTypeLookup;
             }
             comboBoxInterpolationType.SelectedValue = _viewModel.Entity.InterpolationType.ID;
 

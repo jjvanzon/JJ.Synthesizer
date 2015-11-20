@@ -36,12 +36,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             OperatorTypeEnum.Unbundle
         };
 
-        private static int GetMaxVisiblePageNumbers()
-        {
-            ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
-            return config.MaxVisiblePageNumbers;
-        }
-
         // AudioFileOutput
 
         public static AudioFileOutputPropertiesViewModel ToPropertiesViewModel(
@@ -56,9 +50,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new AudioFileOutputPropertiesViewModel
             {
                 Entity = entity.ToViewModelWithRelatedEntities(),
-                AudioFileFormats = ViewModelHelper.CreateAudioFileFormatLookupViewModel(audioFileFormatRepository),
-                SampleDataTypes = ViewModelHelper.CreateSampleDataTypeLookupViewModel(sampleDataTypeRepository),
-                SpeakerSetups = ViewModelHelper.CreateSpeakerSetupLookupViewModel(speakerSetupRepository),
+                AudioFileFormatLookup = ViewModelHelper.CreateAudioFileFormatLookupViewModel(audioFileFormatRepository),
+                SampleDataTypeLookup = ViewModelHelper.CreateSampleDataTypeLookupViewModel(sampleDataTypeRepository),
+                SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(speakerSetupRepository),
                 ValidationMessages = new List<Message>(),
                 Successful = true
             };
@@ -393,12 +387,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_ForPatchInlet> ToPropertiesViewModelList_ForPatchInlets(this Patch patch)
+        public static IList<OperatorPropertiesViewModel_ForPatchInlet> ToPropertiesViewModelList_ForPatchInlets(this Patch patch, IInletTypeRepository inletTypeRepository)
         {
             if (patch == null) throw new NullException(() => patch);
 
             return patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                        .Select(x => x.ToPropertiesViewModel_ForPatchInlet())
+                        .Select(x => x.ToPropertiesViewModel_ForPatchInlet(inletTypeRepository))
                         .ToList();
         }
 
@@ -531,9 +525,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForPatchInlet ToPropertiesViewModel_ForPatchInlet(this Operator entity)
+        public static OperatorPropertiesViewModel_ForPatchInlet ToPropertiesViewModel_ForPatchInlet(
+            this Operator entity, IInletTypeRepository inletTypeRepository)
         {
             if (entity == null) throw new NullException(() => entity);
+            if (inletTypeRepository == null) throw new NullException(() => inletTypeRepository);
 
             var wrapper = new OperatorWrapper_PatchInlet(entity);
 
@@ -541,6 +537,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
+                DefaultValue = Convert.ToString(wrapper.DefaultValue),
+                InletTypeLookup = ViewModelHelper.CreateInletTypeLookupViewModel(inletTypeRepository),
                 Successful = true,
                 ValidationMessages = new List<Message>()
             };
@@ -548,6 +546,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (wrapper.ListIndex.HasValue)
             {
                 viewModel.Number = wrapper.ListIndex.Value + 1;
+            }
+
+            if (wrapper.InletTypeEnum.HasValue)
+            {
+                viewModel.InletType = wrapper.InletTypeEnum.Value.ToIDAndDisplayName();
             }
 
             return viewModel;
@@ -570,6 +573,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (wrapper.ListIndex.HasValue)
             {
                 viewModel.Number = wrapper.ListIndex.Value + 1;
+            }
+
+            if (wrapper.OutletTypeEnum.HasValue)
+            {
+                viewModel.OutletType = wrapper.OutletTypeEnum.Value.ToIDAndDisplayName();
             }
 
             return viewModel;
@@ -656,10 +664,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new SamplePropertiesViewModel
             {
-                AudioFileFormats = ViewModelHelper.CreateAudioFileFormatLookupViewModel(repositories.AudioFileFormatRepository),
-                SampleDataTypes = ViewModelHelper.CreateSampleDataTypeLookupViewModel(repositories.SampleDataTypeRepository),
-                SpeakerSetups = ViewModelHelper.CreateSpeakerSetupLookupViewModel(repositories.SpeakerSetupRepository),
-                InterpolationTypes = ViewModelHelper.CreateInterpolationTypesLookupViewModel(repositories.InterpolationTypeRepository),
+                AudioFileFormatLookup = ViewModelHelper.CreateAudioFileFormatLookupViewModel(repositories.AudioFileFormatRepository),
+                SampleDataTypeLookup = ViewModelHelper.CreateSampleDataTypeLookupViewModel(repositories.SampleDataTypeRepository),
+                SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(repositories.SpeakerSetupRepository),
+                InterpolationTypeLookup = ViewModelHelper.CreateInterpolationTypesLookupViewModel(repositories.InterpolationTypeRepository),
                 ValidationMessages = new List<Message>(),
                 Successful = true
             };
@@ -741,6 +749,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
+        }
+
+        // Helpers
+
+        private static int GetMaxVisiblePageNumbers()
+        {
+            ConfigurationSection config = ConfigurationHelper.GetSection<ConfigurationSection>();
+            return config.MaxVisiblePageNumbers;
         }
     }
 }

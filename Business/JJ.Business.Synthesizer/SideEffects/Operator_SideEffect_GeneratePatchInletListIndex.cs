@@ -30,6 +30,7 @@ namespace JJ.Business.Synthesizer.SideEffects
             }
 
             IList<int> listIndexes = _entity.Patch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                                  .Where(x => x.ID != _entity.ID) // Not itself
                                                   .Select(x => new OperatorWrapper_PatchInlet(x).ListIndex)
                                                   .Where(x => x.HasValue)
                                                   .Select(x => x.Value)

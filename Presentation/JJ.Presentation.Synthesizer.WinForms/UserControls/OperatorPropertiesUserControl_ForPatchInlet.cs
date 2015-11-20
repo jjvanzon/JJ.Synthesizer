@@ -6,6 +6,9 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
+using JJ.Presentation.Synthesizer.Resources;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -50,9 +53,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
-            labelSortOrder.Text = PropertyDisplayNames.ListIndex;
-
             labelOperatorTypeValue.Text = PropertyDisplayNames.PatchInlet;
+            labelNumber.Text = Titles.Number;
+            labelInletType.Text = PropertyDisplayNames.InletType;
+            labelDefaultValue.Text = PropertyDisplayNames.DefaultValue;
         }
 
         private void ApplyStyling()
@@ -67,7 +71,24 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             textBoxName.Text = _viewModel.Name;
-            numericUpDownSortOrder.Value = _viewModel.Number;
+            numericUpDownNumber.Value = _viewModel.Number;
+            textBoxDefaultValue.Text = _viewModel.DefaultValue;
+
+            if (comboBoxInletType.DataSource == null)
+            {
+                comboBoxInletType.ValueMember = PropertyNames.ID;
+                comboBoxInletType.DisplayMember = PropertyNames.Name;
+                comboBoxInletType.DataSource = _viewModel.InletTypeLookup;
+            }
+
+            if (_viewModel.InletType != null)
+            {
+                comboBoxInletType.SelectedValue = _viewModel.InletType.ID;
+            }
+            else
+            {
+                comboBoxInletType.SelectedValue = 0;
+            }
         }
 
         private void ApplyControlsToViewModel()
@@ -75,7 +96,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             _viewModel.Name = textBoxName.Text;
-            _viewModel.Number = (int)numericUpDownSortOrder.Value;
+            _viewModel.Number = (int)numericUpDownNumber.Value;
+            _viewModel.DefaultValue = textBoxDefaultValue.Text;
+            _viewModel.InletType = (IDAndName)comboBoxInletType.SelectedItem;
         }
 
         // Actions

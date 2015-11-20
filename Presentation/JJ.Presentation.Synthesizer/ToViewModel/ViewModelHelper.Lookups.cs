@@ -63,6 +63,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return list;
         }
 
+        public static IList<IDAndName> CreateInletTypeLookupViewModel(IInletTypeRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            IList<InletType> entities = repository.GetAll().OrderBy(x => x.ID).ToArray();
+
+            var idAndNames = new List<IDAndName>(entities.Count + 1);
+            idAndNames.Add(new IDAndName { ID = 0, Name = null });
+            idAndNames.AddRange(entities.Select(x => x.ToIDAndDisplayName()));
+
+            return idAndNames;
+        }
+
         public static IList<IDAndName> CreateInterpolationTypesLookupViewModel(IInterpolationTypeRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
@@ -106,6 +119,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                                                .OrderBy(x => x.DisplayName)
                                                                                .ToArray();
             return operatorTypeViewModels;
+        }
+
+        public static IList<IDAndName> CreateOutletTypeLookupViewModel(IOutletTypeRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            IList<OutletType> entities = repository.GetAll().OrderBy(x => x.ID).ToArray();
+
+            var idAndNames = new List<IDAndName>(entities.Count + 1);
+            idAndNames.Add(new IDAndName { ID = 0, Name = null });
+            idAndNames.AddRange(entities.Select(x => x.ToIDAndDisplayName()));
+
+            return idAndNames;
         }
 
         public static IList<IDAndName> CreateSampleDataTypeLookupViewModel(ISampleDataTypeRepository repository)

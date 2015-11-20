@@ -67,6 +67,8 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 CreateRepository<ISpeakerSetupRepository>(context),
                 CreateRepository<IChildDocumentTypeRepository>(context),
                 CreateRepository<IScaleTypeRepository>(context),
+                CreateRepository<IInletTypeRepository>(context),
+                CreateRepository<IOutletTypeRepository>(context),
 
                 CreateRepository<IIDRepository>(context)
             );

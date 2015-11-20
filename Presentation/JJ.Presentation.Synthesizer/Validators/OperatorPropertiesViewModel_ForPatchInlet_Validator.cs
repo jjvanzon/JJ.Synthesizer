@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -20,6 +21,7 @@ namespace JJ.Presentation.Synthesizer.Validators
         protected override void Execute()
         {
             For(() => Object.Number, Titles.Number).GreaterThanOrEqual(1);
+            For(() => Object.DefaultValue, PropertyDisplayNames.DefaultValue).IsDouble();
         }
     }
 }
