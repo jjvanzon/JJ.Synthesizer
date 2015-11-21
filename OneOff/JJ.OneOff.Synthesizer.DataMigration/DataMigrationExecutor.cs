@@ -155,12 +155,22 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 {
                     Document rootDocument = rootDocuments[i];
 
-                    IList<Patch> patches = rootDocument.EnumerateSelfAndParentAndTheirChildren()
-                                                       .SelectMany(x => x.Patches)
-                                                       .OrderBy(x => x.Name)
-                                                       .ToArray();
                     int patchNumber = 1;
-                    foreach (Patch patch in patches)
+
+                    // Traverse patches in a very specific order, so that the numbers do not seem all mixed up.
+                    IEnumerable<Document> childDocuments = rootDocument.ChildDocuments.OrderBy(x => x.ChildDocumentType.ID).ThenBy(x => x.Name);
+                    foreach (Document childDocument in childDocuments)
+                    {
+                        foreach (Patch patch in childDocument.Patches)
+                        {
+                            string newName = String.Format("{0} {1}", PropertyDisplayNames.Patch, patchNumber);
+                            patch.Name = newName;
+
+                            patchNumber++;
+                        }
+                    }
+
+                    foreach (Patch patch in rootDocument.Patches)
                     {
                         string newName = String.Format("{0} {1}", PropertyDisplayNames.Patch, patchNumber);
                         patch.Name = newName;
