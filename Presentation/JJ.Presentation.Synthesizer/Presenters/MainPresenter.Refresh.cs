@@ -114,8 +114,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void Refresh_OperatorProperties_ForCustomOperatorViewModels(int underlyingDocumentID)
         {
             foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in
-                ViewModel.Document.OperatorPropertiesList_ForCustomOperators.Union(
-                ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators)))
+                ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators))
             {
                 _operatorPropertiesPresenter_ForCustomOperator.ViewModel = propertiesViewModel;
                 _operatorPropertiesPresenter_ForCustomOperator.Refresh();

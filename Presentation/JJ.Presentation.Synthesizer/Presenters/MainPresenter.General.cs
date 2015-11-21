@@ -163,15 +163,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.CurvePropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.DocumentProperties.Visible = false;
             ViewModel.Document.NodePropertiesList.ForEach(x => x.Visible = false);
-            ViewModel.Document.OperatorPropertiesList.ForEach(x => x.Visible = false);
-            ViewModel.Document.OperatorPropertiesList_ForBundles.ForEach(x => x.Visible = false);
-            ViewModel.Document.OperatorPropertiesList_ForCurves.ForEach(x => x.Visible = false);
-            ViewModel.Document.OperatorPropertiesList_ForCustomOperators.ForEach(x => x.Visible = false);
-            ViewModel.Document.OperatorPropertiesList_ForNumbers.ForEach(x => x.Visible = false);
-            ViewModel.Document.OperatorPropertiesList_ForPatchInlets.ForEach(x => x.Visible = false);
-            ViewModel.Document.OperatorPropertiesList_ForPatchOutlets.ForEach(x => x.Visible = false);
-            ViewModel.Document.OperatorPropertiesList_ForSamples.ForEach(x => x.Visible = false);
-            ViewModel.Document.OperatorPropertiesList_ForUnbundles.ForEach(x => x.Visible = false);
             ViewModel.Document.SamplePropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.ScalePropertiesList.ForEach(x => x.Visible = false);
             

@@ -77,108 +77,74 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 // OperatorProperties
                 operatorPropertiesUserControl.ViewModel =
-                    Enumerable.Union(
-                        _presenter.ViewModel.Document.OperatorPropertiesList,
-                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList))
+                    _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
                 // OperatorProperties_ForBundle
                 operatorPropertiesUserControl_ForBundle.ViewModel =
-                    Enumerable.Union(
-                        _presenter.ViewModel.Document.OperatorPropertiesList_ForBundles,
-                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForBundles))
+                    _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForBundles)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
                 // OperatorProperties_ForCurve
                 // (Needs slightly different code, because the CurveLookup is different for root documents and child documents.
                 operatorPropertiesUserControl_ForCurve.ViewModel = null;
-                OperatorPropertiesViewModel_ForCurve visibleOperatorPropertiesViewModel_ForCurve =
-                    _presenter.ViewModel.Document.OperatorPropertiesList_ForCurves.Where(x => x.Visible).FirstOrDefault();
-                if (visibleOperatorPropertiesViewModel_ForCurve != null)
+                OperatorPropertiesViewModel_ForCurve visibleOperatorPropertiesViewModel_ForCurve = null;
+                foreach (ChildDocumentViewModel childDocumentViewModel in _presenter.ViewModel.Document.ChildDocumentList)
                 {
-                    operatorPropertiesUserControl_ForCurve.SetCurveLookup(_presenter.ViewModel.Document.CurveLookup);
-                    operatorPropertiesUserControl_ForCurve.ViewModel = visibleOperatorPropertiesViewModel_ForCurve;
-                }
-                else
-                {
-                    foreach (ChildDocumentViewModel childDocumentViewModel in _presenter.ViewModel.Document.ChildDocumentList)
+                    visibleOperatorPropertiesViewModel_ForCurve = childDocumentViewModel.OperatorPropertiesList_ForCurves.Where(x => x.Visible).FirstOrDefault();
+                    if (visibleOperatorPropertiesViewModel_ForCurve != null)
                     {
-                        visibleOperatorPropertiesViewModel_ForCurve =
-                            childDocumentViewModel.OperatorPropertiesList_ForCurves.Where(x => x.Visible).FirstOrDefault();
-                        if (visibleOperatorPropertiesViewModel_ForCurve != null)
-                        {
-                            operatorPropertiesUserControl_ForCurve.SetCurveLookup(childDocumentViewModel.CurveLookup);
-                            operatorPropertiesUserControl_ForCurve.ViewModel = visibleOperatorPropertiesViewModel_ForCurve;
-                            break;
-                        }
+                        operatorPropertiesUserControl_ForCurve.SetCurveLookup(childDocumentViewModel.CurveLookup);
+                        operatorPropertiesUserControl_ForCurve.ViewModel = visibleOperatorPropertiesViewModel_ForCurve;
+                        break;
                     }
                 }
 
                 // OperatorProperties_ForCustomOperator
                 operatorPropertiesUserControl_ForCustomOperator.ViewModel =
-                    Enumerable.Union(
-                        _presenter.ViewModel.Document.OperatorPropertiesList_ForCustomOperators,
-                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators))
+                    _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
                 operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingDocumentLookup(_presenter.ViewModel.Document.UnderlyingDocumentLookup);
 
                 // OperatorProperties_ForNumber
                 operatorPropertiesUserControl_ForNumber.ViewModel =
-                    Enumerable.Union(
-                        _presenter.ViewModel.Document.OperatorPropertiesList_ForNumbers,
-                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers))
+                    _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
                 // OperatorProperties_ForPatchInlet
                 operatorPropertiesUserControl_ForPatchInlet.ViewModel =
-                    Enumerable.Union(
-                        _presenter.ViewModel.Document.OperatorPropertiesList_ForPatchInlets,
-                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchInlets))
+                    _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchInlets)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
                 // OperatorProperties_ForPatchOutlet
                 operatorPropertiesUserControl_ForPatchOutlet.ViewModel =
-                    Enumerable.Union(
-                        _presenter.ViewModel.Document.OperatorPropertiesList_ForPatchOutlets,
-                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets))
+                    _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
                 // OperatorProperties_ForSample
                 // (Needs slightly different code, because the SampleLookup is different for root documents and child documents.
                 operatorPropertiesUserControl_ForSample.ViewModel = null;
-                OperatorPropertiesViewModel_ForSample visibleOperatorPropertiesViewModel_ForSample =
-                    _presenter.ViewModel.Document.OperatorPropertiesList_ForSamples.Where(x => x.Visible).FirstOrDefault();
-                if (visibleOperatorPropertiesViewModel_ForSample != null)
+                OperatorPropertiesViewModel_ForSample visibleOperatorPropertiesViewModel_ForSample = null;
+                foreach (ChildDocumentViewModel childDocumentViewModel in _presenter.ViewModel.Document.ChildDocumentList)
                 {
-                    operatorPropertiesUserControl_ForSample.SetSampleLookup(_presenter.ViewModel.Document.SampleLookup);
-                    operatorPropertiesUserControl_ForSample.ViewModel = visibleOperatorPropertiesViewModel_ForSample;
-                }
-                else
-                {
-                    foreach (ChildDocumentViewModel childDocumentViewModel in _presenter.ViewModel.Document.ChildDocumentList)
+                    visibleOperatorPropertiesViewModel_ForSample = childDocumentViewModel.OperatorPropertiesList_ForSamples.Where(x => x.Visible).FirstOrDefault();
+                    if (visibleOperatorPropertiesViewModel_ForSample != null)
                     {
-                        visibleOperatorPropertiesViewModel_ForSample =
-                            childDocumentViewModel.OperatorPropertiesList_ForSamples.Where(x => x.Visible).FirstOrDefault();
-                        if (visibleOperatorPropertiesViewModel_ForSample != null)
-                        {
-                            operatorPropertiesUserControl_ForSample.SetSampleLookup(childDocumentViewModel.SampleLookup);
-                            operatorPropertiesUserControl_ForSample.ViewModel = visibleOperatorPropertiesViewModel_ForSample;
-                            break;
-                        }
+                        operatorPropertiesUserControl_ForSample.SetSampleLookup(childDocumentViewModel.SampleLookup);
+                        operatorPropertiesUserControl_ForSample.ViewModel = visibleOperatorPropertiesViewModel_ForSample;
+                        break;
                     }
                 }
-
+                
                 // OperatorProperties_ForUnbundle
                 operatorPropertiesUserControl_ForUnbundle.ViewModel =
-                    Enumerable.Union(
-                        _presenter.ViewModel.Document.OperatorPropertiesList_ForUnbundles,
-                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles))
+                    _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 

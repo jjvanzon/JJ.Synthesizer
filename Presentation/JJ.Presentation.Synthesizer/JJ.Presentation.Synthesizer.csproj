@@ -108,7 +108,6 @@
     <Compile Include="Presenters\DocumentGridPresenter.cs" />
     <Compile Include="Presenters\CurveGridPresenter.cs" />
     <Compile Include="Presenters\PatchDetailsPresenter.cs" />
-    <Compile Include="Presenters\2015-11-21 Backup of PatchGridPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Titles.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -160,7 +159,6 @@
     <Compile Include="ViewModels\Entities\ReferencedDocumentViewModel.cs" />
     <Compile Include="ViewModels\Partials\ReferencedDocumentsTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\PatchDetailsViewModel.cs" />
-    <Compile Include="ViewModels\2015-11-21 Backup of PatchGridViewModel.cs" />
     <Compile Include="ViewModels\CurvePropertiesViewModel.cs" />
     <Compile Include="ViewModels\SamplePropertiesViewModel.cs" />
     <Compile Include="ViewModels\SampleGridViewModel.cs" />

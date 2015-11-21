@@ -555,53 +555,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             userInput.ScalePropertiesList.ToEntities(scaleRepositories, destDocument);
             userInput.ToneGridEditList.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
 
-            // Operator Properties
-            // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
-            foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesList)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForBundle propertiesViewModel in userInput.OperatorPropertiesList_ForBundles)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForCurve propertiesViewModel in userInput.OperatorPropertiesList_ForCurves)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.CurveRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DocumentRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForNumber propertiesViewModel in userInput.OperatorPropertiesList_ForNumbers)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchInlets)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchOutlets)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in userInput.OperatorPropertiesList_ForSamples)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.SampleRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForUnbundle propertiesViewModel in userInput.OperatorPropertiesList_ForUnbundles)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
-            }
-
             return destDocument;
         }
 

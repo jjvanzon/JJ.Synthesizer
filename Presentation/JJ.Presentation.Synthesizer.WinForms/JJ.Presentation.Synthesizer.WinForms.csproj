@@ -292,10 +292,6 @@
     <Compile Include="UserControls\PatchDetailsUserControl.Designer.cs">
       <DependentUpon>PatchDetailsUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\2015-11-21 Backup of PatchGridUserControl.cs" />
-    <Compile Include="UserControls\2015-11-21 Backup of PatchGridUserControl.Designer.cs">
-      <DependentUpon>2015-11-21 Backup of PatchGridUserControl.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Forms\DocumentCannotDeleteForm.resx">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -401,9 +397,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\PatchDetailsUserControl.resx">
       <DependentUpon>PatchDetailsUserControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\2015-11-21 Backup of PatchGridUserControl.resx">
-      <DependentUpon>2015-11-21 Backup of PatchGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

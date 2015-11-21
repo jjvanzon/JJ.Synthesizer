@@ -1877,95 +1877,47 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     if (_patchDetailsPresenter.ViewModel.Successful)
                     {
                         // Do a lot of if'ing and switching to be a little faster in removing the item a specific place in the view model.
-                        bool isRootDocument = rootDocument.ID == document.ID;
-                        if (isRootDocument)
+                        ChildDocumentViewModel childDocumentViewModel = ViewModel.Document.ChildDocumentList.Where(x => x.ID == document.ID).First();
+                        switch (operatorTypeEnum)
                         {
-                            switch (operatorTypeEnum)
-                            {
-                                case OperatorTypeEnum.Bundle:
-                                    ViewModel.Document.OperatorPropertiesList_ForBundles.RemoveFirst(x => x.ID == op.ID);
-                                    break;
+                            case OperatorTypeEnum.Bundle:
+                                childDocumentViewModel.OperatorPropertiesList_ForBundles.RemoveFirst(x => x.ID == op.ID);
+                                break;
 
-                                case OperatorTypeEnum.Curve:
-                                    ViewModel.Document.OperatorPropertiesList_ForCurves.RemoveFirst(x => x.ID == op.ID);
-                                    break;
+                            case OperatorTypeEnum.Curve:
+                                childDocumentViewModel.OperatorPropertiesList_ForCurves.RemoveFirst(x => x.ID == op.ID);
+                                break;
 
-                                case OperatorTypeEnum.CustomOperator:
-                                    ViewModel.Document.OperatorPropertiesList_ForCustomOperators.RemoveFirst(x => x.ID == op.ID);
-                                    break;
+                            case OperatorTypeEnum.CustomOperator:
+                                childDocumentViewModel.OperatorPropertiesList_ForCustomOperators.RemoveFirst(x => x.ID == op.ID);
+                                break;
 
-                                case OperatorTypeEnum.Number:
-                                    ViewModel.Document.OperatorPropertiesList_ForNumbers.RemoveFirst(x => x.ID == op.ID);
-                                    break;
+                            case OperatorTypeEnum.Number:
+                                childDocumentViewModel.OperatorPropertiesList_ForNumbers.RemoveFirst(x => x.ID == op.ID);
+                                break;
 
-                                case OperatorTypeEnum.PatchInlet:
-                                    ViewModel.Document.OperatorPropertiesList_ForPatchInlets.RemoveFirst(x => x.ID == op.ID);
-                                    break;
+                            case OperatorTypeEnum.PatchInlet:
+                                childDocumentViewModel.OperatorPropertiesList_ForPatchInlets.RemoveFirst(x => x.ID == op.ID);
+                                break;
 
-                                case OperatorTypeEnum.PatchOutlet:
-                                    ViewModel.Document.OperatorPropertiesList_ForPatchOutlets.RemoveFirst(x => x.ID == op.ID);
-                                    break;
+                            case OperatorTypeEnum.PatchOutlet:
+                                childDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.RemoveFirst(x => x.ID == op.ID);
+                                break;
 
-                                case OperatorTypeEnum.Sample:
-                                    ViewModel.Document.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
-                                    break;
+                            case OperatorTypeEnum.Sample:
+                                childDocumentViewModel.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
+                                break;
 
-                                case OperatorTypeEnum.Unbundle:
-                                    ViewModel.Document.OperatorPropertiesList_ForUnbundles.RemoveFirst(x => x.ID == op.ID);
-                                    break;
+                            case OperatorTypeEnum.Unbundle:
+                                childDocumentViewModel.OperatorPropertiesList_ForUnbundles.RemoveFirst(x => x.ID == op.ID);
+                                break;
 
-                                case OperatorTypeEnum.Undefined:
-                                    throw new ValueNotSupportedException(operatorTypeEnum);
+                            case OperatorTypeEnum.Undefined:
+                                throw new ValueNotSupportedException(operatorTypeEnum);
 
-                                default:
-                                    ViewModel.Document.OperatorPropertiesList.RemoveFirst(x => x.ID == op.ID);
-                                    break;
-                            }
-                        }
-                        else
-                        {
-                            ChildDocumentViewModel childDocumentViewModel = ViewModel.Document.ChildDocumentList.Where(x => x.ID == document.ID).First();
-                            switch (operatorTypeEnum)
-                            {
-                                case OperatorTypeEnum.Bundle:
-                                    childDocumentViewModel.OperatorPropertiesList_ForBundles.RemoveFirst(x => x.ID == op.ID);
-                                    break;
-
-                                case OperatorTypeEnum.Curve:
-                                    childDocumentViewModel.OperatorPropertiesList_ForCurves.RemoveFirst(x => x.ID == op.ID);
-                                    break;
-
-                                case OperatorTypeEnum.CustomOperator:
-                                    childDocumentViewModel.OperatorPropertiesList_ForCustomOperators.RemoveFirst(x => x.ID == op.ID);
-                                    break;
-
-                                case OperatorTypeEnum.Number:
-                                    childDocumentViewModel.OperatorPropertiesList_ForNumbers.RemoveFirst(x => x.ID == op.ID);
-                                    break;
-
-                                case OperatorTypeEnum.PatchInlet:
-                                    childDocumentViewModel.OperatorPropertiesList_ForPatchInlets.RemoveFirst(x => x.ID == op.ID);
-                                    break;
-
-                                case OperatorTypeEnum.PatchOutlet:
-                                    childDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.RemoveFirst(x => x.ID == op.ID);
-                                    break;
-
-                                case OperatorTypeEnum.Sample:
-                                    childDocumentViewModel.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
-                                    break;
-
-                                case OperatorTypeEnum.Unbundle:
-                                    childDocumentViewModel.OperatorPropertiesList_ForUnbundles.RemoveFirst(x => x.ID == op.ID);
-                                    break;
-
-                                case OperatorTypeEnum.Undefined:
-                                    throw new ValueNotSupportedException(operatorTypeEnum);
-
-                                default:
-                                    childDocumentViewModel.OperatorPropertiesList.RemoveFirst(x => x.ID == op.ID);
-                                    break;
-                            }
+                            default:
+                                childDocumentViewModel.OperatorPropertiesList.RemoveFirst(x => x.ID == op.ID);
+                                break;
                         }
                     }
 

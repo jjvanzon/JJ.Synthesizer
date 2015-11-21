@@ -74,6 +74,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                                                                         .First();
             return detailsViewModel;
         }
+
         public static IList<CurveDetailsViewModel> GetCurveDetailsViewModels_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -232,7 +233,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         }
 
         // Operator
-
+        
         public static OperatorViewModel GetOperatorViewModel(DocumentViewModel rootDocumentViewModel, int operatorID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -241,7 +242,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                                                              .FirstOrDefault(x => x.ID == operatorID); // First for performance.
             if (viewModel == null)
             {
-                throw new Exception(String.Format("OperatorViewModel with ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", operatorID));
+                throw new Exception(String.Format("OperatorViewModel with ID '{0}' not found in ChildDocumentViewModels.", operatorID));
             }
 
             return viewModel;
@@ -251,13 +252,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
-            {
-                foreach (OperatorViewModel operatorViewModel in childDocumentViewModel.PatchDetails.Entity.Operators)
-                {
-                    yield return operatorViewModel;
-                }
-            }
+            return rootDocumentViewModel.ChildDocumentList.SelectMany(x => x.PatchDetails.Entity.Operators);
         }
 
         public static OperatorPropertiesViewModel TryGetOperatorPropertiesViewModel(DocumentViewModel rootDocumentViewModel, int operatorID)
@@ -345,162 +340,63 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            foreach (OperatorPropertiesViewModel propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList)
-            {
-                yield return propertiesViewModel;
-            }
-
-            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
-            {
-                foreach (OperatorPropertiesViewModel propertiesViewModel in childDocumentViewModel.OperatorPropertiesList)
-                {
-                    yield return propertiesViewModel;
-                }
-            }
+            return rootDocumentViewModel.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_ForBundle> EnumerateOperatorPropertiesViewModels_ForBundles(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            foreach (OperatorPropertiesViewModel_ForBundle propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList_ForBundles)
-            {
-                yield return propertiesViewModel;
-            }
-
-            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
-            {
-                foreach (OperatorPropertiesViewModel_ForBundle propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForBundles)
-                {
-                    yield return propertiesViewModel;
-                }
-            }
+            return rootDocumentViewModel.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForBundles);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_ForCurve> EnumerateOperatorPropertiesViewModels_ForCurves(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            foreach (OperatorPropertiesViewModel_ForCurve propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList_ForCurves)
-            {
-                yield return propertiesViewModel;
-            }
-
-            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
-            {
-                foreach (OperatorPropertiesViewModel_ForCurve propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForCurves)
-                {
-                    yield return propertiesViewModel;
-                }
-            }
+            return rootDocumentViewModel.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCurves);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_ForCustomOperator> EnumerateOperatorPropertiesViewModels_ForCustomOperators(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList_ForCustomOperators)
-            {
-                yield return propertiesViewModel;
-            }
-
-            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
-            {
-                foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForCustomOperators)
-                {
-                    yield return propertiesViewModel;
-                }
-            }
+            return rootDocumentViewModel.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_ForNumber> EnumerateOperatorPropertiesViewModels_ForNumbers(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            foreach (OperatorPropertiesViewModel_ForNumber propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList_ForNumbers)
-            {
-                yield return propertiesViewModel;
-            }
-
-            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
-            {
-                foreach (OperatorPropertiesViewModel_ForNumber propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForNumbers)
-                {
-                    yield return propertiesViewModel;
-                }
-            }
+            return rootDocumentViewModel.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_ForPatchInlet> EnumerateOperatorPropertiesViewModels_ForPatchInlets(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList_ForPatchInlets)
-            {
-                yield return propertiesViewModel;
-            }
-
-            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
-            {
-                foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForPatchInlets)
-                {
-                    yield return propertiesViewModel;
-                }
-            }
+            return rootDocumentViewModel.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchInlets);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_ForPatchOutlet> EnumerateOperatorPropertiesViewModels_ForPatchOutlets(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList_ForPatchOutlets)
-            {
-                yield return propertiesViewModel;
-            }
-
-            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
-            {
-                foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForPatchOutlets)
-                {
-                    yield return propertiesViewModel;
-                }
-            }
+            return rootDocumentViewModel.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_ForSample> EnumerateOperatorPropertiesViewModels_ForSamples(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList_ForSamples)
-            {
-                yield return propertiesViewModel;
-            }
-
-            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
-            {
-                foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForSamples)
-                {
-                    yield return propertiesViewModel;
-                }
-            }
+            return rootDocumentViewModel.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSamples);
         }
 
         private static IEnumerable<OperatorPropertiesViewModel_ForUnbundle> EnumerateOperatorPropertiesViewModels_ForUnbundles(DocumentViewModel rootDocumentViewModel)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            foreach (OperatorPropertiesViewModel_ForUnbundle propertiesViewModel in rootDocumentViewModel.OperatorPropertiesList_ForUnbundles)
-            {
-                yield return propertiesViewModel;
-            }
-
-            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
-            {
-                foreach (OperatorPropertiesViewModel_ForUnbundle propertiesViewModel in childDocumentViewModel.OperatorPropertiesList_ForUnbundles)
-                {
-                    yield return propertiesViewModel;
-                }
-            }
+            return rootDocumentViewModel.ChildDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles);
         }
 
         public static IList<OperatorPropertiesViewModel> GetOperatorPropertiesViewModelList_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -530,7 +426,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForBundle> for Patch ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForBundle> for Patch ID '{0}' not found in any of the ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForCurve> GetOperatorPropertiesViewModelList_ForCurves_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -545,7 +441,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCurve> for Patch ID '{0}' not found in ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCurve> for Patch ID '{0}' not found in any of the ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForCustomOperator> GetOperatorPropertiesViewModelList_ForCustomOperators_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -560,7 +456,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCustomOperator> for Patch ID '{0}' not found in ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCustomOperator> for Patch ID '{0}' not found in any of the ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForNumber> GetOperatorPropertiesViewModelList_ForNumbers_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -575,7 +471,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForNumber> for Patch ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForNumber> for Patch ID '{0}' not found any of the ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForPatchInlet> GetOperatorPropertiesViewModelList_ForPatchInlets_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -590,7 +486,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForPatchInlet> for Patch ID '{0}' not found in ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForPatchInlet> for Patch ID '{0}' not found in any of the ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForPatchOutlet> GetOperatorPropertiesViewModelList_ForPatchOutlets_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -605,7 +501,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForPatchOutlet> for Patch ID '{0}' not found in ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForPatchOutlet> for Patch ID '{0}' not found in any of the ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForSample> GetOperatorPropertiesViewModelList_ForSamples_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -620,7 +516,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForSample> with Patch ID '{0}' not found in ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForSample> with Patch ID '{0}' not found in any of the ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForUnbundle> GetOperatorPropertiesViewModelList_ForUnbundles_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
@@ -635,7 +531,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForUnbundle> for Patch ID '{0}' not found in ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForUnbundle> for Patch ID '{0}' not found in any of the ChildDocumentViewModels.", patchID));
         }
 
         // Patch
@@ -678,10 +574,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
-            {
-                yield return childDocumentViewModel.PatchDetails;
-            }
+            return rootDocumentViewModel.ChildDocumentList.Select(x => x.PatchDetails);
         }
 
         // Sample
