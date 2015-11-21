@@ -287,7 +287,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     {
                         Document newChildDocument = documentManager.CreateChildDocument(rootDocument, ChildDocumentTypeEnum.Instrument, mustGenerateName: true);
                         patch.LinkTo(newChildDocument);
-                        newChildDocument.LinkToMainPatch(patch);
                     }
 
                     // Give each child document minimally one patch.
@@ -297,7 +296,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                         {
                             patchManager.CreatePatch(childDocument, mustGenerateName: true);
                             Patch newPatch = patchManager.Patch;
-                            childDocument.LinkToMainPatch(newPatch);
                         }
                     }
 
@@ -308,12 +306,6 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                         {
                             throw new Exception(String.Format("childDocument with Name '{0}' and ID '{1}' has more than one Patch.", childDocument.Name, childDocument.ID));
                         }
-                    }
-
-                    // Make sure the MainPatch equals the one and only Patch in the Patch collection
-                    foreach (Document childDocument in rootDocument.ChildDocuments)
-                    {
-                        childDocument.MainPatch = childDocument.Patches.Single();
                     }
 
                     // Validate

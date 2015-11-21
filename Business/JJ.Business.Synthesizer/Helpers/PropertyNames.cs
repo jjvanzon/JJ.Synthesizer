@@ -90,7 +90,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string InputOutlet = "InputOutlet";
         public const string ListIndex = "ListIndex";
         public const string LiteralFrequencies = "LiteralFrequencies";
-        public const string MainPatch = "MainPatch";
         public const string Name = "Name";
         public const string Node = "Node";
         public const string Nodes = "Nodes";

@@ -550,14 +550,13 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return detailsViewModel;
         }
 
-        public static IList<PatchDetailsViewModel> GetPatchDetailsViewModels_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
+        public static PatchDetailsViewModel GetPatchDetailsViewModel_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(rootDocumentViewModel, documentID);
 
-            // TODO: Turn this method into something that returns an item instead of a list.
-            return new List<PatchDetailsViewModel> { childDocumentViewModel.PatchDetails };
+            return childDocumentViewModel.PatchDetails;
         }
 
         public static PatchDetailsViewModel GetPatchDetailsViewModel_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)

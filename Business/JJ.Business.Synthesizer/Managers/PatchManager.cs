@@ -223,35 +223,14 @@ namespace JJ.Business.Synthesizer.Managers
         {
             AssertPatch();
 
-            bool isMainPatch = Patch.Document != null &&
-                               Patch.Document.MainPatch != null &&
-                               (Patch.Document.MainPatch == Patch ||
-                                Patch.Document.MainPatch.ID == Patch.ID);
-            if (isMainPatch)
-            {
-                var message = new Message
-                {
-                    PropertyKey = PropertyNames.Patch,
-                    Text = MessageFormatter.CannotDeletePatchBecauseIsMainPatch(Patch.Name)
-                };
+            Patch.DeleteRelatedEntities(_repositories.OperatorRepository, _repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
+            Patch.UnlinkRelatedEntities();
+            _repositories.PatchRepository.Delete(Patch);
 
-                return new VoidResult
-                {
-                    Successful = false,
-                    Messages = new Message[] { message }
-                };
-            }
-            else
+            return new VoidResult
             {
-                Patch.DeleteRelatedEntities(_repositories.OperatorRepository, _repositories.InletRepository, _repositories.OutletRepository, _repositories.EntityPositionRepository);
-                Patch.UnlinkRelatedEntities();
-                _repositories.PatchRepository.Delete(Patch);
-
-                return new VoidResult
-                {
-                    Successful = true
-                };
-            }
+                Successful = true
+            };
         }
 
         /// <summary>
@@ -510,18 +489,19 @@ namespace JJ.Business.Synthesizer.Managers
 
                 if (previousUnderlyingDocument != null)
                 {
-                    if (previousUnderlyingDocument.MainPatch != null &&
-                        nextUnderlyingDocument.MainPatch != null)
+                    // TODO: Should you allow this?
+                    if (previousUnderlyingDocument.Patches.Count == 1 &&
+                        nextUnderlyingDocument.Patches.Count == 1)
                     {
-                        IList<OperatorWrapper_PatchOutlet> patchOutletWrappers = previousUnderlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                                                                                                     .Select(x => new OperatorWrapper_PatchOutlet(x))
-                                                                                                                     .OrderBy(x => x.ListIndex)
-                                                                                                                     .ToArray();
+                        IList<OperatorWrapper_PatchOutlet> patchOutletWrappers = previousUnderlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                                                                                                      .Select(x => new OperatorWrapper_PatchOutlet(x))
+                                                                                                                      .OrderBy(x => x.ListIndex)
+                                                                                                                      .ToArray();
 
-                        IList<OperatorWrapper_PatchInlet> patchInletWrappers = nextUnderlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                                                                                               .Select(x => new OperatorWrapper_PatchInlet(x))
-                                                                                                               .OrderBy(x => x.ListIndex)
-                                                                                                               .ToArray();
+                        IList<OperatorWrapper_PatchInlet> patchInletWrappers = nextUnderlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                                                                                                .Select(x => new OperatorWrapper_PatchInlet(x))
+                                                                                                                .OrderBy(x => x.ListIndex)
+                                                                                                                .ToArray();
                         for (int outletIndex = 0; outletIndex < patchOutletWrappers.Count; outletIndex++)
                         {
                             OperatorWrapper_PatchOutlet patchOutletWrapper = patchOutletWrappers[outletIndex];

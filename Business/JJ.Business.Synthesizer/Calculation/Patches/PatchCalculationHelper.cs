@@ -35,14 +35,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 return null;
             }
 
-            if (underlyingDocument.MainPatch == null)
+            if (underlyingDocument.Patches.Count == 0)
             {
-                return null;
+                throw new ZeroException(() => underlyingDocument.Patches.Count);
             }
 
-            // Cross reference custom operator's inlets with the Document MainPatch's PatchInlets.
+            // Cross reference custom operator's inlets with the Underling Patch's PatchInlets.
             var tuples = from customOperatorInlet in customOperator.Inlets
-                         join underlyingPatchInlet in underlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                         join underlyingPatchInlet in underlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
                          on customOperatorInlet.Name equals underlyingPatchInlet.Name
                          select new { CustomOperatorInlet = customOperatorInlet, UnderlyingPatchInlet = underlyingPatchInlet };
 
@@ -57,12 +57,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 underlyingPatchInletWrapper.Input = customOperatorInlet.InputOutlet;
             }
 
-            // Use the (custom operator's) outlet name and look it up in the Document MainPatch's outlets.
-            Operator underlyingPatchOutlet = underlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                                                         .Where(x => String.Equals(x.Name, customOperatorOutlet.Name))
-                                                                         .First();
+            // Use the (custom operator's) outlet name and look it up in the Underlying Patch's outlets.
+            Operator underlyingPatchOutlet = underlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                                                          .Where(x => String.Equals(x.Name, customOperatorOutlet.Name))
+                                                                          .First();
 
-            // Return the result of that Document MainPatch's outlet.
+            // Return the result of that Underlying Patch's outlet.
             var underlyingPatchOutletWrapper = new OperatorWrapper_PatchOutlet(underlyingPatchOutlet);
             return underlyingPatchOutletWrapper.Result;
         }

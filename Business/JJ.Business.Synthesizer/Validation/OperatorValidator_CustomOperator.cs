@@ -65,10 +65,10 @@ namespace JJ.Business.Synthesizer.Validation
                 {
                     ValidateUnderlyingDocumentReferenceConstraint(underlyingDocument);
 
-                    if (underlyingDocument.MainPatch != null)
+                    if (underlyingDocument.Patches.Count > 0)
                     {
-                        ValidateInletsAgainstDocument(underlyingDocument);
-                        ValidateOutletsAgainstDocument(underlyingDocument);
+                        ValidateInletsAgainstUnderlyingPatch(underlyingDocument.Patches[0]);
+                        ValidateOutletsAgainstUnderlyingPatch(underlyingDocument.Patches[0]);
                     }
                 }
             }
@@ -126,11 +126,11 @@ namespace JJ.Business.Synthesizer.Validation
             }
         }
 
-        private void ValidateInletsAgainstDocument(Document document)
+        private void ValidateInletsAgainstUnderlyingPatch(Patch underlyingPatch)
         {
             Operator op = Object;
 
-            IList<Operator> underlyingPatch_InletOperators = document.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
+            IList<Operator> underlyingPatch_InletOperators = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
 
             foreach (Operator underlyingPatch_InletOperator in underlyingPatch_InletOperators)
             {
@@ -143,11 +143,11 @@ namespace JJ.Business.Synthesizer.Validation
             }
         }
 
-        private void ValidateOutletsAgainstDocument(Document document)
+        private void ValidateOutletsAgainstUnderlyingPatch(Patch underlyingPatch)
         {
             Operator op = Object;
 
-            IList<Operator> underlyingPatch_OutletOperators = document.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
+            IList<Operator> underlyingPatch_OutletOperators = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
 
             foreach (Operator underlyingPatch_OutletOperator in underlyingPatch_OutletOperators)
             {

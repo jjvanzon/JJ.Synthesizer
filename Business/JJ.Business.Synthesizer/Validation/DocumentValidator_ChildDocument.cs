@@ -28,17 +28,8 @@ namespace JJ.Business.Synthesizer.Validation
                     .IsEnum<ChildDocumentTypeEnum>();
             }
 
-            // Child Document should have exactly one patch, that is the same as its MainPatch.
-            For(() => document.MainPatch, PropertyDisplayNames.MainPatch).NotNull();
+            // Child Document should have exactly one patch.
             For(() => document.Patches.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Patches)).Is(1);
-
-            if (document.Patches.Count == 1)
-            {
-                if (document.MainPatch != document.Patches[0])
-                {
-                    ValidationMessages.Add(PropertyNames.MainPatch, Messages.MainPatchShouldBeEqualToTheSinglePatchInThePatchCollection);
-                }
-            }
 
             // Many entities' names are only required if part of a document,
             // and not required when using Synthesizer as an API,

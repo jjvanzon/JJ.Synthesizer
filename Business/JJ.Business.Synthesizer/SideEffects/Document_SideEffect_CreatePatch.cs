@@ -31,11 +31,6 @@ namespace JJ.Business.Synthesizer.SideEffects
                 var patchManager = new PatchManager(_patchRepositories);
                 patchManager.CreatePatch(_entity, mustGenerateName: true);
             }
-
-            if (_entity.MainPatch == null)
-            {
-                _entity.MainPatch = _entity.Patches[0];
-            }
         }
     }
 }

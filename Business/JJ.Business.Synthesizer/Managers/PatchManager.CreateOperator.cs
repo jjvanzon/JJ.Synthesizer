@@ -155,14 +155,17 @@ namespace JJ.Business.Synthesizer.Managers
         public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument)
         {
             if (underlyingDocument == null) throw new NullException(() => underlyingDocument);
-            if (underlyingDocument.MainPatch == null) throw new NullException(() => underlyingDocument.MainPatch);
+            if (underlyingDocument.Patches.Count == 0)
+            {
+                throw new ZeroException(() => underlyingDocument.Patches.Count);
+            }
 
             var op = new Operator();
             op.ID = _repositories.IDRepository.GetID();
             op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
             _repositories.OperatorRepository.Insert(op);
 
-            IList<Operator> patchInlets = underlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
+            IList<Operator> patchInlets = underlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
             foreach (Operator patchInlet in patchInlets)
             {
                 var patchInletWrapper = new OperatorWrapper_PatchInlet(patchInlet);
@@ -175,7 +178,7 @@ namespace JJ.Business.Synthesizer.Managers
                 _repositories.InletRepository.Insert(inlet);
             }
 
-            IList<Operator> patchOutlets = underlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
+            IList<Operator> patchOutlets = underlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
             foreach (Operator patchOutlet in patchOutlets)
             {
                 var patchOutletWrapper = new OperatorWrapper_PatchOutlet(patchOutlet);

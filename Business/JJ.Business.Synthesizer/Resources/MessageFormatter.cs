@@ -114,11 +114,6 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.CannotDeleteSampleBecauseHasOperators, name);
         }
 
-        public static string CannotDeletePatchBecauseIsMainPatch(string name)
-        {
-            return String.Format(Messages.CannotDeletePatchBecauseIsMainPatch, name);
-        }
-
         public static string OperatorIsCircularWithName(string name)
         {
             return String.Format(Messages.OperatorIsCircularWithName, name);
@@ -137,16 +132,6 @@ namespace JJ.Business.Synthesizer.Resources
         public static string NotFound_WithTypeName_AndName(string entityTypeDisplayName, string name)
         {
             return String.Format(Messages.NotFound_WithTypeName_AndName, entityTypeDisplayName, name);
-        }
-
-        public static string CustomOperatorInletWithNameNotFoundInDocumentMainPatch(string name)
-        {
-            return String.Format(Messages.CustomOperatorInletWithNameNotFoundInDocumentMainPatch, name);
-        }
-
-        public static string CustomOperatorOutletWithNameNotFoundInDocumentMainPatch(string name)
-        {
-            return String.Format(Messages.CustomOperatorOutletWithNameNotFoundInDocumentMainPatch, name);
         }
 
         public static string OperatorHasNoInletsFilledIn_WithOperatorName(string name)

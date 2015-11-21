@@ -87,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelUnderlyingDocument.Name = "labelUnderlyingDocument";
             this.labelUnderlyingDocument.Size = new System.Drawing.Size(120, 24);
             this.labelUnderlyingDocument.TabIndex = 15;
-            this.labelUnderlyingDocument.Text = "labelMainPatch";
+            this.labelUnderlyingDocument.Text = "labelUnderlyingDocument";
             this.labelUnderlyingDocument.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // comboBoxUnderlyingDocument

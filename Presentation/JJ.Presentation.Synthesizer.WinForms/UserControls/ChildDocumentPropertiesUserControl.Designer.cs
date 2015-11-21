@@ -35,8 +35,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelChildDocumentType = new System.Windows.Forms.Label();
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
-            this.labelMainPatch = new System.Windows.Forms.Label();
-            this.comboBoxMainPatch = new System.Windows.Forms.ComboBox();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
@@ -66,8 +64,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Controls.Add(this.labelChildDocumentType, 0, 1);
             this.tableLayoutPanelProperties.Controls.Add(this.labelName, 0, 0);
             this.tableLayoutPanelProperties.Controls.Add(this.textBoxName, 1, 0);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelMainPatch, 0, 2);
-            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxMainPatch, 1, 2);
             this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProperties.Location = new System.Drawing.Point(3, 24);
             this.tableLayoutPanelProperties.Name = "tableLayoutPanelProperties";
@@ -121,28 +117,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.textBoxName.Size = new System.Drawing.Size(10, 20);
             this.textBoxName.TabIndex = 11;
             // 
-            // labelMainPatch
-            // 
-            this.labelMainPatch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelMainPatch.Location = new System.Drawing.Point(0, 48);
-            this.labelMainPatch.Margin = new System.Windows.Forms.Padding(0);
-            this.labelMainPatch.Name = "labelMainPatch";
-            this.labelMainPatch.Size = new System.Drawing.Size(120, 24);
-            this.labelMainPatch.TabIndex = 15;
-            this.labelMainPatch.Text = "labelMainPatch";
-            this.labelMainPatch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // comboBoxMainPatch
-            // 
-            this.comboBoxMainPatch.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBoxMainPatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxMainPatch.FormattingEnabled = true;
-            this.comboBoxMainPatch.Location = new System.Drawing.Point(120, 48);
-            this.comboBoxMainPatch.Margin = new System.Windows.Forms.Padding(0);
-            this.comboBoxMainPatch.Name = "comboBoxMainPatch";
-            this.comboBoxMainPatch.Size = new System.Drawing.Size(10, 21);
-            this.comboBoxMainPatch.TabIndex = 16;
-            // 
             // titleBarUserControl
             // 
             this.titleBarUserControl.AddButtonVisible = false;
@@ -184,7 +158,5 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label labelChildDocumentType;
         private System.Windows.Forms.ComboBox comboBoxChildDocumentType;
-        private System.Windows.Forms.Label labelMainPatch;
-        private System.Windows.Forms.ComboBox comboBoxMainPatch;
     }
 }

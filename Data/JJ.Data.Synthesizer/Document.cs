@@ -33,14 +33,5 @@ namespace JJ.Data.Synthesizer
 
         public virtual IList<DocumentReference> DependentOnDocuments { get; set; }
         public virtual IList<DocumentReference> DependentDocuments { get; set; }
-
-        /// <summary>
-        /// Nullable.
-        /// Has no inverse property 
-        /// (with as the only reason that 1 to 1 relations are horrible in NHibernate).
-        /// Can only refer to something out of the Patches list.
-        /// The Patch Inlets and Outlets will be the inlets and outlets of the document.
-        /// </summary>
-        public virtual Patch MainPatch { get; set; }
     }
 }

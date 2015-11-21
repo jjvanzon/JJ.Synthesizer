@@ -97,15 +97,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Patch &apos;{0}&apos; cannot be deleted, because it is the main patch of the document..
-        /// </summary>
-        internal static string CannotDeletePatchBecauseIsMainPatch {
-            get {
-                return ResourceManager.GetString("CannotDeletePatchBecauseIsMainPatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Sample &apos;{0}&apos; cannot be deleted, because it is being used by operators..
         /// </summary>
         internal static string CannotDeleteSampleBecauseHasOperators {
@@ -129,24 +120,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string ChannelIndexNumberDoesNotMatchSpeakerSetup {
             get {
                 return ResourceManager.GetString("ChannelIndexNumberDoesNotMatchSpeakerSetup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Inlet &apos;{0}&apos; not found in the associated document&apos;s main patch..
-        /// </summary>
-        internal static string CustomOperatorInletWithNameNotFoundInDocumentMainPatch {
-            get {
-                return ResourceManager.GetString("CustomOperatorInletWithNameNotFoundInDocumentMainPatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Outlet &apos;{0}&apos; not found in the associated document&apos;s main patch..
-        /// </summary>
-        internal static string CustomOperatorOutletWithNameNotFoundInDocumentMainPatch {
-            get {
-                return ResourceManager.GetString("CustomOperatorOutletWithNameNotFoundInDocumentMainPatch", resourceCulture);
             }
         }
         
@@ -183,15 +156,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string InletNotSet {
             get {
                 return ResourceManager.GetString("InletNotSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Main Patch should be equal to the single patch in the patch collection..
-        /// </summary>
-        internal static string MainPatchShouldBeEqualToTheSinglePatchInThePatchCollection {
-            get {
-                return ResourceManager.GetString("MainPatchShouldBeEqualToTheSinglePatchInThePatchCollection", resourceCulture);
             }
         }
         
@@ -277,29 +241,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operator&apos;s inlet count does not match the inlet count of the main patch of the document it references..
-        /// </summary>
-        internal static string OperatorInletCountNotEqualToDocumentMainPatchInletCount {
-            get {
-                return ResourceManager.GetString("OperatorInletCountNotEqualToDocumentMainPatchInletCount", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Operator named &apos;{0}&apos; has a circular reference..
         /// </summary>
         internal static string OperatorIsCircularWithName {
             get {
                 return ResourceManager.GetString("OperatorIsCircularWithName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Operator&apos;s outlet count does not match the outlet count of the main patch of the document it references..
-        /// </summary>
-        internal static string OperatorOutletCountNotEqualToDocumentMainPatchOutletCount {
-            get {
-                return ResourceManager.GetString("OperatorOutletCountNotEqualToDocumentMainPatchOutletCount", resourceCulture);
             }
         }
         
@@ -399,15 +345,6 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string UnderlyingDocumentIsCircular {
             get {
                 return ResourceManager.GetString("UnderlyingDocumentIsCircular", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The underlying document cannot be chosen, because it does not have a main patch..
-        /// </summary>
-        internal static string UnderlyingDocumentMainPatchIsNull {
-            get {
-                return ResourceManager.GetString("UnderlyingDocumentMainPatchIsNull", resourceCulture);
             }
         }
         

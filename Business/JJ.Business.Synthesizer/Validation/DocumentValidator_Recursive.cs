@@ -112,7 +112,6 @@ namespace JJ.Business.Synthesizer.Validation
             // ParentDocument
             // DependentOnDocuments
             // DependentDocuments
-            // MainPatch
 
             // TODO: Compare to validation in Circle code base.
             // TODO: Some collections / references must be filled in / empty depending on its being a root document or not.

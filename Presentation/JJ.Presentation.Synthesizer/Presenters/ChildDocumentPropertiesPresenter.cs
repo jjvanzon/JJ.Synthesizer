@@ -66,10 +66,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Document entity = ViewModel.ToEntityWithMainPatchReference(
-                _repositories.DocumentRepository, 
-                _repositories.ChildDocumentTypeRepository, 
-                _repositories.PatchRepository);
+            Document entity = ViewModel.ToEntity(_repositories.DocumentRepository, _repositories.ChildDocumentTypeRepository);
 
             VoidResult result = _documentManager.SaveChildDocument(entity);
 

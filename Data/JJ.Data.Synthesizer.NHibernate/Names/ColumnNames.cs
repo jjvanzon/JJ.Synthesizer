@@ -12,7 +12,6 @@
         public const string DocumentID = "DocumentID";
         public const string InputOutletID = "InputOutletID";
         public const string InterpolationTypeID = "InterpolationTypeID";
-        public const string MainPatchID = "MainPatchID";
         public const string NodeTypeID = "NodeTypeID";
         public const string OperatorID = "OperatorID";
         public const string OperatorTypeID = "OperatorTypeID";

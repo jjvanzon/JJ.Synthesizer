@@ -547,15 +547,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Main Patch.
-        /// </summary>
-        public static string MainPatch {
-            get {
-                return ResourceManager.GetString("MainPatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Mono.
         /// </summary>
         public static string Mono {

@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Converters
 {
     /// <summary>
     /// Converts a Document to a CustomOperator.
-    /// A Document can have a MainPatch with PatchInlet and PatchOutlet Operators in it.
+    /// A Document can have a Patch with PatchInlet and PatchOutlet Operators in it.
     /// This document can function as a 'template' for a CustomOperator.
     /// 
     /// This class applies the Document to the CustomOperator.
@@ -56,6 +56,7 @@ namespace JJ.Business.Synthesizer.Converters
             _idRepository = idRepository;
         }
 
+        /// <param name="sourceUnderlyingDocument">nullable</param>
         public void Convert(Document sourceUnderlyingDocument, Operator destOperator)
         {
             if (destOperator == null) throw new NullException(() => destOperator);
@@ -63,11 +64,14 @@ namespace JJ.Business.Synthesizer.Converters
             IList<Operator> sourcePatchInlets;
             IList<Operator> sourcePatchOutlets;
 
-            if (sourceUnderlyingDocument != null &&
-                sourceUnderlyingDocument.MainPatch != null)
+            if (sourceUnderlyingDocument != null)
             {
-                sourcePatchInlets = sourceUnderlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
-                sourcePatchOutlets = sourceUnderlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
+                if (sourceUnderlyingDocument.Patches.Count == 0)
+                {
+                    throw new ZeroException(() => sourceUnderlyingDocument.Patches.Count);
+                }
+                sourcePatchInlets = sourceUnderlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
+                sourcePatchOutlets = sourceUnderlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
             }
             else
             {

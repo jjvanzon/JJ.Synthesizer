@@ -52,7 +52,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.ChildDocument);
             labelName.Text = CommonTitles.Name;
             labelChildDocumentType.Text = Titles.Type;
-            labelMainPatch.Text = PropertyDisplayNames.MainPatch;
         }
 
         private void ApplyStyling()
@@ -75,20 +74,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 comboBoxChildDocumentType.DataSource = _viewModel.ChildDocumentTypeLookup;
             }
             comboBoxChildDocumentType.SelectedValue = _viewModel.ChildDocumentType.ID;
-
-            // Always refill the MainPatch lookup, so changes to the patch collection are reflected.
-            comboBoxMainPatch.DataSource = null;
-            comboBoxMainPatch.ValueMember = PropertyNames.ID;
-            comboBoxMainPatch.DisplayMember = PropertyNames.Name;
-            comboBoxMainPatch.DataSource = _viewModel.MainPatchLookup;
-            if (_viewModel.MainPatch != null)
-            {
-                comboBoxMainPatch.SelectedValue = _viewModel.MainPatch.ID;
-            }
-            else
-            {
-                comboBoxMainPatch.SelectedValue = 0;
-            }
         }
 
         private void ApplyControlsToViewModel()
@@ -97,7 +82,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             _viewModel.Name = textBoxName.Text;
             _viewModel.ChildDocumentType = (IDAndName)comboBoxChildDocumentType.SelectedItem;
-            _viewModel.MainPatch = (IDAndName)comboBoxMainPatch.SelectedItem;
         }
 
         // Actions

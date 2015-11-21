@@ -106,13 +106,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.ChildDocumentType = childDocument.ChildDocumentType.ToIDAndDisplayName();
             }
 
-            if (childDocument.MainPatch != null)
-            {
-                viewModel.MainPatch = childDocument.MainPatch.ToIDAndName();
-            }
-
-            viewModel.MainPatchLookup = ViewModelHelper.CreateMainPatchLookupViewModel(childDocument);
-
             return viewModel;
         }
 

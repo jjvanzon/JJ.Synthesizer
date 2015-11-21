@@ -87,17 +87,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idNames;
         }
 
-        public static IList<IDAndName> CreateMainPatchLookupViewModel(Document childDocument)
-        {
-            if (childDocument == null) throw new NullException(() => childDocument);
-
-            var list = new List<IDAndName>(childDocument.Patches.Count + 1);
-            list.Add(new IDAndName { ID = 0, Name = null });
-            list.AddRange(childDocument.Patches.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
-
-            return list;
-        }
-
         public static IList<IDAndName> CreateNodeTypeLookupViewModel(INodeTypeRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);

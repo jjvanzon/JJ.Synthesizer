@@ -304,9 +304,6 @@
   <data name="CustomOperator" xml:space="preserve">
     <value>Custom Operator</value>
   </data>
-  <data name="MainPatch" xml:space="preserve">
-    <value>Main Patch</value>
-  </data>
   <data name="ChildDocumentCount" xml:space="preserve">
     <value>Child Document Count</value>
   </data>

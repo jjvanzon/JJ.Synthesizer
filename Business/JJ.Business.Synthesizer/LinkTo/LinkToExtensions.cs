@@ -143,14 +143,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             }
         }
 
-        public static void LinkToMainPatch(this Document document, Patch mainPatch)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            document.MainPatch = mainPatch;
-            // No inverse property.
-        }
-
         public static void LinkToDependentDocument(this DocumentReference documentReference, Document dependentDocument)
         {
             // DocumentReference -> DependentDocument

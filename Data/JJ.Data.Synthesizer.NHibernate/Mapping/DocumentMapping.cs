@@ -11,7 +11,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
 
             Map(x => x.Name);
 
-            References(x => x.MainPatch, ColumnNames.MainPatchID);
             References(x => x.ParentDocument, ColumnNames.ParentDocumentID);
             References(x => x.ChildDocumentType, ColumnNames.ChildDocumentTypeID);
 

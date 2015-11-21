@@ -258,7 +258,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return destDocument;
         }
 
-        public static Document ToEntity(this ChildDocumentViewModel viewModel, IDocumentRepository documentRepository, IChildDocumentTypeRepository childDocumentTypeRepository)
+        public static Document ToEntity(
+            this ChildDocumentViewModel viewModel, 
+            IDocumentRepository documentRepository, 
+            IChildDocumentTypeRepository childDocumentTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (documentRepository == null) throw new NullException(() => documentRepository);
@@ -277,16 +280,14 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Document ToEntityWithMainPatchReference(
+        public static Document ToEntity(
             this ChildDocumentPropertiesViewModel viewModel,
             IDocumentRepository documentRepository,
-            IChildDocumentTypeRepository childDocumentTypeRepository,
-            IPatchRepository patchRepository)
+            IChildDocumentTypeRepository childDocumentTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (documentRepository == null) throw new NullException(() => documentRepository);
             if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
 
             Document entity = documentRepository.TryGet(viewModel.ID);
             if (entity == null)
@@ -309,18 +310,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity.UnlinkChildDocumentType();
             }
 
-            // MainPatch
-            bool mainPatchIsFilledIn = viewModel.MainPatch != null && viewModel.MainPatch.ID != 0;
-            if (mainPatchIsFilledIn)
-            {
-                Patch mainPatch = patchRepository.Get(viewModel.MainPatch.ID);
-                entity.LinkToMainPatch(mainPatch);
-            }
-            else
-            {
-                entity.UnlinkMainPatch();
-            }
-
             return entity;
         }
 
@@ -328,20 +317,19 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static void ToChildDocuments(
             this IList<ChildDocumentPropertiesViewModel> sourceViewModelList,
             Document destParentDocument,
-            RepositoryWrapper repositoryWrapper)
+            RepositoryWrapper repositories)
         {
             if (sourceViewModelList == null) throw new NullException(() => sourceViewModelList);
             if (destParentDocument == null) throw new NullException(() => destParentDocument);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            if (repositories == null) throw new NullException(() => repositories);
 
             var idsToKeep = new HashSet<int>();
 
             foreach (ChildDocumentPropertiesViewModel propertiesViewModel in sourceViewModelList)
             {
-                Document entity = propertiesViewModel.ToEntityWithMainPatchReference(
-                    repositoryWrapper.DocumentRepository,
-                    repositoryWrapper.ChildDocumentTypeRepository,
-                    repositoryWrapper.PatchRepository);
+                Document entity = propertiesViewModel.ToEntity(
+                    repositories.DocumentRepository, 
+                    repositories.ChildDocumentTypeRepository);
 
                 entity.LinkToParentDocument(destParentDocument);
 
@@ -351,7 +339,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 }
             }
 
-            DocumentManager documentManager = new DocumentManager(repositoryWrapper);
+            DocumentManager documentManager = new DocumentManager(repositories);
 
             IList<int> existingIDs = destParentDocument.ChildDocuments.Select(x => x.ID).ToArray();
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
@@ -365,17 +353,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static void ToChildDocumentsWithRelatedEntities(
             this IList<ChildDocumentViewModel> sourceViewModelList,
             Document destParentDocument,
-            RepositoryWrapper repositoryWrapper)
+            RepositoryWrapper repositories)
         {
             if (sourceViewModelList == null) throw new NullException(() => sourceViewModelList);
             if (destParentDocument == null) throw new NullException(() => destParentDocument);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            if (repositories == null) throw new NullException(() => repositories);
 
             var idsToKeep = new HashSet<int>();
 
             foreach (ChildDocumentViewModel childDocumentViewModel in sourceViewModelList)
             {
-                Document entity = childDocumentViewModel.ToEntityWithRelatedEntities(repositoryWrapper);
+                Document entity = childDocumentViewModel.ToEntityWithRelatedEntities(repositories);
 
                 entity.LinkToParentDocument(destParentDocument);
 
@@ -385,7 +373,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 }
             }
 
-            DocumentManager documentManager = new DocumentManager(repositoryWrapper);
+            DocumentManager documentManager = new DocumentManager(repositories);
 
             IList<int> existingIDs = destParentDocument.ChildDocuments.Select(x => x.ID).ToArray();
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
@@ -541,12 +529,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Document destDocument = userInput.ToEntity(repositories.DocumentRepository);
 
-            // NOTE: 
-            // There is order dependency between converting ChildDocumentList and ChildDocumentPropertiesList.
-            // ChildDocumentProperties can reference a MainPatch, converted from the ChildDocumentList.
             userInput.ChildDocumentList.ToChildDocumentsWithRelatedEntities(destDocument, repositories);
             userInput.ChildDocumentPropertiesList.ToChildDocuments(destDocument, repositories);
-
             userInput.AudioFileOutputPropertiesList.ToAudioFileOutputsWithRelatedEntities(destDocument, new AudioFileOutputRepositories(repositories));
             userInput.CurvePropertiesList.ToEntities(destDocument, curveRepositories);
             userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(destDocument, curveRepositories);

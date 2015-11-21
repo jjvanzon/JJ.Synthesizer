@@ -40,13 +40,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             childDocument.LinkToParentDocument((Document)null);
         }
 
-        public static void UnlinkMainPatch(this Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            document.LinkToMainPatch((Patch)null);
-        }
-
         public static void UnlinkDependentDocument(this DocumentReference documentReference)
         {
             if (documentReference == null) throw new NullException(() => documentReference);

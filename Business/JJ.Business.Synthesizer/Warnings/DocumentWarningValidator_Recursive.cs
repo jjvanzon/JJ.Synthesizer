@@ -66,7 +66,6 @@ namespace JJ.Business.Synthesizer.Warnings
             // ParentDocument
             // DependentOnDocuments
             // DependentDocuments
-            // MainPatch
 
             // TODO: Compare to validation in Circle code base.
         }

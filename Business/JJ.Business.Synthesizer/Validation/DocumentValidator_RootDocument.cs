@@ -17,7 +17,6 @@ namespace JJ.Business.Synthesizer.Validation
         protected override void Execute()
         {
             // Root Document should have no patches.
-            For(() => Object.MainPatch, PropertyDisplayNames.MainPatch).IsNull();
             For(() => Object.Patches.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Patches)).Is(0);
         }
     }

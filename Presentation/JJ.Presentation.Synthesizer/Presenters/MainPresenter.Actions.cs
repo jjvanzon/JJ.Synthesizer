@@ -211,7 +211,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // TODO: Change to permanent solution.
-            int patchID = _childDocumentPropertiesPresenter.ViewModel.MainPatch.ID;
+            PatchDetailsViewModel patchDetailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByDocumentID(ViewModel.Document, id);
+            int patchID = patchDetailsViewModel.Entity.ID;
             PatchDetailsShow(patchID);
         }
 
@@ -1538,7 +1539,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 //   the inlets and outlets too, which are not defined in the OperatorPropertiesViewModel.
                 // - The child documents + main patches
                 //   because we are about to validate a custom operator's reference to an underlying document.
-                // - The chosen Document's MainPatch's PatchInlets and PatchOutlets,
+                // - The chosen Document's Patch's PatchInlets and PatchOutlets,
                 //   because we are about to convert those to the custom operator.
                 // We could convert only those things, to be a little bit faster,
                 // but perhaps now it is better to choose being agnostic over being efficient.
@@ -1973,86 +1974,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         }
 
         // Patch
-
-        public void PatchCreate(int documentID)
-        {
-            try
-            {
-                // ToEntity
-                Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
-                Document document = _repositories.DocumentRepository.TryGet(documentID);
-
-                // Business
-                var patchManager = new PatchManager(_patchRepositories);
-                patchManager.CreatePatch(document, mustGenerateName: true);
-                Patch patch = patchManager.Patch;
-
-                // ToViewModel
-                IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels_ByDocumentID(ViewModel.Document, document.ID);
-                PatchDetailsViewModel detailsViewModel = patch.ToDetailsViewModel(
-                    _repositories.OperatorTypeRepository,
-                    _repositories.SampleRepository,
-                    _repositories.CurveRepository,
-                    _repositories.DocumentRepository,
-                    _entityPositionManager);
-                detailsViewModels.Add(detailsViewModel);
-
-                ChildDocumentPropertiesViewModel childDocumentPropertiesViewModel = ChildDocumentHelper.TryGetChildDocumentPropertiesViewModel(ViewModel.Document, document.ID);
-                if (childDocumentPropertiesViewModel != null)
-                {
-                    IDAndName idAndName = ToIDAndNameExtensions.ToIDAndName(patch);
-                    childDocumentPropertiesViewModel.MainPatchLookup.Add(idAndName);
-                    childDocumentPropertiesViewModel.MainPatchLookup = childDocumentPropertiesViewModel.MainPatchLookup.OrderBy(x => x.Name).ToList();
-                }
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        public void PatchDelete(int patchID)
-        {
-            try
-            {
-                // ToEntity
-                ViewModel.ToEntityWithRelatedEntities(_repositories);
-                Patch patch = _repositories.PatchRepository.TryGet(patchID);
-                if (patch == null)
-                {
-                    NotFoundViewModel notFoundViewModel = ViewModelHelper.CreateNotFoundViewModel<Patch>();
-                    DispatchViewModel(notFoundViewModel);
-                    return;
-                }
-                int documentID = patch.Document.ID;
-
-                // Business
-                var patchManager = new PatchManager(patch, new PatchRepositories(_repositories));
-
-                VoidResult result = patchManager.DeleteWithRelatedEntities();
-                if (result.Successful)
-                {
-                    // ToViewModel
-                    IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels_ByDocumentID(ViewModel.Document, documentID);
-                    detailsViewModels.RemoveFirst(x => x.Entity.ID == patchID);
-
-                    ChildDocumentPropertiesViewModel childDocumentPropertiesViewModel = ChildDocumentHelper.TryGetChildDocumentPropertiesViewModel(ViewModel.Document, documentID);
-                    if (childDocumentPropertiesViewModel != null)
-                    {
-                        childDocumentPropertiesViewModel.MainPatchLookup.RemoveFirst(x => x.ID == patchID);
-                    }
-                }
-                else
-                {
-                    // ToViewModel
-                    ViewModel.PopupMessages = result.Messages;
-                }
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
 
         public void PatchDetailsShow(int patchID)
         {

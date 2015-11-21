@@ -12,10 +12,10 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public AudioFileOutputGridViewModel AudioFileOutputGrid { get; set; }
         public IList<AudioFileOutputPropertiesViewModel> AudioFileOutputPropertiesList { get; set; }
 
-        /// <summary> Leading for saving child entities, not leading for saving the somple properties. </summary>
+        /// <summary> Leading for saving child entities, not leading for saving the simple properties. </summary>
         public IList<ChildDocumentViewModel> ChildDocumentList { get; set; }
 
-        /// <summary> Leading for saving when it comes to the simple properties and the MainPatch. </summary>
+        /// <summary> Leading for saving when it comes to the simple properties. </summary>
         public IList<ChildDocumentPropertiesViewModel> ChildDocumentPropertiesList { get; set; }
 
         public DocumentPropertiesViewModel DocumentProperties { get; set; }

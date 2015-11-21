@@ -45,7 +45,6 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (document == null) throw new NullException(() => document);
 
-            document.UnlinkMainPatch();
             document.UnlinkParentDocument();
             document.UnlinkChildDocumentType();
         }
