@@ -259,4 +259,7 @@
     <value>{0} '{1}' is not unique.</value>
     <comment>{0} = property, {1} = value</comment>
   </data>
+  <data name="MainPatchShouldBeEqualToTheSinglePatchInThePatchCollection" xml:space="preserve">
+    <value>Main Patch should be equal to the single patch in the patch collection.</value>
+  </data>
 </root>

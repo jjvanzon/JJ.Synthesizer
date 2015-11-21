@@ -31,6 +31,8 @@
             this.radioButtonMigrateSineVolumes = new System.Windows.Forms.RadioButton();
             this.radioButtonAddSampleOperatorFrequencyInlets = new System.Windows.Forms.RadioButton();
             this.radioButtonMakePatchNamesUnique = new System.Windows.Forms.RadioButton();
+            this.radioButtonPutEachPatchInAChildDocument = new System.Windows.Forms.RadioButton();
+            this.radioButtonMakeCurveNamesAndSampleNamesUnique = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // radioButtonMigrateSineVolumes
@@ -60,7 +62,7 @@
             // radioButtonMakePatchNamesUnique
             // 
             this.radioButtonMakePatchNamesUnique.AutoSize = true;
-            this.radioButtonMakePatchNamesUnique.Checked = true;
+            this.radioButtonMakePatchNamesUnique.Enabled = false;
             this.radioButtonMakePatchNamesUnique.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.radioButtonMakePatchNamesUnique.Location = new System.Drawing.Point(197, 154);
             this.radioButtonMakePatchNamesUnique.Name = "radioButtonMakePatchNamesUnique";
@@ -69,11 +71,36 @@
             this.radioButtonMakePatchNamesUnique.Text = "Make Patch Names Unique";
             this.radioButtonMakePatchNamesUnique.UseVisualStyleBackColor = true;
             // 
+            // radioButtonPutEachPatchInAChildDocument
+            // 
+            this.radioButtonPutEachPatchInAChildDocument.AutoSize = true;
+            this.radioButtonPutEachPatchInAChildDocument.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.radioButtonPutEachPatchInAChildDocument.Location = new System.Drawing.Point(197, 204);
+            this.radioButtonPutEachPatchInAChildDocument.Name = "radioButtonPutEachPatchInAChildDocument";
+            this.radioButtonPutEachPatchInAChildDocument.Size = new System.Drawing.Size(253, 21);
+            this.radioButtonPutEachPatchInAChildDocument.TabIndex = 4;
+            this.radioButtonPutEachPatchInAChildDocument.Text = "Put Each Patch in a Child Document";
+            this.radioButtonPutEachPatchInAChildDocument.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonMakeCurveNamesAndSampleNamesUnique
+            // 
+            this.radioButtonMakeCurveNamesAndSampleNamesUnique.AutoSize = true;
+            this.radioButtonMakeCurveNamesAndSampleNamesUnique.Checked = true;
+            this.radioButtonMakeCurveNamesAndSampleNamesUnique.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.radioButtonMakeCurveNamesAndSampleNamesUnique.Location = new System.Drawing.Point(197, 177);
+            this.radioButtonMakeCurveNamesAndSampleNamesUnique.Name = "radioButtonMakeCurveNamesAndSampleNamesUnique";
+            this.radioButtonMakeCurveNamesAndSampleNamesUnique.Size = new System.Drawing.Size(325, 21);
+            this.radioButtonMakeCurveNamesAndSampleNamesUnique.TabIndex = 5;
+            this.radioButtonMakeCurveNamesAndSampleNamesUnique.Text = "Make Curve Names and Sample Names Unique";
+            this.radioButtonMakeCurveNamesAndSampleNamesUnique.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(646, 345);
+            this.ClientSize = new System.Drawing.Size(670, 374);
+            this.Controls.Add(this.radioButtonMakeCurveNamesAndSampleNamesUnique);
+            this.Controls.Add(this.radioButtonPutEachPatchInAChildDocument);
             this.Controls.Add(this.radioButtonMakePatchNamesUnique);
             this.Controls.Add(this.radioButtonAddSampleOperatorFrequencyInlets);
             this.Controls.Add(this.radioButtonMigrateSineVolumes);
@@ -84,6 +111,8 @@
             this.Controls.SetChildIndex(this.radioButtonMigrateSineVolumes, 0);
             this.Controls.SetChildIndex(this.radioButtonAddSampleOperatorFrequencyInlets, 0);
             this.Controls.SetChildIndex(this.radioButtonMakePatchNamesUnique, 0);
+            this.Controls.SetChildIndex(this.radioButtonPutEachPatchInAChildDocument, 0);
+            this.Controls.SetChildIndex(this.radioButtonMakeCurveNamesAndSampleNamesUnique, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -94,6 +123,8 @@
         private System.Windows.Forms.RadioButton radioButtonMigrateSineVolumes;
         private System.Windows.Forms.RadioButton radioButtonAddSampleOperatorFrequencyInlets;
         private System.Windows.Forms.RadioButton radioButtonMakePatchNamesUnique;
+        private System.Windows.Forms.RadioButton radioButtonPutEachPatchInAChildDocument;
+        private System.Windows.Forms.RadioButton radioButtonMakeCurveNamesAndSampleNamesUnique;
     }
 }
 

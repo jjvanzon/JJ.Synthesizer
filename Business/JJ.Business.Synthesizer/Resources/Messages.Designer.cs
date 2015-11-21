@@ -187,6 +187,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Main Patch should be equal to the single patch in the patch collection..
+        /// </summary>
+        internal static string MainPatchShouldBeEqualToTheSinglePatchInThePatchCollection {
+            get {
+                return ResourceManager.GetString("MainPatchShouldBeEqualToTheSinglePatchInThePatchCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} names are not unique. Duplicate names: {1}..
         /// </summary>
         internal static string NamesNotUnique_WithEntityTypeNameAndNames {

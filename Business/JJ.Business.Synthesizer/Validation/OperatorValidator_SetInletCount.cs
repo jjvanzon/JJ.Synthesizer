@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Validation
                 return;
             }
 
-            For(_newInletCount, PropertyNames.InletCount, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Inlets))
+            For(_newInletCount, PropertyNames.InletCount, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets))
                 .GreaterThan(1);
 
             IList<Inlet> sortedInlets = op.Inlets.OrderBy(x => x.ListIndex).ToArray();

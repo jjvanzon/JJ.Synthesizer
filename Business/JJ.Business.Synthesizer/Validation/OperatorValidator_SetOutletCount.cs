@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Validation
                 ValidationMessages.Add(() => op.OperatorType, MessageFormatter.OperatorTypeMustBeOfType(operatorTypeDisplayName));
             }
 
-            For(_newOutletCount, PropertyNames.OutletCount, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Outlets))
+            For(_newOutletCount, PropertyNames.OutletCount, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets))
                 .GreaterThan(1);
 
 

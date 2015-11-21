@@ -947,5 +947,30 @@ namespace JJ.Business.Synthesizer.Tests
                 patchCalculator.Calculate(2.000, 0)
             };
         }
+
+        [TestMethod]
+        public void Test_Synthesizer_ValidateAllRootDocuments()
+        {
+            using (IContext context = PersistenceHelper.CreateDatabaseContext())
+            {
+                var repositories = PersistenceHelper.CreateRepositories(context);
+                var documentManager = new DocumentManager(repositories);
+
+                IList<Message> messages = new List<Message>();
+
+                IEnumerable<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null);
+                foreach (Document rootDocument in rootDocuments)
+                {
+                    VoidResult result = documentManager.ValidateRecursive(rootDocument);
+                    messages.AddRange(result.Messages);
+                }
+
+                if (messages.Count > 0)
+                {
+                    string formattedMessages = String.Join(" ", messages.Select(x => x.Text));
+                    throw new Exception(formattedMessages);
+                }
+            }
+        }
     }
 }

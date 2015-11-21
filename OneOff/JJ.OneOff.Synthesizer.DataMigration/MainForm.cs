@@ -29,6 +29,14 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             {
                 DataMigrationExecutor.MakePatchNamesUnique(x => ShowProgress(x));
             }
+            else if (radioButtonMakeCurveNamesAndSampleNamesUnique.Checked)
+            {
+                DataMigrationExecutor.MakeCurveNamesAndSampleNamesUnique(x => ShowProgress(x));
+            }
+            else if (radioButtonPutEachPatchInAChildDocument.Checked)
+            {
+                DataMigrationExecutor.PutEachPatchInAChildDocument(x => ShowProgress(x));
+            }
             else
             {
                 MessageBox.Show("Please select a radio button.");

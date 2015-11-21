@@ -1,0 +1,3 @@
+-- RUN THE C# UTILITY:
+-- JJ.OneOff.Synthesizer.DataMigration
+-- Select the option 'Make Curve Names and Sample Names Unique'.

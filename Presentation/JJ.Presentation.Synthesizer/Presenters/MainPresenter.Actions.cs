@@ -1134,7 +1134,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     {
                         PropertyKey = PropertyNames.Nodes,
                         // TODO: If you would just have done the ToEntity-Business-ToViewModel roundtrip, the validator would have taken care of it.
-                        Text = ValidationMessageFormatter.Min(CommonTitleFormatter.EntityCount(PropertyDisplayNames.Nodes), 2)
+                        Text = ValidationMessageFormatter.Min(CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Nodes), 2)
                     });
                     return;
                 }

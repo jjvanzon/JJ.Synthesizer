@@ -43,7 +43,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         private string GetPropertyDisplayName_ForOutletCount()
         {
-            return CommonTitleFormatter.EntityCount(PropertyDisplayNames.Outlets);
+            return CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets);
         }
 
         private string GetPropertyDisplayName_ForOutletListIndex()

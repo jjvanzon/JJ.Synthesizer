@@ -19,8 +19,8 @@ namespace JJ.Business.Synthesizer.Validation
             Operator op = Object;
 
             For(() => op.GetOperatorTypeEnum(), PropertyDisplayNames.OperatorType).Is(OperatorTypeEnum.Bundle);
-            For(() => op.Inlets.Count, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Inlets)).GreaterThan(1);
-            For(() => op.Outlets.Count, CommonTitleFormatter.EntityCount(PropertyDisplayNames.Outlets)).Is(1);
+            For(() => op.Inlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets)).GreaterThan(1);
+            For(() => op.Outlets.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Outlets)).Is(1);
             For(() => op.Data, PropertyDisplayNames.Data).IsNull();
         }
     }

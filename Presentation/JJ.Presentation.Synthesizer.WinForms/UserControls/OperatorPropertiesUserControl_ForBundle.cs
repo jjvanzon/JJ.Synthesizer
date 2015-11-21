@@ -50,7 +50,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
-            labelInletCount.Text = CommonTitleFormatter.EntityCount(PropertyDisplayNames.Inlets);
+            labelInletCount.Text = CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Inlets);
 
             labelOperatorTypeValue.Text = PropertyDisplayNames.Bundle;
         }

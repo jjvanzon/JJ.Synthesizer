@@ -3,12 +3,14 @@ using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Framework.Presentation.Resources;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    internal class ChildDocumentValidator : FluentValidator<Document>
+    internal class DocumentValidator_ChildDocument : FluentValidator<Document>
     {
-        public ChildDocumentValidator(Document obj)
+        public DocumentValidator_ChildDocument(Document obj)
             : base(obj)
         { }
 
@@ -18,13 +20,24 @@ namespace JJ.Business.Synthesizer.Validation
 
             For(() => document.ParentDocument, PropertyDisplayNames.ParentDocument).NotNull();
             For(() => document.ChildDocuments.Count, PropertyDisplayNames.ChildDocumentCount).Is(0);
-
             For(() => document.ChildDocumentType, PropertyDisplayNames.ChildDocumentType).NotNull();
 
             if (document.ChildDocumentType != null)
             {
                 For(() => document.GetChildDocumentTypeEnum(), PropertyDisplayNames.ChildDocumentType)
                     .IsEnum<ChildDocumentTypeEnum>();
+            }
+
+            // Child Document should have exactly one patch, that is the same as its MainPatch.
+            For(() => document.MainPatch, PropertyDisplayNames.MainPatch).NotNull();
+            For(() => document.Patches.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Patches)).Is(1);
+
+            if (document.Patches.Count == 1)
+            {
+                if (document.MainPatch != document.Patches[0])
+                {
+                    ValidationMessages.Add(PropertyNames.MainPatch, Messages.MainPatchShouldBeEqualToTheSinglePatchInThePatchCollection);
+                }
             }
 
             // Many entities' names are only required if part of a document,

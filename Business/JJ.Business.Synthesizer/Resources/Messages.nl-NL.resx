@@ -248,4 +248,7 @@
     <value>{0} namen zijn niet uniek. Dubbele namen: {1}.</value>
     <comment>{0} = object type singular, e.g. 'Scale', {1} = comma separated list of names</comment>
   </data>
+  <data name="MainPatchShouldBeEqualToTheSinglePatchInThePatchCollection" xml:space="preserve">
+    <value>De hoofdschakeling moet gelijk zijn aan de enige schakeling in de schakeling verzameling.</value>
+  </data>
 </root>

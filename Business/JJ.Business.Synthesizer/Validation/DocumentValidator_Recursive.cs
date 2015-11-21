@@ -50,7 +50,12 @@ namespace JJ.Business.Synthesizer.Validation
             bool isRootDocument = document.ParentDocument == null;
             if (isRootDocument)
             {
+                Execute<DocumentValidator_RootDocument>();
                 Execute<DocumentValidator_Unicity>();
+            }
+            else
+            {
+                Execute<DocumentValidator_ChildDocument>();
             }
 
             foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs)

@@ -62,7 +62,7 @@ namespace JJ.Business.Synthesizer.Managers
 
         public VoidResult SaveChildDocument(Document entity)
         {
-            IValidator validator = new ChildDocumentValidator(entity);
+            IValidator validator = new DocumentValidator_ChildDocument(entity);
             if (!validator.IsValid)
             {
                 return new VoidResult
