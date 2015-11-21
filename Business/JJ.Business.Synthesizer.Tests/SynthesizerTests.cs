@@ -829,7 +829,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Document underlyingDocument = documentManager.Create();
 
                 PatchManager underlyingPatchManager = new PatchManager(new PatchRepositories(repositories));
-                underlyingPatchManager.Create(underlyingDocument);
+                underlyingPatchManager.CreatePatch(underlyingDocument);
                 Patch underlyingPatch = underlyingPatchManager.Patch;
                 underlyingDocument.LinkToMainPatch(underlyingPatch);
 

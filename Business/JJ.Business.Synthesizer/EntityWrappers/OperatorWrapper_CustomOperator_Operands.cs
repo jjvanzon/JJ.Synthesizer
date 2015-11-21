@@ -21,6 +21,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { _operator.Inlets.Single(x => String.Equals(x.Name, name)).InputOutlet = value; }
         }
 
+        // TODO: Add indexer by int, sort in it, and also make sure these enumerator return the inlets sorted.
+
         public IEnumerator<Outlet> GetEnumerator()
         {
             for (int i = 0; i < _operator.Inlets.Count; i++)

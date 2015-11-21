@@ -59,7 +59,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                         //sine.Volume = null;
 
-                        VoidResult result = patchManager.Save();
+                        VoidResult result = patchManager.SavePatch();
                         if (!result.Successful)
                         {
                             string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
@@ -110,7 +110,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                         sampleOperatorWrapper.Frequency = numberWrapper;
 
-                        VoidResult result = patchManager.Save();
+                        VoidResult result = patchManager.SavePatch();
                         if (!result.Successful)
                         {
                             string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));

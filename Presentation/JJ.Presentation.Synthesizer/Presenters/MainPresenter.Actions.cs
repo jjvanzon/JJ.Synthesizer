@@ -2065,7 +2065,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Business
                 var patchManager = new PatchManager(_patchRepositories);
-                patchManager.Create(document, mustGenerateName: true);
+                patchManager.CreatePatch(document, mustGenerateName: true);
                 Patch patch = patchManager.Patch;
 
                 // ToViewModel

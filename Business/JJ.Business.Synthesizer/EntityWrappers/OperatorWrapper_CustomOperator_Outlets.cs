@@ -20,6 +20,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return _operator.Outlets.Single(x => String.Equals(x.Name, name)); }
         }
 
+        /// <summary> not fast </summary>
+        public Outlet this[int index]
+        {
+            get { return _operator.Outlets.OrderBy(x => x.ListIndex).ElementAt(index); }
+        }
+
+        // TODO: Sort in these enumerators, because otherwise there will be inconsistency between these and the indexer.
         public IEnumerator<Outlet> GetEnumerator()
         {
             for (int i = 0; i < _operator.Outlets.Count; i++)

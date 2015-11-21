@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.Api
         public PatchApi()
         {
             _patchManager = new PatchManager(RepositoryHelper.PatchRepositories);
-            _patchManager.Create();
+            _patchManager.CreatePatch();
         }
 
         public OperatorWrapper_Add Add(Outlet operandA = null, Outlet operandB = null)

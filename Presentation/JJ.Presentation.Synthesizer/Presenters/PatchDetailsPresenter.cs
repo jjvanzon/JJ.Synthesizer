@@ -98,7 +98,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Patch patch = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             var patchManager = new PatchManager(patch, _repositories);
-            VoidResult result = patchManager.Save();
+            VoidResult result = patchManager.SavePatch();
 
             ViewModel.ValidationMessages = result.Messages;
             ViewModel.Successful = result.Successful;

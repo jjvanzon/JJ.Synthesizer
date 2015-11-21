@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Managers
         /// <summary> Use the Patch property after calling this method. </summary>
         /// <param name="document">Nullable. Used e.g. to generate a unique name for a Patch.</param>
         /// <param name="mustGenerateName">Only possible if you also pass a document.</param>
-        public void Create(Document document = null, bool mustGenerateName = false)
+        public void CreatePatch(Document document = null, bool mustGenerateName = false)
         {
             Patch = new Patch();
             Patch.ID = _repositories.IDRepository.GetID();
@@ -97,11 +97,11 @@ namespace JJ.Business.Synthesizer.Managers
 
         // Save
 
-        public VoidResult Save()
+        public VoidResult SavePatch()
         {
             AssertPatch();
 
-            return Validate();
+            return ValidatePatch();
         }
 
         /// <summary>
@@ -148,7 +148,7 @@ namespace JJ.Business.Synthesizer.Managers
 
             sideEffect.Execute();
 
-            VoidResult result = ValidateNonRecursive(op);
+            VoidResult result = ValidateOperatorNonRecursive(op);
             return result;
         }
 
@@ -156,7 +156,7 @@ namespace JJ.Business.Synthesizer.Managers
         {
             // TODO: Document why we need to validate the whole patch, instead of just the operator.
             // Probably due to unique constraints, but it really should be described more exactly why.
-            VoidResult result = Validate();
+            VoidResult result = ValidatePatch();
             if (result.Successful)
             {
                 ISideEffect sideEffect = new Document_SideEffect_UpdateDependentCustomOperators(
@@ -175,7 +175,7 @@ namespace JJ.Business.Synthesizer.Managers
 
         private VoidResult SaveOperator_Other(Operator op)
         {
-            VoidResult result = ValidateNonRecursive(op);
+            VoidResult result = ValidateOperatorNonRecursive(op);
             return result;
         }
 
@@ -338,7 +338,7 @@ namespace JJ.Business.Synthesizer.Managers
 
         // Validate (Private)
 
-        private VoidResult Validate()
+        private VoidResult ValidatePatch()
         {
             var validators = new List<IValidator>
             {
@@ -361,7 +361,7 @@ namespace JJ.Business.Synthesizer.Managers
 
         }
 
-        private VoidResult ValidateNonRecursive(Operator op)
+        private VoidResult ValidateOperatorNonRecursive(Operator op)
         {
             IValidator validator = new OperatorValidator_Versatile(op, _repositories.DocumentRepository);
 
@@ -483,7 +483,8 @@ namespace JJ.Business.Synthesizer.Managers
         }
 
         /// <summary>
-        /// Rollback after calling this method to prevent saving the new patch.
+        /// NOT FINISHED.
+        /// Do a rollback after calling this method to prevent saving the new patch.
         /// Use the Patch property after calling this method.
         /// Tries to produce a new patch by tying together existing patches,
         /// trying to match PatchInlet and PatchOutlet operators by:
@@ -494,23 +495,63 @@ namespace JJ.Business.Synthesizer.Managers
         /// </summary>
         public void AutoPatch(IList<Document> underlyingDocuments)
         {
+            throw new NotImplementedException();
+
             if (underlyingDocuments == null) throw new NullException(() => underlyingDocuments);
 
-            Create();
+            CreatePatch();
 
-            var customOperatorWrappers = new List<OperatorWrapper_CustomOperator>(underlyingDocuments.Count);
+            Document previousUnderlyingDocument = null;
+            OperatorWrapper_CustomOperator previousCustomOperatorWrapper = null;
 
-            foreach (Document underlyingDocument in underlyingDocuments)
+            foreach (Document nextUnderlyingDocument in underlyingDocuments)
             {
-                OperatorWrapper_CustomOperator customOperatorWrapper = CustomOperator(underlyingDocument);
-                customOperatorWrappers.Add(customOperatorWrapper);
-            }
+                OperatorWrapper_CustomOperator nextCustomOperatorWrapper = CustomOperator(nextUnderlyingDocument);
 
-            foreach (OperatorWrapper_CustomOperator customOperatorWrapper in customOperatorWrappers)
-            {
-                
-            }
+                if (previousUnderlyingDocument != null)
+                {
+                    if (previousUnderlyingDocument.MainPatch != null &&
+                        nextUnderlyingDocument.MainPatch != null)
+                    {
+                        IList<OperatorWrapper_PatchOutlet> patchOutletWrappers = previousUnderlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                                                                                                     .Select(x => new OperatorWrapper_PatchOutlet(x))
+                                                                                                                     .OrderBy(x => x.ListIndex)
+                                                                                                                     .ToArray();
 
+                        IList<OperatorWrapper_PatchInlet> patchInletWrappers = nextUnderlyingDocument.MainPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                                                                                               .Select(x => new OperatorWrapper_PatchInlet(x))
+                                                                                                               .OrderBy(x => x.ListIndex)
+                                                                                                               .ToArray();
+                        for (int outletIndex = 0; outletIndex < patchOutletWrappers.Count; outletIndex++)
+                        {
+                            OperatorWrapper_PatchOutlet patchOutletWrapper = patchOutletWrappers[outletIndex];
+                            OutletTypeEnum outletTypeEnum = patchOutletWrapper.OutletTypeEnum ?? OutletTypeEnum.Undefined;
+                            string outletTypeEnumString = outletTypeEnum.ToString();
+
+                            if (outletTypeEnum != OutletTypeEnum.Undefined)
+                            {
+                                for (int inletIndex = 0; inletIndex < patchInletWrappers.Count; inletIndex++)
+                                {
+                                    OperatorWrapper_PatchInlet patchInletWrapper = patchInletWrappers[inletIndex];
+                                    InletTypeEnum inletTypeEnum = patchInletWrapper.InletTypeEnum ?? InletTypeEnum.Undefined;
+                                    string inletTypeEnumString = inletTypeEnum.ToString();
+
+                                    bool isMatch = String.Equals(outletTypeEnumString, inletTypeEnumString) ||
+                                                   String.Equals(patchOutletWrapper.Name, patchInletWrapper.Name);
+
+                                    if (isMatch)
+                                    {
+                                        nextCustomOperatorWrapper.Inlets[inletIndex].InputOutlet = previousCustomOperatorWrapper.Outlets[outletIndex];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                previousUnderlyingDocument = nextUnderlyingDocument;
+                previousCustomOperatorWrapper = nextCustomOperatorWrapper;
+            }
 
             throw new NotImplementedException();
         }
