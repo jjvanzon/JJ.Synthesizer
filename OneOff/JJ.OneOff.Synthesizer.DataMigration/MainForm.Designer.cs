@@ -30,6 +30,7 @@
         {
             this.radioButtonMigrateSineVolumes = new System.Windows.Forms.RadioButton();
             this.radioButtonAddSampleOperatorFrequencyInlets = new System.Windows.Forms.RadioButton();
+            this.radioButtonMakePatchNamesUnique = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // radioButtonMigrateSineVolumes
@@ -37,7 +38,7 @@
             this.radioButtonMigrateSineVolumes.AutoSize = true;
             this.radioButtonMigrateSineVolumes.Enabled = false;
             this.radioButtonMigrateSineVolumes.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButtonMigrateSineVolumes.Location = new System.Drawing.Point(197, 131);
+            this.radioButtonMigrateSineVolumes.Location = new System.Drawing.Point(197, 100);
             this.radioButtonMigrateSineVolumes.Name = "radioButtonMigrateSineVolumes";
             this.radioButtonMigrateSineVolumes.Size = new System.Drawing.Size(163, 21);
             this.radioButtonMigrateSineVolumes.TabIndex = 1;
@@ -47,20 +48,33 @@
             // radioButtonAddSampleOperatorFrequencyInlets
             // 
             this.radioButtonAddSampleOperatorFrequencyInlets.AutoSize = true;
-            this.radioButtonAddSampleOperatorFrequencyInlets.Checked = true;
+            this.radioButtonAddSampleOperatorFrequencyInlets.Enabled = false;
             this.radioButtonAddSampleOperatorFrequencyInlets.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButtonAddSampleOperatorFrequencyInlets.Location = new System.Drawing.Point(197, 158);
+            this.radioButtonAddSampleOperatorFrequencyInlets.Location = new System.Drawing.Point(197, 127);
             this.radioButtonAddSampleOperatorFrequencyInlets.Name = "radioButtonAddSampleOperatorFrequencyInlets";
             this.radioButtonAddSampleOperatorFrequencyInlets.Size = new System.Drawing.Size(271, 21);
             this.radioButtonAddSampleOperatorFrequencyInlets.TabIndex = 2;
             this.radioButtonAddSampleOperatorFrequencyInlets.Text = "Add Sample Operator Frequency Inlets";
             this.radioButtonAddSampleOperatorFrequencyInlets.UseVisualStyleBackColor = true;
             // 
+            // radioButtonMakePatchNamesUnique
+            // 
+            this.radioButtonMakePatchNamesUnique.AutoSize = true;
+            this.radioButtonMakePatchNamesUnique.Checked = true;
+            this.radioButtonMakePatchNamesUnique.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.radioButtonMakePatchNamesUnique.Location = new System.Drawing.Point(197, 154);
+            this.radioButtonMakePatchNamesUnique.Name = "radioButtonMakePatchNamesUnique";
+            this.radioButtonMakePatchNamesUnique.Size = new System.Drawing.Size(197, 21);
+            this.radioButtonMakePatchNamesUnique.TabIndex = 3;
+            this.radioButtonMakePatchNamesUnique.Text = "Make Patch Names Unique";
+            this.radioButtonMakePatchNamesUnique.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(646, 345);
+            this.Controls.Add(this.radioButtonMakePatchNamesUnique);
             this.Controls.Add(this.radioButtonAddSampleOperatorFrequencyInlets);
             this.Controls.Add(this.radioButtonMigrateSineVolumes);
             this.Description = "C# processes for migrating data when it is not easily done with SQL.";
@@ -69,6 +83,7 @@
             this.OnRunProcess += new System.EventHandler(this.MainForm_OnRunProcess);
             this.Controls.SetChildIndex(this.radioButtonMigrateSineVolumes, 0);
             this.Controls.SetChildIndex(this.radioButtonAddSampleOperatorFrequencyInlets, 0);
+            this.Controls.SetChildIndex(this.radioButtonMakePatchNamesUnique, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -78,6 +93,7 @@
 
         private System.Windows.Forms.RadioButton radioButtonMigrateSineVolumes;
         private System.Windows.Forms.RadioButton radioButtonAddSampleOperatorFrequencyInlets;
+        private System.Windows.Forms.RadioButton radioButtonMakePatchNamesUnique;
     }
 }
 

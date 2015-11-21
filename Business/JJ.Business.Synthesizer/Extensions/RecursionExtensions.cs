@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
-    internal static class RecursionExtensions
+    public static class RecursionExtensions
     {
         /// <summary>
         /// Tells us whether an operator is circular within a patch.
@@ -204,6 +204,5 @@ namespace JJ.Business.Synthesizer.Extensions
 
             return underlyingDocument2.ID == underlyingDocument.ID;
         }
-
     }
 }

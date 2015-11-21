@@ -22,7 +22,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ConfigurationHelper.SetSection(config3);
 
             var config4 = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection>();
-            CultureHelper.SetThreadCulture(config4.DefaultCulture);
+            CultureHelper.SetThreadCultureName(config4.DefaultCulture);
 
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;

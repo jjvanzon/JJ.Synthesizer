@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.Tests
                 Assert.AreEqual(4, value, 0.0001);
 
                 // Test recursive validator
-                CultureHelper.SetThreadCulture("nl-NL");
+                CultureHelper.SetThreadCultureName("nl-NL");
 
                 add.OperandA = null;
                 var valueOperatorWrapper = new OperatorWrapper_Number(subtract.OperandB.Operator);
@@ -173,7 +173,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 var outlet = x.Multiply(x.Curve(curve), x.Sine(x.Number(440)));
 
-                CultureHelper.SetThreadCulture("nl-NL");
+                CultureHelper.SetThreadCultureName("nl-NL");
 
                 //IValidator[] validators = 
                 //{

@@ -19,19 +19,15 @@ namespace JJ.OneOff.Synthesizer.DataMigration
         {
             if (radioButtonMigrateSineVolumes.Checked)
             {
-                string message = "Are you REALLY sure you want to run the process: MIGRATE SINE VOLUMES???";
-                if (MessageBox.Show(message, "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    DataMigrationExecutor.MigrateSineVolumes(x => ShowProgress(x));
-                }
+                DataMigrationExecutor.MigrateSineVolumes(x => ShowProgress(x));
             }
             else if (radioButtonAddSampleOperatorFrequencyInlets.Checked)
             {
-                string message = "Are you REALLY sure you want to run the process: ADD SAMPLE OPERATOR FREQUENCY INLETS???";
-                if (MessageBox.Show(message, "", MessageBoxButtons.YesNo) == DialogResult.Yes)
-                {
-                    DataMigrationExecutor.AddSampleOperatorFrequencyInlets(x => ShowProgress(x));
-                }
+                DataMigrationExecutor.AddSampleOperatorFrequencyInlets(x => ShowProgress(x));
+            }
+            else if (radioButtonMakePatchNamesUnique.Checked)
+            {
+                DataMigrationExecutor.MakePatchNamesUnique(x => ShowProgress(x));
             }
             else
             {
