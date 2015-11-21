@@ -310,7 +310,7 @@
     <value>Aantal onderliggende documenten</value>
   </data>
   <data name="ListIndex" xml:space="preserve">
-    <value>Nummer (beginnend bij 0)</value>
+    <value>Nummer (als we bij 0 beginnen te tellen)</value>
   </data>
   <data name="UnderlyingDocument" xml:space="preserve">
     <value>Onderliggend document</value>

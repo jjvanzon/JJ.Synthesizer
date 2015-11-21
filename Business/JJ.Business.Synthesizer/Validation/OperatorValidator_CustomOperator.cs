@@ -13,6 +13,9 @@ using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
+    /// <summary>
+    /// Does not derive from OperatorValidator_Base, because CustomOperator has very specific requirements.
+    /// </summary>
     internal class OperatorValidator_CustomOperator : FluentValidator<Operator>
     {
         private IDocumentRepository _documentRepository;
@@ -33,7 +36,6 @@ namespace JJ.Business.Synthesizer.Validation
             foreach (Inlet inlet in op.Inlets)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(inlet, i + 1);
-                Execute(new InletValidator_Basic(inlet, i), messagePrefix);
                 Execute(new InletValidator_ForCustomOperator(inlet), messagePrefix);
                 i++;
             }
@@ -42,7 +44,6 @@ namespace JJ.Business.Synthesizer.Validation
             foreach (Outlet outlet in op.Outlets)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(outlet, i + 1);
-                Execute(new OutletValidator_Basic(outlet, i), messagePrefix);
                 Execute(new OutletValidator_ForCustomOperator(outlet), messagePrefix);
                 i++;
             }

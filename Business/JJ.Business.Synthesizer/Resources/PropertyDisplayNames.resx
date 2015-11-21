@@ -311,7 +311,7 @@
     <value>Child Document Count</value>
   </data>
   <data name="ListIndex" xml:space="preserve">
-    <value>Number (starting with 0)</value>
+    <value>Number (when we start counting at 0)</value>
   </data>
   <data name="UnderlyingDocument" xml:space="preserve">
     <value>Underlying Document</value>

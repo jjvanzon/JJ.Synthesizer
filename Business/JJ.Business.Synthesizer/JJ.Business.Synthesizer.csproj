@@ -188,8 +188,8 @@
     <Compile Include="Validation\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\OutletValidator_ForOtherOperator.cs" />
     <Compile Include="Validation\InletValidator_ForOtherOperator.cs" />
-    <Compile Include="Validation\OutletValidator_Basic.cs" />
-    <Compile Include="Validation\InletValidator_Basic.cs" />
+    <Compile Include="Validation\2015-11-21 Backup of OutletValidator_Basic.cs" />
+    <Compile Include="Validation\2015-11-21 Backupf of InletValidator_Basic.cs" />
     <Compile Include="Validation\SampleValidator_UniqueName.cs" />
     <Compile Include="Validation\PatchValidator_UniqueName.cs" />
     <Compile Include="Validation\CurveValidator_UniqueName.cs" />
