@@ -274,7 +274,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurvesNode = new DummyViewModel(),
                 SamplesNode = new DummyViewModel(),
                 AudioFileOutputsNode = new DummyViewModel(),
-                PatchesNode = new DummyViewModel(),
                 Instruments = new List<ChildDocumentTreeNodeViewModel>(),
                 Effects = new List<ChildDocumentTreeNodeViewModel>(),
                 ReferencedDocuments = new ReferencedDocumentsTreeNodeViewModel
@@ -308,7 +307,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = document.Name,
                 CurvesNode = new DummyViewModel(),
                 SamplesNode = new DummyViewModel(),
-                PatchesNode = new DummyViewModel(),
                 ChildDocumentID = document.ID
             };
 
@@ -643,21 +641,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 operatorTypeRepository, sampleRepository, curveRepository, documentRepository, entityPositionManager);
 
             return converter.ConvertToDetailsViewModel(patch);
-        }
-
-        public static PatchGridViewModel ToGridViewModel(this IList<Patch> entities, int documentID)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            var viewModel = new PatchGridViewModel
-            {
-                DocumentID = documentID,
-                List = entities.OrderBy(x => x.Name)
-                               .Select(x => x.ToIDAndName())
-                               .ToList()
-            };
-
-            return viewModel;
         }
 
         // Sample

@@ -59,7 +59,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private readonly OperatorPropertiesPresenter_ForSample _operatorPropertiesPresenter_ForSample;
         private readonly OperatorPropertiesPresenter_ForUnbundle _operatorPropertiesPresenter_ForUnbundle;
         private readonly PatchDetailsPresenter _patchDetailsPresenter;
-        private readonly PatchGridPresenter _patchGridPresenter;
         private readonly SampleGridPresenter _sampleGridPresenter;
         private readonly SamplePropertiesPresenter _samplePropertiesPresenter;
         private readonly ToneGridEditPresenter _toneGridEditPresenter;
@@ -120,7 +119,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _operatorPropertiesPresenter_ForSample = new OperatorPropertiesPresenter_ForSample(_patchRepositories);
             _operatorPropertiesPresenter_ForUnbundle = new OperatorPropertiesPresenter_ForUnbundle(_patchRepositories);
             _patchDetailsPresenter = _patchDetailsPresenter = new PatchDetailsPresenter(_patchRepositories, _entityPositionManager);
-            _patchGridPresenter = new PatchGridPresenter(_repositories.DocumentRepository);
             _sampleGridPresenter = new SampleGridPresenter(_repositories.DocumentRepository, _repositories.SampleRepository);
             _samplePropertiesPresenter = new SamplePropertiesPresenter(_sampleRepositories);
             _toneGridEditPresenter = new ToneGridEditPresenter(new ScaleRepositories(_repositories));
@@ -141,21 +139,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.CurveGrid.Visible = false;
             ViewModel.Document.EffectGrid.Visible = false;
             ViewModel.Document.InstrumentGrid.Visible = false;
-            ViewModel.Document.PatchGrid.Visible = false;
             ViewModel.Document.SampleGrid.Visible = false;
             ViewModel.Document.ScaleGrid.Visible = false;
 
             ViewModel.Document.CurveDetailsList.ForEach(x => x.Visible = false);
-            ViewModel.Document.PatchDetailsList.ForEach(x => x.Visible = false);
             ViewModel.Document.ToneGridEditList.ForEach(x => x.Visible = false);
 
             foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.ChildDocumentList)
             {
                 childDocumentViewModel.SampleGrid.Visible = false;
                 childDocumentViewModel.CurveGrid.Visible = false;
-                childDocumentViewModel.PatchGrid.Visible = false;
                 childDocumentViewModel.CurveDetailsList.ForEach(x => x.Visible = false);
-                childDocumentViewModel.PatchDetailsList.ForEach(x => x.Visible = false);
+                childDocumentViewModel.PatchDetails.Visible = false;
             }
         }
 

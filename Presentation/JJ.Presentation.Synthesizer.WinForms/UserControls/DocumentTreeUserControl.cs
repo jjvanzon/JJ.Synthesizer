@@ -23,7 +23,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler ShowEffectsRequested;
         public event EventHandler<Int32EventArgs> ShowSamplesRequested;
         public event EventHandler<Int32EventArgs> ShowCurvesRequested;
-        public event EventHandler<Int32EventArgs> ShowPatchesRequested;
         public event EventHandler ShowAudioFileOutputsRequested;
         public event EventHandler ShowScalesRequested;
 
@@ -34,7 +33,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private TreeNode _effectsTreeNode;
         private HashSet<TreeNode> _samplesTreeNodes;
         private HashSet<TreeNode> _curvesTreeNodes;
-        private HashSet<TreeNode> _patchesTreeNodes;
         private HashSet<TreeNode> _childDocumentTreeNodes;
         private TreeNode _scalesTreeNode;
         private TreeNode _audioFileOutputsTreeNode;
@@ -76,7 +74,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
                 _samplesTreeNodes = new HashSet<TreeNode>();
                 _curvesTreeNodes = new HashSet<TreeNode>();
-                _patchesTreeNodes = new HashSet<TreeNode>();
                 _childDocumentTreeNodes = new HashSet<TreeNode>();
 
                 treeView.Nodes.Clear();
@@ -187,10 +184,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             parentNode.Nodes.Add(curvesTreeNode);
             _curvesTreeNodes.Add(curvesTreeNode);
 
-            var patchesTreeNode = new TreeNode(PropertyDisplayNames.Patches);
-            parentNode.Nodes.Add(patchesTreeNode);
-            _patchesTreeNodes.Add(patchesTreeNode);
-
             _scalesTreeNode = new TreeNode(PropertyDisplayNames.Scales);
             parentNode.Nodes.Add(_scalesTreeNode);
 
@@ -211,11 +204,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             curvesTreeNode.Tag = childDocumentTag;
             childDocumentNode.Nodes.Add(curvesTreeNode);
             _curvesTreeNodes.Add(curvesTreeNode);
-
-            var patchesTreeNode = new TreeNode(PropertyDisplayNames.Patches);
-            patchesTreeNode.Tag = childDocumentTag;
-            childDocumentNode.Nodes.Add(patchesTreeNode);
-            _patchesTreeNodes.Add(patchesTreeNode);
         }
 
         // Actions
@@ -344,15 +332,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 if (ShowInstrumentsRequested != null)
                 {
                     ShowInstrumentsRequested(this, EventArgs.Empty);
-                }
-            }
-
-            if (_patchesTreeNodes.Contains(node))
-            {
-                if (ShowPatchesRequested != null)
-                {
-                    Int32EventArgs e2 = GetChildDocumentEventArgs(node.Tag);
-                    ShowPatchesRequested(this, e2);
                 }
             }
 

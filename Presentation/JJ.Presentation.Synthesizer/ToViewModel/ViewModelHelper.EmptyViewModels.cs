@@ -54,8 +54,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OperatorPropertiesList_ForPatchOutlets = new List<OperatorPropertiesViewModel_ForPatchOutlet>(),
                 OperatorPropertiesList_ForSamples = new List<OperatorPropertiesViewModel_ForSample>(),
                 OperatorPropertiesList_ForUnbundles = new List<OperatorPropertiesViewModel_ForUnbundle>(),
-                PatchDetailsList = new List<PatchDetailsViewModel>(),
-                PatchGrid = CreateEmptyPatchGridViewModel(),
                 SampleGrid = CreateEmptySampleGridViewModel(),
                 SampleLookup = new List<IDAndName>(),
                 SamplePropertiesList = new List<SamplePropertiesViewModel>(),
@@ -150,7 +148,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurvesNode = new DummyViewModel(),
                 Effects = new List<ChildDocumentTreeNodeViewModel>(),
                 Instruments = new List<ChildDocumentTreeNodeViewModel>(),
-                PatchesNode = new DummyViewModel(),
                 ReferencedDocuments = new ReferencedDocumentsTreeNodeViewModel
                 {
                     List = new List<ReferencedDocumentViewModel>()
@@ -195,16 +192,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static CurveGridViewModel CreateEmptyCurveGridViewModel()
         {
             var viewModel = new CurveGridViewModel
-            {
-                List = new List<IDAndName>()
-            };
-
-            return viewModel;
-        }
-
-        public static PatchGridViewModel CreateEmptyPatchGridViewModel()
-        {
-            var viewModel = new PatchGridViewModel
             {
                 List = new List<IDAndName>()
             };

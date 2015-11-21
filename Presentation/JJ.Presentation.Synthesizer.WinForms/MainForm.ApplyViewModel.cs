@@ -182,24 +182,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
-                // PatchGrid
-                if (_presenter.ViewModel.Document.PatchGrid.Visible)
-                {
-                    patchGridUserControl.ViewModel = _presenter.ViewModel.Document.PatchGrid;
-                }
-                else
-                {
-                    patchGridUserControl.ViewModel = _presenter.ViewModel.Document.ChildDocumentList
-                                                                                  .Select(x => x.PatchGrid)
-                                                                                  .Where(x => x.Visible)
-                                                                                  .FirstOrDefault();
-                }
-
                 // PatchDetails
                 patchDetailsUserControl.ViewModel =
-                    Enumerable.Union(
-                        _presenter.ViewModel.Document.PatchDetailsList,
-                        _presenter.ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList))
+                    _presenter.ViewModel.Document.ChildDocumentList.Select(x => x.PatchDetails)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
@@ -277,8 +262,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                            operatorPropertiesUserControl_ForSample.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForUnbundle = operatorPropertiesUserControl_ForUnbundle.ViewModel != null &&
                                                              operatorPropertiesUserControl_ForUnbundle.ViewModel.Visible;
-                bool patchGridVisible = patchGridUserControl.ViewModel != null &&
-                                        patchGridUserControl.ViewModel.Visible;
                 bool patchDetailsVisible = patchDetailsUserControl.ViewModel != null &&
                                            patchDetailsUserControl.ViewModel.Visible;
                 bool sampleGridVisible = sampleGridUserControl.ViewModel != null &&
@@ -315,7 +298,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = true;
                 if (operatorPropertiesVisible_ForSample) operatorPropertiesUserControl_ForSample.Visible = true;
                 if (operatorPropertiesVisible_ForUnbundle) operatorPropertiesUserControl_ForUnbundle.Visible = true;
-                if (patchGridVisible) patchGridUserControl.Visible = true;
                 if (patchDetailsVisible) patchDetailsUserControl.Visible = true;
                 if (sampleGridVisible) sampleGridUserControl.Visible = true;
                 if (samplePropertiesVisible) samplePropertiesUserControl.Visible = true;
@@ -345,7 +327,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = false;
                 if (!operatorPropertiesVisible_ForSample) operatorPropertiesUserControl_ForSample.Visible = false;
                 if (!operatorPropertiesVisible_ForUnbundle) operatorPropertiesUserControl_ForUnbundle.Visible = false;
-                if (!patchGridVisible) patchGridUserControl.Visible = false;
                 if (!patchDetailsVisible) patchDetailsUserControl.Visible = false;
                 if (!sampleGridVisible) sampleGridUserControl.Visible = false;
                 if (!samplePropertiesVisible) samplePropertiesUserControl.Visible = false;

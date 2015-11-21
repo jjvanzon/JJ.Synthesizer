@@ -184,6 +184,7 @@
     <Compile Include="Managers\CurveManager.cs" />
     <Compile Include="Managers\DocumentManager.cs" />
     <Compile Include="Managers\EntityPositionManager.cs" />
+    <Compile Include="SideEffects\Document_SideEffect_CreatePatch.cs" />
     <Compile Include="Validation\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\DocumentValidator_RootDocument.cs" />

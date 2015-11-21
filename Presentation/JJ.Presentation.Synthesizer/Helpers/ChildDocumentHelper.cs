@@ -251,14 +251,9 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            foreach (OperatorViewModel operatorViewModel in rootDocumentViewModel.PatchDetailsList.SelectMany(x => x.Entity.Operators))
-            {
-                yield return operatorViewModel;
-            }
-
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
-                foreach (OperatorViewModel operatorViewModel in childDocumentViewModel.PatchDetailsList.SelectMany(x => x.Entity.Operators))
+                foreach (OperatorViewModel operatorViewModel in childDocumentViewModel.PatchDetails.Entity.Operators)
                 {
                     yield return operatorViewModel;
                 }
@@ -512,34 +507,24 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            if (rootDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
-            {
-                return rootDocumentViewModel.OperatorPropertiesList;
-            }
-
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
-                if (childDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+                if (childDocumentViewModel.PatchDetails.Entity.ID == patchID)
                 {
                     return childDocumentViewModel.OperatorPropertiesList;
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel> for Patch ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel> for Patch ID '{0}' not found in any of the ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForBundle> GetOperatorPropertiesViewModelList_ForBundles_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            if (rootDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
-            {
-                return rootDocumentViewModel.OperatorPropertiesList_ForBundles;
-            }
-
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
-                if (childDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+                if (childDocumentViewModel.PatchDetails.Entity.ID == patchID)
                 {
                     return childDocumentViewModel.OperatorPropertiesList_ForBundles;
                 }
@@ -552,54 +537,39 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            if (rootDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
-            {
-                return rootDocumentViewModel.OperatorPropertiesList_ForCurves;
-            }
-
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
-                if (childDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+                if (childDocumentViewModel.PatchDetails.Entity.ID == patchID)
                 {
                     return childDocumentViewModel.OperatorPropertiesList_ForCurves;
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCurve> for Patch ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCurve> for Patch ID '{0}' not found in ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForCustomOperator> GetOperatorPropertiesViewModelList_ForCustomOperators_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            if (rootDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
-            {
-                return rootDocumentViewModel.OperatorPropertiesList_ForCustomOperators;
-            }
-
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
-                if (childDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+                if (childDocumentViewModel.PatchDetails.Entity.ID == patchID)
                 {
                     return childDocumentViewModel.OperatorPropertiesList_ForCustomOperators;
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCustomOperator> for Patch ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCustomOperator> for Patch ID '{0}' not found in ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForNumber> GetOperatorPropertiesViewModelList_ForNumbers_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            if (rootDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
-            {
-                return rootDocumentViewModel.OperatorPropertiesList_ForNumbers;
-            }
-
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
-                if (childDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+                if (childDocumentViewModel.PatchDetails.Entity.ID == patchID)
                 {
                     return childDocumentViewModel.OperatorPropertiesList_ForNumbers;
                 }
@@ -612,80 +582,60 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            if (rootDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
-            {
-                return rootDocumentViewModel.OperatorPropertiesList_ForPatchInlets;
-            }
-
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
-                if (childDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+                if (childDocumentViewModel.PatchDetails.Entity.ID == patchID)
                 {
                     return childDocumentViewModel.OperatorPropertiesList_ForPatchInlets;
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForPatchInlet> for Patch ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForPatchInlet> for Patch ID '{0}' not found in ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForPatchOutlet> GetOperatorPropertiesViewModelList_ForPatchOutlets_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            if (rootDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
-            {
-                return rootDocumentViewModel.OperatorPropertiesList_ForPatchOutlets;
-            }
-
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
-                if (childDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+                if (childDocumentViewModel.PatchDetails.Entity.ID == patchID)
                 {
                     return childDocumentViewModel.OperatorPropertiesList_ForPatchOutlets;
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForPatchOutlet> for Patch ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForPatchOutlet> for Patch ID '{0}' not found in ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForSample> GetOperatorPropertiesViewModelList_ForSamples_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            if (rootDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
-            {
-                return rootDocumentViewModel.OperatorPropertiesList_ForSamples;
-            }
-
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
-                if (childDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+                if (childDocumentViewModel.PatchDetails.Entity.ID == patchID)
                 {
                     return childDocumentViewModel.OperatorPropertiesList_ForSamples;
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForSample> with Patch ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForSample> with Patch ID '{0}' not found in ChildDocumentViewModels.", patchID));
         }
 
         public static IList<OperatorPropertiesViewModel_ForUnbundle> GetOperatorPropertiesViewModelList_ForUnbundles_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            if (rootDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
-            {
-                return rootDocumentViewModel.OperatorPropertiesList_ForUnbundles;
-            }
-
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
-                if (childDocumentViewModel.PatchDetailsList.Any(x => x.Entity.ID == patchID))
+                if (childDocumentViewModel.PatchDetails.Entity.ID == patchID)
                 {
                     return childDocumentViewModel.OperatorPropertiesList_ForUnbundles;
                 }
             }
 
-            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForUnbundle> for Patch ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForUnbundle> for Patch ID '{0}' not found in ChildDocumentViewModels.", patchID));
         }
 
         // Patch
@@ -698,40 +648,20 @@ namespace JJ.Presentation.Synthesizer.Helpers
                                                                         .FirstOrDefault(x => x.Entity.ID == patchID); // First for performance.
             if (detailsViewModel == null)
             {
-                throw new Exception(String.Format("PatchDetailsViewModel with ID '{0}' not found in rootDocumentViewModel nor its ChildDocumentViewModels.", patchID));
+                throw new Exception(String.Format("PatchDetailsViewModel with ID '{0}' not found in ChildDocumentViewModels.", patchID));
             }
 
             return detailsViewModel;
-        }
-
-        public static PatchGridViewModel GetPatchGridViewModel_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            if (rootDocumentViewModel.ID == documentID)
-            {
-                return rootDocumentViewModel.PatchGrid;
-            }
-            else
-            {
-                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(rootDocumentViewModel, documentID);
-                return childDocumentViewModel.PatchGrid;
-            }
         }
 
         public static IList<PatchDetailsViewModel> GetPatchDetailsViewModels_ByDocumentID(DocumentViewModel rootDocumentViewModel, int documentID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            if (rootDocumentViewModel.ID == documentID)
-            {
-                return rootDocumentViewModel.PatchDetailsList;
-            }
-            else
-            {
-                ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(rootDocumentViewModel, documentID);
-                return childDocumentViewModel.PatchDetailsList;
-            }
+            ChildDocumentViewModel childDocumentViewModel = GetChildDocumentViewModel(rootDocumentViewModel, documentID);
+
+            // TODO: Turn this method into something that returns an item instead of a list.
+            return new List<PatchDetailsViewModel> { childDocumentViewModel.PatchDetails };
         }
 
         public static PatchDetailsViewModel GetPatchDetailsViewModel_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
@@ -748,17 +678,9 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            foreach (PatchDetailsViewModel patchDetailsViewModel in rootDocumentViewModel.PatchDetailsList)
-            {
-                yield return patchDetailsViewModel;
-            }
-
             foreach (ChildDocumentViewModel childDocumentViewModel in rootDocumentViewModel.ChildDocumentList)
             {
-                foreach (PatchDetailsViewModel patchDetailsViewModel in childDocumentViewModel.PatchDetailsList)
-                {
-                    yield return patchDetailsViewModel;
-                }
+                yield return childDocumentViewModel.PatchDetails;
             }
         }
 

@@ -1,0 +1,41 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Data.Synthesizer;
+using JJ.Framework.Business;
+using JJ.Framework.Reflection.Exceptions;
+
+namespace JJ.Business.Synthesizer.SideEffects
+{
+    internal class Document_SideEffect_CreatePatch : ISideEffect
+    {
+        private readonly Document _entity;
+        private readonly PatchRepositories _patchRepositories;
+
+        public Document_SideEffect_CreatePatch(Document entity, PatchRepositories patchRepositories)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            if (patchRepositories == null) throw new NullException(() => patchRepositories);
+
+            _entity = entity;
+            _patchRepositories = patchRepositories;
+        }
+
+        public void Execute()
+        {
+            if (_entity.Patches.Count == 0)
+            {
+                var patchManager = new PatchManager(_patchRepositories);
+                patchManager.CreatePatch(_entity, mustGenerateName: true);
+            }
+
+            if (_entity.MainPatch == null)
+            {
+                _entity.MainPatch = _entity.Patches[0];
+            }
+        }
+    }
+}

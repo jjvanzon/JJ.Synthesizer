@@ -29,7 +29,6 @@
             this.documentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentGridUserControl();
             this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
             this.sampleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SampleGridUserControl();
-            this.patchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchGridUserControl();
             this.operatorPropertiesUserControl_ForUnbundle = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForUnbundle();
             this.operatorPropertiesUserControl_ForBundle = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForBundle();
             this.nodePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.NodePropertiesUserControl();
@@ -105,7 +104,6 @@
             this.splitContainerProperties.Panel1.Controls.Add(this.documentGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.patchDetailsUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.sampleGridUserControl);
-            this.splitContainerProperties.Panel1.Controls.Add(this.patchGridUserControl);
             // 
             // splitContainerProperties.Panel2
             // 
@@ -249,17 +247,6 @@
             this.sampleGridUserControl.Size = new System.Drawing.Size(678, 657);
             this.sampleGridUserControl.TabIndex = 9;
             this.sampleGridUserControl.Visible = false;
-            // 
-            // patchGridUserControl
-            // 
-            this.patchGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.patchGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.patchGridUserControl.Location = new System.Drawing.Point(0, 0);
-            this.patchGridUserControl.Margin = new System.Windows.Forms.Padding(4);
-            this.patchGridUserControl.Name = "patchGridUserControl";
-            this.patchGridUserControl.Size = new System.Drawing.Size(678, 657);
-            this.patchGridUserControl.TabIndex = 8;
-            this.patchGridUserControl.Visible = false;
             // 
             // operatorPropertiesUserControl_ForUnbundle
             // 
@@ -497,7 +484,6 @@
         private UserControls.ChildDocumentGridUserControl effectGridUserControl;
         private UserControls.ChildDocumentGridUserControl instrumentGridUserControl;
         private UserControls.AudioFileOutputGridUserControl audioFileOutputGridUserControl;
-        private UserControls.PatchGridUserControl patchGridUserControl;
         private UserControls.CurveGridUserControl curveGridUserControl;
         private UserControls.SampleGridUserControl sampleGridUserControl;
         private UserControls.AudioFileOutputPropertiesUserControl audioFileOutputPropertiesUserControl;

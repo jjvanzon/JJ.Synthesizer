@@ -209,6 +209,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 _repositories.Rollback();
             }
+
+            // TODO: Change to permanent solution.
+            int patchID = _childDocumentPropertiesPresenter.ViewModel.MainPatch.ID;
+            PatchDetailsShow(patchID);
         }
 
         public void ChildDocumentPropertiesClose()
@@ -747,13 +751,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                // ToEntity: This should be just enought to correctly refresh the grids and tree furtheron.
+                // ToEntity: This should be just enough to correctly refresh the grids and tree furtheron.
                 Document document = ViewModel.Document.ToEntity(_repositories.DocumentRepository);
-                ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList)
-                                                    .Select(x => x.Entity)
+                ViewModel.Document.ChildDocumentList.Select(x => x.PatchDetails.Entity)
                                                     .ForEach(x => x.ToEntity(_repositories.PatchRepository));
                 ViewModel.Document.ChildDocumentPropertiesList.ToChildDocuments(document, _repositories);
-
 
                 _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;
 
@@ -2020,41 +2022,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         // Patch
 
-        public void PatchGridShow(int documentID)
-        {
-            try
-            {
-                bool isRootDocument = documentID == ViewModel.Document.ID;
-                if (!isRootDocument)
-                {
-                    // Needed to create uncommitted child documents.
-                    ViewModel.ToEntityWithRelatedEntities(_repositories);
-                }
-
-                PatchGridViewModel patchGridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, documentID);
-                _patchGridPresenter.ViewModel = patchGridViewModel;
-                _patchGridPresenter.Show();
-                DispatchViewModel(_patchGridPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        public void PatchGridClose()
-        {
-            try
-            {
-                _patchGridPresenter.Close();
-                DispatchViewModel(_patchGridPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
         public void PatchCreate(int documentID)
         {
             try
@@ -2069,11 +2036,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Patch patch = patchManager.Patch;
 
                 // ToViewModel
-                PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
-                IDAndName listItemViewModel = patch.ToIDAndName();
-                gridViewModel.List.Add(listItemViewModel);
-                gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
-
                 IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels_ByDocumentID(ViewModel.Document, document.ID);
                 PatchDetailsViewModel detailsViewModel = patch.ToDetailsViewModel(
                     _repositories.OperatorTypeRepository,
@@ -2121,9 +2083,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // ToViewModel
                     IList<PatchDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetPatchDetailsViewModels_ByDocumentID(ViewModel.Document, documentID);
                     detailsViewModels.RemoveFirst(x => x.Entity.ID == patchID);
-
-                    PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, documentID);
-                    gridViewModel.List.RemoveFirst(x => x.ID == patchID);
 
                     ChildDocumentPropertiesViewModel childDocumentPropertiesViewModel = ChildDocumentHelper.TryGetChildDocumentPropertiesViewModel(ViewModel.Document, documentID);
                     if (childDocumentPropertiesViewModel != null)
@@ -2180,11 +2139,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Partial Action
                 partialAction();
-
-                if (_patchDetailsPresenter.ViewModel.Successful)
-                {
-                    RefreshPatchGrid(documentID);
-                }
 
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
             }

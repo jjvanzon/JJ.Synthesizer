@@ -133,10 +133,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// </summary>
         private void RefreshOperatorViewModels_OfTypeCustomOperators()
         {
-            IList<PatchDetailsViewModel> patchDetailsViewModels =
-                ViewModel.Document.PatchDetailsList.Union(
-                ViewModel.Document.ChildDocumentList.SelectMany(x => x.PatchDetailsList))
-                .ToArray();
+            IList<PatchDetailsViewModel> patchDetailsViewModels = ViewModel.Document.ChildDocumentList.Select(x => x.PatchDetails).ToArray();
 
             IList<OperatorViewModel> operatorViewModels =
                 patchDetailsViewModels.SelectMany(x => x.Entity.Operators)
@@ -147,19 +144,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 RefreshPatchDetailsOperator(operatorViewModel);
             }
-        }
-
-        private void RefreshPatchGrid(int documentID)
-        {
-            PatchGridViewModel gridViewModel = ChildDocumentHelper.GetPatchGridViewModel_ByDocumentID(ViewModel.Document, documentID);
-            RefreshPatchGrid(gridViewModel);
-        }
-
-        private void RefreshPatchGrid(PatchGridViewModel patchGridViewModel)
-        {
-            _patchGridPresenter.ViewModel = patchGridViewModel;
-            object viewModel2 = _patchGridPresenter.Refresh();
-            DispatchViewModel(viewModel2);
         }
 
         private void RefreshPatchDetailsOperator(int operatorID)

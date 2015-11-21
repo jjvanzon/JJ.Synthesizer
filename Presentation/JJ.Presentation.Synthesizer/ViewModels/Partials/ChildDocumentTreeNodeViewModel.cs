@@ -9,6 +9,5 @@
 
         public DummyViewModel CurvesNode { get; set; }
         public DummyViewModel SamplesNode { get; set; }
-        public DummyViewModel PatchesNode { get; set; }
     }
 }

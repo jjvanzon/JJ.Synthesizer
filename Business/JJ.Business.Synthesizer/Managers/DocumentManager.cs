@@ -41,7 +41,10 @@ namespace JJ.Business.Synthesizer.Managers
             if (parentDocument == null) throw new NullException(() => parentDocument);
 
             // ParentDocument cannot yet again have a parent document.
-            if (parentDocument.ParentDocument != null) throw new NotNullException(() => parentDocument.ParentDocument);
+            if (parentDocument.ParentDocument != null)
+            {
+                throw new NotNullException(() => parentDocument.ParentDocument);
+            }
 
             var childDocument = new Document();
             childDocument.ID = _repositories.IDRepository.GetID();
@@ -54,6 +57,9 @@ namespace JJ.Business.Synthesizer.Managers
                 ISideEffect sideEffect = new Document_SideEffect_GenerateChildDocumentName(childDocument);
                 sideEffect.Execute();
             }
+
+            ISideEffect sideEffect2 = new Document_SideEffect_CreatePatch(childDocument, new PatchRepositories(_repositories));
+            sideEffect2.Execute();
 
             return childDocument;
         }

@@ -53,7 +53,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
             documentTreeUserControl.ShowEffectsRequested += documentTreeUserControl_ShowEffectsRequested;
             documentTreeUserControl.ShowInstrumentsRequested += documentTreeUserControl_ShowInstrumentsRequested;
-            documentTreeUserControl.ShowPatchesRequested += documentTreeUserControl_ShowPatchesRequested;
             documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
             documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
             effectGridUserControl.CloseRequested += effectGridUserControl_CloseRequested;
@@ -97,10 +96,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchDetailsUserControl.OperatorPropertiesRequested += patchDetailsUserControl_OperatorPropertiesRequested;
             patchDetailsUserControl.PlayRequested += patchDetailsUserControl_PlayRequested;
             patchDetailsUserControl.SelectOperatorRequested += patchDetailsUserControl_SelectOperatorRequested;
-            patchGridUserControl.CloseRequested += patchGridUserControl_CloseRequested;
-            patchGridUserControl.CreateRequested += patchGridUserControl_CreateRequested;
-            patchGridUserControl.DeleteRequested += patchGridUserControl_DeleteRequested;
-            patchGridUserControl.ShowDetailsRequested += patchGridUserControl_ShowDetailsRequested;
             sampleGridUserControl.CloseRequested += sampleGridUserControl_CloseRequested;
             sampleGridUserControl.CreateRequested += sampleGridUserControl_CreateRequested;
             sampleGridUserControl.DeleteRequested += sampleGridUserControl_DeleteRequested;
@@ -385,12 +380,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private void documentTreeUserControl_ShowPatchesRequested(object sender, Int32EventArgs e)
-        {
-            _presenter.PatchGridShow(e.Value);
-            ApplyViewModel();
-        }
-
         private void documentTreeUserControl_ShowSamplesRequested(object sender, Int32EventArgs e)
         {
             _presenter.SampleGridShow(e.Value);
@@ -624,30 +613,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         }
 
         // Patch
-
-        private void patchGridUserControl_CreateRequested(object sender, Int32EventArgs e)
-        {
-            _presenter.PatchCreate(e.Value);
-            ApplyViewModel();
-        }
-
-        private void patchGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
-        {
-            _presenter.PatchDelete(e.Value);
-            ApplyViewModel();
-        }
-
-        private void patchGridUserControl_CloseRequested(object sender, EventArgs e)
-        {
-            _presenter.PatchGridClose();
-            ApplyViewModel();
-        }
-
-        private void patchGridUserControl_ShowDetailsRequested(object sender, Int32EventArgs e)
-        {
-            _presenter.PatchDetailsShow(e.Value);
-            ApplyViewModel();
-        }
 
         private void patchDetailsUserControl_PlayRequested(object sender, EventArgs e)
         {

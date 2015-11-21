@@ -45,7 +45,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForSample), DispatchOperatorPropertiesViewModel_ForSample },
                 { typeof(OperatorPropertiesViewModel_ForUnbundle), DispatchOperatorPropertiesViewModel_ForUnbundle },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
-                { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
                 { typeof(SampleGridViewModel), DispatchSampleGridViewModel },
                 { typeof(SamplePropertiesViewModel), DispatchSamplePropertiesViewModel },
                 { typeof(ScaleGridViewModel), DispatchScaleGridViewModel },
@@ -454,28 +453,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             ViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
-        }
-
-        private void DispatchPatchGridViewModel(object viewModel2)
-        {
-            var castedViewModel = (PatchGridViewModel)viewModel2;
-
-            bool isRootDocument = ViewModel.Document.ID == castedViewModel.DocumentID;
-            if (isRootDocument)
-            {
-                ViewModel.Document.PatchGrid = castedViewModel;
-            }
-            else
-            {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, castedViewModel.DocumentID);
-                childDocumentViewModel.PatchGrid = castedViewModel;
-            }
-
-            if (castedViewModel.Visible)
-            {
-                HideAllListAndDetailViewModels();
-                castedViewModel.Visible = true;
-            }
         }
 
         private void DispatchSamplePropertiesViewModel(object viewModel2)

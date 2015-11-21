@@ -204,8 +204,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             var curveRepositories = new CurveRepositories(repositories);
             userInput.CurvePropertiesList.ToEntities(destDocument, curveRepositories);
             userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(destDocument, curveRepositories);
-            userInput.PatchDetailsList.ToPatchesWithRelatedEntities(destDocument, new PatchRepositories(repositories));
             userInput.SamplePropertiesList.ToSamples(destDocument, new SampleRepositories(repositories));
+            Patch patch = userInput.PatchDetails.ToEntityWithRelatedEntities(new PatchRepositories(repositories));
+            patch.LinkTo(destDocument);
 
             // Operator Properties
             // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
@@ -550,7 +551,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             userInput.CurvePropertiesList.ToEntities(destDocument, curveRepositories);
             userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(destDocument, curveRepositories);
             // userInput.NodePropertiesList's data is also present in the CurveDetails so nothing additional needs to be converted.
-            userInput.PatchDetailsList.ToPatchesWithRelatedEntities(destDocument, new PatchRepositories(repositories));
             userInput.SamplePropertiesList.ToSamples(destDocument, new SampleRepositories(repositories));
             userInput.ScalePropertiesList.ToEntities(scaleRepositories, destDocument);
             userInput.ToneGridEditList.ForEach(x => x.ToEntityWithRelatedEntities(scaleRepositories));
@@ -1307,39 +1307,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = idAndName.Name;
 
             return entity;
-        }
-
-        public static void ToPatchesWithRelatedEntities(
-            this IList<PatchDetailsViewModel> viewModelList,
-            Document destDocument,
-            PatchRepositories repositories)
-        {
-            if (viewModelList == null) throw new NullException(() => viewModelList);
-            if (destDocument == null) throw new NullException(() => destDocument);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            var idsToKeep = new HashSet<int>();
-
-            foreach (PatchDetailsViewModel viewModel in viewModelList)
-            {
-                Patch entity = viewModel.Entity.ToEntityWithRelatedEntities(repositories);
-                entity.LinkTo(destDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            IList<int> existingIDs = destDocument.Patches.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                Patch patchToDelete = repositories.PatchRepository.Get(idToDelete);
-                PatchManager patchManager = new PatchManager(patchToDelete, repositories);
-                IResult result = patchManager.DeleteWithRelatedEntities();
-                ResultHelper.Assert(result);
-            }
         }
 
         // Sample
