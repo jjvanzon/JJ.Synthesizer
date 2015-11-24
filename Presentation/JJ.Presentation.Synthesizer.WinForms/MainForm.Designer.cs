@@ -46,6 +46,7 @@
             this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
+            this.patchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ChildDocumentGridUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -93,6 +94,7 @@
             // 
             // splitContainerProperties.Panel1
             // 
+            this.splitContainerProperties.Panel1.Controls.Add(this.patchGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.curveDetailsUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.toneGridEditUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.scaleGridUserControl);
@@ -449,6 +451,17 @@
             this.menuUserControl.Size = new System.Drawing.Size(1094, 24);
             this.menuUserControl.TabIndex = 3;
             // 
+            // patchGridUserControl
+            // 
+            this.patchGridUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.patchGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.patchGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.patchGridUserControl.Location = new System.Drawing.Point(0, 0);
+            this.patchGridUserControl.Name = "patchGridUserControl";
+            this.patchGridUserControl.Size = new System.Drawing.Size(678, 657);
+            this.patchGridUserControl.TabIndex = 13;
+            this.patchGridUserControl.Title = "Title";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -505,5 +518,6 @@
         private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForBundle operatorPropertiesUserControl_ForBundle;
         private UserControls.OperatorPropertiesUserControl_ForUnbundle operatorPropertiesUserControl_ForUnbundle;
+        private UserControls.ChildDocumentGridUserControl patchGridUserControl;
     }
 }

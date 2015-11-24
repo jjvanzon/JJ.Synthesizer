@@ -1,6 +1,6 @@
 ﻿namespace JJ.Presentation.Synthesizer.ViewModels.Partials
 {
-    public sealed class ChildDocumentTreeNodeViewModel
+    public sealed class PatchTreeNodeViewModel
     {
         public int ChildDocumentID { get; set; }
 

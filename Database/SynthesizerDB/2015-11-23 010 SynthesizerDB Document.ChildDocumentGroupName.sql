@@ -1,0 +1,1 @@
+alter table Document add ChildDocumentGroupName nvarchar(256) null;

@@ -131,6 +131,9 @@
     <Content Include="2015-11-18 020 SynthesizerDB Migrate Inlet and Outlet ListIndexes RUN SEPARATELY.sql" />
     <Content Include="2015-11-19 030 SynthesizerDB Add InletTypeEnum and OutletTypeEnum to InletOperator and OutletOperator Data RUN SEPARATELY.sql" />
     <Content Include="2015-11-21 040 SynthesizerDB Document.MainPatch drop column + FK + IX.sql" />
+    <Content Include="2015-11-23 010 SynthesizerDB Document.ChildDocumentGroupName.sql" />
+    <Content Include="2015-11-23 020 SynthesizerDB rename Document.ChildDocumentGroupName to GroupName.sql" />
+    <Content Include="2015-11-23 030 SynthesizerDB fill Document.GroupName.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -8,6 +8,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     {
         public int RootDocumentID { get; set; }
         public int ChildDocumentTypeID { get; set; }
+        public string Group { get; set; }
         public bool Visible { get; set; }
         public IList<IDAndName> List { get; set; }
     }

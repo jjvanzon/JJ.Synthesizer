@@ -36,6 +36,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioFileOutputPropertiesList = new List<AudioFileOutputPropertiesViewModel>(),
                 ChildDocumentList = new List<ChildDocumentViewModel>(),
                 ChildDocumentPropertiesList = new List<ChildDocumentPropertiesViewModel>(),
+                ChildDocumentGridList = new List<ChildDocumentGridViewModel>(),
                 CurveDetailsList = new List<CurveDetailsViewModel>(),
                 CurveGrid = CreateEmptyCurveGridViewModel(),
                 CurveLookup = new List<IDAndName>(),
@@ -112,7 +113,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ChildDocumentGridViewModel
             {
                 List = new List<IDAndName>(),
-                RootDocumentID = 0,
                 ChildDocumentTypeID = childDocumentTypeID
             };
 
@@ -137,13 +137,18 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 AudioFileOutputsNode = new DummyViewModel(),
                 CurvesNode = new DummyViewModel(),
-                Effects = new List<ChildDocumentTreeNodeViewModel>(),
-                Instruments = new List<ChildDocumentTreeNodeViewModel>(),
-                ReferencedDocuments = new ReferencedDocumentsTreeNodeViewModel
+                EffectNode = new List<PatchTreeNodeViewModel>(),
+                InstrumentNode = new List<PatchTreeNodeViewModel>(),
+                SamplesNode = new DummyViewModel(),
+                PatchesNode = new PatchesTreeNodeViewModel
+                {
+                    PatchNodes = new List<PatchTreeNodeViewModel>(),
+                    PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
+                },
+                ReferencedDocumentsNode = new ReferencedDocumentsTreeNodeViewModel
                 {
                     List = new List<ReferencedDocumentViewModel>()
                 },
-                SamplesNode = new DummyViewModel()
             };
 
             return viewModel;

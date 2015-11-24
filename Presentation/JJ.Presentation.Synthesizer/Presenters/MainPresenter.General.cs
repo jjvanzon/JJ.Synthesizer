@@ -33,7 +33,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private readonly AudioFileOutputGridPresenter _audioFileOutputGridPresenter;
         private readonly AudioFileOutputPropertiesPresenter _audioFileOutputPropertiesPresenter;
+        private readonly ChildDocumentGridPresenter _patchGridPresenter;
+        [Obsolete]
         private readonly ChildDocumentGridPresenter _effectGridPresenter;
+        [Obsolete]
         private readonly ChildDocumentGridPresenter _instrumentGridPresenter;
         private readonly ChildDocumentPropertiesPresenter _childDocumentPropertiesPresenter;
         private readonly CurveDetailsPresenter _curveDetailsPresenter;
@@ -104,6 +107,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentGridPresenter = new DocumentGridPresenter(_repositories.DocumentRepository);
             _documentPropertiesPresenter = new DocumentPropertiesPresenter(_repositories);
             _documentTreePresenter = new DocumentTreePresenter(_repositories.DocumentRepository);
+            // TODO: Move to the right alphabetical place.
+            _patchGridPresenter = new ChildDocumentGridPresenter(_repositories.DocumentRepository);
             _effectGridPresenter = new ChildDocumentGridPresenter(_repositories.DocumentRepository);
             _instrumentGridPresenter = new ChildDocumentGridPresenter(_repositories.DocumentRepository);
             _menuPresenter = new MenuPresenter();
@@ -142,6 +147,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.SampleGrid.Visible = false;
             ViewModel.Document.ScaleGrid.Visible = false;
 
+            ViewModel.Document.ChildDocumentGridList.ForEach(x => x.Visible = false);
             ViewModel.Document.CurveDetailsList.ForEach(x => x.Visible = false);
             ViewModel.Document.ToneGridEditList.ForEach(x => x.Visible = false);
 
@@ -152,6 +158,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 childDocumentViewModel.CurveDetailsList.ForEach(x => x.Visible = false);
                 childDocumentViewModel.PatchDetails.Visible = false;
             }
+
         }
 
         private void HideAllPropertiesViewModels()

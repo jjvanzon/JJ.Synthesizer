@@ -39,7 +39,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             bool visible = ViewModel.Visible;
 
-            ViewModel = parentDocument.ToChildDocumentGridViewModel(ViewModel.ChildDocumentTypeID);
+            if (ViewModel.ChildDocumentTypeID != 0)
+            {
+                ViewModel = parentDocument.ToChildDocumentGridViewModel(ViewModel.ChildDocumentTypeID);
+            }
+            else
+            {
+                ViewModel = parentDocument.ToChildDocumentGridViewModel(ViewModel.Group);
+            }
 
             ViewModel.Visible = visible;
 

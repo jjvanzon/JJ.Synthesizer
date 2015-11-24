@@ -13,6 +13,7 @@ namespace JJ.Business.Synthesizer.Validation
         protected override void Execute()
         {
             For(() => Object.Document, PropertyDisplayNames.Document).NotNull();
+            For(() => Object.FilePath, PropertyDisplayNames.FilePath).MaxLength(255);
 
             Execute(new NameValidator(Object.Name));
         }

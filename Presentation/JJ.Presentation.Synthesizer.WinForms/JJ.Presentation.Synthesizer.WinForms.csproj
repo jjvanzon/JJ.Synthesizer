@@ -66,6 +66,7 @@
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="EventArg\CreateOperatorEventArgs.cs" />
     <Compile Include="EventArg\ChangeInputOutletEventArgs.cs" />
+    <Compile Include="EventArg\StringEventArgs.cs" />
     <Compile Include="EventArg\MoveEntityEventArgs.cs" />
     <Compile Include="EventArg\Int32EventArgs.cs" />
     <Compile Include="Forms\DocumentCannotDeleteForm.cs">

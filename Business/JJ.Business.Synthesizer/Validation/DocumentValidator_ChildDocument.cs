@@ -22,6 +22,8 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => document.ChildDocuments.Count, PropertyDisplayNames.ChildDocumentCount).Is(0);
             For(() => document.ChildDocumentType, PropertyDisplayNames.ChildDocumentType).NotNull();
 
+            Execute(new NameValidator(Object.GroupName, required: false));
+
             if (document.ChildDocumentType != null)
             {
                 For(() => document.GetChildDocumentTypeEnum(), PropertyDisplayNames.ChildDocumentType)

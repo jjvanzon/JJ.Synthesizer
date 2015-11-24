@@ -478,4 +478,10 @@
   <data name="DefaultValue" xml:space="preserve">
     <value>Default Value</value>
   </data>
+  <data name="FilePath" xml:space="preserve">
+    <value>File Path</value>
+  </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>Group</value>
+  </data>
 </root>

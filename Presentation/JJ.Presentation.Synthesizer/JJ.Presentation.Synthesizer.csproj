@@ -153,7 +153,9 @@
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForNumber.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForPatchOutlet.cs" />
     <Compile Include="ViewModels\OperatorPropertiesViewModel_ForPatchInlet.cs" />
-    <Compile Include="ViewModels\Partials\ChildDocumentTreeNodeViewModel.cs" />
+    <Compile Include="ViewModels\Partials\PatchesTreeNodeViewModel.cs" />
+    <Compile Include="ViewModels\Partials\PatchGroupTreeNodeViewModel.cs" />
+    <Compile Include="ViewModels\Partials\PatchTreeNodeViewModel.cs" />
     <Compile Include="ViewModels\Partials\DummyViewModel.cs" />
     <Compile Include="ViewModels\Partials\MenuItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\ReferencedDocumentViewModel.cs" />

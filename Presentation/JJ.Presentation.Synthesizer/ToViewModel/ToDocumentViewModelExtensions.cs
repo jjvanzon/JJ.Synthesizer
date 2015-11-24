@@ -31,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurvePropertiesList = document.Curves.Select(x => x.ToPropertiesViewModel()).ToList(),
                 DocumentProperties = document.ToPropertiesViewModel(),
                 DocumentTree = document.ToTreeViewModel(),
+                ChildDocumentGridList = document.ToChildDocumentGridViewModelList(),
                 EffectGrid = document.ToChildDocumentGridViewModel((int)ChildDocumentTypeEnum.Effect),
                 InstrumentGrid = document.ToChildDocumentGridViewModel((int)ChildDocumentTypeEnum.Instrument),
                 NodePropertiesList = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel(repositories.NodeTypeRepository)).ToList(),

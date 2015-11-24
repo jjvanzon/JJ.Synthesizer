@@ -22,6 +22,7 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -186,66 +187,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (_audioFileOutputPropertiesPresenter.ViewModel.Successful)
                 {
                     RefreshAudioFileOutputGrid();
-                }
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        // Child Document
-
-        public void ChildDocumentPropertiesShow(int id)
-        {
-            try
-            {
-                _childDocumentPropertiesPresenter.ViewModel = ViewModel.Document.ChildDocumentPropertiesList.First(x => x.ID == id);
-                _childDocumentPropertiesPresenter.Show();
-
-                DispatchViewModel(_childDocumentPropertiesPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-
-            // TODO: Change to permanent solution.
-            PatchDetailsViewModel patchDetailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByDocumentID(ViewModel.Document, id);
-            int patchID = patchDetailsViewModel.Entity.ID;
-            PatchDetailsShow(patchID);
-        }
-
-        public void ChildDocumentPropertiesClose()
-        {
-            ChildDocumentPropertiesCloseOrLoseFocus(() => _childDocumentPropertiesPresenter.Close());
-        }
-
-        public void ChildDocumentPropertiesLoseFocus()
-        {
-            ChildDocumentPropertiesCloseOrLoseFocus(() => _childDocumentPropertiesPresenter.LoseFocus());
-        }
-
-        private void ChildDocumentPropertiesCloseOrLoseFocus(Action partialAction)
-        {
-            try
-            {
-                // ToEntity  (Most of the entity model is needed for Document_SideEffect_UpdateDependentCustomOperators.)
-                ViewModel.ToEntityWithRelatedEntities(_repositories);
-                int childDocumentID = _childDocumentPropertiesPresenter.ViewModel.ID;
-
-                partialAction();
-
-                DispatchViewModel(_childDocumentPropertiesPresenter.ViewModel);
-
-                if (_childDocumentPropertiesPresenter.ViewModel.Successful)
-                {
-                    RefreshDocumentTree();
-                    RefreshInstrumentGrid(); // Refresh both efect and instrument grids, because ChildDocumentType can be changed.
-                    RefreshEffectGrid();
-                    RefreshUnderylingDocumentLookup();
-                    RefreshOperatorViewModels_OfTypeCustomOperators();
-                    Refresh_OperatorProperties_ForCustomOperatorViewModels(underlyingDocumentID: childDocumentID);
                 }
             }
             finally
@@ -910,7 +851,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     ViewModel.Document.EffectGrid.List.RemoveFirst(x => x.ID == effectDocumentID);
                     ViewModel.Document.ChildDocumentPropertiesList.RemoveFirst(x => x.ID == effectDocumentID);
                     ViewModel.Document.ChildDocumentList.RemoveFirst(x => x.ID == effectDocumentID);
-                    ViewModel.Document.DocumentTree.Effects.RemoveFirst(x => x.ChildDocumentID == effectDocumentID);
+                    ViewModel.Document.DocumentTree.EffectNode.RemoveFirst(x => x.ChildDocumentID == effectDocumentID);
                     ViewModel.Document.UnderlyingDocumentLookup.RemoveFirst(x => x.ID == effectDocumentID);
                 }
             }
@@ -1002,7 +943,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     ViewModel.Document.InstrumentGrid.List.RemoveFirst(x => x.ID == instrumentDocumentID);
                     ViewModel.Document.ChildDocumentPropertiesList.RemoveFirst(x => x.ID == instrumentDocumentID);
                     ViewModel.Document.ChildDocumentList.RemoveFirst(x => x.ID == instrumentDocumentID);
-                    ViewModel.Document.DocumentTree.Instruments.RemoveFirst(x => x.ChildDocumentID == instrumentDocumentID);
+                    ViewModel.Document.DocumentTree.InstrumentNode.RemoveFirst(x => x.ChildDocumentID == instrumentDocumentID);
                     ViewModel.Document.UnderlyingDocumentLookup.RemoveFirst(x => x.ID == instrumentDocumentID);
                 }
             }
@@ -2041,6 +1982,173 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
 
                 return outputFilePath;
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        // Patch / ChildDocument
+
+        /// <summary> Shows what is currently called a ChildDocumentGrid (2015-11-23). </summary>
+        public void PatchGridShow(string group)
+        {
+            try
+            {
+                ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+                ChildDocumentGridViewModel gridViewModel = ChildDocumentHelper.GetChildDocumentGridViewModel_ByGroup(ViewModel.Document, group);
+                _patchGridPresenter.ViewModel = gridViewModel;
+                _patchGridPresenter.Show();
+                DispatchViewModel(_patchGridPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void PatchGridClose()
+        {
+            try
+            {
+                _patchGridPresenter.Close();
+                DispatchViewModel(_patchGridPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void PatchCreate(string group)
+        {
+            try
+            {
+                // ToEntity
+                Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+                // Business
+                Document childDocument = _documentManager.CreateChildDocument(rootDocument, ChildDocumentTypeEnum.Effect, mustGenerateName: true);
+
+                var patchManager = new PatchManager(_patchRepositories);
+                patchManager.CreatePatch(childDocument, mustGenerateName: true);
+                Patch patch = patchManager.Patch;
+
+                // ToViewModel
+                IDAndName listItemViewModel = childDocument.ToIDAndName();
+                ChildDocumentGridViewModel gridViewModel = ChildDocumentHelper.GetChildDocumentGridViewModel_ByGroup(ViewModel.Document, group);
+                gridViewModel.List.Add(listItemViewModel);
+                gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
+
+                ChildDocumentPropertiesViewModel propertiesViewModel = childDocument.ToChildDocumentPropertiesViewModel(_repositories.ChildDocumentTypeRepository);
+                ViewModel.Document.ChildDocumentPropertiesList.Add(propertiesViewModel);
+
+                ChildDocumentViewModel documentViewModel = childDocument.ToChildDocumentViewModel(_repositories, _entityPositionManager);
+                ViewModel.Document.ChildDocumentList.Add(documentViewModel);
+
+                IDAndName idAndName = childDocument.ToIDAndName();
+                ViewModel.Document.UnderlyingDocumentLookup.Add(idAndName);
+                ViewModel.Document.UnderlyingDocumentLookup = ViewModel.Document.UnderlyingDocumentLookup.OrderBy(x => x.Name).ToList();
+
+                RefreshDocumentTree();
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void PatchDelete(int childDocumentID)
+        {
+            try
+            {
+                // ToEntity
+                ViewModel.ToEntityWithRelatedEntities(_repositories);
+                Document childDocument = _repositories.DocumentRepository.Get(childDocumentID);
+
+                // Businesss
+                VoidResult result = _documentManager.DeleteWithRelatedEntities(childDocument);
+                if (!result.Successful)
+                {
+                    // ToViewModel
+                    ViewModel.PopupMessages.AddRange(result.Messages);
+                }
+                else
+                {
+                    // ToViewModel
+                    ViewModel.Document.ChildDocumentPropertiesList.RemoveFirst(x => x.ID == childDocumentID);
+                    ViewModel.Document.ChildDocumentList.RemoveFirst(x => x.ID == childDocumentID);
+                    ViewModel.Document.UnderlyingDocumentLookup.RemoveFirst(x => x.ID == childDocumentID);
+                    ViewModel.Document.DocumentTree.PatchesNode.PatchNodes.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
+                    foreach (PatchGroupTreeNodeViewModel nodeViewModel in ViewModel.Document.DocumentTree.PatchesNode.PatchGroupNodes)
+                    {
+                        nodeViewModel.Patches.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
+                    }
+                    foreach (ChildDocumentGridViewModel gridViewModel in ViewModel.Document.ChildDocumentGridList)
+                    {
+                        gridViewModel.List.TryRemoveFirst(x => x.ID == childDocumentID);
+                    }
+                }
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+        
+        public void PatchPropertiesShow(int childDocumentID)
+        {
+            try
+            {
+                _childDocumentPropertiesPresenter.ViewModel = ViewModel.Document.ChildDocumentPropertiesList.First(x => x.ID == childDocumentID);
+                _childDocumentPropertiesPresenter.Show();
+
+                DispatchViewModel(_childDocumentPropertiesPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+
+            // TODO: Change to permanent solution.
+            PatchDetailsViewModel patchDetailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByDocumentID(ViewModel.Document, childDocumentID);
+            int patchID = patchDetailsViewModel.Entity.ID;
+            PatchDetailsShow(patchID);
+        }
+
+        public void PatchPropertiesClose()
+        {
+            PatchPropertiesCloseOrLoseFocus(() => _childDocumentPropertiesPresenter.Close());
+        }
+
+        public void PatchPropertiesLoseFocus()
+        {
+            PatchPropertiesCloseOrLoseFocus(() => _childDocumentPropertiesPresenter.LoseFocus());
+        }
+
+        private void PatchPropertiesCloseOrLoseFocus(Action partialAction)
+        {
+            try
+            {
+                // ToEntity  (Most of the entity model is needed for Document_SideEffect_UpdateDependentCustomOperators.)
+                ViewModel.ToEntityWithRelatedEntities(_repositories);
+                int childDocumentID = _childDocumentPropertiesPresenter.ViewModel.ID;
+
+                partialAction();
+
+                DispatchViewModel(_childDocumentPropertiesPresenter.ViewModel);
+
+                if (_childDocumentPropertiesPresenter.ViewModel.Successful)
+                {
+                    RefreshDocumentTree();
+                    RefreshInstrumentGrid(); // Refresh both efect and instrument grids, because ChildDocumentType can be changed.
+                    RefreshEffectGrid();
+                    RefreshUnderylingDocumentLookup();
+                    RefreshOperatorViewModels_OfTypeCustomOperators();
+                    Refresh_OperatorProperties_ForCustomOperatorViewModels(underlyingDocumentID: childDocumentID);
+                }
             }
             finally
             {

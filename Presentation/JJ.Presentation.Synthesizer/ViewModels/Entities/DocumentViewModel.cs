@@ -1,5 +1,6 @@
 ﻿using JJ.Business.CanonicalModel;
 using System.Collections.Generic;
+using System;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
@@ -18,6 +19,13 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         /// <summary> Leading for saving when it comes to the simple properties. </summary>
         public IList<ChildDocumentPropertiesViewModel> ChildDocumentPropertiesList { get; set; }
 
+        [Obsolete]
+        public ChildDocumentGridViewModel EffectGrid { get; set; }
+        [Obsolete]
+        public ChildDocumentGridViewModel InstrumentGrid { get; set; }
+
+        public IList<ChildDocumentGridViewModel> ChildDocumentGridList { get; set; }
+
         public DocumentPropertiesViewModel DocumentProperties { get; set; }
         public DocumentTreeViewModel DocumentTree { get; set; }
 
@@ -25,9 +33,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public IList<CurvePropertiesViewModel> CurvePropertiesList { get; set; }
         public IList<CurveDetailsViewModel> CurveDetailsList { get; set; }
         public IList<NodePropertiesViewModel> NodePropertiesList { get; set; }
-
-        public ChildDocumentGridViewModel EffectGrid { get; set; }
-        public ChildDocumentGridViewModel InstrumentGrid { get; set; }
 
         public SampleGridViewModel SampleGrid { get; set; }
         public IList<SamplePropertiesViewModel> SamplePropertiesList { get; set; }

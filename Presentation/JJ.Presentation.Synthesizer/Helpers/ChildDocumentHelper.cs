@@ -35,6 +35,30 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return rootDocumentViewModel.ChildDocumentPropertiesList.Where(x => x.ID == childDocumentID).FirstOrDefault();
         }
 
+        public static ChildDocumentGridViewModel GetChildDocumentGridViewModel_ByGroup(DocumentViewModel rootDocumentViewModel, string group)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            ChildDocumentGridViewModel viewModel;
+
+            bool isGroupless = String.IsNullOrEmpty(group);
+            if (isGroupless)
+            {
+                viewModel = rootDocumentViewModel.ChildDocumentGridList.Where(x => String.IsNullOrEmpty(x.Group)).FirstOrDefault();
+            }
+            else
+            {
+                viewModel = rootDocumentViewModel.ChildDocumentGridList.Where(x => String.Equals(x.Group, group)).FirstOrDefault();
+            }
+
+            if (viewModel == null)
+            {
+                throw new Exception(String.Format("ChildDocumentGridViewModel for Group '{0}' not found in documentViewModel.ChildDocumentGridList.", group));
+            }
+
+            return viewModel;
+        }
+
         // Curve
 
         public static CurveDetailsViewModel GetCurveDetailsViewModel(DocumentViewModel rootDocumentViewModel, int curveID)

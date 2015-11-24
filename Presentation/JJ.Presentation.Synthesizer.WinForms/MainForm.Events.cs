@@ -51,10 +51,16 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowAudioFileOutputsRequested += documentTreeUserControl_ShowAudioFileOutputsRequested;
             documentTreeUserControl.ShowChildDocumentPropertiesRequested += documentTreeUserControl_ShowChildDocumentPropertiesRequested;
             documentTreeUserControl.ShowCurvesRequested += documentTreeUserControl_ShowCurvesRequested;
+            documentTreeUserControl.ShowPatchGridRequested += documentTreeUserControl_ShowPatchGridRequested;
             documentTreeUserControl.ShowEffectsRequested += documentTreeUserControl_ShowEffectsRequested;
             documentTreeUserControl.ShowInstrumentsRequested += documentTreeUserControl_ShowInstrumentsRequested;
             documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
             documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
+            // TODO: Put in the right place alphabetically.
+            patchGridUserControl.CloseRequested += patchGridUserControl_CloseRequested;
+            patchGridUserControl.CreateRequested += patchGridUserControl_CreateRequested;
+            patchGridUserControl.DeleteRequested += patchGridUserControl_DeleteRequested;
+            patchGridUserControl.ShowPropertiesRequested += patchGridUserControl_ShowPropertiesRequested;
             effectGridUserControl.CloseRequested += effectGridUserControl_CloseRequested;
             effectGridUserControl.CreateRequested += effectGridUserControl_CreateRequested;
             effectGridUserControl.DeleteRequested += effectGridUserControl_DeleteRequested;
@@ -165,13 +171,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void childDocumentPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
-            _presenter.ChildDocumentPropertiesLoseFocus();
+            _presenter.PatchPropertiesLoseFocus();
             ApplyViewModel();
         }
 
         private void childDocumentPropertiesUserControl_CloseRequested(object sender, EventArgs e)
         {
-            _presenter.ChildDocumentPropertiesClose();
+            _presenter.PatchPropertiesClose();
             ApplyViewModel();
         }
 
@@ -334,7 +340,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void documentTreeUserControl_ShowChildDocumentPropertiesRequested(object sender, Int32EventArgs e)
         {
-            _presenter.ChildDocumentPropertiesShow(e.Value);
+            _presenter.PatchPropertiesShow(e.Value);
             ApplyViewModel();
         }
 
@@ -362,12 +368,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        private void documentTreeUserControl_ShowPatchGridRequested(object sender, StringEventArgs e)
+        {
+            _presenter.PatchGridShow(e.Value);
+            ApplyViewModel();
+        }
+
+        [Obsolete]
         private void documentTreeUserControl_ShowEffectsRequested(object sender, EventArgs e)
         {
             _presenter.EffectGridShow();
             ApplyViewModel();
         }
 
+        [Obsolete]
         private void documentTreeUserControl_ShowInstrumentsRequested(object sender, EventArgs e)
         {
             _presenter.InstrumentGridShow();
@@ -406,6 +420,34 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
+        // Patch / ChildDocument
+
+        // TODO: Put in the right place alphabetically.
+
+        private void patchGridUserControl_CreateRequested(object sender, EventArgs e)
+        {
+            _presenter.EffectCreate();
+            ApplyViewModel();
+        }
+
+        private void patchGridUserControl_DeleteRequested(object sender, Int32EventArgs e)
+        {
+            _presenter.EffectDelete(e.Value);
+            ApplyViewModel();
+        }
+
+        private void patchGridUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            _presenter.EffectGridClose();
+            ApplyViewModel();
+        }
+
+        private void patchGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
+        {
+            _presenter.PatchPropertiesShow(e.Value);
+            ApplyViewModel();
+        }
+
         // Effect
 
         private void effectGridUserControl_CreateRequested(object sender, EventArgs e)
@@ -428,7 +470,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void effectGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
         {
-            _presenter.ChildDocumentPropertiesShow(e.Value);
+            _presenter.PatchPropertiesShow(e.Value);
             ApplyViewModel();
         }
 
@@ -454,7 +496,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void instrumentGridUserControl_ShowPropertiesRequested(object sender, Int32EventArgs e)
         {
-            _presenter.ChildDocumentPropertiesShow(e.Value);
+            _presenter.PatchPropertiesShow(e.Value);
             ApplyViewModel();
         }
 

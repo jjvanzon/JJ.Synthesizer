@@ -6,6 +6,7 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using System;
 using System.Linq;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -53,9 +54,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AssertViewModel();
 
             // 'Business'
-            ChildDocumentTreeNodeViewModel nodeViewModel =
-                ViewModel.Instruments.Where(x => x.ChildDocumentID == childDocumentID).SingleOrDefault() ??
-                ViewModel.Effects.Where(x => x.ChildDocumentID == childDocumentID).SingleOrDefault();
+            PatchTreeNodeViewModel nodeViewModel = 
+                EnumeratePatchTreeNodeViewModels(ViewModel).Where(x => x.ChildDocumentID == childDocumentID).SingleOrDefault();
 
             if (nodeViewModel == null)
             {
@@ -72,9 +72,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AssertViewModel();
 
             // 'Business'
-            ChildDocumentTreeNodeViewModel nodeViewModel =
-                ViewModel.Instruments.Where(x => x.ChildDocumentID == childDocumentID).SingleOrDefault() ??
-                ViewModel.Effects.Where(x => x.ChildDocumentID == childDocumentID).SingleOrDefault();
+            PatchTreeNodeViewModel nodeViewModel =
+                EnumeratePatchTreeNodeViewModels(ViewModel).Where(x => x.ChildDocumentID == childDocumentID).SingleOrDefault();
 
             if (nodeViewModel == null)
             {
@@ -107,28 +106,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             destViewModel.Visible = sourceViewModel.Visible;
 
-            var join1 = from sourceInstrumentViewModel in sourceViewModel.Instruments
-                        join destInstrumentViewModel in destViewModel.Instruments
-                        on sourceInstrumentViewModel.ChildDocumentID equals destInstrumentViewModel.ChildDocumentID
-                        select new { sourceInstrumentViewModel, destInstrumentViewModel };
+            var join = from sourceInstrumentViewModel in EnumeratePatchTreeNodeViewModels(sourceViewModel)
+                       join destInstrumentViewModel in EnumeratePatchTreeNodeViewModels(destViewModel)
+                       on sourceInstrumentViewModel.ChildDocumentID equals destInstrumentViewModel.ChildDocumentID
+                       select new { sourceInstrumentViewModel, destInstrumentViewModel };
 
-            foreach (var tuple in join1)
+            foreach (var tuple in join)
             {
                 tuple.destInstrumentViewModel.IsExpanded = tuple.sourceInstrumentViewModel.IsExpanded;
             }
-
-            var join2 = from sourceEffectViewModel in sourceViewModel.Effects
-                        join destEffectViewModel in destViewModel.Effects
-                        on sourceEffectViewModel.ChildDocumentID equals destEffectViewModel.ChildDocumentID
-                        select new { sourceEffectViewModel, destEffectViewModel };
-
-            foreach (var tuple in join2)
-            {
-                tuple.destEffectViewModel.IsExpanded = tuple.sourceEffectViewModel.IsExpanded;
-            }
         }
 
-        // Helpers
+        private IEnumerable<PatchTreeNodeViewModel> EnumeratePatchTreeNodeViewModels(DocumentTreeViewModel documentTreeViewModel)
+        {
+            return Enumerable.Union(
+                documentTreeViewModel.PatchesNode.PatchNodes,
+                documentTreeViewModel.PatchesNode.PatchGroupNodes.SelectMany(x => x.Patches));
+        }
 
         private void AssertViewModel()
         {

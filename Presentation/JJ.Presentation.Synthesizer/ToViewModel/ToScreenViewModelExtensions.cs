@@ -22,6 +22,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToScreenViewModelExtensions
     {
+        // TODO: Remove outcommented code.
+        //private const int DUMMY_CHILD_DOCUMENT_TYPE_ID = 0;
+
         private static int _maxVisiblePageNumbers = GetMaxVisiblePageNumbers();
 
         private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithTheirOwnPropertyViews = new HashSet<OperatorTypeEnum>
@@ -109,6 +112,56 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
+        public static IList<ChildDocumentGridViewModel> ToChildDocumentGridViewModelList(this Document rootDocument)
+        {
+            var groups = rootDocument.ChildDocuments.GroupBy(x => x.GroupName);
+
+            var list = new List<ChildDocumentGridViewModel>();
+
+            foreach (var group in groups)
+            {
+                ChildDocumentGridViewModel childDocumentGridViewModel = group.ToChildDocumentGridViewModel(rootDocument.ID, group.Key);
+
+                list.Add(childDocumentGridViewModel);
+            }
+
+            return list;
+
+        }
+
+        public static ChildDocumentGridViewModel ToChildDocumentGridViewModel(this Document rootDocument, string group)
+        {
+            if (rootDocument == null) throw new NullException(() => rootDocument);
+
+            IList<Document> childDocuments = rootDocument.ChildDocuments
+                                                         .Where(x => String.Equals(x.GroupName, group))
+                                                         .ToList();
+
+            ChildDocumentGridViewModel viewModel = childDocuments.ToChildDocumentGridViewModel(rootDocument.ID, group);
+
+            return viewModel;
+        }
+
+        public static ChildDocumentGridViewModel ToChildDocumentGridViewModel(
+            this IEnumerable<Document> entities,
+            int rootDocumentID,
+            string group)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            var viewModel = new ChildDocumentGridViewModel
+            {
+                List = entities.OrderBy(x => x.Name)
+                               .Select(x => x.ToIDAndName())
+                               .ToList(),
+                RootDocumentID = rootDocumentID,
+                Group = group
+            };
+
+            return viewModel;
+        }
+
+        [Obsolete]
         public static ChildDocumentGridViewModel ToChildDocumentGridViewModel(this Document rootDocument, int childDocumentTypeID)
         {
             if (rootDocument == null) throw new NullException(() => rootDocument);
@@ -123,7 +176,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private static ChildDocumentGridViewModel ToChildDocumentGridViewModel(
+        [Obsolete]
+        public static ChildDocumentGridViewModel ToChildDocumentGridViewModel(
             this IList<Document> entities,
             int rootDocumentID,
             int childDocumentTypeID)
@@ -267,35 +321,56 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 CurvesNode = new DummyViewModel(),
                 SamplesNode = new DummyViewModel(),
                 AudioFileOutputsNode = new DummyViewModel(),
-                Instruments = new List<ChildDocumentTreeNodeViewModel>(),
-                Effects = new List<ChildDocumentTreeNodeViewModel>(),
-                ReferencedDocuments = new ReferencedDocumentsTreeNodeViewModel
+                PatchesNode = new PatchesTreeNodeViewModel
+                {
+                    PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
+                },
+                InstrumentNode = new List<PatchTreeNodeViewModel>(),
+                EffectNode = new List<PatchTreeNodeViewModel>(),
+                ReferencedDocumentsNode = new ReferencedDocumentsTreeNodeViewModel
                 {
                     List = new List<ReferencedDocumentViewModel>()
                 }
             };
 
-            viewModel.ReferencedDocuments.List = document.DependentOnDocuments.Select(x => x.DependentOnDocument)
-                                                                              .Select(x => x.ToReferencedDocumentViewModelWithRelatedEntities())
-                                                                              .OrderBy(x => x.Name)
-                                                                              .ToList();
-            viewModel.Instruments = document.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == ChildDocumentTypeEnum.Instrument)
+            viewModel.ReferencedDocumentsNode.List = document.DependentOnDocuments.Select(x => x.DependentOnDocument)
+                                                                                  .Select(x => x.ToReferencedDocumentViewModelWithRelatedEntities())
+                                                                                  .OrderBy(x => x.Name)
+                                                                                  .ToList();
+            // Groupless Patches
+            IList<Document> grouplessChildDocuments = document.ChildDocuments.Where(x => String.IsNullOrWhiteSpace(x.GroupName)).ToArray();
+            viewModel.PatchesNode.PatchNodes = grouplessChildDocuments.Select(x => x.ToChildDocumentTreeNodeViewModel()).ToList();
+
+            // Patch Groups
+            var childDocumentGroups = document.ChildDocuments.Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
+                                                             .GroupBy(x => x.GroupName);
+            foreach (var childDocumentGroup in childDocumentGroups)
+            {
+                viewModel.PatchesNode.PatchGroupNodes.Add(new PatchGroupTreeNodeViewModel
+                {
+                    Name = childDocumentGroup.Key,
+                    Patches = childDocumentGroup.Select(x => x.ToChildDocumentTreeNodeViewModel()).ToList()
+                });
+            }
+
+            // Obsolete. Remove code later.
+            viewModel.InstrumentNode = document.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == ChildDocumentTypeEnum.Instrument)
                                                            .OrderBy(x => x.Name)
                                                            .Select(x => x.ToChildDocumentTreeNodeViewModel())
                                                            .ToList();
 
-            viewModel.Effects = document.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == ChildDocumentTypeEnum.Effect)
+            viewModel.EffectNode = document.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == ChildDocumentTypeEnum.Effect)
                                                        .OrderBy(x => x.Name)
                                                        .Select(x => x.ToChildDocumentTreeNodeViewModel())
                                                        .ToList();
             return viewModel;
         }
 
-        public static ChildDocumentTreeNodeViewModel ToChildDocumentTreeNodeViewModel(this Document document)
+        public static PatchTreeNodeViewModel ToChildDocumentTreeNodeViewModel(this Document document)
         {
             if (document == null) throw new NullException(() => document);
 
-            var viewModel = new ChildDocumentTreeNodeViewModel
+            var viewModel = new PatchTreeNodeViewModel
             {
                 Name = document.Name,
                 CurvesNode = new DummyViewModel(),

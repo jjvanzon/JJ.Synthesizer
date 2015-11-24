@@ -67,6 +67,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 instrumentGridUserControl.ViewModel = _presenter.ViewModel.Document.InstrumentGrid;
                 effectGridUserControl.ViewModel = _presenter.ViewModel.Document.EffectGrid;
 
+                // PatchGrid / ChildDocumentGrid
+
+                // TODO: Put in the right place alphabetically.
+                patchGridUserControl.ViewModel = _presenter.ViewModel.Document.ChildDocumentGridList
+                                                                              .Where(x => x.Visible)
+                                                                              .FirstOrDefault();
                 // NodeProperties
                 nodePropertiesUserControl.ViewModel =
                     Enumerable.Union(
@@ -204,6 +210,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                  documentPropertiesUserControl.ViewModel.Visible;
                 bool documentTreeVisible = documentTreeUserControl.ViewModel != null &&
                                            documentTreeUserControl.ViewModel.Visible;
+                // TODO: Put in the right place alphabetically
+                bool patchGridVisible = patchGridUserControl.ViewModel != null &&
+                                        patchGridUserControl.ViewModel.Visible;
                 bool instrumentGridVisible = instrumentGridUserControl.ViewModel != null &&
                                              instrumentGridUserControl.ViewModel.Visible;
                 bool effectGridVisible = effectGridUserControl.ViewModel != null &&
@@ -252,6 +261,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (documentGridVisible) documentGridUserControl.Visible = true;
                 if (documentPropertiesVisible) documentPropertiesUserControl.Visible = true;
                 if (documentTreeVisible) documentTreeUserControl.Visible = true;
+                // TODO: Put in the right place alphabetically
+                if (patchGridVisible) patchGridUserControl.Visible = true;
                 if (instrumentGridVisible) instrumentGridUserControl.Visible = true;
                 if (effectGridVisible) effectGridUserControl.Visible = true;
                 if (nodePropertiesVisible) nodePropertiesUserControl.Visible = true;
@@ -282,6 +293,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!documentPropertiesVisible) documentPropertiesUserControl.Visible = false;
                 if (!documentTreeVisible) documentTreeUserControl.Visible = false;
                 if (!nodePropertiesVisible) nodePropertiesUserControl.Visible = false;
+                if (!patchGridVisible) patchGridUserControl.Visible = false;
                 if (!instrumentGridVisible) instrumentGridUserControl.Visible = false;
                 if (!effectGridVisible) effectGridUserControl.Visible = false;
                 if (!operatorPropertiesVisible) operatorPropertiesUserControl.Visible = false;

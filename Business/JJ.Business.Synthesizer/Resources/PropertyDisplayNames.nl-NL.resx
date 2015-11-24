@@ -481,4 +481,10 @@
   <data name="DefaultValue" xml:space="preserve">
     <value>Standaard waarde</value>
   </data>
+  <data name="FilePath" xml:space="preserve">
+    <value>Bestandspad</value>
+  </data>
+  <data name="GroupName" xml:space="preserve">
+    <value>Groep</value>
+  </data>
 </root>

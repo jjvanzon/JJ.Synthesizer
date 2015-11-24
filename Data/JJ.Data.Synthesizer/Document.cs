@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace JJ.Data.Synthesizer
 {
@@ -27,9 +28,10 @@ namespace JJ.Data.Synthesizer
         public virtual IList<Sample> Samples { get; set; }
         public virtual IList<Scale> Scales { get; set; }
 
-        public virtual ChildDocumentType ChildDocumentType { get; set; }
         public virtual IList<Document> ChildDocuments { get; set; }
         public virtual Document ParentDocument { get; set; }
+        public virtual ChildDocumentType ChildDocumentType { get; set; }
+        public virtual string GroupName { get; set; }
 
         public virtual IList<DocumentReference> DependentOnDocuments { get; set; }
         public virtual IList<DocumentReference> DependentDocuments { get; set; }
