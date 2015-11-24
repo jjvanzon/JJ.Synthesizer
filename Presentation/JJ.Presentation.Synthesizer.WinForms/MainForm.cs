@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows.Forms;
 using JJ.Framework.Configuration;
 using JJ.Framework.Data;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Presenters;
 using JJ.Presentation.Synthesizer.WinForms.Forms;
@@ -40,7 +39,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _presenter = new MainPresenter(_repositoryWrapper);
 
             BindEvents();
-            SetTitles();
             ApplyStyling();
 
             _presenter.Show();
@@ -76,12 +74,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void SetPropertiesPanelVisible(bool visible)
         {
             splitContainerProperties.Panel2Collapsed = !visible;
-        }
-
-        private void SetTitles()
-        {
-            instrumentGridUserControl.Title = PropertyDisplayNames.Instruments;
-            effectGridUserControl.Title = PropertyDisplayNames.Effects;
         }
 
         private void ApplyStyling()

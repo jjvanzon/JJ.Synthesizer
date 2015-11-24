@@ -2,25 +2,28 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
+using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class ChildDocumentGridUserControl : UserControl
+    internal partial class PatchGridUserControl : UserControl
     {
         private const string ID_COLUMN_NAME = "IDColumn";
 
-        public event EventHandler CreateRequested;
+        public event EventHandler<StringEventArgs> CreateRequested;
         public event EventHandler<Int32EventArgs> DeleteRequested;
         public event EventHandler CloseRequested;
-        public event EventHandler<Int32EventArgs> ShowPropertiesRequested;
+        public event EventHandler<Int32EventArgs> ShowDetailsRequested;
 
         private ChildDocumentGridViewModel _viewModel;
 
-        public ChildDocumentGridUserControl()
+        public PatchGridUserControl()
         {
             InitializeComponent();
+
+            SetTitles();
         }
 
         [Browsable(false)]
@@ -34,14 +37,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 ApplyViewModel();
             }
         }
-
-        public string Title
-        {
-            get { return titleBarUserControl.Text; }
-            set { titleBarUserControl.Text = value; }
-        }
-
         // Gui
+
+        private void SetTitles()
+        {
+            titleBarUserControl.Text = PropertyDisplayNames.Patches;
+        }
 
         private void ApplyViewModel()
         {
@@ -56,7 +57,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (CreateRequested != null)
             {
-                CreateRequested(this, EventArgs.Empty);
+                var e = new StringEventArgs(_viewModel.Group);
+                CreateRequested(this, e);
             }
         }
 
@@ -82,13 +84,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void ShowProperties()
         {
-            if (ShowPropertiesRequested != null)
+            if (ShowDetailsRequested != null)
             {
                 int? id = TryGetSelectedID();
                 if (id.HasValue)
                 {
                     var e = new Int32EventArgs(id.Value);
-                    ShowPropertiesRequested(this, e);
+                    ShowDetailsRequested(this, e);
                 }
             }
         }

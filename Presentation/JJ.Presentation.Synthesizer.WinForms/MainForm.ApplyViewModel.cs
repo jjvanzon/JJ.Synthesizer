@@ -26,10 +26,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 audioFileOutputPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.AudioFileOutputPropertiesList
                                                                                               .Where(x => x.Visible)
                                                                                               .FirstOrDefault();
-
-                childDocumentPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.ChildDocumentPropertiesList
-                                                                                            .Where(x => x.Visible)
-                                                                                            .FirstOrDefault();
                 // CurveDetails
                 curveDetailsUserControl.ViewModel =
                     Enumerable.Union(
@@ -59,20 +55,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                    .Where(x => x.Visible)
                    .FirstOrDefault();
 
-                // Misc
+                // Document
                 documentDetailsUserControl.ViewModel = _presenter.ViewModel.DocumentDetails;
                 documentGridUserControl.ViewModel = _presenter.ViewModel.DocumentGrid;
                 documentPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.DocumentProperties;
                 documentTreeUserControl.ViewModel = _presenter.ViewModel.Document.DocumentTree;
-                instrumentGridUserControl.ViewModel = _presenter.ViewModel.Document.InstrumentGrid;
-                effectGridUserControl.ViewModel = _presenter.ViewModel.Document.EffectGrid;
 
-                // PatchGrid / ChildDocumentGrid
-
-                // TODO: Put in the right place alphabetically.
-                patchGridUserControl.ViewModel = _presenter.ViewModel.Document.ChildDocumentGridList
-                                                                              .Where(x => x.Visible)
-                                                                              .FirstOrDefault();
                 // NodeProperties
                 nodePropertiesUserControl.ViewModel =
                     Enumerable.Union(
@@ -160,6 +148,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
+                // PatchGrid
+                patchGridUserControl.ViewModel = _presenter.ViewModel.Document.ChildDocumentGridList
+                                                                              .Where(x => x.Visible)
+                                                                              .FirstOrDefault();
+
+                // PatchProperties
+                patchPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.ChildDocumentPropertiesList
+                                                                                    .Where(x => x.Visible)
+                                                                                    .FirstOrDefault();
                 // SampleGrid
                 if (_presenter.ViewModel.Document.SampleGrid.Visible)
                 {
@@ -194,8 +191,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                   audioFileOutputGridUserControl.ViewModel.Visible;
                 bool audioFileOutputPropertiesVisible = audioFileOutputPropertiesUserControl.ViewModel != null &&
                                                         audioFileOutputPropertiesUserControl.ViewModel.Visible;
-                bool childDocumentPropertiesVisible = childDocumentPropertiesUserControl.ViewModel != null &&
-                                                      childDocumentPropertiesUserControl.ViewModel.Visible;
                 bool curveDetailsVisible = curveDetailsUserControl.ViewModel != null &&
                                            curveDetailsUserControl.ViewModel.Visible;
                 bool curveGridVisible = curveGridUserControl.ViewModel != null &&
@@ -210,13 +205,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                  documentPropertiesUserControl.ViewModel.Visible;
                 bool documentTreeVisible = documentTreeUserControl.ViewModel != null &&
                                            documentTreeUserControl.ViewModel.Visible;
-                // TODO: Put in the right place alphabetically
-                bool patchGridVisible = patchGridUserControl.ViewModel != null &&
-                                        patchGridUserControl.ViewModel.Visible;
-                bool instrumentGridVisible = instrumentGridUserControl.ViewModel != null &&
-                                             instrumentGridUserControl.ViewModel.Visible;
-                bool effectGridVisible = effectGridUserControl.ViewModel != null &&
-                                         effectGridUserControl.ViewModel.Visible;
                 bool nodePropertiesVisible = nodePropertiesUserControl.ViewModel != null &&
                                              nodePropertiesUserControl.ViewModel.Visible;
                 bool operatorPropertiesVisible = operatorPropertiesUserControl.ViewModel != null &&
@@ -237,8 +225,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                            operatorPropertiesUserControl_ForSample.ViewModel.Visible;
                 bool operatorPropertiesVisible_ForUnbundle = operatorPropertiesUserControl_ForUnbundle.ViewModel != null &&
                                                              operatorPropertiesUserControl_ForUnbundle.ViewModel.Visible;
+                bool patchGridVisible = patchGridUserControl.ViewModel != null &&
+                                        patchGridUserControl.ViewModel.Visible;
                 bool patchDetailsVisible = patchDetailsUserControl.ViewModel != null &&
                                            patchDetailsUserControl.ViewModel.Visible;
+                bool patchPropertiesVisible = patchPropertiesUserControl.ViewModel != null &&
+                                              patchPropertiesUserControl.ViewModel.Visible;
                 bool sampleGridVisible = sampleGridUserControl.ViewModel != null &&
                                          sampleGridUserControl.ViewModel.Visible;
                 bool samplePropertiesVisible = samplePropertiesUserControl.ViewModel != null &&
@@ -253,7 +245,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 // Applying Visible = true first and then Visible = false prevents flickering.
                 if (audioFileOutputGridVisible) audioFileOutputGridUserControl.Visible = true;
                 if (audioFileOutputPropertiesVisible) audioFileOutputPropertiesUserControl.Visible = true;
-                if (childDocumentPropertiesVisible) childDocumentPropertiesUserControl.Visible = true;
                 if (curveDetailsVisible) curveDetailsUserControl.Visible = true;
                 if (curveGridVisible) curveGridUserControl.Visible = true;
                 if (curvePropertiesVisible) curvePropertiesUserControl.Visible = true;
@@ -261,10 +252,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (documentGridVisible) documentGridUserControl.Visible = true;
                 if (documentPropertiesVisible) documentPropertiesUserControl.Visible = true;
                 if (documentTreeVisible) documentTreeUserControl.Visible = true;
-                // TODO: Put in the right place alphabetically
-                if (patchGridVisible) patchGridUserControl.Visible = true;
-                if (instrumentGridVisible) instrumentGridUserControl.Visible = true;
-                if (effectGridVisible) effectGridUserControl.Visible = true;
                 if (nodePropertiesVisible) nodePropertiesUserControl.Visible = true;
                 if (operatorPropertiesVisible) operatorPropertiesUserControl.Visible = true;
                 if (operatorPropertiesVisible_ForBundle) operatorPropertiesUserControl_ForBundle.Visible = true;
@@ -275,7 +262,9 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (operatorPropertiesVisible_ForPatchOutlet) operatorPropertiesUserControl_ForPatchOutlet.Visible = true;
                 if (operatorPropertiesVisible_ForSample) operatorPropertiesUserControl_ForSample.Visible = true;
                 if (operatorPropertiesVisible_ForUnbundle) operatorPropertiesUserControl_ForUnbundle.Visible = true;
+                if (patchGridVisible) patchGridUserControl.Visible = true;
                 if (patchDetailsVisible) patchDetailsUserControl.Visible = true;
+                if (patchPropertiesVisible) patchPropertiesUserControl.Visible = true;
                 if (sampleGridVisible) sampleGridUserControl.Visible = true;
                 if (samplePropertiesVisible) samplePropertiesUserControl.Visible = true;
                 if (scaleGridVisible) scaleGridUserControl.Visible = true;
@@ -284,7 +273,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 if (!audioFileOutputGridVisible) audioFileOutputGridUserControl.Visible = false;
                 if (!audioFileOutputPropertiesVisible) audioFileOutputPropertiesUserControl.Visible = false;
-                if (!childDocumentPropertiesVisible) childDocumentPropertiesUserControl.Visible = false;
                 if (!curveDetailsVisible) curveDetailsUserControl.Visible = false;
                 if (!curveGridVisible) curveGridUserControl.Visible = false;
                 if (!curvePropertiesVisible) curvePropertiesUserControl.Visible = false;
@@ -293,9 +281,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!documentPropertiesVisible) documentPropertiesUserControl.Visible = false;
                 if (!documentTreeVisible) documentTreeUserControl.Visible = false;
                 if (!nodePropertiesVisible) nodePropertiesUserControl.Visible = false;
-                if (!patchGridVisible) patchGridUserControl.Visible = false;
-                if (!instrumentGridVisible) instrumentGridUserControl.Visible = false;
-                if (!effectGridVisible) effectGridUserControl.Visible = false;
                 if (!operatorPropertiesVisible) operatorPropertiesUserControl.Visible = false;
                 if (!operatorPropertiesVisible_ForBundle) operatorPropertiesUserControl_ForBundle.Visible = false;
                 if (!operatorPropertiesVisible_ForCurve) operatorPropertiesUserControl_ForCurve.Visible = false;
@@ -306,6 +291,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 if (!operatorPropertiesVisible_ForSample) operatorPropertiesUserControl_ForSample.Visible = false;
                 if (!operatorPropertiesVisible_ForUnbundle) operatorPropertiesUserControl_ForUnbundle.Visible = false;
                 if (!patchDetailsVisible) patchDetailsUserControl.Visible = false;
+                if (!patchGridVisible) patchGridUserControl.Visible = false;
+                if (!patchPropertiesVisible) patchPropertiesUserControl.Visible = false;
                 if (!sampleGridVisible) sampleGridUserControl.Visible = false;
                 if (!samplePropertiesVisible) samplePropertiesUserControl.Visible = false;
                 if (!scaleGridVisible) scaleGridUserControl.Visible = false;
@@ -319,7 +306,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 bool propertiesPanelMustBeVisible = documentPropertiesVisible ||
                                                     audioFileOutputPropertiesVisible ||
                                                     curvePropertiesVisible ||
-                                                    childDocumentPropertiesVisible ||
                                                     nodePropertiesVisible ||
                                                     operatorPropertiesVisible ||
                                                     operatorPropertiesVisible_ForBundle ||
@@ -331,6 +317,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                     operatorPropertiesVisible_ForSample ||
                                                     operatorPropertiesVisible_ForUnbundle ||
                                                     samplePropertiesVisible ||
+                                                    patchPropertiesVisible ||
                                                     scalePropertiesVisible;
 
                 SetPropertiesPanelVisible(propertiesPanelMustBeVisible);
@@ -380,13 +367,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (mustFocusAudioFileOutputPropertiesUserControl)
             {
                 audioFileOutputPropertiesUserControl.Focus();
-            }
-
-            bool mustFocusChildDocumentPropertiesUserControl = childDocumentPropertiesUserControl.Visible &&
-                                                              !childDocumentPropertiesUserControl.ViewModel.Successful;
-            if (mustFocusChildDocumentPropertiesUserControl)
-            {
-                childDocumentPropertiesUserControl.Focus();
             }
 
             bool mustFocusCurveDetailsUserControl = curveDetailsUserControl.Visible &&
@@ -478,6 +458,20 @@ namespace JJ.Presentation.Synthesizer.WinForms
             if (mustFocusOperatorPropertiesUserControl_ForUnbundle)
             {
                 operatorPropertiesUserControl_ForUnbundle.Focus();
+            }
+
+            bool mustFocusPatchDetailsUserControl = patchDetailsUserControl.Visible &&
+                                                   !patchDetailsUserControl.ViewModel.Successful;
+            if (mustFocusPatchDetailsUserControl)
+            {
+                patchDetailsUserControl.Focus();
+            }
+
+            bool mustFocusPatchPropertiesUserControl = patchPropertiesUserControl.Visible &&
+                                                      !patchPropertiesUserControl.ViewModel.Successful;
+            if (mustFocusPatchPropertiesUserControl)
+            {
+                patchPropertiesUserControl.Focus();
             }
 
             bool mustFocusSamplePropertiesUserControl = samplePropertiesUserControl.Visible &&

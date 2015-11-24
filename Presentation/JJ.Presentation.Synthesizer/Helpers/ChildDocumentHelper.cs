@@ -28,13 +28,6 @@ namespace JJ.Presentation.Synthesizer.Helpers
             return childDocumentViewModel;
         }
 
-        public static ChildDocumentPropertiesViewModel TryGetChildDocumentPropertiesViewModel(DocumentViewModel rootDocumentViewModel, int childDocumentID)
-        {
-            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
-
-            return rootDocumentViewModel.ChildDocumentPropertiesList.Where(x => x.ID == childDocumentID).FirstOrDefault();
-        }
-
         public static ChildDocumentGridViewModel GetChildDocumentGridViewModel_ByGroup(DocumentViewModel rootDocumentViewModel, string group)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
@@ -598,6 +591,13 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             return rootDocumentViewModel.ChildDocumentList.Select(x => x.PatchDetails);
+        }
+
+        public static PatchPropertiesViewModel TryGetPatchPropertiesViewModel(DocumentViewModel rootDocumentViewModel, int childDocumentID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            return rootDocumentViewModel.ChildDocumentPropertiesList.Where(x => x.ChildDocumentID == childDocumentID).FirstOrDefault();
         }
 
         // Sample

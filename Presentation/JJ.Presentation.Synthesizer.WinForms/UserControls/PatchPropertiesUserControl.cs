@@ -4,22 +4,20 @@ using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    internal partial class ChildDocumentPropertiesUserControl : UserControl
+    internal partial class PatchPropertiesUserControl : UserControl
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
 
-        private ChildDocumentPropertiesViewModel _viewModel;
+        private PatchPropertiesViewModel _viewModel;
 
-        public ChildDocumentPropertiesUserControl()
+        public PatchPropertiesUserControl()
         {
             InitializeComponent();
 
@@ -28,14 +26,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.AutomaticallyAssignTabIndexes();
         }
 
-        private void ChildDocumentPropertiesUserControl_Load(object sender, EventArgs e)
+        private void PatchPropertiesUserControl_Load(object sender, EventArgs e)
         {
             ApplyStyling();
         }
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ChildDocumentPropertiesViewModel ViewModel
+        public PatchPropertiesViewModel ViewModel
         {
             get { return _viewModel; }
             set
@@ -49,9 +47,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         private void SetTitles()
         {
-            titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.ChildDocument);
+            titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Patch);
             labelName.Text = CommonTitles.Name;
-            labelChildDocumentType.Text = Titles.Type;
+            labelGroup.Text = Titles.Group;
         }
 
         private void ApplyStyling()
@@ -66,14 +64,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             textBoxName.Text = _viewModel.Name;
-
-            if (comboBoxChildDocumentType.DataSource == null)
-            {
-                comboBoxChildDocumentType.ValueMember = PropertyNames.ID;
-                comboBoxChildDocumentType.DisplayMember = PropertyNames.Name;
-                comboBoxChildDocumentType.DataSource = _viewModel.ChildDocumentTypeLookup;
-            }
-            comboBoxChildDocumentType.SelectedValue = _viewModel.ChildDocumentType.ID;
+            textBoxGroup.Text = _viewModel.Group;
         }
 
         private void ApplyControlsToViewModel()
@@ -81,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             _viewModel.Name = textBoxName.Text;
-            _viewModel.ChildDocumentType = (IDAndName)comboBoxChildDocumentType.SelectedItem;
+            _viewModel.Group = textBoxGroup.Text;
         }
 
         // Actions
@@ -112,7 +103,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.
-        private void ChildDocumentPropertiesUserControl_Leave(object sender, EventArgs e)
+        private void PatchPropertiesUserControl_Leave(object sender, EventArgs e)
         {
             // This Visible check is there because the leave event (lose focus) goes off after I closed, 
             // making it want to save again, even though view model is empty

@@ -91,13 +91,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // ChildDocument
 
-        public static ChildDocumentPropertiesViewModel ToChildDocumentPropertiesViewModel(this Document childDocument, IChildDocumentTypeRepository childDocumentTypeRepository)
+        public static PatchPropertiesViewModel ToChildDocumentPropertiesViewModel(this Document childDocument, IChildDocumentTypeRepository childDocumentTypeRepository)
         {
             if (childDocument == null) throw new NullException(() => childDocument);
 
-            var viewModel = new ChildDocumentPropertiesViewModel
+            var viewModel = new PatchPropertiesViewModel
             {
-                ID = childDocument.ID,
+                ChildDocumentID = childDocument.ID,
                 Name = childDocument.Name,
                 ChildDocumentTypeLookup = ViewModelHelper.CreateChildDocumentTypeLookupViewModel(childDocumentTypeRepository),
                 ValidationMessages = new List<Message>(),
@@ -339,7 +339,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                                                   .ToList();
             // Groupless Patches
             IList<Document> grouplessChildDocuments = document.ChildDocuments.Where(x => String.IsNullOrWhiteSpace(x.GroupName)).ToArray();
-            viewModel.PatchesNode.PatchNodes = grouplessChildDocuments.Select(x => x.ToChildDocumentTreeNodeViewModel()).ToList();
+            viewModel.PatchesNode.PatchNodes = grouplessChildDocuments.Select(x => x.ToPatchTreeNodeViewModel()).ToList();
 
             // Patch Groups
             var childDocumentGroups = document.ChildDocuments.Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
@@ -349,24 +349,24 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.PatchesNode.PatchGroupNodes.Add(new PatchGroupTreeNodeViewModel
                 {
                     Name = childDocumentGroup.Key,
-                    Patches = childDocumentGroup.Select(x => x.ToChildDocumentTreeNodeViewModel()).ToList()
+                    Patches = childDocumentGroup.Select(x => x.ToPatchTreeNodeViewModel()).ToList()
                 });
             }
 
             // Obsolete. Remove code later.
             viewModel.InstrumentNode = document.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == ChildDocumentTypeEnum.Instrument)
                                                            .OrderBy(x => x.Name)
-                                                           .Select(x => x.ToChildDocumentTreeNodeViewModel())
+                                                           .Select(x => x.ToPatchTreeNodeViewModel())
                                                            .ToList();
 
             viewModel.EffectNode = document.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == ChildDocumentTypeEnum.Effect)
                                                        .OrderBy(x => x.Name)
-                                                       .Select(x => x.ToChildDocumentTreeNodeViewModel())
+                                                       .Select(x => x.ToPatchTreeNodeViewModel())
                                                        .ToList();
             return viewModel;
         }
 
-        public static PatchTreeNodeViewModel ToChildDocumentTreeNodeViewModel(this Document document)
+        public static PatchTreeNodeViewModel ToPatchTreeNodeViewModel(this Document document)
         {
             if (document == null) throw new NullException(() => document);
 

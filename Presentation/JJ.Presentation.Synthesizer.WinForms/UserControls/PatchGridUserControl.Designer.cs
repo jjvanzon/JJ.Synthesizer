@@ -1,7 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    partial class ChildDocumentGridUserControl
+    partial class PatchGridUserControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -111,12 +111,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.RemoveClicked += new System.EventHandler(this.titleBarUserControl_RemoveClicked);
             this.titleBarUserControl.AddClicked += new System.EventHandler(this.titleBarUserControl_AddClicked);
             // 
-            // InstrumentGridUserControl
+            // PatchGridUserControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanel);
-            this.Name = "InstrumentGridUserControl";
+            this.Name = "PatchGridUserControl";
             this.Size = new System.Drawing.Size(310, 341);
             ((System.ComponentModel.ISupportInitialize)(this.specializedDataGridView)).EndInit();
             this.tableLayoutPanel.ResumeLayout(false);

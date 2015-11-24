@@ -21,7 +21,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(AudioFileOutputGridViewModel), DispatchAudioFileOutputGridViewModel },
                 { typeof(AudioFileOutputPropertiesViewModel), DispatchAudioFileOutputPropertiesViewModel },
                 { typeof(ChildDocumentGridViewModel), DispatchChildDocumentGridViewModel },
-                { typeof(ChildDocumentPropertiesViewModel), DispatchChildDocumentPropertiesViewModel },
+                { typeof(PatchPropertiesViewModel), DispatchChildDocumentPropertiesViewModel },
                 { typeof(CurveDetailsViewModel), DispatchCurveDetailsViewModel },
                 { typeof(CurveGridViewModel), DispatchCurveGridViewModel },
                 { typeof(CurvePropertiesViewModel), DispatchCurvePropertiesViewModel },
@@ -132,7 +132,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DispatchChildDocumentPropertiesViewModel(object viewModel2)
         {
-            var castedViewModel = (ChildDocumentPropertiesViewModel)viewModel2;
+            var castedViewModel = (PatchPropertiesViewModel)viewModel2;
 
             if (castedViewModel.Visible)
             {

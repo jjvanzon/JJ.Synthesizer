@@ -23,8 +23,7 @@
             this.scaleGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ScaleGridUserControl();
             this.curveGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurveGridUserControl();
             this.audioFileOutputGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputGridUserControl();
-            this.instrumentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ChildDocumentGridUserControl();
-            this.effectGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ChildDocumentGridUserControl();
+            this.patchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchGridUserControl();
             this.documentDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentDetailsUserControl();
             this.documentGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentGridUserControl();
             this.patchDetailsUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchDetailsUserControl();
@@ -38,7 +37,7 @@
             this.operatorPropertiesUserControl_ForPatchInlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchInlet();
             this.documentPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentPropertiesUserControl();
             this.operatorPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl();
-            this.childDocumentPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ChildDocumentPropertiesUserControl();
+            this.patchPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.PatchPropertiesUserControl();
             this.samplePropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.SamplePropertiesUserControl();
             this.audioFileOutputPropertiesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.AudioFileOutputPropertiesUserControl();
             this.operatorPropertiesUserControl_ForSample = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForSample();
@@ -46,7 +45,6 @@
             this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
-            this.patchGridUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.ChildDocumentGridUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -94,14 +92,12 @@
             // 
             // splitContainerProperties.Panel1
             // 
-            this.splitContainerProperties.Panel1.Controls.Add(this.patchGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.curveDetailsUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.toneGridEditUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.scaleGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.curveGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.audioFileOutputGridUserControl);
-            this.splitContainerProperties.Panel1.Controls.Add(this.instrumentGridUserControl);
-            this.splitContainerProperties.Panel1.Controls.Add(this.effectGridUserControl);
+            this.splitContainerProperties.Panel1.Controls.Add(this.patchGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.documentDetailsUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.documentGridUserControl);
             this.splitContainerProperties.Panel1.Controls.Add(this.patchDetailsUserControl);
@@ -118,7 +114,7 @@
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForPatchInlet);
             this.splitContainerProperties.Panel2.Controls.Add(this.documentPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl);
-            this.splitContainerProperties.Panel2.Controls.Add(this.childDocumentPropertiesUserControl);
+            this.splitContainerProperties.Panel2.Controls.Add(this.patchPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.samplePropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.audioFileOutputPropertiesUserControl);
             this.splitContainerProperties.Panel2.Controls.Add(this.operatorPropertiesUserControl_ForSample);
@@ -178,30 +174,6 @@
             this.audioFileOutputGridUserControl.Size = new System.Drawing.Size(678, 657);
             this.audioFileOutputGridUserControl.TabIndex = 5;
             this.audioFileOutputGridUserControl.Visible = false;
-            // 
-            // instrumentGridUserControl
-            // 
-            this.instrumentGridUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.instrumentGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.instrumentGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.instrumentGridUserControl.Location = new System.Drawing.Point(0, 0);
-            this.instrumentGridUserControl.Name = "instrumentGridUserControl";
-            this.instrumentGridUserControl.Size = new System.Drawing.Size(678, 657);
-            this.instrumentGridUserControl.TabIndex = 4;
-            this.instrumentGridUserControl.Title = "Title";
-            this.instrumentGridUserControl.Visible = false;
-            // 
-            // effectGridUserControl
-            // 
-            this.effectGridUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.effectGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.effectGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.effectGridUserControl.Location = new System.Drawing.Point(0, 0);
-            this.effectGridUserControl.Name = "effectGridUserControl";
-            this.effectGridUserControl.Size = new System.Drawing.Size(678, 657);
-            this.effectGridUserControl.TabIndex = 3;
-            this.effectGridUserControl.Title = "Title";
-            this.effectGridUserControl.Visible = false;
             // 
             // documentDetailsUserControl
             // 
@@ -358,17 +330,17 @@
             this.operatorPropertiesUserControl.Size = new System.Drawing.Size(209, 657);
             this.operatorPropertiesUserControl.TabIndex = 1;
             // 
-            // childDocumentPropertiesUserControl
+            // patchPropertiesUserControl
             // 
-            this.childDocumentPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.childDocumentPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.childDocumentPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.childDocumentPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.childDocumentPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
-            this.childDocumentPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.childDocumentPropertiesUserControl.Name = "childDocumentPropertiesUserControl";
-            this.childDocumentPropertiesUserControl.Size = new System.Drawing.Size(209, 657);
-            this.childDocumentPropertiesUserControl.TabIndex = 1;
+            this.patchPropertiesUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.patchPropertiesUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.patchPropertiesUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.patchPropertiesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.patchPropertiesUserControl.Location = new System.Drawing.Point(0, 0);
+            this.patchPropertiesUserControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.patchPropertiesUserControl.Name = "patchPropertiesUserControl";
+            this.patchPropertiesUserControl.Size = new System.Drawing.Size(209, 657);
+            this.patchPropertiesUserControl.TabIndex = 1;
             // 
             // samplePropertiesUserControl
             // 
@@ -460,7 +432,6 @@
             this.patchGridUserControl.Name = "patchGridUserControl";
             this.patchGridUserControl.Size = new System.Drawing.Size(678, 657);
             this.patchGridUserControl.TabIndex = 13;
-            this.patchGridUserControl.Title = "Title";
             // 
             // MainForm
             // 
@@ -494,15 +465,14 @@
         private System.Windows.Forms.SplitContainer splitContainerProperties;
         private UserControls.DocumentDetailsUserControl documentDetailsUserControl;
         private UserControls.DocumentPropertiesUserControl documentPropertiesUserControl;
-        private UserControls.ChildDocumentGridUserControl effectGridUserControl;
-        private UserControls.ChildDocumentGridUserControl instrumentGridUserControl;
+        private UserControls.PatchGridUserControl patchGridUserControl;
         private UserControls.AudioFileOutputGridUserControl audioFileOutputGridUserControl;
         private UserControls.CurveGridUserControl curveGridUserControl;
         private UserControls.SampleGridUserControl sampleGridUserControl;
         private UserControls.AudioFileOutputPropertiesUserControl audioFileOutputPropertiesUserControl;
         private UserControls.SamplePropertiesUserControl samplePropertiesUserControl;
         private UserControls.PatchDetailsUserControl patchDetailsUserControl;
-        private UserControls.ChildDocumentPropertiesUserControl childDocumentPropertiesUserControl;
+        private UserControls.PatchPropertiesUserControl patchPropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl operatorPropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForPatchInlet operatorPropertiesUserControl_ForPatchInlet;
         private UserControls.OperatorPropertiesUserControl_ForPatchOutlet operatorPropertiesUserControl_ForPatchOutlet;
@@ -518,6 +488,5 @@
         private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForBundle operatorPropertiesUserControl_ForBundle;
         private UserControls.OperatorPropertiesUserControl_ForUnbundle operatorPropertiesUserControl_ForUnbundle;
-        private UserControls.ChildDocumentGridUserControl patchGridUserControl;
     }
 }

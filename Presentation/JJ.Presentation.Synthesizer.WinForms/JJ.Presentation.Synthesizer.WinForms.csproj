@@ -206,11 +206,11 @@
     <Compile Include="UserControls\OperatorPropertiesUserControl.Designer.cs">
       <DependentUpon>OperatorPropertiesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ChildDocumentPropertiesUserControl.cs">
+    <Compile Include="UserControls\PatchPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\ChildDocumentPropertiesUserControl.Designer.cs">
-      <DependentUpon>ChildDocumentPropertiesUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\PatchPropertiesUserControl.Designer.cs">
+      <DependentUpon>PatchPropertiesUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\ScaleGridUserControl.cs">
       <SubType>UserControl</SubType>
@@ -224,11 +224,11 @@
     <Compile Include="UserControls\SamplePropertiesUserControl.Designer.cs">
       <DependentUpon>SamplePropertiesUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ChildDocumentGridUserControl.cs">
+    <Compile Include="UserControls\PatchGridUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserControls\ChildDocumentGridUserControl.Designer.cs">
-      <DependentUpon>ChildDocumentGridUserControl.cs</DependentUpon>
+    <Compile Include="UserControls\PatchGridUserControl.Designer.cs">
+      <DependentUpon>PatchGridUserControl.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\DocumentPropertiesUserControl.cs">
       <SubType>UserControl</SubType>
@@ -357,8 +357,8 @@
     <EmbeddedResource Include="UserControls\OperatorPropertiesUserControl.resx">
       <DependentUpon>OperatorPropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\ChildDocumentPropertiesUserControl.resx">
-      <DependentUpon>ChildDocumentPropertiesUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\PatchPropertiesUserControl.resx">
+      <DependentUpon>PatchPropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\ScaleGridUserControl.resx">
       <DependentUpon>ScaleGridUserControl.cs</DependentUpon>
@@ -366,8 +366,8 @@
     <EmbeddedResource Include="UserControls\SamplePropertiesUserControl.resx">
       <DependentUpon>SamplePropertiesUserControl.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserControls\ChildDocumentGridUserControl.resx">
-      <DependentUpon>ChildDocumentGridUserControl.cs</DependentUpon>
+    <EmbeddedResource Include="UserControls\PatchGridUserControl.resx">
+      <DependentUpon>PatchGridUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\DocumentPropertiesUserControl.resx">
       <DependentUpon>DocumentPropertiesUserControl.cs</DependentUpon>

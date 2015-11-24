@@ -35,7 +35,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioFileOutputGrid = CreateEmptyAudioFileOutputGridViewModel(),
                 AudioFileOutputPropertiesList = new List<AudioFileOutputPropertiesViewModel>(),
                 ChildDocumentList = new List<ChildDocumentViewModel>(),
-                ChildDocumentPropertiesList = new List<ChildDocumentPropertiesViewModel>(),
+                ChildDocumentPropertiesList = new List<PatchPropertiesViewModel>(),
                 ChildDocumentGridList = new List<ChildDocumentGridViewModel>(),
                 CurveDetailsList = new List<CurveDetailsViewModel>(),
                 CurveGrid = CreateEmptyCurveGridViewModel(),

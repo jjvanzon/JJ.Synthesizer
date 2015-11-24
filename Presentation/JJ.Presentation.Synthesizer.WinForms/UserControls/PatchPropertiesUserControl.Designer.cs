@@ -1,7 +1,7 @@
 ﻿using JJ.Presentation.Synthesizer.WinForms.UserControls.Partials;
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
-    partial class ChildDocumentPropertiesUserControl
+    partial class PatchPropertiesUserControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -31,11 +31,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelProperties = new System.Windows.Forms.TableLayoutPanel();
-            this.comboBoxChildDocumentType = new System.Windows.Forms.ComboBox();
-            this.labelChildDocumentType = new System.Windows.Forms.Label();
+            this.labelGroup = new System.Windows.Forms.Label();
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
+            this.textBoxGroup = new System.Windows.Forms.TextBox();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
             this.SuspendLayout();
@@ -60,10 +60,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.ColumnCount = 2;
             this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxChildDocumentType, 1, 1);
-            this.tableLayoutPanelProperties.Controls.Add(this.labelChildDocumentType, 0, 1);
+            this.tableLayoutPanelProperties.Controls.Add(this.labelGroup, 0, 1);
             this.tableLayoutPanelProperties.Controls.Add(this.labelName, 0, 0);
             this.tableLayoutPanelProperties.Controls.Add(this.textBoxName, 1, 0);
+            this.tableLayoutPanelProperties.Controls.Add(this.textBoxGroup, 1, 1);
             this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProperties.Location = new System.Drawing.Point(3, 24);
             this.tableLayoutPanelProperties.Name = "tableLayoutPanelProperties";
@@ -75,27 +75,16 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Size = new System.Drawing.Size(10, 10);
             this.tableLayoutPanelProperties.TabIndex = 8;
             // 
-            // comboBoxChildDocumentType
+            // labelGroup
             // 
-            this.comboBoxChildDocumentType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBoxChildDocumentType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxChildDocumentType.FormattingEnabled = true;
-            this.comboBoxChildDocumentType.Location = new System.Drawing.Point(120, 24);
-            this.comboBoxChildDocumentType.Margin = new System.Windows.Forms.Padding(0);
-            this.comboBoxChildDocumentType.Name = "comboBoxChildDocumentType";
-            this.comboBoxChildDocumentType.Size = new System.Drawing.Size(10, 21);
-            this.comboBoxChildDocumentType.TabIndex = 14;
-            // 
-            // labelChildDocumentType
-            // 
-            this.labelChildDocumentType.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelChildDocumentType.Location = new System.Drawing.Point(0, 24);
-            this.labelChildDocumentType.Margin = new System.Windows.Forms.Padding(0);
-            this.labelChildDocumentType.Name = "labelChildDocumentType";
-            this.labelChildDocumentType.Size = new System.Drawing.Size(120, 24);
-            this.labelChildDocumentType.TabIndex = 12;
-            this.labelChildDocumentType.Text = "labelChildDocumentType";
-            this.labelChildDocumentType.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelGroup.Location = new System.Drawing.Point(0, 24);
+            this.labelGroup.Margin = new System.Windows.Forms.Padding(0);
+            this.labelGroup.Name = "labelGroup";
+            this.labelGroup.Size = new System.Drawing.Size(120, 24);
+            this.labelGroup.TabIndex = 12;
+            this.labelGroup.Text = "labelGroup";
+            this.labelGroup.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // labelName
             // 
@@ -131,17 +120,26 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.TabIndex = 7;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
             // 
-            // ChildDocumentPropertiesUserControl
+            // textBoxGroup
+            // 
+            this.textBoxGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxGroup.Location = new System.Drawing.Point(120, 24);
+            this.textBoxGroup.Margin = new System.Windows.Forms.Padding(0);
+            this.textBoxGroup.Name = "textBoxGroup";
+            this.textBoxGroup.Size = new System.Drawing.Size(10, 20);
+            this.textBoxGroup.TabIndex = 13;
+            // 
+            // PatchPropertiesUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.Controls.Add(this.tableLayoutPanelMain);
-            this.Name = "ChildDocumentPropertiesUserControl";
+            this.Name = "PatchPropertiesUserControl";
             this.Size = new System.Drawing.Size(10, 10);
-            this.Load += new System.EventHandler(this.ChildDocumentPropertiesUserControl_Load);
-            this.Leave += new System.EventHandler(this.ChildDocumentPropertiesUserControl_Leave);
+            this.Load += new System.EventHandler(this.PatchPropertiesUserControl_Load);
+            this.Leave += new System.EventHandler(this.PatchPropertiesUserControl_Leave);
             this.tableLayoutPanelMain.ResumeLayout(false);
             this.tableLayoutPanelProperties.ResumeLayout(false);
             this.tableLayoutPanelProperties.PerformLayout();
@@ -156,7 +154,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelProperties;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.TextBox textBoxName;
-        private System.Windows.Forms.Label labelChildDocumentType;
-        private System.Windows.Forms.ComboBox comboBoxChildDocumentType;
+        private System.Windows.Forms.Label labelGroup;
+        private System.Windows.Forms.TextBox textBoxGroup;
     }
 }

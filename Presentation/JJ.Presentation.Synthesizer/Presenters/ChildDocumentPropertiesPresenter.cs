@@ -15,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private RepositoryWrapper _repositories;
         private DocumentManager _documentManager;
 
-        public ChildDocumentPropertiesViewModel ViewModel { get; set; }
+        public PatchPropertiesViewModel ViewModel { get; set; }
 
         public ChildDocumentPropertiesPresenter(RepositoryWrapper repositories)
         {
@@ -37,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Document entity = _repositories.DocumentRepository.Get(ViewModel.ID);
+            Document entity = _repositories.DocumentRepository.Get(ViewModel.ChildDocumentID);
             bool visible = ViewModel.Visible;
             ViewModel = entity.ToChildDocumentPropertiesViewModel(_repositories.ChildDocumentTypeRepository);
             ViewModel.Visible = visible;

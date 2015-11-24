@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public IList<ChildDocumentViewModel> ChildDocumentList { get; set; }
 
         /// <summary> Leading for saving when it comes to the simple properties. </summary>
-        public IList<ChildDocumentPropertiesViewModel> ChildDocumentPropertiesList { get; set; }
+        public IList<PatchPropertiesViewModel> ChildDocumentPropertiesList { get; set; }
 
         [Obsolete]
         public ChildDocumentGridViewModel EffectGrid { get; set; }

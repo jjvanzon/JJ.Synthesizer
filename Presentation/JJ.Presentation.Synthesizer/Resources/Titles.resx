@@ -126,6 +126,9 @@
   <data name="DocumentTree" xml:space="preserve">
     <value>Document Explorer</value>
   </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
   <data name="Number" xml:space="preserve">
     <value>Number</value>
   </data>
@@ -134,8 +137,5 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type</value>
-  </data>
-  <data name="ViewMenuItem" xml:space="preserve">
-    <value>View</value>
   </data>
 </root>

@@ -281,7 +281,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         }
 
         public static Document ToEntity(
-            this ChildDocumentPropertiesViewModel viewModel,
+            this PatchPropertiesViewModel viewModel,
             IDocumentRepository documentRepository,
             IChildDocumentTypeRepository childDocumentTypeRepository)
         {
@@ -289,11 +289,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (documentRepository == null) throw new NullException(() => documentRepository);
             if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
 
-            Document entity = documentRepository.TryGet(viewModel.ID);
+            Document entity = documentRepository.TryGet(viewModel.ChildDocumentID);
             if (entity == null)
             {
                 entity = new Document();
-                entity.ID = viewModel.ID;
+                entity.ID = viewModel.ChildDocumentID;
                 documentRepository.Insert(entity);
             }
             entity.Name = viewModel.Name;
@@ -315,7 +315,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         /// <summary> Leading for saving when it comes to the simple properties. </summary>
         public static void ToChildDocuments(
-            this IList<ChildDocumentPropertiesViewModel> sourceViewModelList,
+            this IList<PatchPropertiesViewModel> sourceViewModelList,
             Document destParentDocument,
             RepositoryWrapper repositories)
         {
@@ -325,7 +325,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             var idsToKeep = new HashSet<int>();
 
-            foreach (ChildDocumentPropertiesViewModel propertiesViewModel in sourceViewModelList)
+            foreach (PatchPropertiesViewModel propertiesViewModel in sourceViewModelList)
             {
                 Document entity = propertiesViewModel.ToEntity(
                     repositories.DocumentRepository, 
