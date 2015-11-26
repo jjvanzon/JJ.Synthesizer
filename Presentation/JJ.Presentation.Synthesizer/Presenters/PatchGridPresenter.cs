@@ -6,13 +6,13 @@ using JJ.Presentation.Synthesizer.ViewModels;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
-    internal class ChildDocumentGridPresenter
+    internal class PatchGridPresenter
     {
         private IDocumentRepository _documentRepository;
 
-        public ChildDocumentGridViewModel ViewModel { get; set; }
+        public PatchGridViewModel ViewModel { get; set; }
 
-        public ChildDocumentGridPresenter(IDocumentRepository documentRepository)
+        public PatchGridPresenter(IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
 
@@ -26,7 +26,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Visible = true;
         }
 
-        /// <summary> Can return ChildDocumentGridViewModel or NotFoundViewModel. </summary>
+        /// <summary> Can return PatchGridViewModel or NotFoundViewModel. </summary>
         public object Refresh()
         {
             AssertViewModel();
@@ -39,14 +39,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             bool visible = ViewModel.Visible;
 
-            if (ViewModel.ChildDocumentTypeID != 0)
-            {
-                ViewModel = parentDocument.ToChildDocumentGridViewModel(ViewModel.ChildDocumentTypeID);
-            }
-            else
-            {
-                ViewModel = parentDocument.ToChildDocumentGridViewModel(ViewModel.Group);
-            }
+            ViewModel = parentDocument.ToPatchGridViewModel(ViewModel.Group);
 
             ViewModel.Visible = visible;
 

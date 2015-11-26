@@ -23,19 +23,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDAndDisplayName(this ChildDocumentType entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            string displayName = PropertyDisplayNames.ResourceManager.GetString(entity.Name);
-
-            return new IDAndName
-            {
-                ID = entity.ID,
-                Name = displayName
-            };
-        }
-
         public static IDAndName ToIDAndName(this Curve entity)
         {
             if (entity == null) throw new NullException(() => entity);

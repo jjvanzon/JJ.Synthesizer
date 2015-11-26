@@ -34,9 +34,9 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (documentViewModel == null) throw new NullException(() => documentViewModel);
             if (repositories == null) throw new NullException(() => repositories);
 
-            PatchDetailsViewModel patchDetailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByOperatorID(documentViewModel, operatorID);
+            PatchDetailsViewModel patchDetailsViewModel = DocumentViewModelHelper.GetPatchDetailsViewModel_ByOperatorID(documentViewModel, operatorID);
             OperatorViewModel operatorViewModel = patchDetailsViewModel.Entity.Operators.Where(x => x.ID == operatorID).First();
-            Patch patch = patchDetailsViewModel.Entity.ToEntity(repositories.PatchRepository);
+            Patch patch = patchDetailsViewModel.Entity.ToPatch(repositories.PatchRepository);
             Operator op = operatorViewModel.ToEntityWithInletsAndOutlets(repositories);
             PatchManager patchManager = new PatchManager(patch, repositories);
             patchManager.SaveOperator(op);
@@ -44,9 +44,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return new OperatorEntityAndViewModel(op, operatorViewModel);
         }
 
-        /// <summary>
-        /// Hack back in a PatchOutlet's Outlet, that was excluded from the view model.
-        /// </summary>
+        /// <summary> Hack back in a PatchOutlet's Outlet, that was excluded from the view model. </summary>
         public static Outlet HACK_CreatePatchOutletOutletIfNeeded(
             Operator op, IOutletRepository outletRepository, IIDRepository idRepository)
         {
@@ -56,7 +54,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             if (op.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
             {
-                //Outlet outlet = op.Outlets.Where(x => String.Equals(x.Name, PropertyNames.Result)).FirstOrDefault();
                 Outlet outlet = op.Outlets.FirstOrDefault();
                 if (outlet == null)
                 {
@@ -73,9 +70,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return null;
         }
 
-        /// <summary>
-        /// Hack back in a PatchInlet's Inlet, that was excluded from the view model.
-        /// </summary>
+        /// <summary> Hack back in a PatchInlet's Inlet, that was excluded from the view model. </summary>
         public static Inlet HACK_CreatePatchInletInletIfNeeded(Operator op, IInletRepository inletRepository, IIDRepository idRepository)
         {
             if (op == null) throw new NullException(() => op);
@@ -84,7 +79,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             if (op.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
             {
-                //Inlet inlet = op.Inlets.Where(x => String.Equals(x.Name, PropertyNames.Input)).FirstOrDefault();
                 Inlet inlet = op.Inlets.FirstOrDefault();
                 if (inlet == null)
                 {

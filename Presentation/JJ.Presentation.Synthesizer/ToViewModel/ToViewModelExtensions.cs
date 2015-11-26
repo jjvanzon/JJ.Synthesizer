@@ -136,8 +136,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ReferencedDocumentViewModel
             {
                 Name = entity.Name,
-                Instruments = entity.ChildDocuments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList(),
-                Effects = entity.ChildDocuments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList(),
+                Patches = entity.ChildDocuments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList(),
                 ID = entity.ID
             };
 
@@ -152,8 +151,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new PatchViewModel
             {
-                Name = entity.Name,
-                ID = entity.ID
+                PatchID = entity.ID
             };
 
             return viewModel;

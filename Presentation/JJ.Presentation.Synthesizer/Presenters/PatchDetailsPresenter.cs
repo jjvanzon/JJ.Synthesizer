@@ -21,18 +21,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private static double _patchPlayDuration = GetPatchPlayDuration();
         private static string _patchPlayOutputFilePath = GetPatchPlayOutputFilePath();
 
-        private static double GetPatchPlayDuration()
-        {
-            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
-            return config.PatchPlayDurationInSeconds;
-        }
-
-        private static string GetPatchPlayOutputFilePath()
-        {
-            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
-            return config.PatchPlayHackedAudioFileOutputFilePath;
-        }
-
         private PatchRepositories _repositories;
         private EntityPositionManager _entityPositionManager;
 
@@ -58,11 +46,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Patch entity = _repositories.PatchRepository.Get(ViewModel.Entity.ID);
+            Patch entity = _repositories.PatchRepository.Get(ViewModel.Entity.PatchID);
 
             bool visible = ViewModel.Visible;
-            int? operatorID = ViewModel.SelectedOperator != null ? ViewModel.SelectedOperator.ID : (int?)null;
-
+            int? selectedOperatorID = null;
+            if (ViewModel.SelectedOperator != null)
+            {
+                selectedOperatorID = ViewModel.SelectedOperator.ID;
+            }
+                
             ViewModel = entity.ToDetailsViewModel(
                 _repositories.OperatorTypeRepository,
                 _repositories.SampleRepository,
@@ -71,9 +63,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _entityPositionManager);
 
             ViewModel.Visible = visible;
-            if (operatorID.HasValue)
+            if (selectedOperatorID.HasValue)
             {
-                SetSelectedOperator(operatorID.Value);
+                SetSelectedOperator(selectedOperatorID.Value);
             }
         }
 
@@ -95,7 +87,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Patch patch = ViewModel.ToEntityWithRelatedEntities(_repositories);
+            Patch patch = ViewModel.ToPatchWithRelatedEntities(_repositories);
 
             var patchManager = new PatchManager(patch, _repositories);
             VoidResult result = patchManager.SavePatch();
@@ -151,7 +143,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // We need to restore the whole patch,
             // because we need to update the IsOwned property,
             // based on the state of other (uncommitted) operators.
-            Patch patch = ViewModel.ToEntityWithRelatedEntities(_repositories);
+            Patch patch = ViewModel.ToPatchWithRelatedEntities(_repositories);
 
             // Refresh IsOwned.
             Operator op = _repositories.OperatorRepository.Get(inputOutletViewModel.Operator.ID);
@@ -212,33 +204,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.SelectedOperator = null;
 
             ViewModel.Successful = true;
-        }
-
-        /// <summary>
-        /// Gets related operator's inlets to which the input operator is connected
-        /// (at the ViewModel level).
-        /// </summary>
-        private IList<InletViewModel> GetConnectedInletViewModels(IList<OperatorViewModel> allOperatorViewModels, OperatorViewModel inputOperatorViewModel)
-        {
-            // TODO: This makes operating on the view model to execute the delete action quite expensive.
-            // Is it possible and less expensive to do a partial ToEntity and operate on the entity model?
-            var list = new List<InletViewModel>();
-
-            foreach (OperatorViewModel operatorViewModel in allOperatorViewModels)
-            {
-                foreach (InletViewModel inletViewModel in operatorViewModel.Inlets)
-                {
-                    if (inletViewModel.InputOutlet != null)
-                    {
-                        if (inletViewModel.InputOutlet.Operator.ID == inputOperatorViewModel.ID)
-                        {
-                            list.Add(inletViewModel);
-                        }
-                    }
-                }
-            }
-
-            return list;
         }
 
         /// <summary>
@@ -326,9 +291,46 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return manager;
         }
 
+        /// <summary>
+        /// Gets related operator's inlets to which the input operator is connected
+        /// (at the ViewModel level).
+        /// </summary>
+        private IList<InletViewModel> GetConnectedInletViewModels(IList<OperatorViewModel> allOperatorViewModels, OperatorViewModel inputOperatorViewModel)
+        {
+            // TODO: This makes operating on the view model to execute the delete action quite expensive.
+            // Is it possible and less expensive to do a partial ToEntity and operate on the entity model?
+            var list = new List<InletViewModel>();
+
+            foreach (OperatorViewModel operatorViewModel in allOperatorViewModels)
+            {
+                foreach (InletViewModel inletViewModel in operatorViewModel.Inlets)
+                {
+                    if (inletViewModel.InputOutlet != null)
+                    {
+                        if (inletViewModel.InputOutlet.Operator.ID == inputOperatorViewModel.ID)
+                        {
+                            list.Add(inletViewModel);
+                        }
+                    }
+                }
+            }
+
+            return list;
+        }
+
         private void AssertViewModel()
         {
             if (ViewModel == null) throw new NullException(() => ViewModel);
+        }
+
+        private static double GetPatchPlayDuration()
+        {
+            return ConfigurationHelper.GetSection<ConfigurationSection>().PatchPlayDurationInSeconds;
+        }
+
+        private static string GetPatchPlayOutputFilePath()
+        {
+            return ConfigurationHelper.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
         }
     }
 }

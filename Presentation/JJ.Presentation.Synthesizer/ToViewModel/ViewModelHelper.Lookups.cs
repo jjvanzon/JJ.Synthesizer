@@ -21,19 +21,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idNames;
         }
 
-        public static IList<IDAndName> CreateChildDocumentTypeLookupViewModel(IChildDocumentTypeRepository repository)
-        {
-            if (repository == null) throw new NullException(() => repository);
-
-            IList<ChildDocumentType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
-
-            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToList();
-
-            idNames.Add(new IDAndName { ID = 0, Name = null });
-
-            return idNames;
-        }
-
         public static IList<IDAndName> CreateCurveLookupViewModel(Document rootDocument)
         {
             if (rootDocument == null) throw new NullException(() => rootDocument);

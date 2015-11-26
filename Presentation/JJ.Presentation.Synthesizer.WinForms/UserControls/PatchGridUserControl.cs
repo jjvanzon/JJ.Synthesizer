@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         public event EventHandler CloseRequested;
         public event EventHandler<Int32EventArgs> ShowDetailsRequested;
 
-        private ChildDocumentGridViewModel _viewModel;
+        private PatchGridViewModel _viewModel;
 
         public PatchGridUserControl()
         {
@@ -28,7 +28,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public ChildDocumentGridViewModel ViewModel
+        public PatchGridViewModel ViewModel
         {
             get { return _viewModel; }
             set

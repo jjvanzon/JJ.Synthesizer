@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Framework.Common;
+using JJ.Framework.Presentation;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
-using JJ.Framework.Common;
-using JJ.Framework.Presentation;
-using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Converters;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -22,9 +22,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 {
     internal static class ToScreenViewModelExtensions
     {
-        // TODO: Remove outcommented code.
-        //private const int DUMMY_CHILD_DOCUMENT_TYPE_ID = 0;
-
         private static int _maxVisiblePageNumbers = GetMaxVisiblePageNumbers();
 
         private static HashSet<OperatorTypeEnum> _operatorTypeEnums_WithTheirOwnPropertyViews = new HashSet<OperatorTypeEnum>
@@ -84,113 +81,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 List = sortedEntities.ToListItemViewModels(),
                 DocumentID = document.ID
-            };
-
-            return viewModel;
-        }
-
-        // ChildDocument
-
-        public static PatchPropertiesViewModel ToChildDocumentPropertiesViewModel(this Document childDocument, IChildDocumentTypeRepository childDocumentTypeRepository)
-        {
-            if (childDocument == null) throw new NullException(() => childDocument);
-
-            var viewModel = new PatchPropertiesViewModel
-            {
-                ChildDocumentID = childDocument.ID,
-                Name = childDocument.Name,
-                ChildDocumentTypeLookup = ViewModelHelper.CreateChildDocumentTypeLookupViewModel(childDocumentTypeRepository),
-                ValidationMessages = new List<Message>(),
-                Successful = true
-            };
-
-            if (childDocument.ChildDocumentType != null)
-            {
-                viewModel.ChildDocumentType = childDocument.ChildDocumentType.ToIDAndDisplayName();
-            }
-
-            return viewModel;
-        }
-
-        public static IList<ChildDocumentGridViewModel> ToChildDocumentGridViewModelList(this Document rootDocument)
-        {
-            var groups = rootDocument.ChildDocuments.GroupBy(x => x.GroupName);
-
-            var list = new List<ChildDocumentGridViewModel>();
-
-            foreach (var group in groups)
-            {
-                ChildDocumentGridViewModel childDocumentGridViewModel = group.ToChildDocumentGridViewModel(rootDocument.ID, group.Key);
-
-                list.Add(childDocumentGridViewModel);
-            }
-
-            return list;
-
-        }
-
-        public static ChildDocumentGridViewModel ToChildDocumentGridViewModel(this Document rootDocument, string group)
-        {
-            if (rootDocument == null) throw new NullException(() => rootDocument);
-
-            IList<Document> childDocuments = rootDocument.ChildDocuments
-                                                         .Where(x => String.Equals(x.GroupName, group))
-                                                         .ToList();
-
-            ChildDocumentGridViewModel viewModel = childDocuments.ToChildDocumentGridViewModel(rootDocument.ID, group);
-
-            return viewModel;
-        }
-
-        public static ChildDocumentGridViewModel ToChildDocumentGridViewModel(
-            this IEnumerable<Document> entities,
-            int rootDocumentID,
-            string group)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            var viewModel = new ChildDocumentGridViewModel
-            {
-                List = entities.OrderBy(x => x.Name)
-                               .Select(x => x.ToIDAndName())
-                               .ToList(),
-                RootDocumentID = rootDocumentID,
-                Group = group
-            };
-
-            return viewModel;
-        }
-
-        [Obsolete]
-        public static ChildDocumentGridViewModel ToChildDocumentGridViewModel(this Document rootDocument, int childDocumentTypeID)
-        {
-            if (rootDocument == null) throw new NullException(() => rootDocument);
-
-            IList<Document> childDocuments = rootDocument.ChildDocuments
-                                                         .Where(x => x.ChildDocumentType != null &&
-                                                                     x.ChildDocumentType.ID == childDocumentTypeID)
-                                                         .ToList();
-
-            ChildDocumentGridViewModel viewModel = childDocuments.ToChildDocumentGridViewModel(rootDocument.ID, childDocumentTypeID);
-
-            return viewModel;
-        }
-
-        [Obsolete]
-        public static ChildDocumentGridViewModel ToChildDocumentGridViewModel(
-            this IList<Document> entities,
-            int rootDocumentID,
-            int childDocumentTypeID)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            var viewModel = new ChildDocumentGridViewModel
-            {
-                List = entities.OrderBy(x => x.Name)
-                               .Select(x => x.ToIDAndName())
-                               .ToList(),
-                RootDocumentID = rootDocumentID,
-                ChildDocumentTypeID = childDocumentTypeID
             };
 
             return viewModel;
@@ -325,8 +215,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 {
                     PatchGroupNodes = new List<PatchGroupTreeNodeViewModel>()
                 },
-                InstrumentNode = new List<PatchTreeNodeViewModel>(),
-                EffectNode = new List<PatchTreeNodeViewModel>(),
                 ReferencedDocumentsNode = new ReferencedDocumentsTreeNodeViewModel
                 {
                     List = new List<ReferencedDocumentViewModel>()
@@ -352,17 +240,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     Patches = childDocumentGroup.Select(x => x.ToPatchTreeNodeViewModel()).ToList()
                 });
             }
-
-            // Obsolete. Remove code later.
-            viewModel.InstrumentNode = document.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == ChildDocumentTypeEnum.Instrument)
-                                                           .OrderBy(x => x.Name)
-                                                           .Select(x => x.ToPatchTreeNodeViewModel())
-                                                           .ToList();
-
-            viewModel.EffectNode = document.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == ChildDocumentTypeEnum.Effect)
-                                                       .OrderBy(x => x.Name)
-                                                       .Select(x => x.ToPatchTreeNodeViewModel())
-                                                       .ToList();
             return viewModel;
         }
 
@@ -709,6 +586,84 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 operatorTypeRepository, sampleRepository, curveRepository, documentRepository, entityPositionManager);
 
             return converter.ConvertToDetailsViewModel(patch);
+        }
+
+        public static PatchPropertiesViewModel ToPatchPropertiesViewModel(this Document childDocument)
+        {
+            if (childDocument == null) throw new NullException(() => childDocument);
+
+            var viewModel = new PatchPropertiesViewModel
+            {
+                ChildDocumentID = childDocument.ID,
+                Name = childDocument.Name,
+                Group = childDocument.GroupName,
+                ValidationMessages = new List<Message>(),
+                Successful = true
+            };
+
+            return viewModel;
+        }
+
+        public static IList<PatchGridViewModel> ToPatchGridViewModelList(this Document rootDocument)
+        {
+            var list = new List<PatchGridViewModel>();
+
+            IList<Document> grouplessChildDocuments = rootDocument.ChildDocuments
+                                                                  .Where(x => String.IsNullOrWhiteSpace(x.GroupName))
+                                                                  .ToArray();
+            PatchGridViewModel grouplessPatchGridViewModel = grouplessChildDocuments.ToPatchGridViewModel(rootDocument.ID, null);
+            list.Add(grouplessPatchGridViewModel);
+
+            var groups = rootDocument.ChildDocuments.Where(x => !String.IsNullOrWhiteSpace(x.GroupName)).GroupBy(x => x.GroupName);
+            foreach (var group in groups)
+            {
+                PatchGridViewModel patchGridViewModel = group.ToPatchGridViewModel(rootDocument.ID, group.Key);
+                list.Add(patchGridViewModel);
+            }
+
+            return list;
+        }
+
+        public static PatchGridViewModel ToPatchGridViewModel(this Document rootDocument, string group)
+        {
+            if (rootDocument == null) throw new NullException(() => rootDocument);
+
+            IList<Document> childDocuments;
+
+            if (String.IsNullOrWhiteSpace(group))
+            {
+                childDocuments = rootDocument.ChildDocuments
+                                             .Where(x => String.IsNullOrWhiteSpace(x.GroupName))
+                                             .ToList();
+            }
+            else
+            {
+                childDocuments = rootDocument.ChildDocuments
+                                             .Where(x => String.Equals(x.GroupName, group))
+                                             .ToList();
+            }
+
+            PatchGridViewModel viewModel = childDocuments.ToPatchGridViewModel(rootDocument.ID, group);
+            return viewModel;
+        }
+
+        public static PatchGridViewModel ToPatchGridViewModel(
+            this IEnumerable<Document> entities,
+            int rootDocumentID,
+            string group)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            var viewModel = new PatchGridViewModel
+            {
+                List = entities.OrderBy(x => x.Name)
+                               .Select(x => x.ToIDAndName())
+                               .ToList(),
+                RootDocumentID = rootDocumentID,
+                Group = group
+            };
+
+            return viewModel;
         }
 
         // Sample

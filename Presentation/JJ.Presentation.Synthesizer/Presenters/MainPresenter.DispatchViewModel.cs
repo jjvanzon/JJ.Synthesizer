@@ -20,8 +20,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 { typeof(AudioFileOutputGridViewModel), DispatchAudioFileOutputGridViewModel },
                 { typeof(AudioFileOutputPropertiesViewModel), DispatchAudioFileOutputPropertiesViewModel },
-                { typeof(ChildDocumentGridViewModel), DispatchChildDocumentGridViewModel },
-                { typeof(PatchPropertiesViewModel), DispatchChildDocumentPropertiesViewModel },
                 { typeof(CurveDetailsViewModel), DispatchCurveDetailsViewModel },
                 { typeof(CurveGridViewModel), DispatchCurveGridViewModel },
                 { typeof(CurvePropertiesViewModel), DispatchCurvePropertiesViewModel },
@@ -45,6 +43,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 { typeof(OperatorPropertiesViewModel_ForSample), DispatchOperatorPropertiesViewModel_ForSample },
                 { typeof(OperatorPropertiesViewModel_ForUnbundle), DispatchOperatorPropertiesViewModel_ForUnbundle },
                 { typeof(PatchDetailsViewModel), DispatchPatchDetailsViewModel },
+                { typeof(PatchGridViewModel), DispatchPatchGridViewModel },
+                { typeof(PatchPropertiesViewModel), DispatchPatchPropertiesViewModel },
                 { typeof(SampleGridViewModel), DispatchSampleGridViewModel },
                 { typeof(SamplePropertiesViewModel), DispatchSamplePropertiesViewModel },
                 { typeof(ScaleGridViewModel), DispatchScaleGridViewModel },
@@ -103,47 +103,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchChildDocumentGridViewModel(object viewModel2)
-        {
-            var castedViewModel = (ChildDocumentGridViewModel)viewModel2;
-
-            ChildDocumentTypeEnum childDocumentTypeEnum = (ChildDocumentTypeEnum)castedViewModel.ChildDocumentTypeID;
-
-            switch (childDocumentTypeEnum)
-            {
-                case ChildDocumentTypeEnum.Instrument:
-                    ViewModel.Document.InstrumentGrid = castedViewModel;
-                    break;
-
-                case ChildDocumentTypeEnum.Effect:
-                    ViewModel.Document.EffectGrid = castedViewModel;
-                    break;
-
-                default:
-                    throw new ValueNotSupportedException(childDocumentTypeEnum);
-            }
-
-            if (castedViewModel.Visible)
-            {
-                HideAllListAndDetailViewModels();
-                castedViewModel.Visible = true;
-            }
-        }
-
-        private void DispatchChildDocumentPropertiesViewModel(object viewModel2)
-        {
-            var castedViewModel = (PatchPropertiesViewModel)viewModel2;
-
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-            }
-
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
-        }
-
         private void DispatchCurveDetailsViewModel(object viewModel2)
         {
             var castedViewModel = (CurveDetailsViewModel)viewModel2;
@@ -169,8 +128,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, castedViewModel.DocumentID);
-                childDocumentViewModel.CurveGrid = castedViewModel;
+                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(ViewModel.Document, castedViewModel.DocumentID);
+                patchDocumentViewModel.CurveGrid = castedViewModel;
             }
 
             if (castedViewModel.Visible)
@@ -455,6 +414,34 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
+        private void DispatchPatchGridViewModel(object viewModel2)
+        {
+            var castedViewModel = (PatchGridViewModel)viewModel2;
+
+            ViewModel.Document.PatchGridList.TryRemoveFirst(x => String.Equals(x.Group, castedViewModel.Group));
+            ViewModel.Document.PatchGridList.Add(castedViewModel);
+
+            if (castedViewModel.Visible)
+            {
+                HideAllListAndDetailViewModels();
+                castedViewModel.Visible = true;
+            }
+        }
+
+        private void DispatchPatchPropertiesViewModel(object viewModel2)
+        {
+            var castedViewModel = (PatchPropertiesViewModel)viewModel2;
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
         private void DispatchSamplePropertiesViewModel(object viewModel2)
         {
             var castedViewModel = (SamplePropertiesViewModel)viewModel2;
@@ -480,8 +467,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             else
             {
-                ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, castedViewModel.DocumentID);
-                childDocumentViewModel.SampleGrid = castedViewModel;
+                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(ViewModel.Document, castedViewModel.DocumentID);
+                patchDocumentViewModel.SampleGrid = castedViewModel;
             }
 
             if (castedViewModel.Visible)

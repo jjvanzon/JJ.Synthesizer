@@ -20,8 +20,10 @@ namespace JJ.Business.Synthesizer.Validation
             int i = 1;
             foreach (Node node in curve.Nodes)
             {
-                Execute(new NodeValidator_WithoutParent(node), ValidationHelper.GetMessagePrefix(node, i));
-                Execute(new NodeValidator_Parent(node), ValidationHelper.GetMessagePrefix(node, i));
+                string messagePrefix = ValidationHelper.GetMessagePrefix(node, i);
+
+                Execute(new NodeValidator_WithoutParent(node), messagePrefix);
+                Execute(new NodeValidator_Parent(node), messagePrefix);
 
                 i++;
             }

@@ -47,7 +47,7 @@
     <Compile Include="Helpers\MustNotConvertToInletViewModelException.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
     <Compile Include="Helpers\ResultHelper.cs" />
-    <Compile Include="Presenters\ChildDocumentGridPresenter.cs" />
+    <Compile Include="Presenters\PatchGridPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.Actions.cs" />
     <Compile Include="Presenters\MainPresenter.DispatchViewModel.cs" />
     <Compile Include="Presenters\OperatorPropertiesPresenter_ForUnbundle.cs" />
@@ -71,10 +71,10 @@
     </Compile>
     <Compile Include="Converters\RecursiveToEntityConverter.cs" />
     <Compile Include="Helpers\ValidationMessageExtensions.cs" />
-    <Compile Include="Helpers\ChildDocumentHelper.cs" />
+    <Compile Include="Helpers\DocumentViewModelHelper.cs" />
     <Compile Include="Presenters\AudioFileOutputPropertiesPresenter.cs" />
     <Compile Include="Presenters\AudioFileOutputGridPresenter.cs" />
-    <Compile Include="Presenters\ChildDocumentPropertiesPresenter.cs" />
+    <Compile Include="Presenters\PatchPropertiesPresenter.cs" />
     <Compile Include="Presenters\DocumentCannotDeletePresenter.cs" />
     <Compile Include="Presenters\DocumentDeletePresenter.cs" />
     <Compile Include="Presenters\DocumentDeletedPresenter.cs" />
@@ -94,9 +94,9 @@
     <Compile Include="Validators\ValidationHelper.cs" />
     <Compile Include="ViewModels\Entities\ScaleViewModel.cs" />
     <Compile Include="ViewModels\Entities\ToneViewModel.cs" />
-    <Compile Include="ViewModels\Entities\ChildDocumentViewModel.cs" />
+    <Compile Include="ViewModels\Entities\PatchDocumentViewModel.cs" />
     <Compile Include="ViewModels\PatchPropertiesViewModel.cs" />
-    <Compile Include="ViewModels\ChildDocumentGridViewModel.cs" />
+    <Compile Include="ViewModels\PatchGridViewModel.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />
     <Compile Include="ViewModels\DocumentDeletedViewModel.cs" />
     <Compile Include="Presenters\DocumentDetailsPresenter.cs" />

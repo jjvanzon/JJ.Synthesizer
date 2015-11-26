@@ -65,9 +65,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             _result = result;
 
-            if (_result == null || sourcePatchViewModel.ID != _currentPatchID)
+            if (_result == null || sourcePatchViewModel.PatchID != _currentPatchID)
             {
-                _currentPatchID = sourcePatchViewModel.ID;
+                _currentPatchID = sourcePatchViewModel.PatchID;
 
                 _result = new PatchViewModelToDiagramConverterResult(_doubleClickSpeedInMilliseconds, _doubleClickDeltaInPixels);
 

@@ -89,7 +89,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             viewModel.IsOwned = GetOperatorIsOwned(entity);
         }
 
-
         /// <summary>
         /// A Number Operator can be considered 'owned' by another operator if
         /// it is the only operator it is connected to.

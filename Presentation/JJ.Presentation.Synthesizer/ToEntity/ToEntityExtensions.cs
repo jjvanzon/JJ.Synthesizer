@@ -192,197 +192,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
-        // Child Document
-
-        public static Document ToEntityWithRelatedEntities(this ChildDocumentViewModel userInput, RepositoryWrapper repositories)
-        {
-            if (userInput == null) throw new NullException(() => userInput);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            Document destDocument = userInput.ToEntity(repositories.DocumentRepository, repositories.ChildDocumentTypeRepository);
-
-            var curveRepositories = new CurveRepositories(repositories);
-            userInput.CurvePropertiesList.ToEntities(destDocument, curveRepositories);
-            userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(destDocument, curveRepositories);
-            userInput.SamplePropertiesList.ToSamples(destDocument, new SampleRepositories(repositories));
-            Patch patch = userInput.PatchDetails.ToEntityWithRelatedEntities(new PatchRepositories(repositories));
-            patch.LinkTo(destDocument);
-
-            // Operator Properties
-            // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
-            foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesList)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForBundle propertiesViewModel in userInput.OperatorPropertiesList_ForBundles)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForCurve propertiesViewModel in userInput.OperatorPropertiesList_ForCurves)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.CurveRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DocumentRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForNumber operatorPropertiesViewModel_ForNumber in userInput.OperatorPropertiesList_ForNumbers)
-            {
-                operatorPropertiesViewModel_ForNumber.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchInlets)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchOutlets)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in userInput.OperatorPropertiesList_ForSamples)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.SampleRepository);
-            }
-
-            foreach (OperatorPropertiesViewModel_ForUnbundle propertiesViewModel in userInput.OperatorPropertiesList_ForUnbundles)
-            {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
-            }
-
-            return destDocument;
-        }
-
-        public static Document ToEntity(
-            this ChildDocumentViewModel viewModel, 
-            IDocumentRepository documentRepository, 
-            IChildDocumentTypeRepository childDocumentTypeRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
-
-            Document entity = documentRepository.TryGet(viewModel.ID);
-            if (entity == null)
-            {
-                entity = new Document();
-                entity.ID = viewModel.ID;
-                documentRepository.Insert(entity);
-            }
-
-            // Leave setting the simple properties to the the properties view model (properties such as Name and ChildDocumentType).
-
-            return entity;
-        }
-
-        public static Document ToEntity(
-            this PatchPropertiesViewModel viewModel,
-            IDocumentRepository documentRepository,
-            IChildDocumentTypeRepository childDocumentTypeRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
-
-            Document entity = documentRepository.TryGet(viewModel.ChildDocumentID);
-            if (entity == null)
-            {
-                entity = new Document();
-                entity.ID = viewModel.ChildDocumentID;
-                documentRepository.Insert(entity);
-            }
-            entity.Name = viewModel.Name;
-
-            // ChildDocumentType
-            bool childDocumentTypeIsFilledIn = viewModel.ChildDocumentType != null && viewModel.ChildDocumentType.ID != 0;
-            if (childDocumentTypeIsFilledIn)
-            {
-                ChildDocumentType childDocumentType = childDocumentTypeRepository.Get(viewModel.ChildDocumentType.ID);
-                entity.LinkTo(childDocumentType);
-            }
-            else
-            {
-                entity.UnlinkChildDocumentType();
-            }
-
-            return entity;
-        }
-
-        /// <summary> Leading for saving when it comes to the simple properties. </summary>
-        public static void ToChildDocuments(
-            this IList<PatchPropertiesViewModel> sourceViewModelList,
-            Document destParentDocument,
-            RepositoryWrapper repositories)
-        {
-            if (sourceViewModelList == null) throw new NullException(() => sourceViewModelList);
-            if (destParentDocument == null) throw new NullException(() => destParentDocument);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            var idsToKeep = new HashSet<int>();
-
-            foreach (PatchPropertiesViewModel propertiesViewModel in sourceViewModelList)
-            {
-                Document entity = propertiesViewModel.ToEntity(
-                    repositories.DocumentRepository, 
-                    repositories.ChildDocumentTypeRepository);
-
-                entity.LinkToParentDocument(destParentDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            DocumentManager documentManager = new DocumentManager(repositories);
-
-            IList<int> existingIDs = destParentDocument.ChildDocuments.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                documentManager.DeleteWithRelatedEntities(idToDelete);
-            }
-        }
-
-        /// <summary> Leading for saving child entities, not leading for saving the simple properties. </summary>
-        public static void ToChildDocumentsWithRelatedEntities(
-            this IList<ChildDocumentViewModel> sourceViewModelList,
-            Document destParentDocument,
-            RepositoryWrapper repositories)
-        {
-            if (sourceViewModelList == null) throw new NullException(() => sourceViewModelList);
-            if (destParentDocument == null) throw new NullException(() => destParentDocument);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            var idsToKeep = new HashSet<int>();
-
-            foreach (ChildDocumentViewModel childDocumentViewModel in sourceViewModelList)
-            {
-                Document entity = childDocumentViewModel.ToEntityWithRelatedEntities(repositories);
-
-                entity.LinkToParentDocument(destParentDocument);
-
-                if (!idsToKeep.Contains(entity.ID))
-                {
-                    idsToKeep.Add(entity.ID);
-                }
-            }
-
-            DocumentManager documentManager = new DocumentManager(repositories);
-
-            IList<int> existingIDs = destParentDocument.ChildDocuments.Select(x => x.ID).ToArray();
-            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
-            foreach (int idToDelete in idsToDelete)
-            {
-                documentManager.DeleteWithRelatedEntities(idToDelete);
-            }
-        }
-
         // Curve
 
         public static void ToEntitiesWithRelatedEntities(this IList<CurveDetailsViewModel> viewModelList, Document destDocument, CurveRepositories repositories)
@@ -529,8 +338,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             Document destDocument = userInput.ToEntity(repositories.DocumentRepository);
 
-            userInput.ChildDocumentList.ToChildDocumentsWithRelatedEntities(destDocument, repositories);
-            userInput.ChildDocumentPropertiesList.ToChildDocuments(destDocument, repositories);
+            userInput.PatchDocumentList.ToChildDocumentsWithRelatedEntities(destDocument, repositories);
+            userInput.PatchPropertiesList.ToChildDocuments(destDocument, repositories);
             userInput.AudioFileOutputPropertiesList.ToAudioFileOutputsWithRelatedEntities(destDocument, new AudioFileOutputRepositories(repositories));
             userInput.CurvePropertiesList.ToEntities(destDocument, curveRepositories);
             userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(destDocument, curveRepositories);
@@ -600,12 +409,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static Document ToHollowDocumentWithHollowChildDocumentsWithHollowSamplesWithName(
             this DocumentViewModel viewModel,
             IDocumentRepository documentRepository,
-            IChildDocumentTypeRepository childDocumentTypeRepository,
             ISampleRepository sampleRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
 
             Document rootDocument = viewModel.ToEntity(documentRepository);
@@ -617,12 +424,12 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 sample.LinkTo(rootDocument);
             }
 
-            foreach (ChildDocumentViewModel childDocumentViewModel in viewModel.ChildDocumentList)
+            foreach (PatchDocumentViewModel patchDocumentViewModel in viewModel.PatchDocumentList)
             {
-                Document childDocument = childDocumentViewModel.ToEntity(documentRepository, childDocumentTypeRepository);
+                Document childDocument = patchDocumentViewModel.ToChildDocument(documentRepository);
                 childDocument.LinkToParentDocument(rootDocument);
 
-                foreach (SamplePropertiesViewModel samplePropertiesViewModel in childDocumentViewModel.SamplePropertiesList)
+                foreach (SamplePropertiesViewModel samplePropertiesViewModel in patchDocumentViewModel.SamplePropertiesList)
                 {
                     Sample sample = samplePropertiesViewModel.Entity.ToHollowEntity(sampleRepository);
                     sample.Name = samplePropertiesViewModel.Entity.Name;
@@ -640,31 +447,26 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static Document ToHollowDocumentWithHollowChildDocumentsWithCurvesWithName(
             this DocumentViewModel viewModel,
             IDocumentRepository documentRepository,
-            IChildDocumentTypeRepository childDocumentTypeRepository,
             ICurveRepository curveRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (documentRepository == null) throw new NullException(() => documentRepository);
-            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
 
             Document rootDocument = viewModel.ToEntity(documentRepository);
 
-            // TODO: Use CurvePropertiesViewModel instead of CurveDetailsViewModel instead, after you programmed those.
-
-            foreach (CurveDetailsViewModel curveDetailsViewModel in viewModel.CurveDetailsList)
+            foreach (CurvePropertiesViewModel curvePropertiesViewModel in viewModel.CurvePropertiesList)
             {
-                Curve curve = curveDetailsViewModel.Entity.ToEntity(curveRepository);
-                curve.Name = curveDetailsViewModel.Entity.Name;
+                Curve curve = curvePropertiesViewModel.Entity.ToCurve(curveRepository);
                 curve.LinkTo(rootDocument);
             }
 
-            foreach (ChildDocumentViewModel childDocumentViewModel in viewModel.ChildDocumentList)
+            foreach (PatchDocumentViewModel patchDocumentViewModel in viewModel.PatchDocumentList)
             {
-                Document childDocument = childDocumentViewModel.ToEntity(documentRepository, childDocumentTypeRepository);
+                Document childDocument = patchDocumentViewModel.ToChildDocument(documentRepository);
                 childDocument.LinkToParentDocument(rootDocument);
 
-                foreach (CurveDetailsViewModel curveDetailsViewModel in childDocumentViewModel.CurveDetailsList)
+                foreach (CurveDetailsViewModel curveDetailsViewModel in patchDocumentViewModel.CurveDetailsList)
                 {
                     Curve curve = curveDetailsViewModel.Entity.ToEntity(curveRepository);
                     curve.Name = curveDetailsViewModel.Entity.Name;
@@ -1173,25 +975,32 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        // Patch
+        // Patch / ChildDocument
 
-        public static Patch ToEntityWithRelatedEntities(this PatchDetailsViewModel viewModel, PatchRepositories patchRepositories)
+        public static Patch ToPatch(this PatchViewModel viewModel, IPatchRepository patchRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
 
-            Patch patch = viewModel.Entity.ToEntityWithRelatedEntities(patchRepositories);
+            Patch entity = patchRepository.TryGet(viewModel.PatchID);
+            if (entity == null)
+            {
+                entity = new Patch();
+                entity.ID = viewModel.PatchID;
+                patchRepository.Insert(entity);
+            }
 
-            return patch;
+            return entity;
         }
 
-        public static Patch ToEntityWithRelatedEntities(this PatchViewModel viewModel, PatchRepositories repositories)
+        public static Patch ToPatchWithRelatedEntities(this PatchViewModel viewModel, PatchRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
 
             var converter = new RecursiveToEntityConverter(repositories);
             var convertedOperators = new HashSet<Operator>();
 
-            Patch patch = viewModel.ToEntity(repositories.PatchRepository);
+            Patch patch = viewModel.ToPatch(repositories.PatchRepository);
 
             foreach (OperatorViewModel operatorViewModel in viewModel.Operators)
             {
@@ -1212,38 +1021,196 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return patch;
         }
 
-        public static Patch ToEntity(this PatchViewModel viewModel, IPatchRepository patchRepository)
+        public static Document ToChildDocument(this PatchPropertiesViewModel viewModel, IDocumentRepository documentRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
 
-            Patch entity = patchRepository.TryGet(viewModel.ID);
+            Document entity = documentRepository.TryGet(viewModel.ChildDocumentID);
             if (entity == null)
             {
-                entity = new Patch();
-                entity.ID = viewModel.ID;
-                patchRepository.Insert(entity);
+                entity = new Document();
+                entity.ID = viewModel.ChildDocumentID;
+                documentRepository.Insert(entity);
             }
             entity.Name = viewModel.Name;
+            entity.GroupName = viewModel.Group;
 
             return entity;
         }
 
-        public static Patch ToPatch(this IDAndName idAndName, IPatchRepository patchRepository)
+        public static Patch ToPatch(this PatchPropertiesViewModel viewModel, IPatchRepository patchRepository)
         {
-            if (idAndName == null) throw new NullException(() => idAndName);
+            if (viewModel == null) throw new NullException(() => viewModel);
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
-            Patch entity = patchRepository.TryGet(idAndName.ID);
+            Patch patch = patchRepository.TryGet(viewModel.PatchID);
+            if (patch == null)
+            {
+                patch = new Patch();
+                patch.ID = viewModel.PatchID;
+                patchRepository.Insert(patch);
+            }
+            patch.Name = viewModel.Name;
+
+            return patch;
+        }
+
+        public static Patch ToPatchWithRelatedEntities(this PatchDetailsViewModel viewModel, PatchRepositories patchRepositories)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+
+            Patch patch = viewModel.Entity.ToPatchWithRelatedEntities(patchRepositories);
+
+            return patch;
+        }
+
+        public static Document ToChildDocumentWithRelatedEntities(this PatchDocumentViewModel userInput, RepositoryWrapper repositories)
+        {
+            if (userInput == null) throw new NullException(() => userInput);
+            if (repositories == null) throw new NullException(() => repositories);
+
+            Document destDocument = userInput.ToChildDocument(repositories.DocumentRepository);
+
+            var curveRepositories = new CurveRepositories(repositories);
+            userInput.CurvePropertiesList.ToEntities(destDocument, curveRepositories);
+            userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(destDocument, curveRepositories);
+            userInput.SamplePropertiesList.ToSamples(destDocument, new SampleRepositories(repositories));
+
+            Patch patch = userInput.PatchDetails.ToPatchWithRelatedEntities(new PatchRepositories(repositories));
+            patch.LinkTo(destDocument);
+
+            // Operator Properties
+            // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
+            foreach (OperatorPropertiesViewModel propertiesViewModel in userInput.OperatorPropertiesList)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForBundle propertiesViewModel in userInput.OperatorPropertiesList_ForBundles)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForCurve propertiesViewModel in userInput.OperatorPropertiesList_ForCurves)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.CurveRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DocumentRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForNumber operatorPropertiesViewModel_ForNumber in userInput.OperatorPropertiesList_ForNumbers)
+            {
+                operatorPropertiesViewModel_ForNumber.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchInlets)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchOutlets)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in userInput.OperatorPropertiesList_ForSamples)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.SampleRepository);
+            }
+
+            foreach (OperatorPropertiesViewModel_ForUnbundle propertiesViewModel in userInput.OperatorPropertiesList_ForUnbundles)
+            {
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+            }
+
+            return destDocument;
+        }
+
+        public static Document ToChildDocument(this PatchDocumentViewModel viewModel, IDocumentRepository documentRepository)
+        {
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (documentRepository == null) throw new NullException(() => documentRepository);
+
+            Document entity = documentRepository.TryGet(viewModel.ChildDocumentID);
             if (entity == null)
             {
-                entity = new Patch();
-                entity.ID = idAndName.ID;
-                patchRepository.Insert(entity);
+                entity = new Document();
+                entity.ID = viewModel.ChildDocumentID;
+                documentRepository.Insert(entity);
             }
-            entity.Name = idAndName.Name;
 
             return entity;
+        }
+        /// <summary> Leading for saving when it comes to the simple properties. </summary>
+        public static void ToChildDocuments(
+            this IList<PatchPropertiesViewModel> sourceViewModelList,
+            Document destParentDocument,
+            RepositoryWrapper repositories)
+        {
+            if (sourceViewModelList == null) throw new NullException(() => sourceViewModelList);
+            if (destParentDocument == null) throw new NullException(() => destParentDocument);
+            if (repositories == null) throw new NullException(() => repositories);
+
+            var idsToKeep = new HashSet<int>();
+
+            foreach (PatchPropertiesViewModel propertiesViewModel in sourceViewModelList)
+            {
+                Document entity = propertiesViewModel.ToChildDocument(repositories.DocumentRepository);
+
+                entity.LinkToParentDocument(destParentDocument);
+
+                if (!idsToKeep.Contains(entity.ID))
+                {
+                    idsToKeep.Add(entity.ID);
+                }
+            }
+
+            DocumentManager documentManager = new DocumentManager(repositories);
+
+            IList<int> existingIDs = destParentDocument.ChildDocuments.Select(x => x.ID).ToArray();
+            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+            foreach (int idToDelete in idsToDelete)
+            {
+                documentManager.DeleteWithRelatedEntities(idToDelete);
+            }
+        }
+
+        /// <summary> Leading for saving child entities, not leading for saving the simple properties. </summary>
+        public static void ToChildDocumentsWithRelatedEntities(
+            this IList<PatchDocumentViewModel> sourceViewModelList,
+            Document destParentDocument,
+            RepositoryWrapper repositories)
+        {
+            if (sourceViewModelList == null) throw new NullException(() => sourceViewModelList);
+            if (destParentDocument == null) throw new NullException(() => destParentDocument);
+            if (repositories == null) throw new NullException(() => repositories);
+
+            var idsToKeep = new HashSet<int>();
+
+            foreach (PatchDocumentViewModel patchDocumentViewModel in sourceViewModelList)
+            {
+                Document entity = patchDocumentViewModel.ToChildDocumentWithRelatedEntities(repositories);
+
+                entity.LinkToParentDocument(destParentDocument);
+
+                if (!idsToKeep.Contains(entity.ID))
+                {
+                    idsToKeep.Add(entity.ID);
+                }
+            }
+
+            DocumentManager documentManager = new DocumentManager(repositories);
+
+            IList<int> existingIDs = destParentDocument.ChildDocuments.Select(x => x.ID).ToArray();
+            IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
+            foreach (int idToDelete in idsToDelete)
+            {
+                documentManager.DeleteWithRelatedEntities(idToDelete);
+            }
         }
 
         // Sample

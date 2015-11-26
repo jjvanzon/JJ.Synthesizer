@@ -59,9 +59,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (nodeViewModel == null)
             {
-                throw new Exception(String.Format(
-                    "childDocumentID '{0}' does not match with any ChildDocumentTreeViewModel in viewModel.Instruments not viewModel.Effects.",
-                    childDocumentID));
+                throw new Exception(String.Format("childDocumentID '{0}' does not match with any PatchTreeNodeViewModel.", childDocumentID));
             }
 
             nodeViewModel.IsExpanded = true;
@@ -77,9 +75,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (nodeViewModel == null)
             {
-                throw new Exception(String.Format(
-                    "childDocumentID '{0}' does not match with any ChildDocumentTreeViewModel in viewModel.Instruments not viewModel.Effects.",
-                    childDocumentID));
+                throw new Exception(String.Format("childDocumentID '{0}' does not match with any PatchTreeNodeViewModel.", childDocumentID));
             }
 
             nodeViewModel.IsExpanded = false;
@@ -95,8 +91,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         // Helpers
 
         /// <summary>
-        /// Copies the Visible and the IsExpanded properties.
-        /// It matches source and dest nodex by the NodeIndex properties,
+        /// Copies the Visible en IsExpanded properties.
+        /// It matches source and dest nodes by the ChildDocumentID,
         /// so it is important to keep those unique and (relatively) constant.
         /// </summary>
         private void CopyNonPersistedProperties(DocumentTreeViewModel sourceViewModel, DocumentTreeViewModel destViewModel)

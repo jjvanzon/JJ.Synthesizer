@@ -13,7 +13,6 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Warnings;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Resources;
@@ -208,7 +207,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     ViewModel.ToEntityWithRelatedEntities(_repositories);
                 }
 
-                CurveGridViewModel gridViewModel = ChildDocumentHelper.GetCurveGridViewModel_ByDocumentID(ViewModel.Document, documentID);
+                CurveGridViewModel gridViewModel = DocumentViewModelHelper.GetCurveGridViewModel_ByDocumentID(ViewModel.Document, documentID);
                 _curveGridPresenter.ViewModel = gridViewModel;
                 _curveGridPresenter.Show();
                 DispatchViewModel(_curveGridPresenter.ViewModel);
@@ -244,20 +243,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Curve curve = _curveManager.Create(document, mustGenerateName: true);
 
                 // ToViewModel
-                CurveGridViewModel gridViewModel = ChildDocumentHelper.GetCurveGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
+                CurveGridViewModel gridViewModel = DocumentViewModelHelper.GetCurveGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
                 IDAndName listItemViewModel = curve.ToIDAndName();
                 gridViewModel.List.Add(listItemViewModel);
                 gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
 
-                IList<CurveDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetCurveDetailsViewModels_ByDocumentID(ViewModel.Document, document.ID);
+                IList<CurveDetailsViewModel> detailsViewModels = DocumentViewModelHelper.GetCurveDetailsViewModels_ByDocumentID(ViewModel.Document, document.ID);
                 CurveDetailsViewModel curveDetailsViewModel = curve.ToDetailsViewModel(_repositories.NodeTypeRepository);
                 detailsViewModels.Add(curveDetailsViewModel);
 
-                IList<CurvePropertiesViewModel> propertiesViewModels = ChildDocumentHelper.GetCurvePropertiesViewModels_ByDocumentID(ViewModel.Document, document.ID);
+                IList<CurvePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetCurvePropertiesViewModels_ByDocumentID(ViewModel.Document, document.ID);
                 CurvePropertiesViewModel curvePropertiesViewModel = curve.ToPropertiesViewModel();
                 propertiesViewModels.Add(curvePropertiesViewModel);
 
-                IList<NodePropertiesViewModel> nodePropertiesViewModelList = ChildDocumentHelper.GetNodePropertiesViewModelList_ByCurveID(ViewModel.Document, curve.ID);
+                IList<NodePropertiesViewModel> nodePropertiesViewModelList = DocumentViewModelHelper.GetNodePropertiesViewModelList_ByCurveID(ViewModel.Document, curve.ID);
                 foreach (Node node in curve.Nodes)
                 {
                     NodePropertiesViewModel nodePropertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
@@ -271,14 +270,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     IDAndName idAndName = curve.ToIDAndName();
                     ViewModel.Document.CurveLookup.Add(idAndName);
-                    ViewModel.Document.ChildDocumentList.ForEach(x => x.CurveLookup.Add(idAndName));
+                    ViewModel.Document.PatchDocumentList.ForEach(x => x.CurveLookup.Add(idAndName));
                 }
                 else
                 {
-                    ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, documentID);
+                    PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(ViewModel.Document, documentID);
                     IDAndName idAndName = curve.ToIDAndName();
-                    childDocumentViewModel.CurveLookup.Add(idAndName);
-                    childDocumentViewModel.CurveLookup = childDocumentViewModel.CurveLookup.OrderBy(x => x.Name).ToList();
+                    patchDocumentViewModel.CurveLookup.Add(idAndName);
+                    patchDocumentViewModel.CurveLookup = patchDocumentViewModel.CurveLookup.OrderBy(x => x.Name).ToList();
                 }
             }
             finally
@@ -305,21 +304,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // ToViewModel
 
                     // NOTE: Order-dependence:
-                    // The ChildDocument helper methods uses the existence of CurveDetailsViewModel to find a match,
+                    // The DocumentViewModelHelper method uses the existence of CurveDetailsViewModel to find a match,
                     // so execute this before removing CurveDetailsViewModel
-                    IList<NodePropertiesViewModel> nodePropertiesViewModelList = ChildDocumentHelper.GetNodePropertiesViewModelList_ByCurveID(ViewModel.Document, curveID);
+                    IList<NodePropertiesViewModel> nodePropertiesViewModelList = DocumentViewModelHelper.GetNodePropertiesViewModelList_ByCurveID(ViewModel.Document, curveID);
                     foreach (int nodeID in nodeIDs)
                     {
                         nodePropertiesViewModelList.RemoveFirst(x => x.Entity.ID == nodeID);
                     }
 
-                    IList<CurveDetailsViewModel> detailsViewModels = ChildDocumentHelper.GetCurveDetailsViewModels_ByDocumentID(ViewModel.Document, documentID);
+                    IList<CurveDetailsViewModel> detailsViewModels = DocumentViewModelHelper.GetCurveDetailsViewModels_ByDocumentID(ViewModel.Document, documentID);
                     detailsViewModels.RemoveFirst(x => x.Entity.ID == curveID);
 
-                    CurveGridViewModel gridViewModel = ChildDocumentHelper.GetCurveGridViewModel_ByDocumentID(ViewModel.Document, documentID);
+                    CurveGridViewModel gridViewModel = DocumentViewModelHelper.GetCurveGridViewModel_ByDocumentID(ViewModel.Document, documentID);
                     gridViewModel.List.RemoveFirst(x => x.ID == curveID);
 
-                    IList<CurvePropertiesViewModel> propertiesViewModels = ChildDocumentHelper.GetCurvePropertiesViewModels_ByDocumentID(ViewModel.Document, documentID);
+                    IList<CurvePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetCurvePropertiesViewModels_ByDocumentID(ViewModel.Document, documentID);
                     propertiesViewModels.RemoveFirst(x => x.Entity.ID == curveID);
 
                     // NOTE: 
@@ -328,11 +327,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     if (isRootDocument)
                     {
                         ViewModel.Document.CurveLookup.RemoveFirst(x => x.ID == curveID);
-                        ViewModel.Document.ChildDocumentList.ForEach(x => x.CurveLookup.RemoveFirst(y => y.ID == curveID));
+                        ViewModel.Document.PatchDocumentList.ForEach(x => x.CurveLookup.RemoveFirst(y => y.ID == curveID));
                     }
                     else
                     {
-                        IList<IDAndName> lookup = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, documentID).CurveLookup;
+                        IList<IDAndName> lookup = DocumentViewModelHelper.GetPatchDocumentViewModel(ViewModel.Document, documentID).CurveLookup;
                         lookup.RemoveFirst(x => x.ID == curveID);
                     }
                 }
@@ -352,7 +351,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                CurveDetailsViewModel detailsViewModel = ChildDocumentHelper.GetCurveDetailsViewModel(ViewModel.Document, curveID);
+                CurveDetailsViewModel detailsViewModel = DocumentViewModelHelper.GetCurveDetailsViewModel(ViewModel.Document, curveID);
                 _curveDetailsPresenter.ViewModel = detailsViewModel;
                 _curveDetailsPresenter.Show();
 
@@ -394,7 +393,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                CurvePropertiesViewModel propertiesViewModel = ChildDocumentHelper.GetCurvePropertiesViewModel(ViewModel.Document, curveID);
+                CurvePropertiesViewModel propertiesViewModel = DocumentViewModelHelper.GetCurvePropertiesViewModel(ViewModel.Document, curveID);
                 _curvePropertiesPresenter.ViewModel = propertiesViewModel;
                 _curvePropertiesPresenter.Show();
 
@@ -593,8 +592,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Here only the view models are assigned that cannot vary.
                 // E.g. PatchGrid can be show for both chile documents and root document.
                 _audioFileOutputGridPresenter.ViewModel = ViewModel.Document.AudioFileOutputGrid;
-                _effectGridPresenter.ViewModel = ViewModel.Document.EffectGrid;
-                _instrumentGridPresenter.ViewModel = ViewModel.Document.InstrumentGrid;
                 _documentTreePresenter.ViewModel = ViewModel.Document.DocumentTree;
                 _scaleGridPresenter.ViewModel = ViewModel.Document.ScaleGrid;
 
@@ -695,9 +692,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToEntity: This should be just enough to correctly refresh the grids and tree furtheron.
                 Document document = ViewModel.Document.ToEntity(_repositories.DocumentRepository);
-                ViewModel.Document.ChildDocumentList.Select(x => x.PatchDetails.Entity)
-                                                    .ForEach(x => x.ToEntity(_repositories.PatchRepository));
-                ViewModel.Document.ChildDocumentPropertiesList.ToChildDocuments(document, _repositories);
+                ViewModel.Document.PatchDocumentList.Select(x => x.PatchDetails.Entity)
+                                                    .ForEach(x => x.ToPatch(_repositories.PatchRepository));
+                ViewModel.Document.PatchPropertiesList.ToChildDocuments(document, _repositories);
 
                 _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;
 
@@ -769,197 +766,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        // Effect
-
-        public void EffectGridShow()
-        {
-            try
-            {
-                _effectGridPresenter.Show();
-                DispatchViewModel(_effectGridPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        public void EffectGridClose()
-        {
-            try
-            {
-                _effectGridPresenter.Close();
-                DispatchViewModel(_effectGridPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        public void EffectCreate()
-        {
-            try
-            {
-                // ToEntity
-                Document parentDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
-
-                // Business
-                Document effect = _documentManager.CreateChildDocument(parentDocument, ChildDocumentTypeEnum.Effect, mustGenerateName: true);
-
-                // ToViewModel
-                IDAndName listItemViewModel = effect.ToIDAndName();
-                ViewModel.Document.EffectGrid.List.Add(listItemViewModel);
-                ViewModel.Document.EffectGrid.List = ViewModel.Document.EffectGrid.List.OrderBy(x => x.Name).ToList();
-
-                PatchPropertiesViewModel propertiesViewModel = effect.ToChildDocumentPropertiesViewModel(_repositories.ChildDocumentTypeRepository);
-                ViewModel.Document.ChildDocumentPropertiesList.Add(propertiesViewModel);
-
-                ChildDocumentViewModel documentViewModel = effect.ToChildDocumentViewModel(_repositories, _entityPositionManager);
-                ViewModel.Document.ChildDocumentList.Add(documentViewModel);
-
-                IDAndName idAndName = effect.ToIDAndName();
-                ViewModel.Document.UnderlyingDocumentLookup.Add(idAndName);
-                ViewModel.Document.UnderlyingDocumentLookup = ViewModel.Document.UnderlyingDocumentLookup.OrderBy(x => x.Name).ToList();
-
-                RefreshDocumentTree();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        public void EffectDelete(int effectDocumentID)
-        {
-            try
-            {
-                // ToEntity
-                ViewModel.ToEntityWithRelatedEntities(_repositories);
-                Document childDocument = _repositories.DocumentRepository.Get(effectDocumentID);
-
-                // Businesss
-                VoidResult result = _documentManager.DeleteWithRelatedEntities(childDocument);
-                if (!result.Successful)
-                {
-                    // ToViewModel
-                    ViewModel.PopupMessages.AddRange(result.Messages);
-                }
-                else
-                {
-                    // ToViewModel
-                    ViewModel.Document.EffectGrid.List.RemoveFirst(x => x.ID == effectDocumentID);
-                    ViewModel.Document.ChildDocumentPropertiesList.RemoveFirst(x => x.ChildDocumentID == effectDocumentID);
-                    ViewModel.Document.ChildDocumentList.RemoveFirst(x => x.ID == effectDocumentID);
-                    ViewModel.Document.DocumentTree.EffectNode.RemoveFirst(x => x.ChildDocumentID == effectDocumentID);
-                    ViewModel.Document.UnderlyingDocumentLookup.RemoveFirst(x => x.ID == effectDocumentID);
-                }
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        // Instrument
-
-        public void InstrumentGridShow()
-        {
-            try
-            {
-                _instrumentGridPresenter.Show();
-                DispatchViewModel(_instrumentGridPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        public void InstrumentGridClose()
-        {
-            try
-            {
-                _instrumentGridPresenter.Close();
-                DispatchViewModel(_instrumentGridPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        public void InstrumentCreate()
-        {
-            try
-            {
-                // ToEntity
-                Document parentDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
-
-                // Business
-                Document childDocument = _documentManager.CreateChildDocument(parentDocument, ChildDocumentTypeEnum.Instrument, mustGenerateName: true);
-
-                // ToViewModel
-                IDAndName listItemViewModel = childDocument.ToIDAndName();
-                ViewModel.Document.InstrumentGrid.List.Add(listItemViewModel);
-                ViewModel.Document.InstrumentGrid.List = ViewModel.Document.InstrumentGrid.List.OrderBy(x => x.Name).ToList();
-
-                PatchPropertiesViewModel propertiesViewModel = childDocument.ToChildDocumentPropertiesViewModel(_repositories.ChildDocumentTypeRepository);
-                ViewModel.Document.ChildDocumentPropertiesList.Add(propertiesViewModel);
-
-                ChildDocumentViewModel documentViewModel = childDocument.ToChildDocumentViewModel(_repositories, _entityPositionManager);
-                ViewModel.Document.ChildDocumentList.Add(documentViewModel);
-
-                IDAndName idAndName = childDocument.ToIDAndName();
-                ViewModel.Document.UnderlyingDocumentLookup.Add(idAndName);
-                ViewModel.Document.UnderlyingDocumentLookup = ViewModel.Document.UnderlyingDocumentLookup.OrderBy(x => x.Name).ToList();
-
-                RefreshDocumentTree();
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        public void InstrumentDelete(int instrumentDocumentID)
-        {
-            try
-            {
-                // ToEntity
-                ViewModel.ToEntityWithRelatedEntities(_repositories);
-                Document childDocument = _repositories.DocumentRepository.Get(instrumentDocumentID);
-
-                // Businesss
-                VoidResult result = _documentManager.DeleteWithRelatedEntities(childDocument);
-                if (!result.Successful)
-                {
-                    // ToViewModel
-                    ViewModel.PopupMessages.AddRange(result.Messages);
-                }
-                else
-                {
-                    // ToViewModel
-                    ViewModel.Document.InstrumentGrid.List.RemoveFirst(x => x.ID == instrumentDocumentID);
-                    ViewModel.Document.ChildDocumentPropertiesList.RemoveFirst(x => x.ChildDocumentID == instrumentDocumentID);
-                    ViewModel.Document.ChildDocumentList.RemoveFirst(x => x.ID == instrumentDocumentID);
-                    ViewModel.Document.DocumentTree.InstrumentNode.RemoveFirst(x => x.ChildDocumentID == instrumentDocumentID);
-                    ViewModel.Document.UnderlyingDocumentLookup.RemoveFirst(x => x.ID == instrumentDocumentID);
-                }
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
         // Node
 
         public void NodePropertiesShow(int nodeID)
         {
             try
             {
-                NodePropertiesViewModel viewModel = ChildDocumentHelper.GetNodePropertiesViewModel(ViewModel.Document, nodeID);
+                NodePropertiesViewModel viewModel = DocumentViewModelHelper.GetNodePropertiesViewModel(ViewModel.Document, nodeID);
                 _nodePropertiesPresenter.ViewModel = viewModel;
                 _nodePropertiesPresenter.Show();
                 DispatchViewModel(_nodePropertiesPresenter.ViewModel);
@@ -1046,7 +859,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // NodeProperties
                 NodePropertiesViewModel propertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
-                IList<NodePropertiesViewModel> propertiesViewModelList = ChildDocumentHelper.GetNodePropertiesViewModelList_ByCurveID(ViewModel.Document, curve.ID);
+                IList<NodePropertiesViewModel> propertiesViewModelList = DocumentViewModelHelper.GetNodePropertiesViewModelList_ByCurveID(ViewModel.Document, curve.ID);
                 propertiesViewModelList.Add(propertiesViewModel);
             }
             finally
@@ -1104,9 +917,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 bool isRemoved = ViewModel.Document.NodePropertiesList.TryRemoveFirst(x => x.Entity.ID == nodeID);
                 if (!isRemoved)
                 {
-                    foreach (ChildDocumentViewModel childDocumentViewModel in ViewModel.Document.ChildDocumentList)
+                    foreach (PatchDocumentViewModel patchDocumentViewModel in ViewModel.Document.PatchDocumentList)
                     {
-                        isRemoved = childDocumentViewModel.NodePropertiesList.TryRemoveFirst(x => x.Entity.ID == nodeID);
+                        isRemoved = patchDocumentViewModel.NodePropertiesList.TryRemoveFirst(x => x.Entity.ID == nodeID);
                         if (isRemoved)
                         {
                             break;
@@ -1115,7 +928,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
                 if (!isRemoved)
                 {
-                    throw new Exception(String.Format("NodeProperties with Entity.ID '{0}' not found in either root DocumentViewModel or its ChildDocumentViewModels.", nodeID));
+                    throw new Exception(String.Format("NodeProperties with Node ID '{0}' not found in either root DocumentViewModel or its PatchDocumentViewModels.", nodeID));
                 }
             }
             finally
@@ -1134,7 +947,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 nodeViewModel.Time = time;
                 nodeViewModel.Value = value;
 
-                NodePropertiesViewModel propertiesViewModel = ChildDocumentHelper.GetNodePropertiesViewModel(ViewModel.Document, nodeID);
+                NodePropertiesViewModel propertiesViewModel = DocumentViewModelHelper.GetNodePropertiesViewModel(ViewModel.Document, nodeID);
                 propertiesViewModel.Entity.Time = time;
                 propertiesViewModel.Entity.Value = value;
             }
@@ -1188,7 +1001,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             nodeViewModel1.NodeType = nodeType.ToIDAndDisplayName();
 
-            NodePropertiesViewModel propertiesViewModel = ChildDocumentHelper.GetNodePropertiesViewModel(ViewModel.Document, nodeID);
+            NodePropertiesViewModel propertiesViewModel = DocumentViewModelHelper.GetNodePropertiesViewModel(ViewModel.Document, nodeID);
             propertiesViewModel.Entity.NodeType = nodeType.ToIDAndDisplayName();
         }
 
@@ -1199,7 +1012,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 {
-                    OperatorPropertiesViewModel viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel(ViewModel.Document, id);
+                    OperatorPropertiesViewModel viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel(ViewModel.Document, id);
                     if (viewModel != null)
                     {
                         OperatorPropertiesPresenter partialPresenter = _operatorPropertiesPresenter;
@@ -1210,7 +1023,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                 }
                 {
-                    OperatorPropertiesViewModel_ForBundle viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForBundle(ViewModel.Document, id);
+                    OperatorPropertiesViewModel_ForBundle viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForBundle(ViewModel.Document, id);
                     if (viewModel != null)
                     {
                         OperatorPropertiesPresenter_ForBundle partialPresenter = _operatorPropertiesPresenter_ForBundle;
@@ -1221,7 +1034,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                 }
                 {
-                    OperatorPropertiesViewModel_ForCurve viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForCurve(ViewModel.Document, id);
+                    OperatorPropertiesViewModel_ForCurve viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForCurve(ViewModel.Document, id);
                     if (viewModel != null)
                     {
                         OperatorPropertiesPresenter_ForCurve partialPresenter = _operatorPropertiesPresenter_ForCurve;
@@ -1232,7 +1045,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                 }
                 {
-                    OperatorPropertiesViewModel_ForCustomOperator viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForCustomOperator(ViewModel.Document, id);
+                    OperatorPropertiesViewModel_ForCustomOperator viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForCustomOperator(ViewModel.Document, id);
                     if (viewModel != null)
                     {
                         OperatorPropertiesPresenter_ForCustomOperator partialPresenter = _operatorPropertiesPresenter_ForCustomOperator;
@@ -1243,7 +1056,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                 }
                 {
-                    OperatorPropertiesViewModel_ForNumber viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForNumber(ViewModel.Document, id);
+                    OperatorPropertiesViewModel_ForNumber viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForNumber(ViewModel.Document, id);
                     if (viewModel != null)
                     {
                         OperatorPropertiesPresenter_ForNumber partialPresenter = _operatorPropertiesPresenter_ForNumber;
@@ -1254,7 +1067,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                 }
                 {
-                    OperatorPropertiesViewModel_ForPatchInlet viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForPatchInlet(ViewModel.Document, id);
+                    OperatorPropertiesViewModel_ForPatchInlet viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForPatchInlet(ViewModel.Document, id);
                     if (viewModel != null)
                     {
                         OperatorPropertiesPresenter_ForPatchInlet partialPresenter = _operatorPropertiesPresenter_ForPatchInlet;
@@ -1265,7 +1078,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                 }
                 {
-                    OperatorPropertiesViewModel_ForPatchOutlet viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForPatchOutlet(ViewModel.Document, id);
+                    OperatorPropertiesViewModel_ForPatchOutlet viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForPatchOutlet(ViewModel.Document, id);
                     if (viewModel != null)
                     {
                         OperatorPropertiesPresenter_ForPatchOutlet partialPresenter = _operatorPropertiesPresenter_ForPatchOutlet;
@@ -1276,7 +1089,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                 }
                 {
-                    OperatorPropertiesViewModel_ForSample viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForSample(ViewModel.Document, id);
+                    OperatorPropertiesViewModel_ForSample viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForSample(ViewModel.Document, id);
                     if (viewModel != null)
                     {
                         OperatorPropertiesPresenter_ForSample partialPresenter = _operatorPropertiesPresenter_ForSample;
@@ -1287,7 +1100,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                 }
                 {
-                    OperatorPropertiesViewModel_ForUnbundle viewModel = ChildDocumentHelper.TryGetOperatorPropertiesViewModel_ForUnbundle(ViewModel.Document, id);
+                    OperatorPropertiesViewModel_ForUnbundle viewModel = DocumentViewModelHelper.TryGetOperatorPropertiesViewModel_ForUnbundle(ViewModel.Document, id);
                     if (viewModel != null)
                     {
                         OperatorPropertiesPresenter_ForUnbundle partialPresenter = _operatorPropertiesPresenter_ForUnbundle;
@@ -1453,7 +1266,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // because we are about to validate a curve operator's reference to its curve.
                 ViewModel.Document.ToHollowDocumentWithHollowChildDocumentsWithCurvesWithName(
                     _repositories.DocumentRepository,
-                    _repositories.ChildDocumentTypeRepository,
                     _repositories.CurveRepository);
 
                 partialAction();
@@ -1593,7 +1405,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // because we are about to validate a sample operator's reference to its sample.
                 ViewModel.Document.ToHollowDocumentWithHollowChildDocumentsWithHollowSamplesWithName(
                     _repositories.DocumentRepository,
-                    _repositories.ChildDocumentTypeRepository,
                     _repositories.SampleRepository);
 
                 partialAction();
@@ -1655,7 +1466,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToEntity  (Full entity model needed for Document_SideEffect_UpdateDependentCustomOperators.)
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
-                Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.ID);
+                Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.PatchID);
 
                 // Business
                 var patchManager = new PatchManager(patch, _patchRepositories);
@@ -1678,7 +1489,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     case OperatorTypeEnum.PatchInlet:
                         {
                             OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel = op.ToPropertiesViewModel_ForPatchInlet(_repositories.InletTypeRepository);
-                            IList<OperatorPropertiesViewModel_ForPatchInlet> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForPatchInlets_ByPatchID(ViewModel.Document, patch.ID);
+                            IList<OperatorPropertiesViewModel_ForPatchInlet> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchInlets_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;
                         }
@@ -1686,7 +1497,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     case OperatorTypeEnum.PatchOutlet:
                         {
                             OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel = op.ToPropertiesViewModel_ForPatchOutlet(_repositories.OutletTypeRepository);
-                            IList<OperatorPropertiesViewModel_ForPatchOutlet> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForPatchOutlets_ByPatchID(ViewModel.Document, patch.ID);
+                            IList<OperatorPropertiesViewModel_ForPatchOutlet> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchOutlets_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;
                         }
@@ -1709,7 +1520,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             try
             {
                 // ToEntity
-                Patch patch = _patchDetailsPresenter.ViewModel.ToEntityWithRelatedEntities(_patchRepositories);
+                Patch patch = _patchDetailsPresenter.ViewModel.ToPatchWithRelatedEntities(_patchRepositories);
 
                 // Business
                 var patchManager = new PatchManager(patch, new PatchRepositories(_repositories));
@@ -1732,7 +1543,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     case OperatorTypeEnum.Bundle:
                         {
                             OperatorPropertiesViewModel_ForBundle propertiesViewModel = op.ToPropertiesViewModel_ForBundle();
-                            IList<OperatorPropertiesViewModel_ForBundle> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForBundles_ByPatchID(ViewModel.Document, patch.ID);
+                            IList<OperatorPropertiesViewModel_ForBundle> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForBundles_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;
                         }
@@ -1740,7 +1551,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     case OperatorTypeEnum.Curve:
                         {
                             OperatorPropertiesViewModel_ForCurve propertiesViewModel = op.ToPropertiesViewModel_ForCurve(_repositories.CurveRepository);
-                            IList<OperatorPropertiesViewModel_ForCurve> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForCurves_ByPatchID(ViewModel.Document, patch.ID);
+                            IList<OperatorPropertiesViewModel_ForCurve> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCurves_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;
                         }
@@ -1748,7 +1559,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     case OperatorTypeEnum.CustomOperator:
                         {
                             OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel = op.ToPropertiesViewModel_ForCustomOperator(_repositories.DocumentRepository);
-                            IList<OperatorPropertiesViewModel_ForCustomOperator> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForCustomOperators_ByPatchID(ViewModel.Document, patch.ID);
+                            IList<OperatorPropertiesViewModel_ForCustomOperator> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCustomOperators_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;
                         }
@@ -1756,7 +1567,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     case OperatorTypeEnum.Number:
                         {
                             OperatorPropertiesViewModel_ForNumber propertiesViewModel = op.ToPropertiesViewModel_ForNumber();
-                            IList<OperatorPropertiesViewModel_ForNumber> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForNumbers_ByPatchID(ViewModel.Document, patch.ID);
+                            IList<OperatorPropertiesViewModel_ForNumber> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForNumbers_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;
                         }
@@ -1764,7 +1575,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     case OperatorTypeEnum.Sample:
                         {
                             OperatorPropertiesViewModel_ForSample propertiesViewModel = op.ToPropertiesViewModel_ForSample(_repositories.SampleRepository);
-                            IList<OperatorPropertiesViewModel_ForSample> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForSamples_ByPatchID(ViewModel.Document, patch.ID);
+                            IList<OperatorPropertiesViewModel_ForSample> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForSamples_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;
                         }
@@ -1772,7 +1583,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     case OperatorTypeEnum.Unbundle:
                         {
                             OperatorPropertiesViewModel_ForUnbundle propertiesViewModel = op.ToPropertiesViewModel_ForUnbundle();
-                            IList<OperatorPropertiesViewModel_ForUnbundle> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ForUnbundles_ByPatchID(ViewModel.Document, patch.ID);
+                            IList<OperatorPropertiesViewModel_ForUnbundle> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForUnbundles_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;
                         }
@@ -1780,7 +1591,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     default:
                         {
                             OperatorPropertiesViewModel propertiesViewModel = op.ToPropertiesViewModel();
-                            IList<OperatorPropertiesViewModel> propertiesViewModelList = ChildDocumentHelper.GetOperatorPropertiesViewModelList_ByPatchID(ViewModel.Document, patch.ID);
+                            IList<OperatorPropertiesViewModel> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;
                         }
@@ -1803,7 +1614,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // (Full entity model needed for Document_SideEffect_UpdateDependentCustomOperators and 
                     //  Operator_SideEffect_ApplyUnderlyingDocument)
                     Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
-                    Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.ID);
+                    Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.PatchID);
                     Document document = patch.Document;
                     Operator op = _repositories.OperatorRepository.Get(_patchDetailsPresenter.ViewModel.SelectedOperator.ID);
                     OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
@@ -1819,46 +1630,46 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     if (_patchDetailsPresenter.ViewModel.Successful)
                     {
                         // Do a lot of if'ing and switching to be a little faster in removing the item a specific place in the view model.
-                        ChildDocumentViewModel childDocumentViewModel = ViewModel.Document.ChildDocumentList.Where(x => x.ID == document.ID).First();
+                        PatchDocumentViewModel patchDocumentViewModel = ViewModel.Document.PatchDocumentList.Where(x => x.ChildDocumentID == document.ID).First();
                         switch (operatorTypeEnum)
                         {
                             case OperatorTypeEnum.Bundle:
-                                childDocumentViewModel.OperatorPropertiesList_ForBundles.RemoveFirst(x => x.ID == op.ID);
+                                patchDocumentViewModel.OperatorPropertiesList_ForBundles.RemoveFirst(x => x.ID == op.ID);
                                 break;
 
                             case OperatorTypeEnum.Curve:
-                                childDocumentViewModel.OperatorPropertiesList_ForCurves.RemoveFirst(x => x.ID == op.ID);
+                                patchDocumentViewModel.OperatorPropertiesList_ForCurves.RemoveFirst(x => x.ID == op.ID);
                                 break;
 
                             case OperatorTypeEnum.CustomOperator:
-                                childDocumentViewModel.OperatorPropertiesList_ForCustomOperators.RemoveFirst(x => x.ID == op.ID);
+                                patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators.RemoveFirst(x => x.ID == op.ID);
                                 break;
 
                             case OperatorTypeEnum.Number:
-                                childDocumentViewModel.OperatorPropertiesList_ForNumbers.RemoveFirst(x => x.ID == op.ID);
+                                patchDocumentViewModel.OperatorPropertiesList_ForNumbers.RemoveFirst(x => x.ID == op.ID);
                                 break;
 
                             case OperatorTypeEnum.PatchInlet:
-                                childDocumentViewModel.OperatorPropertiesList_ForPatchInlets.RemoveFirst(x => x.ID == op.ID);
+                                patchDocumentViewModel.OperatorPropertiesList_ForPatchInlets.RemoveFirst(x => x.ID == op.ID);
                                 break;
 
                             case OperatorTypeEnum.PatchOutlet:
-                                childDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.RemoveFirst(x => x.ID == op.ID);
+                                patchDocumentViewModel.OperatorPropertiesList_ForPatchOutlets.RemoveFirst(x => x.ID == op.ID);
                                 break;
 
                             case OperatorTypeEnum.Sample:
-                                childDocumentViewModel.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
+                                patchDocumentViewModel.OperatorPropertiesList_ForSamples.RemoveFirst(x => x.ID == op.ID);
                                 break;
 
                             case OperatorTypeEnum.Unbundle:
-                                childDocumentViewModel.OperatorPropertiesList_ForUnbundles.RemoveFirst(x => x.ID == op.ID);
+                                patchDocumentViewModel.OperatorPropertiesList_ForUnbundles.RemoveFirst(x => x.ID == op.ID);
                                 break;
 
                             case OperatorTypeEnum.Undefined:
                                 throw new ValueNotSupportedException(operatorTypeEnum);
 
                             default:
-                                childDocumentViewModel.OperatorPropertiesList.RemoveFirst(x => x.ID == op.ID);
+                                patchDocumentViewModel.OperatorPropertiesList.RemoveFirst(x => x.ID == op.ID);
                                 break;
                         }
                     }
@@ -1920,7 +1731,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                PatchDetailsViewModel detailsViewModel = ChildDocumentHelper.GetPatchDetailsViewModel_ByDocumentID(ViewModel.Document, childDocumentID);
+                PatchDetailsViewModel detailsViewModel = DocumentViewModelHelper.GetPatchDetailsViewModel_ByDocumentID(ViewModel.Document, childDocumentID);
                 _patchDetailsPresenter.ViewModel = detailsViewModel;
                 _patchDetailsPresenter.Show();
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
@@ -1930,7 +1741,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.Rollback();
             }
 
-            // TODO: Change to permanent solution.
+            // TODO: Change to permanent solution. (Double click on empty area in PatchDetails should show PatchProperties.)
             PatchPropertiesShow(childDocumentID);
         }
 
@@ -1950,7 +1761,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToEntity
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
-                int patchID = _patchDetailsPresenter.ViewModel.Entity.ID;
+                int patchID = _patchDetailsPresenter.ViewModel.Entity.PatchID;
                 Patch patch = _repositories.PatchRepository.Get(patchID);
                 int documentID = patch.Document.ID;
 
@@ -1992,16 +1803,65 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        // Patch / ChildDocument
+        public void PatchPropertiesShow(int childDocumentID)
+        {
+            try
+            {
+                _patchPropertiesPresenter.ViewModel = ViewModel.Document.PatchPropertiesList.First(x => x.ChildDocumentID == childDocumentID);
+                _patchPropertiesPresenter.Show();
 
-        /// <summary> Shows what is currently called a ChildDocumentGrid (2015-11-23). </summary>
+                DispatchViewModel(_patchPropertiesPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void PatchPropertiesClose()
+        {
+            PatchPropertiesCloseOrLoseFocus(() => _patchPropertiesPresenter.Close());
+        }
+
+        public void PatchPropertiesLoseFocus()
+        {
+            PatchPropertiesCloseOrLoseFocus(() => _patchPropertiesPresenter.LoseFocus());
+        }
+
+        private void PatchPropertiesCloseOrLoseFocus(Action partialAction)
+        {
+            try
+            {
+                // ToEntity  (Most of the entity model is needed for Document_SideEffect_UpdateDependentCustomOperators.)
+                ViewModel.ToEntityWithRelatedEntities(_repositories);
+                int childDocumentID = _patchPropertiesPresenter.ViewModel.ChildDocumentID;
+
+                partialAction();
+
+                DispatchViewModel(_patchPropertiesPresenter.ViewModel);
+
+                if (_patchPropertiesPresenter.ViewModel.Successful)
+                {
+                    RefreshDocumentTree();
+                    RefreshPatchGrids(); // Refresh all patch grids, because a Patch's group can change.
+                    RefreshUnderylingDocumentLookup();
+                    RefreshOperatorViewModels_OfTypeCustomOperators();
+                    Refresh_OperatorProperties_ForCustomOperatorViewModels(underlyingDocumentID: childDocumentID);
+                }
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
         public void PatchGridShow(string group)
         {
             try
             {
                 ViewModel.ToEntityWithRelatedEntities(_repositories);
 
-                ChildDocumentGridViewModel gridViewModel = ChildDocumentHelper.GetChildDocumentGridViewModel_ByGroup(ViewModel.Document, group);
+                PatchGridViewModel gridViewModel = DocumentViewModelHelper.GetPatchGridViewModel_ByGroup(ViewModel.Document, group);
                 _patchGridPresenter.ViewModel = gridViewModel;
                 _patchGridPresenter.Show();
                 DispatchViewModel(_patchGridPresenter.ViewModel);
@@ -2042,15 +1902,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // ToViewModel
                 IDAndName listItemViewModel = childDocument.ToIDAndName();
-                ChildDocumentGridViewModel gridViewModel = ChildDocumentHelper.GetChildDocumentGridViewModel_ByGroup(ViewModel.Document, group);
+                PatchGridViewModel gridViewModel = DocumentViewModelHelper.GetPatchGridViewModel_ByGroup(ViewModel.Document, group);
                 gridViewModel.List.Add(listItemViewModel);
                 gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
 
-                PatchPropertiesViewModel propertiesViewModel = childDocument.ToChildDocumentPropertiesViewModel(_repositories.ChildDocumentTypeRepository);
-                ViewModel.Document.ChildDocumentPropertiesList.Add(propertiesViewModel);
+                PatchPropertiesViewModel propertiesViewModel = childDocument.ToPatchPropertiesViewModel();
+                ViewModel.Document.PatchPropertiesList.Add(propertiesViewModel);
 
-                ChildDocumentViewModel documentViewModel = childDocument.ToChildDocumentViewModel(_repositories, _entityPositionManager);
-                ViewModel.Document.ChildDocumentList.Add(documentViewModel);
+                PatchDocumentViewModel documentViewModel = childDocument.ToPatchDocumentViewModel(_repositories, _entityPositionManager);
+                ViewModel.Document.PatchDocumentList.Add(documentViewModel);
 
                 IDAndName idAndName = childDocument.ToIDAndName();
                 ViewModel.Document.UnderlyingDocumentLookup.Add(idAndName);
@@ -2082,71 +1942,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 else
                 {
                     // ToViewModel
-                    ViewModel.Document.ChildDocumentPropertiesList.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
-                    ViewModel.Document.ChildDocumentList.RemoveFirst(x => x.ID == childDocumentID);
+                    ViewModel.Document.PatchPropertiesList.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
+                    ViewModel.Document.PatchDocumentList.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
                     ViewModel.Document.UnderlyingDocumentLookup.RemoveFirst(x => x.ID == childDocumentID);
                     ViewModel.Document.DocumentTree.PatchesNode.PatchNodes.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
                     foreach (PatchGroupTreeNodeViewModel nodeViewModel in ViewModel.Document.DocumentTree.PatchesNode.PatchGroupNodes)
                     {
                         nodeViewModel.Patches.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
                     }
-                    foreach (ChildDocumentGridViewModel gridViewModel in ViewModel.Document.ChildDocumentGridList)
+                    foreach (PatchGridViewModel gridViewModel in ViewModel.Document.PatchGridList)
                     {
                         gridViewModel.List.TryRemoveFirst(x => x.ID == childDocumentID);
                     }
-                }
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-        
-        public void PatchPropertiesShow(int childDocumentID)
-        {
-            try
-            {
-                _childDocumentPropertiesPresenter.ViewModel = ViewModel.Document.ChildDocumentPropertiesList.First(x => x.ChildDocumentID == childDocumentID);
-                _childDocumentPropertiesPresenter.Show();
-
-                DispatchViewModel(_childDocumentPropertiesPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        public void PatchPropertiesClose()
-        {
-            PatchPropertiesCloseOrLoseFocus(() => _childDocumentPropertiesPresenter.Close());
-        }
-
-        public void PatchPropertiesLoseFocus()
-        {
-            PatchPropertiesCloseOrLoseFocus(() => _childDocumentPropertiesPresenter.LoseFocus());
-        }
-
-        private void PatchPropertiesCloseOrLoseFocus(Action partialAction)
-        {
-            try
-            {
-                // ToEntity  (Most of the entity model is needed for Document_SideEffect_UpdateDependentCustomOperators.)
-                ViewModel.ToEntityWithRelatedEntities(_repositories);
-                int childDocumentID = _childDocumentPropertiesPresenter.ViewModel.ChildDocumentID;
-
-                partialAction();
-
-                DispatchViewModel(_childDocumentPropertiesPresenter.ViewModel);
-
-                if (_childDocumentPropertiesPresenter.ViewModel.Successful)
-                {
-                    RefreshDocumentTree();
-                    RefreshInstrumentGrid(); // Refresh both efect and instrument grids, because ChildDocumentType can be changed.
-                    RefreshEffectGrid();
-                    RefreshUnderylingDocumentLookup();
-                    RefreshOperatorViewModels_OfTypeCustomOperators();
-                    Refresh_OperatorProperties_ForCustomOperatorViewModels(underlyingDocumentID: childDocumentID);
                 }
             }
             finally
@@ -2168,7 +1975,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     ViewModel.ToEntityWithRelatedEntities(_repositories);
                 }
 
-                SampleGridViewModel gridViewModel = ChildDocumentHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, documentID);
+                SampleGridViewModel gridViewModel = DocumentViewModelHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, documentID);
                 _sampleGridPresenter.ViewModel = gridViewModel;
                 _sampleGridPresenter.Show();
                 DispatchViewModel(_sampleGridPresenter.ViewModel);
@@ -2204,12 +2011,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Sample sample = _sampleManager.CreateSample(document, mustGenerateName: true);
 
                 // ToViewModel
-                SampleGridViewModel gridViewModel = ChildDocumentHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
+                SampleGridViewModel gridViewModel = DocumentViewModelHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
                 SampleListItemViewModel listItemViewModel = sample.ToListItemViewModel();
                 gridViewModel.List.Add(listItemViewModel);
                 gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
 
-                IList<SamplePropertiesViewModel> propertiesViewModels = ChildDocumentHelper.GetSamplePropertiesViewModels_ByDocumentID(ViewModel.Document, document.ID);
+                IList<SamplePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetSamplePropertiesViewModels_ByDocumentID(ViewModel.Document, document.ID);
                 SamplePropertiesViewModel propertiesViewModel = sample.ToPropertiesViewModel(_sampleRepositories);
                 propertiesViewModels.Add(propertiesViewModel);
 
@@ -2220,14 +2027,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     IDAndName idAndName = sample.ToIDAndName();
                     ViewModel.Document.SampleLookup.Add(idAndName);
-                    ViewModel.Document.ChildDocumentList.ForEach(x => x.SampleLookup.Add(idAndName));
+                    ViewModel.Document.PatchDocumentList.ForEach(x => x.SampleLookup.Add(idAndName));
                 }
                 else
                 {
-                    ChildDocumentViewModel childDocumentViewModel = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, documentID);
+                    PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(ViewModel.Document, documentID);
                     IDAndName idAndName = sample.ToIDAndName();
-                    childDocumentViewModel.SampleLookup.Add(idAndName);
-                    childDocumentViewModel.SampleLookup = childDocumentViewModel.SampleLookup.OrderBy(x => x.Name).ToList();
+                    patchDocumentViewModel.SampleLookup.Add(idAndName);
+                    patchDocumentViewModel.SampleLookup = patchDocumentViewModel.SampleLookup.OrderBy(x => x.Name).ToList();
                 }
             }
             finally
@@ -2251,10 +2058,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (result.Successful)
                 {
                     // ToViewModel
-                    IList<SamplePropertiesViewModel> propertiesViewModels = ChildDocumentHelper.GetSamplePropertiesViewModels_ByDocumentID(ViewModel.Document, documentID);
+                    IList<SamplePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetSamplePropertiesViewModels_ByDocumentID(ViewModel.Document, documentID);
                     propertiesViewModels.RemoveFirst(x => x.Entity.ID == sampleID);
 
-                    SampleGridViewModel gridViewModel = ChildDocumentHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, documentID);
+                    SampleGridViewModel gridViewModel = DocumentViewModelHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, documentID);
                     gridViewModel.List.RemoveFirst(x => x.ID == sampleID);
 
                     // NOTE: 
@@ -2263,11 +2070,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     if (isRootDocument)
                     {
                         ViewModel.Document.SampleLookup.RemoveFirst(x => x.ID == sampleID);
-                        ViewModel.Document.ChildDocumentList.ForEach(x => x.SampleLookup.RemoveFirst(y => y.ID == sampleID));
+                        ViewModel.Document.PatchDocumentList.ForEach(x => x.SampleLookup.RemoveFirst(y => y.ID == sampleID));
                     }
                     else
                     {
-                        IList<IDAndName> lookup = ChildDocumentHelper.GetChildDocumentViewModel(ViewModel.Document, documentID).SampleLookup;
+                        IList<IDAndName> lookup = DocumentViewModelHelper.GetPatchDocumentViewModel(ViewModel.Document, documentID).SampleLookup;
                         lookup.RemoveFirst(x => x.ID == sampleID);
                     }
                 }
@@ -2287,7 +2094,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                SamplePropertiesViewModel propertiesViewModel = ChildDocumentHelper.GetSamplePropertiesViewModel(ViewModel.Document, sampleID);
+                SamplePropertiesViewModel propertiesViewModel = DocumentViewModelHelper.GetSamplePropertiesViewModel(ViewModel.Document, sampleID);
                 _samplePropertiesPresenter.ViewModel = propertiesViewModel;
                 _samplePropertiesPresenter.Show();
 
@@ -2448,7 +2255,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // Update Number Column Title of the ToneGridEdit's ToneGrid.
                 int scaleID = _scalePropertiesPresenter.ViewModel.Entity.ID;
                 Scale scale = _repositories.ScaleRepository.Get(scaleID);
-                ToneGridEditViewModel toneGridEditViewModel = ChildDocumentHelper.GetToneGridEditViewModel(ViewModel.Document, scaleID);
+                ToneGridEditViewModel toneGridEditViewModel = DocumentViewModelHelper.GetToneGridEditViewModel(ViewModel.Document, scaleID);
                 toneGridEditViewModel.NumberTitle = ViewModelHelper.GetToneGridEditNumberTitle(scale);
 
                 DispatchViewModel(_scalePropertiesPresenter.ViewModel);
@@ -2479,7 +2286,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Tone tone = _scaleManager.CreateTone(scale);
 
                 // ToViewModel
-                ToneGridEditViewModel toneGridEditViewModel = ChildDocumentHelper.GetToneGridEditViewModel(ViewModel.Document, scale.ID);
+                ToneGridEditViewModel toneGridEditViewModel = DocumentViewModelHelper.GetToneGridEditViewModel(ViewModel.Document, scale.ID);
                 ToneViewModel toneViewModel = tone.ToViewModel();
                 toneGridEditViewModel.Tones.Add(toneViewModel);
                 // Do not sort grid, so that the new item appears at the bottom.
