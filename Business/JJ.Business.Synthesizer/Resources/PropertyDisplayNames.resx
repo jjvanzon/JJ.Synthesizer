@@ -286,21 +286,6 @@
   <data name="Resample" xml:space="preserve">
     <value>Resample</value>
   </data>
-  <data name="ChildDocumentType" xml:space="preserve">
-    <value>Child Document Type</value>
-  </data>
-  <data name="Effect" xml:space="preserve">
-    <value>Effect</value>
-  </data>
-  <data name="Effects" xml:space="preserve">
-    <value>Effects</value>
-  </data>
-  <data name="Instrument" xml:space="preserve">
-    <value>Instrument</value>
-  </data>
-  <data name="Instruments" xml:space="preserve">
-    <value>Instruments</value>
-  </data>
   <data name="CustomOperator" xml:space="preserve">
     <value>Custom Operator</value>
   </data>

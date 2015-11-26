@@ -170,9 +170,6 @@
   <data name="OutletNamesAreNotUnique" xml:space="preserve">
     <value>De uitgang namen zijn niet uniek.</value>
   </data>
-  <data name="ParentDocumentAndChildDocumentTypeShouldBothBeNullOrBothFilledIn" xml:space="preserve">
-    <value>Bovenliggend document en type onderliggend document moeten ofwel beide ingevuld zijn ofwel beide leeg.</value>
-  </data>
   <data name="SampleCount0" xml:space="preserve">
     <value>Geluidsfragment '{0}' heeft geen data.</value>
   </data>

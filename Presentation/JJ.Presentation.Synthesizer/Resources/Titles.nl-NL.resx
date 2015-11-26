@@ -138,4 +138,7 @@
   <data name="Type" xml:space="preserve">
     <value>Soort</value>
   </data>
+  <data name="UnderlyingPatch" xml:space="preserve">
+    <value>Onderliggende schakeling</value>
+  </data>
 </root>

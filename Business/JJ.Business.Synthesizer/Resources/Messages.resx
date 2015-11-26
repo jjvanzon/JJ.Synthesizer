@@ -172,9 +172,6 @@
   <data name="OutletNamesAreNotUnique" xml:space="preserve">
     <value>Outlet names are not unique.</value>
   </data>
-  <data name="ParentDocumentAndChildDocumentTypeShouldBothBeNullOrBothFilledIn" xml:space="preserve">
-    <value>Parent document and child document type should either both be filled in or both be left empty.</value>
-  </data>
   <data name="SampleCount0" xml:space="preserve">
     <value>Sample '{0}' has no data.</value>
     <comment>{0} = sample name</comment>

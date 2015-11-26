@@ -82,32 +82,6 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
 
-        // Document
-
-        public static ChildDocumentTypeEnum GetChildDocumentTypeEnum(this Document entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            if (entity.ChildDocumentType == null) return ChildDocumentTypeEnum.Undefined;
-
-            return (ChildDocumentTypeEnum)entity.ChildDocumentType.ID;
-        }
-
-        public static void SetChildDocumentTypeEnum(this Document entity, ChildDocumentTypeEnum enumValue, IChildDocumentTypeRepository repository)
-        {
-            if (repository == null) throw new NullException(() => repository);
-
-            if (enumValue == ChildDocumentTypeEnum.Undefined)
-            {
-                entity.UnlinkChildDocumentType();
-            }
-            else
-            {
-                ChildDocumentType enumEntity = repository.Get((int)enumValue);
-                entity.LinkTo(enumEntity);
-            }
-        }
-
         // Node
 
         public static NodeTypeEnum GetNodeTypeEnum(this Node node)

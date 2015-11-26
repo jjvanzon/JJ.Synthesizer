@@ -5,7 +5,6 @@
         public const string AudioFileFormatID = "AudioFileFormatID";
         public const string AudioFileOutputID = "AudioFileOutputID";
         public const string ChannelID = "ChannelID";
-        public const string ChildDocumentTypeID = "ChildDocumentTypeID";
         public const string CurveID = "CurveID";
         public const string DependentDocumentID = "DependentDocumentID";
         public const string DependentOnDocumentID = "DependentOnDocumentID";

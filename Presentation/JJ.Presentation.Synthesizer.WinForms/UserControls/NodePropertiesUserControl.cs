@@ -9,6 +9,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.CanonicalModel;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
+using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -52,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Node);
             labelValue.Text = PropertyDisplayNames.Value;
             labelTime.Text = PropertyDisplayNames.Time;
-            labelNodeType.Text = PropertyDisplayNames.NodeType;
+            labelNodeType.Text = Titles.Type;
         }
 
         private void ApplyStyling()

@@ -252,9 +252,6 @@
   <data name="IsActive" xml:space="preserve">
     <value>Actief</value>
   </data>
-  <data name="ChildDocument" xml:space="preserve">
-    <value>Onderliggend document</value>
-  </data>
   <data name="ParentDocument" xml:space="preserve">
     <value>Hoofddocument</value>
   </data>
@@ -284,21 +281,6 @@
   </data>
   <data name="Resample" xml:space="preserve">
     <value>Resample</value>
-  </data>
-  <data name="ChildDocumentType" xml:space="preserve">
-    <value>Type onderliggend document</value>
-  </data>
-  <data name="Effect" xml:space="preserve">
-    <value>Effect</value>
-  </data>
-  <data name="Effects" xml:space="preserve">
-    <value>Effecten</value>
-  </data>
-  <data name="Instrument" xml:space="preserve">
-    <value>Instrument</value>
-  </data>
-  <data name="Instruments" xml:space="preserve">
-    <value>Instrumenten</value>
   </data>
   <data name="CustomOperator" xml:space="preserve">
     <value>Zelfgemaakte operator</value>
@@ -486,5 +468,8 @@
   </data>
   <data name="GroupName" xml:space="preserve">
     <value>Groep</value>
+  </data>
+  <data name="ChildDocument" xml:space="preserve">
+    <value>Onderliggend document</value>
   </data>
 </root>

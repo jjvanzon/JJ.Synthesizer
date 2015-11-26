@@ -1,10 +1,7 @@
 ﻿using JJ.Data.Synthesizer;
 using JJ.Framework.Validation;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Framework.Presentation.Resources;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -20,15 +17,8 @@ namespace JJ.Business.Synthesizer.Validation
 
             For(() => document.ParentDocument, PropertyDisplayNames.ParentDocument).NotNull();
             For(() => document.ChildDocuments.Count, PropertyDisplayNames.ChildDocumentCount).Is(0);
-            For(() => document.ChildDocumentType, PropertyDisplayNames.ChildDocumentType).NotNull();
 
             Execute(new NameValidator(Object.GroupName, required: false));
-
-            if (document.ChildDocumentType != null)
-            {
-                For(() => document.GetChildDocumentTypeEnum(), PropertyDisplayNames.ChildDocumentType)
-                    .IsEnum<ChildDocumentTypeEnum>();
-            }
 
             // Child Document should have exactly one patch.
             For(() => document.Patches.Count, CommonTitleFormatter.ObjectCount(PropertyDisplayNames.Patches)).Is(1);

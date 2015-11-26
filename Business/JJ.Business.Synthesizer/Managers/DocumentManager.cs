@@ -36,7 +36,7 @@ namespace JJ.Business.Synthesizer.Managers
         }
 
         public Document CreateChildDocument(
-            Document parentDocument, ChildDocumentTypeEnum childDocumentTypeEnum, bool mustGenerateName = false)
+            Document parentDocument, bool mustGenerateName = false)
         {
             if (parentDocument == null) throw new NullException(() => parentDocument);
 
@@ -48,7 +48,6 @@ namespace JJ.Business.Synthesizer.Managers
 
             var childDocument = new Document();
             childDocument.ID = _repositories.IDRepository.GetID();
-            childDocument.SetChildDocumentTypeEnum(childDocumentTypeEnum, _repositories.ChildDocumentTypeRepository);
             childDocument.LinkToParentDocument(parentDocument);
             _repositories.DocumentRepository.Insert(childDocument);
 

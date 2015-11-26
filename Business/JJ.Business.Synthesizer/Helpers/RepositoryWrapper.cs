@@ -26,7 +26,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public INodeTypeRepository NodeTypeRepository { get; private set; }
         public ISampleDataTypeRepository SampleDataTypeRepository { get; private set; }
         public ISpeakerSetupRepository SpeakerSetupRepository { get; private set; }
-        public IChildDocumentTypeRepository ChildDocumentTypeRepository { get; private set; }
         public IScaleTypeRepository ScaleTypeRepository { get; private set; }
         public IInletTypeRepository InletTypeRepository { get; private set; }
         public IOutletTypeRepository OutletTypeRepository { get; private set; }
@@ -56,7 +55,6 @@ namespace JJ.Business.Synthesizer.Helpers
             INodeTypeRepository nodeTypeRepository,
             ISampleDataTypeRepository sampleDataTypeRepository,
             ISpeakerSetupRepository speakerSetupRepository,
-            IChildDocumentTypeRepository childDocumentTypeRepository,
             IScaleTypeRepository scaleTypeRepository,
             IInletTypeRepository inletTypeRepository,
             IOutletTypeRepository outletTypeRepository,
@@ -85,7 +83,6 @@ namespace JJ.Business.Synthesizer.Helpers
             if (nodeTypeRepository == null) throw new NullException(() => nodeTypeRepository);
             if (sampleDataTypeRepository == null) throw new NullException(() => sampleDataTypeRepository);
             if (speakerSetupRepository == null) throw new NullException(() => speakerSetupRepository);
-            if (childDocumentTypeRepository == null) throw new NullException(() => childDocumentTypeRepository);
             if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
             if (inletTypeRepository == null) throw new NullException(() => inletTypeRepository);
             if (outletTypeRepository == null) throw new NullException(() => outletTypeRepository);
@@ -113,7 +110,6 @@ namespace JJ.Business.Synthesizer.Helpers
             NodeTypeRepository = nodeTypeRepository;
             SampleDataTypeRepository = sampleDataTypeRepository;
             SpeakerSetupRepository = speakerSetupRepository;
-            ChildDocumentTypeRepository = childDocumentTypeRepository;
             ScaleTypeRepository = scaleTypeRepository;
             InletTypeRepository = inletTypeRepository;
             OutletTypeRepository = outletTypeRepository;

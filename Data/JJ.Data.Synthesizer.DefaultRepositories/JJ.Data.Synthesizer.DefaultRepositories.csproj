@@ -42,10 +42,8 @@
     <Compile Include="ChannelRepository.cs" />
     <Compile Include="AudioFileOutputRepository.cs" />
     <Compile Include="AudioFileOutputChannelRepository.cs" />
-    <Compile Include="ChildDocumentTypeRepository.cs" />
     <Compile Include="IDRepository.cs" />
     <Compile Include="OutletTypeRepository.cs" />
-    <Compile Include="Interfaces\IChildDocumentTypeRepository.cs" />
     <Compile Include="Interfaces\IIDRepository.cs" />
     <Compile Include="Interfaces\IOutletTypeRepository.cs" />
     <Compile Include="Interfaces\IScaleRepository.cs" />

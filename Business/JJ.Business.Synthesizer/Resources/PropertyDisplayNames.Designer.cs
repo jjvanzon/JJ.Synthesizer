@@ -223,15 +223,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Child Document Type.
-        /// </summary>
-        public static string ChildDocumentType {
-            get {
-                return ResourceManager.GetString("ChildDocumentType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Curve.
         /// </summary>
         public static string Curve {
@@ -327,24 +318,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string Earlier {
             get {
                 return ResourceManager.GetString("Earlier", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Effect.
-        /// </summary>
-        public static string Effect {
-            get {
-                return ResourceManager.GetString("Effect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Effects.
-        /// </summary>
-        public static string Effects {
-            get {
-                return ResourceManager.GetString("Effects", resourceCulture);
             }
         }
         
@@ -453,24 +426,6 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string InletType {
             get {
                 return ResourceManager.GetString("InletType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Instrument.
-        /// </summary>
-        public static string Instrument {
-            get {
-                return ResourceManager.GetString("Instrument", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Instruments.
-        /// </summary>
-        public static string Instruments {
-            get {
-                return ResourceManager.GetString("Instruments", resourceCulture);
             }
         }
         

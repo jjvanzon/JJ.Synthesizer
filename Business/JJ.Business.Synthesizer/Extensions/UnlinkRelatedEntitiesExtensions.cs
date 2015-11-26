@@ -46,7 +46,6 @@ namespace JJ.Business.Synthesizer.Extensions
             if (document == null) throw new NullException(() => document);
 
             document.UnlinkParentDocument();
-            document.UnlinkChildDocumentType();
         }
 
         public static void UnlinkRelatedEntities(this DocumentReference documentReference)

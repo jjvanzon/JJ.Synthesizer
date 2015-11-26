@@ -1894,7 +1894,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
                 // Business
-                Document childDocument = _documentManager.CreateChildDocument(rootDocument, ChildDocumentTypeEnum.Effect, mustGenerateName: true);
+                Document childDocument = _documentManager.CreateChildDocument(rootDocument, mustGenerateName: true);
 
                 var patchManager = new PatchManager(_patchRepositories);
                 patchManager.CreatePatch(childDocument, mustGenerateName: true);

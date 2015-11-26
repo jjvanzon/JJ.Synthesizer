@@ -138,4 +138,7 @@
   <data name="Type" xml:space="preserve">
     <value>Type</value>
   </data>
+  <data name="UnderlyingPatch" xml:space="preserve">
+    <value>Underlying Patch</value>
+  </data>
 </root>

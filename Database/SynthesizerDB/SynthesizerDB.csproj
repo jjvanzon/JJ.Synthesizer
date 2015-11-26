@@ -134,6 +134,7 @@
     <Content Include="2015-11-23 010 SynthesizerDB Document.ChildDocumentGroupName.sql" />
     <Content Include="2015-11-23 020 SynthesizerDB rename Document.ChildDocumentGroupName to GroupName.sql" />
     <Content Include="2015-11-23 030 SynthesizerDB fill Document.GroupName.sql" />
+    <Content Include="2015-11-26 010 SynthesizerDB drop table ChildDocumentType and Document.ChildDocumentID and IXs and FKs.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

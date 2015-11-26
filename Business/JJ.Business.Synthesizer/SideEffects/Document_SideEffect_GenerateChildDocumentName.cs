@@ -6,6 +6,8 @@ using JJ.Framework.Reflection.Exceptions;
 using System;
 using System.Linq;
 using JJ.Business.Synthesizer.Enums;
+using System.Collections.Generic;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
@@ -23,22 +25,18 @@ namespace JJ.Business.Synthesizer.SideEffects
         {
             if (_childDocument.ParentDocument == null) throw new NullException(() => _childDocument.ParentDocument);
 
-            Document parentDocument = _childDocument.ParentDocument;
-
+            HashSet<string> existingNames = _childDocument.ParentDocument.EnumerateSelfAndParentAndTheirChildren()
+                                                                         .SelectMany(x => x.ChildDocuments)
+                                                                         .Select(x => x.Name)
+                                                                         .ToHashSet();
             int number = 1;
             string suggestedName;
             bool nameExists;
 
-            ChildDocumentTypeEnum childDocumentTypeEnum = _childDocument.GetChildDocumentTypeEnum();
-            string childDocumentTypeName = _childDocument.ChildDocumentType.Name;
-            string childDocumentTypeDisplayName = ResourceHelper.GetPropertyDisplayName(childDocumentTypeName);
-
             do
             {
-                suggestedName = String.Format("{0} {1}", childDocumentTypeDisplayName, number++);
-                nameExists = parentDocument.ChildDocuments.Where(x => x.GetChildDocumentTypeEnum() == childDocumentTypeEnum &&
-                                                                      String.Equals(x.Name, suggestedName))
-                                                          .Any();
+                suggestedName = String.Format("{0} {1}", PropertyDisplayNames.Patch, number++);
+                nameExists = existingNames.Contains(suggestedName);
             }
             while (nameExists);
 

@@ -122,5 +122,14 @@ namespace JJ.Presentation.Synthesizer.Resources {
                 return ResourceManager.GetString("Type", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Underlying Patch.
+        /// </summary>
+        public static string UnderlyingPatch {
+            get {
+                return ResourceManager.GetString("UnderlyingPatch", resourceCulture);
+            }
+        }
     }
 }

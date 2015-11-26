@@ -30,7 +30,6 @@ namespace JJ.Data.Synthesizer
 
         public virtual IList<Document> ChildDocuments { get; set; }
         public virtual Document ParentDocument { get; set; }
-        public virtual ChildDocumentType ChildDocumentType { get; set; }
         public virtual string GroupName { get; set; }
 
         public virtual IList<DocumentReference> DependentOnDocuments { get; set; }

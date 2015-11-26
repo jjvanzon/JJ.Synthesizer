@@ -141,7 +141,6 @@
     <Compile Include="EntityWrappers\OperatorWrapper_Resample.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_WhiteNoise.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Sample.cs" />
-    <Compile Include="Enums\ChildDocumentTypeEnum.cs" />
     <Compile Include="Enums\OperatorTypeEnum.cs" />
     <Compile Include="Enums\SpeakerSetupEnum.cs" />
     <Compile Include="Enums\ChannelEnum.cs" />

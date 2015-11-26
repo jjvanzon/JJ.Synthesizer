@@ -13,7 +13,6 @@ namespace JJ.Data.Synthesizer.NHibernate.Mapping
             Map(x => x.GroupName);
 
             References(x => x.ParentDocument, ColumnNames.ParentDocumentID);
-            References(x => x.ChildDocumentType, ColumnNames.ChildDocumentTypeID);
 
             HasMany(x => x.Curves).KeyColumn(ColumnNames.DocumentID).Inverse();
             HasMany(x => x.Patches).KeyColumn(ColumnNames.DocumentID).Inverse();

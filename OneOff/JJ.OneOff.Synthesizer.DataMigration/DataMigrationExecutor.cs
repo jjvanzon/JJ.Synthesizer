@@ -157,7 +157,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     int patchNumber = 1;
 
                     // Traverse patches in a very specific order, so that the numbers do not seem all mixed up.
-                    IEnumerable<Document> childDocuments = rootDocument.ChildDocuments.OrderBy(x => x.ChildDocumentType.ID).ThenBy(x => x.Name);
+                    //IEnumerable<Document> childDocuments = rootDocument.ChildDocuments.OrderBy(x => x.ChildDocumentType.ID).ThenBy(x => x.Name);
+                    IEnumerable<Document> childDocuments = rootDocument.ChildDocuments.OrderBy(x => x.GroupName).ThenBy(x => x.Name);
                     foreach (Document childDocument in childDocuments)
                     {
                         foreach (Patch patch in childDocument.Patches)
@@ -285,7 +286,8 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     // Move patches to their own child document.
                     foreach (Patch patch in rootDocument.Patches.ToArray())
                     {
-                        Document newChildDocument = documentManager.CreateChildDocument(rootDocument, ChildDocumentTypeEnum.Instrument, mustGenerateName: true);
+                        //Document newChildDocument = documentManager.CreateChildDocument(rootDocument, ChildDocumentTypeEnum.Instrument, mustGenerateName: true);
+                        Document newChildDocument = documentManager.CreateChildDocument(rootDocument, mustGenerateName: true);
                         patch.LinkTo(newChildDocument);
                     }
 

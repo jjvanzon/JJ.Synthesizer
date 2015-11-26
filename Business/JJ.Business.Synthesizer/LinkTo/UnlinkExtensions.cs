@@ -119,11 +119,25 @@ namespace JJ.Business.Synthesizer.LinkTo
 
         // Enum-Like Entities
 
-        public static void UnlinkOperatorType(this Operator op)
+        public static void UnlinkAudioFileFormat(this AudioFileOutput audioFileOutput)
         {
-            if (op == null) throw new NullException(() => op);
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
-            op.LinkTo((OperatorType)null);
+            audioFileOutput.LinkTo((AudioFileFormat)null);
+        }
+
+        public static void UnlinkAudioFileFormat(this Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            sample.LinkTo((AudioFileFormat)null);
+        }
+
+        public static void UnlinkInterpolationType(this Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            sample.LinkTo((InterpolationType)null);
         }
 
         public static void UnlinkNodeType(this Node node)
@@ -131,6 +145,27 @@ namespace JJ.Business.Synthesizer.LinkTo
             if (node == null) throw new NullException(() => node);
 
             node.LinkTo((NodeType)null);
+        }
+
+        public static void UnlinkOperatorType(this Operator op)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            op.LinkTo((OperatorType)null);
+        }
+
+        public static void UnlinkSampleDataType(this Sample sample)
+        {
+            if (sample == null) throw new NullException(() => sample);
+
+            sample.LinkTo((SampleDataType)null);
+        }
+
+        public static void UnlinkSampleDataType(this AudioFileOutput audioFileOutput)
+        {
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+
+            audioFileOutput.LinkTo((SampleDataType)null);
         }
 
         public static void UnlinkScaleType(this Scale scale)
@@ -147,53 +182,11 @@ namespace JJ.Business.Synthesizer.LinkTo
             sample.LinkTo((SpeakerSetup)null);
         }
 
-        public static void UnlinkInterpolationType(this Sample sample)
-        {
-            if (sample == null) throw new NullException(() => sample);
-
-            sample.LinkTo((InterpolationType)null);
-        }
-
-        public static void UnlinkSampleDataType(this Sample sample)
-        {
-            if (sample == null) throw new NullException(() => sample);
-
-            sample.LinkTo((SampleDataType)null);
-        }
-
-        public static void UnlinkAudioFileFormat(this Sample sample)
-        {
-            if (sample == null) throw new NullException(() => sample);
-
-            sample.LinkTo((AudioFileFormat)null);
-        }
-
         public static void UnlinkSpeakerSetup(this AudioFileOutput audioFileOutput)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
 
             audioFileOutput.LinkTo((SpeakerSetup)null);
-        }
-
-        public static void UnlinkSampleDataType(this AudioFileOutput audioFileOutput)
-        {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-
-            audioFileOutput.LinkTo((SampleDataType)null);
-        }
-
-        public static void UnlinkAudioFileFormat(this AudioFileOutput audioFileOutput)
-        {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-
-            audioFileOutput.LinkTo((AudioFileFormat)null);
-        }
-
-        public static void UnlinkChildDocumentType(this Document document)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            document.LinkTo((ChildDocumentType)null);
         }
     }
 }

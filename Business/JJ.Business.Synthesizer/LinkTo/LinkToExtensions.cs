@@ -408,15 +408,6 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
-        public static void LinkTo(this Document document, ChildDocumentType childDocumentType)
-        {
-            if (document == null) throw new NullException(() => document);
-
-            document.ChildDocumentType = childDocumentType;
-
-            // No inverse property.
-        }
-
         public static void LinkTo(this Node node, NodeType nodeType)
         {
             if (node == null) throw new NullException(() => node);
