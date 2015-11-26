@@ -694,7 +694,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Document document = ViewModel.Document.ToEntity(_repositories.DocumentRepository);
                 ViewModel.Document.PatchDocumentList.Select(x => x.PatchDetails.Entity)
                                                     .ForEach(x => x.ToPatch(_repositories.PatchRepository));
-                ViewModel.Document.PatchPropertiesList.ToChildDocuments(document, _repositories);
+                ViewModel.Document.PatchDocumentList.ForEach(x => x.PatchProperties.ToChildDocument(_repositories.DocumentRepository));
 
                 _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;
 
@@ -1807,7 +1807,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                _patchPropertiesPresenter.ViewModel = ViewModel.Document.PatchPropertiesList.First(x => x.ChildDocumentID == childDocumentID);
+                _patchPropertiesPresenter.ViewModel = ViewModel.Document.PatchDocumentList
+                                                                        .Where(x => x.ChildDocumentID == childDocumentID)
+                                                                        .Select(x => x.PatchProperties)
+                                                                        .First();
                 _patchPropertiesPresenter.Show();
 
                 DispatchViewModel(_patchPropertiesPresenter.ViewModel);
@@ -1906,9 +1909,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 gridViewModel.List.Add(listItemViewModel);
                 gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
 
-                PatchPropertiesViewModel propertiesViewModel = childDocument.ToPatchPropertiesViewModel();
-                ViewModel.Document.PatchPropertiesList.Add(propertiesViewModel);
-
                 PatchDocumentViewModel documentViewModel = childDocument.ToPatchDocumentViewModel(_repositories, _entityPositionManager);
                 ViewModel.Document.PatchDocumentList.Add(documentViewModel);
 
@@ -1942,7 +1942,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 else
                 {
                     // ToViewModel
-                    ViewModel.Document.PatchPropertiesList.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
                     ViewModel.Document.PatchDocumentList.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
                     ViewModel.Document.UnderlyingDocumentLookup.RemoveFirst(x => x.ID == childDocumentID);
                     ViewModel.Document.DocumentTree.PatchesNode.PatchNodes.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);

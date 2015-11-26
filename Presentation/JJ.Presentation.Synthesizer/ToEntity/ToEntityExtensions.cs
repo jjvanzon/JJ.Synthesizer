@@ -339,7 +339,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             Document destDocument = userInput.ToEntity(repositories.DocumentRepository);
 
             userInput.PatchDocumentList.ToChildDocumentsWithRelatedEntities(destDocument, repositories);
-            userInput.PatchPropertiesList.ToChildDocuments(destDocument, repositories);
             userInput.AudioFileOutputPropertiesList.ToAudioFileOutputsWithRelatedEntities(destDocument, new AudioFileOutputRepositories(repositories));
             userInput.CurvePropertiesList.ToEntities(destDocument, curveRepositories);
             userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(destDocument, curveRepositories);
@@ -1070,15 +1069,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (userInput == null) throw new NullException(() => userInput);
             if (repositories == null) throw new NullException(() => repositories);
 
-            Document destDocument = userInput.ToChildDocument(repositories.DocumentRepository);
+            Document childDocument = userInput.ToChildDocument(repositories.DocumentRepository);
+            userInput.PatchProperties.ToChildDocument(repositories.DocumentRepository);
 
             var curveRepositories = new CurveRepositories(repositories);
-            userInput.CurvePropertiesList.ToEntities(destDocument, curveRepositories);
-            userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(destDocument, curveRepositories);
-            userInput.SamplePropertiesList.ToSamples(destDocument, new SampleRepositories(repositories));
+            userInput.CurvePropertiesList.ToEntities(childDocument, curveRepositories);
+            userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(childDocument, curveRepositories);
+            userInput.SamplePropertiesList.ToSamples(childDocument, new SampleRepositories(repositories));
 
             Patch patch = userInput.PatchDetails.ToPatchWithRelatedEntities(new PatchRepositories(repositories));
-            patch.LinkTo(destDocument);
+            userInput.PatchProperties.ToPatch(repositories.PatchRepository);
+            patch.LinkTo(childDocument);
 
             // Operator Properties
             // (Operators are converted with the PatchDetails view models, but may not contain all properties.)
@@ -1127,7 +1128,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
             }
 
-            return destDocument;
+            return childDocument;
         }
 
         public static Document ToChildDocument(this PatchDocumentViewModel viewModel, IDocumentRepository documentRepository)
@@ -1145,7 +1146,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             return entity;
         }
+
+        // TODO: Remove unused method.
         /// <summary> Leading for saving when it comes to the simple properties. </summary>
+        [Obsolete("", true)]
         public static void ToChildDocuments(
             this IList<PatchPropertiesViewModel> sourceViewModelList,
             Document destParentDocument,

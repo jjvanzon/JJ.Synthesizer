@@ -597,7 +597,9 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            return rootDocumentViewModel.PatchPropertiesList.Where(x => x.ChildDocumentID == childDocumentID).FirstOrDefault();
+            return rootDocumentViewModel.PatchDocumentList.Where(x => x.ChildDocumentID == childDocumentID)
+                                                          .Select(x => x.PatchProperties)
+                                                          .FirstOrDefault();
         }
 
         // Sample

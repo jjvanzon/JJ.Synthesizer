@@ -44,7 +44,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 NodePropertiesList = new List<NodePropertiesViewModel>(),
                 PatchGridList = new List<PatchGridViewModel>(),
                 PatchDocumentList = new List<PatchDocumentViewModel>(),
-                PatchPropertiesList = new List<PatchPropertiesViewModel>(),
                 SampleGrid = CreateEmptySampleGridViewModel(),
                 SampleLookup = new List<IDAndName>(),
                 SamplePropertiesList = new List<SamplePropertiesViewModel>(),

@@ -22,9 +22,8 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public DocumentTreeViewModel DocumentTree { get; set; }
         public IList<NodePropertiesViewModel> NodePropertiesList { get; set; }
         public IList<PatchGridViewModel> PatchGridList { get; set; }
-        /// <summary> Leading for saving child entities, not leading for saving the simple properties. </summary>
         public IList<PatchDocumentViewModel> PatchDocumentList { get; set; }
-        /// <summary> Leading for saving when it comes to the simple properties. </summary>
+        [Obsolete("", true)]
         public IList<PatchPropertiesViewModel> PatchPropertiesList { get; set; }
         public SampleGridViewModel SampleGrid { get; set; }
         /// <summary> 

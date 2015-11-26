@@ -154,7 +154,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                                               .FirstOrDefault();
 
                 // PatchProperties
-                patchPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.PatchPropertiesList
+                patchPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.PatchDocumentList
+                                                                                    .Select(x => x.PatchProperties)
                                                                                     .Where(x => x.Visible)
                                                                                     .FirstOrDefault();
                 // SampleGrid

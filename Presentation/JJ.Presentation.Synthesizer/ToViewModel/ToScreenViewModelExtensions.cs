@@ -591,10 +591,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static PatchPropertiesViewModel ToPatchPropertiesViewModel(this Document childDocument)
         {
             if (childDocument == null) throw new NullException(() => childDocument);
+            if (childDocument.Patches.Count < 1) throw new LessThanException(() => childDocument.Patches.Count, 1);
 
             var viewModel = new PatchPropertiesViewModel
             {
                 ChildDocumentID = childDocument.ID,
+                PatchID = childDocument.Patches[0].ID,
                 Name = childDocument.Name,
                 Group = childDocument.GroupName,
                 ValidationMessages = new List<Message>(),

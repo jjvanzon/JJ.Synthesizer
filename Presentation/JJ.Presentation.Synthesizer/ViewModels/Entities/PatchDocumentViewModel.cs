@@ -26,6 +26,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public IList<OperatorPropertiesViewModel_ForPatchOutlet> OperatorPropertiesList_ForPatchOutlets { get; set; }
         public IList<OperatorPropertiesViewModel_ForSample> OperatorPropertiesList_ForSamples { get; set; }
         public IList<OperatorPropertiesViewModel_ForUnbundle> OperatorPropertiesList_ForUnbundles { get; set; }
+        public PatchPropertiesViewModel PatchProperties { get; set; }
         public PatchDetailsViewModel PatchDetails { get; set; }
         public SampleGridViewModel SampleGrid { get; set; }
         /// <summary> 

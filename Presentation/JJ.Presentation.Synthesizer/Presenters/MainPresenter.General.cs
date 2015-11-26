@@ -160,8 +160,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             ViewModel.DocumentDetails.Visible = false;
             ViewModel.Document.AudioFileOutputPropertiesList.ForEach(x => x.Visible = false);
-            ViewModel.Document.PatchPropertiesList.ForEach(x => x.Visible = false);
-            ViewModel.Document.PatchPropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.CurvePropertiesList.ForEach(x => x.Visible = false);
             ViewModel.Document.DocumentProperties.Visible = false;
             ViewModel.Document.NodePropertiesList.ForEach(x => x.Visible = false);
@@ -181,6 +179,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForSamples).ForEach(x => x.Visible = false);
             ViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles).ForEach(x => x.Visible = false);
             ViewModel.Document.PatchDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
+            ViewModel.Document.PatchDocumentList.ForEach(x => x.PatchProperties.Visible = false);
         }
     }
 }
