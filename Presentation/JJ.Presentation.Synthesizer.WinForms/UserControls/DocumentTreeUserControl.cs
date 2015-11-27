@@ -32,7 +32,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private HashSet<TreeNode> _samplesTreeNodes;
         private HashSet<TreeNode> _curvesTreeNodes;
         private HashSet<TreeNode> _patchTreeNodes;
-        private HashSet<TreeNode> _patchesTreeNode;
+        private HashSet<TreeNode> _patchesTreeNodes;
         private TreeNode _scalesTreeNode;
         private TreeNode _audioFileOutputsTreeNode;
 
@@ -74,7 +74,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 _samplesTreeNodes = new HashSet<TreeNode>();
                 _curvesTreeNodes = new HashSet<TreeNode>();
                 _patchTreeNodes = new HashSet<TreeNode>();
-                _patchesTreeNode = new HashSet<TreeNode>();
+                _patchesTreeNodes = new HashSet<TreeNode>();
 
                 treeView.Nodes.Clear();
 
@@ -131,7 +131,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             // Patches
             var patchesTreeNode = new TreeNode(PropertyDisplayNames.Patches);
             documentNode.Nodes.Add(patchesTreeNode);
-            _patchesTreeNode.Add(patchesTreeNode);
+            _patchesTreeNodes.Add(patchesTreeNode);
 
             // PatchGroups
             foreach (PatchGroupTreeNodeViewModel patchGroupViewModel in documentNodeViewModel.PatchesNode.PatchGroupNodes)
@@ -139,7 +139,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 var patchGroupTreeNode = new TreeNode(patchGroupViewModel.Name);
                 patchGroupTreeNode.Tag = patchGroupViewModel.Name;
                 patchesTreeNode.Nodes.Add(patchGroupTreeNode);
-                _patchesTreeNode.Add(patchesTreeNode);
+                _patchesTreeNodes.Add(patchGroupTreeNode);
 
                 foreach (PatchTreeNodeViewModel patchViewModel in patchGroupViewModel.Patches)
                 {
@@ -314,7 +314,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 }
             }
 
-            if (_patchesTreeNode.Contains(node))
+            if (_patchesTreeNodes.Contains(node))
             {
                 if (ShowPatchGridRequested != null)
                 {

@@ -1898,6 +1898,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Business
                 Document childDocument = _documentManager.CreateChildDocument(rootDocument, mustGenerateName: true);
+                childDocument.GroupName = group;
 
                 var patchManager = new PatchManager(_patchRepositories);
                 patchManager.CreatePatch(childDocument, mustGenerateName: true);
