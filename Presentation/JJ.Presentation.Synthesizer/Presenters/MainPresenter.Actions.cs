@@ -185,13 +185,45 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (_audioFileOutputPropertiesPresenter.ViewModel.Successful)
                 {
-                    RefreshAudioFileOutputGrid();
+                    AudioFileOutputGridRefresh();
                 }
             }
             finally
             {
                 _repositories.Rollback();
             }
+        }
+
+        // CurrentPatches
+
+        public void CurrentPatchesShow()
+        {
+            _currentPatchesPresenter.Show();
+            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+        }
+
+        public void CurrentPatchesClose()
+        {
+            _currentPatchesPresenter.Close();
+            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+        }
+
+        public void CurrentPatchAdd(int childDocumentID)
+        {
+            _currentPatchesPresenter.Add(childDocumentID);
+            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+        }
+
+        public void CurrentPatchRemove(int childDocumentID)
+        {
+            _currentPatchesPresenter.Remove(childDocumentID);
+            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+        }
+
+        public void CurrentPatchMove(int childDocumentID, int newPosition)
+        {
+            _currentPatchesPresenter.Move(childDocumentID, newPosition);
+            DispatchViewModel(_currentPatchesPresenter.ViewModel);
         }
 
         // Curve
@@ -264,13 +296,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 // NOTE: Curves in a child document are only added to the curve lookup of that child document,
-                // while curve in the root document are added to both root and child documents.
+                // while curve in the root document are added to all child documents.
                 bool isRootDocument = document.ParentDocument == null;
                 if (isRootDocument)
                 {
                     IDAndName idAndName = curve.ToIDAndName();
-                    ViewModel.Document.CurveLookup.Add(idAndName);
-                    ViewModel.Document.PatchDocumentList.ForEach(x => x.CurveLookup.Add(idAndName));
+                    foreach (PatchDocumentViewModel patchDocumentViewModel in ViewModel.Document.PatchDocumentList)
+                    {
+                        patchDocumentViewModel.CurveLookup.Add(idAndName);
+                        patchDocumentViewModel.CurveLookup = patchDocumentViewModel.CurveLookup.OrderBy(x => x.Name).ToList();
+                    }
                 }
                 else
                 {
@@ -322,11 +357,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     propertiesViewModels.RemoveFirst(x => x.Entity.ID == curveID);
 
                     // NOTE: 
-                    // If it is a curve in the root document, it is present in both root document and child document's curve lookups.
+                    // If it is a curve in the root document, it is present in all child document's curve lookups.
                     // If it is a curve in a child document, it will only be present in the child document's curve lookup and we have to do less work.
                     if (isRootDocument)
                     {
-                        ViewModel.Document.CurveLookup.RemoveFirst(x => x.ID == curveID);
                         ViewModel.Document.PatchDocumentList.ForEach(x => x.CurveLookup.RemoveFirst(y => y.ID == curveID));
                     }
                     else
@@ -427,8 +461,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     int curveID = _curvePropertiesPresenter.ViewModel.Entity.ID;
 
-                    RefreshCurveGridItem(curveID);
-                    RefreshCurveLookupsItems(curveID);
+                    CurveGridItemRefresh(curveID);
+                    CurveLookupsItemsRefresh(curveID);
                 }
             }
             finally
@@ -500,7 +534,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _documentDetailsPresenter.Save();
                 DispatchViewModel(_documentDetailsPresenter.ViewModel);
 
-                RefreshDocumentGrid();
+                DocumentGridRefresh();
             }
             finally
             {
@@ -590,10 +624,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel.Document = document.ToViewModel(_repositories, _entityPositionManager);
 
                 // Here only the view models are assigned that cannot vary.
-                // E.g. PatchGrid can be show for both chile documents and root document.
+                // E.g. SampleGrid is not assigned here, because it can be different for each child document.
                 _audioFileOutputGridPresenter.ViewModel = ViewModel.Document.AudioFileOutputGrid;
                 _documentTreePresenter.ViewModel = ViewModel.Document.DocumentTree;
                 _scaleGridPresenter.ViewModel = ViewModel.Document.ScaleGrid;
+                _currentPatchesPresenter.ViewModel = ViewModel.Document.CurrentPatches;
 
                 ViewModel.WindowTitle = String.Format("{0} - {1}", document.Name, Titles.ApplicationName);
 
@@ -704,8 +739,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (_documentPropertiesPresenter.ViewModel.Successful)
                 {
-                    RefreshDocumentGrid();
-                    RefreshDocumentTree();
+                    DocumentGridRefresh();
+                    DocumentTreeRefresh();
                 }
             }
             finally
@@ -804,7 +839,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 if (partialPresenter.ViewModel.Successful)
                 {
                     int nodeID = partialPresenter.ViewModel.Entity.ID;
-                    RefreshCurveDetailsNode(nodeID);
+                    CurveDetailsNodeRefresh(nodeID);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1220,7 +1255,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (partialPresenter.ViewModel.Successful)
                 {
-                    RefreshPatchDetailsOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                    PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1243,7 +1278,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (partialPresenter.ViewModel.Successful)
                 {
-                    RefreshPatchDetailsOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                    PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1272,7 +1307,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (partialPresenter.ViewModel.Successful)
                 {
-                    RefreshPatchDetailsOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                    PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1305,7 +1340,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesPresenter_ForCustomOperator partialPresenter = _operatorPropertiesPresenter_ForCustomOperator;
                 if (partialPresenter.ViewModel.Successful)
                 {
-                    RefreshPatchDetailsOperator(partialPresenter.ViewModel.ID);
+                    PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1328,7 +1363,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (partialPresenter.ViewModel.Successful)
                 {
-                    RefreshPatchDetailsOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                    PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1352,10 +1387,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (partialPresenter.ViewModel.Successful)
                 {
-                    RefreshPatchDetailsOperator(partialPresenter.ViewModel.ID);
+                    PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
 
                     // Refresh Dependencies
-                    RefreshOperatorViewModels_OfTypeCustomOperators();
+                    OperatorViewModels_OfTypeCustomOperators_Refresh();
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1379,10 +1414,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (partialPresenter.ViewModel.Successful)
                 {
-                    RefreshPatchDetailsOperator(partialPresenter.ViewModel.ID);
+                    PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
 
                     // Refresh Dependent Things
-                    RefreshOperatorViewModels_OfTypeCustomOperators();
+                    OperatorViewModels_OfTypeCustomOperators_Refresh();
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1411,7 +1446,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (partialPresenter.ViewModel.Successful)
                 {
-                    RefreshPatchDetailsOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                    PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1434,7 +1469,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (partialPresenter.ViewModel.Successful)
                 {
-                    RefreshPatchDetailsOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
+                    PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1507,7 +1542,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 // Refresh Dependent Things
-                RefreshOperatorViewModels_OfTypeCustomOperators();
+                OperatorViewModels_OfTypeCustomOperators_Refresh();
             }
             finally
             {
@@ -1675,7 +1710,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
 
                     // Refresh Dependent Things
-                    RefreshOperatorViewModels_OfTypeCustomOperators();
+                    OperatorViewModels_OfTypeCustomOperators_Refresh();
                 }
 
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
@@ -1845,11 +1880,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (_patchPropertiesPresenter.ViewModel.Successful)
                 {
-                    RefreshDocumentTree();
-                    RefreshPatchGrids(); // Refresh all patch grids, because a Patch's group can change.
-                    RefreshUnderylingDocumentLookup();
-                    RefreshOperatorViewModels_OfTypeCustomOperators();
-                    Refresh_OperatorProperties_ForCustomOperatorViewModels(underlyingDocumentID: childDocumentID);
+                    DocumentTreeRefresh();
+                    CurrentPatchesRefresh();
+                    PatchGridsRefresh(); // Refresh all patch grids, because a Patch's group can change.
+                    UnderylingDocumentLookupRefresh();
+                    OperatorViewModels_OfTypeCustomOperators_Refresh();
+                    OperatorProperties_ForCustomOperatorViewModels_Refresh(underlyingDocumentID: childDocumentID);
                 }
             }
             finally
@@ -1917,7 +1953,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel.Document.UnderlyingDocumentLookup.Add(idAndName);
                 ViewModel.Document.UnderlyingDocumentLookup = ViewModel.Document.UnderlyingDocumentLookup.OrderBy(x => x.Name).ToList();
 
-                RefreshDocumentTree();
+                DocumentTreeRefresh();
             }
             finally
             {
@@ -1944,6 +1980,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     // ToViewModel
                     ViewModel.Document.PatchDocumentList.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
+                    ViewModel.Document.CurrentPatches.List.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
                     ViewModel.Document.UnderlyingDocumentLookup.RemoveFirst(x => x.ID == childDocumentID);
                     ViewModel.Document.DocumentTree.PatchesNode.PatchNodes.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
                     foreach (PatchGroupTreeNodeViewModel nodeViewModel in ViewModel.Document.DocumentTree.PatchesNode.PatchGroupNodes)
@@ -2021,13 +2058,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 propertiesViewModels.Add(propertiesViewModel);
 
                 // NOTE: Samples in a child document are only added to the sample lookup of that child document,
-                // while sample in the root document are added to both root and child documents.
+                // while sample in the root document are added to all child documents.
                 bool isRootDocument = document.ParentDocument == null;
                 if (isRootDocument)
                 {
                     IDAndName idAndName = sample.ToIDAndName();
-                    ViewModel.Document.SampleLookup.Add(idAndName);
-                    ViewModel.Document.PatchDocumentList.ForEach(x => x.SampleLookup.Add(idAndName));
+                    foreach (PatchDocumentViewModel patchDocumentViewModel in ViewModel.Document.PatchDocumentList)
+                    {
+                        patchDocumentViewModel.SampleLookup.Add(idAndName);
+                        patchDocumentViewModel.SampleLookup = patchDocumentViewModel.SampleLookup.OrderBy(x => x.Name).ToList();
+                    }
                 }
                 else
                 {
@@ -2065,11 +2105,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     gridViewModel.List.RemoveFirst(x => x.ID == sampleID);
 
                     // NOTE: 
-                    // If it is a sample in the root document, it is present in both root document and child document's sample lookups.
+                    // If it is a sample in the root document, it is present in all child document's sample lookups.
                     // If it is a sample in a child document, it will only be present in the child document's sample lookup and we have to do less work.
                     if (isRootDocument)
                     {
-                        ViewModel.Document.SampleLookup.RemoveFirst(x => x.ID == sampleID);
                         ViewModel.Document.PatchDocumentList.ForEach(x => x.SampleLookup.RemoveFirst(y => y.ID == sampleID));
                     }
                     else
@@ -2128,8 +2167,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     int sampleID = _samplePropertiesPresenter.ViewModel.Entity.ID;
 
-                    RefreshSampleGridItem(sampleID);
-                    RefreshSampleLookupsItems(sampleID);
+                    SampleGridRefreshItem(sampleID);
+                    SampleLookupsRefresh(sampleID);
                 }
             }
             finally
@@ -2262,7 +2301,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 if (_scalePropertiesPresenter.ViewModel.Successful)
                 {
-                    RefreshScaleGrid();
+                    ScaleGridRefresh();
                 }
             }
             finally

@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.CanonicalModel;
+using JJ.Presentation.Synthesizer.ViewModels.Partials;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -138,6 +139,19 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = entity.Name,
                 Patches = entity.ChildDocuments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList(),
                 ID = entity.ID
+            };
+
+            return viewModel;
+        }
+
+        public static CurrentPatchItemViewModel ToCurrentPatchViewModel(this Document document)
+        {
+            if (document == null) throw new NullException(() => document);
+
+            var viewModel = new CurrentPatchItemViewModel
+            {
+                ChildDocumentID = document.ID,
+                Name = document.Name
             };
 
             return viewModel;

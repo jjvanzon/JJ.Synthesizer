@@ -20,6 +20,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 { typeof(AudioFileOutputGridViewModel), DispatchAudioFileOutputGridViewModel },
                 { typeof(AudioFileOutputPropertiesViewModel), DispatchAudioFileOutputPropertiesViewModel },
+                { typeof(CurrentPatchesViewModel), DispatchCurrentPatchesViewModel },
                 { typeof(CurveDetailsViewModel), DispatchCurveDetailsViewModel },
                 { typeof(CurveGridViewModel), DispatchCurveGridViewModel },
                 { typeof(CurvePropertiesViewModel), DispatchCurvePropertiesViewModel },
@@ -103,6 +104,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
+        private void DispatchCurrentPatchesViewModel(object viewModel2)
+        {
+            // Currently does nothing. But all view models have a dispatch method, so I think I need a placeholder here.
+        }
+
         private void DispatchCurveDetailsViewModel(object viewModel2)
         {
             var castedViewModel = (CurveDetailsViewModel)viewModel2;
@@ -173,7 +179,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (!castedViewModel.Visible)
             {
                 // Also: this might better be done in the action method.
-                RefreshDocumentGrid();
+                DocumentGridRefresh();
             }
         }
 
@@ -270,7 +276,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             if (castedViewModel.Visible)
             {
-                RefreshDocumentGrid();
+                DocumentGridRefresh();
             }
         }
 

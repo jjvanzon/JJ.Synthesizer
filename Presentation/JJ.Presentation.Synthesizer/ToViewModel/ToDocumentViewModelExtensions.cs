@@ -1,10 +1,10 @@
-﻿using JJ.Business.Synthesizer.Enums;
+﻿using System.Linq;
+using JJ.Framework.Reflection.Exceptions;
+using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Data.Synthesizer;
-using JJ.Framework.Reflection.Exceptions;
+using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -24,16 +24,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                     repositories.SampleDataTypeRepository,
                     repositories.SpeakerSetupRepository)).ToList(),
                 PatchDocumentList = document.ChildDocuments.Select(x => x.ToPatchDocumentViewModel(repositories, entityPositionManager)).ToList(),
+                CurrentPatches = ViewModelHelper.CreateEmptyCurrentPatchesViewModel(),
                 CurveDetailsList = document.Curves.Select(x => x.ToDetailsViewModel(repositories.NodeTypeRepository)).ToList(),
                 CurveGrid = document.Curves.ToGridViewModel(document.ID),
-                CurveLookup = ViewModelHelper.CreateCurveLookupViewModel(document),
                 CurvePropertiesList = document.Curves.Select(x => x.ToPropertiesViewModel()).ToList(),
                 DocumentProperties = document.ToPropertiesViewModel(),
                 DocumentTree = document.ToTreeViewModel(),
                 PatchGridList = document.ToPatchGridViewModelList(),
                 NodePropertiesList = document.Curves.SelectMany(x => x.Nodes).Select(x => x.ToPropertiesViewModel(repositories.NodeTypeRepository)).ToList(),
                 SampleGrid = document.Samples.ToGridViewModel(document.ID),
-                SampleLookup = ViewModelHelper.CreateSampleLookupViewModel(document),
                 SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositories))).ToList(),
                 ScaleGrid = document.Scales.ToGridViewModel(document.ID),
                 ScalePropertiesList = document.Scales.Select(x => x.ToPropertiesViewModel(repositories.ScaleTypeRepository)).ToList(),

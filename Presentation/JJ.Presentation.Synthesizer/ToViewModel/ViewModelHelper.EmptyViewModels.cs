@@ -4,6 +4,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using System.Collections.Generic;
+using System;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -14,6 +15,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new AudioFileOutputGridViewModel
             {
                 List = new List<AudioFileOutputListItemViewModel>()
+            };
+
+            return viewModel;
+        }
+
+        public static CurrentPatchesViewModel CreateEmptyCurrentPatchesViewModel()
+        {
+            var viewModel = new CurrentPatchesViewModel
+            {
+                List = new List<CurrentPatchItemViewModel>()
             };
 
             return viewModel;
@@ -35,9 +46,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 AudioFileOutputGrid = CreateEmptyAudioFileOutputGridViewModel(),
                 AudioFileOutputPropertiesList = new List<AudioFileOutputPropertiesViewModel>(),
+                CurrentPatches = CreateEmptyCurrentPatchesViewModel(),
                 CurveDetailsList = new List<CurveDetailsViewModel>(),
                 CurveGrid = CreateEmptyCurveGridViewModel(),
-                CurveLookup = new List<IDAndName>(),
                 CurvePropertiesList = new List<CurvePropertiesViewModel>(),
                 DocumentProperties = CreateEmptyDocumentPropertiesViewModel(),
                 DocumentTree = CreateEmptyDocumentTreeViewModel(),
@@ -45,7 +56,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 PatchGridList = new List<PatchGridViewModel>(),
                 PatchDocumentList = new List<PatchDocumentViewModel>(),
                 SampleGrid = CreateEmptySampleGridViewModel(),
-                SampleLookup = new List<IDAndName>(),
                 SamplePropertiesList = new List<SamplePropertiesViewModel>(),
                 ScaleGrid = CreateEmptyScaleGridViewModel(),
                 ScalePropertiesList = new List<ScalePropertiesViewModel>(),

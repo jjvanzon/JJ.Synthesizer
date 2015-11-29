@@ -21,26 +21,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idNames;
         }
 
-        public static IList<IDAndName> CreateCurveLookupViewModel(Document rootDocument)
-        {
-            if (rootDocument == null) throw new NullException(() => rootDocument);
-
-            var list = new List<IDAndName>(rootDocument.Curves.Count + 1);
-
-            list.Add(new IDAndName { ID = 0, Name = null });
-
-            list.AddRange(rootDocument.Curves
-                                      .OrderBy(x => x.Name)
-                                      .Select(x => x.ToIDAndName()));
-            return list;
-        }
-
         public static IList<IDAndName> CreateCurveLookupViewModel(Document rootDocument, Document childDocument)
         {
             if (rootDocument == null) throw new NullException(() => rootDocument);
             if (childDocument == null) throw new NullException(() => childDocument);
 
-            var list = new List<IDAndName>();
+            var list = new List<IDAndName>(rootDocument.Curves.Count + childDocument.Curves.Count + 1);
 
             list.Add(new IDAndName { ID = 0, Name = null });
 

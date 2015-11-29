@@ -33,6 +33,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private readonly AudioFileOutputGridPresenter _audioFileOutputGridPresenter;
         private readonly AudioFileOutputPropertiesPresenter _audioFileOutputPropertiesPresenter;
+        private readonly CurrentPatchesPresenter _currentPatchesPresenter;
         private readonly CurveDetailsPresenter _curveDetailsPresenter;
         private readonly CurveGridPresenter _curveGridPresenter;
         private readonly CurvePropertiesPresenter _curvePropertiesPresenter;
@@ -96,6 +97,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Create Presenters
             _audioFileOutputGridPresenter = new AudioFileOutputGridPresenter(_repositories.DocumentRepository);
             _audioFileOutputPropertiesPresenter = new AudioFileOutputPropertiesPresenter(audioFileOutputRepositories);
+            _currentPatchesPresenter = new CurrentPatchesPresenter(_repositories.DocumentRepository);
             _curveDetailsPresenter = new CurveDetailsPresenter(_curveRepositories);
             _curveGridPresenter = new CurveGridPresenter(_repositories.DocumentRepository, _repositories.CurveRepository);
             _curvePropertiesPresenter = new CurvePropertiesPresenter(_curveRepositories);
@@ -153,7 +155,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 patchDocumentViewModel.CurveDetailsList.ForEach(x => x.Visible = false);
                 patchDocumentViewModel.PatchDetails.Visible = false;
             }
-
         }
 
         private void HideAllPropertiesViewModels()

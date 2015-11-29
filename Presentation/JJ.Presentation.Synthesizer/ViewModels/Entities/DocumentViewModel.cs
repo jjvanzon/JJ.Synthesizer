@@ -10,37 +10,21 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public int ID { get; set; }
         public AudioFileOutputGridViewModel AudioFileOutputGrid { get; set; }
         public IList<AudioFileOutputPropertiesViewModel> AudioFileOutputPropertiesList { get; set; }
+        public CurrentPatchesViewModel CurrentPatches { get; set; }
         public IList<CurveDetailsViewModel> CurveDetailsList { get; set; }
         public CurveGridViewModel CurveGrid { get; set; }
-        /// <summary> 
-        /// This lookup is used by OperatorProperties_ForCurves in the root Document.
-        /// (The child documents have their own sample collection.)
-        /// </summary>
-        public IList<IDAndName> CurveLookup { get; set; }
         public IList<CurvePropertiesViewModel> CurvePropertiesList { get; set; }
         public DocumentPropertiesViewModel DocumentProperties { get; set; }
         public DocumentTreeViewModel DocumentTree { get; set; }
         public IList<NodePropertiesViewModel> NodePropertiesList { get; set; }
         public IList<PatchGridViewModel> PatchGridList { get; set; }
         public IList<PatchDocumentViewModel> PatchDocumentList { get; set; }
-        [Obsolete("", true)]
-        public IList<PatchPropertiesViewModel> PatchPropertiesList { get; set; }
         public SampleGridViewModel SampleGrid { get; set; }
-        /// <summary> 
-        /// This lookup is used by OperatorProperties_ForSamples in the root Document.
-        /// (The child documents have their own sample collection.)
-        /// </summary>
-        public IList<IDAndName> SampleLookup { get; set; }
         public IList<SamplePropertiesViewModel> SamplePropertiesList { get; set; }
         public ScaleGridViewModel ScaleGrid { get; set; }
         public List<ScalePropertiesViewModel> ScalePropertiesList { get; internal set; }
         public IList<ToneGridEditViewModel> ToneGridEditList { get; set; }
-        /// <summary> This lookup is used by OperatorProperties_ForCustomOperators in both root Document and PatchDocuments. </summary>
+        /// <summary> This lookup is used by OperatorProperties_ForCustomOperators in all PatchDocuments. </summary>
         public IList<IDAndName> UnderlyingDocumentLookup { get; set; }
-
-        [Obsolete]
-        public PatchGridViewModel EffectGrid { get; set; }
-        [Obsolete]
-        public PatchGridViewModel InstrumentGrid { get; set; }
     }
 }

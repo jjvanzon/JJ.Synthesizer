@@ -1,11 +1,8 @@
-﻿using JJ.Data.Synthesizer;
+﻿using System.Collections.Generic;
+using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToEntity;
-using JJ.Presentation.Synthesizer.Helpers;
-using System.Collections.Generic;
-using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Validation;
 using JJ.Business.CanonicalModel;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToViewModel;
