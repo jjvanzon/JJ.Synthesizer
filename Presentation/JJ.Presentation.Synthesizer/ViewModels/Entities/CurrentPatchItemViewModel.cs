@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace JJ.Presentation.Synthesizer.ViewModels.Partials
+namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
     public sealed class CurrentPatchItemViewModel
     {

@@ -97,7 +97,7 @@
     <Compile Include="ViewModels\Entities\ScaleViewModel.cs" />
     <Compile Include="ViewModels\Entities\ToneViewModel.cs" />
     <Compile Include="ViewModels\Entities\PatchDocumentViewModel.cs" />
-    <Compile Include="ViewModels\Partials\CurrentPatchItemViewModel.cs" />
+    <Compile Include="ViewModels\Entities\CurrentPatchItemViewModel.cs" />
     <Compile Include="ViewModels\PatchPropertiesViewModel.cs" />
     <Compile Include="ViewModels\PatchGridViewModel.cs" />
     <Compile Include="ViewModels\DocumentCannotDeleteViewModel.cs" />

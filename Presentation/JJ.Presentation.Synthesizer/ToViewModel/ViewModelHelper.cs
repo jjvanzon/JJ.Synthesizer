@@ -49,7 +49,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 DocumentsMenuItem = new MenuItemViewModel { Visible = true },
                 DocumentTreeMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
                 DocumentCloseMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
-                DocumentSaveMenuItem = new MenuItemViewModel { Visible = documentIsOpen }
+                DocumentSaveMenuItem = new MenuItemViewModel { Visible = documentIsOpen },
+                CurrentPatches = new MenuItemViewModel { Visible = documentIsOpen }
             };
 
             return viewModel;

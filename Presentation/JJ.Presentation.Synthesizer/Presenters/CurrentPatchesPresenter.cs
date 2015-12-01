@@ -7,7 +7,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
-using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

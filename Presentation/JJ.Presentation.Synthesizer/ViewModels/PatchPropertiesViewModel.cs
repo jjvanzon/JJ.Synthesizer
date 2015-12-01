@@ -13,6 +13,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public string Group { get; set; }
         public bool Visible { get; set; }
         public bool Successful { get; set; }
+        public bool CanAddToCurrentPatches { get; set; }
         public IList<Message> ValidationMessages { get; set; }
     }
 }

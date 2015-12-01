@@ -26,6 +26,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 audioFileOutputPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.AudioFileOutputPropertiesList
                                                                                               .Where(x => x.Visible)
                                                                                               .FirstOrDefault();
+                // CurrentPatches
+                currentPatchesUserControl.ViewModel = _presenter.ViewModel.Document.CurrentPatches;
+                currentPatchesUserControl.Visible = currentPatchesUserControl.ViewModel.Visible;
+
                 // CurveDetails
                 curveDetailsUserControl.ViewModel =
                     Enumerable.Union(

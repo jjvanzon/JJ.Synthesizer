@@ -42,6 +42,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyStyling();
 
             _presenter.Show();
+
             ApplyViewModel();
         }
 

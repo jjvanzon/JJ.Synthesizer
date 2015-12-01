@@ -104,6 +104,18 @@
     <Compile Include="UserControls\AudioFileOutputGridUserControl.Designer.cs">
       <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\CurrentPatchesUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CurrentPatchesUserControl.Designer.cs">
+      <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\CurrentPatchItemUserControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\CurrentPatchItemUserControl.Designer.cs">
+      <DependentUpon>CurrentPatchItemUserControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\CurveDetailsUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -305,6 +317,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\AudioFileOutputGridUserControl.resx">
       <DependentUpon>AudioFileOutputGridUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CurrentPatchesUserControl.resx">
+      <DependentUpon>CurrentPatchesUserControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\CurrentPatchItemUserControl.resx">
+      <DependentUpon>CurrentPatchItemUserControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\CurveDetailsUserControl.resx">
       <DependentUpon>CurveDetailsUserControl.cs</DependentUpon>

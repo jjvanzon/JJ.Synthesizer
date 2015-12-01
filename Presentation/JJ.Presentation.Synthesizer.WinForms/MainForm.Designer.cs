@@ -45,6 +45,7 @@
             this.operatorPropertiesUserControl_ForNumber = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForNumber();
             this.operatorPropertiesUserControl_ForPatchOutlet = new JJ.Presentation.Synthesizer.WinForms.UserControls.OperatorPropertiesUserControl_ForPatchOutlet();
             this.menuUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.MenuUserControl();
+            this.currentPatchesUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.CurrentPatchesUserControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerTree)).BeginInit();
             this.splitContainerTree.Panel1.SuspendLayout();
             this.splitContainerTree.Panel2.SuspendLayout();
@@ -127,7 +128,8 @@
             // 
             // curveDetailsUserControl
             // 
-            this.curveDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.curveDetailsUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.curveDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.curveDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.curveDetailsUserControl.Name = "curveDetailsUserControl";
@@ -174,6 +176,16 @@
             this.audioFileOutputGridUserControl.Size = new System.Drawing.Size(678, 657);
             this.audioFileOutputGridUserControl.TabIndex = 5;
             this.audioFileOutputGridUserControl.Visible = false;
+            // 
+            // patchGridUserControl
+            // 
+            this.patchGridUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.patchGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.patchGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.patchGridUserControl.Location = new System.Drawing.Point(0, 0);
+            this.patchGridUserControl.Name = "patchGridUserControl";
+            this.patchGridUserControl.Size = new System.Drawing.Size(678, 657);
+            this.patchGridUserControl.TabIndex = 13;
             // 
             // documentDetailsUserControl
             // 
@@ -423,15 +435,16 @@
             this.menuUserControl.Size = new System.Drawing.Size(1094, 24);
             this.menuUserControl.TabIndex = 3;
             // 
-            // patchGridUserControl
+            // currentPatchesUserControl
             // 
-            this.patchGridUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.patchGridUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.patchGridUserControl.Font = new System.Drawing.Font("Verdana", 10F);
-            this.patchGridUserControl.Location = new System.Drawing.Point(0, 0);
-            this.patchGridUserControl.Name = "patchGridUserControl";
-            this.patchGridUserControl.Size = new System.Drawing.Size(678, 657);
-            this.patchGridUserControl.TabIndex = 13;
+            this.currentPatchesUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.currentPatchesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
+            this.currentPatchesUserControl.Location = new System.Drawing.Point(203, 0);
+            this.currentPatchesUserControl.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+            this.currentPatchesUserControl.Name = "currentPatchesUserControl";
+            this.currentPatchesUserControl.Size = new System.Drawing.Size(891, 24);
+            this.currentPatchesUserControl.TabIndex = 14;
             // 
             // MainForm
             // 
@@ -439,6 +452,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.ClientSize = new System.Drawing.Size(1094, 681);
+            this.Controls.Add(this.currentPatchesUserControl);
             this.Controls.Add(this.splitContainerTree);
             this.Controls.Add(this.menuUserControl);
             this.IsMdiContainer = true;
@@ -488,5 +502,6 @@
         private UserControls.NodePropertiesUserControl nodePropertiesUserControl;
         private UserControls.OperatorPropertiesUserControl_ForBundle operatorPropertiesUserControl_ForBundle;
         private UserControls.OperatorPropertiesUserControl_ForUnbundle operatorPropertiesUserControl_ForUnbundle;
+        private UserControls.CurrentPatchesUserControl currentPatchesUserControl;
     }
 }

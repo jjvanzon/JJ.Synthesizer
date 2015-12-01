@@ -61,11 +61,29 @@ namespace JJ.Presentation.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add to Current Patches.
+        /// </summary>
+        public static string AddToCurrentPatches {
+            get {
+                return ResourceManager.GetString("AddToCurrentPatches", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Synthesizer.
         /// </summary>
         public static string ApplicationName {
             get {
                 return ResourceManager.GetString("ApplicationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Patches.
+        /// </summary>
+        public static string CurrentPatches {
+            get {
+                return ResourceManager.GetString("CurrentPatches", resourceCulture);
             }
         }
         

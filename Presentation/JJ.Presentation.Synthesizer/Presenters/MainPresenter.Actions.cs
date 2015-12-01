@@ -635,6 +635,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _menuPresenter.Show(documentIsOpen: true);
                 ViewModel.Menu = _menuPresenter.ViewModel;
 
+                CurrentPatchesShow();
+
                 ViewModel.DocumentGrid.Visible = false;
                 ViewModel.Document.DocumentTree.Visible = true;
 
@@ -687,7 +689,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     ViewModel.WindowTitle = Titles.ApplicationName;
 
                     _menuPresenter.Show(documentIsOpen: false);
-
                     ViewModel.Menu = _menuPresenter.ViewModel;
                 }
             }

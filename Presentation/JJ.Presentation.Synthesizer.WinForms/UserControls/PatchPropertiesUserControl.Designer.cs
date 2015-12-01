@@ -34,8 +34,9 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.labelGroup = new System.Windows.Forms.Label();
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
-            this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.textBoxGroup = new System.Windows.Forms.TextBox();
+            this.buttonAddToCurentPatches = new System.Windows.Forms.Button();
+            this.titleBarUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.Partials.TitleBarUserControl();
             this.tableLayoutPanelMain.SuspendLayout();
             this.tableLayoutPanelProperties.SuspendLayout();
             this.SuspendLayout();
@@ -64,13 +65,14 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Controls.Add(this.labelName, 0, 0);
             this.tableLayoutPanelProperties.Controls.Add(this.textBoxName, 1, 0);
             this.tableLayoutPanelProperties.Controls.Add(this.textBoxGroup, 1, 1);
+            this.tableLayoutPanelProperties.Controls.Add(this.buttonAddToCurentPatches, 1, 2);
             this.tableLayoutPanelProperties.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelProperties.Location = new System.Drawing.Point(3, 24);
             this.tableLayoutPanelProperties.Name = "tableLayoutPanelProperties";
             this.tableLayoutPanelProperties.RowCount = 4;
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
-            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 24F));
+            this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanelProperties.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanelProperties.Size = new System.Drawing.Size(10, 10);
             this.tableLayoutPanelProperties.TabIndex = 8;
@@ -103,8 +105,31 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.textBoxName.Location = new System.Drawing.Point(120, 0);
             this.textBoxName.Margin = new System.Windows.Forms.Padding(0);
             this.textBoxName.Name = "textBoxName";
-            this.textBoxName.Size = new System.Drawing.Size(10, 20);
+            this.textBoxName.Size = new System.Drawing.Size(16, 20);
             this.textBoxName.TabIndex = 11;
+            // 
+            // textBoxGroup
+            // 
+            this.textBoxGroup.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBoxGroup.Location = new System.Drawing.Point(120, 24);
+            this.textBoxGroup.Margin = new System.Windows.Forms.Padding(0);
+            this.textBoxGroup.Name = "textBoxGroup";
+            this.textBoxGroup.Size = new System.Drawing.Size(16, 20);
+            this.textBoxGroup.TabIndex = 13;
+            // 
+            // buttonAddToCurentPatches
+            // 
+            this.buttonAddToCurentPatches.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.buttonAddToCurentPatches.FlatAppearance.BorderSize = 0;
+            this.buttonAddToCurentPatches.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonAddToCurentPatches.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Bold);
+            this.buttonAddToCurentPatches.Location = new System.Drawing.Point(123, 51);
+            this.buttonAddToCurentPatches.Name = "buttonAddToCurentPatches";
+            this.buttonAddToCurentPatches.Size = new System.Drawing.Size(10, 24);
+            this.buttonAddToCurentPatches.TabIndex = 9;
+            this.buttonAddToCurentPatches.Text = "buttonAddToCurentPatches";
+            this.buttonAddToCurentPatches.UseVisualStyleBackColor = true;
+            this.buttonAddToCurentPatches.Click += new System.EventHandler(this.buttonAddToCurentPatches_Click);
             // 
             // titleBarUserControl
             // 
@@ -119,15 +144,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.titleBarUserControl.Size = new System.Drawing.Size(16, 21);
             this.titleBarUserControl.TabIndex = 7;
             this.titleBarUserControl.CloseClicked += new System.EventHandler(this.titleBarUserControl_CloseClicked);
-            // 
-            // textBoxGroup
-            // 
-            this.textBoxGroup.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxGroup.Location = new System.Drawing.Point(120, 24);
-            this.textBoxGroup.Margin = new System.Windows.Forms.Padding(0);
-            this.textBoxGroup.Name = "textBoxGroup";
-            this.textBoxGroup.Size = new System.Drawing.Size(10, 20);
-            this.textBoxGroup.TabIndex = 13;
             // 
             // PatchPropertiesUserControl
             // 
@@ -156,5 +172,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TextBox textBoxName;
         private System.Windows.Forms.Label labelGroup;
         private System.Windows.Forms.TextBox textBoxGroup;
+        private System.Windows.Forms.Button buttonAddToCurentPatches;
     }
 }

@@ -17,6 +17,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioFileOutputGridUserControl.ShowPropertiesRequested += audioFileOutputGridUserControl_ShowPropertiesRequested;
             audioFileOutputPropertiesUserControl.CloseRequested += audioFileOutputPropertiesUserControl_CloseRequested;
             audioFileOutputPropertiesUserControl.LoseFocusRequested += audioFileOutputPropertiesUserControl_LoseFocusRequested;
+            currentPatchesUserControl.CloseRequested += currentPatchesUserControl_CloseRequested;
+            currentPatchesUserControl.RemoveRequested += currentPatchesUserControl_RemoveRequested;
             curveDetailsUserControl.ChangeNodeTypeRequested += curveDetailsUserControl_ChangeNodeTypeRequested;
             curveDetailsUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
             curveDetailsUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
@@ -52,10 +54,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.ShowPatchGridRequested += documentTreeUserControl_ShowPatchGridRequested;
             documentTreeUserControl.ShowSamplesRequested += documentTreeUserControl_ShowSamplesRequested;
             documentTreeUserControl.ShowScalesRequested += documentTreeUserControl_ShowScalesRequested;
-            menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
-            menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
-            menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
             menuUserControl.ShowDocumentTreeRequested += menuUserControl_ShowDocumentTreeRequested;
+            menuUserControl.ShowCurrentPatchesRequested += menuUserControl_ShowCurrentPatchesRequested;
+            menuUserControl.DocumentSaveRequested += menuUserControl_DocumentSaveRequested;
+            menuUserControl.DocumentCloseRequested += menuUserControl_DocumentCloseRequested;
+            menuUserControl.ShowDocumentGridRequested += menuUserControl_ShowDocumentGridRequested;
             nodePropertiesUserControl.CloseRequested += nodePropertiesUserControl_CloseRequested;
             nodePropertiesUserControl.LoseFocusRequested += nodePropertiesUserControl_LoseFocusRequested;
             operatorPropertiesUserControl.CloseRequested += operatorPropertiesUserControl_CloseRequested;
@@ -89,6 +92,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             patchGridUserControl.CreateRequested += patchGridUserControl_CreateRequested;
             patchGridUserControl.DeleteRequested += patchGridUserControl_DeleteRequested;
             patchGridUserControl.ShowDetailsRequested += patchGridUserControl_ShowDetailsRequested;
+            patchPropertiesUserControl.AddCurrentPatchRequested += patchPropertiesUserControl_AddCurrentPatchRequested;
             patchPropertiesUserControl.CloseRequested += patchPropertiesUserControl_CloseRequested;
             patchPropertiesUserControl.LoseFocusRequested += patchPropertiesUserControl_LoseFocusRequested;
             sampleGridUserControl.CloseRequested += sampleGridUserControl_CloseRequested;
@@ -153,6 +157,26 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void audioFileOutputPropertiesUserControl_LoseFocusRequested(object sender, EventArgs e)
         {
             _presenter.AudioFileOutputPropertiesLoseFocus();
+            ApplyViewModel();
+        }
+
+        // CurrentPatches
+
+        private void patchPropertiesUserControl_AddCurrentPatchRequested(object sender, Int32EventArgs e)
+        {
+            _presenter.CurrentPatchAdd(e.Value);
+            ApplyViewModel();
+        }
+
+        private void currentPatchesUserControl_CloseRequested(object sender, EventArgs e)
+        {
+            _presenter.CurrentPatchesClose();
+            ApplyViewModel();
+        }
+
+        private void currentPatchesUserControl_RemoveRequested(object sender, Int32EventArgs e)
+        {
+            _presenter.CurrentPatchRemove(e.Value);
             ApplyViewModel();
         }
 
@@ -408,6 +432,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ForceLoseFocus();
 
             _presenter.DocumentSave();
+            ApplyViewModel();
+        }
+
+        private void menuUserControl_ShowCurrentPatchesRequested(object sender, EventArgs e)
+        {
+            _presenter.CurrentPatchesShow();
             ApplyViewModel();
         }
 

@@ -61,6 +61,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (_viewModels == null) return;
 
+            // Not finished / not tested / not debugged.
+
             // TODO: I wonder how the original controls that are replaced is taken care of...
 
             _audioFileOutputChannelUserControls.Clear();
@@ -82,7 +84,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
                 tableLayoutPanel.SetRow(control, i);
 
                 _audioFileOutputChannelUserControls.Add(control);
-
             }
 
             tableLayoutPanel.RowStyles[i] = new RowStyle { SizeType = SizeType.AutoSize };

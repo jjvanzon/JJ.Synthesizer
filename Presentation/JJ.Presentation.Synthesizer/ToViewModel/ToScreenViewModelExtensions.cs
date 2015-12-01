@@ -600,6 +600,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = childDocument.Name,
                 Group = childDocument.GroupName,
                 ValidationMessages = new List<Message>(),
+                CanAddToCurrentPatches = true,
                 Successful = true
             };
 

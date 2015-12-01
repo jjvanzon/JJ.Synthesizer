@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.WinForms.EventArg;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -14,6 +15,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         public event EventHandler CloseRequested;
         public event EventHandler LoseFocusRequested;
+        public event EventHandler<Int32EventArgs> AddCurrentPatchRequested;
 
         private PatchPropertiesViewModel _viewModel;
 
@@ -50,6 +52,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             titleBarUserControl.Text = CommonTitleFormatter.ObjectProperties(PropertyDisplayNames.Patch);
             labelName.Text = CommonTitles.Name;
             labelGroup.Text = Titles.Group;
+            buttonAddToCurentPatches.Text = Titles.AddToCurrentPatches;
         }
 
         private void ApplyStyling()
@@ -65,6 +68,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             textBoxName.Text = _viewModel.Name;
             textBoxGroup.Text = _viewModel.Group;
+
+            buttonAddToCurentPatches.Enabled = _viewModel.CanAddToCurrentPatches;
         }
 
         private void ApplyControlsToViewModel()
@@ -100,6 +105,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private void titleBarUserControl_CloseClicked(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void buttonAddToCurentPatches_Click(object sender, EventArgs e)
+        {
+            if (AddCurrentPatchRequested != null)
+            {
+                var e2 = new Int32EventArgs(_viewModel.ChildDocumentID);
+                AddCurrentPatchRequested(this, e2);
+            }
         }
 
         // This event does not go off, if not clicked on a control that according to WinForms can get focus.

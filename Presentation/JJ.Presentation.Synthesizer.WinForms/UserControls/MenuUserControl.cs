@@ -14,6 +14,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
         public event EventHandler ShowDocumentTreeRequested;
         public event EventHandler DocumentCloseRequested;
         public event EventHandler DocumentSaveRequested;
+        public event EventHandler ShowCurrentPatchesRequested;
 
         public MenuUserControl()
         {
@@ -57,19 +58,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
 
             ToolStripMenuItem toolStripMenuItem;
 
-            // Documents
-            if (viewModel.DocumentsMenuItem.Visible)
-            {
-                toolStripMenuItem = CreateDocumentsToolStripMenuItem();
-                toolStripMenuItem.Click += documentsToolStripMenuItem_Click;
-                menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
-            }
-
             // DocumentTree
             if (viewModel.DocumentTreeMenuItem.Visible)
             {
                 toolStripMenuItem = CreateDocumentTreeToolStripMenuItem();
                 toolStripMenuItem.Click += documentTreeToolStripMenuItem_Click;
+                menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
+            }
+
+            // CurrentPatches
+            if (viewModel.CurrentPatches.Visible)
+            {
+                toolStripMenuItem = CreateCurrentPatchesToolStripMenuItem();
+                toolStripMenuItem.Click += currentPatchesToolStripMenuItem_Click;
+                menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
+            }
+
+            // DocumentSave
+            if (viewModel.DocumentSaveMenuItem.Visible)
+            {
+                toolStripMenuItem = CreateDocumentSaveToolStripMenuItem();
+                toolStripMenuItem.Click += documentSaveToolStripMenuItem_Click;
                 menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
             }
 
@@ -81,11 +90,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
                 menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
             }
 
-            // DocumentSave
-            if (viewModel.DocumentSaveMenuItem.Visible)
+            // Documents
+            if (viewModel.DocumentsMenuItem.Visible)
             {
-                toolStripMenuItem = CreateDocumentSaveToolStripMenuItem();
-                toolStripMenuItem.Click += documentSaveToolStripMenuItem_Click;
+                toolStripMenuItem = CreateDocumentsToolStripMenuItem();
+                toolStripMenuItem.Click += documentsToolStripMenuItem_Click;
                 menuToolStripMenuItem.DropDownItems.Add(toolStripMenuItem);
             }
         }
@@ -96,17 +105,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             {
                 Name = "menuToolStripMenuItem",
                 Text = "&" + CommonTitles.Menu
-            };
-
-            return toolStripMenuItem;
-        }
-
-        private ToolStripMenuItem CreateDocumentsToolStripMenuItem()
-        {
-            var toolStripMenuItem = new ToolStripMenuItem
-            {
-                Name = "documentsToolStripMenuItem",
-                Text = "&" + PropertyDisplayNames.Documents
             };
 
             return toolStripMenuItem;
@@ -123,12 +121,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             return toolStripMenuItem;
         }
 
-        private ToolStripMenuItem CreateDocumentCloseToolStripMenuItem()
+        private ToolStripMenuItem CreateCurrentPatchesToolStripMenuItem()
         {
             var toolStripMenuItem = new ToolStripMenuItem
             {
-                Name = "documentCloseToolStripMenuItem",
-                Text = "&" + CommonTitleFormatter.CloseObject(PropertyDisplayNames.Document)
+                Name = "currentPatchesToolStripMenuItem",
+                Text = "&" + Titles.CurrentPatches
             };
 
             return toolStripMenuItem;
@@ -145,21 +143,51 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             return toolStripMenuItem;
         }
 
-        // Events
-
-        private void documentsToolStripMenuItem_Click(object sender, EventArgs e)
+        private ToolStripMenuItem CreateDocumentCloseToolStripMenuItem()
         {
-            if (ShowDocumentGridRequested != null)
+            var toolStripMenuItem = new ToolStripMenuItem
             {
-                ShowDocumentGridRequested(sender, EventArgs.Empty);
-            }
+                Name = "documentCloseToolStripMenuItem",
+                Text = "&" + CommonTitleFormatter.CloseObject(PropertyDisplayNames.Document)
+            };
+
+            return toolStripMenuItem;
         }
+
+        private ToolStripMenuItem CreateDocumentsToolStripMenuItem()
+        {
+            var toolStripMenuItem = new ToolStripMenuItem
+            {
+                Name = "documentsToolStripMenuItem",
+                Text = "&" + PropertyDisplayNames.Documents
+            };
+
+            return toolStripMenuItem;
+        }
+
+        // Events
 
         private void documentTreeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (ShowDocumentTreeRequested != null)
             {
                 ShowDocumentTreeRequested(sender, EventArgs.Empty);
+            }
+        }
+
+        private void currentPatchesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (ShowCurrentPatchesRequested != null)
+            {
+                ShowCurrentPatchesRequested(sender, EventArgs.Empty);
+            }
+        }
+
+        private void documentSaveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (DocumentSaveRequested != null)
+            {
+                DocumentSaveRequested(sender, EventArgs.Empty);
             }
         }
 
@@ -171,11 +199,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls.Partials
             }
         }
 
-        private void documentSaveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void documentsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (DocumentSaveRequested != null)
+            if (ShowDocumentGridRequested != null)
             {
-                DocumentSaveRequested(sender, EventArgs.Empty);
+                ShowDocumentGridRequested(sender, EventArgs.Empty);
             }
         }
     }
