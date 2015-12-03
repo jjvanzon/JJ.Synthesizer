@@ -30,12 +30,16 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
         private double _amplifier;
 
-        public AudioFileOutputCalculatorBase(AudioFileOutput audioFileOutput, ICurveRepository curveRepository, ISampleRepository sampleRepository, IDocumentRepository documentRepository)
+        public AudioFileOutputCalculatorBase(
+            AudioFileOutput audioFileOutput, 
+            ICurveRepository curveRepository, 
+            ISampleRepository sampleRepository,
+            IPatchRepository patchRepository)
         {
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
 
             IValidator validator = new AudioFileOutputValidator(audioFileOutput);
             validator.Verify();
@@ -59,11 +63,11 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                 switch (_patchCalculatorTypeEnum)
                 {
                     case PatchCalculatorTypeEnum.OptimizedPatchCalculator:
-                        patchCalculator = new OptimizedPatchCalculator(_outlets, whiteNoiseCalculator, curveRepository, sampleRepository, documentRepository);
+                        patchCalculator = new OptimizedPatchCalculator(_outlets, whiteNoiseCalculator, curveRepository, sampleRepository, patchRepository);
                         break;
 
                     case PatchCalculatorTypeEnum.InterpretedPatchCalculator:
-                        patchCalculator = new InterpretedPatchCalculator(_outlets, whiteNoiseCalculator, curveRepository, sampleRepository, documentRepository);
+                        patchCalculator = new InterpretedPatchCalculator(_outlets, whiteNoiseCalculator, curveRepository, sampleRepository, patchRepository);
                         break;
 
                     default:

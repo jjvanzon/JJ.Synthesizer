@@ -825,11 +825,9 @@ namespace JJ.Business.Synthesizer.Tests
                 DocumentManager documentManager = new DocumentManager(repositories);
                 SampleManager sampleManager = new SampleManager(new SampleRepositories(repositories));
 
-                // Create Reusable Document and Patch
-                Document underlyingDocument = documentManager.Create();
-
+                // Create Reusable Patch
                 PatchManager underlyingPatchManager = new PatchManager(new PatchRepositories(repositories));
-                underlyingPatchManager.CreatePatch(underlyingDocument);
+                underlyingPatchManager.CreatePatch();
                 Patch underlyingPatch = underlyingPatchManager.Patch;
 
                 PatchManager x;
@@ -848,7 +846,7 @@ namespace JJ.Business.Synthesizer.Tests
                 PatchManager consumingPatchManager = new PatchManager(new PatchRepositories(repositories));
                 x = consumingPatchManager;
                 var sampleOperator = x.Sample(sample);
-                var customOperator = x.CustomOperator(underlyingDocument, sampleOperator);
+                var customOperator = x.CustomOperator(underlyingPatch, sampleOperator);
 
                 // Check out that Custom_OperatorWrapper API
                 Inlet inlet = customOperator.Inlets[patchInlet.Name];
@@ -857,8 +855,8 @@ namespace JJ.Business.Synthesizer.Tests
 
                 customOperator.Operands[patchInlet.Name] = operand;
 
-                Document underlyingDocument2 = customOperator.UnderlyingDocument;
-                int? underlyingDocumentID = customOperator.UnderlyingDocumentID;
+                Patch underlyingPatch2 = customOperator.UnderlyingPatch;
+                int? underlyingPatchID = customOperator.UnderlyingPatchID;
 
                 foreach (Inlet inlet2 in customOperator.Inlets)
                 {

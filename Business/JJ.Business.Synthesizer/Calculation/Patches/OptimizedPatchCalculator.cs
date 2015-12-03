@@ -18,9 +18,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             WhiteNoiseCalculator whiteNoiseCalculator,
             ICurveRepository curveRepository, 
             ISampleRepository sampleRepository,
-            IDocumentRepository documentRepository,
+            IPatchRepository patchRepository,
             params Outlet[] channelOutlets)
-            : this((IList<Outlet>)channelOutlets, whiteNoiseCalculator, curveRepository, sampleRepository, documentRepository)
+            : this((IList<Outlet>)channelOutlets, whiteNoiseCalculator, curveRepository, sampleRepository, patchRepository)
         { }
 
         /// <summary>
@@ -31,12 +31,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             WhiteNoiseCalculator whiteNoiseCalculator,
             ICurveRepository curveRepository, 
             ISampleRepository sampleRepository,
-            IDocumentRepository documentRepository)
+            IPatchRepository patchRepository)
         {
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
 
             var visitor = new OptimizedPatchCalculatorVisitor();
-            _rootOperatorCalculators = visitor.Execute(channelOutlets, whiteNoiseCalculator, curveRepository, sampleRepository, documentRepository).ToArray();
+            _rootOperatorCalculators = visitor.Execute(
+                channelOutlets, whiteNoiseCalculator, curveRepository, sampleRepository, patchRepository).ToArray();
         }
 
         public double Calculate(double time, int channelIndex)

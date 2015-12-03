@@ -331,11 +331,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is a circular dependency with its underlying document..
+        ///   Looks up a localized string similar to There is a circular dependency with its underlying patch..
         /// </summary>
-        internal static string UnderlyingDocumentIsCircular {
+        internal static string UnderlyingPatchIsCircular {
             get {
-                return ResourceManager.GetString("UnderlyingDocumentIsCircular", resourceCulture);
+                return ResourceManager.GetString("UnderlyingPatchIsCircular", resourceCulture);
             }
         }
         

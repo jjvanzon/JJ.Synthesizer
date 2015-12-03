@@ -291,8 +291,8 @@
   <data name="ListIndex" xml:space="preserve">
     <value>Nummer (als we bij 0 beginnen te tellen)</value>
   </data>
-  <data name="UnderlyingDocument" xml:space="preserve">
-    <value>Onderliggend document</value>
+  <data name="UnderlyingPatch" xml:space="preserve">
+    <value>Onderliggende schakeling</value>
   </data>
   <data name="Raw" xml:space="preserve">
     <value>RAW bestand</value>

@@ -131,8 +131,8 @@
   <data name="ChannelIndexNumberDoesNotMatchSpeakerSetup" xml:space="preserve">
     <value>Channel number does not match speaker setup.</value>
   </data>
-  <data name="UnderlyingDocumentIsCircular" xml:space="preserve">
-    <value>There is a circular dependency with its underlying document.</value>
+  <data name="UnderlyingPatchIsCircular" xml:space="preserve">
+    <value>There is a circular dependency with its underlying patch.</value>
     <comment>{0} = name</comment>
   </data>
   <data name="DocumentIsDependentOnDocument" xml:space="preserve">

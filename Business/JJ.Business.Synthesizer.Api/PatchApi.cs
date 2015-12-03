@@ -46,21 +46,21 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.CustomOperator();
         }
 
-        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument)
+        public OperatorWrapper_CustomOperator CustomOperator(Patch underlyingPatch)
         {
-            return _patchManager.CustomOperator(underlyingDocument);
+            return _patchManager.CustomOperator(underlyingPatch);
         }
 
-        /// <param name="underlyingDocument">The Document to base the CustomOperator on.</param>
-        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument, params Outlet[] operands)
+        /// <param name="underlyingPatch">The Patch to base the CustomOperator on.</param>
+        public OperatorWrapper_CustomOperator CustomOperator(Patch underlyingPatch, params Outlet[] operands)
         {
-            return _patchManager.CustomOperator(underlyingDocument, operands);
+            return _patchManager.CustomOperator(underlyingPatch, operands);
         }
 
-        /// <param name="underlyingDocument">The Document to base the CustomOperator on.</param>
-        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument, IList<Outlet> operands)
+        /// <param name="underlyingPatch">The Patch to base the CustomOperator on.</param>
+        public OperatorWrapper_CustomOperator CustomOperator(Patch underlyingPatch, IList<Outlet> operands)
         {
-            return _patchManager.CustomOperator(underlyingDocument, operands);
+            return _patchManager.CustomOperator(underlyingPatch, operands);
         }
 
         public OperatorWrapper_Delay Delay(Outlet signal = null, Outlet timeDifference = null)

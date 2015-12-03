@@ -16,7 +16,7 @@ namespace JJ.Presentation.Synthesizer.Converters
         private readonly IOperatorTypeRepository _operatorTypeRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly ICurveRepository _curveRepository;
-        private readonly IDocumentRepository _documentRepository;
+        private readonly IPatchRepository _patchRepository;
         private readonly EntityPositionManager _entityPositionManager;
         private Dictionary<Operator, OperatorViewModel> _dictionary;
 
@@ -24,19 +24,19 @@ namespace JJ.Presentation.Synthesizer.Converters
             IOperatorTypeRepository operatorTypeRepository, 
             ISampleRepository sampleRepository, 
             ICurveRepository curveRepository,
-            IDocumentRepository documentRepository,
+            IPatchRepository patchRepository,
             EntityPositionManager entityPositionManager)
         {
             if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
             if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
 
             _operatorTypeRepository = operatorTypeRepository;
             _sampleRepository = sampleRepository;
             _curveRepository = curveRepository;
-            _documentRepository = documentRepository;
+            _patchRepository = patchRepository;
             _entityPositionManager = entityPositionManager;
         }
 
@@ -93,7 +93,7 @@ namespace JJ.Presentation.Synthesizer.Converters
                 return viewModel;
             }
 
-            viewModel = op.ToViewModel(_sampleRepository, _curveRepository, _documentRepository, _entityPositionManager);
+            viewModel = op.ToViewModel(_sampleRepository, _curveRepository, _patchRepository, _entityPositionManager);
 
             _dictionary.Add(op, viewModel);
 

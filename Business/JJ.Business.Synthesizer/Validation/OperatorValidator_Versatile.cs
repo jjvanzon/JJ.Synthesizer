@@ -11,7 +11,7 @@ namespace JJ.Business.Synthesizer.Validation
 {
     internal class OperatorValidator_Versatile : ValidatorBase<Operator>
     {
-        private IDocumentRepository _documentRepository;
+        private IPatchRepository _patchRepository;
 
         private Dictionary<OperatorTypeEnum, Type> _validatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
         {
@@ -44,10 +44,10 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.WhiteNoise, typeof(OperatorValidator_WhiteNoise) },
         };
 
-        public OperatorValidator_Versatile(Operator obj, IDocumentRepository documentRepository)
+        public OperatorValidator_Versatile(Operator obj, IPatchRepository patchRepository)
             : base(obj, postponeExecute: true)
         {
-            _documentRepository = documentRepository;
+            _patchRepository = patchRepository;
 
             Execute();
         }
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             if (Object.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
             {
-                Execute(new OperatorValidator_CustomOperator(Object, _documentRepository));
+                Execute(new OperatorValidator_CustomOperator(Object, _patchRepository));
                 return;
             }
 

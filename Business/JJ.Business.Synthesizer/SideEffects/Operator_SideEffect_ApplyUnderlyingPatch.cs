@@ -7,31 +7,31 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
-    internal class Operator_SideEffect_ApplyUnderlyingDocument : ISideEffect
+    internal class Operator_SideEffect_ApplyUnderlyingPatch : ISideEffect
     {
         private Operator _operator;
         private OperatorWrapper_CustomOperator _custom_OperatorWrapper;
-        private DocumentToOperatorConverter _documentToOperatorConverter;
+        private PatchToOperatorConverter _documentToOperatorConverter;
 
-        public Operator_SideEffect_ApplyUnderlyingDocument(
+        public Operator_SideEffect_ApplyUnderlyingPatch(
             Operator op,
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
-            IDocumentRepository documentRepository,
+            IPatchRepository patchRepository,
             IOperatorTypeRepository operatorTypeRepository,
             IIDRepository idRepository)
         {
             if (op == null) throw new NullException(() => op);
 
             _operator = op;
-            _custom_OperatorWrapper = new OperatorWrapper_CustomOperator(_operator, documentRepository);
-            _documentToOperatorConverter = new DocumentToOperatorConverter(inletRepository, outletRepository, documentRepository, operatorTypeRepository, idRepository);
+            _custom_OperatorWrapper = new OperatorWrapper_CustomOperator(_operator, patchRepository);
+            _documentToOperatorConverter = new PatchToOperatorConverter(inletRepository, outletRepository, patchRepository, operatorTypeRepository, idRepository);
         }
 
         public void Execute()
         {
-            Document sourceUnderlyingDocument = _custom_OperatorWrapper.UnderlyingDocument;
-            _documentToOperatorConverter.Convert(sourceUnderlyingDocument, _operator);
+            Patch sourceUnderlyingPatch = _custom_OperatorWrapper.UnderlyingPatch;
+            _documentToOperatorConverter.Convert(sourceUnderlyingPatch, _operator);
         }
     }
 }

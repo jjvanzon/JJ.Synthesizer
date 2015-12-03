@@ -784,7 +784,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
         public static Operator ToEntity(
             this OperatorPropertiesViewModel_ForCustomOperator viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, IDocumentRepository documentRepository)
+            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository, IPatchRepository patchRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (operatorRepository == null) throw new NullException(() => operatorRepository);
@@ -800,16 +800,16 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, operatorTypeRepository);
 
-            // UnderlyingDocument
-            var wrapper = new OperatorWrapper_CustomOperator(entity, documentRepository);
-            bool underlyingDocumentIsFilledIn = viewModel.UnderlyingDocument != null && viewModel.UnderlyingDocument.ID != 0;
-            if (underlyingDocumentIsFilledIn)
+            // UnderlyingPatch
+            var wrapper = new OperatorWrapper_CustomOperator(entity, patchRepository);
+            bool underlyingPatchIsFilledIn = viewModel.UnderlyingPatch != null && viewModel.UnderlyingPatch.ID != 0;
+            if (underlyingPatchIsFilledIn)
             {
-                wrapper.UnderlyingDocumentID = viewModel.UnderlyingDocument.ID;
+                wrapper.UnderlyingPatchID = viewModel.UnderlyingPatch.ID;
             }
             else
             {
-                wrapper.UnderlyingDocumentID = null;
+                wrapper.UnderlyingPatchID = null;
             }
 
             return entity;
@@ -1100,7 +1100,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in userInput.OperatorPropertiesList_ForCustomOperators)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.DocumentRepository);
+                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository, repositories.PatchRepository);
             }
 
             foreach (OperatorPropertiesViewModel_ForNumber operatorPropertiesViewModel_ForNumber in userInput.OperatorPropertiesList_ForNumbers)

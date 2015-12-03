@@ -105,7 +105,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                     _presenter.ViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
-                operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingDocumentLookup(_presenter.ViewModel.Document.UnderlyingDocumentLookup);
+                operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingPatchLookup(_presenter.ViewModel.Document.UnderlyingPatchLookup);
 
                 // OperatorProperties_ForNumber
                 operatorPropertiesUserControl_ForNumber.ViewModel =

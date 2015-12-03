@@ -52,29 +52,29 @@ namespace JJ.Business.Synthesizer.Extensions
             return false;
         }
 
-        public static bool HasCircularUnderlyingDocument(this Document document, IDocumentRepository documentRepository)
+        public static bool HasCircularUnderlyingPatch(this Document document, IPatchRepository patchRepository)
         {
             if (document == null) throw new NullException(() => document);
 
-            return document.HasCircularUnderlyingDocument(documentRepository, new HashSet<object>());
+            return document.HasCircularUnderlyingPatch(patchRepository, new HashSet<object>());
         }
 
-        public static bool HasCircularUnderlyingDocument(this Patch patch, IDocumentRepository documentRepository)
+        public static bool HasCircularUnderlyingPatch(this Patch patch, IPatchRepository patchRepository)
         {
             if (patch == null) throw new NullException(() => patch);
 
-            return patch.HasCircularUnderlyingDocument(documentRepository, new HashSet<object>());
+            return patch.HasCircularUnderlyingPatch(patchRepository, new HashSet<object>());
         }
 
-        public static bool HasCircularUnderlyingDocument(this Operator op, IDocumentRepository documentRepository)
+        public static bool HasCircularUnderlyingPatch(this Operator op, IPatchRepository patchRepository)
         {
             if (op == null) throw new NullException(() => op);
             if (op.GetOperatorTypeEnum() != OperatorTypeEnum.CustomOperator) throw new NotEqualException(() => op.GetOperatorTypeEnum(), OperatorTypeEnum.CustomOperator);
 
-            return op.HasCircularUnderlyingDocument(documentRepository, new HashSet<object>());
+            return op.HasCircularUnderlyingPatch(patchRepository, new HashSet<object>());
         }
 
-        private static bool HasCircularUnderlyingDocument(this Patch patch, IDocumentRepository documentRepository, HashSet<object> alreadyDone)
+        private static bool HasCircularUnderlyingPatch(this Patch patch, IPatchRepository patchRepository, HashSet<object> alreadyDone)
         {
             if (alreadyDone.Contains(patch))
             {
@@ -85,7 +85,7 @@ namespace JJ.Business.Synthesizer.Extensions
             IList<Operator> customOperators = patch.GetOperatorsOfType(OperatorTypeEnum.CustomOperator);
             foreach (Operator customOperator in customOperators)
             {
-                if (customOperator.HasCircularUnderlyingDocument(documentRepository, alreadyDone))
+                if (customOperator.HasCircularUnderlyingPatch(patchRepository, alreadyDone))
                 {
                     return true;
                 }
@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Extensions
             return false;
         }
 
-        private static bool HasCircularUnderlyingDocument(this Operator op, IDocumentRepository documentRepository, HashSet<object> alreadyDone)
+        private static bool HasCircularUnderlyingPatch(this Operator op, IPatchRepository patchRepository, HashSet<object> alreadyDone)
         {
             if (alreadyDone.Contains(op))
             {
@@ -104,14 +104,14 @@ namespace JJ.Business.Synthesizer.Extensions
             }
             alreadyDone.Add(op);
 
-            var wrapper = new OperatorWrapper_CustomOperator(op, documentRepository);
-            Document underlyingDocument = wrapper.UnderlyingDocument;
+            var wrapper = new OperatorWrapper_CustomOperator(op, patchRepository);
+            Patch underlyingPatch = wrapper.UnderlyingPatch;
 
-            if (underlyingDocument != null)
+            if (underlyingPatch != null)
             {
-                foreach (Document document2 in underlyingDocument.EnumerateSelfAndParentAndTheirChildren())
+                foreach (Document document in underlyingPatch.Document.EnumerateSelfAndParentAndTheirChildren())
                 {
-                    if (document2.HasCircularUnderlyingDocument(documentRepository, alreadyDone))
+                    if (document.HasCircularUnderlyingPatch(patchRepository, alreadyDone))
                     {
                         return true;
                     }
@@ -123,7 +123,7 @@ namespace JJ.Business.Synthesizer.Extensions
             return false;
         }
 
-        private static bool HasCircularUnderlyingDocument(this Document document, IDocumentRepository documentRepository, HashSet<object> alreadyDone)
+        private static bool HasCircularUnderlyingPatch(this Document document, IPatchRepository patchRepository, HashSet<object> alreadyDone)
         {
             if (alreadyDone.Contains(document))
             {
@@ -131,9 +131,9 @@ namespace JJ.Business.Synthesizer.Extensions
             }
             alreadyDone.Add(document);
 
-            foreach (Patch patch2 in document.Patches)
+            foreach (Patch patch in document.Patches)
             {
-                if (patch2.HasCircularUnderlyingDocument(documentRepository, alreadyDone))
+                if (patch.HasCircularUnderlyingPatch(patchRepository, alreadyDone))
                 {
                     return true;
                 }
@@ -175,34 +175,34 @@ namespace JJ.Business.Synthesizer.Extensions
         }
 
         /// <summary> Note that dependencies caused by library references (The DocumentReference entity) are not checked. </summary>
-        public static IEnumerable<Operator> EnumerateDependentCustomOperators(this Document document, IDocumentRepository documentRepository)
+        public static IEnumerable<Operator> EnumerateDependentCustomOperators(this Patch patch, IPatchRepository patchRepository)
         {
-            if (document == null) throw new NullException(() => document);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patch == null) throw new NullException(() => patch);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
 
             // TODO: Program circularity check on parent-child relationships and check it.
 
             // We cannot use an SQL query, because that only operates on flushed / committed data.
-            IEnumerable<Operator> enumerable = document.EnumerateSelfAndParentAndTheirChildren()
-                                                       .SelectMany(x => x.Patches)
-                                                       .SelectMany(x => x.Operators)
-                                                       .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator &&
-                                                                   UnderlyingDocumentIsMatch(document, x, documentRepository));
+            IEnumerable<Operator> enumerable = patch.Document.EnumerateSelfAndParentAndTheirChildren()
+                                                             .SelectMany(x => x.Patches)
+                                                             .SelectMany(x => x.Operators)
+                                                             .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator &&
+                                                                         UnderlyingPatchIsMatch(patch, x, patchRepository));
             return enumerable;
         }
 
-        private static bool UnderlyingDocumentIsMatch(Document underlyingDocument, Operator customOperator, IDocumentRepository documentRepository)
+        private static bool UnderlyingPatchIsMatch(Patch underlyingPatch, Operator customOperator, IPatchRepository patchRepository)
         {
-            var wrapper = new OperatorWrapper_CustomOperator(customOperator, documentRepository);
+            var wrapper = new OperatorWrapper_CustomOperator(customOperator, patchRepository);
 
-            Document underlyingDocument2 = wrapper.UnderlyingDocument;
+            Patch underlyingPatch2 = wrapper.UnderlyingPatch;
 
-            if (underlyingDocument2 == null)
+            if (underlyingPatch2 == null)
             {
                 return false;
             }
 
-            return underlyingDocument2.ID == underlyingDocument.ID;
+            return underlyingPatch2.ID == underlyingPatch.ID;
         }
     }
 }

@@ -10,14 +10,14 @@ namespace JJ.Business.Synthesizer.Validation
 {
     internal class OperatorValidator_IsCircular : FluentValidator<Operator>
     {
-        private IDocumentRepository _documentRepository;
+        private IPatchRepository _patchRepository;
 
-        public OperatorValidator_IsCircular(Operator op, IDocumentRepository documentRepository)
+        public OperatorValidator_IsCircular(Operator op, IPatchRepository patchRepository)
             : base(op, postponeExecute: true)
         {
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
 
-            _documentRepository = documentRepository;
+            _patchRepository = patchRepository;
 
             Execute();
         }
@@ -31,14 +31,14 @@ namespace JJ.Business.Synthesizer.Validation
                 ValidationMessages.Add(() => op, MessageFormatter.OperatorIsCircularWithName(op.Name));
             }
 
-            // TODO: Enable the UnderlyingDocumentIsCircular check again, when it is corrected, so it works.
+            // TODO: Enable the UnderlyingPatchIsCircular check again, when it is corrected, so it works.
             return;
 
             if (op.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
             {
-                if (op.HasCircularUnderlyingDocument(_documentRepository))
+                if (op.HasCircularUnderlyingPatch(_patchRepository))
                 {
-                    ValidationMessages.Add(() => op, Messages.UnderlyingDocumentIsCircular);
+                    ValidationMessages.Add(() => op, Messages.UnderlyingPatchIsCircular);
                 }
             }
         }

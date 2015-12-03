@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
-        private readonly IDocumentRepository _documentRepository;
+        private readonly IPatchRepository _patchRepository;
 
         private WhiteNoiseCalculator _whiteNoiseCalculator;
 
@@ -60,17 +60,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             WhiteNoiseCalculator whiteNoiseCalculator,
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IDocumentRepository documentRepository)
+            IPatchRepository patchRepository)
         {
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
             if (whiteNoiseCalculator == null) throw new NullException(() => whiteNoiseCalculator);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
 
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
-            _documentRepository = documentRepository;
+            _patchRepository = patchRepository;
             _whiteNoiseCalculator = whiteNoiseCalculator;
 
             foreach (Outlet channelOutlet in channelOutlets)
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     channelOutlet.Operator,
                     _curveRepository,
                     _sampleRepository,
-                    _documentRepository,
+                    _patchRepository,
                     alreadyDone: new HashSet<object>());
 
                 validator.Verify();
@@ -239,7 +239,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         private double CalculateCustomOperator(Outlet customOperatorOutlet, double time)
         {
-            Outlet outlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _documentRepository);
+            Outlet outlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _patchRepository);
 
             if (outlet == null)
             {

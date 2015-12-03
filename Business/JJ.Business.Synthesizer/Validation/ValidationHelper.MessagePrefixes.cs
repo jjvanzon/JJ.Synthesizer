@@ -59,10 +59,10 @@ namespace JJ.Business.Synthesizer.Validation
             return messagePrefix;
         }
 
-        public static string GetMessagePrefix_ForCustomOperator(Operator entity, IDocumentRepository documentRepository)
+        public static string GetMessagePrefix_ForCustomOperator(Operator entity, IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
             if (entity.GetOperatorTypeEnum() != OperatorTypeEnum.CustomOperator) throw new NotEqualException(() => entity.OperatorType, OperatorTypeEnum.CustomOperator);
 
             // Prefer Operator's explicit Name.
@@ -71,12 +71,12 @@ namespace JJ.Business.Synthesizer.Validation
                 return GetMessagePrefix(ResourceHelper.GetOperatorTypeDisplayName(entity), entity.Name);
             }
 
-            var wrapper = new OperatorWrapper_CustomOperator(entity, documentRepository);
-            Document underlyingEntity = wrapper.UnderlyingDocument;
+            var wrapper = new OperatorWrapper_CustomOperator(entity, patchRepository);
+            Patch underlyingPatch = wrapper.UnderlyingPatch;
             string underlyingEntityName = null;
-            if (underlyingEntity != null)
+            if (underlyingPatch != null)
             {
-                underlyingEntityName = underlyingEntity.Name;
+                underlyingEntityName = underlyingPatch.Name;
             }
 
             string operatorTypeDisplayName = ResourceHelper.GetOperatorTypeDisplayName(entity);
@@ -85,12 +85,16 @@ namespace JJ.Business.Synthesizer.Validation
             return messagePrefix;
         }
 
-        public static string GetMessagePrefix(Operator entity, ISampleRepository sampleRepository, ICurveRepository curveRepository, IDocumentRepository documentRepository)
+        public static string GetMessagePrefix(
+            Operator entity, 
+            ISampleRepository sampleRepository, 
+            ICurveRepository curveRepository, 
+            IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
 
             OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
 
@@ -100,7 +104,7 @@ namespace JJ.Business.Synthesizer.Validation
                     return GetMessagePrefix(PropertyDisplayNames.Operator, entity.Name);
 
                 case OperatorTypeEnum.CustomOperator:
-                    return GetMessagePrefix_ForCustomOperator(entity, documentRepository);
+                    return GetMessagePrefix_ForCustomOperator(entity, patchRepository);
             }
 
             // Prefer Operator's explicit Name.

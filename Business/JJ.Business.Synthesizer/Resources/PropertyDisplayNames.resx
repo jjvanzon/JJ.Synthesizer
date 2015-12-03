@@ -295,8 +295,8 @@
   <data name="ListIndex" xml:space="preserve">
     <value>Number (when we start counting at 0)</value>
   </data>
-  <data name="UnderlyingDocument" xml:space="preserve">
-    <value>Underlying Document</value>
+  <data name="UnderlyingPatch" xml:space="preserve">
+    <value>Underlying Patch</value>
   </data>
   <data name="Raw" xml:space="preserve">
     <value>RAW File</value>

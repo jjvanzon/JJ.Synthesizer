@@ -60,7 +60,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ScaleGrid = CreateEmptyScaleGridViewModel(),
                 ScalePropertiesList = new List<ScalePropertiesViewModel>(),
                 ToneGridEditList = new List<ToneGridEditViewModel>(),
-                UnderlyingDocumentLookup = new List<IDAndName>()
+                UnderlyingPatchLookup = new List<IDAndName>()
             };
 
             return viewModel;

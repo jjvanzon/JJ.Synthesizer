@@ -31,7 +31,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                var repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
                 var patchManager = new PatchManager(new PatchRepositories(repositories));
 
@@ -87,7 +87,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                var repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
                 var patchManager = new PatchManager(new PatchRepositories(repositories));
 
@@ -146,7 +146,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                var repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
                 IList<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null).ToArray();
 
@@ -200,7 +200,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                var repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
                 var documentManager = new DocumentManager(repositories);
 
@@ -273,7 +273,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
             using (IContext context = PersistenceHelper.CreateContext())
             {
-                var repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
 
                 var documentManager = new DocumentManager(repositories);
                 var patchManager = new PatchManager(new PatchRepositories(repositories));
@@ -320,6 +320,100 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     }
 
                     string progressMessage = String.Format("Migrated document {0}/{1}.", i + 1, rootDocuments.Count);
+                    progressCallback(progressMessage);
+                }
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+        public static void ConvertUnderlyingDocumentIDsToUnderlyingPatchIDs(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                IList<Operator> customOperators = repositories.OperatorRepository.GetAll()
+                                                                                 .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
+                                                                                 .ToArray();
+                for (int i = 0; i < customOperators.Count; i++)
+                {
+                    Operator customOperator = customOperators[i];
+
+                    var wrapper = new OperatorWrapper_CustomOperator(customOperator, repositories.PatchRepository);
+
+                    // Try using the UnderlyingPatchID as a DocumentID.
+                    int? underlyingEntityID = wrapper.UnderlyingPatchID;
+                    if (underlyingEntityID != null)
+                    {
+                        Document document = repositories.DocumentRepository.TryGet(underlyingEntityID.Value);
+                        if (document != null)
+                        {
+                            // It is a DocumentID. Make it the PatchID.
+                            if (document.Patches.Count != 1)
+                            {
+                                throw new NotEqualException(() => document.Patches.Count, 1);
+                            }
+
+                            wrapper.UnderlyingPatch = document.Patches[0];
+                        }
+                    }
+
+                    string progressMessage = String.Format("Migrated custom operator {0}/{1}.", i + 1, customOperators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+        public static void GivePatchesSameNameAsTheirDocuments(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                IList<Patch> patches = repositories.PatchRepository.GetAll().ToArray();
+
+                for (int i = 0; i < patches.Count; i++)
+                {
+                    Patch patch = patches[i];
+
+                    patch.Name = patch.Document.Name;
+
+                    string progressMessage = String.Format("Migrated Patch {0}/{1}.", i + 1, patches.Count);
+                    progressCallback(progressMessage);
+                }
+
+                var documentManager = new DocumentManager(repositories);
+
+                IList<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null).ToArray();
+                for (int i = 0; i < rootDocuments.Count; i++)
+                {
+                    Document rootDocument = rootDocuments[i];
+
+                    // Validate
+                    VoidResult result = documentManager.ValidateRecursive(rootDocument);
+                    if (!result.Successful)
+                    {
+                        progressCallback("Exception!");
+                        string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
+                        throw new Exception(formattedMessages);
+                    }
+
+                    string progressMessage = String.Format("Validated document {0}/{1}.", i + 1, rootDocuments.Count);
                     progressCallback(progressMessage);
                 }
 

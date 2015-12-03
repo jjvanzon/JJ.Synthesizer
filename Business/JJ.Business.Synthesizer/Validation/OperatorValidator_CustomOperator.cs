@@ -13,17 +13,15 @@ using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
-    /// <summary>
-    /// Does not derive from OperatorValidator_Base, because CustomOperator has very specific requirements.
-    /// </summary>
+    /// <summary> Does not derive from OperatorValidator_Base, because CustomOperator has very specific requirements. </summary>
     internal class OperatorValidator_CustomOperator : FluentValidator<Operator>
     {
-        private IDocumentRepository _documentRepository;
+        private IPatchRepository _patchRepository;
 
-        public OperatorValidator_CustomOperator(Operator op, IDocumentRepository documentRepository)
+        public OperatorValidator_CustomOperator(Operator op, IPatchRepository patchRepository)
             : base(op, postponeExecute: true)
         {
-            _documentRepository = documentRepository;
+            _patchRepository = patchRepository;
 
             Execute();
         }
@@ -53,23 +51,19 @@ namespace JJ.Business.Synthesizer.Validation
 
             For(() => op.Data, PropertyDisplayNames.Data).IsInteger();
 
-            int underlyingDocumentID;
-            if (Int32.TryParse(op.Data, out underlyingDocumentID))
+            int underlyingPatchID;
+            if (Int32.TryParse(op.Data, out underlyingPatchID))
             {
-                Document underlyingDocument = _documentRepository.TryGet(underlyingDocumentID);
-                if (underlyingDocument == null)
+                Patch underlyingPatch = _patchRepository.TryGet(underlyingPatchID);
+                if (underlyingPatch == null)
                 {
-                    ValidationMessages.Add(() => underlyingDocument, CommonMessageFormatter.ObjectNotFoundWithID(PropertyDisplayNames.UnderlyingDocument, underlyingDocumentID));
+                    ValidationMessages.Add(() => underlyingPatch, CommonMessageFormatter.ObjectNotFoundWithID(PropertyDisplayNames.UnderlyingPatch, underlyingPatchID));
                 }
                 else
                 {
-                    ValidateUnderlyingDocumentReferenceConstraint(underlyingDocument);
-
-                    if (underlyingDocument.Patches.Count > 0)
-                    {
-                        ValidateInletsAgainstUnderlyingPatch(underlyingDocument.Patches[0]);
-                        ValidateOutletsAgainstUnderlyingPatch(underlyingDocument.Patches[0]);
-                    }
+                    ValidateUnderlyingPatchReferenceConstraint(underlyingPatch);
+                    ValidateInletsAgainstUnderlyingPatch(underlyingPatch);
+                    ValidateOutletsAgainstUnderlyingPatch(underlyingPatch);
                 }
             }
         }
@@ -100,7 +94,7 @@ namespace JJ.Business.Synthesizer.Validation
             }
         }
 
-        private void ValidateUnderlyingDocumentReferenceConstraint(Document underlyingDocument)
+        private void ValidateUnderlyingPatchReferenceConstraint(Patch underlyingPatch)
         {
             Operator op = Object;
 
@@ -118,10 +112,10 @@ namespace JJ.Business.Synthesizer.Validation
                     documents = op.Patch.Document.ChildDocuments;
                 }
 
-                bool isInList = documents.Any(x => x.ID == underlyingDocument.ID);
+                bool isInList = documents.SelectMany(x => x.Patches).Any(x => x.ID == underlyingPatch.ID);
                 if (!isInList)
                 {
-                    ValidationMessages.Add(PropertyNames.UnderlyingDocument, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.UnderlyingDocument, underlyingDocument.ID));
+                    ValidationMessages.Add(PropertyNames.UnderlyingPatch, MessageFormatter.NotFoundInList_WithItemName_AndID(PropertyDisplayNames.UnderlyingPatch, underlyingPatch.ID));
                 }
             }
         }

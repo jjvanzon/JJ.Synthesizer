@@ -18,60 +18,56 @@ namespace JJ.Business.Synthesizer.Converters
     /// 
     /// This class applies the Document to the CustomOperator.
     /// The CustomOperator can already exist in case of which it is adapted to match
-    /// its new UnderlyingDocument.
+    /// its new UnderlyingPatch.
     /// 
     /// No Inlets or Outlets of the CustomOperators are thrown away,
     /// if there are still things connected to it, so a CustomOperator can end up with inlets and outlets
-    /// that are not even in the UnderlyingDocument.
+    /// that are not even in the UnderlyingPatch.
     /// 
     /// However, existing Inlets and Outlets are matches with the new Document as best as possible.
     /// First an existing Inlet or Outlet is matched by name, otherwise an it is matched by ListIndex,
     /// and if none match, the Inlet or Outlet is deleted if not in use, or kept if it was in use.
     /// </summary>
-    internal class DocumentToOperatorConverter
+    internal class PatchToOperatorConverter
     {
         private IInletRepository _inletRepository;
         private IOutletRepository _outletRepository;
-        private IDocumentRepository _documentRepository;
+        private IPatchRepository _patchRepository;
         private IOperatorTypeRepository _operatorTypeRepository;
         private IIDRepository _idRepository;
 
-        public DocumentToOperatorConverter(
+        public PatchToOperatorConverter(
             IInletRepository inletRepository,
             IOutletRepository outletRepository,
-            IDocumentRepository documentRepository,
+            IPatchRepository patchRepository,
             IOperatorTypeRepository operatorTypeRepository,
             IIDRepository idRepository)
         {
             if (inletRepository == null) throw new NullException(() => inletRepository);
             if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
             if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
             if (idRepository == null) throw new NullException(() => idRepository);
     
             _inletRepository = inletRepository;
             _outletRepository = outletRepository;
-            _documentRepository = documentRepository;
+            _patchRepository = patchRepository;
             _operatorTypeRepository = operatorTypeRepository;
             _idRepository = idRepository;
         }
 
-        /// <param name="sourceUnderlyingDocument">nullable</param>
-        public void Convert(Document sourceUnderlyingDocument, Operator destOperator)
+        /// <param name="sourceUnderlyingPatch">nullable</param>
+        public void Convert(Patch sourceUnderlyingPatch, Operator destOperator)
         {
             if (destOperator == null) throw new NullException(() => destOperator);
 
             IList<Operator> sourcePatchInlets;
             IList<Operator> sourcePatchOutlets;
 
-            if (sourceUnderlyingDocument != null)
+            if (sourceUnderlyingPatch != null)
             {
-                if (sourceUnderlyingDocument.Patches.Count == 0)
-                {
-                    throw new ZeroException(() => sourceUnderlyingDocument.Patches.Count);
-                }
-                sourcePatchInlets = sourceUnderlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
-                sourcePatchOutlets = sourceUnderlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
+                sourcePatchInlets = sourceUnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
+                sourcePatchOutlets = sourceUnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
             }
             else
             {
@@ -82,8 +78,8 @@ namespace JJ.Business.Synthesizer.Converters
             ConvertInlets(sourcePatchInlets, destOperator);
             ConvertOutlets(sourcePatchOutlets, destOperator);
 
-            var destOperatorWrapper = new OperatorWrapper_CustomOperator(destOperator, _documentRepository);
-            destOperatorWrapper.UnderlyingDocument = sourceUnderlyingDocument;
+            var destOperatorWrapper = new OperatorWrapper_CustomOperator(destOperator, _patchRepository);
+            destOperatorWrapper.UnderlyingPatch = sourceUnderlyingPatch;
 
             destOperator.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _operatorTypeRepository);
         }

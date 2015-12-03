@@ -12,7 +12,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         /// The lookup is inside the DocumentViewModel,
         /// to prevent a lot of repeated data. So use the lookup from there.
         /// </summary>
-        public IDAndName UnderlyingDocument { get; set; }
+        public IDAndName UnderlyingPatch { get; set; }
 
         public bool Visible { get; set; }
         public bool Successful { get; set; }

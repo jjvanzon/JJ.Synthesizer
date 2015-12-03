@@ -131,8 +131,8 @@
   <data name="ChannelIndexNumberDoesNotMatchSpeakerSetup" xml:space="preserve">
     <value>Kanaalnummer komt niet overeen met luidspreker opstelling.</value>
   </data>
-  <data name="UnderlyingDocumentIsCircular" xml:space="preserve">
-    <value>Er is een cirkelverband met het onderliggende document.</value>
+  <data name="UnderlyingPatchIsCircular" xml:space="preserve">
+    <value>Er is een cirkelverband met de onderliggende schakeling.</value>
     <comment>{0} = name</comment>
   </data>
   <data name="DocumentIsDependentOnDocument" xml:space="preserve">

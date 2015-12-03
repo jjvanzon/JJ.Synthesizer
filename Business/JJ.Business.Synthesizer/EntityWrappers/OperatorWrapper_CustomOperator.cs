@@ -8,14 +8,14 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class OperatorWrapper_CustomOperator : OperatorWrapperBase
     {
-        private IDocumentRepository _documentRepository;
+        private IPatchRepository _patchRepository;
 
-        public OperatorWrapper_CustomOperator(Operator op, IDocumentRepository documentRepository)
+        public OperatorWrapper_CustomOperator(Operator op, IPatchRepository patchRepository)
             : base(op)
         {
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
 
-            _documentRepository = documentRepository;
+            _patchRepository = patchRepository;
 
             Operands = new OperatorWrapper_CustomOperator_Operands(op);
             Inlets = new OperatorWrapper_CustomOperator_Inlets(op);
@@ -28,54 +28,54 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public OperatorWrapper_CustomOperator_Outlets Outlets { get; private set; }
 
-        public int? UnderlyingDocumentID
+        public int? UnderlyingPatchID
         {
             get { return ConversionHelper.ParseNullableInt32(_operator.Data); }
             set { _operator.Data = Convert.ToString(value); }
         }
 
         /// <summary> nullable </summary>
-        public Document UnderlyingDocument
+        public Patch UnderlyingPatch
         {
             get
             {
-                int? underlyingDocumentID = UnderlyingDocumentID;
-                if (!underlyingDocumentID.HasValue)
+                int? id = UnderlyingPatchID;
+                if (!id.HasValue)
                 {
                     return null;
                 }
 
-                return _documentRepository.TryGet(underlyingDocumentID.Value);
+                return _patchRepository.TryGet(id.Value);
             }
             set
             {
                 if (value == null)
                 {
-                    UnderlyingDocumentID = null;
+                    UnderlyingPatchID = null;
                     return;
                 }
 
-                UnderlyingDocumentID = value.ID;
+                UnderlyingPatchID = value.ID;
             }
         }
 
         //// TODO: These operations must enfore rules and should be integrated in the members above.
 
-        //private void SetUnderlyingDocument(Operator op, Document document)
+        //private void SetUnderlyingPatch(Operator op, Patch patch)
         //{
         //    if (op == null) throw new NullException(() => op);
-        //    if (document == null) throw new NullException(() => document);
+        //    if (patch == null) throw new NullException(() => patch);
         //    if (op.GetOperatorTypeEnum() != OperatorTypeEnum.CustomOperator) throw new NotEqualException(() => op.GetOperatorTypeEnum(), OperatorTypeEnum.CustomOperator);
 
         //    // What can go wrong? Everything.
         //    throw new NotImplementedException();
         //}
 
-        //private void SetName(Document document, string name)
+        //private void SetName(Patch patch, string name)
         //{
-        //    if (document == null) throw new NullException(() => document);
+        //    if (patch == null) throw new NullException(() => patch);
 
-        //    //if (document.Name 
+        //    //if (patch.Name 
         //}
     }
 }

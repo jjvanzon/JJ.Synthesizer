@@ -1514,7 +1514,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties(
                     _repositories.SampleRepository,
                     _repositories.CurveRepository,
-                    _repositories.DocumentRepository,
+                    _repositories.PatchRepository,
                     _entityPositionManager);
                 _patchDetailsPresenter.ViewModel.Entity.Operators.Add(operatorViewModel);
 
@@ -1568,7 +1568,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorViewModel operatorViewModel = op.ToViewModelWithRelatedEntitiesAndInverseProperties(
                     _repositories.SampleRepository,
                     _repositories.CurveRepository,
-                    _repositories.DocumentRepository,
+                    _repositories.PatchRepository,
                     _entityPositionManager);
                 _patchDetailsPresenter.ViewModel.Entity.Operators.Add(operatorViewModel);
 
@@ -1594,7 +1594,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     case OperatorTypeEnum.CustomOperator:
                         {
-                            OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel = op.ToPropertiesViewModel_ForCustomOperator(_repositories.DocumentRepository);
+                            OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel = op.ToPropertiesViewModel_ForCustomOperator(_repositories.PatchRepository);
                             IList<OperatorPropertiesViewModel_ForCustomOperator> propertiesViewModelList = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCustomOperators_ByPatchID(ViewModel.Document, patch.ID);
                             propertiesViewModelList.Add(propertiesViewModel);
                             break;
@@ -1648,7 +1648,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     // ToEntity
                     // (Full entity model needed for Document_SideEffect_UpdateDependentCustomOperators and 
-                    //  Operator_SideEffect_ApplyUnderlyingDocument)
+                    //  Operator_SideEffect_ApplyUnderlyingPatch)
                     Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
                     Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.PatchID);
                     Document document = patch.Document;
@@ -1886,7 +1886,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     PatchGridsRefresh(); // Refresh all patch grids, because a Patch's group can change.
                     UnderylingDocumentLookupRefresh();
                     OperatorViewModels_OfTypeCustomOperators_Refresh();
-                    OperatorProperties_ForCustomOperatorViewModels_Refresh(underlyingDocumentID: childDocumentID);
+                    OperatorProperties_ForCustomOperatorViewModels_Refresh(underlyingPatchID: childDocumentID);
                 }
             }
             finally
@@ -1951,8 +1951,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 ViewModel.Document.PatchDocumentList.Add(documentViewModel);
 
                 IDAndName idAndName = childDocument.ToIDAndName();
-                ViewModel.Document.UnderlyingDocumentLookup.Add(idAndName);
-                ViewModel.Document.UnderlyingDocumentLookup = ViewModel.Document.UnderlyingDocumentLookup.OrderBy(x => x.Name).ToList();
+                ViewModel.Document.UnderlyingPatchLookup.Add(idAndName);
+                ViewModel.Document.UnderlyingPatchLookup = ViewModel.Document.UnderlyingPatchLookup.OrderBy(x => x.Name).ToList();
 
                 DocumentTreeRefresh();
             }
@@ -1982,7 +1982,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // ToViewModel
                     ViewModel.Document.PatchDocumentList.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
                     ViewModel.Document.CurrentPatches.List.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
-                    ViewModel.Document.UnderlyingDocumentLookup.RemoveFirst(x => x.ID == childDocumentID);
+                    ViewModel.Document.UnderlyingPatchLookup.RemoveFirst(x => x.ID == childDocumentID);
                     ViewModel.Document.DocumentTree.PatchesNode.PatchNodes.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
                     foreach (PatchGroupTreeNodeViewModel nodeViewModel in ViewModel.Document.DocumentTree.PatchesNode.PatchGroupNodes)
                     {

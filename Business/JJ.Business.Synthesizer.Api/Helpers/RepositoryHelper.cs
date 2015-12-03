@@ -20,7 +20,6 @@ namespace JJ.Business.Synthesizer.Api.Helpers
         private static AudioFileOutputRepositories CreateAudioFileOutputRepositories()
         {
             return new AudioFileOutputRepositories(
-                CreateRepository<IDocumentRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IAudioFileOutputRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IAudioFileFormatRepository>(ContextHelper.MemoryContext),
                 CreateRepository<ISampleDataTypeRepository>(ContextHelper.MemoryContext),
@@ -29,6 +28,7 @@ namespace JJ.Business.Synthesizer.Api.Helpers
                 CreateRepository<IOutletRepository>(ContextHelper.MemoryContext),
                 CreateRepository<ICurveRepository>(ContextHelper.MemoryContext),
                 CreateRepository<ISampleRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IPatchRepository>(ContextHelper.MemoryContext),
                 CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
         }
 

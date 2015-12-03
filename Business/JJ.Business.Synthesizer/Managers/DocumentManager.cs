@@ -77,16 +77,6 @@ namespace JJ.Business.Synthesizer.Managers
                 };
             }
 
-            ISideEffect sideEffect = new Document_SideEffect_UpdateDependentCustomOperators(
-                entity,
-                _repositories.InletRepository,
-                _repositories.OutletRepository,
-                _repositories.DocumentRepository,
-                _repositories.OperatorTypeRepository,
-                _repositories.IDRepository);
-
-            sideEffect.Execute();
-
             return new VoidResult { Successful = true };
         }
 
@@ -94,7 +84,7 @@ namespace JJ.Business.Synthesizer.Managers
         {
             IValidator validator = new DocumentValidator_Recursive(
                 entity, 
-                _repositories.CurveRepository, _repositories. SampleRepository, _repositories.DocumentRepository, 
+                _repositories.CurveRepository, _repositories. SampleRepository, _repositories.PatchRepository, 
                 new HashSet<object>());
 
             var result = new VoidResult
@@ -148,7 +138,7 @@ namespace JJ.Business.Synthesizer.Managers
         {
             if (document == null) throw new NullException(() => document);
 
-            IValidator validator = new DocumentValidator_Delete(document, _repositories.DocumentRepository);
+            IValidator validator = new DocumentValidator_Delete(document, _repositories.PatchRepository);
 
             if (!validator.IsValid)
             {

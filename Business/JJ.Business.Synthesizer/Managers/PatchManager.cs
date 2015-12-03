@@ -10,7 +10,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Calculation;
@@ -101,7 +100,24 @@ namespace JJ.Business.Synthesizer.Managers
         {
             AssertPatch();
 
-            return ValidatePatch();
+            VoidResult result = ValidatePatch();
+
+            if (!result.Successful)
+            {
+                return result;
+            }
+
+            ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(
+                Patch,
+                _repositories.InletRepository,
+                _repositories.OutletRepository,
+                _repositories.PatchRepository,
+                _repositories.OperatorTypeRepository,
+                _repositories.IDRepository);
+
+            sideEffect.Execute();
+
+            return result;
         }
 
         /// <summary>
@@ -138,11 +154,11 @@ namespace JJ.Business.Synthesizer.Managers
 
         private VoidResult SaveOperator_Custom(Operator op)
         {
-            ISideEffect sideEffect = new Operator_SideEffect_ApplyUnderlyingDocument(
+            ISideEffect sideEffect = new Operator_SideEffect_ApplyUnderlyingPatch(
                 op,
                 _repositories.InletRepository,
                 _repositories.OutletRepository,
-                _repositories.DocumentRepository,
+                _repositories.PatchRepository,
                 _repositories.OperatorTypeRepository,
                 _repositories.IDRepository);
 
@@ -159,11 +175,11 @@ namespace JJ.Business.Synthesizer.Managers
             VoidResult result = ValidatePatch();
             if (result.Successful)
             {
-                ISideEffect sideEffect = new Document_SideEffect_UpdateDependentCustomOperators(
-                    op.Patch.Document,
+                ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(
+                    op.Patch,
                     _repositories.InletRepository,
                     _repositories.OutletRepository,
-                    _repositories.DocumentRepository,
+                    _repositories.PatchRepository,
                     _repositories.OperatorTypeRepository,
                     _repositories.IDRepository);
 
@@ -246,7 +262,7 @@ namespace JJ.Business.Synthesizer.Managers
             if (op == null) throw new NullException(() => op);
             if (op.Patch != Patch) throw new NotEqualException(() => op.Patch, Patch);
 
-            IList<Operator> connectedCustomOperators = 
+            IList<Operator> connectedCustomOperators =
                 Enumerable.Union(
                     op.Inlets.Where(x => x.InputOutlet != null).Select(x => x.InputOutlet.Operator),
                     op.Outlets.SelectMany(x => x.ConnectedInlets).Select(x => x.Operator))
@@ -259,26 +275,26 @@ namespace JJ.Business.Synthesizer.Managers
 
             if (Patch.Document != null)
             {
-                ISideEffect sideEffect = new Document_SideEffect_UpdateDependentCustomOperators(
-                    Patch.Document,
+                ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(
+                    Patch,
                     _repositories.InletRepository,
                     _repositories.OutletRepository,
-                    _repositories.DocumentRepository,
+                    _repositories.PatchRepository,
                     _repositories.OperatorTypeRepository,
                     _repositories.IDRepository);
 
                 sideEffect.Execute();
 
                 // Clean up obsolete inlets and outlets.
-                // (Inlets and outlets that do not exist anymore in a CustomOperator's UnderlyingDocument
+                // (Inlets and outlets that do not exist anymore in a CustomOperator's UnderlyingPatch
                 //  are kept alive by the system until it has no connections anymore, so that a user's does not lose data.)
                 foreach (Operator connectedCustomOperator in connectedCustomOperators)
                 {
-                    ISideEffect sideEffect2 = new Operator_SideEffect_ApplyUnderlyingDocument(
+                    ISideEffect sideEffect2 = new Operator_SideEffect_ApplyUnderlyingPatch(
                         connectedCustomOperator,
                         _repositories.InletRepository,
                         _repositories.OutletRepository,
-                        _repositories.DocumentRepository,
+                        _repositories.PatchRepository,
                         _repositories.OperatorTypeRepository,
                         _repositories.IDRepository);
 
@@ -322,7 +338,11 @@ namespace JJ.Business.Synthesizer.Managers
             var validators = new List<IValidator>
             {
                 new PatchValidator_UniqueName(Patch),
-                new PatchValidator_Recursive(Patch,  _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository, new HashSet<object>())
+                new PatchValidator_Recursive(
+                    Patch,  
+                    _repositories.CurveRepository, 
+                    _repositories.SampleRepository, 
+                    _repositories.PatchRepository, new HashSet<object>())
             };
 
             if (Patch.Document != null)
@@ -342,7 +362,7 @@ namespace JJ.Business.Synthesizer.Managers
 
         private VoidResult ValidateOperatorNonRecursive(Operator op)
         {
-            IValidator validator = new OperatorValidator_Versatile(op, _repositories.DocumentRepository);
+            IValidator validator = new OperatorValidator_Versatile(op, _repositories.PatchRepository);
 
             return new VoidResult
             {
@@ -440,7 +460,12 @@ namespace JJ.Business.Synthesizer.Managers
             int assumedSamplingRate = 44100;
             var whiteNoiseCalculator = new WhiteNoiseCalculator(assumedSamplingRate);
 
-            return new OptimizedPatchCalculator(channelOutlets, whiteNoiseCalculator, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository);
+            return new OptimizedPatchCalculator(
+                channelOutlets, 
+                whiteNoiseCalculator, 
+                _repositories.CurveRepository, 
+                _repositories.SampleRepository, 
+                _repositories.PatchRepository);
         }
 
         /// <summary>
@@ -458,82 +483,12 @@ namespace JJ.Business.Synthesizer.Managers
         {
             int assumedSamplingRate = 44100;
             var whiteNoiseCalculator = new WhiteNoiseCalculator(assumedSamplingRate);
-            return new InterpretedPatchCalculator(channelOutlets, whiteNoiseCalculator, _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository);
-        }
-
-        /// <summary>
-        /// NOT FINISHED.
-        /// Do a rollback after calling this method to prevent saving the new patch.
-        /// Use the Patch property after calling this method.
-        /// Tries to produce a new patch by tying together existing patches,
-        /// trying to match PatchInlet and PatchOutlet operators by:
-        /// 1) InletType.Name and OutletType.Name
-        /// 2) PatchInlet Operator.Name and PatchOutlet Operator.Name.
-        /// The non-matched inlets and outlets will become inlets and outlets of the new patch.
-        /// If there is overlap in type or name, they will merge to a single inlet or outlet.
-        /// </summary>
-        public void AutoPatch(IList<Document> underlyingDocuments)
-        {
-            throw new NotImplementedException();
-
-            if (underlyingDocuments == null) throw new NullException(() => underlyingDocuments);
-
-            CreatePatch();
-
-            Document previousUnderlyingDocument = null;
-            OperatorWrapper_CustomOperator previousCustomOperatorWrapper = null;
-
-            foreach (Document nextUnderlyingDocument in underlyingDocuments)
-            {
-                OperatorWrapper_CustomOperator nextCustomOperatorWrapper = CustomOperator(nextUnderlyingDocument);
-
-                if (previousUnderlyingDocument != null)
-                {
-                    // TODO: Should you allow this?
-                    if (previousUnderlyingDocument.Patches.Count == 1 &&
-                        nextUnderlyingDocument.Patches.Count == 1)
-                    {
-                        IList<OperatorWrapper_PatchOutlet> patchOutletWrappers = previousUnderlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                                                                                                      .Select(x => new OperatorWrapper_PatchOutlet(x))
-                                                                                                                      .OrderBy(x => x.ListIndex)
-                                                                                                                      .ToArray();
-
-                        IList<OperatorWrapper_PatchInlet> patchInletWrappers = nextUnderlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                                                                                                .Select(x => new OperatorWrapper_PatchInlet(x))
-                                                                                                                .OrderBy(x => x.ListIndex)
-                                                                                                                .ToArray();
-                        for (int outletIndex = 0; outletIndex < patchOutletWrappers.Count; outletIndex++)
-                        {
-                            OperatorWrapper_PatchOutlet patchOutletWrapper = patchOutletWrappers[outletIndex];
-                            OutletTypeEnum outletTypeEnum = patchOutletWrapper.OutletTypeEnum ?? OutletTypeEnum.Undefined;
-                            string outletTypeEnumString = outletTypeEnum.ToString();
-
-                            if (outletTypeEnum != OutletTypeEnum.Undefined)
-                            {
-                                for (int inletIndex = 0; inletIndex < patchInletWrappers.Count; inletIndex++)
-                                {
-                                    OperatorWrapper_PatchInlet patchInletWrapper = patchInletWrappers[inletIndex];
-                                    InletTypeEnum inletTypeEnum = patchInletWrapper.InletTypeEnum ?? InletTypeEnum.Undefined;
-                                    string inletTypeEnumString = inletTypeEnum.ToString();
-
-                                    bool isMatch = String.Equals(outletTypeEnumString, inletTypeEnumString) ||
-                                                   String.Equals(patchOutletWrapper.Name, patchInletWrapper.Name);
-
-                                    if (isMatch)
-                                    {
-                                        nextCustomOperatorWrapper.Inlets[inletIndex].InputOutlet = previousCustomOperatorWrapper.Outlets[outletIndex];
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                previousUnderlyingDocument = nextUnderlyingDocument;
-                previousCustomOperatorWrapper = nextCustomOperatorWrapper;
-            }
-
-            throw new NotImplementedException();
+            return new InterpretedPatchCalculator(
+                channelOutlets, 
+                whiteNoiseCalculator, 
+                _repositories.CurveRepository, 
+                _repositories.SampleRepository,
+                _repositories.PatchRepository);
         }
 
         private void AssertPatch()

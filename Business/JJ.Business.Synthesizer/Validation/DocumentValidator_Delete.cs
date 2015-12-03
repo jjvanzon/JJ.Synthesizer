@@ -14,14 +14,14 @@ namespace JJ.Business.Synthesizer.Validation
 {
     internal class DocumentValidator_Delete : FluentValidator<Document>
     {
-        private IDocumentRepository _documentRepository;
+        private IPatchRepository _patchRepository;
 
-        public DocumentValidator_Delete(Document obj, IDocumentRepository documentRepository)
+        public DocumentValidator_Delete(Document obj, IPatchRepository patchRepository)
             : base(obj, postponeExecute: true)
         {
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
 
-            _documentRepository = documentRepository;
+            _patchRepository = patchRepository;
 
             Execute();
         }
@@ -39,7 +39,8 @@ namespace JJ.Business.Synthesizer.Validation
             bool isChildDocument = document.ParentDocument != null;
             if (isChildDocument)
             {
-                bool hasCustomOperators = document.EnumerateDependentCustomOperators(_documentRepository).Any();
+                // TODO: Is this SelectMany even needed if you would do this in a PatchValidator?
+                bool hasCustomOperators = document.Patches.SelectMany(x => x.EnumerateDependentCustomOperators(_patchRepository)).Any();
                 if (hasCustomOperators)
                 {
                     ValidationMessages.Add(PropertyNames.Document, MessageFormatter.CannotDeleteBecauseHasReferences());
@@ -70,7 +71,7 @@ namespace JJ.Business.Synthesizer.Validation
         //    }
 
         //    var wrapper = new Custom_OperatorWrapper(entity, _documentRepository);
-        //    Document underlyingEntity = wrapper.UnderlyingDocument;
+        //    Document underlyingEntity = wrapper.UnderlyingPatch;
         //    string underlyingEntityName = null;
         //    if (underlyingEntity != null)
         //    {

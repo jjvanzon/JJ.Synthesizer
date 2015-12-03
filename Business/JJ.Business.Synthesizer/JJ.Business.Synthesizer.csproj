@@ -110,7 +110,7 @@
     <Compile Include="Calculation\WhiteNoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Configuration\PatchCalculatorTypeEnum.cs" />
-    <Compile Include="Converters\DocumentToOperatorConverter.cs" />
+    <Compile Include="Converters\PatchToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Unbundle.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Bundle.cs" />
     <Compile Include="EntityWrappers\OperatorWrapper_Select.cs" />
@@ -214,8 +214,8 @@
     <Compile Include="SideEffects\Operator_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchOutletListIndex.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchInletListIndex.cs" />
-    <Compile Include="SideEffects\Operator_SideEffect_ApplyUnderlyingDocument.cs" />
-    <Compile Include="SideEffects\Document_SideEffect_UpdateDependentCustomOperators.cs" />
+    <Compile Include="SideEffects\Operator_SideEffect_ApplyUnderlyingPatch.cs" />
+    <Compile Include="SideEffects\Patch_SideEffect_UpdateDependentCustomOperators.cs" />
     <Compile Include="SideEffects\Patch_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Sample_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_GenerateName.cs" />

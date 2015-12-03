@@ -31,8 +31,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             this.tableLayoutPanelMain = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelProperties = new System.Windows.Forms.TableLayoutPanel();
-            this.labelUnderlyingDocument = new System.Windows.Forms.Label();
-            this.comboBoxUnderlyingDocument = new System.Windows.Forms.ComboBox();
+            this.labelUnderlyingPatch = new System.Windows.Forms.Label();
+            this.comboBoxUnderlyingPatch = new System.Windows.Forms.ComboBox();
             this.labelName = new System.Windows.Forms.Label();
             this.textBoxName = new System.Windows.Forms.TextBox();
             this.labelOperatorTypeTitle = new System.Windows.Forms.Label();
@@ -62,8 +62,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.ColumnCount = 2;
             this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 120F));
             this.tableLayoutPanelProperties.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanelProperties.Controls.Add(this.labelUnderlyingDocument, 0, 2);
-            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxUnderlyingDocument, 1, 2);
+            this.tableLayoutPanelProperties.Controls.Add(this.labelUnderlyingPatch, 0, 2);
+            this.tableLayoutPanelProperties.Controls.Add(this.comboBoxUnderlyingPatch, 1, 2);
             this.tableLayoutPanelProperties.Controls.Add(this.labelName, 0, 1);
             this.tableLayoutPanelProperties.Controls.Add(this.textBoxName, 1, 1);
             this.tableLayoutPanelProperties.Controls.Add(this.labelOperatorTypeTitle, 0, 0);
@@ -79,27 +79,27 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             this.tableLayoutPanelProperties.Size = new System.Drawing.Size(10, 10);
             this.tableLayoutPanelProperties.TabIndex = 8;
             // 
-            // labelUnderlyingDocument
+            // labelUnderlyingPatch
             // 
-            this.labelUnderlyingDocument.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labelUnderlyingDocument.Location = new System.Drawing.Point(0, 48);
-            this.labelUnderlyingDocument.Margin = new System.Windows.Forms.Padding(0);
-            this.labelUnderlyingDocument.Name = "labelUnderlyingDocument";
-            this.labelUnderlyingDocument.Size = new System.Drawing.Size(120, 24);
-            this.labelUnderlyingDocument.TabIndex = 15;
-            this.labelUnderlyingDocument.Text = "labelUnderlyingDocument";
-            this.labelUnderlyingDocument.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.labelUnderlyingPatch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labelUnderlyingPatch.Location = new System.Drawing.Point(0, 48);
+            this.labelUnderlyingPatch.Margin = new System.Windows.Forms.Padding(0);
+            this.labelUnderlyingPatch.Name = "labelUnderlyingPatch";
+            this.labelUnderlyingPatch.Size = new System.Drawing.Size(120, 24);
+            this.labelUnderlyingPatch.TabIndex = 15;
+            this.labelUnderlyingPatch.Text = "labelUnderlyingPatch";
+            this.labelUnderlyingPatch.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // comboBoxUnderlyingDocument
+            // comboBoxUnderlyingPatch
             // 
-            this.comboBoxUnderlyingDocument.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.comboBoxUnderlyingDocument.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxUnderlyingDocument.FormattingEnabled = true;
-            this.comboBoxUnderlyingDocument.Location = new System.Drawing.Point(120, 48);
-            this.comboBoxUnderlyingDocument.Margin = new System.Windows.Forms.Padding(0);
-            this.comboBoxUnderlyingDocument.Name = "comboBoxUnderlyingDocument";
-            this.comboBoxUnderlyingDocument.Size = new System.Drawing.Size(10, 21);
-            this.comboBoxUnderlyingDocument.TabIndex = 16;
+            this.comboBoxUnderlyingPatch.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.comboBoxUnderlyingPatch.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxUnderlyingPatch.FormattingEnabled = true;
+            this.comboBoxUnderlyingPatch.Location = new System.Drawing.Point(120, 48);
+            this.comboBoxUnderlyingPatch.Margin = new System.Windows.Forms.Padding(0);
+            this.comboBoxUnderlyingPatch.Name = "comboBoxUnderlyingPatch";
+            this.comboBoxUnderlyingPatch.Size = new System.Drawing.Size(10, 21);
+            this.comboBoxUnderlyingPatch.TabIndex = 16;
             // 
             // labelName
             // 
@@ -182,8 +182,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelProperties;
         private System.Windows.Forms.Label labelName;
         private System.Windows.Forms.TextBox textBoxName;
-        private System.Windows.Forms.Label labelUnderlyingDocument;
-        private System.Windows.Forms.ComboBox comboBoxUnderlyingDocument;
+        private System.Windows.Forms.Label labelUnderlyingPatch;
+        private System.Windows.Forms.ComboBox comboBoxUnderlyingPatch;
         private System.Windows.Forms.Label labelOperatorTypeTitle;
         private System.Windows.Forms.Label labelOperatorTypeValue;
     }

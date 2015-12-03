@@ -173,7 +173,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         public static OperatorViewModel ToViewModel(
             this Operator entity, 
-            ISampleRepository sampleRepository, ICurveRepository curveRepository, IDocumentRepository documentRepository, 
+            ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository, 
             EntityPositionManager entityPositionManager)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -181,7 +181,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             var viewModel = new OperatorViewModel();
 
-            ViewModelHelper.RefreshViewModel_WithoutEntityPosition(entity, viewModel, sampleRepository, curveRepository, documentRepository);
+            ViewModelHelper.RefreshViewModel_WithoutEntityPosition(entity, viewModel, sampleRepository, curveRepository, patchRepository);
 
             EntityPosition entityPosition = entityPositionManager.GetOrCreateOperatorPosition(entity.ID);
             viewModel.EntityPositionID = entityPosition.ID;
@@ -263,15 +263,15 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// </summary>
         public static OperatorViewModel ToViewModelWithRelatedEntitiesAndInverseProperties(
             this Operator op,
-            ISampleRepository sampleRepository, ICurveRepository curveRepository, IDocumentRepository documentRepository,
+            ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository,
             EntityPositionManager entityPositionManager)
         {
             if (op == null) throw new NullException(() => op);
             if (entityPositionManager == null) throw new NullException(() => entityPositionManager);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
 
-            OperatorViewModel operatorViewModel = op.ToViewModel(sampleRepository, curveRepository, documentRepository, entityPositionManager);
+            OperatorViewModel operatorViewModel = op.ToViewModel(sampleRepository, curveRepository, patchRepository, entityPositionManager);
             operatorViewModel.Inlets = op.Inlets.ToViewModels();
             operatorViewModel.Outlets = op.Outlets.ToViewModels();
 

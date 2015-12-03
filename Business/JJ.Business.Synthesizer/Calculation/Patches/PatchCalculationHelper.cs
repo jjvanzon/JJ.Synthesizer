@@ -20,29 +20,24 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// Note that even though a CustomOperator can have multiple outlets, you will only be using one at a time in your calculations.
         /// </summary>
         public static Outlet TryApplyCustomOperatorToUnderlyingPatch(
-            Outlet customOperatorOutlet, IDocumentRepository documentRepository)
+            Outlet customOperatorOutlet, IPatchRepository patchRepository)
         {
             if (customOperatorOutlet == null) throw new NullException(() => customOperatorOutlet);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
 
             Operator customOperator = customOperatorOutlet.Operator;
 
-            var customOperatorWrapper = new OperatorWrapper_CustomOperator(customOperator, documentRepository);
-            Document underlyingDocument = customOperatorWrapper.UnderlyingDocument;
+            var customOperatorWrapper = new OperatorWrapper_CustomOperator(customOperator, patchRepository);
+            Patch underlyingPatch = customOperatorWrapper.UnderlyingPatch;
 
-            if (underlyingDocument == null)
+            if (underlyingPatch == null)
             {
                 return null;
             }
 
-            if (underlyingDocument.Patches.Count == 0)
-            {
-                throw new ZeroException(() => underlyingDocument.Patches.Count);
-            }
-
             // Cross reference custom operator's inlets with the Underling Patch's PatchInlets.
             var tuples = from customOperatorInlet in customOperator.Inlets
-                         join underlyingPatchInlet in underlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                         join underlyingPatchInlet in underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
                          on customOperatorInlet.Name equals underlyingPatchInlet.Name
                          select new { CustomOperatorInlet = customOperatorInlet, UnderlyingPatchInlet = underlyingPatchInlet };
 
@@ -58,9 +53,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             // Use the (custom operator's) outlet name and look it up in the Underlying Patch's outlets.
-            Operator underlyingPatchOutlet = underlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                                                          .Where(x => String.Equals(x.Name, customOperatorOutlet.Name))
-                                                                          .First();
+            Operator underlyingPatchOutlet = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                                             .Where(x => String.Equals(x.Name, customOperatorOutlet.Name))
+                                                             .First();
 
             // Return the result of that Underlying Patch's outlet.
             var underlyingPatchOutletWrapper = new OperatorWrapper_PatchOutlet(underlyingPatchOutlet);

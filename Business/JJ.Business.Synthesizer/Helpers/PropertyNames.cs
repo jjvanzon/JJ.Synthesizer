@@ -103,6 +103,6 @@ namespace JJ.Business.Synthesizer.Helpers
         public const string Samples = "Samples";
         public const string Scales = "Scales";
         public const string SemiTones = "SemiTones";
-        public const string UnderlyingDocument = "UnderlyingDocument";
+        public const string UnderlyingPatch = "UnderlyingPatch";
     }
 }

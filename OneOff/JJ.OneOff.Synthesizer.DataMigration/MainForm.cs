@@ -37,6 +37,14 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             {
                 DataMigrationExecutor.PutEachPatchInAChildDocument(x => ShowProgress(x));
             }
+            else if (radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs.Checked)
+            {
+                DataMigrationExecutor.ConvertUnderlyingDocumentIDsToUnderlyingPatchIDs(x => ShowProgress(x));
+            }
+            else if (radioButtonGivePatchesSameNameAsTheirDocuments.Checked)
+            {
+                DataMigrationExecutor.GivePatchesSameNameAsTheirDocuments(x => ShowProgress(x));
+            }
             else
             {
                 MessageBox.Show("Please select a radio button.");

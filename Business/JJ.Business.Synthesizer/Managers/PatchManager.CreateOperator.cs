@@ -119,19 +119,19 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        /// <param name="underlyingDocument">The Document to base the CustomOperator on.</param>
-        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument, params Outlet[] operands)
+        /// <param name="underlyingPatch">The Patch to base the CustomOperator on.</param>
+        public OperatorWrapper_CustomOperator CustomOperator(Patch underlyingPatch, params Outlet[] operands)
         {
-            return CustomOperator(underlyingDocument, (IList<Outlet>)operands);
+            return CustomOperator(underlyingPatch, (IList<Outlet>)operands);
         }
 
-        /// <param name="underlyingDocument">The Document to base the CustomOperator on.</param>
-        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument, IList<Outlet> operands)
+        /// <param name="underlyingPatch">The Patch to base the CustomOperator on.</param>
+        public OperatorWrapper_CustomOperator CustomOperator(Patch underlyingPatch, IList<Outlet> operands)
         {
-            if (underlyingDocument == null) throw new NullException(() => underlyingDocument);
+            if (underlyingPatch == null) throw new NullException(() => underlyingPatch);
             if (operands == null) throw new NullException(() => operands);
 
-            OperatorWrapper_CustomOperator wrapper = CustomOperator(underlyingDocument);
+            OperatorWrapper_CustomOperator wrapper = CustomOperator(underlyingPatch);
 
             SetOperands(wrapper.Operator, operands);
 
@@ -146,26 +146,22 @@ namespace JJ.Business.Synthesizer.Managers
             op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
             _repositories.OperatorRepository.Insert(op);
 
-            var wrapper = new OperatorWrapper_CustomOperator(op, _repositories.DocumentRepository);
+            var wrapper = new OperatorWrapper_CustomOperator(op, _repositories.PatchRepository);
 
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public OperatorWrapper_CustomOperator CustomOperator(Document underlyingDocument)
+        public OperatorWrapper_CustomOperator CustomOperator(Patch underlyingPatch)
         {
-            if (underlyingDocument == null) throw new NullException(() => underlyingDocument);
-            if (underlyingDocument.Patches.Count == 0)
-            {
-                throw new ZeroException(() => underlyingDocument.Patches.Count);
-            }
+            if (underlyingPatch == null) throw new NullException(() => underlyingPatch);
 
             var op = new Operator();
             op.ID = _repositories.IDRepository.GetID();
             op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
             _repositories.OperatorRepository.Insert(op);
 
-            IList<Operator> patchInlets = underlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
+            IList<Operator> patchInlets = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
             foreach (Operator patchInlet in patchInlets)
             {
                 var patchInletWrapper = new OperatorWrapper_PatchInlet(patchInlet);
@@ -178,7 +174,7 @@ namespace JJ.Business.Synthesizer.Managers
                 _repositories.InletRepository.Insert(inlet);
             }
 
-            IList<Operator> patchOutlets = underlyingDocument.Patches[0].GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
+            IList<Operator> patchOutlets = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
             foreach (Operator patchOutlet in patchOutlets)
             {
                 var patchOutletWrapper = new OperatorWrapper_PatchOutlet(patchOutlet);
@@ -191,9 +187,9 @@ namespace JJ.Business.Synthesizer.Managers
                 _repositories.OutletRepository.Insert(outlet);
             }
 
-            var wrapper = new OperatorWrapper_CustomOperator(op, _repositories.DocumentRepository);
+            var wrapper = new OperatorWrapper_CustomOperator(op, _repositories.PatchRepository);
 
-            wrapper.UnderlyingDocument = underlyingDocument;
+            wrapper.UnderlyingPatch = underlyingPatch;
 
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
@@ -565,11 +561,11 @@ namespace JJ.Business.Synthesizer.Managers
             ISideEffect sideEffect3 = new Operator_SideEffect_GeneratePatchOutletListIndex(op);
             sideEffect3.Execute();
 
-            ISideEffect sideEffect4 = new Document_SideEffect_UpdateDependentCustomOperators(
-                op.Patch.Document,
+            ISideEffect sideEffect4 = new Patch_SideEffect_UpdateDependentCustomOperators(
+                op.Patch,
                 _repositories.InletRepository,
                 _repositories.OutletRepository,
-                _repositories.DocumentRepository,
+                _repositories.PatchRepository,
                 _repositories.OperatorTypeRepository,
                 _repositories.IDRepository);
 

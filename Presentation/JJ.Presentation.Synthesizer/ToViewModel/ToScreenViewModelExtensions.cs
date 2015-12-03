@@ -312,12 +312,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                         .ToList();
         }
 
-        public static IList<OperatorPropertiesViewModel_ForCustomOperator> ToOperatorPropertiesViewModelList_ForCustomOperators(this Patch patch, IDocumentRepository documentRepository)
+        public static IList<OperatorPropertiesViewModel_ForCustomOperator> ToOperatorPropertiesViewModelList_ForCustomOperators(
+            this Patch patch, IPatchRepository patchRepository)
         {
             if (patch == null) throw new NullException(() => patch);
 
             return patch.GetOperatorsOfType(OperatorTypeEnum.CustomOperator)
-                        .Select(x => x.ToPropertiesViewModel_ForCustomOperator(documentRepository))
+                        .Select(x => x.ToPropertiesViewModel_ForCustomOperator(patchRepository))
                         .ToList();
         }
 
@@ -429,7 +430,8 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        public static OperatorPropertiesViewModel_ForCustomOperator ToPropertiesViewModel_ForCustomOperator(this Operator entity, IDocumentRepository documentRepository)
+        public static OperatorPropertiesViewModel_ForCustomOperator ToPropertiesViewModel_ForCustomOperator(
+            this Operator entity, IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
 
@@ -441,12 +443,12 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ValidationMessages = new List<Message>()
             };
 
-            var wrapper = new OperatorWrapper_CustomOperator(entity, documentRepository);
+            var wrapper = new OperatorWrapper_CustomOperator(entity, patchRepository);
 
-            Document underlyingDocument = wrapper.UnderlyingDocument;
-            if (underlyingDocument != null)
+            Patch underlyingPatch = wrapper.UnderlyingPatch;
+            if (underlyingPatch != null)
             {
-                viewModel.UnderlyingDocument = underlyingDocument.ToIDAndName();
+                viewModel.UnderlyingPatch = underlyingPatch.ToIDAndName();
             }
 
             return viewModel;
@@ -579,11 +581,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             IOperatorTypeRepository operatorTypeRepository, 
             ISampleRepository sampleRepository,
             ICurveRepository curveRepository,
-            IDocumentRepository documentRepository,
+            IPatchRepository patchRepository,
             EntityPositionManager entityPositionManager)
         {
             var converter = new RecursiveToViewModelConverter(
-                operatorTypeRepository, sampleRepository, curveRepository, documentRepository, entityPositionManager);
+                operatorTypeRepository, sampleRepository, curveRepository, patchRepository, entityPositionManager);
 
             return converter.ConvertToDetailsViewModel(patch);
         }

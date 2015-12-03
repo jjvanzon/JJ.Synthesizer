@@ -38,7 +38,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             Operator entity = _repositories.OperatorRepository.Get(ViewModel.ID);
             bool visible = ViewModel.Visible;
-            ViewModel = entity.ToPropertiesViewModel_ForCustomOperator(_repositories.DocumentRepository);
+            ViewModel = entity.ToPropertiesViewModel_ForCustomOperator(_repositories.PatchRepository);
             ViewModel.Visible = visible;
         }
 
@@ -66,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Operator entity = ViewModel.ToEntity(
                 _repositories.OperatorRepository,
                 _repositories.OperatorTypeRepository,
-                _repositories.DocumentRepository);
+                _repositories.PatchRepository);
 
             var patchManager = new PatchManager(entity.Patch, _repositories);
             VoidResult result = patchManager.SaveOperator(entity);

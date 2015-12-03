@@ -69,14 +69,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// </summary>
         public static void RefreshViewModel_WithoutEntityPosition(
             Operator entity, OperatorViewModel viewModel,
-            ISampleRepository sampleRepository, ICurveRepository curveRepository, IDocumentRepository documentRepository)
+            ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (viewModel == null) throw new NullException(() => viewModel);
 
             viewModel.Name = entity.Name;
             viewModel.ID = entity.ID;
-            viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository, documentRepository);
+            viewModel.Caption = GetOperatorCaption(entity, sampleRepository, curveRepository, patchRepository);
 
             if (entity.OperatorType != null)
             {
@@ -118,9 +118,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         /// </summary>
         public static void RefreshViewModel_WithInletsAndOutlets_WithoutEntityPosition(
             Operator entity, OperatorViewModel operatorViewModel,
-            ISampleRepository sampleRepository, ICurveRepository curveRepository, IDocumentRepository documentRepository)
+            ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
         {
-            RefreshViewModel_WithoutEntityPosition(entity, operatorViewModel, sampleRepository, curveRepository, documentRepository);
+            RefreshViewModel_WithoutEntityPosition(entity, operatorViewModel, sampleRepository, curveRepository, patchRepository);
             RefreshInletViewModels(entity.Inlets, operatorViewModel);
             RefreshOutletViewModels(entity.Outlets, operatorViewModel);
         }
@@ -230,12 +230,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return mustConvert;
         }
 
-        public static string GetOperatorCaption(Operator entity, ISampleRepository sampleRepository, ICurveRepository curveRepository, IDocumentRepository documentRepository)
+        public static string GetOperatorCaption(
+            Operator entity, ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
         {
             if (entity == null) throw new NullException(() => entity);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
 
             OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
 
@@ -289,16 +290,16 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 }
             }
 
-            // Use UnderlyingDocument Name as fallback.
+            // Use UnderlyingPatch Name as fallback.
             if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
             {
-                var wrapper = new OperatorWrapper_CustomOperator(entity, documentRepository);
-                Document underlyingDocument = wrapper.UnderlyingDocument;
-                if (underlyingDocument != null)
+                var wrapper = new OperatorWrapper_CustomOperator(entity, patchRepository);
+                Patch underlyingPatch = wrapper.UnderlyingPatch;
+                if (underlyingPatch != null)
                 {
-                    if (!String.IsNullOrWhiteSpace(underlyingDocument.Name))
+                    if (!String.IsNullOrWhiteSpace(underlyingPatch.Name))
                     {
-                        return underlyingDocument.Name;
+                        return underlyingPatch.Name;
                     }
                 }
             }

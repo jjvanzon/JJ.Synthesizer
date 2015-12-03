@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     {
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
-        private IDocumentRepository _documentRepository;
+        private IPatchRepository _patchRepository;
 
         private WhiteNoiseCalculator _whiteNoiseCalculator;
 
@@ -50,29 +50,30 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// <summary> Value is offset in seconds. </summary>
         private Dictionary<Operator, double> _operator_WhiteNoiseOffsetDictionary;
 
+        // TODO: Why do I not pass the repositories to the constructor?
         public IList<OperatorCalculatorBase> Execute(
             IList<Outlet> channelOutlets, 
             WhiteNoiseCalculator whiteNoiseCalculator, 
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IDocumentRepository documentRepository)
+            IPatchRepository patchRepository)
         {
             if (whiteNoiseCalculator == null) throw new NullException(() => whiteNoiseCalculator);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
 
             _whiteNoiseCalculator = whiteNoiseCalculator;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
-            _documentRepository = documentRepository;
+            _patchRepository = patchRepository;
 
             foreach (Outlet channelOutlet in channelOutlets)
             {
                 IValidator validator = new OperatorValidator_Recursive(
                     channelOutlet.Operator, 
-                    _curveRepository, _sampleRepository, _documentRepository,
+                    _curveRepository, _sampleRepository, _patchRepository,
                     alreadyDone: new HashSet<object>());
                 validator.Verify();
             }
@@ -1195,7 +1196,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // As soon as you encounter a CustomOperator's Outlet,
             // the evaluation has to take a completely different course.
             Outlet customOperatorOutlet = outlet;
-            Outlet patchOutletOutlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _documentRepository);
+            Outlet patchOutletOutlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(
+                customOperatorOutlet, _patchRepository);
             VisitOperator(patchOutletOutlet.Operator);
         }
 

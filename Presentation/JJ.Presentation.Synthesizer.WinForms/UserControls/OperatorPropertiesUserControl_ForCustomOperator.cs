@@ -54,7 +54,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelName.Text = CommonTitles.Name;
             labelOperatorTypeTitle.Text = PropertyDisplayNames.OperatorType + ":";
-            labelUnderlyingDocument.Text = Titles.UnderlyingPatch;
+            labelUnderlyingPatch.Text = Titles.UnderlyingPatch;
 
             labelOperatorTypeValue.Text = PropertyDisplayNames.CustomOperator;
         }
@@ -72,35 +72,35 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             textBoxName.Text = _viewModel.Name;
 
-            if (_viewModel.UnderlyingDocument != null)
+            if (_viewModel.UnderlyingPatch != null)
             {
-                comboBoxUnderlyingDocument.SelectedValue = _viewModel.UnderlyingDocument.ID;
+                comboBoxUnderlyingPatch.SelectedValue = _viewModel.UnderlyingPatch.ID;
             }
             else
             {
-                comboBoxUnderlyingDocument.SelectedValue = 0;
+                comboBoxUnderlyingPatch.SelectedValue = 0;
             }
         }
 
-        public void SetUnderlyingDocumentLookup(IList<IDAndName> underlyingDocumentLookup)
+        public void SetUnderlyingPatchLookup(IList<IDAndName> underlyingPatchLookup)
         {
             // Always refill the document lookup, so changes to the document collection are reflected.
 
             int? selectedID = TryGetSelectedSampleID();
-            comboBoxUnderlyingDocument.DataSource = null; // Do this or WinForms will not refresh the list.
-            comboBoxUnderlyingDocument.ValueMember = PropertyNames.ID;
-            comboBoxUnderlyingDocument.DisplayMember = PropertyNames.Name;
-            comboBoxUnderlyingDocument.DataSource = underlyingDocumentLookup;
+            comboBoxUnderlyingPatch.DataSource = null; // Do this or WinForms will not refresh the list.
+            comboBoxUnderlyingPatch.ValueMember = PropertyNames.ID;
+            comboBoxUnderlyingPatch.DisplayMember = PropertyNames.Name;
+            comboBoxUnderlyingPatch.DataSource = underlyingPatchLookup;
             if (selectedID != null)
             {
-                comboBoxUnderlyingDocument.SelectedValue = selectedID;
+                comboBoxUnderlyingPatch.SelectedValue = selectedID;
             }
         }
 
         private int? TryGetSelectedSampleID()
         {
-            if (comboBoxUnderlyingDocument.DataSource == null) return null;
-            IDAndName idAndName = (IDAndName)comboBoxUnderlyingDocument.SelectedItem;
+            if (comboBoxUnderlyingPatch.DataSource == null) return null;
+            IDAndName idAndName = (IDAndName)comboBoxUnderlyingPatch.SelectedItem;
             if (idAndName == null) return null;
             return idAndName.ID;
         }
@@ -110,7 +110,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             _viewModel.Name = textBoxName.Text;
-            _viewModel.UnderlyingDocument = (IDAndName)comboBoxUnderlyingDocument.SelectedItem;
+            _viewModel.UnderlyingPatch = (IDAndName)comboBoxUnderlyingPatch.SelectedItem;
         }
 
         // Actions

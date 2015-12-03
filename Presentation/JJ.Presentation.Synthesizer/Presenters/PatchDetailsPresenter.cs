@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _repositories.OperatorTypeRepository,
                 _repositories.SampleRepository,
                 _repositories.CurveRepository,
-                _repositories.DocumentRepository,
+                _repositories.PatchRepository,
                 _entityPositionManager);
 
             ViewModel.Visible = visible;

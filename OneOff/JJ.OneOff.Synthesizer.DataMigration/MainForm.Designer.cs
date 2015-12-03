@@ -33,6 +33,8 @@
             this.radioButtonMakePatchNamesUnique = new System.Windows.Forms.RadioButton();
             this.radioButtonPutEachPatchInAChildDocument = new System.Windows.Forms.RadioButton();
             this.radioButtonMakeCurveNamesAndSampleNamesUnique = new System.Windows.Forms.RadioButton();
+            this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs = new System.Windows.Forms.RadioButton();
+            this.radioButtonGivePatchesSameNameAsTheirDocuments = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // radioButtonMigrateSineVolumes
@@ -52,7 +54,7 @@
             this.radioButtonAddSampleOperatorFrequencyInlets.AutoSize = true;
             this.radioButtonAddSampleOperatorFrequencyInlets.Enabled = false;
             this.radioButtonAddSampleOperatorFrequencyInlets.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButtonAddSampleOperatorFrequencyInlets.Location = new System.Drawing.Point(197, 127);
+            this.radioButtonAddSampleOperatorFrequencyInlets.Location = new System.Drawing.Point(197, 126);
             this.radioButtonAddSampleOperatorFrequencyInlets.Name = "radioButtonAddSampleOperatorFrequencyInlets";
             this.radioButtonAddSampleOperatorFrequencyInlets.Size = new System.Drawing.Size(271, 21);
             this.radioButtonAddSampleOperatorFrequencyInlets.TabIndex = 2;
@@ -64,7 +66,7 @@
             this.radioButtonMakePatchNamesUnique.AutoSize = true;
             this.radioButtonMakePatchNamesUnique.Enabled = false;
             this.radioButtonMakePatchNamesUnique.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButtonMakePatchNamesUnique.Location = new System.Drawing.Point(197, 154);
+            this.radioButtonMakePatchNamesUnique.Location = new System.Drawing.Point(197, 152);
             this.radioButtonMakePatchNamesUnique.Name = "radioButtonMakePatchNamesUnique";
             this.radioButtonMakePatchNamesUnique.Size = new System.Drawing.Size(197, 21);
             this.radioButtonMakePatchNamesUnique.TabIndex = 3;
@@ -74,6 +76,7 @@
             // radioButtonPutEachPatchInAChildDocument
             // 
             this.radioButtonPutEachPatchInAChildDocument.AutoSize = true;
+            this.radioButtonPutEachPatchInAChildDocument.Enabled = false;
             this.radioButtonPutEachPatchInAChildDocument.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.radioButtonPutEachPatchInAChildDocument.Location = new System.Drawing.Point(197, 204);
             this.radioButtonPutEachPatchInAChildDocument.Name = "radioButtonPutEachPatchInAChildDocument";
@@ -85,20 +88,47 @@
             // radioButtonMakeCurveNamesAndSampleNamesUnique
             // 
             this.radioButtonMakeCurveNamesAndSampleNamesUnique.AutoSize = true;
-            this.radioButtonMakeCurveNamesAndSampleNamesUnique.Checked = true;
+            this.radioButtonMakeCurveNamesAndSampleNamesUnique.Enabled = false;
             this.radioButtonMakeCurveNamesAndSampleNamesUnique.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
-            this.radioButtonMakeCurveNamesAndSampleNamesUnique.Location = new System.Drawing.Point(197, 177);
+            this.radioButtonMakeCurveNamesAndSampleNamesUnique.Location = new System.Drawing.Point(197, 178);
             this.radioButtonMakeCurveNamesAndSampleNamesUnique.Name = "radioButtonMakeCurveNamesAndSampleNamesUnique";
             this.radioButtonMakeCurveNamesAndSampleNamesUnique.Size = new System.Drawing.Size(325, 21);
             this.radioButtonMakeCurveNamesAndSampleNamesUnique.TabIndex = 5;
             this.radioButtonMakeCurveNamesAndSampleNamesUnique.Text = "Make Curve Names and Sample Names Unique";
             this.radioButtonMakeCurveNamesAndSampleNamesUnique.UseVisualStyleBackColor = true;
             // 
+            // radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs
+            // 
+            this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs.AutoSize = true;
+            this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs.Enabled = false;
+            this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs.Location = new System.Drawing.Point(197, 230);
+            this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs.Name = "radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs";
+            this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs.Size = new System.Drawing.Size(397, 21);
+            this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs.TabIndex = 6;
+            this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs.Text = "Convert Underlying Document ID\'s to Underlying Patch ID\'s";
+            this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonGivePatchesSameNameAsTheirDocuments
+            // 
+            this.radioButtonGivePatchesSameNameAsTheirDocuments.AutoSize = true;
+            this.radioButtonGivePatchesSameNameAsTheirDocuments.Checked = true;
+            this.radioButtonGivePatchesSameNameAsTheirDocuments.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.radioButtonGivePatchesSameNameAsTheirDocuments.Location = new System.Drawing.Point(197, 257);
+            this.radioButtonGivePatchesSameNameAsTheirDocuments.Name = "radioButtonGivePatchesSameNameAsTheirDocuments";
+            this.radioButtonGivePatchesSameNameAsTheirDocuments.Size = new System.Drawing.Size(322, 21);
+            this.radioButtonGivePatchesSameNameAsTheirDocuments.TabIndex = 7;
+            this.radioButtonGivePatchesSameNameAsTheirDocuments.TabStop = true;
+            this.radioButtonGivePatchesSameNameAsTheirDocuments.Text = "Give Patches Same Name as Their Documents";
+            this.radioButtonGivePatchesSameNameAsTheirDocuments.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(670, 374);
+            this.ClientSize = new System.Drawing.Size(755, 471);
+            this.Controls.Add(this.radioButtonGivePatchesSameNameAsTheirDocuments);
+            this.Controls.Add(this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs);
             this.Controls.Add(this.radioButtonMakeCurveNamesAndSampleNamesUnique);
             this.Controls.Add(this.radioButtonPutEachPatchInAChildDocument);
             this.Controls.Add(this.radioButtonMakePatchNamesUnique);
@@ -113,6 +143,8 @@
             this.Controls.SetChildIndex(this.radioButtonMakePatchNamesUnique, 0);
             this.Controls.SetChildIndex(this.radioButtonPutEachPatchInAChildDocument, 0);
             this.Controls.SetChildIndex(this.radioButtonMakeCurveNamesAndSampleNamesUnique, 0);
+            this.Controls.SetChildIndex(this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs, 0);
+            this.Controls.SetChildIndex(this.radioButtonGivePatchesSameNameAsTheirDocuments, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -125,6 +157,8 @@
         private System.Windows.Forms.RadioButton radioButtonMakePatchNamesUnique;
         private System.Windows.Forms.RadioButton radioButtonPutEachPatchInAChildDocument;
         private System.Windows.Forms.RadioButton radioButtonMakeCurveNamesAndSampleNamesUnique;
+        private System.Windows.Forms.RadioButton radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs;
+        private System.Windows.Forms.RadioButton radioButtonGivePatchesSameNameAsTheirDocuments;
     }
 }
 

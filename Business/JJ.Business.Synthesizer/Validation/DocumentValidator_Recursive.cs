@@ -11,25 +11,25 @@ namespace JJ.Business.Synthesizer.Validation
     {
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
-        private IDocumentRepository _documentRepository;
+        private IPatchRepository _patchRepository;
         private HashSet<object> _alreadyDone;
 
         public DocumentValidator_Recursive(
             Document document, 
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IDocumentRepository documentRepository,
+            IPatchRepository patchRepository,
             HashSet<object> alreadyDone)
             : base(document, postponeExecute: true)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
             if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
-            _documentRepository = documentRepository;
+            _patchRepository = patchRepository;
             _alreadyDone = alreadyDone;
 
             Execute();
@@ -79,7 +79,7 @@ namespace JJ.Business.Synthesizer.Validation
             foreach (Patch patch in document.Patches)
             {
                 string messagePrefix = ValidationHelper.GetMessagePrefix(patch);
-                Execute(new PatchValidator_Recursive(patch, _curveRepository, _sampleRepository, _documentRepository, _alreadyDone), messagePrefix);
+                Execute(new PatchValidator_Recursive(patch, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), messagePrefix);
                 Execute(new PatchValidator_InDocument(patch), messagePrefix);
             }
 
@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Validation
 
             foreach (Document childDocument in document.ChildDocuments)
             {
-                Execute(new DocumentValidator_Recursive(childDocument, _curveRepository, _sampleRepository, _documentRepository, _alreadyDone), ValidationHelper.GetMessagePrefixForChildDocument(childDocument));
+                Execute(new DocumentValidator_Recursive(childDocument, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), ValidationHelper.GetMessagePrefixForChildDocument(childDocument));
             }
 
             // TODO:

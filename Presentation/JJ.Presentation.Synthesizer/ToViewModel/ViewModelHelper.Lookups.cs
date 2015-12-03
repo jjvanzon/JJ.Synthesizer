@@ -160,13 +160,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idNames;
         }
 
-        public static IList<IDAndName> CreateUnderlyingDocumentLookupViewModel(IList<Document> underlyingDocuments)
+        public static IList<IDAndName> CreateUnderlyingPatchLookupViewModel(IList<Patch> underlyingPatches)
         {
-            if (underlyingDocuments == null) throw new NullException(() => underlyingDocuments);
+            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
 
-            var list = new List<IDAndName>(underlyingDocuments.Count + 1);
+            var list = new List<IDAndName>(underlyingPatches.Count + 1);
             list.Add(new IDAndName { ID = 0, Name = null });
-            list.AddRange(underlyingDocuments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
+            list.AddRange(underlyingPatches.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
 
             return list;
         }

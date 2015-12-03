@@ -1033,11 +1033,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Underlying Document.
+        ///   Looks up a localized string similar to Underlying Patch.
         /// </summary>
-        public static string UnderlyingDocument {
+        public static string UnderlyingPatch {
             get {
-                return ResourceManager.GetString("UnderlyingDocument", resourceCulture);
+                return ResourceManager.GetString("UnderlyingPatch", resourceCulture);
             }
         }
         

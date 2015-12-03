@@ -17,25 +17,25 @@ namespace JJ.Business.Synthesizer.Validation
     {
         private ICurveRepository _curveRepository;
         private ISampleRepository _sampleRepository;
-        private IDocumentRepository _documentRepository;
+        private IPatchRepository _patchRepository;
         private HashSet<object> _alreadyDone;
 
         public PatchValidator_Recursive(
             Patch obj, 
             ICurveRepository curveRepository,
             ISampleRepository sampleRepository,
-            IDocumentRepository documentRepository, 
+            IPatchRepository patchRepository, 
             HashSet<object> alreadyDone)
             : base(obj, postponeExecute: true)
         {
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
-            if (documentRepository == null) throw new NullException(() => documentRepository);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
             if (alreadyDone == null) throw new AlreadyDoneIsNullException();
 
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
-            _documentRepository = documentRepository;
+            _patchRepository = patchRepository;
             _alreadyDone = alreadyDone;
 
             Execute();
@@ -50,10 +50,10 @@ namespace JJ.Business.Synthesizer.Validation
 
             foreach (Operator op in Object.Operators)
             {
-                string messagePrefix = ValidationHelper.GetMessagePrefix(op, _sampleRepository, _curveRepository, _documentRepository);
+                string messagePrefix = ValidationHelper.GetMessagePrefix(op, _sampleRepository, _curveRepository, _patchRepository);
                 
-                Execute(new OperatorValidator_IsCircular(op, _documentRepository), messagePrefix);
-                Execute(new OperatorValidator_Recursive(op, _curveRepository, _sampleRepository, _documentRepository, _alreadyDone), messagePrefix);
+                Execute(new OperatorValidator_IsCircular(op, _patchRepository), messagePrefix);
+                Execute(new OperatorValidator_Recursive(op, _curveRepository, _sampleRepository, _patchRepository, _alreadyDone), messagePrefix);
             }
         }
 

@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Managers
         {
             IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(
                 audioFileOutput,
-                _repositories.CurveRepository, _repositories.SampleRepository, _repositories.DocumentRepository);
+                _repositories.CurveRepository, _repositories.SampleRepository, _repositories.PatchRepository);
 
             audioFileOutputCalculator.Execute();
         }

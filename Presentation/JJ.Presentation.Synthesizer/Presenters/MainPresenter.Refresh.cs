@@ -82,7 +82,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(viewModel2);
         }
 
-        private void OperatorProperties_ForCustomOperatorViewModels_Refresh(int underlyingDocumentID)
+        private void OperatorProperties_ForCustomOperatorViewModels_Refresh(int underlyingPatchID)
         {
             foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in
                 ViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators))
@@ -95,7 +95,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// <summary>
         /// When an underlying document of a custom operator is changed,
         /// we do not know which PatchDetails OperatorViewModels are affected,
-        /// because no OperatorViewModel has as property saying what UnderlyingDocument it is. 
+        /// because no OperatorViewModel has as property saying what UnderlyingPatch it is. 
         /// Therefore we refresh all CustomOperators.
         /// 
         /// But also, a custom operator would need to be updated if something connected to it is deleted,
@@ -133,7 +133,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // TODO: Not sure if I should also have a variation in which I call UpdateViewModel_WithoutEntityPosition instead.
             ViewModelHelper.RefreshViewModel_WithInletsAndOutlets_WithoutEntityPosition(
                 entity, operatorViewModel,
-                _repositories.SampleRepository, _repositories.CurveRepository, _repositories.DocumentRepository);
+                _repositories.SampleRepository, _repositories.CurveRepository, _repositories.PatchRepository);
         }
 
         private void PatchGridRefresh(string group)
@@ -211,7 +211,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void UnderylingDocumentLookupRefresh()
         {
             Document rootDocument = _repositories.DocumentRepository.Get(ViewModel.Document.ID);
-            ViewModel.Document.UnderlyingDocumentLookup = ViewModelHelper.CreateUnderlyingDocumentLookupViewModel(rootDocument.ChildDocuments);
+            IList<Patch> patches = rootDocument.ChildDocuments.SelectMany(x => x.Patches).ToArray();
+            ViewModel.Document.UnderlyingPatchLookup = ViewModelHelper.CreateUnderlyingPatchLookupViewModel(patches);
         }
     }
 }
