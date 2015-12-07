@@ -128,8 +128,7 @@
             // 
             // curveDetailsUserControl
             // 
-            this.curveDetailsUserControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.curveDetailsUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.curveDetailsUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.curveDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.curveDetailsUserControl.Name = "curveDetailsUserControl";
@@ -441,7 +440,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.currentPatchesUserControl.Font = new System.Drawing.Font("Verdana", 10F);
             this.currentPatchesUserControl.Location = new System.Drawing.Point(203, 0);
-            this.currentPatchesUserControl.Margin = new System.Windows.Forms.Padding(0, 0, 0, 0);
+            this.currentPatchesUserControl.Margin = new System.Windows.Forms.Padding(0);
             this.currentPatchesUserControl.Name = "currentPatchesUserControl";
             this.currentPatchesUserControl.Size = new System.Drawing.Size(891, 24);
             this.currentPatchesUserControl.TabIndex = 14;

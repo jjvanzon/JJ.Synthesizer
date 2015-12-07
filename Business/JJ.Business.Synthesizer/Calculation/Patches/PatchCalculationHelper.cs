@@ -54,8 +54,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             // Use the (custom operator's) outlet name and look it up in the Underlying Patch's outlets.
             Operator underlyingPatchOutlet = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                                             .Where(x => String.Equals(x.Name, customOperatorOutlet.Name))
-                                                             .First();
+                                                            .Where(x => String.Equals(x.Name, customOperatorOutlet.Name))
+                                                            .First();
 
             // Return the result of that Underlying Patch's outlet.
             var underlyingPatchOutletWrapper = new OperatorWrapper_PatchOutlet(underlyingPatchOutlet);
