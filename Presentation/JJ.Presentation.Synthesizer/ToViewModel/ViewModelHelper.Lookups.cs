@@ -5,6 +5,8 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Presentation.Synthesizer.ViewModels;
+using System;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -94,6 +96,28 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             idAndNames.AddRange(entities.Select(x => x.ToIDAndDisplayName()));
 
             return idAndNames;
+        }
+
+        public static PatchDetailsViewModel CreateEmptyPatchDetailsViewModel()
+        {
+            var viewModel = new PatchDetailsViewModel
+            {
+                Entity = CreateEmptyPatchViewModel(),
+                OperatorToolboxItems = new List<OperatorTypeViewModel>(),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
+        private static PatchViewModel CreateEmptyPatchViewModel()
+        {
+            var viewModel = new PatchViewModel
+            {
+                Operators = new List<OperatorViewModel>()
+            };
+
+            return viewModel;
         }
 
         public static IList<IDAndName> CreateSampleDataTypeLookupViewModel(ISampleDataTypeRepository repository)

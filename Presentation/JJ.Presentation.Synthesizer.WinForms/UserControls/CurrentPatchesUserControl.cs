@@ -17,6 +17,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         public event EventHandler<Int32EventArgs> RemoveRequested;
         public event EventHandler CloseRequested;
+        public event EventHandler ShowAutoPatchRequested;
 
         private CurrentPatchesViewModel _viewModel;
 
@@ -85,12 +86,26 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             flowLayoutPanel.Left = 0;
             flowLayoutPanel.Height = Height;
 
-            int flowLayoutPanelWidth = Width - buttonClose.Width - StyleHelper.DefaultSpacing;
-            if (flowLayoutPanelWidth < 1) flowLayoutPanelWidth = 1;
-            flowLayoutPanel.Width = Width;
+            int x = Width - StyleHelper.DefaultMargin
+                          - StyleHelper.IconButtonSize - StyleHelper.DefaultSpacing 
+                          - StyleHelper.IconButtonSize - StyleHelper.DefaultSpacing;
+
+            if (x < 1) x = 1;
+            flowLayoutPanel.Width = x;
+
+            x += StyleHelper.DefaultSpacing;
+            buttonShowAutoPatch.Top = 0;
+            buttonShowAutoPatch.Left = x;
+            buttonShowAutoPatch.Width = StyleHelper.IconButtonSize;
+            buttonShowAutoPatch.Height = StyleHelper.IconButtonSize;
+
+            x += StyleHelper.IconButtonSize;
+            x += StyleHelper.DefaultSpacing;
 
             buttonClose.Top = 0;
-            buttonClose.Left = flowLayoutPanelWidth + StyleHelper.DefaultSpacing;
+            buttonClose.Left = x;
+            buttonClose.Width = StyleHelper.IconButtonSize;
+            buttonClose.Height = StyleHelper.IconButtonSize;
         }
 
         private void CurrentPatchesUserControl_SizeChanged(object sender, EventArgs e)
@@ -110,7 +125,15 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (CloseRequested != null)
             {
-                CloseRequested(sender, e);
+                CloseRequested(sender, EventArgs.Empty);
+            }
+        }
+
+        private void buttonShowAutoPatch_Click(object sender, EventArgs e)
+        {
+            if (ShowAutoPatchRequested != null)
+            {
+                ShowAutoPatchRequested(sender, EventArgs.Empty);
             }
         }
     }

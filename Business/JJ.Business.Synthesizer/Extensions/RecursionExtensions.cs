@@ -180,6 +180,12 @@ namespace JJ.Business.Synthesizer.Extensions
             if (patch == null) throw new NullException(() => patch);
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
+            // In case of no document, there are no dependent custom operators.
+            if (patch.Document == null)
+            {
+                return new Operator[0];
+            }
+
             // TODO: Program circularity check on parent-child relationships and check it.
 
             // We cannot use an SQL query, because that only operates on flushed / committed data.

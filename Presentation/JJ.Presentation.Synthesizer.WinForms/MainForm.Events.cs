@@ -19,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             audioFileOutputPropertiesUserControl.LoseFocusRequested += audioFileOutputPropertiesUserControl_LoseFocusRequested;
             currentPatchesUserControl.CloseRequested += currentPatchesUserControl_CloseRequested;
             currentPatchesUserControl.RemoveRequested += currentPatchesUserControl_RemoveRequested;
+            currentPatchesUserControl.ShowAutoPatchRequested += currentPatchesUserControl_ShowAutoPatchRequested;
             curveDetailsUserControl.ChangeNodeTypeRequested += curveDetailsUserControl_ChangeNodeTypeRequested;
             curveDetailsUserControl.CloseRequested += curveDetailsUserControl_CloseRequested;
             curveDetailsUserControl.CreateNodeRequested += curveDetailsUserControl_CreateNodeRequested;
@@ -177,6 +178,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private void currentPatchesUserControl_RemoveRequested(object sender, Int32EventArgs e)
         {
             _presenter.CurrentPatchRemove(e.Value);
+            ApplyViewModel();
+        }
+
+        private void currentPatchesUserControl_ShowAutoPatchRequested(object sender, EventArgs e)
+        {
+            _presenter.CurrentPatchesShowAutoPatch();
             ApplyViewModel();
         }
 

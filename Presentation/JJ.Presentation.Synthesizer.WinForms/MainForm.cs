@@ -19,6 +19,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
         private MainPresenter _presenter;
 
         private DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
+        private PatchDetailsForm _autoPatchDetailsForm = new PatchDetailsForm();
         private static string _titleBarExtraText;
 
         static MainForm()

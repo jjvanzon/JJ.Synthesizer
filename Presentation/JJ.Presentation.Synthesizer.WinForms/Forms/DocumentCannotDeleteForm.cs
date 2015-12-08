@@ -18,12 +18,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
 
         public void ShowDialog(DocumentCannotDeleteViewModel viewModel)
         {
-            documentCannotDeleteUserControl1.Show(viewModel);
+            documentCannotDeleteUserControl.Show(viewModel);
 
             base.ShowDialog();
         }
 
-        private void documentCannotDeleteUserControl1_CloseRequested(object sender, EventArgs e)
+        private void documentCannotDeleteUserControl_CloseRequested(object sender, EventArgs e)
         {
             Close();
 

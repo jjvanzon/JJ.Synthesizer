@@ -64,7 +64,9 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             // Unmatched inlets of the custom operators become inlets of the new patch.
-            IEnumerable<AutoPatchTuple> unmatchedInletTuples = tuples.Except(matchedInletTuples);
+            IEnumerable<AutoPatchTuple> unmatchedInletTuples = tuples.Where(x => x.CustomOperatorInlet != null)
+                                                                     .Except(matchedInletTuples);
+
             foreach (AutoPatchTuple unmatchedInletTuple in unmatchedInletTuples)
             {
                 var patchInlet = PatchInlet();
@@ -77,7 +79,8 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             // Unmatched outlets of the custom operators become outlets of the new patch.
-            IEnumerable<AutoPatchTuple> unmatchedOutletTuples = tuples.Except(matchedOutletTuples);
+            IEnumerable<AutoPatchTuple> unmatchedOutletTuples = tuples.Where(x => x.CustomOperatorOutlet != null)
+                                                                      .Except(matchedOutletTuples);
             foreach (AutoPatchTuple unmatchedOutletTuple in unmatchedOutletTuples)
             {
                 var patchOutlet = PatchOutlet();

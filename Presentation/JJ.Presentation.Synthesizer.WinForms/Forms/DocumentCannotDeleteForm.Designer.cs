@@ -29,27 +29,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.documentCannotDeleteUserControl1 = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentCannotDeleteUserControl();
+            this.documentCannotDeleteUserControl = new JJ.Presentation.Synthesizer.WinForms.UserControls.DocumentCannotDeleteUserControl();
             this.SuspendLayout();
             // 
-            // documentCannotDeleteUserControl1
+            // documentCannotDeleteUserControl
             // 
-            this.documentCannotDeleteUserControl1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.documentCannotDeleteUserControl1.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.documentCannotDeleteUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.documentCannotDeleteUserControl1.Location = new System.Drawing.Point(0, 0);
-            this.documentCannotDeleteUserControl1.Margin = new System.Windows.Forms.Padding(4);
-            this.documentCannotDeleteUserControl1.Name = "documentCannotDeleteUserControl1";
-            this.documentCannotDeleteUserControl1.Size = new System.Drawing.Size(690, 502);
-            this.documentCannotDeleteUserControl1.TabIndex = 1;
-            this.documentCannotDeleteUserControl1.CloseRequested += new System.EventHandler(this.documentCannotDeleteUserControl1_CloseRequested);
+            this.documentCannotDeleteUserControl.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.documentCannotDeleteUserControl.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.documentCannotDeleteUserControl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.documentCannotDeleteUserControl.Location = new System.Drawing.Point(0, 0);
+            this.documentCannotDeleteUserControl.Margin = new System.Windows.Forms.Padding(4);
+            this.documentCannotDeleteUserControl.Name = "documentCannotDeleteUserControl";
+            this.documentCannotDeleteUserControl.Size = new System.Drawing.Size(690, 502);
+            this.documentCannotDeleteUserControl.TabIndex = 1;
+            this.documentCannotDeleteUserControl.CloseRequested += new System.EventHandler(this.documentCannotDeleteUserControl_CloseRequested);
             // 
             // DocumentCannotDeleteForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(690, 502);
-            this.Controls.Add(this.documentCannotDeleteUserControl1);
+            this.Controls.Add(this.documentCannotDeleteUserControl);
             this.Font = new System.Drawing.Font("Verdana", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "DocumentCannotDeleteForm";
@@ -60,7 +60,7 @@
 
         #endregion
 
-        private UserControls.DocumentCannotDeleteUserControl documentCannotDeleteUserControl1;
+        private UserControls.DocumentCannotDeleteUserControl documentCannotDeleteUserControl;
 
     }
 }

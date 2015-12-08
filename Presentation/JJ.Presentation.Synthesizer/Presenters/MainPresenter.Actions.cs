@@ -198,32 +198,107 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void CurrentPatchesShow()
         {
-            _currentPatchesPresenter.Show();
-            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            try
+            {
+                _currentPatchesPresenter.Show();
+                DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
         }
 
         public void CurrentPatchesClose()
         {
-            _currentPatchesPresenter.Close();
-            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            try
+            {
+                _currentPatchesPresenter.Close();
+                DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
         }
 
         public void CurrentPatchAdd(int childDocumentID)
         {
-            _currentPatchesPresenter.Add(childDocumentID);
-            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            try
+            {
+                _currentPatchesPresenter.Add(childDocumentID);
+                DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
         }
 
         public void CurrentPatchRemove(int childDocumentID)
         {
-            _currentPatchesPresenter.Remove(childDocumentID);
-            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            try
+            {
+                _currentPatchesPresenter.Remove(childDocumentID);
+                DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
         }
 
         public void CurrentPatchMove(int childDocumentID, int newPosition)
         {
-            _currentPatchesPresenter.Move(childDocumentID, newPosition);
-            DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            try
+            {
+                _currentPatchesPresenter.Move(childDocumentID, newPosition);
+                DispatchViewModel(_currentPatchesPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
+        public void CurrentPatchesShowAutoPatch()
+        {
+            try
+            {
+                // ToEntity
+                ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+                // Get Entities
+                var underlyingPatches = new List<Patch>(ViewModel.Document.CurrentPatches.List.Count);
+                foreach (CurrentPatchItemViewModel itemViewModel in ViewModel.Document.CurrentPatches.List)
+                {
+                    Document document = _repositories.DocumentRepository.Get(itemViewModel.ChildDocumentID);
+                    if (document.Patches.Count != 1)
+                    {
+                        throw new NotEqualException(() => document.Patches.Count, 1);
+                    }
+
+                    underlyingPatches.Add(document.Patches[0]);
+                }
+
+                // Business
+                var patchManager = new PatchManager(_patchRepositories);
+                patchManager.AutoPatch(underlyingPatches);
+
+                // ToViewModel
+                ViewModel.Document.AutoPatch = patchManager.Patch.ToDetailsViewModel(
+                    _repositories.OperatorTypeRepository,
+                    _repositories.SampleRepository,
+                    _repositories.CurveRepository,
+                    _repositories.PatchRepository,
+                    _entityPositionManager);
+
+                ViewModel.Document.AutoPatch.Visible = true;
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
         }
 
         // Curve
@@ -331,7 +406,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 IList<int> nodeIDs = curve.Nodes.Select(x => x.ID).ToArray();
                 int documentID = curve.Document.ID;
                 bool isRootDocument = curve.Document.ParentDocument == null;
-                
+
                 // Business
                 VoidResult result = _curveManager.DeleteWithRelatedEntities(curve);
                 if (result.Successful)

@@ -26,5 +26,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public IList<ToneGridEditViewModel> ToneGridEditList { get; set; }
         /// <summary> This lookup is used by OperatorProperties_ForCustomOperators in all PatchDocuments. </summary>
         public IList<IDAndName> UnderlyingPatchLookup { get; set; }
+        public PatchDetailsViewModel AutoPatch { get; set; }
     }
 }

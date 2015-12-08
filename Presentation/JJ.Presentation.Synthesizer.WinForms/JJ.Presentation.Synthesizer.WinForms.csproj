@@ -75,6 +75,12 @@
     <Compile Include="Forms\DocumentCannotDeleteForm.Designer.cs">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\PatchDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\PatchDetailsForm.Designer.cs">
+      <DependentUpon>PatchDetailsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helpers\MessageBoxHelper.cs" />
     <Compile Include="Helpers\TagHelper.cs" />
     <Compile Include="MainForm.ApplyViewModel.cs">
@@ -307,6 +313,9 @@
     </Compile>
     <EmbeddedResource Include="Forms\DocumentCannotDeleteForm.resx">
       <DependentUpon>DocumentCannotDeleteForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\PatchDetailsForm.resx">
+      <DependentUpon>PatchDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -557,7 +566,18 @@
   <ItemGroup>
     <None Include="Resources\CloseIcon.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\AddIconThinner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\CloseIconThinner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OpenWindowIconThinner.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\RemoveIconThinner.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

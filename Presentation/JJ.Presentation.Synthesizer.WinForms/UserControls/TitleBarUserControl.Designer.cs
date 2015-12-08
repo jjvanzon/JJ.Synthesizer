@@ -40,7 +40,7 @@
             // pictureBoxClose
             // 
             this.pictureBoxClose.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxClose.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.CloseIcon;
+            this.pictureBoxClose.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.CloseIconThinner;
             this.pictureBoxClose.Location = new System.Drawing.Point(72, 5);
             this.pictureBoxClose.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBoxClose.Name = "pictureBoxClose";
@@ -53,7 +53,7 @@
             // pictureBoxRemove
             // 
             this.pictureBoxRemove.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxRemove.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RemoveIcon;
+            this.pictureBoxRemove.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.RemoveIconThinner;
             this.pictureBoxRemove.Location = new System.Drawing.Point(52, 5);
             this.pictureBoxRemove.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBoxRemove.Name = "pictureBoxRemove";
@@ -66,7 +66,7 @@
             // pictureBoxAdd
             // 
             this.pictureBoxAdd.BackColor = System.Drawing.Color.Transparent;
-            this.pictureBoxAdd.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.AddIcon;
+            this.pictureBoxAdd.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.AddIconThinner;
             this.pictureBoxAdd.Location = new System.Drawing.Point(32, 5);
             this.pictureBoxAdd.Margin = new System.Windows.Forms.Padding(0);
             this.pictureBoxAdd.Name = "pictureBoxAdd";
