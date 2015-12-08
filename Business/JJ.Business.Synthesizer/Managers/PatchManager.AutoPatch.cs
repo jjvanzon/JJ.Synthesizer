@@ -6,7 +6,6 @@ using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Calculation.Patches;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -16,25 +15,36 @@ namespace JJ.Business.Synthesizer.Managers
         {
             public OperatorWrapper_CustomOperator CustomOperatorWrapper { get; set; }
             public Patch UnderlyingPatch { get; set; }
-            ///// <summary> nullable </summary>
-            //public Operator PatchInlet { get; set; }
             /// <summary> nullable </summary>
-            public OperatorWrapper_PatchInlet PatchInletWrapper { get; set; }
+            public OperatorWrapper_PatchInlet UnderlyingPatchInletWrapper { get; set; }
             /// <summary> nullable </summary>
-            public Inlet Inlet { get; set; }
-            ///// <summary> nullable </summary>
-            //public Operator PatchOutlet { get; set; }
+            public Inlet CustomOperatorInlet { get; set; }
             /// <summary> nullable </summary>
-            public OperatorWrapper_PatchOutlet PatchOutletWrapper { get; set; }
+            public OperatorWrapper_PatchOutlet UnderlyingPatchOutletWrapper { get; set; }
             /// <summary> nullable </summary>
-            public Outlet Outlet { get; set; }
+            public Outlet CustomOperatorOutlet { get; set; }
         }
 
-        public void AutoPatch_New(IList<Patch> underlyingPatches)
+        /// <summary>
+        /// Do a rollback after calling this method to prevent saving the new patch.
+        /// Use the Patch property after calling this method.
+        /// Tries to produce a new patch by tying together existing patches,
+        /// trying to match PatchInlet and PatchOutlet operators by:
+        /// 1) InletType.Name and OutletType.Name
+        /// 2) PatchInlet Operator.Name and PatchOutlet Operator.Name.
+        /// The non-matched inlets and outlets will become inlets and outlets of the new patch.
+        /// If there is overlap in type or name, they will merge to a single inlet or outlet.
+        /// </summary>
+        public void AutoPatch(IList<Patch> underlyingPatches)
         {
             if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
 
+            CreatePatch();
+
             IList<AutoPatchTuple> tuples = GetAutoPatchTuples(underlyingPatches);
+
+            var matchedInletTuples = new List<AutoPatchTuple>(tuples.Count);
+            var matchedOutletTuples = new List<AutoPatchTuple>(tuples.Count);
 
             for (int i = 0; i < tuples.Count; i++)
             {
@@ -43,34 +53,120 @@ namespace JJ.Business.Synthesizer.Managers
                     AutoPatchTuple outletTuple = tuples[i];
                     AutoPatchTuple inletTuple = tuples[j];
 
-                    if (TuplesAreMatch(outletTuple, inletTuple))
+                    if (AutoPatchTuplesAreMatch(outletTuple, inletTuple))
                     {
-                        // TODO: Tie together.
-                        throw new NotImplementedException();
+                        inletTuple.CustomOperatorInlet.InputOutlet = outletTuple.CustomOperatorOutlet;
+
+                        matchedInletTuples.Add(inletTuple);
+                        matchedOutletTuples.Add(outletTuple);
                     }
                 }
             }
 
-            throw new NotImplementedException();
+            // Unmatched inlets of the custom operators become inlets of the new patch.
+            IEnumerable<AutoPatchTuple> unmatchedInletTuples = tuples.Except(matchedInletTuples);
+            foreach (AutoPatchTuple unmatchedInletTuple in unmatchedInletTuples)
+            {
+                var patchInlet = PatchInlet();
+                patchInlet.DefaultValue = unmatchedInletTuple.UnderlyingPatchInletWrapper.DefaultValue;
+                patchInlet.InletTypeEnum = unmatchedInletTuple.UnderlyingPatchInletWrapper.InletTypeEnum;
+                patchInlet.ListIndex = unmatchedInletTuple.UnderlyingPatchInletWrapper.ListIndex;
+                patchInlet.Name = unmatchedInletTuple.UnderlyingPatchInletWrapper.Name;
+
+                unmatchedInletTuple.CustomOperatorInlet.InputOutlet = patchInlet;
+            }
+
+            // Unmatched outlets of the custom operators become outlets of the new patch.
+            IEnumerable<AutoPatchTuple> unmatchedOutletTuples = tuples.Except(matchedOutletTuples);
+            foreach (AutoPatchTuple unmatchedOutletTuple in unmatchedOutletTuples)
+            {
+                var patchOutlet = PatchOutlet();
+                patchOutlet.Name = unmatchedOutletTuple.UnderlyingPatchOutletWrapper.Name;
+                patchOutlet.OutletTypeEnum = unmatchedOutletTuple.UnderlyingPatchOutletWrapper.OutletTypeEnum;
+                patchOutlet.ListIndex = unmatchedOutletTuple.UnderlyingPatchOutletWrapper.ListIndex;
+
+                patchOutlet.Input = unmatchedOutletTuple.CustomOperatorOutlet;
+            }
+
+            // TODO: If there is overlap in type or name, they will merge to a single inlet or outlet.
         }
 
-        private bool TuplesAreMatch(AutoPatchTuple outletTuple, AutoPatchTuple inletTuple)
+        private IList<AutoPatchTuple> GetAutoPatchTuples(IList<Patch> underlyingPatches)
         {
-            if (outletTuple.Outlet == null)
+            var tuples = new List<AutoPatchTuple>(underlyingPatches.Count);
+
+            foreach (Patch underlyingPatch in underlyingPatches)
+            {
+                var customOperatorWrapper = CustomOperator(underlyingPatch);
+
+                // Inlets
+                {
+                    var joined = from customOperatorInlet in customOperatorWrapper.Inlets
+                                 join underlyingPatchInlet in underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                 on customOperatorInlet.Name equals underlyingPatchInlet.Name
+                                 select new { CustomOperatorInlet = customOperatorInlet, UnderlyingPatchInlet = underlyingPatchInlet };
+
+                    foreach (var joinItem in joined)
+                    {
+                        var underlyingPatchInletWrapper = new OperatorWrapper_PatchInlet(joinItem.UnderlyingPatchInlet);
+
+                        var tuple = new AutoPatchTuple
+                        {
+                            UnderlyingPatch = underlyingPatch,
+                            CustomOperatorWrapper = customOperatorWrapper,
+                            UnderlyingPatchInletWrapper = underlyingPatchInletWrapper,
+                            CustomOperatorInlet = joinItem.CustomOperatorInlet
+                        };
+
+                        tuples.Add(tuple);
+                    }
+                }
+
+
+                // Outlets
+                {
+                    var joined = from customOperatorOutlet in customOperatorWrapper.Outlets
+                                 join underlyingPatchOutlet in underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                 on customOperatorOutlet.Name equals underlyingPatchOutlet.Name
+                                 select new { CustomOperatorOutlet = customOperatorOutlet, UnderlyingPatchOutlet = underlyingPatchOutlet };
+
+                    foreach (var joinItem in joined)
+                    {
+                        var underlyingPatchOutletWrapper = new OperatorWrapper_PatchOutlet(joinItem.UnderlyingPatchOutlet);
+
+                        var tuple = new AutoPatchTuple
+                        {
+                            UnderlyingPatch = underlyingPatch,
+                            CustomOperatorWrapper = customOperatorWrapper,
+                            UnderlyingPatchOutletWrapper = underlyingPatchOutletWrapper,
+                            CustomOperatorOutlet = joinItem.CustomOperatorOutlet
+                        };
+
+                        tuples.Add(tuple);
+                    }
+                }
+            }
+
+            return tuples;
+        }
+
+        private bool AutoPatchTuplesAreMatch(AutoPatchTuple outletTuple, AutoPatchTuple inletTuple)
+        {
+            if (outletTuple.CustomOperatorOutlet == null)
             {
                 return false;
             }
 
-            if (inletTuple.Inlet == null)
+            if (inletTuple.CustomOperatorInlet == null)
             {
                 return false;
             }
 
             // First match by OutletType / InletType.
-            OutletTypeEnum outletTypeEnum = outletTuple.PatchOutletWrapper.OutletTypeEnum ?? OutletTypeEnum.Undefined;
+            OutletTypeEnum outletTypeEnum = outletTuple.UnderlyingPatchOutletWrapper.OutletTypeEnum ?? OutletTypeEnum.Undefined;
             if (outletTypeEnum != OutletTypeEnum.Undefined)
             {
-                InletTypeEnum inletTypeEnum = inletTuple.PatchInletWrapper.InletTypeEnum ?? InletTypeEnum.Undefined;
+                InletTypeEnum inletTypeEnum = inletTuple.UnderlyingPatchInletWrapper.InletTypeEnum ?? InletTypeEnum.Undefined;
                 if (inletTypeEnum != InletTypeEnum.Undefined)
                 {
                     string outletTypeString = outletTypeEnum.ToString();
@@ -84,144 +180,19 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             // Then match by name
-            if (String.Equals(outletTuple.Outlet.Name, inletTuple.Inlet.Name))
+            if (String.Equals(outletTuple.CustomOperatorOutlet.Name, inletTuple.CustomOperatorInlet.Name))
             {
                 return true;
             }
 
+            // I doubt this will lead to the desired result:
             // Then match by list index
-            // TODO: Do later;
-            throw new NotImplementedException();
+            //if (outletTuple.CustomOperatorOutlet.ListIndex == inletTuple.CustomOperatorInlet.ListIndex)
+            //{
+            //    return true;
+            //}
 
             return false;
         }
-
-        private IList<AutoPatchTuple> GetAutoPatchTuples(IList<Patch> underlyingPatches)
-        {
-            var tuples = new List<AutoPatchTuple>(underlyingPatches.Count);
-
-            foreach (Patch underlyingPatch in underlyingPatches)
-            {
-                var customOperatorWrapper = CustomOperator(underlyingPatch);
-
-                {
-                    var joined = from inlet in customOperatorWrapper.Inlets
-                                 join patchInlet in underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                 on inlet.Name equals patchInlet.Name
-                                 select new { Inlet = inlet, PatchInlet = patchInlet };
-
-                    foreach (var joinItem in joined)
-                    {
-                        var patchInletWrapper = new OperatorWrapper_PatchInlet(joinItem.PatchInlet);
-
-                        var tuple = new AutoPatchTuple
-                        {
-                            UnderlyingPatch = underlyingPatch,
-                            CustomOperatorWrapper = customOperatorWrapper,
-                            PatchInletWrapper = patchInletWrapper,
-                            Inlet = joinItem.Inlet
-                        };
-
-                        tuples.Add(tuple);
-                    }
-                }
-
-                {
-                    var joined = from outlet in customOperatorWrapper.Outlets
-                                 join patchOutlet in underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                 on outlet.Name equals patchOutlet.Name
-                                 select new { Outlet = outlet, PatchOutlet = patchOutlet };
-
-                    foreach (var joinItem in joined)
-                    {
-                        var patchOutletWrapper = new OperatorWrapper_PatchOutlet(joinItem.PatchOutlet);
-
-                        var tuple = new AutoPatchTuple
-                        {
-                            UnderlyingPatch = underlyingPatch,
-                            CustomOperatorWrapper = customOperatorWrapper,
-                            PatchOutletWrapper = patchOutletWrapper,
-                            Outlet = joinItem.Outlet
-                        };
-
-                        tuples.Add(tuple);
-                    }
-                }
-            }
-
-            return tuples;
-        }
-
-        #region Old
-        /// <summary>
-        /// NOT FINISHED.
-        /// Do a rollback after calling this method to prevent saving the new patch.
-        /// Use the Patch property after calling this method.
-        /// Tries to produce a new patch by tying together existing patches,
-        /// trying to match PatchInlet and PatchOutlet operators by:
-        /// 1) InletType.Name and OutletType.Name
-        /// 2) PatchInlet Operator.Name and PatchOutlet Operator.Name.
-        /// The non-matched inlets and outlets will become inlets and outlets of the new patch.
-        /// If there is overlap in type or name, they will merge to a single inlet or outlet.
-        /// </summary>
-        public void AutoPatch(IList<Patch> underlyingPatches)
-        {
-            throw new NotImplementedException();
-
-            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
-
-            CreatePatch();
-
-            Patch previousUnderlyingPatch = null;
-            OperatorWrapper_CustomOperator previousCustomOperatorWrapper = null;
-
-            foreach (Patch nextUnderlyingPatch in underlyingPatches)
-            {
-                OperatorWrapper_CustomOperator nextCustomOperatorWrapper = CustomOperator(nextUnderlyingPatch);
-
-                if (previousUnderlyingPatch != null)
-                {
-                    IList<OperatorWrapper_PatchOutlet> patchOutletWrappers = previousUnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                                                                                    .Select(x => new OperatorWrapper_PatchOutlet(x))
-                                                                                                    .OrderBy(x => x.ListIndex)
-                                                                                                    .ToArray();
-
-                    IList<OperatorWrapper_PatchInlet> patchInletWrappers = nextUnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                                                                              .Select(x => new OperatorWrapper_PatchInlet(x))
-                                                                                              .OrderBy(x => x.ListIndex)
-                                                                                              .ToArray();
-
-                    for (int outletIndex = 0; outletIndex < patchOutletWrappers.Count; outletIndex++)
-                    {
-                        OperatorWrapper_PatchOutlet patchOutletWrapper = patchOutletWrappers[outletIndex];
-                        OutletTypeEnum outletTypeEnum = patchOutletWrapper.OutletTypeEnum ?? OutletTypeEnum.Undefined;
-                        string outletTypeEnumString = outletTypeEnum.ToString();
-
-                        if (outletTypeEnum != OutletTypeEnum.Undefined)
-                        {
-                            for (int inletIndex = 0; inletIndex < patchInletWrappers.Count; inletIndex++)
-                            {
-                                OperatorWrapper_PatchInlet patchInletWrapper = patchInletWrappers[inletIndex];
-                                InletTypeEnum inletTypeEnum = patchInletWrapper.InletTypeEnum ?? InletTypeEnum.Undefined;
-                                string inletTypeEnumString = inletTypeEnum.ToString();
-
-                                bool isMatch = String.Equals(outletTypeEnumString, inletTypeEnumString) ||
-                                               String.Equals(patchOutletWrapper.Name, patchInletWrapper.Name);
-                                if (isMatch)
-                                {
-                                    nextCustomOperatorWrapper.Inlets[inletIndex].InputOutlet = previousCustomOperatorWrapper.Outlets[outletIndex];
-                                }
-                            }
-                        }
-                    }
-                }
-
-                previousUnderlyingPatch = nextUnderlyingPatch;
-                previousCustomOperatorWrapper = nextCustomOperatorWrapper;
-            }
-
-            throw new NotImplementedException();
-        }
-        #endregion
     }
 }

@@ -99,9 +99,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Number(number);
         }
 
-        public OperatorWrapper_PatchInlet PatchInlet(Outlet input = null)
+        public OperatorWrapper_PatchInlet PatchInlet()
         {
-            return _patchManager.PatchInlet(input);
+            return _patchManager.PatchInlet();
         }
 
         public OperatorWrapper_PatchOutlet PatchOutlet(Outlet input = null)

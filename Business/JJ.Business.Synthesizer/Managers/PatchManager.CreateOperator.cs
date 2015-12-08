@@ -291,13 +291,12 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_PatchInlet PatchInlet(Outlet input = null)
+        public OperatorWrapper_PatchInlet PatchInlet()
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.PatchInlet, inletCount: 1, outletCount: 1);
 
             var wrapper = new OperatorWrapper_PatchInlet(op)
             {
-                Input = input,
                 // You have to set these two or the wrapper's ListIndex and InletTypeEnum getters would crash.
                 ListIndex = 0,
                 InletTypeEnum = InletTypeEnum.Undefined
