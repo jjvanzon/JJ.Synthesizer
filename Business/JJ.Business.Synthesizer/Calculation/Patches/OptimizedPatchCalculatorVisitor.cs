@@ -160,7 +160,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
-            var wrapper = new OperatorWrapper_Curve(op, _curveRepository);
+            var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
             Curve curve = wrapper.Curve;
 
             if (curve == null)
@@ -499,7 +499,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitNumber(Operator op)
         {
-            var wrapper = new OperatorWrapper_Number(op);
+            var wrapper = new Number_OperatorWrapper(op);
             double number = wrapper.Number;
 
             var calculator = new Number_OperatorCalculator(number);
@@ -606,7 +606,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool frequencyIsConst = frequencyCalculator is Number_OperatorCalculator;
             bool frequencyIsConstZero = frequencyIsConst && frequency == 0.0;
 
-            var wrapper = new OperatorWrapper_Sample(op, _sampleRepository);
+            var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
 
             SampleInfo sampleInfo = wrapper.SampleInfo;
             if (sampleInfo.Sample == null)

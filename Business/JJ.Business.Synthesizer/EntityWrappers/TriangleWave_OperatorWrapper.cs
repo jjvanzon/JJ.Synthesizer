@@ -4,9 +4,9 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class OperatorWrapper_TriangleWave : OperatorWrapperBase
+    public class TriangleWave_OperatorWrapper : OperatorWrapperBase
     {
-        public OperatorWrapper_TriangleWave(Operator op)
+        public TriangleWave_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return GetOutlet(OperatorConstants.TRIANGLE_WAVE_RESULT_INDEX); }
         }
 
-        public static implicit operator Outlet(OperatorWrapper_TriangleWave wrapper)
+        public static implicit operator Outlet(TriangleWave_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

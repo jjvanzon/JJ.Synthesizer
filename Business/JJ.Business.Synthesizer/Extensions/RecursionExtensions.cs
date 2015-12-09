@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Extensions
             }
             alreadyDone.Add(op);
 
-            var wrapper = new OperatorWrapper_CustomOperator(op, patchRepository);
+            var wrapper = new CustomOperator_OperatorWrapper(op, patchRepository);
             Patch underlyingPatch = wrapper.UnderlyingPatch;
 
             if (underlyingPatch != null)
@@ -199,7 +199,7 @@ namespace JJ.Business.Synthesizer.Extensions
 
         private static bool UnderlyingPatchIsMatch(Patch underlyingPatch, Operator customOperator, IPatchRepository patchRepository)
         {
-            var wrapper = new OperatorWrapper_CustomOperator(customOperator, patchRepository);
+            var wrapper = new CustomOperator_OperatorWrapper(customOperator, patchRepository);
 
             Patch underlyingPatch2 = wrapper.UnderlyingPatch;
 

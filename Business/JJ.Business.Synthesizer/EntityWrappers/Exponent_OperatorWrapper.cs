@@ -4,9 +4,9 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class OperatorWrapper_Exponent : OperatorWrapperBase
+    public class Exponent_OperatorWrapper : OperatorWrapperBase
     {
-        public OperatorWrapper_Exponent(Operator op)
+        public Exponent_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return GetOutlet(OperatorConstants.EXPONENT_RESULT_INDEX); }
         }
 
-        public static implicit operator Outlet(OperatorWrapper_Exponent wrapper)
+        public static implicit operator Outlet(Exponent_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

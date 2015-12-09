@@ -6,9 +6,9 @@ using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class OperatorWrapper_Unbundle : OperatorWrapperBase
+    public class Unbundle_OperatorWrapper : OperatorWrapperBase
     {
-        public OperatorWrapper_Unbundle(Operator op)
+        public Unbundle_OperatorWrapper(Operator op)
             : base(op)
         { }
 

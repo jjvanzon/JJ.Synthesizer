@@ -45,7 +45,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                     patchManager.Patch = sineOperator.Patch;
 
-                    var sine = new OperatorWrapper_Sine(sineOperator);
+                    var sine = new Sine_OperatorWrapper(sineOperator);
                     throw new Exception("Process cannot be run anymore, since the data has been migrated so that there are no more volumes anymore.");
                     //if (sine.Volume != null)
                     {
@@ -102,7 +102,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                     patchManager.Patch = sampleOperator.Patch;
 
-                    var sampleOperatorWrapper = new OperatorWrapper_Sample(sampleOperator, repositories.SampleRepository);
+                    var sampleOperatorWrapper = new Sample_OperatorWrapper(sampleOperator, repositories.SampleRepository);
 
                     if (sampleOperator.Inlets.Count == 0)
                     {
@@ -346,7 +346,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                 {
                     Operator customOperator = customOperators[i];
 
-                    var wrapper = new OperatorWrapper_CustomOperator(customOperator, repositories.PatchRepository);
+                    var wrapper = new CustomOperator_OperatorWrapper(customOperator, repositories.PatchRepository);
 
                     // Try using the UnderlyingPatchID as a DocumentID.
                     int? underlyingEntityID = wrapper.UnderlyingPatchID;

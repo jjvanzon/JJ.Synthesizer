@@ -14,14 +14,14 @@ namespace JJ.Business.Synthesizer.Managers
     {
         private class AutoPatchTuple
         {
-            public OperatorWrapper_CustomOperator CustomOperatorWrapper { get; set; }
+            public CustomOperator_OperatorWrapper CustomOperatorWrapper { get; set; }
             public Patch UnderlyingPatch { get; set; }
             /// <summary> nullable </summary>
-            public OperatorWrapper_PatchInlet UnderlyingPatchInletWrapper { get; set; }
+            public PatchInlet_OperatorWrapper UnderlyingPatchInletWrapper { get; set; }
             /// <summary> nullable </summary>
             public Inlet CustomOperatorInlet { get; set; }
             /// <summary> nullable </summary>
-            public OperatorWrapper_PatchOutlet UnderlyingPatchOutletWrapper { get; set; }
+            public PatchOutlet_OperatorWrapper UnderlyingPatchOutletWrapper { get; set; }
             /// <summary> nullable </summary>
             public Outlet CustomOperatorOutlet { get; set; }
         }
@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Managers
 
                     foreach (var joinItem in joined)
                     {
-                        var underlyingPatchInletWrapper = new OperatorWrapper_PatchInlet(joinItem.UnderlyingPatchInlet);
+                        var underlyingPatchInletWrapper = new PatchInlet_OperatorWrapper(joinItem.UnderlyingPatchInlet);
 
                         var tuple = new AutoPatchTuple
                         {
@@ -153,7 +153,7 @@ namespace JJ.Business.Synthesizer.Managers
 
                     foreach (var joinItem in joined)
                     {
-                        var underlyingPatchOutletWrapper = new OperatorWrapper_PatchOutlet(joinItem.UnderlyingPatchOutlet);
+                        var underlyingPatchOutletWrapper = new PatchOutlet_OperatorWrapper(joinItem.UnderlyingPatchOutlet);
 
                         var tuple = new AutoPatchTuple
                         {

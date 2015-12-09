@@ -17,11 +17,11 @@ namespace JJ.Business.Synthesizer.Managers
 {
     public partial class PatchManager
     {
-        public OperatorWrapper_Add Add(Outlet operandA = null, Outlet operandB = null)
+        public Add_OperatorWrapper Add(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Add, inletCount: 2, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Add(op)
+            var wrapper = new Add_OperatorWrapper(op)
             {
                 OperandA = operandA,
                 OperandB = operandB
@@ -32,12 +32,12 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Adder Adder(params Outlet[] operands)
+        public Adder_OperatorWrapper Adder(params Outlet[] operands)
         {
             return Adder((IList<Outlet>)operands);
         }
 
-        public OperatorWrapper_Adder Adder(IList<Outlet> operands)
+        public Adder_OperatorWrapper Adder(IList<Outlet> operands)
         {
             if (operands == null) throw new NullException(() => operands);
 
@@ -63,17 +63,17 @@ namespace JJ.Business.Synthesizer.Managers
             outlet.LinkTo(op);
             _repositories.OutletRepository.Insert(outlet);
 
-            var wrapper = new OperatorWrapper_Adder(op);
+            var wrapper = new Adder_OperatorWrapper(op);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public OperatorWrapper_Bundle Bundle(params Outlet[] operands)
+        public Bundle_OperatorWrapper Bundle(params Outlet[] operands)
         {
             return Bundle((IList<Outlet>)operands);
         }
 
-        public OperatorWrapper_Bundle Bundle(IList<Outlet> operands)
+        public Bundle_OperatorWrapper Bundle(IList<Outlet> operands)
         {
             if (operands == null) throw new NullException(() => operands);
 
@@ -99,16 +99,16 @@ namespace JJ.Business.Synthesizer.Managers
             outlet.LinkTo(op);
             _repositories.OutletRepository.Insert(outlet);
 
-            var wrapper = new OperatorWrapper_Bundle(op);
+            var wrapper = new Bundle_OperatorWrapper(op);
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public OperatorWrapper_Curve Curve(Curve curve = null)
+        public Curve_OperatorWrapper Curve(Curve curve = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Curve, inletCount: 0, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Curve(op, _repositories.CurveRepository);
+            var wrapper = new Curve_OperatorWrapper(op, _repositories.CurveRepository);
 
             if (curve != null)
             {
@@ -120,18 +120,18 @@ namespace JJ.Business.Synthesizer.Managers
         }
 
         /// <param name="underlyingPatch">The Patch to base the CustomOperator on.</param>
-        public OperatorWrapper_CustomOperator CustomOperator(Patch underlyingPatch, params Outlet[] operands)
+        public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch, params Outlet[] operands)
         {
             return CustomOperator(underlyingPatch, (IList<Outlet>)operands);
         }
 
         /// <param name="underlyingPatch">The Patch to base the CustomOperator on.</param>
-        public OperatorWrapper_CustomOperator CustomOperator(Patch underlyingPatch, IList<Outlet> operands)
+        public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch, IList<Outlet> operands)
         {
             if (underlyingPatch == null) throw new NullException(() => underlyingPatch);
             if (operands == null) throw new NullException(() => operands);
 
-            OperatorWrapper_CustomOperator wrapper = CustomOperator(underlyingPatch);
+            CustomOperator_OperatorWrapper wrapper = CustomOperator(underlyingPatch);
 
             SetOperands(wrapper.Operator, operands);
 
@@ -139,20 +139,20 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_CustomOperator CustomOperator()
+        public CustomOperator_OperatorWrapper CustomOperator()
         {
             var op = new Operator();
             op.ID = _repositories.IDRepository.GetID();
             op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
             _repositories.OperatorRepository.Insert(op);
 
-            var wrapper = new OperatorWrapper_CustomOperator(op, _repositories.PatchRepository);
+            var wrapper = new CustomOperator_OperatorWrapper(op, _repositories.PatchRepository);
 
             wrapper.Operator.LinkTo(Patch);
             return wrapper;
         }
 
-        public OperatorWrapper_CustomOperator CustomOperator(Patch underlyingPatch)
+        public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch)
         {
             if (underlyingPatch == null) throw new NullException(() => underlyingPatch);
 
@@ -164,7 +164,7 @@ namespace JJ.Business.Synthesizer.Managers
             IList<Operator> patchInlets = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
             foreach (Operator patchInlet in patchInlets)
             {
-                var patchInletWrapper = new OperatorWrapper_PatchInlet(patchInlet);
+                var patchInletWrapper = new PatchInlet_OperatorWrapper(patchInlet);
                 var inlet = new Inlet();
                 inlet.ID = _repositories.IDRepository.GetID();
                 inlet.Name = patchInlet.Name;
@@ -177,7 +177,7 @@ namespace JJ.Business.Synthesizer.Managers
             IList<Operator> patchOutlets = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
             foreach (Operator patchOutlet in patchOutlets)
             {
-                var patchOutletWrapper = new OperatorWrapper_PatchOutlet(patchOutlet);
+                var patchOutletWrapper = new PatchOutlet_OperatorWrapper(patchOutlet);
                 var outlet = new Outlet();
                 outlet.ID = _repositories.IDRepository.GetID();
                 outlet.Name = patchOutlet.Name;
@@ -187,7 +187,7 @@ namespace JJ.Business.Synthesizer.Managers
                 _repositories.OutletRepository.Insert(outlet);
             }
 
-            var wrapper = new OperatorWrapper_CustomOperator(op, _repositories.PatchRepository);
+            var wrapper = new CustomOperator_OperatorWrapper(op, _repositories.PatchRepository);
 
             wrapper.UnderlyingPatch = underlyingPatch;
 
@@ -195,11 +195,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Delay Delay(Outlet signal = null, Outlet timeDifference = null)
+        public Delay_OperatorWrapper Delay(Outlet signal = null, Outlet timeDifference = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Delay, inletCount: 2, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Delay(op)
+            var wrapper = new Delay_OperatorWrapper(op)
             {
                 Signal = signal,
                 TimeDifference = timeDifference
@@ -209,11 +209,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Divide Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
+        public Divide_OperatorWrapper Divide(Outlet numerator = null, Outlet denominator = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Divide, inletCount: 3, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Divide(op)
+            var wrapper = new Divide_OperatorWrapper(op)
             {
                 Numerator = numerator,
                 Denominator = denominator,
@@ -224,11 +224,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Exponent Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
+        public Exponent_OperatorWrapper Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Exponent, inletCount: 3, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Exponent(op)
+            var wrapper = new Exponent_OperatorWrapper(op)
             {
                 Low = low,
                 High = high,
@@ -239,7 +239,7 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Loop Loop(
+        public Loop_OperatorWrapper Loop(
             Outlet signal = null, 
             Outlet attack = null, 
             Outlet start = null, 
@@ -249,7 +249,7 @@ namespace JJ.Business.Synthesizer.Managers
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Loop, inletCount: 6, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Loop(op)
+            var wrapper = new Loop_OperatorWrapper(op)
             {
                 Signal = signal,
                 Attack = attack,
@@ -263,11 +263,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Multiply Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
+        public Multiply_OperatorWrapper Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Multiply, inletCount: 3, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Multiply(op)
+            var wrapper = new Multiply_OperatorWrapper(op)
             {
                 OperandA = operandA,
                 OperandB = operandB,
@@ -278,11 +278,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Number Number(double number = 0)
+        public Number_OperatorWrapper Number(double number = 0)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Number, inletCount: 0, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Number(op)
+            var wrapper = new Number_OperatorWrapper(op)
             {
                 Number = number
             };
@@ -291,11 +291,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_PatchInlet PatchInlet()
+        public PatchInlet_OperatorWrapper PatchInlet()
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.PatchInlet, inletCount: 1, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_PatchInlet(op)
+            var wrapper = new PatchInlet_OperatorWrapper(op)
             {
                 // You have to set these two or the wrapper's ListIndex and InletTypeEnum getters would crash.
                 ListIndex = 0,
@@ -309,11 +309,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_PatchOutlet PatchOutlet(Outlet input = null)
+        public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.PatchOutlet, inletCount: 1, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_PatchOutlet(op)
+            var wrapper = new PatchOutlet_OperatorWrapper(op)
             {
                 Input = input,
                 // You have to set these two or the wrapper's ListIndex and InletTypeEnum getters would crash.
@@ -328,11 +328,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Power Power(Outlet @base = null, Outlet exponent = null)
+        public Power_OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Power, inletCount: 2, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Power(op)
+            var wrapper = new Power_OperatorWrapper(op)
             {
                 Base = @base,
                 Exponent = exponent
@@ -342,11 +342,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_SawTooth SawTooth(Outlet frequency = null, Outlet phaseShift = null)
+        public SawTooth_OperatorWrapper SawTooth(Outlet frequency = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.SawTooth, inletCount: 2, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_SawTooth(op)
+            var wrapper = new SawTooth_OperatorWrapper(op)
             {
                 Frequency = frequency,
                 PhaseShift = phaseShift
@@ -356,11 +356,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Resample Resample(Outlet signal = null, Outlet samplingRate = null)
+        public Resample_OperatorWrapper Resample(Outlet signal = null, Outlet samplingRate = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Resample, inletCount: 2, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Resample(op)
+            var wrapper = new Resample_OperatorWrapper(op)
             {
                 Signal = signal,
                 SamplingRate = samplingRate
@@ -370,11 +370,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Sample Sample(Sample sample = null)
+        public Sample_OperatorWrapper Sample(Sample sample = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Sample, inletCount: 1, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Sample(op, _repositories.SampleRepository);
+            var wrapper = new Sample_OperatorWrapper(op, _repositories.SampleRepository);
             if (sample != null)
             {
                 wrapper.SampleID = sample.ID;
@@ -384,11 +384,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Select Select(Outlet signal = null, Outlet time = null)
+        public Select_OperatorWrapper Select(Outlet signal = null, Outlet time = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Select, inletCount: 2, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Select(op)
+            var wrapper = new Select_OperatorWrapper(op)
             {
                 Signal = signal,
                 Time = time
@@ -398,11 +398,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Sine Sine(Outlet frequency = null, Outlet phaseShift = null)
+        public Sine_OperatorWrapper Sine(Outlet frequency = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Sine, inletCount: 2, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Sine(op)
+            var wrapper = new Sine_OperatorWrapper(op)
             {
                 Frequency = frequency,
                 PhaseShift = phaseShift
@@ -412,11 +412,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Subtract Subtract(Outlet operandA = null, Outlet operandB = null)
+        public Subtract_OperatorWrapper Subtract(Outlet operandA = null, Outlet operandB = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Subtract, inletCount: 2, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Subtract(op)
+            var wrapper = new Subtract_OperatorWrapper(op)
             {
                 OperandA = operandA,
                 OperandB = operandB
@@ -426,11 +426,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_SpeedUp SpeedUp(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
+        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.SpeedUp, inletCount: 3, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_SpeedUp(op)
+            var wrapper = new SpeedUp_OperatorWrapper(op)
             {
                 Signal = signal,
                 TimeDivider = timeDivider,
@@ -441,11 +441,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_SlowDown SlowDown(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
+        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.SlowDown, inletCount: 3, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_SlowDown(op)
+            var wrapper = new SlowDown_OperatorWrapper(op)
             {
                 Signal = signal,
                 TimeMultiplier = timeMultiplier,
@@ -456,11 +456,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_SquareWave SquareWave(Outlet frequency = null, Outlet phaseShift = null)
+        public SquareWave_OperatorWrapper SquareWave(Outlet frequency = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.SquareWave, inletCount: 2, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_SquareWave(op)
+            var wrapper = new SquareWave_OperatorWrapper(op)
             {
                 Frequency = frequency,
                 PhaseShift = phaseShift
@@ -470,11 +470,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_TimePower TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
+        public TimePower_OperatorWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.TimePower, inletCount: 3, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_TimePower(op)
+            var wrapper = new TimePower_OperatorWrapper(op)
             {
                 Signal = signal,
                 Exponent = exponent,
@@ -485,11 +485,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Earlier Earlier(Outlet signal = null, Outlet timeDifference = null)
+        public Earlier_OperatorWrapper Earlier(Outlet signal = null, Outlet timeDifference = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Earlier, inletCount: 2, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Earlier(op)
+            var wrapper = new Earlier_OperatorWrapper(op)
             {
                 Signal = signal,
                 TimeDifference = timeDifference
@@ -499,11 +499,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_TriangleWave TriangleWave(Outlet frequency = null, Outlet phaseShift = null)
+        public TriangleWave_OperatorWrapper TriangleWave(Outlet frequency = null, Outlet phaseShift = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.TriangleWave, inletCount: 2, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_TriangleWave(op)
+            var wrapper = new TriangleWave_OperatorWrapper(op)
             {
                 Frequency = frequency,
                 PhaseShift = phaseShift
@@ -513,11 +513,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_Unbundle Unbundle(Outlet operand = null)
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Unbundle, inletCount: 1, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_Unbundle(op)
+            var wrapper = new Unbundle_OperatorWrapper(op)
             {
                 Operand = operand
             };
@@ -527,11 +527,11 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public OperatorWrapper_WhiteNoise WhiteNoise()
+        public WhiteNoise_OperatorWrapper WhiteNoise()
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.WhiteNoise, inletCount: 0, outletCount: 1);
 
-            var wrapper = new OperatorWrapper_WhiteNoise(op);
+            var wrapper = new WhiteNoise_OperatorWrapper(op);
 
             wrapper.Operator.LinkTo(Patch);
             return wrapper;

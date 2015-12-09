@@ -6,9 +6,9 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class OperatorWrapper_PatchOutlet : OperatorWrapperBase
+    public class PatchOutlet_OperatorWrapper : OperatorWrapperBase
     {
-        public OperatorWrapper_PatchOutlet(Operator op)
+        public PatchOutlet_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorDataParser.SetValue(_operator, PropertyNames.OutletTypeEnum, value); }
         }
 
-        public static implicit operator Outlet(OperatorWrapper_PatchOutlet wrapper)
+        public static implicit operator Outlet(PatchOutlet_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

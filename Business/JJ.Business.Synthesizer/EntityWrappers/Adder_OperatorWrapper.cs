@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class OperatorWrapper_Adder : OperatorWrapperBase
+    public class Adder_OperatorWrapper : OperatorWrapperBase
     {
-        public OperatorWrapper_Adder(Operator op)
+        public Adder_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -29,7 +29,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return GetOutlet(OperatorConstants.ADDER_RESULT_INDEX); }
         }
 
-        public static implicit operator Outlet(OperatorWrapper_Adder wrapper)
+        public static implicit operator Outlet(Adder_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
             

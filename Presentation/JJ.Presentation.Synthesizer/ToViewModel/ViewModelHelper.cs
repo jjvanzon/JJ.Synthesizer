@@ -243,7 +243,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Value Operator: display name and value or only value.
             if (operatorTypeEnum == OperatorTypeEnum.Number)
             {
-                var wrapper = new OperatorWrapper_Number(entity);
+                var wrapper = new Number_OperatorWrapper(entity);
                 string formattedValue = wrapper.Number.ToString("0.####");
 
                 if (String.IsNullOrWhiteSpace(entity.Name))
@@ -265,7 +265,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use Sample Name as fallback.
             if (operatorTypeEnum == OperatorTypeEnum.Sample)
             {
-                var wrapper = new OperatorWrapper_Sample(entity, sampleRepository);
+                var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
                 Sample underlyingEntity = wrapper.Sample;
                 if (underlyingEntity != null)
                 {
@@ -279,7 +279,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use Curve Name as fallback.
             if (operatorTypeEnum == OperatorTypeEnum.Curve)
             {
-                var wrapper = new OperatorWrapper_Curve(entity, curveRepository);
+                var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
                 Curve underlyingEntity = wrapper.Curve;
                 if (underlyingEntity != null)
                 {
@@ -293,7 +293,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             // Use UnderlyingPatch Name as fallback.
             if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
             {
-                var wrapper = new OperatorWrapper_CustomOperator(entity, patchRepository);
+                var wrapper = new CustomOperator_OperatorWrapper(entity, patchRepository);
                 Patch underlyingPatch = wrapper.UnderlyingPatch;
                 if (underlyingPatch != null)
                 {

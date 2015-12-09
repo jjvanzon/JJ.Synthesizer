@@ -4,9 +4,9 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class OperatorWrapper_TimePower : OperatorWrapperBase
+    public class TimePower_OperatorWrapper : OperatorWrapperBase
     {
-        public OperatorWrapper_TimePower(Operator op)
+        public TimePower_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return GetOutlet(OperatorConstants.TIME_POWER_RESULT_INDEX); }
         }
 
-        public static implicit operator Outlet(OperatorWrapper_TimePower wrapper)
+        public static implicit operator Outlet(TimePower_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

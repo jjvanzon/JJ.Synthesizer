@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.SideEffects
     internal class Operator_SideEffect_ApplyUnderlyingPatch : ISideEffect
     {
         private Operator _operator;
-        private OperatorWrapper_CustomOperator _custom_OperatorWrapper;
+        private CustomOperator_OperatorWrapper _custom_OperatorWrapper;
         private PatchToOperatorConverter _documentToOperatorConverter;
 
         public Operator_SideEffect_ApplyUnderlyingPatch(
@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.SideEffects
             if (op == null) throw new NullException(() => op);
 
             _operator = op;
-            _custom_OperatorWrapper = new OperatorWrapper_CustomOperator(_operator, patchRepository);
+            _custom_OperatorWrapper = new CustomOperator_OperatorWrapper(_operator, patchRepository);
             _documentToOperatorConverter = new PatchToOperatorConverter(inletRepository, outletRepository, patchRepository, operatorTypeRepository, idRepository);
         }
 

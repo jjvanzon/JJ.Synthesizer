@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Converters
             ConvertInlets(sourcePatchInlets, destOperator);
             ConvertOutlets(sourcePatchOutlets, destOperator);
 
-            var destOperatorWrapper = new OperatorWrapper_CustomOperator(destOperator, _patchRepository);
+            var destOperatorWrapper = new CustomOperator_OperatorWrapper(destOperator, _patchRepository);
             destOperatorWrapper.UnderlyingPatch = sourceUnderlyingPatch;
 
             destOperator.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _operatorTypeRepository);
@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Converters
 
             foreach (Operator sourcePatchInlet in sourcePatchInlets)
             {
-                var sourcePatchInletWrapper = new OperatorWrapper_PatchInlet(sourcePatchInlet);
+                var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
 
                 Inlet destInlet = TryGetInlet(destOperator.Inlets, sourcePatchInlet);
                 if (destInlet == null)
@@ -136,7 +136,7 @@ namespace JJ.Business.Synthesizer.Converters
 
             foreach (Inlet destInlet in destInlets)
             { 
-                var wrapper = new OperatorWrapper_PatchInlet(sourcePatchInlet);
+                var wrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
                 if (destInlet.ListIndex == wrapper.ListIndex)
                 {
                     return destInlet;
@@ -152,7 +152,7 @@ namespace JJ.Business.Synthesizer.Converters
 
             foreach (Operator sourcePatchOutlet in sourcePatchOutlets)
             {
-                var sourcePatchOutletWrapper = new OperatorWrapper_PatchOutlet(sourcePatchOutlet);
+                var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
 
                 Outlet destOutlet = TryGetOutlet(destOperator.Outlets, sourcePatchOutlet);
                 if (destOutlet == null)
@@ -197,7 +197,7 @@ namespace JJ.Business.Synthesizer.Converters
 
             foreach (Outlet destOutlet in destOutlets)
             {
-                var wrapper = new OperatorWrapper_PatchOutlet(sourcePatchOutlet);
+                var wrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
                 if (destOutlet.ListIndex == wrapper.ListIndex)
                 {
                     return destOutlet;

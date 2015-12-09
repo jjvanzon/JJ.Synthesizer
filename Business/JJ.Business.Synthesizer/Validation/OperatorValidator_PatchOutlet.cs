@@ -17,7 +17,7 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
-            var wrapper = new OperatorWrapper_PatchOutlet(Object);
+            var wrapper = new PatchOutlet_OperatorWrapper(Object);
 
             For(() => Object.Name, CommonTitles.Name).NotNullOrEmpty();
             For(() => wrapper.ListIndex, PropertyDisplayNames.ListIndex).NotNull().GreaterThanOrEqual(0);

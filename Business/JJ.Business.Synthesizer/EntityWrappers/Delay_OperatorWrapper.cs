@@ -4,9 +4,9 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class OperatorWrapper_Delay : OperatorWrapperBase
+    public class Delay_OperatorWrapper : OperatorWrapperBase
     {
-        public OperatorWrapper_Delay(Operator op)
+        public Delay_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return GetOutlet(OperatorConstants.DELAY_RESULT_INDEX); }
         }
 
-        public static implicit operator Outlet(OperatorWrapper_Delay wrapper)
+        public static implicit operator Outlet(Delay_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

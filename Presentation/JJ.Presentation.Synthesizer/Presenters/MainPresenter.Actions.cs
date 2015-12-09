@@ -2426,6 +2426,44 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        public void ToneGridEditClose()
+        {
+            ToneGridEditCloseOrLoseFocus(() => _toneGridEditPresenter.Close());
+        }
+
+        public void ToneGridEditLoseFocus()
+        {
+            ToneGridEditCloseOrLoseFocus(() => _toneGridEditPresenter.LoseFocus());
+        }
+
+        private void ToneGridEditCloseOrLoseFocus(Action partialAction)
+        {
+            try
+            {
+                // TODO: You might be able to do this validation in the partial presenter,
+                // if you do not do a full-document ToEntity in the MainPresenter.
+                IValidator validator = new ToneGridEditViewModelValidator(_toneGridEditPresenter.ViewModel);
+                if (!validator.IsValid)
+                {
+                    _toneGridEditPresenter.ViewModel.Successful = false;
+                    _toneGridEditPresenter.ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                    DispatchViewModel(_toneGridEditPresenter.ViewModel);
+                    return;
+                }
+
+                // TODO: Can I get away with converting only part of the user input to entities?
+                ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+                partialAction();
+
+                DispatchViewModel(_toneGridEditPresenter.ViewModel);
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
+        }
+
         /// <summary>
         /// Writes a sine sound with the pitch of the tone to an audio file with a configurable duration.
         /// Returns the output file path if successful.
@@ -2468,32 +2506,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Outlet outlet = null;
                 if (underlyingPatches.Count != 0)
                 {
-                    // The temporary objects must have a child document tied to the actual root document,
-                    // because the patches used have documents, and as soon as one thing has a document,
-                    // validation can go off with rules enforced when something is in a document.
-                    // TODO: This feels like unnecessary overhead now.
-
-                    // TODO: Names constants.
-
                     // Create a new patch out of the other patches.
-                    Document tempUnderlyingChildDocument = _documentManager.CreateChildDocument(rootDocument);
-                    tempUnderlyingChildDocument.Name = "tempUnderlyingChildDocument";
-
                     PatchManager tempUnderlyingPatchManager = new PatchManager(_patchRepositories);
-                    tempUnderlyingPatchManager.AutoPatch(tempUnderlyingChildDocument, underlyingPatches);
+                    tempUnderlyingPatchManager.AutoPatch(underlyingPatches);
                     Patch tempUnderlyingPatch = tempUnderlyingPatchManager.Patch;
-                    tempUnderlyingPatch.Name = "tempUnderlyingPatch";
 
                     // Use new patch as custom operator.
-                    Document tempCustomOperatorChildDocument = _documentManager.CreateChildDocument(rootDocument);
-                    tempCustomOperatorChildDocument.Name = "tempCustomOperatorChildDocument";
-
                     PatchManager tempCustomOperatorPatchManager = new PatchManager(_patchRepositories);
-                    tempCustomOperatorPatchManager.CreatePatch(tempCustomOperatorChildDocument);
-                    tempCustomOperatorPatchManager.Patch.Name = "tempCustomOperatorPatchManager";
+                    tempCustomOperatorPatchManager.CreatePatch();
 
-                    var tempCustomOperator = tempCustomOperatorPatchManager.CustomOperator(tempUnderlyingPatch);
-                    tempCustomOperator.Name = "tempCustomOperator";
+                    CustomOperator_OperatorWrapper tempCustomOperator = tempCustomOperatorPatchManager.CustomOperator(tempUnderlyingPatch);
 
                     Inlet inlet = tempCustomOperator.Inlets.FirstOrDefault(x => String.Equals(x.Name, "Frequency")); // TODO: DIRTY.
                     if (inlet != null)
@@ -2503,14 +2525,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                 }
 
-                // Fallback to sine
+                // Fallback to Sine
                 if (outlet == null)
                 {
                     var p = new PatchApi();
                     outlet = p.Sine(p.Number(frequency));
                 }
 
-                //AudioFileOutput audioFileOutput = AudioFileOutputApi.CreateWithRelatedEntities();
                 AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.FilePath = _playOutputFilePath;
                 audioFileOutput.Duration = DEFAULT_DURATION;
@@ -2518,44 +2539,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 _audioFileOutputManager.WriteFile(audioFileOutput);
 
                 return _playOutputFilePath;
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
-        }
-
-        public void ToneGridEditClose()
-        {
-            ToneGridEditCloseOrLoseFocus(() => _toneGridEditPresenter.Close());
-        }
-
-        public void ToneGridEditLoseFocus()
-        {
-            ToneGridEditCloseOrLoseFocus(() => _toneGridEditPresenter.LoseFocus());
-        }
-
-        private void ToneGridEditCloseOrLoseFocus(Action partialAction)
-        {
-            try
-            {
-                // TODO: You might be able to do this validation in the partial presenter,
-                // if you do not do a full-document ToEntity in the MainPresenter.
-                IValidator validator = new ToneGridEditViewModelValidator(_toneGridEditPresenter.ViewModel);
-                if (!validator.IsValid)
-                {
-                    _toneGridEditPresenter.ViewModel.Successful = false;
-                    _toneGridEditPresenter.ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
-                    DispatchViewModel(_toneGridEditPresenter.ViewModel);
-                    return;
-                }
-
-                // TODO: Can I get away with converting only part of the user input to entities?
-                ViewModel.ToEntityWithRelatedEntities(_repositories);
-
-                partialAction();
-
-                DispatchViewModel(_toneGridEditPresenter.ViewModel);
             }
             finally
             {

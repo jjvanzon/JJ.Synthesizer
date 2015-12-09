@@ -768,7 +768,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Curve, operatorTypeRepository);
 
             // Curve
-            var wrapper = new OperatorWrapper_Curve(entity, curveRepository);
+            var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
             bool curveIsFilledIn = viewModel.Curve != null && viewModel.Curve.ID != 0;
             if (curveIsFilledIn)
             {
@@ -801,7 +801,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, operatorTypeRepository);
 
             // UnderlyingPatch
-            var wrapper = new OperatorWrapper_CustomOperator(entity, patchRepository);
+            var wrapper = new CustomOperator_OperatorWrapper(entity, patchRepository);
             bool underlyingPatchIsFilledIn = viewModel.UnderlyingPatch != null && viewModel.UnderlyingPatch.ID != 0;
             if (underlyingPatchIsFilledIn)
             {
@@ -856,7 +856,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.PatchInlet, operatorTypeRepository);
 
-            var wrapper = new OperatorWrapper_PatchInlet(entity);
+            var wrapper = new PatchInlet_OperatorWrapper(entity);
             wrapper.ListIndex = viewModel.Number - 1;
 
             if (String.IsNullOrEmpty(viewModel.DefaultValue))
@@ -904,7 +904,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.Name = viewModel.Name;
             entity.SetOperatorTypeEnum(OperatorTypeEnum.PatchOutlet, operatorTypeRepository);
 
-            var wrapper = new OperatorWrapper_PatchOutlet(entity);
+            var wrapper = new PatchOutlet_OperatorWrapper(entity);
             wrapper.ListIndex = viewModel.Number - 1;
 
             bool outletTypeIsFilledIn = viewModel.OutletType != null && viewModel.OutletType.ID != 0;
@@ -939,7 +939,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             entity.SetOperatorTypeEnum(OperatorTypeEnum.Sample, operatorTypeRepository);
 
             // Sample
-            var wrapper = new OperatorWrapper_Sample(entity, sampleRepository);
+            var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
             bool sampleIsFilledIn = viewModel.Sample != null && viewModel.Sample.ID != 0;
             if (sampleIsFilledIn)
             {

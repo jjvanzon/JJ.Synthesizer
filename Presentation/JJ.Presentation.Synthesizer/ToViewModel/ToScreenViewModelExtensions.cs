@@ -393,7 +393,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var wrapper = new OperatorWrapper_Bundle(entity);
+            var wrapper = new Bundle_OperatorWrapper(entity);
 
             var viewModel = new OperatorPropertiesViewModel_ForBundle
             {
@@ -419,7 +419,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ValidationMessages = new List<Message>()
             };
 
-            var wrapper = new OperatorWrapper_Curve(entity, curveRepository);
+            var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
 
             Curve curve = wrapper.Curve;
             if (curve != null)
@@ -443,7 +443,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ValidationMessages = new List<Message>()
             };
 
-            var wrapper = new OperatorWrapper_CustomOperator(entity, patchRepository);
+            var wrapper = new CustomOperator_OperatorWrapper(entity, patchRepository);
 
             Patch underlyingPatch = wrapper.UnderlyingPatch;
             if (underlyingPatch != null)
@@ -458,7 +458,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var wrapper = new OperatorWrapper_Number(entity);
+            var wrapper = new Number_OperatorWrapper(entity);
 
             var viewModel = new OperatorPropertiesViewModel_ForNumber
             {
@@ -478,7 +478,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (entity == null) throw new NullException(() => entity);
             if (inletTypeRepository == null) throw new NullException(() => inletTypeRepository);
 
-            var wrapper = new OperatorWrapper_PatchInlet(entity);
+            var wrapper = new PatchInlet_OperatorWrapper(entity);
 
             var viewModel = new OperatorPropertiesViewModel_ForPatchInlet
             {
@@ -509,7 +509,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             if (entity == null) throw new NullException(() => entity);
             if (outletTypeRepository == null) throw new NullException(() => outletTypeRepository);
 
-            var wrapper = new OperatorWrapper_PatchOutlet(entity);
+            var wrapper = new PatchOutlet_OperatorWrapper(entity);
 
             var viewModel = new OperatorPropertiesViewModel_ForPatchOutlet
             {
@@ -545,7 +545,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ValidationMessages = new List<Message>()
             };
 
-            var wrapper = new OperatorWrapper_Sample(entity, sampleRepository);
+            var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
 
             Sample sample = wrapper.Sample;
             if (sample != null)
@@ -560,7 +560,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (entity == null) throw new NullException(() => entity);
 
-            var wrapper = new OperatorWrapper_Unbundle(entity);
+            var wrapper = new Unbundle_OperatorWrapper(entity);
 
             var viewModel = new OperatorPropertiesViewModel_ForUnbundle
             {

@@ -3,9 +3,9 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class OperatorWrapper_WhiteNoise : OperatorWrapperBase
+    public class WhiteNoise_OperatorWrapper : OperatorWrapperBase
     {
-        public OperatorWrapper_WhiteNoise(Operator op)
+        public WhiteNoise_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -14,7 +14,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return GetOutlet(OperatorConstants.WHITE_NOISE_RESULT_INDEX); }
         }
 
-        public static implicit operator Outlet(OperatorWrapper_WhiteNoise wrapper)
+        public static implicit operator Outlet(WhiteNoise_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

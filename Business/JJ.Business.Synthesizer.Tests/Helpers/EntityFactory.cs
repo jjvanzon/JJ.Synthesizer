@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
         {
             if (x == null) throw new NullException(() => x);
 
-            OperatorWrapper_Subtract subtract = x.Subtract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
+            Subtract_OperatorWrapper subtract = x.Subtract(x.Add(x.Number(2), x.Number(3)), x.Number(1));
             return subtract;
         }
 
@@ -60,7 +60,7 @@ namespace JJ.Business.Synthesizer.Tests.Helpers
                 cumulativeDelay += delay;
             }
 
-            OperatorWrapper_Adder adder = x.Adder(repeats);
+            Adder_OperatorWrapper adder = x.Adder(repeats);
             return adder;
         }
     }

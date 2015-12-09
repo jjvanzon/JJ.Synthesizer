@@ -6,27 +6,27 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class OperatorWrapper_CustomOperator : OperatorWrapperBase
+    public class CustomOperator_OperatorWrapper : OperatorWrapperBase
     {
         private IPatchRepository _patchRepository;
 
-        public OperatorWrapper_CustomOperator(Operator op, IPatchRepository patchRepository)
+        public CustomOperator_OperatorWrapper(Operator op, IPatchRepository patchRepository)
             : base(op)
         {
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
             _patchRepository = patchRepository;
 
-            Operands = new OperatorWrapper_CustomOperator_Operands(op);
-            Inlets = new OperatorWrapper_CustomOperator_Inlets(op);
-            Outlets = new OperatorWrapper_CustomOperator_Outlets(op);
+            Operands = new CustomOperator_OperatorWrapper_Operands(op);
+            Inlets = new CustomOperator_OperatorWrapper_Inlets(op);
+            Outlets = new CustomOperator_OperatorWrapper_Outlets(op);
         }
 
-        public OperatorWrapper_CustomOperator_Operands Operands { get; private set; }
+        public CustomOperator_OperatorWrapper_Operands Operands { get; private set; }
 
-        public OperatorWrapper_CustomOperator_Inlets Inlets { get; private set; }
+        public CustomOperator_OperatorWrapper_Inlets Inlets { get; private set; }
 
-        public OperatorWrapper_CustomOperator_Outlets Outlets { get; private set; }
+        public CustomOperator_OperatorWrapper_Outlets Outlets { get; private set; }
 
         public int? UnderlyingPatchID
         {

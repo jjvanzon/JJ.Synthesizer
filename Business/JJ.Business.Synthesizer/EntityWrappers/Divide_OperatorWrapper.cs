@@ -4,9 +4,9 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class OperatorWrapper_Divide : OperatorWrapperBase
+    public class Divide_OperatorWrapper : OperatorWrapperBase
     {
-        public OperatorWrapper_Divide(Operator op)
+        public Divide_OperatorWrapper(Operator op)
             :base(op)
         { }
 
@@ -33,7 +33,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return GetOutlet(OperatorConstants.DIVIDE_RESULT_INDEX); }
         }
 
-        public static implicit operator Outlet(OperatorWrapper_Divide wrapper)
+        public static implicit operator Outlet(Divide_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

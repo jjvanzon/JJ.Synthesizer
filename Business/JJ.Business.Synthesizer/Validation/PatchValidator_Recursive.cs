@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Validation
         private void ValidatePatchInletListIndexesAreUnique()
         {
             IList<int> listIndexes = Object.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                           .Select(x => new OperatorWrapper_PatchInlet(x))
+                                           .Select(x => new PatchInlet_OperatorWrapper(x))
                                            .Select(x => x.ListIndex)
                                            .Where(x => x.HasValue)
                                            .Select(x => x.Value)
@@ -104,7 +104,7 @@ namespace JJ.Business.Synthesizer.Validation
         private void ValidatePatchOutletListIndexesAreUnique()
         {
             IList<int> listIndexes = Object.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                           .Select(x => new OperatorWrapper_PatchOutlet(x))
+                                           .Select(x => new PatchOutlet_OperatorWrapper(x))
                                            .Select(x => x.ListIndex)
                                            .Where(x => x.HasValue)
                                            .Select(x => x.Value)

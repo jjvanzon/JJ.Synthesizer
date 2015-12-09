@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Validation
                     continue;
                 }
 
-                var wrapper = new OperatorWrapper_Sample(op, _sampleRepository);
+                var wrapper = new Sample_OperatorWrapper(op, _sampleRepository);
 
                 if (wrapper.Sample == sample ||
                     wrapper.SampleID == sample.ID)

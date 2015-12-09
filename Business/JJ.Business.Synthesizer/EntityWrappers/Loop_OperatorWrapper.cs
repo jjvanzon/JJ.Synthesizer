@@ -5,9 +5,9 @@ using System;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
-    public class OperatorWrapper_Loop : OperatorWrapperBase
+    public class Loop_OperatorWrapper : OperatorWrapperBase
     {
-        public OperatorWrapper_Loop(Operator op)
+        public Loop_OperatorWrapper(Operator op)
             : base(op)
         { }
 
@@ -52,7 +52,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             get { return GetOutlet(OperatorConstants.LOOP_RESULT_INDEX); }
         }
 
-        public static implicit operator Outlet(OperatorWrapper_Loop wrapper)
+        public static implicit operator Outlet(Loop_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
 

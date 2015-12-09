@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             Operator customOperator = customOperatorOutlet.Operator;
 
-            var customOperatorWrapper = new OperatorWrapper_CustomOperator(customOperator, patchRepository);
+            var customOperatorWrapper = new CustomOperator_OperatorWrapper(customOperator, patchRepository);
             Patch underlyingPatch = customOperatorWrapper.UnderlyingPatch;
 
             if (underlyingPatch == null)
@@ -48,7 +48,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 Operator underlyingPatchInlet = tuple.UnderlyingPatchInlet;
                 Inlet customOperatorInlet = tuple.CustomOperatorInlet;
 
-                var underlyingPatchInletWrapper = new OperatorWrapper_PatchInlet(underlyingPatchInlet);
+                var underlyingPatchInletWrapper = new PatchInlet_OperatorWrapper(underlyingPatchInlet);
                 underlyingPatchInletWrapper.Input = customOperatorInlet.InputOutlet;
             }
 
@@ -58,7 +58,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                                                             .First();
 
             // Return the result of that Underlying Patch's outlet.
-            var underlyingPatchOutletWrapper = new OperatorWrapper_PatchOutlet(underlyingPatchOutlet);
+            var underlyingPatchOutletWrapper = new PatchOutlet_OperatorWrapper(underlyingPatchOutlet);
             return underlyingPatchOutletWrapper.Result;
         }
     }
