@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
+using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -26,6 +27,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
     /// </summary>
     public partial class MainPresenter
     {
+        private const double DEFAULT_DURATION = 0.75;
+
+        private static string _playOutputFilePath = GetPlayOutputFilePath();
+
         private readonly RepositoryWrapper _repositories;
         private readonly PatchRepositories _patchRepositories;
         private readonly SampleRepositories _sampleRepositories;
@@ -181,6 +186,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles).ForEach(x => x.Visible = false);
             ViewModel.Document.PatchDocumentList.SelectMany(x => x.SamplePropertiesList).ForEach(x => x.Visible = false);
             ViewModel.Document.PatchDocumentList.ForEach(x => x.PatchProperties.Visible = false);
+        }
+
+        private static string GetPlayOutputFilePath()
+        {
+            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
+            return config.PatchPlayHackedAudioFileOutputFilePath;
         }
     }
 }

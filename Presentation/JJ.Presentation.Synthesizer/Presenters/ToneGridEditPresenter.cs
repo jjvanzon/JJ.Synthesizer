@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Business.CanonicalModel;
-using JJ.Business.Synthesizer.Api;
-using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
@@ -18,9 +14,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class ToneGridEditPresenter
     {
-        private const double DEFAULT_DURATION = 0.75;
+        // TODO: Remove outcommented code out of this class.
 
-        private static string _playOutputFilePath = GetPlayOutputFilePath();
+        //private const double DEFAULT_DURATION = 0.75;
+
+        //private static string _playOutputFilePath = GetPlayOutputFilePath();
 
         private ScaleRepositories _repositories;
         private ScaleManager _scaleManager;
@@ -98,28 +96,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.ValidationMessages = result.Messages;
         }
 
-        /// <summary>
-        /// Writes a sine sound with the pitch of the tone to an audio file with a configurable duration.
-        /// Returns the output file path.
-        /// TODO: This action is too dependent on infrastructure, because the AudioFileOutput business logic is.
-        /// Instead of writing to a file it had better write to a stream.
-        /// </summary>
-        public string PlayTone(int id)
-        {
-            Tone tone = _repositories.ToneRepository.Get(id);
-            double frequency = tone.GetFrequency();
+        ///// <summary>
+        ///// Writes a sine sound with the pitch of the tone to an audio file with a configurable duration.
+        ///// Returns the output file path.
+        ///// TODO: This action is too dependent on infrastructure, because the AudioFileOutput business logic is.
+        ///// Instead of writing to a file it had better write to a stream.
+        ///// </summary>
+        //public string PlayTone(int id)
+        //{
+        //    Tone tone = _repositories.ToneRepository.Get(id);
+        //    double frequency = tone.GetFrequency();
 
-            var p = new PatchApi();
-            var sine = p.Sine(p.Number(frequency));
+        //    var x = new PatchApi();
+        //    var sine = x.Sine(x.Number(frequency));
 
-            AudioFileOutput audioFileOutput = AudioFileOutputApi.CreateWithRelatedEntities();
-            audioFileOutput.FilePath = _playOutputFilePath;
-            audioFileOutput.Duration = DEFAULT_DURATION;
-            audioFileOutput.AudioFileOutputChannels[0].Outlet = sine;
-            AudioFileOutputApi.WriteFile(audioFileOutput);
+        //    AudioFileOutput audioFileOutput = AudioFileOutputApi.CreateWithRelatedEntities();
+        //    audioFileOutput.FilePath = _playOutputFilePath;
+        //    audioFileOutput.Duration = DEFAULT_DURATION;
+        //    audioFileOutput.AudioFileOutputChannels[0].Outlet = sine;
+        //    AudioFileOutputApi.WriteFile(audioFileOutput);
 
-            return _playOutputFilePath;
-        }
+        //    return _playOutputFilePath;
+        //}
 
         // Helpers
 
@@ -128,10 +126,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (ViewModel == null) throw new NullException(() => ViewModel);
         }
 
-        private static string GetPlayOutputFilePath()
-        {
-            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
-            return config.PatchPlayHackedAudioFileOutputFilePath;
-        }
+        //private static string GetPlayOutputFilePath()
+        //{
+        //    var config = ConfigurationHelper.GetSection<ConfigurationSection>();
+        //    return config.PatchPlayHackedAudioFileOutputFilePath;
+        //}
     }
 }

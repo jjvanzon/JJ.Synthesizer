@@ -6,6 +6,7 @@ using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -23,6 +24,23 @@ namespace JJ.Business.Synthesizer.Managers
             public OperatorWrapper_PatchOutlet UnderlyingPatchOutletWrapper { get; set; }
             /// <summary> nullable </summary>
             public Outlet CustomOperatorOutlet { get; set; }
+        }
+
+        /// <summary>
+        /// Do a rollback after calling this method to prevent saving the new patch.
+        /// Use the Patch property after calling this method.
+        /// Tries to produce a new patch by tying together existing patches,
+        /// trying to match PatchInlet and PatchOutlet operators by:
+        /// 1) InletType.Name and OutletType.Name
+        /// 2) PatchInlet Operator.Name and PatchOutlet Operator.Name.
+        /// The non-matched inlets and outlets will become inlets and outlets of the new patch.
+        /// If there is overlap in type or name, they will merge to a single inlet or outlet.
+        /// </summary>
+        public void AutoPatch(Document document, IList<Patch> underlyingPatches)
+        {
+            if (document == null) throw new NullException(() => document);
+            AutoPatch(underlyingPatches);
+            Patch.LinkTo(document);
         }
 
         /// <summary>

@@ -110,7 +110,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return viewModel;
         }
 
-        private static PatchViewModel CreateEmptyPatchViewModel()
+        public static PatchViewModel CreateEmptyPatchViewModel()
         {
             var viewModel = new PatchViewModel
             {

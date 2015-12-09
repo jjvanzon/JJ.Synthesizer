@@ -14,6 +14,7 @@ using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Warnings;
+using JJ.Business.Synthesizer.Api;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ToEntity;
@@ -22,6 +23,7 @@ using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
+using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -2432,22 +2434,95 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// </summary>
         public string TonePlay(int id)
         {
-            // TODO: You might be able to do this validation in the partial presenter,
-            // if you do not do a full-document ToEntity in the MainPresenter.
-            IValidator validator = new ToneGridEditViewModelValidator(_toneGridEditPresenter.ViewModel);
-            if (!validator.IsValid)
+            try
             {
-                _toneGridEditPresenter.ViewModel.Successful = false;
-                _toneGridEditPresenter.ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
-                DispatchViewModel(_toneGridEditPresenter.ViewModel);
-                return null;
+                IValidator validator = new ToneGridEditViewModelValidator(_toneGridEditPresenter.ViewModel);
+                if (!validator.IsValid)
+                {
+                    _toneGridEditPresenter.ViewModel.Successful = false;
+                    _toneGridEditPresenter.ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                    DispatchViewModel(_toneGridEditPresenter.ViewModel);
+                    return null;
+                }
+
+                // ToEntity
+                Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+                // Get Entities
+                Tone tone = _repositories.ToneRepository.Get(id);
+                double frequency = tone.GetFrequency();
+
+                var underlyingPatches = new List<Patch>(ViewModel.Document.CurrentPatches.List.Count);
+                foreach (CurrentPatchItemViewModel itemViewModel in ViewModel.Document.CurrentPatches.List)
+                {
+                    Document underlyingDocument = _repositories.DocumentRepository.Get(itemViewModel.ChildDocumentID);
+                    if (underlyingDocument.Patches.Count != 1)
+                    {
+                        throw new NotEqualException(() => underlyingDocument.Patches.Count, 1);
+                    }
+
+                    underlyingPatches.Add(underlyingDocument.Patches[0]);
+                }
+
+                // Business
+                Outlet outlet = null;
+                if (underlyingPatches.Count != 0)
+                {
+                    // The temporary objects must have a child document tied to the actual root document,
+                    // because the patches used have documents, and as soon as one thing has a document,
+                    // validation can go off with rules enforced when something is in a document.
+                    // TODO: This feels like unnecessary overhead now.
+
+                    // TODO: Names constants.
+
+                    // Create a new patch out of the other patches.
+                    Document tempUnderlyingChildDocument = _documentManager.CreateChildDocument(rootDocument);
+                    tempUnderlyingChildDocument.Name = "tempUnderlyingChildDocument";
+
+                    PatchManager tempUnderlyingPatchManager = new PatchManager(_patchRepositories);
+                    tempUnderlyingPatchManager.AutoPatch(tempUnderlyingChildDocument, underlyingPatches);
+                    Patch tempUnderlyingPatch = tempUnderlyingPatchManager.Patch;
+                    tempUnderlyingPatch.Name = "tempUnderlyingPatch";
+
+                    // Use new patch as custom operator.
+                    Document tempCustomOperatorChildDocument = _documentManager.CreateChildDocument(rootDocument);
+                    tempCustomOperatorChildDocument.Name = "tempCustomOperatorChildDocument";
+
+                    PatchManager tempCustomOperatorPatchManager = new PatchManager(_patchRepositories);
+                    tempCustomOperatorPatchManager.CreatePatch(tempCustomOperatorChildDocument);
+                    tempCustomOperatorPatchManager.Patch.Name = "tempCustomOperatorPatchManager";
+
+                    var tempCustomOperator = tempCustomOperatorPatchManager.CustomOperator(tempUnderlyingPatch);
+                    tempCustomOperator.Name = "tempCustomOperator";
+
+                    Inlet inlet = tempCustomOperator.Inlets.FirstOrDefault(x => String.Equals(x.Name, "Frequency")); // TODO: DIRTY.
+                    if (inlet != null)
+                    {
+                        inlet.InputOutlet = tempCustomOperatorPatchManager.Number(frequency);
+                        outlet = tempCustomOperator.Outlets.FirstOrDefault(); // TODO: Dirty
+                    }
+                }
+
+                // Fallback to sine
+                if (outlet == null)
+                {
+                    var p = new PatchApi();
+                    outlet = p.Sine(p.Number(frequency));
+                }
+
+                //AudioFileOutput audioFileOutput = AudioFileOutputApi.CreateWithRelatedEntities();
+                AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
+                audioFileOutput.FilePath = _playOutputFilePath;
+                audioFileOutput.Duration = DEFAULT_DURATION;
+                audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
+                _audioFileOutputManager.WriteFile(audioFileOutput);
+
+                return _playOutputFilePath;
             }
-
-            // ToEntity
-            // TODO: Can I get away with converting only part of the user input to entities?
-            Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            return _toneGridEditPresenter.PlayTone(id);
+            finally
+            {
+                _repositories.Rollback();
+            }
         }
 
         public void ToneGridEditClose()
