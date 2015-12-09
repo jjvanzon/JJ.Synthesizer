@@ -27,6 +27,43 @@ namespace JJ.Business.Synthesizer.Managers
         }
 
         /// <summary>
+        /// Will return null if no Frequency inlet or any outlet is found.
+        /// </summary>
+        public Outlet TryAutoPatch_WithTone(Tone tone, IList<Patch> underlyingPatches)
+        {
+            if (tone == null) throw new NullException(() => tone);
+            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
+
+            // Create a new patch out of the other patches.
+            CustomOperator_OperatorWrapper tempCustomOperator = AutoPatch_ToCustomOperator(underlyingPatches);
+
+            Inlet inlet = tempCustomOperator.Inlets.FirstOrDefault(x => String.Equals(x.Name, "Frequency")); // TODO: DIRTY.
+            if (inlet != null)
+            {
+                double frequency = tone.GetFrequency();
+                inlet.InputOutlet = Number(frequency);
+                Outlet outlet = tempCustomOperator.Outlets.FirstOrDefault(); // TODO: Dirty
+                return outlet;
+            }
+
+            return null;
+        }
+
+        private CustomOperator_OperatorWrapper AutoPatch_ToCustomOperator(IList<Patch> underlyingPatches)
+        {
+            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
+
+            AutoPatch(underlyingPatches);
+            Patch tempUnderlyingPatch = Patch;
+
+            // Use new patch as custom operator.
+            CreatePatch();
+            var customOperator = CustomOperator(tempUnderlyingPatch);
+
+            return customOperator;
+        }
+
+        /// <summary>
         /// Do a rollback after calling this method to prevent saving the new patch.
         /// Use the Patch property after calling this method.
         /// Tries to produce a new patch by tying together existing patches,

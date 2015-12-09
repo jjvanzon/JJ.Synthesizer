@@ -2488,7 +2488,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // Get Entities
                 Tone tone = _repositories.ToneRepository.Get(id);
-                double frequency = tone.GetFrequency();
 
                 var underlyingPatches = new List<Patch>(ViewModel.Document.CurrentPatches.List.Count);
                 foreach (CurrentPatchItemViewModel itemViewModel in ViewModel.Document.CurrentPatches.List)
@@ -2506,30 +2505,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Outlet outlet = null;
                 if (underlyingPatches.Count != 0)
                 {
-                    // Create a new patch out of the other patches.
-                    PatchManager tempUnderlyingPatchManager = new PatchManager(_patchRepositories);
-                    tempUnderlyingPatchManager.AutoPatch(underlyingPatches);
-                    Patch tempUnderlyingPatch = tempUnderlyingPatchManager.Patch;
-
-                    // Use new patch as custom operator.
-                    PatchManager tempCustomOperatorPatchManager = new PatchManager(_patchRepositories);
-                    tempCustomOperatorPatchManager.CreatePatch();
-
-                    CustomOperator_OperatorWrapper tempCustomOperator = tempCustomOperatorPatchManager.CustomOperator(tempUnderlyingPatch);
-
-                    Inlet inlet = tempCustomOperator.Inlets.FirstOrDefault(x => String.Equals(x.Name, "Frequency")); // TODO: DIRTY.
-                    if (inlet != null)
-                    {
-                        inlet.InputOutlet = tempCustomOperatorPatchManager.Number(frequency);
-                        outlet = tempCustomOperator.Outlets.FirstOrDefault(); // TODO: Dirty
-                    }
+                    var patchManager = new PatchManager(_patchRepositories);
+                    outlet = patchManager.TryAutoPatch_WithTone(tone, underlyingPatches);
                 }
 
                 // Fallback to Sine
                 if (outlet == null)
                 {
-                    var p = new PatchApi();
-                    outlet = p.Sine(p.Number(frequency));
+                    var x = new PatchApi();
+                    double frequency = tone.GetFrequency();
+                    outlet = x.Sine(x.Number(frequency));
                 }
 
                 AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
