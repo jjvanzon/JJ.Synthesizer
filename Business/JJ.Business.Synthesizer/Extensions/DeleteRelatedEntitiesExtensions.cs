@@ -8,7 +8,7 @@ using JJ.Business.Synthesizer.Helpers;
 namespace JJ.Business.Synthesizer.Extensions
 {
     /// <summary>
-    /// Deletes related entities that are intrinsically part of the entity.
+    /// Deletes related entities that are inherently part of the entity.
     /// </summary>
     internal static class DeleteRelatedEntitiesExtensions
     {

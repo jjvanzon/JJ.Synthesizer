@@ -1,0 +1,1 @@
+alter table Inlet add DefaultValue float null;

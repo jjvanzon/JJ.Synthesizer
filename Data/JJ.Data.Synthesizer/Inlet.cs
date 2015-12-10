@@ -7,14 +7,11 @@ namespace JJ.Data.Synthesizer
     public class Inlet
     {
         public virtual int ID { get; set; }
-
-        /// <summary> Optional. Currently (2105-11-05) only relevant for CustomOperators. </summary>
         public virtual string Name { get; set; }
+        public virtual InletType InletType { get; set; }
+        public virtual double DefaultValue { get; set; }
 
-        /// <summary>
-        /// This number is often used as a key to a specific inlet within an operator.
-        /// 'Name' is another alternative key, which is currently only used for CustomOperators (2015-11-13).
-        /// </summary>
+        /// <summary> This number is often used as a key to a specific inlet within an operator.'Name' is another alternative key. </summary>
         public virtual int ListIndex { get; set; }
 
         /// <summary> parent </summary>

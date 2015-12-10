@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
-    /// <summary> Unlinks related entities that are not intrinsically part of the entity. </summary>
+    /// <summary> Unlinks related entities that are not inherently part of the entity. </summary>
     internal static class UnlinkRelatedEntitiesExtensions
     {
         public static void UnlinkRelatedEntities(this AudioFileOutput audioFileOutput)
@@ -76,6 +76,7 @@ namespace JJ.Business.Synthesizer.Extensions
         {
             if (inlet == null) throw new NullException(() => inlet);
 
+            inlet.UnlinkInletType();
             inlet.UnlinkOutlet();
             inlet.UnlinkOperator();
         }
@@ -89,6 +90,7 @@ namespace JJ.Business.Synthesizer.Extensions
                 connectedInlet.UnlinkOutlet();
             }
 
+            outlet.UnlinkOutletType();
             outlet.UnlinkOperator();
         }
 

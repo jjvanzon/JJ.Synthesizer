@@ -408,6 +408,15 @@ namespace JJ.Business.Synthesizer.LinkTo
             // No inverse property.
         }
 
+        public static void LinkTo(this Inlet inlet, InletType inletType)
+        {
+            if (inlet == null) throw new NullException(() => inlet);
+
+            inlet.InletType = inletType;
+
+            // No inverse prinleterty.
+        }
+
         public static void LinkTo(this Node node, NodeType nodeType)
         {
             if (node == null) throw new NullException(() => node);
@@ -424,6 +433,15 @@ namespace JJ.Business.Synthesizer.LinkTo
             op.OperatorType = operatorType;
 
             // No inverse property.
+        }
+
+        public static void LinkTo(this Outlet outlet, OutletType outletType)
+        {
+            if (outlet == null) throw new NullException(() => outlet);
+
+            outlet.OutletType = outletType;
+
+            // No inverse proutleterty.
         }
 
         public static void LinkTo(this Sample sample, SpeakerSetup speakerSetup)

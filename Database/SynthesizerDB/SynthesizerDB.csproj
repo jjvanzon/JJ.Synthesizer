@@ -94,6 +94,13 @@
     <Content Include="2015-10-29 010 SynthesizerDB Operator Type 26 - Select.sql" />
     <Content Include="2015-10-26 010 SynthesizerDB Operator Type 25 - Loop.sql" />
     <Content Include="2015-11-07 030 SynthesizerDB rename OperatorType TimeSubtract to Earlier - Copy.sql" />
+    <Content Include="2015-12-10 050 SynthesizerDB Outlet.OutletTypeID.sql" />
+    <Content Include="2015-12-10 060 SynthesizerDB FK_Outlet_OutletType.sql" />
+    <Content Include="2015-12-10 070 SynthesizerDB IX_Outlet_OutletTypeID.sql" />
+    <Content Include="2015-12-10 040 SynthesizerDB Inlet.DefaultValue.sql" />
+    <Content Include="2015-12-10 030 SynthesizerDB IX_Inlet_InletTypeID.sql" />
+    <Content Include="2015-12-10 020 SynthesizerDB FK_Inlet_InletType.sql" />
+    <Content Include="2015-12-10 010 SynthesizerDB Inlet.InletTypeID.sql" />
     <Content Include="2015-12-03 020 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2015-12-03 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2015-11-21 030 SynthesizerDB RUN UTILITY.sql" />
@@ -131,7 +138,7 @@
     <Content Include="2015-11-06 010 SynthesizerDB RUN UTILITY.sql" />
     <Content Include="2015-11-05 010 SynthesizerDB Inlets and Outlets data migration RUN SEPARATELY.sql" />
     <Content Include="2015-11-18 020 SynthesizerDB Migrate Inlet and Outlet ListIndexes RUN SEPARATELY.sql" />
-    <Content Include="2015-11-19 030 SynthesizerDB Add InletTypeEnum and OutletTypeEnum to InletOperator and OutletOperator Data RUN SEPARATELY.sql" />
+    <Content Include="2015-11-19 010 SynthesizerDB Add InletTypeEnum and OutletTypeEnum to InletOperator and OutletOperator Data RUN SEPARATELY.sql" />
     <Content Include="2015-11-21 040 SynthesizerDB Document.MainPatch drop column + FK + IX.sql" />
     <Content Include="2015-11-23 010 SynthesizerDB Document.ChildDocumentGroupName.sql" />
     <Content Include="2015-11-23 020 SynthesizerDB rename Document.ChildDocumentGroupName to GroupName.sql" />

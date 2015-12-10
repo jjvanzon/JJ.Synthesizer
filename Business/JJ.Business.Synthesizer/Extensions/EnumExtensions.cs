@@ -82,6 +82,32 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
 
+        // Inlet
+
+        public static InletTypeEnum GetInletTypeEnum(this Inlet entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            if (entity.InletType == null) return InletTypeEnum.Undefined;
+
+            return (InletTypeEnum)entity.InletType.ID;
+        }
+
+        public static void SetInletTypeEnum(this Inlet entity, InletTypeEnum enumValue, IInletTypeRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            if (enumValue == InletTypeEnum.Undefined)
+            {
+                entity.UnlinkInletType();
+            }
+            else
+            {
+                InletType enumEntity = repository.Get((int)enumValue);
+                entity.LinkTo(enumEntity);
+            }
+        }
+
         // Node
 
         public static NodeTypeEnum GetNodeTypeEnum(this Node node)
@@ -130,6 +156,32 @@ namespace JJ.Business.Synthesizer.Extensions
             else
             {
                 OperatorType enumEntity = repository.Get((int)enumValue);
+                entity.LinkTo(enumEntity);
+            }
+        }
+
+        // Outlet
+
+        public static OutletTypeEnum GetOutletTypeEnum(this Outlet entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            if (entity.OutletType == null) return OutletTypeEnum.Undefined;
+
+            return (OutletTypeEnum)entity.OutletType.ID;
+        }
+
+        public static void SetOutletTypeEnum(this Outlet entity, OutletTypeEnum enumValue, IOutletTypeRepository repository)
+        {
+            if (repository == null) throw new NullException(() => repository);
+
+            if (enumValue == OutletTypeEnum.Undefined)
+            {
+                entity.UnlinkOutletType();
+            }
+            else
+            {
+                OutletType enumEntity = repository.Get((int)enumValue);
                 entity.LinkTo(enumEntity);
             }
         }

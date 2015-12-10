@@ -133,6 +133,13 @@ namespace JJ.Business.Synthesizer.LinkTo
             sample.LinkTo((AudioFileFormat)null);
         }
 
+        public static void UnlinkInletType(this Inlet inlet)
+        {
+            if (inlet == null) throw new NullException(() => inlet);
+
+            inlet.LinkTo((InletType)null);
+        }
+
         public static void UnlinkInterpolationType(this Sample sample)
         {
             if (sample == null) throw new NullException(() => sample);
@@ -152,6 +159,13 @@ namespace JJ.Business.Synthesizer.LinkTo
             if (op == null) throw new NullException(() => op);
 
             op.LinkTo((OperatorType)null);
+        }
+
+        public static void UnlinkOutletType(this Outlet outlet)
+        {
+            if (outlet == null) throw new NullException(() => outlet);
+
+            outlet.LinkTo((OutletType)null);
         }
 
         public static void UnlinkSampleDataType(this Sample sample)

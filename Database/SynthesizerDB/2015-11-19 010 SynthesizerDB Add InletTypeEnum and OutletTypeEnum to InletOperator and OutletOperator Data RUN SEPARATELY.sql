@@ -11,8 +11,7 @@ begin try
 		from Operator 
 		where 
 			OperatorTypeID = 5 /*PatchInlet*/ and
-			-- TODO: This filter does not work.
-			CharIndex(Data, 'InletTypeEnum') = 0
+			CharIndex('InletTypeEnum', Data) = 0
 	)
 	--select * from PatchInletOperatorsToUpdate;
 	update PatchInletOperatorsToUpdate set Data_Current = Data_New;
@@ -26,8 +25,7 @@ begin try
 		from Operator 
 		where 
 			OperatorTypeID = 6 /*PatchOutlet*/ and
-			-- TODO: This filter does not work.
-			CharIndex(Data, 'OutletTypeEnum') = 0
+			CharIndex('OutletTypeEnum', Data) = 0
 	)
 	--select * from PatchOutletOperatorsToUpdate;
 	update PatchOutletOperatorsToUpdate set Data_Current = Data_New;
