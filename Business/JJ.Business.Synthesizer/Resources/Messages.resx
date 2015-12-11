@@ -235,4 +235,16 @@
     <value>{0} '{1}' is not unique.</value>
     <comment>{0} = property, {1} = value</comment>
   </data>
+  <data name="InletTypeNotFoundInUnderlyingPatch" xml:space="preserve">
+    <value>Inlet type '{0}' not found in underlying patch.</value>
+    <comment>{0} = inlet type, e.g. 'Signal' or 'Frequency'.</comment>
+  </data>
+  <data name="OutletTypeNotFoundInUnderlyingPatch" xml:space="preserve">
+    <value>Outlet type '{0}' not found in underlying patch.</value>
+    <comment>{0} = outlet type, e.g. 'Signal' or 'Frequencies'.</comment>
+  </data>
+  <data name="InletDefaultValueDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
+    <value>Default value of inlet '{0}' does not match with underlying patch.</value>
+    <comment>{0} = inlet name</comment>
+  </data>
 </root>

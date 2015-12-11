@@ -117,7 +117,7 @@ namespace JJ.Presentation.Synthesizer.Converters
 
         private Inlet ToEntityRecursive(InletViewModel inletViewModel)
         {
-            Inlet inlet = inletViewModel.ToEntity(_repositories.InletRepository);
+            Inlet inlet = inletViewModel.ToEntity(_repositories.InletRepository, _repositories.InletTypeRepository);
 
             if (inletViewModel.InputOutlet == null)
             {
@@ -154,7 +154,7 @@ namespace JJ.Presentation.Synthesizer.Converters
             // then it starts converting outlets, and this method,
             // which delegate in turn to convert operator,
             // which returns the operator without related entities and then I try to convert the outlet it here.
-            outlet = outletViewModel.ToEntity(_repositories.OutletRepository);
+            outlet = outletViewModel.ToEntity(_repositories.OutletRepository, _repositories.OutletTypeRepository);
             outlet.LinkTo(op);
             // The 'if' here is like a chicken-or-egg detection, if you will.
             if (!_outletDictionary.ContainsKey(outletViewModel.ID))

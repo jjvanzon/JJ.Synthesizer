@@ -45,6 +45,10 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             {
                 DataMigrationExecutor.GivePatchesSameNameAsTheirDocuments(x => ShowProgress(x));
             }
+            else if (radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType.Checked)
+            {
+                DataMigrationExecutor.ResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType(x => ShowProgress(x));
+            }
             else
             {
                 MessageBox.Show("Please select a radio button.");

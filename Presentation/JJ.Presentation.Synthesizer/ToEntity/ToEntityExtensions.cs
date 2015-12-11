@@ -563,7 +563,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (InletViewModel inletViewModel in viewModel.Inlets)
             {
-                Inlet inlet = inletViewModel.ToEntity(patchRepositories.InletRepository);
+                Inlet inlet = inletViewModel.ToEntity(patchRepositories.InletRepository, patchRepositories.InletTypeRepository);
                 inlet.LinkTo(op);
 
                 inletsToKeep.Add(inlet);
@@ -586,7 +586,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (OutletViewModel outletViewModel in viewModel.Outlets)
             {
-                Outlet outlet = outletViewModel.ToEntity(patchRepositories.OutletRepository);
+                Outlet outlet = outletViewModel.ToEntity(patchRepositories.OutletRepository, patchRepositories.OutletTypeRepository);
                 outlet.LinkTo(op);
 
                 outletsToKeep.Add(outlet);
@@ -637,10 +637,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Inlet ToEntity(this InletViewModel viewModel, IInletRepository inletRepository)
+        public static Inlet ToEntity(this InletViewModel viewModel, IInletRepository inletRepository, IInletTypeRepository inletTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (inletRepository == null) throw new NullException(() => inletRepository);
+            if (inletTypeRepository == null) throw new NullException(() => inletTypeRepository);
 
             Inlet entity = inletRepository.TryGet(viewModel.ID);
             if (entity == null)
@@ -651,14 +652,27 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
             entity.ListIndex = viewModel.ListIndex;
             entity.Name = viewModel.Name;
+            entity.DefaultValue = viewModel.DefaultValue;
+
+            bool inletTypeIsFilledIn = viewModel.InletType != null && viewModel.InletType.ID != 0;
+            if (inletTypeIsFilledIn)
+            {
+                InletType inletType = inletTypeRepository.Get(entity.InletType.ID);
+                entity.LinkTo(inletType);
+            }
+            else
+            {
+                entity.UnlinkInletType();
+            }
 
             return entity;
         }
 
-        public static Outlet ToEntity(this OutletViewModel viewModel, IOutletRepository outletRepository)
+        public static Outlet ToEntity(this OutletViewModel viewModel, IOutletRepository outletRepository, IOutletTypeRepository outletTypeRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (outletRepository == null) throw new NullException(() => outletRepository);
+            if (outletTypeRepository == null) throw new NullException(() => outletTypeRepository);
 
             Outlet entity = outletRepository.TryGet(viewModel.ID);
             if (entity == null)
@@ -669,6 +683,17 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
             entity.ListIndex = viewModel.ListIndex;
             entity.Name = viewModel.Name;
+
+            bool outletTypeIsFilledIn = viewModel.OutletType != null && viewModel.OutletType.ID != 0;
+            if (outletTypeIsFilledIn)
+            {
+                OutletType outletType = outletTypeRepository.Get(entity.OutletType.ID);
+                entity.LinkTo(outletType);
+            }
+            else
+            {
+                entity.UnlinkOutletType();
+            }
 
             return entity;
         }
@@ -880,7 +905,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
             else
             {
-                wrapper.InletTypeEnum = null;
+                wrapper.InletTypeEnum = InletTypeEnum.Undefined;
             }
 
             return entity;
@@ -914,7 +939,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
             else
             {
-                wrapper.OutletTypeEnum = null;
+                wrapper.OutletTypeEnum = OutletTypeEnum.Undefined;
             }
 
             return entity;

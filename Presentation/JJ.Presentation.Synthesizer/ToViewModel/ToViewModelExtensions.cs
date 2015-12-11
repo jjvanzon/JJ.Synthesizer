@@ -205,16 +205,33 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static InletViewModel ToViewModel(this Inlet entity)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (!ViewModelHelper.MustConvertToInletViewModel(entity)) throw new MustNotConvertToInletViewModelException(entity);
 
-            var viewModel = new InletViewModel
-            {
-                ID = entity.ID,
-                Name = entity.Name,
-                ListIndex = entity.ListIndex
-            };
+            var viewModel = new InletViewModel();
+            entity.ToViewModel(viewModel);
 
             return viewModel;
+        }
+
+        /// <summary> Overload for in-place refreshing of a view model </summary>
+        public static void ToViewModel(this Inlet entity, InletViewModel viewModel)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            if (viewModel == null) throw new NullException(() => viewModel);
+            if (!ViewModelHelper.MustConvertToInletViewModel(entity)) throw new MustNotConvertToInletViewModelException(entity);
+
+            viewModel.ID = entity.ID;
+            viewModel.Name = entity.Name;
+            viewModel.ListIndex = entity.ListIndex;
+            viewModel.DefaultValue = entity.DefaultValue;
+
+            if (entity.InletType != null)
+            {
+                viewModel.InletType = entity.InletType.ToIDAndDisplayName();
+            }
+            else
+            {
+                viewModel.InletType = null;
+            }
         }
 
         public static IList<OutletViewModel> ToViewModels(this IList<Outlet> entities)
@@ -231,16 +248,31 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         public static OutletViewModel ToViewModel(this Outlet entity)
         {
             if (entity == null) throw new NullException(() => entity);
+
+            var viewModel = new OutletViewModel();
+            entity.ToViewModel(viewModel);
+            return viewModel;
+        }
+
+        /// <summary> Overload for in-place refreshing of a view model. </summary>
+        public static void ToViewModel(this Outlet entity, OutletViewModel viewModel)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            if (viewModel == null) throw new NullException(() => viewModel);
             if (!ViewModelHelper.MustConvertToOutletViewModel(entity)) throw new MustNotConvertToOutletViewModelException(entity);
 
-            var viewModel = new OutletViewModel
-            {
-                ID = entity.ID,
-                Name = entity.Name,
-                ListIndex = entity.ListIndex
-            };
+            viewModel.ID = entity.ID;
+            viewModel.Name = entity.Name;
+            viewModel.ListIndex = entity.ListIndex;
 
-            return viewModel;
+            if (entity.OutletType != null)
+            {
+                viewModel.OutletType = entity.OutletType.ToIDAndDisplayName();
+            }
+            else
+            {
+                viewModel.OutletType = null;
+            }
         }
 
         public static OperatorTypeViewModel ToViewModel(this OperatorType operatorType)

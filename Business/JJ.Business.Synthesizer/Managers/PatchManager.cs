@@ -107,13 +107,7 @@ namespace JJ.Business.Synthesizer.Managers
                 return result;
             }
 
-            ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(
-                Patch,
-                _repositories.InletRepository,
-                _repositories.OutletRepository,
-                _repositories.PatchRepository,
-                _repositories.OperatorTypeRepository,
-                _repositories.IDRepository);
+            ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(Patch, _repositories);
 
             sideEffect.Execute();
 
@@ -154,14 +148,7 @@ namespace JJ.Business.Synthesizer.Managers
 
         private VoidResult SaveOperator_Custom(Operator op)
         {
-            ISideEffect sideEffect = new Operator_SideEffect_ApplyUnderlyingPatch(
-                op,
-                _repositories.InletRepository,
-                _repositories.OutletRepository,
-                _repositories.PatchRepository,
-                _repositories.OperatorTypeRepository,
-                _repositories.IDRepository);
-
+            ISideEffect sideEffect = new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories);
             sideEffect.Execute();
 
             VoidResult result = ValidateOperatorNonRecursive(op);
@@ -175,14 +162,7 @@ namespace JJ.Business.Synthesizer.Managers
             VoidResult result = ValidatePatch();
             if (result.Successful)
             {
-                ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(
-                    op.Patch,
-                    _repositories.InletRepository,
-                    _repositories.OutletRepository,
-                    _repositories.PatchRepository,
-                    _repositories.OperatorTypeRepository,
-                    _repositories.IDRepository);
-
+                ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(op.Patch, _repositories);
                 sideEffect.Execute();
             }
 
@@ -275,14 +255,7 @@ namespace JJ.Business.Synthesizer.Managers
 
             if (Patch.Document != null)
             {
-                ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(
-                    Patch,
-                    _repositories.InletRepository,
-                    _repositories.OutletRepository,
-                    _repositories.PatchRepository,
-                    _repositories.OperatorTypeRepository,
-                    _repositories.IDRepository);
-
+                ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(Patch, _repositories);
                 sideEffect.Execute();
 
                 // Clean up obsolete inlets and outlets.
@@ -290,14 +263,7 @@ namespace JJ.Business.Synthesizer.Managers
                 //  are kept alive by the system until it has no connections anymore, so that a user's does not lose data.)
                 foreach (Operator connectedCustomOperator in connectedCustomOperators)
                 {
-                    ISideEffect sideEffect2 = new Operator_SideEffect_ApplyUnderlyingPatch(
-                        connectedCustomOperator,
-                        _repositories.InletRepository,
-                        _repositories.OutletRepository,
-                        _repositories.PatchRepository,
-                        _repositories.OperatorTypeRepository,
-                        _repositories.IDRepository);
-
+                    ISideEffect sideEffect2 = new Operator_SideEffect_ApplyUnderlyingPatch(connectedCustomOperator, _repositories);
                     sideEffect2.Execute();
                 }
             }

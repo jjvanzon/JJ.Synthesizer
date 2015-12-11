@@ -152,5 +152,20 @@ namespace JJ.Business.Synthesizer.Resources
 
             return String.Format(Messages.NamesNotUnique_WithEntityTypeNameAndNames, entityTypeDisplayName, formattedDuplicateNames);
         }
+
+        public static string InletDefaultValueDoesNotMatchWithUnderlyingPatch(string inletName)
+        {
+            return String.Format(Messages.InletDefaultValueDoesNotMatchWithUnderlyingPatch, inletName);
+        }
+
+        public static string InletTypeNotFoundInUnderlyingPatch(string inletTypeDisplayName)
+        {
+            return String.Format(Messages.InletTypeNotFoundInUnderlyingPatch, inletTypeDisplayName);
+        }
+
+        public static string OutletTypeNotFoundInUnderlyingPatch(string outletTypeDisplayName)
+        {
+            return String.Format(Messages.OutletTypeNotFoundInUnderlyingPatch, outletTypeDisplayName);
+        }
     }
 }

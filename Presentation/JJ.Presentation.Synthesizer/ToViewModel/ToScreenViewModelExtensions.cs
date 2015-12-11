@@ -495,9 +495,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.Number = wrapper.ListIndex.Value + 1;
             }
 
-            if (wrapper.InletTypeEnum.HasValue)
+            if (wrapper.InletTypeEnum != InletTypeEnum.Undefined)
             {
-                viewModel.InletType = wrapper.InletTypeEnum.Value.ToIDAndDisplayName();
+                viewModel.InletType = wrapper.InletTypeEnum.ToIDAndDisplayName();
+            }
+            else
+            {
+                viewModel.InletType = new IDAndName();
             }
 
             return viewModel;
@@ -525,9 +529,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.Number = wrapper.ListIndex.Value + 1;
             }
 
-            if (wrapper.OutletTypeEnum.HasValue)
+            if (wrapper.OutletTypeEnum != OutletTypeEnum.Undefined)
             {
-                viewModel.OutletType = wrapper.OutletTypeEnum.Value.ToIDAndDisplayName();
+                viewModel.OutletType = wrapper.OutletTypeEnum.ToIDAndDisplayName();
+            }
+            else
+            {
+                viewModel.OutletType = new IDAndName();
             }
 
             return viewModel;

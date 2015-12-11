@@ -1,5 +1,6 @@
 ﻿using JJ.Presentation.Synthesizer.Helpers;
 using System.Diagnostics;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
@@ -21,6 +22,12 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         /// OutletViewModel.Operator <=> Operator.Outlets
         /// </summary>
         public OperatorViewModel Operator { get; set; }
+
+        // NOTE:
+        // See InletViewModel for the comment that also applies here.
+
+        /// <summary> Read-only, nullable, not necessarily displayed. </summary>
+        public IDAndName OutletType { get; set; }
 
         private string DebuggerDisplay
         {

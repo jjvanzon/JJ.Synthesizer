@@ -1,7 +1,7 @@
 ﻿using JJ.Business.Synthesizer.Converters;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Business;
 using JJ.Framework.Reflection.Exceptions;
 
@@ -13,19 +13,14 @@ namespace JJ.Business.Synthesizer.SideEffects
         private CustomOperator_OperatorWrapper _custom_OperatorWrapper;
         private PatchToOperatorConverter _documentToOperatorConverter;
 
-        public Operator_SideEffect_ApplyUnderlyingPatch(
-            Operator op,
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository,
-            IPatchRepository patchRepository,
-            IOperatorTypeRepository operatorTypeRepository,
-            IIDRepository idRepository)
+        public Operator_SideEffect_ApplyUnderlyingPatch(Operator op, PatchRepositories repositories)
         {
             if (op == null) throw new NullException(() => op);
+            if (repositories == null) throw new NullException(() => repositories);
 
             _operator = op;
-            _custom_OperatorWrapper = new CustomOperator_OperatorWrapper(_operator, patchRepository);
-            _documentToOperatorConverter = new PatchToOperatorConverter(inletRepository, outletRepository, patchRepository, operatorTypeRepository, idRepository);
+            _custom_OperatorWrapper = new CustomOperator_OperatorWrapper(_operator, repositories.PatchRepository);
+            _documentToOperatorConverter = new PatchToOperatorConverter(repositories);
         }
 
         public void Execute()

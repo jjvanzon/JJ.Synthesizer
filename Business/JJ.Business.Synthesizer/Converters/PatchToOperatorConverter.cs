@@ -3,20 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
-using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Converters
 {
     /// <summary>
-    /// Converts a Document to a CustomOperator.
-    /// A Document can have a Patch with PatchInlet and PatchOutlet Operators in it.
-    /// This document can function as a 'template' for a CustomOperator.
+    /// Converts a Patch to a CustomOperator.
+    /// A Patch can has PatchInlet and PatchOutlet Operators in it.
+    /// This Patch can function as a template for a CustomOperator.
     /// 
-    /// This class applies the Document to the CustomOperator.
+    /// This class applies the Patch to the CustomOperator.
     /// The CustomOperator can already exist in case of which it is adapted to match
     /// its new UnderlyingPatch.
     /// 
@@ -24,36 +24,19 @@ namespace JJ.Business.Synthesizer.Converters
     /// if there are still things connected to it, so a CustomOperator can end up with inlets and outlets
     /// that are not even in the UnderlyingPatch.
     /// 
-    /// However, existing Inlets and Outlets are matches with the new Document as best as possible.
+    /// However, existing Inlets and Outlets are matches with the new Patch as best as possible.
     /// First an existing Inlet or Outlet is matched by name, otherwise an it is matched by ListIndex,
     /// and if none match, the Inlet or Outlet is deleted if not in use, or kept if it was in use.
     /// </summary>
     internal class PatchToOperatorConverter
     {
-        private IInletRepository _inletRepository;
-        private IOutletRepository _outletRepository;
-        private IPatchRepository _patchRepository;
-        private IOperatorTypeRepository _operatorTypeRepository;
-        private IIDRepository _idRepository;
+        private PatchRepositories _repositories;
 
-        public PatchToOperatorConverter(
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository,
-            IPatchRepository patchRepository,
-            IOperatorTypeRepository operatorTypeRepository,
-            IIDRepository idRepository)
+        public PatchToOperatorConverter(PatchRepositories repositories)
         {
-            if (inletRepository == null) throw new NullException(() => inletRepository);
-            if (outletRepository == null) throw new NullException(() => outletRepository);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
-            if (idRepository == null) throw new NullException(() => idRepository);
-    
-            _inletRepository = inletRepository;
-            _outletRepository = outletRepository;
-            _patchRepository = patchRepository;
-            _operatorTypeRepository = operatorTypeRepository;
-            _idRepository = idRepository;
+            if (repositories == null) throw new NullException(() => repositories);
+
+            _repositories = repositories;
         }
 
         /// <param name="sourceUnderlyingPatch">nullable</param>
@@ -78,10 +61,10 @@ namespace JJ.Business.Synthesizer.Converters
             ConvertInlets(sourcePatchInlets, destOperator);
             ConvertOutlets(sourcePatchOutlets, destOperator);
 
-            var destOperatorWrapper = new CustomOperator_OperatorWrapper(destOperator, _patchRepository);
+            var destOperatorWrapper = new CustomOperator_OperatorWrapper(destOperator, _repositories.PatchRepository);
             destOperatorWrapper.UnderlyingPatch = sourceUnderlyingPatch;
 
-            destOperator.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _operatorTypeRepository);
+            destOperator.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
         }
 
         private void ConvertInlets(IList<Operator> sourcePatchInlets, Operator destOperator)
@@ -96,14 +79,19 @@ namespace JJ.Business.Synthesizer.Converters
                 if (destInlet == null)
                 {
                     destInlet = new Inlet();
-                    destInlet.ID = _idRepository.GetID();
-                    _inletRepository.Insert(destInlet);
+                    destInlet.ID = _repositories.IDRepository.GetID();
+                    _repositories.InletRepository.Insert(destInlet);
                     destInlet.LinkTo(destOperator);
                 }
 
                 destInlet.Name = sourcePatchInlet.Name;
+                destInlet.DefaultValue = sourcePatchInletWrapper.DefaultValue;
+                destInlet.SetInletTypeEnum(sourcePatchInletWrapper.InletTypeEnum, _repositories.InletTypeRepository);
 
-                if (!sourcePatchInletWrapper.ListIndex.HasValue) throw new NullException(() => sourcePatchInletWrapper.ListIndex);
+                if (!sourcePatchInletWrapper.ListIndex.HasValue)
+                {
+                    throw new NullException(() => sourcePatchInletWrapper.ListIndex);
+                }
                 destInlet.ListIndex = sourcePatchInletWrapper.ListIndex.Value;
 
                 idsToKeep.Add(destInlet.ID);
@@ -114,12 +102,12 @@ namespace JJ.Business.Synthesizer.Converters
 
             foreach (int idToDeleteIfNotInUse in idsToDeleteIfNotInUse)
             {
-                Inlet entityToDeleteIfNotInUse = _inletRepository.Get(idToDeleteIfNotInUse);
+                Inlet entityToDeleteIfNotInUse = _repositories.InletRepository.Get(idToDeleteIfNotInUse);
                 bool isInUse = entityToDeleteIfNotInUse.InputOutlet != null;
                 if (!isInUse)
                 {
                     entityToDeleteIfNotInUse.UnlinkRelatedEntities();
-                    _inletRepository.Delete(entityToDeleteIfNotInUse);
+                    _repositories.InletRepository.Delete(entityToDeleteIfNotInUse);
                 }
             }
         }
@@ -129,6 +117,16 @@ namespace JJ.Business.Synthesizer.Converters
             foreach (Inlet destInlet in destInlets)
             {
                 if (String.Equals(destInlet.Name, sourcePatchInlet.Name))
+                {
+                    return destInlet;
+                }
+            }
+
+            foreach (Inlet destInlet in destInlets)
+            {
+                // TODO: I should really only match if it is unique.
+                var wrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
+                if (destInlet.GetInletTypeEnum() == wrapper.InletTypeEnum)
                 {
                     return destInlet;
                 }
@@ -158,13 +156,18 @@ namespace JJ.Business.Synthesizer.Converters
                 if (destOutlet == null)
                 {
                     destOutlet = new Outlet();
-                    destOutlet.ID = _idRepository.GetID();
+                    destOutlet.ID = _repositories.IDRepository.GetID();
                     destOutlet.LinkTo(destOperator);
-                    _outletRepository.Insert(destOutlet);
+                    _repositories.OutletRepository.Insert(destOutlet);
                 }
 
                 destOutlet.Name = sourcePatchOutlet.Name;
-                if (!sourcePatchOutletWrapper.ListIndex.HasValue) throw new NullException(() => sourcePatchOutletWrapper.ListIndex);
+                destOutlet.SetOutletTypeEnum(sourcePatchOutletWrapper.OutletTypeEnum, _repositories.OutletTypeRepository);
+
+                if (!sourcePatchOutletWrapper.ListIndex.HasValue)
+                {
+                    throw new NullException(() => sourcePatchOutletWrapper.ListIndex);
+                }
                 destOutlet.ListIndex = sourcePatchOutletWrapper.ListIndex.Value;
 
                 idsToKeep.Add(destOutlet.ID);
@@ -175,12 +178,12 @@ namespace JJ.Business.Synthesizer.Converters
 
             foreach (int idToDeleteIfNotInUse in idsToDeleteIfNotInUse)
             {
-                Outlet entityToDeleteIfNotInUse = _outletRepository.Get(idToDeleteIfNotInUse);
+                Outlet entityToDeleteIfNotInUse = _repositories.OutletRepository.Get(idToDeleteIfNotInUse);
                 bool isInUse = entityToDeleteIfNotInUse.ConnectedInlets.Count != 0;
                 if (!isInUse)
                 {
                     entityToDeleteIfNotInUse.UnlinkRelatedEntities();
-                    _outletRepository.Delete(entityToDeleteIfNotInUse);
+                    _repositories.OutletRepository.Delete(entityToDeleteIfNotInUse);
                 }
             }
         }
@@ -190,6 +193,16 @@ namespace JJ.Business.Synthesizer.Converters
             foreach (Outlet destOutlet in destOutlets)
             {
                 if (String.Equals(destOutlet.Name, sourcePatchOutlet.Name))
+                {
+                    return destOutlet;
+                }
+            }
+
+            foreach (Outlet destOutlet in destOutlets)
+            {
+                // TODO: I should really only match if it is unique.
+                var wrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
+                if (destOutlet.GetOutletTypeEnum() == wrapper.OutletTypeEnum)
                 {
                     return destOutlet;
                 }

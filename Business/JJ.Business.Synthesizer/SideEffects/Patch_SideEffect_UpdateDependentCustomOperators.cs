@@ -6,6 +6,7 @@ using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Converters;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.SideEffects
 {
@@ -15,22 +16,15 @@ namespace JJ.Business.Synthesizer.SideEffects
         private readonly IPatchRepository _patchRepository;
         private readonly PatchToOperatorConverter _patchToOperatorConverter;
 
-        public Patch_SideEffect_UpdateDependentCustomOperators(
-            Patch underlyingPatch,
-            IInletRepository inletRepository,
-            IOutletRepository outletRepository,
-            IPatchRepository patchRepository,
-            IOperatorTypeRepository operatorTypeRepository,
-            IIDRepository idRepository)
+        public Patch_SideEffect_UpdateDependentCustomOperators(Patch underlyingPatch, PatchRepositories repositories)
         {
             if (underlyingPatch == null) throw new NullException(() => underlyingPatch);
-            if (patchRepository == null) throw new NullException(() => patchRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
             _underlyingPatch = underlyingPatch;
-            _patchRepository = patchRepository;
+            _patchRepository = repositories.PatchRepository;
 
-            _patchToOperatorConverter = new PatchToOperatorConverter(
-                inletRepository, outletRepository, patchRepository, operatorTypeRepository, idRepository);
+            _patchToOperatorConverter = new PatchToOperatorConverter(repositories);
         }
 
         public void Execute()

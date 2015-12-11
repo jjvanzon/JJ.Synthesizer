@@ -133,6 +133,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Default value of inlet &apos;{0}&apos; does not match with underlying patch..
+        /// </summary>
+        internal static string InletDefaultValueDoesNotMatchWithUnderlyingPatch {
+            get {
+                return ResourceManager.GetString("InletDefaultValueDoesNotMatchWithUnderlyingPatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inlet numbers are not unique..
         /// </summary>
         internal static string InletListIndexesAreNotUnique {
@@ -156,6 +165,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string InletNotSet {
             get {
                 return ResourceManager.GetString("InletNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inlet type &apos;{0}&apos; not found in underlying patch..
+        /// </summary>
+        internal static string InletTypeNotFoundInUnderlyingPatch {
+            get {
+                return ResourceManager.GetString("InletTypeNotFoundInUnderlyingPatch", resourceCulture);
             }
         }
         
@@ -291,6 +309,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string OutletNamesAreNotUnique {
             get {
                 return ResourceManager.GetString("OutletNamesAreNotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outlet type &apos;{0}&apos; not found in underlying patch..
+        /// </summary>
+        internal static string OutletTypeNotFoundInUnderlyingPatch {
+            get {
+                return ResourceManager.GetString("OutletTypeNotFoundInUnderlyingPatch", resourceCulture);
             }
         }
         

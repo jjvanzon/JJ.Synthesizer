@@ -35,6 +35,7 @@
             this.radioButtonMakeCurveNamesAndSampleNamesUnique = new System.Windows.Forms.RadioButton();
             this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs = new System.Windows.Forms.RadioButton();
             this.radioButtonGivePatchesSameNameAsTheirDocuments = new System.Windows.Forms.RadioButton();
+            this.radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // radioButtonMigrateSineVolumes
@@ -112,21 +113,34 @@
             // radioButtonGivePatchesSameNameAsTheirDocuments
             // 
             this.radioButtonGivePatchesSameNameAsTheirDocuments.AutoSize = true;
-            this.radioButtonGivePatchesSameNameAsTheirDocuments.Checked = true;
+            this.radioButtonGivePatchesSameNameAsTheirDocuments.Enabled = false;
             this.radioButtonGivePatchesSameNameAsTheirDocuments.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
             this.radioButtonGivePatchesSameNameAsTheirDocuments.Location = new System.Drawing.Point(197, 257);
             this.radioButtonGivePatchesSameNameAsTheirDocuments.Name = "radioButtonGivePatchesSameNameAsTheirDocuments";
             this.radioButtonGivePatchesSameNameAsTheirDocuments.Size = new System.Drawing.Size(322, 21);
             this.radioButtonGivePatchesSameNameAsTheirDocuments.TabIndex = 7;
-            this.radioButtonGivePatchesSameNameAsTheirDocuments.TabStop = true;
             this.radioButtonGivePatchesSameNameAsTheirDocuments.Text = "Give Patches Same Name as Their Documents";
             this.radioButtonGivePatchesSameNameAsTheirDocuments.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType
+            // 
+            this.radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType.AutoSize = true;
+            this.radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType.Checked = true;
+            this.radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
+            this.radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType.Location = new System.Drawing.Point(197, 284);
+            this.radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType.Name = "radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_Outlet" +
+    "OutletType";
+            this.radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType.Size = new System.Drawing.Size(579, 21);
+            this.radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType.TabIndex = 8;
+            this.radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType.Text = "ResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType";
+            this.radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType.UseVisualStyleBackColor = true;
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(755, 471);
+            this.ClientSize = new System.Drawing.Size(885, 471);
+            this.Controls.Add(this.radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType);
             this.Controls.Add(this.radioButtonGivePatchesSameNameAsTheirDocuments);
             this.Controls.Add(this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs);
             this.Controls.Add(this.radioButtonMakeCurveNamesAndSampleNamesUnique);
@@ -145,6 +159,7 @@
             this.Controls.SetChildIndex(this.radioButtonMakeCurveNamesAndSampleNamesUnique, 0);
             this.Controls.SetChildIndex(this.radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs, 0);
             this.Controls.SetChildIndex(this.radioButtonGivePatchesSameNameAsTheirDocuments, 0);
+            this.Controls.SetChildIndex(this.radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType, 0);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -159,6 +174,7 @@
         private System.Windows.Forms.RadioButton radioButtonMakeCurveNamesAndSampleNamesUnique;
         private System.Windows.Forms.RadioButton radioButtonConvertUnderlyingDocumentIDsToUnderlyingPatchIDs;
         private System.Windows.Forms.RadioButton radioButtonGivePatchesSameNameAsTheirDocuments;
+        private System.Windows.Forms.RadioButton radioButtonResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType;
     }
 }
 

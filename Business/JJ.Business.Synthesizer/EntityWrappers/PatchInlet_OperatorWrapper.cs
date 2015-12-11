@@ -29,9 +29,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorDataParser.SetValue(_operator, PropertyNames.ListIndex, value); }
         }
 
-        public InletTypeEnum? InletTypeEnum
+        public InletTypeEnum InletTypeEnum
         {
-            get { return OperatorDataParser.TryGetEnum<InletTypeEnum>(_operator, PropertyNames.InletTypeEnum); }
+            get { return OperatorDataParser.GetEnum<InletTypeEnum>(_operator, PropertyNames.InletTypeEnum); }
             set { OperatorDataParser.SetValue(_operator, PropertyNames.InletTypeEnum, value); }
         }
 

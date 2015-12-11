@@ -35,8 +35,7 @@ namespace JJ.Business.Synthesizer.Managers
             return document;
         }
 
-        public Document CreateChildDocument(
-            Document parentDocument, bool mustGenerateName = false)
+        public Document CreateChildDocument(Document parentDocument, bool mustGenerateName = false)
         {
             if (parentDocument == null) throw new NullException(() => parentDocument);
 

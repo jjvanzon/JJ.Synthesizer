@@ -560,14 +560,7 @@ namespace JJ.Business.Synthesizer.Managers
             ISideEffect sideEffect3 = new Operator_SideEffect_GeneratePatchOutletListIndex(op);
             sideEffect3.Execute();
 
-            ISideEffect sideEffect4 = new Patch_SideEffect_UpdateDependentCustomOperators(
-                op.Patch,
-                _repositories.InletRepository,
-                _repositories.OutletRepository,
-                _repositories.PatchRepository,
-                _repositories.OperatorTypeRepository,
-                _repositories.IDRepository);
-
+            ISideEffect sideEffect4 = new Patch_SideEffect_UpdateDependentCustomOperators(op.Patch, _repositories);
             sideEffect4.Execute();
         }
 

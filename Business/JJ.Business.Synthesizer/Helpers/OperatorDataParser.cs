@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
@@ -8,9 +9,11 @@ namespace JJ.Business.Synthesizer.Helpers
 {
     internal class OperatorDataParser
     {
-        private class Result
+        private static CultureInfo _formattingCulture = new CultureInfo("en-US");
+
+        private class ParsedKeyValuePair
         {
-            public Result(string key, string value)
+            public ParsedKeyValuePair(string key, string value)
             {
                 Key = key;
                 Value = value;
@@ -39,7 +42,7 @@ namespace JJ.Business.Synthesizer.Helpers
             }
 
             double value;
-            if (!Double.TryParse(str, out value))
+            if (!Double.TryParse(str, NumberStyles.Any, _formattingCulture, out value))
             {
                 throw new Exception(String.Format("Value with key '{0}' in data '{1}' of operator with ID '{2}' could not be parsed to Double.", key, op.Data, op.ID));
             }
@@ -72,25 +75,14 @@ namespace JJ.Business.Synthesizer.Helpers
             return value;
         }
 
-
+        /// <summary> If the property is not present, default(TEnum) is returned. </summary>
         public static TEnum GetEnum<TEnum>(Operator op, string key)
-            where TEnum : struct
-        {
-            TEnum? value = TryGetEnum<TEnum>(op, key);
-            if (!value.HasValue)
-            {
-                throw new Exception(String.Format("Value with key '{0}' in data '{1}' of operator with ID '{2}' is empty.", key, op.Data, op.ID));
-            }
-            return value.Value;
-        }
-
-        public static TEnum? TryGetEnum<TEnum>(Operator op, string key)
             where TEnum : struct
         {
             string str = GetString(op, key);
             if (String.IsNullOrEmpty(str))
             {
-                return null;
+                return default(TEnum);
             }
 
             TEnum value;
@@ -105,9 +97,9 @@ namespace JJ.Business.Synthesizer.Helpers
         {
             if (op == null) throw new NullException(() => op);
 
-            IList<Result> results = Parse(op.Data);
+            IList<ParsedKeyValuePair> results = Parse(op.Data);
 
-            Result result = results.Where(x => String.Equals(x.Key, key)).FirstOrDefault();
+            ParsedKeyValuePair result = results.Where(x => String.Equals(x.Key, key)).FirstOrDefault();
             if (result == null)
             {
                 return null;
@@ -118,13 +110,13 @@ namespace JJ.Business.Synthesizer.Helpers
 
         public static void SetValue(Operator op, string key, object value)
         {
-            IList<Result> results = Parse(op.Data);
+            IList<ParsedKeyValuePair> results = Parse(op.Data);
 
             // Remove original value.
             results = results.Where(x => !String.Equals(x.Key, key)).ToList();
 
             // Add new value
-            var result = new Result(key, Convert.ToString(value));
+            var result = new ParsedKeyValuePair(key, Convert.ToString(value, _formattingCulture));
             results.Add(result);
 
             string data = Format(results);
@@ -132,20 +124,20 @@ namespace JJ.Business.Synthesizer.Helpers
             op.Data = data;
         }
 
-        private static IList<Result> Parse(string data)
+        private static IList<ParsedKeyValuePair> Parse(string data)
         {
             if (String.IsNullOrEmpty(data))
             {
-                return new Result[0];
+                return new ParsedKeyValuePair[0];
             }
 
             string[] propertiesSplit = data.Split(';');
-            IList<Result> results = new List<Result>(propertiesSplit.Length);
+            IList<ParsedKeyValuePair> results = new List<ParsedKeyValuePair>(propertiesSplit.Length);
             for (int i = 0; i < propertiesSplit.Length; i++)
             {
                 string propertyString = propertiesSplit[i];
 
-                Result result = ParseProperty(propertyString, data);
+                ParsedKeyValuePair result = ParseProperty(propertyString, data);
 
                 results.Add(result);
             }
@@ -154,7 +146,7 @@ namespace JJ.Business.Synthesizer.Helpers
         }
 
         /// <param name="data">For showing in an exception.</param>
-        private static Result ParseProperty(string propertyString, string data)
+        private static ParsedKeyValuePair ParseProperty(string propertyString, string data)
         {
             string[] keyAndValueSplit = propertyString.Split('=');
 
@@ -166,12 +158,12 @@ namespace JJ.Business.Synthesizer.Helpers
             string key = keyAndValueSplit[0];
             string value = keyAndValueSplit[1];
 
-            return new Result(key, value);
+            return new ParsedKeyValuePair(key, value);
         }
 
-        private static string Format(IList<Result> results)
+        private static string Format(IList<ParsedKeyValuePair> results)
         {
-            string str = String.Join(";", results.Select(x => String.Format("{0}={1}", x.Key, x.Value)));
+            string str = String.Join(";", results.Select(x => String.Format(_formattingCulture, "{0}={1}", x.Key, x.Value)));
             return str;
         }
     }

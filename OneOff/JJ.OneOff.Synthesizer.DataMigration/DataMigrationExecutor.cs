@@ -422,5 +422,65 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
+
+        public static void ResaveCustomOperatorsToSet_InletDefaultValue_InletInletType_And_OutletOutletType(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> customOperators = repositories.OperatorRepository
+                                                              .GetAll()
+                                                              .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.CustomOperator)
+                                                              .ToArray();
+
+                for (int i = 0; i < customOperators.Count; i++)
+                {
+                    Operator customOperator = customOperators[i];
+                    patchManager.Patch = customOperator.Patch;
+
+                    VoidResult result = patchManager.SaveOperator(customOperator);
+                    if (!result.Successful)
+                    {
+                        string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
+                        throw new Exception(formattedMessages);
+                    }
+
+                    string progressMessage = String.Format("Migrated custom operator {0}/{1}.", i + 1, customOperators.Count);
+                    progressCallback(progressMessage);
+                }
+
+                // Validate Documents
+                var documentManager = new DocumentManager(repositories);
+
+                IList<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null).ToArray();
+                for (int i = 0; i < rootDocuments.Count; i++)
+                {
+                    Document rootDocument = rootDocuments[i];
+
+                    // Validate
+                    VoidResult result = documentManager.ValidateRecursive(rootDocument);
+                    if (!result.Successful)
+                    {
+                        progressCallback("Exception!");
+                        string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
+                        throw new Exception(formattedMessages);
+                    }
+
+                    string progressMessage = String.Format("Validated document {0}/{1}.", i + 1, rootDocuments.Count);
+                    progressCallback(progressMessage);
+                }
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
     }
 }

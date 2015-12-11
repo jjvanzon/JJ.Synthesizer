@@ -145,12 +145,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 InletViewModel inletViewModel = destOperatorViewModel.Inlets.Where(x => x.ID == inlet.ID).FirstOrDefault();
                 if (inletViewModel == null)
                 {
-                    inletViewModel = inlet.ToViewModel();
+                    inletViewModel = new InletViewModel();
                     destOperatorViewModel.Inlets.Add(inletViewModel);
                 }
 
-                inletViewModel.Name = inlet.Name;
-                inletViewModel.ListIndex = inlet.ListIndex;
+                inlet.ToViewModel(inletViewModel);
 
                 inletViewModelsToKeep.Add(inletViewModel);
             }
@@ -186,15 +185,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 OutletViewModel outletViewModel = destOperatorViewModel.Outlets.Where(x => x.ID == outlet.ID).FirstOrDefault();
                 if (outletViewModel == null)
                 {
-                    outletViewModel = outlet.ToViewModel();
+                    outletViewModel = new OutletViewModel();
                     destOperatorViewModel.Outlets.Add(outletViewModel);
 
                     // The only inverse property in all the view models.
                     outletViewModel.Operator = destOperatorViewModel;
                 }
 
-                outletViewModel.Name = outlet.Name;
-                outletViewModel.ListIndex = outlet.ListIndex;
+                outlet.ToViewModel(outletViewModel);
 
                 outletViewModelsToKeep.Add(outletViewModel);
             }

@@ -221,10 +221,10 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             // First match by OutletType / InletType.
-            OutletTypeEnum outletTypeEnum = outletTuple.UnderlyingPatchOutletWrapper.OutletTypeEnum ?? OutletTypeEnum.Undefined;
+            OutletTypeEnum outletTypeEnum = outletTuple.UnderlyingPatchOutletWrapper.OutletTypeEnum;
             if (outletTypeEnum != OutletTypeEnum.Undefined)
             {
-                InletTypeEnum inletTypeEnum = inletTuple.UnderlyingPatchInletWrapper.InletTypeEnum ?? InletTypeEnum.Undefined;
+                InletTypeEnum inletTypeEnum = inletTuple.UnderlyingPatchInletWrapper.InletTypeEnum;
                 if (inletTypeEnum != InletTypeEnum.Undefined)
                 {
                     string outletTypeString = outletTypeEnum.ToString();

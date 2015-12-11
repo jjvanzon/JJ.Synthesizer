@@ -29,9 +29,9 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorDataParser.SetValue(_operator, PropertyNames.ListIndex, value); }
         }
 
-        public OutletTypeEnum? OutletTypeEnum
+        public OutletTypeEnum OutletTypeEnum
         {
-            get { return OperatorDataParser.TryGetEnum<OutletTypeEnum>(_operator, PropertyNames.OutletTypeEnum); }
+            get { return OperatorDataParser.GetEnum<OutletTypeEnum>(_operator, PropertyNames.OutletTypeEnum); }
             set { OperatorDataParser.SetValue(_operator, PropertyNames.OutletTypeEnum, value); }
         }
 
