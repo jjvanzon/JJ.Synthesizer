@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
@@ -37,6 +38,17 @@ namespace JJ.Business.Synthesizer.Helpers
 
         // Get Inlet
 
+        /// <summary> Gets an item out of the sorted _operator.Inlets and verifies that the index is valid in the list. </summary>
+        public static Inlet GetInlet(Operator op, int index)
+        {
+            IList<Inlet> sortedInlets = GetSortedInlets(op);
+            if (index >= sortedInlets.Count)
+            {
+                throw new Exception(String.Format("Sorted inlets does not have index [{0}].", index));
+            }
+            return sortedInlets[index];
+        }
+
         public static Inlet GetInlet(Operator op, string name)
         {
             Inlet inlet = TryGetInlet(op, name);
@@ -65,18 +77,54 @@ namespace JJ.Business.Synthesizer.Helpers
             }
         }
 
-        /// <summary> Gets an item out of the sorted _operator.Inlets and verifies that the index is valid in the list. </summary>
-        public static Inlet GetInlet(Operator op, int index)
+        public static Inlet GetInlet(Operator op, InletTypeEnum inletTypeEnum)
         {
-            IList<Inlet> sortedInlets = GetSortedInlets(op);
-            if (index >= sortedInlets.Count)
+            Inlet inlet = TryGetInlet(op, inletTypeEnum);
+            if (inlet == null)
             {
-                throw new Exception(String.Format("Sorted inlets does not have index [{0}].", index));
+                throw new Exception(String.Format("Inlet with InletTypeEnum '{0}' not found.", inletTypeEnum));
             }
-            return sortedInlets[index];
+            return inlet;
+        }
+
+        public static Inlet TryGetInlet(Operator op, InletTypeEnum inletTypeEnum)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IList<Inlet> inlets = GetInlets(op, inletTypeEnum);
+            switch (inlets.Count)
+            {
+                case 0:
+                    return null;
+
+                case 1:
+                    return inlets[0];
+
+                default:
+                    throw new Exception(String.Format("Inlet with InletTypeEnum '{0}' is not unique.", inletTypeEnum));
+            }
+        }
+
+        public static IList<Inlet> GetInlets(Operator op, InletTypeEnum inletTypeEnum)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IList<Inlet> inlets = op.Inlets.Where(x => x.GetInletTypeEnum() == inletTypeEnum).ToArray();
+            return inlets;
         }
 
         // Get Outlet
+
+        /// <summary> Gets an item out of the sorted _operator.Outlets and verifies that the index is valid in the list. </summary>
+        public static Outlet GetOutlet(Operator op, int index)
+        {
+            IList<Outlet> sortedOutlets = GetSortedOutlets(op);
+            if (index >= sortedOutlets.Count)
+            {
+                throw new Exception(String.Format("Sorted outlets does not have index [{0}].", index));
+            }
+            return sortedOutlets[index];
+        }
 
         public static Outlet GetOutlet(Operator op, string name)
         {
@@ -106,15 +154,40 @@ namespace JJ.Business.Synthesizer.Helpers
             }
         }
 
-        /// <summary> Gets an item out of the sorted _operator.Outlets and verifies that the index is valid in the list. </summary>
-        public static Outlet GetOutlet(Operator op, int index)
+        public static Outlet GetOutlet(Operator op, OutletTypeEnum outletTypeEnum)
         {
-            IList<Outlet> sortedOutlets = GetSortedOutlets(op);
-            if (index >= sortedOutlets.Count)
+            Outlet outlet = TryGetOutlet(op, outletTypeEnum);
+            if (outlet == null)
             {
-                throw new Exception(String.Format("Sorted outlets does not have index [{0}].", index));
+                throw new Exception(String.Format("Outlet with OutletTypeEnum '{0}' not found.", outletTypeEnum));
             }
-            return sortedOutlets[index];
+            return outlet;
+        }
+
+        public static Outlet TryGetOutlet(Operator op, OutletTypeEnum outletTypeEnum)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IList<Outlet> outlets = GetOutlets(op, outletTypeEnum);
+            switch (outlets.Count)
+            {
+                case 0:
+                    return null;
+
+                case 1:
+                    return outlets[0];
+
+                default:
+                    throw new Exception(String.Format("Outlet with OutletTypeEnum '{0}' is not unique.", outletTypeEnum));
+            }
+        }
+
+        public static IList<Outlet> GetOutlets(Operator op, OutletTypeEnum outletTypeEnum)
+        {
+            if (op == null) throw new NullException(() => op);
+
+            IList<Outlet> outlets = op.Outlets.Where(x => x.GetOutletTypeEnum() == outletTypeEnum).ToArray();
+            return outlets;
         }
 
         // Get InputOutlet

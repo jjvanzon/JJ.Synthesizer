@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -26,9 +27,7 @@ namespace JJ.Business.Synthesizer.Managers
             public Outlet CustomOperatorOutlet { get; set; }
         }
 
-        /// <summary>
-        /// Will return null if no Frequency inlet or any outlet is found.
-        /// </summary>
+        /// <summary> Will return null if no Frequency inlet or Signal outlet is found. </summary>
         public Outlet TryAutoPatch_WithTone(Tone tone, IList<Patch> underlyingPatches)
         {
             if (tone == null) throw new NullException(() => tone);
@@ -37,12 +36,14 @@ namespace JJ.Business.Synthesizer.Managers
             // Create a new patch out of the other patches.
             CustomOperator_OperatorWrapper tempCustomOperator = AutoPatch_ToCustomOperator(underlyingPatches);
 
-            Inlet inlet = tempCustomOperator.Inlets.FirstOrDefault(x => String.Equals(x.Name, "Frequency")); // TODO: DIRTY.
+            // TODO: InletTypes and OutletTypes do not have to be unique and in that case this method crashes.
+            Inlet inlet = OperatorHelper.TryGetInlet(tempCustomOperator, InletTypeEnum.Frequency);
             if (inlet != null)
             {
                 double frequency = tone.GetFrequency();
                 inlet.InputOutlet = Number(frequency);
-                Outlet outlet = tempCustomOperator.Outlets.FirstOrDefault(); // TODO: Dirty
+
+                Outlet outlet = OperatorHelper.TryGetOutlet(tempCustomOperator, OutletTypeEnum.Signal);
                 return outlet;
             }
 
