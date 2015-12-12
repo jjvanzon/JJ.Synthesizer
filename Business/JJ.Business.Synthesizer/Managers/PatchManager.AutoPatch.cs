@@ -15,16 +15,10 @@ namespace JJ.Business.Synthesizer.Managers
     {
         private class AutoPatchTuple
         {
-            public CustomOperator_OperatorWrapper CustomOperatorWrapper { get; set; }
-            public Patch UnderlyingPatch { get; set; }
             /// <summary> nullable </summary>
-            public PatchInlet_OperatorWrapper UnderlyingPatchInletWrapper { get; set; }
+            public Inlet Inlet { get; set; }
             /// <summary> nullable </summary>
-            public Inlet CustomOperatorInlet { get; set; }
-            /// <summary> nullable </summary>
-            public PatchOutlet_OperatorWrapper UnderlyingPatchOutletWrapper { get; set; }
-            /// <summary> nullable </summary>
-            public Outlet CustomOperatorOutlet { get; set; }
+            public Outlet Outlet { get; set; }
         }
 
         /// <summary> Will return null if no Frequency inlet or Signal outlet is found. </summary>
@@ -109,9 +103,9 @@ namespace JJ.Business.Synthesizer.Managers
                     AutoPatchTuple outletTuple = tuples[i];
                     AutoPatchTuple inletTuple = tuples[j];
 
-                    if (AutoPatchTuplesAreMatch(outletTuple, inletTuple))
+                    if (AreMatch(outletTuple.Outlet, inletTuple.Inlet))
                     {
-                        inletTuple.CustomOperatorInlet.InputOutlet = outletTuple.CustomOperatorOutlet;
+                        inletTuple.Inlet.InputOutlet = outletTuple.Outlet;
 
                         matchedInletTuples.Add(inletTuple);
                         matchedOutletTuples.Add(outletTuple);
@@ -120,31 +114,31 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             // Unmatched inlets of the custom operators become inlets of the new patch.
-            IEnumerable<AutoPatchTuple> unmatchedInletTuples = tuples.Where(x => x.CustomOperatorInlet != null)
+            IEnumerable<AutoPatchTuple> unmatchedInletTuples = tuples.Where(x => x.Inlet != null)
                                                                      .Except(matchedInletTuples);
 
             foreach (AutoPatchTuple unmatchedInletTuple in unmatchedInletTuples)
             {
                 var patchInlet = PatchInlet();
-                patchInlet.DefaultValue = unmatchedInletTuple.UnderlyingPatchInletWrapper.DefaultValue;
-                patchInlet.InletTypeEnum = unmatchedInletTuple.UnderlyingPatchInletWrapper.InletTypeEnum;
-                patchInlet.ListIndex = unmatchedInletTuple.UnderlyingPatchInletWrapper.ListIndex;
-                patchInlet.Name = unmatchedInletTuple.UnderlyingPatchInletWrapper.Name;
+                patchInlet.Name = unmatchedInletTuple.Inlet.Name;
+                patchInlet.ListIndex = unmatchedInletTuple.Inlet.ListIndex;
+                patchInlet.InletTypeEnum = unmatchedInletTuple.Inlet.GetInletTypeEnum();
+                patchInlet.DefaultValue = unmatchedInletTuple.Inlet.DefaultValue;
 
-                unmatchedInletTuple.CustomOperatorInlet.InputOutlet = patchInlet;
+                unmatchedInletTuple.Inlet.InputOutlet = patchInlet;
             }
 
             // Unmatched outlets of the custom operators become outlets of the new patch.
-            IEnumerable<AutoPatchTuple> unmatchedOutletTuples = tuples.Where(x => x.CustomOperatorOutlet != null)
+            IEnumerable<AutoPatchTuple> unmatchedOutletTuples = tuples.Where(x => x.Outlet != null)
                                                                       .Except(matchedOutletTuples);
             foreach (AutoPatchTuple unmatchedOutletTuple in unmatchedOutletTuples)
             {
                 var patchOutlet = PatchOutlet();
-                patchOutlet.Name = unmatchedOutletTuple.UnderlyingPatchOutletWrapper.Name;
-                patchOutlet.OutletTypeEnum = unmatchedOutletTuple.UnderlyingPatchOutletWrapper.OutletTypeEnum;
-                patchOutlet.ListIndex = unmatchedOutletTuple.UnderlyingPatchOutletWrapper.ListIndex;
+                patchOutlet.Name = unmatchedOutletTuple.Outlet.Name;
+                patchOutlet.ListIndex = unmatchedOutletTuple.Outlet.ListIndex;
+                patchOutlet.OutletTypeEnum = unmatchedOutletTuple.Outlet.GetOutletTypeEnum();
 
-                patchOutlet.Input = unmatchedOutletTuple.CustomOperatorOutlet;
+                patchOutlet.Input = unmatchedOutletTuple.Outlet;
             }
 
             // TODO: If there is overlap in type or name, they will merge to a single inlet or outlet.
@@ -158,74 +152,47 @@ namespace JJ.Business.Synthesizer.Managers
             {
                 var customOperatorWrapper = CustomOperator(underlyingPatch);
 
-                // Inlets
+                foreach (Inlet inlet in customOperatorWrapper.Inlets)
                 {
-                    var joined = from customOperatorInlet in customOperatorWrapper.Inlets
-                                 join underlyingPatchInlet in underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                 on customOperatorInlet.Name equals underlyingPatchInlet.Name
-                                 select new { CustomOperatorInlet = customOperatorInlet, UnderlyingPatchInlet = underlyingPatchInlet };
-
-                    foreach (var joinItem in joined)
+                    var tuple = new AutoPatchTuple
                     {
-                        var underlyingPatchInletWrapper = new PatchInlet_OperatorWrapper(joinItem.UnderlyingPatchInlet);
+                        Inlet = inlet
+                    };
 
-                        var tuple = new AutoPatchTuple
-                        {
-                            UnderlyingPatch = underlyingPatch,
-                            CustomOperatorWrapper = customOperatorWrapper,
-                            UnderlyingPatchInletWrapper = underlyingPatchInletWrapper,
-                            CustomOperatorInlet = joinItem.CustomOperatorInlet
-                        };
-
-                        tuples.Add(tuple);
-                    }
+                    tuples.Add(tuple);
                 }
 
-
-                // Outlets
+                foreach (Outlet outlet in customOperatorWrapper.Outlets)
                 {
-                    var joined = from customOperatorOutlet in customOperatorWrapper.Outlets
-                                 join underlyingPatchOutlet in underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                 on customOperatorOutlet.Name equals underlyingPatchOutlet.Name
-                                 select new { CustomOperatorOutlet = customOperatorOutlet, UnderlyingPatchOutlet = underlyingPatchOutlet };
-
-                    foreach (var joinItem in joined)
+                    var tuple = new AutoPatchTuple
                     {
-                        var underlyingPatchOutletWrapper = new PatchOutlet_OperatorWrapper(joinItem.UnderlyingPatchOutlet);
+                        Outlet = outlet
+                    };
 
-                        var tuple = new AutoPatchTuple
-                        {
-                            UnderlyingPatch = underlyingPatch,
-                            CustomOperatorWrapper = customOperatorWrapper,
-                            UnderlyingPatchOutletWrapper = underlyingPatchOutletWrapper,
-                            CustomOperatorOutlet = joinItem.CustomOperatorOutlet
-                        };
-
-                        tuples.Add(tuple);
-                    }
+                    tuples.Add(tuple);
                 }
             }
 
             return tuples;
         }
 
-        private bool AutoPatchTuplesAreMatch(AutoPatchTuple outletTuple, AutoPatchTuple inletTuple)
+        private bool AreMatch(Outlet outlet, Inlet inlet)
         {
-            if (outletTuple.CustomOperatorOutlet == null)
+            if (outlet == null)
             {
                 return false;
             }
 
-            if (inletTuple.CustomOperatorInlet == null)
+            if (inlet == null)
             {
                 return false;
             }
 
             // First match by OutletType / InletType.
-            OutletTypeEnum outletTypeEnum = outletTuple.UnderlyingPatchOutletWrapper.OutletTypeEnum;
+            OutletTypeEnum outletTypeEnum = outlet.GetOutletTypeEnum();
             if (outletTypeEnum != OutletTypeEnum.Undefined)
             {
-                InletTypeEnum inletTypeEnum = inletTuple.UnderlyingPatchInletWrapper.InletTypeEnum;
+                InletTypeEnum inletTypeEnum = inlet.GetInletTypeEnum();
                 if (inletTypeEnum != InletTypeEnum.Undefined)
                 {
                     string outletTypeString = outletTypeEnum.ToString();
@@ -239,17 +206,12 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             // Then match by name
-            if (String.Equals(outletTuple.CustomOperatorOutlet.Name, inletTuple.CustomOperatorInlet.Name))
+            if (String.Equals(outlet.Name, inlet.Name))
             {
                 return true;
             }
 
-            // I doubt this will lead to the desired result:
-            // Then match by list index
-            //if (outletTuple.CustomOperatorOutlet.ListIndex == inletTuple.CustomOperatorInlet.ListIndex)
-            //{
-            //    return true;
-            //}
+            // Do not match by list index, because that would result in something arbitrary.
 
             return false;
         }
