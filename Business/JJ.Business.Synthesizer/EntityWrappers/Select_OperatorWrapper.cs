@@ -12,19 +12,19 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return GetInlet(OperatorConstants.SELECT_SIGNAL_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.SELECT_SIGNAL_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.SELECT_SIGNAL_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.SELECT_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet Time
         {
-            get { return GetInlet(OperatorConstants.SELECT_TIME_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.SELECT_TIME_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.SELECT_TIME_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.SELECT_TIME_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants.SELECT_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.SELECT_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(Select_OperatorWrapper wrapper)

@@ -131,6 +131,7 @@
     <Compile Include="Helpers\CurveRepositories.cs" />
     <Compile Include="Helpers\OperatorConstants.cs" />
     <Compile Include="Helpers\OperatorDataParser.cs" />
+    <Compile Include="Helpers\OperatorHelper.cs" />
     <Compile Include="Helpers\PatchRepositories.cs" />
     <Compile Include="Helpers\SampleInfo.cs" />
     <Compile Include="Helpers\ScaleRepositories.cs" />

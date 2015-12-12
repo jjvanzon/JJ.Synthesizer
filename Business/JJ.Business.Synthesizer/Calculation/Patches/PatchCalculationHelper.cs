@@ -50,13 +50,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                 var underlyingPatchInletWrapper = new PatchInlet_OperatorWrapper(underlyingPatchInlet);
                 underlyingPatchInletWrapper.Input = customOperatorInlet.InputOutlet;
-                //underlyingPatchInletWrapper.Input = customOperatorInlet.InputOutlet;
-
-                //// Dirty: the wraper does not have the possibility to get the Inlet, just the InputOutlets.
-                //// This is on top of the already dirty solution that a patch inlet has 1 hidden inlet,
-                //// that we 'misuse' in calculations
-                underlyingPatchInlet.Inlets[0].DefaultValue = underlyingPatchInletWrapper.DefaultValue;
-                //underlyingPatchInletWrapper.InputInlet.DefaultValue = underlyingPatchInletWrapper.DefaultValue;
+                underlyingPatchInletWrapper.InputInlet.DefaultValue = underlyingPatchInletWrapper.DefaultValue;
             }
 
             // Use the (custom operator's) outlet name and look it up in the Underlying Patch's outlets.

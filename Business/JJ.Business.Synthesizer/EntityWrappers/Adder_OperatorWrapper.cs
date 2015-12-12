@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants.ADDER_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.ADDER_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(Adder_OperatorWrapper wrapper)

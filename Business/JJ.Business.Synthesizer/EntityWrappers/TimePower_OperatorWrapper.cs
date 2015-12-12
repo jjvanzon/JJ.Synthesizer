@@ -12,25 +12,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return GetInlet(OperatorConstants.TIME_POWER_SIGNAL_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.TIME_POWER_SIGNAL_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_SIGNAL_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet Exponent
         {
-            get { return GetInlet(OperatorConstants.TIME_POWER_EXPONENT_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.TIME_POWER_EXPONENT_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_EXPONENT_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_EXPONENT_INDEX).LinkTo(value); }
         }
 
         public Outlet Origin
         {
-            get { return GetInlet(OperatorConstants.TIME_POWER_ORIGIN_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.TIME_POWER_ORIGIN_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_ORIGIN_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_ORIGIN_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants.TIME_POWER_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.TIME_POWER_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(TimePower_OperatorWrapper wrapper)

@@ -12,25 +12,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return GetInlet(OperatorConstants.SLOW_DOWN_SIGNAL_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.SLOW_DOWN_SIGNAL_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.SLOW_DOWN_SIGNAL_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.SLOW_DOWN_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet TimeMultiplier
         {
-            get { return GetInlet(OperatorConstants.SLOW_DOWN_TIME_MULTIPLIER_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.SLOW_DOWN_TIME_MULTIPLIER_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.SLOW_DOWN_TIME_MULTIPLIER_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.SLOW_DOWN_TIME_MULTIPLIER_INDEX).LinkTo(value); }
         }
 
         public Outlet Origin
         {
-            get { return GetInlet(OperatorConstants.SLOW_DOWN_ORIGIN_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.SLOW_DOWN_ORIGIN_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.SLOW_DOWN_ORIGIN_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.SLOW_DOWN_ORIGIN_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants.SLOW_DOWN_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.SLOW_DOWN_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(SlowDown_OperatorWrapper wrapper)

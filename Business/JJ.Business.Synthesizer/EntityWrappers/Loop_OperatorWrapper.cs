@@ -13,43 +13,43 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return GetInlet(OperatorConstants.LOOP_SIGNAL_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.LOOP_SIGNAL_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.LOOP_SIGNAL_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.LOOP_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet Attack
         {
-            get { return GetInlet(OperatorConstants.LOOP_ATTACK_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.LOOP_ATTACK_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.LOOP_ATTACK_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.LOOP_ATTACK_INDEX).LinkTo(value); }
         }
 
         public Outlet Start
         {
-            get { return GetInlet(OperatorConstants.LOOP_START_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.LOOP_START_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.LOOP_START_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.LOOP_START_INDEX).LinkTo(value); }
         }
 
         public Outlet Sustain
         {
-            get { return GetInlet(OperatorConstants.LOOP_SUSTAIN_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.LOOP_SUSTAIN_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.LOOP_SUSTAIN_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.LOOP_SUSTAIN_INDEX).LinkTo(value); }
         }
 
         public Outlet End
         {
-            get { return GetInlet(OperatorConstants.LOOP_END_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.LOOP_END_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.LOOP_END_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.LOOP_END_INDEX).LinkTo(value); }
         }
 
         public Outlet Release
         {
-            get { return GetInlet(OperatorConstants.LOOP_RELEASE_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.LOOP_RELEASE_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.LOOP_RELEASE_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.LOOP_RELEASE_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants.LOOP_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.LOOP_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(Loop_OperatorWrapper wrapper)

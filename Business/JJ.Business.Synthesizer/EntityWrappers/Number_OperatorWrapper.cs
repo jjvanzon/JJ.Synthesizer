@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants.NUMBER_OPERATOR_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.NUMBER_OPERATOR_RESULT_INDEX); }
         }
 
         public double Number

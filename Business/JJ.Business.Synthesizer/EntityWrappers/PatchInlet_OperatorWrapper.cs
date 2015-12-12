@@ -20,12 +20,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet InputInlet
         {
-            get { return GetInlet(OperatorConstants.PATCH_INLET_INPUT_INDEX); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.PATCH_INLET_INPUT_INDEX); }
         }
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants.PATCH_INLET_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.PATCH_INLET_RESULT_INDEX); }
         }
 
         public int? ListIndex

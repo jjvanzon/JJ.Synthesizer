@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -17,29 +18,28 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Inlet this[string name]
         {
-            get { return _operator.Inlets.Single(x => String.Equals(x.Name, name)); }
+            get { return OperatorHelper.GetInlet(_operator, name); }
         }
 
         /// <summary> not fast </summary>
         public Inlet this[int index]
         {
-            get { return _operator.Inlets.OrderBy(x => x.ListIndex).ElementAt(index); }
+            get { return OperatorHelper.GetInlet(_operator, index); }
         }
 
-        // TODO: Sort in these enumerators, because otherwise there will be inconsistency between these and the indexer.
         public IEnumerator<Inlet> GetEnumerator()
         {
-            for (int i = 0; i < _operator.Inlets.Count; i++)
+            foreach (Inlet inlet in OperatorHelper.GetSortedInlets(_operator))
             {
-                yield return _operator.Inlets[i];
+                yield return inlet;
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (int i = 0; i < _operator.Inlets.Count; i++)
+            foreach (Inlet inlet in OperatorHelper.GetSortedInlets(_operator))
             {
-                yield return _operator.Inlets[i];
+                yield return inlet;
             }
         }
     }

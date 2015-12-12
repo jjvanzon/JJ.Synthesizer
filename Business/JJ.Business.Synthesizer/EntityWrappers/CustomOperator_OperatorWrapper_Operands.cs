@@ -3,6 +3,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -17,25 +19,29 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet this[string name]
         {
-            get { return _operator.Inlets.Single(x => String.Equals(x.Name, name)).InputOutlet; }
-            set { _operator.Inlets.Single(x => String.Equals(x.Name, name)).InputOutlet = value; }
+            get { return OperatorHelper.GetInputOutlet(_operator, name); }
+            set { OperatorHelper.GetInlet(_operator, name).LinkTo(value); }
         }
 
-        // TODO: Add indexer by int, sort in it, and also make sure these enumerator return the inlets sorted.
+        public Outlet this[int index]
+        {
+            get { return OperatorHelper.GetInputOutlet(_operator, index); }
+            set { OperatorHelper.GetInlet(_operator, index).LinkTo(value); }
+        }
 
         public IEnumerator<Outlet> GetEnumerator()
         {
-            for (int i = 0; i < _operator.Inlets.Count; i++)
+            foreach (Outlet outlet in OperatorHelper.GetSortedInputOutlets(_operator))
             {
-                yield return _operator.Inlets[i].InputOutlet;
+                yield return outlet;
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (int i = 0; i < _operator.Inlets.Count; i++)
+            foreach (Outlet outlet in OperatorHelper.GetSortedInputOutlets(_operator))
             {
-                yield return _operator.Inlets[i].InputOutlet;
+                yield return outlet;
             }
         }
     }

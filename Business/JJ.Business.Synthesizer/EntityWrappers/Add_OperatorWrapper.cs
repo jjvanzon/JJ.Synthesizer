@@ -12,19 +12,19 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet OperandA
         {
-            get { return GetInlet(OperatorConstants.ADD_OPERAND_A_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.ADD_OPERAND_A_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.ADD_OPERAND_A_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.ADD_OPERAND_A_INDEX).LinkTo(value); }
         }
 
         public Outlet OperandB
         {
-            get { return GetInlet(OperatorConstants.ADD_OPERAND_B_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.ADD_OPERAND_B_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.ADD_OPERAND_B_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.ADD_OPERAND_B_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants.ADD_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.ADD_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(Add_OperatorWrapper wrapper)

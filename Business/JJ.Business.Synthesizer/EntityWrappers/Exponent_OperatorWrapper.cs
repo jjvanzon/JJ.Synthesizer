@@ -12,25 +12,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Low
         {
-            get { return GetInlet(OperatorConstants.EXPONENT_LOW_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.EXPONENT_LOW_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.EXPONENT_LOW_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.EXPONENT_LOW_INDEX).LinkTo(value); }
         }
 
         public Outlet High
         {
-            get { return GetInlet(OperatorConstants.EXPONENT_HIGH_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.EXPONENT_HIGH_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.EXPONENT_HIGH_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.EXPONENT_HIGH_INDEX).LinkTo(value); }
         }
 
         public Outlet Ratio
         {
-            get { return GetInlet(OperatorConstants.EXPONENT_RATIO_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.EXPONENT_RATIO_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.EXPONENT_RATIO_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.EXPONENT_RATIO_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants.EXPONENT_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.EXPONENT_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(Exponent_OperatorWrapper wrapper)

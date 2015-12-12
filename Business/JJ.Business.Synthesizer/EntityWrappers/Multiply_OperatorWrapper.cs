@@ -12,25 +12,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet OperandA
         {
-            get { return GetInlet(OperatorConstants.MULTIPLY_OPERAND_A_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.MULTIPLY_OPERAND_A_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.MULTIPLY_OPERAND_A_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.MULTIPLY_OPERAND_A_INDEX).LinkTo(value); }
         }
 
         public Outlet OperandB
         {
-            get { return GetInlet(OperatorConstants.MULTIPLY_OPERAND_B_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.MULTIPLY_OPERAND_B_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.MULTIPLY_OPERAND_B_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.MULTIPLY_OPERAND_B_INDEX).LinkTo(value); }
         }
 
         public Outlet Origin
         {
-            get { return GetInlet(OperatorConstants.MULTIPLY_ORIGIN_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.MULTIPLY_ORIGIN_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.MULTIPLY_ORIGIN_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.MULTIPLY_ORIGIN_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants.MULTIPLY_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.MULTIPLY_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(Multiply_OperatorWrapper wrapper)

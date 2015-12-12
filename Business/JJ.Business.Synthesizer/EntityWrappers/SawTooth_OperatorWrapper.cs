@@ -12,19 +12,19 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Frequency
         {
-            get { return GetInlet(OperatorConstants.SAW_TOOTH_FREQUENCY_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.SAW_TOOTH_FREQUENCY_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.SAW_TOOTH_FREQUENCY_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.SAW_TOOTH_FREQUENCY_INDEX).LinkTo(value); }
         }
 
         public Outlet PhaseShift
         {
-            get { return GetInlet(OperatorConstants.SAW_TOOTH_PHASE_SHIFT_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.SAW_TOOTH_PHASE_SHIFT_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.SAW_TOOTH_PHASE_SHIFT_INDEX).InputOutlet; }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.SAW_TOOTH_PHASE_SHIFT_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants.SAW_TOOTH_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.SAW_TOOTH_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(SawTooth_OperatorWrapper wrapper)

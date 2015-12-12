@@ -13,8 +13,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         // Original:
         public Outlet Frequency
         {
-            get { return GetInlet(OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX); }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX).LinkTo(value); }
         }
 
         // Tryout 1:
@@ -26,25 +26,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         //public Inlet FrequencyInlet
         //{
-        //    get { return GetInlet(OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX); }
+        //    get { return OperatorHelper.GetInlet(_operator, OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX); }
         //}
 
         // Tryout 2:
         //public Outlet Frequency
         //{
         //    get { return GetInputOutletOrDefault(OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX); }
-        //    set { GetInlet(OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX).LinkTo(value); }
+        //    set { OperatorHelper.GetInlet(_operator, OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX).LinkTo(value); }
         //}
 
         public Outlet PhaseShift
         {
-            get { return GetInlet(OperatorConstants.TRIANGLE_WAVE_PHASE_SHIFT_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.TRIANGLE_WAVE_PHASE_SHIFT_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.TRIANGLE_WAVE_PHASE_SHIFT_INDEX); }
+            set { OperatorHelper.GetInlet(_operator, OperatorConstants.TRIANGLE_WAVE_PHASE_SHIFT_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return GetOutlet(OperatorConstants.TRIANGLE_WAVE_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.TRIANGLE_WAVE_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(TriangleWave_OperatorWrapper wrapper)
