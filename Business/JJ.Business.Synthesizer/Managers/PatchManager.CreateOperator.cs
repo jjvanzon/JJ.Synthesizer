@@ -11,7 +11,6 @@ using JJ.Business.Synthesizer.Extensions;
 using System.Reflection;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
-using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Managers
 {

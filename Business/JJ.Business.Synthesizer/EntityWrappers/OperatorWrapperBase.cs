@@ -3,6 +3,8 @@ using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -48,6 +50,29 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             return sortedOutlets[index];
         }
 
+        /// <summary>
+        /// Gets the input outlet of a specific inlet.
+        /// If it is null, and the inlet has a default value, a fake Number Operator is created and its outlet returned.
+        /// If the inlet has no default value either, null is returned.
+        /// </summary>
+        protected Outlet GetInputOutletOrDefault(int index)
+        {
+            Inlet inlet = GetInlet(index);
+
+            if (inlet.InputOutlet != null)
+            {
+                return inlet.InputOutlet;
+            }
+
+            if (inlet.DefaultValue.HasValue)
+            {
+                Number_OperatorWrapper dummyNumberOperator = CreateDummyNumberOperator(inlet.DefaultValue.Value);
+                return dummyNumberOperator.Result;
+            }
+
+            return null;
+        }
+
         public static implicit operator Operator(OperatorWrapperBase wrapper)
         {
             if (wrapper == null) return null;
@@ -67,6 +92,24 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             IList<Outlet> sortedOutlets = _operator.Outlets.OrderBy(x => x.ListIndex).ToArray();
             return sortedOutlets;
+        }
+
+        private Number_OperatorWrapper CreateDummyNumberOperator(double number)
+        {
+            var operatorType = new OperatorType();
+            operatorType.ID = (int)OperatorTypeEnum.Number;
+            operatorType.Name = OperatorTypeEnum.Number.ToString();
+
+            var op = new Operator();
+            op.LinkTo(operatorType);
+
+            var outlet = new Outlet();
+            outlet.LinkTo(op);
+
+            var wrapper = new Number_OperatorWrapper(op);
+            wrapper.Number = number;
+
+            return wrapper;
         }
     }
 }

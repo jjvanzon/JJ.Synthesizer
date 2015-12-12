@@ -1153,14 +1153,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        /// <summary>
-        /// Overridden to push null-inlets.
-        /// </summary>
+        /// <summary> Overridden to push null-inlets. </summary>
         protected override void VisitInlet(Inlet inlet)
         {
             if (inlet.InputOutlet == null)
             {
-                _stack.Push(null);
+                if (inlet.DefaultValue.HasValue)
+                {
+                    _stack.Push(new Number_OperatorCalculator(inlet.DefaultValue.Value));
+                }
+                else
+                {
+                    _stack.Push(null);
+                }
             }
 
             base.VisitInlet(inlet);

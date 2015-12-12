@@ -14,8 +14,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Input
         {
-            get { return GetInlet(OperatorConstants.PATCH_INLET_INPUT_INDEX).InputOutlet; }
-            set { GetInlet(OperatorConstants.PATCH_INLET_INPUT_INDEX).LinkTo(value); }
+            get { return InputInlet.InputOutlet; }
+            set { InputInlet.LinkTo(value); }
+        }
+
+        public Inlet InputInlet
+        {
+            get { return GetInlet(OperatorConstants.PATCH_INLET_INPUT_INDEX); }
         }
 
         public Outlet Result
