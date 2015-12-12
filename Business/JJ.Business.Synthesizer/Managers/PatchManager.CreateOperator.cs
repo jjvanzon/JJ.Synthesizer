@@ -168,8 +168,15 @@ namespace JJ.Business.Synthesizer.Managers
                 var inlet = new Inlet();
                 inlet.ID = _repositories.IDRepository.GetID();
                 inlet.Name = patchInlet.Name;
-                if (!patchInletWrapper.ListIndex.HasValue) throw new NullException(() => patchInletWrapper.ListIndex);
+                inlet.DefaultValue = patchInletWrapper.DefaultValue;
+                inlet.SetInletTypeEnum(patchInletWrapper.InletTypeEnum, _repositories.InletTypeRepository);
+
+                if (!patchInletWrapper.ListIndex.HasValue)
+                {
+                    throw new NullException(() => patchInletWrapper.ListIndex);
+                }
                 inlet.ListIndex = patchInletWrapper.ListIndex.Value;
+
                 inlet.LinkTo(op);
                 _repositories.InletRepository.Insert(inlet);
             }
@@ -181,8 +188,14 @@ namespace JJ.Business.Synthesizer.Managers
                 var outlet = new Outlet();
                 outlet.ID = _repositories.IDRepository.GetID();
                 outlet.Name = patchOutlet.Name;
-                if (!patchOutletWrapper.ListIndex.HasValue) throw new NullException(() => patchOutletWrapper.ListIndex);
+                outlet.SetOutletTypeEnum(patchOutletWrapper.OutletTypeEnum, _repositories.OutletTypeRepository);
+
+                if (!patchOutletWrapper.ListIndex.HasValue)
+                {
+                    throw new NullException(() => patchOutletWrapper.ListIndex);
+                }
                 outlet.ListIndex = patchOutletWrapper.ListIndex.Value;
+
                 outlet.LinkTo(op);
                 _repositories.OutletRepository.Insert(outlet);
             }
