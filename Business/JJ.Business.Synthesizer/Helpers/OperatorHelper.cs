@@ -21,11 +21,6 @@ namespace JJ.Business.Synthesizer.Helpers
             return sortedInlets;
         }
 
-        internal static object GetInlet(int aDD_OPERAND_A_INDEX)
-        {
-            throw new NotImplementedException();
-        }
-
         public static IList<Outlet> GetSortedOutlets(Operator op)
         {
             if (op == null) throw new NullException(() => op);

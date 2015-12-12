@@ -12,13 +12,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet OperandA
         {
-            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.ADD_OPERAND_A_INDEX).InputOutlet; }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.ADD_OPERAND_A_INDEX); }
             set { OperatorHelper.GetInlet(_operator, OperatorConstants.ADD_OPERAND_A_INDEX).LinkTo(value); }
         }
 
         public Outlet OperandB
         {
-            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.ADD_OPERAND_B_INDEX).InputOutlet; }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.ADD_OPERAND_B_INDEX); }
             set { OperatorHelper.GetInlet(_operator, OperatorConstants.ADD_OPERAND_B_INDEX).LinkTo(value); }
         }
 

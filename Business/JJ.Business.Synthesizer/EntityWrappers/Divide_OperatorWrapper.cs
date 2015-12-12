@@ -12,19 +12,19 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Numerator
         {
-            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.DIVIDE_NUMERATOR_INDEX).InputOutlet; }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.DIVIDE_NUMERATOR_INDEX); }
             set { OperatorHelper.GetInlet(_operator, OperatorConstants.DIVIDE_NUMERATOR_INDEX).LinkTo(value); }
         }
 
         public Outlet Denominator
         {
-            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.DIVIDE_DENOMINATOR_INDEX).InputOutlet; }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.DIVIDE_DENOMINATOR_INDEX); }
             set { OperatorHelper.GetInlet(_operator, OperatorConstants.DIVIDE_DENOMINATOR_INDEX).LinkTo(value); }
         }
 
         public Outlet Origin
         {
-            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.DIVIDE_ORIGIN_INDEX).InputOutlet; }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.DIVIDE_ORIGIN_INDEX); }
             set { OperatorHelper.GetInlet(_operator, OperatorConstants.DIVIDE_ORIGIN_INDEX).LinkTo(value); }
         }
 

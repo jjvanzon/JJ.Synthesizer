@@ -12,13 +12,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.SELECT_SIGNAL_INDEX).InputOutlet; }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.SELECT_SIGNAL_INDEX); }
             set { OperatorHelper.GetInlet(_operator, OperatorConstants.SELECT_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet Time
         {
-            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.SELECT_TIME_INDEX).InputOutlet; }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.SELECT_TIME_INDEX); }
             set { OperatorHelper.GetInlet(_operator, OperatorConstants.SELECT_TIME_INDEX).LinkTo(value); }
         }
 

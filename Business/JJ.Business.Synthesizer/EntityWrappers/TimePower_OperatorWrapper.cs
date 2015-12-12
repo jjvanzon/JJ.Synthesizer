@@ -12,19 +12,19 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_SIGNAL_INDEX).InputOutlet; }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.TIME_POWER_SIGNAL_INDEX); }
             set { OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet Exponent
         {
-            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_EXPONENT_INDEX).InputOutlet; }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.TIME_POWER_EXPONENT_INDEX); }
             set { OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_EXPONENT_INDEX).LinkTo(value); }
         }
 
         public Outlet Origin
         {
-            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_ORIGIN_INDEX).InputOutlet; }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.TIME_POWER_ORIGIN_INDEX); }
             set { OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_ORIGIN_INDEX).LinkTo(value); }
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
@@ -49,8 +50,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 Inlet customOperatorInlet = tuple.CustomOperatorInlet;
 
                 var underlyingPatchInletWrapper = new PatchInlet_OperatorWrapper(underlyingPatchInlet);
-                underlyingPatchInletWrapper.Input = customOperatorInlet.InputOutlet;
-                underlyingPatchInletWrapper.InputInlet.DefaultValue = underlyingPatchInletWrapper.DefaultValue;
+                Inlet patchInlet_InputInlet = OperatorHelper.GetInlet(underlyingPatchInlet, OperatorConstants.PATCH_INLET_INPUT_INDEX);
+                patchInlet_InputInlet.DefaultValue = underlyingPatchInletWrapper.DefaultValue;
+                patchInlet_InputInlet.InputOutlet = customOperatorInlet.InputOutlet;
             }
 
             // Use the (custom operator's) outlet name and look it up in the Underlying Patch's outlets.

@@ -10,31 +10,11 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             : base(op)
         { }
 
-        // Original:
         public Outlet Frequency
         {
             get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX); }
             set { OperatorHelper.GetInlet(_operator, OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX).LinkTo(value); }
         }
-
-        // Tryout 1:
-        //public Outlet Frequency
-        //{
-        //    get { return FrequencyInlet.InputOutlet; }
-        //    set { FrequencyInlet.LinkTo(value); }
-        //}
-
-        //public Inlet FrequencyInlet
-        //{
-        //    get { return OperatorHelper.GetInlet(_operator, OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX); }
-        //}
-
-        // Tryout 2:
-        //public Outlet Frequency
-        //{
-        //    get { return GetInputOutletOrDefault(OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX); }
-        //    set { OperatorHelper.GetInlet(_operator, OperatorConstants.TRIANGLE_WAVE_FREQUENCY_INDEX).LinkTo(value); }
-        //}
 
         public Outlet PhaseShift
         {

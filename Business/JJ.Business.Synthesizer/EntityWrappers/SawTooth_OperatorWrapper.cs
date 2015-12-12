@@ -12,13 +12,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Frequency
         {
-            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.SAW_TOOTH_FREQUENCY_INDEX).InputOutlet; }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.SAW_TOOTH_FREQUENCY_INDEX); }
             set { OperatorHelper.GetInlet(_operator, OperatorConstants.SAW_TOOTH_FREQUENCY_INDEX).LinkTo(value); }
         }
 
         public Outlet PhaseShift
         {
-            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.SAW_TOOTH_PHASE_SHIFT_INDEX).InputOutlet; }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.SAW_TOOTH_PHASE_SHIFT_INDEX); }
             set { OperatorHelper.GetInlet(_operator, OperatorConstants.SAW_TOOTH_PHASE_SHIFT_INDEX).LinkTo(value); }
         }
 

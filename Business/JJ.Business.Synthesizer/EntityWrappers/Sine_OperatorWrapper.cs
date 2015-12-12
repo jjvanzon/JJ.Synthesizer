@@ -18,7 +18,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet PhaseShift
         {
-            get { return OperatorHelper.GetInlet(_operator, OperatorConstants.SINE_PHASE_SHIFT_INDEX).InputOutlet; }
+            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.SINE_PHASE_SHIFT_INDEX); }
             set { OperatorHelper.GetInlet(_operator, OperatorConstants.SINE_PHASE_SHIFT_INDEX).LinkTo(value); }
         }
 
