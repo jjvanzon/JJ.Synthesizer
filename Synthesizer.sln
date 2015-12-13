@@ -89,6 +89,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.OneOff.Synthesizer.DataM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Demos.Misc", "Demos\JJ.Demos.Misc\JJ.Demos.Misc.csproj", "{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Infrastructure.Synthesizer", "Infrastructure\JJ.Infrastructure.Synthesizer\JJ.Infrastructure.Synthesizer.csproj", "{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -924,6 +926,30 @@ Global
 		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Release|x64.Build.0 = Release|Any CPU
 		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Release|x86.ActiveCfg = Release|Any CPU
 		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}.Release|x86.Build.0 = Release|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Debug|x64.Build.0 = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Debug|x86.Build.0 = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.NPDebug|Any CPU.Build.0 = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.NPDebug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.NPDebug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.NPDebug|x64.ActiveCfg = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.NPDebug|x64.Build.0 = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.NPDebug|x86.ActiveCfg = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.NPDebug|x86.Build.0 = Debug|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Release|x64.ActiveCfg = Release|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Release|x64.Build.0 = Release|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Release|x86.ActiveCfg = Release|Any CPU
+		{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -960,7 +986,7 @@ Global
 		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 43
+		SccNumberOfProjects = 44
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://jjs-server:8080/tfs/defaultcollection
 		SccLocalPath0 = .
@@ -1119,5 +1145,8 @@ Global
 		SccProjectTopLevelParentUniqueName42 = Synthesizer.sln
 		SccProjectName42 = Demos/JJ.Demos.Misc
 		SccLocalPath42 = Demos\\JJ.Demos.Misc
+		SccProjectUniqueName43 = Infrastructure\\JJ.Infrastructure.Synthesizer\\JJ.Infrastructure.Synthesizer.csproj
+		SccProjectName43 = Infrastructure/JJ.Infrastructure.Synthesizer
+		SccLocalPath43 = Infrastructure\\JJ.Infrastructure.Synthesizer
 	EndGlobalSection
 EndGlobal
