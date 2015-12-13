@@ -91,10 +91,11 @@ namespace JJ.Business.Synthesizer.Managers
 
             CreatePatch();
 
+            // TODO: Tuples might not really be necessary anymore.
             IList<AutoPatchTuple> tuples = GetAutoPatchTuples(underlyingPatches);
 
-            var matchedInletTuples = new List<AutoPatchTuple>(tuples.Count);
-            var matchedOutletTuples = new List<AutoPatchTuple>(tuples.Count);
+            var matchedInlets = new List<Inlet>(tuples.Count);
+            var matchedOutlets = new List<Outlet>(tuples.Count);
 
             for (int i = 0; i < tuples.Count; i++)
             {
@@ -107,38 +108,41 @@ namespace JJ.Business.Synthesizer.Managers
                     {
                         inletTuple.Inlet.InputOutlet = outletTuple.Outlet;
 
-                        matchedInletTuples.Add(inletTuple);
-                        matchedOutletTuples.Add(outletTuple);
+                        matchedInlets.Add(inletTuple.Inlet);
+                        matchedOutlets.Add(outletTuple.Outlet);
                     }
                 }
             }
 
             // Unmatched inlets of the custom operators become inlets of the new patch.
-            IEnumerable<AutoPatchTuple> unmatchedInletTuples = tuples.Where(x => x.Inlet != null)
-                                                                     .Except(matchedInletTuples);
+            IEnumerable<Inlet> unmatchedInlets = tuples.Where(x => x.Inlet != null)
+                                                       .Select(x => x.Inlet)
+                                                       .Except(matchedInlets);
 
-            foreach (AutoPatchTuple unmatchedInletTuple in unmatchedInletTuples)
+            foreach (Inlet unmatchedInlet in unmatchedInlets)
             {
                 var patchInlet = PatchInlet();
-                patchInlet.Name = unmatchedInletTuple.Inlet.Name;
-                patchInlet.ListIndex = unmatchedInletTuple.Inlet.ListIndex;
-                patchInlet.InletTypeEnum = unmatchedInletTuple.Inlet.GetInletTypeEnum();
-                patchInlet.DefaultValue = unmatchedInletTuple.Inlet.DefaultValue;
+                patchInlet.Name = unmatchedInlet.Name;
+                patchInlet.ListIndex = unmatchedInlet.ListIndex;
+                patchInlet.InletTypeEnum = unmatchedInlet.GetInletTypeEnum();
+                patchInlet.DefaultValue = unmatchedInlet.DefaultValue;
 
-                unmatchedInletTuple.Inlet.InputOutlet = patchInlet;
+                unmatchedInlet.InputOutlet = patchInlet;
             }
 
             // Unmatched outlets of the custom operators become outlets of the new patch.
-            IEnumerable<AutoPatchTuple> unmatchedOutletTuples = tuples.Where(x => x.Outlet != null)
-                                                                      .Except(matchedOutletTuples);
-            foreach (AutoPatchTuple unmatchedOutletTuple in unmatchedOutletTuples)
+            IEnumerable<Outlet> unmatchedOutlets = tuples.Where(x => x.Outlet != null)
+                                                         .Select(x => x.Outlet)
+                                                         .Except(matchedOutlets);
+
+            foreach (Outlet unmatchedOutlet in unmatchedOutlets)
             {
                 var patchOutlet = PatchOutlet();
-                patchOutlet.Name = unmatchedOutletTuple.Outlet.Name;
-                patchOutlet.ListIndex = unmatchedOutletTuple.Outlet.ListIndex;
-                patchOutlet.OutletTypeEnum = unmatchedOutletTuple.Outlet.GetOutletTypeEnum();
+                patchOutlet.Name = unmatchedOutlet.Name;
+                patchOutlet.ListIndex = unmatchedOutlet.ListIndex;
+                patchOutlet.OutletTypeEnum = unmatchedOutlet.GetOutletTypeEnum();
 
-                patchOutlet.Input = unmatchedOutletTuple.Outlet;
+                patchOutlet.Input = unmatchedOutlet;
             }
 
             // TODO: If there is overlap in type or name, they will merge to a single inlet or outlet.
