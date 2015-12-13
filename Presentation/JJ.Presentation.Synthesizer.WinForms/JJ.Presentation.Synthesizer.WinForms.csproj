@@ -429,6 +429,9 @@
     <None Include="Config\Dev Local\App.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Config\Dev Memory\App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Config\Dev Remote\App.config">
       <SubType>Designer</SubType>
     </None>
