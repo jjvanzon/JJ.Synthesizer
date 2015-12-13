@@ -696,7 +696,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                Document document = _repositories.DocumentRepository.Get(documentID);
+                //Document document = _repositories.DocumentRepository.Get(documentID);
+                Document document = _repositories.DocumentRepository.GetComplete(documentID);
 
                 ViewModel.Document = document.ToViewModel(_repositories, _entityPositionManager);
 

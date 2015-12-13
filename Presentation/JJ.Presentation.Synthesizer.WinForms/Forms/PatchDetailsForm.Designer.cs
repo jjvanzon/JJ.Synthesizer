@@ -41,7 +41,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             this.patchDetailsUserControl.Location = new System.Drawing.Point(0, 0);
             this.patchDetailsUserControl.Margin = new System.Windows.Forms.Padding(4);
             this.patchDetailsUserControl.Name = "patchDetailsUserControl";
-            this.patchDetailsUserControl.Size = new System.Drawing.Size(284, 262);
+            this.patchDetailsUserControl.Size = new System.Drawing.Size(1052, 610);
             this.patchDetailsUserControl.TabIndex = 1;
             this.patchDetailsUserControl.CloseRequested += new System.EventHandler(this.patchDetailsUserControl_CloseRequested);
             // 
@@ -49,7 +49,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(1052, 610);
             this.Controls.Add(this.patchDetailsUserControl);
             this.Name = "PatchDetailsForm";
             this.Text = "PatchDetailsForm";

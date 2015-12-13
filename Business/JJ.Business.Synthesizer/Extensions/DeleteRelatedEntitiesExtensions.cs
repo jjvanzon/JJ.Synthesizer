@@ -36,50 +36,57 @@ namespace JJ.Business.Synthesizer.Extensions
             }
         }
 
-        public static void DeleteRelatedEntities(this Document document, RepositoryWrapper repositoryWrapper)
+        public static void DeleteRelatedEntities(this Document document, RepositoryWrapper repositories)
         {
             if (document == null) throw new NullException(() => document);
-            if (repositoryWrapper == null) throw new NullException(() => repositoryWrapper);
+            if (repositories == null) throw new NullException(() => repositories);
 
             foreach (Document childDocument in document.ChildDocuments.ToArray())
             {
                 // Recursive call
-                childDocument.DeleteRelatedEntities(repositoryWrapper);
+                childDocument.DeleteRelatedEntities(repositories);
                 childDocument.UnlinkRelatedEntities();
-                repositoryWrapper.DocumentRepository.Delete(childDocument);
+                repositories.DocumentRepository.Delete(childDocument);
+            }
+
+            foreach (Patch patch in document.Patches.ToArray())
+            {
+                patch.DeleteRelatedEntities(repositories.OperatorRepository, repositories.InletRepository, repositories.OutletRepository, repositories.EntityPositionRepository);
+                patch.UnlinkRelatedEntities();
+                repositories.PatchRepository.Delete(patch);
+            }
+
+            foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs.ToArray())
+            {
+                audioFileOutput.DeleteRelatedEntities(repositories.AudioFileOutputChannelRepository);
+                audioFileOutput.UnlinkRelatedEntities();
+                repositories.AudioFileOutputRepository.Delete(audioFileOutput);
             }
 
             foreach (Curve curve in document.Curves.ToArray())
             {
-                curve.DeleteRelatedEntities(repositoryWrapper.NodeRepository);
+                curve.DeleteRelatedEntities(repositories.NodeRepository);
                 curve.UnlinkRelatedEntities();
-                repositoryWrapper.CurveRepository.Delete(curve);
+                repositories.CurveRepository.Delete(curve);
             }
 
             foreach (Sample sample in document.Samples.ToArray())
             {
                 sample.UnlinkRelatedEntities();
-                repositoryWrapper.SampleRepository.Delete(sample);
+                repositories.SampleRepository.Delete(sample);
             }
 
-            foreach (AudioFileOutput audioFileOutput in document.AudioFileOutputs.ToArray())
+            foreach (Scale scale in document.Scales.ToArray())
             {
-                audioFileOutput.DeleteRelatedEntities(repositoryWrapper.AudioFileOutputChannelRepository);
-                audioFileOutput.UnlinkRelatedEntities();
-                repositoryWrapper.AudioFileOutputRepository.Delete(audioFileOutput);
-            }
-
-            foreach (Patch patch in document.Patches.ToArray())
-            {
-                patch.DeleteRelatedEntities(repositoryWrapper.OperatorRepository, repositoryWrapper.InletRepository, repositoryWrapper.OutletRepository, repositoryWrapper.EntityPositionRepository);
-                patch.UnlinkRelatedEntities();
-                repositoryWrapper.PatchRepository.Delete(patch);
+                scale.DeleteRelatedEntities(repositories.ToneRepository);
+                scale.UnlinkRelatedEntities();
+                repositories.ScaleRepository.Delete(scale);
             }
 
             foreach (DocumentReference documentReference in document.DependentOnDocuments.ToArray())
             {
                 documentReference.UnlinkRelatedEntities();
-                repositoryWrapper.DocumentReferenceRepository.Delete(documentReference);
+                repositories.DocumentReferenceRepository.Delete(documentReference);
             }
         }
 
