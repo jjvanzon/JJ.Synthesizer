@@ -6,78 +6,15 @@ using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Managers
 {
     public partial class PatchManager
     {
-        private class AutoPatchTuple
-        {
-            /// <summary> nullable </summary>
-            public Inlet Inlet { get; set; }
-            /// <summary> nullable </summary>
-            public Outlet Outlet { get; set; }
-        }
-
-        /// <summary> Will return null if no Frequency inlet or Signal outlet is found. </summary>
-        public Outlet TryAutoPatch_WithTone(Tone tone, IList<Patch> underlyingPatches)
-        {
-            if (tone == null) throw new NullException(() => tone);
-            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
-
-            // Create a new patch out of the other patches.
-            CustomOperator_OperatorWrapper tempCustomOperator = AutoPatch_ToCustomOperator(underlyingPatches);
-
-            // TODO: InletTypes and OutletTypes do not have to be unique and in that case this method crashes.
-            Inlet inlet = OperatorHelper.TryGetInlet(tempCustomOperator, InletTypeEnum.Frequency);
-            if (inlet != null)
-            {
-                double frequency = tone.GetFrequency();
-                inlet.InputOutlet = Number(frequency);
-
-                Outlet outlet = OperatorHelper.TryGetOutlet(tempCustomOperator, OutletTypeEnum.Signal);
-                return outlet;
-            }
-
-            return null;
-        }
-
-        private CustomOperator_OperatorWrapper AutoPatch_ToCustomOperator(IList<Patch> underlyingPatches)
-        {
-            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
-
-            AutoPatch(underlyingPatches);
-            Patch tempUnderlyingPatch = Patch;
-
-            // Use new patch as custom operator.
-            CreatePatch();
-            var customOperator = CustomOperator(tempUnderlyingPatch);
-
-            return customOperator;
-        }
-
         /// <summary>
-        /// Do a rollback after calling this method to prevent saving the new patch.
         /// Use the Patch property after calling this method.
-        /// Tries to produce a new patch by tying together existing patches,
-        /// trying to match PatchInlet and PatchOutlet operators by:
-        /// 1) InletType.Name and OutletType.Name
-        /// 2) PatchInlet Operator.Name and PatchOutlet Operator.Name.
-        /// The non-matched inlets and outlets will become inlets and outlets of the new patch.
-        /// If there is overlap in type or name, they will merge to a single inlet or outlet.
-        /// </summary>
-        public void AutoPatch(Document document, IList<Patch> underlyingPatches)
-        {
-            if (document == null) throw new NullException(() => document);
-            AutoPatch(underlyingPatches);
-            Patch.LinkTo(document);
-        }
-
-        /// <summary>
         /// Do a rollback after calling this method to prevent saving the new patch.
-        /// Use the Patch property after calling this method.
         /// Tries to produce a new patch by tying together existing patches,
         /// trying to match PatchInlet and PatchOutlet operators by:
         /// 1) InletType.Name and OutletType.Name
@@ -91,34 +28,43 @@ namespace JJ.Business.Synthesizer.Managers
 
             CreatePatch();
 
-            // TODO: Tuples might not really be necessary anymore.
-            IList<AutoPatchTuple> tuples = GetAutoPatchTuples(underlyingPatches);
+            var customOperators = new List<Operator>(underlyingPatches.Count);
 
-            var matchedInlets = new List<Inlet>(tuples.Count);
-            var matchedOutlets = new List<Outlet>(tuples.Count);
-
-            for (int i = 0; i < tuples.Count; i++)
+            foreach (Patch underlyingPatch in underlyingPatches)
             {
-                for (int j = i + 1; j < tuples.Count; j++)
+                var customOperatorWrapper = CustomOperator(underlyingPatch);
+                customOperators.Add(customOperatorWrapper);
+            }
+
+            var matchedOutlets = new List<Outlet>();
+            var matchedInlets = new List<Inlet>();
+
+            for (int i = 0; i < customOperators.Count; i++)
+            {
+                for (int j = i + 1; j < customOperators.Count; j++)
                 {
-                    AutoPatchTuple outletTuple = tuples[i];
-                    AutoPatchTuple inletTuple = tuples[j];
+                    Operator customOperator1 = customOperators[i];
+                    Operator customOperator2 = customOperators[j];
 
-                    if (AreMatch(outletTuple.Outlet, inletTuple.Inlet))
+                    foreach (Outlet outlet in customOperator1.Outlets)
                     {
-                        inletTuple.Inlet.InputOutlet = outletTuple.Outlet;
+                        foreach (Inlet inlet in customOperator2.Inlets)
+                        {
+                            if (AreMatch(outlet, inlet))
+                            {
+                                inlet.InputOutlet = outlet;
 
-                        matchedInlets.Add(inletTuple.Inlet);
-                        matchedOutlets.Add(outletTuple.Outlet);
+                                matchedOutlets.Add(outlet);
+                                matchedInlets.Add(inlet);
+                            }
+                        }
                     }
                 }
             }
 
             // Unmatched inlets of the custom operators become inlets of the new patch.
-            IEnumerable<Inlet> unmatchedInlets = tuples.Where(x => x.Inlet != null)
-                                                       .Select(x => x.Inlet)
-                                                       .Except(matchedInlets);
-
+            IEnumerable<Inlet> unmatchedInlets = customOperators.SelectMany(x => x.Inlets)
+                                                                .Except(matchedInlets);
             foreach (Inlet unmatchedInlet in unmatchedInlets)
             {
                 var patchInlet = PatchInlet();
@@ -131,10 +77,8 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             // Unmatched outlets of the custom operators become outlets of the new patch.
-            IEnumerable<Outlet> unmatchedOutlets = tuples.Where(x => x.Outlet != null)
-                                                         .Select(x => x.Outlet)
-                                                         .Except(matchedOutlets);
-
+            IEnumerable<Outlet> unmatchedOutlets = customOperators.SelectMany(x => x.Outlets)
+                                                                  .Except(matchedOutlets);
             foreach (Outlet unmatchedOutlet in unmatchedOutlets)
             {
                 var patchOutlet = PatchOutlet();
@@ -146,38 +90,6 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             // TODO: If there is overlap in type or name, they will merge to a single inlet or outlet.
-        }
-
-        private IList<AutoPatchTuple> GetAutoPatchTuples(IList<Patch> underlyingPatches)
-        {
-            var tuples = new List<AutoPatchTuple>(underlyingPatches.Count);
-
-            foreach (Patch underlyingPatch in underlyingPatches)
-            {
-                var customOperatorWrapper = CustomOperator(underlyingPatch);
-
-                foreach (Inlet inlet in customOperatorWrapper.Inlets)
-                {
-                    var tuple = new AutoPatchTuple
-                    {
-                        Inlet = inlet
-                    };
-
-                    tuples.Add(tuple);
-                }
-
-                foreach (Outlet outlet in customOperatorWrapper.Outlets)
-                {
-                    var tuple = new AutoPatchTuple
-                    {
-                        Outlet = outlet
-                    };
-
-                    tuples.Add(tuple);
-                }
-            }
-
-            return tuples;
         }
 
         private bool AreMatch(Outlet outlet, Inlet inlet)
@@ -218,6 +130,43 @@ namespace JJ.Business.Synthesizer.Managers
             // Do not match by list index, because that would result in something arbitrary.
 
             return false;
+        }
+
+        /// <summary> Will return null if no Frequency inlet or Signal outlet is found. </summary>
+        public Outlet TryAutoPatch_WithTone(Tone tone, IList<Patch> underlyingPatches)
+        {
+            if (tone == null) throw new NullException(() => tone);
+            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
+
+            // Create a new patch out of the other patches.
+            CustomOperator_OperatorWrapper tempCustomOperator = AutoPatch_ToCustomOperator(underlyingPatches);
+
+            // TODO: InletTypes and OutletTypes do not have to be unique and in that case this method crashes.
+            Inlet inlet = OperatorHelper.TryGetInlet(tempCustomOperator, InletTypeEnum.Frequency);
+            if (inlet != null)
+            {
+                double frequency = tone.GetFrequency();
+                inlet.InputOutlet = Number(frequency);
+
+                Outlet outlet = OperatorHelper.TryGetOutlet(tempCustomOperator, OutletTypeEnum.Signal);
+                return outlet;
+            }
+
+            return null;
+        }
+
+        private CustomOperator_OperatorWrapper AutoPatch_ToCustomOperator(IList<Patch> underlyingPatches)
+        {
+            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
+
+            AutoPatch(underlyingPatches);
+            Patch tempUnderlyingPatch = Patch;
+
+            // Use new patch as custom operator.
+            CreatePatch();
+            var customOperator = CustomOperator(tempUnderlyingPatch);
+
+            return customOperator;
         }
     }
 }
