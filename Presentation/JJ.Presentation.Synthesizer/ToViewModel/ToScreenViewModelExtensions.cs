@@ -227,17 +227,22 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                                                   .ToList();
             // Groupless Patches
             IList<Document> grouplessChildDocuments = document.ChildDocuments.Where(x => String.IsNullOrWhiteSpace(x.GroupName)).ToArray();
-            viewModel.PatchesNode.PatchNodes = grouplessChildDocuments.Select(x => x.ToPatchTreeNodeViewModel()).ToList();
+            viewModel.PatchesNode.PatchNodes = grouplessChildDocuments.OrderBy(x => x.Name)
+                                                                      .Select(x => x.ToPatchTreeNodeViewModel())
+                                                                      .ToList();
 
             // Patch Groups
             var childDocumentGroups = document.ChildDocuments.Where(x => !String.IsNullOrWhiteSpace(x.GroupName))
-                                                             .GroupBy(x => x.GroupName);
+                                                             .GroupBy(x => x.GroupName)
+                                                             .OrderBy(x => x.Key);
             foreach (var childDocumentGroup in childDocumentGroups)
             {
                 viewModel.PatchesNode.PatchGroupNodes.Add(new PatchGroupTreeNodeViewModel
                 {
                     Name = childDocumentGroup.Key,
-                    Patches = childDocumentGroup.Select(x => x.ToPatchTreeNodeViewModel()).ToList()
+                    Patches = childDocumentGroup.OrderBy(x => x.Name)
+                                                .Select(x => x.ToPatchTreeNodeViewModel())
+                                                .ToList()
                 });
             }
             return viewModel;

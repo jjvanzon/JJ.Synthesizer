@@ -73,26 +73,26 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 entity.UnlinkAudioFileFormat();
             }
 
-            bool sampleDataTypeIsFilledIn = viewModel.AudioFileFormat != null && viewModel.AudioFileFormat.ID != 0;
+            bool sampleDataTypeIsFilledIn = viewModel.SampleDataType != null && viewModel.SampleDataType.ID != 0;
             if (sampleDataTypeIsFilledIn)
             {
-                AudioFileFormat sampleDataType = repositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
+                SampleDataType sampleDataType = repositories.SampleDataTypeRepository.Get(viewModel.SampleDataType.ID);
                 entity.LinkTo(sampleDataType);
             }
             else
             {
-                entity.UnlinkAudioFileFormat();
+                entity.UnlinkSampleDataType();
             }
 
-            bool speakerSetupIsFilledIn = viewModel.AudioFileFormat != null && viewModel.AudioFileFormat.ID != 0;
+            bool speakerSetupIsFilledIn = viewModel.SpeakerSetup != null && viewModel.SpeakerSetup.ID != 0;
             if (speakerSetupIsFilledIn)
             {
-                AudioFileFormat speakerSetup = repositories.AudioFileFormatRepository.Get(viewModel.AudioFileFormat.ID);
+                SpeakerSetup speakerSetup = repositories.SpeakerSetupRepository.Get(viewModel.SpeakerSetup.ID);
                 entity.LinkTo(speakerSetup);
             }
             else
             {
-                entity.UnlinkAudioFileFormat();
+                entity.UnlinkSpeakerSetup();
             }
 
             return entity;
