@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -25,6 +26,11 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         public Outlet this[int index]
         {
             get { return OperatorHelper.GetOutlet(_operator, index); }
+        }
+
+        public Outlet this[OutletTypeEnum outletTypeEnum]
+        {
+            get { return OperatorHelper.GetOutlet(_operator, outletTypeEnum); }
         }
 
         public IEnumerator<Outlet> GetEnumerator()

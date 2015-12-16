@@ -11,9 +11,12 @@ namespace JJ.Business.Synthesizer.Api
 {
     public class PatchApi
     {
-        private PatchManager _patchManager;
+        private readonly PatchManager _patchManager;
 
-        public Patch Patch { get; private set; }
+        public Patch Patch
+        {
+            get { return _patchManager.Patch; }
+        }
 
         public PatchApi()
         {

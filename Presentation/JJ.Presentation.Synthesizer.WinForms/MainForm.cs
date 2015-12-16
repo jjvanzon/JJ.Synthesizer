@@ -15,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
     internal partial class MainForm : Form
     {
         private IContext _context;
-        private RepositoryWrapper _repositoryWrapper;
+        private RepositoryWrapper _repositories;
         private MainPresenter _presenter;
 
         private DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
@@ -36,8 +36,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             InitializeComponent();
 
             _context = PersistenceHelper.CreateContext();
-            _repositoryWrapper = PersistenceHelper.CreateRepositoryWrapper(_context);
-            _presenter = new MainPresenter(_repositoryWrapper);
+            _repositories = PersistenceHelper.CreateRepositoryWrapper(_context);
+            _presenter = new MainPresenter(_repositories);
 
             BindEvents();
             ApplyStyling();

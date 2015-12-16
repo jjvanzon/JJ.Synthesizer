@@ -28,8 +28,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                                                               .FirstOrDefault();
 
                 // AutoPatch
-                _autoPatchDetailsForm.ViewModel = _presenter.ViewModel.Document.AutoPatch;
-                _autoPatchDetailsForm.Visible = _presenter.ViewModel.Document.AutoPatch.Visible;
+                _autoPatchDetailsForm.ViewModel = _presenter.ViewModel.Document.AutoPatchDetails;
+                _autoPatchDetailsForm.Visible = _presenter.ViewModel.Document.AutoPatchDetails.Visible;
 
                 // CurrentPatches
                 currentPatchesUserControl.ViewModel = _presenter.ViewModel.Document.CurrentPatches;

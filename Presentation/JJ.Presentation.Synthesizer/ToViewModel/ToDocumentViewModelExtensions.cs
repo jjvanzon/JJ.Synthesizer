@@ -37,7 +37,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ScaleGrid = document.Scales.ToGridViewModel(document.ID),
                 ScalePropertiesList = document.Scales.Select(x => x.ToPropertiesViewModel(repositories.ScaleTypeRepository)).ToList(),
                 ToneGridEditList = document.Scales.Select(x => x.ToDetailsViewModel()).ToList(),
-                AutoPatch = ViewModelHelper.CreateEmptyPatchDetailsViewModel()
+                AutoPatchDetails = ViewModelHelper.CreateEmptyPatchDetailsViewModel()
             };
 
             IList<Patch> patches = document.ChildDocuments.SelectMany(x => x.Patches).ToArray();

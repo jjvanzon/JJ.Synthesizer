@@ -288,14 +288,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 patchManager.AutoPatch(underlyingPatches);
 
                 // ToViewModel
-                ViewModel.Document.AutoPatch = patchManager.Patch.ToDetailsViewModel(
+                ViewModel.Document.AutoPatchDetails = patchManager.Patch.ToDetailsViewModel(
                     _repositories.OperatorTypeRepository,
                     _repositories.SampleRepository,
                     _repositories.CurveRepository,
                     _repositories.PatchRepository,
                     _entityPositionManager);
 
-                ViewModel.Document.AutoPatch.Visible = true;
+                ViewModel.Document.AutoPatchDetails.Visible = true;
             }
             finally
             {

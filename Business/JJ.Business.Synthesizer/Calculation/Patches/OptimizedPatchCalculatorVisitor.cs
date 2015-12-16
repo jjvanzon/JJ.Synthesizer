@@ -1203,6 +1203,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             Outlet customOperatorOutlet = outlet;
             Outlet patchOutletOutlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(
                 customOperatorOutlet, _patchRepository);
+
+            if (patchOutletOutlet == null)
+            {
+                throw new Exception("patchOutletOutlet was null after TryApplyCustomOperatorToUnderlyingPatch.");
+            }
+
             VisitOperator(patchOutletOutlet.Operator);
         }
 

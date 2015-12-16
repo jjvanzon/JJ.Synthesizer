@@ -155,7 +155,7 @@ namespace JJ.Business.Synthesizer.Managers
             return null;
         }
 
-        private CustomOperator_OperatorWrapper AutoPatch_ToCustomOperator(IList<Patch> underlyingPatches)
+        public CustomOperator_OperatorWrapper AutoPatch_ToCustomOperator(IList<Patch> underlyingPatches)
         {
             if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
 

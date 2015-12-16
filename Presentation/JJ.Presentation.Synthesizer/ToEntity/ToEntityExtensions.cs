@@ -336,7 +336,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             var curveRepositories = new CurveRepositories(repositories);
             var scaleRepositories = new ScaleRepositories(repositories);
 
-            Document destDocument = userInput.ToEntity(repositories.DocumentRepository);
+            // Eager loading
+            Document destDocument = repositories.DocumentRepository.TryGetComplete(userInput.ID);
+
+            destDocument = userInput.ToEntity(repositories.DocumentRepository);
 
             userInput.PatchDocumentList.ToChildDocumentsWithRelatedEntities(destDocument, repositories);
             userInput.AudioFileOutputPropertiesList.ToAudioFileOutputsWithRelatedEntities(destDocument, new AudioFileOutputRepositories(repositories));

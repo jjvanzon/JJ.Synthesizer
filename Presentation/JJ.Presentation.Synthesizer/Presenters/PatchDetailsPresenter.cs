@@ -242,8 +242,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             Outlet outlet = selectedOperator.Outlets.Single();
 
-            // TODO: I would think you need to use the Api instead, but when I did that,
-            // I got an assertion 'Underlying Document with ID ... not found.'
             AudioFileOutputManager audioFileOutputManager = CreateAudioFileOutputManager(repositories);
             AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
             audioFileOutput.FilePath = _patchPlayOutputFilePath;

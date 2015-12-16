@@ -551,6 +551,10 @@
       <Project>{bfe8068f-e441-44d2-896d-30fbb67946bf}</Project>
       <Name>JJ.Data.Synthesizer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Infrastructure\JJ.Infrastructure.Synthesizer\JJ.Infrastructure.Synthesizer.csproj">
+      <Project>{3f36ed87-8751-499d-8fd0-f5d6e2ed4a8a}</Project>
+      <Name>JJ.Infrastructure.Synthesizer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\JJ.Presentation.Synthesizer.VectorGraphics\JJ.Presentation.Synthesizer.VectorGraphics.csproj">
       <Project>{da036cc8-85cc-4a2b-b557-0a222a4486c3}</Project>
       <Name>JJ.Presentation.Synthesizer.VectorGraphics</Name>
