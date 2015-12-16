@@ -16,8 +16,10 @@ namespace JJ.Infrastructure.Synthesizer
     /// <summary> This code is really just a prototype at the moment. </summary>
     public class MidiProcessor : IDisposable
     {
+        private const double LOWEST_FREQUENCY = 8.1757989156;
         private const double DEFAULT_DURATION = 2;
         private const double MAX_VELOCITY = 127.0;
+        private const int MAX_NOTE_NUMBER = 127;
 
         private readonly PatchManager _patchManager;
         private readonly AudioFileOutputManager _audioFileOutputManager;
@@ -30,15 +32,28 @@ namespace JJ.Infrastructure.Synthesizer
         private readonly MidiIn _midiIn;
         private readonly SoundPlayer _soundPlayer;
 
+        private int _previousNoteNumber;
+
+        private double[] _noteNumberToFrequencyArray;
+
         public MidiProcessor(Scale scale, IList<Patch> patches, RepositoryWrapper repositories, string tempWavFilePath)
         {
             if (scale == null) throw new NullException(() => scale);
             if (String.IsNullOrEmpty(tempWavFilePath)) throw new NullOrEmptyException(() => tempWavFilePath);
 
+
+            // Setup Scale
             _scale = scale;
+            IList<double> frequencies = new List<double>(MAX_NOTE_NUMBER);
+            for (int i = 0; i < MAX_NOTE_NUMBER; i++)
+            {
+                double frequency = GetFrequencyByNoteNumber(i);
+                frequencies.Add(frequency);
+            }
+            _noteNumberToFrequencyArray = frequencies.ToArray();
 
+            // Setup Patch
             _patchManager = new PatchManager(new PatchRepositories(repositories));
-
             CustomOperator_OperatorWrapper customOperator = _patchManager.AutoPatch_ToCustomOperator(patches);
 
             // Setup Frequency Inlets
@@ -63,15 +78,18 @@ namespace JJ.Infrastructure.Synthesizer
 
             Outlet signalOutlet = customOperator.Outlets[OutletTypeEnum.Signal];
 
+            // AudioFileOutput
             _audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
             _audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
             _audioFileOutput.Duration = DEFAULT_DURATION;
             _audioFileOutput.FilePath = tempWavFilePath;
             _audioFileOutput.AudioFileOutputChannels[0].Outlet = signalOutlet;
 
+            // SoundPlayer
             _soundPlayer = new SoundPlayer();
             _soundPlayer.SoundLocation = _audioFileOutput.FilePath;
 
+            // MidiIn
             _midiIn = CreateMidiIn();
         }
 
@@ -122,13 +140,11 @@ namespace JJ.Infrastructure.Synthesizer
             }
         }
 
-        private int _previousNoteNumber;
-
         private void HandleNoteOn(MidiEvent midiEvent)
         {
             var noteOnEvent = (NoteOnEvent)midiEvent;
 
-            double frequency = GetFrequencyByNoteNumber(noteOnEvent.NoteNumber);
+            double frequency = _noteNumberToFrequencyArray[noteOnEvent.NoteNumber];
             double volume = noteOnEvent.Velocity / MAX_VELOCITY;
 
             _volume_Number_OperatorWrapper.Number = volume;
@@ -139,7 +155,6 @@ namespace JJ.Infrastructure.Synthesizer
             _previousNoteNumber = noteOnEvent.NoteNumber;
 
             _soundPlayer.Play();
-
         }
 
         private void HandleNoteOff(MidiEvent midiEvent)
@@ -154,9 +169,7 @@ namespace JJ.Infrastructure.Synthesizer
 
         private double GetFrequencyByNoteNumber(int noteNumber)
         {
-            // This is just some prototype testing code.
-            double baseFreq = 16;
-            double frequency = baseFreq * Math.Pow(2.0, noteNumber / 12.0);
+            double frequency = LOWEST_FREQUENCY * Math.Pow(2.0, noteNumber / 12.0);
             return frequency;
         }
     }

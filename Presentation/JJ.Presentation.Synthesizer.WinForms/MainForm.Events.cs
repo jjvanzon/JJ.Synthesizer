@@ -198,46 +198,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             ApplyViewModel();
         }
 
-        private MidiProcessor _midiProcessor;
-
-        private void RecreateMidiProcessor()
-        {
-            if (_midiProcessor != null)
-            {
-                _midiProcessor.Dispose();
-            }
-
-            // Not working with a standard scale yet.
-            var dummyScale = new Scale();
-
-            // TODO: Where to get the patches? That is internal in the Presenter layer now.
-            var x = new PatchManager(new PatchRepositories(_repositories));
-            x.CreatePatch();
-
-            var frequencyInlet = x.PatchInlet();
-            frequencyInlet.InletTypeEnum = InletTypeEnum.Frequency;
-            frequencyInlet.DefaultValue = 525.0;
-
-            var volumeInlet = x.PatchInlet();
-            volumeInlet.InletTypeEnum = InletTypeEnum.Volume;
-            volumeInlet.DefaultValue = 1.0;
-
-            var signalOutlet = x.PatchOutlet(x.Multiply(x.Sine(frequencyInlet), volumeInlet));
-            signalOutlet.OutletTypeEnum = OutletTypeEnum.Signal;
-
-            IList<Patch> patches = new Patch[] { x.Patch };
-
-            string tempAudioFilePath = GetPatchPlayHackedAudioFileOutputFilePath();
-
-            _midiProcessor = new MidiProcessor(dummyScale, patches, _repositories, tempAudioFilePath);
-        }
-
-        private string GetPatchPlayHackedAudioFileOutputFilePath()
-        {
-            var config = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.Helpers.ConfigurationSection>();
-            return config.PatchPlayHackedAudioFileOutputFilePath;
-        }
-
         // Curve
 
         private void curveGridUserControl_CreateRequested(object sender, Int32EventArgs e)

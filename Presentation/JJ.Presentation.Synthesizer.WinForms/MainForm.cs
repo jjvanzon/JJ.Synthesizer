@@ -9,6 +9,11 @@ using JJ.Presentation.Synthesizer.WinForms.Forms;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using ConfigurationSection = JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection;
 using System.ComponentModel;
+using JJ.Infrastructure.Synthesizer;
+using JJ.Data.Synthesizer;
+using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Enums;
+using System.Collections.Generic;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -45,6 +50,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
             _presenter.Show();
 
             ApplyViewModel();
+
+            RecreateMidiProcessor();
         }
 
         /// <summary>
@@ -90,6 +97,48 @@ namespace JJ.Presentation.Synthesizer.WinForms
             // No data is entered in the DocumentTree view at the moment,
             // so if another control is focused, focusing the DocumentTree control would do the trick.
             documentTreeUserControl.Focus();
+        }
+
+        // Infrastructure
+
+        private MidiProcessor _midiProcessor;
+
+        private void RecreateMidiProcessor()
+        {
+            if (_midiProcessor != null)
+            {
+                _midiProcessor.Dispose();
+            }
+
+            // Not working with a standard scale yet.
+            var dummyScale = new Scale();
+
+            // TODO: Where to get the patches? That is internal in the Presenter layer now.
+            var x = new PatchManager(new PatchRepositories(_repositories));
+            x.CreatePatch();
+
+            var frequencyInlet = x.PatchInlet();
+            frequencyInlet.InletTypeEnum = InletTypeEnum.Frequency;
+            frequencyInlet.DefaultValue = 525.0;
+
+            var volumeInlet = x.PatchInlet();
+            volumeInlet.InletTypeEnum = InletTypeEnum.Volume;
+            volumeInlet.DefaultValue = 1.0;
+
+            var signalOutlet = x.PatchOutlet(x.Multiply(x.Sine(frequencyInlet), volumeInlet));
+            signalOutlet.OutletTypeEnum = OutletTypeEnum.Signal;
+
+            IList<Patch> patches = new Patch[] { x.Patch };
+
+            string tempAudioFilePath = GetPatchPlayHackedAudioFileOutputFilePath();
+
+            _midiProcessor = new MidiProcessor(dummyScale, patches, _repositories, tempAudioFilePath);
+        }
+
+        private string GetPatchPlayHackedAudioFileOutputFilePath()
+        {
+            var config = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.Helpers.ConfigurationSection>();
+            return config.PatchPlayHackedAudioFileOutputFilePath;
         }
     }
 }
