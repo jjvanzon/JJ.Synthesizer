@@ -17,7 +17,7 @@ namespace JJ.Infrastructure.Synthesizer
     public class MidiProcessor : IDisposable
     {
         private const double DEFAULT_DURATION = 2;
-        private const double DEFAULT_FREQUENCY = 525;
+        private const double MAX_VELOCITY = 127.0;
 
         private readonly PatchManager _patchManager;
         private readonly AudioFileOutputManager _audioFileOutputManager;
@@ -37,19 +37,22 @@ namespace JJ.Infrastructure.Synthesizer
 
             _scale = scale;
 
-            var patchRepositories = new PatchRepositories(repositories);
-            _patchManager = new PatchManager(patchRepositories);
-
-            _frequency_Number_OperatorWrapper = _patchManager.Number();
-            _volume_Number_OperatorWrapper = _patchManager.Number();
+            _patchManager = new PatchManager(new PatchRepositories(repositories));
 
             CustomOperator_OperatorWrapper customOperator = _patchManager.AutoPatch_ToCustomOperator(patches);
 
             // Setup Frequency Inlets
-            Inlet frequencyInlet = customOperator.Inlets[InletTypeEnum.Frequency]; // TODO: It may be too harsh to let an exception go off. You would like a validation message.
-            frequencyInlet.InputOutlet = _frequency_Number_OperatorWrapper;
+            _frequency_Number_OperatorWrapper = _patchManager.Number();
+            IList<Inlet> frequencyInlets = customOperator.Inlets
+                                                      .Where(x => x.GetInletTypeEnum() == InletTypeEnum.Frequency)
+                                                      .ToArray();
+            foreach (Inlet frequencyInlet in frequencyInlets)
+            {
+                frequencyInlet.InputOutlet = _frequency_Number_OperatorWrapper;
+            }
 
             // Setup Volume Inlets
+            _volume_Number_OperatorWrapper = _patchManager.Number();
             IList<Inlet> volumeInlets = customOperator.Inlets
                                                       .Where(x => x.GetInletTypeEnum() == InletTypeEnum.Volume)
                                                       .ToArray();
@@ -60,8 +63,7 @@ namespace JJ.Infrastructure.Synthesizer
 
             Outlet signalOutlet = customOperator.Outlets[OutletTypeEnum.Signal];
 
-            var audioFileOutputRepositories = new AudioFileOutputRepositories(repositories);
-            _audioFileOutputManager = new AudioFileOutputManager(audioFileOutputRepositories);
+            _audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
             _audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
             _audioFileOutput.Duration = DEFAULT_DURATION;
             _audioFileOutput.FilePath = tempWavFilePath;
@@ -108,17 +110,45 @@ namespace JJ.Infrastructure.Synthesizer
 
         private void _midiIn_MessageReceived(object sender, MidiInMessageEventArgs e)
         {
-            if (e.MidiEvent.CommandCode == MidiCommandCode.NoteOn)
+            switch (e.MidiEvent.CommandCode)
             {
-                var noteOnEvent = (NoteOnEvent)e.MidiEvent;
-                double frequency = GetFrequencyByNoteNumber(noteOnEvent.NoteNumber);
-                double volume = GetVolumeFromVelocity(noteOnEvent.Velocity);
+                case MidiCommandCode.NoteOn:
+                    HandleNoteOn(e.MidiEvent);
+                    break;
 
-                _volume_Number_OperatorWrapper.Number = volume;
-                _frequency_Number_OperatorWrapper.Number = frequency;
+                case MidiCommandCode.NoteOff:
+                    HandleNoteOff(e.MidiEvent);
+                    break;
+            }
+        }
 
-                _audioFileOutputManager.WriteFile(_audioFileOutput);
-                _soundPlayer.Play();
+        private int _previousNoteNumber;
+
+        private void HandleNoteOn(MidiEvent midiEvent)
+        {
+            var noteOnEvent = (NoteOnEvent)midiEvent;
+
+            double frequency = GetFrequencyByNoteNumber(noteOnEvent.NoteNumber);
+            double volume = noteOnEvent.Velocity / MAX_VELOCITY;
+
+            _volume_Number_OperatorWrapper.Number = volume;
+            _frequency_Number_OperatorWrapper.Number = frequency;
+
+            _audioFileOutputManager.WriteFile(_audioFileOutput);
+
+            _previousNoteNumber = noteOnEvent.NoteNumber;
+
+            _soundPlayer.Play();
+
+        }
+
+        private void HandleNoteOff(MidiEvent midiEvent)
+        {
+            var noteEvent = (NoteEvent)midiEvent;
+
+            if (_previousNoteNumber == noteEvent.NoteNumber)
+            {
+                _soundPlayer.Stop();
             }
         }
 
@@ -128,13 +158,6 @@ namespace JJ.Infrastructure.Synthesizer
             double baseFreq = 16;
             double frequency = baseFreq * Math.Pow(2.0, noteNumber / 12.0);
             return frequency;
-        }
-
-        private const double MAX_VELOCITY = 127.0;
-
-        private double GetVolumeFromVelocity(int velocity)
-        {
-            return velocity / MAX_VELOCITY;
         }
     }
 }
