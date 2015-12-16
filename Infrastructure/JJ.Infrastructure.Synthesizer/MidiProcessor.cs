@@ -7,15 +7,16 @@ using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer.Extensions;
 using System.Media;
 using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Infrastructure.Synthesizer
 {
+    /// <summary> This code is really just a prototype at the moment. </summary>
     public class MidiProcessor : IDisposable
     {
         private const double DEFAULT_DURATION = 2;
-
         private const double DEFAULT_FREQUENCY = 525;
 
         private readonly PatchManager _patchManager;
@@ -24,6 +25,7 @@ namespace JJ.Infrastructure.Synthesizer
         private readonly Scale _scale;
         private readonly AudioFileOutput _audioFileOutput;
         private readonly Number_OperatorWrapper _frequency_Number_OperatorWrapper;
+        private readonly Number_OperatorWrapper _volume_Number_OperatorWrapper;
 
         private readonly MidiIn _midiIn;
         private readonly SoundPlayer _soundPlayer;
@@ -33,14 +35,28 @@ namespace JJ.Infrastructure.Synthesizer
             if (scale == null) throw new NullException(() => scale);
             if (String.IsNullOrEmpty(tempWavFilePath)) throw new NullOrEmptyException(() => tempWavFilePath);
 
+            _scale = scale;
+
             var patchRepositories = new PatchRepositories(repositories);
             _patchManager = new PatchManager(patchRepositories);
 
             _frequency_Number_OperatorWrapper = _patchManager.Number();
+            _volume_Number_OperatorWrapper = _patchManager.Number();
 
             CustomOperator_OperatorWrapper customOperator = _patchManager.AutoPatch_ToCustomOperator(patches);
+
+            // Setup Frequency Inlets
             Inlet frequencyInlet = customOperator.Inlets[InletTypeEnum.Frequency]; // TODO: It may be too harsh to let an exception go off. You would like a validation message.
             frequencyInlet.InputOutlet = _frequency_Number_OperatorWrapper;
+
+            // Setup Volume Inlets
+            IList<Inlet> volumeInlets = customOperator.Inlets
+                                                      .Where(x => x.GetInletTypeEnum() == InletTypeEnum.Volume)
+                                                      .ToArray();
+            foreach (Inlet volumeInlet in volumeInlets)
+            {
+                volumeInlet.InputOutlet = _volume_Number_OperatorWrapper;
+            }
 
             Outlet signalOutlet = customOperator.Outlets[OutletTypeEnum.Signal];
 
@@ -96,8 +112,11 @@ namespace JJ.Infrastructure.Synthesizer
             {
                 var noteOnEvent = (NoteOnEvent)e.MidiEvent;
                 double frequency = GetFrequencyByNoteNumber(noteOnEvent.NoteNumber);
+                double volume = GetVolumeFromVelocity(noteOnEvent.Velocity);
 
+                _volume_Number_OperatorWrapper.Number = volume;
                 _frequency_Number_OperatorWrapper.Number = frequency;
+
                 _audioFileOutputManager.WriteFile(_audioFileOutput);
                 _soundPlayer.Play();
             }
@@ -109,6 +128,13 @@ namespace JJ.Infrastructure.Synthesizer
             double baseFreq = 16;
             double frequency = baseFreq * Math.Pow(2.0, noteNumber / 12.0);
             return frequency;
+        }
+
+        private const double MAX_VELOCITY = 127.0;
+
+        private double GetVolumeFromVelocity(int velocity)
+        {
+            return velocity / MAX_VELOCITY;
         }
     }
 }

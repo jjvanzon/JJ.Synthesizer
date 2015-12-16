@@ -212,14 +212,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             // TODO: Where to get the patches? That is internal in the Presenter layer now.
             var x = new PatchManager(new PatchRepositories(_repositories));
-
             x.CreatePatch();
 
             var frequencyInlet = x.PatchInlet();
             frequencyInlet.InletTypeEnum = InletTypeEnum.Frequency;
-            frequencyInlet.DefaultValue = 525;
+            frequencyInlet.DefaultValue = 525.0;
 
-            var signalOutlet = x.PatchOutlet(x.Sine(frequencyInlet));
+            var volumeInlet = x.PatchInlet();
+            volumeInlet.InletTypeEnum = InletTypeEnum.Volume;
+            volumeInlet.DefaultValue = 1.0;
+
+            var signalOutlet = x.PatchOutlet(x.Multiply(x.Sine(frequencyInlet), volumeInlet));
             signalOutlet.OutletTypeEnum = OutletTypeEnum.Signal;
 
             IList<Patch> patches = new Patch[] { x.Patch };

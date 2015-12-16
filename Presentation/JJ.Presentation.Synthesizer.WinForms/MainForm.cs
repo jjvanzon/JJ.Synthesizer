@@ -53,14 +53,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && components != null)
+            if (disposing)
             {
-                components.Dispose();
-            }
-
-            if (_context != null)
-            {
-                _context.Dispose();
+                if (components != null) components.Dispose();
+                if (_context != null) _context.Dispose();
+                if (_midiProcessor != null) _midiProcessor.Dispose();
             }
 
             base.Dispose(disposing);
