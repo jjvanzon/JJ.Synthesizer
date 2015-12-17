@@ -22,75 +22,74 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
     {
         private static PatchCalculatorTypeEnum _patchCalculatorTypeEnum = GetPatchCalculatorTypeEnum();
 
-        private AudioFileOutput _audioFileOutput;
-        private IPatchCalculator _patchCalculator;
-        private double _amplifier;
+        private readonly ICurveRepository _curveRepository;
+        private readonly ISampleRepository _sampleRepository;
+        private readonly IPatchRepository _patchRepository;
 
         public AudioFileOutputCalculatorBase(
-            AudioFileOutput audioFileOutput, 
             ICurveRepository curveRepository, 
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository)
         {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
+            _curveRepository = curveRepository;
+            _sampleRepository = sampleRepository;
+            _patchRepository = patchRepository;
+        }
+        
+        public void Execute(AudioFileOutput audioFileOutput)
+        {
+            // Assert
+            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
+            if (String.IsNullOrEmpty(audioFileOutput.FilePath)) throw new NullOrEmptyException(() => audioFileOutput.FilePath);
             IValidator validator = new AudioFileOutputValidator(audioFileOutput);
             validator.Verify();
 
-            _audioFileOutput = audioFileOutput;
-
-            // Prepare some objects
-            IList<Outlet> outlets = _audioFileOutput.AudioFileOutputChannels
+            // Prepare the calculators
+            IList<Outlet> outlets = audioFileOutput.AudioFileOutputChannels
                                                     .OrderBy(x => x.IndexNumber)
                                                     .Select(x => x.Outlet)
                                                     .ToArray();
 
-            var whiteNoiseCalculator = new WhiteNoiseCalculator(_audioFileOutput.SamplingRate);
-
+            var whiteNoiseCalculator = new WhiteNoiseCalculator(audioFileOutput.SamplingRate);
+            
+            IPatchCalculator patchCalculator;
             switch (_patchCalculatorTypeEnum)
             {
                 case PatchCalculatorTypeEnum.OptimizedPatchCalculator:
-                    _patchCalculator = new OptimizedPatchCalculator(outlets, whiteNoiseCalculator, curveRepository, sampleRepository, patchRepository);
+                    patchCalculator = new OptimizedPatchCalculator(outlets, whiteNoiseCalculator, _curveRepository, _sampleRepository, _patchRepository);
                     break;
 
                 case PatchCalculatorTypeEnum.InterpretedPatchCalculator:
-                    _patchCalculator = new InterpretedPatchCalculator(outlets, whiteNoiseCalculator, curveRepository, sampleRepository, patchRepository);
+                    patchCalculator = new InterpretedPatchCalculator(outlets, whiteNoiseCalculator, _curveRepository, _sampleRepository, _patchRepository);
                     break;
 
                 default:
                     throw new ValueNotSupportedException(_patchCalculatorTypeEnum);
             }
-        }
 
-        public void Execute()
-        {
-            if (String.IsNullOrEmpty(_audioFileOutput.FilePath)) throw new NullOrEmptyException(() => _audioFileOutput.FilePath);
+            // Calculate output and write file
+            int channelCount = audioFileOutput.GetChannelCount();
 
-            // Because it could in theory be changed after construction, you validate here again, but a more lightweight solution is to clone the values.
-            IValidator validator = new AudioFileOutputValidator(_audioFileOutput);
-            validator.Verify();
+            double dt = 1.0 / audioFileOutput.SamplingRate / audioFileOutput.TimeMultiplier;
+            double endTime = audioFileOutput.GetEndTime();
 
-            int channelCount = _audioFileOutput.GetChannelCount();
-
-            double dt = 1.0 / _audioFileOutput.SamplingRate / _audioFileOutput.TimeMultiplier;
-            double endTime = _audioFileOutput.GetEndTime();
-
-            using (Stream stream = new FileStream(_audioFileOutput.FilePath, FileMode.Create, FileAccess.Write, FileShare.None))
+            using (Stream stream = new FileStream(audioFileOutput.FilePath, FileMode.Create, FileAccess.Write, FileShare.None))
             {
                 using (var writer = new BinaryWriter(stream))
                 {
                     // Write header
-                    AudioFileFormatEnum audioFileFormatEnum = _audioFileOutput.GetAudioFileFormatEnum();
+                    AudioFileFormatEnum audioFileFormatEnum = audioFileOutput.GetAudioFileFormatEnum();
                     switch (audioFileFormatEnum)
                     {
                         case AudioFileFormatEnum.Wav:
                             var audioFileInfo = new AudioFileInfo
                             {
-                                SamplingRate = _audioFileOutput.SamplingRate,
-                                BytesPerValue = SampleDataTypeHelper.SizeOf(_audioFileOutput.SampleDataType),
+                                SamplingRate = audioFileOutput.SamplingRate,
+                                BytesPerValue = SampleDataTypeHelper.SizeOf(audioFileOutput.SampleDataType),
                                 ChannelCount = channelCount,
                                 SampleCount = (int)(endTime / dt)
                             };
@@ -107,14 +106,14 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                             throw new ValueNotSupportedException(audioFileFormatEnum);
                     }
 
-                    double adjustedAmplifier = GetAmplifierAdjustedToSampleDataType(_audioFileOutput);
+                    double adjustedAmplifier = GetAmplifierAdjustedToSampleDataType(audioFileOutput);
 
                     // Write Samples
                     for (double t = 0; t <= endTime; t += dt)
                     {
                         for (int i = 0; i < channelCount; i++)
                         {
-                            double value = _patchCalculator.Calculate(t, i);
+                            double value = patchCalculator.Calculate(t, i);
                             value *= adjustedAmplifier;
 
                             WriteValue(writer, value);

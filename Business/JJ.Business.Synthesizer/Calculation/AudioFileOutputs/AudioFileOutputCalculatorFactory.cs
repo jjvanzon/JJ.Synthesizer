@@ -21,12 +21,10 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             switch (sampleDataTypeEnum)
             {
                 case SampleDataTypeEnum.Int16:
-                    return new Int16AudioFileOutputCalculator(
-                        audioFileOutput, curveRepository, sampleRepository, patchRepository);
+                    return new Int16AudioFileOutputCalculator(curveRepository, sampleRepository, patchRepository);
 
                 case SampleDataTypeEnum.Byte:
-                    return new ByteAudioFileOutputCalculator(
-                        audioFileOutput, curveRepository, sampleRepository, patchRepository);
+                    return new ByteAudioFileOutputCalculator(curveRepository, sampleRepository, patchRepository);
 
                 default:
                     throw new ValueNotSupportedException(sampleDataTypeEnum);
