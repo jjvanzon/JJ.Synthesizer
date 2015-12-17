@@ -17,12 +17,11 @@ namespace JJ.Infrastructure.Synthesizer
     public class MidiProcessor : IDisposable
     {
         // TODO: I do not understand why the patch produces such loud sound.
-        private const double DEFAULT_AMPLIFIER = 0.05;
+        private const double DEFAULT_AMPLIFIER = 0.2;
         private const double DEFAULT_DURATION = 2;
         private const double LOWEST_FREQUENCY = 8.1757989156;
         private const double MAX_VELOCITY = 127.0;
         private const int MAX_NOTE_NUMBER = 127;
-
 
         private readonly PatchManager _patchManager;
         private readonly AudioFileOutputManager _audioFileOutputManager;

@@ -11,9 +11,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     {
         private OperatorCalculatorBase[] _rootOperatorCalculators;
 
-        /// <summary>
-        /// This overload has ChannelOutlets as params.
-        /// </summary>
+        /// <summary> This overload has ChannelOutlets as params. </summary>
+        /// <param name="channelOutlets">Can contain nulls.</param>
         public OptimizedPatchCalculator(
             WhiteNoiseCalculator whiteNoiseCalculator,
             ICurveRepository curveRepository, 
@@ -23,9 +22,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             : this((IList<Outlet>)channelOutlets, whiteNoiseCalculator, curveRepository, sampleRepository, patchRepository)
         { }
 
-        /// <summary>
-        /// This overload has ChannelOutlets as an IList<T>.
-        /// </summary>
+        /// <summary> This overload has ChannelOutlets as an IList<T>. </summary>
+        /// <param name="channelOutlets">Can contain nulls.</param>
         public OptimizedPatchCalculator(
             IList<Outlet> channelOutlets,
             WhiteNoiseCalculator whiteNoiseCalculator,
@@ -35,9 +33,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
 
-            var visitor = new OptimizedPatchCalculatorVisitor();
-            _rootOperatorCalculators = visitor.Execute(
-                channelOutlets, whiteNoiseCalculator, curveRepository, sampleRepository, patchRepository).ToArray();
+            var visitor = new OptimizedPatchCalculatorVisitor(curveRepository, sampleRepository, patchRepository);
+            _rootOperatorCalculators = visitor.Execute(channelOutlets, whiteNoiseCalculator).ToArray();
         }
 
         public double Calculate(double time, int channelIndex)

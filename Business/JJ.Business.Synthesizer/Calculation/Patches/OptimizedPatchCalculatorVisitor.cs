@@ -25,9 +25,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     /// </summary>
     internal partial class OptimizedPatchCalculatorVisitor : OperatorVisitorBase
     {
-        private ICurveRepository _curveRepository;
-        private ISampleRepository _sampleRepository;
-        private IPatchRepository _patchRepository;
+        private readonly ICurveRepository _curveRepository;
+        private readonly ISampleRepository _sampleRepository;
+        private readonly IPatchRepository _patchRepository;
 
         private WhiteNoiseCalculator _whiteNoiseCalculator;
 
@@ -51,26 +51,33 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private Dictionary<Operator, double> _operator_WhiteNoiseOffsetDictionary;
 
         // TODO: Why do I not pass the repositories to the constructor?
-        public IList<OperatorCalculatorBase> Execute(
-            IList<Outlet> channelOutlets, 
-            WhiteNoiseCalculator whiteNoiseCalculator, 
-            ICurveRepository curveRepository,
-            ISampleRepository sampleRepository,
-            IPatchRepository patchRepository)
+
+        public OptimizedPatchCalculatorVisitor(ICurveRepository curveRepository, ISampleRepository sampleRepository, IPatchRepository patchRepository)
         {
-            if (whiteNoiseCalculator == null) throw new NullException(() => whiteNoiseCalculator);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (patchRepository == null) throw new NullException(() => patchRepository);
-            if (channelOutlets == null) throw new NullException(() => channelOutlets);
 
-            _whiteNoiseCalculator = whiteNoiseCalculator;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
             _patchRepository = patchRepository;
+        }
+
+        /// <param name="channelOutlets">Can contain nulls.</param>
+        public IList<OperatorCalculatorBase> Execute(IList<Outlet> channelOutlets, WhiteNoiseCalculator whiteNoiseCalculator)
+        {
+            if (whiteNoiseCalculator == null) throw new NullException(() => whiteNoiseCalculator);
+            if (channelOutlets == null) throw new NullException(() => channelOutlets);
+
+            _whiteNoiseCalculator = whiteNoiseCalculator;
 
             foreach (Outlet channelOutlet in channelOutlets)
             {
+                if (channelOutlet == null)
+                {
+                    continue;
+                }
+
                 IValidator validator = new OperatorValidator_Recursive(
                     channelOutlet.Operator, 
                     _curveRepository, _sampleRepository, _patchRepository,
@@ -90,6 +97,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             foreach (Outlet channelOutlet in channelOutlets)
             {
+                if (channelOutlet == null)
+                {
+                    list.Add(new Zero_OperatorCalculator());
+                    continue;
+                }
+
                 VisitOutlet(channelOutlet);
 
                 OperatorCalculatorBase operatorCalculator = _stack.Pop();
@@ -1153,7 +1166,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
-        /// <summary> Overridden to push null-inlets. </summary>
+        /// <summary> Overridden to push null-inlets or default values for those inlets. </summary>
         protected override void VisitInlet(Inlet inlet)
         {
             if (inlet.InputOutlet == null)

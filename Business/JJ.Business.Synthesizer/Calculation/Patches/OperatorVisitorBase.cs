@@ -27,6 +27,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Loop, VisitLoop },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
                 { OperatorTypeEnum.Number, VisitNumber },
+                { OperatorTypeEnum.PatchInlet, VisitPatchInlet },
+                { OperatorTypeEnum.PatchOutlet, VisitPatchOutlet },
                 { OperatorTypeEnum.Power, VisitPower },
                 { OperatorTypeEnum.Resample, VisitResample },
                 { OperatorTypeEnum.Sample, VisitSampleOperator },
@@ -103,6 +105,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> does nothing </summary>
         protected virtual void VisitMultiply(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitPatchOutlet(Operator obj) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitPatchInlet(Operator obj) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitPower(Operator op) { }

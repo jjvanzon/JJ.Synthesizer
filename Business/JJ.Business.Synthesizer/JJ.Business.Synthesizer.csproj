@@ -48,6 +48,7 @@
     <Compile Include="Calculation\Curves\ICurveCalculator.cs" />
     <Compile Include="Calculation\Operators\Divide OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes.cs" />
+    <Compile Include="Calculation\Operators\PatchInlet_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SawTooth OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Select OperatorCalculator Classes.cs" />

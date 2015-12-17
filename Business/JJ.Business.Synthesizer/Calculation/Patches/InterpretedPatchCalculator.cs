@@ -32,6 +32,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         /// <summary> Is set in the Calculate method and used in other methods. </summary>
         private int _channelIndex;
+
+        /// <summary> Can contain nulls. </summary>
         private Outlet[] _channelOutlets;
         private Dictionary<OperatorTypeEnum, Func<Outlet, double, double>> _funcDictionary;
 
@@ -50,6 +52,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// <summary> Value is offset in seconds. </summary>
         private Dictionary<Operator, double> _operator_WhiteNoiseOffsetDictionary = new Dictionary<Operator, double>();
 
+        /// <param name="channelOutlets">Can contain nulls.</param>
         public InterpretedPatchCalculator(
             IList<Outlet> channelOutlets,
             WhiteNoiseCalculator whiteNoiseCalculator,
@@ -120,8 +123,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return Calculate(_channelOutlets[_channelIndex], time);
         }
 
+        /// <param name="outlet">nullable</param>
         private double Calculate(Outlet outlet, double time)
         {
+            // Outlet is null if channel not filled in
+            if (outlet == null)
+            {
+                return 0;
+            }
+
             _outletStack.Push(outlet);
 
             OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
