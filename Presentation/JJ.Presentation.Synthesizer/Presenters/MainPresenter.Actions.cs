@@ -33,23 +33,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void Show()
         {
-            try
-            {
-                ViewModel = ViewModelHelper.CreateEmptyMainViewModel();
+            // try-finally and Rollback are moved to the top-level project.
+            ViewModel = ViewModelHelper.CreateEmptyMainViewModel();
 
-                MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
-                DispatchViewModel(menuViewModel);
+            MenuViewModel menuViewModel = _menuPresenter.Show(documentIsOpen: false);
+            DispatchViewModel(menuViewModel);
 
-                _documentGridPresenter.ViewModel = ViewModel.DocumentGrid;
-                _documentGridPresenter.Show();
-                DispatchViewModel(_documentGridPresenter.ViewModel);
+            _documentGridPresenter.ViewModel = ViewModel.DocumentGrid;
+            _documentGridPresenter.Show();
+            DispatchViewModel(_documentGridPresenter.ViewModel);
 
-                ViewModel.WindowTitle = Titles.ApplicationName;
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            ViewModel.WindowTitle = Titles.ApplicationName;
         }
 
         public void NotFoundOK()
@@ -226,28 +220,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void CurrentPatchAdd(int childDocumentID)
         {
-            try
-            {
-                _currentPatchesPresenter.Add(childDocumentID);
-                DispatchViewModel(_currentPatchesPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            // try-finally and Rollback are moved to the top-level project.
+            _currentPatchesPresenter.Add(childDocumentID);
+            DispatchViewModel(_currentPatchesPresenter.ViewModel);
         }
 
         public void CurrentPatchRemove(int childDocumentID)
         {
-            try
-            {
-                _currentPatchesPresenter.Remove(childDocumentID);
-                DispatchViewModel(_currentPatchesPresenter.ViewModel);
-            }
-            finally
-            {
-                _repositories.Rollback();
-            }
+            // try-finally and Rollback are moved to the top-level project.
+            _currentPatchesPresenter.Remove(childDocumentID);
+            DispatchViewModel(_currentPatchesPresenter.ViewModel);
         }
 
         public void CurrentPatchMove(int childDocumentID, int newPosition)

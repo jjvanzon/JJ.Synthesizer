@@ -660,7 +660,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             bool inletTypeIsFilledIn = viewModel.InletType != null && viewModel.InletType.ID != 0;
             if (inletTypeIsFilledIn)
             {
-                InletType inletType = inletTypeRepository.Get(entity.InletType.ID);
+                InletType inletType = inletTypeRepository.Get(viewModel.InletType.ID);
                 entity.LinkTo(inletType);
             }
             else
@@ -690,7 +690,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             bool outletTypeIsFilledIn = viewModel.OutletType != null && viewModel.OutletType.ID != 0;
             if (outletTypeIsFilledIn)
             {
-                OutletType outletType = outletTypeRepository.Get(entity.OutletType.ID);
+                OutletType outletType = outletTypeRepository.Get(viewModel.OutletType.ID);
                 entity.LinkTo(outletType);
             }
             else

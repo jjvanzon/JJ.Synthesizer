@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Windows.Forms;
 using JJ.Framework.Common;
 using JJ.Framework.Configuration;
@@ -24,6 +25,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             var config4 = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection>();
             CultureHelper.SetThreadCultureName(config4.DefaultCulture);
 
+            Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
@@ -47,7 +49,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 message = Convert.ToString(e.ExceptionObject);
             }
-
+            
             MessageBox.Show(message, GetMessageBoxCaption());
         }
 

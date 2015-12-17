@@ -47,11 +47,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
             BindEvents();
             ApplyStyling();
 
-            _presenter.Show();
+            // TODO: Re-enable rollback, after MidiProcessor can do without querying
+            //try
+            //{
+                _presenter.Show();
+                ApplyViewModel();
 
-            ApplyViewModel();
-
-            RecreateMidiProcessor();
+                RecreateMidiProcessor();
+            //}
+            //finally
+            //{
+            //    _context.Rollback();
+            //}
         }
 
         /// <summary>
@@ -110,10 +117,33 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _midiProcessor.Dispose();
             }
 
-            // Not working with a standard scale yet.
-            var dummyScale = new Scale();
-
             // TODO: Where to get the patches? That is internal in the Presenter layer now.
+
+            string tempAudioFilePath = GetPatchPlayHackedAudioFileOutputFilePath();
+            Scale dummyScale = CreateMockScale();
+
+            //IList<Patch> patches = CreateMockCurrentPatches();
+
+            IList<Patch> patches = _presenter.ViewModel.Document.CurrentPatches.List
+                                                                .Select(x => _repositories.DocumentRepository.Get(x.ChildDocumentID))
+                                                                .Select(x => x.Patches.Single())
+                                                                .ToArray();
+            if (patches.Count == 0)
+            {
+                patches = new Patch[] { CreateDummySinePatch() };
+            }
+
+            _midiProcessor = new MidiProcessor(dummyScale, patches, _repositories, tempAudioFilePath);
+        }
+
+        private Scale CreateMockScale()
+        {
+            var dummyScale = new Scale();
+            return dummyScale;
+        }
+
+        private Patch CreateDummySinePatch()
+        {
             var x = new PatchManager(new PatchRepositories(_repositories));
             x.CreatePatch();
 
@@ -128,11 +158,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             var signalOutlet = x.PatchOutlet(x.Multiply(x.Sine(frequencyInlet), volumeInlet));
             signalOutlet.OutletTypeEnum = OutletTypeEnum.Signal;
 
-            IList<Patch> patches = new Patch[] { x.Patch };
-
-            string tempAudioFilePath = GetPatchPlayHackedAudioFileOutputFilePath();
-
-            _midiProcessor = new MidiProcessor(dummyScale, patches, _repositories, tempAudioFilePath);
+            return x.Patch;
         }
 
         private string GetPatchPlayHackedAudioFileOutputFilePath()

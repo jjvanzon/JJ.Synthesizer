@@ -16,10 +16,13 @@ namespace JJ.Infrastructure.Synthesizer
     /// <summary> This code is really just a prototype at the moment. </summary>
     public class MidiProcessor : IDisposable
     {
-        private const double LOWEST_FREQUENCY = 8.1757989156;
+        // TODO: I do not understand why the patch produces such loud sound.
+        private const double DEFAULT_AMPLIFIER = 0.05;
         private const double DEFAULT_DURATION = 2;
+        private const double LOWEST_FREQUENCY = 8.1757989156;
         private const double MAX_VELOCITY = 127.0;
         private const int MAX_NOTE_NUMBER = 127;
+
 
         private readonly PatchManager _patchManager;
         private readonly AudioFileOutputManager _audioFileOutputManager;
@@ -40,7 +43,6 @@ namespace JJ.Infrastructure.Synthesizer
         {
             if (scale == null) throw new NullException(() => scale);
             if (String.IsNullOrEmpty(tempWavFilePath)) throw new NullOrEmptyException(() => tempWavFilePath);
-
 
             // Setup Scale
             _scale = scale;
@@ -82,6 +84,7 @@ namespace JJ.Infrastructure.Synthesizer
             _audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
             _audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
             _audioFileOutput.Duration = DEFAULT_DURATION;
+            _audioFileOutput.Amplifier = DEFAULT_AMPLIFIER;
             _audioFileOutput.FilePath = tempWavFilePath;
             _audioFileOutput.AudioFileOutputChannels[0].Outlet = signalOutlet;
 
@@ -103,7 +106,10 @@ namespace JJ.Infrastructure.Synthesizer
             if (_midiIn != null)
             {
                 _midiIn.MessageReceived -= _midiIn_MessageReceived;
+                // Not sure if I need to call of these methods.
                 _midiIn.Stop();
+                _midiIn.Close();
+                _midiIn.Dispose();
             }
 
             GC.SuppressFinalize(this);
