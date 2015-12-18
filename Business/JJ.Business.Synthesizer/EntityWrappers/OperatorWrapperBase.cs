@@ -8,29 +8,28 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public abstract class OperatorWrapperBase
     {
-        protected Operator _operator;
+        protected Operator _wrappedOperator;
 
-        public OperatorWrapperBase(Operator op)
+        public OperatorWrapperBase(Operator wrappedOperator)
         {
-            if (op == null) throw new NullException(() => op);
+            if (wrappedOperator == null) throw new NullException(() => wrappedOperator);
 
-            _operator = op;
+            _wrappedOperator = wrappedOperator;
         }
 
-        /// <summary> Wrapped object summary>
-        public Operator Operator { get { return _operator; } }
+        public Operator WrappedOperator { get { return _wrappedOperator; } }
 
         public string Name
         {
-            get { return _operator.Name; }
-            set { _operator.Name = value; }
+            get { return _wrappedOperator.Name; }
+            set { _wrappedOperator.Name = value; }
         }
 
         public static implicit operator Operator(OperatorWrapperBase wrapper)
         {
             if (wrapper == null) return null;
 
-            return wrapper.Operator;
+            return wrapper.WrappedOperator;
         }
     }
 }

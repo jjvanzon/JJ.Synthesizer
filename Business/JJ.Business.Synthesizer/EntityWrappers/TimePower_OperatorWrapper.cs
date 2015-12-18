@@ -12,25 +12,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.TIME_POWER_SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_SIGNAL_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.TIME_POWER_SIGNAL_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.TIME_POWER_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet Exponent
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.TIME_POWER_EXPONENT_INDEX); }
-            set { OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_EXPONENT_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.TIME_POWER_EXPONENT_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.TIME_POWER_EXPONENT_INDEX).LinkTo(value); }
         }
 
         public Outlet Origin
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.TIME_POWER_ORIGIN_INDEX); }
-            set { OperatorHelper.GetInlet(_operator, OperatorConstants.TIME_POWER_ORIGIN_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.TIME_POWER_ORIGIN_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.TIME_POWER_ORIGIN_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.TIME_POWER_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.TIME_POWER_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(TimePower_OperatorWrapper wrapper)

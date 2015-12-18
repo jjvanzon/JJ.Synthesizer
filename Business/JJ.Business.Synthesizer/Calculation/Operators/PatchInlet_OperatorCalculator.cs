@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    /// <summary> Not used yet (2015-12-18). </summary>
     internal class PatchInlet_OperatorCalculator : OperatorCalculatorBase
     {
         /// <summary> 
@@ -13,6 +13,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// even though the performance impact has not been tested.
         /// </summary>
         public double _value;
+
+        public InletTypeEnum InletTypeEnum { get; set; }
+        public string Name { get; set; }
+        public int ListIndex { get; set; }
 
         public override double Calculate(double time, int channelIndex)
         {

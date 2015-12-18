@@ -26,7 +26,14 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
         private readonly ISampleRepository _sampleRepository;
         private readonly IPatchRepository _patchRepository;
 
+        private IPatchCalculator _patchCalculator;
+
+        /// <param name="patchRepository">
+        /// Nullable. 
+        /// If provided this saves you the overhead of re-initializing the patch calculation every time you write a file.
+        /// </param>
         public AudioFileOutputCalculatorBase(
+            IPatchCalculator patchCalculator,
             ICurveRepository curveRepository, 
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository)
@@ -35,6 +42,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
+            _patchCalculator = patchCalculator;
             _curveRepository = curveRepository;
             _sampleRepository = sampleRepository;
             _patchRepository = patchRepository;
@@ -56,19 +64,22 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
             var whiteNoiseCalculator = new WhiteNoiseCalculator(audioFileOutput.SamplingRate);
             
-            IPatchCalculator patchCalculator;
-            switch (_patchCalculatorTypeEnum)
+            IPatchCalculator patchCalculator = _patchCalculator;
+            if (patchCalculator == null)
             {
-                case PatchCalculatorTypeEnum.OptimizedPatchCalculator:
-                    patchCalculator = new OptimizedPatchCalculator(outlets, whiteNoiseCalculator, _curveRepository, _sampleRepository, _patchRepository);
-                    break;
+                switch (_patchCalculatorTypeEnum)
+                {
+                    case PatchCalculatorTypeEnum.OptimizedPatchCalculator:
+                        patchCalculator = new OptimizedPatchCalculator(outlets, whiteNoiseCalculator, _curveRepository, _sampleRepository, _patchRepository);
+                        break;
 
-                case PatchCalculatorTypeEnum.InterpretedPatchCalculator:
-                    patchCalculator = new InterpretedPatchCalculator(outlets, whiteNoiseCalculator, _curveRepository, _sampleRepository, _patchRepository);
-                    break;
+                    case PatchCalculatorTypeEnum.InterpretedPatchCalculator:
+                        patchCalculator = new InterpretedPatchCalculator(outlets, whiteNoiseCalculator, _curveRepository, _sampleRepository, _patchRepository);
+                        break;
 
-                default:
-                    throw new ValueNotSupportedException(_patchCalculatorTypeEnum);
+                    default:
+                        throw new ValueNotSupportedException(_patchCalculatorTypeEnum);
+                }
             }
 
             // Calculate output and write file

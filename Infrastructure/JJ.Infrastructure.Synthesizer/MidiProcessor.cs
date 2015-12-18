@@ -10,6 +10,7 @@ using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Extensions;
 using System.Media;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Calculation.Patches;
 
 namespace JJ.Infrastructure.Synthesizer
 {
@@ -147,20 +148,48 @@ namespace JJ.Infrastructure.Synthesizer
 
         private void HandleNoteOn(MidiEvent midiEvent)
         {
-            var noteOnEvent = (NoteOnEvent)midiEvent;
+            try
+            {
+                var noteOnEvent = (NoteOnEvent)midiEvent;
 
-            double frequency = _noteNumberToFrequencyArray[noteOnEvent.NoteNumber];
-            double volume = noteOnEvent.Velocity / MAX_VELOCITY;
+                double frequency = _noteNumberToFrequencyArray[noteOnEvent.NoteNumber];
+                double volume = noteOnEvent.Velocity / MAX_VELOCITY;
 
-            _volume_Number_OperatorWrapper.Number = volume;
-            _frequency_Number_OperatorWrapper.Number = frequency;
+                _volume_Number_OperatorWrapper.Number = volume;
+                _frequency_Number_OperatorWrapper.Number = frequency;
 
-            _audioFileOutputManager.WriteFile(_audioFileOutput);
+                _audioFileOutputManager.WriteFile(_audioFileOutput);
 
-            _previousNoteNumber = noteOnEvent.NoteNumber;
+                _previousNoteNumber = noteOnEvent.NoteNumber;
 
-            _soundPlayer.Play();
+                _soundPlayer.Play();
+            }
+            catch
+            {
+                // TODO: Stop ignoring error when it would not kill the main thread.
+            }
         }
+
+        //// Possible future version of HandleNoteOn
+        //private void HandleNoteOn(MidiEvent midiEvent)
+        //{
+        //    var noteOnEvent = (NoteOnEvent)midiEvent;
+
+        //    double frequency = _noteNumberToFrequencyArray[noteOnEvent.NoteNumber];
+        //    double volume = noteOnEvent.Velocity / MAX_VELOCITY;
+
+        //    // TODO: Make field.
+        //    IPatchCalculator _patchCalculator = null;
+
+        //    _patchCalculator.SetValue(InletTypeEnum.Frequency, frequency);
+        //    _patchCalculator.SetValue(InletTypeEnum.Volume, volume);
+
+        //    _audioFileOutputManager.WriteFile(_audioFileOutput, _patchCalculator);
+
+        //    _previousNoteNumber = noteOnEvent.NoteNumber;
+
+        //    _soundPlayer.Play();
+        //}
 
         private void HandleNoteOff(MidiEvent midiEvent)
         {

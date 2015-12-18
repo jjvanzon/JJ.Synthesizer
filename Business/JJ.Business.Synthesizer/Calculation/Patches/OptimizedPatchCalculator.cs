@@ -4,12 +4,16 @@ using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Operators;
+using JJ.Business.Synthesizer.Enums;
+using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal class OptimizedPatchCalculator : IPatchCalculator
     {
-        private OperatorCalculatorBase[] _rootOperatorCalculators;
+        /// <summary> Array for optimization in calculating values. </summary>
+        private OperatorCalculatorBase[] _channelOperatorCalculators;
+        private PatchInlet_OperatorCalculator[] _patchInlet_OperatorCalculators;
 
         /// <summary> This overload has ChannelOutlets as params. </summary>
         /// <param name="channelOutlets">Can contain nulls.</param>
@@ -19,7 +23,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository,
             params Outlet[] channelOutlets)
-            : this((IList<Outlet>)channelOutlets, whiteNoiseCalculator, curveRepository, sampleRepository, patchRepository)
+            : this(channelOutlets, whiteNoiseCalculator, curveRepository, sampleRepository, patchRepository)
         { }
 
         /// <summary> This overload has ChannelOutlets as an IList<T>. </summary>
@@ -34,12 +38,53 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
 
             var visitor = new OptimizedPatchCalculatorVisitor(curveRepository, sampleRepository, patchRepository);
-            _rootOperatorCalculators = visitor.Execute(channelOutlets, whiteNoiseCalculator).ToArray();
+
+            OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(channelOutlets, whiteNoiseCalculator);
+
+            _channelOperatorCalculators = result.ChannelOperatorCalculators.ToArray();
+            _patchInlet_OperatorCalculators = result.PatchInlet_OperatorCalculators.ToArray();
         }
 
         public double Calculate(double time, int channelIndex)
         {
-            return _rootOperatorCalculators[channelIndex].Calculate(time, channelIndex);
+            return _channelOperatorCalculators[channelIndex].Calculate(time, channelIndex);
+        }
+
+        public void SetValue(int listIndex, double value)
+        {
+            // Be tollerant for non-existend list indexes, because you can switch instruments so dynamically.
+            if (listIndex < 0) return;
+            if (listIndex >= _patchInlet_OperatorCalculators.Length) return;
+
+            _patchInlet_OperatorCalculators[listIndex]._value = value;
+        }
+
+        public void SetValue(string name, double value)
+        {
+            if (String.IsNullOrEmpty(name)) throw new NullOrEmptyException(() => name);
+
+            for (int i = 0; i < _patchInlet_OperatorCalculators.Length; i++)
+            {
+                PatchInlet_OperatorCalculator operatorCalculator = _patchInlet_OperatorCalculators[i];
+
+                if (String.Equals(operatorCalculator.Name, name))
+                {
+                    operatorCalculator._value = value;
+                }
+            }
+        }
+
+        public void SetValue(InletTypeEnum inletTypeEnum, double value)
+        {
+            for (int i = 0; i < _patchInlet_OperatorCalculators.Length; i++)
+            {
+                PatchInlet_OperatorCalculator operatorCalculator = _patchInlet_OperatorCalculators[i];
+
+                if (operatorCalculator.InletTypeEnum == inletTypeEnum)
+                {
+                    operatorCalculator._value = value;
+                }
+            }
         }
     }
 }

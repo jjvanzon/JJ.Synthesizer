@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.LinkTo;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -27,12 +28,15 @@ namespace JJ.Business.Synthesizer.Managers
             if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
 
             CreatePatch();
-
+            Patch.Name = "Auto-generated Patch";
+            
             var customOperators = new List<Operator>(underlyingPatches.Count);
 
             foreach (Patch underlyingPatch in underlyingPatches)
             {
-                var customOperatorWrapper = CustomOperator(underlyingPatch);
+                CustomOperator_OperatorWrapper customOperatorWrapper = CustomOperator(underlyingPatch);
+                customOperatorWrapper.Name = String.Format("Auto-generated CustomOperator from Patch '{0}'", underlyingPatch.Name);
+
                 customOperators.Add(customOperatorWrapper);
             }
 
@@ -52,7 +56,7 @@ namespace JJ.Business.Synthesizer.Managers
                         {
                             if (AreMatch(outlet, inlet))
                             {
-                                inlet.InputOutlet = outlet;
+                                inlet.LinkTo(outlet);
 
                                 matchedOutlets.Add(outlet);
                                 matchedInlets.Add(inlet);
@@ -67,13 +71,13 @@ namespace JJ.Business.Synthesizer.Managers
                                                                 .Except(matchedInlets);
             foreach (Inlet unmatchedInlet in unmatchedInlets)
             {
-                var patchInlet = PatchInlet();
-                patchInlet.Name = unmatchedInlet.Name;
-                patchInlet.ListIndex = unmatchedInlet.ListIndex;
-                patchInlet.InletTypeEnum = unmatchedInlet.GetInletTypeEnum();
-                patchInlet.DefaultValue = unmatchedInlet.DefaultValue;
+                PatchInlet_OperatorWrapper patchInletWrapper = PatchInlet();
+                patchInletWrapper.ListIndex = unmatchedInlet.ListIndex;
+                patchInletWrapper.InletTypeEnum = unmatchedInlet.GetInletTypeEnum();
+                patchInletWrapper.DefaultValue = unmatchedInlet.DefaultValue;
+                patchInletWrapper.Name = String.Format("Auto-generated PatchInlet for unmatched Inlet '{0}'.", unmatchedInlet.Name);
 
-                unmatchedInlet.InputOutlet = patchInlet;
+                unmatchedInlet.LinkTo((Outlet)patchInletWrapper);
             }
 
             // Unmatched outlets of the custom operators become outlets of the new patch.
@@ -81,12 +85,13 @@ namespace JJ.Business.Synthesizer.Managers
                                                                   .Except(matchedOutlets);
             foreach (Outlet unmatchedOutlet in unmatchedOutlets)
             {
-                var patchOutlet = PatchOutlet();
-                patchOutlet.Name = unmatchedOutlet.Name;
-                patchOutlet.ListIndex = unmatchedOutlet.ListIndex;
-                patchOutlet.OutletTypeEnum = unmatchedOutlet.GetOutletTypeEnum();
+                PatchOutlet_OperatorWrapper patchOutletWrapper = PatchOutlet();
+                patchOutletWrapper.Name = unmatchedOutlet.Name;
+                patchOutletWrapper.ListIndex = unmatchedOutlet.ListIndex;
+                patchOutletWrapper.OutletTypeEnum = unmatchedOutlet.GetOutletTypeEnum();
+                patchOutletWrapper.Name = String.Format("Auto-generated PatchOutlet for unmatched Outlet '{0}'.", unmatchedOutlet.Name);
 
-                patchOutlet.Input = unmatchedOutlet;
+                patchOutletWrapper.Input = unmatchedOutlet;
             }
 
             // TODO: If there is overlap in type or name, they will merge to a single inlet or outlet.
@@ -165,6 +170,7 @@ namespace JJ.Business.Synthesizer.Managers
             // Use new patch as custom operator.
             CreatePatch();
             var customOperator = CustomOperator(tempUnderlyingPatch);
+            customOperator.Name = "CustomOperator wrapping Auto-Generated Patch";
 
             return customOperator;
         }

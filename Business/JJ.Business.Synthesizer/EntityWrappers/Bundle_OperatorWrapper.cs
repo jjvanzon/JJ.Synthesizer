@@ -15,10 +15,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             get
             {
-                IList<Outlet> operands = new Outlet[_operator.Inlets.Count];
-                for (int i = 0; i < _operator.Inlets.Count; i++)
+                IList<Outlet> operands = new Outlet[_wrappedOperator.Inlets.Count];
+                for (int i = 0; i < _wrappedOperator.Inlets.Count; i++)
                 {
-                    operands[i] = _operator.Inlets[i].InputOutlet;
+                    operands[i] = _wrappedOperator.Inlets[i].InputOutlet;
                 }
                 return operands;
             }
@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.BUNDLE_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.BUNDLE_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(Bundle_OperatorWrapper wrapper)

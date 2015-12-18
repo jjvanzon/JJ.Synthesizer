@@ -13,13 +13,13 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.NUMBER_OPERATOR_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.NUMBER_OPERATOR_RESULT_INDEX); }
         }
 
         public double Number
         {
-            get { return Double.Parse(Operator.Data); }
-            set { Operator.Data = value.ToString(); }
+            get { return Double.Parse(WrappedOperator.Data); }
+            set { WrappedOperator.Data = value.ToString(); }
         }
 
         public static implicit operator Outlet(Number_OperatorWrapper wrapper)

@@ -12,25 +12,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Numerator
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.DIVIDE_NUMERATOR_INDEX); }
-            set { OperatorHelper.GetInlet(_operator, OperatorConstants.DIVIDE_NUMERATOR_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.DIVIDE_NUMERATOR_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.DIVIDE_NUMERATOR_INDEX).LinkTo(value); }
         }
 
         public Outlet Denominator
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.DIVIDE_DENOMINATOR_INDEX); }
-            set { OperatorHelper.GetInlet(_operator, OperatorConstants.DIVIDE_DENOMINATOR_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.DIVIDE_DENOMINATOR_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.DIVIDE_DENOMINATOR_INDEX).LinkTo(value); }
         }
 
         public Outlet Origin
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.DIVIDE_ORIGIN_INDEX); }
-            set { OperatorHelper.GetInlet(_operator, OperatorConstants.DIVIDE_ORIGIN_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.DIVIDE_ORIGIN_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.DIVIDE_ORIGIN_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.DIVIDE_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.DIVIDE_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(Divide_OperatorWrapper wrapper)

@@ -12,25 +12,25 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Low
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.EXPONENT_LOW_INDEX); }
-            set { OperatorHelper.GetInlet(_operator, OperatorConstants.EXPONENT_LOW_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.EXPONENT_LOW_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.EXPONENT_LOW_INDEX).LinkTo(value); }
         }
 
         public Outlet High
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.EXPONENT_HIGH_INDEX); }
-            set { OperatorHelper.GetInlet(_operator, OperatorConstants.EXPONENT_HIGH_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.EXPONENT_HIGH_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.EXPONENT_HIGH_INDEX).LinkTo(value); }
         }
 
         public Outlet Ratio
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.EXPONENT_RATIO_INDEX); }
-            set { OperatorHelper.GetInlet(_operator, OperatorConstants.EXPONENT_RATIO_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.EXPONENT_RATIO_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.EXPONENT_RATIO_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.EXPONENT_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.EXPONENT_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(Exponent_OperatorWrapper wrapper)

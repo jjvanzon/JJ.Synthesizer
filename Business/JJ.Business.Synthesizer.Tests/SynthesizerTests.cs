@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Tests
                 add.OperandA = null;
                 var valueOperatorWrapper = new Number_OperatorWrapper(subtract.OperandB.Operator);
                 valueOperatorWrapper.Number = 0;
-                subtract.Operator.Inlets[0].Name = "134";
+                subtract.WrappedOperator.Inlets[0].Name = "134";
 
                 //IValidator validator2 = new OperatorValidator_Recursive(subtract.Operator, repositories.CurveRepository, repositories.SampleRepository, repositories.DocumentRepository, alreadyDone: new HashSet<object>());
                 //IValidator warningValidator = new OperatorWarningValidator_Recursive(subtract.Operator, repositories.SampleRepository);
@@ -102,8 +102,8 @@ namespace JJ.Business.Synthesizer.Tests
                 var repositories = PersistenceHelper.CreateRepositories(context);
                 PatchManager patchManager = new PatchManager(new PatchRepositories(repositories));
 
-                IValidator validator1 = new OperatorWarningValidator_Add(patchManager.Add().Operator);
-                IValidator validator2 = new OperatorWarningValidator_Number(patchManager.Number().Operator);
+                IValidator validator1 = new OperatorWarningValidator_Add(patchManager.Add().WrappedOperator);
+                IValidator validator2 = new OperatorWarningValidator_Number(patchManager.Number().WrappedOperator);
 
                 bool isValid = validator1.IsValid &&
                                validator2.IsValid;
@@ -871,7 +871,7 @@ namespace JJ.Business.Synthesizer.Tests
                 }
 
                 // Calculator
-                IPatchCalculator calculator = x.CreateInterpretedCalculator(customOperator.Operator.Outlets[0]);
+                IPatchCalculator calculator = x.CreateInterpretedCalculator(customOperator.WrappedOperator.Outlets[0]);
                 double result = calculator.Calculate(0, 0);
             }
         }

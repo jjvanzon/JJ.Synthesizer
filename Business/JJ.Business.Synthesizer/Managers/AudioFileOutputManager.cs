@@ -13,6 +13,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.CanonicalModel;
+using JJ.Business.Synthesizer.Calculation.Patches;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -154,6 +155,20 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             return audioFileOutputChannels[i];
+        }
+
+        /// <summary>
+        /// This overload taking PatchCalculator can save you the overhead of re-initializing the patch calculation every time you write a file.
+        /// </summary>
+        public void WriteFile(AudioFileOutput audioFileOutput, IPatchCalculator patchCalculator)
+        {
+            IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(
+                audioFileOutput,
+                _repositories.CurveRepository,
+                _repositories.SampleRepository,
+                _repositories.PatchRepository);
+
+            audioFileOutputCalculator.Execute(audioFileOutput);
         }
 
         public void WriteFile(AudioFileOutput audioFileOutput)

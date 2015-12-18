@@ -117,6 +117,23 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             };
         }
 
+        // TODO: Implement.
+
+        public void SetValue(InletTypeEnum inletTypeEnum, double value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(string name, double value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(int listIndex, double value)
+        {
+            throw new NotImplementedException();
+        }
+
         public double Calculate(double time, int channelIndex)
         {
             _channelIndex = channelIndex;

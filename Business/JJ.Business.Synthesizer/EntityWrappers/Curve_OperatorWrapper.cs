@@ -19,8 +19,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public int? CurveID
         {
-            get { return ConversionHelper.ParseNullableInt32(_operator.Data); }
-            set { _operator.Data = Convert.ToString(value); }
+            get { return ConversionHelper.ParseNullableInt32(_wrappedOperator.Data); }
+            set { _wrappedOperator.Data = Convert.ToString(value); }
         }
 
         /// <summary> nullable </summary>
@@ -50,7 +50,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.CURVE_OPERATOR_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.CURVE_OPERATOR_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(Curve_OperatorWrapper wrapper)

@@ -25,6 +25,20 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     /// </summary>
     internal partial class OptimizedPatchCalculatorVisitor : OperatorVisitorBase
     {
+        public class Result
+        {
+            public Result(
+                IList<OperatorCalculatorBase> channelOperatorCalculators,
+                IList<PatchInlet_OperatorCalculator> patchInlet_OperatorCalculators)
+            {
+                ChannelOperatorCalculators = channelOperatorCalculators;
+                PatchInlet_OperatorCalculators = patchInlet_OperatorCalculators;
+            }
+
+            public IList<OperatorCalculatorBase> ChannelOperatorCalculators { get; private set; }
+            public IList<PatchInlet_OperatorCalculator> PatchInlet_OperatorCalculators { get; private set; }
+        }
+
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly IPatchRepository _patchRepository;
@@ -50,7 +64,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// <summary> Value is offset in seconds. </summary>
         private Dictionary<Operator, double> _operator_WhiteNoiseOffsetDictionary;
 
-        // TODO: Why do I not pass the repositories to the constructor?
+        private IList<PatchInlet_OperatorCalculator> _patchInlet_OperatorCalculators;
+        private Outlet _currentChannelOutlet;
 
         public OptimizedPatchCalculatorVisitor(ICurveRepository curveRepository, ISampleRepository sampleRepository, IPatchRepository patchRepository)
         {
@@ -63,8 +78,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _patchRepository = patchRepository;
         }
 
+        /// <summary> Returns an OperatorCalculator for each channel. Null-channels will get an OperatorCalculator too. </summary>
         /// <param name="channelOutlets">Can contain nulls.</param>
-        public IList<OperatorCalculatorBase> Execute(IList<Outlet> channelOutlets, WhiteNoiseCalculator whiteNoiseCalculator)
+        public Result Execute(IList<Outlet> channelOutlets, WhiteNoiseCalculator whiteNoiseCalculator)
         {
             if (whiteNoiseCalculator == null) throw new NullException(() => whiteNoiseCalculator);
             if (channelOutlets == null) throw new NullException(() => channelOutlets);
@@ -90,18 +106,21 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _curve_CurveCalculator_Dictionary = new Dictionary<Curve, OptimizedCurveCalculator>();
             _sample_SampleCalculatorDictionary = new Dictionary<Sample, ISampleCalculator>();
             _operator_WhiteNoiseOffsetDictionary = new Dictionary<Operator, double>();
+            _patchInlet_OperatorCalculators = new List<PatchInlet_OperatorCalculator>();
 
             _channelCount = channelOutlets.Count;
 
-            var list = new List<OperatorCalculatorBase>(_channelCount);
+            var channelOperatorCalculators = new List<OperatorCalculatorBase>(_channelCount);
 
             foreach (Outlet channelOutlet in channelOutlets)
             {
                 if (channelOutlet == null)
                 {
-                    list.Add(new Zero_OperatorCalculator());
+                    channelOperatorCalculators.Add(new Zero_OperatorCalculator());
                     continue;
                 }
+
+                _currentChannelOutlet = channelOutlet;
 
                 VisitOutlet(channelOutlet);
 
@@ -114,10 +133,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                 operatorCalculator = operatorCalculator ?? new Zero_OperatorCalculator(); 
 
-                list.Add(operatorCalculator);
+                channelOperatorCalculators.Add(operatorCalculator);
             }
 
-            return list;
+            return new Result(channelOperatorCalculators, _patchInlet_OperatorCalculators); 
         }
 
         protected override void VisitAdd(Operator op)
@@ -517,6 +536,27 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var calculator = new Number_OperatorCalculator(number);
             _stack.Push(calculator);
+        }
+
+        protected override void VisitPatchInlet(Operator patchInlet)
+        {
+            bool isTopLevelPatchInlet = patchInlet.Patch.ID == _currentChannelOutlet.Operator.Patch.ID;
+            if (isTopLevelPatchInlet)
+            {
+                var wrapper = new PatchInlet_OperatorWrapper(patchInlet);
+
+                var calculator = new PatchInlet_OperatorCalculator();
+                calculator.ListIndex = wrapper.ListIndex ?? 0;
+                calculator.Name = wrapper.Name;
+                calculator.InletTypeEnum = wrapper.InletTypeEnum;
+                calculator._value = wrapper.DefaultValue ?? 0.0;
+
+                _patchInlet_OperatorCalculators.Add(calculator);
+
+                // TODO: Enable this later.
+                // TODO: Beware that this might conflict with VisitCustomOperatorOutlet.
+	            //_stack.Push(patchInlet_OperatorCalculator);
+            }
         }
 
         protected override void VisitPower(Operator op)

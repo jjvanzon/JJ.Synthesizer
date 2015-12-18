@@ -12,19 +12,19 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Signal
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.DELAY_SIGNAL_INDEX); }
-            set { OperatorHelper.GetInlet(_operator, OperatorConstants.DELAY_SIGNAL_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.DELAY_SIGNAL_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.DELAY_SIGNAL_INDEX).LinkTo(value); }
         }
 
         public Outlet TimeDifference
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.DELAY_TIME_DIFFERENCE_INDEX); }
-            set { OperatorHelper.GetInlet(_operator, OperatorConstants.DELAY_TIME_DIFFERENCE_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.DELAY_TIME_DIFFERENCE_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.DELAY_TIME_DIFFERENCE_INDEX).LinkTo(value); }
         }
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.DELAY_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.DELAY_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(Delay_OperatorWrapper wrapper)

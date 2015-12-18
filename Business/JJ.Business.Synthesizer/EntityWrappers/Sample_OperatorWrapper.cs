@@ -21,14 +21,14 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Frequency
         {
-            get { return OperatorHelper.GetInputOutlet(_operator, OperatorConstants.SAMPLE_FREQUENCY_INDEX); }
-            set { OperatorHelper.GetInlet(_operator, OperatorConstants.SAMPLE_FREQUENCY_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.SAMPLE_FREQUENCY_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.SAMPLE_FREQUENCY_INDEX).LinkTo(value); }
         }
 
         public int? SampleID
         {
-            get { return ConversionHelper.ParseNullableInt32(_operator.Data); }
-            set { _operator.Data = Convert.ToString(value); }
+            get { return ConversionHelper.ParseNullableInt32(_wrappedOperator.Data); }
+            set { _wrappedOperator.Data = Convert.ToString(value); }
         }
 
         /// <summary> nullable </summary>
@@ -86,7 +86,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public Outlet Result
         {
-            get { return OperatorHelper.GetOutlet(_operator, OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX); }
+            get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.SAMPLE_OPERATOR_RESULT_INDEX); }
         }
 
         public static implicit operator Outlet(Sample_OperatorWrapper wrapper)

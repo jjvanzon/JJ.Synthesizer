@@ -26,7 +26,7 @@ namespace JJ.Business.Synthesizer.Managers
                 OperandB = operandB
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
 
             return wrapper;
         }
@@ -63,7 +63,7 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories.OutletRepository.Insert(outlet);
 
             var wrapper = new Adder_OperatorWrapper(op);
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -99,7 +99,7 @@ namespace JJ.Business.Synthesizer.Managers
             _repositories.OutletRepository.Insert(outlet);
 
             var wrapper = new Bundle_OperatorWrapper(op);
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -114,7 +114,7 @@ namespace JJ.Business.Synthesizer.Managers
                 wrapper.CurveID = curve.ID;
             }
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -132,9 +132,9 @@ namespace JJ.Business.Synthesizer.Managers
 
             CustomOperator_OperatorWrapper wrapper = CustomOperator(underlyingPatch);
 
-            SetOperands(wrapper.Operator, operands);
+            SetOperands(wrapper.WrappedOperator, operands);
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -147,7 +147,7 @@ namespace JJ.Business.Synthesizer.Managers
 
             var wrapper = new CustomOperator_OperatorWrapper(op, _repositories.PatchRepository);
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -203,7 +203,7 @@ namespace JJ.Business.Synthesizer.Managers
 
             wrapper.UnderlyingPatch = underlyingPatch;
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -217,7 +217,7 @@ namespace JJ.Business.Synthesizer.Managers
                 TimeDifference = timeDifference
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -232,7 +232,7 @@ namespace JJ.Business.Synthesizer.Managers
                 Origin = origin
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -247,7 +247,7 @@ namespace JJ.Business.Synthesizer.Managers
                 Ratio = ratio
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -271,7 +271,7 @@ namespace JJ.Business.Synthesizer.Managers
                 Release = release
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -286,7 +286,7 @@ namespace JJ.Business.Synthesizer.Managers
                 Origin = origin
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -299,7 +299,7 @@ namespace JJ.Business.Synthesizer.Managers
                 Number = number
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -314,9 +314,9 @@ namespace JJ.Business.Synthesizer.Managers
                 InletTypeEnum = InletTypeEnum.Undefined
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
 
-            ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.Operator);
+            ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.WrappedOperator);
 
             return wrapper;
         }
@@ -333,9 +333,9 @@ namespace JJ.Business.Synthesizer.Managers
                 OutletTypeEnum = OutletTypeEnum.Undefined
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
 
-            ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.Operator);
+            ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(wrapper.WrappedOperator);
 
             return wrapper;
         }
@@ -350,7 +350,7 @@ namespace JJ.Business.Synthesizer.Managers
                 Exponent = exponent
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -364,7 +364,7 @@ namespace JJ.Business.Synthesizer.Managers
                 PhaseShift = phaseShift
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -378,7 +378,7 @@ namespace JJ.Business.Synthesizer.Managers
                 SamplingRate = samplingRate
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -392,7 +392,7 @@ namespace JJ.Business.Synthesizer.Managers
                 wrapper.SampleID = sample.ID;
             }
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -406,7 +406,7 @@ namespace JJ.Business.Synthesizer.Managers
                 Time = time
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -420,7 +420,7 @@ namespace JJ.Business.Synthesizer.Managers
                 PhaseShift = phaseShift
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -434,7 +434,7 @@ namespace JJ.Business.Synthesizer.Managers
                 OperandB = operandB
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -449,7 +449,7 @@ namespace JJ.Business.Synthesizer.Managers
                 Origin = origin
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -464,7 +464,7 @@ namespace JJ.Business.Synthesizer.Managers
                 Origin = origin
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -478,7 +478,7 @@ namespace JJ.Business.Synthesizer.Managers
                 PhaseShift = phaseShift
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -493,7 +493,7 @@ namespace JJ.Business.Synthesizer.Managers
                 Origin = origin
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -507,7 +507,7 @@ namespace JJ.Business.Synthesizer.Managers
                 TimeDifference = timeDifference
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -521,7 +521,7 @@ namespace JJ.Business.Synthesizer.Managers
                 PhaseShift = phaseShift
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -534,7 +534,7 @@ namespace JJ.Business.Synthesizer.Managers
                 Operand = operand
             };
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
 
             return wrapper;
         }
@@ -545,7 +545,7 @@ namespace JJ.Business.Synthesizer.Managers
 
             var wrapper = new WhiteNoise_OperatorWrapper(op);
 
-            wrapper.Operator.LinkTo(Patch);
+            wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
@@ -634,7 +634,7 @@ namespace JJ.Business.Synthesizer.Managers
 
             object[] nullParameters = new object[methodInfo.GetParameters().Length];
             OperatorWrapperBase wrapper = (OperatorWrapperBase)methodInfo.Invoke(this, nullParameters);
-            Operator op = wrapper.Operator;
+            Operator op = wrapper.WrappedOperator;
             op.LinkTo(Patch);
 
             return op;
