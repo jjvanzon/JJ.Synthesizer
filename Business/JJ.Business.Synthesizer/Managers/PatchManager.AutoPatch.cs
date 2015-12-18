@@ -144,35 +144,27 @@ namespace JJ.Business.Synthesizer.Managers
             if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
 
             // Create a new patch out of the other patches.
-            CustomOperator_OperatorWrapper tempCustomOperator = AutoPatch_ToCustomOperator(underlyingPatches);
+            AutoPatch(underlyingPatches);
 
-            // TODO: InletTypes and OutletTypes do not have to be unique and in that case this method crashes.
-            Inlet inlet = OperatorHelper.TryGetInlet(tempCustomOperator, InletTypeEnum.Frequency);
-            if (inlet != null)
+            double frequency = tone.GetFrequency();
+            Number_OperatorWrapper frequencyNumberOperatorWrapper = Number(frequency);
+
+            IEnumerable<Inlet> frequencyInlets = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
+                                                      .Where(x => x.InletTypeEnum == InletTypeEnum.Frequency)
+                                                      .Select(x => x.Inlet);
+
+            foreach (Inlet frequencyInlet in frequencyInlets)
             {
-                double frequency = tone.GetFrequency();
-                inlet.InputOutlet = Number(frequency);
-
-                Outlet outlet = OperatorHelper.TryGetOutlet(tempCustomOperator, OutletTypeEnum.Signal);
-                return outlet;
+                frequencyInlet.InputOutlet = frequencyNumberOperatorWrapper;
             }
 
-            return null;
-        }
+            IEnumerable<Outlet> signalOutlets = Patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                                                     .Where(x => x.OutletTypeEnum == OutletTypeEnum.Signal)
+                                                     .Select(x => x.Result);
 
-        public CustomOperator_OperatorWrapper AutoPatch_ToCustomOperator(IList<Patch> underlyingPatches)
-        {
-            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
-
-            AutoPatch(underlyingPatches);
-            Patch tempUnderlyingPatch = Patch;
-
-            // Use new patch as custom operator.
-            CreatePatch();
-            var customOperator = CustomOperator(tempUnderlyingPatch);
-            customOperator.Name = "CustomOperator wrapping Auto-Generated Patch";
-
-            return customOperator;
+            // TODO: Add up the signals instead of taking the first one.
+            Outlet outlet = signalOutlets.First();
+            return outlet;
         }
     }
 }

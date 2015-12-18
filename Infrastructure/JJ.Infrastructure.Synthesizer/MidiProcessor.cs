@@ -56,13 +56,16 @@ namespace JJ.Infrastructure.Synthesizer
 
             // Setup Patch
             _patchManager = new PatchManager(new PatchRepositories(repositories));
-            CustomOperator_OperatorWrapper customOperator = _patchManager.AutoPatch_ToCustomOperator(patches);
+            _patchManager.AutoPatch(patches);
+            Patch autoPatch = _patchManager.Patch;
 
             // Setup Frequency Inlets
             _frequency_Number_OperatorWrapper = _patchManager.Number();
-            IList<Inlet> frequencyInlets = customOperator.Inlets
-                                                      .Where(x => x.GetInletTypeEnum() == InletTypeEnum.Frequency)
-                                                      .ToArray();
+            IList<Inlet> frequencyInlets = autoPatch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
+                                                    .Where(x => x.InletTypeEnum == InletTypeEnum.Frequency)
+                                                    .Select(x => x.Inlet)
+                                                    .ToArray();
+
             foreach (Inlet frequencyInlet in frequencyInlets)
             {
                 frequencyInlet.InputOutlet = _frequency_Number_OperatorWrapper;
@@ -70,15 +73,23 @@ namespace JJ.Infrastructure.Synthesizer
 
             // Setup Volume Inlets
             _volume_Number_OperatorWrapper = _patchManager.Number();
-            IList<Inlet> volumeInlets = customOperator.Inlets
-                                                      .Where(x => x.GetInletTypeEnum() == InletTypeEnum.Volume)
-                                                      .ToArray();
+            IList<Inlet> volumeInlets = autoPatch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
+                                                 .Where(x => x.InletTypeEnum == InletTypeEnum.Volume)
+                                                 .Select(x => x.Inlet)
+                                                 .ToArray();
+
             foreach (Inlet volumeInlet in volumeInlets)
             {
                 volumeInlet.InputOutlet = _volume_Number_OperatorWrapper;
             }
 
-            Outlet signalOutlet = customOperator.Outlets[OutletTypeEnum.Signal];
+            // TODO: Add up all signal outlets. Note that it might be hard, because tyou cannot just add to the patch?
+            // Oh, it is an auto-patch, you might be able to do whatever you want to it.
+            // Beware to not wrap it all into another CustomOperat, because you need to Patch to use their PatchInlets
+            // as freely controllable values.
+            Outlet signalOutlet = autoPatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                                           .Select(x => x.Result)
+                                           .FirstOrDefault();
 
             // AudioFileOutput
             _audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
