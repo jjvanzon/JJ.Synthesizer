@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     {
         /// <summary> Array for optimization in calculating values. </summary>
         private OperatorCalculatorBase[] _channelOperatorCalculators;
-        private PatchInlet_OperatorCalculator[] _patchInlet_OperatorCalculators;
+        private Input_OperatorCalculator[] _patchInlet_OperatorCalculators;
 
         /// <summary> This overload has ChannelOutlets as params. </summary>
         /// <param name="channelOutlets">Can contain nulls.</param>
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             for (int i = 0; i < _patchInlet_OperatorCalculators.Length; i++)
             {
-                PatchInlet_OperatorCalculator operatorCalculator = _patchInlet_OperatorCalculators[i];
+                Input_OperatorCalculator operatorCalculator = _patchInlet_OperatorCalculators[i];
 
                 if (String.Equals(operatorCalculator.Name, name))
                 {
@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             for (int i = 0; i < _patchInlet_OperatorCalculators.Length; i++)
             {
-                PatchInlet_OperatorCalculator operatorCalculator = _patchInlet_OperatorCalculators[i];
+                Input_OperatorCalculator operatorCalculator = _patchInlet_OperatorCalculators[i];
 
                 if (operatorCalculator.InletTypeEnum == inletTypeEnum)
                 {

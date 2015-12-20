@@ -29,14 +29,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             public Result(
                 IList<OperatorCalculatorBase> channelOperatorCalculators,
-                IList<PatchInlet_OperatorCalculator> patchInlet_OperatorCalculators)
+                IList<Input_OperatorCalculator> patchInlet_OperatorCalculators)
             {
                 ChannelOperatorCalculators = channelOperatorCalculators;
                 PatchInlet_OperatorCalculators = patchInlet_OperatorCalculators;
             }
 
             public IList<OperatorCalculatorBase> ChannelOperatorCalculators { get; private set; }
-            public IList<PatchInlet_OperatorCalculator> PatchInlet_OperatorCalculators { get; private set; }
+            public IList<Input_OperatorCalculator> PatchInlet_OperatorCalculators { get; private set; }
         }
 
         private readonly ICurveRepository _curveRepository;
@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// <summary> Value is offset in seconds. </summary>
         private Dictionary<Operator, double> _operator_WhiteNoiseOffsetDictionary;
 
-        private IList<PatchInlet_OperatorCalculator> _patchInlet_OperatorCalculators;
+        private IList<Input_OperatorCalculator> _patchInlet_OperatorCalculators;
         private Outlet _currentChannelOutlet;
 
         public OptimizedPatchCalculatorVisitor(ICurveRepository curveRepository, ISampleRepository sampleRepository, IPatchRepository patchRepository)
@@ -106,7 +106,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _curve_CurveCalculator_Dictionary = new Dictionary<Curve, OptimizedCurveCalculator>();
             _sample_SampleCalculatorDictionary = new Dictionary<Sample, ISampleCalculator>();
             _operator_WhiteNoiseOffsetDictionary = new Dictionary<Operator, double>();
-            _patchInlet_OperatorCalculators = new List<PatchInlet_OperatorCalculator>();
+            _patchInlet_OperatorCalculators = new List<Input_OperatorCalculator>();
 
             _channelCount = channelOutlets.Count;
 
@@ -536,27 +536,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var calculator = new Number_OperatorCalculator(number);
             _stack.Push(calculator);
-        }
-
-        protected override void VisitPatchInlet(Operator patchInlet)
-        {
-            bool isTopLevelPatchInlet = patchInlet.Patch.ID == _currentChannelOutlet.Operator.Patch.ID;
-            if (isTopLevelPatchInlet)
-            {
-                var wrapper = new PatchInlet_OperatorWrapper(patchInlet);
-
-                var calculator = new PatchInlet_OperatorCalculator();
-                calculator.ListIndex = wrapper.ListIndex ?? 0;
-                calculator.Name = wrapper.Name;
-                calculator.InletTypeEnum = wrapper.InletTypeEnum;
-                calculator._value = wrapper.DefaultValue ?? 0.0;
-
-                _patchInlet_OperatorCalculators.Add(calculator);
-
-                // TODO: Enable this later.
-                // TODO: Beware that this might conflict with VisitCustomOperatorOutlet.
-	            //_stack.Push(patchInlet_OperatorCalculator);
-            }
         }
 
         protected override void VisitPower(Operator op)
@@ -1224,6 +1203,55 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             base.VisitInlet(inlet);
         }
 
+        protected override void VisitPatchInlet(Operator patchInlet)
+        {
+            var wrapper = new PatchInlet_OperatorWrapper(patchInlet);
+
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase inputCalculator = _stack.Pop();
+
+            inputCalculator = inputCalculator ?? new Zero_OperatorCalculator();
+            double input = inputCalculator.Calculate(0, 0);
+            double defaultValue = wrapper.DefaultValue ?? 0.0;
+            bool inputIsConst = inputCalculator is Number_OperatorCalculator;
+            bool inputIsConstDefaultValue = inputIsConst && input == defaultValue;
+            bool isTopLevelPatchInlet = IsTopLevelPatchInlet(patchInlet);
+
+            // Only top-level PatchInlets are values controllable from the outside.
+            // For foreward compatibility we only apply that rule if nothing else was filled in.
+            if (isTopLevelPatchInlet && inputIsConstDefaultValue)
+            {
+                var inletCalculator = new Input_OperatorCalculator
+                {
+                    ListIndex = wrapper.ListIndex ?? 0,
+                    Name = wrapper.Name,
+                    InletTypeEnum = wrapper.InletTypeEnum,
+                    _value = wrapper.DefaultValue ?? 0.0
+                };
+
+                _patchInlet_OperatorCalculators.Add(inletCalculator);
+
+                calculator = inletCalculator;
+            }
+            else
+            {
+                calculator = inputCalculator;
+            }
+
+            _stack.Push(calculator);
+        }
+
+        private bool IsTopLevelPatchInlet(Operator op)
+        {
+            if (op.GetOperatorTypeEnum() != OperatorTypeEnum.PatchInlet)
+            {
+                return false;
+            }
+
+            return op.Patch.ID == _currentChannelOutlet.Operator.Patch.ID;
+        }
+
         protected override void VisitOutlet(Outlet outlet)
         {
             OperatorTypeEnum operatorTypeEnum = outlet.Operator.GetOperatorTypeEnum();
@@ -1254,21 +1282,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // As soon as you encounter a CustomOperator's Outlet,
             // the evaluation has to take a completely different course.
             Outlet customOperatorOutlet = outlet;
-            Outlet patchOutletOutlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(
-                customOperatorOutlet, _patchRepository);
+            Outlet patchOutlet_Outlet = PatchCalculationHelper.TryApplyCustomOperatorToUnderlyingPatch(customOperatorOutlet, _patchRepository);
 
-            if (patchOutletOutlet == null)
+            if (patchOutlet_Outlet == null)
             {
-                throw new Exception("patchOutletOutlet was null after TryApplyCustomOperatorToUnderlyingPatch.");
+                throw new Exception("patchOutlet_Outlet was null after TryApplyCustomOperatorToUnderlyingPatch.");
             }
 
-            VisitOperator(patchOutletOutlet.Operator);
+            VisitOperator(patchOutlet_Outlet.Operator);
         }
 
         private void VisitUnbundleOperatorOutlet(Outlet outlet)
         {
-            //return;
-
             Operator op = outlet.Operator;
             Inlet inlet = op.Inlets.Single();
             Outlet inputOutlet = inlet.InputOutlet;
