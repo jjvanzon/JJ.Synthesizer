@@ -4,6 +4,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Api.Helpers;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Data.Synthesizer;
 
@@ -100,6 +101,26 @@ namespace JJ.Business.Synthesizer.Api
         public Number_OperatorWrapper Number(double number = 0)
         {
             return _patchManager.Number(number);
+        }
+
+        public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum)
+        {
+            return _patchManager.PatchInlet(inletTypeEnum);
+        }
+
+        public Outlet PatchInlet(InletTypeEnum inletTypeEnum, double defaultValue)
+        {
+            return _patchManager.PatchInlet(inletTypeEnum, defaultValue);
+        }
+
+        public PatchInlet_OperatorWrapper PatchInlet(string name)
+        {
+            return _patchManager.PatchInlet(name);
+        }
+
+        public PatchInlet_OperatorWrapper PatchInlet(string name, double defaultValue)
+        {
+            return _patchManager.PatchInlet(name, defaultValue);
         }
 
         public PatchInlet_OperatorWrapper PatchInlet()

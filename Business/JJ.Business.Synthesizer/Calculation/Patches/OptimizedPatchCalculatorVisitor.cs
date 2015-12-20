@@ -1213,6 +1213,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             inputCalculator = inputCalculator ?? new Zero_OperatorCalculator();
             double input = inputCalculator.Calculate(0, 0);
+            // TODO: This will only work if PatchInlet.Inlet gets the same property values as PatchInlet.Data
+            // by means of a side-effect in the business logic.
             //double defaultValue = wrapper.DefaultValue ?? 0.0;
             double defaultValue = 0.0; // Fake it for debugging (2015-12-20):
             bool inputIsConst = inputCalculator is Number_OperatorCalculator;

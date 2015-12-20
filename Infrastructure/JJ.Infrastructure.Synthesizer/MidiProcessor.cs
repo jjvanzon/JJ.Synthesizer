@@ -24,14 +24,11 @@ namespace JJ.Infrastructure.Synthesizer
         private const double MAX_VELOCITY = 127.0;
         private const int MAX_NOTE_NUMBER = 127;
 
-        private readonly PatchManager _patchManager;
         private readonly AudioFileOutputManager _audioFileOutputManager;
-        private IPatchCalculator _patchCalculator;
+        private readonly IPatchCalculator _patchCalculator;
 
         private readonly Scale _scale;
         private readonly AudioFileOutput _audioFileOutput;
-        //private readonly Number_OperatorWrapper _frequency_Number_OperatorWrapper;
-        //private readonly Number_OperatorWrapper _volume_Number_OperatorWrapper;
 
         private readonly MidiIn _midiIn;
         private readonly SoundPlayer _soundPlayer;
@@ -56,9 +53,9 @@ namespace JJ.Infrastructure.Synthesizer
             _noteNumberToFrequencyArray = frequencies.ToArray();
 
             // Setup Patch
-            _patchManager = new PatchManager(new PatchRepositories(repositories));
-            _patchManager.AutoPatch(patches);
-            Patch autoPatch = _patchManager.Patch;
+            var patchManager = new PatchManager(new PatchRepositories(repositories));
+            patchManager.AutoPatch(patches);
+            Patch autoPatch = patchManager.Patch;
 
             // TODO: Add up all signal outlets. Note that it might be hard, because you cannot just add to the patch?
             // Oh, it is an auto-patch, you might be able to do whatever you want to it.
@@ -68,7 +65,7 @@ namespace JJ.Infrastructure.Synthesizer
                                            .Select(x => x.Result)
                                            .FirstOrDefault();
 
-            _patchCalculator = _patchManager.CreateOptimizedCalculator(signalOutlet);
+            _patchCalculator = patchManager.CreateOptimizedCalculator(signalOutlet);
 
             // AudioFileOutput
             _audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));

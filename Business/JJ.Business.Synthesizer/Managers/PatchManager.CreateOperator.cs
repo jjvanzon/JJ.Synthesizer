@@ -303,6 +303,36 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
+        public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum)
+        {
+            PatchInlet_OperatorWrapper wrapper = PatchInlet();
+            wrapper.InletTypeEnum = inletTypeEnum;
+            return wrapper;
+        }
+
+        public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum, double defaultValue)
+        {
+            PatchInlet_OperatorWrapper wrapper = PatchInlet();
+            wrapper.InletTypeEnum = inletTypeEnum;
+            wrapper.DefaultValue = defaultValue;
+            return wrapper;
+        }
+
+        public PatchInlet_OperatorWrapper PatchInlet(string name)
+        {
+            PatchInlet_OperatorWrapper wrapper = PatchInlet();
+            wrapper.Name = name;
+            return wrapper;
+        }
+
+        public PatchInlet_OperatorWrapper PatchInlet(string name, double defaultValue)
+        {
+            PatchInlet_OperatorWrapper wrapper = PatchInlet();
+            wrapper.Name = name;
+            wrapper.DefaultValue = defaultValue;
+            return wrapper;
+        }
+
         public PatchInlet_OperatorWrapper PatchInlet()
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.PatchInlet, inletCount: 1, outletCount: 1);
@@ -588,23 +618,34 @@ namespace JJ.Business.Synthesizer.Managers
 
             foreach (OperatorTypeEnum operatorTypeEnum in enumMembers)
             {
-                if (operatorTypeEnum == OperatorTypeEnum.Undefined ||
-                    operatorTypeEnum == OperatorTypeEnum.Adder ||
-                    operatorTypeEnum == OperatorTypeEnum.Bundle)
+                switch (operatorTypeEnum)
                 {
-                    continue;
-                }
+                    case OperatorTypeEnum.Undefined:
+                    case OperatorTypeEnum.Adder:
+                    case OperatorTypeEnum.Bundle:
+                        continue;
 
-                MethodInfo methodInfo;
-                if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
-                {
-                    methodInfo = typeof(PatchManager).GetMethod(operatorTypeEnum.ToString(), Type.EmptyTypes);
+                    case OperatorTypeEnum.CustomOperator:
+                        {
+                            MethodInfo methodInfo = typeof(PatchManager).GetMethod(operatorTypeEnum.ToString(), Type.EmptyTypes);
+                            methodDictionary.Add(operatorTypeEnum, methodInfo);
+                            break;
+                        }
+
+                    case OperatorTypeEnum.PatchInlet:
+                        {
+                            MethodInfo methodInfo = typeof(PatchManager).GetMethod(operatorTypeEnum.ToString(), Type.EmptyTypes);
+                            methodDictionary.Add(operatorTypeEnum, methodInfo);
+                            break;
+                        }
+
+                    default:
+                        {
+                            MethodInfo methodInfo = typeof(PatchManager).GetMethod(operatorTypeEnum.ToString());
+                            methodDictionary.Add(operatorTypeEnum, methodInfo);
+                            break;
+                        }
                 }
-                else
-                {
-                    methodInfo = typeof(PatchManager).GetMethod(operatorTypeEnum.ToString());
-                }
-                methodDictionary.Add(operatorTypeEnum, methodInfo);
             }
 
             return methodDictionary;
