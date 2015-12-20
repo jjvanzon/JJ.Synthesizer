@@ -13,7 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     {
         /// <summary> Array for optimization in calculating values. </summary>
         private OperatorCalculatorBase[] _channelOperatorCalculators;
-        private Input_OperatorCalculator[] _patchInlet_OperatorCalculators;
+        private VariableInput_OperatorCalculator[] _patchInlet_OperatorCalculators;
 
         /// <summary> This overload has ChannelOutlets as params. </summary>
         /// <param name="channelOutlets">Can contain nulls.</param>
@@ -41,8 +41,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(channelOutlets, whiteNoiseCalculator);
 
-            _channelOperatorCalculators = result.ChannelOperatorCalculators.ToArray();
-            _patchInlet_OperatorCalculators = result.PatchInlet_OperatorCalculators.ToArray();
+            _channelOperatorCalculators = result.Output_OperatorCalculators.ToArray();
+            _patchInlet_OperatorCalculators = result.Input_OperatorCalculators.ToArray();
         }
 
         public double Calculate(double time, int channelIndex)
@@ -65,7 +65,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             for (int i = 0; i < _patchInlet_OperatorCalculators.Length; i++)
             {
-                Input_OperatorCalculator operatorCalculator = _patchInlet_OperatorCalculators[i];
+                VariableInput_OperatorCalculator operatorCalculator = _patchInlet_OperatorCalculators[i];
 
                 if (String.Equals(operatorCalculator.Name, name))
                 {
@@ -78,7 +78,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             for (int i = 0; i < _patchInlet_OperatorCalculators.Length; i++)
             {
-                Input_OperatorCalculator operatorCalculator = _patchInlet_OperatorCalculators[i];
+                VariableInput_OperatorCalculator operatorCalculator = _patchInlet_OperatorCalculators[i];
 
                 if (operatorCalculator.InletTypeEnum == inletTypeEnum)
                 {

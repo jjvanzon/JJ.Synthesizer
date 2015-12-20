@@ -26,11 +26,12 @@ namespace JJ.Infrastructure.Synthesizer
 
         private readonly PatchManager _patchManager;
         private readonly AudioFileOutputManager _audioFileOutputManager;
+        private IPatchCalculator _patchCalculator;
 
         private readonly Scale _scale;
         private readonly AudioFileOutput _audioFileOutput;
-        private readonly Number_OperatorWrapper _frequency_Number_OperatorWrapper;
-        private readonly Number_OperatorWrapper _volume_Number_OperatorWrapper;
+        //private readonly Number_OperatorWrapper _frequency_Number_OperatorWrapper;
+        //private readonly Number_OperatorWrapper _volume_Number_OperatorWrapper;
 
         private readonly MidiIn _midiIn;
         private readonly SoundPlayer _soundPlayer;
@@ -59,37 +60,15 @@ namespace JJ.Infrastructure.Synthesizer
             _patchManager.AutoPatch(patches);
             Patch autoPatch = _patchManager.Patch;
 
-            // Setup Frequency Inlets
-            _frequency_Number_OperatorWrapper = _patchManager.Number();
-            IList<Inlet> frequencyInlets = autoPatch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                    .Where(x => x.InletTypeEnum == InletTypeEnum.Frequency)
-                                                    .Select(x => x.Inlet)
-                                                    .ToArray();
-
-            foreach (Inlet frequencyInlet in frequencyInlets)
-            {
-                frequencyInlet.InputOutlet = _frequency_Number_OperatorWrapper;
-            }
-
-            // Setup Volume Inlets
-            _volume_Number_OperatorWrapper = _patchManager.Number();
-            IList<Inlet> volumeInlets = autoPatch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                 .Where(x => x.InletTypeEnum == InletTypeEnum.Volume)
-                                                 .Select(x => x.Inlet)
-                                                 .ToArray();
-
-            foreach (Inlet volumeInlet in volumeInlets)
-            {
-                volumeInlet.InputOutlet = _volume_Number_OperatorWrapper;
-            }
-
-            // TODO: Add up all signal outlets. Note that it might be hard, because tyou cannot just add to the patch?
+            // TODO: Add up all signal outlets. Note that it might be hard, because you cannot just add to the patch?
             // Oh, it is an auto-patch, you might be able to do whatever you want to it.
             // Beware to not wrap it all into another CustomOperat, because you need to Patch to use their PatchInlets
             // as freely controllable values.
             Outlet signalOutlet = autoPatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
                                            .Select(x => x.Result)
                                            .FirstOrDefault();
+
+            _patchCalculator = _patchManager.CreateOptimizedCalculator(signalOutlet);
 
             // AudioFileOutput
             _audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
@@ -159,48 +138,20 @@ namespace JJ.Infrastructure.Synthesizer
 
         private void HandleNoteOn(MidiEvent midiEvent)
         {
-            try
-            {
-                var noteOnEvent = (NoteOnEvent)midiEvent;
+            var noteOnEvent = (NoteOnEvent)midiEvent;
 
-                double frequency = _noteNumberToFrequencyArray[noteOnEvent.NoteNumber];
-                double volume = noteOnEvent.Velocity / MAX_VELOCITY;
+            double frequency = _noteNumberToFrequencyArray[noteOnEvent.NoteNumber];
+            double volume = noteOnEvent.Velocity / MAX_VELOCITY;
 
-                _volume_Number_OperatorWrapper.Number = volume;
-                _frequency_Number_OperatorWrapper.Number = frequency;
+            _patchCalculator.SetValue(InletTypeEnum.Frequency, frequency);
+            _patchCalculator.SetValue(InletTypeEnum.Volume, volume);
 
-                _audioFileOutputManager.WriteFile(_audioFileOutput);
+            _audioFileOutputManager.WriteFile(_audioFileOutput, _patchCalculator);
 
-                _previousNoteNumber = noteOnEvent.NoteNumber;
+            _previousNoteNumber = noteOnEvent.NoteNumber;
 
-                _soundPlayer.Play();
-            }
-            catch
-            {
-                // TODO: Stop ignoring error when it would not kill the main thread.
-            }
+            _soundPlayer.Play();
         }
-
-        //// Possible future version of HandleNoteOn
-        //private void HandleNoteOn(MidiEvent midiEvent)
-        //{
-        //    var noteOnEvent = (NoteOnEvent)midiEvent;
-
-        //    double frequency = _noteNumberToFrequencyArray[noteOnEvent.NoteNumber];
-        //    double volume = noteOnEvent.Velocity / MAX_VELOCITY;
-
-        //    // TODO: Make field.
-        //    IPatchCalculator _patchCalculator = null;
-
-        //    _patchCalculator.SetValue(InletTypeEnum.Frequency, frequency);
-        //    _patchCalculator.SetValue(InletTypeEnum.Volume, volume);
-
-        //    _audioFileOutputManager.WriteFile(_audioFileOutput, _patchCalculator);
-
-        //    _previousNoteNumber = noteOnEvent.NoteNumber;
-
-        //    _soundPlayer.Play();
-        //}
 
         private void HandleNoteOff(MidiEvent midiEvent)
         {

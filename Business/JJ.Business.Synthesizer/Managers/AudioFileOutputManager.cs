@@ -163,7 +163,8 @@ namespace JJ.Business.Synthesizer.Managers
         public void WriteFile(AudioFileOutput audioFileOutput, IPatchCalculator patchCalculator)
         {
             IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(
-                audioFileOutput,
+                audioFileOutput, 
+                patchCalculator,
                 _repositories.CurveRepository,
                 _repositories.SampleRepository,
                 _repositories.PatchRepository);

@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Input_OperatorCalculator : OperatorCalculatorBase
+    internal class VariableInput_OperatorCalculator : OperatorCalculatorBase
     {
         /// <summary> 
         /// Assign values from user input to this variable.

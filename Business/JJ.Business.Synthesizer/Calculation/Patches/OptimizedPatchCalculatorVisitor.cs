@@ -28,15 +28,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         public class Result
         {
             public Result(
-                IList<OperatorCalculatorBase> channelOperatorCalculators,
-                IList<Input_OperatorCalculator> patchInlet_OperatorCalculators)
+                IList<OperatorCalculatorBase> output_OperatorCalculators,
+                IList<VariableInput_OperatorCalculator> input_OperatorCalculators)
             {
-                ChannelOperatorCalculators = channelOperatorCalculators;
-                PatchInlet_OperatorCalculators = patchInlet_OperatorCalculators;
+                Output_OperatorCalculators = output_OperatorCalculators;
+                Input_OperatorCalculators = input_OperatorCalculators;
             }
 
-            public IList<OperatorCalculatorBase> ChannelOperatorCalculators { get; private set; }
-            public IList<Input_OperatorCalculator> PatchInlet_OperatorCalculators { get; private set; }
+            public IList<OperatorCalculatorBase> Output_OperatorCalculators { get; private set; }
+            public IList<VariableInput_OperatorCalculator> Input_OperatorCalculators { get; private set; }
         }
 
         private readonly ICurveRepository _curveRepository;
@@ -64,7 +64,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// <summary> Value is offset in seconds. </summary>
         private Dictionary<Operator, double> _operator_WhiteNoiseOffsetDictionary;
 
-        private IList<Input_OperatorCalculator> _patchInlet_OperatorCalculators;
+        private IList<VariableInput_OperatorCalculator> _input_OperatorCalculators;
         private Outlet _currentChannelOutlet;
 
         public OptimizedPatchCalculatorVisitor(ICurveRepository curveRepository, ISampleRepository sampleRepository, IPatchRepository patchRepository)
@@ -106,17 +106,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _curve_CurveCalculator_Dictionary = new Dictionary<Curve, OptimizedCurveCalculator>();
             _sample_SampleCalculatorDictionary = new Dictionary<Sample, ISampleCalculator>();
             _operator_WhiteNoiseOffsetDictionary = new Dictionary<Operator, double>();
-            _patchInlet_OperatorCalculators = new List<Input_OperatorCalculator>();
+            _input_OperatorCalculators = new List<VariableInput_OperatorCalculator>();
 
             _channelCount = channelOutlets.Count;
 
-            var channelOperatorCalculators = new List<OperatorCalculatorBase>(_channelCount);
+            var outputOperatorCalculators = new List<OperatorCalculatorBase>(_channelCount);
 
             foreach (Outlet channelOutlet in channelOutlets)
             {
                 if (channelOutlet == null)
                 {
-                    channelOperatorCalculators.Add(new Zero_OperatorCalculator());
+                    outputOperatorCalculators.Add(new Zero_OperatorCalculator());
                     continue;
                 }
 
@@ -133,10 +133,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                 operatorCalculator = operatorCalculator ?? new Zero_OperatorCalculator(); 
 
-                channelOperatorCalculators.Add(operatorCalculator);
+                outputOperatorCalculators.Add(operatorCalculator);
             }
 
-            return new Result(channelOperatorCalculators, _patchInlet_OperatorCalculators); 
+            return new Result(outputOperatorCalculators, _input_OperatorCalculators); 
         }
 
         protected override void VisitAdd(Operator op)
@@ -1213,7 +1213,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             inputCalculator = inputCalculator ?? new Zero_OperatorCalculator();
             double input = inputCalculator.Calculate(0, 0);
-            double defaultValue = wrapper.DefaultValue ?? 0.0;
+            //double defaultValue = wrapper.DefaultValue ?? 0.0;
+            double defaultValue = 0.0; // Fake it for debugging (2015-12-20):
             bool inputIsConst = inputCalculator is Number_OperatorCalculator;
             bool inputIsConstDefaultValue = inputIsConst && input == defaultValue;
             bool isTopLevelPatchInlet = IsTopLevelPatchInlet(patchInlet);
@@ -1222,7 +1223,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // For foreward compatibility we only apply that rule if nothing else was filled in.
             if (isTopLevelPatchInlet && inputIsConstDefaultValue)
             {
-                var inletCalculator = new Input_OperatorCalculator
+                var variableInputCalculator = new VariableInput_OperatorCalculator
                 {
                     ListIndex = wrapper.ListIndex ?? 0,
                     Name = wrapper.Name,
@@ -1230,9 +1231,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     _value = wrapper.DefaultValue ?? 0.0
                 };
 
-                _patchInlet_OperatorCalculators.Add(inletCalculator);
+                _input_OperatorCalculators.Add(variableInputCalculator);
 
-                calculator = inletCalculator;
+                calculator = variableInputCalculator;
             }
             else
             {
