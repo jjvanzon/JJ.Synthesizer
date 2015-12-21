@@ -221,6 +221,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void CurrentPatchAdd(int childDocumentID)
         {
             // try-finally and Rollback are moved to the top-level project.
+
+            // The recreation of MidiProcessor in the top-level project is going to need all the data.
+            ViewModel.ToEntityWithRelatedEntities(_repositories);
+
             _currentPatchesPresenter.Add(childDocumentID);
             DispatchViewModel(_currentPatchesPresenter.ViewModel);
         }
@@ -228,6 +232,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void CurrentPatchRemove(int childDocumentID)
         {
             // try-finally and Rollback are moved to the top-level project.
+
+            // The recreation of MidiProcessor in the top-level project is going to need all the data.
+            ViewModel.ToEntityWithRelatedEntities(_repositories);
+
             _currentPatchesPresenter.Remove(childDocumentID);
             DispatchViewModel(_currentPatchesPresenter.ViewModel);
         }

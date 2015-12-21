@@ -172,18 +172,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void patchPropertiesUserControl_AddCurrentPatchRequested(object sender, Int32EventArgs e)
         {
-            // TODO: Re-enable rollback, after MidiProcessor can do without querying
-            //try
-            //{
+            try
+            {
                 _presenter.CurrentPatchAdd(e.Value);
                 ApplyViewModel();
 
                 RecreateMidiProcessor();
-            //}
-            //finally
-            //{
-            //    _repositories.Rollback();
-            //}
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
         }
 
         private void currentPatchesUserControl_CloseRequested(object sender, EventArgs e)
@@ -194,18 +193,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void currentPatchesUserControl_RemoveRequested(object sender, Int32EventArgs e)
         {
-            // TODO: Re-enable rollback, after MidiProcessor can do without querying
-            //try
-            //{
+            try
+            {
                 _presenter.CurrentPatchRemove(e.Value);
                 ApplyViewModel();
 
                 RecreateMidiProcessor();
-            //}
-            //finally
-            //{
-            //    _repositories.Rollback();
-            //}
+            }
+            finally
+            {
+                _repositories.Rollback();
+            }
         }
 
         private void currentPatchesUserControl_ShowAutoPatchRequested(object sender, EventArgs e)
