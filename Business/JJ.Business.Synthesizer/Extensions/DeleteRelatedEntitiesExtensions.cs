@@ -7,9 +7,7 @@ using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Extensions
 {
-    /// <summary>
-    /// Deletes related entities that are inherently part of the entity.
-    /// </summary>
+    /// <summary> Deletes related entities that are inherently part of the entity. </summary>
     internal static class DeleteRelatedEntitiesExtensions
     {
         public static void DeleteRelatedEntities(this AudioFileOutput audioFileOutput, IAudioFileOutputChannelRepository audioFileOutputChannelRepository)

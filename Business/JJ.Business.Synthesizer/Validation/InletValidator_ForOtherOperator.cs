@@ -18,9 +18,9 @@ namespace JJ.Business.Synthesizer.Validation
             _expectedListIndex = expectedListIndex;
 
             Execute();
-    }
+        }
 
-    protected override void Execute()
+        protected override void Execute()
         {
             For(() => Object.Name, CommonTitles.Name).IsNullOrEmpty();
 

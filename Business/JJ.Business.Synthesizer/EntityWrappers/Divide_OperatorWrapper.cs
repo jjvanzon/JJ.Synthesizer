@@ -7,7 +7,7 @@ namespace JJ.Business.Synthesizer.EntityWrappers
     public class Divide_OperatorWrapper : OperatorWrapperBase
     {
         public Divide_OperatorWrapper(Operator op)
-            :base(op)
+            : base(op)
         { }
 
         public Outlet Numerator

@@ -1,5 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Helpers;
 using System;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Converters
 {
@@ -7,8 +8,8 @@ namespace JJ.Business.Synthesizer.Converters
     {
         public static AudioFileInfo Convert(WavHeaderStruct wavHeaderStruct)
         {
-            if (wavHeaderStruct.ChannelCount == 0) throw new Exception("wavHeaderStruct.ChannelCount cannot be 0.");
-            if (wavHeaderStruct.BitsPerValue == 0) throw new Exception("wavHeaderStruct.BitsPerValue cannot be 0.");
+            if (wavHeaderStruct.ChannelCount == 0) throw new ZeroException(() => wavHeaderStruct.ChannelCount);
+            if (wavHeaderStruct.BitsPerValue == 0) throw new ZeroException(() => wavHeaderStruct.BitsPerValue);
 
             var audioFileInfo = new AudioFileInfo
             {

@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class Sine_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
-        private readonly double _phaseShiftTimeTwoPi;
+        private readonly double _phaseShiftTimesTwoPi;
         private double _phase;
         private double _previousTime;
 
@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (phaseShift % 1.0 == 0.0) throw new Exception("phaseShift cannot be a multiple of 1.");
 
             _frequencyCalculator = frequencyCalculator;
-            _phaseShiftTimeTwoPi = phaseShift * Maths.TWO_PI;
+            _phaseShiftTimesTwoPi = phaseShift * Maths.TWO_PI;
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -57,7 +57,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double dt = time - _previousTime;
             _phase = _phase + Maths.TWO_PI * dt * frequency;
 
-            double result = SineCalculator.Sin(_phase + _phaseShiftTimeTwoPi);
+            double result = SineCalculator.Sin(_phase + _phaseShiftTimesTwoPi);
 
             _previousTime = time;
 

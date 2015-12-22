@@ -12,13 +12,7 @@ using JJ.Business.Synthesizer.Validation;
 
 namespace JJ.Business.Synthesizer.Calculation.Samples
 {
-    /// <summary>
-    /// Use the pre-calculated fields of the base class, when deriving from this class.
-    /// There is null-tollerance towards the byte[],
-    /// because it is considered optional in the entity model.
-    /// You are playing around with data a lot and simply a not-loaded sample is only warning,
-    /// so should not block starting calculations.
-    /// </summary>
+    /// <summary> Use the pre-calculated fields of the base class, when deriving from this class. </summary>
     internal abstract class SampleCalculatorBase : ISampleCalculator
     {
         protected Sample _sample;

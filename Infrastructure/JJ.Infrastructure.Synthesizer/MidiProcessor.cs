@@ -17,7 +17,6 @@ namespace JJ.Infrastructure.Synthesizer
     /// <summary> This code is really just a prototype at the moment. </summary>
     public class MidiProcessor : IDisposable
     {
-        // TODO: I do not understand why the patch produces such loud sound.
         private const double DEFAULT_AMPLIFIER = 0.2;
         private const double DEFAULT_DURATION = 2;
         private const double LOWEST_FREQUENCY = 8.1757989156;
@@ -80,7 +79,7 @@ namespace JJ.Infrastructure.Synthesizer
             _soundPlayer.SoundLocation = _audioFileOutput.FilePath;
 
             // MidiIn
-            _midiIn = CreateMidiIn();
+            _midiIn = TryCreateMidiIn();
         }
 
         ~MidiProcessor()
@@ -103,11 +102,13 @@ namespace JJ.Infrastructure.Synthesizer
         }
 
         /// <summary> For now will only work with the first MIDI device it finds. </summary>
-        private MidiIn CreateMidiIn()
+        private MidiIn TryCreateMidiIn()
         {
             if (MidiIn.NumberOfDevices == 0)
             {
-                throw new Exception("No connected MIDI devices.");
+                // TODO: Handle this better.
+                return null;
+                //throw new Exception("No connected MIDI devices.");
             }
 
             int deviceIndex = 0;
