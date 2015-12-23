@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using JJ.Infrastructure.Synthesizer;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 
@@ -40,6 +41,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             Close();
         }
 
+        private AudioOutputProcessor _audioOutputProcessor;
+
         private void PatchDetailsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
@@ -48,6 +51,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             {
                 CloseRequested(this, EventArgs.Empty);
             }
+
+            // Dirty: wanna test audio output somewhere fast.
+            //_audioOutputProcessor = new AudioOutputProcessor();
+            //_audioOutputProcessor.Play();
         }
     }
 }

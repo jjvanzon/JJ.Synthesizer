@@ -39,10 +39,18 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MidiProcessor.cs" />
+    <Compile Include="AudioOutputProcessor.cs" />
+    <Compile Include="MidiInputProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="2015-12-23 Backup of SampleProvider.cs" />
+    <Compile Include="2015-12-23 Backup of SampleProvider %282%29.cs" />
+    <Compile Include="SampleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer.Api\JJ.Business.Synthesizer.Api.csproj">
+      <Project>{9451509b-96e7-43a7-87a2-74e5e582c0cd}</Project>
+      <Name>JJ.Business.Synthesizer.Api</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer\JJ.Business.Synthesizer.csproj">
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>
       <Name>JJ.Business.Synthesizer</Name>

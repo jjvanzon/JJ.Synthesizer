@@ -15,7 +15,7 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 namespace JJ.Infrastructure.Synthesizer
 {
     /// <summary> This code is really just a prototype at the moment. </summary>
-    public class MidiProcessor : IDisposable
+    public class MidiInputProcessor : IDisposable
     {
         private const double DEFAULT_AMPLIFIER = 0.2;
         private const double DEFAULT_DURATION = 2;
@@ -36,7 +36,7 @@ namespace JJ.Infrastructure.Synthesizer
 
         private double[] _noteNumberToFrequencyArray;
 
-        public MidiProcessor(Scale scale, IList<Patch> patches, RepositoryWrapper repositories, string tempWavFilePath)
+        public MidiInputProcessor(Scale scale, IList<Patch> patches, RepositoryWrapper repositories, string tempWavFilePath)
         {
             if (scale == null) throw new NullException(() => scale);
             if (String.IsNullOrEmpty(tempWavFilePath)) throw new NullOrEmptyException(() => tempWavFilePath);
@@ -82,7 +82,7 @@ namespace JJ.Infrastructure.Synthesizer
             _midiIn = TryCreateMidiIn();
         }
 
-        ~MidiProcessor()
+        ~MidiInputProcessor()
         {
             Dispose();
         }

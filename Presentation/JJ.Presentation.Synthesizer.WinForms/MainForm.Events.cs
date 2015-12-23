@@ -177,7 +177,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _presenter.CurrentPatchAdd(e.Value);
                 ApplyViewModel();
 
-                RecreateMidiProcessor();
+                RecreateMidiInputProcessor();
             }
             finally
             {
@@ -198,7 +198,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _presenter.CurrentPatchRemove(e.Value);
                 ApplyViewModel();
 
-                RecreateMidiProcessor();
+                RecreateMidiInputProcessor();
             }
             finally
             {

@@ -53,7 +53,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _presenter.Show();
                 ApplyViewModel();
 
-                RecreateMidiProcessor();
+                RecreateMidiInputProcessor();
             //}
             //finally
             //{
@@ -71,7 +71,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 if (components != null) components.Dispose();
                 if (_context != null) _context.Dispose();
-                if (_midiProcessor != null) _midiProcessor.Dispose();
+                if (_midiInputProcessor != null) _midiInputProcessor.Dispose();
             }
 
             base.Dispose(disposing);
@@ -108,13 +108,13 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         // Infrastructure
 
-        private MidiProcessor _midiProcessor;
+        private MidiInputProcessor _midiInputProcessor;
 
-        private void RecreateMidiProcessor()
+        private void RecreateMidiInputProcessor()
         {
-            if (_midiProcessor != null)
+            if (_midiInputProcessor != null)
             {
-                _midiProcessor.Dispose();
+                _midiInputProcessor.Dispose();
             }
 
             // TODO: Where to get the patches? That is internal in the Presenter layer now.
@@ -133,7 +133,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 patches = new Patch[] { CreateDummySinePatch() };
             }
 
-            _midiProcessor = new MidiProcessor(dummyScale, patches, _repositories, tempAudioFilePath);
+            _midiInputProcessor = new MidiInputProcessor(dummyScale, patches, _repositories, tempAudioFilePath);
         }
 
         private Scale CreateMockScale()
