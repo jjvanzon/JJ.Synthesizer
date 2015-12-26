@@ -117,12 +117,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _midiInputProcessor.Dispose();
             }
 
-            // TODO: Where to get the patches? That is internal in the Presenter layer now.
-
-            string tempAudioFilePath = GetPatchPlayHackedAudioFileOutputFilePath();
             Scale dummyScale = CreateMockScale();
-
-            //IList<Patch> patches = CreateMockCurrentPatches();
 
             IList<Patch> patches = _presenter.ViewModel.Document.CurrentPatches.List
                                                                 .Select(x => _repositories.DocumentRepository.Get(x.ChildDocumentID))
@@ -133,7 +128,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 patches = new Patch[] { CreateDummySinePatch() };
             }
 
-            _midiInputProcessor = new MidiInputProcessor(dummyScale, patches, _repositories, tempAudioFilePath);
+            _midiInputProcessor = new MidiInputProcessor(dummyScale, patches, _repositories);
         }
 
         private Scale CreateMockScale()
@@ -159,12 +154,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             signalOutlet.OutletTypeEnum = OutletTypeEnum.Signal;
 
             return x.Patch;
-        }
-
-        private string GetPatchPlayHackedAudioFileOutputFilePath()
-        {
-            var config = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.Helpers.ConfigurationSection>();
-            return config.PatchPlayHackedAudioFileOutputFilePath;
         }
     }
 }

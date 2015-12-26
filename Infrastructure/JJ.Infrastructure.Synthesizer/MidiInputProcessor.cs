@@ -23,23 +23,17 @@ namespace JJ.Infrastructure.Synthesizer
         private const double MAX_VELOCITY = 127.0;
         private const int MAX_NOTE_NUMBER = 127;
 
-        private readonly AudioFileOutputManager _audioFileOutputManager;
         private readonly IPatchCalculator _patchCalculator;
-
         private readonly Scale _scale;
-        private readonly AudioFileOutput _audioFileOutput;
-
         private readonly MidiIn _midiIn;
-        private readonly SoundPlayer _soundPlayer;
+        private readonly AudioOutputProcessor _audioOutput;
 
         private int _previousNoteNumber;
-
         private double[] _noteNumberToFrequencyArray;
 
-        public MidiInputProcessor(Scale scale, IList<Patch> patches, RepositoryWrapper repositories, string tempWavFilePath)
+        public MidiInputProcessor(Scale scale, IList<Patch> patches, RepositoryWrapper repositories)
         {
             if (scale == null) throw new NullException(() => scale);
-            if (String.IsNullOrEmpty(tempWavFilePath)) throw new NullOrEmptyException(() => tempWavFilePath);
 
             // Setup Scale
             _scale = scale;
@@ -58,7 +52,7 @@ namespace JJ.Infrastructure.Synthesizer
 
             // TODO: Add up all signal outlets. Note that it might be hard, because you cannot just add to the patch?
             // Oh, it is an auto-patch, you might be able to do whatever you want to it.
-            // Beware to not wrap it all into another CustomOperat, because you need to Patch to use their PatchInlets
+            // Beware to not wrap it all into another CustomOperator, because you need to Patch to use their PatchInlets
             // as freely controllable values.
             Outlet signalOutlet = autoPatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
                                            .Select(x => x.Result)
@@ -66,17 +60,8 @@ namespace JJ.Infrastructure.Synthesizer
 
             _patchCalculator = patchManager.CreateOptimizedCalculator(signalOutlet);
 
-            // AudioFileOutput
-            _audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
-            _audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
-            _audioFileOutput.Duration = DEFAULT_DURATION;
-            _audioFileOutput.Amplifier = DEFAULT_AMPLIFIER;
-            _audioFileOutput.FilePath = tempWavFilePath;
-            _audioFileOutput.AudioFileOutputChannels[0].Outlet = signalOutlet;
-
-            // SoundPlayer
-            _soundPlayer = new SoundPlayer();
-            _soundPlayer.SoundLocation = _audioFileOutput.FilePath;
+            // AudioOutput
+            _audioOutput = new AudioOutputProcessor(_patchCalculator);
 
             // MidiIn
             _midiIn = TryCreateMidiIn();
@@ -92,10 +77,15 @@ namespace JJ.Infrastructure.Synthesizer
             if (_midiIn != null)
             {
                 _midiIn.MessageReceived -= _midiIn_MessageReceived;
-                // Not sure if I need to call of these methods.
+                // Not sure if I need to call of these methods, but when I omitted one I got an error upon application exit.
                 _midiIn.Stop();
                 _midiIn.Close();
                 _midiIn.Dispose();
+            }
+
+            if (_audioOutput != null)
+            {
+                _audioOutput.Dispose();
             }
 
             GC.SuppressFinalize(this);
@@ -144,11 +134,9 @@ namespace JJ.Infrastructure.Synthesizer
             _patchCalculator.SetValue(InletTypeEnum.Frequency, frequency);
             _patchCalculator.SetValue(InletTypeEnum.Volume, volume);
 
-            _audioFileOutputManager.WriteFile(_audioFileOutput, _patchCalculator);
+            _audioOutput.Play();
 
             _previousNoteNumber = noteOnEvent.NoteNumber;
-
-            _soundPlayer.Play();
         }
 
         private void HandleNoteOff(MidiEvent midiEvent)
@@ -157,7 +145,7 @@ namespace JJ.Infrastructure.Synthesizer
 
             if (_previousNoteNumber == noteEvent.NoteNumber)
             {
-                _soundPlayer.Stop();
+                _audioOutput.Stop();
             }
         }
 
