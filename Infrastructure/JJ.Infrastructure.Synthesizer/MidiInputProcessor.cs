@@ -4,6 +4,7 @@ using System.Linq;
 using NAudio.Midi;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
+using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
@@ -22,14 +23,18 @@ namespace JJ.Infrastructure.Synthesizer
         private const double LOWEST_FREQUENCY = 8.1757989156;
         private const double MAX_VELOCITY = 127.0;
         private const int MAX_NOTE_NUMBER = 127;
+        private const int MAX_CONCURRENT_NOTES = 4; // TODO: Increase after testing.
 
         private readonly IPatchCalculator _patchCalculator;
         private readonly Scale _scale;
         private readonly MidiIn _midiIn;
-        private readonly AudioOutputProcessor _audioOutput;
+        private readonly AudioOutputProcessor _audioOutputProcessor;
 
-        private int _previousNoteNumber;
-        private double[] _noteNumberToFrequencyArray;
+        private double[] _noteNumber_To_Frequency_Array;
+
+        private int _playingNoteCount;
+        private int _currentNoteListIndex;
+        private int?[] _noteNumber_To_NoteListIndex_Array = new int?[MAX_NOTE_NUMBER + 1];
 
         public MidiInputProcessor(Scale scale, IList<Patch> patches, RepositoryWrapper repositories)
         {
@@ -37,15 +42,25 @@ namespace JJ.Infrastructure.Synthesizer
 
             // Setup Scale
             _scale = scale;
-            IList<double> frequencies = new List<double>(MAX_NOTE_NUMBER);
+            IList<double> frequencies = new List<double>(MAX_NOTE_NUMBER + 1);
             for (int i = 0; i < MAX_NOTE_NUMBER; i++)
             {
                 double frequency = GetFrequencyByNoteNumber(i);
                 frequencies.Add(frequency);
             }
-            _noteNumberToFrequencyArray = frequencies.ToArray();
+            _noteNumber_To_Frequency_Array = frequencies.ToArray();
 
-            // Setup Patch
+            _patchCalculator = CreatePatchCalculator(patches, repositories);
+            //_patchCalculator = CraatePatchCalculator_Old(patches, repositories);
+
+            _audioOutputProcessor = new AudioOutputProcessor(_patchCalculator);
+            _midiIn = TryCreateMidiIn();
+
+            //_audioOutputProcessor.Play();
+        }
+
+        private IPatchCalculator CraatePatchCalculator_Old(IList<Patch> patches, RepositoryWrapper repositories)
+        {
             var patchManager = new PatchManager(new PatchRepositories(repositories));
             patchManager.AutoPatch(patches);
             Patch autoPatch = patchManager.Patch;
@@ -58,13 +73,52 @@ namespace JJ.Infrastructure.Synthesizer
                                            .Select(x => x.Result)
                                            .FirstOrDefault();
 
-            _patchCalculator = patchManager.CreateOptimizedCalculator(signalOutlet);
+            IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(signalOutlet);
+            return patchCalculator;
+        }
 
-            // AudioOutput
-            _audioOutput = new AudioOutputProcessor(_patchCalculator);
+        /// <summary>
+        /// Makes a custom operator from the provided patches.
+        /// Then creates a wrapper patch around it, that enables polyphony.
+        /// </summary>
+        private IPatchCalculator CreatePatchCalculator(IList<Patch> patches, RepositoryWrapper repositories)
+        {
+            var patchManager = new PatchManager(new PatchRepositories(repositories));
+            patchManager.AutoPatch(patches);
+            Patch autoPatch = patchManager.Patch;
 
-            // MidiIn
-            _midiIn = TryCreateMidiIn();
+            patchManager.CreatePatch();
+            Patch wrapperPatch = patchManager.Patch;
+
+            var customOperatorSignalOutlets = new List<Outlet>(MAX_CONCURRENT_NOTES);
+
+            for (int i = 0; i < MAX_CONCURRENT_NOTES; i++)
+            {
+                PatchInlet_OperatorWrapper volumePatchInletWrapper = patchManager.PatchInlet(InletTypeEnum.Volume);
+                volumePatchInletWrapper.Name = GetVolumeInletName(i);
+
+                PatchInlet_OperatorWrapper frequencyPatchInletWrapper = patchManager.PatchInlet(InletTypeEnum.Frequency);
+                frequencyPatchInletWrapper.Name = GetFrequencyInletName(i);
+
+                CustomOperator_OperatorWrapper customOperatorWrapper = patchManager.CustomOperator(autoPatch);
+
+                customOperatorWrapper.Inlets.Where(x => x.GetInletTypeEnum() == InletTypeEnum.Volume).ForEach(x => x.InputOutlet = volumePatchInletWrapper);
+                customOperatorWrapper.Inlets.Where(x => x.GetInletTypeEnum() == InletTypeEnum.Frequency).ForEach(x => x.InputOutlet = frequencyPatchInletWrapper);
+
+                IList<Outlet> signalOutlets = customOperatorWrapper.Outlets
+                                                                   .Where(x => x.GetOutletTypeEnum() == OutletTypeEnum.Signal)
+                                                                   .ToArray();
+
+                customOperatorSignalOutlets.AddRange(signalOutlets);
+            }
+
+            Adder_OperatorWrapper adderWrapper = patchManager.Adder(customOperatorSignalOutlets);
+
+            Outlet outlet = adderWrapper.Result;
+
+            var patchCalculator = patchManager.CreateOptimizedCalculator(outlet);
+
+            return patchCalculator;
         }
 
         ~MidiInputProcessor()
@@ -83,9 +137,10 @@ namespace JJ.Infrastructure.Synthesizer
                 _midiIn.Dispose();
             }
 
-            if (_audioOutput != null)
+            if (_audioOutputProcessor != null)
             {
-                _audioOutput.Dispose();
+                _audioOutputProcessor.Stop();
+                _audioOutputProcessor.Dispose();
             }
 
             GC.SuppressFinalize(this);
@@ -128,24 +183,51 @@ namespace JJ.Infrastructure.Synthesizer
         {
             var noteOnEvent = (NoteOnEvent)midiEvent;
 
-            double frequency = _noteNumberToFrequencyArray[noteOnEvent.NoteNumber];
+            double frequency = _noteNumber_To_Frequency_Array[noteOnEvent.NoteNumber];
             double volume = noteOnEvent.Velocity / MAX_VELOCITY;
 
-            _patchCalculator.SetValue(InletTypeEnum.Frequency, frequency);
-            _patchCalculator.SetValue(InletTypeEnum.Volume, volume);
+            int noteListIndex = GetNoteInletListIndex(noteOnEvent.NoteNumber);
 
-            _audioOutput.Play();
+            //_patchCalculator.SetValue(InletTypeEnum.Frequency, noteListIndex, frequency);
+            //_patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex, volume);
 
-            _previousNoteNumber = noteOnEvent.NoteNumber;
+            //_patchCalculator.SetValue(InletTypeEnum.Frequency, frequency);
+            //_patchCalculator.SetValue(InletTypeEnum.Volume, volume);
+
+            string frequencyInletName = GetFrequencyInletName(noteListIndex);
+            _patchCalculator.SetValue(frequencyInletName, frequency);
+
+            string volumeInletName = GetVolumeInletName(noteListIndex);
+            _patchCalculator.SetValue(volumeInletName, volume);
+
+            if (_playingNoteCount == 0)
+            {
+                _audioOutputProcessor.Play();
+            }
+
+            _playingNoteCount++;
         }
 
         private void HandleNoteOff(MidiEvent midiEvent)
         {
             var noteEvent = (NoteEvent)midiEvent;
 
-            if (_previousNoteNumber == noteEvent.NoteNumber)
+            int noteListIndex = GetNoteInletListIndex(noteEvent.NoteNumber);
+
+            double newVolume = 0.0;
+            //_patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex, newVolume);
+
+            string volumeInletName = GetVolumeInletName(noteListIndex);
+            _patchCalculator.SetValue(volumeInletName, newVolume);
+
+            ResetNoteInletListIndex(noteEvent.NoteNumber);
+
+            _playingNoteCount--;
+
+            if (_playingNoteCount == 0)
             {
-                _audioOutput.Stop();
+                _audioOutputProcessor.Stop();
+                //_audioOutputProcessor.ResetTime();
             }
         }
 
@@ -153,6 +235,46 @@ namespace JJ.Infrastructure.Synthesizer
         {
             double frequency = LOWEST_FREQUENCY * Math.Pow(2.0, noteNumber / 12.0);
             return frequency;
+        }
+
+        /// <summary>
+        /// Used both for getting a list index for a new note,
+        /// as well as getting the list index for the already playing note.
+        /// </summary>
+        private int GetNoteInletListIndex(int noteNumber)
+        {
+            int? listIndex = _noteNumber_To_NoteListIndex_Array[noteNumber];
+
+            if (!listIndex.HasValue)
+            {
+                listIndex = _currentNoteListIndex;
+
+                _noteNumber_To_NoteListIndex_Array[noteNumber] = listIndex;
+
+                _currentNoteListIndex++;
+                if (_currentNoteListIndex == MAX_CONCURRENT_NOTES)
+                {
+                    _currentNoteListIndex = 0;
+                }
+            }
+
+            
+            return listIndex.Value;
+        }
+
+        private void ResetNoteInletListIndex(int noteNumber)
+        {
+            _noteNumber_To_NoteListIndex_Array[noteNumber] = null;
+        }
+
+        private string GetFrequencyInletName(int noteListIndex)
+        {
+            return "f" + noteListIndex.ToString();
+        }
+
+        private string GetVolumeInletName(int noteListIndex)
+        {
+            return "v" + noteListIndex.ToString();
         }
     }
 }

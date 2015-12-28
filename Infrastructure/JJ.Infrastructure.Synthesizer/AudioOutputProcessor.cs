@@ -17,13 +17,11 @@ namespace JJ.Infrastructure.Synthesizer
         public AudioOutputProcessor(IPatchCalculator patchCalculator)
         {
             _sampleProvider = new SampleProvider(patchCalculator);
-            _waveOut = CreateWaveOut(_sampleProvider);
         }
 
         public AudioOutputProcessor()
         {
             _sampleProvider = new SampleProvider();
-            _waveOut = CreateWaveOut(_sampleProvider);
         }
 
         ~AudioOutputProcessor()
@@ -33,13 +31,35 @@ namespace JJ.Infrastructure.Synthesizer
 
         public void Dispose()
         {
+            Stop();
+
+            GC.SuppressFinalize(this);
+        }
+
+        // TODO: I might create _waveOut in the constructor in the future again.
+
+        public void Play()
+        {
+            Stop();
+
+            _waveOut = CreateWaveOut(_sampleProvider);
+            _waveOut.Play();
+        }
+
+        public void Stop()
+        {
             if (_waveOut != null)
             {
                 _waveOut.Stop();
                 _waveOut.Dispose();
+                _waveOut = null;
+                _sampleProvider.ResetTime();
             }
+        }
 
-            GC.SuppressFinalize(this);
+        public void ResetTime()
+        {
+            _sampleProvider.ResetTime();
         }
 
         private WaveOut CreateWaveOut(ISampleProvider sampleProvider)
@@ -48,17 +68,6 @@ namespace JJ.Infrastructure.Synthesizer
             waveOut.DesiredLatency = DEFAULT_BUFFER_LENGTH_IN_MILLISECONDS;
             waveOut.Init(sampleProvider);
             return waveOut;
-        }
-
-        public void Play()
-        {
-            _waveOut.Play();
-        }
-
-        public void Stop()
-        {
-            _waveOut.Stop();
-            _sampleProvider.ResetTime();
         }
     }
 }

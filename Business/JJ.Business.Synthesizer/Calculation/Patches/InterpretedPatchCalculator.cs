@@ -117,7 +117,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             };
         }
 
-        // TODO: Implement.
+        // TODO: Implement SetValue methods.
 
         public void SetValue(InletTypeEnum inletTypeEnum, double value)
         {
@@ -130,6 +130,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         }
 
         public void SetValue(int listIndex, double value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(string name, int listIndex, double value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(InletTypeEnum inletTypeEnum, int listIndex, double value)
         {
             throw new NotImplementedException();
         }

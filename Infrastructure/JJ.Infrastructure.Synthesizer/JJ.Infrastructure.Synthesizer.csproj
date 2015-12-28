@@ -61,6 +61,10 @@
       <Project>{da4f02e3-0b5e-42cd-b8d9-5583fa51d66e}</Project>
       <Name>NAudio</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Framework\JJ.Framework.Common\JJ.Framework.Common.csproj">
+      <Project>{44fd9133-5fe7-4824-bd35-27273706d127}</Project>
+      <Name>JJ.Framework.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\JJ.Framework.Reflection\JJ.Framework.Reflection.csproj">
       <Project>{1a8e047c-7893-4918-b415-ce3928e815d8}</Project>
       <Name>JJ.Framework.Reflection</Name>

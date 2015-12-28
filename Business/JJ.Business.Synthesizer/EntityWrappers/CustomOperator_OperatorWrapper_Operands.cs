@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
@@ -27,6 +28,12 @@ namespace JJ.Business.Synthesizer.EntityWrappers
         {
             get { return OperatorHelper.GetInputOutlet(_operator, index); }
             set { OperatorHelper.GetInlet(_operator, index).LinkTo(value); }
+        }
+
+        public Outlet this[InletTypeEnum inletTypeEnum]
+        {
+            get { return OperatorHelper.GetInputOutlet(_operator, inletTypeEnum); }
+            set { OperatorHelper.GetInlet(_operator, inletTypeEnum).LinkTo(value); }
         }
 
         public IEnumerator<Outlet> GetEnumerator()

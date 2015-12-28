@@ -204,6 +204,12 @@ namespace JJ.Business.Synthesizer.Helpers
             return inlet.InputOutlet;
         }
 
+        public static Outlet GetInputOutlet(Operator op, InletTypeEnum inletTypeEnum)
+        {
+            Inlet inlet = GetInlet(op, inletTypeEnum);
+            return inlet.InputOutlet;
+        }
+
         /// <summary>
         /// Gets the input outlet of a specific inlet.
         /// If it is null, and the inlet has a default value, a fake Number Operator is created and its outlet returned.
@@ -223,6 +229,17 @@ namespace JJ.Business.Synthesizer.Helpers
         public static Outlet GetInputOutletOrDefault(Operator op, int index)
         {
             Inlet inlet = GetInlet(op, index);
+            return GetInputOutletOrDefault(inlet);
+        }
+
+        /// <summary>
+        /// Gets the input outlet of a specific inlet.
+        /// If it is null, and the inlet has a default value, a fake Number Operator is created and its outlet returned.
+        /// If the inlet has no default value either, null is returned.
+        /// </summary>
+        public static Outlet GetInputOutletOrDefault(Operator op, InletTypeEnum inletTypeEnum)
+        {
+            Inlet inlet = GetInlet(op, inletTypeEnum);
             return GetInputOutletOrDefault(inlet);
         }
 

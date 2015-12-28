@@ -555,9 +555,9 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public Unbundle_OperatorWrapper Unbundle(Outlet operand = null)
+        public Unbundle_OperatorWrapper Unbundle(Outlet operand = null, int outletCount = 1)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.Unbundle, inletCount: 1, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Unbundle, inletCount: 1, outletCount: outletCount);
 
             var wrapper = new Unbundle_OperatorWrapper(op)
             {

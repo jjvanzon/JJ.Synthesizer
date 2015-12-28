@@ -34,7 +34,7 @@ namespace JJ.Business.Synthesizer.Managers
             foreach (Patch underlyingPatch in underlyingPatches)
             {
                 CustomOperator_OperatorWrapper customOperatorWrapper = CustomOperator(underlyingPatch);
-                customOperatorWrapper.Name = String.Format("Auto-generated CustomOperator from Patch '{0}'", underlyingPatch.Name);
+                customOperatorWrapper.Name = String.Format("Auto-generated CustomOperator '{0}'", underlyingPatch.Name);
 
                 customOperators.Add(customOperatorWrapper);
             }
@@ -74,7 +74,7 @@ namespace JJ.Business.Synthesizer.Managers
                 patchInletWrapper.ListIndex = unmatchedInlet.ListIndex;
                 patchInletWrapper.InletTypeEnum = unmatchedInlet.GetInletTypeEnum();
                 patchInletWrapper.DefaultValue = unmatchedInlet.DefaultValue;
-                patchInletWrapper.Name = String.Format("Auto-generated PatchInlet for unmatched Inlet '{0}'.", unmatchedInlet.Name);
+                patchInletWrapper.Name = String.Format("Auto-generated PatchInlet '{0}'.", unmatchedInlet.Name);
 
                 unmatchedInlet.LinkTo((Outlet)patchInletWrapper);
             }
@@ -88,7 +88,7 @@ namespace JJ.Business.Synthesizer.Managers
                 patchOutletWrapper.Name = unmatchedOutlet.Name;
                 patchOutletWrapper.ListIndex = unmatchedOutlet.ListIndex;
                 patchOutletWrapper.OutletTypeEnum = unmatchedOutlet.GetOutletTypeEnum();
-                patchOutletWrapper.Name = String.Format("Auto-generated PatchOutlet for unmatched Outlet '{0}'.", unmatchedOutlet.Name);
+                patchOutletWrapper.Name = String.Format("Auto-generated PatchOutlet '{0}'.", unmatchedOutlet.Name);
 
                 patchOutletWrapper.Input = unmatchedOutlet;
             }
