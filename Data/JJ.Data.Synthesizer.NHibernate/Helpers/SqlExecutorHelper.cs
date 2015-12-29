@@ -23,7 +23,7 @@ namespace JJ.Data.Synthesizer.NHibernate.Helpers
 
         public static SynthesizerSqlExecutor CreateSynthesizerSqlExecutor_InSeparateConnection(string connectionString)
         {
-            ISqlExecutor sqlExecutor = new SqlExecutor(connectionString);
+            ISqlExecutor sqlExecutor = SqlExecutorFactory.CreateSqlExecutor(connectionString);
             SynthesizerSqlExecutor synthesizerSqlExecutor = new SynthesizerSqlExecutor(sqlExecutor);
             return synthesizerSqlExecutor;
         }

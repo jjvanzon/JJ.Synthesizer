@@ -37,46 +37,19 @@ namespace JJ.Data.Synthesizer.NHibernate.Repositories
             return count;
         }
 
-        /// <summary>
-        /// TODO: Not finished! Does not do that much eager loading yet.
-        /// </summary>
+        /// <summary> TODO: Eager load the enum-like types too. </summary>
         public override Document TryGetComplete(int documentID)
         {
-            //return TryGet(documentID);
-
             Document parentDocument = null;
                 AudioFileOutput audioFileOutput = null;
-                    AudioFileOutputChannel audioFileOutputChannel = null;
                 Curve curve = null;
-                    Node node = null;
-                        NodeType nodeType = null;
                 Sample sample = null;
                 Scale scale = null;
-                    Tone tone = null;
                 Document childDocument = null;
                     Patch patch = null;
                         Operator op = null;
-                            Inlet inlet = null;
-                            Outlet outlet = null;
-                    Curve curve2 = null;
-                        Node node2 = null;
-                            NodeType nodeType2 = null;
-                    Sample sample2 = null;
                 DocumentReference dependent_documentReference = null;
                 DocumentReference dependentOn_documentReference = null;
-
-
-            //Document parentDocument = null;
-            //Document childDocument = null;
-            //AudioFileOutput audioFileOutput = null;
-            //Curve curve = null;
-            //Sample sample = null;
-            //Scale scale = null;
-            //Tone tone = null;
-            //Node node = null;
-            //Curve curve2 = null;
-            //Sample sample2 = null;
-            //Node node2 = null;
 
             var level_1_documentQuery = _context.Session.QueryOver(() => parentDocument)
                                                         .Where(x => x.ID == documentID)
