@@ -12,16 +12,18 @@ namespace JJ.Infrastructure.Synthesizer
         private const int DEFAULT_BUFFER_LENGTH_IN_MILLISECONDS = 100;
 
         private readonly SampleProvider _sampleProvider;
-        private WaveOut _waveOut;
+        private readonly WaveOut _waveOut;
 
         public AudioOutputProcessor(IPatchCalculator patchCalculator)
         {
             _sampleProvider = new SampleProvider(patchCalculator);
+            _waveOut = CreateWaveOut(_sampleProvider);
         }
 
         public AudioOutputProcessor()
         {
             _sampleProvider = new SampleProvider();
+            _waveOut = CreateWaveOut(_sampleProvider);
         }
 
         ~AudioOutputProcessor()
@@ -31,35 +33,30 @@ namespace JJ.Infrastructure.Synthesizer
 
         public void Dispose()
         {
-            Stop();
+            if (_waveOut != null)
+            {
+                _waveOut.Stop();
+                _waveOut.Dispose();
+            }
 
             GC.SuppressFinalize(this);
-        }
-
-        // TODO: I might create _waveOut in the constructor in the future again.
-
-        public double Time
-        {
-            get { return _sampleProvider.Time; }
         }
 
         public void Play()
         {
             Stop();
 
-            _waveOut = CreateWaveOut(_sampleProvider);
             _waveOut.Play();
         }
 
         public void Stop()
         {
-            if (_waveOut != null)
-            {
-                _waveOut.Stop();
-                _waveOut.Dispose();
-                _waveOut = null;
-                _sampleProvider.ResetTime();
-            }
+            _sampleProvider.ResetTime();
+        }
+
+        public double Time
+        {
+            get { return _sampleProvider.Time; }
         }
 
         public void ResetTime()
