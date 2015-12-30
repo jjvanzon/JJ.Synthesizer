@@ -33,27 +33,31 @@ namespace JJ.Business.Synthesizer.Resources
         {
             if (entity == null) throw new NullException(() => entity);
 
-            return PropertyDisplayNames.ResourceManager.GetString(entity.Name);
+            InletTypeEnum inletTypeEnum = (InletTypeEnum)entity.ID;
+
+            return GetInletTypeDisplayName(inletTypeEnum);
         }
 
         // OperatorType
+
+        public static string GetOperatorTypeDisplayName(OperatorTypeEnum operatorTypeEnum)
+        {
+            return PropertyDisplayNames.ResourceManager.GetString(operatorTypeEnum.ToString());
+        }
+
+        public static string GetOperatorTypeDisplayName(OperatorType entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            OperatorTypeEnum operatorTypeEnum = (OperatorTypeEnum)entity.ID;
+
+            return GetOperatorTypeDisplayName(operatorTypeEnum);
+        }
 
         public static string GetOperatorTypeDisplayName(Operator op)
         {
             if (op == null) throw new NullException(() => op);
             return GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
-        }
-
-        public static string GetOperatorTypeDisplayName(OperatorType operatorType)
-        {
-            if (operatorType == null) throw new NullException(() => operatorType);
-
-            return PropertyDisplayNames.ResourceManager.GetString(operatorType.Name);
-        }
-
-        public static string GetOperatorTypeDisplayName(OperatorTypeEnum operatorTypeEnum)
-        {
-            return PropertyDisplayNames.ResourceManager.GetString(operatorTypeEnum.ToString());
         }
 
         // OutletType
@@ -67,8 +71,12 @@ namespace JJ.Business.Synthesizer.Resources
         {
             if (entity == null) throw new NullException(() => entity);
 
-            return PropertyDisplayNames.ResourceManager.GetString(entity.Name);
+            OutletTypeEnum outletTypeEnum = (OutletTypeEnum)entity.ID;
+
+            return GetOutletTypeDisplayName(outletTypeEnum);
         }
+
+        // TODO: For Scale implement overloads that take entity as such that unproxy is avoided.
 
         // ScaleType Singular
 

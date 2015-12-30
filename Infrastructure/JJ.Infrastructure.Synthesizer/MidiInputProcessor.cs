@@ -198,7 +198,7 @@ namespace JJ.Infrastructure.Synthesizer
             int? noteListIndex = TryGetNoteListIndex(noteEvent.NoteNumber);
             if (!noteListIndex.HasValue)
             {
-                // Note was ignored earlier, due too not enough slots.
+                // Note was ignored earlier, due to not enough slots.
                 return;
             }
 
