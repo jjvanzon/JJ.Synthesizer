@@ -9,6 +9,7 @@ using NAudio.Wave;
 
 namespace JJ.Infrastructure.Synthesizer
 {
+    // TODO: let AudioOutputProcessor implement Sampleprovider explicity?
     internal class SampleProvider : ISampleProvider
     {
         private const int DEFAULT_SAMPLE_RATE = 44100;
@@ -21,17 +22,13 @@ namespace JJ.Infrastructure.Synthesizer
         private IPatchCalculator _patchCalculator;
 
         private double _time;
+        private bool _isRunning;
 
         public SampleProvider(IPatchCalculator patchCalculator)
         {
             if (patchCalculator == null) throw new NullException(() => patchCalculator);
 
             _patchCalculator = patchCalculator;
-        }
-
-        public SampleProvider()
-        {
-            _patchCalculator = CreateTestPatchCalculator();
         }
 
         public WaveFormat WaveFormat
@@ -41,6 +38,16 @@ namespace JJ.Infrastructure.Synthesizer
 
         public int Read(float[] buffer, int offset, int count)
         {
+            if (!_isRunning)
+            {
+                // TODO: Find a faster way to zero the buffer?
+                for (int i = offset; i < count; i++)
+                {
+                    buffer[i] = 0;
+                }
+                return count;
+            }
+
             for (int i = offset; i < count; i++)
             {
                 double value = _patchCalculator.Calculate(_time, DEFAULT_CHANNEL_INDEX);
@@ -53,22 +60,31 @@ namespace JJ.Infrastructure.Synthesizer
             return count;
         }
 
-        // TODO: This will have meaning in the future, replacing Read's call to PatchCalculator with giving buffer only zeroes.
+        public void Start()
+        {
+            _time = 0;
+            _isRunning = true;
+        }
+
+        public void Pause()
+        {
+            _isRunning = false;
+        }
+
+        public void Continue()
+        {
+            _isRunning = true;
+        }
+
         public void Stop()
         {
+            _isRunning = false;
+            _time = 0;
         }
 
         public double Time
         {
             get { return _time; }
-        }
-
-        private IPatchCalculator CreateTestPatchCalculator()
-        {
-            var x = new PatchApi();
-            Outlet outlet = x.Sine(x.Number(DEFAULT_FREQUENCY));
-            IPatchCalculator calculator = x.CreateOptimizedCalculator(outlet);
-            return calculator;
         }
 
         private static WaveFormat CreateWaveFormat()

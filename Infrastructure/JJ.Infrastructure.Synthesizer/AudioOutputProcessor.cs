@@ -19,12 +19,6 @@ namespace JJ.Infrastructure.Synthesizer
             _waveOut = CreateWaveOut(_sampleProvider);
         }
 
-        public AudioOutputProcessor()
-        {
-            _sampleProvider = new SampleProvider();
-            _waveOut = CreateWaveOut(_sampleProvider);
-        }
-
         ~AudioOutputProcessor()
         {
             Dispose();
@@ -43,15 +37,25 @@ namespace JJ.Infrastructure.Synthesizer
 
         public void Start()
         {
-            Stop();
-
             _waveOut.Play();
+            _sampleProvider.Start();
+        }
+
+        public void Continue()
+        {
+            _sampleProvider.Continue();
+        }
+
+        public void Pause()
+        {
+            _sampleProvider.Pause();
         }
 
         public void Stop()
         {
             // TODO: Stop does not stop WaveOut, but when I did do that, the sound had a hiccup.
             _sampleProvider.Stop();
+            _waveOut.Stop();
         }
 
         public double Time

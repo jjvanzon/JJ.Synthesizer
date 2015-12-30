@@ -197,7 +197,7 @@ namespace JJ.Infrastructure.Synthesizer
 
             if (mustStartPlayingAudioOutput)
             {
-                _audioOutputProcessor.Start();
+                _audioOutputProcessor.Continue();
             }
         }
 
@@ -222,7 +222,7 @@ namespace JJ.Infrastructure.Synthesizer
 
             if (_noteNumber_To_NoteListIndex_Dictionary.Count == 0)
             {
-                _audioOutputProcessor.Stop();
+                _audioOutputProcessor.Pause();
             }
         }
 
