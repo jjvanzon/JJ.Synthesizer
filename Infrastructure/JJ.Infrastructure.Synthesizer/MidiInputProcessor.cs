@@ -52,6 +52,10 @@ namespace JJ.Infrastructure.Synthesizer
             _midiIn = TryCreateMidiIn();
 
             _audioOutputProcessor.Start();
+
+            // TODO: Recently (2015-12-30) added to prevent calculations at startup.
+            // It has not been tested if this gets in the way of a smooth first note.
+            _audioOutputProcessor.Pause();
         }
 
         /// <summary>

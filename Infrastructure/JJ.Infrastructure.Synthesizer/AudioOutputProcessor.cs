@@ -2,21 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Framework.Reflection.Exceptions;
 using NAudio.Wave;
 
 namespace JJ.Infrastructure.Synthesizer
 {
-    public class AudioOutputProcessor : IDisposable
+    public class AudioOutputProcessor : ISampleProvider, IDisposable
     {
+        private const int DEFAULT_CHANNEL_COUNT = 1;
+        private const int DEFAULT_CHANNEL_INDEX = 0;
         private const int DEFAULT_BUFFER_LENGTH_IN_MILLISECONDS = 100; // TODO: Make this 10 in the future?
+        private const int DEFAULT_SAMPLE_RATE = 44100;
+        private const double SAMPLE_TIME = 1.0 / DEFAULT_SAMPLE_RATE;
 
-        private readonly SampleProvider _sampleProvider;
+        private static WaveFormat _waveFormat = CreateWaveFormat();
+
+        private readonly IPatchCalculator _patchCalculator;
         private readonly WaveOut _waveOut;
+
+        private double _time;
+        private bool _isRunning;
 
         public AudioOutputProcessor(IPatchCalculator patchCalculator)
         {
-            _sampleProvider = new SampleProvider(patchCalculator);
-            _waveOut = CreateWaveOut(_sampleProvider);
+            if (patchCalculator == null) throw new NullException(() => patchCalculator);
+
+            _patchCalculator = patchCalculator;
+            _waveOut = CreateWaveOut(this);
         }
 
         ~AudioOutputProcessor()
@@ -35,32 +47,74 @@ namespace JJ.Infrastructure.Synthesizer
             GC.SuppressFinalize(this);
         }
 
+        public double Time
+        {
+            get { return _time; }
+        }
+
         public void Start()
         {
+            _time = 0;
+            _isRunning = true;
+
             _waveOut.Play();
-            _sampleProvider.Start();
         }
 
         public void Continue()
         {
-            _sampleProvider.Continue();
+            _isRunning = true;
         }
 
         public void Pause()
         {
-            _sampleProvider.Pause();
+            _isRunning = false;
         }
 
         public void Stop()
         {
-            // TODO: Stop does not stop WaveOut, but when I did do that, the sound had a hiccup.
-            _sampleProvider.Stop();
             _waveOut.Stop();
+
+            _isRunning = false;
+            _time = 0;
         }
 
-        public double Time
+        // ISampleProvider
+
+        WaveFormat ISampleProvider.WaveFormat
         {
-            get { return _sampleProvider.Time; }
+            get { return _waveFormat; }
+        }
+
+        int ISampleProvider.Read(float[] buffer, int offset, int count)
+        {
+            if (!_isRunning)
+            {
+                // TODO: Find a faster way to zero the buffer?
+                for (int i = offset; i < count; i++)
+                {
+                    buffer[i] = 0;
+                }
+                return count;
+            }
+
+            for (int i = offset; i < count; i++)
+            {
+                double value = _patchCalculator.Calculate(_time, DEFAULT_CHANNEL_INDEX);
+
+                buffer[i] = (float)value;
+
+                _time += SAMPLE_TIME;
+            }
+
+            return count;
+        }
+
+        // Helpers
+
+        private static WaveFormat CreateWaveFormat()
+        {
+            WaveFormat waveFormat = WaveFormat.CreateIeeeFloatWaveFormat(DEFAULT_SAMPLE_RATE, DEFAULT_CHANNEL_COUNT);
+            return waveFormat;
         }
 
         private WaveOut CreateWaveOut(ISampleProvider sampleProvider)
