@@ -50,6 +50,8 @@ namespace JJ.Infrastructure.Synthesizer
 
             _audioOutputProcessor = new AudioOutputProcessor(_patchCalculator);
             _midiIn = TryCreateMidiIn();
+
+            _audioOutputProcessor.Start();
         }
 
         /// <summary>
@@ -187,16 +189,16 @@ namespace JJ.Infrastructure.Synthesizer
             string volumeInletName = GetVolumeInletName(noteListIndex.Value);
             _patchCalculator.SetValue(volumeInletName, volume);
 
-            if (mustStartPlayingAudioOutput)
-            {
-                _audioOutputProcessor.Play();
-            }
-
             // TODO: It is a hack that I put this after the Play() method call and its if. The thing is: time is reset upon Play,
             // which affects this delay. I think ResetTime is not even necessary anymore, so taking away that might solve it.
             string delayInletName = GetDelayInletName(noteListIndex.Value);
             double delay = _audioOutputProcessor.Time;
             _patchCalculator.SetValue(delayInletName, delay);
+
+            if (mustStartPlayingAudioOutput)
+            {
+                _audioOutputProcessor.Start();
+            }
         }
 
         private void HandleNoteOff(MidiEvent midiEvent)

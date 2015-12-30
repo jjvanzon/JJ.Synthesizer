@@ -8,8 +8,7 @@ namespace JJ.Infrastructure.Synthesizer
 {
     public class AudioOutputProcessor : IDisposable
     {
-        // TODO: Make this 10.
-        private const int DEFAULT_BUFFER_LENGTH_IN_MILLISECONDS = 100;
+        private const int DEFAULT_BUFFER_LENGTH_IN_MILLISECONDS = 100; // TODO: Make this 10 in the future?
 
         private readonly SampleProvider _sampleProvider;
         private readonly WaveOut _waveOut;
@@ -42,7 +41,7 @@ namespace JJ.Infrastructure.Synthesizer
             GC.SuppressFinalize(this);
         }
 
-        public void Play()
+        public void Start()
         {
             Stop();
 
@@ -51,17 +50,13 @@ namespace JJ.Infrastructure.Synthesizer
 
         public void Stop()
         {
-            _sampleProvider.ResetTime();
+            // TODO: Stop does not stop WaveOut, but when I did do that, the sound had a hiccup.
+            _sampleProvider.Stop();
         }
 
         public double Time
         {
             get { return _sampleProvider.Time; }
-        }
-
-        public void ResetTime()
-        {
-            _sampleProvider.ResetTime();
         }
 
         private WaveOut CreateWaveOut(ISampleProvider sampleProvider)

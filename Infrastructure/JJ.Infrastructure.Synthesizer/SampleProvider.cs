@@ -53,10 +53,9 @@ namespace JJ.Infrastructure.Synthesizer
             return count;
         }
 
-        // TODO: This method seems out of place.
-        public void ResetTime()
+        // TODO: This will have meaning in the future, replacing Read's call to PatchCalculator with giving buffer only zeroes.
+        public void Stop()
         {
-            _time = 0;
         }
 
         public double Time
