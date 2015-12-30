@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Framework.Reflection.Exceptions;
@@ -11,8 +12,8 @@ namespace JJ.Infrastructure.Synthesizer
     {
         private const int DEFAULT_CHANNEL_COUNT = 1;
         private const int DEFAULT_CHANNEL_INDEX = 0;
-        private const int DEFAULT_BUFFER_LENGTH_IN_MILLISECONDS = 100; // TODO: Make this 10 in the future?
         private const int DEFAULT_SAMPLE_RATE = 44100;
+        private const int DEFAULT_BUFFER_LENGTH_IN_MILLISECONDS = 100; // TODO: Make this 10 in the future?
         private const double SAMPLE_TIME = 1.0 / DEFAULT_SAMPLE_RATE;
 
         private static WaveFormat _waveFormat = CreateWaveFormat();
@@ -67,6 +68,7 @@ namespace JJ.Infrastructure.Synthesizer
 
         public void Pause()
         {
+            // TODO: It is unintuitive that Pause does not work as an alternative way to start the calculations.
             _isRunning = false;
         }
 
@@ -89,11 +91,7 @@ namespace JJ.Infrastructure.Synthesizer
         {
             if (!_isRunning)
             {
-                // TODO: Find a faster way to zero the buffer?
-                for (int i = offset; i < count; i++)
-                {
-                    buffer[i] = 0;
-                }
+                Array.Clear(buffer, 0, buffer.Length);
                 return count;
             }
 
