@@ -128,7 +128,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 patches = new Patch[] { CreateDummySinePatch() };
             }
 
-            _midiInputProcessor = new MidiInputProcessor(dummyScale, patches, _repositories);
+            _midiInputProcessor = new MidiInputProcessor(dummyScale, patches, new PatchRepositories(_repositories));
         }
 
         private Scale CreateMockScale()
@@ -142,15 +142,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             var x = new PatchManager(new PatchRepositories(_repositories));
             x.CreatePatch();
 
-            var frequencyInlet = x.PatchInlet();
-            frequencyInlet.InletTypeEnum = InletTypeEnum.Frequency;
-            frequencyInlet.DefaultValue = 525.0;
-
-            var volumeInlet = x.PatchInlet();
-            volumeInlet.InletTypeEnum = InletTypeEnum.Volume;
-            volumeInlet.DefaultValue = 1.0;
-
-            var signalOutlet = x.PatchOutlet(x.Multiply(x.Sine(frequencyInlet), volumeInlet));
+            var signalOutlet = x.Outlet(x.Multiply(x.Sine(x.Inlet(InletTypeEnum.Frequency)), x.Inlet(InletTypeEnum.Volume)));
             signalOutlet.OutletTypeEnum = OutletTypeEnum.Signal;
 
             return x.Patch;

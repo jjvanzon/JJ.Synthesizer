@@ -834,9 +834,9 @@ namespace JJ.Business.Synthesizer.Tests
 
                 // Build up Reusable Patch
                 x = underlyingPatchManager;
-                var patchInlet = x.PatchInlet();
+                var patchInlet = x.Inlet();
                 var effect = EntityFactory.CreateTimePowerEffectWithEcho(x, patchInlet);
-                var patchOutlet = x.PatchOutlet(effect);
+                var patchOutlet = x.Outlet(effect);
 
                 // Build up Consuming Patch
                 Stream stream = TestHelper.GetViolin16BitMono44100WavStream();

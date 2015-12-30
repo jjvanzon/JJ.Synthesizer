@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Extensions;
 using System.Reflection;
 using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
+using JJ.Framework.Reflection;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -303,37 +304,37 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum)
+        public PatchInlet_OperatorWrapper Inlet(InletTypeEnum inletTypeEnum)
         {
-            PatchInlet_OperatorWrapper wrapper = PatchInlet();
+            PatchInlet_OperatorWrapper wrapper = Inlet();
             wrapper.InletTypeEnum = inletTypeEnum;
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum, double defaultValue)
+        public PatchInlet_OperatorWrapper Inlet(InletTypeEnum inletTypeEnum, double defaultValue)
         {
-            PatchInlet_OperatorWrapper wrapper = PatchInlet();
+            PatchInlet_OperatorWrapper wrapper = Inlet();
             wrapper.InletTypeEnum = inletTypeEnum;
             wrapper.DefaultValue = defaultValue;
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(string name)
+        public PatchInlet_OperatorWrapper Inlet(string name)
         {
-            PatchInlet_OperatorWrapper wrapper = PatchInlet();
+            PatchInlet_OperatorWrapper wrapper = Inlet();
             wrapper.Name = name;
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(string name, double defaultValue)
+        public PatchInlet_OperatorWrapper Inlet(string name, double defaultValue)
         {
-            PatchInlet_OperatorWrapper wrapper = PatchInlet();
+            PatchInlet_OperatorWrapper wrapper = Inlet();
             wrapper.Name = name;
             wrapper.DefaultValue = defaultValue;
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet()
+        public PatchInlet_OperatorWrapper Inlet()
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.PatchInlet, inletCount: 1, outletCount: 1);
 
@@ -351,7 +352,7 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
+        public PatchOutlet_OperatorWrapper Outlet(Outlet input = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.PatchOutlet, inletCount: 1, outletCount: 1);
 
@@ -628,20 +629,34 @@ namespace JJ.Business.Synthesizer.Managers
                     case OperatorTypeEnum.CustomOperator:
                         {
                             MethodInfo methodInfo = typeof(PatchManager).GetMethod(operatorTypeEnum.ToString(), Type.EmptyTypes);
+                            if (methodInfo == null)
+                            {
+                                throw new Exception(String.Format("MethodInfo '{0}' not found in type '{1}'.", operatorTypeEnum, typeof(PatchManager).Name));
+                            }
                             methodDictionary.Add(operatorTypeEnum, methodInfo);
                             break;
                         }
 
                     case OperatorTypeEnum.PatchInlet:
                         {
-                            MethodInfo methodInfo = typeof(PatchManager).GetMethod(operatorTypeEnum.ToString(), Type.EmptyTypes);
+                            string methodName = "Inlet";
+                            MethodInfo methodInfo = typeof(PatchManager).GetMethod(methodName, Type.EmptyTypes);
+                            if (methodInfo == null)
+                            {
+                                throw new Exception(String.Format("MethodInfo '{0}' not found in type '{1}'.", methodName, typeof(PatchManager).Name));
+                            }
                             methodDictionary.Add(operatorTypeEnum, methodInfo);
                             break;
                         }
 
                     default:
                         {
-                            MethodInfo methodInfo = typeof(PatchManager).GetMethod(operatorTypeEnum.ToString());
+                            string methodName = "Outlet";
+                            MethodInfo methodInfo = typeof(PatchManager).GetMethod(methodName);
+                            if (methodInfo == null)
+                            {
+                                throw new Exception(String.Format("MethodInfo '{0}' not found in type '{1}'.", methodName, typeof(PatchManager).Name));
+                            }
                             methodDictionary.Add(operatorTypeEnum, methodInfo);
                             break;
                         }

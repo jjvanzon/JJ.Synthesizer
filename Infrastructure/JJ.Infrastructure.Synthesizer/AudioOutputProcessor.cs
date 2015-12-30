@@ -9,9 +9,9 @@ namespace JJ.Infrastructure.Synthesizer
     public class AudioOutputProcessor : IDisposable
     {
         // TODO: Make this 10.
-        private int DEFAULT_BUFFER_LENGTH_IN_MILLISECONDS = 100;
+        private const int DEFAULT_BUFFER_LENGTH_IN_MILLISECONDS = 100;
 
-        private SampleProvider _sampleProvider;
+        private readonly SampleProvider _sampleProvider;
         private WaveOut _waveOut;
 
         public AudioOutputProcessor(IPatchCalculator patchCalculator)
@@ -37,6 +37,11 @@ namespace JJ.Infrastructure.Synthesizer
         }
 
         // TODO: I might create _waveOut in the constructor in the future again.
+
+        public double Time
+        {
+            get { return _sampleProvider.Time; }
+        }
 
         public void Play()
         {

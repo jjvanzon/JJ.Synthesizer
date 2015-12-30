@@ -70,7 +70,7 @@ namespace JJ.Business.Synthesizer.Managers
                                                                 .Except(matchedInlets);
             foreach (Inlet unmatchedInlet in unmatchedInlets)
             {
-                PatchInlet_OperatorWrapper patchInletWrapper = PatchInlet();
+                PatchInlet_OperatorWrapper patchInletWrapper = Inlet();
                 patchInletWrapper.ListIndex = unmatchedInlet.ListIndex;
                 patchInletWrapper.InletTypeEnum = unmatchedInlet.GetInletTypeEnum();
                 patchInletWrapper.DefaultValue = unmatchedInlet.DefaultValue;
@@ -84,7 +84,7 @@ namespace JJ.Business.Synthesizer.Managers
                                                                   .Except(matchedOutlets);
             foreach (Outlet unmatchedOutlet in unmatchedOutlets)
             {
-                PatchOutlet_OperatorWrapper patchOutletWrapper = PatchOutlet();
+                PatchOutlet_OperatorWrapper patchOutletWrapper = Outlet();
                 patchOutletWrapper.Name = unmatchedOutlet.Name;
                 patchOutletWrapper.ListIndex = unmatchedOutlet.ListIndex;
                 patchOutletWrapper.OutletTypeEnum = unmatchedOutlet.GetOutletTypeEnum();

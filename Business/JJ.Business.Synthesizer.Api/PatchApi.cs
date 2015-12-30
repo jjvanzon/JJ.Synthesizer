@@ -103,34 +103,34 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Number(number);
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum)
+        public PatchInlet_OperatorWrapper Inlet(InletTypeEnum inletTypeEnum)
         {
-            return _patchManager.PatchInlet(inletTypeEnum);
+            return _patchManager.Inlet(inletTypeEnum);
         }
 
-        public Outlet PatchInlet(InletTypeEnum inletTypeEnum, double defaultValue)
+        public PatchInlet_OperatorWrapper Inlet(InletTypeEnum inletTypeEnum, double defaultValue)
         {
-            return _patchManager.PatchInlet(inletTypeEnum, defaultValue);
+            return _patchManager.Inlet(inletTypeEnum, defaultValue);
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(string name)
+        public PatchInlet_OperatorWrapper Inlet(string name)
         {
-            return _patchManager.PatchInlet(name);
+            return _patchManager.Inlet(name);
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet(string name, double defaultValue)
+        public PatchInlet_OperatorWrapper Inlet(string name, double defaultValue)
         {
-            return _patchManager.PatchInlet(name, defaultValue);
+            return _patchManager.Inlet(name, defaultValue);
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet()
+        public PatchInlet_OperatorWrapper Inlet()
         {
-            return _patchManager.PatchInlet();
+            return _patchManager.Inlet();
         }
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
+        public PatchOutlet_OperatorWrapper Outlet(Outlet input = null)
         {
-            return _patchManager.PatchOutlet(input);
+            return _patchManager.Outlet(input);
         }
 
         public Power_OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)

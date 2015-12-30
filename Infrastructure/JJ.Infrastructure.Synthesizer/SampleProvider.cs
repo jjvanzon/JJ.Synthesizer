@@ -59,6 +59,11 @@ namespace JJ.Infrastructure.Synthesizer
             _time = 0;
         }
 
+        public double Time
+        {
+            get { return _time; }
+        }
+
         private IPatchCalculator CreateTestPatchCalculator()
         {
             var x = new PatchApi();
