@@ -12,6 +12,8 @@ namespace JJ.Business.Synthesizer.Managers
 {
     public partial class PatchManager
     {
+        private const int DEFAULT_LIST_INDEX = 0; 
+
         /// <summary>
         /// Use the Patch property after calling this method.
         /// Do a rollback after calling this method to prevent saving the new patch.
@@ -21,6 +23,8 @@ namespace JJ.Business.Synthesizer.Managers
         /// 2) PatchInlet Operator.Name and PatchOutlet Operator.Name.
         /// The non-matched inlets and outlets will become inlets and outlets of the new patch.
         /// If there is overlap in type or name, they will merge to a single inlet or outlet.
+        /// This causes ambiguity in DefaultValue, ListIndex or Name, 
+        /// which is 'resolved' by taking the properties of the first one in the group.
         /// </summary>
         public void AutoPatch(IList<Patch> underlyingPatches)
         {
@@ -34,7 +38,7 @@ namespace JJ.Business.Synthesizer.Managers
             foreach (Patch underlyingPatch in underlyingPatches)
             {
                 CustomOperator_OperatorWrapper customOperatorWrapper = CustomOperator(underlyingPatch);
-                customOperatorWrapper.Name = String.Format("Auto-generated CustomOperator '{0}'", underlyingPatch.Name);
+                customOperatorWrapper.Name = String.Format("{0} (Auto-generated CustomOperator)", underlyingPatch.Name);
 
                 customOperators.Add(customOperatorWrapper);
             }
@@ -66,34 +70,116 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             // Unmatched inlets of the custom operators become inlets of the new patch.
-            IEnumerable<Inlet> unmatchedInlets = customOperators.SelectMany(x => x.Inlets)
-                                                                .Except(matchedInlets);
-            foreach (Inlet unmatchedInlet in unmatchedInlets)
-            {
-                PatchInlet_OperatorWrapper patchInletWrapper = Inlet();
-                patchInletWrapper.ListIndex = unmatchedInlet.ListIndex;
-                patchInletWrapper.InletTypeEnum = unmatchedInlet.GetInletTypeEnum();
-                patchInletWrapper.DefaultValue = unmatchedInlet.DefaultValue;
-                patchInletWrapper.Name = String.Format("Auto-generated PatchInlet '{0}'.", unmatchedInlet.Name);
+            IList<Inlet> unmatchedInlets = customOperators.SelectMany(x => x.Inlets)
+                                                          .Except(matchedInlets)
+                                                          .ToArray();
 
-                unmatchedInlet.LinkTo((Outlet)patchInletWrapper);
+            // If there is overlap in InletType, they will merge to a single PatchInlet.
+            var unmatchedInlets_GroupedByInletType = unmatchedInlets.Where(x => x.InletType != null)
+                                                                    .GroupBy(x => x.GetInletTypeEnum());
+            foreach (var unmatchedInletGroup in unmatchedInlets_GroupedByInletType)
+            {
+                PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(unmatchedInletGroup.ToArray());
+            }
+
+            // If there is overlap in name, they will merge to a single PatchInlet.
+            var unmatchedInlets_WithoutInletType_GroupedByName = unmatchedInlets.Where(x => x.InletType == null && !String.IsNullOrEmpty(x.Name))
+                                                                                .GroupBy(x => x.Name);
+            foreach (var unmatchedInletGroup in unmatchedInlets_WithoutInletType_GroupedByName)
+            {
+                PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(unmatchedInletGroup.ToArray());
+            }
+
+            // If there is no InletType or name, unmatched Inlets will convert to individual PatchInlets.
+            var unmatchedInlets_WithoutInletTypeOrName = unmatchedInlets.Where(x => x.InletType == null && String.IsNullOrEmpty(x.Name));
+            foreach (Inlet unmatchedInlet in unmatchedInlets_WithoutInletTypeOrName)
+            {
+                PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(unmatchedInlet);
             }
 
             // Unmatched outlets of the custom operators become outlets of the new patch.
-            IEnumerable<Outlet> unmatchedOutlets = customOperators.SelectMany(x => x.Outlets)
-                                                                  .Except(matchedOutlets);
-            foreach (Outlet unmatchedOutlet in unmatchedOutlets)
-            {
-                PatchOutlet_OperatorWrapper patchOutletWrapper = Outlet();
-                patchOutletWrapper.Name = unmatchedOutlet.Name;
-                patchOutletWrapper.ListIndex = unmatchedOutlet.ListIndex;
-                patchOutletWrapper.OutletTypeEnum = unmatchedOutlet.GetOutletTypeEnum();
-                patchOutletWrapper.Name = String.Format("Auto-generated PatchOutlet '{0}'.", unmatchedOutlet.Name);
+            IList<Outlet> unmatchedOutlets = customOperators.SelectMany(x => x.Outlets)
+                                                            .Except(matchedOutlets)
+                                                            .ToArray();
 
-                patchOutletWrapper.Input = unmatchedOutlet;
+            // If there is overlap in OutletType, they will merge to a single PatchOutlet.
+            var unmatchedOutlets_GroupedByOutletType = unmatchedOutlets.Where(x => x.OutletType != null)
+                                                                       .GroupBy(x => x.GetOutletTypeEnum());
+            foreach (var unmatchedOutletGroup in unmatchedOutlets_GroupedByOutletType)
+            {
+                PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(unmatchedOutletGroup.ToArray());
             }
 
-            // TODO: If there is overlap in type or name, they will merge to a single inlet or outlet.
+            // If there is overlap in name, they will merge to a single PatchOutlet.
+            var unmatchedOutlets_WithoutOutletType_GroupedByName = unmatchedOutlets.Where(x => x.OutletType == null && !String.IsNullOrEmpty(x.Name))
+                                                                                   .GroupBy(x => x.Name);
+            foreach (var unmatchedOutletGroup in unmatchedOutlets_WithoutOutletType_GroupedByName)
+            {
+                PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(unmatchedOutletGroup.ToArray());
+            }
+
+            // If there is no OutletType or name, unmatched Outlets will convert to individual PatchOutlets.
+            var unmatchedOutlets_WithoutOutletTypeOrName = unmatchedOutlets.Where(x => x.OutletType == null && String.IsNullOrEmpty(x.Name));
+            foreach (Outlet unmatchedOutlet in unmatchedOutlets_WithoutOutletTypeOrName)
+            {
+                PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(unmatchedOutlet);
+            }
+        }
+
+        private PatchInlet_OperatorWrapper ConvertToPatchInlet(Inlet inlet)
+        {
+            PatchInlet_OperatorWrapper patchInletWrapper = Inlet();
+            patchInletWrapper.InletTypeEnum = inlet.GetInletTypeEnum();
+            patchInletWrapper.Name = inlet.Name;
+            patchInletWrapper.ListIndex = inlet.ListIndex;
+            patchInletWrapper.DefaultValue = inlet.DefaultValue;
+
+            inlet.LinkTo((Outlet)patchInletWrapper);
+
+            return patchInletWrapper;
+        }
+
+        private PatchInlet_OperatorWrapper ConvertToPatchInlet(IList<Inlet> unmatchedInlets)
+        {
+            Inlet firstUnmatchedInlet = unmatchedInlets.First();
+
+            PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(firstUnmatchedInlet);
+
+            foreach (Inlet unmatchedInlet in unmatchedInlets)
+            {
+                unmatchedInlet.LinkTo((Outlet)patchInletWrapper);
+            }
+
+            return patchInletWrapper;
+        }
+
+        private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(IList<Outlet> unmatchedOutlets)
+        {
+            Outlet firstUnmatchedOutlet = unmatchedOutlets.First();
+            PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(firstUnmatchedOutlet);
+
+            Outlet patchOutletInput = firstUnmatchedOutlet;
+            if (unmatchedOutlets.Count > 1)
+            {
+                // You only need an adder, when there is more than 1 unmatchedOutlet.
+                patchOutletInput = Adder(unmatchedOutlets);
+            }
+
+            patchOutletWrapper.Input = patchOutletInput;
+
+            return patchOutletWrapper;
+        }
+
+        private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(Outlet unmatchedOutlet)
+        {
+            PatchOutlet_OperatorWrapper patchOutletWrapper = Outlet();
+            patchOutletWrapper.Name = unmatchedOutlet.Name;
+            patchOutletWrapper.ListIndex = unmatchedOutlet.ListIndex;
+            patchOutletWrapper.OutletTypeEnum = unmatchedOutlet.GetOutletTypeEnum();
+
+            patchOutletWrapper.Input = unmatchedOutlet;
+
+            return patchOutletWrapper;
         }
 
         private bool AreMatch(Outlet outlet, Inlet inlet)
