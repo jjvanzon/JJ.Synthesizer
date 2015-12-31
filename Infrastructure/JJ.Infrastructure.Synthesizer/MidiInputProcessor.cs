@@ -9,7 +9,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Extensions;
-using System.Media;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Calculation.Patches;
 
@@ -22,7 +21,7 @@ namespace JJ.Infrastructure.Synthesizer
         private const double LOWEST_FREQUENCY = 8.1757989156;
         private const double MAX_VELOCITY = 127.0;
         private const int MAX_NOTE_NUMBER = 127;
-        private const int MAX_CONCURRENT_NOTES = 5; // TODO: Increase after testing.
+        private const int MAX_CONCURRENT_NOTES = 5; // TODO: Increase after testing. Currently (2015-12-31), it cannot handle much more, though, performance-wise.
 
         private readonly IPatchCalculator _patchCalculator;
         private readonly Scale _scale;
@@ -52,8 +51,32 @@ namespace JJ.Infrastructure.Synthesizer
             _midiIn = TryCreateMidiIn();
 
             _audioOutputProcessor.Start();
-            // Prevent calculations at startup.
-            _audioOutputProcessor.Pause();
+            _audioOutputProcessor.Pause(); // Prevent calculations at startup.
+        }
+
+        ~MidiInputProcessor()
+        {
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            if (_midiIn != null)
+            {
+                _midiIn.MessageReceived -= _midiIn_MessageReceived;
+                // Not sure if I need to call of these methods, but when I omitted one I got an error upon application exit.
+                _midiIn.Stop();
+                _midiIn.Close();
+                _midiIn.Dispose();
+            }
+
+            if (_audioOutputProcessor != null)
+            {
+                _audioOutputProcessor.Stop();
+                _audioOutputProcessor.Dispose();
+            }
+
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -84,6 +107,7 @@ namespace JJ.Infrastructure.Synthesizer
 
                 CustomOperator_OperatorWrapper customOperatorWrapper = patchManager.CustomOperator(autoPatch);
 
+                // TODO: After AutoPatch is programmed to only return one inlet of a type, you do not need these LINQ queries anymore. You can just do a SingleOrDefault.
                 customOperatorWrapper.Inlets.Where(x => x.GetInletTypeEnum() == InletTypeEnum.Volume).ForEach(x => x.InputOutlet = volumePatchInletWrapper);
                 customOperatorWrapper.Inlets.Where(x => x.GetInletTypeEnum() == InletTypeEnum.Frequency).ForEach(x => x.InputOutlet = frequencyPatchInletWrapper);
 
@@ -104,30 +128,6 @@ namespace JJ.Infrastructure.Synthesizer
             return patchCalculator;
         }
 
-        ~MidiInputProcessor()
-        {
-            Dispose();
-        }
-
-        public void Dispose()
-        {
-            if (_midiIn != null)
-            {
-                _midiIn.MessageReceived -= _midiIn_MessageReceived;
-                // Not sure if I need to call of these methods, but when I omitted one I got an error upon application exit.
-                _midiIn.Stop();
-                _midiIn.Close();
-                _midiIn.Dispose();
-            }
-
-            if (_audioOutputProcessor != null)
-            {
-                _audioOutputProcessor.Stop();
-                _audioOutputProcessor.Dispose();
-            }
-
-            GC.SuppressFinalize(this);
-        }
 
         /// <summary> For now will only work with the first MIDI device it finds. </summary>
         private MidiIn TryCreateMidiIn()
@@ -176,23 +176,13 @@ namespace JJ.Infrastructure.Synthesizer
             }
 
             double frequency = _noteNumber_To_Frequency_Array[noteOnEvent.NoteNumber];
-            double volume = noteOnEvent.Velocity / MAX_VELOCITY;
-
-            // TODO: None of these outcommented code lines work, because Bundle operators now result in repetition of the Frequency and Volme PatchInlet operators.
-            //_patchCalculator.SetValue(InletTypeEnum.Frequency, noteListIndex, frequency);
-            //_patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex, volume);
-
-            //_patchCalculator.SetValue(InletTypeEnum.Frequency, frequency);
-            //_patchCalculator.SetValue(InletTypeEnum.Volume, volume);
-
             string frequencyInletName = GetFrequencyInletName(noteListIndex.Value);
             _patchCalculator.SetValue(frequencyInletName, frequency);
 
+            double volume = noteOnEvent.Velocity / MAX_VELOCITY;
             string volumeInletName = GetVolumeInletName(noteListIndex.Value);
             _patchCalculator.SetValue(volumeInletName, volume);
 
-            // TODO: It is a hack that I put this after the Play() method call and its if. The thing is: time is reset upon Play,
-            // which affects this delay. I think ResetTime is not even necessary anymore, so taking away that might solve it.
             string delayInletName = GetDelayInletName(noteListIndex.Value);
             double delay = _audioOutputProcessor.Time;
             _patchCalculator.SetValue(delayInletName, delay);
@@ -215,8 +205,6 @@ namespace JJ.Infrastructure.Synthesizer
             }
 
             double newVolume = 0.0;
-            //_patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex, newVolume);
-
             string volumeInletName = GetVolumeInletName(noteListIndex.Value);
             _patchCalculator.SetValue(volumeInletName, newVolume);
 
@@ -228,11 +216,7 @@ namespace JJ.Infrastructure.Synthesizer
             }
         }
 
-        private double GetFrequencyByNoteNumber(int noteNumber)
-        {
-            double frequency = LOWEST_FREQUENCY * Math.Pow(2.0, noteNumber / 12.0);
-            return frequency;
-        }
+        // Helpers
 
         /// <summary>
         /// Used both for getting a list index for a new note,
@@ -262,6 +246,12 @@ namespace JJ.Infrastructure.Synthesizer
         private void ResetNoteInletListIndex(int noteNumber)
         {
             _noteNumber_To_NoteListIndex_Dictionary.Remove(noteNumber);
+        }
+
+        private double GetFrequencyByNoteNumber(int noteNumber)
+        {
+            double frequency = LOWEST_FREQUENCY * Math.Pow(2.0, noteNumber / 12.0);
+            return frequency;
         }
 
         private string GetFrequencyInletName(int noteListIndex)

@@ -61,11 +61,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// </summary>
         private Dictionary<Sample, ISampleCalculator> _sample_SampleCalculatorDictionary;
 
-        /// <summary> Value is offset in seconds. </summary>
-        private Dictionary<Operator, double> _operator_WhiteNoiseOffsetDictionary;
-
-        private IList<VariableInput_OperatorCalculator> _input_OperatorCalculators;
+        private Dictionary<Operator, double> _operator_WhiteNoiseOffsetInSecondsDictionary;
         private Outlet _currentChannelOutlet;
+        private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_Calculator_Dictionary;
 
         public OptimizedPatchCalculatorVisitor(ICurveRepository curveRepository, ISampleRepository sampleRepository, IPatchRepository patchRepository)
         {
@@ -105,8 +103,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _bundleIndexStack = new Stack<int>();
             _curve_CurveCalculator_Dictionary = new Dictionary<Curve, OptimizedCurveCalculator>();
             _sample_SampleCalculatorDictionary = new Dictionary<Sample, ISampleCalculator>();
-            _operator_WhiteNoiseOffsetDictionary = new Dictionary<Operator, double>();
-            _input_OperatorCalculators = new List<VariableInput_OperatorCalculator>();
+            _operator_WhiteNoiseOffsetInSecondsDictionary = new Dictionary<Operator, double>();
+            _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
 
             _channelCount = channelOutlets.Count;
 
@@ -136,7 +134,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 outputOperatorCalculators.Add(operatorCalculator);
             }
 
-            return new Result(outputOperatorCalculators, _input_OperatorCalculators); 
+            return new Result(outputOperatorCalculators, _patchInlet_Calculator_Dictionary.Values.ToArray()); 
         }
 
         protected override void VisitAdd(Operator op)
@@ -1175,10 +1173,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitWhiteNoise(Operator op)
         {
             double offset;
-            if (!_operator_WhiteNoiseOffsetDictionary.TryGetValue(op, out offset))
+            if (!_operator_WhiteNoiseOffsetInSecondsDictionary.TryGetValue(op, out offset))
             {
                 offset = _whiteNoiseCalculator.GetRandomOffset();
-                _operator_WhiteNoiseOffsetDictionary.Add(op, offset);
+                _operator_WhiteNoiseOffsetInSecondsDictionary.Add(op, offset);
             }
 
             var calculator = new WhiteNoise_OperatorCalculator(_whiteNoiseCalculator, offset);
@@ -1225,15 +1223,23 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             // For foreward compatibility we only apply that rule if nothing else was filled in.
             if (isTopLevelPatchInlet && inputIsConstDefaultValue)
             {
-                var variableInputCalculator = new VariableInput_OperatorCalculator
+                VariableInput_OperatorCalculator variableInputCalculator;
+                if (!_patchInlet_Calculator_Dictionary.TryGetValue(patchInlet, out variableInputCalculator))
                 {
-                    ListIndex = wrapper.ListIndex ?? 0,
-                    Name = wrapper.Name,
-                    InletTypeEnum = wrapper.InletTypeEnum,
-                    _value = wrapper.DefaultValue ?? 0.0
-                };
+                    variableInputCalculator = new VariableInput_OperatorCalculator
+                    {
+                        ListIndex = wrapper.ListIndex ?? 0,
+                        Name = wrapper.Name,
+                        InletTypeEnum = wrapper.InletTypeEnum,
+                        _value = wrapper.DefaultValue ?? 0.0
+                    };
 
-                _input_OperatorCalculators.Add(variableInputCalculator);
+                    _patchInlet_Calculator_Dictionary.Add(patchInlet, variableInputCalculator);
+                }
+                else
+                {
+                    int i = 0;
+                }
 
                 calculator = variableInputCalculator;
             }
