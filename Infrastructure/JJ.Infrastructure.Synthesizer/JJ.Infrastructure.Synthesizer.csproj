@@ -42,7 +42,6 @@
     <Compile Include="AudioOutputProcessor.cs" />
     <Compile Include="MidiInputProcessor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="2015-12-30 Backup of SampleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer.Api\JJ.Business.Synthesizer.Api.csproj">

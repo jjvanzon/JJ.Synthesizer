@@ -185,7 +185,6 @@
     <Compile Include="Managers\CurveManager.cs" />
     <Compile Include="Managers\DocumentManager.cs" />
     <Compile Include="Managers\EntityPositionManager.cs" />
-    <Compile Include="Managers\2015-12-31 Backup of PatchManager.AutoPatch - Copy.cs" />
     <Compile Include="Managers\PatchManager.AutoPatch.cs" />
     <Compile Include="SideEffects\Document_SideEffect_CreatePatch.cs" />
     <Compile Include="Validation\CurveValidator_InDocument.cs" />
