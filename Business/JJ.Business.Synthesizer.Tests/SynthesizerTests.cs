@@ -17,7 +17,7 @@ using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 using System.Linq;
 using JJ.Business.Synthesizer.Api;
 

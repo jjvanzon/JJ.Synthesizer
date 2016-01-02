@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Canonical;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;

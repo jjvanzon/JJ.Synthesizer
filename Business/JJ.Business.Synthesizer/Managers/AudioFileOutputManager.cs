@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Calculation.AudioFileOutputs;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Canonical;
 

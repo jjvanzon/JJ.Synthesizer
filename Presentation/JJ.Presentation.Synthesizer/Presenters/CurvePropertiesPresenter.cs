@@ -11,7 +11,7 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

@@ -10,7 +10,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Managers;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

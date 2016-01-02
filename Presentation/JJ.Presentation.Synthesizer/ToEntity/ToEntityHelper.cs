@@ -12,7 +12,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ToEntity

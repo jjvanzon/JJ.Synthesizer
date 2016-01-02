@@ -5,7 +5,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
-using CanonicalModel = JJ.Business.CanonicalModel;
+using CanonicalModel = JJ.Data.Canonical;
 using System;
 using System.Collections.Generic;
 using System.Linq;

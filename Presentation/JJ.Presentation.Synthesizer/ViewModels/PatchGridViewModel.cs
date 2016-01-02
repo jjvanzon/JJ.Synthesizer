@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.ViewModels
 {

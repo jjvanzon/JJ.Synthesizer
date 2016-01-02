@@ -1,4 +1,4 @@
-﻿using JJ.Business.CanonicalModel;
+﻿using JJ.Data.Canonical;
 using System.Collections.Generic;
 using System;
 

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Forms;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
 

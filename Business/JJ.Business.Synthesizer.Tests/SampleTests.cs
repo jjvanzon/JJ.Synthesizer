@@ -10,7 +10,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 using System;
 
 namespace JJ.Business.Synthesizer.Tests

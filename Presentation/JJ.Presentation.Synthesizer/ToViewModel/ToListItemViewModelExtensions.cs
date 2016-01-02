@@ -4,7 +4,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {

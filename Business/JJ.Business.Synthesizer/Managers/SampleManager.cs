@@ -12,7 +12,7 @@ using System.IO;
 using JJ.Framework.Common;
 using JJ.Framework.IO;
 using JJ.Business.Synthesizer.Converters;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using System.Collections.Generic;

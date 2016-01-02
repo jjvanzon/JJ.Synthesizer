@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.Helpers

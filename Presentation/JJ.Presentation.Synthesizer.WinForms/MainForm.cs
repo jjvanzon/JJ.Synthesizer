@@ -14,7 +14,7 @@ using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {

@@ -2,7 +2,7 @@
 using System.Linq;
 using JJ.Framework.Common;
 using JJ.Data.Synthesizer;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;

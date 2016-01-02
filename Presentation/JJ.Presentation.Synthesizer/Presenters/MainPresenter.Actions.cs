@@ -7,7 +7,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Framework.Validation.Resources;
 using JJ.Data.Synthesizer;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;

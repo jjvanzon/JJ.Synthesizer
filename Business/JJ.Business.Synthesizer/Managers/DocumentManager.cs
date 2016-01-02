@@ -1,4 +1,4 @@
-﻿using JJ.Business.CanonicalModel;
+﻿using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;

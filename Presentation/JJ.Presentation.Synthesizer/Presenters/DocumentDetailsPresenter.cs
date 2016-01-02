@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

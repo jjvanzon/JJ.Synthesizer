@@ -9,7 +9,7 @@ using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.LinkTo;

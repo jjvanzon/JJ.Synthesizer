@@ -1,4 +1,4 @@
-﻿using JJ.Business.CanonicalModel;
+﻿using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;

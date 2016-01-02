@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.Helpers;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Entities

@@ -1,6 +1,6 @@
 ﻿using JJ.Presentation.Synthesizer.Helpers;
 using System.Diagnostics;
-using JJ.Business.CanonicalModel;
+using JJ.Data.Canonical;
 
 namespace JJ.Presentation.Synthesizer.ViewModels.Entities
 {
