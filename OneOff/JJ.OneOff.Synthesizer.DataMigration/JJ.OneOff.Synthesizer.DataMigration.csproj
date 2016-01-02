@@ -82,9 +82,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
+    <ProjectReference Include="..\..\Data\JJ.Data.Canonical\JJ.Data.Canonical.csproj">
       <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
-      <Name>JJ.Business.CanonicalModel</Name>
+      <Name>JJ.Data.Canonical</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer\JJ.Business.Synthesizer.csproj">
       <Project>{a2a8e75d-1fda-43fb-99f3-aff9958f654a}</Project>

@@ -173,9 +173,9 @@
     <Compile Include="ViewModels\ScalePropertiesViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj">
+    <ProjectReference Include="..\..\Data\JJ.Data.Canonical\JJ.Data.Canonical.csproj">
       <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
-      <Name>JJ.Business.CanonicalModel</Name>
+      <Name>JJ.Data.Canonical</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Business\JJ.Business.Synthesizer.Api\JJ.Business.Synthesizer.Api.csproj">
       <Project>{9451509b-96e7-43a7-87a2-74e5e582c0cd}</Project>

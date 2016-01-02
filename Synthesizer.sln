@@ -29,7 +29,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Mathematics", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Xml", "Framework\JJ.Framework.Xml\JJ.Framework.Xml.csproj", "{F6EA0941-40FF-4679-A1A6-EACD5C9BA42B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.CanonicalModel", "Business\JJ.Business.CanonicalModel\JJ.Business.CanonicalModel.csproj", "{08EA4A4E-D815-47AE-9277-DA6672D36214}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Data.Canonical", "Data\JJ.Data.Canonical\JJ.Data.Canonical.csproj", "{08EA4A4E-D815-47AE-9277-DA6672D36214}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Framework.Presentation", "Framework\JJ.Framework.Presentation\JJ.Framework.Presentation.csproj", "{79B0EAC3-5159-4FC8-B3D8-53315B205444}"
 EndProject
@@ -1063,10 +1063,10 @@ Global
 		SccProjectTopLevelParentUniqueName12 = Synthesizer.sln
 		SccProjectName12 = Framework/JJ.Framework.Xml
 		SccLocalPath12 = Framework\\JJ.Framework.Xml
-		SccProjectUniqueName13 = Business\\JJ.Business.CanonicalModel\\JJ.Business.CanonicalModel.csproj
+		SccProjectUniqueName13 = Data\\JJ.Data.Canonical\\JJ.Data.Canonical.csproj
 		SccProjectTopLevelParentUniqueName13 = Synthesizer.sln
-		SccProjectName13 = Business/JJ.Business.CanonicalModel
-		SccLocalPath13 = Business\\JJ.Business.CanonicalModel
+		SccProjectName13 = Data/JJ.Data.Canonical
+		SccLocalPath13 = Data\\JJ.Data.Canonical
 		SccProjectUniqueName14 = Framework\\JJ.Framework.Presentation\\JJ.Framework.Presentation.csproj
 		SccProjectTopLevelParentUniqueName14 = Synthesizer.sln
 		SccProjectName14 = Framework/JJ.Framework.Presentation
