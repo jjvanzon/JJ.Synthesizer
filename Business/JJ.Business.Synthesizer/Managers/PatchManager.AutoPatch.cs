@@ -29,12 +29,12 @@ namespace JJ.Business.Synthesizer.Managers
             if (maxConcurrentNotes < 1) throw new LessThanException(() => maxConcurrentNotes, 1);
 
             AutoPatch(underlyingPatches);
-            Patch autoPatch = Patch;
+            Patch monophonicAutoPatch = Patch;
 
             CreatePatch();
-            Patch wrapperPatch = Patch;
+            Patch polyphonicAutoPatch = Patch;
 
-            var outlets = new List<Outlet>(maxConcurrentNotes);
+            var monophonicOutlets = new List<Outlet>(maxConcurrentNotes);
             var volumeInletNames = new List<string>(maxConcurrentNotes);
             var frequencyInletNames = new List<string>(maxConcurrentNotes);
             var delayInletNames = new List<string>(maxConcurrentNotes);
@@ -53,23 +53,30 @@ namespace JJ.Business.Synthesizer.Managers
                 delayPatchInletWrapper.Name = GetDelayInletName(i);
                 delayInletNames.Add(delayPatchInletWrapper.Name);
 
-                CustomOperator_OperatorWrapper customOperatorWrapper = CustomOperator(autoPatch);
+                CustomOperator_OperatorWrapper customOperatorWrapper = CustomOperator(monophonicAutoPatch);
 
-                // TODO: After AutoPatch is programmed to only return one inlet of a type, you do not need these LINQ queries anymore. You can just do a SingleOrDefault.
-                customOperatorWrapper.Inlets.Where(x => x.GetInletTypeEnum() == InletTypeEnum.Volume).ForEach(x => x.InputOutlet = volumePatchInletWrapper);
-                customOperatorWrapper.Inlets.Where(x => x.GetInletTypeEnum() == InletTypeEnum.Frequency).ForEach(x => x.InputOutlet = frequencyPatchInletWrapper);
+                Inlet customOperatorVolumeInlet = customOperatorWrapper.Inlets.Where(x => x.GetInletTypeEnum() == InletTypeEnum.Volume).SingleOrDefault();
+                if (customOperatorVolumeInlet != null)
+                {
+                    customOperatorVolumeInlet.InputOutlet = volumePatchInletWrapper;
+                }
 
-                IEnumerable<Outlet> signalOutlets = customOperatorWrapper.Outlets.Where(x => x.GetOutletTypeEnum() == OutletTypeEnum.Signal);
-                foreach (Outlet signalOutlet in signalOutlets)
+                Inlet customOperatorFrequencyInlet = customOperatorWrapper.Inlets.Where(x => x.GetInletTypeEnum() == InletTypeEnum.Frequency).SingleOrDefault();
+                if (customOperatorFrequencyInlet != null)
+                {
+                    customOperatorFrequencyInlet.InputOutlet = frequencyPatchInletWrapper;
+                }
+
+                Outlet signalOutlet = customOperatorWrapper.Outlets.Where(x => x.GetOutletTypeEnum() == OutletTypeEnum.Signal).SingleOrDefault();
+                if (signalOutlet != null)
                 {
                     Delay_OperatorWrapper delayWrapper = Delay(signalOutlet, delayPatchInletWrapper);
-                    outlets.Add(delayWrapper);
+                    monophonicOutlets.Add(delayWrapper);
                 }
             }
 
-            Adder_OperatorWrapper adderWrapper = Adder(outlets);
-
-            Outlet outlet = adderWrapper.Result;
+            Adder_OperatorWrapper adderWrapper = Adder(monophonicOutlets);
+            Outlet polyphonicOutlet = adderWrapper.Result;
 
             // This makes side-effects go off.
             VoidResult savePatchResult = SavePatch();
@@ -77,7 +84,7 @@ namespace JJ.Business.Synthesizer.Managers
             // This is sensitive, error prone code, so assert its result 
             ResultHelper.Assert(savePatchResult);
 
-            var result = new AutoPatchPolyphonicResult(outlet, volumeInletNames, frequencyInletNames, delayInletNames);
+            var result = new AutoPatchPolyphonicResult(polyphonicOutlet, volumeInletNames, frequencyInletNames, delayInletNames);
             return result;
         }
 
