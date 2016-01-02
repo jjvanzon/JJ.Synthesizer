@@ -96,7 +96,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     channelOutlet.Operator, 
                     _curveRepository, _sampleRepository, _patchRepository,
                     alreadyDone: new HashSet<object>());
-                validator.Verify();
+                validator.Assert();
             }
 
             _stack = new Stack<OperatorCalculatorBase>();

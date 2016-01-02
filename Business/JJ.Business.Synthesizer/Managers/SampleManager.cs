@@ -216,7 +216,7 @@ namespace JJ.Business.Synthesizer.Managers
 
             // Validate header
             IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);
-            validator.Verify();
+            validator.Assert();
 
             // Create Sample
             Sample sample = CreateWavSampleFromHeader(wavHeaderStruct);

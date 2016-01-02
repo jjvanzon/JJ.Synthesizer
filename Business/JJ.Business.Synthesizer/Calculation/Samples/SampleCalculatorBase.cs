@@ -32,7 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
             if (!sample.IsActive) throw new Exception("sample.IsActive cannot be false, because it needs to be handled by a Zero_SampleCalculator.");
 
             IValidator validator = new SampleValidator(sample);
-            validator.Verify();
+            validator.Assert();
 
             _sample = sample;
             _bytes = bytes;

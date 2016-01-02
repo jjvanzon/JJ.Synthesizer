@@ -15,7 +15,7 @@ namespace JJ.Business.Synthesizer.Managers
             WavHeaderStruct wavHeaderStruct = AudioFileInfoToWavHeaderStructConverter.Convert(audioFileInfo);
 
             IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);
-            validator.Verify();
+            validator.Assert();
 
             return wavHeaderStruct;
         }
@@ -23,7 +23,7 @@ namespace JJ.Business.Synthesizer.Managers
         public static AudioFileInfo GetAudioFileInfoFromWavHeaderStruct(WavHeaderStruct wavHeaderStruct)
         {
             IValidator validator = new WavHeaderStructValidator(wavHeaderStruct);
-            validator.Verify();
+            validator.Assert();
 
             AudioFileInfo audioFileInfo = WavHeaderStructToAudioFileInfoConverter.Convert(wavHeaderStruct);
             return audioFileInfo;

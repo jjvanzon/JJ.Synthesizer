@@ -80,7 +80,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     _patchRepository,
                     alreadyDone: new HashSet<object>());
 
-                validator.Verify();
+                validator.Assert();
             }
 
             _channelOutlets = channelOutlets.ToArray();

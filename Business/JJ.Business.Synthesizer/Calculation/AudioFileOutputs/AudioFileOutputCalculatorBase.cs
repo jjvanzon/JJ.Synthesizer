@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
             if (String.IsNullOrEmpty(audioFileOutput.FilePath)) throw new NullOrEmptyException(() => audioFileOutput.FilePath);
             IValidator validator = new AudioFileOutputValidator(audioFileOutput);
-            validator.Verify();
+            validator.Assert();
 
             // Prepare the calculators
             IList<Outlet> outlets = audioFileOutput.AudioFileOutputChannels

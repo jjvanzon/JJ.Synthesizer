@@ -28,10 +28,10 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
             _curve = curve;
 
             IValidator validator1 = new CurveValidator_WithoutNodes(_curve);
-            validator1.Verify();
+            validator1.Assert();
 
             IValidator validator2 = new CurveValidator_Nodes(_curve);
-            validator2.Verify();
+            validator2.Assert();
 
             _sortedNodes = CreateSortedNodes(_curve);
         }
