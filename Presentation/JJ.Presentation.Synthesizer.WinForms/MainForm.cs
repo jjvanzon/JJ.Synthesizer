@@ -126,7 +126,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                                                                 .ToArray();
             if (patches.Count == 0)
             {
-                patches = new Patch[] { CreateDummySinePatch() };
+                patches = new Patch[] { CreateDefaultSinePatch() };
             }
 
             _midiInputProcessor = new MidiInputProcessor(dummyScale, patches, new PatchRepositories(_repositories));
@@ -138,12 +138,12 @@ namespace JJ.Presentation.Synthesizer.WinForms
             return dummyScale;
         }
 
-        private Patch CreateDummySinePatch()
+        private Patch CreateDefaultSinePatch()
         {
             var x = new PatchManager(new PatchRepositories(_repositories));
             x.CreatePatch();
 
-            var signalOutlet = x.Outlet(x.Multiply(x.Sine(x.Inlet(InletTypeEnum.Frequency)), x.Inlet(InletTypeEnum.Volume)));
+            var signalOutlet = x.PatchOutlet(x.Multiply(x.Sine(x.PatchInlet(InletTypeEnum.Frequency)), x.PatchInlet(InletTypeEnum.Volume)));
             signalOutlet.OutletTypeEnum = OutletTypeEnum.Signal;
 
             // This makes side-effects go off.

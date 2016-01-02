@@ -40,9 +40,9 @@ namespace JJ.Business.Synthesizer.Converters
         }
 
         /// <param name="sourceUnderlyingPatch">nullable</param>
-        public void Convert(Patch sourceUnderlyingPatch, Operator destOperator)
+        public void Convert(Patch sourceUnderlyingPatch, Operator destCustomOperator)
         {
-            if (destOperator == null) throw new NullException(() => destOperator);
+            if (destCustomOperator == null) throw new NullException(() => destCustomOperator);
 
             IList<Operator> sourcePatchInlets;
             IList<Operator> sourcePatchOutlets;
@@ -58,35 +58,36 @@ namespace JJ.Business.Synthesizer.Converters
                 sourcePatchOutlets = new Operator[0];
             }
 
-            ConvertInlets(sourcePatchInlets, destOperator);
-            ConvertOutlets(sourcePatchOutlets, destOperator);
+            ConvertInlets(sourcePatchInlets, destCustomOperator);
+            ConvertOutlets(sourcePatchOutlets, destCustomOperator);
 
-            var destOperatorWrapper = new CustomOperator_OperatorWrapper(destOperator, _repositories.PatchRepository);
+            var destOperatorWrapper = new CustomOperator_OperatorWrapper(destCustomOperator, _repositories.PatchRepository);
             destOperatorWrapper.UnderlyingPatch = sourceUnderlyingPatch;
 
-            destOperator.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
+            destCustomOperator.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
         }
 
-        private void ConvertInlets(IList<Operator> sourcePatchInlets, Operator destOperator)
+        private void ConvertInlets(IList<Operator> sourcePatchInlets, Operator destCustomOperator)
         {
-            IList<int> idsToKeep = new List<int>(destOperator.Inlets.Count);
+            IList<int> idsToKeep = new List<int>(destCustomOperator.Inlets.Count);
 
             foreach (Operator sourcePatchInlet in sourcePatchInlets)
             {
                 var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
+                Inlet sourcePatchInletInlet = sourcePatchInletWrapper.Inlet;
 
-                Inlet destInlet = TryGetInlet(destOperator.Inlets, sourcePatchInlet);
+                Inlet destInlet = TryGetInlet(destCustomOperator.Inlets, sourcePatchInlet);
                 if (destInlet == null)
                 {
                     destInlet = new Inlet();
                     destInlet.ID = _repositories.IDRepository.GetID();
                     _repositories.InletRepository.Insert(destInlet);
-                    destInlet.LinkTo(destOperator);
+                    destInlet.LinkTo(destCustomOperator);
                 }
 
                 destInlet.Name = sourcePatchInlet.Name;
-                destInlet.DefaultValue = sourcePatchInletWrapper.DefaultValue;
-                destInlet.SetInletTypeEnum(sourcePatchInletWrapper.InletTypeEnum, _repositories.InletTypeRepository);
+                destInlet.DefaultValue = sourcePatchInletInlet.DefaultValue;
+                destInlet.InletType = sourcePatchInletInlet.InletType;
 
                 if (!sourcePatchInletWrapper.ListIndex.HasValue)
                 {
@@ -97,7 +98,7 @@ namespace JJ.Business.Synthesizer.Converters
                 idsToKeep.Add(destInlet.ID);
             }
 
-            int[] existingIDs = destOperator.Inlets.Select(x => x.ID).ToArray();
+            int[] existingIDs = destCustomOperator.Inlets.Select(x => x.ID).ToArray();
             int[] idsToDeleteIfNotInUse = existingIDs.Except(idsToKeep).ToArray();
 
             foreach (int idToDeleteIfNotInUse in idsToDeleteIfNotInUse)
@@ -112,27 +113,30 @@ namespace JJ.Business.Synthesizer.Converters
             }
         }
 
-        private Inlet TryGetInlet(IList<Inlet> destInlets, Operator sourcePatchInlet)
+        private Inlet TryGetInlet(IList<Inlet> destCustomOperatorInlets, Operator sourcePatchInlet)
         {
-            foreach (Inlet destInlet in destInlets)
+            // Try match by name
+            foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
             {
-                if (String.Equals(destInlet.Name, sourcePatchInlet.Name))
+                if (String.Equals(destCustomOperatorInlet.Name, sourcePatchInlet.Name))
                 {
-                    return destInlet;
+                    return destCustomOperatorInlet;
                 }
             }
 
-            foreach (Inlet destInlet in destInlets)
+            // Try match by type
+            foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
             {
                 // TODO: I should really only match if it is unique.
-                var wrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
-                if (destInlet.GetInletTypeEnum() == wrapper.InletTypeEnum)
+                var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
+                if (destCustomOperatorInlet.GetInletTypeEnum() == sourcePatchInletWrapper.Inlet.GetInletTypeEnum())
                 {
-                    return destInlet;
+                    return destCustomOperatorInlet;
                 }
             }
 
-            foreach (Inlet destInlet in destInlets)
+            // Try match by list index
+            foreach (Inlet destInlet in destCustomOperatorInlets)
             { 
                 var wrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
                 if (destInlet.ListIndex == wrapper.ListIndex)

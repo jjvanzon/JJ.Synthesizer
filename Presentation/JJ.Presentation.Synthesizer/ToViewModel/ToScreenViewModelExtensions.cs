@@ -489,7 +489,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                DefaultValue = Convert.ToString(wrapper.DefaultValue),
+                DefaultValue = Convert.ToString(wrapper.Inlet.DefaultValue),
                 InletTypeLookup = ViewModelHelper.CreateInletTypeLookupViewModel(inletTypeRepository),
                 Successful = true,
                 ValidationMessages = new List<Message>()
@@ -500,9 +500,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.Number = wrapper.ListIndex.Value + 1;
             }
 
-            if (wrapper.InletTypeEnum != InletTypeEnum.Undefined)
+            InletTypeEnum inletTypeEnum = wrapper.Inlet.GetInletTypeEnum();
+            if (inletTypeEnum != InletTypeEnum.Undefined)
             {
-                viewModel.InletType = wrapper.InletTypeEnum.ToIDAndDisplayName();
+                viewModel.InletType = inletTypeEnum.ToIDAndDisplayName();
             }
             else
             {

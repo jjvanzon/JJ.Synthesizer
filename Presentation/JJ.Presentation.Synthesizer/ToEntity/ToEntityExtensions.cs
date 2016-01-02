@@ -899,13 +899,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 double defaultValue;
                 if (Double.TryParse(viewModel.DefaultValue, out defaultValue))
                 {
-                    wrapper.DefaultValue = defaultValue;
                     inlet.DefaultValue = defaultValue;
                 }
             }
             else
             {
-                wrapper.DefaultValue = null;
                 inlet.DefaultValue = null;
             }
 
@@ -913,12 +911,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (inletTypeIsFilledIn)
             {
                 InletTypeEnum inletTypeEnum = (InletTypeEnum)viewModel.InletType.ID;
-                wrapper.InletTypeEnum = inletTypeEnum;
                 inlet.SetInletTypeEnum(inletTypeEnum, repositories.InletTypeRepository);
             }
             else
             {
-                wrapper.InletTypeEnum = InletTypeEnum.Undefined;
                 inlet.InletType = null;
             }
 

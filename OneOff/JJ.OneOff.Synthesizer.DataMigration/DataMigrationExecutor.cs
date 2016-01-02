@@ -462,6 +462,41 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
+        public static void Remove_PatchInletOperator_DataKeys_DefaultValue_AndInletTypeEnum(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> patchInlets = repositories.OperatorRepository
+                                                                  .GetAll()
+                                                                  .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
+                                                                  .ToArray();
+                for (int i = 0; i < patchInlets.Count; i++)
+                {
+                    Operator patchInlet = patchInlets[i];
+
+                    OperatorDataParser.RemoveKey(patchInlet, "DefaultValue");
+                    OperatorDataParser.RemoveKey(patchInlet, "InletTypeEnum");
+
+                    string progressMessage = String.Format("Migrated PatchInlet Operator {0}/{1}.", i + 1, patchInlets.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
         {
             var documentManager = new DocumentManager(repositories);

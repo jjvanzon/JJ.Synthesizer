@@ -3,6 +3,7 @@ using JJ.Framework.Presentation.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -16,14 +17,12 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
-            var wrapper = new PatchInlet_OperatorWrapper(Object);
+            var patchInletWrapper = new PatchInlet_OperatorWrapper(Object);
+            Inlet patchInletInlet = patchInletWrapper.Inlet;
 
             For(() => Object.Name, CommonTitles.Name).NotNullOrEmpty();
-            For(() => wrapper.ListIndex, PropertyDisplayNames.ListIndex).NotNull().GreaterThanOrEqual(0);
-            For(() => wrapper.InletTypeEnum, PropertyDisplayNames.InletType).IsEnum<InletTypeEnum>();
-
-            Inlet inlet = wrapper.Inlet;
-            Execute(new OperatorValidator_PatchInlet_Inlet(inlet), ValidationHelper.GetMessagePrefix(inlet));
+            For(() => patchInletInlet.ListIndex, PropertyDisplayNames.ListIndex).NotNull().GreaterThanOrEqual(0);
+            For(() => patchInletInlet.GetInletTypeEnum(), PropertyDisplayNames.InletType).IsEnum<InletTypeEnum>();
         }
     }
 }

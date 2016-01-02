@@ -41,15 +41,15 @@ namespace JJ.Business.Synthesizer.Managers
 
             for (int i = 0; i < maxConcurrentNotes; i++)
             {
-                PatchInlet_OperatorWrapper volumePatchInletWrapper = Inlet(InletTypeEnum.Volume);
+                PatchInlet_OperatorWrapper volumePatchInletWrapper = PatchInlet(InletTypeEnum.Volume);
                 volumePatchInletWrapper.Name = GetVolumeInletName(i);
                 volumeInletNames.Add(volumePatchInletWrapper.Name);
 
-                PatchInlet_OperatorWrapper frequencyPatchInletWrapper = Inlet(InletTypeEnum.Frequency);
+                PatchInlet_OperatorWrapper frequencyPatchInletWrapper = PatchInlet(InletTypeEnum.Frequency);
                 frequencyPatchInletWrapper.Name = GetFrequencyInletName(i);
                 frequencyInletNames.Add(frequencyPatchInletWrapper.Name);
 
-                PatchInlet_OperatorWrapper delayPatchInletWrapper = Inlet();
+                PatchInlet_OperatorWrapper delayPatchInletWrapper = PatchInlet();
                 delayPatchInletWrapper.Name = GetDelayInletName(i);
                 delayInletNames.Add(delayPatchInletWrapper.Name);
 
@@ -101,7 +101,7 @@ namespace JJ.Business.Synthesizer.Managers
             Number_OperatorWrapper frequencyNumberOperatorWrapper = Number(frequency);
 
             IEnumerable<Inlet> frequencyInlets = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                      .Where(x => x.InletTypeEnum == InletTypeEnum.Frequency)
+                                                      .Where(x => x.Inlet.GetInletTypeEnum() == InletTypeEnum.Frequency)
                                                       .Select(x => x.Inlet);
 
             foreach (Inlet frequencyInlet in frequencyInlets)
@@ -236,11 +236,9 @@ namespace JJ.Business.Synthesizer.Managers
 
         private PatchInlet_OperatorWrapper ConvertToPatchInlet(Inlet sourceInlet)
         {
-            PatchInlet_OperatorWrapper destPatchInletWrapper = Inlet();
-            destPatchInletWrapper.InletTypeEnum = sourceInlet.GetInletTypeEnum();
+            PatchInlet_OperatorWrapper destPatchInletWrapper = PatchInlet();
             destPatchInletWrapper.Name = sourceInlet.Name;
             destPatchInletWrapper.ListIndex = sourceInlet.ListIndex;
-            destPatchInletWrapper.DefaultValue = sourceInlet.DefaultValue;
 
             // TODO: You might want to do this by calling shared business logic instead of reprogramming it here.
             Inlet destPatchInletInlet = destPatchInletWrapper.Inlet;
@@ -285,7 +283,7 @@ namespace JJ.Business.Synthesizer.Managers
 
         private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(Outlet sourceOutlet)
         {
-            PatchOutlet_OperatorWrapper destPatchOutletWrapper = Outlet();
+            PatchOutlet_OperatorWrapper destPatchOutletWrapper = PatchOutlet();
             destPatchOutletWrapper.Name = sourceOutlet.Name;
             destPatchOutletWrapper.ListIndex = sourceOutlet.ListIndex;
             destPatchOutletWrapper.OutletTypeEnum = sourceOutlet.GetOutletTypeEnum();

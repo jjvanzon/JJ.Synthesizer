@@ -51,7 +51,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                 var underlyingPatchInletWrapper = new PatchInlet_OperatorWrapper(underlyingPatchInlet);
                 Inlet patchInlet_InputInlet = OperatorHelper.GetInlet(underlyingPatchInlet, OperatorConstants.PATCH_INLET_INPUT_INDEX);
-                patchInlet_InputInlet.DefaultValue = underlyingPatchInletWrapper.DefaultValue;
+                patchInlet_InputInlet.DefaultValue = underlyingPatchInletWrapper.Inlet.DefaultValue;
                 patchInlet_InputInlet.InputOutlet = customOperatorInlet.InputOutlet;
             }
 

@@ -119,10 +119,28 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        /// <param name="underlyingPatch">The Patch to base the CustomOperator on.</param>
-        public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch, params Outlet[] operands)
+        public CustomOperator_OperatorWrapper CustomOperator()
         {
-            return CustomOperator(underlyingPatch, (IList<Outlet>)operands);
+            var op = new Operator();
+            op.ID = _repositories.IDRepository.GetID();
+            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
+            _repositories.OperatorRepository.Insert(op);
+
+            var wrapper = new CustomOperator_OperatorWrapper(op, _repositories.PatchRepository);
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+            return wrapper;
+        }
+
+        public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch)
+        {
+            CustomOperator_OperatorWrapper op = CustomOperator();
+            op.UnderlyingPatch = underlyingPatch;
+
+            ISideEffect sideEffect = new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories);
+            sideEffect.Execute();
+
+            return op;
         }
 
         /// <param name="underlyingPatch">The Patch to base the CustomOperator on.</param>
@@ -139,73 +157,10 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public CustomOperator_OperatorWrapper CustomOperator()
+        /// <param name="underlyingPatch">The Patch to base the CustomOperator on.</param>
+        public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch, params Outlet[] operands)
         {
-            var op = new Operator();
-            op.ID = _repositories.IDRepository.GetID();
-            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
-            _repositories.OperatorRepository.Insert(op);
-
-            var wrapper = new CustomOperator_OperatorWrapper(op, _repositories.PatchRepository);
-
-            wrapper.WrappedOperator.LinkTo(Patch);
-            return wrapper;
-        }
-
-        public CustomOperator_OperatorWrapper CustomOperator(Patch underlyingPatch)
-        {
-            if (underlyingPatch == null) throw new NullException(() => underlyingPatch);
-
-            var op = new Operator();
-            op.ID = _repositories.IDRepository.GetID();
-            op.SetOperatorTypeEnum(OperatorTypeEnum.CustomOperator, _repositories.OperatorTypeRepository);
-            _repositories.OperatorRepository.Insert(op);
-
-            IList<Operator> patchInlets = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
-            foreach (Operator patchInlet in patchInlets)
-            {
-                var patchInletWrapper = new PatchInlet_OperatorWrapper(patchInlet);
-                var inlet = new Inlet();
-                inlet.ID = _repositories.IDRepository.GetID();
-                inlet.Name = patchInlet.Name;
-                inlet.DefaultValue = patchInletWrapper.DefaultValue;
-                inlet.SetInletTypeEnum(patchInletWrapper.InletTypeEnum, _repositories.InletTypeRepository);
-
-                if (!patchInletWrapper.ListIndex.HasValue)
-                {
-                    throw new NullException(() => patchInletWrapper.ListIndex);
-                }
-                inlet.ListIndex = patchInletWrapper.ListIndex.Value;
-
-                inlet.LinkTo(op);
-                _repositories.InletRepository.Insert(inlet);
-            }
-
-            IList<Operator> patchOutlets = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
-            foreach (Operator patchOutlet in patchOutlets)
-            {
-                var patchOutletWrapper = new PatchOutlet_OperatorWrapper(patchOutlet);
-                var outlet = new Outlet();
-                outlet.ID = _repositories.IDRepository.GetID();
-                outlet.Name = patchOutlet.Name;
-                outlet.SetOutletTypeEnum(patchOutletWrapper.OutletTypeEnum, _repositories.OutletTypeRepository);
-
-                if (!patchOutletWrapper.ListIndex.HasValue)
-                {
-                    throw new NullException(() => patchOutletWrapper.ListIndex);
-                }
-                outlet.ListIndex = patchOutletWrapper.ListIndex.Value;
-
-                outlet.LinkTo(op);
-                _repositories.OutletRepository.Insert(outlet);
-            }
-
-            var wrapper = new CustomOperator_OperatorWrapper(op, _repositories.PatchRepository);
-
-            wrapper.UnderlyingPatch = underlyingPatch;
-
-            wrapper.WrappedOperator.LinkTo(Patch);
-            return wrapper;
+            return CustomOperator(underlyingPatch, (IList<Outlet>)operands);
         }
 
         public Delay_OperatorWrapper Delay(Outlet signal = null, Outlet timeDifference = null)
@@ -304,22 +259,16 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper Inlet(InletTypeEnum inletTypeEnum)
+        public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum)
         {
-            PatchInlet_OperatorWrapper wrapper = Inlet();
-            wrapper.InletTypeEnum = inletTypeEnum;
-
+            PatchInlet_OperatorWrapper wrapper = PatchInlet();
             wrapper.Inlet.SetInletTypeEnum(inletTypeEnum, _repositories.InletTypeRepository);
-
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper Inlet(InletTypeEnum inletTypeEnum, double defaultValue)
+        public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum, double defaultValue)
         {
-            PatchInlet_OperatorWrapper wrapper = Inlet();
-            wrapper.InletTypeEnum = inletTypeEnum;
-            wrapper.DefaultValue = defaultValue;
-
+            PatchInlet_OperatorWrapper wrapper = PatchInlet();
             Inlet patchInletInlet = wrapper.Inlet;
             patchInletInlet.SetInletTypeEnum(inletTypeEnum, _repositories.InletTypeRepository);
             patchInletInlet.DefaultValue = defaultValue;
@@ -327,33 +276,29 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper Inlet(string name)
+        public PatchInlet_OperatorWrapper PatchInlet(string name)
         {
-            PatchInlet_OperatorWrapper wrapper = Inlet();
+            PatchInlet_OperatorWrapper wrapper = PatchInlet();
             wrapper.Name = name;
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper Inlet(string name, double defaultValue)
+        public PatchInlet_OperatorWrapper PatchInlet(string name, double defaultValue)
         {
-            PatchInlet_OperatorWrapper wrapper = Inlet();
+            PatchInlet_OperatorWrapper wrapper = PatchInlet();
             wrapper.Name = name;
-            wrapper.DefaultValue = defaultValue;
-
             wrapper.Inlet.DefaultValue = defaultValue;
-
             return wrapper;
         }
 
-        public PatchInlet_OperatorWrapper Inlet()
+        public PatchInlet_OperatorWrapper PatchInlet()
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.PatchInlet, inletCount: 1, outletCount: 1);
 
             var wrapper = new PatchInlet_OperatorWrapper(op)
             {
-                // You have to set these two or the wrapper's ListIndex and InletTypeEnum getters would crash.
+                // You have to set this property or the wrapper's ListIndex getter would crash.
                 ListIndex = 0,
-                InletTypeEnum = InletTypeEnum.Undefined
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
@@ -363,7 +308,7 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
-        public PatchOutlet_OperatorWrapper Outlet(Outlet input = null)
+        public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.PatchOutlet, inletCount: 1, outletCount: 1);
 
@@ -599,6 +544,7 @@ namespace JJ.Business.Synthesizer.Managers
 
             for (int i = 0; i < operands.Count; i++)
             {
+                // TODO: Use LinkTo.
                 op.Inlets[i].InputOutlet = operands[i];
             }
         }
@@ -648,22 +594,11 @@ namespace JJ.Business.Synthesizer.Managers
                             break;
                         }
 
+                    // TODO: Remove outcommented code.
                     case OperatorTypeEnum.PatchInlet:
                         {
-                            string methodName = "Inlet";
+                            string methodName = operatorTypeEnum.ToString();
                             MethodInfo methodInfo = typeof(PatchManager).GetMethod(methodName, Type.EmptyTypes);
-                            if (methodInfo == null)
-                            {
-                                throw new Exception(String.Format("Method '{0}' not found in type '{1}'.", methodName, typeof(PatchManager).Name));
-                            }
-                            methodDictionary.Add(operatorTypeEnum, methodInfo);
-                            break;
-                        }
-
-                    case OperatorTypeEnum.PatchOutlet:
-                        {
-                            string methodName = "Outlet";
-                            MethodInfo methodInfo = typeof(PatchManager).GetMethod(methodName);
                             if (methodInfo == null)
                             {
                                 throw new Exception(String.Format("Method '{0}' not found in type '{1}'.", methodName, typeof(PatchManager).Name));

@@ -2506,7 +2506,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 {
                     var x = new PatchApi();
                     double frequency = tone.GetFrequency();
-                    outlet = x.Sine(x.Inlet(InletTypeEnum.Frequency, frequency));
+                    outlet = x.Sine(x.PatchInlet(InletTypeEnum.Frequency, frequency));
                 }
 
                 AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();

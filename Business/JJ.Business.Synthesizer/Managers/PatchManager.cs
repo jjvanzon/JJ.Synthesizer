@@ -182,9 +182,6 @@ namespace JJ.Business.Synthesizer.Managers
 
         private VoidResult SaveOperator_PatchInlet(Operator op)
         {
-            // TODO: You can do this always, because it does nothing if only does something if it is the right operator type.
-            ISideEffect sideEffect1 = new Operator_SideEffect_CopyPatchInletPropertiesToItsInlet(op, _repositories.InletTypeRepository);
-            sideEffect1.Execute();
 
             // You do not want to update operators dependent on this patch, unless the patch is valid.
             VoidResult patchValidationResult = ValidatePatchRecursive();

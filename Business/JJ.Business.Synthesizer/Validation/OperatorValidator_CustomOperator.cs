@@ -123,35 +123,35 @@ namespace JJ.Business.Synthesizer.Validation
 
         private void ValidateInletsAgainstUnderlyingPatch(Patch underlyingPatch)
         {
-            Operator op = Object;
+            Operator customOperator = Object;
 
             IList<Operator> underlyingPatchInletOperators = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
 
             foreach (Operator underlyingPatchInletOperator in underlyingPatchInletOperators)
             {
-                var wrapper = new PatchInlet_OperatorWrapper(underlyingPatchInletOperator);
+                var patchInletWrapper = new PatchInlet_OperatorWrapper(underlyingPatchInletOperator);
 
                 // Check Name Existence
                 string expectedName = underlyingPatchInletOperator.Name;
-                Inlet inletWithMatchingName = op.Inlets.Where(x => String.Equals(x.Name, expectedName)).FirstOrDefault();
-                bool nameExists = inletWithMatchingName != null;
+                Inlet customOperatorInletWithMatchingName = customOperator.Inlets.Where(x => String.Equals(x.Name, expectedName)).FirstOrDefault();
+                bool nameExists = customOperatorInletWithMatchingName != null;
                 if (!nameExists)
                 {
                     ValidationMessages.Add(PropertyNames.Inlet, MessageFormatter.NotFound_WithTypeName_AndName(PropertyDisplayNames.Inlet, expectedName));
                 }
                 
                 // Check DefaultValue equality
-                if (inletWithMatchingName != null)
+                if (customOperatorInletWithMatchingName != null)
                 {
-                    if (inletWithMatchingName.DefaultValue != wrapper.DefaultValue)
+                    if (customOperatorInletWithMatchingName.DefaultValue != patchInletWrapper.Inlet.DefaultValue)
                     {
-                        ValidationMessages.Add(PropertyNames.Inlet, MessageFormatter.InletDefaultValueDoesNotMatchWithUnderlyingPatch(inletWithMatchingName.Name));
+                        ValidationMessages.Add(PropertyNames.Inlet, MessageFormatter.InletDefaultValueDoesNotMatchWithUnderlyingPatch(customOperatorInletWithMatchingName.Name));
                     }
                 }
 
                 // Check InletTypeEnum Existence
-                InletTypeEnum expectedInletTypeEnum = wrapper.InletTypeEnum;
-                bool inletTypeEnumExists = op.Inlets.Where(x => x.GetInletTypeEnum() == expectedInletTypeEnum).Any();
+                InletTypeEnum expectedInletTypeEnum = patchInletWrapper.Inlet.GetInletTypeEnum();
+                bool inletTypeEnumExists = customOperator.Inlets.Where(x => x.GetInletTypeEnum() == expectedInletTypeEnum).Any();
                 if (!inletTypeEnumExists)
                 {
                     string inletTypeDisplayName = ResourceHelper.GetInletTypeDisplayName(expectedInletTypeEnum);
@@ -162,7 +162,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         private void ValidateOutletsAgainstUnderlyingPatch(Patch underlyingPatch)
         {
-            Operator op = Object;
+            Operator customOperator = Object;
 
             IList<Operator> underlyingPatchOutletOperators = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
 
@@ -170,16 +170,16 @@ namespace JJ.Business.Synthesizer.Validation
             {
                 // Check Name Existence
                 string name = underlyingPatchOutletOperator.Name;
-                bool nameExists = op.Outlets.Where(x => String.Equals(x.Name, name)).Any();
+                bool nameExists = customOperator.Outlets.Where(x => String.Equals(x.Name, name)).Any();
                 if (!nameExists)
                 {
                     ValidationMessages.Add(PropertyNames.Outlet, MessageFormatter.NotFound_WithTypeName_AndName(PropertyDisplayNames.Outlet, name));
                 }
 
                 // Check OutletTypeEnum Existence
-                var wrapper = new PatchOutlet_OperatorWrapper(underlyingPatchOutletOperator);
-                OutletTypeEnum expectedOutletTypeEnum = wrapper.OutletTypeEnum;
-                bool outletTypeEnumExists = op.Outlets.Where(x => x.GetOutletTypeEnum() == expectedOutletTypeEnum).Any();
+                var patchOutletWrapper = new PatchOutlet_OperatorWrapper(underlyingPatchOutletOperator);
+                OutletTypeEnum expectedOutletTypeEnum = patchOutletWrapper.OutletTypeEnum;
+                bool outletTypeEnumExists = customOperator.Outlets.Where(x => x.GetOutletTypeEnum() == expectedOutletTypeEnum).Any();
                 if (!outletTypeEnumExists)
                 {
                     string outletTypeDisplayName = ResourceHelper.GetOutletTypeDisplayName(expectedOutletTypeEnum);

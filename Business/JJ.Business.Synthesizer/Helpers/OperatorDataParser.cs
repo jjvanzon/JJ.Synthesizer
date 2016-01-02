@@ -7,7 +7,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Helpers
 {
-    internal class OperatorDataParser
+    public class OperatorDataParser
     {
         private static CultureInfo _formattingCulture = new CultureInfo("en-US");
 
@@ -118,6 +118,17 @@ namespace JJ.Business.Synthesizer.Helpers
             // Add new value
             var result = new ParsedKeyValuePair(key, Convert.ToString(value, _formattingCulture));
             results.Add(result);
+
+            string data = Format(results);
+
+            op.Data = data;
+        }
+
+        public static void RemoveKey(Operator op, string key)
+        {
+            IList<ParsedKeyValuePair> results = Parse(op.Data);
+
+            results = results.Where(x => !String.Equals(x.Key, key)).ToList();
 
             string data = Format(results);
 

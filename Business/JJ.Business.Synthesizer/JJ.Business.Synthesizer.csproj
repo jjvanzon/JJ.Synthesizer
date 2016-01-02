@@ -187,11 +187,11 @@
     <Compile Include="Managers\EntityPositionManager.cs" />
     <Compile Include="Managers\PatchManager.AutoPatch.cs" />
     <Compile Include="SideEffects\Document_SideEffect_CreatePatch.cs" />
-    <Compile Include="SideEffects\Operator_SideEffect_CopyPatchInletPropertiesToItsInlet.cs" />
+    <Compile Include="SideEffects\2016-01-02 Backup of Operator_SideEffect_CopyPatchInletPropertiesToItsInlet.cs" />
     <Compile Include="Validation\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\DocumentValidator_RootDocument.cs" />
-    <Compile Include="Validation\OperatorValidator_PatchInlet_Inlet.cs" />
+    <Compile Include="Validation\2016-01-02 Backup of OperatorValidator_PatchInlet_Inlet.cs" />
     <Compile Include="Validation\OutletValidator_ForOtherOperator.cs" />
     <Compile Include="Validation\InletValidator_ForOtherOperator.cs" />
     <Compile Include="Validation\SampleValidator_UniqueName.cs" />

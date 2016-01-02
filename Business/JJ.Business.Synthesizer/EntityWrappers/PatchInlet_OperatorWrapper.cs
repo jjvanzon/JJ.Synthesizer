@@ -35,18 +35,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorDataParser.SetValue(_wrappedOperator, PropertyNames.ListIndex, value); }
         }
 
-        public InletTypeEnum InletTypeEnum
-        {
-            get { return OperatorDataParser.GetEnum<InletTypeEnum>(_wrappedOperator, PropertyNames.InletTypeEnum); }
-            set { OperatorDataParser.SetValue(_wrappedOperator, PropertyNames.InletTypeEnum, value); }
-        }
-
-        public double? DefaultValue
-        {
-            get { return OperatorDataParser.TryGetDouble(_wrappedOperator, PropertyNames.DefaultValue); }
-            set { OperatorDataParser.SetValue(_wrappedOperator, PropertyNames.DefaultValue, value); }
-        }
-
         public static implicit operator Outlet(PatchInlet_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;
