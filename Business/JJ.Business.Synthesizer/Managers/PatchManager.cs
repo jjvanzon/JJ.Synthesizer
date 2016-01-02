@@ -15,6 +15,7 @@ using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.EntityWrappers;
+using JJ.Business.Canonical;
 
 namespace JJ.Business.Synthesizer.Managers
 {

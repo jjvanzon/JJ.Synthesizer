@@ -1236,10 +1236,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                     _patchInlet_Calculator_Dictionary.Add(patchInlet, variableInputCalculator);
                 }
-                else
-                {
-                    int i = 0;
-                }
 
                 calculator = variableInputCalculator;
             }

@@ -41,8 +41,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             Close();
         }
 
-        private AudioOutputProcessor _audioOutputProcessor;
-
         private void PatchDetailsForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
@@ -51,10 +49,6 @@ namespace JJ.Presentation.Synthesizer.WinForms.Forms
             {
                 CloseRequested(this, EventArgs.Empty);
             }
-
-            // Dirty: wanna test audio output somewhere fast.
-            //_audioOutputProcessor = new AudioOutputProcessor();
-            //_audioOutputProcessor.Play();
         }
     }
 }

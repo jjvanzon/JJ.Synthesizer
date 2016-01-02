@@ -154,7 +154,6 @@
     <Compile Include="Extensions\DeleteRelatedEntitiesExtensions.cs" />
     <Compile Include="Extensions\RecursionExtensions.cs" />
     <Compile Include="Extensions\UnlinkRelatedEntitiesExtensions.cs" />
-    <Compile Include="Extensions\ValidationMessageExtensions.cs" />
     <Compile Include="EntityWrappers\Adder_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Curve_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Earlier_OperatorWrapper.cs" />
@@ -389,6 +388,10 @@
     <ProjectReference Include="..\..\Data\JJ.Data.Canonical\JJ.Data.Canonical.csproj">
       <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
       <Name>JJ.Data.Canonical</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\JJ.Business.Canonical\JJ.Business.Canonical.csproj">
+      <Project>{4dbe5e36-4b54-4e5f-9b4f-5bbf33a3cef1}</Project>
+      <Name>JJ.Business.Canonical</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -17,6 +17,7 @@ using JJ.Framework.Validation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Curves;
+using JJ.Business.Canonical;
 
 namespace JJ.Business.Synthesizer.Managers
 {

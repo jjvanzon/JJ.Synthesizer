@@ -82,6 +82,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Business\JJ.Business.Canonical\JJ.Business.Canonical.csproj">
+      <Project>{4dbe5e36-4b54-4e5f-9b4f-5bbf33a3cef1}</Project>
+      <Name>JJ.Business.Canonical</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Data\JJ.Data.Canonical\JJ.Data.Canonical.csproj">
       <Project>{08ea4a4e-d815-47ae-9277-da6672d36214}</Project>
       <Name>JJ.Data.Canonical</Name>

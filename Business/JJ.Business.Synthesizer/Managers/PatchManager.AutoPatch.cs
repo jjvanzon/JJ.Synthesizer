@@ -8,6 +8,7 @@ using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.CanonicalModel;
+using JJ.Business.Canonical;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -128,12 +129,7 @@ namespace JJ.Business.Synthesizer.Managers
 
             // This is sensitive, error prone code, so verify its result with the validators. 
             VoidResult result = ValidatePatchRecursive();
-            if (!result.Successful)
-            {
-                // TODO: Make a distinction between Data.Canonical and Business.Canonical, so that you have a place to put helpers for this.
-                string formattedMessages = String.Join(Environment.NewLine, result.Messages.Select(x => x.Text));
-                throw new Exception(formattedMessages);
-            }
+            ResultHelper.Assert(result);
         }
 
         private PatchInlet_OperatorWrapper ConvertToPatchInlet(Inlet sourceInlet)

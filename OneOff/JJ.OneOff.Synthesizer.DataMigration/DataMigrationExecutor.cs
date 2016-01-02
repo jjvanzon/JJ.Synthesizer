@@ -14,6 +14,7 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Common;
+using JJ.Business.Canonical;
 
 namespace JJ.OneOff.Synthesizer.DataMigration
 {
@@ -62,11 +63,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                         //sine.Volume = null;
 
                         VoidResult result = patchManager.SavePatch();
-                        if (!result.Successful)
-                        {
-                            string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
-                            throw new Exception(formattedMessages);
-                        }
+                        ResultHelper.Assert(result);
                     }
 
                     string progressMessage = String.Format("Migrated sine {0}/{1}.", i + 1, sineOperators.Count);
@@ -113,11 +110,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                         sampleOperatorWrapper.Frequency = numberWrapper;
 
                         VoidResult result = patchManager.SavePatch();
-                        if (!result.Successful)
-                        {
-                            string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
-                            throw new Exception(formattedMessages);
-                        }
+                        ResultHelper.Assert(result);
                     }
 
                     string progressMessage = String.Format("Migrated sample operator {0}/{1}.", i + 1, sampleOperators.Count);
@@ -243,12 +236,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                     // Validate
                     VoidResult result = documentManager.ValidateRecursive(rootDocument);
-                    if (!result.Successful)
-                    {
-                        progressCallback("Exception!");
-                        string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
-                        throw new Exception(formattedMessages);
-                    }
+                    ResultHelper.Assert(result);
 
                     string progressMessage = String.Format("Migrated document {0}/{1}.", i + 1, rootDocuments.Count);
                     progressCallback(progressMessage);
@@ -312,12 +300,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                     // Validate
                     VoidResult result = documentManager.ValidateRecursive(rootDocument);
-                    if (!result.Successful)
-                    {
-                        progressCallback("Exception!");
-                        string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
-                        throw new Exception(formattedMessages);
-                    }
+                    ResultHelper.Assert(result);
 
                     string progressMessage = String.Format("Migrated document {0}/{1}.", i + 1, rootDocuments.Count);
                     progressCallback(progressMessage);
@@ -428,11 +411,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     patchManager.Patch = customOperator.Patch;
 
                     VoidResult result = patchManager.SaveOperator(customOperator);
-                    if (!result.Successful)
-                    {
-                        string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
-                        throw new Exception(formattedMessages);
-                    }
+                    ResultHelper.Assert(result);
 
                     string progressMessage = String.Format("Migrated custom operator {0}/{1}.", i + 1, customOperators.Count);
                     progressCallback(progressMessage);
@@ -469,11 +448,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     patchManager.Patch = patchInlet.Patch;
 
                     VoidResult result = patchManager.SaveOperator(patchInlet);
-                    if (!result.Successful)
-                    {
-                        string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
-                        throw new Exception(formattedMessages);
-                    }
+                    ResultHelper.Assert(result);
 
                     string progressMessage = String.Format("Migrated PatchInlet Operator {0}/{1}.", i + 1, patchInlets.Count);
                     progressCallback(progressMessage);
@@ -498,12 +473,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
 
                 // Validate
                 VoidResult result = documentManager.ValidateRecursive(rootDocument);
-                if (!result.Successful)
-                {
-                    progressCallback("Exception!");
-                    string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
-                    throw new Exception(formattedMessages);
-                }
+                ResultHelper.Assert(result);
 
                 string progressMessage = String.Format("Validated document {0}/{1}.", i + 1, rootDocuments.Count);
                 progressCallback(progressMessage);

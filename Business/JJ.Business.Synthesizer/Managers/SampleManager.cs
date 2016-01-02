@@ -17,6 +17,7 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Calculation.Samples;
 using System.Collections.Generic;
 using System.Linq;
+using JJ.Business.Canonical;
 
 namespace JJ.Business.Synthesizer.Managers
 {

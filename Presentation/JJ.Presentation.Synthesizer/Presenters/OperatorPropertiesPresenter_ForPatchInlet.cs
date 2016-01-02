@@ -10,6 +10,7 @@ using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Validators;
 using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Business.Canonical;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {

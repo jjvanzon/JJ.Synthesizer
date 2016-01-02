@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.SideEffects;
 using JJ.Framework.Business;
 using System.Collections.Generic;
+using JJ.Business.Canonical;
 
 namespace JJ.Business.Synthesizer.Managers
 {

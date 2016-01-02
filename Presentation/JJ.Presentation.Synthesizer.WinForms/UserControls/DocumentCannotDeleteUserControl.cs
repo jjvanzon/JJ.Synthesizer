@@ -6,6 +6,7 @@ using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Presentation.Resources;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Framework.Presentation.WinForms.Extensions;
+using JJ.Business.Canonical;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -55,8 +56,8 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             labelCannotDeleteObject.Text = CommonMessageFormatter.CannotDeleteObjectWithName(PropertyDisplayNames.Document, _viewModel.Document.Name);
 
-            string messages = String.Join(Environment.NewLine, _viewModel.Messages.Select(x => x.Text));
-            labelMessageList.Text = messages;
+            string formattedMessages = MessageHelper.FormatMessages(_viewModel.Messages);
+            labelMessageList.Text = formattedMessages;
         }
 
         // Events
