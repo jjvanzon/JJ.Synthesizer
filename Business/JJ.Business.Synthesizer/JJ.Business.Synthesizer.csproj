@@ -129,6 +129,7 @@
     <Compile Include="Extensions\PatchExtensions.cs" />
     <Compile Include="Extensions\ToneExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="Helpers\AutoPatchPolyphonicResult.cs" />
     <Compile Include="Helpers\CurveRepositories.cs" />
     <Compile Include="Helpers\OperatorConstants.cs" />
     <Compile Include="Helpers\OperatorDataParser.cs" />

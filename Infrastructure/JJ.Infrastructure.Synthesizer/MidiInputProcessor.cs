@@ -23,8 +23,9 @@ namespace JJ.Infrastructure.Synthesizer
         private const double LOWEST_FREQUENCY = 8.1757989156;
         private const double MAX_VELOCITY = 127.0;
         private const int MAX_NOTE_NUMBER = 127;
-        private const int MAX_CONCURRENT_NOTES = 5; // TODO: Increase after testing. Currently (2015-12-31), it cannot handle much more, though, performance-wise.
+        private const int MAX_CONCURRENT_NOTES = 4; // TODO: Increase after testing. Currently (2015-12-31), it cannot handle much more, though, performance-wise (on my laptop not plugged in).
 
+        private readonly AutoPatchPolyphonicResult _autoPatchResult;
         private readonly IPatchCalculator _patchCalculator;
         private readonly Scale _scale;
         private readonly MidiIn _midiIn;
@@ -47,7 +48,9 @@ namespace JJ.Infrastructure.Synthesizer
             }
             _noteNumber_To_Frequency_Array = frequencies.ToArray();
 
-            _patchCalculator = CreatePatchCalculator(patches, repositories);
+            var patchManager = new PatchManager(repositories);
+            _autoPatchResult = patchManager.AutoPatchPolyphonic(patches, MAX_CONCURRENT_NOTES);
+            _patchCalculator = patchManager.CreateOptimizedCalculator(_autoPatchResult.SignalOutlet);
 
             _audioOutputProcessor = new AudioOutputProcessor(_patchCalculator);
             _midiIn = TryCreateMidiIn();
@@ -80,62 +83,6 @@ namespace JJ.Infrastructure.Synthesizer
 
             GC.SuppressFinalize(this);
         }
-
-        // TODO: Put creating a polyphonic patch in the PatchManager.
-
-        /// <summary>
-        /// Auto-patches the provided patches and makes a custom operator from it.
-        /// Then creates a wrapper patch around it, that enables polyphony.
-        /// </summary>
-        private IPatchCalculator CreatePatchCalculator(IList<Patch> patches, PatchRepositories repositories)
-        {
-            var patchManager = new PatchManager(repositories);
-            patchManager.AutoPatch(patches);
-            Patch autoPatch = patchManager.Patch;
-
-            patchManager.CreatePatch();
-            Patch wrapperPatch = patchManager.Patch;
-
-            var outlets = new List<Outlet>(MAX_CONCURRENT_NOTES);
-
-            for (int i = 0; i < MAX_CONCURRENT_NOTES; i++)
-            {
-                PatchInlet_OperatorWrapper volumePatchInletWrapper = patchManager.Inlet(InletTypeEnum.Volume);
-                volumePatchInletWrapper.Name = GetVolumeInletName(i);
-
-                PatchInlet_OperatorWrapper frequencyPatchInletWrapper = patchManager.Inlet(InletTypeEnum.Frequency);
-                frequencyPatchInletWrapper.Name = GetFrequencyInletName(i);
-
-                PatchInlet_OperatorWrapper delayPatchInletWrapper = patchManager.Inlet();
-                delayPatchInletWrapper.Name = GetDelayInletName(i);
-
-                CustomOperator_OperatorWrapper customOperatorWrapper = patchManager.CustomOperator(autoPatch);
-
-                // TODO: After AutoPatch is programmed to only return one inlet of a type, you do not need these LINQ queries anymore. You can just do a SingleOrDefault.
-                customOperatorWrapper.Inlets.Where(x => x.GetInletTypeEnum() == InletTypeEnum.Volume).ForEach(x => x.InputOutlet = volumePatchInletWrapper);
-                customOperatorWrapper.Inlets.Where(x => x.GetInletTypeEnum() == InletTypeEnum.Frequency).ForEach(x => x.InputOutlet = frequencyPatchInletWrapper);
-
-                IEnumerable<Outlet> signalOutlets = customOperatorWrapper.Outlets.Where(x => x.GetOutletTypeEnum() == OutletTypeEnum.Signal);
-                foreach (Outlet signalOutlet in signalOutlets)
-                {
-                    Delay_OperatorWrapper delayWrapper = patchManager.Delay(signalOutlet, delayPatchInletWrapper);
-                    outlets.Add(delayWrapper);
-                }
-            }
-
-            Adder_OperatorWrapper adderWrapper = patchManager.Adder(outlets);
-
-            Outlet outlet = adderWrapper.Result;
-
-            // This makes side-effects go off.
-            VoidResult result = patchManager.SavePatch();
-            ResultHelper.Assert(result);
-
-            var patchCalculator = patchManager.CreateOptimizedCalculator(outlet);
-
-            return patchCalculator;
-        }
-
 
         /// <summary> For now will only work with the first MIDI device it finds. </summary>
         private MidiIn TryCreateMidiIn()
@@ -184,14 +131,14 @@ namespace JJ.Infrastructure.Synthesizer
             }
 
             double frequency = _noteNumber_To_Frequency_Array[noteOnEvent.NoteNumber];
-            string frequencyInletName = GetFrequencyInletName(noteListIndex.Value);
+            string frequencyInletName = _autoPatchResult.FrequencyInletNames[noteListIndex.Value];
             _patchCalculator.SetValue(frequencyInletName, frequency);
 
             double volume = noteOnEvent.Velocity / MAX_VELOCITY;
-            string volumeInletName = GetVolumeInletName(noteListIndex.Value);
+            string volumeInletName = _autoPatchResult.VolumeInletNames[noteListIndex.Value];
             _patchCalculator.SetValue(volumeInletName, volume);
 
-            string delayInletName = GetDelayInletName(noteListIndex.Value);
+            string delayInletName = _autoPatchResult.DelayInletNames[noteListIndex.Value];
             double delay = _audioOutputProcessor.Time;
             _patchCalculator.SetValue(delayInletName, delay);
 
@@ -213,7 +160,7 @@ namespace JJ.Infrastructure.Synthesizer
             }
 
             double newVolume = 0.0;
-            string volumeInletName = GetVolumeInletName(noteListIndex.Value);
+            string volumeInletName = _autoPatchResult.VolumeInletNames[noteListIndex.Value];
             _patchCalculator.SetValue(volumeInletName, newVolume);
 
             ResetNoteInletListIndex(noteEvent.NoteNumber);
@@ -260,21 +207,6 @@ namespace JJ.Infrastructure.Synthesizer
         {
             double frequency = LOWEST_FREQUENCY * Math.Pow(2.0, noteNumber / 12.0);
             return frequency;
-        }
-
-        private string GetFrequencyInletName(int noteListIndex)
-        {
-            return "f" + noteListIndex.ToString();
-        }
-
-        private string GetVolumeInletName(int noteListIndex)
-        {
-            return "v" + noteListIndex.ToString();
-        }
-
-        private string GetDelayInletName(int noteListIndex)
-        {
-            return "d" + noteListIndex.ToString();
         }
     }
 }

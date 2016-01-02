@@ -7,14 +7,109 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
+using JJ.Framework.Common;
 
 namespace JJ.Business.Synthesizer.Managers
 {
     public partial class PatchManager
     {
-        private const int DEFAULT_LIST_INDEX = 0; 
+        private const int DEFAULT_LIST_INDEX = 0;
+
+        /// <summary>
+        /// Auto-patches the provided patches and makes a custom operator from it.
+        /// Then creates a wrapper patch around it, that enables polyphony.
+        /// For more information: see method summary of AutoPatch.
+        /// </summary>
+        public AutoPatchPolyphonicResult AutoPatchPolyphonic(IList<Patch> underlyingPatches, int maxConcurrentNotes)
+        {
+            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
+            if (maxConcurrentNotes < 1) throw new LessThanException(() => maxConcurrentNotes, 1);
+
+            AutoPatch(underlyingPatches);
+            Patch autoPatch = Patch;
+
+            CreatePatch();
+            Patch wrapperPatch = Patch;
+
+            var outlets = new List<Outlet>(maxConcurrentNotes);
+            var volumeInletNames = new List<string>(maxConcurrentNotes);
+            var frequencyInletNames = new List<string>(maxConcurrentNotes);
+            var delayInletNames = new List<string>(maxConcurrentNotes);
+
+            for (int i = 0; i < maxConcurrentNotes; i++)
+            {
+                PatchInlet_OperatorWrapper volumePatchInletWrapper = Inlet(InletTypeEnum.Volume);
+                volumePatchInletWrapper.Name = GetVolumeInletName(i);
+                volumeInletNames.Add(volumePatchInletWrapper.Name);
+
+                PatchInlet_OperatorWrapper frequencyPatchInletWrapper = Inlet(InletTypeEnum.Frequency);
+                frequencyPatchInletWrapper.Name = GetFrequencyInletName(i);
+                frequencyInletNames.Add(frequencyPatchInletWrapper.Name);
+
+                PatchInlet_OperatorWrapper delayPatchInletWrapper = Inlet();
+                delayPatchInletWrapper.Name = GetDelayInletName(i);
+                delayInletNames.Add(delayPatchInletWrapper.Name);
+
+                CustomOperator_OperatorWrapper customOperatorWrapper = CustomOperator(autoPatch);
+
+                // TODO: After AutoPatch is programmed to only return one inlet of a type, you do not need these LINQ queries anymore. You can just do a SingleOrDefault.
+                customOperatorWrapper.Inlets.Where(x => x.GetInletTypeEnum() == InletTypeEnum.Volume).ForEach(x => x.InputOutlet = volumePatchInletWrapper);
+                customOperatorWrapper.Inlets.Where(x => x.GetInletTypeEnum() == InletTypeEnum.Frequency).ForEach(x => x.InputOutlet = frequencyPatchInletWrapper);
+
+                IEnumerable<Outlet> signalOutlets = customOperatorWrapper.Outlets.Where(x => x.GetOutletTypeEnum() == OutletTypeEnum.Signal);
+                foreach (Outlet signalOutlet in signalOutlets)
+                {
+                    Delay_OperatorWrapper delayWrapper = Delay(signalOutlet, delayPatchInletWrapper);
+                    outlets.Add(delayWrapper);
+                }
+            }
+
+            Adder_OperatorWrapper adderWrapper = Adder(outlets);
+
+            Outlet outlet = adderWrapper.Result;
+
+            // This makes side-effects go off.
+            VoidResult savePatchResult = SavePatch();
+
+            // This is sensitive, error prone code, so assert its result 
+            ResultHelper.Assert(savePatchResult);
+
+            var result = new AutoPatchPolyphonicResult(outlet, volumeInletNames, frequencyInletNames, delayInletNames);
+            return result;
+        }
+
+        /// <summary> Will return null if no Frequency inlet or Signal outlet is found. </summary>
+        public Outlet TryAutoPatch_WithTone(Tone tone, IList<Patch> underlyingPatches)
+        {
+            if (tone == null) throw new NullException(() => tone);
+            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
+
+            // Create a new patch out of the other patches.
+            AutoPatch(underlyingPatches);
+
+            double frequency = tone.GetFrequency();
+            Number_OperatorWrapper frequencyNumberOperatorWrapper = Number(frequency);
+
+            IEnumerable<Inlet> frequencyInlets = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
+                                                      .Where(x => x.InletTypeEnum == InletTypeEnum.Frequency)
+                                                      .Select(x => x.Inlet);
+
+            foreach (Inlet frequencyInlet in frequencyInlets)
+            {
+                frequencyInlet.InputOutlet = frequencyNumberOperatorWrapper;
+            }
+
+            IEnumerable<Outlet> signalOutlets = Patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                                                     .Where(x => x.OutletTypeEnum == OutletTypeEnum.Signal)
+                                                     .Select(x => x.Result);
+
+            // TODO: Add up the signals instead of taking the first one.
+            Outlet outlet = signalOutlets.First();
+            return outlet;
+        }
 
         /// <summary>
         /// Use the Patch property after calling this method.
@@ -233,34 +328,19 @@ namespace JJ.Business.Synthesizer.Managers
             return false;
         }
 
-        /// <summary> Will return null if no Frequency inlet or Signal outlet is found. </summary>
-        public Outlet TryAutoPatch_WithTone(Tone tone, IList<Patch> underlyingPatches)
+        private string GetFrequencyInletName(int noteListIndex)
         {
-            if (tone == null) throw new NullException(() => tone);
-            if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
+            return "f" + noteListIndex.ToString();
+        }
 
-            // Create a new patch out of the other patches.
-            AutoPatch(underlyingPatches);
+        private string GetVolumeInletName(int noteListIndex)
+        {
+            return "v" + noteListIndex.ToString();
+        }
 
-            double frequency = tone.GetFrequency();
-            Number_OperatorWrapper frequencyNumberOperatorWrapper = Number(frequency);
-
-            IEnumerable<Inlet> frequencyInlets = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
-                                                      .Where(x => x.InletTypeEnum == InletTypeEnum.Frequency)
-                                                      .Select(x => x.Inlet);
-
-            foreach (Inlet frequencyInlet in frequencyInlets)
-            {
-                frequencyInlet.InputOutlet = frequencyNumberOperatorWrapper;
-            }
-
-            IEnumerable<Outlet> signalOutlets = Patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                                     .Where(x => x.OutletTypeEnum == OutletTypeEnum.Signal)
-                                                     .Select(x => x.Result);
-
-            // TODO: Add up the signals instead of taking the first one.
-            Outlet outlet = signalOutlets.First();
-            return outlet;
+        private string GetDelayInletName(int noteListIndex)
+        {
+            return "d" + noteListIndex.ToString();
         }
     }
 }
