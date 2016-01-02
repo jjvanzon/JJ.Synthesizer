@@ -654,7 +654,19 @@ namespace JJ.Business.Synthesizer.Managers
                             MethodInfo methodInfo = typeof(PatchManager).GetMethod(methodName, Type.EmptyTypes);
                             if (methodInfo == null)
                             {
-                                throw new Exception(String.Format("MethodInfo '{0}' not found in type '{1}'.", methodName, typeof(PatchManager).Name));
+                                throw new Exception(String.Format("Method '{0}' not found in type '{1}'.", methodName, typeof(PatchManager).Name));
+                            }
+                            methodDictionary.Add(operatorTypeEnum, methodInfo);
+                            break;
+                        }
+
+                    case OperatorTypeEnum.PatchOutlet:
+                        {
+                            string methodName = "Outlet";
+                            MethodInfo methodInfo = typeof(PatchManager).GetMethod(methodName);
+                            if (methodInfo == null)
+                            {
+                                throw new Exception(String.Format("Method '{0}' not found in type '{1}'.", methodName, typeof(PatchManager).Name));
                             }
                             methodDictionary.Add(operatorTypeEnum, methodInfo);
                             break;
@@ -662,15 +674,16 @@ namespace JJ.Business.Synthesizer.Managers
 
                     default:
                         {
-                            string methodName = "Outlet";
+                            string methodName = operatorTypeEnum.ToString();
                             MethodInfo methodInfo = typeof(PatchManager).GetMethod(methodName);
                             if (methodInfo == null)
                             {
-                                throw new Exception(String.Format("MethodInfo '{0}' not found in type '{1}'.", methodName, typeof(PatchManager).Name));
+                                throw new Exception(String.Format("Method '{0}' not found in type '{1}'.", methodName, typeof(PatchManager).Name));
                             }
                             methodDictionary.Add(operatorTypeEnum, methodInfo);
                             break;
                         }
+                        break;
                 }
             }
 
