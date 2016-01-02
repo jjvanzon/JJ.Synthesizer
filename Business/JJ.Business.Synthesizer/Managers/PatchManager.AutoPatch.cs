@@ -7,6 +7,7 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Business.Synthesizer.Managers
 {
@@ -124,19 +125,33 @@ namespace JJ.Business.Synthesizer.Managers
             {
                 PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(unmatchedOutlet);
             }
+
+            // This is sensitive, error prone code, so verify its result with the validators. 
+            VoidResult result = ValidatePatchRecursive();
+            if (!result.Successful)
+            {
+                // TODO: Make a distinction between Data.Canonical and Business.Canonical, so that you have a place to put helpers for this.
+                string formattedMessages = String.Join(Environment.NewLine, result.Messages.Select(x => x.Text));
+                throw new Exception(formattedMessages);
+            }
         }
 
-        private PatchInlet_OperatorWrapper ConvertToPatchInlet(Inlet inlet)
+        private PatchInlet_OperatorWrapper ConvertToPatchInlet(Inlet sourceInlet)
         {
-            PatchInlet_OperatorWrapper patchInletWrapper = Inlet();
-            patchInletWrapper.InletTypeEnum = inlet.GetInletTypeEnum();
-            patchInletWrapper.Name = inlet.Name;
-            patchInletWrapper.ListIndex = inlet.ListIndex;
-            patchInletWrapper.DefaultValue = inlet.DefaultValue;
+            PatchInlet_OperatorWrapper destPatchInletWrapper = Inlet();
+            destPatchInletWrapper.InletTypeEnum = sourceInlet.GetInletTypeEnum();
+            destPatchInletWrapper.Name = sourceInlet.Name;
+            destPatchInletWrapper.ListIndex = sourceInlet.ListIndex;
+            destPatchInletWrapper.DefaultValue = sourceInlet.DefaultValue;
 
-            inlet.LinkTo((Outlet)patchInletWrapper);
+            // TODO: You might want to do this by calling shared business logic instead of reprogramming it here.
+            Inlet destPatchInletInlet = destPatchInletWrapper.Inlet;
+            destPatchInletInlet.InletType = sourceInlet.InletType;
+            destPatchInletInlet.DefaultValue = sourceInlet.DefaultValue;
 
-            return patchInletWrapper;
+            sourceInlet.LinkTo(destPatchInletWrapper.Result);
+
+            return destPatchInletWrapper;
         }
 
         private PatchInlet_OperatorWrapper ConvertToPatchInlet(IList<Inlet> unmatchedInlets)
@@ -170,16 +185,16 @@ namespace JJ.Business.Synthesizer.Managers
             return patchOutletWrapper;
         }
 
-        private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(Outlet unmatchedOutlet)
+        private PatchOutlet_OperatorWrapper ConvertToPatchOutlet(Outlet sourceOutlet)
         {
-            PatchOutlet_OperatorWrapper patchOutletWrapper = Outlet();
-            patchOutletWrapper.Name = unmatchedOutlet.Name;
-            patchOutletWrapper.ListIndex = unmatchedOutlet.ListIndex;
-            patchOutletWrapper.OutletTypeEnum = unmatchedOutlet.GetOutletTypeEnum();
+            PatchOutlet_OperatorWrapper destPatchOutletWrapper = Outlet();
+            destPatchOutletWrapper.Name = sourceOutlet.Name;
+            destPatchOutletWrapper.ListIndex = sourceOutlet.ListIndex;
+            destPatchOutletWrapper.OutletTypeEnum = sourceOutlet.GetOutletTypeEnum();
 
-            patchOutletWrapper.Input = unmatchedOutlet;
+            destPatchOutletWrapper.Input = sourceOutlet;
 
-            return patchOutletWrapper;
+            return destPatchOutletWrapper;
         }
 
         private bool AreMatch(Outlet outlet, Inlet inlet)

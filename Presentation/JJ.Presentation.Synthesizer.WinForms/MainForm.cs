@@ -14,6 +14,7 @@ using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -144,6 +145,15 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             var signalOutlet = x.Outlet(x.Multiply(x.Sine(x.Inlet(InletTypeEnum.Frequency)), x.Inlet(InletTypeEnum.Volume)));
             signalOutlet.OutletTypeEnum = OutletTypeEnum.Signal;
+
+            // This makes side-effects go off.
+            VoidResult result = x.SavePatch();
+            if (!result.Successful)
+            {
+                // TODO: Make a distinction between Data.Canonical and Business.Canonical, so that you have a place to put helpers for this.
+                string formattedMessages = String.Join(Environment.NewLine, result.Messages.Select(y => y.Text));
+                throw new Exception(formattedMessages);
+            }
 
             return x.Patch;
         }

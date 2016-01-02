@@ -42,12 +42,20 @@ namespace JJ.Business.Synthesizer.Validation
         }
 
         /// <param name="number">1-based</param>
-        public static string GetMessagePrefix(Inlet entity, int number)
+        public static string GetMessagePrefix(Inlet entity, int? number = null)
         {
             if (entity == null) throw new NullException(() => entity);
 
-            string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Inlet, number);
-            return messagePrefix;
+            if (number.HasValue)
+            {
+                string messagePrefix = String.Format("{0} {1}: ", PropertyDisplayNames.Inlet, number);
+                return messagePrefix;
+            }
+            else
+            {
+                string messagePrefix = PropertyDisplayNames.Inlet + ": ";
+                return messagePrefix;
+            }
         }
 
         /// <param name="number">1-based</param>

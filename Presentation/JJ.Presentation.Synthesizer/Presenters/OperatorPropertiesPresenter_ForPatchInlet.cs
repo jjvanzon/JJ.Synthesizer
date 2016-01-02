@@ -72,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return;
             }
 
-            Operator op = ViewModel.ToEntity(_repositories.OperatorRepository, _repositories.OperatorTypeRepository);
+            Operator op = ViewModel.ToOperatorWithInlet(_repositories);
 
             PatchManager patchManager = new PatchManager(op.Patch, _repositories);
             VoidResult result = patchManager.SaveOperator(op);

@@ -397,25 +397,7 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     progressCallback(progressMessage);
                 }
 
-                var documentManager = new DocumentManager(repositories);
-
-                IList<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null).ToArray();
-                for (int i = 0; i < rootDocuments.Count; i++)
-                {
-                    Document rootDocument = rootDocuments[i];
-
-                    // Validate
-                    VoidResult result = documentManager.ValidateRecursive(rootDocument);
-                    if (!result.Successful)
-                    {
-                        progressCallback("Exception!");
-                        string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
-                        throw new Exception(formattedMessages);
-                    }
-
-                    string progressMessage = String.Format("Validated document {0}/{1}.", i + 1, rootDocuments.Count);
-                    progressCallback(progressMessage);
-                }
+                AssertDocuments(repositories, progressCallback);
 
                 context.Commit();
             }
@@ -456,31 +438,76 @@ namespace JJ.OneOff.Synthesizer.DataMigration
                     progressCallback(progressMessage);
                 }
 
-                // Validate Documents
-                var documentManager = new DocumentManager(repositories);
-
-                IList<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null).ToArray();
-                for (int i = 0; i < rootDocuments.Count; i++)
-                {
-                    Document rootDocument = rootDocuments[i];
-
-                    // Validate
-                    VoidResult result = documentManager.ValidateRecursive(rootDocument);
-                    if (!result.Successful)
-                    {
-                        progressCallback("Exception!");
-                        string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
-                        throw new Exception(formattedMessages);
-                    }
-
-                    string progressMessage = String.Format("Validated document {0}/{1}.", i + 1, rootDocuments.Count);
-                    progressCallback(progressMessage);
-                }
+                AssertDocuments(repositories, progressCallback);
 
                 context.Commit();
             }
 
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+        public static void ResavePatchInletOperatorsToSet_InletDefaultValue_AndInletInletType(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> patchInlets = repositories.OperatorRepository
+                                                                  .GetAll()
+                                                                  .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchInlet)
+                                                                  .ToArray();
+
+                for (int i = 0; i < patchInlets.Count; i++)
+                {
+                    Operator patchInlet = patchInlets[i];
+                    patchManager.Patch = patchInlet.Patch;
+
+                    VoidResult result = patchManager.SaveOperator(patchInlet);
+                    if (!result.Successful)
+                    {
+                        string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
+                        throw new Exception(formattedMessages);
+                    }
+
+                    string progressMessage = String.Format("Migrated PatchInlet Operator {0}/{1}.", i + 1, patchInlets.Count);
+                    progressCallback(progressMessage);
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
+        private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
+        {
+            var documentManager = new DocumentManager(repositories);
+
+            IList<Document> rootDocuments = repositories.DocumentRepository.GetAll().Where(x => x.ParentDocument == null).ToArray();
+            for (int i = 0; i < rootDocuments.Count; i++)
+            {
+                Document rootDocument = rootDocuments[i];
+
+                // Validate
+                VoidResult result = documentManager.ValidateRecursive(rootDocument);
+                if (!result.Successful)
+                {
+                    progressCallback("Exception!");
+                    string formattedMessages = String.Join(" ", result.Messages.Select(x => x.Text));
+                    throw new Exception(formattedMessages);
+                }
+
+                string progressMessage = String.Format("Validated document {0}/{1}.", i + 1, rootDocuments.Count);
+                progressCallback(progressMessage);
+            }
         }
     }
 }

@@ -21,6 +21,9 @@ namespace JJ.Business.Synthesizer.Validation
             For(() => Object.Name, CommonTitles.Name).NotNullOrEmpty();
             For(() => wrapper.ListIndex, PropertyDisplayNames.ListIndex).NotNull().GreaterThanOrEqual(0);
             For(() => wrapper.InletTypeEnum, PropertyDisplayNames.InletType).IsEnum<InletTypeEnum>();
+
+            Inlet inlet = wrapper.Inlet;
+            Execute(new OperatorValidator_PatchInlet_Inlet(inlet), ValidationHelper.GetMessagePrefix(inlet));
         }
     }
 }

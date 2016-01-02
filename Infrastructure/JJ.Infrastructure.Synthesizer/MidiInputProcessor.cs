@@ -11,6 +11,7 @@ using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.CanonicalModel;
 
 namespace JJ.Infrastructure.Synthesizer
 {
@@ -79,6 +80,8 @@ namespace JJ.Infrastructure.Synthesizer
             GC.SuppressFinalize(this);
         }
 
+        // TODO: Put creating a polyphonic patch in the PatchManager.
+
         /// <summary>
         /// Auto-patches the provided patches and makes a custom operator from it.
         /// Then creates a wrapper patch around it, that enables polyphony.
@@ -122,6 +125,15 @@ namespace JJ.Infrastructure.Synthesizer
             Adder_OperatorWrapper adderWrapper = patchManager.Adder(outlets);
 
             Outlet outlet = adderWrapper.Result;
+
+            // This makes side-effects go off.
+            VoidResult result = patchManager.SavePatch();
+            if (!result.Successful)
+            {
+                // TODO: Make a distinction between Data.Canonical and Business.Canonical, so that you have a place to put helpers for this.
+                string formattedMessages = String.Join(Environment.NewLine, result.Messages.Select(x => x.Text));
+                throw new Exception(formattedMessages);
+            }
 
             var patchCalculator = patchManager.CreateOptimizedCalculator(outlet);
 

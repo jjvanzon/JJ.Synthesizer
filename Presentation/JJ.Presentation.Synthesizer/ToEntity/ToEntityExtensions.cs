@@ -866,52 +866,71 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return entity;
         }
 
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForPatchInlet viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+        public static Operator ToOperatorWithInlet(this OperatorPropertiesViewModel_ForPatchInlet viewModel, PatchRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
+            Operator op = repositories.OperatorRepository.TryGet(viewModel.ID);
+            if (op == null)
             {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
+                op = new Operator();
+                op.ID = viewModel.ID;
+                repositories.OperatorRepository.Insert(op);
             }
 
-            entity.Name = viewModel.Name;
-            entity.SetOperatorTypeEnum(OperatorTypeEnum.PatchInlet, operatorTypeRepository);
+            Inlet inlet = op.Inlets.FirstOrDefault();
+            if (inlet == null)
+            {
+                inlet = new Inlet();
+                inlet.ID = repositories.IDRepository.GetID();
+                repositories.InletRepository.Insert(inlet);
+            }
 
-            var wrapper = new PatchInlet_OperatorWrapper(entity);
+            op.Name = viewModel.Name;
+            op.SetOperatorTypeEnum(OperatorTypeEnum.PatchInlet, repositories.OperatorTypeRepository);
+
+            var wrapper = new PatchInlet_OperatorWrapper(op);
             wrapper.ListIndex = viewModel.Number - 1;
 
-            if (String.IsNullOrEmpty(viewModel.DefaultValue))
+            if (!String.IsNullOrEmpty(viewModel.DefaultValue))
             {
-                wrapper.DefaultValue = null;
-            }
-            else
-            {
-                // Tollerance, to make ToEntity not fail, before view model validation goes off.
+                // Tolerance, to make ToEntity not fail, before view model validation goes off.
                 double defaultValue;
                 if (Double.TryParse(viewModel.DefaultValue, out defaultValue))
                 {
                     wrapper.DefaultValue = defaultValue;
+                    inlet.DefaultValue = defaultValue;
                 }
+            }
+            else
+            {
+                wrapper.DefaultValue = null;
+                inlet.DefaultValue = null;
             }
 
             bool inletTypeIsFilledIn = viewModel.InletType != null && viewModel.InletType.ID != 0;
             if (inletTypeIsFilledIn)
             {
-                wrapper.InletTypeEnum = (InletTypeEnum)viewModel.InletType.ID;
+                InletTypeEnum inletTypeEnum = (InletTypeEnum)viewModel.InletType.ID;
+                wrapper.InletTypeEnum = inletTypeEnum;
+                inlet.SetInletTypeEnum(inletTypeEnum, repositories.InletTypeRepository);
             }
             else
             {
                 wrapper.InletTypeEnum = InletTypeEnum.Undefined;
+                inlet.InletType = null;
             }
 
-            return entity;
+            // Delete excessive inlets.
+            var patchManager = new PatchManager(repositories);
+            IList<Inlet> inletsToDelete = op.Inlets.Except(inlet).ToArray();
+            foreach (Inlet inletToDelete in inletsToDelete)
+            {
+                patchManager.DeleteInlet(inletToDelete);
+            }
+
+            return op;
         }
 
         public static Operator ToEntity(
@@ -1097,6 +1116,8 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             if (userInput == null) throw new NullException(() => userInput);
             if (repositories == null) throw new NullException(() => repositories);
 
+            var patchRepositories = new PatchRepositories(repositories);
+
             Document childDocument = userInput.ToChildDocument(repositories.DocumentRepository);
             userInput.PatchProperties.ToChildDocument(repositories.DocumentRepository);
 
@@ -1105,7 +1126,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             userInput.CurveDetailsList.ToEntitiesWithRelatedEntities(childDocument, curveRepositories);
             userInput.SamplePropertiesList.ToSamples(childDocument, new SampleRepositories(repositories));
 
-            Patch patch = userInput.PatchDetails.ToPatchWithRelatedEntities(new PatchRepositories(repositories));
+            Patch patch = userInput.PatchDetails.ToPatchWithRelatedEntities(patchRepositories);
             userInput.PatchProperties.ToPatch(repositories.PatchRepository);
             patch.LinkTo(childDocument);
 
@@ -1138,7 +1159,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (OperatorPropertiesViewModel_ForPatchInlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchInlets)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+                propertiesViewModel.ToOperatorWithInlet(patchRepositories);
             }
 
             foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchOutlets)

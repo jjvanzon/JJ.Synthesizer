@@ -100,7 +100,15 @@ namespace JJ.Business.Synthesizer.Managers
         {
             AssertPatch();
 
-            VoidResult result = ValidatePatch();
+            // TODO: At one time, it said Patch.Operators collection was changed. That is what the ToArray is for. 
+            // I still do not know why the collection was changed, so that must be investigated.
+            foreach (Operator op in Patch.Operators.ToArray())
+            {
+                // This is necessary to make side-effects go off.
+                SaveOperator(op);
+            }
+
+            VoidResult result = ValidatePatchRecursive();
 
             if (!result.Successful)
             {
@@ -108,7 +116,6 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(Patch, _repositories);
-
             sideEffect.Execute();
 
             return result;
@@ -138,8 +145,10 @@ namespace JJ.Business.Synthesizer.Managers
                     return SaveOperator_Custom(op);
 
                 case OperatorTypeEnum.PatchInlet:
+                    return SaveOperator_PatchInlet(op);
+
                 case OperatorTypeEnum.PatchOutlet:
-                    return SaveOperator_PatchInletOrPatchOutlet(op);
+                    return SaveOperator_PatchOutlet(op);
 
                 default:
                     return SaveOperator_Other(op);
@@ -155,17 +164,37 @@ namespace JJ.Business.Synthesizer.Managers
             return result;
         }
 
-        private VoidResult SaveOperator_PatchInletOrPatchOutlet(Operator op)
+        private VoidResult SaveOperator_PatchOutlet(Operator op)
         {
-            // TODO: Document why we need to validate the whole patch, instead of just the operator.
-            // Probably due to unique constraints, but it really should be described more exactly why.
-            VoidResult result = ValidatePatch();
-            if (result.Successful)
+            // You do not want to update operators dependent on this patch, unless the patch is valid.
+            VoidResult patchValidationResult = ValidatePatchRecursive();
+            if (patchValidationResult.Successful)
             {
                 ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(op.Patch, _repositories);
                 sideEffect.Execute();
             }
 
+            // Do not return the result of ValidatePatchRecursive, because only after pending other SaveOperator calls, the whole Patch might be valid.
+            VoidResult result = ValidateOperatorNonRecursive(op);
+            return result;
+        }
+
+        private VoidResult SaveOperator_PatchInlet(Operator op)
+        {
+            // TODO: You can do this always, because it does nothing if only does something if it is the right operator type.
+            ISideEffect sideEffect1 = new Operator_SideEffect_CopyPatchInletPropertiesToItsInlet(op, _repositories.InletTypeRepository);
+            sideEffect1.Execute();
+
+            // You do not want to update operators dependent on this patch, unless the patch is valid.
+            VoidResult patchValidationResult = ValidatePatchRecursive();
+            if (patchValidationResult.Successful)
+            {
+                ISideEffect sideEffect2 = new Patch_SideEffect_UpdateDependentCustomOperators(op.Patch, _repositories);
+                sideEffect2.Execute();
+            }
+
+            // Do not return the result of ValidatePatchRecursive, because only after pending other SaveOperator calls, the whole Patch might be valid.
+            VoidResult result = ValidateOperatorNonRecursive(op);
             return result;
         }
 
@@ -299,7 +328,9 @@ namespace JJ.Business.Synthesizer.Managers
 
         // Validate (Private)
 
-        private VoidResult ValidatePatch()
+        // TODO: 'Recursive' suggests that you would also validate the UnderlyingPatches of CustomOperators.
+        // Make this distinctly clear. Perhaps use the term 'WithRelatedEntities' if that is clearer.        
+        private VoidResult ValidatePatchRecursive()
         {
             var validators = new List<IValidator>
             {
