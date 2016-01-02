@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dependencies", "Dependencies", "{72857B67-3003-486C-9BB3-34AF5748BE95}"
 EndProject
@@ -92,6 +92,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Infrastructure.Synthesizer", "Infrastructure\JJ.Infrastructure.Synthesizer\JJ.Infrastructure.Synthesizer.csproj", "{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NAudioDemo", "External Components\NAudio\Source Code\1.7.2\NAudioDemo\NAudioDemo.csproj", "{C37A547B-F31E-45FB-870A-CFA704D06152}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Business.Canonical", "Business\JJ.Business.Canonical\JJ.Business.Canonical.csproj", "{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -976,6 +978,30 @@ Global
 		{C37A547B-F31E-45FB-870A-CFA704D06152}.Release|x64.Build.0 = Release|Any CPU
 		{C37A547B-F31E-45FB-870A-CFA704D06152}.Release|x86.ActiveCfg = Release|Any CPU
 		{C37A547B-F31E-45FB-870A-CFA704D06152}.Release|x86.Build.0 = Release|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Debug|x64.Build.0 = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Debug|x86.Build.0 = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.NPDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.NPDebug|Any CPU.Build.0 = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.NPDebug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.NPDebug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.NPDebug|x64.ActiveCfg = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.NPDebug|x64.Build.0 = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.NPDebug|x86.ActiveCfg = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.NPDebug|x86.Build.0 = Debug|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Release|x64.ActiveCfg = Release|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Release|x64.Build.0 = Release|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Release|x86.ActiveCfg = Release|Any CPU
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -1009,9 +1035,10 @@ Global
 		{5909BFE7-93CF-4E5F-BE22-6293368AF01D} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{529145D5-6CC3-4016-89B5-826563024AF1} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 		{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34} = {72857B67-3003-486C-9BB3-34AF5748BE95}
+		{4DBE5E36-4B54-4E5F-9B4F-5BBF33A3CEF1} = {72857B67-3003-486C-9BB3-34AF5748BE95}
 	EndGlobalSection
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 45
+		SccNumberOfProjects = 46
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://jjs-server:8080/tfs/defaultcollection
 		SccLocalPath0 = .
@@ -1160,7 +1187,6 @@ Global
 		SccProjectName39 = Database/SynthesizerDB
 		SccLocalPath39 = Database\\SynthesizerDB
 		SccProjectUniqueName40 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudio\\NAudio.csproj
-		SccProjectTopLevelParentUniqueName40 = Synthesizer.sln
 		SccProjectName40 = External\u0020Components/NAudio/Source\u0020Code/1.7.2/NAudio
 		SccLocalPath40 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudio
 		SccProjectUniqueName41 = OneOff\\JJ.OneOff.Synthesizer.DataMigration\\JJ.OneOff.Synthesizer.DataMigration.csproj
@@ -1176,5 +1202,9 @@ Global
 		SccProjectUniqueName44 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudioDemo\\NAudioDemo.csproj
 		SccProjectName44 = External\u0020Components/NAudio/Source\u0020Code/1.7.2/NAudioDemo
 		SccLocalPath44 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudioDemo
+		SccProjectUniqueName45 = Business\\JJ.Business.Canonical\\JJ.Business.Canonical.csproj
+		SccProjectTopLevelParentUniqueName45 = Synthesizer.sln
+		SccProjectName45 = Business/JJ.Business.Canonical
+		SccLocalPath45 = Business\\JJ.Business.Canonical
 	EndGlobalSection
 EndGlobal

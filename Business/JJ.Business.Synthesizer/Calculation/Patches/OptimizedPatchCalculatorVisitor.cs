@@ -59,9 +59,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// This dictionary is about reusing the same SampleCalculator in multiple OperatorCalculator_Sample's
         /// in case they uses the same Sample, more than optimizing things by using a dictionary.
         /// </summary>
-        private Dictionary<Sample, ISampleCalculator> _sample_SampleCalculatorDictionary;
+        private Dictionary<Sample, ISampleCalculator> _sample_SampleCalculator_Dictionary;
 
-        private Dictionary<Operator, double> _operator_WhiteNoiseOffsetInSecondsDictionary;
+        private Dictionary<Operator, double> _operator_WhiteNoiseOffsetInSeconds_Dictionary;
         private Outlet _currentChannelOutlet;
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_Calculator_Dictionary;
 
@@ -102,8 +102,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack = new Stack<OperatorCalculatorBase>();
             _bundleIndexStack = new Stack<int>();
             _curve_CurveCalculator_Dictionary = new Dictionary<Curve, OptimizedCurveCalculator>();
-            _sample_SampleCalculatorDictionary = new Dictionary<Sample, ISampleCalculator>();
-            _operator_WhiteNoiseOffsetInSecondsDictionary = new Dictionary<Operator, double>();
+            _sample_SampleCalculator_Dictionary = new Dictionary<Sample, ISampleCalculator>();
+            _operator_WhiteNoiseOffsetInSeconds_Dictionary = new Dictionary<Operator, double>();
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
 
             _channelCount = channelOutlets.Count;
@@ -652,10 +652,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 // Get SampleCalculator
                 ISampleCalculator sampleCalculator;
-                if (!_sample_SampleCalculatorDictionary.TryGetValue(sampleInfo.Sample, out sampleCalculator))
+                if (!_sample_SampleCalculator_Dictionary.TryGetValue(sampleInfo.Sample, out sampleCalculator))
                 {
                     sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sampleInfo.Sample, sampleInfo.Bytes);
-                    _sample_SampleCalculatorDictionary.Add(sampleInfo.Sample, sampleCalculator);
+                    _sample_SampleCalculator_Dictionary.Add(sampleInfo.Sample, sampleCalculator);
                 }
 
                 int sampleChannelCount = sampleInfo.Sample.GetChannelCount();
@@ -1173,10 +1173,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected override void VisitWhiteNoise(Operator op)
         {
             double offset;
-            if (!_operator_WhiteNoiseOffsetInSecondsDictionary.TryGetValue(op, out offset))
+            if (!_operator_WhiteNoiseOffsetInSeconds_Dictionary.TryGetValue(op, out offset))
             {
                 offset = _whiteNoiseCalculator.GetRandomOffset();
-                _operator_WhiteNoiseOffsetInSecondsDictionary.Add(op, offset);
+                _operator_WhiteNoiseOffsetInSeconds_Dictionary.Add(op, offset);
             }
 
             var calculator = new WhiteNoise_OperatorCalculator(_whiteNoiseCalculator, offset);

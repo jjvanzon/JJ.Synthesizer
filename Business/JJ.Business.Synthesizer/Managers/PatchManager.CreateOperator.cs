@@ -308,6 +308,9 @@ namespace JJ.Business.Synthesizer.Managers
         {
             PatchInlet_OperatorWrapper wrapper = Inlet();
             wrapper.InletTypeEnum = inletTypeEnum;
+
+            wrapper.Inlet.SetInletTypeEnum(inletTypeEnum, _repositories.InletTypeRepository);
+
             return wrapper;
         }
 
@@ -316,6 +319,11 @@ namespace JJ.Business.Synthesizer.Managers
             PatchInlet_OperatorWrapper wrapper = Inlet();
             wrapper.InletTypeEnum = inletTypeEnum;
             wrapper.DefaultValue = defaultValue;
+
+            Inlet patchInletInlet = wrapper.Inlet;
+            patchInletInlet.SetInletTypeEnum(inletTypeEnum, _repositories.InletTypeRepository);
+            patchInletInlet.DefaultValue = defaultValue;
+
             return wrapper;
         }
 
@@ -331,6 +339,9 @@ namespace JJ.Business.Synthesizer.Managers
             PatchInlet_OperatorWrapper wrapper = Inlet();
             wrapper.Name = name;
             wrapper.DefaultValue = defaultValue;
+
+            wrapper.Inlet.DefaultValue = defaultValue;
+
             return wrapper;
         }
 
