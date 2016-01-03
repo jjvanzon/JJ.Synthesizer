@@ -4,6 +4,8 @@ using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Extensions;
+using System;
+using JJ.Business.Synthesizer.Helpers;
 
 namespace JJ.Business.Synthesizer.Validation
 {
@@ -21,6 +23,13 @@ namespace JJ.Business.Synthesizer.Validation
             Inlet patchInletInlet = patchInletWrapper.Inlet;
 
             For(() => Object.Name, CommonTitles.Name).NotNullOrEmpty();
+
+            // TODO: Use this code instead of the code line above later, to make Name optional.
+            //if (String.IsNullOrEmpty(Object.Name) && patchInletInlet.GetInletTypeEnum() == InletTypeEnum.Undefined)
+            //{
+            //    ValidationMessages.Add(PropertyNames.PatchInlet, MessageFormatter.NameOrInletTypeMustBeFilledIn());
+            //}
+
             For(() => patchInletInlet.ListIndex, PropertyDisplayNames.ListIndex).NotNull().GreaterThanOrEqual(0);
             For(() => patchInletInlet.GetInletTypeEnum(), PropertyDisplayNames.InletType).IsEnum<InletTypeEnum>();
         }

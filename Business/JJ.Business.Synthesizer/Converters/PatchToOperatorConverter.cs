@@ -76,26 +76,26 @@ namespace JJ.Business.Synthesizer.Converters
                 var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
                 Inlet sourcePatchInletInlet = sourcePatchInletWrapper.Inlet;
 
-                Inlet destInlet = TryGetInlet(destCustomOperator.Inlets, sourcePatchInlet);
-                if (destInlet == null)
+                Inlet destCustomOperatorInlet = TryGetCustomOperatorInlet(destCustomOperator.Inlets, sourcePatchInlet);
+                if (destCustomOperatorInlet == null)
                 {
-                    destInlet = new Inlet();
-                    destInlet.ID = _repositories.IDRepository.GetID();
-                    _repositories.InletRepository.Insert(destInlet);
-                    destInlet.LinkTo(destCustomOperator);
+                    destCustomOperatorInlet = new Inlet();
+                    destCustomOperatorInlet.ID = _repositories.IDRepository.GetID();
+                    _repositories.InletRepository.Insert(destCustomOperatorInlet);
+                    destCustomOperatorInlet.LinkTo(destCustomOperator);
                 }
 
-                destInlet.Name = sourcePatchInlet.Name;
-                destInlet.DefaultValue = sourcePatchInletInlet.DefaultValue;
-                destInlet.InletType = sourcePatchInletInlet.InletType;
+                destCustomOperatorInlet.Name = sourcePatchInlet.Name;
+                destCustomOperatorInlet.DefaultValue = sourcePatchInletInlet.DefaultValue;
+                destCustomOperatorInlet.InletType = sourcePatchInletInlet.InletType;
 
                 if (!sourcePatchInletWrapper.ListIndex.HasValue)
                 {
                     throw new NullException(() => sourcePatchInletWrapper.ListIndex);
                 }
-                destInlet.ListIndex = sourcePatchInletWrapper.ListIndex.Value;
+                destCustomOperatorInlet.ListIndex = sourcePatchInletWrapper.ListIndex.Value;
 
-                idsToKeep.Add(destInlet.ID);
+                idsToKeep.Add(destCustomOperatorInlet.ID);
             }
 
             int[] existingIDs = destCustomOperator.Inlets.Select(x => x.ID).ToArray();
@@ -113,7 +113,7 @@ namespace JJ.Business.Synthesizer.Converters
             }
         }
 
-        private Inlet TryGetInlet(IList<Inlet> destCustomOperatorInlets, Operator sourcePatchInlet)
+        private Inlet TryGetCustomOperatorInlet(IList<Inlet> destCustomOperatorInlets, Operator sourcePatchInlet)
         {
             // Try match by name
             foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
@@ -156,25 +156,25 @@ namespace JJ.Business.Synthesizer.Converters
             {
                 var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
 
-                Outlet destOutlet = TryGetOutlet(destOperator.Outlets, sourcePatchOutlet);
-                if (destOutlet == null)
+                Outlet destCustomOperatorOutlet = TryGetCustomOperatorOutlet(destOperator.Outlets, sourcePatchOutlet);
+                if (destCustomOperatorOutlet == null)
                 {
-                    destOutlet = new Outlet();
-                    destOutlet.ID = _repositories.IDRepository.GetID();
-                    destOutlet.LinkTo(destOperator);
-                    _repositories.OutletRepository.Insert(destOutlet);
+                    destCustomOperatorOutlet = new Outlet();
+                    destCustomOperatorOutlet.ID = _repositories.IDRepository.GetID();
+                    destCustomOperatorOutlet.LinkTo(destOperator);
+                    _repositories.OutletRepository.Insert(destCustomOperatorOutlet);
                 }
 
-                destOutlet.Name = sourcePatchOutlet.Name;
-                destOutlet.SetOutletTypeEnum(sourcePatchOutletWrapper.OutletTypeEnum, _repositories.OutletTypeRepository);
+                destCustomOperatorOutlet.Name = sourcePatchOutlet.Name;
+                destCustomOperatorOutlet.SetOutletTypeEnum(sourcePatchOutletWrapper.OutletTypeEnum, _repositories.OutletTypeRepository);
 
                 if (!sourcePatchOutletWrapper.ListIndex.HasValue)
                 {
                     throw new NullException(() => sourcePatchOutletWrapper.ListIndex);
                 }
-                destOutlet.ListIndex = sourcePatchOutletWrapper.ListIndex.Value;
+                destCustomOperatorOutlet.ListIndex = sourcePatchOutletWrapper.ListIndex.Value;
 
-                idsToKeep.Add(destOutlet.ID);
+                idsToKeep.Add(destCustomOperatorOutlet.ID);
             }
 
             int[] existingIDs = destOperator.Outlets.Select(x => x.ID).ToArray();
@@ -192,17 +192,17 @@ namespace JJ.Business.Synthesizer.Converters
             }
         }
 
-        private Outlet TryGetOutlet(IList<Outlet> destOutlets, Operator sourcePatchOutlet)
+        private Outlet TryGetCustomOperatorOutlet(IList<Outlet> destCustomOperatorOutlets, Operator sourcePatchOutlet)
         {
-            foreach (Outlet destOutlet in destOutlets)
+            foreach (Outlet destCustomOperatorOutlet in destCustomOperatorOutlets)
             {
-                if (String.Equals(destOutlet.Name, sourcePatchOutlet.Name))
+                if (String.Equals(destCustomOperatorOutlet.Name, sourcePatchOutlet.Name))
                 {
-                    return destOutlet;
+                    return destCustomOperatorOutlet;
                 }
             }
 
-            foreach (Outlet destOutlet in destOutlets)
+            foreach (Outlet destOutlet in destCustomOperatorOutlets)
             {
                 // TODO: I should really only match if it is unique.
                 var wrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
@@ -212,7 +212,7 @@ namespace JJ.Business.Synthesizer.Converters
                 }
             }
 
-            foreach (Outlet destOutlet in destOutlets)
+            foreach (Outlet destOutlet in destCustomOperatorOutlets)
             {
                 var wrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
                 if (destOutlet.ListIndex == wrapper.ListIndex)

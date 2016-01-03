@@ -178,6 +178,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Either a name or an inlet type must be filled in..
+        /// </summary>
+        internal static string NameOrInletTypeMustBeFilledIn {
+            get {
+                return ResourceManager.GetString("NameOrInletTypeMustBeFilledIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} names are not unique. Duplicate names: {1}..
         /// </summary>
         internal static string NamesNotUnique_WithEntityTypeNameAndNames {

@@ -247,4 +247,7 @@
     <value>Default value of inlet '{0}' does not match with underlying patch.</value>
     <comment>{0} = inlet name</comment>
   </data>
+  <data name="NameOrInletTypeMustBeFilledIn" xml:space="preserve">
+    <value>Either a name or an inlet type must be filled in.</value>
+  </data>
 </root>

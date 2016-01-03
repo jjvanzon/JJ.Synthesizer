@@ -35,7 +35,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 return null;
             }
 
-            // Cross reference custom operator's inlets with the Underling Patch's PatchInlets.
+            // Cross reference custom operator's inlets with the Underlying Patch's PatchInlets.
             var tuples = from customOperatorInlet in customOperator.Inlets
                          join underlyingPatchInlet in underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
                          // The PatchToOperatorConverter and the OperatorValidator_CustomOperator guarantee that the names match.

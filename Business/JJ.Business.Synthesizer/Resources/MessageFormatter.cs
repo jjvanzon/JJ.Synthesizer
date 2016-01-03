@@ -29,6 +29,11 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.NumberIs0WithName, name);
         }
 
+        public static string NameOrInletTypeMustBeFilledIn()
+        {
+            return Messages.NameOrInletTypeMustBeFilledIn;
+        }
+
         public static string UnsupportedOperatorTypeEnumValue(OperatorTypeEnum operatorTypeEnum)
         {
             return String.Format(Messages.UnsupportedOperatorTypeEnumValue, operatorTypeEnum);

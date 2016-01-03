@@ -240,4 +240,7 @@
     <value>Standaard waarde van ingang '{0}' wijkt af van de onderliggende schakeling.</value>
     <comment>{0} = inlet name</comment>
   </data>
+  <data name="NameOrInletTypeMustBeFilledIn" xml:space="preserve">
+    <value>Er moet of een naam of een ingangsoort worden ingevuld.</value>
+  </data>
 </root>
