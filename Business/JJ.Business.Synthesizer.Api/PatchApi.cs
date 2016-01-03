@@ -128,6 +128,16 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.PatchInlet();
         }
 
+        public PatchOutlet_OperatorWrapper PatchOutlet(OutletTypeEnum outletTypeEnum, Outlet input = null)
+        {
+            return _patchManager.PatchOutlet(outletTypeEnum, input);
+        }
+
+        public PatchOutlet_OperatorWrapper PatchOutlet(string name, Outlet input = null)
+        {
+            return _patchManager.PatchOutlet(name, input);
+        }
+
         public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
         {
             return _patchManager.PatchOutlet(input);

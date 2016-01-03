@@ -29,12 +29,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorDataParser.SetValue(_wrappedOperator, PropertyNames.ListIndex, value); }
         }
 
-        public OutletTypeEnum OutletTypeEnum
-        {
-            get { return OperatorDataParser.GetEnum<OutletTypeEnum>(_wrappedOperator, PropertyNames.OutletTypeEnum); }
-            set { OperatorDataParser.SetValue(_wrappedOperator, PropertyNames.OutletTypeEnum, value); }
-        }
-
         public static implicit operator Outlet(PatchOutlet_OperatorWrapper wrapper)
         {
             if (wrapper == null) return null;

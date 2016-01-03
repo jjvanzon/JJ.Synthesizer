@@ -308,6 +308,20 @@ namespace JJ.Business.Synthesizer.Managers
             return wrapper;
         }
 
+        public PatchOutlet_OperatorWrapper PatchOutlet(OutletTypeEnum outletTypeEnum, Outlet input = null)
+        {
+            PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
+            wrapper.Result.SetOutletTypeEnum(outletTypeEnum, _repositories.OutletTypeRepository);
+            return wrapper;
+        }
+
+        public PatchOutlet_OperatorWrapper PatchOutlet(string name, Outlet input = null)
+        {
+            PatchOutlet_OperatorWrapper wrapper = PatchOutlet(input);
+            wrapper.Name = name;
+            return wrapper;
+        }
+
         public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.PatchOutlet, inletCount: 1, outletCount: 1);
@@ -315,9 +329,8 @@ namespace JJ.Business.Synthesizer.Managers
             var wrapper = new PatchOutlet_OperatorWrapper(op)
             {
                 Input = input,
-                // You have to set these two or the wrapper's ListIndex and InletTypeEnum getters would crash.
+                // You have to set this property two or the wrapper's ListIndex property getter would crash.
                 ListIndex = 0,
-                OutletTypeEnum = OutletTypeEnum.Undefined
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
@@ -594,11 +607,23 @@ namespace JJ.Business.Synthesizer.Managers
                             break;
                         }
 
-                    // TODO: Remove outcommented code.
                     case OperatorTypeEnum.PatchInlet:
                         {
                             string methodName = operatorTypeEnum.ToString();
                             MethodInfo methodInfo = typeof(PatchManager).GetMethod(methodName, Type.EmptyTypes);
+                            if (methodInfo == null)
+                            {
+                                throw new Exception(String.Format("Method '{0}' not found in type '{1}'.", methodName, typeof(PatchManager).Name));
+                            }
+                            methodDictionary.Add(operatorTypeEnum, methodInfo);
+                            break;
+                        }
+
+                    case OperatorTypeEnum.PatchOutlet:
+                        {
+                            string methodName = operatorTypeEnum.ToString();
+                            Type[] parameterTypes = new Type[] { typeof(Outlet) };
+                            MethodInfo methodInfo = typeof(PatchManager).GetMethod(methodName, parameterTypes);
                             if (methodInfo == null)
                             {
                                 throw new Exception(String.Format("Method '{0}' not found in type '{1}'.", methodName, typeof(PatchManager).Name));

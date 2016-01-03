@@ -535,9 +535,10 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 viewModel.Number = wrapper.ListIndex.Value + 1;
             }
 
-            if (wrapper.OutletTypeEnum != OutletTypeEnum.Undefined)
+            OutletTypeEnum outletTypeEnum = wrapper.Result.GetOutletTypeEnum();
+            if (outletTypeEnum != OutletTypeEnum.Undefined)
             {
-                viewModel.OutletType = wrapper.OutletTypeEnum.ToIDAndDisplayName();
+                viewModel.OutletType = outletTypeEnum.ToIDAndDisplayName();
             }
             else
             {

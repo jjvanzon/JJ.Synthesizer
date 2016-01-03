@@ -15,6 +15,7 @@ using JJ.Business.Synthesizer.Managers;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
 using JJ.Data.Canonical;
+using JJ.Business.Synthesizer.Extensions;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -143,8 +144,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
             var x = new PatchManager(new PatchRepositories(_repositories));
             x.CreatePatch();
 
-            var signalOutlet = x.PatchOutlet(x.Multiply(x.Sine(x.PatchInlet(InletTypeEnum.Frequency)), x.PatchInlet(InletTypeEnum.Volume)));
-            signalOutlet.OutletTypeEnum = OutletTypeEnum.Signal;
+            var signalOutlet = x.PatchOutlet
+            (
+                OutletTypeEnum.Signal,
+                x.Multiply
+                (
+                    x.Sine
+                    (
+                        x.PatchInlet(InletTypeEnum.Frequency)
+                    ),
+                    x.PatchInlet(InletTypeEnum.Volume)
+                )
+            );
 
             // This makes side-effects go off.
             VoidResult result = x.SavePatch();

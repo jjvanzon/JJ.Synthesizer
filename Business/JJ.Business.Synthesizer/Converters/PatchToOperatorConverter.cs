@@ -148,25 +148,26 @@ namespace JJ.Business.Synthesizer.Converters
             return null;
         }
 
-        private void ConvertOutlets(IList<Operator> sourcePatchOutlets, Operator destOperator)
+        private void ConvertOutlets(IList<Operator> sourcePatchOutlets, Operator destCustomOperator)
         {
-            IList<int> idsToKeep = new List<int>(destOperator.Outlets.Count);
+            IList<int> idsToKeep = new List<int>(destCustomOperator.Outlets.Count);
 
             foreach (Operator sourcePatchOutlet in sourcePatchOutlets)
             {
                 var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
+                Outlet sourcePatchOutletOutlet = sourcePatchOutletWrapper.Result;
 
-                Outlet destCustomOperatorOutlet = TryGetCustomOperatorOutlet(destOperator.Outlets, sourcePatchOutlet);
+                Outlet destCustomOperatorOutlet = TryGetCustomOperatorOutlet(destCustomOperator.Outlets, sourcePatchOutlet);
                 if (destCustomOperatorOutlet == null)
                 {
                     destCustomOperatorOutlet = new Outlet();
                     destCustomOperatorOutlet.ID = _repositories.IDRepository.GetID();
-                    destCustomOperatorOutlet.LinkTo(destOperator);
+                    destCustomOperatorOutlet.LinkTo(destCustomOperator);
                     _repositories.OutletRepository.Insert(destCustomOperatorOutlet);
                 }
 
                 destCustomOperatorOutlet.Name = sourcePatchOutlet.Name;
-                destCustomOperatorOutlet.SetOutletTypeEnum(sourcePatchOutletWrapper.OutletTypeEnum, _repositories.OutletTypeRepository);
+                destCustomOperatorOutlet.OutletType = sourcePatchOutletOutlet.OutletType;
 
                 if (!sourcePatchOutletWrapper.ListIndex.HasValue)
                 {
@@ -177,7 +178,7 @@ namespace JJ.Business.Synthesizer.Converters
                 idsToKeep.Add(destCustomOperatorOutlet.ID);
             }
 
-            int[] existingIDs = destOperator.Outlets.Select(x => x.ID).ToArray();
+            int[] existingIDs = destCustomOperator.Outlets.Select(x => x.ID).ToArray();
             int[] idsToDeleteIfNotInUse = existingIDs.Except(idsToKeep).ToArray();
 
             foreach (int idToDeleteIfNotInUse in idsToDeleteIfNotInUse)
@@ -194,6 +195,7 @@ namespace JJ.Business.Synthesizer.Converters
 
         private Outlet TryGetCustomOperatorOutlet(IList<Outlet> destCustomOperatorOutlets, Operator sourcePatchOutlet)
         {
+            // Try match by name
             foreach (Outlet destCustomOperatorOutlet in destCustomOperatorOutlets)
             {
                 if (String.Equals(destCustomOperatorOutlet.Name, sourcePatchOutlet.Name))
@@ -202,16 +204,18 @@ namespace JJ.Business.Synthesizer.Converters
                 }
             }
 
+            // Try match by type
             foreach (Outlet destOutlet in destCustomOperatorOutlets)
             {
                 // TODO: I should really only match if it is unique.
                 var wrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
-                if (destOutlet.GetOutletTypeEnum() == wrapper.OutletTypeEnum)
+                if (destOutlet.GetOutletTypeEnum() == wrapper.Result.GetOutletTypeEnum())
                 {
                     return destOutlet;
                 }
             }
 
+            // Try match by list index
             foreach (Outlet destOutlet in destCustomOperatorOutlets)
             {
                 var wrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);

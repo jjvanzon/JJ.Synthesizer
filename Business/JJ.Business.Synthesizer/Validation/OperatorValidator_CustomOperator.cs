@@ -178,7 +178,7 @@ namespace JJ.Business.Synthesizer.Validation
 
                 // Check OutletTypeEnum Existence
                 var patchOutletWrapper = new PatchOutlet_OperatorWrapper(underlyingPatchOutletOperator);
-                OutletTypeEnum expectedOutletTypeEnum = patchOutletWrapper.OutletTypeEnum;
+                OutletTypeEnum expectedOutletTypeEnum = patchOutletWrapper.Result.GetOutletTypeEnum();
                 bool outletTypeEnumExists = customOperator.Outlets.Where(x => x.GetOutletTypeEnum() == expectedOutletTypeEnum).Any();
                 if (!outletTypeEnumExists)
                 {

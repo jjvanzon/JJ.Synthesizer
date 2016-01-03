@@ -110,7 +110,7 @@ namespace JJ.Business.Synthesizer.Managers
             }
 
             IEnumerable<Outlet> signalOutlets = Patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
-                                                     .Where(x => x.OutletTypeEnum == OutletTypeEnum.Signal)
+                                                     .Where(x => x.Result.GetOutletTypeEnum() == OutletTypeEnum.Signal)
                                                      .Select(x => x.Result);
 
             // TODO: Add up the signals instead of taking the first one.
@@ -286,7 +286,7 @@ namespace JJ.Business.Synthesizer.Managers
             PatchOutlet_OperatorWrapper destPatchOutletWrapper = PatchOutlet();
             destPatchOutletWrapper.Name = sourceOutlet.Name;
             destPatchOutletWrapper.ListIndex = sourceOutlet.ListIndex;
-            destPatchOutletWrapper.OutletTypeEnum = sourceOutlet.GetOutletTypeEnum();
+            destPatchOutletWrapper.Result.OutletType = sourceOutlet.OutletType;
 
             destPatchOutletWrapper.Input = sourceOutlet;
 

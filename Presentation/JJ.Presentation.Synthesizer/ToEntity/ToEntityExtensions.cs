@@ -878,6 +878,11 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 op.ID = viewModel.ID;
                 repositories.OperatorRepository.Insert(op);
             }
+            op.Name = viewModel.Name;
+            op.SetOperatorTypeEnum(OperatorTypeEnum.PatchInlet, repositories.OperatorTypeRepository);
+
+            var wrapper = new PatchInlet_OperatorWrapper(op);
+            wrapper.ListIndex = viewModel.Number - 1;
 
             Inlet inlet = op.Inlets.FirstOrDefault();
             if (inlet == null)
@@ -886,12 +891,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 inlet.ID = repositories.IDRepository.GetID();
                 repositories.InletRepository.Insert(inlet);
             }
-
-            op.Name = viewModel.Name;
-            op.SetOperatorTypeEnum(OperatorTypeEnum.PatchInlet, repositories.OperatorTypeRepository);
-
-            var wrapper = new PatchInlet_OperatorWrapper(op);
-            wrapper.ListIndex = viewModel.Number - 1;
 
             if (!String.IsNullOrEmpty(viewModel.DefaultValue))
             {
@@ -929,38 +928,52 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return op;
         }
 
-        public static Operator ToEntity(
-            this OperatorPropertiesViewModel_ForPatchOutlet viewModel,
-            IOperatorRepository operatorRepository, IOperatorTypeRepository operatorTypeRepository)
+        public static Operator ToOperatorWithOutlet(this OperatorPropertiesViewModel_ForPatchOutlet viewModel, PatchRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
-            if (operatorRepository == null) throw new NullException(() => operatorRepository);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            Operator entity = operatorRepository.TryGet(viewModel.ID);
-            if (entity == null)
+            Operator op = repositories.OperatorRepository.TryGet(viewModel.ID);
+            if (op == null)
             {
-                entity = new Operator();
-                entity.ID = viewModel.ID;
-                operatorRepository.Insert(entity);
+                op = new Operator();
+                op.ID = viewModel.ID;
+                repositories.OperatorRepository.Insert(op);
             }
+            op.Name = viewModel.Name;
+            op.SetOperatorTypeEnum(OperatorTypeEnum.PatchOutlet, repositories.OperatorTypeRepository);
 
-            entity.Name = viewModel.Name;
-            entity.SetOperatorTypeEnum(OperatorTypeEnum.PatchOutlet, operatorTypeRepository);
-
-            var wrapper = new PatchOutlet_OperatorWrapper(entity);
+            var wrapper = new PatchOutlet_OperatorWrapper(op);
             wrapper.ListIndex = viewModel.Number - 1;
+
+            Outlet outlet = op.Outlets.FirstOrDefault();
+            if (outlet == null)
+            {
+                outlet = new Outlet();
+                outlet.ID = repositories.IDRepository.GetID();
+                repositories.OutletRepository.Insert(outlet);
+            }
 
             bool outletTypeIsFilledIn = viewModel.OutletType != null && viewModel.OutletType.ID != 0;
             if (outletTypeIsFilledIn)
             {
-                wrapper.OutletTypeEnum = (OutletTypeEnum)viewModel.OutletType.ID;
+                OutletTypeEnum outletTypeEnum = (OutletTypeEnum)viewModel.OutletType.ID;
+                outlet.SetOutletTypeEnum(outletTypeEnum, repositories.OutletTypeRepository);
             }
             else
             {
-                wrapper.OutletTypeEnum = OutletTypeEnum.Undefined;
+                outlet.OutletType = null;
             }
 
-            return entity;
+            // Delete excessive outlets.
+            var patchManager = new PatchManager(repositories);
+            IList<Outlet> outletsToDelete = op.Outlets.Except(outlet).ToArray();
+            foreach (Outlet outletToDelete in outletsToDelete)
+            {
+                patchManager.DeleteOutlet(outletToDelete);
+            }
+
+            return op;
         }
 
         public static Operator ToEntity(
@@ -1160,7 +1173,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (OperatorPropertiesViewModel_ForPatchOutlet propertiesViewModel in userInput.OperatorPropertiesList_ForPatchOutlets)
             {
-                propertiesViewModel.ToEntity(repositories.OperatorRepository, repositories.OperatorTypeRepository);
+                propertiesViewModel.ToOperatorWithOutlet(patchRepositories);
             }
 
             foreach (OperatorPropertiesViewModel_ForSample propertiesViewModel in userInput.OperatorPropertiesList_ForSamples)
