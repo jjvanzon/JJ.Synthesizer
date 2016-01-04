@@ -497,6 +497,58 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
         }
 
+        public static void Migrate_PatchOutlet_OutletType_FromDataProperty_ToPatchOutletOutlet(Action<string> progressCallback)
+        {
+            if (progressCallback == null) throw new NullException(() => progressCallback);
+
+            progressCallback(String.Format("Starting {0}...", MethodBase.GetCurrentMethod().Name));
+
+            using (IContext context = PersistenceHelper.CreateContext())
+            {
+                RepositoryWrapper repositories = PersistenceHelper.CreateRepositoryWrapper(context);
+
+                var patchManager = new PatchManager(new PatchRepositories(repositories));
+
+                IList<Operator> patchOutlets = repositories.OperatorRepository
+                                                                  .GetAll()
+                                                                  .Where(x => x.GetOperatorTypeEnum() == OperatorTypeEnum.PatchOutlet)
+                                                                  .ToArray();
+                for (int i = 0; i < patchOutlets.Count; i++)
+                {
+                    Operator patchOutlet = patchOutlets[i];
+
+                    string progressMessage = String.Format("Migrating PatchOutlet Operator {0}/{1}.", i + 1, patchOutlets.Count);
+                    progressCallback(progressMessage);
+
+                    var wrapper = new PatchOutlet_OperatorWrapper(patchOutlet);
+
+                    OutletTypeEnum outletTypeEnum = OperatorDataParser.GetEnum<OutletTypeEnum>(patchOutlet, "OutletTypeEnum");
+
+                    wrapper.Result.SetOutletTypeEnum(outletTypeEnum, repositories.OutletTypeRepository);
+
+                    // Make side-effects go off.
+                    patchManager.Patch = patchOutlet.Patch;
+                    VoidResult result = patchManager.SaveOperator(patchOutlet);
+                    try
+                    {
+                        ResultHelper.Assert(result);
+                    }
+                    catch
+                    {
+                        progressCallback("Exception!");
+                    }
+
+                    OperatorDataParser.RemoveKey(patchOutlet, "OutletTypeEnum");
+                }
+
+                AssertDocuments(repositories, progressCallback);
+
+                context.Commit();
+            }
+
+            progressCallback(String.Format("{0} finished.", MethodBase.GetCurrentMethod().Name));
+        }
+
         private static void AssertDocuments(RepositoryWrapper repositories, Action<string> progressCallback)
         {
             var documentManager = new DocumentManager(repositories);
@@ -506,12 +558,21 @@ namespace JJ.OneOff.Synthesizer.DataMigration
             {
                 Document rootDocument = rootDocuments[i];
 
+                string progressMessage = String.Format("Validating document '{0}' {1}/{2}.", rootDocument.Name, i + 1, rootDocuments.Count);
+                progressCallback(progressMessage);
+
                 // Validate
                 VoidResult result = documentManager.ValidateRecursive(rootDocument);
-                ResultHelper.Assert(result);
-
-                string progressMessage = String.Format("Validated document {0}/{1}.", i + 1, rootDocuments.Count);
-                progressCallback(progressMessage);
+                try
+                {
+                    ResultHelper.Assert(result);
+                }
+                catch
+                {
+                    string progressMessage2 = String.Format("Exception while validating document '{0}' {1}/{2}.", rootDocument.Name, i + 1, rootDocuments.Count);
+                    progressCallback(progressMessage2);
+                    throw;
+                }
             }
         }
     }
