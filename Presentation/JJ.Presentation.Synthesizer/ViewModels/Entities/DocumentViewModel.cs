@@ -25,7 +25,7 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public List<ScalePropertiesViewModel> ScalePropertiesList { get; internal set; }
         public IList<ToneGridEditViewModel> ToneGridEditList { get; set; }
         /// <summary> This lookup is used by OperatorProperties_ForCustomOperators in all PatchDocuments. </summary>
-        public IList<IDAndName> UnderlyingPatchLookup { get; set; }
+        public IList<ChildDocumentIDAndNameViewModel> UnderlyingPatchLookup { get; set; }
         public PatchDetailsViewModel AutoPatchDetails { get; set; }
     }
 }

@@ -184,13 +184,13 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             return idNames;
         }
 
-        public static IList<IDAndName> CreateUnderlyingPatchLookupViewModel(IList<Patch> underlyingPatches)
+        public static IList<ChildDocumentIDAndNameViewModel> CreateUnderlyingPatchLookupViewModel(IList<Patch> underlyingPatches)
         {
             if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
 
-            var list = new List<IDAndName>(underlyingPatches.Count + 1);
-            list.Add(new IDAndName { ID = 0, Name = null });
-            list.AddRange(underlyingPatches.OrderBy(x => x.Name).Select(x => x.ToIDAndName()));
+            var list = new List<ChildDocumentIDAndNameViewModel>(underlyingPatches.Count + 1);
+            list.Add(new ChildDocumentIDAndNameViewModel { ChildDocumentID = 0, Name = null });
+            list.AddRange(underlyingPatches.OrderBy(x => x.Name).Select(x => x.Document.ToChildDocumentIDAndNameViewModel()));
 
             return list;
         }

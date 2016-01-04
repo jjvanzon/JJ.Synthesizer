@@ -453,7 +453,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             Patch underlyingPatch = wrapper.UnderlyingPatch;
             if (underlyingPatch != null)
             {
-                viewModel.UnderlyingPatch = underlyingPatch.ToIDAndName();
+                viewModel.UnderlyingPatch = underlyingPatch.Document.ToChildDocumentIDAndNameViewModel();
             }
 
             return viewModel;
@@ -668,17 +668,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static PatchGridViewModel ToPatchGridViewModel(
-            this IEnumerable<Document> entities,
+            this IEnumerable<Document> childDocumentsInGroup,
             int rootDocumentID,
             string group)
         {
-            if (entities == null) throw new NullException(() => entities);
+            if (childDocumentsInGroup == null) throw new NullException(() => childDocumentsInGroup);
 
             var viewModel = new PatchGridViewModel
             {
-                List = entities.OrderBy(x => x.Name)
-                               .Select(x => x.ToIDAndName())
-                               .ToList(),
+                List = childDocumentsInGroup.OrderBy(x => x.Name)
+                                            .Select(x => x.ToChildDocumentIDAndNameViewModel())
+                                            .ToList(),
                 RootDocumentID = rootDocumentID,
                 Group = group
             };

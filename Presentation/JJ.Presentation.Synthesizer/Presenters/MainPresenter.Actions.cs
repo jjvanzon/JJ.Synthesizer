@@ -1939,7 +1939,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
-                // ToEntity  (Most of the entity model is needed for Document_SideEffect_UpdateDependentCustomOperators.)
+                // ToEntity
+                // (Most of the entity model is needed for Document_SideEffect_UpdateDependentCustomOperators.)
+                // (Also: PatchGridRefresh requires all Patch[].GroupName's, committed and uncommitted.)
                 ViewModel.ToEntityWithRelatedEntities(_repositories);
                 int childDocumentID = _patchPropertiesPresenter.ViewModel.ChildDocumentID;
 
@@ -2010,7 +2012,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Patch patch = patchManager.Patch;
 
                 // ToViewModel
-                IDAndName listItemViewModel = childDocument.ToIDAndName();
+                ChildDocumentIDAndNameViewModel listItemViewModel = childDocument.ToChildDocumentIDAndNameViewModel();
                 PatchGridViewModel gridViewModel = DocumentViewModelHelper.GetPatchGridViewModel_ByGroup(ViewModel.Document, group);
                 gridViewModel.List.Add(listItemViewModel);
                 gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
@@ -2018,8 +2020,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 PatchDocumentViewModel documentViewModel = childDocument.ToPatchDocumentViewModel(_repositories, _entityPositionManager);
                 ViewModel.Document.PatchDocumentList.Add(documentViewModel);
 
-                IDAndName idAndName = childDocument.ToIDAndName();
-                ViewModel.Document.UnderlyingPatchLookup.Add(idAndName);
+                ChildDocumentIDAndNameViewModel lookupItemViewModel = childDocument.ToChildDocumentIDAndNameViewModel();
+                ViewModel.Document.UnderlyingPatchLookup.Add(lookupItemViewModel);
                 ViewModel.Document.UnderlyingPatchLookup = ViewModel.Document.UnderlyingPatchLookup.OrderBy(x => x.Name).ToList();
 
                 DocumentTreeRefresh();
@@ -2050,7 +2052,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     // ToViewModel
                     ViewModel.Document.PatchDocumentList.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
                     ViewModel.Document.CurrentPatches.List.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
-                    ViewModel.Document.UnderlyingPatchLookup.RemoveFirst(x => x.ID == childDocumentID);
+                    ViewModel.Document.UnderlyingPatchLookup.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
                     ViewModel.Document.DocumentTree.PatchesNode.PatchNodes.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
                     foreach (PatchGroupTreeNodeViewModel nodeViewModel in ViewModel.Document.DocumentTree.PatchesNode.PatchGroupNodes)
                     {
@@ -2058,7 +2060,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
                     foreach (PatchGridViewModel gridViewModel in ViewModel.Document.PatchGridList)
                     {
-                        gridViewModel.List.TryRemoveFirst(x => x.ID == childDocumentID);
+                        gridViewModel.List.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
                     }
                 }
             }

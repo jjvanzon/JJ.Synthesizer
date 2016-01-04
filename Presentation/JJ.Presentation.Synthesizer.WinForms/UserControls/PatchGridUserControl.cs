@@ -10,7 +10,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
     internal partial class PatchGridUserControl : UserControl
     {
-        private const string ID_COLUMN_NAME = "IDColumn";
+        private const string CHILD_DOCUMENT_ID_COLUMN_NAME = "ChildDocumentIDColumn";
 
         public event EventHandler<StringEventArgs> CreateRequested;
         public event EventHandler<Int32EventArgs> DeleteRequested;
@@ -66,7 +66,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (DeleteRequested != null)
             {
-                int? id = TryGetSelectedID();
+                int? id = TryGetSelectedChildDocumentID();
                 if (id.HasValue)
                 {
                     DeleteRequested(this, new Int32EventArgs(id.Value));
@@ -86,7 +86,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
         {
             if (ShowDetailsRequested != null)
             {
-                int? id = TryGetSelectedID();
+                int? id = TryGetSelectedChildDocumentID();
                 if (id.HasValue)
                 {
                     var e = new Int32EventArgs(id.Value);
@@ -133,13 +133,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
         // Helpers
 
-        private int? TryGetSelectedID()
+        private int? TryGetSelectedChildDocumentID()
         {
             if (specializedDataGridView.CurrentRow != null)
             {
-                DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[ID_COLUMN_NAME];
-                int id = (int)cell.Value;
-                return id;
+                DataGridViewCell cell = specializedDataGridView.CurrentRow.Cells[CHILD_DOCUMENT_ID_COLUMN_NAME];
+                int childDocumentID = (int)cell.Value;
+                return childDocumentID;
             }
 
             return null;

@@ -5,6 +5,8 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Resources;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
+using System;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.ToViewModel
 {
@@ -127,17 +129,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = (int)enumValue,
                 Name = displayName
-            };
-        }
-
-        public static IDAndName ToIDAndName(this Patch entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            return new IDAndName
-            {
-                ID = entity.ID,
-                Name = entity.Name
             };
         }
 

@@ -93,6 +93,7 @@
     <Compile Include="Validators\ToneViewModelValidator.cs" />
     <Compile Include="Validators\ValidationHelper.cs" />
     <Compile Include="ViewModels\CurrentPatchesViewModel.cs" />
+    <Compile Include="ViewModels\Entities\ChildDocumentIDAndNameViewModel.cs" />
     <Compile Include="ViewModels\Entities\ScaleViewModel.cs" />
     <Compile Include="ViewModels\Entities\ToneViewModel.cs" />
     <Compile Include="ViewModels\Entities\PatchDocumentViewModel.cs" />

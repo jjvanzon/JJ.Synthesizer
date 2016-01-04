@@ -137,7 +137,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new ReferencedDocumentViewModel
             {
                 Name = entity.Name,
-                Patches = entity.ChildDocuments.OrderBy(x => x.Name).Select(x => x.ToIDAndName()).ToList(),
+                Patches = entity.ChildDocuments.OrderBy(x => x.Name).Select(x => x.ToChildDocumentIDAndNameViewModel()).ToList(),
                 ID = entity.ID
             };
 
@@ -155,6 +155,17 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
 
             return viewModel;
+        }
+
+        public static ChildDocumentIDAndNameViewModel ToChildDocumentIDAndNameViewModel(this Document entity)
+        {
+            if (entity == null) throw new NullException(() => entity);
+
+            return new ChildDocumentIDAndNameViewModel
+            {
+                ChildDocumentID = entity.ID,
+                Name = entity.Name
+            };
         }
 
         // Patch

@@ -154,9 +154,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void PatchGridsRefresh()
         {
-            foreach (PatchGridViewModel viewModel in ViewModel.Document.PatchGridList.ToArray())
+            // Patch grids can be updated, created and deleted as group names are changed.
+            // All the logic in ToPatchGridViewModelList is required for this.
+            Document document = _repositories.DocumentRepository.Get(ViewModel.Document.ID);
+            ViewModel.Document.PatchGridList = document.ToPatchGridViewModelList();
+
+            foreach (PatchGridViewModel gridViewModel in ViewModel.Document.PatchGridList.ToArray())
             {
-                PatchGridRefresh(viewModel);
+                DispatchViewModel(gridViewModel);
             }
         }
 

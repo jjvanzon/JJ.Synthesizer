@@ -61,7 +61,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ScaleGrid = CreateEmptyScaleGridViewModel(),
                 ScalePropertiesList = new List<ScalePropertiesViewModel>(),
                 ToneGridEditList = new List<ToneGridEditViewModel>(),
-                UnderlyingPatchLookup = new List<IDAndName>()
+                UnderlyingPatchLookup = new List<ChildDocumentIDAndNameViewModel>()
             };
 
             return viewModel;
@@ -193,7 +193,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             var viewModel = new PatchGridViewModel
             {
-                List = new List<IDAndName>()
+                List = new List<ChildDocumentIDAndNameViewModel>()
             };
 
             return viewModel;

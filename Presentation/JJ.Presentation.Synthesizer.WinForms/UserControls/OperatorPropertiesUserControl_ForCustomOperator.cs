@@ -10,6 +10,7 @@ using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using JJ.Framework.Presentation.WinForms.Extensions;
 using JJ.Presentation.Synthesizer.Resources;
+using JJ.Presentation.Synthesizer.ViewModels.Entities;
 
 namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 {
@@ -74,7 +75,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
 
             if (_viewModel.UnderlyingPatch != null)
             {
-                comboBoxUnderlyingPatch.SelectedValue = _viewModel.UnderlyingPatch.ID;
+                comboBoxUnderlyingPatch.SelectedValue = _viewModel.UnderlyingPatch.ChildDocumentID;
             }
             else
             {
@@ -82,13 +83,13 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        public void SetUnderlyingPatchLookup(IList<IDAndName> underlyingPatchLookup)
+        public void SetUnderlyingPatchLookup(IList<ChildDocumentIDAndNameViewModel> underlyingPatchLookup)
         {
             // Always refill the document lookup, so changes to the document collection are reflected.
 
-            int? selectedID = TryGetSelectedSampleID();
+            int? selectedID = TryGetSelectedChildDocumentID();
             comboBoxUnderlyingPatch.DataSource = null; // Do this or WinForms will not refresh the list.
-            comboBoxUnderlyingPatch.ValueMember = PropertyNames.ID;
+            comboBoxUnderlyingPatch.ValueMember = PropertyNames.ChildDocumentID;
             comboBoxUnderlyingPatch.DisplayMember = PropertyNames.Name;
             comboBoxUnderlyingPatch.DataSource = underlyingPatchLookup;
             if (selectedID != null)
@@ -97,12 +98,12 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private int? TryGetSelectedSampleID()
+        private int? TryGetSelectedChildDocumentID()
         {
             if (comboBoxUnderlyingPatch.DataSource == null) return null;
-            IDAndName idAndName = (IDAndName)comboBoxUnderlyingPatch.SelectedItem;
-            if (idAndName == null) return null;
-            return idAndName.ID;
+            ChildDocumentIDAndNameViewModel childDocumentIDAndNameViewModel = (ChildDocumentIDAndNameViewModel)comboBoxUnderlyingPatch.SelectedItem;
+            if (childDocumentIDAndNameViewModel == null) return null;
+            return childDocumentIDAndNameViewModel.ChildDocumentID;
         }
 
         private void ApplyControlsToViewModel()
@@ -110,7 +111,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             if (_viewModel == null) return;
 
             _viewModel.Name = textBoxName.Text;
-            _viewModel.UnderlyingPatch = (IDAndName)comboBoxUnderlyingPatch.SelectedItem;
+            _viewModel.UnderlyingPatch = (ChildDocumentIDAndNameViewModel)comboBoxUnderlyingPatch.SelectedItem;
         }
 
         // Actions

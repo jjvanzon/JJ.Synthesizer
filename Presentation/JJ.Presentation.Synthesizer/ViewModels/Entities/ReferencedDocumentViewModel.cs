@@ -8,6 +8,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels.Entities
         public int ID { get; set; }
         public string Name { get; set; }
 
-        public IList<IDAndName> Patches { get; set; }
+        public IList<ChildDocumentIDAndNameViewModel> Patches { get; set; }
     }
 }
