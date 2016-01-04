@@ -5,10 +5,12 @@ using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Data.Synthesizer;
+using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer
 {
+    // TODO: Rename to 'InletOutletMatcher'?
     internal static class InletOutletResolver
     {
         // TODO: Put any matching between inlets and outlets of custom operators or underlying patches in this class.
@@ -91,9 +93,45 @@ namespace JJ.Business.Synthesizer
             return null;
         }
 
+        /// <summary> Currently used by PatchCalculationHelper (2016-01-04). </summary>
+        public static Operator GetPatchInlet(Inlet source_CustomOperator_Inlet, IPatchRepository patchRepository)
+        {
+            if (source_CustomOperator_Inlet == null) throw new NullException(() => source_CustomOperator_Inlet);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
+
+            Operator source_CustomOperator = source_CustomOperator_Inlet.Operator;
+            CustomOperator_OperatorWrapper source_CustomOperator_Wrapper = new CustomOperator_OperatorWrapper(source_CustomOperator, patchRepository);
+            Patch dest_UnderlyingPatch = source_CustomOperator_Wrapper.UnderlyingPatch;
+
+            Operator dest_UnderlyingPatch_PatchInlet = dest_UnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+                                                                          .Where(x => String.Equals(x.Name, source_CustomOperator_Inlet.Name))
+                                                                          .SingleOrDefault(); // TODO: Single or default might be too harsh.
+
+            return dest_UnderlyingPatch_PatchInlet;
+        }
+
+        /// <summary> Currently used by PatchCalculationHelper (2016-01-04). </summary>
+        public static Operator GetPatchOutlet(Outlet source_CustomOperator_Outlet, IPatchRepository patchRepository)
+        {
+            if (source_CustomOperator_Outlet == null) throw new NullException(() => source_CustomOperator_Outlet);
+            if (patchRepository == null) throw new NullException(() => patchRepository);
+
+            Operator source_CustomOperator = source_CustomOperator_Outlet.Operator;
+            CustomOperator_OperatorWrapper source_CustomOperator_Wrapper = new CustomOperator_OperatorWrapper(source_CustomOperator, patchRepository);
+            Patch dest_UnderlyingPatch = source_CustomOperator_Wrapper.UnderlyingPatch;
+
+            Operator dest_UnderlyingPatch_PatchOutlet = dest_UnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                                                            .Where(x => String.Equals(x.Name, source_CustomOperator_Outlet.Name))
+                                                                           . First();
+            return dest_UnderlyingPatch_PatchOutlet;
+        }
+
         /// <summary> Currently used by PatchManager.AutoPatch (2016-01-04). </summary>
+        /// <param name="outlet">nullable</param>
+        /// <param name="inlet">nullable</param>
         public static bool AreMatch(Outlet outlet, Inlet inlet)
         {
+            // TODO: Figure out why they would ever be null. I bet they shouldn't.
             if (outlet == null)
             {
                 return false;
