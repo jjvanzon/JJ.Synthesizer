@@ -229,81 +229,181 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         }
 
         public static string GetOperatorCaption(
-            Operator entity, ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
+            Operator op, ISampleRepository sampleRepository, ICurveRepository curveRepository, IPatchRepository patchRepository)
         {
-            if (entity == null) throw new NullException(() => entity);
+            if (op == null) throw new NullException(() => op);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
-            OperatorTypeEnum operatorTypeEnum = entity.GetOperatorTypeEnum();
+            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
 
-            // Value Operator: display name and value or only value.
-            if (operatorTypeEnum == OperatorTypeEnum.Number)
+            switch (operatorTypeEnum)
             {
-                var wrapper = new Number_OperatorWrapper(entity);
-                string formattedValue = wrapper.Number.ToString("0.####");
+                case OperatorTypeEnum.Number:
+                    return GetOperatorCaption_ForNumber(op);
 
-                if (String.IsNullOrWhiteSpace(entity.Name))
-                {
-                    return formattedValue;
-                }
-                else
-                {
-                    return String.Format("{0}: {1}", entity.Name, formattedValue);
-                }
+                case OperatorTypeEnum.PatchInlet:
+                    return GetOperatorCaption_ForPatchInlet(op);
+
+                case OperatorTypeEnum.PatchOutlet:
+                    return GetOperatorCaption_ForPatchOutlet(op);
+
+                case OperatorTypeEnum.Sample:
+                    return GetOperatorCaption_ForSample(op, sampleRepository);
+
+                case OperatorTypeEnum.Curve:
+                    return GetOperatorCaption_ForCurve(op, curveRepository);
+
+                case OperatorTypeEnum.CustomOperator:
+                    return GetOperatorCaption_ForCustomOperator(op, patchRepository);
+
+                default:
+                    return GetOperatorCaption_ForOtherOperators(op);
+            }
+        }
+
+        /// <summary> Value Operator: display name and value or only value. </summary>
+        private static string GetOperatorCaption_ForNumber(Operator op)
+        {
+            var wrapper = new Number_OperatorWrapper(op);
+            string formattedValue = wrapper.Number.ToString("0.####");
+
+            if (String.IsNullOrWhiteSpace(op.Name))
+            {
+                return formattedValue;
+            }
+            else
+            {
+                return String.Format("{0}: {1}", op.Name, formattedValue);
+            }
+        }
+
+        private static string GetOperatorCaption_ForPatchInlet(Operator op)
+        {
+            // Prefer Operator's explicit Name.
+            if (!String.IsNullOrWhiteSpace(op.Name))
+            {
+                return op.Name;
             }
 
-            // Prefer Operator's explicit Name.
-            if (!String.IsNullOrWhiteSpace(entity.Name))
+            // Use PatchInlet InletType as fallback
+            var wrapper = new PatchInlet_OperatorWrapper(op);
+            InletTypeEnum inletTypeEnum = wrapper.Inlet.GetInletTypeEnum();
+            if (inletTypeEnum != InletTypeEnum.Undefined)
             {
-                return entity.Name;
+                string inletTypeDisplayName = ResourceHelper.GetInletTypeDisplayName(inletTypeEnum);
+                return inletTypeDisplayName;
+            }
+
+            // Use OperatorType DisplayName as fallback.
+            string caption = ResourceHelper.GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
+            return caption;
+        }
+
+        private static string GetOperatorCaption_ForPatchOutlet(Operator op)
+        {
+            // Prefer Operator's explicit Name.
+            if (!String.IsNullOrWhiteSpace(op.Name))
+            {
+                return op.Name;
+            }
+
+            // Use PatchOutlet OutletType as fallback
+            var wrapper = new PatchOutlet_OperatorWrapper(op);
+            OutletTypeEnum inletTypeEnum = wrapper.Result.GetOutletTypeEnum();
+            if (inletTypeEnum != OutletTypeEnum.Undefined)
+            {
+                string inletTypeDisplayName = ResourceHelper.GetOutletTypeDisplayName(inletTypeEnum);
+                return inletTypeDisplayName;
+            }
+
+            // Use OperatorType DisplayName as fallback.
+            string caption = ResourceHelper.GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
+            return caption;
+        }
+
+        private static string GetOperatorCaption_ForSample(Operator op, ISampleRepository sampleRepository)
+        {
+            // Prefer Operator's explicit Name.
+            if (!String.IsNullOrWhiteSpace(op.Name))
+            {
+                return op.Name;
             }
 
             // Use Sample Name as fallback.
-            if (operatorTypeEnum == OperatorTypeEnum.Sample)
+            var wrapper = new Sample_OperatorWrapper(op, sampleRepository);
+            Sample underlyingEntity = wrapper.Sample;
+            if (underlyingEntity != null)
             {
-                var wrapper = new Sample_OperatorWrapper(entity, sampleRepository);
-                Sample underlyingEntity = wrapper.Sample;
-                if (underlyingEntity != null)
+                if (!String.IsNullOrWhiteSpace(underlyingEntity.Name))
                 {
-                    if (!String.IsNullOrWhiteSpace(underlyingEntity.Name))
-                    {
-                        return underlyingEntity.Name;
-                    }
-                }
-            }
-
-            // Use Curve Name as fallback.
-            if (operatorTypeEnum == OperatorTypeEnum.Curve)
-            {
-                var wrapper = new Curve_OperatorWrapper(entity, curveRepository);
-                Curve underlyingEntity = wrapper.Curve;
-                if (underlyingEntity != null)
-                {
-                    if (!String.IsNullOrWhiteSpace(underlyingEntity.Name))
-                    {
-                        return underlyingEntity.Name;
-                    }
-                }
-            }
-
-            // Use UnderlyingPatch Name as fallback.
-            if (operatorTypeEnum == OperatorTypeEnum.CustomOperator)
-            {
-                var wrapper = new CustomOperator_OperatorWrapper(entity, patchRepository);
-                Patch underlyingPatch = wrapper.UnderlyingPatch;
-                if (underlyingPatch != null)
-                {
-                    if (!String.IsNullOrWhiteSpace(underlyingPatch.Name))
-                    {
-                        return underlyingPatch.Name;
-                    }
+                    return underlyingEntity.Name;
                 }
             }
 
             // Use OperatorType DisplayName as fallback.
-            string caption = ResourceHelper.GetOperatorTypeDisplayName(entity.GetOperatorTypeEnum());
+            string caption = ResourceHelper.GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
+            return caption;
+        }
+
+        private static string GetOperatorCaption_ForCurve(Operator op, ICurveRepository curveRepository)
+        {
+            // Prefer Operator's explicit Name.
+            if (!String.IsNullOrWhiteSpace(op.Name))
+            {
+                return op.Name;
+            }
+
+            // Use Curve Name as fallback.
+            var wrapper = new Curve_OperatorWrapper(op, curveRepository);
+            Curve underlyingEntity = wrapper.Curve;
+            if (underlyingEntity != null)
+            {
+                if (!String.IsNullOrWhiteSpace(underlyingEntity.Name))
+                {
+                    return underlyingEntity.Name;
+                }
+            }
+
+            // Use OperatorType DisplayName as fallback.
+            string caption = ResourceHelper.GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
+            return caption;
+        }
+
+        private static string GetOperatorCaption_ForCustomOperator(Operator op, IPatchRepository patchRepository)
+        {
+            // Prefer Operator's explicit Name.
+            if (!String.IsNullOrWhiteSpace(op.Name))
+            {
+                return op.Name;
+            }
+
+            var wrapper = new CustomOperator_OperatorWrapper(op, patchRepository);
+            Patch underlyingPatch = wrapper.UnderlyingPatch;
+            if (underlyingPatch != null)
+            {
+                if (!String.IsNullOrWhiteSpace(underlyingPatch.Name))
+                {
+                    return underlyingPatch.Name;
+                }
+            }
+
+            // Use OperatorType DisplayName as fallback.
+            string caption = ResourceHelper.GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
+            return caption;
+        }
+
+        private static string GetOperatorCaption_ForOtherOperators(Operator op)
+        {
+            // Prefer Operator's explicit Name.
+            if (!String.IsNullOrWhiteSpace(op.Name))
+            {
+                return op.Name;
+            }
+
+            // Use OperatorType DisplayName as fallback.
+            string caption = ResourceHelper.GetOperatorTypeDisplayName(op.GetOperatorTypeEnum());
             return caption;
         }
 
