@@ -6,7 +6,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;

@@ -15,7 +15,7 @@ using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 
-namespace JJ.Business.Synthesizer.Managers
+namespace JJ.Business.Synthesizer
 {
     public class ScaleManager
     {

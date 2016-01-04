@@ -20,18 +20,12 @@ namespace JJ.Business.Synthesizer.Validation
             base.Execute();
 
             var patchInletWrapper = new PatchInlet_OperatorWrapper(Object);
-            Inlet patchInletInlet = patchInletWrapper.Inlet;
 
-            For(() => Object.Name, CommonTitles.Name).NotNullOrEmpty();
+            For(() => patchInletWrapper.ListIndex, PropertyDisplayNames.ListIndex).NotNull().GreaterThanOrEqual(0);
+            For(() => patchInletWrapper.Inlet.GetInletTypeEnum(), PropertyDisplayNames.InletType).IsEnum<InletTypeEnum>();
 
-            // TODO: Use this code instead of the code line above later, to make Name optional.
-            //if (String.IsNullOrEmpty(Object.Name) && patchInletInlet.GetInletTypeEnum() == InletTypeEnum.Undefined)
-            //{
-            //    ValidationMessages.Add(PropertyNames.PatchInlet, MessageFormatter.NameOrInletTypeMustBeFilledIn());
-            //}
-
-            For(() => patchInletInlet.ListIndex, PropertyDisplayNames.ListIndex).NotNull().GreaterThanOrEqual(0);
-            For(() => patchInletInlet.GetInletTypeEnum(), PropertyDisplayNames.InletType).IsEnum<InletTypeEnum>();
+            // PatchInlet.Inlet.InletType is optional.
+            // patchInlet.Name is optional.
         }
     }
 }

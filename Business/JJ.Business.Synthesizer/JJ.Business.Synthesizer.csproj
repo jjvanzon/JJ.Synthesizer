@@ -180,18 +180,17 @@
     <Compile Include="Helpers\SampleRepositories.cs" />
     <Compile Include="Helpers\AudioFileInfo.cs" />
     <Compile Include="Helpers\NodeInfo.cs" />
+    <Compile Include="InletOutletResolver.cs" />
     <Compile Include="LinkTo\UnlinkExtensions.cs" />
-    <Compile Include="Managers\AudioFileOutputManager.cs" />
-    <Compile Include="Managers\CurveManager.cs" />
-    <Compile Include="Managers\DocumentManager.cs" />
-    <Compile Include="Managers\EntityPositionManager.cs" />
-    <Compile Include="Managers\PatchManager.AutoPatch.cs" />
+    <Compile Include="AudioFileOutputManager.cs" />
+    <Compile Include="CurveManager.cs" />
+    <Compile Include="DocumentManager.cs" />
+    <Compile Include="EntityPositionManager.cs" />
+    <Compile Include="PatchManager.AutoPatch.cs" />
     <Compile Include="SideEffects\Document_SideEffect_CreatePatch.cs" />
-    <Compile Include="SideEffects\2016-01-02 Backup of Operator_SideEffect_CopyPatchInletPropertiesToItsInlet.cs" />
     <Compile Include="Validation\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\DocumentValidator_RootDocument.cs" />
-    <Compile Include="Validation\2016-01-02 Backup of OperatorValidator_PatchInlet_Inlet.cs" />
     <Compile Include="Validation\OutletValidator_ForOtherOperator.cs" />
     <Compile Include="Validation\InletValidator_ForOtherOperator.cs" />
     <Compile Include="Validation\SampleValidator_UniqueName.cs" />
@@ -199,11 +198,11 @@
     <Compile Include="Validation\CurveValidator_UniqueName.cs" />
     <Compile Include="Validation\DocumentValidator_Unicity.cs" />
     <Compile Include="Validation\OperatorValidator_SetInletCount.cs" />
-    <Compile Include="Managers\PatchManager.CreateOperator.cs" />
-    <Compile Include="Managers\PatchManager.cs" />
-    <Compile Include="Managers\SampleManager.cs" />
-    <Compile Include="Managers\ScaleManager.cs" />
-    <Compile Include="Managers\WavHeaderManager.cs" />
+    <Compile Include="PatchManager.CreateOperator.cs" />
+    <Compile Include="PatchManager.cs" />
+    <Compile Include="SampleManager.cs" />
+    <Compile Include="ScaleManager.cs" />
+    <Compile Include="WavHeaderManager.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -429,7 +428,9 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Managers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

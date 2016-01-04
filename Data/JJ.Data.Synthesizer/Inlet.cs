@@ -7,7 +7,10 @@ namespace JJ.Data.Synthesizer
     public class Inlet
     {
         public virtual int ID { get; set; }
+
+        /// <summary> optional </summary>
         public virtual string Name { get; set; }
+
         public virtual double? DefaultValue { get; set; }
 
         /// <summary> nullable </summary>

@@ -1,6 +1,6 @@
 ﻿using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.LinkTo;
 using JJ.Business.Synthesizer.Tests.Helpers;
 using JJ.Framework.Data;

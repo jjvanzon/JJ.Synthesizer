@@ -5,7 +5,7 @@ using JJ.Business.Synthesizer.Api.Helpers;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.Enums;
-using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Api

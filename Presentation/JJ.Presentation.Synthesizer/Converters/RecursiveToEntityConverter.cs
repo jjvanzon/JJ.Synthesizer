@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ToEntity;
-using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer;
 
 namespace JJ.Presentation.Synthesizer.Converters
 {

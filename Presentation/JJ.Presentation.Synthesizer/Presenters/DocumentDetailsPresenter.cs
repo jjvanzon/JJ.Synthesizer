@@ -7,7 +7,7 @@ using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Framework.Validation;
 using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Validation;
-using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 

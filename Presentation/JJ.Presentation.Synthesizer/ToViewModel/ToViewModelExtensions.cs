@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 using JJ.Business.Synthesizer.Resources;
-using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;

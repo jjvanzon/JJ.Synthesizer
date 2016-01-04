@@ -12,7 +12,7 @@ using JJ.Data.Canonical;
 using JJ.Business.Canonical;
 using JJ.Framework.Common;
 
-namespace JJ.Business.Synthesizer.Managers
+namespace JJ.Business.Synthesizer
 {
     public partial class PatchManager
     {
@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer.Managers
                     {
                         foreach (Inlet inlet in customOperator2.Inlets)
                         {
-                            if (AreMatch(outlet, inlet))
+                            if (InletOutletResolver.AreMatch(outlet, inlet))
                             {
                                 inlet.LinkTo(outlet);
 
@@ -291,46 +291,6 @@ namespace JJ.Business.Synthesizer.Managers
             destPatchOutletWrapper.Input = sourceOutlet;
 
             return destPatchOutletWrapper;
-        }
-
-        private bool AreMatch(Outlet outlet, Inlet inlet)
-        {
-            if (outlet == null)
-            {
-                return false;
-            }
-
-            if (inlet == null)
-            {
-                return false;
-            }
-
-            // First match by OutletType / InletType.
-            OutletTypeEnum outletTypeEnum = outlet.GetOutletTypeEnum();
-            if (outletTypeEnum != OutletTypeEnum.Undefined)
-            {
-                InletTypeEnum inletTypeEnum = inlet.GetInletTypeEnum();
-                if (inletTypeEnum != InletTypeEnum.Undefined)
-                {
-                    string outletTypeString = outletTypeEnum.ToString();
-                    string inletTypeString = inletTypeEnum.ToString();
-
-                    if (String.Equals(outletTypeString, inletTypeString))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            // Then match by name
-            if (String.Equals(outlet.Name, inlet.Name))
-            {
-                return true;
-            }
-
-            // Do not match by list index, because that would result in something arbitrary.
-
-            return false;
         }
 
         private string GetFrequencyInletName(int noteListIndex)

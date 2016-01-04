@@ -18,12 +18,13 @@ namespace JJ.Business.Synthesizer.Validation
         {
             base.Execute();
 
-            var wrapper = new PatchOutlet_OperatorWrapper(Object);
-            Outlet patchOutletOutlet = wrapper.Result;
+            var patchOutletWrapper = new PatchOutlet_OperatorWrapper(Object);
 
-            For(() => Object.Name, CommonTitles.Name).NotNullOrEmpty();
-            For(() => wrapper.ListIndex, PropertyDisplayNames.ListIndex).NotNull().GreaterThanOrEqual(0);
-            For(() => patchOutletOutlet.GetOutletTypeEnum(), PropertyDisplayNames.OutletType).IsEnum<OutletTypeEnum>();
+            For(() => patchOutletWrapper.ListIndex, PropertyDisplayNames.ListIndex).NotNull().GreaterThanOrEqual(0);
+            For(() => patchOutletWrapper.Result.GetOutletTypeEnum(), PropertyDisplayNames.OutletType).IsEnum<OutletTypeEnum>();
+
+            // PatchOutlet.Result.OutletType is optional.
+            // patchOutlet.Name is optional.
         }
     }
 }

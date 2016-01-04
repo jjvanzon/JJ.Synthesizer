@@ -19,7 +19,7 @@ using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Canonical;
 
-namespace JJ.Business.Synthesizer.Managers
+namespace JJ.Business.Synthesizer
 {
     public class CurveManager
     {

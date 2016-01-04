@@ -7,7 +7,7 @@ using JJ.Business.Synthesizer.Calculation.Curves;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Reflection.Exceptions;
 

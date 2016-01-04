@@ -13,7 +13,7 @@ using JJ.Framework.Business;
 using System.Collections.Generic;
 using JJ.Business.Canonical;
 
-namespace JJ.Business.Synthesizer.Managers
+namespace JJ.Business.Synthesizer
 {
     public class DocumentManager
     {

@@ -2,7 +2,7 @@
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using System.Collections.Generic;
-using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer;
 
 namespace JJ.Business.Synthesizer.Tests.Helpers
 {

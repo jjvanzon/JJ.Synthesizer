@@ -11,7 +11,7 @@ using ConfigurationSection = JJ.Presentation.Synthesizer.WinForms.Configuration.
 using System.ComponentModel;
 using JJ.Infrastructure.Synthesizer;
 using JJ.Data.Synthesizer;
-using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
 using JJ.Data.Canonical;

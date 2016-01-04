@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.Generic;
 using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Validation;
 using JJ.Data.Synthesizer;
 using JJ.Framework.Common;

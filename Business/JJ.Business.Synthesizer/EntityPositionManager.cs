@@ -4,7 +4,7 @@ using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using System.Collections.Generic;
 
-namespace JJ.Business.Synthesizer.Managers
+namespace JJ.Business.Synthesizer
 {
     public class EntityPositionManager
     {

@@ -20,49 +20,51 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// 
         /// Note that even though a CustomOperator can have multiple outlets, you will only be using one at a time in your calculations.
         /// </summary>
-        public static Outlet TryApplyCustomOperatorToUnderlyingPatch(Outlet customOperatorOutlet, IPatchRepository patchRepository)
+        public static Outlet TryApplyCustomOperatorToUnderlyingPatch(Outlet source_CustomOperator_Outlet, IPatchRepository patchRepository)
         {
-            if (customOperatorOutlet == null) throw new NullException(() => customOperatorOutlet);
+            if (source_CustomOperator_Outlet == null) throw new NullException(() => source_CustomOperator_Outlet);
             if (patchRepository == null) throw new NullException(() => patchRepository);
 
-            Operator customOperator = customOperatorOutlet.Operator;
+            Operator source_CustomOperator = source_CustomOperator_Outlet.Operator;
 
-            var customOperatorWrapper = new CustomOperator_OperatorWrapper(customOperator, patchRepository);
-            Patch underlyingPatch = customOperatorWrapper.UnderlyingPatch;
+            var source_CustomOperator_Wrapper = new CustomOperator_OperatorWrapper(source_CustomOperator, patchRepository);
+            Patch destUnderlyingPatch = source_CustomOperator_Wrapper.UnderlyingPatch;
 
-            if (underlyingPatch == null)
+            if (destUnderlyingPatch == null)
             {
                 return null;
             }
 
             // Cross reference custom operator's inlets with the Underlying Patch's PatchInlets.
-            var tuples = from customOperatorInlet in customOperator.Inlets
-                         join underlyingPatchInlet in underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
+            var tuples = from source_CustomOperator_Inlet in source_CustomOperator.Inlets
+                         join dest_UnderlyingPatch_PatchInlet in destUnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
                          // The PatchToOperatorConverter and the OperatorValidator_CustomOperator guarantee that the names match.
-                         on customOperatorInlet.Name equals underlyingPatchInlet.Name
-                         select new { CustomOperatorInlet = customOperatorInlet, UnderlyingPatchInlet = underlyingPatchInlet };
+                         on source_CustomOperator_Inlet.Name equals dest_UnderlyingPatch_PatchInlet.Name
+                         select new
+                         {
+                             Source_CustomOperator_Inlet = source_CustomOperator_Inlet,
+                             Dest_UnderlyingPatch_PatchInlet = dest_UnderlyingPatch_PatchInlet
+                         };
 
             // Each custom operator's inlet has an input outlet. 
             // This input outlet should be assigned as the corresponding Underlying Patch Inlet.
             foreach (var tuple in tuples)
             {
-                Operator underlyingPatchInlet = tuple.UnderlyingPatchInlet;
-                Inlet customOperatorInlet = tuple.CustomOperatorInlet;
+                Operator dest_UnderlyingPatch_PatchInlet = tuple.Dest_UnderlyingPatch_PatchInlet;
+                Inlet sourceCustomOperatorInlet = tuple.Source_CustomOperator_Inlet;
 
-                var underlyingPatchInletWrapper = new PatchInlet_OperatorWrapper(underlyingPatchInlet);
-                Inlet patchInlet_InputInlet = OperatorHelper.GetInlet(underlyingPatchInlet, OperatorConstants.PATCH_INLET_INPUT_INDEX);
-                patchInlet_InputInlet.DefaultValue = underlyingPatchInletWrapper.Inlet.DefaultValue;
-                patchInlet_InputInlet.InputOutlet = customOperatorInlet.InputOutlet;
+                var dest_UnderlyingPatch_PatchInlet_Wrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
+                dest_UnderlyingPatch_PatchInlet_Wrapper.Inlet.InputOutlet = sourceCustomOperatorInlet.InputOutlet;
             }
 
             // Use the (custom operator's) outlet name and look it up in the Underlying Patch's outlets.
-            Operator underlyingPatchOutlet = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                                            .Where(x => String.Equals(x.Name, customOperatorOutlet.Name))
-                                                            .First();
+            Operator dest_UnderlyingPatch_PatchOutlet = destUnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
+                                                                           .Where(x => String.Equals(x.Name, source_CustomOperator_Outlet.Name))
+                                                                           .First();
 
             // Return the result of that Underlying Patch's outlet.
-            var underlyingPatchOutletWrapper = new PatchOutlet_OperatorWrapper(underlyingPatchOutlet);
-            return underlyingPatchOutletWrapper.Result;
+            var dest_UnderlyingPatch_PatchOutlet_Wrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
+            return dest_UnderlyingPatch_PatchOutlet_Wrapper.Result;
         }
     }
 }

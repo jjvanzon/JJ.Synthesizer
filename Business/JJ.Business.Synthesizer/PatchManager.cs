@@ -17,7 +17,7 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Canonical;
 
-namespace JJ.Business.Synthesizer.Managers
+namespace JJ.Business.Synthesizer
 {
     /// <summary>
     /// Manages a Patch and its Operators.

@@ -14,6 +14,8 @@ namespace JJ.Data.Synthesizer
         }
 
         public virtual int ID { get; set; }
+
+        /// <summary> optional </summary>
         public virtual string Name { get; set; }
 
         /// <summary> nullable </summary>

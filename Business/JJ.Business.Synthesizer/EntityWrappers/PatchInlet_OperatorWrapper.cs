@@ -18,7 +18,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { Inlet.LinkTo(value); }
         }
 
-        // TODO: Add these kinds of properties in the other wrappers too.
         public Inlet Inlet
         {
             get { return OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.PATCH_INLET_INPUT_INDEX); }

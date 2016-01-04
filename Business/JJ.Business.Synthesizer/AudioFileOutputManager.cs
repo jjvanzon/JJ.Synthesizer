@@ -16,7 +16,7 @@ using JJ.Data.Canonical;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Canonical;
 
-namespace JJ.Business.Synthesizer.Managers
+namespace JJ.Business.Synthesizer
 {
     public class AudioFileOutputManager
     {

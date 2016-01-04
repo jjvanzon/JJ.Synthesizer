@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Converters
                 var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
                 Inlet sourcePatchInletInlet = sourcePatchInletWrapper.Inlet;
 
-                Inlet destCustomOperatorInlet = TryGetCustomOperatorInlet(destCustomOperator.Inlets, sourcePatchInlet);
+                Inlet destCustomOperatorInlet = InletOutletResolver.TryGetCustomOperatorInlet(destCustomOperator.Inlets, sourcePatchInlet);
                 if (destCustomOperatorInlet == null)
                 {
                     destCustomOperatorInlet = new Inlet();
@@ -113,41 +113,6 @@ namespace JJ.Business.Synthesizer.Converters
             }
         }
 
-        private Inlet TryGetCustomOperatorInlet(IList<Inlet> destCustomOperatorInlets, Operator sourcePatchInlet)
-        {
-            // Try match by name
-            foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
-            {
-                if (String.Equals(destCustomOperatorInlet.Name, sourcePatchInlet.Name))
-                {
-                    return destCustomOperatorInlet;
-                }
-            }
-
-            // Try match by type
-            foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
-            {
-                // TODO: I should really only match if it is unique.
-                var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
-                if (destCustomOperatorInlet.GetInletTypeEnum() == sourcePatchInletWrapper.Inlet.GetInletTypeEnum())
-                {
-                    return destCustomOperatorInlet;
-                }
-            }
-
-            // Try match by list index
-            foreach (Inlet destInlet in destCustomOperatorInlets)
-            { 
-                var wrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
-                if (destInlet.ListIndex == wrapper.ListIndex)
-                {
-                    return destInlet;
-                }
-            }
-
-            return null;
-        }
-
         private void ConvertOutlets(IList<Operator> sourcePatchOutlets, Operator destCustomOperator)
         {
             IList<int> idsToKeep = new List<int>(destCustomOperator.Outlets.Count);
@@ -157,7 +122,7 @@ namespace JJ.Business.Synthesizer.Converters
                 var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
                 Outlet sourcePatchOutletOutlet = sourcePatchOutletWrapper.Result;
 
-                Outlet destCustomOperatorOutlet = TryGetCustomOperatorOutlet(destCustomOperator.Outlets, sourcePatchOutlet);
+                Outlet destCustomOperatorOutlet = InletOutletResolver.TryGetCustomOperatorOutlet(destCustomOperator.Outlets, sourcePatchOutlet);
                 if (destCustomOperatorOutlet == null)
                 {
                     destCustomOperatorOutlet = new Outlet();
@@ -191,41 +156,6 @@ namespace JJ.Business.Synthesizer.Converters
                     _repositories.OutletRepository.Delete(entityToDeleteIfNotInUse);
                 }
             }
-        }
-
-        private Outlet TryGetCustomOperatorOutlet(IList<Outlet> destCustomOperatorOutlets, Operator sourcePatchOutlet)
-        {
-            // Try match by name
-            foreach (Outlet destCustomOperatorOutlet in destCustomOperatorOutlets)
-            {
-                if (String.Equals(destCustomOperatorOutlet.Name, sourcePatchOutlet.Name))
-                {
-                    return destCustomOperatorOutlet;
-                }
-            }
-
-            // Try match by type
-            foreach (Outlet destOutlet in destCustomOperatorOutlets)
-            {
-                // TODO: I should really only match if it is unique.
-                var wrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
-                if (destOutlet.GetOutletTypeEnum() == wrapper.Result.GetOutletTypeEnum())
-                {
-                    return destOutlet;
-                }
-            }
-
-            // Try match by list index
-            foreach (Outlet destOutlet in destCustomOperatorOutlets)
-            {
-                var wrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
-                if (destOutlet.ListIndex == wrapper.ListIndex)
-                {
-                    return destOutlet;
-                }
-            }
-
-            return null;
         }
     }
 }

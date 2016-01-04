@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JJ.Business.Canonical;
 
-namespace JJ.Business.Synthesizer.Managers
+namespace JJ.Business.Synthesizer
 {
     public class SampleManager
     {

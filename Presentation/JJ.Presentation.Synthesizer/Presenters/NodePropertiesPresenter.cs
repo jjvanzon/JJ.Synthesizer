@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer.Managers;
+using JJ.Business.Synthesizer;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
