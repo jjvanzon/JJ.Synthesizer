@@ -36,13 +36,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             foreach (Inlet source_CustomOperator_Inlet in source_CustomOperator.Inlets)
             {
-                Operator dest_UnderlyingPatch_PatchInlet = InletOutletResolver.GetPatchInlet(source_CustomOperator_Inlet, patchRepository);
+                Operator dest_UnderlyingPatch_PatchInlet = InletOutletMatcher.GetPatchInlet(source_CustomOperator_Inlet, patchRepository);
 
                 PatchInlet_OperatorWrapper dest_UnderlyingPatch_PatchInlet_Wrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
                 dest_UnderlyingPatch_PatchInlet_Wrapper.Inlet.InputOutlet = source_CustomOperator_Inlet.InputOutlet;
             }
 
-            Operator dest_UnderlyingPatch_PatchOutlet = InletOutletResolver.GetPatchOutlet(source_CustomOperator_Outlet, patchRepository);
+            Operator dest_UnderlyingPatch_PatchOutlet = InletOutletMatcher.GetPatchOutlet(source_CustomOperator_Outlet, patchRepository);
 
             PatchOutlet_OperatorWrapper dest_UnderlyingPatch_PatchOutlet_Wrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
             return dest_UnderlyingPatch_PatchOutlet_Wrapper.Result;

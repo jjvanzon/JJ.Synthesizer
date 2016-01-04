@@ -228,19 +228,16 @@
     <value>{0} '{1}' is niet uniek.</value>
     <comment>{0} = property, {1} = value</comment>
   </data>
-  <data name="InletTypeNotFoundInUnderlyingPatch" xml:space="preserve">
-    <value>Ingang soort '{0}' niet gevonden in de onderliggende schakeling.</value>
-    <comment>{0} = inlet type, e.g. 'Signal' or 'Frequency'.</comment>
-  </data>
-  <data name="OutletTypeNotFoundInUnderlyingPatch" xml:space="preserve">
-    <value>Uitgang soort '{0}' niet gevonden in de onderliggende schakeling.</value>
-    <comment>{0} = inlet type, e.g. 'Signal' or 'Frequency'.</comment>
-  </data>
   <data name="InletDefaultValueDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
-    <value>Standaard waarde van ingang '{0}' wijkt af van de onderliggende schakeling.</value>
-    <comment>{0} = inlet name</comment>
+    <value>Standaard waarde van ingang wijkt af van de onderliggende schakeling. Ingang naam: '{0}', ingang soort: '{1}', ingang nummer: '{2}'.</value>
   </data>
   <data name="NameOrInletTypeMustBeFilledIn" xml:space="preserve">
     <value>Er moet of een naam of een ingangsoort worden ingevuld.</value>
+  </data>
+  <data name="InletNotFoundInUnderlyingPatch" xml:space="preserve">
+    <value>Ingang niet gevonden in de onderliggende schakeling. Ingang naam: '{0}', ingang soort: '{1}', ingang nummer: '{2}'.</value>
+  </data>
+  <data name="OutletNotFoundInUnderlyingPatch" xml:space="preserve">
+    <value>Uitgang niet gevonden in de onderliggende schakeling. Uitgang naam: '{0}', uitgang soort: '{1}', uitgang nummer: '{2}'.</value>
   </data>
 </root>

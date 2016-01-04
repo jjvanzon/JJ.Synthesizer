@@ -154,10 +154,6 @@
     <value>{0} with ID '{1}' not found in the list of {2}.</value>
     <comment>{0} = name, {1} = id, {2} = name plural</comment>
   </data>
-  <data name="NotFound_WithTypeName_AndName" xml:space="preserve">
-    <value>{0} named '{1}' not found.</value>
-    <comment>{0} = type of object, e.g. 'Recipe', {1} = name of object, e.g. 'eggs and bacon'</comment>
-  </data>
   <data name="ObjectAmplifier0" xml:space="preserve">
     <value>Amplifier of '{0}' named '{1}' is 0.</value>
     <comment>{0} = Object type name. {1} = Object name.</comment>
@@ -235,19 +231,20 @@
     <value>{0} '{1}' is not unique.</value>
     <comment>{0} = property, {1} = value</comment>
   </data>
-  <data name="InletTypeNotFoundInUnderlyingPatch" xml:space="preserve">
-    <value>Inlet type '{0}' not found in underlying patch.</value>
-    <comment>{0} = inlet type, e.g. 'Signal' or 'Frequency'.</comment>
-  </data>
-  <data name="OutletTypeNotFoundInUnderlyingPatch" xml:space="preserve">
-    <value>Outlet type '{0}' not found in underlying patch.</value>
-    <comment>{0} = outlet type, e.g. 'Signal' or 'Frequencies'.</comment>
-  </data>
   <data name="InletDefaultValueDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
-    <value>Default value of inlet '{0}' does not match with underlying patch.</value>
-    <comment>{0} = inlet name</comment>
+    <value>Default value of inlet does not match with underlying patch. Inlet name: '{0}', inlet type: '{1}', inlet number: '{2}'.</value>
   </data>
   <data name="NameOrInletTypeMustBeFilledIn" xml:space="preserve">
     <value>Either a name or an inlet type must be filled in.</value>
+  </data>
+  <data name="NotFound_WithTypeName_AndName" xml:space="preserve">
+    <value>{0} named '{1}' not found.</value>
+    <comment>{0} = type of object, e.g. 'Recipe', {1} = name of object, e.g. 'eggs and bacon'</comment>
+  </data>
+  <data name="InletNotFoundInUnderlyingPatch" xml:space="preserve">
+    <value>Inlet not found in the underlying patch. Inlet name: '{0}', inlet type: '{1}', inlet number: '{2}'.</value>
+  </data>
+  <data name="OutletNotFoundInUnderlyingPatch" xml:space="preserve">
+    <value>Outlet not found in the underlying patch. Outlet name: '{0}', outlet type: '{1}', outlet number: '{2}'.</value>
   </data>
 </root>

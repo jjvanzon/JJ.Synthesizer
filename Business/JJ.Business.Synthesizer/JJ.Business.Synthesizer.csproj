@@ -180,7 +180,7 @@
     <Compile Include="Helpers\SampleRepositories.cs" />
     <Compile Include="Helpers\AudioFileInfo.cs" />
     <Compile Include="Helpers\NodeInfo.cs" />
-    <Compile Include="InletOutletResolver.cs" />
+    <Compile Include="InletOutletMatcher.cs" />
     <Compile Include="LinkTo\UnlinkExtensions.cs" />
     <Compile Include="AudioFileOutputManager.cs" />
     <Compile Include="CurveManager.cs" />

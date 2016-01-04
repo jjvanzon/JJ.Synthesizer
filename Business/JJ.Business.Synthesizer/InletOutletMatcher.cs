@@ -10,12 +10,8 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer
 {
-    // TODO: Rename to 'InletOutletMatcher'?
-    internal static class InletOutletResolver
+    internal static class InletOutletMatcher
     {
-        // TODO: Put any matching between inlets and outlets of custom operators or underlying patches in this class.
-
-        /// <summary> Currently used by PatchToOperatorConverter (2016-01-04). </summary>
         public static Inlet TryGetCustomOperatorInlet(IList<Inlet> destCustomOperatorInlets, Operator sourcePatchInlet)
         {
             if (destCustomOperatorInlets == null) throw new NullException(() => destCustomOperatorInlets);
@@ -54,7 +50,6 @@ namespace JJ.Business.Synthesizer
             return null;
         }
 
-        /// <summary> Currently used by PatchToOperatorConverter (2016-01-04). </summary>
         public static Outlet TryGetCustomOperatorOutlet(IList<Outlet> destCustomOperatorOutlets, Operator sourcePatchOutlet)
         {
             if (destCustomOperatorOutlets == null) throw new NullException(() => destCustomOperatorOutlets);
@@ -93,8 +88,25 @@ namespace JJ.Business.Synthesizer
             return null;
         }
 
-        /// <summary> Currently used by PatchCalculationHelper (2016-01-04). </summary>
         public static Operator GetPatchInlet(Inlet source_CustomOperator_Inlet, IPatchRepository patchRepository)
+        {
+            if (source_CustomOperator_Inlet == null) throw new NullException(() => source_CustomOperator_Inlet);
+
+            Operator dest_UnderlyingPatch_PatchInlet = TryGetPatchInlet(source_CustomOperator_Inlet, patchRepository);
+
+            if (dest_UnderlyingPatch_PatchInlet == null)
+            {
+                throw new Exception(String.Format(
+                    "PatchInlet not found in UnderlyingPatch. CustomOperator Inlet: Name = '{0}', InletTypeEnum = '{1}', ListIndex = '{2}'.",
+                    source_CustomOperator_Inlet.Name,
+                    source_CustomOperator_Inlet.GetInletTypeEnum(),
+                    source_CustomOperator_Inlet.ListIndex));
+            }
+
+            return dest_UnderlyingPatch_PatchInlet;
+        }
+
+        public static Operator TryGetPatchInlet(Inlet source_CustomOperator_Inlet, IPatchRepository patchRepository)
         {
             if (source_CustomOperator_Inlet == null) throw new NullException(() => source_CustomOperator_Inlet);
             if (patchRepository == null) throw new NullException(() => patchRepository);
@@ -103,15 +115,59 @@ namespace JJ.Business.Synthesizer
             CustomOperator_OperatorWrapper source_CustomOperator_Wrapper = new CustomOperator_OperatorWrapper(source_CustomOperator, patchRepository);
             Patch dest_UnderlyingPatch = source_CustomOperator_Wrapper.UnderlyingPatch;
 
-            Operator dest_UnderlyingPatch_PatchInlet = dest_UnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet)
-                                                                          .Where(x => String.Equals(x.Name, source_CustomOperator_Inlet.Name))
-                                                                          .SingleOrDefault(); // TODO: Single or default might be too harsh.
+            IList<Operator> dest_UnderlyingPatch_PatchInlets = dest_UnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
 
-            return dest_UnderlyingPatch_PatchInlet;
+            // Try match by name
+            foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
+            {
+                if (String.Equals(dest_UnderlyingPatch_PatchInlet.Name, source_CustomOperator_Inlet.Name))
+                {
+                    return dest_UnderlyingPatch_PatchInlet;
+                }
+            }
+
+            // Try match by type
+            foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
+            {
+                var dest_UnderlyingPatch_PatchInlet_Wrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
+                if (dest_UnderlyingPatch_PatchInlet_Wrapper.Inlet.GetInletTypeEnum() == source_CustomOperator_Inlet.GetInletTypeEnum())
+                {
+                    return dest_UnderlyingPatch_PatchInlet;
+                }
+            }
+
+            // Try match by list index
+            foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
+            {
+                var dest_UnderlyingPatch_PatchInlet_Wrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
+                if (dest_UnderlyingPatch_PatchInlet_Wrapper.ListIndex == source_CustomOperator_Inlet.ListIndex)
+                {
+                    return dest_UnderlyingPatch_PatchInlet;
+                }
+            }
+
+            return null;
         }
 
-        /// <summary> Currently used by PatchCalculationHelper (2016-01-04). </summary>
         public static Operator GetPatchOutlet(Outlet source_CustomOperator_Outlet, IPatchRepository patchRepository)
+        {
+            if (source_CustomOperator_Outlet == null) throw new NullException(() => source_CustomOperator_Outlet);
+
+            Operator dest_UnderlyingPatch_PatchOutlet = TryGetPatchOutlet(source_CustomOperator_Outlet, patchRepository);
+
+            if (dest_UnderlyingPatch_PatchOutlet == null)
+            {
+                throw new Exception(String.Format(
+                    "PatchOutlet not found in UnderlyingPatch. CustomOperator Outlet: Name = '{0}', OutletTypeEnum = '{1}', ListIndex = '{2}'.",
+                    source_CustomOperator_Outlet.Name,
+                    source_CustomOperator_Outlet.GetOutletTypeEnum(),
+                    source_CustomOperator_Outlet.ListIndex));
+            }
+
+            return dest_UnderlyingPatch_PatchOutlet;
+        }
+
+        public static Operator TryGetPatchOutlet(Outlet source_CustomOperator_Outlet, IPatchRepository patchRepository)
         {
             if (source_CustomOperator_Outlet == null) throw new NullException(() => source_CustomOperator_Outlet);
             if (patchRepository == null) throw new NullException(() => patchRepository);
@@ -120,27 +176,44 @@ namespace JJ.Business.Synthesizer
             CustomOperator_OperatorWrapper source_CustomOperator_Wrapper = new CustomOperator_OperatorWrapper(source_CustomOperator, patchRepository);
             Patch dest_UnderlyingPatch = source_CustomOperator_Wrapper.UnderlyingPatch;
 
-            Operator dest_UnderlyingPatch_PatchOutlet = dest_UnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet)
-                                                                            .Where(x => String.Equals(x.Name, source_CustomOperator_Outlet.Name))
-                                                                           . First();
-            return dest_UnderlyingPatch_PatchOutlet;
+            IList<Operator> dest_UnderlyingPatch_PatchOutlets = dest_UnderlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
+
+            // Try match by name
+            foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
+            {
+                if (String.Equals(dest_UnderlyingPatch_PatchOutlet.Name, source_CustomOperator_Outlet.Name))
+                {
+                    return dest_UnderlyingPatch_PatchOutlet;
+                }
+            }
+
+            // Try match by type
+            foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
+            {
+                var dest_UnderlyingPatch_PatchOutlet_Wrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
+                if (dest_UnderlyingPatch_PatchOutlet_Wrapper.Result.GetOutletTypeEnum() == source_CustomOperator_Outlet.GetOutletTypeEnum())
+                {
+                    return dest_UnderlyingPatch_PatchOutlet;
+                }
+            }
+
+            // Try match by list index
+            foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
+            {
+                var dest_UnderlyingPatch_PatchOutlet_Wrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
+                if (dest_UnderlyingPatch_PatchOutlet_Wrapper.ListIndex == source_CustomOperator_Outlet.ListIndex)
+                {
+                    return dest_UnderlyingPatch_PatchOutlet;
+                }
+            }
+
+            return null;
         }
 
-        /// <summary> Currently used by PatchManager.AutoPatch (2016-01-04). </summary>
-        /// <param name="outlet">nullable</param>
-        /// <param name="inlet">nullable</param>
         public static bool AreMatch(Outlet outlet, Inlet inlet)
         {
-            // TODO: Figure out why they would ever be null. I bet they shouldn't.
-            if (outlet == null)
-            {
-                return false;
-            }
-
-            if (inlet == null)
-            {
-                return false;
-            }
+            if (outlet == null) throw new NullException(() => outlet);
+            if (inlet == null) throw new NullException(() => inlet);
 
             // First match by OutletType / InletType.
             OutletTypeEnum outletTypeEnum = outlet.GetOutletTypeEnum();

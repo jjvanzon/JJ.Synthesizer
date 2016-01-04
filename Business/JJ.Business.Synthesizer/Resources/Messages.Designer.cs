@@ -133,7 +133,7 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default value of inlet &apos;{0}&apos; does not match with underlying patch..
+        ///   Looks up a localized string similar to Default value of inlet does not match with underlying patch. Inlet name: &apos;{0}&apos;, inlet type: &apos;{1}&apos;, inlet number: &apos;{2}&apos;..
         /// </summary>
         internal static string InletDefaultValueDoesNotMatchWithUnderlyingPatch {
             get {
@@ -160,20 +160,20 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inlet not found in the underlying patch. Inlet name: &apos;{0}&apos;, inlet type: &apos;{1}&apos;, inlet number: &apos;{2}&apos;..
+        /// </summary>
+        internal static string InletNotFoundInUnderlyingPatch {
+            get {
+                return ResourceManager.GetString("InletNotFoundInUnderlyingPatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} operator named &apos;{1}&apos; does not have {2} filled in..
         /// </summary>
         internal static string InletNotSet {
             get {
                 return ResourceManager.GetString("InletNotSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Inlet type &apos;{0}&apos; not found in underlying patch..
-        /// </summary>
-        internal static string InletTypeNotFoundInUnderlyingPatch {
-            get {
-                return ResourceManager.GetString("InletTypeNotFoundInUnderlyingPatch", resourceCulture);
             }
         }
         
@@ -322,11 +322,11 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Outlet type &apos;{0}&apos; not found in underlying patch..
+        ///   Looks up a localized string similar to Outlet not found in the underlying patch. Outlet name: &apos;{0}&apos;, outlet type: &apos;{1}&apos;, outlet number: &apos;{2}&apos;..
         /// </summary>
-        internal static string OutletTypeNotFoundInUnderlyingPatch {
+        internal static string OutletNotFoundInUnderlyingPatch {
             get {
-                return ResourceManager.GetString("OutletTypeNotFoundInUnderlyingPatch", resourceCulture);
+                return ResourceManager.GetString("OutletNotFoundInUnderlyingPatch", resourceCulture);
             }
         }
         

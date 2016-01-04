@@ -144,6 +144,11 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.OperatorHasNoInletsFilledIn_WithOperatorName, name);
         }
 
+        public static string InletNotFoundInUnderlyingPatch(string inletName, string inletTypeDisplayName, int? inletListIndex)
+        {
+            return String.Format(Messages.InletNotFoundInUnderlyingPatch, inletName, inletTypeDisplayName, inletListIndex);
+        }
+
         public static string OperatorHasNoInletFilledIn_WithOperatorName(string name)
         {
             return String.Format(Messages.OperatorHasNoInletFilledIn_WithOperatorName, name);
@@ -158,19 +163,14 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.NamesNotUnique_WithEntityTypeNameAndNames, entityTypeDisplayName, formattedDuplicateNames);
         }
 
-        public static string InletDefaultValueDoesNotMatchWithUnderlyingPatch(string inletName)
+        public static string InletDefaultValueDoesNotMatchWithUnderlyingPatch(string inletName, string inletTypeDisplayName, int? inletListIndex)
         {
-            return String.Format(Messages.InletDefaultValueDoesNotMatchWithUnderlyingPatch, inletName);
+            return String.Format(Messages.InletDefaultValueDoesNotMatchWithUnderlyingPatch, inletName, inletTypeDisplayName, inletListIndex);
         }
 
-        public static string InletTypeNotFoundInUnderlyingPatch(string inletTypeDisplayName)
+        public static string OutletNotFoundInUnderlyingPatch(string outletName, string outletTypeDisplayName, int? outletListIndex)
         {
-            return String.Format(Messages.InletTypeNotFoundInUnderlyingPatch, inletTypeDisplayName);
-        }
-
-        public static string OutletTypeNotFoundInUnderlyingPatch(string outletTypeDisplayName)
-        {
-            return String.Format(Messages.OutletTypeNotFoundInUnderlyingPatch, outletTypeDisplayName);
+            return String.Format(Messages.OutletNotFoundInUnderlyingPatch, outletName, outletTypeDisplayName, outletListIndex);
         }
     }
 }

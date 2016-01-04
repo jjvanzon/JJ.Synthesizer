@@ -127,35 +127,31 @@ namespace JJ.Business.Synthesizer.Validation
 
             IList<Operator> underlyingPatchInletOperators = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchInlet);
 
-            foreach (Operator underlyingPatchInletOperator in underlyingPatchInletOperators)
+            foreach (Inlet customOperatorInlet in customOperator.Inlets)
             {
-                var patchInletWrapper = new PatchInlet_OperatorWrapper(underlyingPatchInletOperator);
+                Operator underlyingPatchInletOperator = InletOutletMatcher.TryGetPatchInlet(customOperatorInlet, _patchRepository);
 
-                // Check Name Existence
-                string expectedName = underlyingPatchInletOperator.Name;
-                Inlet customOperatorInletWithMatchingName = customOperator.Inlets.Where(x => String.Equals(x.Name, expectedName)).FirstOrDefault();
-                bool nameExists = customOperatorInletWithMatchingName != null;
-                if (!nameExists)
+                if (underlyingPatchInletOperator == null)
                 {
-                    ValidationMessages.Add(PropertyNames.Inlet, MessageFormatter.NotFound_WithTypeName_AndName(PropertyDisplayNames.Inlet, expectedName));
+                    string message = MessageFormatter.InletNotFoundInUnderlyingPatch(
+                        customOperatorInlet.Name,
+                        ResourceHelper.GetInletTypeDisplayName(customOperatorInlet.GetInletTypeEnum()),
+                        customOperatorInlet.ListIndex);
+
+                    ValidationMessages.Add(PropertyNames.Inlet, message);
                 }
-                
-                // Check DefaultValue equality
-                if (customOperatorInletWithMatchingName != null)
+                else
                 {
-                    if (customOperatorInletWithMatchingName.DefaultValue != patchInletWrapper.Inlet.DefaultValue)
+                    var underlyingPatchInletWrapper = new PatchInlet_OperatorWrapper(underlyingPatchInletOperator);
+                    if (customOperatorInlet.DefaultValue != underlyingPatchInletWrapper.Inlet.DefaultValue)
                     {
-                        ValidationMessages.Add(PropertyNames.Inlet, MessageFormatter.InletDefaultValueDoesNotMatchWithUnderlyingPatch(customOperatorInletWithMatchingName.Name));
-                    }
-                }
+                        string message = MessageFormatter.InletDefaultValueDoesNotMatchWithUnderlyingPatch(
+                            customOperatorInlet.Name,
+                            ResourceHelper.GetInletTypeDisplayName(customOperatorInlet.InletType),
+                            customOperatorInlet.ListIndex);
 
-                // Check InletTypeEnum Existence
-                InletTypeEnum expectedInletTypeEnum = patchInletWrapper.Inlet.GetInletTypeEnum();
-                bool inletTypeEnumExists = customOperator.Inlets.Where(x => x.GetInletTypeEnum() == expectedInletTypeEnum).Any();
-                if (!inletTypeEnumExists)
-                {
-                    string inletTypeDisplayName = ResourceHelper.GetInletTypeDisplayName(expectedInletTypeEnum);
-                    ValidationMessages.Add(PropertyNames.Inlet, MessageFormatter.InletTypeNotFoundInUnderlyingPatch(inletTypeDisplayName));
+                        ValidationMessages.Add(PropertyNames.Inlet, message);
+                    }
                 }
             }
         }
@@ -166,24 +162,17 @@ namespace JJ.Business.Synthesizer.Validation
 
             IList<Operator> underlyingPatchOutletOperators = underlyingPatch.GetOperatorsOfType(OperatorTypeEnum.PatchOutlet);
 
-            foreach (Operator underlyingPatchOutletOperator in underlyingPatchOutletOperators)
+            foreach (Outlet customOperatorOutlet in customOperator.Outlets)
             {
-                // Check Name Existence
-                string name = underlyingPatchOutletOperator.Name;
-                bool nameExists = customOperator.Outlets.Where(x => String.Equals(x.Name, name)).Any();
-                if (!nameExists)
+                Operator underlyingPatchOutlet = InletOutletMatcher.TryGetPatchOutlet(customOperatorOutlet, _patchRepository);
+                if (underlyingPatchOutlet == null)
                 {
-                    ValidationMessages.Add(PropertyNames.Outlet, MessageFormatter.NotFound_WithTypeName_AndName(PropertyDisplayNames.Outlet, name));
-                }
+                    string message = MessageFormatter.OutletNotFoundInUnderlyingPatch(
+                        customOperatorOutlet.Name,
+                        ResourceHelper.GetOutletTypeDisplayName(customOperatorOutlet.GetOutletTypeEnum()),
+                        customOperatorOutlet.ListIndex);
 
-                // Check OutletTypeEnum Existence
-                var patchOutletWrapper = new PatchOutlet_OperatorWrapper(underlyingPatchOutletOperator);
-                OutletTypeEnum expectedOutletTypeEnum = patchOutletWrapper.Result.GetOutletTypeEnum();
-                bool outletTypeEnumExists = customOperator.Outlets.Where(x => x.GetOutletTypeEnum() == expectedOutletTypeEnum).Any();
-                if (!outletTypeEnumExists)
-                {
-                    string outletTypeDisplayName = ResourceHelper.GetOutletTypeDisplayName(expectedOutletTypeEnum);
-                    ValidationMessages.Add(PropertyNames.Outlet, MessageFormatter.OutletTypeNotFoundInUnderlyingPatch(outletTypeDisplayName));
+                    ValidationMessages.Add(PropertyNames.Outlet, message);
                 }
             }
         }

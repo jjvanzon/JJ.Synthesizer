@@ -161,7 +161,7 @@ namespace JJ.Business.Synthesizer
                     {
                         foreach (Inlet inlet in customOperator2.Inlets)
                         {
-                            if (InletOutletResolver.AreMatch(outlet, inlet))
+                            if (InletOutletMatcher.AreMatch(outlet, inlet))
                             {
                                 inlet.LinkTo(outlet);
 

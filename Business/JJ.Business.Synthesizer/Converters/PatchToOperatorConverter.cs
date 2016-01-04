@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Converters
                 var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
                 Inlet sourcePatchInletInlet = sourcePatchInletWrapper.Inlet;
 
-                Inlet destCustomOperatorInlet = InletOutletResolver.TryGetCustomOperatorInlet(destCustomOperator.Inlets, sourcePatchInlet);
+                Inlet destCustomOperatorInlet = InletOutletMatcher.TryGetCustomOperatorInlet(destCustomOperator.Inlets, sourcePatchInlet);
                 if (destCustomOperatorInlet == null)
                 {
                     destCustomOperatorInlet = new Inlet();
@@ -122,7 +122,7 @@ namespace JJ.Business.Synthesizer.Converters
                 var sourcePatchOutletWrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
                 Outlet sourcePatchOutletOutlet = sourcePatchOutletWrapper.Result;
 
-                Outlet destCustomOperatorOutlet = InletOutletResolver.TryGetCustomOperatorOutlet(destCustomOperator.Outlets, sourcePatchOutlet);
+                Outlet destCustomOperatorOutlet = InletOutletMatcher.TryGetCustomOperatorOutlet(destCustomOperator.Outlets, sourcePatchOutlet);
                 if (destCustomOperatorOutlet == null)
                 {
                     destCustomOperatorOutlet = new Outlet();
