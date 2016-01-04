@@ -12,7 +12,7 @@ namespace JJ.Business.Synthesizer.Validation
 
         protected override void Execute()
         {
-            For(() => Object.Name, CommonTitles.Name).NotNullOrWhiteSpace();
+            // TODO: Add certain validations?
         }
     }
 }
