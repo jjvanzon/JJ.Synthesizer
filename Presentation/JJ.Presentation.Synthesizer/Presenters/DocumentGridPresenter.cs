@@ -57,6 +57,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             int totalCount = _documentRepository.CountRootDocuments();
 
             bool visible = ViewModel.Visible;
+
+            // Known bug, not easily solvable and also not a large problem: 
+            // A renamed, uncommitted document will not end up in a new place in the list,
+            // because the sorting done by the data store, which is not ware of the new name.
+
             ViewModel = documents.ToGridViewModel(pageIndex, _pageSize, totalCount);
             ViewModel.Visible = visible;
         }

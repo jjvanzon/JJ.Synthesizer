@@ -476,6 +476,25 @@ namespace JJ.Presentation.Synthesizer.Helpers
             throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCustomOperator> for Patch ID '{0}' not found in any of the PatchDocumentViewModels.", patchID));
         }
 
+        public static IList<OperatorPropertiesViewModel_ForCustomOperator> GetOperatorPropertiesViewModelList_ForCustomOperators_ByOperatorID(DocumentViewModel rootDocumentViewModel, int operatorID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
+            {
+                foreach (OperatorPropertiesViewModel_ForCustomOperator operatorPropertiesViewModel in patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators)
+                {
+                    if (operatorPropertiesViewModel.ID == operatorID)
+                    {
+                        return patchDocumentViewModel.OperatorPropertiesList_ForCustomOperators;
+                    }
+                }
+
+            }
+
+            throw new Exception(String.Format("IList<OperatorPropertiesViewModel_ForCustomOperator> for Operator ID '{0}' not found in any of the PatchDocumentViewModels.", operatorID));
+        }
+
         public static IList<OperatorPropertiesViewModel_ForNumber> GetOperatorPropertiesViewModelList_ForNumbers_ByPatchID(DocumentViewModel rootDocumentViewModel, int patchID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);

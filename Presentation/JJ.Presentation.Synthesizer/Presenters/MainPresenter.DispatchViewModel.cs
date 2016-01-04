@@ -7,6 +7,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -93,6 +94,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DispatchAudioFileOutputPropertiesViewModel(object viewModel2)
         {
             var castedViewModel = (AudioFileOutputPropertiesViewModel)viewModel2;
+
+            var list = ViewModel.Document.AudioFileOutputPropertiesList;
+            int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
 
             if (castedViewModel.Visible)
             {
@@ -325,6 +337,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DispatchOperatorPropertiesViewModel_ForCustomOperator(object viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCustomOperator)viewModel2;
+
+            IList<OperatorPropertiesViewModel_ForCustomOperator> list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCustomOperators_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
 
             if (castedViewModel.Visible)
             {

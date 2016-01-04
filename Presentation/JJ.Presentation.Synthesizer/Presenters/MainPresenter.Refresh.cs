@@ -73,7 +73,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DocumentGridRefresh()
         {
             _documentGridPresenter.Refresh();
-            ViewModel.DocumentGrid = _documentGridPresenter.ViewModel;
+            DispatchViewModel(_documentGridPresenter.ViewModel);
         }
 
         private void DocumentTreeRefresh()
@@ -84,12 +84,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorProperties_ForCustomOperatorViewModels_Refresh(int underlyingPatchID)
         {
-            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in
-                ViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators))
+            IList<OperatorPropertiesViewModel_ForCustomOperator> propertiesViewModelList = 
+                ViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators).ToArray();
+
+            foreach (OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel in propertiesViewModelList)
             {
-                _operatorPropertiesPresenter_ForCustomOperator.ViewModel = propertiesViewModel;
-                _operatorPropertiesPresenter_ForCustomOperator.Refresh();
+                OperatorProperties_ForCustomOperatorViewModel_Refresh(propertiesViewModel);
             }
+        }
+
+        private void OperatorProperties_ForCustomOperatorViewModel_Refresh(OperatorPropertiesViewModel_ForCustomOperator propertiesViewModel)
+        {
+            _operatorPropertiesPresenter_ForCustomOperator.ViewModel = propertiesViewModel;
+            _operatorPropertiesPresenter_ForCustomOperator.Refresh();
+
+            DispatchViewModel(_operatorPropertiesPresenter_ForCustomOperator.ViewModel);
         }
 
         /// <summary>
@@ -155,9 +164,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (patchGridViewModel == null) throw new NullException(() => patchGridViewModel);
             _patchGridPresenter.ViewModel = patchGridViewModel;
-            _patchGridPresenter.Refresh();
+            object viewModel2 = _patchGridPresenter.Refresh();
 
-            DispatchViewModel(patchGridViewModel);
+            DispatchViewModel(viewModel2);
         }
 
         private void SampleGridRefresh(SampleGridViewModel sampleGridViewModel)
