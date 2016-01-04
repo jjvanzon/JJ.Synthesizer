@@ -125,6 +125,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (CurveDetailsViewModel)viewModel2;
 
+            var list = DocumentViewModelHelper.GetCurveDetailsViewModelList_ByCurveID(ViewModel.Document, castedViewModel.Entity.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
             if (castedViewModel.Visible)
             {
                 HideAllListAndDetailViewModels();
@@ -160,6 +171,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DispatchCurvePropertiesViewModel(object viewModel2)
         {
             var castedViewModel = (CurvePropertiesViewModel)viewModel2;
+
+            var list = DocumentViewModelHelper.GetCurvePropertiesViewModelList_ByCurveID(ViewModel.Document, castedViewModel.Entity.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
 
             if (castedViewModel.Visible)
             {
@@ -262,6 +284,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (NodePropertiesViewModel)viewModel2;
 
+            var list = DocumentViewModelHelper.GetNodePropertiesViewModelList_ByNodeID(ViewModel.Document, castedViewModel.Entity.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
             if (castedViewModel.Visible)
             {
                 HideAllPropertiesViewModels();
@@ -296,6 +329,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel)viewModel2;
 
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
             if (castedViewModel.Visible)
             {
                 HideAllPropertiesViewModels();
@@ -309,6 +353,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DispatchOperatorPropertiesViewModel_ForBundle(object viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForBundle)viewModel2;
+
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForBundles_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
 
             if (castedViewModel.Visible)
             {
@@ -324,6 +379,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCurve)viewModel2;
 
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCurves_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
             if (castedViewModel.Visible)
             {
                 HideAllPropertiesViewModels();
@@ -338,7 +404,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCustomOperator)viewModel2;
 
-            IList<OperatorPropertiesViewModel_ForCustomOperator> list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCustomOperators_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCustomOperators_ByOperatorID(ViewModel.Document, castedViewModel.ID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -363,6 +429,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForPatchInlet)viewModel2;
 
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchInlets_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
             if (castedViewModel.Visible)
             {
                 HideAllPropertiesViewModels();
@@ -376,6 +453,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DispatchOperatorPropertiesViewModel_ForPatchOutlet(object viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForPatchOutlet)viewModel2;
+
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchOutlets_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
 
             if (castedViewModel.Visible)
             {
@@ -391,6 +479,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForSample)viewModel2;
 
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForSamples_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
             if (castedViewModel.Visible)
             {
                 HideAllPropertiesViewModels();
@@ -404,6 +503,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DispatchOperatorPropertiesViewModel_ForNumber(object viewModel2)
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForNumber)viewModel2;
+
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForNumbers_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
 
             if (castedViewModel.Visible)
             {
@@ -419,6 +529,17 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForUnbundle)viewModel2;
 
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForUnbundles_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
             if (castedViewModel.Visible)
             {
                 HideAllPropertiesViewModels();
@@ -432,6 +553,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DispatchPatchDetailsViewModel(object viewModel2)
         {
             var castedViewModel = (PatchDetailsViewModel)viewModel2;
+            
+            var list = ViewModel.Document.PatchDocumentList;
+            int listIndex = ViewModel.Document.PatchDocumentList.IndexOf(x => x.PatchDetails.Entity.PatchID == castedViewModel.Entity.PatchID);
+            list[listIndex].PatchDetails = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -461,6 +586,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (PatchPropertiesViewModel)viewModel2;
 
+            var list = ViewModel.Document.PatchDocumentList;
+            int listIndex = ViewModel.Document.PatchDocumentList.IndexOf(x => x.PatchProperties.PatchID == castedViewModel.PatchID);
+            list[listIndex].PatchProperties = castedViewModel;
+
             if (castedViewModel.Visible)
             {
                 HideAllPropertiesViewModels();
@@ -468,20 +597,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
-            castedViewModel.ValidationMessages.Clear();
-        }
-
-        private void DispatchSamplePropertiesViewModel(object viewModel2)
-        {
-            var castedViewModel = (SamplePropertiesViewModel)viewModel2;
-
-            if (castedViewModel.Visible)
-            {
-                HideAllPropertiesViewModels();
-                castedViewModel.Visible = true;
-            }
-
-            ViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -507,6 +622,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
+        private void DispatchSamplePropertiesViewModel(object viewModel2)
+        {
+            var castedViewModel = (SamplePropertiesViewModel)viewModel2;
+
+            var list = DocumentViewModelHelper.GetSamplePropertiesViewModelList_BySampleID(ViewModel.Document, castedViewModel.Entity.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
+
+            if (castedViewModel.Visible)
+            {
+                HideAllPropertiesViewModels();
+                castedViewModel.Visible = true;
+            }
+
+            ViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
+            castedViewModel.ValidationMessages.Clear();
+        }
+
         private void DispatchScaleGridViewModel(object viewModel2)
         {
             var castedViewModel = (ScaleGridViewModel)viewModel2;
@@ -520,23 +660,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private void DispatchToneGridEditViewModel(object viewModel2)
+        private void DispatchScalePropertiesViewModel(object viewModel2)
         {
-            var castedViewModel = (ToneGridEditViewModel)viewModel2;
+            var castedViewModel = (ScalePropertiesViewModel)viewModel2;
 
-            int? index = ViewModel.Document.ToneGridEditList.TryGetIndexOf(x => x.ScaleID == castedViewModel.ScaleID);
-            if (index.HasValue)
+            var list = ViewModel.Document.ScalePropertiesList;
+            int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
+            if (listIndex.HasValue)
             {
-                ViewModel.Document.ToneGridEditList[index.Value] = castedViewModel;
+                list[listIndex.Value] = castedViewModel;
             }
             else
             {
-                ViewModel.Document.ToneGridEditList.Add(castedViewModel);
+                list.Add(castedViewModel);
             }
 
             if (castedViewModel.Visible)
             {
-                HideAllListAndDetailViewModels();
+                HideAllPropertiesViewModels();
                 castedViewModel.Visible = true;
             }
 
@@ -544,13 +685,24 @@ namespace JJ.Presentation.Synthesizer.Presenters
             castedViewModel.ValidationMessages.Clear();
         }
 
-        private void DispatchScalePropertiesViewModel(object viewModel2)
+        private void DispatchToneGridEditViewModel(object viewModel2)
         {
-            var castedViewModel = (ScalePropertiesViewModel)viewModel2;
+            var castedViewModel = (ToneGridEditViewModel)viewModel2;
+
+            var list = ViewModel.Document.ToneGridEditList;
+            int? listIndex = list.TryGetIndexOf(x => x.ScaleID == castedViewModel.ScaleID);
+            if (listIndex.HasValue)
+            {
+                list[listIndex.Value] = castedViewModel;
+            }
+            else
+            {
+                list.Add(castedViewModel);
+            }
 
             if (castedViewModel.Visible)
             {
-                HideAllPropertiesViewModels();
+                HideAllListAndDetailViewModels();
                 castedViewModel.Visible = true;
             }
 

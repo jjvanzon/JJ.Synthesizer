@@ -347,11 +347,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 gridViewModel.List.Add(listItemViewModel);
                 gridViewModel.List = gridViewModel.List.OrderBy(x => x.Name).ToList();
 
-                IList<CurveDetailsViewModel> detailsViewModels = DocumentViewModelHelper.GetCurveDetailsViewModels_ByDocumentID(ViewModel.Document, document.ID);
+                IList<CurveDetailsViewModel> detailsViewModels = DocumentViewModelHelper.GetCurveDetailsViewModelList_ByDocumentID(ViewModel.Document, document.ID);
                 CurveDetailsViewModel curveDetailsViewModel = curve.ToDetailsViewModel(_repositories.NodeTypeRepository);
                 detailsViewModels.Add(curveDetailsViewModel);
 
-                IList<CurvePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetCurvePropertiesViewModels_ByDocumentID(ViewModel.Document, document.ID);
+                IList<CurvePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetCurvePropertiesViewModelList_ByDocumentID(ViewModel.Document, document.ID);
                 CurvePropertiesViewModel curvePropertiesViewModel = curve.ToPropertiesViewModel();
                 propertiesViewModels.Add(curvePropertiesViewModel);
 
@@ -414,13 +414,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                         nodePropertiesViewModelList.RemoveFirst(x => x.Entity.ID == nodeID);
                     }
 
-                    IList<CurveDetailsViewModel> detailsViewModels = DocumentViewModelHelper.GetCurveDetailsViewModels_ByDocumentID(ViewModel.Document, documentID);
+                    IList<CurveDetailsViewModel> detailsViewModels = DocumentViewModelHelper.GetCurveDetailsViewModelList_ByDocumentID(ViewModel.Document, documentID);
                     detailsViewModels.RemoveFirst(x => x.Entity.ID == curveID);
 
                     CurveGridViewModel gridViewModel = DocumentViewModelHelper.GetCurveGridViewModel_ByDocumentID(ViewModel.Document, documentID);
                     gridViewModel.List.RemoveFirst(x => x.ID == curveID);
 
-                    IList<CurvePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetCurvePropertiesViewModels_ByDocumentID(ViewModel.Document, documentID);
+                    IList<CurvePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetCurvePropertiesViewModelList_ByDocumentID(ViewModel.Document, documentID);
                     propertiesViewModels.RemoveFirst(x => x.Entity.ID == curveID);
 
                     // NOTE: 
