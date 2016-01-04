@@ -415,7 +415,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
 
                     IList<CurveDetailsViewModel> detailsViewModels = DocumentViewModelHelper.GetCurveDetailsViewModelList_ByDocumentID(ViewModel.Document, documentID);
-                    detailsViewModels.RemoveFirst(x => x.Entity.ID == curveID);
+                    detailsViewModels.RemoveFirst(x => x.ID == curveID);
 
                     CurveGridViewModel gridViewModel = DocumentViewModelHelper.GetCurveGridViewModel_ByDocumentID(ViewModel.Document, documentID);
                     gridViewModel.List.RemoveFirst(x => x.ID == curveID);
@@ -959,7 +959,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 // CurveDetails NodeViewModel
                 NodeViewModel nodeViewModel = node.ToViewModel();
-                _curveDetailsPresenter.ViewModel.Entity.Nodes.Add(nodeViewModel);
+                _curveDetailsPresenter.ViewModel.Nodes.Add(nodeViewModel);
 
                 // NodeProperties
                 NodePropertiesViewModel propertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
@@ -989,7 +989,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 // TODO: Verify this in the business.
-                if (_curveDetailsPresenter.ViewModel.Entity.Nodes.Count <= 2)
+                if (_curveDetailsPresenter.ViewModel.Nodes.Count <= 2)
                 {
                     ViewModel.ValidationMessages.Add(new Message
                     {
@@ -1004,7 +1004,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // TODO: You might only convert the CurveDetails view models?
                 int nodeID = _curveDetailsPresenter.ViewModel.SelectedNodeID.Value;
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
-                Curve curve = _repositories.CurveRepository.Get(_curveDetailsPresenter.ViewModel.Entity.ID);
+                Curve curve = _repositories.CurveRepository.Get(_curveDetailsPresenter.ViewModel.ID);
                 Document document = curve.Document;
                 Node node = _repositories.NodeRepository.Get(nodeID);
 
@@ -1014,7 +1014,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // ToViewModel
 
                 // CurveDetails NodeViewModel
-                _curveDetailsPresenter.ViewModel.Entity.Nodes.RemoveFirst(x => x.ID == nodeID);
+                _curveDetailsPresenter.ViewModel.Nodes.RemoveFirst(x => x.ID == nodeID);
                 _curveDetailsPresenter.ViewModel.SelectedNodeID = null;
 
                 // NodeProperties
@@ -1047,7 +1047,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 if (_curveDetailsPresenter.ViewModel == null) throw new NullException(() => _curveDetailsPresenter.ViewModel);
 
-                NodeViewModel nodeViewModel = _curveDetailsPresenter.ViewModel.Entity.Nodes.Where(x => x.ID == nodeID).Single();
+                NodeViewModel nodeViewModel = _curveDetailsPresenter.ViewModel.Nodes.Where(x => x.ID == nodeID).Single();
                 nodeViewModel.Time = time;
                 nodeViewModel.Value = value;
 
@@ -1076,7 +1076,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             int nodeID = _curveDetailsPresenter.ViewModel.SelectedNodeID.Value;
 
-            NodeViewModel nodeViewModel1 = _curveDetailsPresenter.ViewModel.Entity.Nodes.Where(x => x.ID == nodeID).Single();
+            NodeViewModel nodeViewModel1 = _curveDetailsPresenter.ViewModel.Nodes.Where(x => x.ID == nodeID).Single();
 
             NodeTypeEnum nodeTypeEnum = (NodeTypeEnum)nodeViewModel1.NodeType.ID;
             switch (nodeTypeEnum)

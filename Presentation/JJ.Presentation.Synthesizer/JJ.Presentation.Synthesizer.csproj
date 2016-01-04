@@ -134,7 +134,7 @@
     <Compile Include="ViewModels\Entities\AudioFileOutputChannelViewModel.cs" />
     <Compile Include="ViewModels\Entities\AudioFileOutputListItemViewModel.cs" />
     <Compile Include="ViewModels\Entities\AudioFileOutputViewModel.cs" />
-    <Compile Include="ViewModels\Entities\CurveViewModel.cs" />
+    <Compile Include="ViewModels\Entities\2016-01-05 Backup of CurveViewModel.cs" />
     <Compile Include="ViewModels\Entities\DocumentViewModel.cs" />
     <Compile Include="ViewModels\Entities\NodeViewModel.cs" />
     <Compile Include="ViewModels\Entities\SampleListItemViewModel.cs" />

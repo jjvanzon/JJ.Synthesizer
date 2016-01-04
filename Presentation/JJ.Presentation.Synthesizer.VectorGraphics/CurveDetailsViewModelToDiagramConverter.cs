@@ -86,10 +86,9 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
         public void Execute(CurveDetailsViewModel curveDetailsViewModel)
         {
             if (curveDetailsViewModel == null) throw new NullException(() => curveDetailsViewModel);
-            if (curveDetailsViewModel.Entity == null) throw new NullException(() => curveDetailsViewModel.Entity);
-            if (curveDetailsViewModel.Entity.Nodes.Count < MINIMUM_NODE_COUNT) throw new LessThanException(() => curveDetailsViewModel.Entity.Nodes.Count, MINIMUM_NODE_COUNT);
+            if (curveDetailsViewModel.Nodes.Count < MINIMUM_NODE_COUNT) throw new LessThanException(() => curveDetailsViewModel.Nodes.Count, MINIMUM_NODE_COUNT);
 
-            _currentCurveInfo = CreateCurveInfo(curveDetailsViewModel.Entity.Nodes);
+            _currentCurveInfo = CreateCurveInfo(curveDetailsViewModel.Nodes);
             _currentCurveCalculator = CurveApi.CreateInterpretedCalculator(_currentCurveInfo.MockCurve);
 
             // Delete All Lines
@@ -103,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
                 elementToDelete.Diagram = null;
             }
 
-            IList<NodeViewModel> sortedNodeViewModels = curveDetailsViewModel.Entity.Nodes.OrderBy(x => x.Time).ToArray();
+            IList<NodeViewModel> sortedNodeViewModels = curveDetailsViewModel.Nodes.OrderBy(x => x.Time).ToArray();
             float minTime = (float)sortedNodeViewModels.First().Time;
             float maxTime = (float)sortedNodeViewModels.Last().Time;
             float minValue = (float)sortedNodeViewModels.Select(x => x.Value).Min();
@@ -221,7 +220,7 @@ namespace JJ.Presentation.Synthesizer.VectorGraphics
 
             // Delete accessory points and rectangles.
             IEnumerable<int> existingIDs = Result.Diagram.Elements.Select(x => x.Tag).OfType<int>();
-            IEnumerable<int> idsToKeep = curveDetailsViewModel.Entity.Nodes.Select(x => x.ID);
+            IEnumerable<int> idsToKeep = curveDetailsViewModel.Nodes.Select(x => x.ID);
             IList<int> idsToDelete = existingIDs.Except(idsToKeep).ToArray();
 
             foreach (int idToDelete in idsToDelete)

@@ -204,7 +204,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
 
             foreach (CurveDetailsViewModel viewModel in viewModelList)
             {
-                Curve entity = viewModel.Entity.ToEntityWithRelatedEntities(repositories);
+                Curve entity = viewModel.ToEntityWithRelatedEntities(repositories);
                 entity.LinkTo(destDocument);
 
                 if (!idsToKeep.Contains(entity.ID))
@@ -256,14 +256,6 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             }
         }
 
-        public static Curve ToEntityWithRelatedEntities(this CurveDetailsViewModel viewModel, CurveRepositories repositories)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (repositories == null) throw new NullException(() => repositories);
-
-            return viewModel.Entity.ToEntityWithRelatedEntities(repositories);
-        }
-
         public static Curve ToEntity(this CurvePropertiesViewModel viewModel, ICurveRepository curveRepository)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
@@ -272,31 +264,20 @@ namespace JJ.Presentation.Synthesizer.ToEntity
             return viewModel.Entity.ToCurve(curveRepository);
         }
 
-        public static Curve ToEntityWithRelatedEntities(this CurveViewModel viewModel, CurveRepositories repositories)
+        public static Curve ToEntityWithRelatedEntities(this CurveDetailsViewModel viewModel, CurveRepositories repositories)
         {
             if (viewModel == null) throw new NullException(() => viewModel);
             if (repositories == null) throw new NullException(() => repositories);
 
-            Curve curve = viewModel.ToEntity(repositories.CurveRepository);
-
-            viewModel.Nodes.ToNodes(curve, repositories);
-
-            return curve;
-        }
-
-        public static Curve ToEntity(this CurveViewModel viewModel, ICurveRepository curveRepository)
-        {
-            if (viewModel == null) throw new NullException(() => viewModel);
-            if (curveRepository == null) throw new NullException(() => viewModel);
-
-            Curve curve = curveRepository.TryGet(viewModel.ID);
+            Curve curve = repositories.CurveRepository.TryGet(viewModel.ID);
             if (curve == null)
             {
                 curve = new Curve();
                 curve.ID = viewModel.ID;
-                curveRepository.Insert(curve);
+                repositories.CurveRepository.Insert(curve);
             }
-            curve.Name = viewModel.Name;
+
+            viewModel.Nodes.ToNodes(curve, repositories);
 
             return curve;
         }
@@ -468,10 +449,10 @@ namespace JJ.Presentation.Synthesizer.ToEntity
                 Document childDocument = patchDocumentViewModel.ToChildDocument(documentRepository);
                 childDocument.LinkToParentDocument(rootDocument);
 
-                foreach (CurveDetailsViewModel curveDetailsViewModel in patchDocumentViewModel.CurveDetailsList)
+                foreach (CurvePropertiesViewModel curvePropertiesViewModel in patchDocumentViewModel.CurvePropertiesList)
                 {
-                    Curve curve = curveDetailsViewModel.Entity.ToEntity(curveRepository);
-                    curve.Name = curveDetailsViewModel.Entity.Name;
+                    Curve curve = curvePropertiesViewModel.ToEntity(curveRepository);
+                    curve.Name = curvePropertiesViewModel.Entity.Name;
                     curve.LinkTo(childDocument);
                 }
             }

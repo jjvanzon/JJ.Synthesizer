@@ -62,12 +62,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             CurveDetailsViewModel detailsViewModel = DocumentViewModelHelper.GetCurveDetailsViewModel_ByNodeID(ViewModel.Document, nodeID);
 
             // Remove original node
-            detailsViewModel.Entity.Nodes.RemoveFirst(x => x.ID == nodeID);
+            detailsViewModel.Nodes.RemoveFirst(x => x.ID == nodeID);
 
             // Add new version of the node
             Node node = _repositories.NodeRepository.Get(nodeID);
             NodeViewModel nodeViewModel = node.ToViewModel();
-            detailsViewModel.Entity.Nodes.Add(nodeViewModel);
+            detailsViewModel.Nodes.Add(nodeViewModel);
         }
 
         private void DocumentGridRefresh()

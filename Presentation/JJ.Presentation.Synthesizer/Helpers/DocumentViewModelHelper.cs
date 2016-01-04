@@ -59,7 +59,7 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             CurveDetailsViewModel detailsViewModel = DocumentViewModelHelper.EnumerateCurveDetailsViewModels(rootDocumentViewModel)
-                                                                            .FirstOrDefault(x => x.Entity.ID == curveID); // First for performance.
+                                                                            .FirstOrDefault(x => x.ID == curveID);
             if (detailsViewModel == null)
             {
                 throw new Exception(String.Format("CurveDetailsViewModel with ID '{0}' not found in rootDocumentViewModel nor its PatchDocumentViewModels.", curveID));
@@ -87,8 +87,8 @@ namespace JJ.Presentation.Synthesizer.Helpers
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
             CurveDetailsViewModel detailsViewModel = DocumentViewModelHelper.EnumerateCurveDetailsViewModels(rootDocumentViewModel)
-                                                                        .Where(x => x.Entity.Nodes.Any(y => y.ID == nodeID))
-                                                                        .First();
+                                                                            .Where(x => x.Nodes.Any(y => y.ID == nodeID))
+                                                                            .First();
             return detailsViewModel;
         }
 
@@ -111,14 +111,14 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            if (rootDocumentViewModel.CurveDetailsList.Any(x => x.Entity.ID == curveID))
+            if (rootDocumentViewModel.CurveDetailsList.Any(x => x.ID == curveID))
             {
                 return rootDocumentViewModel.CurveDetailsList;
             }
 
             foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
             {
-                if (patchDocumentViewModel.CurveDetailsList.Any(x => x.Entity.ID == curveID))
+                if (patchDocumentViewModel.CurveDetailsList.Any(x => x.ID == curveID))
                 {
                     return patchDocumentViewModel.CurveDetailsList;
                 }
@@ -273,14 +273,14 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            if (rootDocumentViewModel.CurveDetailsList.Any(x => x.Entity.ID == curveID))
+            if (rootDocumentViewModel.CurveDetailsList.Any(x => x.ID == curveID))
             {
                 return rootDocumentViewModel.NodePropertiesList;
             }
 
             foreach (PatchDocumentViewModel patchDocumentViewModel in rootDocumentViewModel.PatchDocumentList)
             {
-                if (patchDocumentViewModel.CurveDetailsList.Any(x => x.Entity.ID == curveID))
+                if (patchDocumentViewModel.CurveDetailsList.Any(x => x.ID == curveID))
                 {
                     return patchDocumentViewModel.NodePropertiesList;
                 }

@@ -88,13 +88,14 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Curve
 
-        public static CurveDetailsViewModel ToDetailsViewModel(this Curve curve, INodeTypeRepository nodeTypeRepository)
+        public static CurveDetailsViewModel ToDetailsViewModel(this Curve entity, INodeTypeRepository nodeTypeRepository)
         {
-            if (curve == null) throw new NullException(() => curve);
+            if (entity == null) throw new NullException(() => entity);
 
             var viewModel = new CurveDetailsViewModel
             {
-                Entity = curve.ToViewModelWithRelatedEntities(),
+                ID = entity.ID,
+                Nodes = entity.Nodes.ToViewModels(),
                 NodeTypeLookup = ViewModelHelper.CreateNodeTypeLookupViewModel(nodeTypeRepository),
                 ValidationMessages = new List<Message>()
             };

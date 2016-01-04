@@ -282,7 +282,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void curveDetailsUserControl_ShowCurvePropertiesRequested(object sender, EventArgs e)
         {
-            _presenter.CurvePropertiesShow(curveDetailsUserControl.ViewModel.Entity.ID);
+            _presenter.CurvePropertiesShow(curveDetailsUserControl.ViewModel.ID);
             ApplyViewModel();
         }
 

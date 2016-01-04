@@ -79,30 +79,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Curve
 
-        public static CurveViewModel ToViewModelWithRelatedEntities(this Curve entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            CurveViewModel viewModel = entity.ToViewModel();
-
-            viewModel.Nodes = entity.Nodes.ToViewModels();
-
-            return viewModel;
-        }
-
-        public static CurveViewModel ToViewModel(this Curve entity)
-        {
-            if (entity == null) throw new NullException(() => entity);
-
-            var viewModel = new CurveViewModel
-            {
-                Name = entity.Name,
-                ID = entity.ID
-            };
-
-            return viewModel;
-        }
-
         public static IList<NodeViewModel> ToViewModels(this IList<Node> entities)
         {
             if (entities == null) throw new NullException(() => entities);

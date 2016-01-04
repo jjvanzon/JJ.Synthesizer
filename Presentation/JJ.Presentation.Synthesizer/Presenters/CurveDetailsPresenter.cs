@@ -47,7 +47,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            Curve entity = _repositories.CurveRepository.Get(ViewModel.Entity.ID);
+            Curve entity = _repositories.CurveRepository.Get(ViewModel.ID);
 
             bool visible = ViewModel.Visible;
             int? selectedNodeID = ViewModel.SelectedNodeID;

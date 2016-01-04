@@ -125,8 +125,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (CurveDetailsViewModel)viewModel2;
 
-            var list = DocumentViewModelHelper.GetCurveDetailsViewModelList_ByCurveID(ViewModel.Document, castedViewModel.Entity.ID);
-            int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
+            var list = DocumentViewModelHelper.GetCurveDetailsViewModelList_ByCurveID(ViewModel.Document, castedViewModel.ID);
+            int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
                 list[listIndex.Value] = castedViewModel;
