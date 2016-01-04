@@ -564,9 +564,6 @@ namespace JJ.Business.Synthesizer
 
         private void ExecuteSideEffectsForCreatingPatchInletOrPatchOutlet(Operator op)
         {
-            ISideEffect sideEffect1 = new Operator_SideEffect_GenerateName(op);
-            sideEffect1.Execute();
-
             ISideEffect sideEffect2 = new Operator_SideEffect_GeneratePatchInletListIndex(op);
             sideEffect2.Execute();
 

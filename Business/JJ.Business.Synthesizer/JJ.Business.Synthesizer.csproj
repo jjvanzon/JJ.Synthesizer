@@ -215,7 +215,7 @@
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Scale_SideEffect_GenerateName.cs" />
-    <Compile Include="SideEffects\Operator_SideEffect_GenerateName.cs" />
+    <Compile Include="SideEffects\2016-01-04 Backup of Operator_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchOutletListIndex.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchInletListIndex.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_ApplyUnderlyingPatch.cs" />
