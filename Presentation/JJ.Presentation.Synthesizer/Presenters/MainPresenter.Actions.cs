@@ -520,6 +520,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
+                // Full ToEntity needed for updating Curve OperatorViewModels.
+                Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
                 partialAction();
 
                 DispatchViewModel(_curvePropertiesPresenter.ViewModel);
@@ -530,6 +533,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     CurveGridItemRefresh(curveID);
                     CurveLookupsItemsRefresh(curveID);
+                    OperatorViewModels_OfType_Refresh(OperatorTypeEnum.Curve);
                 }
             }
             finally
@@ -1459,7 +1463,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
 
                     // Refresh Dependencies
-                    OperatorViewModels_OfTypeCustomOperators_Refresh();
+                    OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1486,7 +1490,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
 
                     // Refresh Dependent Things
-                    OperatorViewModels_OfTypeCustomOperators_Refresh();
+                    OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
                 }
 
                 DispatchViewModel(partialPresenter.ViewModel);
@@ -1611,7 +1615,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 }
 
                 // Refresh Dependent Things
-                OperatorViewModels_OfTypeCustomOperators_Refresh();
+                OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
             }
             finally
             {
@@ -1779,7 +1783,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     }
 
                     // Refresh Dependent Things
-                    OperatorViewModels_OfTypeCustomOperators_Refresh();
+                    OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
                 }
 
                 DispatchViewModel(_patchDetailsPresenter.ViewModel);
@@ -1955,7 +1959,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     CurrentPatchesRefresh();
                     PatchGridsRefresh(); // Refresh all patch grids, because a Patch's group can change.
                     UnderylingDocumentLookupRefresh();
-                    OperatorViewModels_OfTypeCustomOperators_Refresh();
+                    OperatorViewModels_OfType_Refresh(OperatorTypeEnum.CustomOperator);
                     OperatorProperties_ForCustomOperatorViewModels_Refresh(underlyingPatchID: childDocumentID);
                 }
             }
@@ -2230,6 +2234,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             try
             {
+                // Full ToEntity needed for updating Sample OperatorViewModels.
+                Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
                 partialAction();
 
                 DispatchViewModel(_samplePropertiesPresenter.ViewModel);
@@ -2240,6 +2247,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     SampleGridRefreshItem(sampleID);
                     SampleLookupsRefresh(sampleID);
+                    OperatorViewModels_OfType_Refresh(OperatorTypeEnum.Sample);
                 }
             }
             finally

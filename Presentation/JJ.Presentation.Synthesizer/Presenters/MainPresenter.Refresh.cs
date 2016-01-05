@@ -110,13 +110,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// But also, a custom operator would need to be updated if something connected to it is deleted,
         /// because then the obsolete inlets and outlets might be cleaned up.
         /// </summary>
-        private void OperatorViewModels_OfTypeCustomOperators_Refresh()
+        private void OperatorViewModels_OfType_Refresh(OperatorTypeEnum operatorTypeEnum)
         {
             IList<PatchDetailsViewModel> patchDetailsViewModels = ViewModel.Document.PatchDocumentList.Select(x => x.PatchDetails).ToArray();
 
             IList<OperatorViewModel> operatorViewModels =
                 patchDetailsViewModels.SelectMany(x => x.Entity.Operators)
-                                      .Where(x => x.OperatorType.ID == (int)OperatorTypeEnum.CustomOperator)
+                                      .Where(x => x.OperatorType.ID == (int)operatorTypeEnum)
                                       .ToArray();
 
             foreach (OperatorViewModel operatorViewModel in operatorViewModels)
