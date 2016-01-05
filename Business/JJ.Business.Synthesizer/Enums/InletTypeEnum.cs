@@ -11,6 +11,7 @@
         VibratoSpeed = 6,
         VibratoDepth = 7,
         TremoloSpeed = 8,
-        TremoloDepth = 9
+        TremoloDepth = 9,
+        Duration = 10
     }
 }

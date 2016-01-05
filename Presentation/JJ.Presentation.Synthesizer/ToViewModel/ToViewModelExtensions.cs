@@ -363,7 +363,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             if (entity.ScaleType != null)
             {
-                viewModel.ScaleType = entity.ScaleType.ToIDAndName();
+                viewModel.ScaleType = entity.ScaleType.ToIDAndDisplayNamePlural();
             }
 
             return viewModel;

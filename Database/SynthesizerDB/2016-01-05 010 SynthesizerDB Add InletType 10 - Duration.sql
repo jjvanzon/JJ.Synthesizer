@@ -1,0 +1,1 @@
+insert into InletType (ID, Name) values (10, 'Duration');

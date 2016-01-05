@@ -218,5 +218,27 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
             return viewModel;
         }
+
+        public static PatchDetailsViewModel CreateEmptyPatchDetailsViewModel()
+        {
+            var viewModel = new PatchDetailsViewModel
+            {
+                Entity = CreateEmptyPatchViewModel(),
+                OperatorToolboxItems = new List<OperatorTypeViewModel>(),
+                ValidationMessages = new List<Message>()
+            };
+
+            return viewModel;
+        }
+
+        public static PatchViewModel CreateEmptyPatchViewModel()
+        {
+            var viewModel = new PatchViewModel
+            {
+                Operators = new List<OperatorViewModel>()
+            };
+
+            return viewModel;
+        }
     }
 }

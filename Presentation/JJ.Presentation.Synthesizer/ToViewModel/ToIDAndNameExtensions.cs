@@ -180,7 +180,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             };
         }
 
-        public static IDAndName ToIDAndName(this ScaleType entity)
+        public static IDAndName ToIDAndDisplayNamePlural(this ScaleType entity)
         {
             if (entity == null) throw new NullException(() => entity);
 

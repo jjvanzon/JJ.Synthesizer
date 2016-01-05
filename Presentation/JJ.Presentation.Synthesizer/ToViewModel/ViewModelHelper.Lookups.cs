@@ -16,9 +16,9 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<AudioFileFormat> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
+            IList<AudioFileFormat> entities = repository.GetAll().ToArray();
 
-            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
+            IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).OrderBy(x => x.Name).ToArray();
 
             return idNames;
         }
@@ -42,11 +42,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<InletType> entities = repository.GetAll().OrderBy(x => x.ID).ToArray();
+            IList<InletType> entities = repository.GetAll().ToArray();
 
             var idAndNames = new List<IDAndName>(entities.Count + 1);
             idAndNames.Add(new IDAndName { ID = 0, Name = null });
-            idAndNames.AddRange(entities.Select(x => x.ToIDAndDisplayName()));
+            idAndNames.AddRange(entities.Select(x => x.ToIDAndDisplayName()).OrderBy(x => x.Name));
 
             return idAndNames;
         }
@@ -55,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<InterpolationType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
+            IList<InterpolationType> entities = repository.GetAll().OrderBy(x => x.ID).ToArray();
 
             IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
 
@@ -89,42 +89,20 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<OutletType> entities = repository.GetAll().OrderBy(x => x.ID).ToArray();
+            IList<OutletType> entities = repository.GetAll().ToArray();
 
             var idAndNames = new List<IDAndName>(entities.Count + 1);
             idAndNames.Add(new IDAndName { ID = 0, Name = null });
-            idAndNames.AddRange(entities.Select(x => x.ToIDAndDisplayName()));
+            idAndNames.AddRange(entities.Select(x => x.ToIDAndDisplayName()).OrderBy(x => x.Name));
 
             return idAndNames;
-        }
-
-        public static PatchDetailsViewModel CreateEmptyPatchDetailsViewModel()
-        {
-            var viewModel = new PatchDetailsViewModel
-            {
-                Entity = CreateEmptyPatchViewModel(),
-                OperatorToolboxItems = new List<OperatorTypeViewModel>(),
-                ValidationMessages = new List<Message>()
-            };
-
-            return viewModel;
-        }
-
-        public static PatchViewModel CreateEmptyPatchViewModel()
-        {
-            var viewModel = new PatchViewModel
-            {
-                Operators = new List<OperatorViewModel>()
-            };
-
-            return viewModel;
         }
 
         public static IList<IDAndName> CreateSampleDataTypeLookupViewModel(ISampleDataTypeRepository repository)
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<SampleDataType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
+            IList<SampleDataType> entities = repository.GetAll().OrderBy(x => x.ID).ToArray();
 
             IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
 
@@ -164,11 +142,11 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<ScaleType> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
+            IList<ScaleType> entities = repository.GetAll().ToArray();
 
             var list = new List<IDAndName>(entities.Count + 1);
             list.Add(new IDAndName { ID = 0, Name = null });
-            list.AddRange(entities.OrderBy(x => x.ID).Select(x => x.ToIDAndName()));
+            list.AddRange(entities.OrderBy(x => x.ID).Select(x => x.ToIDAndDisplayNamePlural()).OrderBy(x => x.Name));
 
             return list;
         }
@@ -177,7 +155,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (repository == null) throw new NullException(() => repository);
 
-            IList<SpeakerSetup> entities = repository.GetAll().OrderBy(x => x.Name).ToArray();
+            IList<SpeakerSetup> entities = repository.GetAll().OrderBy(x => x.ID).ToArray();
 
             IList<IDAndName> idNames = entities.Select(x => x.ToIDAndDisplayName()).ToArray();
 
