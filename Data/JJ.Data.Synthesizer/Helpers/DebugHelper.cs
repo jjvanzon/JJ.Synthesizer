@@ -6,31 +6,32 @@ namespace JJ.Data.Synthesizer.Helpers
 {
     internal static class DebugHelper
     {
-        public static string GetDebuggerDisplay(Operator entity)
+        public static string GetDebuggerDisplay(Operator op)
         {
-            if (entity == null) throw new NullException(() => entity);
+            if (op == null) throw new NullException(() => op);
 
             var sb = new StringBuilder();
 
-            sb.AppendFormat("{{{0}}} ", entity.GetType().Name);
+            sb.AppendFormat("{{{0}}} ", op.GetType().Name);
 
-            if (entity.OperatorType != null)
+            if (op.OperatorType != null)
             {
-                if (!String.IsNullOrEmpty(entity.OperatorType.Name))
+                if (!String.IsNullOrEmpty(op.OperatorType.Name))
                 {
-                    sb.Append(entity.OperatorType.Name);
+                    sb.Append(op.OperatorType.Name);
                     sb.Append(' ');
                 }
             }
 
-            bool isValidPatchInlet = entity.OperatorType != null &&
-                                     String.Equals(entity.OperatorType.Name, "PatchInlet") &&
-                                     entity.Inlets.Count == 1 &&
-                                     entity.Inlets[0] != null;
+            bool isValidPatchInlet = op.OperatorType != null &&
+                                     String.Equals(op.OperatorType.Name, "PatchInlet") &&
+                                     op.Inlets.Count == 1 &&
+                                     op.Inlets[0] != null;
             if (isValidPatchInlet)
             {
-                Inlet inlet = entity.Inlets[0];
-                sb.AppendFormat("[{0}] ", inlet.ListIndex);
+                sb.AppendFormat("[{0}] ", op.Data);
+
+                Inlet inlet = op.Inlets[0];
 
                 if (inlet.InletType != null)
                 {
@@ -38,12 +39,12 @@ namespace JJ.Data.Synthesizer.Helpers
                 }
             }
 
-            if (!String.IsNullOrEmpty(entity.Name))
+            if (!String.IsNullOrEmpty(op.Name))
             {
-                sb.AppendFormat("'{0}' ", entity.Name);
+                sb.AppendFormat("'{0}' ", op.Name);
             }
             
-            sb.AppendFormat("({0})", entity.ID);
+            sb.AppendFormat("({0})", op.ID);
 
             return sb.ToString();
         }
