@@ -20,7 +20,14 @@ namespace JJ.Business.Synthesizer
             // Try match by name
             foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
             {
-                if (String.Equals(destCustomOperatorInlet.Name, sourcePatchInlet.Name))
+                bool nameIsFilledIn = !String.IsNullOrEmpty(destCustomOperatorInlet.Name);
+                if (!nameIsFilledIn)
+                {
+                    continue;
+                }
+
+                bool namesAreEqual = String.Equals(destCustomOperatorInlet.Name, sourcePatchInlet.Name);
+                if (namesAreEqual)
                 {
                     return destCustomOperatorInlet;
                 }
@@ -30,8 +37,17 @@ namespace JJ.Business.Synthesizer
             foreach (Inlet destCustomOperatorInlet in destCustomOperatorInlets)
             {
                 // TODO: I should really only match if it is unique.
+
+                bool inletTypeIsFilledIn = destCustomOperatorInlet.GetInletTypeEnum() != InletTypeEnum.Undefined;
+                if (!inletTypeIsFilledIn)
+                {
+                    continue;
+                }
+
                 var sourcePatchInletWrapper = new PatchInlet_OperatorWrapper(sourcePatchInlet);
-                if (destCustomOperatorInlet.GetInletTypeEnum() == sourcePatchInletWrapper.Inlet.GetInletTypeEnum())
+
+                bool inletTypesAreEqual = destCustomOperatorInlet.GetInletTypeEnum() == sourcePatchInletWrapper.Inlet.GetInletTypeEnum();
+                if (inletTypesAreEqual)
                 {
                     return destCustomOperatorInlet;
                 }
@@ -58,7 +74,14 @@ namespace JJ.Business.Synthesizer
             // Try match by name
             foreach (Outlet destCustomOperatorOutlet in destCustomOperatorOutlets)
             {
-                if (String.Equals(destCustomOperatorOutlet.Name, sourcePatchOutlet.Name))
+                bool nameIsFilledIn = !String.IsNullOrEmpty(destCustomOperatorOutlet.Name);
+                if (!nameIsFilledIn)
+                {
+                    continue;
+                }
+
+                bool namesAreEqual = String.Equals(destCustomOperatorOutlet.Name, sourcePatchOutlet.Name);
+                if (namesAreEqual)
                 {
                     return destCustomOperatorOutlet;
                 }
@@ -68,8 +91,17 @@ namespace JJ.Business.Synthesizer
             foreach (Outlet destOutlet in destCustomOperatorOutlets)
             {
                 // TODO: I should really only match if it is unique.
+
+                bool outletTypeIsFilledIn = destOutlet.GetOutletTypeEnum() != OutletTypeEnum.Undefined;
+                if (!outletTypeIsFilledIn)
+                {
+                    continue;
+                }
+
                 var wrapper = new PatchOutlet_OperatorWrapper(sourcePatchOutlet);
-                if (destOutlet.GetOutletTypeEnum() == wrapper.Result.GetOutletTypeEnum())
+
+                bool outletTypesAreEqual = destOutlet.GetOutletTypeEnum() == wrapper.Result.GetOutletTypeEnum();
+                if (outletTypesAreEqual)
                 {
                     return destOutlet;
                 }
@@ -120,7 +152,15 @@ namespace JJ.Business.Synthesizer
             // Try match by name
             foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
             {
-                if (String.Equals(dest_UnderlyingPatch_PatchInlet.Name, source_CustomOperator_Inlet.Name))
+                bool nameIsFilledIn = !String.IsNullOrEmpty(dest_UnderlyingPatch_PatchInlet.Name);
+                if (!nameIsFilledIn)
+                {
+                    continue;
+                }
+
+                bool namesAreEqual = !String.IsNullOrEmpty(source_CustomOperator_Inlet.Name) &&
+                                      String.Equals(dest_UnderlyingPatch_PatchInlet.Name, source_CustomOperator_Inlet.Name);
+                if (namesAreEqual)
                 {
                     return dest_UnderlyingPatch_PatchInlet;
                 }
@@ -129,8 +169,16 @@ namespace JJ.Business.Synthesizer
             // Try match by type
             foreach (Operator dest_UnderlyingPatch_PatchInlet in dest_UnderlyingPatch_PatchInlets)
             {
+                bool inletTypeIsFilledIn = source_CustomOperator_Inlet.GetInletTypeEnum() != InletTypeEnum.Undefined;
+                if (!inletTypeIsFilledIn)
+                {
+                    continue;
+                }
+
                 var dest_UnderlyingPatch_PatchInlet_Wrapper = new PatchInlet_OperatorWrapper(dest_UnderlyingPatch_PatchInlet);
-                if (dest_UnderlyingPatch_PatchInlet_Wrapper.Inlet.GetInletTypeEnum() == source_CustomOperator_Inlet.GetInletTypeEnum())
+
+                bool inletTypesAreEqual = dest_UnderlyingPatch_PatchInlet_Wrapper.Inlet.GetInletTypeEnum() == source_CustomOperator_Inlet.GetInletTypeEnum();
+                if (inletTypesAreEqual)
                 {
                     return dest_UnderlyingPatch_PatchInlet;
                 }
@@ -181,7 +229,14 @@ namespace JJ.Business.Synthesizer
             // Try match by name
             foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
             {
-                if (String.Equals(dest_UnderlyingPatch_PatchOutlet.Name, source_CustomOperator_Outlet.Name))
+                bool nameIsFilledIn = !String.IsNullOrEmpty(dest_UnderlyingPatch_PatchOutlet.Name);
+                if (!nameIsFilledIn)
+                {
+                    continue;
+                }
+
+                bool namesAreEqual = String.Equals(dest_UnderlyingPatch_PatchOutlet.Name, source_CustomOperator_Outlet.Name);
+                if (namesAreEqual)
                 {
                     return dest_UnderlyingPatch_PatchOutlet;
                 }
@@ -190,8 +245,16 @@ namespace JJ.Business.Synthesizer
             // Try match by type
             foreach (Operator dest_UnderlyingPatch_PatchOutlet in dest_UnderlyingPatch_PatchOutlets)
             {
+                bool outletTypeIsFilledIn = source_CustomOperator_Outlet.GetOutletTypeEnum() != OutletTypeEnum.Undefined;
+                if (!outletTypeIsFilledIn)
+                {
+                    continue;
+                }
+
                 var dest_UnderlyingPatch_PatchOutlet_Wrapper = new PatchOutlet_OperatorWrapper(dest_UnderlyingPatch_PatchOutlet);
-                if (dest_UnderlyingPatch_PatchOutlet_Wrapper.Result.GetOutletTypeEnum() == source_CustomOperator_Outlet.GetOutletTypeEnum())
+
+                bool outletTypesAreEqual = dest_UnderlyingPatch_PatchOutlet_Wrapper.Result.GetOutletTypeEnum() == source_CustomOperator_Outlet.GetOutletTypeEnum();
+                if (outletTypesAreEqual)
                 {
                     return dest_UnderlyingPatch_PatchOutlet;
                 }
@@ -233,10 +296,15 @@ namespace JJ.Business.Synthesizer
             }
 
             // Then match by name
-            if (String.Equals(outlet.Name, inlet.Name))
+            bool nameIsfilledIn = !String.IsNullOrEmpty(outlet.Name);
+            if (nameIsfilledIn)
             {
-                return true;
-            }
+                bool namesAreEqual = String.Equals(outlet.Name, inlet.Name);
+                if (namesAreEqual)
+                {
+                    return true;
+                }
+            } 
 
             // Do not match by list index, because that would result in something arbitrary.
 

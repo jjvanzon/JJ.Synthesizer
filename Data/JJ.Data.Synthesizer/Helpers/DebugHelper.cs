@@ -23,6 +23,21 @@ namespace JJ.Data.Synthesizer.Helpers
                 }
             }
 
+            bool isValidPatchInlet = entity.OperatorType != null &&
+                                     String.Equals(entity.OperatorType.Name, "PatchInlet") &&
+                                     entity.Inlets.Count == 1 &&
+                                     entity.Inlets[0] != null;
+            if (isValidPatchInlet)
+            {
+                Inlet inlet = entity.Inlets[0];
+                sb.AppendFormat("[{0}] ", inlet.ListIndex);
+
+                if (inlet.InletType != null)
+                {
+                    sb.AppendFormat("InletType={0} ", inlet.InletType.Name);
+                }
+            }
+
             if (!String.IsNullOrEmpty(entity.Name))
             {
                 sb.AppendFormat("'{0}' ", entity.Name);
@@ -41,9 +56,16 @@ namespace JJ.Data.Synthesizer.Helpers
 
             sb.AppendFormat("{{{0}}} ", entity.GetType().Name);
 
+            sb.AppendFormat("[{0}] ", entity.ListIndex);
+
             if (!String.IsNullOrEmpty(entity.Name))
             {
                 sb.AppendFormat("'{0}' ", entity.Name);
+            }
+
+            if (entity.InletType != null)
+            {
+                sb.AppendFormat("InletType={0} ", entity.InletType.Name);
             }
 
             sb.AppendFormat("({0})", entity.ID);
