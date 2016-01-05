@@ -163,9 +163,14 @@ namespace JJ.Business.Synthesizer.Resources
             return String.Format(Messages.NamesNotUnique_WithEntityTypeNameAndNames, entityTypeDisplayName, formattedDuplicateNames);
         }
 
-        public static string InletDefaultValueDoesNotMatchWithUnderlyingPatch(string inletName, string inletTypeDisplayName, int? inletListIndex)
+        public static string InletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName, string inletName, string inletTypeDisplayName, int? inletListIndex)
         {
-            return String.Format(Messages.InletDefaultValueDoesNotMatchWithUnderlyingPatch, inletName, inletTypeDisplayName, inletListIndex);
+            return String.Format(Messages.InletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, inletName, inletTypeDisplayName, inletListIndex);
+        }
+
+        public static string OutletPropertyDoesNotMatchWithUnderlyingPatch(string propertyDisplayName, string inletName, string inletTypeDisplayName, int? inletListIndex)
+        {
+            return String.Format(Messages.OutletPropertyDoesNotMatchWithUnderlyingPatch, propertyDisplayName, inletName, inletTypeDisplayName, inletListIndex);
         }
 
         public static string OutletNotFoundInUnderlyingPatch(string outletName, string outletTypeDisplayName, int? outletListIndex)

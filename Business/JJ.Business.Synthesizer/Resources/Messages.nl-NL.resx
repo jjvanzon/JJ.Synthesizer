@@ -228,8 +228,9 @@
     <value>{0} '{1}' is niet uniek.</value>
     <comment>{0} = property, {1} = value</comment>
   </data>
-  <data name="InletDefaultValueDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
-    <value>Standaard waarde van ingang wijkt af van de onderliggende schakeling. Ingang naam: '{0}', ingang soort: '{1}', ingang nummer: '{2}'.</value>
+  <data name="InletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
+    <value>{0} van ingang wijkt af van de onderliggende schakeling. Ingang naam: '{1}', ingang soort: '{2}', ingang nummer: '{3}'.</value>
+    <comment>{0} = property display name</comment>
   </data>
   <data name="NameOrInletTypeMustBeFilledIn" xml:space="preserve">
     <value>Er moet of een naam of een ingangsoort worden ingevuld.</value>
@@ -239,5 +240,9 @@
   </data>
   <data name="OutletNotFoundInUnderlyingPatch" xml:space="preserve">
     <value>Uitgang niet gevonden in de onderliggende schakeling. Uitgang naam: '{0}', uitgang soort: '{1}', uitgang nummer: '{2}'.</value>
+  </data>
+  <data name="OutletPropertyDoesNotMatchWithUnderlyingPatch" xml:space="preserve">
+    <value>{0} van uitgang wijkt af van de onderliggende schakeling. Uitgang naam: '{1}', uitgang soort: '{2}', uitgang nummer: '{3}'.</value>
+    <comment>{0} = property display name</comment>
   </data>
 </root>

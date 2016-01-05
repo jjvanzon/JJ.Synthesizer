@@ -133,15 +133,6 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Default value of inlet does not match with underlying patch. Inlet name: &apos;{0}&apos;, inlet type: &apos;{1}&apos;, inlet number: &apos;{2}&apos;..
-        /// </summary>
-        internal static string InletDefaultValueDoesNotMatchWithUnderlyingPatch {
-            get {
-                return ResourceManager.GetString("InletDefaultValueDoesNotMatchWithUnderlyingPatch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Inlet numbers are not unique..
         /// </summary>
         internal static string InletListIndexesAreNotUnique {
@@ -174,6 +165,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string InletNotSet {
             get {
                 return ResourceManager.GetString("InletNotSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} of inlet does not match with underlying patch. Inlet name: &apos;{1}&apos;, inlet type: &apos;{2}&apos;, inlet number: &apos;{3}&apos;..
+        /// </summary>
+        internal static string InletPropertyDoesNotMatchWithUnderlyingPatch {
+            get {
+                return ResourceManager.GetString("InletPropertyDoesNotMatchWithUnderlyingPatch", resourceCulture);
             }
         }
         
@@ -327,6 +327,15 @@ namespace JJ.Business.Synthesizer.Resources {
         internal static string OutletNotFoundInUnderlyingPatch {
             get {
                 return ResourceManager.GetString("OutletNotFoundInUnderlyingPatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} of outlet does not match with underlying patch. Outlet name: &apos;{1}&apos;, outlet type: &apos;{2}&apos;, outlet number: &apos;{3}&apos;..
+        /// </summary>
+        internal static string OutletPropertyDoesNotMatchWithUnderlyingPatch {
+            get {
+                return ResourceManager.GetString("OutletPropertyDoesNotMatchWithUnderlyingPatch", resourceCulture);
             }
         }
         

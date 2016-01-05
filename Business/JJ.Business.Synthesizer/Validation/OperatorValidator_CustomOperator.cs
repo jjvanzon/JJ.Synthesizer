@@ -143,13 +143,28 @@ namespace JJ.Business.Synthesizer.Validation
                 else
                 {
                     var underlyingPatchInletWrapper = new PatchInlet_OperatorWrapper(underlyingPatchInletOperator);
+
+                    if (customOperatorInlet.ListIndex != underlyingPatchInletWrapper.ListIndex)
+                    {
+                        string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, PropertyDisplayNames.ListIndex);
+                        ValidationMessages.Add(PropertyNames.Inlet, message);
+                    }
+
+                    if (!String.Equals(customOperatorInlet.Name, underlyingPatchInletWrapper.Name))
+                    {
+                        string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, CommonTitles.Name);
+                        ValidationMessages.Add(PropertyNames.Inlet, message);
+                    }
+
+                    if (customOperatorInlet.GetInletTypeEnum() != underlyingPatchInletWrapper.Inlet.GetInletTypeEnum())
+                    {
+                        string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, PropertyDisplayNames.InletType);
+                        ValidationMessages.Add(PropertyNames.Inlet, message);
+                    }
+
                     if (customOperatorInlet.DefaultValue != underlyingPatchInletWrapper.Inlet.DefaultValue)
                     {
-                        string message = MessageFormatter.InletDefaultValueDoesNotMatchWithUnderlyingPatch(
-                            customOperatorInlet.Name,
-                            ResourceHelper.GetInletTypeDisplayName(customOperatorInlet.InletType),
-                            customOperatorInlet.ListIndex);
-
+                        string message = GetInletPropertyDoesNotMatchMessage(customOperatorInlet, PropertyDisplayNames.DefaultValue);
                         ValidationMessages.Add(PropertyNames.Inlet, message);
                     }
                 }
@@ -174,7 +189,46 @@ namespace JJ.Business.Synthesizer.Validation
 
                     ValidationMessages.Add(PropertyNames.Outlet, message);
                 }
+                else
+                {
+                    var underlyingPatchOutletWrapper = new PatchOutlet_OperatorWrapper(underlyingPatchOutlet);
+                    if (customOperatorOutlet.ListIndex != underlyingPatchOutletWrapper.ListIndex)
+                    {
+                        string message = GetOutletPropertyDoesNotMatchMessage(underlyingPatchOutletWrapper, PropertyDisplayNames.ListIndex);
+                        ValidationMessages.Add(PropertyNames.Outlet, message);
+                    }
+
+                    if (!String.Equals(customOperatorOutlet.Name, underlyingPatchOutletWrapper.Name))
+                    {
+                        string message = GetOutletPropertyDoesNotMatchMessage(underlyingPatchOutletWrapper, CommonTitles.Name);
+                        ValidationMessages.Add(PropertyNames.Outlet, message);
+                    }
+
+                    if (customOperatorOutlet.GetOutletTypeEnum() != underlyingPatchOutletWrapper.Result.GetOutletTypeEnum())
+                    {
+                        string message = GetOutletPropertyDoesNotMatchMessage(underlyingPatchOutletWrapper, PropertyDisplayNames.OutletType);
+                        ValidationMessages.Add(PropertyNames.Outlet, message);
+                    }
+                }
             }
+        }
+
+        private static string GetInletPropertyDoesNotMatchMessage(Inlet customOperatorInlet, string propertyDisplayName)
+        {
+            return MessageFormatter.InletPropertyDoesNotMatchWithUnderlyingPatch(
+                propertyDisplayName,
+                customOperatorInlet.Name,
+                ResourceHelper.GetInletTypeDisplayName(customOperatorInlet.InletType),
+                customOperatorInlet.ListIndex);
+        }
+
+        private static string GetOutletPropertyDoesNotMatchMessage(Outlet customOperatorOutlet, string propertyDisplayName)
+        {
+            return MessageFormatter.OutletPropertyDoesNotMatchWithUnderlyingPatch(
+                propertyDisplayName,
+                customOperatorOutlet.Name,
+                ResourceHelper.GetOutletTypeDisplayName(customOperatorOutlet.OutletType),
+                customOperatorOutlet.ListIndex);
         }
     }
 }
