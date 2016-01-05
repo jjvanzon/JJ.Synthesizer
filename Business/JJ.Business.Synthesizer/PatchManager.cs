@@ -101,15 +101,13 @@ namespace JJ.Business.Synthesizer
             AssertPatch();
 
             // TODO: At one time, it said Patch.Operators collection was changed. That is what the ToArray is for. 
-            // I still do not know why the collection was changed, so that must be investigated.
+            // I still do not know why the collection was changed, so that must be investigated. (It was when SaveOperator was called instead of EecuteSideEffects)
             foreach (Operator op in Patch.Operators.ToArray())
             {
-                // This is necessary to make side-effects go off.
-                SaveOperator(op);
+                ExecuteSideEffects(op);
             }
 
             VoidResult result = ValidatePatchRecursive();
-
             if (!result.Successful)
             {
                 return result;
@@ -141,62 +139,54 @@ namespace JJ.Business.Synthesizer
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
             switch (operatorTypeEnum)
             {
-                case OperatorTypeEnum.CustomOperator:
-                    return SaveOperator_Custom(op);
-
                 case OperatorTypeEnum.PatchInlet:
                     return SaveOperator_PatchInlet(op);
 
                 case OperatorTypeEnum.PatchOutlet:
                     return SaveOperator_PatchOutlet(op);
 
+                case OperatorTypeEnum.CustomOperator:
+                    return SaveOperator_Custom(op);
+
                 default:
                     return SaveOperator_Other(op);
             }
         }
 
-        private VoidResult SaveOperator_Custom(Operator op)
+        private VoidResult SaveOperator_PatchInlet(Operator op)
         {
-            ISideEffect sideEffect = new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories);
-            sideEffect.Execute();
+            ExecuteSideEffects(op);
 
-            VoidResult result = ValidateOperatorNonRecursive(op);
+            // Side-effect can affect whole patch,
+            // but also there are unique validations over e.g. ListIndexes of multiple PatchInlet Operators.
+            // That is why the whole patch is validated
+            VoidResult result = ValidatePatchRecursive();
             return result;
         }
 
         private VoidResult SaveOperator_PatchOutlet(Operator op)
         {
-            // You do not want to update operators dependent on this patch, unless the patch is valid.
-            VoidResult patchValidationResult = ValidatePatchRecursive();
-            if (patchValidationResult.Successful)
-            {
-                ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(op.Patch, _repositories);
-                sideEffect.Execute();
-            }
+            ExecuteSideEffects(op);
 
-            // Do not return the result of ValidatePatchRecursive, because only after pending other SaveOperator calls, the whole Patch might be valid.
-            VoidResult result = ValidateOperatorNonRecursive(op);
+            // Side-effect can affect whole patch,
+            // but also there are unique validations over e.g. ListIndexes of multiple PatchInlet Operators.
+            // That is why the whole patch is validated
+            VoidResult result = ValidatePatchRecursive();
             return result;
         }
 
-        private VoidResult SaveOperator_PatchInlet(Operator op)
+        private VoidResult SaveOperator_Custom(Operator op)
         {
+            ExecuteSideEffects(op);
 
-            // You do not want to update operators dependent on this patch, unless the patch is valid.
-            VoidResult patchValidationResult = ValidatePatchRecursive();
-            if (patchValidationResult.Successful)
-            {
-                ISideEffect sideEffect2 = new Patch_SideEffect_UpdateDependentCustomOperators(op.Patch, _repositories);
-                sideEffect2.Execute();
-            }
-
-            // Do not return the result of ValidatePatchRecursive, because only after pending other SaveOperator calls, the whole Patch might be valid.
             VoidResult result = ValidateOperatorNonRecursive(op);
             return result;
         }
 
         private VoidResult SaveOperator_Other(Operator op)
         {
+            ExecuteSideEffects(op);
+
             VoidResult result = ValidateOperatorNonRecursive(op);
             return result;
         }
@@ -325,10 +315,10 @@ namespace JJ.Business.Synthesizer
 
         // Validate (Private)
 
-        // TODO: 'Recursive' suggests that you would also validate the UnderlyingPatches of CustomOperators.
-        // Make this distinctly clear. Perhaps use the term 'WithRelatedEntities' if that is clearer.        
         private VoidResult ValidatePatchRecursive()
         {
+            // TODO: 'Recursive' suggests that you would also validate the UnderlyingPatches of CustomOperators.
+            // Make this distinctly clear. Perhaps use the term 'WithRelatedEntities' if that is clearer.        
             var validators = new List<IValidator>
             {
                 new PatchValidator_UniqueName(Patch),
@@ -351,7 +341,6 @@ namespace JJ.Business.Synthesizer
             };
 
             return result;
-
         }
 
         private VoidResult ValidateOperatorNonRecursive(Operator op)
@@ -363,6 +352,45 @@ namespace JJ.Business.Synthesizer
                 Messages = validator.ValidationMessages.ToCanonical(),
                 Successful = validator.IsValid
             };
+        }
+
+        // ExecuteSideEffects (Private)
+        
+        private void ExecuteSideEffects(Operator op)
+        {
+            OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
+            switch (operatorTypeEnum)
+            {
+                case OperatorTypeEnum.PatchInlet:
+                    ExecuteSideEffects_ForPatchInlet(op);
+                    break;
+
+                case OperatorTypeEnum.PatchOutlet:
+                    ExecuteSideEffects_ForPatchOutlet(op);
+                    break;
+
+                case OperatorTypeEnum.CustomOperator:
+                    ExecuteSideEffects_ForCustomOperator(op);
+                    break;
+            }
+        }
+
+        private void ExecuteSideEffects_ForPatchInlet(Operator op)
+        {
+            ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(op.Patch, _repositories);
+            sideEffect.Execute();
+        }
+
+        private void ExecuteSideEffects_ForPatchOutlet(Operator op)
+        {
+            ISideEffect sideEffect = new Patch_SideEffect_UpdateDependentCustomOperators(op.Patch, _repositories);
+            sideEffect.Execute();
+        }
+
+        private void ExecuteSideEffects_ForCustomOperator(Operator op)
+        {
+            ISideEffect sideEffect = new Operator_SideEffect_ApplyUnderlyingPatch(op, _repositories);
+            sideEffect.Execute();
         }
 
         // Misc

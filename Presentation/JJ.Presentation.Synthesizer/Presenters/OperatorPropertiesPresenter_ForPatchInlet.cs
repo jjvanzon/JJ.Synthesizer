@@ -65,11 +65,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void Update()
         {
-            IValidator validator = new OperatorPropertiesViewModel_ForPatchInlet_Validator(ViewModel);
-            if (!validator.IsValid)
+            IValidator presentationValidator = new OperatorPropertiesViewModel_ForPatchInlet_Validator(ViewModel);
+            if (!presentationValidator.IsValid)
             {
-                ViewModel.Successful = validator.IsValid;
-                ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                ViewModel.Successful = presentationValidator.IsValid;
+                ViewModel.ValidationMessages = presentationValidator.ValidationMessages.ToCanonical();
                 return;
             }
 
