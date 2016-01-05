@@ -16,14 +16,25 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 
         private readonly double[] _samples;
         private readonly double _samplingRate;
+        private readonly double _minTime;
+
+        /// <summary> 
+        /// Value before might not be the same as the first sample: 
+        /// if first node has value 1 but is an 'Off' node it will result in value 0 the whole period,
+        /// but just before that, the value is 1.
+        /// </summary>
+        private readonly double _valueBefore;
+        private readonly double _valueAfter;
 
         public OptimizedCurveCalculator(Curve curve)
         {
             IList<Node> sortedNodes = curve.Nodes.OrderBy(x => x.Time).ToArray();
 
-            double minTime = sortedNodes.First().Time;
+            _valueBefore = sortedNodes.First().Value;
+            _valueAfter = sortedNodes.Last().Value;
+            _minTime = sortedNodes.First().Time;
             double maxTime = sortedNodes.Last().Time;
-            double totalTime = maxTime - minTime;
+            double totalTime = maxTime - _minTime;
             double minNodeDuration = GetMinNodeLength(sortedNodes);
 
             // Try basing sample count on MINIMUM_SAMPLES_PER_NODE.
@@ -42,7 +53,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 
             ICurveCalculator interpretedCurveCalculator = new InterpretedCurveCalculator(curve);
 
-            double time = minTime;
+            double time = _minTime;
 
             for (int i = 0; i < sampleCount; i++)
             {
@@ -75,12 +86,18 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 
         public double CalculateValue(double time)
         {
-            double t = time * _samplingRate;
+            double t = (time - _minTime) * _samplingRate;
             int t0 = (int)t;
 
             // Return if sample not in range.
-            if (t0 < 0) return 0;
-            if (t0 + 1 > _samples.Length - 1) return 0;
+            if (t0 < 0)
+            {
+                return _valueBefore;
+            }
+            if (t0 + 1 > _samples.Length - 1)
+            {
+                return _valueAfter;
+            }
 
             double x0 = _samples[t0];
             double x1 = _samples[t0 + 1];
