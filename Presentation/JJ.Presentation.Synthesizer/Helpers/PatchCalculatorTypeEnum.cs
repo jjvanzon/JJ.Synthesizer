@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace JJ.Business.Synthesizer.Configuration
+﻿namespace JJ.Presentation.Synthesizer.Helpers
 {
-    [Obsolete]
     public enum PatchCalculatorTypeEnum
     {
         InterpretedPatchCalculator,

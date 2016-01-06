@@ -13,6 +13,8 @@ using JJ.Data.Canonical;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Business.Synthesizer.LinkTo;
+using JJ.Business.Synthesizer.Calculation.Patches;
+using System;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -20,6 +22,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private static double _patchPlayDuration = GetPatchPlayDuration();
         private static string _patchPlayOutputFilePath = GetPatchPlayOutputFilePath();
+        private static PatchCalculatorTypeEnum _patchCalculatorTypeEnum = GetPatchCalculatorTypeEnum();
 
         private PatchRepositories _repositories;
         private EntityPositionManager _entityPositionManager;
@@ -242,13 +245,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
             Outlet outlet = selectedOperator.Outlets.Single();
 
-            AudioFileOutputManager audioFileOutputManager = CreateAudioFileOutputManager(repositories);
+            IPatchCalculator patchCalculator = CreatePatchCalculator(new PatchRepositories(repositories), outlet);
+
+            AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
             AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
             audioFileOutput.FilePath = _patchPlayOutputFilePath;
             audioFileOutput.Duration = _patchPlayDuration;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
-            audioFileOutputManager.WriteFile(audioFileOutput);
+            audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
             ViewModel.Successful = true;
 
@@ -283,12 +288,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        private AudioFileOutputManager CreateAudioFileOutputManager(RepositoryWrapper repositories)
-        {
-            var manager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
-            return manager;
-        }
-
         /// <summary>
         /// Gets related operator's inlets to which the input operator is connected
         /// (at the ViewModel level).
@@ -316,6 +315,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return list;
         }
 
+        private IPatchCalculator CreatePatchCalculator(PatchRepositories repositories, Outlet outlet)
+        {
+            PatchManager patchManager = new PatchManager(outlet.Operator.Patch, repositories);
+
+            switch (_patchCalculatorTypeEnum)
+            {
+                case PatchCalculatorTypeEnum.OptimizedPatchCalculator:
+                    return patchManager.CreateOptimizedCalculator(outlet);
+
+                case PatchCalculatorTypeEnum.InterpretedPatchCalculator:
+                    return patchManager.CreateInterpretedCalculator(outlet);
+
+                default:
+                    throw new ValueNotSupportedException(_patchCalculatorTypeEnum);
+            }
+        }
+
         private void AssertViewModel()
         {
             if (ViewModel == null) throw new NullException(() => ViewModel);
@@ -329,6 +345,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private static string GetPatchPlayOutputFilePath()
         {
             return ConfigurationHelper.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
+        }
+
+        private static PatchCalculatorTypeEnum GetPatchCalculatorTypeEnum()
+        {
+            return ConfigurationHelper.GetSection<ConfigurationSection>().PatchCalculatorType;
         }
     }
 }

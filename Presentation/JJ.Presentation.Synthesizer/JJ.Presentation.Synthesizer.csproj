@@ -45,8 +45,9 @@
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Helpers\MustNotConvertToOutletViewModelException.cs" />
     <Compile Include="Helpers\MustNotConvertToInletViewModelException.cs" />
+    <Compile Include="Helpers\PatchCalculatorTypeEnum.cs" />
     <Compile Include="Helpers\PresentationPropertyNames.cs" />
-    <Compile Include="Helpers\ResultHelper.cs" />
+    <Compile Include="Helpers\2016-01-06 Backup of ResultHelper.cs" />
     <Compile Include="Presenters\CurrentPatchesPresenter.cs" />
     <Compile Include="Presenters\PatchGridPresenter.cs" />
     <Compile Include="Presenters\MainPresenter.Actions.cs" />

@@ -8,6 +8,8 @@ using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Data.Synthesizer;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -30,6 +32,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private const double DEFAULT_DURATION = 0.75;
 
         private static string _playOutputFilePath = GetPlayOutputFilePath();
+        private static PatchCalculatorTypeEnum _patchCalculatorTypeEnum = GetPatchCalculatorTypeEnum();
 
         private readonly RepositoryWrapper _repositories;
         private readonly PatchRepositories _patchRepositories;
@@ -190,8 +193,29 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private static string GetPlayOutputFilePath()
         {
-            var config = ConfigurationHelper.GetSection<ConfigurationSection>();
-            return config.PatchPlayHackedAudioFileOutputFilePath;
+            return ConfigurationHelper.GetSection<ConfigurationSection>().PatchPlayHackedAudioFileOutputFilePath;
+        }
+
+        private static PatchCalculatorTypeEnum GetPatchCalculatorTypeEnum()
+        {
+            return ConfigurationHelper.GetSection<ConfigurationSection>().PatchCalculatorType;
+        }
+
+        private IPatchCalculator CreatePatchCalculator(PatchRepositories repositories, Outlet outlet)
+        {
+            PatchManager patchManager = new PatchManager(outlet.Operator.Patch, repositories);
+
+            switch (_patchCalculatorTypeEnum)
+            {
+                case PatchCalculatorTypeEnum.OptimizedPatchCalculator:
+                    return patchManager.CreateOptimizedCalculator(outlet);
+
+                case PatchCalculatorTypeEnum.InterpretedPatchCalculator:
+                    return patchManager.CreateInterpretedCalculator(outlet);
+
+                default:
+                    throw new ValueNotSupportedException(_patchCalculatorTypeEnum);
+            }
         }
     }
 }

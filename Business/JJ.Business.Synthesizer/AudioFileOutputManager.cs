@@ -197,5 +197,5 @@ namespace JJ.Business.Synthesizer
             entity.UnlinkRelatedEntities();
             _repositories.AudioFileOutputChannelRepository.Delete(entity);
         }
-    }
+    }   
 }

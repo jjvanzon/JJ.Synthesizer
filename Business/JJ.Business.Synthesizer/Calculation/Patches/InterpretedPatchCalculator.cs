@@ -22,6 +22,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         // The InterpretedPatchCalculator may not have the exact same behavior as the OptimizedPatchCalculator,
         // because it is used much less and is not maintained as well.
 
+        // TODO: Implement SetValue methods.
+
         private const double SAMPLE_BASE_FREQUENCY = 440.0;
 
         private readonly ICurveRepository _curveRepository;
@@ -45,12 +47,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// <summary> Key is a composite string with the path of operator ID's in it. </summary>
         private Dictionary<string, double> _phaseDictionary = new Dictionary<string, double>();
         /// <summary> Value can be null of Curve Operator's Curve is not set. </summary>
-        private Dictionary<string, ICurveCalculator> _curveIDString_CurveCalculator_Dictionary = new Dictionary<string, ICurveCalculator>();
-        private Dictionary<Operator, double> _numberOperator_Value_Dictionary = new Dictionary<Operator, double>();
+        private Dictionary<string, ICurveCalculator> _curveIDString_To_CurveCalculator_Dictionary = new Dictionary<string, ICurveCalculator>();
+        private Dictionary<Operator, double> _numberOperator_To_Value_Dictionary = new Dictionary<Operator, double>();
         /// <summary> Value can be null of Sample Operator's Sample is not set. </summary>
-        private Dictionary<string, ISampleCalculator> _sampleIDString_SampleCalculatorDictionary = new Dictionary<string, ISampleCalculator>();
+        private Dictionary<string, ISampleCalculator> _sampleIDString_To_SampleCalculator_Dictionary = new Dictionary<string, ISampleCalculator>();
         /// <summary> Value is offset in seconds. </summary>
-        private Dictionary<Operator, double> _operator_WhiteNoiseOffsetDictionary = new Dictionary<Operator, double>();
+        private Dictionary<Operator, double> _operator_WhiteNoiseOffset_Dictionary = new Dictionary<Operator, double>();
 
         /// <param name="channelOutlets">Can contain nulls.</param>
         public InterpretedPatchCalculator(
@@ -116,8 +118,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.WhiteNoise, CalculateWhiteNoise },
             };
         }
-
-        // TODO: Implement SetValue methods.
 
         public void SetValue(InletTypeEnum inletTypeEnum, double value)
         {
@@ -247,7 +247,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             Operator op = outlet.Operator;
 
             ICurveCalculator curveCalculator;
-            if (!_curveIDString_CurveCalculator_Dictionary.TryGetValue(op.Data, out curveCalculator))
+            if (!_curveIDString_To_CurveCalculator_Dictionary.TryGetValue(op.Data, out curveCalculator))
             {
                 var wrapper = new Curve_OperatorWrapper(op, _curveRepository);
                 Curve curve = wrapper.Curve;
@@ -257,7 +257,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     curveCalculator = new OptimizedCurveCalculator(curve);
                 }
 
-                _curveIDString_CurveCalculator_Dictionary.Add(op.Data, curveCalculator);
+                _curveIDString_To_CurveCalculator_Dictionary.Add(op.Data, curveCalculator);
             }
 
             if (curveCalculator == null)
@@ -473,11 +473,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             Operator op = outlet.Operator;
 
             double value;
-            if (!_numberOperator_Value_Dictionary.TryGetValue(op, out value))
+            if (!_numberOperator_To_Value_Dictionary.TryGetValue(op, out value))
             {
                 var wrapper = new Number_OperatorWrapper(op);
                 value = wrapper.Number;
-                _numberOperator_Value_Dictionary.Add(op, value);
+                _numberOperator_To_Value_Dictionary.Add(op, value);
             }
             return value;
         }
@@ -816,7 +816,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             // Get SampleCalculator
             ISampleCalculator sampleCalculator;
-            if (!_sampleIDString_SampleCalculatorDictionary.TryGetValue(op.Data, out sampleCalculator))
+            if (!_sampleIDString_To_SampleCalculator_Dictionary.TryGetValue(op.Data, out sampleCalculator))
             {
                 SampleInfo sampleInfo = wrapper.SampleInfo;
 
@@ -825,7 +825,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     sampleCalculator = SampleCalculatorFactory.CreateSampleCalculator(sampleInfo.Sample, sampleInfo.Bytes);
                 }
 
-                _sampleIDString_SampleCalculatorDictionary.Add(op.Data, sampleCalculator);
+                _sampleIDString_To_SampleCalculator_Dictionary.Add(op.Data, sampleCalculator);
             }
             if (sampleCalculator == null)
             {
@@ -1041,10 +1041,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             Operator op = outlet.Operator;
 
             double offset;
-            if (!_operator_WhiteNoiseOffsetDictionary.TryGetValue(op, out offset))
+            if (!_operator_WhiteNoiseOffset_Dictionary.TryGetValue(op, out offset))
             {
                 offset = _whiteNoiseCalculator.GetRandomOffset();
-                _operator_WhiteNoiseOffsetDictionary.Add(op, offset);
+                _operator_WhiteNoiseOffset_Dictionary.Add(op, offset);
             }
 
             double value = _whiteNoiseCalculator.GetValue(time + offset);

@@ -16,6 +16,7 @@ using JJ.Presentation.Synthesizer.Converters;
 using JJ.Business.Synthesizer;
 using System;
 using JJ.Presentation.Synthesizer.Helpers;
+using JJ.Business.Canonical;
 
 namespace JJ.Presentation.Synthesizer.ToEntity
 {

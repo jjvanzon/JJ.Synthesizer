@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿using System;
+using System.Xml.Serialization;
 
 namespace JJ.Business.Synthesizer.Configuration
 {
@@ -7,6 +8,7 @@ namespace JJ.Business.Synthesizer.Configuration
         [XmlAttribute]
         public int? NameMaxLength { get; set; }
 
+        [Obsolete]
         [XmlAttribute]
         public PatchCalculatorTypeEnum PatchCalculatorType { get; set; }
     }

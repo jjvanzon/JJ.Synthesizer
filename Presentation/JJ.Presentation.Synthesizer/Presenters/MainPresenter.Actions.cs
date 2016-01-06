@@ -24,6 +24,7 @@ using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ViewModels.Entities;
 using JJ.Presentation.Synthesizer.ViewModels.Partials;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.Calculation.Patches;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -2518,11 +2519,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     outlet = x.Sine(x.PatchInlet(InletTypeEnum.Frequency, frequency));
                 }
 
+                IPatchCalculator patchCalculator = CreatePatchCalculator(new PatchRepositories(_repositories), outlet);
+
                 AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.FilePath = _playOutputFilePath;
                 audioFileOutput.Duration = DEFAULT_DURATION;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
-                _audioFileOutputManager.WriteFile(audioFileOutput);
+                _audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 return _playOutputFilePath;
             }

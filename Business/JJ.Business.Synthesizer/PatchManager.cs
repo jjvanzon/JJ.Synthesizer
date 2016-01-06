@@ -15,6 +15,7 @@ using JJ.Business.Synthesizer.SideEffects;
 using JJ.Business.Synthesizer.Calculation;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Canonical;
+using JJ.Business.Synthesizer.EntityWrappers;
 
 namespace JJ.Business.Synthesizer
 {
@@ -323,9 +324,9 @@ namespace JJ.Business.Synthesizer
             {
                 new PatchValidator_UniqueName(Patch),
                 new PatchValidator_Recursive(
-                    Patch,  
-                    _repositories.CurveRepository, 
-                    _repositories.SampleRepository, 
+                    Patch,
+                    _repositories.CurveRepository,
+                    _repositories.SampleRepository,
                     _repositories.PatchRepository, new HashSet<object>())
             };
 
@@ -355,7 +356,7 @@ namespace JJ.Business.Synthesizer
         }
 
         // ExecuteSideEffects (Private)
-        
+
         private void ExecuteSideEffects(Operator op)
         {
             OperatorTypeEnum operatorTypeEnum = op.GetOperatorTypeEnum();
@@ -466,51 +467,85 @@ namespace JJ.Business.Synthesizer
             };
         }
 
-        /// <summary>
-        /// Optimized has slower initialization and faster sound generation (best for outputting sound).
-        /// </summary>
+        /// <summary> Optimized has slower initialization and faster sound generation (best for outputting sound). </summary>
         public IPatchCalculator CreateOptimizedCalculator(params Outlet[] channelOutlets)
         {
             return CreateOptimizedCalculator((IList<Outlet>)channelOutlets);
         }
 
-        /// <summary>
-        /// Optimized has slower initialization and faster sound generation (best for outputting sound).
-        /// </summary>
-        public IPatchCalculator CreateOptimizedCalculator(IList<Outlet> channelOutlets)
+        /// <summary> Optimized has slower initialization and faster sound generation (best for outputting sound). </summary>
+        public IPatchCalculator CreateOptimizedCalculator(bool mustSubstituteSineForUnfilledInSignalPatchInlets, params Outlet[] channelOutlets)
         {
+            return CreateOptimizedCalculator(channelOutlets, mustSubstituteSineForUnfilledInSignalPatchInlets);
+        }
+
+        /// <summary> Optimized has slower initialization and faster sound generation (best for outputting sound). </summary>
+        public IPatchCalculator CreateOptimizedCalculator(IList<Outlet> channelOutlets, bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
+        {
+            if (mustSubstituteSineForUnfilledInSignalPatchInlets)
+            {
+                SubstituteSineForUnfilledInSignalPatchInlets();
+            }
+
             int assumedSamplingRate = 44100;
             var whiteNoiseCalculator = new WhiteNoiseCalculator(assumedSamplingRate);
 
-            return new OptimizedPatchCalculator(
-                channelOutlets, 
-                whiteNoiseCalculator, 
-                _repositories.CurveRepository, 
-                _repositories.SampleRepository, 
+            IPatchCalculator calculator = new OptimizedPatchCalculator(
+                channelOutlets,
+                whiteNoiseCalculator,
+                _repositories.CurveRepository,
+                _repositories.SampleRepository,
                 _repositories.PatchRepository);
+
+            return calculator;
         }
 
-        /// <summary>
-        /// Interpreted mode has fast initialization and slow sound generation (best for previewing values or drawing out plots).
-        /// </summary>
+        /// <summary> Interpreted mode has fast initialization and slow sound generation (best for previewing values or drawing out plots). </summary>
         public IPatchCalculator CreateInterpretedCalculator(params Outlet[] channelOutlets)
         {
             return CreateInterpretedCalculator((IList<Outlet>)channelOutlets);
         }
 
-        /// <summary>
-        /// Interpreted mode has fast initialization and slow sound generation (best for previewing values or drawing out plots).
-        /// </summary>
-        public IPatchCalculator CreateInterpretedCalculator(IList<Outlet> channelOutlets)
+        /// <summary> Interpreted mode has fast initialization and slow sound generation (best for previewing values or drawing out plots). </summary>
+        public IPatchCalculator CreateInterpretedCalculator(bool mustSubstituteSineForUnfilledInSignalPatchInlets, params Outlet[] channelOutlets)
         {
+            return CreateInterpretedCalculator(channelOutlets, mustSubstituteSineForUnfilledInSignalPatchInlets);
+        }
+
+        /// <summary> Interpreted mode has fast initialization and slow sound generation (best for previewing values or drawing out plots). </summary>
+        public IPatchCalculator CreateInterpretedCalculator(IList<Outlet> channelOutlets, bool mustSubstituteSineForUnfilledInSignalPatchInlets = true)
+        {
+            if (mustSubstituteSineForUnfilledInSignalPatchInlets)
+            {
+                SubstituteSineForUnfilledInSignalPatchInlets();
+            }
+
             int assumedSamplingRate = 44100;
             var whiteNoiseCalculator = new WhiteNoiseCalculator(assumedSamplingRate);
+
             return new InterpretedPatchCalculator(
-                channelOutlets, 
-                whiteNoiseCalculator, 
-                _repositories.CurveRepository, 
+                channelOutlets,
+                whiteNoiseCalculator,
+                _repositories.CurveRepository,
                 _repositories.SampleRepository,
                 _repositories.PatchRepository);
+        }
+
+        private void SubstituteSineForUnfilledInSignalPatchInlets()
+        {
+            AssertPatch();
+
+            IList<PatchInlet_OperatorWrapper> patchInletWrappers = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
+                                                                        .Where(x => x.Inlet.GetInletTypeEnum() == InletTypeEnum.Signal &&
+                                                                                    x.Inlet.InputOutlet == null &&
+                                                                                    !x.Inlet.DefaultValue.HasValue)
+                                                                        .ToArray();
+            Outlet sineOutlet = Sine(Number(440));
+
+            foreach (PatchInlet_OperatorWrapper patchInletWrapper in patchInletWrappers)
+            {
+                patchInletWrapper.Input = sineOutlet;
+            }
         }
 
         private void AssertPatch()

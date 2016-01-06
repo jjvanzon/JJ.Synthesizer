@@ -9,7 +9,6 @@ using System.Linq;
 using JJ.Business.Synthesizer.Enums;
 using System.IO;
 using JJ.Business.Synthesizer.Helpers;
-using JJ.Business.Synthesizer;
 using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
