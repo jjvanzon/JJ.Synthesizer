@@ -173,17 +173,6 @@ namespace JJ.Business.Synthesizer
             audioFileOutputCalculator.Execute(audioFileOutput);
         }
 
-        public void WriteFile(AudioFileOutput audioFileOutput)
-        {
-            IAudioFileOutputCalculator audioFileOutputCalculator = AudioFileOutputCalculatorFactory.CreateAudioFileOutputCalculator(
-                audioFileOutput,
-                _repositories.CurveRepository, 
-                _repositories.SampleRepository,
-                _repositories.PatchRepository);
-
-            audioFileOutputCalculator.Execute(audioFileOutput);
-        }
-
         public void DeleteAudioFileOutputChannel(int id)
         {
             AudioFileOutputChannel entity = _repositories.AudioFileOutputChannelRepository.Get(id);

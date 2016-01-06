@@ -33,28 +33,5 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                     throw new ValueNotSupportedException(sampleDataTypeEnum);
             }
         }
-
-
-        public static IAudioFileOutputCalculator CreateAudioFileOutputCalculator(
-            AudioFileOutput audioFileOutput, 
-            ICurveRepository curveRepository, 
-            ISampleRepository sampleRepository, 
-            IPatchRepository patchRepository)
-        {
-            if (audioFileOutput == null) throw new NullException(() => audioFileOutput);
-
-            SampleDataTypeEnum sampleDataTypeEnum = audioFileOutput.GetSampleDataTypeEnum();
-            switch (sampleDataTypeEnum)
-            {
-                case SampleDataTypeEnum.Int16:
-                    return new Int16AudioFileOutputCalculator(null, curveRepository, sampleRepository, patchRepository);
-
-                case SampleDataTypeEnum.Byte:
-                    return new ByteAudioFileOutputCalculator(null, curveRepository, sampleRepository, patchRepository);
-
-                default:
-                    throw new ValueNotSupportedException(sampleDataTypeEnum);
-            }
-        }
     }
 }

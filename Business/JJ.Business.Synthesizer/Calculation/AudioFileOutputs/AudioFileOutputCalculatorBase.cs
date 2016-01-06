@@ -19,13 +19,11 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 {
     internal abstract class AudioFileOutputCalculatorBase : IAudioFileOutputCalculator
     {
-        private static PatchCalculatorTypeEnum _patchCalculatorTypeEnum = GetPatchCalculatorTypeEnum();
-
         private readonly ICurveRepository _curveRepository;
         private readonly ISampleRepository _sampleRepository;
         private readonly IPatchRepository _patchRepository;
 
-        private IPatchCalculator _patchCalculator;
+        private readonly IPatchCalculator _patchCalculator;
 
         /// <param name="patchRepository">
         /// Nullable. 
@@ -37,6 +35,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
             ISampleRepository sampleRepository,
             IPatchRepository patchRepository)
         {
+            if (patchCalculator == null) throw new NullException(() => patchCalculator);
             if (curveRepository == null) throw new NullException(() => curveRepository);
             if (sampleRepository == null) throw new NullException(() => sampleRepository);
             if (patchRepository == null) throw new NullException(() => patchRepository);
@@ -63,24 +62,6 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
             var whiteNoiseCalculator = new WhiteNoiseCalculator(audioFileOutput.SamplingRate);
             
-            IPatchCalculator patchCalculator = _patchCalculator;
-            if (patchCalculator == null)
-            {
-                switch (_patchCalculatorTypeEnum)
-                {
-                    case PatchCalculatorTypeEnum.OptimizedPatchCalculator:
-                        patchCalculator = new OptimizedPatchCalculator(outlets, whiteNoiseCalculator, _curveRepository, _sampleRepository, _patchRepository);
-                        break;
-
-                    case PatchCalculatorTypeEnum.InterpretedPatchCalculator:
-                        patchCalculator = new InterpretedPatchCalculator(outlets, whiteNoiseCalculator, _curveRepository, _sampleRepository, _patchRepository);
-                        break;
-
-                    default:
-                        throw new ValueNotSupportedException(_patchCalculatorTypeEnum);
-                }
-            }
-
             // Calculate output and write file
             int channelCount = audioFileOutput.GetChannelCount();
 
@@ -123,7 +104,7 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
                     {
                         for (int i = 0; i < channelCount; i++)
                         {
-                            double value = patchCalculator.Calculate(t, i);
+                            double value = _patchCalculator.Calculate(t, i);
                             value *= adjustedAmplifier;
 
                             WriteValue(writer, value);
@@ -135,12 +116,5 @@ namespace JJ.Business.Synthesizer.Calculation.AudioFileOutputs
 
         protected abstract double GetAmplifierAdjustedToSampleDataType(AudioFileOutput audioFileOutput);
         protected abstract void WriteValue(BinaryWriter binaryWriter, double value);
-
-        // Helpers
-
-        private static PatchCalculatorTypeEnum GetPatchCalculatorTypeEnum()
-        {
-            return ConfigurationHelper.GetSection<ConfigurationSection>().PatchCalculatorType;
-        }
     }
 }

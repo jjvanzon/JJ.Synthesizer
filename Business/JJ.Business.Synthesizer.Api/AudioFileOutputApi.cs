@@ -4,6 +4,7 @@ using System.Linq;
 using JJ.Business.Synthesizer.Api.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Data.Synthesizer;
+using JJ.Business.Synthesizer.Calculation.Patches;
 
 namespace JJ.Business.Synthesizer.Api
 {
@@ -21,9 +22,9 @@ namespace JJ.Business.Synthesizer.Api
             return _audioFileOutputManager.CreateWithRelatedEntities();
         }
 
-        public static void WriteFile(AudioFileOutput audioFileOutput)
+        public static void WriteFile(AudioFileOutput audioFileOutput, IPatchCalculator patchCalculator)
         {
-            _audioFileOutputManager.WriteFile(audioFileOutput);
+            _audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
         }
     }
 }

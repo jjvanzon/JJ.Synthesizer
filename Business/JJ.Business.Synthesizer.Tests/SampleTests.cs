@@ -50,6 +50,7 @@ namespace JJ.Business.Synthesizer.Tests
 
                 PatchManager x = new PatchManager(new PatchRepositories(repositories));
                 Outlet outlet = x.SlowDown(x.Sample(sample), x.Number(timeMultiplier));
+                IPatchCalculator patchCalculator = x.CreateOptimizedCalculator(outlet);
 
                 AudioFileOutputManager audioFileOutputManager = new AudioFileOutputManager(new AudioFileOutputRepositories(repositories));
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
@@ -65,7 +66,7 @@ namespace JJ.Business.Synthesizer.Tests
                     }
                 }
 
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator );
             }
         }
 

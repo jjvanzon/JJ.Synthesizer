@@ -7,9 +7,5 @@ namespace JJ.Business.Synthesizer.Configuration
     {
         [XmlAttribute]
         public int? NameMaxLength { get; set; }
-
-        [Obsolete]
-        [XmlAttribute]
-        public PatchCalculatorTypeEnum PatchCalculatorType { get; set; }
     }
 }

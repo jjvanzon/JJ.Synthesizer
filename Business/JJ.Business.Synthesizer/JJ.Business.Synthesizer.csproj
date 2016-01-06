@@ -110,7 +110,7 @@
     <Compile Include="Calculation\SineCalculator.cs" />
     <Compile Include="Calculation\WhiteNoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
-    <Compile Include="Configuration\PatchCalculatorTypeEnum.cs" />
+    <Compile Include="Configuration\2016-01-06 Backup of PatchCalculatorTypeEnum.cs" />
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\Unbundle_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Bundle_OperatorWrapper.cs" />

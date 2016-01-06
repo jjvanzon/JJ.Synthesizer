@@ -239,13 +239,15 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet sampleOperatorOutlet = patchManager.Sample(sample);
                 Outlet effect = EntityFactory.CreateTimePowerEffectWithEcho(patchManager, sampleOperatorOutlet);
 
+                IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(effect);
+
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = effect;
                 audioFileOutput.FilePath = "Test_Synthesizer_TimePowerWithEcho.wav";
                 audioFileOutput.Duration = 6.5;
 
                 Stopwatch sw = Stopwatch.StartNew();
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
@@ -264,6 +266,7 @@ namespace JJ.Business.Synthesizer.Tests
                 var sampleManager =  new SampleManager(new SampleRepositories(repositories));
                 var audioFileOutputManager = new AudioFileOutputManager (new AudioFileOutputRepositories(repositories));
                 var patchManager = new PatchManager(new PatchRepositories(repositories));
+
                 Stream sampleStream = TestHelper.GetViolin16BitMono44100WavStream();
                 SampleInfo sampleInfo = sampleManager.CreateSample(sampleStream);
                 Sample sample = sampleInfo.Sample;
@@ -273,13 +276,15 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet sampleOperatorOutlet = patchManager.Sample(sample);
                 Outlet effect = EntityFactory.CreateMultiplyWithEcho(patchManager, sampleOperatorOutlet);
 
+                IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(effect);
+
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = effect;
                 audioFileOutput.FilePath = "Test_Synthesizer_MultiplyWithEcho.wav";
                 audioFileOutput.Duration = 6.5;
 
                 Stopwatch sw = Stopwatch.StartNew();
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
@@ -519,16 +524,18 @@ namespace JJ.Business.Synthesizer.Tests
 
                 Outlet outlet = x.Multiply(x.WhiteNoise(), x.Number(Int16.MaxValue));
 
+                IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(outlet);
+
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.FilePath = "Test_Synthesizer_WhiteNoiseOperator.wav";
                 audioFileOutput.Duration = 20;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
                 // Execute once to fill cache(s).
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 Stopwatch sw = Stopwatch.StartNew();
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
@@ -564,30 +571,35 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet whiteNoise = x.Multiply(x.WhiteNoise(), x.Number(amplification));
                 Outlet resampledWhiteNoise = x.Resample(whiteNoise, x.Number(alternativeSamplingRate));
 
+                IPatchCalculator patchCalculator;
+
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_WhiteNoise_Input.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = whiteNoise;
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                patchCalculator = x.CreateOptimizedCalculator(whiteNoise);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_WhiteNoise_WithLowerSamplingRate.wav";
                 audioFileOutput.SamplingRate = alternativeSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = whiteNoise;
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                patchCalculator = x.CreateOptimizedCalculator(whiteNoise);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_WhiteNoise_WithResampleOperator.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = resampledWhiteNoise;
+                patchCalculator = x.CreateOptimizedCalculator(resampledWhiteNoise);
 
                 // Only test performance here and not in the other tests.
 
                 // Execute once to fill cache(s).
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 Stopwatch sw = Stopwatch.StartNew();
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
                 sw.Stop();
 
                 double ratio = sw.Elapsed.TotalSeconds / audioFileOutput.Duration;
@@ -628,23 +640,28 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet input = x.Sample(sample);
                 Outlet resampled = x.Resample(input, x.Number(alternativeSamplingRate));
 
+                IPatchCalculator patchCalculator;
+
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Sample_Input.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = input;
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                patchCalculator = x.CreateOptimizedCalculator(input);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Sample_WithLowerSamplingRate.wav";
                 audioFileOutput.SamplingRate = alternativeSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = input;
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                patchCalculator = x.CreateOptimizedCalculator(input);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Sample_WithResampleOperator.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = resampled;
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                patchCalculator = x.CreateOptimizedCalculator(resampled);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
             }
         }
 
@@ -690,24 +707,28 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet curveIn = x.Multiply(x.Curve(curve), x.Number(amplification));
                 Outlet resampled = x.Resample(curveIn, x.Number(alternativeSamplingRate));
 
+                IPatchCalculator patchCalculator;
+
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Curve_Input.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = curveIn;
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                patchCalculator = x.CreateOptimizedCalculator(curveIn);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Curve_WithLowerSamplingRate.wav";
                 audioFileOutput.SamplingRate = alternativeSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = curveIn;
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                patchCalculator = x.CreateOptimizedCalculator(curveIn);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_ConstantSamplingRate_Curve_WithResampleOperator.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = resampled;
-
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                patchCalculator = x.CreateOptimizedCalculator(resampled);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
             }
         }
 
@@ -733,13 +754,15 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet input = x.Multiply(x.WhiteNoise(), x.Number(amplification));
                 Outlet outlet = x.Resample(input, x.Curve(curve));
 
+                IPatchCalculator patchCalculator = x.CreateOptimizedCalculator(outlet);
+
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_WithVariableSamplingRate_Noise.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
             }
         }
 
@@ -771,13 +794,15 @@ namespace JJ.Business.Synthesizer.Tests
                 Outlet input = x.Sample(sample);
                 Outlet outlet = x.Resample(input, x.Curve(curve));
 
+                IPatchCalculator patchCalculator = x.CreateOptimizedCalculator(outlet);
+
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = duration;
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_WithVariableSamplingRate_Sample.wav";
                 audioFileOutput.SamplingRate = outputSamplingRate;
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
 
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
             }
         }
 
@@ -800,17 +825,21 @@ namespace JJ.Business.Synthesizer.Tests
                 double newSamplingRate = 4;
                 Outlet resampled = x.Resample(sine, x.Number(newSamplingRate));
 
+                IPatchCalculator patchCalculator;
+
                 AudioFileOutput audioFileOutput = audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.Duration = 2;
                 audioFileOutput.SamplingRate = 44100;
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_Sine_Input.wav";
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = sine;
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                patchCalculator = x.CreateOptimizedCalculator(sine);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
                 audioFileOutput.FilePath = "Test_Synthesizer_ResampleOperator_Sine_Resampled.wav";
                 audioFileOutput.AudioFileOutputChannels[0].Outlet = resampled;
-                audioFileOutputManager.WriteFile(audioFileOutput);
+                patchCalculator = x.CreateOptimizedCalculator(resampled);
+                audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
             }
         }
 
