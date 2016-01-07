@@ -22,7 +22,7 @@ namespace JJ.Infrastructure.Synthesizer
         private readonly WaveOut _waveOut;
 
         private double _time;
-        private bool _isRunning;
+        private volatile bool _isRunning;
 
         public AudioOutputProcessor(IPatchCalculator patchCalculator)
         {
