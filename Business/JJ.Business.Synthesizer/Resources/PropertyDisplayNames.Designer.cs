@@ -88,6 +88,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attack Duration.
+        /// </summary>
+        public static string AttackDuration {
+            get {
+                return ResourceManager.GetString("AttackDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Audio File Format.
         /// </summary>
         public static string AudioFileFormat {
@@ -565,6 +574,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Note Duration.
+        /// </summary>
+        public static string NoteDuration {
+            get {
+                return ResourceManager.GetString("NoteDuration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number.
         /// </summary>
         public static string Number {
@@ -732,6 +750,15 @@ namespace JJ.Business.Synthesizer.Resources {
         public static string ReferencedDocuments {
             get {
                 return ResourceManager.GetString("ReferencedDocuments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Release Duration.
+        /// </summary>
+        public static string ReleaseDuration {
+            get {
+                return ResourceManager.GetString("ReleaseDuration", resourceCulture);
             }
         }
         

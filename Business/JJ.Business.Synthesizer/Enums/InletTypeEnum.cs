@@ -12,6 +12,8 @@
         VibratoDepth = 7,
         TremoloSpeed = 8,
         TremoloDepth = 9,
-        Duration = 10
+        NoteDuration = 10,
+        AttackDuration = 11,
+        ReleaseDuration = 12
     }
 }

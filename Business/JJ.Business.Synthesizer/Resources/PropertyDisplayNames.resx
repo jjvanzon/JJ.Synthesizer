@@ -469,4 +469,13 @@
   <data name="GroupName" xml:space="preserve">
     <value>Group</value>
   </data>
+  <data name="NoteDuration" xml:space="preserve">
+    <value>Note Duration</value>
+  </data>
+  <data name="AttackDuration" xml:space="preserve">
+    <value>Attack Duration</value>
+  </data>
+  <data name="ReleaseDuration" xml:space="preserve">
+    <value>Release Duration</value>
+  </data>
 </root>
