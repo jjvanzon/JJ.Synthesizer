@@ -2,11 +2,14 @@
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
 using System;
+using System.Globalization;
 
 namespace JJ.Business.Synthesizer.EntityWrappers
 {
     public class Number_OperatorWrapper : OperatorWrapperBase
     {
+        private static CultureInfo _formattingCulture = new CultureInfo("en-US");
+
         public Number_OperatorWrapper(Operator op)
             : base(op)
         { }
@@ -18,8 +21,8 @@ namespace JJ.Business.Synthesizer.EntityWrappers
 
         public double Number
         {
-            get { return Double.Parse(WrappedOperator.Data); }
-            set { WrappedOperator.Data = value.ToString(); }
+            get { return Double.Parse(WrappedOperator.Data, _formattingCulture); }
+            set { WrappedOperator.Data = value.ToString(_formattingCulture); }
         }
 
         public static implicit operator Outlet(Number_OperatorWrapper wrapper)
