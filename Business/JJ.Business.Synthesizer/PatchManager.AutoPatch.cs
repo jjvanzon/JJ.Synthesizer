@@ -229,6 +229,27 @@ namespace JJ.Business.Synthesizer
                 PatchOutlet_OperatorWrapper patchOutletWrapper = ConvertToPatchOutlet(unmatchedOutlet);
             }
 
+            // Renumber the patch inlets and outlets
+            // TODO: This numbering seems arbitrary.
+            IList<PatchInlet_OperatorWrapper> patchInletOperatorWrappers = Patch.EnumerateOperatorWrappersOfType<PatchInlet_OperatorWrapper>()
+                                                                                .OrderBy(x => x.ListIndex)
+                                                                                .ToArray();
+            for (int i = 0; i < patchInletOperatorWrappers.Count; i++)
+            {
+                PatchInlet_OperatorWrapper patchInletOperatorWrapper = patchInletOperatorWrappers[i];
+                patchInletOperatorWrapper.ListIndex = i;
+            }
+
+            IList<PatchOutlet_OperatorWrapper> patchOutletOperatorWrappers = Patch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
+                                                                    .OrderBy(x => x.ListIndex)
+                                                                    .ToArray();
+
+            for (int i = 0; i < patchOutletOperatorWrappers.Count; i++)
+            {
+                PatchOutlet_OperatorWrapper patchOutletOperatorWrapper = patchOutletOperatorWrappers[i];
+                patchOutletOperatorWrapper.ListIndex = i;
+            }
+
             // This is sensitive, error prone code, so verify its result with the validators. 
             VoidResult result = ValidatePatchRecursive();
             ResultHelper.Assert(result);
