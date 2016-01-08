@@ -150,8 +150,13 @@ namespace JJ.Infrastructure.Synthesizer
                 return;
             }
 
-            //_patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteListIndex.Value, noteEvent.
+            // MidiEvent itself does not give us the information needed to determine note duration.
+            double noteStart = _patchCalculator.GetValue(InletTypeEnum.NoteStart, noteListIndex.Value);
+            double noteEnd = _audioOutputProcessor.Time;
+            double noteDuration = noteEnd - noteStart;
+            _patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteListIndex.Value, noteDuration);
 
+            // NoteDuration does not work properly yet, so keep the old solution for now. (Abruptly stopping the note.)
             double newVolume = 0.0;
             _patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, newVolume);
 

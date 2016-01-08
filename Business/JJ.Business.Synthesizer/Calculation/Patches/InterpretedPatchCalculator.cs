@@ -119,31 +119,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             };
         }
 
-        public void SetValue(InletTypeEnum inletTypeEnum, double value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetValue(string name, double value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetValue(int listIndex, double value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetValue(string name, int listIndex, double value)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetValue(InletTypeEnum inletTypeEnum, int listIndex, double value)
-        {
-            throw new NotImplementedException();
-        }
-
         public double Calculate(double time, int channelIndex)
         {
             _channelIndex = channelIndex;
@@ -1058,6 +1033,58 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             string key = String.Join("|", _outletStack.Select(x => x.ID));
             return key;
+        }
+
+        // TODO: Implement these methods.
+
+        public void SetValue(InletTypeEnum inletTypeEnum, double value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(string name, double value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(int listIndex, double value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(string name, int listIndex, double value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SetValue(InletTypeEnum inletTypeEnum, int listIndex, double value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double GetValue(int listIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double GetValue(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double GetValue(string name, int listIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double GetValue(InletTypeEnum inletTypeEnum)
+        {
+            throw new NotImplementedException();
+        }
+
+        public double GetValue(InletTypeEnum inletTypeEnum, int listIndex)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -54,7 +54,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public void SetValue(int listIndex, double value)
         {
-            // Be tollerant for non-existend list indexes, because you can switch instruments so dynamically.
+            // Be tollerant for non-existent list indexes, because you can switch instruments so dynamically.
             if (listIndex < 0) return;
             if (listIndex >= _variableInput_OperatorCalculators.Length) return;
 
@@ -131,6 +131,94 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     j++;
                 }
             }
+        }
+
+        public double GetValue(int listIndex)
+        {
+            // Be tollerant for non-existent list indexes, because you can switch instruments so dynamically.
+            if (listIndex < 0) return 0.0;
+            if (listIndex >= _variableInput_OperatorCalculators.Length) return 0.0;
+
+            double value = _variableInput_OperatorCalculators[listIndex]._value;
+            return value;
+        }
+
+        public double GetValue(string name)
+        {
+            if (String.IsNullOrEmpty(name)) throw new NullOrEmptyException(() => name);
+
+            for (int i = 0; i < _variableInput_OperatorCalculators.Length; i++)
+            {
+                VariableInput_OperatorCalculator operatorCalculator = _variableInput_OperatorCalculators[i];
+
+                if (String.Equals(operatorCalculator.Name, name))
+                {
+                    return operatorCalculator._value;
+                }
+            }
+
+            return 0.0;
+        }
+
+        public double GetValue(string name, int listIndex)
+        {
+            if (String.IsNullOrEmpty(name)) throw new NullOrEmptyException(() => name);
+
+            int j = 0;
+
+            for (int i = 0; i < _variableInput_OperatorCalculators.Length; i++)
+            {
+                VariableInput_OperatorCalculator operatorCalculator = _variableInput_OperatorCalculators[i];
+
+                if (String.Equals(operatorCalculator.Name, name))
+                {
+                    if (j == listIndex)
+                    {
+                        return operatorCalculator._value;
+                    }
+
+                    j++;
+                }
+            }
+
+            return 0.0;
+        }
+
+        public double GetValue(InletTypeEnum inletTypeEnum)
+        {
+            for (int i = 0; i < _variableInput_OperatorCalculators.Length; i++)
+            {
+                VariableInput_OperatorCalculator operatorCalculator = _variableInput_OperatorCalculators[i];
+
+                if (operatorCalculator.InletTypeEnum == inletTypeEnum)
+                {
+                    return operatorCalculator._value;
+                }
+            }
+
+            return 0.0;
+        }
+
+        public double GetValue(InletTypeEnum inletTypeEnum, int listIndex)
+        {
+            int j = 0;
+
+            for (int i = 0; i < _variableInput_OperatorCalculators.Length; i++)
+            {
+                VariableInput_OperatorCalculator operatorCalculator = _variableInput_OperatorCalculators[i];
+
+                if (operatorCalculator.InletTypeEnum == inletTypeEnum)
+                {
+                    if (j == listIndex)
+                    {
+                        return operatorCalculator._value;
+                    }
+
+                    j++;
+                }
+            }
+
+            return 0.0;
         }
     }
 }
