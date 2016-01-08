@@ -12,8 +12,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     internal class OptimizedPatchCalculator : IPatchCalculator
     {
         /// <summary> Array for optimization in calculating values. </summary>
-        private OperatorCalculatorBase[] _channelOperatorCalculators;
-        private VariableInput_OperatorCalculator[] _variableInput_OperatorCalculators;
+        private readonly OperatorCalculatorBase[] _channelOperatorCalculators;
+        private readonly VariableInput_OperatorCalculator[] _variableInput_OperatorCalculators;
 
         /// <summary> This overload has ChannelOutlets as params. </summary>
         /// <param name="channelOutlets">Can contain nulls.</param>
@@ -41,8 +41,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(channelOutlets, whiteNoiseCalculator);
 
+            // TODO: One would think that the outlet operators should be sorted by a list index too.
             _channelOperatorCalculators = result.Output_OperatorCalculators.ToArray();
-            _variableInput_OperatorCalculators = result.Input_OperatorCalculators.ToArray();
+
+            _variableInput_OperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();
         }
 
         public double Calculate(double time, int channelIndex)

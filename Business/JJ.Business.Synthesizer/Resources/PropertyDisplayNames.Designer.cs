@@ -583,6 +583,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Note Start.
+        /// </summary>
+        public static string NoteStart {
+            get {
+                return ResourceManager.GetString("NoteStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Number.
         /// </summary>
         public static string Number {

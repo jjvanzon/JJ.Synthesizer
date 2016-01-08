@@ -7,7 +7,6 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Extensions;
 using JJ.Business.Synthesizer.EntityWrappers;
 using JJ.Business.Synthesizer.LinkTo;
-using JJ.Business.Synthesizer.Helpers;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
 using JJ.Framework.Common;
@@ -23,7 +22,7 @@ namespace JJ.Business.Synthesizer
         /// Then creates a wrapper patch around it, that enables polyphony.
         /// For more information: see method summary of AutoPatch.
         /// </summary>
-        public AutoPatchPolyphonicResult AutoPatchPolyphonic(IList<Patch> underlyingPatches, int maxConcurrentNotes)
+        public Outlet AutoPatchPolyphonic(IList<Patch> underlyingPatches, int maxConcurrentNotes)
         {
             if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
             if (maxConcurrentNotes < 1) throw new LessThanException(() => maxConcurrentNotes, 1);
@@ -35,23 +34,17 @@ namespace JJ.Business.Synthesizer
             Patch polyphonicAutoPatch = Patch;
 
             var monophonicOutlets = new List<Outlet>(maxConcurrentNotes);
-            var volumeInletNames = new List<string>(maxConcurrentNotes);
-            var frequencyInletNames = new List<string>(maxConcurrentNotes);
-            var delayInletNames = new List<string>(maxConcurrentNotes);
 
             for (int i = 0; i < maxConcurrentNotes; i++)
             {
                 PatchInlet_OperatorWrapper volumePatchInletWrapper = PatchInlet(InletTypeEnum.Volume);
-                volumePatchInletWrapper.Name = GetVolumeInletName(i);
-                volumeInletNames.Add(volumePatchInletWrapper.Name);
+                volumePatchInletWrapper.Name = String.Format("{0} {1}", InletTypeEnum.Volume, i);
 
                 PatchInlet_OperatorWrapper frequencyPatchInletWrapper = PatchInlet(InletTypeEnum.Frequency);
-                frequencyPatchInletWrapper.Name = GetFrequencyInletName(i);
-                frequencyInletNames.Add(frequencyPatchInletWrapper.Name);
+                frequencyPatchInletWrapper.Name = String.Format("{0} {1}", InletTypeEnum.Frequency, i);
 
-                PatchInlet_OperatorWrapper delayPatchInletWrapper = PatchInlet();
-                delayPatchInletWrapper.Name = GetDelayInletName(i);
-                delayInletNames.Add(delayPatchInletWrapper.Name);
+                PatchInlet_OperatorWrapper noteStartPatchInletWrapper = PatchInlet(InletTypeEnum.NoteStart);
+                noteStartPatchInletWrapper.Name = String.Format("{0} {1}", InletTypeEnum.NoteStart, i);
 
                 CustomOperator_OperatorWrapper customOperatorWrapper = CustomOperator(monophonicAutoPatch);
 
@@ -70,7 +63,7 @@ namespace JJ.Business.Synthesizer
                 Outlet signalOutlet = customOperatorWrapper.Outlets.Where(x => x.GetOutletTypeEnum() == OutletTypeEnum.Signal).SingleOrDefault();
                 if (signalOutlet != null)
                 {
-                    Delay_OperatorWrapper delayWrapper = Delay(signalOutlet, delayPatchInletWrapper);
+                    Delay_OperatorWrapper delayWrapper = Delay(signalOutlet, noteStartPatchInletWrapper);
                     monophonicOutlets.Add(delayWrapper);
                 }
             }
@@ -84,8 +77,7 @@ namespace JJ.Business.Synthesizer
             // This is sensitive, error prone code, so assert its result 
             ResultHelper.Assert(savePatchResult);
 
-            var result = new AutoPatchPolyphonicResult(polyphonicOutlet, volumeInletNames, frequencyInletNames, delayInletNames);
-            return result;
+            return polyphonicOutlet;
         }
 
         /// <summary> Will return null if no Frequency inlet or Signal outlet is found. </summary>
@@ -312,21 +304,6 @@ namespace JJ.Business.Synthesizer
             destPatchOutletWrapper.Input = sourceOutlet;
 
             return destPatchOutletWrapper;
-        }
-
-        private string GetFrequencyInletName(int noteListIndex)
-        {
-            return "f" + noteListIndex.ToString();
-        }
-
-        private string GetVolumeInletName(int noteListIndex)
-        {
-            return "v" + noteListIndex.ToString();
-        }
-
-        private string GetDelayInletName(int noteListIndex)
-        {
-            return "d" + noteListIndex.ToString();
         }
     }
 }

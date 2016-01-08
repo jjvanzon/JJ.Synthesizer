@@ -478,4 +478,7 @@
   <data name="ReleaseDuration" xml:space="preserve">
     <value>Release Duration</value>
   </data>
+  <data name="NoteStart" xml:space="preserve">
+    <value>Note Start</value>
+  </data>
 </root>

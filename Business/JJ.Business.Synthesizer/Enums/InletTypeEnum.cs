@@ -14,6 +14,7 @@
         TremoloDepth = 9,
         NoteDuration = 10,
         AttackDuration = 11,
-        ReleaseDuration = 12
+        ReleaseDuration = 12,
+        NoteStart = 13
     }
 }

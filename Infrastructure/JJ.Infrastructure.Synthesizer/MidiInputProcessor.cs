@@ -7,6 +7,7 @@ using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Calculation.Patches;
+using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Infrastructure.Synthesizer
 {
@@ -19,7 +20,6 @@ namespace JJ.Infrastructure.Synthesizer
         private const int MAX_NOTE_NUMBER = 127;
         private const int MAX_CONCURRENT_NOTES = 4; // TODO: Increase after testing. Currently (2015-12-31), it cannot handle much more, though, performance-wise (on my laptop not plugged in).
 
-        private readonly AutoPatchPolyphonicResult _autoPatchResult;
         private readonly IPatchCalculator _patchCalculator;
         private readonly Scale _scale;
         private readonly MidiIn _midiIn;
@@ -43,8 +43,8 @@ namespace JJ.Infrastructure.Synthesizer
             _noteNumber_To_Frequency_Array = frequencies.ToArray();
 
             var patchManager = new PatchManager(repositories);
-            _autoPatchResult = patchManager.AutoPatchPolyphonic(patches, MAX_CONCURRENT_NOTES);
-            _patchCalculator = patchManager.CreateOptimizedCalculator(_autoPatchResult.SignalOutlet);
+            Outlet autoPatchOutlet = patchManager.AutoPatchPolyphonic(patches, MAX_CONCURRENT_NOTES);
+            _patchCalculator = patchManager.CreateOptimizedCalculator(autoPatchOutlet);
 
             _audioOutputProcessor = new AudioOutputProcessor(_patchCalculator);
             _midiIn = TryCreateMidiIn();
@@ -125,16 +125,13 @@ namespace JJ.Infrastructure.Synthesizer
             }
 
             double frequency = _noteNumber_To_Frequency_Array[noteOnEvent.NoteNumber];
-            string frequencyInletName = _autoPatchResult.FrequencyInletNames[noteListIndex.Value];
-            _patchCalculator.SetValue(frequencyInletName, frequency);
+            _patchCalculator.SetValue(InletTypeEnum.Frequency, noteListIndex.Value, frequency);
 
             double volume = noteOnEvent.Velocity / MAX_VELOCITY;
-            string volumeInletName = _autoPatchResult.VolumeInletNames[noteListIndex.Value];
-            _patchCalculator.SetValue(volumeInletName, volume);
+            _patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, volume);
 
-            string delayInletName = _autoPatchResult.DelayInletNames[noteListIndex.Value];
-            double delay = _audioOutputProcessor.Time;
-            _patchCalculator.SetValue(delayInletName, delay);
+            double noteStart = _audioOutputProcessor.Time;
+            _patchCalculator.SetValue(InletTypeEnum.NoteStart, noteListIndex.Value, noteStart);
 
             if (mustStartPlayingAudioOutput)
             {
@@ -153,11 +150,12 @@ namespace JJ.Infrastructure.Synthesizer
                 return;
             }
 
-            double newVolume = 0.0;
-            string volumeInletName = _autoPatchResult.VolumeInletNames[noteListIndex.Value];
-            _patchCalculator.SetValue(volumeInletName, newVolume);
+            //_patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteListIndex.Value, noteEvent.
 
-            ResetNoteInletListIndex(noteEvent.NoteNumber);
+            double newVolume = 0.0;
+            _patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, newVolume);
+
+            ResetNoteListIndex(noteEvent.NoteNumber);
 
             if (_noteNumber_To_NoteListIndex_Dictionary.Count == 0)
             {
@@ -192,7 +190,7 @@ namespace JJ.Infrastructure.Synthesizer
             return null;
         }
 
-        private void ResetNoteInletListIndex(int noteNumber)
+        private void ResetNoteListIndex(int noteNumber)
         {
             _noteNumber_To_NoteListIndex_Dictionary.Remove(noteNumber);
         }

@@ -473,12 +473,15 @@
     <value>Onderliggend document</value>
   </data>
   <data name="NoteDuration" xml:space="preserve">
-    <value>Noot tijdduur</value>
+    <value>Noot tijdsduur</value>
   </data>
   <data name="AttackDuration" xml:space="preserve">
     <value>Attack tijdsduur</value>
   </data>
   <data name="ReleaseDuration" xml:space="preserve">
     <value>Release tijdsduur</value>
+  </data>
+  <data name="NoteStart" xml:space="preserve">
+    <value>Noot start</value>
   </data>
 </root>
