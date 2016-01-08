@@ -15,8 +15,6 @@ namespace JJ.Business.Synthesizer
 {
     public partial class PatchManager
     {
-        private const int DEFAULT_LIST_INDEX = 0;
-
         /// <summary>
         /// Auto-patches the provided patches and makes a custom operator from it.
         /// Then creates a wrapper patch around it, that enables polyphony.
@@ -33,38 +31,47 @@ namespace JJ.Business.Synthesizer
             CreatePatch();
             Patch polyphonicAutoPatch = Patch;
 
+            bool underlyingPatchesHaveNoteStart = false;
+
             var monophonicOutlets = new List<Outlet>(maxConcurrentNotes);
 
             for (int i = 0; i < maxConcurrentNotes; i++)
             {
-                PatchInlet_OperatorWrapper volumePatchInletWrapper = PatchInlet(InletTypeEnum.Volume);
-                volumePatchInletWrapper.Name = String.Format("{0} {1}", InletTypeEnum.Volume, i);
-
-                PatchInlet_OperatorWrapper frequencyPatchInletWrapper = PatchInlet(InletTypeEnum.Frequency);
-                frequencyPatchInletWrapper.Name = String.Format("{0} {1}", InletTypeEnum.Frequency, i);
-
-                PatchInlet_OperatorWrapper noteStartPatchInletWrapper = PatchInlet(InletTypeEnum.NoteStart);
-                noteStartPatchInletWrapper.Name = String.Format("{0} {1}", InletTypeEnum.NoteStart, i);
-
                 CustomOperator_OperatorWrapper customOperatorWrapper = CustomOperator(monophonicAutoPatch);
 
-                Inlet customOperatorVolumeInlet = customOperatorWrapper.Inlets.Where(x => x.GetInletTypeEnum() == InletTypeEnum.Volume).SingleOrDefault();
-                if (customOperatorVolumeInlet != null)
+                foreach (Inlet inlet in customOperatorWrapper.Inlets)
                 {
-                    customOperatorVolumeInlet.InputOutlet = volumePatchInletWrapper;
-                }
+                    InletTypeEnum inletTypeEnum = inlet.GetInletTypeEnum();
+                    if (inletTypeEnum != InletTypeEnum.Undefined)
+                    {
+                        PatchInlet_OperatorWrapper patchInletWrapper = PatchInlet(inletTypeEnum);
+                        patchInletWrapper.Name = String.Format("{0} {1}", inletTypeEnum, i);
 
-                Inlet customOperatorFrequencyInlet = customOperatorWrapper.Inlets.Where(x => x.GetInletTypeEnum() == InletTypeEnum.Frequency).SingleOrDefault();
-                if (customOperatorFrequencyInlet != null)
-                {
-                    customOperatorFrequencyInlet.InputOutlet = frequencyPatchInletWrapper;
+                        inlet.LinkTo((Outlet)patchInletWrapper);
+
+                        if (inletTypeEnum == InletTypeEnum.NoteStart)
+                        {
+                            underlyingPatchesHaveNoteStart = true;
+                        }
+                    }
                 }
 
                 Outlet signalOutlet = customOperatorWrapper.Outlets.Where(x => x.GetOutletTypeEnum() == OutletTypeEnum.Signal).SingleOrDefault();
                 if (signalOutlet != null)
                 {
-                    Delay_OperatorWrapper delayWrapper = Delay(signalOutlet, noteStartPatchInletWrapper);
-                    monophonicOutlets.Add(delayWrapper);
+                    // Underlying Patches can manage NoteStart themselves, or else we manage it here.
+                    if (underlyingPatchesHaveNoteStart)
+                    {
+                        monophonicOutlets.Add(signalOutlet);
+                    }
+                    else
+                    {
+                        PatchInlet_OperatorWrapper noteStartPatchInletWrapper = PatchInlet(InletTypeEnum.NoteStart);
+                        noteStartPatchInletWrapper.Name = String.Format("{0} {1}", InletTypeEnum.NoteStart, i);
+
+                        Delay_OperatorWrapper delayWrapper = Delay(signalOutlet, noteStartPatchInletWrapper);
+                        monophonicOutlets.Add(delayWrapper);
+                    }
                 }
             }
 
