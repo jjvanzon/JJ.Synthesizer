@@ -4,12 +4,16 @@ using System.Windows.Forms;
 using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Logging;
+using JJ.Presentation.Synthesizer.NAudio;
 using JJ.Presentation.Synthesizer.Resources;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
     internal static class Program
     {
+        private static Thread _audioOutputThread;
+        private static Thread _midiInputThread;
+
         [STAThread]
         static void Main()
         {
@@ -32,8 +36,19 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            // Temporarily call another method for debugging (2016-01-09).
+            //_audioOutputThread = new Thread(() => AudioOutputProcessor.Start());
+            _audioOutputThread = new Thread(() => AudioOutputProcessor.StartAndPause());
+            _audioOutputThread.Start();
+
+            _midiInputThread = new Thread(() => MidiInputProcessor.TryStart());
+            _midiInputThread.Start();
+
             var form = new MainForm();
             Application.Run(form);
+
+            MidiInputProcessor.Stop();
+            AudioOutputProcessor.Stop();
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Media;
 using JJ.Presentation.Synthesizer.WinForms.EventArg;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
-using JJ.Infrastructure.Synthesizer;
+using JJ.Presentation.Synthesizer.NAudio;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer.Api;
 using JJ.Business.Synthesizer.Enums;
@@ -177,7 +177,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _presenter.CurrentPatchAdd(e.Value);
                 ApplyViewModel();
 
-                RecreateMidiInputProcessor();
+                RecreatePatchCalculator();
             }
             finally
             {
@@ -198,7 +198,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _presenter.CurrentPatchRemove(e.Value);
                 ApplyViewModel();
 
-                RecreateMidiInputProcessor();
+                RecreatePatchCalculator();
             }
             finally
             {

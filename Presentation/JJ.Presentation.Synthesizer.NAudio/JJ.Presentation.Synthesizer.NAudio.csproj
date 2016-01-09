@@ -7,8 +7,8 @@
     <ProjectGuid>{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>JJ.Infrastructure.Synthesizer</RootNamespace>
-    <AssemblyName>JJ.Infrastructure.Synthesizer</AssemblyName>
+    <RootNamespace>JJ.Presentation.Synthesizer.NAudio</RootNamespace>
+    <AssemblyName>JJ.Presentation.Synthesizer.NAudio</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -41,7 +41,9 @@
   <ItemGroup>
     <Compile Include="AudioOutputProcessor.cs" />
     <Compile Include="MidiInputProcessor.cs" />
+    <Compile Include="PatchCalculatorContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="AudioOutputSampleProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business\JJ.Business.Canonical\JJ.Business.Canonical.csproj">

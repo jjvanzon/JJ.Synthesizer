@@ -89,7 +89,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.OneOff.Synthesizer.DataM
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Demos.Misc", "Demos\JJ.Demos.Misc\JJ.Demos.Misc.csproj", "{62CA5AED-85D7-43CA-9410-7C6E7CDB4A34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Infrastructure.Synthesizer", "Infrastructure\JJ.Infrastructure.Synthesizer\JJ.Infrastructure.Synthesizer.csproj", "{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JJ.Presentation.Synthesizer.NAudio", "Presentation\JJ.Presentation.Synthesizer.NAudio\JJ.Presentation.Synthesizer.NAudio.csproj", "{3F36ED87-8751-499D-8FD0-F5D6E2ED4A8A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NAudioDemo", "External Components\NAudio\Source Code\1.7.2\NAudioDemo\NAudioDemo.csproj", "{C37A547B-F31E-45FB-870A-CFA704D06152}"
 EndProject
@@ -1196,9 +1196,9 @@ Global
 		SccProjectTopLevelParentUniqueName42 = Synthesizer.sln
 		SccProjectName42 = Demos/JJ.Demos.Misc
 		SccLocalPath42 = Demos\\JJ.Demos.Misc
-		SccProjectUniqueName43 = Infrastructure\\JJ.Infrastructure.Synthesizer\\JJ.Infrastructure.Synthesizer.csproj
-		SccProjectName43 = Infrastructure/JJ.Infrastructure.Synthesizer
-		SccLocalPath43 = Infrastructure\\JJ.Infrastructure.Synthesizer
+		SccProjectUniqueName43 = Presentation\\JJ.Presentation.Synthesizer.NAudio\\JJ.Presentation.Synthesizer.NAudio.csproj
+		SccProjectName43 = Presentation/JJ.Presentation.Synthesizer.NAudio
+		SccLocalPath43 = Presentation\\JJ.Presentation.Synthesizer.NAudio
 		SccProjectUniqueName44 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudioDemo\\NAudioDemo.csproj
 		SccProjectName44 = External\u0020Components/NAudio/Source\u0020Code/1.7.2/NAudioDemo
 		SccLocalPath44 = External\u0020Components\\NAudio\\Source\u0020Code\\1.7.2\\NAudioDemo

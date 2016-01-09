@@ -9,13 +9,13 @@ using JJ.Presentation.Synthesizer.WinForms.Forms;
 using JJ.Presentation.Synthesizer.WinForms.Helpers;
 using ConfigurationSection = JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection;
 using System.ComponentModel;
-using JJ.Infrastructure.Synthesizer;
 using JJ.Data.Synthesizer;
 using JJ.Business.Synthesizer;
 using JJ.Business.Synthesizer.Enums;
 using System.Collections.Generic;
 using JJ.Data.Canonical;
-using JJ.Business.Synthesizer.Extensions;
+using JJ.Presentation.Synthesizer.NAudio;
+using System.Threading;
 
 namespace JJ.Presentation.Synthesizer.WinForms
 {
@@ -27,7 +27,8 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private DocumentCannotDeleteForm _documentCannotDeleteForm = new DocumentCannotDeleteForm();
         private PatchDetailsForm _autoPatchDetailsForm = new PatchDetailsForm();
-        private static string _titleBarExtraText;
+        private readonly static string _titleBarExtraText;
+        private readonly static int _maxConcurrentNotes;
 
         static MainForm()
         {
@@ -35,6 +36,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 var config = CustomConfigurationManager.GetSection<ConfigurationSection>();
                 _titleBarExtraText = config.TitleBarExtraText;
+                _maxConcurrentNotes = config.MaxConcurrentNotes;
             }
         }
 
@@ -49,18 +51,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
             BindEvents();
             ApplyStyling();
 
-            // TODO: Re-enable rollback, after MidiProcessor can do without querying
-            //try
-            //{
+            try
+            {
                 _presenter.Show();
                 ApplyViewModel();
 
-                RecreateMidiInputProcessor();
-            //}
-            //finally
-            //{
-            //    _context.Rollback();
-            //}
+                RecreatePatchCalculator();
+            }
+            finally
+            {
+                _context.Rollback();
+            }
         }
 
         /// <summary>
@@ -73,7 +74,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             {
                 if (components != null) components.Dispose();
                 if (_context != null) _context.Dispose();
-                if (_midiInputProcessor != null) _midiInputProcessor.Dispose();
             }
 
             base.Dispose(disposing);
@@ -108,17 +108,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
             documentTreeUserControl.Focus();
         }
 
-        // Infrastructure
+        // Audio
 
-        private MidiInputProcessor _midiInputProcessor;
-
-        private void RecreateMidiInputProcessor()
+        private void RecreatePatchCalculator()
         {
-            if (_midiInputProcessor != null)
-            {
-                _midiInputProcessor.Dispose();
-            }
-
             IList<Patch> patches = _presenter.ViewModel.Document.CurrentPatches.List
                                                                 .Select(x => _repositories.DocumentRepository.Get(x.ChildDocumentID))
                                                                 .Select(x => x.Patches.Single())
@@ -128,7 +121,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 patches = new Patch[] { CreateDefaultSinePatch() };
             }
 
-            _midiInputProcessor = new MidiInputProcessor(patches, new PatchRepositories(_repositories));
+            PatchCalculatorContainer.RecreatePatchCalculator(patches, _maxConcurrentNotes, new PatchRepositories(_repositories));
         }
 
         private Patch CreateDefaultSinePatch()

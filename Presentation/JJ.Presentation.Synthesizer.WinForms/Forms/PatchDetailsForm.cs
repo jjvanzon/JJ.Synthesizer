@@ -5,7 +5,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using JJ.Infrastructure.Synthesizer;
 using JJ.Presentation.Synthesizer.Resources;
 using JJ.Presentation.Synthesizer.ViewModels;
 
