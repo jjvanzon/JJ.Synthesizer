@@ -119,8 +119,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 _midiInputProcessor.Dispose();
             }
 
-            Scale dummyScale = CreateMockScale();
-
             IList<Patch> patches = _presenter.ViewModel.Document.CurrentPatches.List
                                                                 .Select(x => _repositories.DocumentRepository.Get(x.ChildDocumentID))
                                                                 .Select(x => x.Patches.Single())
@@ -130,13 +128,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 patches = new Patch[] { CreateDefaultSinePatch() };
             }
 
-            _midiInputProcessor = new MidiInputProcessor(dummyScale, patches, new PatchRepositories(_repositories));
-        }
-
-        private Scale CreateMockScale()
-        {
-            var dummyScale = new Scale();
-            return dummyScale;
+            _midiInputProcessor = new MidiInputProcessor(patches, new PatchRepositories(_repositories));
         }
 
         private Patch CreateDefaultSinePatch()

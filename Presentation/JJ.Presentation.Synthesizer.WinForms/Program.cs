@@ -33,7 +33,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.SetCompatibleTextRenderingDefault(false);
 
             var form = new MainForm();
-
             Application.Run(form);
         }
 

@@ -21,19 +21,15 @@ namespace JJ.Infrastructure.Synthesizer
         private const int MAX_CONCURRENT_NOTES = 4; // TODO: Increase after testing. Currently (2015-12-31), it cannot handle much more, though, performance-wise (on my laptop not plugged in).
 
         private readonly IPatchCalculator _patchCalculator;
-        private readonly Scale _scale;
         private readonly MidiIn _midiIn;
         private readonly AudioOutputProcessor _audioOutputProcessor;
 
         private double[] _noteNumber_To_Frequency_Array;
         private Dictionary<int, int> _noteNumber_To_NoteListIndex_Dictionary = new Dictionary<int, int>();
 
-        public MidiInputProcessor(Scale scale, IList<Patch> patches, PatchRepositories repositories)
+        public MidiInputProcessor(IList<Patch> patches, PatchRepositories repositories)
         {
-            if (scale == null) throw new NullException(() => scale);
-
             // Setup Scale
-            _scale = scale;
             IList<double> frequencies = new List<double>(MAX_NOTE_NUMBER + 1);
             for (int i = 0; i < MAX_NOTE_NUMBER; i++)
             {

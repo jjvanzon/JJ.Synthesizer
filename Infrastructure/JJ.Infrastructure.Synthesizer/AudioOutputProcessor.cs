@@ -14,7 +14,7 @@ namespace JJ.Infrastructure.Synthesizer
         private const int DEFAULT_CHANNEL_INDEX = 0;
         private const int DEFAULT_SAMPLE_RATE = 44100;
         private const int DEFAULT_BUFFER_LENGTH_IN_MILLISECONDS = 100; // TODO: Make this 10 in the future?
-        private const double SAMPLE_TIME = 1.0 / DEFAULT_SAMPLE_RATE;
+        private const double SAMPLE_DURATION = 1.0 / DEFAULT_SAMPLE_RATE;
 
         private static WaveFormat _waveFormat = CreateWaveFormat();
 
@@ -101,7 +101,7 @@ namespace JJ.Infrastructure.Synthesizer
 
                 buffer[i] = (float)value;
 
-                _time += SAMPLE_TIME;
+                _time += SAMPLE_DURATION;
             }
 
             return count;
