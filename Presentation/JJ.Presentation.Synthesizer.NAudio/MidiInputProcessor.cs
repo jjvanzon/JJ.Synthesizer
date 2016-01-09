@@ -13,15 +13,20 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private const double LOWEST_FREQUENCY = 8.1757989156;
         private const double MAX_VELOCITY = 127.0;
         private const int MAX_NOTE_NUMBER = 127;
-
-        // TODO: Make setting, but mind that it is used in WinForms, which does not like reading out settings
-        // without a LicenseMode check.
-        private const int MAX_CONCURRENT_NOTES = 4; // TODO: Increase after testing. Currently (2015-12-31), it cannot handle much more, though, performance-wise (on my laptop not plugged in).
+        private const int DEFAULT_MAX_CONCURRENT_NOTES = 4;
+        private const double MAX_NOTE_DURATION = Double.MaxValue / 2.0;
 
         private static readonly double[] _noteNumber_To_Frequency_Array = Create_NoteNumber_To_Frequency_Array();
         private static readonly Dictionary<int, int> _noteNumber_To_NoteListIndex_Dictionary = new Dictionary<int, int>();
     
         private static MidiIn _midiIn;
+        private static volatile int _maxConcurrentNotes = DEFAULT_MAX_CONCURRENT_NOTES;
+
+        public static int MaxConcurrentNotes
+        {
+            get { return _maxConcurrentNotes; }
+            set { _maxConcurrentNotes = value; }
+        }
 
         /// <summary> 
         /// For now will only work with the first MIDI device it finds. 
@@ -87,28 +92,37 @@ namespace JJ.Presentation.Synthesizer.NAudio
             double frequency = _noteNumber_To_Frequency_Array[noteOnEvent.NoteNumber];
             double volume = noteOnEvent.Velocity / MAX_VELOCITY;
             double noteStart = AudioOutputProcessor.Time;
-            
-            PatchCalculatorContainer.EnterReadLock();
+
+            PatchCalculatorContainer.Lock.EnterUpgradeableReadLock();
             try
             {
                 IPatchCalculator patchCalculator = PatchCalculatorContainer.PatchCalculator;
                 if (patchCalculator != null)
                 {
-                    // Note that the readlock is for the PatchCalculator property, not any of its members.
-                    patchCalculator.SetValue(InletTypeEnum.Frequency, noteListIndex.Value, frequency);
-                    patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, volume);
-                    patchCalculator.SetValue(InletTypeEnum.NoteStart, noteListIndex.Value, noteStart);
+                    PatchCalculatorContainer.Lock.EnterWriteLock();
+                    try
+                    {
+
+                        patchCalculator.SetValue(InletTypeEnum.Frequency, noteListIndex.Value, frequency);
+                        patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, volume);
+                        patchCalculator.SetValue(InletTypeEnum.NoteStart, noteListIndex.Value, noteStart);
+                        patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteListIndex.Value, MAX_NOTE_DURATION);
+                    }
+                    finally
+                    {
+                        PatchCalculatorContainer.Lock.ExitWriteLock();
+                    }
                 }
             }
             finally
             {
-                PatchCalculatorContainer.ExitReadLock();
+                PatchCalculatorContainer.Lock.ExitUpgradeableReadLock();
             }
 
             if (mustStartPlayingAudioOutput)
             {
                 // Temporarily call another method for debugging (2016-01-09).
-                AudioOutputProcessor.Continue();
+                //AudioOutputProcessor.Continue();
                 //AudioOutputProcessor.Start();
             }
         }
@@ -128,26 +142,34 @@ namespace JJ.Presentation.Synthesizer.NAudio
             double noteEnd = AudioOutputProcessor.Time;
 
             
-            PatchCalculatorContainer.EnterReadLock();
+            PatchCalculatorContainer.Lock.EnterUpgradeableReadLock();
             try
             {
                 IPatchCalculator patchCalculator = PatchCalculatorContainer.PatchCalculator;
                 if (patchCalculator != null)
                 {
-                    // MidiEvent itself does not give us the information needed to determine note duration.
-                    double noteStart = patchCalculator.GetValue(InletTypeEnum.NoteStart, noteListIndex.Value);
-                    double noteDuration = noteEnd - noteStart;
-                    // Note that the readlock is for the PatchCalculator property, not any of its members.
-                    patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteListIndex.Value, noteDuration);
+                    PatchCalculatorContainer.Lock.EnterWriteLock();
+                    try
+                    {
+                        // MidiEvent itself does not give us the information needed to determine note duration.
+                        double noteStart = patchCalculator.GetValue(InletTypeEnum.NoteStart, noteListIndex.Value);
+                        double noteDuration = noteEnd - noteStart;
+                        // Note that the readlock is for the PatchCalculator property, not any of its members.
+                        patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteListIndex.Value, noteDuration);
 
-                    // NoteDuration does not work properly yet, so keep the old solution for now. (Abruptly stopping the note.)
-                    double newVolume = 0.0;
-                    patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, newVolume);
+                        // NoteDuration does not work properly yet, so keep the old solution for now. (Abruptly stopping the note.)
+                        double newVolume = 0.0;
+                        patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, newVolume);
+                    }
+                    finally
+                    {
+                        PatchCalculatorContainer.Lock.ExitWriteLock();
+                    }
                 }
             }
             finally
             {
-                PatchCalculatorContainer.ExitReadLock();
+                PatchCalculatorContainer.Lock.ExitUpgradeableReadLock();
             }
 
             ResetNoteListIndex(noteEvent.NoteNumber);
@@ -155,7 +177,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             if (_noteNumber_To_NoteListIndex_Dictionary.Count == 0)
             {
                 // Temporarily call another method for debugging (2016-01-09).
-                AudioOutputProcessor.Pause();
+                //AudioOutputProcessor.Pause();
                 //AudioOutputProcessor.Stop();
             }
         }
@@ -190,7 +212,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 return listIndex;
             }
 
-            for (int i = 0; i < MAX_CONCURRENT_NOTES; i++)
+            for (int i = 0; i < _maxConcurrentNotes; i++)
             {
                 if (!_noteNumber_To_NoteListIndex_Dictionary.ContainsValue(i))
                 {

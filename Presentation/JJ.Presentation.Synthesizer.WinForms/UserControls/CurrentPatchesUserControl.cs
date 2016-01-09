@@ -17,7 +17,7 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
     {
         public event EventHandler<Int32EventArgs> RemoveRequested;
         public event EventHandler CloseRequested;
-        public event EventHandler ShowAutoPatchRequested;
+        public event EventHandler PreviewAutoPatchRequested;
 
         private CurrentPatchesViewModel _viewModel;
 
@@ -94,10 +94,10 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             flowLayoutPanel.Width = x;
 
             x += StyleHelper.DefaultSpacing;
-            buttonShowAutoPatch.Top = 0;
-            buttonShowAutoPatch.Left = x;
-            buttonShowAutoPatch.Width = StyleHelper.IconButtonSize;
-            buttonShowAutoPatch.Height = StyleHelper.IconButtonSize;
+            buttonPreviewAutoPatch.Top = 0;
+            buttonPreviewAutoPatch.Left = x;
+            buttonPreviewAutoPatch.Width = StyleHelper.IconButtonSize;
+            buttonPreviewAutoPatch.Height = StyleHelper.IconButtonSize;
 
             x += StyleHelper.IconButtonSize;
             x += StyleHelper.DefaultSpacing;
@@ -129,11 +129,11 @@ namespace JJ.Presentation.Synthesizer.WinForms.UserControls
             }
         }
 
-        private void buttonShowAutoPatch_Click(object sender, EventArgs e)
+        private void buttonPreviewAutoPatch_Click(object sender, EventArgs e)
         {
-            if (ShowAutoPatchRequested != null)
+            if (PreviewAutoPatchRequested != null)
             {
-                ShowAutoPatchRequested(sender, EventArgs.Empty);
+                PreviewAutoPatchRequested(sender, EventArgs.Empty);
             }
         }
     }

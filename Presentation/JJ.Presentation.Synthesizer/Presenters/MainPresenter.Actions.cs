@@ -254,7 +254,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
         }
 
-        public void CurrentPatchesShowAutoPatch()
+        public void CurrentPatchesPreviewAutoPatch()
         {
             try
             {

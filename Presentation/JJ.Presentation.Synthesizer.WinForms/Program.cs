@@ -36,19 +36,36 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            // Temporarily call another method for debugging (2016-01-09).
-            //_audioOutputThread = new Thread(() => AudioOutputProcessor.Start());
-            _audioOutputThread = new Thread(() => AudioOutputProcessor.StartAndPause());
-            _audioOutputThread.Start();
-
-            _midiInputThread = new Thread(() => MidiInputProcessor.TryStart());
-            _midiInputThread.Start();
+            StartAudioOutputThread();
+            StartMidiInputThread(config4.MaxConcurrentNotes);
 
             var form = new MainForm();
             Application.Run(form);
 
             MidiInputProcessor.Stop();
             AudioOutputProcessor.Stop();
+        }
+
+        private static void StartMidiInputThread(int maxCurrentNotes)
+        {
+            MidiInputProcessor.Stop();
+
+            MidiInputProcessor.MaxConcurrentNotes = maxCurrentNotes;
+            _midiInputThread = new Thread(() => MidiInputProcessor.TryStart());
+            _midiInputThread.Start();
+        }
+
+        public static void StartAudioOutputThread()
+        {
+            AudioOutputProcessor.Stop();
+            
+            // Temporarily call another method for debugging (2016-01-09).
+            _audioOutputThread = new Thread(() => AudioOutputProcessor.Start());
+            //_audioOutputThread = new Thread(() => AudioOutputProcessor.StartAndPause());
+            _audioOutputThread.Start();
+
+            // Starting AudioOutputProcessor on another thread seems to start and keep alive a new Windows message loop,
+            // but that does not mean that the thread keeps running.
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

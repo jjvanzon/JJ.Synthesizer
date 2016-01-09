@@ -30,7 +30,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         int ISampleProvider.Read(float[] buffer, int offset, int count)
         {
-            PatchCalculatorContainer.EnterReadLock();
+            PatchCalculatorContainer.Lock.EnterReadLock();
             try
             {
                 IPatchCalculator patchCalculator = PatchCalculatorContainer.PatchCalculator;
@@ -58,7 +58,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
             finally
             {
-                PatchCalculatorContainer.ExitReadLock();
+                PatchCalculatorContainer.Lock.ExitReadLock();
             }
         }
     }

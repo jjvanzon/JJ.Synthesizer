@@ -11,24 +11,15 @@ namespace JJ.Presentation.Synthesizer.NAudio
 {
     public static class PatchCalculatorContainer
     {
-        private static ReaderWriterLockSlim _readerWriterLockSlim = new ReaderWriterLockSlim();
+        public static ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();
 
         /// <summary> null if CreatePatchCalculator is not yet called. </summary>
         public static IPatchCalculator PatchCalculator { get; private set; }
 
-        /// <summary> Note that the readlock is for the PatchCalculator property, not any of its members. </summary>
-        public static void EnterReadLock()
-        {
-            _readerWriterLockSlim.EnterReadLock();
-        }
-
-        /// <summary> Note that the readlock is for the PatchCalculator property, not any of its members. </summary>
-        public static void ExitReadLock()
-        {
-            _readerWriterLockSlim.ExitReadLock();
-        }
-
-        /// <summary> You must call this on the thread that keeps the IContext open. </summary>
+        /// <summary> 
+        /// You must call this on the thread that keeps the IContext open. 
+        /// Will automatically use a WriteLock.
+        /// </summary>
         public static void RecreatePatchCalculator(
             IList<Patch> patches, 
             int maxConcurrentNotes, 
@@ -40,14 +31,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
             Outlet autoPatchOutlet = patchManager.AutoPatchPolyphonic(patches, maxConcurrentNotes);
             IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(autoPatchOutlet);
 
-            _readerWriterLockSlim.EnterWriteLock();
+            Lock.EnterWriteLock();
             try
             {
                 PatchCalculator = patchCalculator;
             }
             finally
             {
-                _readerWriterLockSlim.ExitWriteLock();
+                Lock.ExitWriteLock();
             }
         }
     }

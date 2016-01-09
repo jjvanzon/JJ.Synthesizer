@@ -29,50 +29,54 @@
         private void InitializeComponent()
         {
             this.flowLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
-            this.buttonShowAutoPatch = new System.Windows.Forms.Button();
+            this.buttonPreviewAutoPatch = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // flowLayoutPanel
             // 
             this.flowLayoutPanel.Location = new System.Drawing.Point(0, 0);
+            this.flowLayoutPanel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
-            this.flowLayoutPanel.Size = new System.Drawing.Size(154, 134);
+            this.flowLayoutPanel.Size = new System.Drawing.Size(205, 165);
             this.flowLayoutPanel.TabIndex = 0;
             // 
-            // buttonShowAutoPatch
+            // buttonPreviewAutoPatch
             // 
-            this.buttonShowAutoPatch.FlatAppearance.BorderSize = 0;
-            this.buttonShowAutoPatch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.buttonShowAutoPatch.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIconThinner;
-            this.buttonShowAutoPatch.Location = new System.Drawing.Point(170, 6);
-            this.buttonShowAutoPatch.Name = "buttonShowAutoPatch";
-            this.buttonShowAutoPatch.Size = new System.Drawing.Size(24, 24);
-            this.buttonShowAutoPatch.TabIndex = 3;
-            this.buttonShowAutoPatch.UseVisualStyleBackColor = true;
-            this.buttonShowAutoPatch.Click += new System.EventHandler(this.buttonShowAutoPatch_Click);
+            this.buttonPreviewAutoPatch.FlatAppearance.BorderSize = 0;
+            this.buttonPreviewAutoPatch.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonPreviewAutoPatch.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.OpenWindowIconThinner;
+            this.buttonPreviewAutoPatch.Location = new System.Drawing.Point(227, 7);
+            this.buttonPreviewAutoPatch.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonPreviewAutoPatch.Name = "buttonPreviewAutoPatch";
+            this.buttonPreviewAutoPatch.Size = new System.Drawing.Size(32, 30);
+            this.buttonPreviewAutoPatch.TabIndex = 3;
+            this.buttonPreviewAutoPatch.UseVisualStyleBackColor = true;
+            this.buttonPreviewAutoPatch.Click += new System.EventHandler(this.buttonPreviewAutoPatch_Click);
             // 
             // buttonClose
             // 
             this.buttonClose.FlatAppearance.BorderSize = 0;
             this.buttonClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonClose.Image = global::JJ.Presentation.Synthesizer.WinForms.Properties.Resources.CloseIconThinner;
-            this.buttonClose.Location = new System.Drawing.Point(200, 6);
+            this.buttonClose.Location = new System.Drawing.Point(267, 7);
+            this.buttonClose.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(24, 24);
+            this.buttonClose.Size = new System.Drawing.Size(32, 30);
             this.buttonClose.TabIndex = 2;
             this.buttonClose.UseVisualStyleBackColor = true;
             this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // CurrentPatchesUserControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.buttonShowAutoPatch);
+            this.Controls.Add(this.buttonPreviewAutoPatch);
             this.Controls.Add(this.buttonClose);
             this.Controls.Add(this.flowLayoutPanel);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "CurrentPatchesUserControl";
-            this.Size = new System.Drawing.Size(392, 179);
+            this.Size = new System.Drawing.Size(523, 220);
             this.SizeChanged += new System.EventHandler(this.CurrentPatchesUserControl_SizeChanged);
             this.ResumeLayout(false);
 
@@ -82,6 +86,6 @@
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel;
         private System.Windows.Forms.Button buttonClose;
-        private System.Windows.Forms.Button buttonShowAutoPatch;
+        private System.Windows.Forms.Button buttonPreviewAutoPatch;
     }
 }
