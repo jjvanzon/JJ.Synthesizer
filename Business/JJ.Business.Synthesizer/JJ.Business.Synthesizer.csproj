@@ -110,7 +110,6 @@
     <Compile Include="Calculation\SineCalculator.cs" />
     <Compile Include="Calculation\WhiteNoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
-    <Compile Include="Configuration\2016-01-06 Backup of PatchCalculatorTypeEnum.cs" />
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
     <Compile Include="EntityWrappers\Unbundle_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Bundle_OperatorWrapper.cs" />
@@ -129,8 +128,6 @@
     <Compile Include="Extensions\PatchExtensions.cs" />
     <Compile Include="Extensions\ToneExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Helpers\2016-01-08 Backup of AutoPatchPolyphonicResult.cs" />
-    <Compile Include="Helpers\2016-01-08 Backup of AutoPatchPolyphonicResult %282%29.cs" />
     <Compile Include="Helpers\CurveRepositories.cs" />
     <Compile Include="Helpers\OperatorConstants.cs" />
     <Compile Include="Helpers\OperatorDataParser.cs" />
@@ -187,7 +184,6 @@
     <Compile Include="CurveManager.cs" />
     <Compile Include="DocumentManager.cs" />
     <Compile Include="EntityPositionManager.cs" />
-    <Compile Include="2016-01-08 Backup of PatchManager.AutoPatch.cs" />
     <Compile Include="PatchManager.AutoPatch.cs" />
     <Compile Include="SideEffects\Document_SideEffect_CreatePatch.cs" />
     <Compile Include="Validation\CurveValidator_InDocument.cs" />
@@ -217,7 +213,6 @@
     <Compile Include="SideEffects\AudioFileOutput_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Curve_SideEffect_SetDefaults.cs" />
     <Compile Include="SideEffects\Scale_SideEffect_GenerateName.cs" />
-    <Compile Include="SideEffects\2016-01-04 Backup of Operator_SideEffect_GenerateName.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchOutletListIndex.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_GeneratePatchInletListIndex.cs" />
     <Compile Include="SideEffects\Operator_SideEffect_ApplyUnderlyingPatch.cs" />

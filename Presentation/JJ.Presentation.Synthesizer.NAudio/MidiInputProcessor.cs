@@ -102,7 +102,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     PatchCalculatorContainer.Lock.EnterWriteLock();
                     try
                     {
-
                         patchCalculator.SetValue(InletTypeEnum.Frequency, noteListIndex.Value, frequency);
                         patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, volume);
                         patchCalculator.SetValue(InletTypeEnum.NoteStart, noteListIndex.Value, noteStart);
@@ -154,7 +153,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
                         // MidiEvent itself does not give us the information needed to determine note duration.
                         double noteStart = patchCalculator.GetValue(InletTypeEnum.NoteStart, noteListIndex.Value);
                         double noteDuration = noteEnd - noteStart;
-                        // Note that the readlock is for the PatchCalculator property, not any of its members.
                         patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteListIndex.Value, noteDuration);
 
                         // NoteDuration does not work properly yet, so keep the old solution for now. (Abruptly stopping the note.)
