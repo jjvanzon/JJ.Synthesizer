@@ -506,55 +506,52 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var wrapper = new SlowDown_OperatorWrapper(op);
 
-            // Determine origin
-            Outlet originOutlet = wrapper.Origin;
-            double origin = 0;
-            if (originOutlet != null)
-            {
-                origin = Calculate(originOutlet, time);
-            }
-
-            // No signal? Exit with default (the origin).
+            // No signal? Return 0.
             Outlet signalOutlet = wrapper.Signal;
             if (signalOutlet == null)
             {
-                // TODO: This seesm useless. Origin is a time variable, while we have to return an x.
-                return origin;
+                return 0.0;
             }
 
             // No time multiplier? Just pass through signal.
             Outlet timeMultiplierOutlet = wrapper.TimeMultiplier;
             if (timeMultiplierOutlet == null)
             {
-                double result = Calculate(signalOutlet, time);
-                return result;
+                return Calculate(signalOutlet, time);
             }
 
-            // Time multiplier 0? See that as multiplier = 1 or rather: just pass through signal.
             double timeMultiplier = Calculate(timeMultiplierOutlet, time);
-            if (timeMultiplier == 0)
+
+            // Weird number 0:
+            // Slow down by a factor of 0 equals speed up to infinity, which makes the result undefined. Return 0.
+            if (timeMultiplier == 0.0)
             {
-                double result = Calculate(signalOutlet, time);
-                return result;
+                return 0.0;
             }
 
-            // IMPORTANT: To multiply the time in the output, you have to divide the time of the input.
+            // Get Phase Variables
+            string key = GetOutletPathKey();
+            double previousTime = 0;
+            _previousTimeDictionary.TryGetValue(key, out previousTime);
+            double phase = 0;
+            _phaseDictionary.TryGetValue(key, out phase);
 
-            // Formula without origin
-            if (originOutlet == null)
+            // Weird numbers Infinity and NaN:
+            // Slow down to infinity means time stands still, so just do not advance phase.
+            if (!Double.IsInfinity(timeMultiplier) && !Double.IsNaN(timeMultiplier))
             {
-                double transformedTime = time / timeMultiplier;
-                double result = Calculate(signalOutlet, transformedTime);
-                return result;
+                double dt = time - previousTime;
+                // IMPORTANT: To multiply the time in the output, you have to divide the time of the input.
+                phase = phase + dt / timeMultiplier;
             }
 
-            // Formula with origin
-            else
-            {
-                double transformedTime = (time - origin) / timeMultiplier + origin;
-                double result = Calculate(signalOutlet, transformedTime);
-                return result;
-            }
+            double result = Calculate(signalOutlet, phase);
+
+            // Store phase variables
+            _phaseDictionary[key] = phase;
+            _previousTimeDictionary[key] = time;
+
+            return result;
         }
 
         private double CalculateSubtract(Outlet outlet, double time)
@@ -580,54 +577,52 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             var wrapper = new SpeedUp_OperatorWrapper(op);
 
-            // Determine origin
-            Outlet originOutlet = wrapper.Origin;
-            double origin = 0;
-            if (originOutlet != null)
-            {
-                origin = Calculate(originOutlet, time);
-            }
-
-            // No signal? Exit with default (the origin).
+            // No signal? Return 0.
             Outlet signalOutlet = wrapper.Signal;
             if (signalOutlet == null)
             {
-                return origin;
+                return 0.0;
             }
 
             // No time divider? Just pass through signal.
             Outlet timeDividerOutlet = wrapper.TimeDivider;
             if (timeDividerOutlet == null)
             {
-                double result = Calculate(signalOutlet, time);
-                return result;
+                return Calculate(signalOutlet, time);
             }
 
-            // Time divider 0? Don't return infinity, but just pass through signal.
             double timeDivider = Calculate(timeDividerOutlet, time);
-            if (timeDivider == 0)
+
+            // Weird numbers Inifity and NaN:
+            if (Double.IsInfinity(timeDivider) || Double.IsNaN(timeDivider))
             {
-                double result = Calculate(signalOutlet, time);
-                return result;
+                // Speed up to infinity is undefined. Return 0.
+                return 0.0;
             }
 
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+            // Get Phase Variables
+            string key = GetOutletPathKey();
+            double previousTime = 0;
+            _previousTimeDictionary.TryGetValue(key, out previousTime);
+            double phase = 0;
+            _phaseDictionary.TryGetValue(key, out phase);
 
-            // Formula without origin
-            if (originOutlet == null)
+            // Weird number 0:
+            // Speed up of 0 means time stands still, so just do not advance phase.
+            if (timeDivider != 0.0)
             {
-                double transformedTime = time * timeDivider;
-                double result = Calculate(signalOutlet, transformedTime);
-                return result;
+                double dt = time - previousTime;
+                // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+                phase = phase + dt * timeDivider;
             }
 
-            // Formula with origin
-            else
-            {
-                double transformedTime = (time - origin) * timeDivider + origin;
-                double result = Calculate(signalOutlet, transformedTime);
-                return result;
-            }
+            double result = Calculate(signalOutlet, phase);
+
+            // Store phase variables
+            _phaseDictionary[key] = phase;
+            _previousTimeDictionary[key] = time;
+
+            return result;
         }
 
         private double CalculateSawTooth(Outlet outlet, double time)

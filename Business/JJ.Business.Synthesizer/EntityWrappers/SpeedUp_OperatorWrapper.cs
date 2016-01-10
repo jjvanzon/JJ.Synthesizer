@@ -22,12 +22,6 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.SPEED_UP_TIME_DIVIDER_INDEX).LinkTo(value); }
         }
 
-        public Outlet Origin
-        {
-            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.SPEED_UP_ORIGIN_INDEX); }
-            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.SPEED_UP_ORIGIN_INDEX).LinkTo(value); }
-        }
-
         public Outlet Result
         {
             get { return OperatorHelper.GetOutlet(_wrappedOperator, OperatorConstants.SPEED_UP_RESULT_INDEX); }

@@ -438,30 +438,28 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet timeDivider = null, Outlet origin = null)
+        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet timeDivider = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.SpeedUp, inletCount: 3, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.SpeedUp, inletCount: 2, outletCount: 1);
 
             var wrapper = new SpeedUp_OperatorWrapper(op)
             {
                 Signal = signal,
                 TimeDivider = timeDivider,
-                Origin = origin
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);
             return wrapper;
         }
 
-        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet timeMultiplier = null, Outlet origin = null)
+        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet timeMultiplier = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.SlowDown, inletCount: 3, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.SlowDown, inletCount: 2, outletCount: 1);
 
             var wrapper = new SlowDown_OperatorWrapper(op)
             {
                 Signal = signal,
                 TimeMultiplier = timeMultiplier,
-                Origin = origin
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);

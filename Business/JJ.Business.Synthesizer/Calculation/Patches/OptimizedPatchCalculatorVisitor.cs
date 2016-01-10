@@ -829,21 +829,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase timeMultiplierCalculator = _stack.Pop();
-            OperatorCalculatorBase originCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             timeMultiplierCalculator = timeMultiplierCalculator ?? new One_OperatorCalculator();
-            originCalculator = originCalculator ?? new Zero_OperatorCalculator();
 
             double signal = signalCalculator.Calculate(0, 0);
             double timeMultiplier = timeMultiplierCalculator.Calculate(0, 0);
-            double origin = originCalculator.Calculate(0, 0);
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool timeMultiplierIsConst = timeMultiplierCalculator is Number_OperatorCalculator;
-            bool originIsConst = originCalculator is Number_OperatorCalculator;
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool timeMultiplierIsConstZero = timeMultiplierIsConst && timeMultiplier == 0;
-            bool originIsConstZero = originIsConst && origin == 0;
             bool timeMultiplierIsConstOne = timeMultiplierIsConst && timeMultiplier == 1;
 
             if (timeMultiplierIsConstZero)
@@ -863,25 +858,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = signalCalculator;
             }
-            else if (originIsConstZero && timeMultiplierIsConst)
-            {
-                calculator = new SlowDown_WithoutOrigin_WithConstTimeMultiplier_OperatorCalculator(signalCalculator, timeMultiplier);
-            }
-            else if (originIsConstZero && !timeMultiplierIsConst)
-            {
-                calculator = new SlowDown_WithoutOrigin_OperatorCalculator(signalCalculator, timeMultiplierCalculator);
-            }
             else if (timeMultiplierIsConst)
             {
-                calculator = new SlowDown_WithOrigin_WithConstTimeMultiplier_OperatorCalculator(signalCalculator, timeMultiplier, originCalculator);
+                calculator = new SlowDown_WithConstTimeMultiplier_OperatorCalculator(signalCalculator, timeMultiplier);
             }
-            else if (originIsConst)
+            else 
             {
-                calculator = new SlowDown_WithConstOrigin_OperatorCalculator(signalCalculator, timeMultiplierCalculator, origin);
-            }
-            else
-            {
-                calculator = new SlowDown_WithOrigin_OperatorCalculator(signalCalculator, timeMultiplierCalculator, originCalculator);
+                calculator = new SlowDown_WithVarTimeMultiplier_OperatorCalculator(signalCalculator, timeMultiplierCalculator);
             }
 
             _stack.Push(calculator);
@@ -893,21 +876,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
             OperatorCalculatorBase timeDividerCalculator = _stack.Pop();
-            OperatorCalculatorBase originCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
             timeDividerCalculator = timeDividerCalculator ?? new One_OperatorCalculator();
-            originCalculator = originCalculator ?? new Zero_OperatorCalculator();
 
             double signal = signalCalculator.Calculate(0, 0);
             double timeDivider = timeDividerCalculator.Calculate(0, 0);
-            double origin = originCalculator.Calculate(0, 0);
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool timeDividerIsConst = timeDividerCalculator is Number_OperatorCalculator;
-            bool originIsConst = originCalculator is Number_OperatorCalculator;
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool timeDividerIsConstZero = timeDividerIsConst && timeDivider == 0;
-            bool originIsConstZero = originIsConst && origin == 0;
             bool timeDividerIsConstOne = timeDividerIsConst && timeDivider == 1;
 
             if (timeDividerIsConstZero)
@@ -926,25 +904,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = signalCalculator;
             }
-            else if (originIsConstZero && timeDividerIsConst)
-            {
-                calculator = new SpeedUp_WithoutOrigin_WithConstTimeDivider_OperatorCalculator(signalCalculator, timeDivider);
-            }
-            else if (originIsConstZero && !timeDividerIsConst)
-            {
-                calculator = new SpeedUp_WithoutOrigin_OperatorCalculator(signalCalculator, timeDividerCalculator);
-            }
             else if (timeDividerIsConst)
             {
-                calculator = new SpeedUp_WithOrigin_WithConstTimeDivider_OperatorCalculator(signalCalculator, timeDivider, originCalculator);
+                calculator = new SpeedUp_WithConstTimeDivider_OperatorCalculator(signalCalculator, timeDivider);
             }
-            else if (originIsConst)
+            else 
             {
-                calculator = new SpeedUp_WithConstOrigin_OperatorCalculator(signalCalculator, timeDividerCalculator, origin);
-            }
-            else
-            {
-                calculator = new SpeedUp_WithOrigin_OperatorCalculator(signalCalculator, timeDividerCalculator, originCalculator);
+                calculator = new SpeedUp_WithVarTimeDivider_OperatorCalculator(signalCalculator, timeDividerCalculator);
             }
 
             _stack.Push(calculator);

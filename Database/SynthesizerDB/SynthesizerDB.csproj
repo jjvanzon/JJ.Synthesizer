@@ -151,6 +151,7 @@
     <Content Include="2016-01-07 020 SynthesizerDB InletType 12 - ReleaseDuration.sql" />
     <Content Include="2016-01-07 020 SynthesizerDB InletType 11 - AttackDuration.sql" />
     <Content Include="2016-01-07 010 SynthesizerDB rename InletType Duration to NoteDuration.sql" />
+    <Content Include="2016-01-10 010 SynthesizerDB Delete Origin Inlet for OperatorTypes SpeedUp and SlowDown RUN SEPARATELY.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

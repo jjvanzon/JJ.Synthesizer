@@ -52,11 +52,9 @@
         public const int SINE_FREQUENCY_INDEX = 0;
         public const int SINE_PHASE_SHIFT_INDEX = 1;
         public const int SINE_RESULT_INDEX = 0;
-        public const int SLOW_DOWN_ORIGIN_INDEX = 2;
         public const int SLOW_DOWN_RESULT_INDEX = 0;
         public const int SLOW_DOWN_SIGNAL_INDEX = 0;
         public const int SLOW_DOWN_TIME_MULTIPLIER_INDEX = 1;
-        public const int SPEED_UP_ORIGIN_INDEX = 2;
         public const int SPEED_UP_RESULT_INDEX = 0;
         public const int SPEED_UP_SIGNAL_INDEX = 0;
         public const int SPEED_UP_TIME_DIVIDER_INDEX = 1;
