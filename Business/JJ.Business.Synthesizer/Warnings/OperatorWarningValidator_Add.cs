@@ -2,7 +2,7 @@
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public class OperatorWarningValidator_Add : OperatorWarningValidator_Base_FirstXInletsNotFilledIn
+    public class OperatorWarningValidator_Add : OperatorWarningValidator_Base_AllInletsFilled
     {
         public OperatorWarningValidator_Add(Operator obj)
             : base(obj)

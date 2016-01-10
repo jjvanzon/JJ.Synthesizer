@@ -200,6 +200,7 @@
     <Compile Include="PatchManager.cs" />
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Base_AllInletsFilled.cs" />
     <Compile Include="WavHeaderManager.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -332,7 +333,7 @@
     <Compile Include="Warnings\OperatorWarningValidator_Delay.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Sine.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Power.cs" />
-    <Compile Include="Warnings\OperatorWarningValidator_Base_FirstXInletsNotFilledIn.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Base_FirstXInletsFilledIn.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_PatchOutlet.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Divide.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Multiply.cs" />

@@ -7,18 +7,17 @@ using System.Linq;
 
 namespace JJ.Business.Synthesizer.Warnings
 {
-    public abstract class OperatorWarningValidator_Base_FirstXInletsNotFilledIn : OperatorWarningValidator_Base
+    public class OperatorWarningValidator_Base_FirstXInletsFilledIn : OperatorWarningValidator_Base
     {
         private int _inletCount;
 
-        public OperatorWarningValidator_Base_FirstXInletsNotFilledIn(Operator obj, int? inletCount = null)
+        public OperatorWarningValidator_Base_FirstXInletsFilledIn(Operator obj, int inletCount)
             : base(obj, postponeExecute: true)
         {
             if (obj == null) throw new NullException(() => obj);
+            if (inletCount < 0) throw new LessThanException(() => inletCount, 0);
 
-            _inletCount = inletCount ?? obj.Inlets.Count;
-
-            if (_inletCount < 0) throw new LessThanException(() => _inletCount, 0);
+            _inletCount = inletCount;
 
             Execute();
         }
