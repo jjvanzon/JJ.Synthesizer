@@ -3,12 +3,13 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Delay_OperatorCalculator : OperatorCalculatorBase
+    internal class Delay_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _timeDifferenceCalculator;
 
         public Delay_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeDifferenceCalculator)
+            : base(new OperatorCalculatorBase[] { signalCalculator, timeDifferenceCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
@@ -29,7 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Delay_WithConstTimeDifference_OperatorCalculator : OperatorCalculatorBase
+    internal class Delay_WithConstTimeDifference_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _signalCalculator;
         private double _timeDifferenceValue;
@@ -37,6 +38,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Delay_WithConstTimeDifference_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             double timeDifferenceValue)
+            : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);

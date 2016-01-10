@@ -4,13 +4,12 @@ using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Sine_WithVarFrequency_WithoutPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class Sine_WithVarFrequency_WithoutPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
-        private double _phase;
-        private double _previousTime;
 
         public Sine_WithVarFrequency_WithoutPhaseShift_OperatorCalculator(OperatorCalculatorBase frequencyCalculator)
+            : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
 
@@ -32,16 +31,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Sine_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class Sine_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly double _phaseShiftTimesTwoPi;
-        private double _phase;
-        private double _previousTime;
 
         public Sine_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
             double phaseShift)
+            : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (phaseShift % 1.0 == 0.0) throw new Exception("phaseShift cannot be a multiple of 1.");
@@ -65,16 +63,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Sine_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class Sine_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
-        private double _phase;
-        private double _previousTime;
 
         public Sine_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase phaseShiftCalculator)
+            : base(new OperatorCalculatorBase[] { frequencyCalculator, phaseShiftCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (phaseShiftCalculator == null) throw new NullException(() => phaseShiftCalculator);
@@ -137,12 +134,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Sine_WithConstFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class Sine_WithConstFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _frequencyTimesTwoPi;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
 
         public Sine_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(double frequency, OperatorCalculatorBase phaseShiftCalculator)
+            : base(new OperatorCalculatorBase[] { phaseShiftCalculator })
         {
             if (frequency == 0.0) throw new ZeroException(() => frequency);
             if (phaseShiftCalculator == null) throw new NullException(() => phaseShiftCalculator);

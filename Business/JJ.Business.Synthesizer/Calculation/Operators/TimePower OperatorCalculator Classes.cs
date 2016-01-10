@@ -3,7 +3,7 @@ using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class TimePower_WithOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class TimePower_WithOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _exponentCalculator;
@@ -13,6 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase signalCalculator,
             OperatorCalculatorBase exponentCalculator,
             OperatorCalculatorBase originCalculator)
+            : base(new OperatorCalculatorBase[] { signalCalculator, exponentCalculator, originCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
@@ -54,12 +55,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class TimePower_WithoutOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class TimePower_WithoutOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _exponentCalculator;
 
         public TimePower_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase exponentCalculator)
+            : base(new OperatorCalculatorBase[] { signalCalculator, exponentCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);

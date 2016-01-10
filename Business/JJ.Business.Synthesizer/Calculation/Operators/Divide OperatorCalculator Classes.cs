@@ -5,7 +5,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Divide_WithConstOrigin_AndDenominator_OperatorCalculator : OperatorCalculatorBase
+    internal class Divide_WithConstOrigin_AndDenominator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _numeratorCalculator;
         private double _denominatorValue;
@@ -15,6 +15,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase numeratorCalculator,
             double denominatorValue,
             double originValue)
+            : base(new OperatorCalculatorBase[] { numeratorCalculator })
         {
             if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
             if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
@@ -32,7 +33,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Divide_WithConstOrigin_AndNumerator_OperatorCalculator : OperatorCalculatorBase
+    internal class Divide_WithConstOrigin_AndNumerator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private double _numeratorValue;
         private OperatorCalculatorBase _denominatorCalculator;
@@ -42,6 +43,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double numeratorValue,
             OperatorCalculatorBase denominatorCalculator,
             double originValue)
+            : base(new OperatorCalculatorBase[] { denominatorCalculator })
         {
             if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
             if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
@@ -64,7 +66,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Divide_WithConstOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class Divide_WithConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _numeratorCalculator;
         private OperatorCalculatorBase _denominatorCalculator;
@@ -74,6 +76,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase numeratorCalculator,
             OperatorCalculatorBase denominatorCalculator,
             double originValue)
+            : base(new OperatorCalculatorBase[] { numeratorCalculator, denominatorCalculator })
         {
             if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
             if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
@@ -99,7 +102,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Divide_WithOrigin_AndConstDenominator_OperatorCalculator : OperatorCalculatorBase
+    internal class Divide_WithOrigin_AndConstDenominator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _numeratorCalculator;
         private double _denominatorValue;
@@ -109,6 +112,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase numeratorCalculator,
             double denominatorValue,
             OperatorCalculatorBase originCalculator)
+            : base(new OperatorCalculatorBase[] { numeratorCalculator, originCalculator })
         {
             if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
             if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
@@ -129,7 +133,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Divide_WithOrigin_AndConstNumerator_AndDenominator_OperatorCalculator : OperatorCalculatorBase
+    internal class Divide_WithOrigin_AndConstNumerator_AndDenominator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private double _numeratorValue;
         private double _denominatorValue;
@@ -139,6 +143,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double numeratorValue,
             double denominatorValue,
             OperatorCalculatorBase originCalculator)
+            : base(new OperatorCalculatorBase[] { originCalculator })
         {
             if (denominatorValue == 0) throw new ZeroException(() => denominatorValue);
             if (originCalculator == null) throw new NullException(() => originCalculator);
@@ -156,7 +161,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Divide_WithOrigin_AndConstNumerator_OperatorCalculator : OperatorCalculatorBase
+    internal class Divide_WithOrigin_AndConstNumerator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private double _numeratorValue;
         private OperatorCalculatorBase _denominatorCalculator;
@@ -166,6 +171,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double numeratorValue,
             OperatorCalculatorBase denominatorCalculator,
             OperatorCalculatorBase originCalculator)
+            : base(new OperatorCalculatorBase[] { denominatorCalculator, originCalculator })
         {
             if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
             if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);
@@ -192,7 +198,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Divide_WithOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class Divide_WithOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _numeratorCalculator;
         private OperatorCalculatorBase _denominatorCalculator;
@@ -202,6 +208,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase numeratorCalculator,
             OperatorCalculatorBase denominatorCalculator,
             OperatorCalculatorBase originCalculator)
+            : base(new OperatorCalculatorBase[] { numeratorCalculator, denominatorCalculator, originCalculator })
         {
             if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
             if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
@@ -231,12 +238,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Divide_WithoutOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class Divide_WithoutOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _numeratorCalculator;
         private OperatorCalculatorBase _denominatorCalculator;
 
         public Divide_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase numeratorCalculator, OperatorCalculatorBase denominatorCalculator)
+            : base(new OperatorCalculatorBase[] { numeratorCalculator, denominatorCalculator })
         {
             if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
             if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
@@ -261,12 +269,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator : OperatorCalculatorBase
+    internal class Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _numeratorCalculator;
         private double _denominatorValue;
 
         public Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator(OperatorCalculatorBase numeratorCalculator, double denominatorValue)
+            : base(new OperatorCalculatorBase[] { numeratorCalculator })
         {
             if (numeratorCalculator == null) throw new NullException(() => numeratorCalculator);
             if (numeratorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => numeratorCalculator);
@@ -283,12 +292,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator : OperatorCalculatorBase
+    internal class Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private double _numeratorValue;
         private OperatorCalculatorBase _denominatorCalculator;
 
         public Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator(double numeratorValue, OperatorCalculatorBase denominatorCalculator)
+            : base(new OperatorCalculatorBase[] { denominatorCalculator })
         {
             if (denominatorCalculator == null) throw new NullException(() => denominatorCalculator);
             if (denominatorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => denominatorCalculator);

@@ -3,12 +3,13 @@ using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Power_OperatorCalculator : OperatorCalculatorBase
+    internal class Power_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _baseCalculator;
         private OperatorCalculatorBase _exponentCalculator;
 
         public Power_OperatorCalculator(OperatorCalculatorBase baseCalculator, OperatorCalculatorBase exponentCalculator)
+            : base(new OperatorCalculatorBase[] { baseCalculator, exponentCalculator })
         {
             if (baseCalculator == null) throw new NullException(() => baseCalculator);
             if (baseCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => baseCalculator);
@@ -27,12 +28,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Power_WithConstBase_OperatorCalculator : OperatorCalculatorBase
+    internal class Power_WithConstBase_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private double _baseValue;
         private OperatorCalculatorBase _exponentCalculator;
 
         public Power_WithConstBase_OperatorCalculator(double baseValue, OperatorCalculatorBase exponentCalculator)
+            : base(new OperatorCalculatorBase[] { exponentCalculator })
         {
             if (exponentCalculator == null) throw new NullException(() => exponentCalculator);
             if (exponentCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => exponentCalculator);
@@ -48,12 +50,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Power_WithConstExponent_OperatorCalculator : OperatorCalculatorBase
+    internal class Power_WithConstExponent_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _baseCalculator;
         private double _exponentValue;
 
         public Power_WithConstExponent_OperatorCalculator(OperatorCalculatorBase baseCalculator, double exponentValue)
+            : base(new OperatorCalculatorBase[] { baseCalculator })
         {
             if (baseCalculator == null) throw new NullException(() => baseCalculator);
             if (baseCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => baseCalculator);

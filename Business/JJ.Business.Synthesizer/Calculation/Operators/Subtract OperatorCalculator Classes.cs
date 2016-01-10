@@ -3,7 +3,7 @@ using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Subtract_OperatorCalculator : OperatorCalculatorBase
+    internal class Subtract_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _operandACalculator;
         private OperatorCalculatorBase _operandBCalculator;
@@ -11,6 +11,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public Subtract_OperatorCalculator(
             OperatorCalculatorBase operandACalculator,
             OperatorCalculatorBase operandBCalculator)
+            : base(new OperatorCalculatorBase[] { operandACalculator, operandBCalculator })
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
             if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
@@ -29,12 +30,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Subtract_WithConstOperandA_OperatorCalculator : OperatorCalculatorBase
+    internal class Subtract_WithConstOperandA_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private double _operandAValue;
         private OperatorCalculatorBase _operandBCalculator;
 
         public Subtract_WithConstOperandA_OperatorCalculator(double operandAValue, OperatorCalculatorBase operandBCalculator)
+            : base(new OperatorCalculatorBase[] { operandBCalculator })
         {
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
             if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
@@ -50,12 +52,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Subtract_WithConstOperandB_OperatorCalculator : OperatorCalculatorBase
+    internal class Subtract_WithConstOperandB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _operandACalculator;
         private double _operandBValue;
 
         public Subtract_WithConstOperandB_OperatorCalculator(OperatorCalculatorBase operandACalculator, double operandBValue)
+            : base(new OperatorCalculatorBase[] { operandACalculator })
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
             if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);

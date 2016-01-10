@@ -30,29 +30,29 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private readonly ISampleRepository _sampleRepository;
         private readonly IPatchRepository _patchRepository;
 
-        private WhiteNoiseCalculator _whiteNoiseCalculator;
+        private readonly WhiteNoiseCalculator _whiteNoiseCalculator;
 
         /// <summary> Is set in the Calculate method and used in other methods. </summary>
         private int _channelIndex;
 
         /// <summary> Can contain nulls. </summary>
-        private Outlet[] _channelOutlets;
-        private Dictionary<OperatorTypeEnum, Func<Outlet, double, double>> _funcDictionary;
+        private readonly Outlet[] _channelOutlets;
+        private readonly Dictionary<OperatorTypeEnum, Func<Outlet, double, double>> _funcDictionary;
 
-        private Stack<Outlet> _outletStack = new Stack<Outlet>();
-        private Stack<int> _bundleIndexStack = new Stack<int>();
+        private readonly Stack<Outlet> _outletStack = new Stack<Outlet>();
+        private readonly Stack<int> _bundleIndexStack = new Stack<int>();
 
         /// <summary> Key is a composite string with the path of operator ID's in it. </summary>
-        private Dictionary<string, double> _previousTimeDictionary = new Dictionary<string, double>();
+        private readonly Dictionary<string, double> _previousTimeDictionary = new Dictionary<string, double>();
         /// <summary> Key is a composite string with the path of operator ID's in it. </summary>
-        private Dictionary<string, double> _phaseDictionary = new Dictionary<string, double>();
+        private readonly Dictionary<string, double> _phaseDictionary = new Dictionary<string, double>();
         /// <summary> Value can be null of Curve Operator's Curve is not set. </summary>
-        private Dictionary<string, ICurveCalculator> _curveIDString_To_CurveCalculator_Dictionary = new Dictionary<string, ICurveCalculator>();
-        private Dictionary<Operator, double> _numberOperator_To_Value_Dictionary = new Dictionary<Operator, double>();
+        private readonly Dictionary<string, ICurveCalculator> _curveIDString_To_CurveCalculator_Dictionary = new Dictionary<string, ICurveCalculator>();
+        private readonly Dictionary<Operator, double> _numberOperator_To_Value_Dictionary = new Dictionary<Operator, double>();
         /// <summary> Value can be null of Sample Operator's Sample is not set. </summary>
-        private Dictionary<string, ISampleCalculator> _sampleIDString_To_SampleCalculator_Dictionary = new Dictionary<string, ISampleCalculator>();
+        private readonly Dictionary<string, ISampleCalculator> _sampleIDString_To_SampleCalculator_Dictionary = new Dictionary<string, ISampleCalculator>();
         /// <summary> Value is offset in seconds. </summary>
-        private Dictionary<Operator, double> _operator_WhiteNoiseOffset_Dictionary = new Dictionary<Operator, double>();
+        private readonly Dictionary<Operator, double> _operator_WhiteNoiseOffset_Dictionary = new Dictionary<Operator, double>();
 
         /// <param name="channelOutlets">Can contain nulls.</param>
         public InterpretedPatchCalculator(
@@ -1028,6 +1028,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             string key = String.Join("|", _outletStack.Select(x => x.ID));
             return key;
+        }
+
+        public void ResetPhases()
+        {
+            _previousTimeDictionary.Clear();
+            _phaseDictionary.Clear();
         }
 
         // TODO: Implement these methods.

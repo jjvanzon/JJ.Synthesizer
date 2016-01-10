@@ -3,7 +3,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Loop_OperatorCalculator : OperatorCalculatorBase
+    internal class Loop_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _attackCalculator;
@@ -19,6 +19,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase sustainCalculator,
             OperatorCalculatorBase endCalculator,
             OperatorCalculatorBase releaseCalculator)
+            : base(new OperatorCalculatorBase[] 
+            {
+                signalCalculator,
+                attackCalculator,
+                startCalculator,
+                sustainCalculator,
+                endCalculator,
+                releaseCalculator
+            })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (attackCalculator == null) throw new NullException(() => attackCalculator);

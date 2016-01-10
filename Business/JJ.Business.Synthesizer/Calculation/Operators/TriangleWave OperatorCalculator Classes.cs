@@ -37,7 +37,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class TriangleWave_WithConstFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class TriangleWave_WithConstFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _frequency;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
@@ -45,6 +45,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public TriangleWave_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(
             double frequency,
             OperatorCalculatorBase phaseShiftCalculator)
+            : base(new OperatorCalculatorBase[] { phaseShiftCalculator })
         {
             if (phaseShiftCalculator == null) throw new NullException(() => phaseShiftCalculator);
             if (phaseShiftCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => phaseShiftCalculator);
@@ -78,15 +79,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class TriangleWave_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class TriangleWave_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
-        private double _phase;
-        private double _previousTime;
 
         public TriangleWave_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
             double phaseShift)
+            : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (frequencyCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => frequencyCalculator);
@@ -125,16 +125,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class TriangleWave_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class TriangleWave_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
-        private double _phase;
-        private double _previousTime;
 
         public TriangleWave_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase phaseShiftCalculator)
+            : base(new OperatorCalculatorBase[] { frequencyCalculator, phaseShiftCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (frequencyCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => frequencyCalculator);

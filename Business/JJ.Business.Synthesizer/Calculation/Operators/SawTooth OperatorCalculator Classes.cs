@@ -24,7 +24,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SawTooth_WithConstFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class SawTooth_WithConstFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly double _frequency;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
@@ -32,6 +32,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public SawTooth_WithConstFrequency_WithVarPhaseShift_OperatorCalculator(
             double frequency,
             OperatorCalculatorBase phaseShiftCalculator)
+            : base(new OperatorCalculatorBase[] { phaseShiftCalculator })
         {
             if (frequency == 0) throw new ZeroException(() => frequency);
             if (phaseShiftCalculator == null) throw new NullException(() => phaseShiftCalculator);
@@ -54,15 +55,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SawTooth_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class SawTooth_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
-        private double _phase;
-        private double _previousTime;
 
         public SawTooth_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
             double phaseShift)
+            : base(new OperatorCalculatorBase[] { frequencyCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (frequencyCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => frequencyCalculator);
@@ -86,17 +86,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SawTooth_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase
+    internal class SawTooth_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
     {
         private OperatorCalculatorBase _frequencyCalculator;
         private OperatorCalculatorBase _phaseShiftCalculator;
 
-        private double _phase;
-        private double _previousTime;
-
         public SawTooth_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
             OperatorCalculatorBase phaseShiftCalculator)
+            : base(new OperatorCalculatorBase[] { frequencyCalculator, phaseShiftCalculator })
         {
             if (frequencyCalculator == null) throw new NullException(() => frequencyCalculator);
             if (frequencyCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => frequencyCalculator);

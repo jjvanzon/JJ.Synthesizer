@@ -5,7 +5,7 @@ using System;
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     /// <summary> This is the currently used variation on the Resample_OperatorCalculator. </summary>
-    internal class Resample_OperatorCalculator_CubicRamses : OperatorCalculatorBase
+    internal class Resample_OperatorCalculator_CubicRamses : OperatorCalculatorBase_WithChildCalculators
     {
         private double MINIMUM_SAMPLING_RATE = 16.0; // 8 Hz.
 
@@ -13,6 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private OperatorCalculatorBase _samplingRateCalculator;
 
         public Resample_OperatorCalculator_CubicRamses(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
+            : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (samplingRateCalculator == null) throw new NullException(() => samplingRateCalculator);

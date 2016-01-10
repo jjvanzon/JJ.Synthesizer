@@ -1,10 +1,16 @@
-﻿using JJ.Framework.Reflection.Exceptions;
+﻿
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
 
 
-    internal class Adder_OperatorCalculator3 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator3 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -14,7 +20,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					OperatorCalculatorBase operandCalculator1
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -33,7 +45,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator4 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator4 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -45,7 +57,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator2
 ,					OperatorCalculatorBase operandCalculator3
 ,					OperatorCalculatorBase operandCalculator4
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -67,7 +86,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator5 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator5 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -81,7 +100,15 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator3
 ,					OperatorCalculatorBase operandCalculator4
 ,					OperatorCalculatorBase operandCalculator5
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -106,7 +133,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator6 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator6 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -122,7 +149,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator4
 ,					OperatorCalculatorBase operandCalculator5
 ,					OperatorCalculatorBase operandCalculator6
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -150,7 +186,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator7 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator7 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -168,7 +204,17 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator5
 ,					OperatorCalculatorBase operandCalculator6
 ,					OperatorCalculatorBase operandCalculator7
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -199,7 +245,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator8 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator8 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -219,7 +265,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator6
 ,					OperatorCalculatorBase operandCalculator7
 ,					OperatorCalculatorBase operandCalculator8
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -253,7 +310,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator9 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator9 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -275,7 +332,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator7
 ,					OperatorCalculatorBase operandCalculator8
 ,					OperatorCalculatorBase operandCalculator9
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -312,7 +381,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator10 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator10 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -336,7 +405,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator8
 ,					OperatorCalculatorBase operandCalculator9
 ,					OperatorCalculatorBase operandCalculator10
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -376,7 +458,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator11 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator11 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -402,7 +484,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator9
 ,					OperatorCalculatorBase operandCalculator10
 ,					OperatorCalculatorBase operandCalculator11
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -445,7 +541,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator12 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator12 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -473,7 +569,22 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator10
 ,					OperatorCalculatorBase operandCalculator11
 ,					OperatorCalculatorBase operandCalculator12
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -519,7 +630,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator13 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator13 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -549,7 +660,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator11
 ,					OperatorCalculatorBase operandCalculator12
 ,					OperatorCalculatorBase operandCalculator13
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -598,7 +725,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator14 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator14 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -630,7 +757,24 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator12
 ,					OperatorCalculatorBase operandCalculator13
 ,					OperatorCalculatorBase operandCalculator14
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -682,7 +826,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator15 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator15 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -716,7 +860,25 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator13
 ,					OperatorCalculatorBase operandCalculator14
 ,					OperatorCalculatorBase operandCalculator15
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -771,7 +933,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator16 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator16 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -807,7 +969,26 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator14
 ,					OperatorCalculatorBase operandCalculator15
 ,					OperatorCalculatorBase operandCalculator16
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -865,7 +1046,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator17 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator17 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -903,7 +1084,27 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator15
 ,					OperatorCalculatorBase operandCalculator16
 ,					OperatorCalculatorBase operandCalculator17
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -964,7 +1165,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator18 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator18 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1004,7 +1205,28 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator16
 ,					OperatorCalculatorBase operandCalculator17
 ,					OperatorCalculatorBase operandCalculator18
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -1068,7 +1290,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator19 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator19 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1110,7 +1332,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator17
 ,					OperatorCalculatorBase operandCalculator18
 ,					OperatorCalculatorBase operandCalculator19
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+,					operandCalculator19
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -1177,7 +1421,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator20 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator20 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1221,7 +1465,30 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator18
 ,					OperatorCalculatorBase operandCalculator19
 ,					OperatorCalculatorBase operandCalculator20
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+,					operandCalculator19
+,					operandCalculator20
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -1291,7 +1558,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator21 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator21 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1337,7 +1604,31 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator19
 ,					OperatorCalculatorBase operandCalculator20
 ,					OperatorCalculatorBase operandCalculator21
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+,					operandCalculator19
+,					operandCalculator20
+,					operandCalculator21
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -1410,7 +1701,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator22 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator22 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1458,7 +1749,32 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator20
 ,					OperatorCalculatorBase operandCalculator21
 ,					OperatorCalculatorBase operandCalculator22
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+,					operandCalculator19
+,					operandCalculator20
+,					operandCalculator21
+,					operandCalculator22
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -1534,7 +1850,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator23 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator23 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1584,7 +1900,33 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator21
 ,					OperatorCalculatorBase operandCalculator22
 ,					OperatorCalculatorBase operandCalculator23
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+,					operandCalculator19
+,					operandCalculator20
+,					operandCalculator21
+,					operandCalculator22
+,					operandCalculator23
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -1663,7 +2005,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator24 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator24 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1715,7 +2057,34 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator22
 ,					OperatorCalculatorBase operandCalculator23
 ,					OperatorCalculatorBase operandCalculator24
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+,					operandCalculator19
+,					operandCalculator20
+,					operandCalculator21
+,					operandCalculator22
+,					operandCalculator23
+,					operandCalculator24
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -1797,7 +2166,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator25 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator25 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1851,7 +2220,35 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator23
 ,					OperatorCalculatorBase operandCalculator24
 ,					OperatorCalculatorBase operandCalculator25
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+,					operandCalculator19
+,					operandCalculator20
+,					operandCalculator21
+,					operandCalculator22
+,					operandCalculator23
+,					operandCalculator24
+,					operandCalculator25
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -1936,7 +2333,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator26 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator26 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -1992,7 +2389,36 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator24
 ,					OperatorCalculatorBase operandCalculator25
 ,					OperatorCalculatorBase operandCalculator26
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+,					operandCalculator19
+,					operandCalculator20
+,					operandCalculator21
+,					operandCalculator22
+,					operandCalculator23
+,					operandCalculator24
+,					operandCalculator25
+,					operandCalculator26
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -2080,7 +2506,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator27 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator27 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -2138,7 +2564,37 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator25
 ,					OperatorCalculatorBase operandCalculator26
 ,					OperatorCalculatorBase operandCalculator27
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+,					operandCalculator19
+,					operandCalculator20
+,					operandCalculator21
+,					operandCalculator22
+,					operandCalculator23
+,					operandCalculator24
+,					operandCalculator25
+,					operandCalculator26
+,					operandCalculator27
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -2229,7 +2685,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator28 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator28 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -2289,7 +2745,38 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator26
 ,					OperatorCalculatorBase operandCalculator27
 ,					OperatorCalculatorBase operandCalculator28
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+,					operandCalculator19
+,					operandCalculator20
+,					operandCalculator21
+,					operandCalculator22
+,					operandCalculator23
+,					operandCalculator24
+,					operandCalculator25
+,					operandCalculator26
+,					operandCalculator27
+,					operandCalculator28
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -2383,7 +2870,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator29 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator29 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -2445,7 +2932,39 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator27
 ,					OperatorCalculatorBase operandCalculator28
 ,					OperatorCalculatorBase operandCalculator29
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+,					operandCalculator19
+,					operandCalculator20
+,					operandCalculator21
+,					operandCalculator22
+,					operandCalculator23
+,					operandCalculator24
+,					operandCalculator25
+,					operandCalculator26
+,					operandCalculator27
+,					operandCalculator28
+,					operandCalculator29
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -2542,7 +3061,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator30 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator30 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -2606,7 +3125,40 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator28
 ,					OperatorCalculatorBase operandCalculator29
 ,					OperatorCalculatorBase operandCalculator30
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+,					operandCalculator19
+,					operandCalculator20
+,					operandCalculator21
+,					operandCalculator22
+,					operandCalculator23
+,					operandCalculator24
+,					operandCalculator25
+,					operandCalculator26
+,					operandCalculator27
+,					operandCalculator28
+,					operandCalculator29
+,					operandCalculator30
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -2706,7 +3258,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator31 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator31 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -2772,7 +3324,41 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator29
 ,					OperatorCalculatorBase operandCalculator30
 ,					OperatorCalculatorBase operandCalculator31
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+,					operandCalculator19
+,					operandCalculator20
+,					operandCalculator21
+,					operandCalculator22
+,					operandCalculator23
+,					operandCalculator24
+,					operandCalculator25
+,					operandCalculator26
+,					operandCalculator27
+,					operandCalculator28
+,					operandCalculator29
+,					operandCalculator30
+,					operandCalculator31
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);
@@ -2875,7 +3461,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 			}
 		}
 
-		internal class Adder_OperatorCalculator32 : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator32 : OperatorCalculatorBase_WithChildCalculators
 		{
 				private OperatorCalculatorBase _operandCalculator1;
 				private OperatorCalculatorBase _operandCalculator2;
@@ -2943,7 +3529,42 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 ,					OperatorCalculatorBase operandCalculator30
 ,					OperatorCalculatorBase operandCalculator31
 ,					OperatorCalculatorBase operandCalculator32
-)			{
+)			: base
+			(new OperatorCalculatorBase[] { 
+					operandCalculator1
+,					operandCalculator2
+,					operandCalculator3
+,					operandCalculator4
+,					operandCalculator5
+,					operandCalculator6
+,					operandCalculator7
+,					operandCalculator8
+,					operandCalculator9
+,					operandCalculator10
+,					operandCalculator11
+,					operandCalculator12
+,					operandCalculator13
+,					operandCalculator14
+,					operandCalculator15
+,					operandCalculator16
+,					operandCalculator17
+,					operandCalculator18
+,					operandCalculator19
+,					operandCalculator20
+,					operandCalculator21
+,					operandCalculator22
+,					operandCalculator23
+,					operandCalculator24
+,					operandCalculator25
+,					operandCalculator26
+,					operandCalculator27
+,					operandCalculator28
+,					operandCalculator29
+,					operandCalculator30
+,					operandCalculator31
+,					operandCalculator32
+			})
+			{
 					if (operandCalculator1 == null) throw new NullException(() => operandCalculator1);
 					_operandCalculator1 = operandCalculator1;
 					if (operandCalculator2 == null) throw new NullException(() => operandCalculator2);

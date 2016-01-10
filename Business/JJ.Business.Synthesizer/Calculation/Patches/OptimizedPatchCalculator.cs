@@ -12,8 +12,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
     internal class OptimizedPatchCalculator : IPatchCalculator
     {
         /// <summary> Array for optimization in calculating values. </summary>
-        private readonly OperatorCalculatorBase[] _channelOperatorCalculators;
-        private readonly VariableInput_OperatorCalculator[] _variableInput_OperatorCalculators;
+        private readonly OperatorCalculatorBase[] _outputOperatorCalculators;
+        private readonly VariableInput_OperatorCalculator[] _inputOperatorCalculators;
 
         /// <summary> This overload has ChannelOutlets as params. </summary>
         /// <param name="channelOutlets">Can contain nulls.</param>
@@ -42,32 +42,32 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(channelOutlets, whiteNoiseCalculator);
 
             // TODO: One would think that the outlet operators should be sorted by a list index too.
-            _channelOperatorCalculators = result.Output_OperatorCalculators.ToArray();
+            _outputOperatorCalculators = result.Output_OperatorCalculators.ToArray();
 
-            _variableInput_OperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();
+            _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();
         }
 
         public double Calculate(double time, int channelIndex)
         {
-            return _channelOperatorCalculators[channelIndex].Calculate(time, channelIndex);
+            return _outputOperatorCalculators[channelIndex].Calculate(time, channelIndex);
         }
 
         public void SetValue(int listIndex, double value)
         {
             // Be tollerant for non-existent list indexes, because you can switch instruments so dynamically.
             if (listIndex < 0) return;
-            if (listIndex >= _variableInput_OperatorCalculators.Length) return;
+            if (listIndex >= _inputOperatorCalculators.Length) return;
 
-            _variableInput_OperatorCalculators[listIndex]._value = value;
+            _inputOperatorCalculators[listIndex]._value = value;
         }
 
         public void SetValue(string name, double value)
         {
             if (String.IsNullOrEmpty(name)) throw new NullOrEmptyException(() => name);
 
-            for (int i = 0; i < _variableInput_OperatorCalculators.Length; i++)
+            for (int i = 0; i < _inputOperatorCalculators.Length; i++)
             {
-                VariableInput_OperatorCalculator operatorCalculator = _variableInput_OperatorCalculators[i];
+                VariableInput_OperatorCalculator operatorCalculator = _inputOperatorCalculators[i];
 
                 if (String.Equals(operatorCalculator.Name, name))
                 {
@@ -82,9 +82,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             int j = 0;
 
-            for (int i = 0; i < _variableInput_OperatorCalculators.Length; i++)
+            for (int i = 0; i < _inputOperatorCalculators.Length; i++)
             {
-                VariableInput_OperatorCalculator operatorCalculator = _variableInput_OperatorCalculators[i];
+                VariableInput_OperatorCalculator operatorCalculator = _inputOperatorCalculators[i];
 
                 if (String.Equals(operatorCalculator.Name, name))
                 {
@@ -101,9 +101,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public void SetValue(InletTypeEnum inletTypeEnum, double value)
         {
-            for (int i = 0; i < _variableInput_OperatorCalculators.Length; i++)
+            for (int i = 0; i < _inputOperatorCalculators.Length; i++)
             {
-                VariableInput_OperatorCalculator operatorCalculator = _variableInput_OperatorCalculators[i];
+                VariableInput_OperatorCalculator operatorCalculator = _inputOperatorCalculators[i];
 
                 if (operatorCalculator.InletTypeEnum == inletTypeEnum)
                 {
@@ -116,9 +116,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             int j = 0;
 
-            for (int i = 0; i < _variableInput_OperatorCalculators.Length; i++)
+            for (int i = 0; i < _inputOperatorCalculators.Length; i++)
             {
-                VariableInput_OperatorCalculator operatorCalculator = _variableInput_OperatorCalculators[i];
+                VariableInput_OperatorCalculator operatorCalculator = _inputOperatorCalculators[i];
 
                 if (operatorCalculator.InletTypeEnum == inletTypeEnum)
                 {
@@ -137,9 +137,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             // Be tollerant for non-existent list indexes, because you can switch instruments so dynamically.
             if (listIndex < 0) return 0.0;
-            if (listIndex >= _variableInput_OperatorCalculators.Length) return 0.0;
+            if (listIndex >= _inputOperatorCalculators.Length) return 0.0;
 
-            double value = _variableInput_OperatorCalculators[listIndex]._value;
+            double value = _inputOperatorCalculators[listIndex]._value;
             return value;
         }
 
@@ -147,9 +147,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             if (String.IsNullOrEmpty(name)) throw new NullOrEmptyException(() => name);
 
-            for (int i = 0; i < _variableInput_OperatorCalculators.Length; i++)
+            for (int i = 0; i < _inputOperatorCalculators.Length; i++)
             {
-                VariableInput_OperatorCalculator operatorCalculator = _variableInput_OperatorCalculators[i];
+                VariableInput_OperatorCalculator operatorCalculator = _inputOperatorCalculators[i];
 
                 if (String.Equals(operatorCalculator.Name, name))
                 {
@@ -166,9 +166,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             int j = 0;
 
-            for (int i = 0; i < _variableInput_OperatorCalculators.Length; i++)
+            for (int i = 0; i < _inputOperatorCalculators.Length; i++)
             {
-                VariableInput_OperatorCalculator operatorCalculator = _variableInput_OperatorCalculators[i];
+                VariableInput_OperatorCalculator operatorCalculator = _inputOperatorCalculators[i];
 
                 if (String.Equals(operatorCalculator.Name, name))
                 {
@@ -186,9 +186,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public double GetValue(InletTypeEnum inletTypeEnum)
         {
-            for (int i = 0; i < _variableInput_OperatorCalculators.Length; i++)
+            for (int i = 0; i < _inputOperatorCalculators.Length; i++)
             {
-                VariableInput_OperatorCalculator operatorCalculator = _variableInput_OperatorCalculators[i];
+                VariableInput_OperatorCalculator operatorCalculator = _inputOperatorCalculators[i];
 
                 if (operatorCalculator.InletTypeEnum == inletTypeEnum)
                 {
@@ -203,9 +203,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             int j = 0;
 
-            for (int i = 0; i < _variableInput_OperatorCalculators.Length; i++)
+            for (int i = 0; i < _inputOperatorCalculators.Length; i++)
             {
-                VariableInput_OperatorCalculator operatorCalculator = _variableInput_OperatorCalculators[i];
+                VariableInput_OperatorCalculator operatorCalculator = _inputOperatorCalculators[i];
 
                 if (operatorCalculator.InletTypeEnum == inletTypeEnum)
                 {
@@ -219,6 +219,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             return 0.0;
+        }
+
+        public void ResetPhases()
+        {
+            for (int i = 0; i < _outputOperatorCalculators.Length; i++)
+            {
+                OperatorCalculatorBase outputOperatorCalculator = _outputOperatorCalculators[i];
+
+                outputOperatorCalculator.ResetPhase();
+            }
         }
     }
 }

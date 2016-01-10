@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 	{
 #>
 
-		internal class Adder_OperatorCalculator<#= i #> : OperatorCalculatorBase
+		internal class Adder_OperatorCalculator<#= i #> : OperatorCalculatorBase_WithChildCalculators
 		{
 <# 
 			for (int j = 1; j <= i; j++)
@@ -49,6 +49,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 					}
 				}
 #>
+			: base
+			(new OperatorCalculatorBase[] { 
+<#
+				for (int j = 1; j <= i; j++)
+				{
+#>
+					operandCalculator<#= j #>
+<#
+					if (j != i)
+					{
+						Write(",");
+					}
+				}
+#>
+			})
 			{
 <#
 				for (int j = 1; j <= i; j++)

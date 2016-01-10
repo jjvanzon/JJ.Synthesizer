@@ -3,15 +3,13 @@ using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SlowDown_WithVarFactor_OperatorCalculator : OperatorCalculatorBase
+    internal class SlowDown_WithVarFactor_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
     {
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _factorCalculator;
 
-        private double _phase;
-        private double _previousTime;
-
         public SlowDown_WithVarFactor_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase factorCalculator)
+            : base(new OperatorCalculatorBase[] { signalCalculator, factorCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
@@ -45,7 +43,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SlowDown_WithConstFactor_OperatorCalculator : OperatorCalculatorBase
+    internal class SlowDown_WithConstFactor_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _signalCalculator;
         private double _factorValue;
@@ -53,6 +51,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public SlowDown_WithConstFactor_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
             double factorValue)
+            : base(new OperatorCalculatorBase[] { signalCalculator })
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);

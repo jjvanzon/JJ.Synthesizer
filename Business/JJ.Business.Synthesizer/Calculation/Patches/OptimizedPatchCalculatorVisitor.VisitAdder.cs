@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             OperatorCalculatorBase calculator;
 
-            List<OperatorCalculatorBase> operandCalculators = new List<OperatorCalculatorBase>();
+            var operandCalculators = new List<OperatorCalculatorBase>();
 
             for (int i = 0; i < op.Inlets.Count; i++)
             {

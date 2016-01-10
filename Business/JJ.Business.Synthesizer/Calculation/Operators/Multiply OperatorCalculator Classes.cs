@@ -3,7 +3,7 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Multiply_WithConstOrigin_AndOperandA_OperatorCalculator : OperatorCalculatorBase
+    internal class Multiply_WithConstOrigin_AndOperandA_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private double _operandAValue;
         private OperatorCalculatorBase _operandBCalculator;
@@ -13,6 +13,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double operandAValue,
             OperatorCalculatorBase operandBCalculator,
             double originValue)
+            : base(new OperatorCalculatorBase[] { operandBCalculator })
         {
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
             if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
@@ -29,7 +30,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_WithConstOrigin_AndOperandB_OperatorCalculator : OperatorCalculatorBase
+    internal class Multiply_WithConstOrigin_AndOperandB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _operandACalculator;
         private double _operandBValue;
@@ -39,6 +40,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase operandACalculator,
             double operandBValue,
             double originValue)
+            : base(new OperatorCalculatorBase[] { operandACalculator })
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
             if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
@@ -55,7 +57,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_WithConstOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class Multiply_WithConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _operandACalculator;
         private OperatorCalculatorBase _operandBCalculator;
@@ -65,6 +67,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase operandACalculator,
             OperatorCalculatorBase operandBCalculator,
             double originValue)
+            : base(new OperatorCalculatorBase[] { operandACalculator, operandBCalculator })
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
             if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
@@ -84,7 +87,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_WithOrigin_AndConstOperandA_AndOperandB_OperatorCalculator : OperatorCalculatorBase
+    internal class Multiply_WithOrigin_AndConstOperandA_AndOperandB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private double _operandAValue;
         private double _operandBValue;
@@ -94,6 +97,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double operandAValue,
             double operandBValue,
             OperatorCalculatorBase originCalculator)
+            : base(new OperatorCalculatorBase[] { originCalculator })
         {
             if (originCalculator == null) throw new NullException(() => originCalculator);
             if (originCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => originCalculator);
@@ -110,7 +114,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_WithOrigin_AndConstOperandA_OperatorCalculator : OperatorCalculatorBase
+    internal class Multiply_WithOrigin_AndConstOperandA_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private double _operandAValue;
         private OperatorCalculatorBase _operandBCalculator;
@@ -120,6 +124,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             double operandAValue,
             OperatorCalculatorBase operandBCalculator,
             OperatorCalculatorBase originCalculator)
+            : base(new OperatorCalculatorBase[] { operandBCalculator, originCalculator })
         {
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
             if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
@@ -139,7 +144,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_WithOrigin_AndConstOperandB_OperatorCalculator : OperatorCalculatorBase
+    internal class Multiply_WithOrigin_AndConstOperandB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _operandACalculator;
         private double _operandBValue;
@@ -149,6 +154,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase operandACalculator,
             double operandBValue,
             OperatorCalculatorBase originCalculator)
+            : base(new OperatorCalculatorBase[] { operandACalculator, originCalculator })
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
             if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
@@ -168,7 +174,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_WithOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class Multiply_WithOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _operandACalculator;
         private OperatorCalculatorBase _operandBCalculator;
@@ -178,6 +184,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             OperatorCalculatorBase operandACalculator,
             OperatorCalculatorBase operandBCalculator,
             OperatorCalculatorBase originCalculator)
+            : base(new OperatorCalculatorBase[] { operandACalculator, operandBCalculator, originCalculator })
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
             if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
@@ -200,12 +207,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_WithoutOrigin_OperatorCalculator : OperatorCalculatorBase
+    internal class Multiply_WithoutOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _operandACalculator;
         private OperatorCalculatorBase _operandBCalculator;
 
         public Multiply_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase operandACalculator, OperatorCalculatorBase operandBCalculator)
+            : base(new OperatorCalculatorBase[] { operandACalculator, operandBCalculator })
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
             if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);
@@ -224,12 +232,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_WithoutOrigin_WithConstOperandA_OperatorCalculator : OperatorCalculatorBase
+    internal class Multiply_WithoutOrigin_WithConstOperandA_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private double _operandAValue;
         private OperatorCalculatorBase _operandBCalculator;
 
         public Multiply_WithoutOrigin_WithConstOperandA_OperatorCalculator(double operandValue, OperatorCalculatorBase operandBCalculator)
+            : base(new OperatorCalculatorBase[] { operandBCalculator })
         {
             if (operandBCalculator == null) throw new NullException(() => operandBCalculator);
             if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
@@ -245,12 +254,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class Multiply_WithoutOrigin_WithConstOperandB_OperatorCalculator : OperatorCalculatorBase
+    internal class Multiply_WithoutOrigin_WithConstOperandB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private OperatorCalculatorBase _operandACalculator;
         private double _operandBValue;
 
         public Multiply_WithoutOrigin_WithConstOperandB_OperatorCalculator(OperatorCalculatorBase operandACalculator, double operandBValue)
+            : base(new OperatorCalculatorBase[] { operandACalculator })
         {
             if (operandACalculator == null) throw new NullException(() => operandACalculator);
             if (operandACalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandACalculator);

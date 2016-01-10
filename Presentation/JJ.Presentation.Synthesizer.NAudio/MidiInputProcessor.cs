@@ -102,6 +102,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     PatchCalculatorContainer.Lock.EnterWriteLock();
                     try
                     {
+                        patchCalculator.ResetPhases();
                         patchCalculator.SetValue(InletTypeEnum.Frequency, noteListIndex.Value, frequency);
                         patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, volume);
                         patchCalculator.SetValue(InletTypeEnum.NoteStart, noteListIndex.Value, noteStart);
