@@ -54,10 +54,10 @@
         public const int SINE_RESULT_INDEX = 0;
         public const int SLOW_DOWN_RESULT_INDEX = 0;
         public const int SLOW_DOWN_SIGNAL_INDEX = 0;
-        public const int SLOW_DOWN_TIME_MULTIPLIER_INDEX = 1;
+        public const int SLOW_DOWN_FACTOR_INDEX = 1;
         public const int SPEED_UP_RESULT_INDEX = 0;
         public const int SPEED_UP_SIGNAL_INDEX = 0;
-        public const int SPEED_UP_TIME_DIVIDER_INDEX = 1;
+        public const int SPEED_UP_FACTOR_INDEX = 1;
         public const int SQUARE_WAVE_PHASE_SHIFT_INDEX = 1;
         public const int SQUARE_WAVE_FREQUENCY_INDEX = 0;
         public const int SQUARE_WAVE_RESULT_INDEX = 0;

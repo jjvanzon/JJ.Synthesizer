@@ -828,22 +828,22 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase timeMultiplierCalculator = _stack.Pop();
+            OperatorCalculatorBase factorCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            timeMultiplierCalculator = timeMultiplierCalculator ?? new One_OperatorCalculator();
+            factorCalculator = factorCalculator ?? new One_OperatorCalculator();
 
             double signal = signalCalculator.Calculate(0, 0);
-            double timeMultiplier = timeMultiplierCalculator.Calculate(0, 0);
+            double factor = factorCalculator.Calculate(0, 0);
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool timeMultiplierIsConst = timeMultiplierCalculator is Number_OperatorCalculator;
+            bool factorIsConst = factorCalculator is Number_OperatorCalculator;
             bool signalIsConstZero = signalIsConst && signal == 0;
-            bool timeMultiplierIsConstZero = timeMultiplierIsConst && timeMultiplier == 0;
-            bool timeMultiplierIsConstOne = timeMultiplierIsConst && timeMultiplier == 1;
+            bool factorIsConstZero = factorIsConst && factor == 0;
+            bool factorIsConstOne = factorIsConst && factor == 1;
             bool signalIsConstSpecialNumber = signalIsConst && Double.IsNaN(signal) || Double.IsInfinity(signal);
-            bool timeMultiplierIsConstSpecialNumber = timeMultiplierIsConst && Double.IsNaN(timeMultiplier) || Double.IsInfinity(timeMultiplier);
+            bool factorIsConstSpecialNumber = factorIsConst && Double.IsNaN(factor) || Double.IsInfinity(factor);
 
-            if (timeMultiplierIsConstSpecialNumber)
+            if (factorIsConstSpecialNumber)
             {
                 // Weird number
                 // Slow down to inifinity, means time stands still. (Consider: 2x as slow, 100x as slow, inifity as slow...)
@@ -854,7 +854,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // Weird number
                 calculator = new Number_OperatorCalculator(signal);
             }
-            else if (timeMultiplierIsConstZero)
+            else if (factorIsConstZero)
             {
                 // Weird number
                 // Slow down 0 times, means speed up to infinity, equals undefined.
@@ -864,7 +864,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (timeMultiplierIsConstOne)
+            else if (factorIsConstOne)
             {
                 calculator = signalCalculator;
             }
@@ -872,13 +872,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = signalCalculator;
             }
-            else if (timeMultiplierIsConst)
+            else if (factorIsConst)
             {
-                calculator = new SlowDown_WithConstTimeMultiplier_OperatorCalculator(signalCalculator, timeMultiplier);
+                calculator = new SlowDown_WithConstFactor_OperatorCalculator(signalCalculator, factor);
             }
             else
             {
-                calculator = new SlowDown_WithVarTimeMultiplier_OperatorCalculator(signalCalculator, timeMultiplierCalculator);
+                calculator = new SlowDown_WithVarFactor_OperatorCalculator(signalCalculator, factorCalculator);
             }
 
             _stack.Push(calculator);
@@ -889,22 +889,22 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             OperatorCalculatorBase calculator;
 
             OperatorCalculatorBase signalCalculator = _stack.Pop();
-            OperatorCalculatorBase timeDividerCalculator = _stack.Pop();
+            OperatorCalculatorBase factorCalculator = _stack.Pop();
 
             signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
-            timeDividerCalculator = timeDividerCalculator ?? new One_OperatorCalculator();
+            factorCalculator = factorCalculator ?? new One_OperatorCalculator();
 
             double signal = signalCalculator.Calculate(0, 0);
-            double timeDivider = timeDividerCalculator.Calculate(0, 0);
+            double factor = factorCalculator.Calculate(0, 0);
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
-            bool timeDividerIsConst = timeDividerCalculator is Number_OperatorCalculator;
+            bool factorIsConst = factorCalculator is Number_OperatorCalculator;
             bool signalIsConstZero = signalIsConst && signal == 0;
-            bool timeDividerIsConstZero = timeDividerIsConst && timeDivider == 0;
-            bool timeDividerIsConstOne = timeDividerIsConst && timeDivider == 1;
+            bool factorIsConstZero = factorIsConst && factor == 0;
+            bool factorIsConstOne = factorIsConst && factor == 1;
             bool signalIsConstSpecialNumber = signalIsConst && Double.IsNaN(signal) || Double.IsInfinity(signal);
-            bool timeDividerIsConstSpecialNumber = timeDividerIsConst && Double.IsNaN(timeDivider) || Double.IsInfinity(timeDivider);
+            bool factorIsConstSpecialNumber = factorIsConst && Double.IsNaN(factor) || Double.IsInfinity(factor);
 
-            if (timeDividerIsConstSpecialNumber)
+            if (factorIsConstSpecialNumber)
             {
                 // Weird number
                 calculator = new Number_OperatorCalculator(Double.NaN);
@@ -914,7 +914,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 // Weird number
                 calculator = new Number_OperatorCalculator(signal);
             }
-            else if (timeDividerIsConstZero)
+            else if (factorIsConstZero)
             {
                 // Weird number
                 // Speed-up of 0 means time stands still.
@@ -924,7 +924,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Zero_OperatorCalculator();
             }
-            else if (timeDividerIsConstOne)
+            else if (factorIsConstOne)
             {
                 calculator = signalCalculator;
             }
@@ -932,13 +932,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = signalCalculator;
             }
-            else if (timeDividerIsConst)
+            else if (factorIsConst)
             {
-                calculator = new SpeedUp_WithConstTimeDivider_OperatorCalculator(signalCalculator, timeDivider);
+                calculator = new SpeedUp_WithConstFactor_OperatorCalculator(signalCalculator, factor);
             }
             else 
             {
-                calculator = new SpeedUp_WithVarTimeDivider_OperatorCalculator(signalCalculator, timeDividerCalculator);
+                calculator = new SpeedUp_WithVarFactor_OperatorCalculator(signalCalculator, factorCalculator);
             }
 
             _stack.Push(calculator);

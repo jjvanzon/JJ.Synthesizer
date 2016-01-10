@@ -513,18 +513,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 return 0.0;
             }
 
-            // No time multiplier? Just pass through signal.
-            Outlet timeMultiplierOutlet = wrapper.TimeMultiplier;
-            if (timeMultiplierOutlet == null)
+            // No factor? Just pass through signal.
+            Outlet factorOutlet = wrapper.Factor;
+            if (factorOutlet == null)
             {
                 return Calculate(signalOutlet, time);
             }
 
-            double timeMultiplier = Calculate(timeMultiplierOutlet, time);
+            double factor = Calculate(factorOutlet, time);
 
             // Weird number
             // Slow down by a factor of 0 equals speed up to infinity, which makes the result undefined.
-            if (timeMultiplier == 0.0)
+            if (factor == 0.0)
             {
                 return Double.NaN;
             }
@@ -538,11 +538,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             // Weird numbers
             // Slow down to infinity means time stands still, so just do not advance phase.
-            if (!Double.IsInfinity(timeMultiplier) && !Double.IsNaN(timeMultiplier))
+            if (!Double.IsInfinity(factor) && !Double.IsNaN(factor))
             {
                 double dt = time - previousTime;
                 // IMPORTANT: To multiply the time in the output, you have to divide the time of the input.
-                phase = phase + dt / timeMultiplier;
+                phase = phase + dt / factor;
             }
 
             double result = Calculate(signalOutlet, phase);
@@ -584,17 +584,17 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 return 0.0;
             }
 
-            // No time divider? Just pass through signal.
-            Outlet timeDividerOutlet = wrapper.TimeDivider;
-            if (timeDividerOutlet == null)
+            // No factor? Just pass through signal.
+            Outlet factorOutlet = wrapper.Factor;
+            if (factorOutlet == null)
             {
                 return Calculate(signalOutlet, time);
             }
 
-            double timeDivider = Calculate(timeDividerOutlet, time);
+            double factor = Calculate(factorOutlet, time);
 
             // Weird numbers
-            if (Double.IsInfinity(timeDivider) || Double.IsNaN(timeDivider))
+            if (Double.IsInfinity(factor) || Double.IsNaN(factor))
             {
                 // Speed up to infinity is undefined.
                 return Double.NaN;
@@ -609,11 +609,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             // Weird number
             // Speed up of 0 means time stands still, so just do not advance phase.
-            if (timeDivider != 0.0)
+            if (factor != 0.0)
             {
                 double dt = time - previousTime;
                 // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-                phase = phase + dt * timeDivider;
+                phase = phase + dt * factor;
             }
 
             double result = Calculate(signalOutlet, phase);

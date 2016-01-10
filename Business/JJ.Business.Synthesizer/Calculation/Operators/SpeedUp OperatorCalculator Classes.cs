@@ -3,31 +3,31 @@ using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SpeedUp_WithVarTimeDivider_OperatorCalculator : OperatorCalculatorBase
+    internal class SpeedUp_WithVarFactor_OperatorCalculator : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _timeDividerCalculator;
+        private OperatorCalculatorBase _factorCalculator;
 
         private double _phase;
         private double _previousTime;
 
-        public SpeedUp_WithVarTimeDivider_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeDividerCalculator)
+        public SpeedUp_WithVarFactor_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase factorCalculator)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
-            if (timeDividerCalculator == null) throw new NullException(() => timeDividerCalculator);
-            if (timeDividerCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => timeDividerCalculator);
+            if (factorCalculator == null) throw new NullException(() => factorCalculator);
+            if (factorCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => factorCalculator);
 
             _signalCalculator = signalCalculator;
-            _timeDividerCalculator = timeDividerCalculator;
+            _factorCalculator = factorCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
-            double timeDivider = _timeDividerCalculator.Calculate(time, channelIndex);
+            double factor = _factorCalculator.Calculate(time, channelIndex);
 
             double dt = time - _previousTime;
-            double phase = _phase + dt * timeDivider; // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+            double phase = _phase + dt * factor; // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
 
             // Prevent phase from becoming a special number, rendering it unusable forever.
             if (Double.IsNaN(phase) || Double.IsInfinity(phase))
@@ -43,29 +43,29 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return result;
         }
     }
-
-    internal class SpeedUp_WithConstTimeDivider_OperatorCalculator : OperatorCalculatorBase
+    
+    internal class SpeedUp_WithConstFactor_OperatorCalculator : OperatorCalculatorBase
     {
         private OperatorCalculatorBase _signalCalculator;
-        private double _timeDividerValue;
+        private double _factorValue;
 
-        public SpeedUp_WithConstTimeDivider_OperatorCalculator(OperatorCalculatorBase signalCalculator, double timeDividerValue)
+        public SpeedUp_WithConstFactor_OperatorCalculator(OperatorCalculatorBase signalCalculator, double factorValue)
         {
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
-            if (timeDividerValue == 0) throw new ZeroException(() => timeDividerValue);
-            if (timeDividerValue == 1) throw new EqualException(() => timeDividerValue, 1);
-            if (Double.IsNaN(timeDividerValue)) throw new NaNException(() => timeDividerValue);
-            if (Double.IsInfinity(timeDividerValue)) throw new InfinityException(() => timeDividerValue);
+            if (factorValue == 0) throw new ZeroException(() => factorValue);
+            if (factorValue == 1) throw new EqualException(() => factorValue, 1);
+            if (Double.IsNaN(factorValue)) throw new NaNException(() => factorValue);
+            if (Double.IsInfinity(factorValue)) throw new InfinityException(() => factorValue);
 
             _signalCalculator = signalCalculator;
-            _timeDividerValue = timeDividerValue;
+            _factorValue = factorValue;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
             // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-            double transformedTime = time * _timeDividerValue; 
+            double transformedTime = time * _factorValue; 
             double result = _signalCalculator.Calculate(transformedTime, channelIndex);
             return result;
         }

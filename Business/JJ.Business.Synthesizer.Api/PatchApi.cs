@@ -178,14 +178,14 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Subtract(operandA, operandB);
         }
 
-        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet timeDivider = null)
+        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet factor = null)
         {
-            return _patchManager.SpeedUp(signal, timeDivider);
+            return _patchManager.SpeedUp(signal, factor);
         }
 
-        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet timeMultiplier = null)
+        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet factor = null)
         {
-            return _patchManager.SlowDown(signal, timeMultiplier);
+            return _patchManager.SlowDown(signal, factor);
         }
 
         public SquareWave_OperatorWrapper SquareWave(Outlet frequency = null, Outlet phaseShift = null)

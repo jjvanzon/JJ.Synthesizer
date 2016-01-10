@@ -16,10 +16,10 @@ namespace JJ.Business.Synthesizer.EntityWrappers
             set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.SLOW_DOWN_SIGNAL_INDEX).LinkTo(value); }
         }
 
-        public Outlet TimeMultiplier
+        public Outlet Factor
         {
-            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.SLOW_DOWN_TIME_MULTIPLIER_INDEX); }
-            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.SLOW_DOWN_TIME_MULTIPLIER_INDEX).LinkTo(value); }
+            get { return OperatorHelper.GetInputOutlet(_wrappedOperator, OperatorConstants.SLOW_DOWN_FACTOR_INDEX); }
+            set { OperatorHelper.GetInlet(_wrappedOperator, OperatorConstants.SLOW_DOWN_FACTOR_INDEX).LinkTo(value); }
         }
 
         public Outlet Result

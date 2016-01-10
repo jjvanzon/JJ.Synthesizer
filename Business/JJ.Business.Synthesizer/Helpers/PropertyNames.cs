@@ -40,8 +40,7 @@ namespace JJ.Business.Synthesizer.Helpers
         //public const string PhaseShift = "PhaseShift";
         //public const string Signal = "Signal";
         //public const string TimeDifference = "TimeDifference";
-        //public const string TimeDivider = "TimeDivider";
-        //public const string TimeMultiplier = "TimeMultiplier";
+        //public const string Factor = "Factor";
         //public const string Operand = "Operand";
         //public const string Low = "Low";
         //public const string High = "High";
