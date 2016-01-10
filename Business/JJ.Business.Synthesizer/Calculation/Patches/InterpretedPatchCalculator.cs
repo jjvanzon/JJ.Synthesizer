@@ -522,11 +522,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             double timeMultiplier = Calculate(timeMultiplierOutlet, time);
 
-            // Weird number 0:
-            // Slow down by a factor of 0 equals speed up to infinity, which makes the result undefined. Return 0.
+            // Weird number
+            // Slow down by a factor of 0 equals speed up to infinity, which makes the result undefined.
             if (timeMultiplier == 0.0)
             {
-                return 0.0;
+                return Double.NaN;
             }
 
             // Get Phase Variables
@@ -536,7 +536,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double phase = 0;
             _phaseDictionary.TryGetValue(key, out phase);
 
-            // Weird numbers Infinity and NaN:
+            // Weird numbers
             // Slow down to infinity means time stands still, so just do not advance phase.
             if (!Double.IsInfinity(timeMultiplier) && !Double.IsNaN(timeMultiplier))
             {
@@ -593,11 +593,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             double timeDivider = Calculate(timeDividerOutlet, time);
 
-            // Weird numbers Inifity and NaN:
+            // Weird numbers
             if (Double.IsInfinity(timeDivider) || Double.IsNaN(timeDivider))
             {
-                // Speed up to infinity is undefined. Return 0.
-                return 0.0;
+                // Speed up to infinity is undefined.
+                return Double.NaN;
             }
 
             // Get Phase Variables
@@ -607,7 +607,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             double phase = 0;
             _phaseDictionary.TryGetValue(key, out phase);
 
-            // Weird number 0:
+            // Weird number
             // Speed up of 0 means time stands still, so just do not advance phase.
             if (timeDivider != 0.0)
             {

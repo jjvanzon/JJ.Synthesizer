@@ -26,13 +26,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double timeDivider = _timeDividerCalculator.Calculate(time, channelIndex);
 
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
             double dt = time - _previousTime;
-            _phase = _phase + dt * timeDivider;
+            double phase = _phase + dt * timeDivider; // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+
+            // Prevent phase from becoming a special number, rendering it unusable forever.
+            if (Double.IsNaN(phase) || Double.IsInfinity(phase))
+            {
+                return Double.NaN;
+            }
 
             double result = _signalCalculator.Calculate(_phase, channelIndex);
 
             _previousTime = time;
+            _phase = phase;
 
             return result;
         }
@@ -48,6 +54,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (signalCalculator == null) throw new NullException(() => signalCalculator);
             if (signalCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => signalCalculator);
             if (timeDividerValue == 0) throw new ZeroException(() => timeDividerValue);
+            if (timeDividerValue == 1) throw new EqualException(() => timeDividerValue, 1);
+            if (Double.IsNaN(timeDividerValue)) throw new NaNException(() => timeDividerValue);
+            if (Double.IsInfinity(timeDividerValue)) throw new InfinityException(() => timeDividerValue);
 
             _signalCalculator = signalCalculator;
             _timeDividerValue = timeDividerValue;
@@ -56,7 +65,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public override double Calculate(double time, int channelIndex)
         {
             // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
-            double transformedTime = time * _timeDividerValue;
+            double transformedTime = time * _timeDividerValue; 
             double result = _signalCalculator.Calculate(transformedTime, channelIndex);
             return result;
         }

@@ -840,11 +840,25 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool timeMultiplierIsConstZero = timeMultiplierIsConst && timeMultiplier == 0;
             bool timeMultiplierIsConstOne = timeMultiplierIsConst && timeMultiplier == 1;
+            bool signalIsConstSpecialNumber = signalIsConst && Double.IsNaN(signal) || Double.IsInfinity(signal);
+            bool timeMultiplierIsConstSpecialNumber = timeMultiplierIsConst && Double.IsNaN(timeMultiplier) || Double.IsInfinity(timeMultiplier);
 
-            if (timeMultiplierIsConstZero)
+            if (timeMultiplierIsConstSpecialNumber)
             {
                 // Weird number
-                calculator = new Zero_OperatorCalculator();
+                // Slow down to inifinity, means time stands still. (Consider: 2x as slow, 100x as slow, inifity as slow...)
+                calculator = new Number_OperatorCalculator(signal);
+            }
+            if (signalIsConstSpecialNumber)
+            {
+                // Weird number
+                calculator = new Number_OperatorCalculator(signal);
+            }
+            else if (timeMultiplierIsConstZero)
+            {
+                // Weird number
+                // Slow down 0 times, means speed up to infinity, equals undefined.
+                calculator = new Number_OperatorCalculator(Double.NaN);
             }
             else if (signalIsConstZero)
             {
@@ -862,7 +876,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new SlowDown_WithConstTimeMultiplier_OperatorCalculator(signalCalculator, timeMultiplier);
             }
-            else 
+            else
             {
                 calculator = new SlowDown_WithVarTimeMultiplier_OperatorCalculator(signalCalculator, timeMultiplierCalculator);
             }
@@ -887,10 +901,24 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool timeDividerIsConstZero = timeDividerIsConst && timeDivider == 0;
             bool timeDividerIsConstOne = timeDividerIsConst && timeDivider == 1;
+            bool signalIsConstSpecialNumber = signalIsConst && Double.IsNaN(signal) || Double.IsInfinity(signal);
+            bool timeDividerIsConstSpecialNumber = timeDividerIsConst && Double.IsNaN(timeDivider) || Double.IsInfinity(timeDivider);
 
-            if (timeDividerIsConstZero)
+            if (timeDividerIsConstSpecialNumber)
             {
-                calculator = new Zero_OperatorCalculator();
+                // Weird number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConstSpecialNumber)
+            {
+                // Weird number
+                calculator = new Number_OperatorCalculator(signal);
+            }
+            else if (timeDividerIsConstZero)
+            {
+                // Weird number
+                // Speed-up of 0 means time stands still.
+                calculator = new Number_OperatorCalculator(signal);
             }
             else if (signalIsConstZero)
             {
