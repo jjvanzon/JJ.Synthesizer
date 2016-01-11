@@ -12,6 +12,16 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _samplingRateCalculator;
 
+        private double _xMinus1;
+        private double _x0;
+        private double _x1;
+        private double _x2;
+        private double _dx1;
+        private double _yMinus1;
+        private double _y0;
+        private double _y1;
+        private double _y2;
+
         public Resample_OperatorCalculator_CubicRamses(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase samplingRateCalculator)
             : base(new OperatorCalculatorBase[] { signalCalculator, samplingRateCalculator })
         {
@@ -20,19 +30,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _signalCalculator = signalCalculator;
             _samplingRateCalculator = samplingRateCalculator;
+
+            ResetValues();
         }
-
-        private double _xMinus1 = Double.MinValue;
-        private double _x0 = -Double.Epsilon;
-        private double _x1 = 0;
-        private double _x2 = Double.Epsilon;
-        private double _dx1 = Double.Epsilon;
-
-        // Assume values begin at 0
-        private double _yMinus1 = 0;
-        private double _y0 = 0;
-        private double _y1 = 0;
-        private double _y2 = 0;
 
         public override double Calculate(double time, int channelIndex)
         {
@@ -79,6 +79,28 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             }
 
             return samplingRate;
+        }
+
+        public override void ResetPhase()
+        {
+            ResetValues();
+
+            base.ResetPhase();
+        }
+
+        private void ResetValues()
+        {
+            _xMinus1 = Double.MinValue;
+            _x0 = -Double.Epsilon;
+            _x1 = 0;
+            _x2 = Double.Epsilon;
+            _dx1 = Double.Epsilon;
+
+            // Assume values begin at 0
+            _yMinus1 = 0;
+            _y0 = 0;
+            _y1 = 0;
+            _y2 = 0;
         }
     }
 }
