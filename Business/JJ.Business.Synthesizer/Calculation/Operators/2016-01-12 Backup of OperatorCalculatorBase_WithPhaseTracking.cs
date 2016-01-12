@@ -1,0 +1,21 @@
+﻿//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+
+//namespace JJ.Business.Synthesizer.Calculation.Operators
+//{
+//    // Dispatch through a base class is faster than using an interface.
+//    internal abstract class OperatorCalculatorBase_WithPhaseTracking : OperatorCalculatorBase
+//    {
+//        protected double _phase;
+//        protected double _previousTime;
+
+//        public override void ResetPhase(double time)
+//        {
+//            _phase = 0.0;
+//            _previousTime = time;
+
+//            base.ResetPhase(time);
+//        }
+//    }
+//}

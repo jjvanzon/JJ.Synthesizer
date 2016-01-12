@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -12,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         protected double _phase;
         protected double _previousTime;
 
-        public sealed override void ResetPhase()
+        public override void ResetPhase()
         {
             _phase = 0.0;
             _previousTime = 0.0;

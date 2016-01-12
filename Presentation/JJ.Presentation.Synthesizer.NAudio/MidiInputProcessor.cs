@@ -91,7 +91,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             double frequency = _noteNumber_To_Frequency_Array[noteOnEvent.NoteNumber];
             double volume = noteOnEvent.Velocity / MAX_VELOCITY;
-            double noteStart = AudioOutputProcessor.Time;
+            double noteStart = AudioOutputProcessor.Time; // TODO: This may be a little early to get the time.
 
             PatchCalculatorContainer.Lock.EnterUpgradeableReadLock();
             try

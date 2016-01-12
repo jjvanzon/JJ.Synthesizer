@@ -16,7 +16,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             : base(childOperatorCalculators)
         { }
 
-        public sealed override void ResetPhase()
+        public override void ResetPhase()
         {
             _phase = 0.0;
             _previousTime = 0.0;
