@@ -4,6 +4,7 @@ using System.Linq;
 using NAudio.Midi;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
+using JJ.Business.Synthesizer.Calculation;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -14,7 +15,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private const double MAX_VELOCITY = 127.0;
         private const int MAX_NOTE_NUMBER = 127;
         private const int DEFAULT_MAX_CONCURRENT_NOTES = 4;
-        private const double MAX_NOTE_DURATION = Double.MaxValue / 2.0;
+        private const double MAX_NOTE_DURATION = CalculationHelper.VERY_HIGH_VALUE;
 
         private static readonly double[] _noteNumber_To_Frequency_Array = Create_NoteNumber_To_Frequency_Array();
         private static readonly Dictionary<int, int> _noteNumber_To_NoteListIndex_Dictionary = new Dictionary<int, int>();

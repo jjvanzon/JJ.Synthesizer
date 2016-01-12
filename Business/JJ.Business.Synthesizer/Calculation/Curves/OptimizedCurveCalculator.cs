@@ -66,7 +66,7 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 
         private static double GetMinNodeLength(IList<Node> sortedNodes)
         {
-            double minNodeLength = Double.MaxValue;
+            double minNodeLength = CalculationHelper.VERY_HIGH_VALUE;
 
             for (int i = 0; i < sortedNodes.Count - 1; i++)
             {

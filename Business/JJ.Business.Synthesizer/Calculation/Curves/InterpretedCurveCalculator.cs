@@ -45,30 +45,30 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 
             var nodeMinus2 = new Node
             {
-                Time = Double.MinValue,
+                Time = CalculationHelper.VERY_LOW_VALUE,
                 Value = firstNode.Value,
                 NodeType = firstNode.NodeType
             };
 
-            double timeBeforeFirstNode = firstNode.Time - Double.MinValue;
+            double timeBeforeFirstNode = firstNode.Time - CalculationHelper.VERY_LOW_VALUE;
             var nodeMinus1 = new Node
             {
-                Time = Double.MinValue + timeBeforeFirstNode / 2.0,
+                Time = CalculationHelper.VERY_LOW_VALUE + timeBeforeFirstNode / 2.0,
                 Value = firstNode.Value,
                 NodeType = firstNode.NodeType
             };
 
-            double timeAfterLastNode = Double.MaxValue - lastNode.Time;
+            double timeAfterLastNode = CalculationHelper.VERY_HIGH_VALUE - lastNode.Time;
             var nodePlus1 = new Node
             {
-                Time = Double.MaxValue - timeAfterLastNode / 2.0,
+                Time = CalculationHelper.VERY_HIGH_VALUE - timeAfterLastNode / 2.0,
                 Value = lastNode.Value,
                 NodeType = lastNode.NodeType
             };
 
             var nodePlus2 = new Node
             {
-                Time = Double.MaxValue,
+                Time = CalculationHelper.VERY_HIGH_VALUE,
                 Value = lastNode.Value,
                 NodeType = lastNode.NodeType
             };

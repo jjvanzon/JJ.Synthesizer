@@ -15,8 +15,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         private OperatorCalculatorBase _signalCalculator;
         private OperatorCalculatorBase _samplingRateCalculator;
 
-        private double _t0 = Double.MaxValue;
-        private double _t1 = Double.MinValue;
+        private double _t0 = CalculationHelper.VERY_HIGH_VALUE;
+        private double _t1 = CalculationHelper.VERY_LOW_VALUE;
         private double _x0;
         private double _x1;
         private double _a;

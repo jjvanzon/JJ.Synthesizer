@@ -90,7 +90,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         private void ResetValues()
         {
-            _xMinus1 = Double.MinValue;
+            _xMinus1 = CalculationHelper.VERY_LOW_VALUE;
             _x0 = -Double.Epsilon;
             _x1 = 0;
             _x2 = Double.Epsilon;

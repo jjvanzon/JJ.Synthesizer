@@ -38,16 +38,18 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 if (!_isRunning || patchCalculator == null)
                 {
                     Array.Clear(buffer, 0, buffer.Length);
-
-                    // Recent change (2016-01-09): Time may not be running if it is off.
-                    //_time += SAMPLE_DURATION * count;
-
                     return count;
                 }
 
                 for (int i = offset; i < count; i++)
                 {
                     double value = patchCalculator.Calculate(_time, DEFAULT_CHANNEL_INDEX);
+
+                    // winmm will trip over NaN.
+                    if (Double.IsNaN(value))
+                    {
+                        value = 0;
+                    }
 
                     buffer[i] = (float)value;
 
