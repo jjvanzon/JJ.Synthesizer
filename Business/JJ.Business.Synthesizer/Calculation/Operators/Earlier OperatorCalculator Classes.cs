@@ -5,8 +5,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Earlier_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _timeDifferenceCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _timeDifferenceCalculator;
 
         public Earlier_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase timeDifferenceCalculator)
             : base(new OperatorCalculatorBase[] { signalCalculator, timeDifferenceCalculator })
@@ -32,8 +32,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Earlier_WithConstTimeDifference_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private double _timeDifferenceValue;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly double _timeDifferenceValue;
 
         public Earlier_WithConstTimeDifference_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,

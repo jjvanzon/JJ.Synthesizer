@@ -5,9 +5,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Multiply_WithConstOrigin_AndOperandA_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private double _operandAValue;
-        private OperatorCalculatorBase _operandBCalculator;
-        private double _originValue;
+        private readonly double _operandAValue;
+        private readonly OperatorCalculatorBase _operandBCalculator;
+        private readonly double _originValue;
 
         public Multiply_WithConstOrigin_AndOperandA_OperatorCalculator(
             double operandAValue,
@@ -32,9 +32,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Multiply_WithConstOrigin_AndOperandB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _operandACalculator;
-        private double _operandBValue;
-        private double _originValue;
+        private readonly OperatorCalculatorBase _operandACalculator;
+        private readonly double _operandBValue;
+        private readonly double _originValue;
 
         public Multiply_WithConstOrigin_AndOperandB_OperatorCalculator(
             OperatorCalculatorBase operandACalculator,
@@ -59,9 +59,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Multiply_WithConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _operandACalculator;
-        private OperatorCalculatorBase _operandBCalculator;
-        private double _originValue;
+        private readonly OperatorCalculatorBase _operandACalculator;
+        private readonly OperatorCalculatorBase _operandBCalculator;
+        private readonly double _originValue;
 
         public Multiply_WithConstOrigin_OperatorCalculator(
             OperatorCalculatorBase operandACalculator,
@@ -89,9 +89,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Multiply_WithOrigin_AndConstOperandA_AndOperandB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private double _operandAValue;
-        private double _operandBValue;
-        private OperatorCalculatorBase _originCalculator;
+        private readonly double _operandAValue;
+        private readonly double _operandBValue;
+        private readonly OperatorCalculatorBase _originCalculator;
 
         public Multiply_WithOrigin_AndConstOperandA_AndOperandB_OperatorCalculator(
             double operandAValue,
@@ -116,9 +116,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Multiply_WithOrigin_AndConstOperandA_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private double _operandAValue;
-        private OperatorCalculatorBase _operandBCalculator;
-        private OperatorCalculatorBase _originCalculator;
+        private readonly double _operandAValue;
+        private readonly OperatorCalculatorBase _operandBCalculator;
+        private readonly OperatorCalculatorBase _originCalculator;
 
         public Multiply_WithOrigin_AndConstOperandA_OperatorCalculator(
             double operandAValue,
@@ -146,9 +146,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Multiply_WithOrigin_AndConstOperandB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _operandACalculator;
-        private double _operandBValue;
-        private OperatorCalculatorBase _originCalculator;
+        private readonly OperatorCalculatorBase _operandACalculator;
+        private readonly double _operandBValue;
+        private readonly OperatorCalculatorBase _originCalculator;
 
         public Multiply_WithOrigin_AndConstOperandB_OperatorCalculator(
             OperatorCalculatorBase operandACalculator,
@@ -176,9 +176,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Multiply_WithOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _operandACalculator;
-        private OperatorCalculatorBase _operandBCalculator;
-        private OperatorCalculatorBase _originCalculator;
+        private readonly OperatorCalculatorBase _operandACalculator;
+        private readonly OperatorCalculatorBase _operandBCalculator;
+        private readonly OperatorCalculatorBase _originCalculator;
 
         public Multiply_WithOrigin_OperatorCalculator(
             OperatorCalculatorBase operandACalculator,
@@ -209,8 +209,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Multiply_WithoutOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _operandACalculator;
-        private OperatorCalculatorBase _operandBCalculator;
+        private readonly OperatorCalculatorBase _operandACalculator;
+        private readonly OperatorCalculatorBase _operandBCalculator;
 
         public Multiply_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase operandACalculator, OperatorCalculatorBase operandBCalculator)
             : base(new OperatorCalculatorBase[] { operandACalculator, operandBCalculator })
@@ -256,8 +256,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Multiply_WithoutOrigin_WithConstOperandB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _operandACalculator;
-        private double _operandBValue;
+        private readonly OperatorCalculatorBase _operandACalculator;
+        private readonly double _operandBValue;
 
         public Multiply_WithoutOrigin_WithConstOperandB_OperatorCalculator(OperatorCalculatorBase operandACalculator, double operandBValue)
             : base(new OperatorCalculatorBase[] { operandACalculator })

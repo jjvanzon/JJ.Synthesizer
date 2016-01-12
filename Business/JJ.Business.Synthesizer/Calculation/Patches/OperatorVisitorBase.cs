@@ -10,7 +10,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 {
     internal abstract class OperatorVisitorBase
     {
-        private IDictionary<OperatorTypeEnum, Action<Operator>> _delegateDictionary;
+        private readonly IDictionary<OperatorTypeEnum, Action<Operator>> _delegateDictionary;
 
         public OperatorVisitorBase()
         {

@@ -5,8 +5,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Add_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _operandACalculator;
-        private OperatorCalculatorBase _operandBCalculator;
+        private readonly OperatorCalculatorBase _operandACalculator;
+        private readonly OperatorCalculatorBase _operandBCalculator;
 
         public Add_OperatorCalculator(OperatorCalculatorBase operandACalculator, OperatorCalculatorBase operandBCalculator)
             : base(new OperatorCalculatorBase[] { operandACalculator, operandBCalculator })
@@ -30,8 +30,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Add_WithConstOperandA_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private double _operandAValue;
-        private OperatorCalculatorBase _operandBCalculator;
+        private readonly double _operandAValue;
+        private readonly OperatorCalculatorBase _operandBCalculator;
 
         public Add_WithConstOperandA_OperatorCalculator(double operandAValue, OperatorCalculatorBase operandBCalculator)
             : base(new OperatorCalculatorBase[] { operandBCalculator })
@@ -52,8 +52,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Add_WithConstOperandB_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _operandACalculator;
-        private double _operandBValue;
+        private readonly OperatorCalculatorBase _operandACalculator;
+        private readonly double _operandBValue;
 
         public Add_WithConstOperandB_OperatorCalculator(OperatorCalculatorBase operandACalculator, double operandBValue)
             : base(new OperatorCalculatorBase[] { operandACalculator })

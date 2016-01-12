@@ -8,10 +8,13 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         public const double BASE_FREQUENCY = 440.0;
     }
 
-    internal class Sample_WithVarFrequency_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
+    internal class Sample_WithVarFrequency_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly ISampleCalculator _sampleCalculator;
+
+        private double _phase;
+        private double _previousTime;
 
         public Sample_WithVarFrequency_OperatorCalculator(OperatorCalculatorBase frequencyCalculator, ISampleCalculator sampleCalculator)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
@@ -37,12 +40,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             return value;
         }
+
+        public override void ResetState()
+        {
+            _phase = 0.0;
+            _previousTime = 0.0;
+
+            base.ResetState();
+        }
     }
 
-    internal class Sample_WithConstFrequency_OperatorCalculator : OperatorCalculatorBase_WithPhaseTracking
+    internal class Sample_WithConstFrequency_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly ISampleCalculator _sampleCalculator;
         private readonly double _rate;
+
+        private double _phase;
+        private double _previousTime;
 
         public Sample_WithConstFrequency_OperatorCalculator(double frequency, ISampleCalculator sampleCalculator)
         {
@@ -63,12 +77,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             return value;
         }
+
+        public override void ResetState()
+        {
+            _phase = 0.0;
+            _previousTime = 0.0;
+
+            base.ResetState();
+        }
     }
 
-    internal class Sample_WithVarFrequency_MonoToStereo_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
+    internal class Sample_WithVarFrequency_MonoToStereo_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly ISampleCalculator _sampleCalculator;
+
+        private double _phase;
+        private double _previousTime;
 
         public Sample_WithVarFrequency_MonoToStereo_OperatorCalculator(OperatorCalculatorBase frequencyCalculator, ISampleCalculator sampleCalculator)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
@@ -95,12 +120,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             return value;
         }
+
+        public override void ResetState()
+        {
+            _phase = 0.0;
+            _previousTime = 0.0;
+
+            base.ResetState();
+        }
     }
 
-    internal class Sample_WithConstFrequency_MonoToStereo_OperatorCalculator : OperatorCalculatorBase_WithPhaseTracking
+    internal class Sample_WithConstFrequency_MonoToStereo_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly ISampleCalculator _sampleCalculator;
         private readonly double _rate;
+
+        private double _phase;
+        private double _previousTime;
 
         public Sample_WithConstFrequency_MonoToStereo_OperatorCalculator(double frequency, ISampleCalculator sampleCalculator)
         {
@@ -122,12 +158,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             return value;
         }
+
+        public override void ResetState()
+        {
+            _phase = 0.0;
+            _previousTime = 0.0;
+
+            base.ResetState();
+        }
     }
 
-    internal class Sample_WithVarFrequency_StereoToMono_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
+    internal class Sample_WithVarFrequency_StereoToMono_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly ISampleCalculator _sampleCalculator;
+
+        private double _phase;
+        private double _previousTime;
 
         public Sample_WithVarFrequency_StereoToMono_OperatorCalculator(OperatorCalculatorBase frequencyCalculator, ISampleCalculator sampleCalculator)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
@@ -154,12 +201,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             return value0 + value1;
         }
+
+        public override void ResetState()
+        {
+            _phase = 0.0;
+            _previousTime = 0.0;
+
+            base.ResetState();
+        }
     }
 
-    internal class Sample_WithConstFrequency_StereoToMono_OperatorCalculator : OperatorCalculatorBase_WithPhaseTracking
+    internal class Sample_WithConstFrequency_StereoToMono_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly ISampleCalculator _sampleCalculator;
         private readonly double _rate;
+
+        private double _phase;
+        private double _previousTime;
 
         public Sample_WithConstFrequency_StereoToMono_OperatorCalculator(double frequency, ISampleCalculator sampleCalculator)
         {
@@ -180,6 +238,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _previousTime = time;
 
             return value0 + value1;
+        }
+
+        public override void ResetState()
+        {
+            _phase = 0.0;
+            _previousTime = 0.0;
+
+            base.ResetState();
         }
     }
 }

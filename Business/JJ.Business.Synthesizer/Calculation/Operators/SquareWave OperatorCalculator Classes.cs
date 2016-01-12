@@ -67,9 +67,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SquareWave_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
+    internal class SquareWave_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
+
+        private double _phase;
+        private double _previousTime;
 
         public SquareWave_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
@@ -105,12 +108,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             return value;
         }
+
+        public override void ResetState()
+        {
+            _phase = 0.0;
+            _previousTime = 0.0;
+
+            base.ResetState();
+        }
     }
 
-    internal class SquareWave_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
+    internal class SquareWave_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
+
+        private double _phase;
+        private double _previousTime;
 
         public SquareWave_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
@@ -149,6 +163,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _previousTime = time;
 
             return value;
+        }
+
+        public override void ResetState()
+        {
+            _phase = 0.0;
+            _previousTime = 0.0;
+
+            base.ResetState();
         }
     }
 }

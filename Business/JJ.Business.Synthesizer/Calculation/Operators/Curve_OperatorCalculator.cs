@@ -5,7 +5,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Curve_OperatorCalculator : OperatorCalculatorBase
     {
-        private OptimizedCurveCalculator _curveCalculator;
+        private readonly OptimizedCurveCalculator _curveCalculator;
 
         public Curve_OperatorCalculator(OptimizedCurveCalculator curveCalculator)
         {

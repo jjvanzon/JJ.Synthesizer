@@ -14,9 +14,18 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// </summary>
         public double _value;
 
-        public InletTypeEnum InletTypeEnum { get; set; }
-        public string Name { get; set; }
-        public int ListIndex { get; set; }
+        public InletTypeEnum InletTypeEnum { get; private set; }
+        public string Name { get; private set; }
+        public int ListIndex { get; private set; }
+
+        public VariableInput_OperatorCalculator(InletTypeEnum inletTypeEnum, string name, int listIndex, double initialValue)
+        {
+            InletTypeEnum = inletTypeEnum;
+            Name = name;
+            ListIndex = listIndex;
+
+            _value = initialValue;
+        }
 
         public override double Calculate(double time, int channelIndex)
         {

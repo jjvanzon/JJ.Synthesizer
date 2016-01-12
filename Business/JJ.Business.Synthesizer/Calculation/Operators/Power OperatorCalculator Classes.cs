@@ -5,8 +5,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Power_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _baseCalculator;
-        private OperatorCalculatorBase _exponentCalculator;
+        private readonly OperatorCalculatorBase _baseCalculator;
+        private readonly OperatorCalculatorBase _exponentCalculator;
 
         public Power_OperatorCalculator(OperatorCalculatorBase baseCalculator, OperatorCalculatorBase exponentCalculator)
             : base(new OperatorCalculatorBase[] { baseCalculator, exponentCalculator })
@@ -30,8 +30,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Power_WithConstBase_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private double _baseValue;
-        private OperatorCalculatorBase _exponentCalculator;
+        private readonly double _baseValue;
+        private readonly OperatorCalculatorBase _exponentCalculator;
 
         public Power_WithConstBase_OperatorCalculator(double baseValue, OperatorCalculatorBase exponentCalculator)
             : base(new OperatorCalculatorBase[] { exponentCalculator })
@@ -52,8 +52,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Power_WithConstExponent_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _baseCalculator;
-        private double _exponentValue;
+        private readonly OperatorCalculatorBase _baseCalculator;
+        private readonly double _exponentValue;
 
         public Power_WithConstExponent_OperatorCalculator(OperatorCalculatorBase baseCalculator, double exponentValue)
             : base(new OperatorCalculatorBase[] { baseCalculator })

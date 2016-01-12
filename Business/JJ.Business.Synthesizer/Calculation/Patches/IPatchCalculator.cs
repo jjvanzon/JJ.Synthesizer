@@ -17,6 +17,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         double GetValue(InletTypeEnum inletTypeEnum, int listIndex);
 
         double Calculate(double time, int channelIndex);
-        void ResetPhases();
+        void ResetState();
     }
 }

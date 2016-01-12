@@ -4,10 +4,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class WhiteNoise_OperatorCalculator : OperatorCalculatorBase
     {
-        private WhiteNoiseCalculator _whiteNoiseCalculator;
+        private readonly WhiteNoiseCalculator _whiteNoiseCalculator;
 
         /// <summary> Each operator should start at a different time offset in the pre-generated noise, to prevent artifacts. </summary>
-        private double _offset;
+        private readonly double _offset;
 
         public WhiteNoise_OperatorCalculator(WhiteNoiseCalculator whiteNoiseCalculator, double offset)
         {

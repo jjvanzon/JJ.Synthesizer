@@ -5,12 +5,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Loop_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _attackCalculator;
-        private OperatorCalculatorBase _startCalculator;
-        private OperatorCalculatorBase _sustainCalculator;
-        private OperatorCalculatorBase _endCalculator;
-        private OperatorCalculatorBase _releaseCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _attackCalculator;
+        private readonly OperatorCalculatorBase _startCalculator;
+        private readonly OperatorCalculatorBase _sustainCalculator;
+        private readonly OperatorCalculatorBase _endCalculator;
+        private readonly OperatorCalculatorBase _releaseCalculator;
 
         public Loop_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,

@@ -5,9 +5,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class TimePower_WithOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _exponentCalculator;
-        private OperatorCalculatorBase _originCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _exponentCalculator;
+        private readonly OperatorCalculatorBase _originCalculator;
 
         public TimePower_WithOrigin_OperatorCalculator(
             OperatorCalculatorBase signalCalculator,
@@ -57,8 +57,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class TimePower_WithoutOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _exponentCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _exponentCalculator;
 
         public TimePower_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase exponentCalculator)
             : base(new OperatorCalculatorBase[] { signalCalculator, exponentCalculator })

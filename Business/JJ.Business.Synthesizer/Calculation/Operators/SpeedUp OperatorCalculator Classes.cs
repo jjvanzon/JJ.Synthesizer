@@ -3,10 +3,13 @@ using System;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class SpeedUp_WithVarFactor_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
+    internal class SpeedUp_WithVarFactor_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _factorCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _factorCalculator;
+
+        private double _phase;
+        private double _previousTime;
 
         public SpeedUp_WithVarFactor_OperatorCalculator(OperatorCalculatorBase signalCalculator, OperatorCalculatorBase factorCalculator)
             : base(new OperatorCalculatorBase[] { signalCalculator, factorCalculator })
@@ -40,12 +43,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             return result;
         }
+
+        public override void ResetState()
+        {
+            _phase = 0.0;
+            _previousTime = 0.0;
+
+            base.ResetState();
+        }
     }
-    
+
     internal class SpeedUp_WithConstFactor_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _signalCalculator;
-        private double _factorValue;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly double _factorValue;
 
         public SpeedUp_WithConstFactor_OperatorCalculator(OperatorCalculatorBase signalCalculator, double factorValue)
             : base(new OperatorCalculatorBase[] { signalCalculator })

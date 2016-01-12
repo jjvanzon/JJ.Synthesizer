@@ -7,10 +7,10 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     /// <summary> This is the currently used variation on the Resample_OperatorCalculator. </summary>
     internal class Resample_OperatorCalculator_CubicRamses : OperatorCalculatorBase_WithChildCalculators
     {
-        private double MINIMUM_SAMPLING_RATE = 16.0; // 8 Hz.
+        private const double MINIMUM_SAMPLING_RATE = 16.0; // 8 Hz.
 
-        private OperatorCalculatorBase _signalCalculator;
-        private OperatorCalculatorBase _samplingRateCalculator;
+        private readonly OperatorCalculatorBase _signalCalculator;
+        private readonly OperatorCalculatorBase _samplingRateCalculator;
 
         private double _xMinus1;
         private double _x0;
@@ -81,11 +81,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             return samplingRate;
         }
 
-        public override void ResetPhase()
+        public override void ResetState()
         {
             ResetValues();
 
-            base.ResetPhase();
+            base.ResetState();
         }
 
         private void ResetValues()

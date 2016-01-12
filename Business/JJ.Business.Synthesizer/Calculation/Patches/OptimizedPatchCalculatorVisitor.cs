@@ -1223,12 +1223,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     Inlet inlet = wrapper.Inlet;
 
                     variableInputCalculator = new VariableInput_OperatorCalculator
-                    {
-                        ListIndex = wrapper.ListIndex ?? 0,
-                        Name = wrapper.Name,
-                        InletTypeEnum = inlet.GetInletTypeEnum(),
-                        _value = inlet.DefaultValue ?? 0.0
-                    };
+                    (
+                        inletTypeEnum: inlet.GetInletTypeEnum(),
+                        name: wrapper.Name,
+                        listIndex: wrapper.ListIndex ?? 0,
+                        initialValue: inlet.DefaultValue ?? 0.0
+                    );
 
                     _patchInlet_Calculator_Dictionary.Add(patchInlet, variableInputCalculator);
                 }

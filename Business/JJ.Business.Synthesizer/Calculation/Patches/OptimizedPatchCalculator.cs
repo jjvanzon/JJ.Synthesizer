@@ -221,13 +221,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return 0.0;
         }
 
-        public void ResetPhases()
+        public void ResetState()
         {
             for (int i = 0; i < _outputOperatorCalculators.Length; i++)
             {
                 OperatorCalculatorBase outputOperatorCalculator = _outputOperatorCalculators[i];
 
-                outputOperatorCalculator.ResetPhase();
+                outputOperatorCalculator.ResetState();
             }
         }
     }

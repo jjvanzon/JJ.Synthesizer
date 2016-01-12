@@ -15,11 +15,11 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
     /// <summary> Use the pre-calculated fields of the base class, when deriving from this class. </summary>
     internal abstract class SampleCalculatorBase : ISampleCalculator
     {
-        protected Sample _sample;
-        protected byte[] _bytes;
+        protected readonly Sample _sample;
+        protected readonly byte[] _bytes;
         /// <summary> SamplingRate divided by TimeMultiplier </summary>
-        protected double _rate;
-        protected double[,] _samples;
+        protected readonly double _rate;
+        protected readonly double[,] _samples;
 
         /// <summary> For performance, so we can use this value directly. </summary>
         public int ChannelCount { get; private set; }

@@ -102,7 +102,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     PatchCalculatorContainer.Lock.EnterWriteLock();
                     try
                     {
-                        patchCalculator.ResetPhases();
+                        patchCalculator.ResetState();
                         patchCalculator.SetValue(InletTypeEnum.Frequency, noteListIndex.Value, frequency);
                         patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, volume);
                         patchCalculator.SetValue(InletTypeEnum.NoteStart, noteListIndex.Value, noteStart);
@@ -157,8 +157,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
                         patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteListIndex.Value, noteDuration);
 
                         // NoteDuration does not work properly yet, so keep the old solution for now. (Abruptly stopping the note.)
-                        double newVolume = 0.0;
-                        patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, newVolume);
+                        //double newVolume = 0.0;
+                        //patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, newVolume);
                     }
                     finally
                     {

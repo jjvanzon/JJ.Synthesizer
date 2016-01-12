@@ -6,7 +6,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
     internal class SawTooth_WithConstFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase
     {
         private readonly double _frequency;
-        private double _phaseShift;
+        private readonly double _phaseShift;
 
         public SawTooth_WithConstFrequency_WithConstPhaseShift_OperatorCalculator(double frequency, double phaseShift)
         {
@@ -55,9 +55,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         }
     }
 
-    internal class SawTooth_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
+    internal class SawTooth_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
+
+        private double _phase;
+        private double _previousTime;
 
         public SawTooth_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
@@ -84,12 +87,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             return value;
         }
+
+        public override void ResetState()
+        {
+            _phase = 0.0;
+            _previousTime = 0.0;
+
+            base.ResetState();
+        }
     }
 
-    internal class SawTooth_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
+    internal class SawTooth_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _frequencyCalculator;
-        private OperatorCalculatorBase _phaseShiftCalculator;
+        private readonly OperatorCalculatorBase _frequencyCalculator;
+        private readonly OperatorCalculatorBase _phaseShiftCalculator;
+
+        private double _phase;
+        private double _previousTime;
 
         public SawTooth_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
@@ -119,6 +133,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _previousTime = time;
 
             return value;
+        }
+
+        public override void ResetState()
+        {
+            _phase = 0.0;
+            _previousTime = 0.0;
+
+            base.ResetState();
         }
     }
 }

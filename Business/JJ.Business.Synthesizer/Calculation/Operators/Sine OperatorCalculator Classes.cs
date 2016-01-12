@@ -4,9 +4,12 @@ using JJ.Framework.Mathematics;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
-    internal class Sine_WithVarFrequency_WithoutPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
+    internal class Sine_WithVarFrequency_WithoutPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
+
+        private double _phase;
+        private double _previousTime;
 
         public Sine_WithVarFrequency_WithoutPhaseShift_OperatorCalculator(OperatorCalculatorBase frequencyCalculator)
             : base(new OperatorCalculatorBase[] { frequencyCalculator })
@@ -29,12 +32,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             return value;
         }
+
+        public override void ResetState()
+        {
+            _phase = 0.0;
+            _previousTime = 0.0;
+
+            base.ResetState();
+        }
     }
 
-    internal class Sine_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
+    internal class Sine_WithVarFrequency_WithConstPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly double _phaseShiftTimesTwoPi;
+
+        protected double _phase;
+        protected double _previousTime;
 
         public Sine_WithVarFrequency_WithConstPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
@@ -61,12 +75,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             return result;
         }
+
+        public override void ResetState()
+        {
+            _phase = 0.0;
+            _previousTime = 0.0;
+
+            base.ResetState();
+        }
     }
 
-    internal class Sine_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators_WithPhaseTracking
+    internal class Sine_WithVarFrequency_WithVarPhaseShift_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
         private readonly OperatorCalculatorBase _frequencyCalculator;
         private readonly OperatorCalculatorBase _phaseShiftCalculator;
+
+        protected double _phase;
+        protected double _previousTime;
 
         public Sine_WithVarFrequency_WithVarPhaseShift_OperatorCalculator(
             OperatorCalculatorBase frequencyCalculator,
@@ -93,6 +118,14 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _previousTime = time;
 
             return result;
+        }
+
+        public override void ResetState()
+        {
+            _phase = 0.0;
+            _previousTime = 0.0;
+
+            base.ResetState();
         }
     }
 

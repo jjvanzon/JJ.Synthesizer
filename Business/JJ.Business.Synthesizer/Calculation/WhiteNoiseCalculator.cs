@@ -21,10 +21,9 @@ namespace JJ.Business.Synthesizer.Calculation
         private const double OFFSET_SNAP_IN_NUMBER_OF_SECONDS = 0.1;
         private const int OFFSET_SNAP_COUNT = (int)(PRE_CALCULATED_SECONDS / OFFSET_SNAP_IN_NUMBER_OF_SECONDS);
 
-        private int _samplingRate;
-        private double[] _samples;
-
-        private int _sampleCountMinus1;
+        private readonly int _samplingRate;
+        private readonly double[] _samples;
+        private readonly int _sampleCountMinus1;
 
         /// <summary>
         /// White noise is generated not on the fly, but by a cached 10 seconds of noise,

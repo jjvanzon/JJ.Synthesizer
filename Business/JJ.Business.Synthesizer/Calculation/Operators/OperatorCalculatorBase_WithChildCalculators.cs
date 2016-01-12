@@ -8,7 +8,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal abstract class OperatorCalculatorBase_WithChildCalculators : OperatorCalculatorBase 
     {
-        private OperatorCalculatorBase[] _childOperatorCalculators;
+        private readonly OperatorCalculatorBase[] _childOperatorCalculators;
 
         public OperatorCalculatorBase_WithChildCalculators(IList<OperatorCalculatorBase> childOperatorCalculators)
         {
@@ -18,12 +18,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             _childOperatorCalculators = childOperatorCalculators.ToArray();
         }
 
-        public override void ResetPhase()
+        public override void ResetState()
         {
             for (int i = 0; i < _childOperatorCalculators.Length; i++)
             {
                 OperatorCalculatorBase childOperatorCalculator = _childOperatorCalculators[i];
-                childOperatorCalculator.ResetPhase();
+                childOperatorCalculator.ResetState();
             }
         }
     }

@@ -14,13 +14,13 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
 {
     internal class InterpretedCurveCalculator : ICurveCalculator
     {
-        private Curve _curve;
+        private readonly Curve _curve;
 
         /// <summary>
         /// Contains the nodes of the curve and also additional nodes before and after,
         /// to accomodate interpolation that requires 4 points to calculate a value.
         /// </summary>
-        private IList<Node> _sortedNodes;
+        private readonly IList<Node> _sortedNodes;
 
         public InterpretedCurveCalculator(Curve curve)
         {

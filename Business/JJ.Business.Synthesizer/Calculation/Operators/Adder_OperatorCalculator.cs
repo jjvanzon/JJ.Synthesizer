@@ -4,7 +4,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Adder_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase[] _operandCalculators;
+        private readonly OperatorCalculatorBase[] _operandCalculators;
 
         public Adder_OperatorCalculator(OperatorCalculatorBase[] operandCalculators)
             : base(operandCalculators)

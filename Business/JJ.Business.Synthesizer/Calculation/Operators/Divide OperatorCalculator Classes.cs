@@ -7,9 +7,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 {
     internal class Divide_WithConstOrigin_AndDenominator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _numeratorCalculator;
-        private double _denominatorValue;
-        private double _originValue;
+        private readonly OperatorCalculatorBase _numeratorCalculator;
+        private readonly double _denominatorValue;
+        private readonly double _originValue;
 
         public Divide_WithConstOrigin_AndDenominator_OperatorCalculator(
             OperatorCalculatorBase numeratorCalculator,
@@ -35,9 +35,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Divide_WithConstOrigin_AndNumerator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private double _numeratorValue;
-        private OperatorCalculatorBase _denominatorCalculator;
-        private double _originValue;
+        private readonly double _numeratorValue;
+        private readonly OperatorCalculatorBase _denominatorCalculator;
+        private readonly double _originValue;
 
         public Divide_WithConstOrigin_AndNumerator_OperatorCalculator(
             double numeratorValue,
@@ -68,9 +68,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Divide_WithConstOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _numeratorCalculator;
-        private OperatorCalculatorBase _denominatorCalculator;
-        private double _originValue;
+        private readonly OperatorCalculatorBase _numeratorCalculator;
+        private readonly OperatorCalculatorBase _denominatorCalculator;
+        private readonly double _originValue;
 
         public Divide_WithConstOrigin_OperatorCalculator(
             OperatorCalculatorBase numeratorCalculator,
@@ -104,9 +104,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Divide_WithOrigin_AndConstDenominator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _numeratorCalculator;
-        private double _denominatorValue;
-        private OperatorCalculatorBase _originCalculator;
+        private readonly OperatorCalculatorBase _numeratorCalculator;
+        private readonly double _denominatorValue;
+        private readonly OperatorCalculatorBase _originCalculator;
 
         public Divide_WithOrigin_AndConstDenominator_OperatorCalculator(
             OperatorCalculatorBase numeratorCalculator,
@@ -135,9 +135,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Divide_WithOrigin_AndConstNumerator_AndDenominator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private double _numeratorValue;
-        private double _denominatorValue;
-        private OperatorCalculatorBase _originCalculator;
+        private readonly double _numeratorValue;
+        private readonly double _denominatorValue;
+        private readonly OperatorCalculatorBase _originCalculator;
 
         public Divide_WithOrigin_AndConstNumerator_AndDenominator_OperatorCalculator(
             double numeratorValue,
@@ -163,9 +163,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Divide_WithOrigin_AndConstNumerator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private double _numeratorValue;
-        private OperatorCalculatorBase _denominatorCalculator;
-        private OperatorCalculatorBase _originCalculator;
+        private readonly double _numeratorValue;
+        private readonly OperatorCalculatorBase _denominatorCalculator;
+        private readonly OperatorCalculatorBase _originCalculator;
 
         public Divide_WithOrigin_AndConstNumerator_OperatorCalculator(
             double numeratorValue,
@@ -200,9 +200,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Divide_WithOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _numeratorCalculator;
-        private OperatorCalculatorBase _denominatorCalculator;
-        private OperatorCalculatorBase _originCalculator;
+        private readonly OperatorCalculatorBase _numeratorCalculator;
+        private readonly OperatorCalculatorBase _denominatorCalculator;
+        private readonly OperatorCalculatorBase _originCalculator;
 
         public Divide_WithOrigin_OperatorCalculator(
             OperatorCalculatorBase numeratorCalculator,
@@ -240,8 +240,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Divide_WithoutOrigin_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _numeratorCalculator;
-        private OperatorCalculatorBase _denominatorCalculator;
+        private readonly OperatorCalculatorBase _numeratorCalculator;
+        private readonly OperatorCalculatorBase _denominatorCalculator;
 
         public Divide_WithoutOrigin_OperatorCalculator(OperatorCalculatorBase numeratorCalculator, OperatorCalculatorBase denominatorCalculator)
             : base(new OperatorCalculatorBase[] { numeratorCalculator, denominatorCalculator })
@@ -271,8 +271,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private OperatorCalculatorBase _numeratorCalculator;
-        private double _denominatorValue;
+        private readonly OperatorCalculatorBase _numeratorCalculator;
+        private readonly double _denominatorValue;
 
         public Divide_WithoutOrigin_WithConstDenominator_OperatorCalculator(OperatorCalculatorBase numeratorCalculator, double denominatorValue)
             : base(new OperatorCalculatorBase[] { numeratorCalculator })
@@ -294,8 +294,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
     internal class Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator : OperatorCalculatorBase_WithChildCalculators
     {
-        private double _numeratorValue;
-        private OperatorCalculatorBase _denominatorCalculator;
+        private readonly double _numeratorValue;
+        private readonly OperatorCalculatorBase _denominatorCalculator;
 
         public Divide_WithoutOrigin_WithConstNumerator_OperatorCalculator(double numeratorValue, OperatorCalculatorBase denominatorCalculator)
             : base(new OperatorCalculatorBase[] { denominatorCalculator })

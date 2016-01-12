@@ -1030,7 +1030,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return key;
         }
 
-        public void ResetPhases()
+        public void ResetState()
         {
             _previousTimeDictionary.Clear();
             _phaseDictionary.Clear();

@@ -2,7 +2,7 @@
 {
     internal class Zero_SampleCalculator : ISampleCalculator
     {
-        private int _channelCount;
+        private readonly int _channelCount;
 
         public Zero_SampleCalculator(int channelCount)
         {
