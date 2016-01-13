@@ -14,6 +14,8 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// </summary>
         public double _value;
 
+        private double _initialValue;
+
         public InletTypeEnum InletTypeEnum { get; private set; }
         public string Name { get; private set; }
         public int ListIndex { get; private set; }
@@ -24,12 +26,21 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             Name = name;
             ListIndex = listIndex;
 
-            _value = initialValue;
+            _initialValue = initialValue;
+
+            _value = _initialValue;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
             return _value;
+        }
+
+        public override void ResetState()
+        {
+            _value = _initialValue;
+
+            base.ResetState();
         }
     }
 }

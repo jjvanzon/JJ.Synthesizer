@@ -15,7 +15,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private const double MAX_VELOCITY = 127.0;
         private const int MAX_NOTE_NUMBER = 127;
         private const int DEFAULT_MAX_CONCURRENT_NOTES = 4;
-        private const double MAX_NOTE_DURATION = CalculationHelper.VERY_HIGH_VALUE;
 
         private static readonly double[] _noteNumber_To_Frequency_Array = Create_NoteNumber_To_Frequency_Array();
         private static readonly Dictionary<int, int> _noteNumber_To_NoteListIndex_Dictionary = new Dictionary<int, int>();
@@ -103,11 +102,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     PatchCalculatorContainer.Lock.EnterWriteLock();
                     try
                     {
-                        patchCalculator.ResetState();
+                        // Temporarily disabled, becauese if initial state produces NaN, this destroys all other notes than the new one.                        
+                        //patchCalculator.ResetState();
                         patchCalculator.SetValue(InletTypeEnum.Frequency, noteListIndex.Value, frequency);
                         patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, volume);
                         patchCalculator.SetValue(InletTypeEnum.NoteStart, noteListIndex.Value, noteStart);
-                        patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteListIndex.Value, MAX_NOTE_DURATION);
+                        patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteListIndex.Value, CalculationHelper.VERY_HIGH_VALUE);
                     }
                     finally
                     {
@@ -142,7 +142,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
             // MidiEvent itself does not give us the information needed to determine note duration.
             double noteEnd = AudioOutputProcessor.Time;
 
-            
             PatchCalculatorContainer.Lock.EnterUpgradeableReadLock();
             try
             {

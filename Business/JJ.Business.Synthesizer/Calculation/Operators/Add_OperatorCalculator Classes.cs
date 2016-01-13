@@ -24,6 +24,11 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double a = _operandACalculator.Calculate(time, channelIndex);
             double b = _operandBCalculator.Calculate(time, channelIndex);
+
+            // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
+            if (Double.IsNaN(a)) a = 0.0;
+            if (Double.IsNaN(b)) b = 0.0;
+
             return a + b;
         }
     }
@@ -40,12 +45,23 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
             if (operandBCalculator is Number_OperatorCalculator) throw new IsTypeException<Number_OperatorCalculator>(() => operandBCalculator);
 
             _operandAValue = operandAValue;
+
+            // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
+            if (Double.IsNaN(_operandAValue)) _operandAValue = 0.0;
+
             _operandBCalculator = operandBCalculator;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
             double b = _operandBCalculator.Calculate(time, channelIndex);
+
+            // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
+            if (Double.IsNaN(b))
+            {
+                return _operandAValue;
+            }
+
             return _operandAValue + b;
         }
     }
@@ -63,11 +79,20 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             _operandACalculator = operandACalculator;
             _operandBValue = operandBValue;
+
+            if (Double.IsNaN(_operandBValue)) _operandBValue = 0.0;
         }
 
         public override double Calculate(double time, int channelIndex)
         {
             double a = _operandACalculator.Calculate(time, channelIndex);
+
+            // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
+            if (Double.IsNaN(a))
+            {
+                return _operandBValue;
+            }
+
             return a + _operandBValue;
         }
     }

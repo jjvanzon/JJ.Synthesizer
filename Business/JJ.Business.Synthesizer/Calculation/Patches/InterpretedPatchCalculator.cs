@@ -164,6 +164,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             double a = Calculate(operandAOutlet, time);
             double b = Calculate(operandBOutlet, time);
+
+            // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
+            if (Double.IsNaN(a)) a = 0.0;
+            if (Double.IsNaN(b)) b = 0.0;
+
             return a + b;
         }
 
@@ -183,7 +188,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
                 if (operand != null)
                 {
-                    result += Calculate(operand, time);
+                    double result2 = Calculate(operand, time);
+
+                    // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
+                    if (Double.IsNaN(result2)) continue;
+
+                    result += result2;
                 }
             }
 

@@ -5,23 +5,13 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ output extension=".cs" #>
 
-<# int maxAdderOperands = 32; #>
+<# int maxAdderOperands = 0; #>
 
-using JJ.Business.Synthesizer.Calculation.Patches;
-using JJ.Business.Synthesizer.EntityWrappers;
-using JJ.Business.Synthesizer.Names;
-using JJ.Business.Synthesizer.Extensions;
-using JJ.Framework.Reflection;
 using JJ.Data.Synthesizer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JJ.Business.Synthesizer.Calculation.Operators;
-using JJ.Framework.Validation;
-using JJ.Business.Synthesizer.Validation;
-using JJ.Business.Synthesizer.Visitors;
 
 namespace JJ.Business.Synthesizer.Calculation.Patches
 {

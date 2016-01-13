@@ -10,6 +10,8 @@ using JJ.Business.Synthesizer.LinkTo;
 using JJ.Data.Canonical;
 using JJ.Business.Canonical;
 using JJ.Framework.Common;
+using JJ.Framework.Business;
+using JJ.Business.Synthesizer.SideEffects;
 
 namespace JJ.Business.Synthesizer
 {
@@ -29,6 +31,7 @@ namespace JJ.Business.Synthesizer
             Patch monophonicAutoPatch = Patch;
 
             CreatePatch();
+            Patch.Name = "Auto-Generated Polyphonic Patch";
             Patch polyphonicAutoPatch = Patch;
 
             bool underlyingPatchesHaveNoteStart = false;
@@ -44,7 +47,7 @@ namespace JJ.Business.Synthesizer
                     InletTypeEnum inletTypeEnum = inlet.GetInletTypeEnum();
                     if (inletTypeEnum != InletTypeEnum.Undefined)
                     {
-                        PatchInlet_OperatorWrapper patchInletWrapper = PatchInlet(inletTypeEnum);
+                        PatchInlet_OperatorWrapper patchInletWrapper = ConvertToPatchInlet(inlet);
                         patchInletWrapper.Name = String.Format("{0} {1}", inletTypeEnum, i);
 
                         inlet.LinkTo((Outlet)patchInletWrapper);
@@ -134,14 +137,14 @@ namespace JJ.Business.Synthesizer
             if (underlyingPatches == null) throw new NullException(() => underlyingPatches);
 
             CreatePatch();
-            Patch.Name = "Auto-generated Patch";
+            Patch.Name = "Auto-Generated Patch";
             
             var customOperators = new List<Operator>(underlyingPatches.Count);
 
             foreach (Patch underlyingPatch in underlyingPatches)
             {
                 CustomOperator_OperatorWrapper customOperatorWrapper = CustomOperator(underlyingPatch);
-                customOperatorWrapper.Name = String.Format("{0} (Auto-generated CustomOperator)", underlyingPatch.Name);
+                customOperatorWrapper.Name = String.Format("{0} (Auto-Generated CustomOperator)", underlyingPatch.Name);
 
                 customOperators.Add(customOperatorWrapper);
             }
@@ -258,7 +261,6 @@ namespace JJ.Business.Synthesizer
         {
             PatchInlet_OperatorWrapper destPatchInletWrapper = PatchInlet();
             destPatchInletWrapper.Name = sourceInlet.Name;
-            destPatchInletWrapper.ListIndex = sourceInlet.ListIndex;
 
             // TODO: You might want to do this by calling shared business logic instead of reprogramming it here.
             Inlet destPatchInletInlet = destPatchInletWrapper.Inlet;

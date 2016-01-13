@@ -1,4 +1,5 @@
-﻿using JJ.Framework.Reflection.Exceptions;
+﻿using System;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Business.Synthesizer.Calculation.Operators
 {
@@ -20,7 +21,12 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
             for (int i = 0; i < _operandCalculators.Length; i++)
             {
-                result += _operandCalculators[i].Calculate(time, channelIndex);
+                double result2 = _operandCalculators[i].Calculate(time, channelIndex);
+
+                // Strategically prevent NaN in case of addition, or one sound will destroy the others too.
+                if (Double.IsNaN(result2)) continue;
+
+                result += result2;
             }
 
             return result;
