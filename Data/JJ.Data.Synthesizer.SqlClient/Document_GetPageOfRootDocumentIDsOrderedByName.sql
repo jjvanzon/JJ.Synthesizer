@@ -7,5 +7,5 @@ from
 	from Document d
 	where d.ParentDocumentID is null
 ) as x
-where x.RowNumber >= @firstIndex + 1
+where x.RowNumber > @firstIndex
 order by x.RowNumber;
