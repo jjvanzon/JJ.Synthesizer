@@ -304,7 +304,7 @@ namespace JJ.Business.Synthesizer
                 {
                     return true;
                 }
-            } 
+            }
 
             // Do not match by list index, because that would result in something arbitrary.
 

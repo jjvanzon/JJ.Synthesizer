@@ -102,8 +102,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     PatchCalculatorContainer.Lock.EnterWriteLock();
                     try
                     {
-                        // Temporarily disabled, becauese if initial state produces NaN, this destroys all other notes than the new one.                        
-                        //patchCalculator.ResetState();
+                        // Temporarily disabled, because if initial state produces NaN, this destroys all other notes than the new one. (2016-01-13)
+                        patchCalculator.ResetState();
                         patchCalculator.SetValue(InletTypeEnum.Frequency, noteListIndex.Value, frequency);
                         patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, volume);
                         patchCalculator.SetValue(InletTypeEnum.NoteStart, noteListIndex.Value, noteStart);
@@ -139,9 +139,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 return;
             }
 
-            // MidiEvent itself does not give us the information needed to determine note duration.
-            double noteEnd = AudioOutputProcessor.Time;
-
             PatchCalculatorContainer.Lock.EnterUpgradeableReadLock();
             try
             {
@@ -152,6 +149,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     try
                     {
                         // MidiEvent itself does not give us the information needed to determine note duration.
+                        double noteEnd = AudioOutputProcessor.Time;
                         double noteStart = patchCalculator.GetValue(InletTypeEnum.NoteStart, noteListIndex.Value);
                         double noteDuration = noteEnd - noteStart;
                         patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteListIndex.Value, noteDuration);

@@ -25,8 +25,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
             int maxConcurrentNotes, 
             PatchRepositories repositories)
         {
-            // TODO: Yield over values from old to new patch calculator.
-
             var patchManager = new PatchManager(repositories);
             Outlet autoPatchOutlet = patchManager.AutoPatchPolyphonic(patches, maxConcurrentNotes);
             IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(autoPatchOutlet);
@@ -34,6 +32,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
             Lock.EnterWriteLock();
             try
             {
+                if (PatchCalculator != null)
+                {
+                    patchCalculator.CloneValues(PatchCalculator);
+                }
+
                 PatchCalculator = patchCalculator;
             }
             finally

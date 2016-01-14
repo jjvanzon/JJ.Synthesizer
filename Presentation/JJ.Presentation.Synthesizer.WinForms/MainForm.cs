@@ -112,11 +112,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void RecreatePatchCalculator()
         {
-            // Temporarily start and stop audio output too, 
-            // to see if resetting phases in patch calculator and resetting time in AudioOutput makes a problem go away.
-
-            AudioOutputProcessor.Stop();
-
             IList<Patch> patches = _presenter.ViewModel.Document.CurrentPatches.List
                                                                 .Select(x => _repositories.DocumentRepository.Get(x.ChildDocumentID))
                                                                 .Select(x => x.Patches.Single())
@@ -127,8 +122,6 @@ namespace JJ.Presentation.Synthesizer.WinForms
             }
 
             PatchCalculatorContainer.RecreatePatchCalculator(patches, _maxConcurrentNotes, new PatchRepositories(_repositories));
-
-            Program.StartAudioOutputThread();
         }
 
         private Patch CreateDefaultSinePatch()

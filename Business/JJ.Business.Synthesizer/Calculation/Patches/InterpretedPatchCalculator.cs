@@ -1097,5 +1097,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             throw new NotImplementedException();
         }
+
+        public void CloneValues(IPatchCalculator sourcePatchCalculator)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
