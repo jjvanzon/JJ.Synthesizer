@@ -41,6 +41,8 @@
   <ItemGroup>
     <Compile Include="AudioOutputProcessor.cs" />
     <Compile Include="MidiInputProcessor.cs" />
+    <Compile Include="NoteInfo.cs" />
+    <Compile Include="NoteRecycler.cs" />
     <Compile Include="PatchCalculatorContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AudioOutputSampleProvider.cs" />
