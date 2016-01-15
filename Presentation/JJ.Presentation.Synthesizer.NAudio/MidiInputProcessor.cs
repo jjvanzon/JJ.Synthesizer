@@ -10,6 +10,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
 {
     public static class MidiInputProcessor
     {
+        private class NoteInfo
+        {
+            public int NoteNumber { get; set; }
+            public int ListIndex { get; set; }
+            public double EndTime { get; set; }
+        }
+
         private const double DEFAULT_AMPLIFIER = 0.2;
         private const double LOWEST_FREQUENCY = 8.1757989156;
         private const double MAX_VELOCITY = 127.0;
@@ -17,7 +24,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private const int DEFAULT_MAX_CONCURRENT_NOTES = 4;
 
         private static readonly double[] _noteNumber_To_Frequency_Array = Create_NoteNumber_To_Frequency_Array();
-        private static readonly Dictionary<int, int> _noteNumber_To_NoteListIndex_Dictionary = new Dictionary<int, int>();
+        private static readonly List<NoteInfo> _noteInfos = new List<NoteInfo>();
     
         private static MidiIn _midiIn;
         private static volatile int _maxConcurrentNotes = DEFAULT_MAX_CONCURRENT_NOTES;
@@ -78,12 +85,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private static void HandleNoteOn(MidiEvent midiEvent)
         {
-            bool mustStartPlayingAudioOutput = _noteNumber_To_NoteListIndex_Dictionary.Count == 0;
-
             var noteOnEvent = (NoteOnEvent)midiEvent;
 
-            int? noteListIndex = TryGetNoteListIndex(noteOnEvent.NoteNumber);
-            if (!noteListIndex.HasValue)
+            double time = AudioOutputProcessor.Time;
+
+            NoteInfo noteInfo = TryCreateNoteInfo(noteOnEvent.NoteNumber, time);
+            if (noteInfo == null)
             {
                 // No more note slots available.
                 return;
@@ -91,7 +98,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             double frequency = _noteNumber_To_Frequency_Array[noteOnEvent.NoteNumber];
             double volume = noteOnEvent.Velocity / MAX_VELOCITY;
-            double noteStart = AudioOutputProcessor.Time; // TODO: This may be a little early to get the time.
 
             PatchCalculatorContainer.Lock.EnterUpgradeableReadLock();
             try
@@ -102,12 +108,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     PatchCalculatorContainer.Lock.EnterWriteLock();
                     try
                     {
-                        // Temporarily disabled, because if initial state produces NaN, this destroys all other notes than the new one. (2016-01-13)
+                        // Beware that if initial state produces NaN, this destroys all other notes than the new one. (2016-01-13)
                         patchCalculator.ResetState();
-                        patchCalculator.SetValue(InletTypeEnum.Frequency, noteListIndex.Value, frequency);
-                        patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, volume);
-                        patchCalculator.SetValue(InletTypeEnum.NoteStart, noteListIndex.Value, noteStart);
-                        patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteListIndex.Value, CalculationHelper.VERY_HIGH_VALUE);
+                        patchCalculator.SetValue(InletTypeEnum.Frequency, noteInfo.ListIndex, frequency);
+                        patchCalculator.SetValue(InletTypeEnum.Volume, noteInfo.ListIndex, volume);
+                        patchCalculator.SetValue(InletTypeEnum.NoteStart, noteInfo.ListIndex, time);
+                        patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteInfo.ListIndex, CalculationHelper.VERY_HIGH_VALUE);
+                        // HACK to make ReleaseNote read release duration.
+                        patchCalculator.SetValue(InletTypeEnum.ReleaseDuration, noteInfo.ListIndex, 1);
                     }
                     finally
                     {
@@ -119,21 +127,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 PatchCalculatorContainer.Lock.ExitUpgradeableReadLock();
             }
-
-            if (mustStartPlayingAudioOutput)
-            {
-                // Temporarily call another method for debugging (2016-01-09).
-                //AudioOutputProcessor.Continue();
-                //AudioOutputProcessor.Start();
-            }
         }
 
         private static void HandleNoteOff(MidiEvent midiEvent)
         {
             var noteEvent = (NoteEvent)midiEvent;
 
-            int? noteListIndex = TryGetNoteListIndex(noteEvent.NoteNumber);
-            if (!noteListIndex.HasValue)
+            double time = AudioOutputProcessor.Time;
+
+            NoteInfo noteInfo = TryGetNoteInfo(noteEvent.NoteNumber, time);
+            if (noteInfo == null)
             {
                 // Note was ignored earlier, due to not enough slots.
                 return;
@@ -148,15 +151,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     PatchCalculatorContainer.Lock.EnterWriteLock();
                     try
                     {
-                        // MidiEvent itself does not give us the information needed to determine note duration.
-                        double noteEnd = AudioOutputProcessor.Time;
-                        double noteStart = patchCalculator.GetValue(InletTypeEnum.NoteStart, noteListIndex.Value);
-                        double noteDuration = noteEnd - noteStart;
-                        patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteListIndex.Value, noteDuration);
+                        double noteStart = patchCalculator.GetValue(InletTypeEnum.NoteStart, noteInfo.ListIndex);
+                        double noteDuration = time - noteStart;
+                        patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteInfo.ListIndex, noteDuration);
 
-                        // NoteDuration does not work properly yet, so keep the old solution for now. (Abruptly stopping the note.)
-                        //double newVolume = 0.0;
-                        //patchCalculator.SetValue(InletTypeEnum.Volume, noteListIndex.Value, newVolume);
+                        double releaseDuration = patchCalculator.GetValue(InletTypeEnum.ReleaseDuration, noteInfo.ListIndex);
+                        double endTime = noteStart + noteDuration + releaseDuration;
+                        ReleaseNote(noteEvent.NoteNumber, time, endTime);
                     }
                     finally
                     {
@@ -167,15 +168,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
             finally
             {
                 PatchCalculatorContainer.Lock.ExitUpgradeableReadLock();
-            }
-
-            ResetNoteListIndex(noteEvent.NoteNumber);
-
-            if (_noteNumber_To_NoteListIndex_Dictionary.Count == 0)
-            {
-                // Temporarily call another method for debugging (2016-01-09).
-                //AudioOutputProcessor.Pause();
-                //AudioOutputProcessor.Stop();
             }
         }
 
@@ -196,34 +188,50 @@ namespace JJ.Presentation.Synthesizer.NAudio
             return noteNumber_To_Frequency_Array;
         }
 
-        /// <summary>
-        /// Used both for getting a list index for a new note,
-        /// as well as getting the list index for the already playing note.
-        /// Returns null if max concurrent notes was exceeded.
-        /// </summary>
-        private static int? TryGetNoteListIndex(int noteNumber)
+        /// <summary> Returns null if max concurrent notes was exceeded. </summary>
+        private static NoteInfo TryCreateNoteInfo(int noteNumber, double time)
         {
-            int listIndex;
-            if (_noteNumber_To_NoteListIndex_Dictionary.TryGetValue(noteNumber, out listIndex))
-            {
-                return listIndex;
-            }
+            NoteInfo noteInfo = _noteInfos.Where(x => x.EndTime <= time).FirstOrDefault();
 
-            for (int i = 0; i < _maxConcurrentNotes; i++)
+            if (noteInfo != null)
             {
-                if (!_noteNumber_To_NoteListIndex_Dictionary.ContainsValue(i))
+                noteInfo.NoteNumber = noteNumber;
+                noteInfo.EndTime = CalculationHelper.VERY_HIGH_VALUE;
+                return noteInfo;
+            }
+            else
+            {
+                if (_noteInfos.Count < _maxConcurrentNotes)
                 {
-                    _noteNumber_To_NoteListIndex_Dictionary[noteNumber] = i;
-                    return i;
+                    noteInfo = new NoteInfo
+                    {
+                        NoteNumber = noteNumber,
+                        EndTime = CalculationHelper.VERY_HIGH_VALUE,
+                        ListIndex = _noteInfos.Count
+                    };
+
+                    _noteInfos.Add(noteInfo);
+
+                    return noteInfo;
                 }
             }
-            
+
             return null;
         }
 
-        private static void ResetNoteListIndex(int noteNumber)
+        private static NoteInfo TryGetNoteInfo(int noteNumber, double time)
         {
-            _noteNumber_To_NoteListIndex_Dictionary.Remove(noteNumber);
+            NoteInfo noteInfo = _noteInfos.Where(x => x.NoteNumber == noteNumber &&
+                                                      x.EndTime >= time)
+                                          .FirstOrDefault();
+            return noteInfo;
+        }
+
+        private static void ReleaseNote(int noteNumber, double time, double endTime)
+        {
+            NoteInfo noteInfo = TryGetNoteInfo(noteNumber, time);
+
+            noteInfo.EndTime = endTime;
         }
 
         private static double GetFrequencyByNoteNumber(int noteNumber)
