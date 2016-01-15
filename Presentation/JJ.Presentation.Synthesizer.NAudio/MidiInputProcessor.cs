@@ -89,7 +89,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             double time = AudioOutputProcessor.Time;
 
-            NoteInfo noteInfo = TryCreateNoteInfo(noteOnEvent.NoteNumber, time);
+            NoteInfo noteInfo = TryUpdateOrCreateNoteInfo(noteOnEvent.NoteNumber, time);
             if (noteInfo == null)
             {
                 // No more note slots available.
@@ -114,7 +114,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
                         patchCalculator.SetValue(InletTypeEnum.Volume, noteInfo.ListIndex, volume);
                         patchCalculator.SetValue(InletTypeEnum.NoteStart, noteInfo.ListIndex, time);
                         patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteInfo.ListIndex, CalculationHelper.VERY_HIGH_VALUE);
-                        // HACK to make ReleaseNote read release duration.
+                        // TODO: This is a hack to make ReleaseNote read release duration,
+                        // because the value dictionaries in the calculator does not contain the default values of the patch.
                         patchCalculator.SetValue(InletTypeEnum.ReleaseDuration, noteInfo.ListIndex, 1);
                     }
                     finally
@@ -189,31 +190,37 @@ namespace JJ.Presentation.Synthesizer.NAudio
         }
 
         /// <summary> Returns null if max concurrent notes was exceeded. </summary>
-        private static NoteInfo TryCreateNoteInfo(int noteNumber, double time)
+        private static NoteInfo TryUpdateOrCreateNoteInfo(int noteNumber, double time)
         {
-            NoteInfo noteInfo = _noteInfos.Where(x => x.EndTime <= time).FirstOrDefault();
-
-            if (noteInfo != null)
+            NoteInfo alreadyPlayingNoteInfo = _noteInfos.Where(x => x.NoteNumber == noteNumber &&
+                                                                    x.EndTime > time)
+                                                        .SingleOrDefault();  // TODO: Perhaps later change to FirstOrDefault for performance.
+            if (alreadyPlayingNoteInfo != null)
             {
-                noteInfo.NoteNumber = noteNumber;
-                noteInfo.EndTime = CalculationHelper.VERY_HIGH_VALUE;
-                return noteInfo;
+                alreadyPlayingNoteInfo.EndTime = CalculationHelper.VERY_HIGH_VALUE;
+                return alreadyPlayingNoteInfo;
             }
-            else
+
+            NoteInfo freeNoteInfoSlot = _noteInfos.Where(x => x.EndTime <= time).FirstOrDefault();
+            if (freeNoteInfoSlot != null)
             {
-                if (_noteInfos.Count < _maxConcurrentNotes)
+                freeNoteInfoSlot.NoteNumber = noteNumber;
+                freeNoteInfoSlot.EndTime = CalculationHelper.VERY_HIGH_VALUE;
+                return freeNoteInfoSlot;
+            }
+
+            if (_noteInfos.Count < _maxConcurrentNotes)
+            {
+                var newNoteInfo = new NoteInfo
                 {
-                    noteInfo = new NoteInfo
-                    {
-                        NoteNumber = noteNumber,
-                        EndTime = CalculationHelper.VERY_HIGH_VALUE,
-                        ListIndex = _noteInfos.Count
-                    };
+                    NoteNumber = noteNumber,
+                    EndTime = CalculationHelper.VERY_HIGH_VALUE,
+                    ListIndex = _noteInfos.Count
+                };
 
-                    _noteInfos.Add(noteInfo);
+                _noteInfos.Add(newNoteInfo);
 
-                    return noteInfo;
-                }
+                return newNoteInfo;
             }
 
             return null;
@@ -222,15 +229,24 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private static NoteInfo TryGetNoteInfo(int noteNumber, double time)
         {
             NoteInfo noteInfo = _noteInfos.Where(x => x.NoteNumber == noteNumber &&
-                                                      x.EndTime >= time)
-                                          .FirstOrDefault();
+                                                      x.EndTime > time)
+                                          .SingleOrDefault(); // TODO: Perhaps later change to FirstOrDefault for performance.
+            return noteInfo;
+        }
+
+        private static NoteInfo GetNoteInfo(int noteNumber, double time)
+        {
+            NoteInfo noteInfo = TryGetNoteInfo(noteNumber, time);
+            if (noteInfo == null)
+            {
+                throw new Exception(String.Format("NoteInfo for found for noteNumber '{0}' and time '{0}'.", noteNumber, time));
+            }
             return noteInfo;
         }
 
         private static void ReleaseNote(int noteNumber, double time, double endTime)
         {
-            NoteInfo noteInfo = TryGetNoteInfo(noteNumber, time);
-
+            NoteInfo noteInfo = GetNoteInfo(noteNumber, time);
             noteInfo.EndTime = endTime;
         }
 
