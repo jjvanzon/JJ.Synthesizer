@@ -22,7 +22,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private class ThreadInfo
         {
             public Thread Thread { get; set; }
-            public double[] Buffer { get; set; }
             public IList<PatchCalculatorInfo> PatchCalculatorInfos { get; set; }
         }
 
@@ -33,6 +32,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private readonly IList<ThreadInfo> _threadInfos;
         private readonly double _sampleDuration;
         private readonly double[] _buffer;
+        private readonly object[] _bufferLocks;
+
         private double _t0;
 
         public PolyphonyCalculator(int threadCount, int bufferSize, double sampleDuration)
@@ -40,17 +41,21 @@ namespace JJ.Presentation.Synthesizer.NAudio
             if (threadCount < 0) throw new LessThanException(() => threadCount, 0);
             if (bufferSize < 0) throw new LessThanException(() => bufferSize, 0);
 
-            _buffer = new double[bufferSize];
             _sampleDuration = sampleDuration;
             _patchCalculatorInfos = new List<PatchCalculatorInfo>();
             _threadInfos = new ThreadInfo[threadCount];
+
+            _buffer = new double[bufferSize];
+            _bufferLocks = new object[bufferSize];
+            for (int i = 0; i < bufferSize; i++)
+            {
+                _bufferLocks[i] = new object();
+            }
 
             for (int i = 0; i < threadCount; i++)
             {
                 var threadInfo = new ThreadInfo
                {
-                    //Thread = new Thread(CalculateSingleThread),
-                    Buffer = new double[bufferSize],
                     PatchCalculatorInfos = new List<PatchCalculatorInfo>(MAX_EXPECTED_PATCH_CALCULATORS_PER_THREAD)
                 };
 
@@ -93,13 +98,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _patchCalculatorInfos.RemoveFirst(x => x.PatchCalculator == patchCalculator);
 
             ApplyToThreadInfos();
-        }
-
-        public void SetDelay(int patchCalculatorIndex, double delay)
-        {
-            AssertPatchCalculatorInfosListIndex(patchCalculatorIndex);
-
-            _patchCalculatorInfos[patchCalculatorIndex].Delay = delay;
         }
 
         private void ApplyToThreadInfos()
@@ -151,6 +149,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             _t0 = t0;
 
+            Array.Clear(_buffer, 0, _buffer.Length);
+
             for (int i = 0; i < _threadInfos.Count; i++)
             {
                 ThreadInfo threadInfo = _threadInfos[i];
@@ -164,20 +164,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 threadInfo.Thread.Join();
             }
             
-            // TODO: There has got to be a way of doing it without filling up yet another buffer.
-            for (int bufferIndex = 0; bufferIndex < _buffer.Length; bufferIndex++)
-            {
-                double multiThreadValue = 0.0;
-
-                for (int threadIndex = 0; threadIndex < _threadInfos.Count; threadIndex++)
-                {
-                    double singleThreadValue = _threadInfos[threadIndex].Buffer[bufferIndex];
-                    multiThreadValue += singleThreadValue;
-                }
-
-                _buffer[bufferIndex] = multiThreadValue;
-            }
-
             return _buffer;
         }
 
@@ -187,31 +173,57 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             IList<PatchCalculatorInfo> patchCalculatorInfos = threadInfo.PatchCalculatorInfos;
 
-            double t = _t0;
-
-            for (int i = 0; i < threadInfo.Buffer.Length; i++)
+            for (int i = 0; i < patchCalculatorInfos.Count; i++)
             {
-                double value = 0.0;
+                PatchCalculatorInfo patchCalculatorInfo = patchCalculatorInfos[i];
 
-                for (int j = 0; j < patchCalculatorInfos.Count; j++)
+                if (!patchCalculatorInfo.IsActive)
                 {
-                    PatchCalculatorInfo patchCalculatorInfo = patchCalculatorInfos[j];
-
-                    double delay = patchCalculatorInfo.Delay;
-
-                    // TODO: Prevent subtraction by incorporating delay in initial t.
-                    double value2 = patchCalculatorInfo.PatchCalculator.Calculate(t - delay, DEFAULT_CHANNEL_INDEX);
-
-                    value += value2;
+                    continue;
                 }
 
-                threadInfo.Buffer[i] = value;
+                IPatchCalculator patchCalculator = patchCalculatorInfo.PatchCalculator;
+                double delay = patchCalculatorInfo.Delay;
 
-                t += _sampleDuration;
+                double t = _t0 - delay;
+
+                for (int j = 0; j < _buffer.Length; j++)
+                {
+                    double value = patchCalculator.Calculate(t, DEFAULT_CHANNEL_INDEX);
+
+                    // TODO: Not sure how to do a quicker interlocked add for doubles.
+                    lock (_bufferLocks[j])
+                    {
+                        _buffer[j] += value;
+                    }
+
+                    t += _sampleDuration;
+                }
             }
         }
 
+        // Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters
+        //private static double InterlockedAddDouble(ref double location1, double value)
+        //{
+        //    double newCurrentValue = 0;
+        //    while (true)
+        //    {
+        //        double currentValue = newCurrentValue;
+        //        double newValue = currentValue + value;
+        //        newCurrentValue = Interlocked.CompareExchange(ref location1, newValue, currentValue);
+        //        if (newCurrentValue == currentValue)
+        //            return newValue;
+        //    }
+        //}
+
         // Values
+
+        public void SetDelay(int patchCalculatorIndex, double delay)
+        {
+            PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(patchCalculatorIndex);
+
+            patchCalculatorInfo.Delay = delay;
+        }
 
         public void SetValue(InletTypeEnum inletTypeEnum, int noteListIndex, double value)
         {
@@ -272,23 +284,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             AssertPatchCalculatorInfosListIndex(noteListIndex);
 
-            //PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos.Where(x => x.NoteListIndex == noteListIndex)
-            //                                                               .SingleOrDefault();
-
             PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[noteListIndex];
-            //if (patchCalculatorInfo == null)
-            //{
-            //    throw new Exception(String.Format("No PatchCalculator exits info for noteListIndex '{0}'.", noteListIndex));
-            //}
-
             return patchCalculatorInfo;
         }
-
-        //public IPatchCalculator GetPatchCalculator(int noteListIndex)
-        //{
-        //    AssertPatchCalculatorInfosListIndex(noteListIndex);
-
-        //    return _patchCalculatorInfos[noteListIndex].PatchCalculator;
-        //}
     }
 }

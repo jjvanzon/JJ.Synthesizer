@@ -59,8 +59,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
                     buffer[i] = (float)value;
 
-                    _time += SAMPLE_DURATION;
                 }
+
+                _time += SAMPLE_DURATION * count;
 
                 return count;
             }
