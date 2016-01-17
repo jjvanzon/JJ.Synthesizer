@@ -22,8 +22,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private static PolyphonyCalculator CreatePolyphonyCalculator()
         {
-            int threadCount = 4; // Different amount of threads for testing.
-            //int threadCount = 4; // TODO: Get from system information
+            int numberOfHardwareThreads = Environment.ProcessorCount;
+
+            int threadCount = numberOfHardwareThreads;
             int bufferSize = 2205; // TODO: Manage that it is the same as what SampleProvider needs. Try doing it in an orderly fashion.
             double sampleDuration = 1.0 / 44100; // TODO: Manage that it is the same as what SampleProvider needs. Try doing it in an orderly fashion.
 

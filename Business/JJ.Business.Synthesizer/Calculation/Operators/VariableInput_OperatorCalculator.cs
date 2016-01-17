@@ -36,8 +36,6 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void ResetState()
         {
-            // TODO: Remove comment.
-            // Temporarily disable to make current implementation of PatchCalculator.ResetState() work 'a little' (2016-01-13).
             _value = InitialValue;
 
             base.ResetState();

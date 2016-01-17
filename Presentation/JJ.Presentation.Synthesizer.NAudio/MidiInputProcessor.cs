@@ -15,6 +15,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private const double LOWEST_FREQUENCY = 8.1757989156;
         private const double MAX_VELOCITY = 127.0;
         private const int MAX_NOTE_NUMBER = 127;
+        //private const double MAX_RELEASE_DURATION = 7;
 
         private static readonly double[] _noteNumber_To_Frequency_Array = Create_NoteNumber_To_Frequency_Array();
 
@@ -103,9 +104,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     calculator.SetValue(InletTypeEnum.Volume, noteInfo.ListIndex, volume);
                     calculator.SetValue(InletTypeEnum.NoteStart, noteInfo.ListIndex, time);
                     calculator.SetValue(InletTypeEnum.NoteDuration, noteInfo.ListIndex, CalculationHelper.VERY_HIGH_VALUE);
-                    // TODO: This is a hack to make ReleaseNote read release duration,
-                    // because the value dictionaries in the calculator does not contain the default values of the patch.
-                    calculator.SetValue(InletTypeEnum.ReleaseDuration, noteInfo.ListIndex, 1);
                 }
             }
             finally

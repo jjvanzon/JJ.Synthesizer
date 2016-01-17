@@ -47,7 +47,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(channelOutlets, whiteNoiseCalculator);
 
-            // TODO: One would think that the outlet operators should be sorted by a list index too.
+            // TODO: One would think that the outlet operators should be sorted by a list index too. But it does not have a ListIndex property.
             _outputOperatorCalculators = result.Output_OperatorCalculators.ToArray();
 
             _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();
@@ -56,6 +56,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         public double Calculate(double time, int channelIndex)
         {
             return _outputOperatorCalculators[channelIndex].Calculate(time, channelIndex);
+        }
+
+        public double GetValue(int listIndex)
+        {
+            // Be tollerant for non-existent list indexes, because you can switch instruments so dynamically.
+            if (listIndex < 0) return 0.0;
+            if (listIndex >= _inputOperatorCalculators.Length) return 0.0;
+
+            double value = _inputOperatorCalculators[listIndex]._value;
+            return value;
         }
 
         public void SetValue(int listIndex, double value)
@@ -69,126 +79,218 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _inputOperatorCalculators[listIndex]._value = value;
         }
 
+        public double GetValue(string name)
+        {
+            if (String.IsNullOrEmpty(name)) throw new NullOrEmptyException(() => name);
+
+            string key = name;
+
+            double value;
+            if (_valuesByName.TryGetValue(key, out value))
+            {
+                return value;
+            }
+
+            IList<int> inputCalculatorIndexes = GetInputCalculatorIndexes(name);
+            if (inputCalculatorIndexes.Count != 0)
+            {
+                int inputCalculatorIndex = inputCalculatorIndexes[0];
+                value = _inputOperatorCalculators[inputCalculatorIndex]._value;
+                _valuesByName[key] = value;
+            }
+
+            return value;
+        }
+
         public void SetValue(string name, double value)
         {
             if (String.IsNullOrEmpty(name)) throw new NullOrEmptyException(() => name);
 
             _valuesByName[name] = value;
 
-            for (int i = 0; i < _inputOperatorCalculators.Length; i++)
+            foreach (int inputCalculatorIndex in GetInputCalculatorIndexes(name))
             {
-                VariableInput_OperatorCalculator operatorCalculator = _inputOperatorCalculators[i];
-
-                if (String.Equals(operatorCalculator.Name, name))
-                {
-                    operatorCalculator._value = value;
-                }
+                _inputOperatorCalculators[inputCalculatorIndex]._value = value;
             }
         }
 
-        public void SetValue(string name, int listIndex, double value)
+        private IList<int> GetInputCalculatorIndexes(string name)
         {
-            if (String.IsNullOrEmpty(name)) throw new NullOrEmptyException(() => name);
-
-            _valuesByNameAndListIndex[new Tuple<string, int>(name, listIndex)] = value;
-
-            int j = 0;
+            var list = new List<int>(_inputOperatorCalculators.Length);
 
             for (int i = 0; i < _inputOperatorCalculators.Length; i++)
             {
-                VariableInput_OperatorCalculator operatorCalculator = _inputOperatorCalculators[i];
+                VariableInput_OperatorCalculator inputCalculator = _inputOperatorCalculators[i];
 
-                if (String.Equals(operatorCalculator.Name, name))
+                if (String.Equals(inputCalculator.Name, name))
                 {
-                    if (j == listIndex)
-                    {
-                        operatorCalculator._value = value;
-                        return;
-                    }
-
-                    j++;
+                    list.Add(i);
                 }
             }
-        }
 
-        public void SetValue(InletTypeEnum inletTypeEnum, double value)
-        {
-            _valuesByInletTypeEnum[inletTypeEnum] = value;
-
-            for (int i = 0; i < _inputOperatorCalculators.Length; i++)
-            {
-                VariableInput_OperatorCalculator operatorCalculator = _inputOperatorCalculators[i];
-
-                if (operatorCalculator.InletTypeEnum == inletTypeEnum)
-                {
-                    operatorCalculator._value = value;
-                }
-            }
-        }
-
-        public void SetValue(InletTypeEnum inletTypeEnum, int listIndex, double value)
-        {
-            _valuesByInletTypeEnumAndListIndex[new Tuple<InletTypeEnum, int>(inletTypeEnum, listIndex)] = value;
-
-            int j = 0;
-
-            for (int i = 0; i < _inputOperatorCalculators.Length; i++)
-            {
-                VariableInput_OperatorCalculator operatorCalculator = _inputOperatorCalculators[i];
-
-                if (operatorCalculator.InletTypeEnum == inletTypeEnum)
-                {
-                    if (j == listIndex)
-                    {
-                        operatorCalculator._value = value;
-                        return;
-                    }
-
-                    j++;
-                }
-            }
-        }
-
-        public double GetValue(int listIndex)
-        {
-            // Be tollerant for non-existent list indexes, because you can switch instruments so dynamically.
-            if (listIndex < 0) return 0.0;
-            if (listIndex >= _inputOperatorCalculators.Length) return 0.0;
-
-            double value = _inputOperatorCalculators[listIndex]._value;
-            return value;
-        }
-
-        public double GetValue(string name)
-        {
-            if (String.IsNullOrEmpty(name)) throw new NullOrEmptyException(() => name);
-
-            double value;
-            _valuesByName.TryGetValue(name, out value);
-            return value;
+            return list;
         }
 
         public double GetValue(string name, int listIndex)
         {
             if (String.IsNullOrEmpty(name)) throw new NullOrEmptyException(() => name);
 
+            var key = new Tuple<string, int>(name, listIndex);
+
             double value;
-            _valuesByNameAndListIndex.TryGetValue(new Tuple<string, int>(name, listIndex), out value);
+            if (_valuesByNameAndListIndex.TryGetValue(key, out value))
+            {
+                return value;
+            }
+
+            int? inputCalculatorIndex = TryGetInputCalculatorIndex(name, listIndex);
+            if (inputCalculatorIndex.HasValue)
+            {
+                value = _inputOperatorCalculators[inputCalculatorIndex.Value]._value;
+                _valuesByNameAndListIndex[key] = value;
+            }
+
             return value;
+        }
+
+        public void SetValue(string name, int listIndex, double value)
+        {
+            if (String.IsNullOrEmpty(name)) throw new NullOrEmptyException(() => name);
+
+            var key = new Tuple<string, int>(name, listIndex);
+
+            _valuesByNameAndListIndex[key] = value;
+
+            int? inputCalculatorIndex = TryGetInputCalculatorIndex(name, listIndex);
+            if (inputCalculatorIndex.HasValue)
+            {
+                _inputOperatorCalculators[inputCalculatorIndex.Value]._value = value;
+            }
+        }
+
+        private int? TryGetInputCalculatorIndex(string name, int listIndex)
+        {
+            int j = 0;
+
+            for (int i = 0; i < _inputOperatorCalculators.Length; i++)
+            {
+                VariableInput_OperatorCalculator inputCalculator = _inputOperatorCalculators[i];
+
+                if (String.Equals(inputCalculator.Name, name))
+                {
+                    if (j == listIndex)
+                    {
+                        return i;
+                    }
+
+                    j++;
+                }
+            }
+
+            return null;
         }
 
         public double GetValue(InletTypeEnum inletTypeEnum)
         {
+            InletTypeEnum key = inletTypeEnum;
+
             double value;
-            _valuesByInletTypeEnum.TryGetValue(inletTypeEnum, out value);
+            if (_valuesByInletTypeEnum.TryGetValue(key, out value))
+            {
+                return value;
+            }
+
+            IList<int> inputCalculatorIndexes = GetInputCalculatorIndexes(inletTypeEnum);
+            if (inputCalculatorIndexes.Count != 0)
+            {
+                int inputCalculatorIndex = inputCalculatorIndexes[0];
+                value = _inputOperatorCalculators[inputCalculatorIndex]._value;
+                _valuesByInletTypeEnum[key] = value;
+            }
+
             return value;
+        }
+
+        public void SetValue(InletTypeEnum inletTypeEnum, double value)
+        {
+            _valuesByInletTypeEnum[inletTypeEnum] = value;
+
+            foreach (int inputCalculatorIndex in GetInputCalculatorIndexes(inletTypeEnum))
+            {
+                _inputOperatorCalculators[inputCalculatorIndex]._value = value;
+            }
+        }
+
+        private IList<int> GetInputCalculatorIndexes(InletTypeEnum inletTypeEnum)
+        {
+            var list = new List<int>(_inputOperatorCalculators.Length);
+
+            for (int i = 0; i < _inputOperatorCalculators.Length; i++)
+            {
+                VariableInput_OperatorCalculator inputCalculator = _inputOperatorCalculators[i];
+
+                if (inputCalculator.InletTypeEnum == inletTypeEnum)
+                {
+                    list.Add(i);
+                }
+            }
+
+            return list;
         }
 
         public double GetValue(InletTypeEnum inletTypeEnum, int listIndex)
         {
+            var key = new Tuple<InletTypeEnum, int>(inletTypeEnum, listIndex);
+
             double value;
-            _valuesByInletTypeEnumAndListIndex.TryGetValue(new Tuple<InletTypeEnum, int>(inletTypeEnum, listIndex), out value);
+            if (_valuesByInletTypeEnumAndListIndex.TryGetValue(key, out value))
+            {
+                return value;
+            }
+
+            int? inputCalculatorIndex = TryGetInputCalculatorIndex(inletTypeEnum, listIndex);
+            if (inputCalculatorIndex.HasValue)
+            {
+                value = _inputOperatorCalculators[inputCalculatorIndex.Value]._value;
+                _valuesByInletTypeEnumAndListIndex[key] = value;
+            }
+
             return value;
+        }
+
+        public void SetValue(InletTypeEnum inletTypeEnum, int listIndex, double value)
+        {
+            var key = new Tuple<InletTypeEnum, int>(inletTypeEnum, listIndex);
+
+            _valuesByInletTypeEnumAndListIndex[key] = value;
+
+            int? inputCalculatorListIndex = TryGetInputCalculatorIndex(inletTypeEnum, listIndex);
+            if (inputCalculatorListIndex.HasValue)
+            {
+                _inputOperatorCalculators[inputCalculatorListIndex.Value]._value = value;
+            }
+        }
+
+        private int? TryGetInputCalculatorIndex(InletTypeEnum inletTypeEnum, int listIndex)
+        {
+            int j = 0;
+
+            for (int i = 0; i < _inputOperatorCalculators.Length; i++)
+            {
+                VariableInput_OperatorCalculator inputCalculator = _inputOperatorCalculators[i];
+
+                if (inputCalculator.InletTypeEnum == inletTypeEnum)
+                {
+                    if (j == listIndex)
+                    {
+                        return i;
+                    }
+
+                    j++;
+                }
+            }
+
+            return null;
         }
 
         public void ResetState()
@@ -196,12 +298,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             for (int i = 0; i < _outputOperatorCalculators.Length; i++)
             {
                 OperatorCalculatorBase outputOperatorCalculator = _outputOperatorCalculators[i];
-
                 outputOperatorCalculator.ResetState();
             }
 
-            // TODO: Remove comment.
-            // Temporarily disable this, until you can reset the state of a specific tone. (2016-01-14)
             _valuesByListIndex.Clear();
             _valuesByName.Clear();
             _valuesByNameAndListIndex.Clear();
