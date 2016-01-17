@@ -5,6 +5,7 @@ using NAudio.Midi;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Calculation;
+using System.Threading;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -78,7 +79,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             var noteOnEvent = (NoteOnEvent)midiEvent;
 
-            PatchCalculatorContainer.Lock.EnterWriteLock();
+            ReaderWriterLockSlim lck = PolyphonyCalculatorContainer.Lock;
+
+            lck.EnterWriteLock();
             try
             {
                 double time = AudioOutputProcessor.Time;
@@ -89,25 +92,25 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     return;
                 }
 
-                IPatchCalculator patchCalculator = PatchCalculatorContainer.PatchCalculator;
-                if (patchCalculator != null)
+                PolyphonyCalculator calculator = PolyphonyCalculatorContainer.Calculator;
+                if (calculator != null)
                 {
                     double frequency = _noteNumber_To_Frequency_Array[noteOnEvent.NoteNumber];
                     double volume = noteOnEvent.Velocity / MAX_VELOCITY;
 
-                    patchCalculator.ResetState();
-                    patchCalculator.SetValue(InletTypeEnum.Frequency, noteInfo.ListIndex, frequency);
-                    patchCalculator.SetValue(InletTypeEnum.Volume, noteInfo.ListIndex, volume);
-                    patchCalculator.SetValue(InletTypeEnum.NoteStart, noteInfo.ListIndex, time);
-                    patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteInfo.ListIndex, CalculationHelper.VERY_HIGH_VALUE);
+                    calculator.ResetState(noteInfo.ListIndex);
+                    calculator.SetValue(InletTypeEnum.Frequency, noteInfo.ListIndex, frequency);
+                    calculator.SetValue(InletTypeEnum.Volume, noteInfo.ListIndex, volume);
+                    calculator.SetValue(InletTypeEnum.NoteStart, noteInfo.ListIndex, time);
+                    calculator.SetValue(InletTypeEnum.NoteDuration, noteInfo.ListIndex, CalculationHelper.VERY_HIGH_VALUE);
                     // TODO: This is a hack to make ReleaseNote read release duration,
                     // because the value dictionaries in the calculator does not contain the default values of the patch.
-                    patchCalculator.SetValue(InletTypeEnum.ReleaseDuration, noteInfo.ListIndex, 1);
+                    calculator.SetValue(InletTypeEnum.ReleaseDuration, noteInfo.ListIndex, 1);
                 }
             }
             finally
             {
-                PatchCalculatorContainer.Lock.ExitWriteLock();
+                lck.ExitWriteLock();
             }
         }
 
@@ -115,11 +118,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             var noteEvent = (NoteEvent)midiEvent;
 
-            PatchCalculatorContainer.Lock.EnterWriteLock();
+            ReaderWriterLockSlim lck = PolyphonyCalculatorContainer.Lock;
+
+            lck.EnterWriteLock();
             try
             {
-                IPatchCalculator patchCalculator = PatchCalculatorContainer.PatchCalculator;
-                if (patchCalculator != null)
+                PolyphonyCalculator calculator = PolyphonyCalculatorContainer.Calculator;
+                if (calculator != null)
                 {
                     double time = AudioOutputProcessor.Time;
 
@@ -129,11 +134,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
                         return;
                     }
 
-                    double noteStart = patchCalculator.GetValue(InletTypeEnum.NoteStart, noteInfo.ListIndex);
+                    double noteStart = calculator.GetValue(InletTypeEnum.NoteStart, noteInfo.ListIndex);
                     double noteDuration = time - noteStart;
-                    patchCalculator.SetValue(InletTypeEnum.NoteDuration, noteInfo.ListIndex, noteDuration);
+                    calculator.SetValue(InletTypeEnum.NoteDuration, noteInfo.ListIndex, noteDuration);
 
-                    double releaseDuration = patchCalculator.GetValue(InletTypeEnum.ReleaseDuration, noteInfo.ListIndex);
+                    double releaseDuration = calculator.GetValue(InletTypeEnum.ReleaseDuration, noteInfo.ListIndex);
                     double releaseTime = noteStart + noteDuration;
                     double endTime = releaseTime + releaseDuration;
                     _noteRecycler.ReleaseNoteInfo(noteInfo, releaseTime, endTime);
@@ -141,7 +146,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
             finally
             {
-                PatchCalculatorContainer.Lock.ExitWriteLock();
+                lck.ExitWriteLock();
             }
         }   
 

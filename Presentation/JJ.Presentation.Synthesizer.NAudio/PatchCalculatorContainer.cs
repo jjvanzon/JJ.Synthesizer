@@ -13,14 +13,14 @@ namespace JJ.Presentation.Synthesizer.NAudio
     {
         public static ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();
 
-        /// <summary> null if CreatePatchCalculator is not yet called. </summary>
-        public static IPatchCalculator PatchCalculator { get; private set; }
+        /// <summary> null if RecreateCalculator is not yet called. </summary>
+        public static IPatchCalculator Calculator { get; private set; }
 
         /// <summary> 
         /// You must call this on the thread that keeps the IContext open. 
         /// Will automatically use a WriteLock.
         /// </summary>
-        public static void RecreatePatchCalculator(
+        public static void RecreateCalculator(
             IList<Patch> patches, 
             int maxConcurrentNotes, 
             PatchRepositories repositories)
@@ -32,12 +32,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
             Lock.EnterWriteLock();
             try
             {
-                if (PatchCalculator != null)
+                if (Calculator != null)
                 {
-                    patchCalculator.CloneValues(PatchCalculator);
+                    patchCalculator.CloneValues(Calculator);
                 }
 
-                PatchCalculator = patchCalculator;
+                Calculator = patchCalculator;
             }
             finally
             {

@@ -40,10 +40,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioOutputProcessor.cs" />
+    <Compile Include="AudioOutputSampleProvider_MultiThreaded.cs" />
     <Compile Include="MidiInputProcessor.cs" />
     <Compile Include="NoteInfo.cs" />
     <Compile Include="NoteRecycler.cs" />
+    <Compile Include="2016-01-17 Backup of PatchCalculatorContainer.cs" />
+    <Compile Include="2016-01-17 Backup of PolyphonyCalculatorContainer.cs" />
+    <Compile Include="PolyphonyCalculatorContainer.cs" />
     <Compile Include="PatchCalculatorContainer.cs" />
+    <Compile Include="PolyphonyCalculator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AudioOutputSampleProvider.cs" />
   </ItemGroup>

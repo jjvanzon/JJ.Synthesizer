@@ -14,21 +14,19 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         /// </summary>
         public double _value;
 
-        private double _initialValue;
-
         public InletTypeEnum InletTypeEnum { get; private set; }
         public string Name { get; private set; }
         public int ListIndex { get; private set; }
+        public double InitialValue { get; private set; }
 
-        public VariableInput_OperatorCalculator(InletTypeEnum inletTypeEnum, string name, int listIndex, double initialValue)
+        public VariableInput_OperatorCalculator(InletTypeEnum inletTypeEnum, string name, int listIndex, double defaultValue)
         {
             InletTypeEnum = inletTypeEnum;
             Name = name;
             ListIndex = listIndex;
+            InitialValue = defaultValue;
 
-            _initialValue = initialValue;
-
-            _value = _initialValue;
+            _value = InitialValue;
         }
 
         public override double Calculate(double time, int channelIndex)
@@ -38,8 +36,9 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override void ResetState()
         {
+            // TODO: Remove comment.
             // Temporarily disable to make current implementation of PatchCalculator.ResetState() work 'a little' (2016-01-13).
-            //_value = _initialValue;
+            _value = InitialValue;
 
             base.ResetState();
         }

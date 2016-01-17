@@ -1224,7 +1224,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                         inletTypeEnum: inlet.GetInletTypeEnum(),
                         name: wrapper.Name,
                         listIndex: wrapper.ListIndex ?? 0,
-                        initialValue: inlet.DefaultValue ?? 0.0
+                        defaultValue: inlet.DefaultValue ?? 0.0
                     );
 
                     _patchInlet_Calculator_Dictionary.Add(patchInlet, variableInputCalculator);

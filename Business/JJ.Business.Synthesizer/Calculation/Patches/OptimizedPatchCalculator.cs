@@ -200,12 +200,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 outputOperatorCalculator.ResetState();
             }
 
+            // TODO: Remove comment.
             // Temporarily disable this, until you can reset the state of a specific tone. (2016-01-14)
-            //_valuesByListIndex.Clear();
-            //_valuesByName.Clear();
-            //_valuesByNameAndListIndex.Clear();
-            //_valuesByInletTypeEnum.Clear();
-            //_valuesByInletTypeEnumAndListIndex.Clear();
+            _valuesByListIndex.Clear();
+            _valuesByName.Clear();
+            _valuesByNameAndListIndex.Clear();
+            _valuesByInletTypeEnum.Clear();
+            _valuesByInletTypeEnumAndListIndex.Clear();
         }
 
         public void CloneValues(IPatchCalculator sourcePatchCalculator)

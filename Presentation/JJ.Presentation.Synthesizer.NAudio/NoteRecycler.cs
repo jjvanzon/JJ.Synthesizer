@@ -28,9 +28,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 bool mutCreate = _noteInfos.Count < _maxConcurrentNotes;
                 if (mutCreate)
                 {
-                    var newNoteInfo = new NoteInfo();
-                    newNoteInfo.ListIndex = _noteInfos.Count;
-                    _noteInfos.Add(newNoteInfo);
+                    noteInfo = new NoteInfo();
+                    noteInfo.ListIndex = _noteInfos.Count;
+                    _noteInfos.Add(noteInfo);
                 }
             }
     

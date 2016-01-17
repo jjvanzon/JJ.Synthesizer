@@ -10,10 +10,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
     {
         private const int DEFAULT_BUFFER_LENGTH_IN_MILLISECONDS = 100; // TODO: Make this 10 in the future?
 
-        private static readonly SampleProvider _sampleProvider = new SampleProvider();
+        private static readonly AudioOutputSampleProvider_MultiThreaded _sampleProvider = 
+                            new AudioOutputSampleProvider_MultiThreaded();
+
         private static WaveOut _waveOut;
 
-        public static double Time { get { return SampleProvider._time; } }
+        public static double Time { get { return _sampleProvider._time; } }
 
         /// <summary>
         /// Initializes and then immediately pauses, to prevent calculations at startup,
@@ -29,21 +31,21 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             _waveOut = CreateWaveOut(_sampleProvider);
 
-            SampleProvider._time = 0;
-            SampleProvider._isRunning = true;
+            _sampleProvider._time = 0;
+            _sampleProvider._isRunning = true;
 
             _waveOut.Play();
         }
 
         public static void Continue()
         {
-            SampleProvider._isRunning = true;
+            _sampleProvider._isRunning = true;
         }
 
         public static void Pause()
         {
             // TODO: It is unintuitive that Pause does not work as an alternative way to start the calculations.
-            SampleProvider._isRunning = false;
+            _sampleProvider._isRunning = false;
         }
 
         public static void Stop()
@@ -54,8 +56,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 _waveOut.Dispose();
             }
 
-            SampleProvider._isRunning = false;
-            SampleProvider._time = 0;
+            _sampleProvider._isRunning = false;
+            _sampleProvider._time = 0;
         }
 
         // Helpers
