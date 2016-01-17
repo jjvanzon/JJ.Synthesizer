@@ -25,8 +25,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
             NoteInfo noteInfo = _noteInfos.Where(x => x.EndTime < presentTime).FirstOrDefault();
             if (noteInfo == null)
             {
-                bool mutCreate = _noteInfos.Count < _maxConcurrentNotes;
-                if (mutCreate)
+                bool mustCreate = _noteInfos.Count < _maxConcurrentNotes;
+                if (mustCreate)
                 {
                     noteInfo = new NoteInfo();
                     noteInfo.ListIndex = _noteInfos.Count;

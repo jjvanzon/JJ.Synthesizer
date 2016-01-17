@@ -65,21 +65,41 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         // Adding and removing calculators.
 
-        public int AddPatchCalculator(IPatchCalculator patchCalculator, int noteListIndex)
+        public int AddPatchCalculator(IPatchCalculator patchCalculator)
         {
             if (patchCalculator == null) throw new NullException(() => patchCalculator);
-            if (noteListIndex < 0) throw new LessThanException(() => noteListIndex, 0);
 
-            _patchCalculatorInfos.Add(new PatchCalculatorInfo
+            var patchCalculatorInfo = new PatchCalculatorInfo
             {
                 PatchCalculator = patchCalculator,
                 IsActive = true,
-                NoteListIndex = noteListIndex
-            });
+                NoteListIndex = _patchCalculatorInfos.Count
+            };
+
+            _patchCalculatorInfos.Add(patchCalculatorInfo);
 
             ApplyToThreadInfos();
 
-            return _patchCalculatorInfos.Count - 1;
+            return patchCalculatorInfo.NoteListIndex;
+        }
+
+        public void AddPatchCalculators(IList<IPatchCalculator> patchCalculators)
+        {
+            for (int i = 0; i < patchCalculators.Count; i++)
+            {
+                IPatchCalculator patchCalculator = patchCalculators[i];
+
+                var patchCalculatorInfo = new PatchCalculatorInfo
+                {
+                    PatchCalculator = patchCalculator,
+                    IsActive = true,
+                    NoteListIndex = _patchCalculatorInfos.Count
+                };
+
+                _patchCalculatorInfos.Add(patchCalculatorInfo);
+            }
+
+            ApplyToThreadInfos();
         }
 
         public void RemovePatchCalculator(int index)
@@ -111,31 +131,17 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             // Determine calculators per thread
             IList<PatchCalculatorInfo> activePatchCalculators = _patchCalculatorInfos.Where(x => x.IsActive).ToArray();
-            int calculatorsPerThread = activePatchCalculators.Count / _threadInfos.Count;
 
-            // Spread calculators over threads
-            int activePatchCalculatorInfoIndex = 0;
-            for (int threadIndex = 0; threadIndex < _threadInfos.Count; threadIndex++)
-            {
-                ThreadInfo threadInfo = _threadInfos[threadIndex];
-
-                for (int i = 0; i < calculatorsPerThread; i++)
-                {
-                    PatchCalculatorInfo activePatchCalculatorInfo = activePatchCalculators[activePatchCalculatorInfoIndex];
-                    threadInfo.PatchCalculatorInfos.Add(activePatchCalculatorInfo);
-
-                    activePatchCalculatorInfoIndex++;
-                }
-            }
-
-            // Excessive calculators go on the last thread.
-            ThreadInfo lastThreadInfo = _threadInfos.Last();
-            while (activePatchCalculatorInfoIndex < activePatchCalculators.Count)
+            int threadIndex = 0;
+            for (int activePatchCalculatorInfoIndex = 0; activePatchCalculatorInfoIndex < activePatchCalculators.Count; activePatchCalculatorInfoIndex++)
             {
                 PatchCalculatorInfo activePatchCalculatorInfo = activePatchCalculators[activePatchCalculatorInfoIndex];
-                lastThreadInfo.PatchCalculatorInfos.Add(activePatchCalculatorInfo);
+                ThreadInfo threadInfo = _threadInfos[threadIndex];
 
-                activePatchCalculatorInfoIndex++;
+                threadInfo.PatchCalculatorInfos.Add(activePatchCalculatorInfo);
+
+                threadIndex++;
+                threadIndex = threadIndex % _threadInfos.Count;
             }
         }
 
@@ -155,6 +161,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 ThreadInfo threadInfo = _threadInfos[i];
                 threadInfo.Thread = new Thread(CalculateSingleThread);
+                threadInfo.Thread.Priority = ThreadPriority.AboveNormal;
                 threadInfo.Thread.Start(threadInfo);
             }
 
