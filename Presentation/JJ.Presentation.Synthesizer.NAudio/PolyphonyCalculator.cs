@@ -195,10 +195,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
                 for (int j = 0; j < patchCalculatorInfos.Count; j++)
                 {
-                    PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[j];
+                    PatchCalculatorInfo patchCalculatorInfo = patchCalculatorInfos[j];
 
                     double delay = patchCalculatorInfo.Delay;
 
+                    // TODO: Prevent subtraction by incorporating delay in initial t.
                     double value2 = patchCalculatorInfo.PatchCalculator.Calculate(t - delay, DEFAULT_CHANNEL_INDEX);
 
                     value += value2;
