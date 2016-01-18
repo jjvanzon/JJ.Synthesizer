@@ -6,6 +6,7 @@ using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Enums;
+using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -13,21 +14,41 @@ namespace JJ.Presentation.Synthesizer.NAudio
     {
         private class PatchCalculatorInfo
         {
-            public IPatchCalculator PatchCalculator { get; set; }
+            public PatchCalculatorInfo(IPatchCalculator patchCalculator, int noteListIndex)
+            {
+                if (patchCalculator == null) throw new NullException(() => patchCalculator);
+
+                PatchCalculator = patchCalculator;
+                NoteListIndex = noteListIndex;
+            }
+
+            public IPatchCalculator PatchCalculator { get; private set; }
+            public int NoteListIndex { get; private set; }
+
             public bool IsActive { get; set; }
             public double Delay { get; set; }
-            public int NoteListIndex { get; set; }
         }
 
         private class ThreadInfo
         {
-            public Thread Thread { get; set; }
-            public IList<PatchCalculatorInfo> PatchCalculatorInfos { get; set; }
+            public ThreadInfo(Thread thread)
+            {
+                if (thread == null) throw new NullException(() => thread);
+
+                Thread = thread;
+                PatchCalculatorInfos = new List<PatchCalculatorInfo>(MAX_EXPECTED_PATCH_CALCULATORS_PER_THREAD);
+                Lock = new AutoResetEvent(false);
+            }
+
+            public Thread Thread { get; private set; }
+            public IList<PatchCalculatorInfo> PatchCalculatorInfos { get; private set; }
+            public AutoResetEvent Lock { get; private set; }
         }
 
         private const int MAX_EXPECTED_PATCH_CALCULATORS_PER_THREAD = 32;
         private const int DEFAULT_CHANNEL_INDEX = 0; // TODO: Make multi-channel.
 
+        private CountdownEvent _countdownEvent;
         private readonly IList<PatchCalculatorInfo> _patchCalculatorInfos;
         private readonly IList<ThreadInfo> _threadInfos;
         private readonly double _sampleDuration;
@@ -52,12 +73,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 _bufferLocks[i] = new object();
             }
 
+            //_countdownEvent = new CountdownEvent(threadCount);
+
             for (int i = 0; i < threadCount; i++)
             {
-                var threadInfo = new ThreadInfo
-               {
-                    PatchCalculatorInfos = new List<PatchCalculatorInfo>(MAX_EXPECTED_PATCH_CALCULATORS_PER_THREAD)
-                };
+                Thread thread = new Thread(CalculateSingleThread);
+                thread.Priority = ThreadPriority.AboveNormal;
+
+                var threadInfo = new ThreadInfo(thread);
+
+                thread.Start(threadInfo);
 
                 _threadInfos[i] = threadInfo;
             }
@@ -69,12 +94,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             if (patchCalculator == null) throw new NullException(() => patchCalculator);
 
-            var patchCalculatorInfo = new PatchCalculatorInfo
-            {
-                PatchCalculator = patchCalculator,
-                IsActive = true,
-                NoteListIndex = _patchCalculatorInfos.Count
-            };
+            var patchCalculatorInfo = new PatchCalculatorInfo(patchCalculator, _patchCalculatorInfos.Count);
+            patchCalculatorInfo.IsActive = true;
 
             _patchCalculatorInfos.Add(patchCalculatorInfo);
 
@@ -89,12 +110,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 IPatchCalculator patchCalculator = patchCalculators[i];
 
-                var patchCalculatorInfo = new PatchCalculatorInfo
-                {
-                    PatchCalculator = patchCalculator,
-                    IsActive = true,
-                    NoteListIndex = _patchCalculatorInfos.Count
-                };
+                var patchCalculatorInfo = new PatchCalculatorInfo(patchCalculator, _patchCalculatorInfos.Count);
+                patchCalculatorInfo.IsActive = true;
 
                 _patchCalculatorInfos.Add(patchCalculatorInfo);
             }
@@ -148,7 +165,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         // Calculate
 
         /// <param name="channelIndex">
-        /// Currently not used, but I want this abstraction to stay similar
+        /// This parameter is currently not used, but I want this abstraction to stay similar
         /// to PatchCalculator, or I would be refactoring my brains out.
         /// </param>
         public double[] Calculate(double t0, int channelIndex)
@@ -157,56 +174,66 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             Array.Clear(_buffer, 0, _buffer.Length);
 
-            for (int i = 0; i < _threadInfos.Count; i++)
-            {
-                ThreadInfo threadInfo = _threadInfos[i];
-                threadInfo.Thread = new Thread(CalculateSingleThread);
-                threadInfo.Thread.Priority = ThreadPriority.AboveNormal;
-                threadInfo.Thread.Start(threadInfo);
-            }
+            _countdownEvent = new CountdownEvent(_threadInfos.Count);
 
             for (int i = 0; i < _threadInfos.Count; i++)
             {
                 ThreadInfo threadInfo = _threadInfos[i];
-                threadInfo.Thread.Join();
+                threadInfo.Lock.Set();
             }
-            
+
+            _countdownEvent.Wait();
+
+            //_countdownEvent.Reset(_threadInfos.Count);
+
             return _buffer;
         }
 
         private void CalculateSingleThread(object threadInfoObject)
         {
-            ThreadInfo threadInfo = (ThreadInfo)threadInfoObject;
+            var threadInfo = (ThreadInfo)threadInfoObject;
 
             IList<PatchCalculatorInfo> patchCalculatorInfos = threadInfo.PatchCalculatorInfos;
 
-            for (int i = 0; i < patchCalculatorInfos.Count; i++)
+Suspend:
+            threadInfo.Lock.WaitOne();
+
+            try
             {
-                PatchCalculatorInfo patchCalculatorInfo = patchCalculatorInfos[i];
-
-                if (!patchCalculatorInfo.IsActive)
+                for (int i = 0; i < patchCalculatorInfos.Count; i++)
                 {
-                    continue;
-                }
+                    PatchCalculatorInfo patchCalculatorInfo = patchCalculatorInfos[i];
 
-                IPatchCalculator patchCalculator = patchCalculatorInfo.PatchCalculator;
-                double delay = patchCalculatorInfo.Delay;
-
-                double t = _t0 - delay;
-
-                for (int j = 0; j < _buffer.Length; j++)
-                {
-                    double value = patchCalculator.Calculate(t, DEFAULT_CHANNEL_INDEX);
-
-                    // TODO: Not sure how to do a quicker interlocked add for doubles.
-                    lock (_bufferLocks[j])
+                    if (!patchCalculatorInfo.IsActive)
                     {
-                        _buffer[j] += value;
+                        continue;
                     }
 
-                    t += _sampleDuration;
+                    IPatchCalculator patchCalculator = patchCalculatorInfo.PatchCalculator;
+                    double delay = patchCalculatorInfo.Delay;
+
+                    double t = _t0 - delay;
+
+                    for (int j = 0; j < _buffer.Length; j++)
+                    {
+                        double value = patchCalculator.Calculate(t, DEFAULT_CHANNEL_INDEX);
+
+                        // TODO: Not sure how to do a quicker interlocked add for doubles.
+                        lock (_bufferLocks[j])
+                        {
+                            _buffer[j] += value;
+                        }
+
+                        t += _sampleDuration;
+                    }
                 }
             }
+            finally
+            {
+                _countdownEvent.Signal();
+            }
+
+            goto Suspend;
         }
 
         // Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters
