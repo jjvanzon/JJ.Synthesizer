@@ -246,6 +246,25 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
+        public void SetValue(InletTypeEnum inletTypeEnum, double value)
+        {
+            for (int i = 0; i < _patchCalculatorInfos.Count; i++)
+            {
+                PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[i];
+                patchCalculatorInfo.PatchCalculator.SetValue(inletTypeEnum, value);
+            }
+        }
+
+        public double GetValue(InletTypeEnum inletTypeEnum)
+        {
+            PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos.FirstOrDefault();
+            if (patchCalculatorInfo != null)
+            {
+                return patchCalculatorInfo.PatchCalculator.GetValue(inletTypeEnum);
+            }
+            return 0.0;
+        }
+
         public void ResetState(int noteListIndex)
         {
             PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);

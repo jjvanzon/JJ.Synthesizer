@@ -88,14 +88,12 @@ namespace JJ.Business.Synthesizer.Calculation.Curves
         {
             double t = (time - _minTime) * _samplingRate;
 
-            // Return if sample not in range.
-            if (t < 0) return _valueBefore;
-
             int t0 = (int)t;
             int t1 = t0 + 1;
 
             // Return if sample not in range.
-            if (t1 >= _samples.Length) return _valueAfter;
+            if (t0 < 0) return _valueBefore;
+            if (t1 > _samples.Length - 1) return _valueAfter;
 
             double x0 = _samples[t0];
             double x1 = _samples[t1];

@@ -6,6 +6,7 @@ using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Calculation;
 using System.Threading;
+using System.Diagnostics;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
@@ -15,9 +16,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private const double LOWEST_FREQUENCY = 8.1757989156;
         private const double MAX_VELOCITY = 127.0;
         private const int MAX_NOTE_NUMBER = 127;
-        //private const double MAX_RELEASE_DURATION = 7;
+        private const int DEFAULT_ATTACK_CONTROLLER_CODE = 73;
+        private const int DEFAULT_RELEASE_CONTROLLER_CODE = 72;
+        private const double CONTROLLER_VALUE_TO_DURATION_COEFFICIENT = 4.0 / 127.0;
 
         private static readonly double[] _noteNumber_To_Frequency_Array = Create_NoteNumber_To_Frequency_Array();
+
+        //private static Dictionary<InletTypeEnum, double> _currentInletValues = new Dictionary<InletTypeEnum, double>();
+
+        private static double? _releaseDuration;
+        private static double? _attackDuration;
 
         private static MidiIn _midiIn;
         private static NoteRecycler _noteRecycler = new NoteRecycler();
@@ -73,6 +81,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 case MidiCommandCode.NoteOff:
                     HandleNoteOff(e.MidiEvent);
                     break;
+
+                case MidiCommandCode.ControlChange:
+                    HandleControlChange(e.MidiEvent);
+                    break;
             }
         }
 
@@ -104,6 +116,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     calculator.SetValue(InletTypeEnum.Volume, noteInfo.ListIndex, volume);
                     calculator.SetValue(InletTypeEnum.NoteStart, noteInfo.ListIndex, time);
                     calculator.SetValue(InletTypeEnum.NoteDuration, noteInfo.ListIndex, CalculationHelper.VERY_HIGH_VALUE);
+
+                    if (_releaseDuration.HasValue)
+                    {
+                        calculator.SetValue(InletTypeEnum.ReleaseDuration, noteInfo.ListIndex, _releaseDuration.Value);
+                    }
+
+                    if (_attackDuration.HasValue)
+                    {
+                        calculator.SetValue(InletTypeEnum.AttackDuration, noteInfo.ListIndex, _attackDuration.Value);
+                    }
                 }
             }
             finally
@@ -146,7 +168,110 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 lck.ExitWriteLock();
             }
-        }   
+        }
+
+        private static void HandleControlChange(MidiEvent midiEvent)
+        {
+            var controlChangeEvent = (ControlChangeEvent)midiEvent;
+
+            Debug.WriteLine("ControlChange value received: {0} = {1}", controlChangeEvent.CommandCode, controlChangeEvent.ControllerValue);
+
+            int controllerCode = (int)controlChangeEvent.Controller;
+            switch (controllerCode)
+            {
+                case DEFAULT_ATTACK_CONTROLLER_CODE:
+                    HandleAttackChange(controlChangeEvent);
+                    break;
+
+                case DEFAULT_RELEASE_CONTROLLER_CODE:
+                    HandleReleaseChange(controlChangeEvent);
+                    break;
+            }
+        }
+
+        private static void HandleAttackChange(ControlChangeEvent controlChangeEvent)
+        {
+            double attackDurationChange = (controlChangeEvent.ControllerValue - 64) * CONTROLLER_VALUE_TO_DURATION_COEFFICIENT;
+
+            ReaderWriterLockSlim lck = PolyphonyCalculatorContainer.Lock;
+
+            lck.EnterWriteLock();
+            try
+            {
+                PolyphonyCalculator calculator = PolyphonyCalculatorContainer.Calculator;
+                if (calculator != null)
+                {
+                    double attackDuration;
+                    if (_attackDuration.HasValue)
+                    {
+                        attackDuration = _attackDuration.Value;
+                    }
+                    else
+                    {
+                        attackDuration = calculator.GetValue(InletTypeEnum.AttackDuration);
+                    }
+
+                    attackDuration += attackDurationChange;
+
+                    if (attackDuration < 0.0) // TODO: Do debug the issue that arises if you do not do this check
+                    {
+                        attackDuration = 0.0;
+                    }
+
+                    calculator.SetValue(InletTypeEnum.AttackDuration, attackDuration);
+
+                    _attackDuration = attackDuration;
+
+                    Debug.WriteLine(String.Format("AttackDuration = {0}", attackDuration));
+                }
+            }
+            finally
+            {
+                lck.ExitWriteLock();
+            }
+        }
+
+        private static void HandleReleaseChange(ControlChangeEvent controlChangeEvent)
+        {
+            double releaseDurationChange = (controlChangeEvent.ControllerValue - 64) * CONTROLLER_VALUE_TO_DURATION_COEFFICIENT;
+
+            ReaderWriterLockSlim lck = PolyphonyCalculatorContainer.Lock;
+
+            lck.EnterWriteLock();
+            try
+            {
+                PolyphonyCalculator calculator = PolyphonyCalculatorContainer.Calculator;
+                if (calculator != null)
+                {
+                    double releaseDuration;
+                    if (_releaseDuration.HasValue)
+                    {
+                        releaseDuration = _releaseDuration.Value;
+                    }
+                    else
+                    {
+                        releaseDuration = calculator.GetValue(InletTypeEnum.ReleaseDuration);
+                    }
+
+                    releaseDuration += releaseDurationChange;
+
+                    if (releaseDuration < 0.0) // TODO: Do debug the issue that arises if you do not do this check
+                    {
+                        releaseDuration = 0.0;
+                    }
+
+                    calculator.SetValue(InletTypeEnum.ReleaseDuration, releaseDuration);
+
+                    _releaseDuration = releaseDuration;
+
+                    Debug.WriteLine(String.Format("ReleaseDuration = {0}", releaseDuration));
+                }
+            }
+            finally
+            {
+                lck.ExitWriteLock();
+            }
+        }
 
         // Helpers
 
