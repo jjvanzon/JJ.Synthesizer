@@ -5,20 +5,18 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
     internal abstract class BlockInterpolation_SampleCalculatorBase : SampleCalculatorBase
     {
         public BlockInterpolation_SampleCalculatorBase(Sample sample, byte[] bytes)
-            : base(sample, bytes)
+            : base(sample, bytes, extraSampleCount: 0)
         { }
 
         public override double CalculateValue(double time, int channelIndex)
         {
+            // Return if sample not in range.
+            // Execute it on the doubles, to prevent integer overflow.
+            if (time < 0.0) return _valueBefore;
+            if (time > _duration) return _valueAfter;
+
             double t = time * _rate;
-
-            // Return if sample not in range.
-            if (t < 0) return 0;
-
             int t0 = (int)t;
-
-            // Return if sample not in range.
-            if (t0 >= _samples.Length) return 0;
 
             double value = _samples[channelIndex, t0];
             return value;

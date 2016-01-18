@@ -20,6 +20,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private const int DEFAULT_RELEASE_CONTROLLER_CODE = 72;
         private const double CONTROLLER_VALUE_TO_DURATION_COEFFICIENT = 4.0 / 127.0;
 
+        private const double MIN_RELEASE_DURATION = 0.005; // TODO: This does not seem to belong here.
+        private const double MIN_ATTACK_DURATION = 0.005; // TODO: This does not seem to belong here.
+
         private static readonly double[] _noteNumber_To_Frequency_Array = Create_NoteNumber_To_Frequency_Array();
 
         //private static Dictionary<InletTypeEnum, double> _currentInletValues = new Dictionary<InletTypeEnum, double>();
@@ -213,9 +216,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
                     attackDuration += attackDurationChange;
 
-                    if (attackDuration < 0.0) // TODO: Do debug the issue that arises if you do not do this check
+                    if (attackDuration < MIN_ATTACK_DURATION)
                     {
-                        attackDuration = 0.0;
+                        attackDuration = MIN_ATTACK_DURATION;
                     }
 
                     calculator.SetValue(InletTypeEnum.AttackDuration, attackDuration);
@@ -255,9 +258,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
                     releaseDuration += releaseDurationChange;
 
-                    if (releaseDuration < 0.0) // TODO: Do debug the issue that arises if you do not do this check
+                    if (releaseDuration < MIN_RELEASE_DURATION)
                     {
-                        releaseDuration = 0.0;
+                        releaseDuration = MIN_RELEASE_DURATION;
                     }
 
                     calculator.SetValue(InletTypeEnum.ReleaseDuration, releaseDuration);

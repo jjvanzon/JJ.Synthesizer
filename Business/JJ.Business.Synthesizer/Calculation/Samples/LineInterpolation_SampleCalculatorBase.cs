@@ -5,21 +5,20 @@ namespace JJ.Business.Synthesizer.Calculation.Samples
     internal abstract class LineInterpolation_SampleCalculatorBase : SampleCalculatorBase
     {
         public LineInterpolation_SampleCalculatorBase(Sample sample, byte[] bytes)
-            : base(sample, bytes)
+            : base(sample, bytes, extraSampleCount: 1)
         { }
 
         public override double CalculateValue(double time, int channelIndex)
         {
+            // Return if sample not in range.
+            // Execute it on the doubles, to prevent integer overflow.
+            if (time < 0.0) return _valueBefore;
+            if (time > _duration) return _valueAfter;
+
             double t = time * _rate;
 
-            // Return if sample not in range.
-            if (t < 0) return 0;
-
             int t0 = (int)t;
-            int t1 = t0 + 1;
-
-            // Return if sample not in range.
-            if (t1 >= _samples.Length) return 0;
+            int t1 = t0 + 1; // See 'extraSampleCount' above.
 
             double x0 = _samples[channelIndex, t0];
             double x1 = _samples[channelIndex, t1];

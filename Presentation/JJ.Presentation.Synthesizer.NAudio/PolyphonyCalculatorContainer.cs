@@ -38,8 +38,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// Will automatically use a WriteLock.
         /// </summary>
         public static void RecreateCalculator(
-            IList<Patch> patches, 
-            int maxConcurrentNotes, 
+            IList<Patch> patches,
+            int maxConcurrentNotes,
             PatchRepositories repositories)
         {
             var patchManager = new PatchManager(repositories);
@@ -54,12 +54,17 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 Patch autoPatch = patchManager.Patch;
                 Outlet signalOutlet = autoPatch.EnumerateOperatorWrappersOfType<PatchOutlet_OperatorWrapper>()
                                                .Where(x => x.Input.GetOutletTypeEnum() == OutletTypeEnum.Signal)
-                                               .Single();
+                                               .SingleOrDefault();
+
+                if (signalOutlet == null)
+                {
+                    signalOutlet = patchManager.Number(0.0);
+                }
 
                 IPatchCalculator patchCalculator = patchManager.CreateOptimizedCalculator(signalOutlet);
-
                 patchCalculators.Add(patchCalculator);
             }
+        
 
             newPolyphonyCalculator.AddPatchCalculators(patchCalculators);
 
