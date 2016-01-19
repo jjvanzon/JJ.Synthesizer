@@ -24,7 +24,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             public IPatchCalculator PatchCalculator { get; private set; }
             public int NoteListIndex { get; private set; }
-
             public bool IsActive { get; set; }
             public double Delay { get; set; }
         }
@@ -48,9 +47,9 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private const int MAX_EXPECTED_PATCH_CALCULATORS_PER_THREAD = 32;
         private const int DEFAULT_CHANNEL_INDEX = 0; // TODO: Make multi-channel.
 
-        private CountdownEvent _countdownEvent;
         private readonly IList<PatchCalculatorInfo> _patchCalculatorInfos;
         private readonly IList<ThreadInfo> _threadInfos;
+        private readonly CountdownEvent _countdownEvent;
         private readonly double _sampleDuration;
         private readonly double[] _buffer;
         private readonly object[] _bufferLocks;
@@ -73,7 +72,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 _bufferLocks[i] = new object();
             }
 
-            //_countdownEvent = new CountdownEvent(threadCount);
+            _countdownEvent = new CountdownEvent(threadCount);
 
             for (int i = 0; i < threadCount; i++)
             {
@@ -174,7 +173,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             Array.Clear(_buffer, 0, _buffer.Length);
 
-            _countdownEvent = new CountdownEvent(_threadInfos.Count);
+            _countdownEvent.Reset();
 
             for (int i = 0; i < _threadInfos.Count; i++)
             {
@@ -183,8 +182,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
 
             _countdownEvent.Wait();
-
-            //_countdownEvent.Reset(_threadInfos.Count);
 
             return _buffer;
         }
@@ -195,7 +192,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             IList<PatchCalculatorInfo> patchCalculatorInfos = threadInfo.PatchCalculatorInfos;
 
-Suspend:
+Wait:
             threadInfo.Lock.WaitOne();
 
             try
@@ -233,7 +230,7 @@ Suspend:
                 _countdownEvent.Signal();
             }
 
-            goto Suspend;
+            goto Wait;
         }
 
         // Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters
