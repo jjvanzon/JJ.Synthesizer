@@ -6,11 +6,10 @@ using JJ.Framework.Common;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Business.Synthesizer.Enums;
-using System.Threading.Tasks;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class PolyphonyCalculator
+    public class PolyphonyCalculator : IDisposable
     {
         private class PatchCalculatorInfo
         {
@@ -63,7 +62,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
             _sampleDuration = sampleDuration;
             _patchCalculatorInfos = new List<PatchCalculatorInfo>();
-            _threadInfos = new ThreadInfo[threadCount];
 
             _buffer = new double[bufferSize];
             _bufferLocks = new object[bufferSize];
@@ -72,19 +70,120 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 _bufferLocks[i] = new object();
             }
 
-            _countdownEvent = new CountdownEvent(threadCount);
-
+            _threadInfos = new ThreadInfo[threadCount];
             for (int i = 0; i < threadCount; i++)
             {
                 Thread thread = new Thread(CalculateSingleThread);
                 thread.Priority = ThreadPriority.AboveNormal;
 
                 var threadInfo = new ThreadInfo(thread);
+                _threadInfos[i] = threadInfo;
 
                 thread.Start(threadInfo);
-
-                _threadInfos[i] = threadInfo;
             }
+
+            _countdownEvent = new CountdownEvent(threadCount);
+        }
+
+        ~PolyphonyCalculator()
+        {
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            // TODO: Not sure how to do it better
+            if (_threadInfos != null)
+            {
+                for (int i = 0; i < _threadInfos.Count; i++)
+                {
+                    ThreadInfo threadInfo = _threadInfos[i];
+                    if (threadInfo.Thread.ThreadState != ThreadState.Aborted)
+                    {
+                        threadInfo.Thread.Abort();
+                        threadInfo.Lock.Dispose();
+                    }
+                }
+            }
+
+            if (_countdownEvent != null)
+            {
+                _countdownEvent.Dispose();
+            }
+
+            GC.SuppressFinalize(this);
+        }
+
+        // Calculate
+
+        /// <param name="channelIndex">
+        /// This parameter is currently not used, but I want this abstraction to stay similar
+        /// to PatchCalculator, or I would be refactoring my brains out.
+        /// </param>
+        public double[] Calculate(double t0, int channelIndex)
+        {
+            _t0 = t0;
+
+            Array.Clear(_buffer, 0, _buffer.Length);
+
+            _countdownEvent.Reset();
+
+            for (int i = 0; i < _threadInfos.Count; i++)
+            {
+                ThreadInfo threadInfo = _threadInfos[i];
+                threadInfo.Lock.Set();
+            }
+
+            _countdownEvent.Wait();
+
+            return _buffer;
+        }
+
+        private void CalculateSingleThread(object threadInfoObject)
+        {
+            var threadInfo = (ThreadInfo)threadInfoObject;
+
+            IList<PatchCalculatorInfo> patchCalculatorInfos = threadInfo.PatchCalculatorInfos;
+
+Wait:
+            threadInfo.Lock.WaitOne();
+
+            try
+            {
+                for (int i = 0; i < patchCalculatorInfos.Count; i++)
+                {
+                    PatchCalculatorInfo patchCalculatorInfo = patchCalculatorInfos[i];
+
+                    if (!patchCalculatorInfo.IsActive)
+                    {
+                        continue;
+                    }
+
+                    IPatchCalculator patchCalculator = patchCalculatorInfo.PatchCalculator;
+                    double delay = patchCalculatorInfo.Delay;
+
+                    double t = _t0 - delay;
+
+                    for (int j = 0; j < _buffer.Length; j++)
+                    {
+                        double value = patchCalculator.Calculate(t, DEFAULT_CHANNEL_INDEX);
+
+                        // TODO: Not sure how to do a quicker interlocked add for doubles.
+                        lock (_bufferLocks[j])
+                        {
+                            _buffer[j] += value;
+                        }
+
+                        t += _sampleDuration;
+                    }
+                }
+            }
+            finally
+            {
+                _countdownEvent.Signal();
+            }
+
+            goto Wait;
         }
 
         // Adding and removing calculators.
@@ -160,92 +259,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 threadIndex = threadIndex % _threadInfos.Count;
             }
         }
-
-        // Calculate
-
-        /// <param name="channelIndex">
-        /// This parameter is currently not used, but I want this abstraction to stay similar
-        /// to PatchCalculator, or I would be refactoring my brains out.
-        /// </param>
-        public double[] Calculate(double t0, int channelIndex)
-        {
-            _t0 = t0;
-
-            Array.Clear(_buffer, 0, _buffer.Length);
-
-            _countdownEvent.Reset();
-
-            for (int i = 0; i < _threadInfos.Count; i++)
-            {
-                ThreadInfo threadInfo = _threadInfos[i];
-                threadInfo.Lock.Set();
-            }
-
-            _countdownEvent.Wait();
-
-            return _buffer;
-        }
-
-        private void CalculateSingleThread(object threadInfoObject)
-        {
-            var threadInfo = (ThreadInfo)threadInfoObject;
-
-            IList<PatchCalculatorInfo> patchCalculatorInfos = threadInfo.PatchCalculatorInfos;
-
-Wait:
-            threadInfo.Lock.WaitOne();
-
-            try
-            {
-                for (int i = 0; i < patchCalculatorInfos.Count; i++)
-                {
-                    PatchCalculatorInfo patchCalculatorInfo = patchCalculatorInfos[i];
-
-                    if (!patchCalculatorInfo.IsActive)
-                    {
-                        continue;
-                    }
-
-                    IPatchCalculator patchCalculator = patchCalculatorInfo.PatchCalculator;
-                    double delay = patchCalculatorInfo.Delay;
-
-                    double t = _t0 - delay;
-
-                    for (int j = 0; j < _buffer.Length; j++)
-                    {
-                        double value = patchCalculator.Calculate(t, DEFAULT_CHANNEL_INDEX);
-
-                        // TODO: Not sure how to do a quicker interlocked add for doubles.
-                        lock (_bufferLocks[j])
-                        {
-                            _buffer[j] += value;
-                        }
-
-                        t += _sampleDuration;
-                    }
-                }
-            }
-            finally
-            {
-                _countdownEvent.Signal();
-            }
-
-            goto Wait;
-        }
-
-        // Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters
-        //private static double InterlockedAddDouble(ref double location1, double value)
-        //{
-        //    double newCurrentValue = 0;
-        //    while (true)
-        //    {
-        //        double currentValue = newCurrentValue;
-        //        double newValue = currentValue + value;
-        //        newCurrentValue = Interlocked.CompareExchange(ref location1, newValue, currentValue);
-        //        if (newCurrentValue == currentValue)
-        //            return newValue;
-        //    }
-        //}
 
         // Values
 
@@ -337,5 +350,19 @@ Wait:
             PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[noteListIndex];
             return patchCalculatorInfo;
         }
+
+        // Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters
+        //private static double InterlockedAddDouble(ref double location1, double value)
+        //{
+        //    double newCurrentValue = 0;
+        //    while (true)
+        //    {
+        //        double currentValue = newCurrentValue;
+        //        double newValue = currentValue + value;
+        //        newCurrentValue = Interlocked.CompareExchange(ref location1, newValue, currentValue);
+        //        if (newCurrentValue == currentValue)
+        //            return newValue;
+        //    }
+        //}
     }
 }

@@ -44,6 +44,11 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             MidiInputProcessor.Stop();
             AudioOutputProcessor.Stop();
+
+            if (PolyphonyCalculatorContainer.Calculator != null)
+            {
+                PolyphonyCalculatorContainer.Calculator.Dispose();
+            }
         }
 
         private static void StartMidiInputThread(int maxCurrentNotes)
