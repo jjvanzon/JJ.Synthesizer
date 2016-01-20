@@ -487,4 +487,7 @@
   <data name="Brightness" xml:space="preserve">
     <value>Helderheid</value>
   </data>
+  <data name="Intensity" xml:space="preserve">
+    <value>Intensiteit</value>
+  </data>
 </root>

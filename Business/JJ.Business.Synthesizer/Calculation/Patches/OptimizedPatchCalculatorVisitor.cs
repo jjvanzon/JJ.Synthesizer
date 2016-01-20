@@ -478,50 +478,50 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             {
                 calculator = new Number_OperatorCalculator(a * b);
             }
-            else if (originIsConst && operandAIsConst && operandBIsConst)
+            else if (operandAIsConst && operandBIsConst && originIsConst)
             {
                 double value = (a - origin) * b + origin;
                 calculator = new Number_OperatorCalculator(value);
             }
-            else if (originIsConstZero && operandAIsConst && !operandBIsConst)
+            else if (operandAIsConst && !operandBIsConst && originIsConstZero)
             {
-                calculator = new Multiply_WithoutOrigin_WithConstOperandA_OperatorCalculator(a, operandBCalculator);
+                calculator = new Multiply_ConstOperandA_VarOperandB_NoOrigin_OperatorCalculator(a, operandBCalculator);
             }
-            else if (originIsConstZero && !operandAIsConst && operandBIsConst)
+            else if (!operandAIsConst && operandBIsConst && originIsConstZero)
             {
-                calculator = new Multiply_WithoutOrigin_WithConstOperandB_OperatorCalculator(operandACalculator, b);
+                calculator = new Multiply_VarOperandA_ConstOperandB_NoOrigin_OperatorCalculator(operandACalculator, b);
             }
-            else if (originIsConstZero && !operandAIsConst && !operandBIsConst)
+            else if (!operandAIsConst && !operandBIsConst && originIsConstZero)
             {
-                calculator = new Multiply_WithoutOrigin_OperatorCalculator(operandACalculator, operandBCalculator);
+                calculator = new Multiply_VarOperandA_VarOperandB_NoOrigin_OperatorCalculator(operandACalculator, operandBCalculator);
             }
-            else if (originIsConst && operandAIsConst && !operandBIsConst)
+            else if (operandAIsConst && !operandBIsConst && originIsConst)
             {
-                calculator = new Multiply_WithConstOrigin_AndOperandA_OperatorCalculator(a, operandBCalculator, origin);
+                calculator = new Multiply_ConstOperandA_VarOperandB_ConstOrigin_OperatorCalculator(a, operandBCalculator, origin);
             }
-            else if (originIsConst && !operandAIsConst && operandBIsConst)
+            else if (!operandAIsConst && operandBIsConst && originIsConst)
             {
-                calculator = new Multiply_WithConstOrigin_AndOperandB_OperatorCalculator(operandACalculator, b, origin);
+                calculator = new Multiply_VarOperandA_ConstOperandB_ConstOrigin_OperatorCalculator(operandACalculator, b, origin);
             }
-            else if (!originIsConst && !operandAIsConst && !operandBIsConst)
+            else if (!operandAIsConst && !operandBIsConst && originIsConst)
             {
-                calculator = new Multiply_WithConstOrigin_OperatorCalculator(operandACalculator, operandBCalculator, origin);
+                calculator = new Multiply_VarOperandA_VarOperandB_ConstOrigin_OperatorCalculator(operandACalculator, operandBCalculator, origin);
             }
-            else if (!originIsConst && operandAIsConst && operandBIsConst)
+            else if (operandAIsConst && operandBIsConst && !originIsConst)
             {
-                calculator = new Multiply_WithOrigin_AndConstOperandA_AndOperandB_OperatorCalculator(a, b, originCalculator);
+                calculator = new Multiply_ConstOperandA_ConstOperandB_VarOrigin_OperatorCalculator(a, b, originCalculator);
             }
-            else if (!originIsConst && operandAIsConst && !operandBIsConst)
+            else if (operandAIsConst && !operandBIsConst && !originIsConst)
             {
-                calculator = new Multiply_WithOrigin_AndConstOperandA_OperatorCalculator(a, operandBCalculator, originCalculator);
+                calculator = new Multiply_ConstOperandA_VarOperandB_VarOrigin_OperatorCalculator(a, operandBCalculator, originCalculator);
             }
-            else if (!originIsConst && !operandAIsConst && operandBIsConst)
+            else if (!operandAIsConst && operandBIsConst && !originIsConst)
             {
-                calculator = new Multiply_WithOrigin_AndConstOperandB_OperatorCalculator(operandACalculator, b, originCalculator);
+                calculator = new Multiply_VarOperandA_ConstOperandB_VarOrigin_OperatorCalculator(operandACalculator, b, originCalculator);
             }
             else
             {
-                calculator = new Multiply_WithOrigin_OperatorCalculator(operandACalculator, operandBCalculator, originCalculator);
+                calculator = new Multiply_VarOperandA_VarOperandB_VarOrigin_OperatorCalculator(operandACalculator, operandBCalculator, originCalculator);
             }
 
             _stack.Push(calculator);

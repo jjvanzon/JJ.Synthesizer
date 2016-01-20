@@ -259,23 +259,65 @@ namespace JJ.Presentation.Synthesizer.NAudio
                 new ControllerInfo
                 {
                     InletTypeEnum = InletTypeEnum.AttackDuration,
-                    ControllerCode = 73,
+                    ControllerCode = 73, // Recommended code
                     MinValue = 0.001,
                     ConversionFactor = 4.0 / MAX_CONTROLLER_VALUE
                 },
                 new ControllerInfo
                 {
                     InletTypeEnum = InletTypeEnum.ReleaseDuration,
-                    ControllerCode = 72,
+                    ControllerCode = 72, // Recommended code
                     MinValue = 0.001,
                     ConversionFactor = 4.0 / MAX_CONTROLLER_VALUE
                 },
                 new ControllerInfo
                 {
                     InletTypeEnum = InletTypeEnum.Brightness,
-                    ControllerCode = 74,
+                    ControllerCode = 74, // Recommended code
                     MinValue =  1.00001, // 1 shuts off the sound.
+                    ConversionFactor = 8.0 / MAX_CONTROLLER_VALUE
+                },
+                new ControllerInfo
+                {
+                    InletTypeEnum = InletTypeEnum.VibratoSpeed,
+                    ControllerCode = 76, // Default on Arturia MiniLab
+                    MinValue = 0,
+                    ConversionFactor = 30.0 / MAX_CONTROLLER_VALUE
+                },
+                new ControllerInfo
+                {
+                    InletTypeEnum = InletTypeEnum.VibratoDepth,
+                    ControllerCode = 77, // Default on Arturia MiniLab
+                    MinValue = 0,
+                    ConversionFactor = 0.0005 / MAX_CONTROLLER_VALUE
+                },
+                new ControllerInfo
+                {
+                    InletTypeEnum = InletTypeEnum.TremoloDepth,
+                    ControllerCode = 92, // Recommended code. However, not mapped by default on my Arturia MiniLab.
+                    MinValue = 0,
                     ConversionFactor = 4.0 / MAX_CONTROLLER_VALUE
+                },
+                new ControllerInfo
+                {
+                    InletTypeEnum = InletTypeEnum.TremoloSpeed,
+                    ControllerCode = 16, // Right below vibrato on Arturia MiniLab
+                    MinValue = 0,
+                    ConversionFactor = 30.0 / MAX_CONTROLLER_VALUE
+                },
+                new ControllerInfo
+                {
+                    InletTypeEnum = InletTypeEnum.TremoloDepth,
+                    ControllerCode = 17, // Right below vibrato on Arturia MiniLab
+                    MinValue = 0,
+                    ConversionFactor = 1.0 / MAX_CONTROLLER_VALUE
+                },
+                new ControllerInfo
+                {
+                    InletTypeEnum = InletTypeEnum.Intensity,
+                    ControllerCode = 71, // Resonance on Arturia MiniLab. Recommended code for Timbre/Harmonic Content.
+                    MinValue = 0,
+                    ConversionFactor = 8.0 / MAX_CONTROLLER_VALUE
                 }
             };
 

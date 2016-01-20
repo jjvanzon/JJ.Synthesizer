@@ -100,8 +100,8 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     ThreadInfo threadInfo = _threadInfos[i];
                     if (threadInfo.Thread.ThreadState != ThreadState.Aborted)
                     {
-                        threadInfo.Thread.Abort();
                         threadInfo.Lock.Dispose();
+                        threadInfo.Thread.Abort();
                     }
                 }
             }

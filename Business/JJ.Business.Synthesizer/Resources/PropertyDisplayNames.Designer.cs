@@ -457,6 +457,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Intensity.
+        /// </summary>
+        public static string Intensity {
+            get {
+                return ResourceManager.GetString("Intensity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Interpolation Type.
         /// </summary>
         public static string InterpolationType {

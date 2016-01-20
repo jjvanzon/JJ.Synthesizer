@@ -147,9 +147,11 @@
     <Content Include="2015-11-23 030 SynthesizerDB fill Document.GroupName.sql" />
     <Content Include="2015-11-26 010 SynthesizerDB drop table ChildDocumentType and Document.ChildDocumentID and IXs and FKs.sql" />
     <Content Include="2016-01-06 010 SynthesizerDB Operator.Data replace comma decimal symbol with period.sql" />
+    <Content Include="2016-01-20 010 SynthesizerDB InletType 15 - Resonance.sql" />
+    <Content Include="2016-01-20 020 SynthesizerDB rename InletType Resonance to Intensity.sql" />
     <Content Include="2016-01-19 010 SynthesizerDB InletType 14 - Brightness.sql" />
-    <Content Include="2016-01-07 020 SynthesizerDB InletType 13 - NoteStart.sql" />
-    <Content Include="2016-01-07 020 SynthesizerDB InletType 12 - ReleaseDuration.sql" />
+    <Content Include="2016-01-07 040 SynthesizerDB InletType 13 - NoteStart.sql" />
+    <Content Include="2016-01-07 030 SynthesizerDB InletType 12 - ReleaseDuration.sql" />
     <Content Include="2016-01-07 020 SynthesizerDB InletType 11 - AttackDuration.sql" />
     <Content Include="2016-01-07 010 SynthesizerDB rename InletType Duration to NoteDuration.sql" />
     <Content Include="2016-01-10 010 SynthesizerDB Delete Origin Inlet for OperatorTypes SpeedUp and SlowDown RUN SEPARATELY.sql" />
