@@ -14,11 +14,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
     {
         private class ControllerInfo
         {
-            public double? CurrentValue { get; set; }
             public InletTypeEnum InletTypeEnum { get; set; }
             public int ControllerCode { get; set; }
             public double MinValue { get; set; } = CalculationHelper.VERY_LOW_VALUE;
             public double ConversionFactor { get; set; }
+            public double TempValue { get; set; }
         }
 
         private const double LOWEST_FREQUENCY = 8.1757989156;
@@ -112,6 +112,13 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     double frequency = _noteNumber_To_Frequency_Array[noteOnEvent.NoteNumber];
                     double volume = noteOnEvent.Velocity / MAX_VELOCITY;
 
+                    // Remember controller values.
+                    foreach (ControllerInfo controllerInfo in _controllerCode_To_ControllerInfo_Dictionary.Values)
+                    {
+                        double controllerValue = calculator.GetValue(controllerInfo.InletTypeEnum);
+                        controllerInfo.TempValue = controllerValue;
+                    }
+
                     calculator.ResetState(noteInfo.ListIndex);
 
                     calculator.SetValue(InletTypeEnum.Frequency, noteInfo.ListIndex, frequency);
@@ -119,17 +126,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     calculator.SetValue(InletTypeEnum.NoteStart, noteInfo.ListIndex, time);
                     calculator.SetValue(InletTypeEnum.NoteDuration, noteInfo.ListIndex, CalculationHelper.VERY_HIGH_VALUE);
 
+                    // Apply controller values
                     foreach (ControllerInfo controllerInfo in _controllerCode_To_ControllerInfo_Dictionary.Values)
                     {
-                        double controllerValue;
-                        if (controllerInfo.CurrentValue.HasValue)
-                        {
-                            controllerValue = controllerInfo.CurrentValue.Value;
-                        }
-                        else
-                        {
-                            controllerValue = calculator.GetValue(controllerInfo.InletTypeEnum);
-                        }
+                        double controllerValue = controllerInfo.TempValue;
 
                         if (controllerValue < controllerInfo.MinValue)
                         {
@@ -137,7 +137,6 @@ namespace JJ.Presentation.Synthesizer.NAudio
                         }
 
                         calculator.SetValue(controllerInfo.InletTypeEnum, noteInfo.ListIndex, controllerValue);
-                        controllerInfo.CurrentValue = controllerValue;
                     }
                 }
             }
@@ -196,6 +195,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
             {
                 double delta = (controlChangeEvent.ControllerValue - 64) * controllerInfo.ConversionFactor;
 
+                if (delta == 0.0)
+                {
+                    return;
+                }
+
                 ReaderWriterLockSlim lck = PolyphonyCalculatorContainer.Lock;
 
                 lck.EnterWriteLock();
@@ -204,25 +208,18 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     PolyphonyCalculator calculator = PolyphonyCalculatorContainer.Calculator;
                     if (calculator != null)
                     {
-                        double value;
-                        if (controllerInfo.CurrentValue.HasValue)
+                        double value = calculator.GetValue(controllerInfo.InletTypeEnum);
+
+                        value += delta;
+
+                        if (value < controllerInfo.MinValue)
                         {
-                            // TODO: CurrentValue may as well be replaced by calculator's value methods.
-                            value = controllerInfo.CurrentValue.Value;
-
-                            value += delta;
-
-                            if (value < controllerInfo.MinValue)
-                            {
-                                value = controllerInfo.MinValue;
-                            }
-
-                            calculator.SetValue(controllerInfo.InletTypeEnum, value);
-
-                            controllerInfo.CurrentValue = value;
+                            value = controllerInfo.MinValue;
                         }
 
-                        Debug.WriteLine(String.Format("{0} = {1}", controllerInfo.InletTypeEnum, controllerInfo.CurrentValue));
+                        calculator.SetValue(controllerInfo.InletTypeEnum, value);
+
+                        Debug.WriteLine(String.Format("{0} = {1}", controllerInfo.InletTypeEnum, value));
                     }
                 }
                 finally
