@@ -481,4 +481,7 @@
   <data name="NoteStart" xml:space="preserve">
     <value>Note Start</value>
   </data>
+  <data name="Brightness" xml:space="preserve">
+    <value>Brightness</value>
+  </data>
 </root>
