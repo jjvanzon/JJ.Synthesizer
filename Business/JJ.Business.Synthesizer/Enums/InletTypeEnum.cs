@@ -15,6 +15,7 @@
         NoteDuration = 10,
         AttackDuration = 11,
         ReleaseDuration = 12,
-        NoteStart = 13
+        NoteStart = 13,
+        Brightness = 14
     }
 }

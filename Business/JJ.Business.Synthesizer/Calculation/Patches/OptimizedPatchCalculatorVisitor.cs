@@ -1327,11 +1327,13 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             Inlet inlet = outlet.Operator.Inlets[bundleIndex];
             if (inlet.InputOutlet == null)
             {
-                _stack.Push(new Zero_OperatorCalculator());
-                return;
+                double defaultValue = inlet.DefaultValue ?? 0.0;
+                _stack.Push(new Number_OperatorCalculator(defaultValue));
             }
-
-            VisitOutlet(inlet.InputOutlet);
+            else
+            {
+                VisitOutlet(inlet.InputOutlet);
+            }
 
             _bundleIndexStack.Push(bundleIndex);
         }

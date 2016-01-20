@@ -55,7 +55,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         public double Calculate(double time, int channelIndex)
         {
-            return _outputOperatorCalculators[channelIndex].Calculate(time, channelIndex);
+            double value = _outputOperatorCalculators[channelIndex].Calculate(time, channelIndex);
+            return value;
         }
 
         public double GetValue(int listIndex)

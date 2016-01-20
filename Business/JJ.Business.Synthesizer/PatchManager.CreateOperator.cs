@@ -525,6 +525,8 @@ namespace JJ.Business.Synthesizer
 
         public Unbundle_OperatorWrapper Unbundle(Outlet operand = null, int outletCount = 1)
         {
+            if (outletCount < 1) throw new LessThanException(() => outletCount, 1);
+
             Operator op = CreateOperatorBase(OperatorTypeEnum.Unbundle, inletCount: 1, outletCount: outletCount);
 
             var wrapper = new Unbundle_OperatorWrapper(op)
@@ -574,9 +576,9 @@ namespace JJ.Business.Synthesizer
 
         // Generic methods for operator creation
 
-        private static Dictionary<OperatorTypeEnum, MethodInfo> _creationMethodDictionary = CreateCreationMethodDictionary();
+        private static Dictionary<OperatorTypeEnum, MethodInfo> _limitedCreationMethodDictionary = CreateLimitedCreationMethodDictionary();
 
-        private static Dictionary<OperatorTypeEnum, MethodInfo> CreateCreationMethodDictionary()
+        private static Dictionary<OperatorTypeEnum, MethodInfo> CreateLimitedCreationMethodDictionary()
         {
             OperatorTypeEnum[] enumMembers = (OperatorTypeEnum[])Enum.GetValues(typeof(OperatorTypeEnum));
 
@@ -589,6 +591,7 @@ namespace JJ.Business.Synthesizer
                     case OperatorTypeEnum.Undefined:
                     case OperatorTypeEnum.Adder:
                     case OperatorTypeEnum.Bundle:
+                    case OperatorTypeEnum.Unbundle:
                         continue;
 
                     case OperatorTypeEnum.CustomOperator:
@@ -658,11 +661,14 @@ namespace JJ.Business.Synthesizer
 
                 case OperatorTypeEnum.Bundle:
                     return Bundle(new Outlet[inletCount]);
+
+                case OperatorTypeEnum.Unbundle:
+                    return Unbundle(); // Requires default values, not null parameters.
             }
 
             MethodInfo methodInfo;
 
-            if (!_creationMethodDictionary.TryGetValue(operatorTypeEnum, out methodInfo))
+            if (!_limitedCreationMethodDictionary.TryGetValue(operatorTypeEnum, out methodInfo))
             {
                 throw new ValueNotSupportedException(operatorTypeEnum);
             }

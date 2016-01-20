@@ -11,6 +11,47 @@ namespace JJ.Business.Synthesizer.Api.Helpers
 {
     internal static class RepositoryHelper
     {
+        // TODO: I am not sure basic other CreateRepositories method on _repositories is valid,
+        // because there seems to be nothing that tells that CreateRepositories must run first.
+
+        // RepositoryWrapper
+
+        private static RepositoryWrapper _repositories = CreateRepositories();
+
+        public static RepositoryWrapper Repositories { get { return _repositories; } }
+
+        private static RepositoryWrapper CreateRepositories()
+        {
+            return new RepositoryWrapper(
+                CreateRepository<IDocumentRepository>(ContextHelper.MemoryContext),
+                CreateRepository<ICurveRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IPatchRepository>(ContextHelper.MemoryContext),
+                CreateRepository<ISampleRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IAudioFileOutputRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IDocumentReferenceRepository>(ContextHelper.MemoryContext),
+                CreateRepository<INodeRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IAudioFileOutputChannelRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IOperatorRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IOperatorTypeRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IInletRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IOutletRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IScaleRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IToneRepository>(ContextHelper.MemoryContext),
+                
+                CreateRepository<IEntityPositionRepository>(ContextHelper.MemoryContext),
+
+                CreateRepository<IAudioFileFormatRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IInterpolationTypeRepository>(ContextHelper.MemoryContext),
+                CreateRepository<INodeTypeRepository>(ContextHelper.MemoryContext),
+                CreateRepository<ISampleDataTypeRepository>(ContextHelper.MemoryContext),
+                CreateRepository<ISpeakerSetupRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IScaleTypeRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IInletTypeRepository>(ContextHelper.MemoryContext),
+                CreateRepository<IOutletTypeRepository>(ContextHelper.MemoryContext),
+
+                CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
+        }
+
         // AudioFileOutputRepositories
 
         private static AudioFileOutputRepositories _audioFileOutputRepositories = CreateAudioFileOutputRepositories();
@@ -19,17 +60,7 @@ namespace JJ.Business.Synthesizer.Api.Helpers
 
         private static AudioFileOutputRepositories CreateAudioFileOutputRepositories()
         {
-            return new AudioFileOutputRepositories(
-                CreateRepository<IAudioFileOutputRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IAudioFileFormatRepository>(ContextHelper.MemoryContext),
-                CreateRepository<ISampleDataTypeRepository>(ContextHelper.MemoryContext),
-                CreateRepository<ISpeakerSetupRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IAudioFileOutputChannelRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IOutletRepository>(ContextHelper.MemoryContext),
-                CreateRepository<ICurveRepository>(ContextHelper.MemoryContext),
-                CreateRepository<ISampleRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IPatchRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
+            return new AudioFileOutputRepositories(_repositories);
         }
 
         // CurveRepositories
@@ -40,11 +71,7 @@ namespace JJ.Business.Synthesizer.Api.Helpers
 
         private static CurveRepositories CreateCurveRepositories()
         {
-            return new CurveRepositories(
-                CreateRepository<ICurveRepository>(ContextHelper.MemoryContext),
-                CreateRepository<INodeRepository>(ContextHelper.MemoryContext),
-                CreateRepository<INodeTypeRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
+            return new CurveRepositories(_repositories);
         }
 
         // PatchRepositories
@@ -55,19 +82,7 @@ namespace JJ.Business.Synthesizer.Api.Helpers
 
         private static PatchRepositories CreatePatchRepositories()
         {
-            return new PatchRepositories(
-                CreateRepository<IPatchRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IOperatorRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IOperatorTypeRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IInletRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IOutletRepository>(ContextHelper.MemoryContext),
-                CreateRepository<ICurveRepository>(ContextHelper.MemoryContext),
-                CreateRepository<ISampleRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IDocumentRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IInletTypeRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IOutletTypeRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IEntityPositionRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
+            return new PatchRepositories(_repositories);
         }
 
         // SampleRepositories
@@ -78,14 +93,7 @@ namespace JJ.Business.Synthesizer.Api.Helpers
 
         private static SampleRepositories CreateSampleRepositories()
         {
-            return new SampleRepositories(
-                CreateRepository<IDocumentRepository>(ContextHelper.MemoryContext),
-                CreateRepository<ISampleRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IAudioFileFormatRepository>(ContextHelper.MemoryContext),
-                CreateRepository<ISampleDataTypeRepository>(ContextHelper.MemoryContext),
-                CreateRepository<ISpeakerSetupRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IInterpolationTypeRepository>(ContextHelper.MemoryContext),
-                CreateRepository<IIDRepository>(ContextHelper.MemoryContext));
+            return new SampleRepositories(_repositories);
         }
 
         // Helpers

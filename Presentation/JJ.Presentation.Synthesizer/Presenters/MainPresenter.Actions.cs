@@ -1407,11 +1407,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 // but perhaps now it is better to choose being agnostic over being efficient.
                 // (If you ever decie to go the other way, other OperatorProperties actions have code that almost converts all of that already,
                 // except for the last bullet point.)
-                ViewModel.ToEntityWithRelatedEntities(_repositories);
+                Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
                 partialAction();
 
                 OperatorPropertiesPresenter_ForCustomOperator partialPresenter = _operatorPropertiesPresenter_ForCustomOperator;
+
+                // Do a full validate, because of the error-proneness of the CustomOperator-UnderlyingPatch synchronization,
+                // to prevent getting stuck in a screen in which you cannot correct the problem.
+                VoidResult result = _documentManager.ValidateRecursive(rootDocument);
+                partialPresenter.ViewModel.Successful &= result.Successful;
+                partialPresenter.ViewModel.ValidationMessages.AddRange(result.Messages);
+
                 if (partialPresenter.ViewModel.Successful)
                 {
                     PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
@@ -1459,6 +1466,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                 partialAction();
 
+                // Do a full validate, because of the error-proneness of the CustomOperator-UnderlyingPatch synchronization,
+                // to prevent getting stuck in a screen in which you cannot correct the problem.
+                VoidResult result = _documentManager.ValidateRecursive(rootDocument);
+                partialPresenter.ViewModel.Successful &= result.Successful;
+                partialPresenter.ViewModel.ValidationMessages.AddRange(result.Messages);
+
                 if (partialPresenter.ViewModel.Successful)
                 {
                     PatchDetails_RefreshOperator(partialPresenter.ViewModel.ID);
@@ -1482,9 +1495,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 OperatorPropertiesPresenter_ForPatchOutlet partialPresenter = _operatorPropertiesPresenter_ForPatchOutlet;
 
                 // ToEntity  (Most of the entity model is needed for Document_SideEffect_UpdateDependentCustomOperators.)
-                ViewModel.ToEntityWithRelatedEntities(_repositories);
+                Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
                 partialAction();
+
+                // Do a full validate, because of the error-proneness of the CustomOperator-UnderlyingPatch synchronization,
+                // to prevent getting stuck in a screen in which you cannot correct the problem.
+                VoidResult result = _documentManager.ValidateRecursive(rootDocument);
+                partialPresenter.ViewModel.Successful &= result.Successful;
+                partialPresenter.ViewModel.ValidationMessages.AddRange(result.Messages);
 
                 if (partialPresenter.ViewModel.Successful)
                 {
@@ -1581,6 +1600,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 var patchManager = new PatchManager(patch, _patchRepositories);
                 Operator op = patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
 
+                // Do a full validate, because of the error-proneness of the CustomOperator-UnderlyingPatch synchronization,
+                // to prevent getting stuck in a screen in which you cannot correct the problem.
+                VoidResult result = _documentManager.ValidateRecursive(rootDocument);
+                _patchDetailsPresenter.ViewModel.Successful &= result.Successful;
+                _patchDetailsPresenter.ViewModel.ValidationMessages.AddRange(result.Messages);
+
                 // ToViewModel
 
                 // OperatorViewModel
@@ -1632,7 +1657,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 Patch patch = _patchDetailsPresenter.ViewModel.ToPatchWithRelatedEntities(_patchRepositories);
 
                 // Business
-                var patchManager = new PatchManager(patch, new PatchRepositories(_repositories));
+                var patchManager = new PatchManager(patch, _patchRepositories);
                 Operator op = patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
 
                 // ToViewModel
@@ -1734,6 +1759,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
                     // Partial Action
                     _patchDetailsPresenter.DeleteOperator();
+
+                    // Do a full validate, because of the error-proneness of the CustomOperator-UnderlyingPatch synchronization,
+                    // to prevent getting stuck in a screen in which you cannot correct the problem.
+                    VoidResult result = _documentManager.ValidateRecursive(rootDocument);
+                    _patchDetailsPresenter.ViewModel.Successful &= result.Successful;
+                    _patchDetailsPresenter.ViewModel.ValidationMessages.AddRange(result.Messages);
 
                     // ToViewModel
                     if (_patchDetailsPresenter.ViewModel.Successful)
@@ -2519,7 +2550,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                     outlet = x.Sine(x.PatchInlet(InletTypeEnum.Frequency, frequency));
                 }
 
-                IPatchCalculator patchCalculator = CreatePatchCalculator(new PatchRepositories(_repositories), outlet);
+                IPatchCalculator patchCalculator = CreatePatchCalculator(_patchRepositories, outlet);
 
                 AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
                 audioFileOutput.FilePath = _playOutputFilePath;

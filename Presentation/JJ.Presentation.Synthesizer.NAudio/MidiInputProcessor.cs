@@ -18,8 +18,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private const int MAX_NOTE_NUMBER = 127;
         private const int DEFAULT_ATTACK_CONTROLLER_CODE = 73;
         private const int DEFAULT_RELEASE_CONTROLLER_CODE = 72;
+        private const int DEFAULT_BRIGHTNESS_CONTROLLER_CODE = 74;
         private const double CONTROLLER_VALUE_TO_DURATION_COEFFICIENT = 4.0 / 127.0;
 
+        private const double MIN_BRIGHTNESS = 1.0001; // 1 shuts off the sound.
         private const double MIN_RELEASE_DURATION = 0.005; // TODO: This does not seem to belong here.
         private const double MIN_ATTACK_DURATION = 0.005; // TODO: This does not seem to belong here.
 
@@ -29,6 +31,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private static double? _releaseDuration;
         private static double? _attackDuration;
+        private static double? _brightness;
 
         private static MidiIn _midiIn;
         private static NoteRecycler _noteRecycler = new NoteRecycler();
@@ -129,6 +132,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     {
                         calculator.SetValue(InletTypeEnum.AttackDuration, noteInfo.ListIndex, _attackDuration.Value);
                     }
+
+                    if (_brightness.HasValue)
+                    {
+                        calculator.SetValue(InletTypeEnum.Brightness, noteInfo.ListIndex, _brightness.Value);
+                    }
                 }
             }
             finally
@@ -177,7 +185,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         {
             var controlChangeEvent = (ControlChangeEvent)midiEvent;
 
-            Debug.WriteLine("ControlChange value received: {0} = {1}", controlChangeEvent.CommandCode, controlChangeEvent.ControllerValue);
+            Debug.WriteLine("ControlChange value received: {0} = {1}", controlChangeEvent.Controller, controlChangeEvent.ControllerValue);
 
             int controllerCode = (int)controlChangeEvent.Controller;
             switch (controllerCode)
@@ -188,6 +196,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
                 case DEFAULT_RELEASE_CONTROLLER_CODE:
                     HandleReleaseChange(controlChangeEvent);
+                    break;
+
+                case DEFAULT_BRIGHTNESS_CONTROLLER_CODE:
+                    HandleBrightnessChange(controlChangeEvent);
                     break;
             }
         }
@@ -268,6 +280,48 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     _releaseDuration = releaseDuration;
 
                     Debug.WriteLine(String.Format("ReleaseDuration = {0}", releaseDuration));
+                }
+            }
+            finally
+            {
+                lck.ExitWriteLock();
+            }
+        }
+
+        private static void HandleBrightnessChange(ControlChangeEvent controlChangeEvent)
+        {
+            double brightnessChange = (controlChangeEvent.ControllerValue - 64) * CONTROLLER_VALUE_TO_DURATION_COEFFICIENT;
+
+            ReaderWriterLockSlim lck = PolyphonyCalculatorContainer.Lock;
+
+            lck.EnterWriteLock();
+            try
+            {
+                PolyphonyCalculator calculator = PolyphonyCalculatorContainer.Calculator;
+                if (calculator != null)
+                {
+                    double brightness;
+                    if (_brightness.HasValue)
+                    {
+                        brightness = _brightness.Value;
+                    }
+                    else
+                    {
+                        brightness = calculator.GetValue(InletTypeEnum.Brightness);
+                    }
+
+                    brightness += brightnessChange;
+
+                    if (brightness < MIN_BRIGHTNESS)
+                    {
+                        brightness = MIN_BRIGHTNESS;
+                    }
+
+                    calculator.SetValue(InletTypeEnum.Brightness, brightness);
+
+                    _brightness = brightness;
+
+                    Debug.WriteLine(String.Format("Brightness = {0}", brightness));
                 }
             }
             finally

@@ -21,11 +21,11 @@ namespace JJ.Presentation.Synthesizer.Converters
         private readonly Dictionary<int, Operator> _operatorDictionary = new Dictionary<int, Operator>();
         private readonly Dictionary<int, Outlet> _outletDictionary = new Dictionary<int, Outlet>();
 
-        public RecursiveToEntityConverter(PatchRepositories patchRepositories)
+        public RecursiveToEntityConverter(PatchRepositories repositories)
         {
-            if (patchRepositories == null) throw new NullException(() => patchRepositories);
+            if (repositories == null) throw new NullException(() => repositories);
 
-            _repositories = patchRepositories;
+            _repositories = repositories;
         }
 
         public Operator Convert(OperatorViewModel operatorViewModel)

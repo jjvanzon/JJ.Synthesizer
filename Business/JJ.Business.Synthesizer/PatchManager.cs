@@ -34,18 +34,16 @@ namespace JJ.Business.Synthesizer
         // Constructors
 
         public PatchManager(Patch patch, PatchRepositories repositories)
+            : this(repositories)
         {
             if (patch == null) throw new NullException(() => patch);
-            if (repositories == null) throw new NullException(() => repositories);
 
-            _repositories = repositories;
             Patch = patch;
         }
 
         public PatchManager(PatchRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
-
             _repositories = repositories;
         }
 
@@ -160,8 +158,11 @@ namespace JJ.Business.Synthesizer
 
             // Side-effect can affect whole patch,
             // but also there are unique validations over e.g. ListIndexes of multiple PatchInlet Operators.
-            // That is why the whole patch is validated
+            // That is why the whole patch is validated.
+
+            Document rootDocument = op.Patch.Document.GetRootDocument();
             VoidResult result = ValidatePatchRecursive();
+
             return result;
         }
 
@@ -171,8 +172,11 @@ namespace JJ.Business.Synthesizer
 
             // Side-effect can affect whole patch,
             // but also there are unique validations over e.g. ListIndexes of multiple PatchInlet Operators.
-            // That is why the whole patch is validated
+            // That is why the whole patch is validated.
+
+            Document rootDocument = op.Patch.Document.GetRootDocument();
             VoidResult result = ValidatePatchRecursive();
+
             return result;
         }
 
@@ -180,7 +184,9 @@ namespace JJ.Business.Synthesizer
         {
             ExecuteSideEffects(op);
 
+            Document rootDocument = op.Patch.Document.GetRootDocument();
             VoidResult result = ValidateOperatorNonRecursive(op);
+
             return result;
         }
 

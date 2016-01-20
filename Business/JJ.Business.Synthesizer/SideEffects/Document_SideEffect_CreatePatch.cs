@@ -13,22 +13,22 @@ namespace JJ.Business.Synthesizer.SideEffects
     internal class Document_SideEffect_CreatePatch : ISideEffect
     {
         private readonly Document _entity;
-        private readonly PatchRepositories _patchRepositories;
+        private readonly PatchRepositories _repositories;
 
-        public Document_SideEffect_CreatePatch(Document entity, PatchRepositories patchRepositories)
+        public Document_SideEffect_CreatePatch(Document entity, PatchRepositories repositories)
         {
             if (entity == null) throw new NullException(() => entity);
-            if (patchRepositories == null) throw new NullException(() => patchRepositories);
+            if (repositories == null) throw new NullException(() => repositories);
 
             _entity = entity;
-            _patchRepositories = patchRepositories;
+            _repositories = repositories;
         }
 
         public void Execute()
         {
             if (_entity.Patches.Count == 0)
             {
-                var patchManager = new PatchManager(_patchRepositories);
+                var patchManager = new PatchManager(_repositories);
                 patchManager.CreatePatch(_entity, mustGenerateName: true);
             }
         }
