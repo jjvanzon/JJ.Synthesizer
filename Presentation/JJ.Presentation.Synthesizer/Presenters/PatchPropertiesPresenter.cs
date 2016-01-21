@@ -41,8 +41,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AssertViewModel();
 
             Document entity = _repositories.DocumentRepository.Get(ViewModel.ChildDocumentID);
+
             bool visible = ViewModel.Visible;
+
             ViewModel = entity.ToPatchPropertiesViewModel();
+
             ViewModel.Visible = visible;
         }
 

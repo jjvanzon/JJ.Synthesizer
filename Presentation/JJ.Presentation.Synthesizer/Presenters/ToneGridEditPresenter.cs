@@ -14,12 +14,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 {
     internal class ToneGridEditPresenter
     {
-        // TODO: Remove outcommented code out of this class.
-
-        //private const double DEFAULT_DURATION = 0.75;
-
-        //private static string _playOutputFilePath = GetPlayOutputFilePath();
-
         private ScaleRepositories _repositories;
         private ScaleManager _scaleManager;
 
@@ -74,17 +68,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             AssertViewModel();
 
-            // TODO:
-            // This validator might be better off going off here instead of in the MainViewModel 
-            // if we can get away with a partial ToEntity here and do not do a full-document ToEntity in the MainPresenter.
-            //IValidator validator = new ToneGridEditViewModelValidator(ViewModel);
-            //if (!validator.IsValid)
-            //{
-            //    ViewModel.Successful = false;
-            //    ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
-            //    return;
-            //}
-
             Scale scale = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             VoidResult result = _scaleManager.Save(scale);
@@ -96,40 +79,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.ValidationMessages = result.Messages;
         }
 
-        ///// <summary>
-        ///// Writes a sine sound with the pitch of the tone to an audio file with a configurable duration.
-        ///// Returns the output file path.
-        ///// TODO: This action is too dependent on infrastructure, because the AudioFileOutput business logic is.
-        ///// Instead of writing to a file it had better write to a stream.
-        ///// </summary>
-        //public string PlayTone(int id)
-        //{
-        //    Tone tone = _repositories.ToneRepository.Get(id);
-        //    double frequency = tone.GetFrequency();
-
-        //    var x = new PatchApi();
-        //    var sine = x.Sine(x.Number(frequency));
-
-        //    AudioFileOutput audioFileOutput = AudioFileOutputApi.CreateWithRelatedEntities();
-        //    audioFileOutput.FilePath = _playOutputFilePath;
-        //    audioFileOutput.Duration = DEFAULT_DURATION;
-        //    audioFileOutput.AudioFileOutputChannels[0].Outlet = sine;
-        //    AudioFileOutputApi.WriteFile(audioFileOutput);
-
-        //    return _playOutputFilePath;
-        //}
-
         // Helpers
 
         private void AssertViewModel()
         {
             if (ViewModel == null) throw new NullException(() => ViewModel);
         }
-
-        //private static string GetPlayOutputFilePath()
-        //{
-        //    var config = ConfigurationHelper.GetSection<ConfigurationSection>();
-        //    return config.PatchPlayHackedAudioFileOutputFilePath;
-        //}
     }
 }

@@ -305,6 +305,7 @@ namespace JJ.Presentation.Synthesizer.ToEntity
         public static Document ToEntityWithRelatedEntities(this MainViewModel userInput, RepositoryWrapper repositories)
         {
             if (userInput == null) throw new NullException(() => userInput);
+            if (userInput.Document == null) throw new NullException(() => userInput.Document);
             if (repositories == null) throw new NullException(() => repositories);
 
             return userInput.Document.ToEntityWithRelatedEntities(repositories);

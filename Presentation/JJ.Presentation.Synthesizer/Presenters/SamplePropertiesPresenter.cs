@@ -41,8 +41,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
             AssertViewModel();
 
             Sample entity = _repositories.SampleRepository.Get(ViewModel.Entity.ID);
+
             bool visible = ViewModel.Visible;
+
             ViewModel = entity.ToPropertiesViewModel(_repositories);
+
             ViewModel.Visible = visible;
         }
 

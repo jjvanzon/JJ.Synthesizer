@@ -87,13 +87,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void AudioFileOutputDelete(int id)
         {
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
             // 'Business' / ToViewModel
             ViewModel.Document.AudioFileOutputPropertiesList.RemoveFirst(x => x.Entity.ID == id);
             ViewModel.Document.AudioFileOutputGrid.List.RemoveFirst(x => x.ID == id);
-
-            // No need to do ToEntity, 
-            // because we are not executing any additional business logic or refreshing 
-            // that uses the entity models.
         }
 
         public void AudioFileOutputPropertiesShow(int id)
@@ -117,8 +115,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void AudioFileOutputPropertiesCloseOrLoseFocus(Action partialAction)
         {
-            // TODO: Can I get away with converting only part of the user input to entities?
-            // Do consider that channels reference patch outlets.
             ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             partialAction();
@@ -136,36 +132,41 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void CurrentPatchesShow()
         {
             _currentPatchesPresenter.Show();
+
             DispatchViewModel(_currentPatchesPresenter.ViewModel);
         }
 
         public void CurrentPatchesClose()
         {
             _currentPatchesPresenter.Close();
+
             DispatchViewModel(_currentPatchesPresenter.ViewModel);
         }
 
         public void CurrentPatchAdd(int childDocumentID)
         {
-            // The recreation of MidiProcessor in the top-level project is going to need all the data.
             ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             _currentPatchesPresenter.Add(childDocumentID);
+
             DispatchViewModel(_currentPatchesPresenter.ViewModel);
         }
 
         public void CurrentPatchRemove(int childDocumentID)
         {
-            // The recreation of MidiProcessor in the top-level project is going to need all the data.
             ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             _currentPatchesPresenter.Remove(childDocumentID);
+
             DispatchViewModel(_currentPatchesPresenter.ViewModel);
         }
 
         public void CurrentPatchMove(int childDocumentID, int newPosition)
         {
+            ViewModel.ToEntityWithRelatedEntities(_repositories);
+
             _currentPatchesPresenter.Move(childDocumentID, newPosition);
+
             DispatchViewModel(_currentPatchesPresenter.ViewModel);
         }
 
@@ -227,11 +228,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void CurveCreate(int documentID)
         {
-            // ToEntity
             Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
             Document document = _repositories.DocumentRepository.TryGet(documentID);
 
-            // Business
             Curve curve = _curveManager.Create(document, mustGenerateName: true);
 
             // ToViewModel
@@ -283,7 +282,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Curve curve = _repositories.CurveRepository.Get(curveID);
 
             // Business
-            VoidResult result = _curveManager.DeleteWithRelatedEntities(curve);
+            IResult result = _curveManager.DeleteWithRelatedEntities(curve);
             if (!result.Successful)
             {
                 ViewModel.Successful &= result.Successful;
@@ -291,7 +290,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return;
             }
 
-            VoidResult result2 = _documentManager.ValidateRecursive(rootDocument);
+            IResult result2 = _documentManager.ValidateRecursive(rootDocument);
             if (!result2.Successful)
             {
                 ViewModel.Successful &= result2.Successful;
@@ -301,6 +300,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // ToViewModel
             ViewModel.Document = rootDocument.ToViewModel(_repositories, _entityPositionManager);
+
+            // TODO: Non-persisted properties are not retained.
         }
 
         public void CurveDetailsShow(int curveID)
@@ -314,13 +315,33 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void CurveDetailsClose()
         {
+            // ToEntity
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Partial Action
             _curveDetailsPresenter.Close();
+
             DispatchViewModel(_curveDetailsPresenter.ViewModel);
         }
 
         public void CurveDetailsLoseFocus()
         {
+            // ToEntity
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Partial Action
             _curveDetailsPresenter.LoseFocus();
+
+            // Business
+            IResult result = _documentManager.ValidateRecursive(rootDocument);
+            if (!result.Successful)
+            {
+                ViewModel.Successful &= result.Successful;
+                ViewModel.PopupMessages.AddRange(result.Messages);
+                return;
+            }
+
+            // ToViewModel
             DispatchViewModel(_curveDetailsPresenter.ViewModel);
         }
 
@@ -345,21 +366,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void CurvePropertiesCloseOrLoseFocus(Action partialAction)
         {
+            // ToEntity
             Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
+            // Partial Action
             partialAction();
 
-            DispatchViewModel(_curvePropertiesPresenter.ViewModel);
-            if (!_curvePropertiesPresenter.ViewModel.Successful)
+            // Business
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
             {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
                 return;
             }
 
-            VoidResult result2 = _documentManager.ValidateRecursive(rootDocument);
-            if (!result2.Successful)
+            // ToViewModel
+            DispatchViewModel(_curvePropertiesPresenter.ViewModel);
+            if (!_curvePropertiesPresenter.ViewModel.Successful)
             {
-                ViewModel.Successful &= result2.Successful;
-                ViewModel.PopupMessages.AddRange(result2.Messages);
                 return;
             }
 
@@ -442,7 +467,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentOpen(int documentID)
         {
-            //Document document = _repositories.DocumentRepository.Get(documentID);
             Document document = _repositories.DocumentRepository.GetComplete(documentID);
 
             ViewModel.Document = document.ToViewModel(_repositories, _entityPositionManager);
@@ -469,24 +493,21 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void DocumentSave()
         {
-            if (ViewModel.Document == null) throw new NullException(() => ViewModel.Document);
-
+            // ToEntity
             Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
+            // Business
             VoidResult result = _documentManager.ValidateRecursive(document);
 
-            // TODO: Delegate to the manager
-            IValidator warningsValidator = new DocumentWarningValidator_Recursive(document, _repositories.SampleRepository, new HashSet<object>());
-
-            if (!result.Successful)
-            {
-                _repositories.Rollback();
-            }
-            else
+            if (result.Successful)
             {
                 _repositories.Commit();
             }
 
+            // TODO: Delegate to the manager
+            IValidator warningsValidator = new DocumentWarningValidator_Recursive(document, _repositories.SampleRepository, new HashSet<object>());
+
+            // ToViewModel
             ViewModel.ValidationMessages = result.Messages;
             ViewModel.WarningMessages = warningsValidator.ValidationMessages.ToCanonical();
         }
@@ -522,18 +543,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void DocumentPropertiesCloseOrLoseFocus(Action partialAction)
         {
-            // ToEntity: This should be just enough to correctly refresh the grids and tree furtheron.
-            Document document = ViewModel.Document.ToEntity(_repositories.DocumentRepository);
-            ViewModel.Document.PatchDocumentList.Select(x => x.PatchDetails.Entity)
-                                                .ForEach(x => x.ToPatch(_repositories.PatchRepository));
-            ViewModel.Document.PatchDocumentList.ForEach(x => x.PatchProperties.ToChildDocument(_repositories.DocumentRepository));
+            // ToEntity
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            _documentPropertiesPresenter.ViewModel = ViewModel.Document.DocumentProperties;
-
+            // Partial Action
             partialAction();
 
-            DispatchViewModel(_documentPropertiesPresenter.ViewModel);
+            // Business
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
 
+            // ToViewModel
+            DispatchViewModel(_documentPropertiesPresenter.ViewModel);
             if (_documentPropertiesPresenter.ViewModel.Successful)
             {
                 DocumentGridRefresh();
@@ -589,14 +615,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             NodePropertiesPresenter partialPresenter = _nodePropertiesPresenter;
 
+            // ToEntity
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Partial Action
             partialAction();
 
+            // Business
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
+
+            // ToViewModel
             if (partialPresenter.ViewModel.Successful)
             {
                 int nodeID = partialPresenter.ViewModel.Entity.ID;
                 CurveDetailsNodeRefresh(nodeID);
             }
-
             DispatchViewModel(partialPresenter.ViewModel);
         }
 
@@ -611,8 +650,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (_curveDetailsPresenter.ViewModel == null) throw new NullException(() => _curveDetailsPresenter.ViewModel);
 
             // ToEntity
-            // Note that the name of the curve is missing in the CurveDetails view.
-            Curve curve = _curveDetailsPresenter.ViewModel.ToEntityWithRelatedEntities(_curveRepositories);
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            Curve curve = _repositories.CurveRepository.Get(_curveDetailsPresenter.ViewModel.ID);
             Node afterNode;
             if (_curveDetailsPresenter.ViewModel.SelectedNodeID.HasValue)
             {
@@ -627,6 +667,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             Node node = _curveManager.CreateNode(curve, afterNode);
 
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
+
             // ToViewModel
 
             // CurveDetails NodeViewModel
@@ -634,9 +682,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _curveDetailsPresenter.ViewModel.Nodes.Add(nodeViewModel);
 
             // NodeProperties
-            NodePropertiesViewModel propertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
+            NodePropertiesViewModel nodePropertiesViewModel = node.ToPropertiesViewModel(_repositories.NodeTypeRepository);
             IList<NodePropertiesViewModel> propertiesViewModelList = DocumentViewModelHelper.GetNodePropertiesViewModelList_ByCurveID(ViewModel.Document, curve.ID);
-            propertiesViewModelList.Add(propertiesViewModel);
+            propertiesViewModelList.Add(nodePropertiesViewModel);
         }
 
         public void NodeDelete()
@@ -666,15 +714,22 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // ToEntity
-            // TODO: You might only convert the CurveDetails view models?
-            int nodeID = _curveDetailsPresenter.ViewModel.SelectedNodeID.Value;
             Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
             Curve curve = _repositories.CurveRepository.Get(_curveDetailsPresenter.ViewModel.ID);
             Document document = curve.Document;
+            int nodeID = _curveDetailsPresenter.ViewModel.SelectedNodeID.Value;
             Node node = _repositories.NodeRepository.Get(nodeID);
 
             // Business
             _curveManager.DeleteNode(node);
+
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
 
             // ToViewModel
 
@@ -727,6 +782,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return;
             }
 
+            // ToViewModel
             int nodeID = _curveDetailsPresenter.ViewModel.SelectedNodeID.Value;
 
             NodeViewModel nodeViewModel1 = _curveDetailsPresenter.ViewModel.Nodes.Where(x => x.ID == nodeID).Single();
@@ -962,10 +1018,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void OperatorPropertiesCloseOrLoseFocus(Action partialAction)
         {
             OperatorPropertiesPresenter partialPresenter = _operatorPropertiesPresenter;
-            OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(ViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
 
+            // ToEntity
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+            Operator op = _repositories.OperatorRepository.Get(partialPresenter.ViewModel.ID);
+            Patch patch = op.Patch;
+
+            // Partial action
             partialAction();
 
+            // ToViewModel
+            // TODO: Think of a better way.
+            OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(ViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
             if (partialPresenter.ViewModel.Successful)
             {
                 PatchDetails_RefreshOperator(operatorEntityAndViewModel.Operator, operatorEntityAndViewModel.OperatorViewModel);
@@ -974,9 +1038,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(partialPresenter.ViewModel);
         }
 
+        // TODO: Fix all these other OperatorProperties actions that are similar to eachother.
+
         private void OperatorPropertiesCloseOrLoseFocus_ForBundle(Action partialAction)
         {
             OperatorPropertiesPresenter_ForBundle partialPresenter = _operatorPropertiesPresenter_ForBundle;
+
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(ViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
 
@@ -994,13 +1062,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorPropertiesPresenter_ForCurve partialPresenter = _operatorPropertiesPresenter_ForCurve;
 
-            OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(ViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            // Convert the document, child documents + curves
-            // because we are about to validate a curve operator's reference to its curve.
-            ViewModel.Document.ToHollowDocumentWithHollowChildDocumentsWithCurvesWithName(
-                _repositories.DocumentRepository,
-                _repositories.CurveRepository);
+            // TODO: Instead of convert, get both entity and view model.
+            OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(ViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
 
             partialAction();
 
@@ -1014,11 +1079,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void OperatorPropertiesCloseOrLoseFocus_ForCustomOperator(Action partialAction)
         {
+            OperatorPropertiesPresenter_ForCustomOperator partialPresenter = _operatorPropertiesPresenter_ForCustomOperator;
+
             Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             partialAction();
-
-            OperatorPropertiesPresenter_ForCustomOperator partialPresenter = _operatorPropertiesPresenter_ForCustomOperator;
 
             VoidResult result = _documentManager.ValidateRecursive(rootDocument);
             partialPresenter.ViewModel.Successful &= result.Successful;
@@ -1035,6 +1100,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void OperatorPropertiesCloseOrLoseFocus_ForNumber(Action partialAction)
         {
             OperatorPropertiesPresenter_ForNumber partialPresenter = _operatorPropertiesPresenter_ForNumber;
+
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(ViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
 
@@ -1075,7 +1142,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorPropertiesPresenter_ForPatchOutlet partialPresenter = _operatorPropertiesPresenter_ForPatchOutlet;
 
-            // ToEntity  (Most of the entity model is needed for Document_SideEffect_UpdateDependentCustomOperators.)
+            // ToEntity 
             Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             partialAction();
@@ -1101,13 +1168,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             OperatorPropertiesPresenter_ForSample partialPresenter = _operatorPropertiesPresenter_ForSample;
 
-            OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(ViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
-            // Convert the document, child documents + samples
-            // because we are about to validate a sample operator's reference to its sample.
-            ViewModel.Document.ToHollowDocumentWithHollowChildDocumentsWithHollowSamplesWithName(
-                _repositories.DocumentRepository,
-                _repositories.SampleRepository);
+            OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(ViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
 
             partialAction();
 
@@ -1122,6 +1185,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void OperatorPropertiesCloseOrLoseFocus_ForUnbundle(Action partialAction)
         {
             OperatorPropertiesPresenter_ForUnbundle partialPresenter = _operatorPropertiesPresenter_ForUnbundle;
+
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             OperatorEntityAndViewModel operatorEntityAndViewModel = ToEntityHelper.ToOperatorWithInletsAndOutletsAndPatch(ViewModel.Document, partialPresenter.ViewModel.ID, _patchRepositories);
 
@@ -1152,7 +1217,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         // TODO: Now that executing the side-effects is moved to the PatchManager, do I still need this specialized method?
         private void OperatorCreate_ForPatchInletOrPatchOutlet(int operatorTypeID)
         {
-            // ToEntity  (Full entity model needed for Document_SideEffect_UpdateDependentCustomOperators.)
+            // ToEntity
             Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
             Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.PatchID);
 
@@ -1160,11 +1225,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var patchManager = new PatchManager(patch, _patchRepositories);
             Operator op = patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
 
-            // Do a full validate, because of the error-proneness of the CustomOperator-UnderlyingPatch synchronization,
-            // to prevent getting stuck in a screen in which you cannot correct the problem.
-            VoidResult result = _documentManager.ValidateRecursive(rootDocument);
-            _patchDetailsPresenter.ViewModel.Successful &= result.Successful;
-            _patchDetailsPresenter.ViewModel.ValidationMessages.AddRange(result.Messages);
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
 
             // ToViewModel
 
@@ -1207,11 +1274,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void OperatorCreate_ForOtherOperatorTypes(int operatorTypeID)
         {
             // ToEntity
-            Patch patch = _patchDetailsPresenter.ViewModel.ToPatchWithRelatedEntities(_patchRepositories);
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+            Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.PatchID);
 
             // Business
             var patchManager = new PatchManager(patch, _patchRepositories);
             Operator op = patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
+
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
 
             // ToViewModel
 
@@ -1291,8 +1367,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             if (_patchDetailsPresenter.ViewModel.SelectedOperator != null)
             {
                 // ToEntity
-                // (Full entity model needed for Document_SideEffect_UpdateDependentCustomOperators and 
-                //  Operator_SideEffect_ApplyUnderlyingPatch)
                 Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
                 Patch patch = _repositories.PatchRepository.Get(_patchDetailsPresenter.ViewModel.Entity.PatchID);
                 Document document = patch.Document;
@@ -1303,14 +1377,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 var patchManager = new PatchManager(patch, _patchRepositories);
                 patchManager.DeleteOperator(op);
 
+                VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+                if (!validationResult.Successful)
+                {
+                    ViewModel.Successful &= validationResult.Successful;
+                    ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                    return;
+                }
+
                 // Partial Action
                 _patchDetailsPresenter.DeleteOperator();
-
-                // Do a full validate, because of the error-proneness of the CustomOperator-UnderlyingPatch synchronization,
-                // to prevent getting stuck in a screen in which you cannot correct the problem.
-                VoidResult result = _documentManager.ValidateRecursive(rootDocument);
-                _patchDetailsPresenter.ViewModel.Successful &= result.Successful;
-                _patchDetailsPresenter.ViewModel.ValidationMessages.AddRange(result.Messages);
 
                 // ToViewModel
                 if (_patchDetailsPresenter.ViewModel.Successful)
@@ -1369,19 +1445,28 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void OperatorMove(int operatorID, float centerX, float centerY)
         {
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
             _patchDetailsPresenter.MoveOperator(operatorID, centerX, centerY);
+
             DispatchViewModel(_patchDetailsPresenter.ViewModel);
         }
 
         public void OperatorChangeInputOutlet(int inletID, int inputOutletID)
         {
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
             _patchDetailsPresenter.ChangeInputOutlet(inletID, inputOutletID);
+
             DispatchViewModel(_patchDetailsPresenter.ViewModel);
         }
 
         public void OperatorSelect(int operatorID)
         {
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
             _patchDetailsPresenter.SelectOperator(operatorID);
+
             DispatchViewModel(_patchDetailsPresenter.ViewModel);
         }
 
@@ -1393,7 +1478,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _patchDetailsPresenter.ViewModel = detailsViewModel;
             _patchDetailsPresenter.Show();
             DispatchViewModel(_patchDetailsPresenter.ViewModel);
-
 
             // TODO: Change to permanent solution. (Double click on empty area in PatchDetails should show PatchProperties.)
             PatchPropertiesShow(childDocumentID);
@@ -1420,6 +1504,16 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Partial Action
             partialAction();
 
+            // Business
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
+
+            // ToViewModel
             DispatchViewModel(_patchDetailsPresenter.ViewModel);
         }
 
@@ -1467,13 +1561,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void PatchPropertiesCloseOrLoseFocus(Action partialAction)
         {
             // ToEntity
-            // (Most of the entity model is needed for Document_SideEffect_UpdateDependentCustomOperators.)
-            // (Also: PatchGridRefresh requires all Patch[].GroupName's, committed and uncommitted.)
-            ViewModel.ToEntityWithRelatedEntities(_repositories);
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
             int childDocumentID = _patchPropertiesPresenter.ViewModel.ChildDocumentID;
 
+            // Partial Action
             partialAction();
 
+            // Business
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
+
+            // ToViewModel
+            // This might have to be done right after partial action>?
             DispatchViewModel(_patchPropertiesPresenter.ViewModel);
 
             if (_patchPropertiesPresenter.ViewModel.Successful)
@@ -1517,6 +1621,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
             patchManager.CreatePatch(childDocument, mustGenerateName: true);
             Patch patch = patchManager.Patch;
 
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
+
             // ToViewModel
             ChildDocumentIDAndNameViewModel listItemViewModel = childDocument.ToChildDocumentIDAndNameViewModel();
             PatchGridViewModel gridViewModel = DocumentViewModelHelper.GetPatchGridViewModel_ByGroup(ViewModel.Document, group);
@@ -1536,7 +1648,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void PatchDelete(int childDocumentID)
         {
             // ToEntity
-            ViewModel.ToEntityWithRelatedEntities(_repositories);
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
             Document childDocument = _repositories.DocumentRepository.Get(childDocumentID);
 
             // Businesss
@@ -1545,23 +1657,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 // ToViewModel
                 ViewModel.PopupMessages.AddRange(result.Messages);
+                return;
             }
-            else
+
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
             {
-                // ToViewModel
-                ViewModel.Document.PatchDocumentList.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
-                ViewModel.Document.CurrentPatches.List.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
-                ViewModel.Document.UnderlyingPatchLookup.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
-                ViewModel.Document.DocumentTree.PatchesNode.PatchNodes.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
-                foreach (PatchGroupTreeNodeViewModel nodeViewModel in ViewModel.Document.DocumentTree.PatchesNode.PatchGroupNodes)
-                {
-                    nodeViewModel.Patches.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
-                }
-                foreach (PatchGridViewModel gridViewModel in ViewModel.Document.PatchGridList)
-                {
-                    gridViewModel.List.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
-                }
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
             }
+
+            // ToViewModel
+            ViewModel.Document.PatchDocumentList.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
+            ViewModel.Document.CurrentPatches.List.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
+            ViewModel.Document.UnderlyingPatchLookup.RemoveFirst(x => x.ChildDocumentID == childDocumentID);
+            ViewModel.Document.DocumentTree.PatchesNode.PatchNodes.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
+            foreach (PatchGroupTreeNodeViewModel nodeViewModel in ViewModel.Document.DocumentTree.PatchesNode.PatchGroupNodes)
+            {
+                nodeViewModel.Patches.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
+            }
+            foreach (PatchGridViewModel gridViewModel in ViewModel.Document.PatchGridList)
+            {
+                gridViewModel.List.TryRemoveFirst(x => x.ChildDocumentID == childDocumentID);
+            }
+
         }
 
         // Sample
@@ -1595,6 +1715,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Business
             Sample sample = _sampleManager.CreateSample(document, mustGenerateName: true);
+
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
 
             // ToViewModel
             SampleGridViewModel gridViewModel = DocumentViewModelHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, document.ID);
@@ -1630,39 +1758,46 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void SampleDelete(int sampleID)
         {
             // ToEntity
-            ViewModel.ToEntityWithRelatedEntities(_repositories);
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
             Sample sample = _repositories.SampleRepository.Get(sampleID);
             int documentID = sample.Document.ID;
             bool isRootDocument = sample.Document.ParentDocument == null;
 
             // Business
             VoidResult result = _sampleManager.Delete(sample);
-            if (result.Successful)
-            {
-                // ToViewModel
-                IList<SamplePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetSamplePropertiesViewModels_ByDocumentID(ViewModel.Document, documentID);
-                propertiesViewModels.RemoveFirst(x => x.Entity.ID == sampleID);
-
-                SampleGridViewModel gridViewModel = DocumentViewModelHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, documentID);
-                gridViewModel.List.RemoveFirst(x => x.ID == sampleID);
-
-                // NOTE: 
-                // If it is a sample in the root document, it is present in all child document's sample lookups.
-                // If it is a sample in a child document, it will only be present in the child document's sample lookup and we have to do less work.
-                if (isRootDocument)
-                {
-                    ViewModel.Document.PatchDocumentList.ForEach(x => x.SampleLookup.RemoveFirst(y => y.ID == sampleID));
-                }
-                else
-                {
-                    IList<IDAndName> lookup = DocumentViewModelHelper.GetPatchDocumentViewModel(ViewModel.Document, documentID).SampleLookup;
-                    lookup.RemoveFirst(x => x.ID == sampleID);
-                }
-            }
-            else
+            if (!result.Successful)
             {
                 // ToViewModel
                 ViewModel.PopupMessages = result.Messages;
+                return;
+            }
+
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
+
+            // ToViewModel
+            IList<SamplePropertiesViewModel> propertiesViewModels = DocumentViewModelHelper.GetSamplePropertiesViewModels_ByDocumentID(ViewModel.Document, documentID);
+            propertiesViewModels.RemoveFirst(x => x.Entity.ID == sampleID);
+
+            SampleGridViewModel gridViewModel = DocumentViewModelHelper.GetSampleGridViewModel_ByDocumentID(ViewModel.Document, documentID);
+            gridViewModel.List.RemoveFirst(x => x.ID == sampleID);
+
+            // NOTE: 
+            // If it is a sample in the root document, it is present in all child document's sample lookups.
+            // If it is a sample in a child document, it will only be present in the child document's sample lookup and we have to do less work.
+            if (isRootDocument)
+            {
+                ViewModel.Document.PatchDocumentList.ForEach(x => x.SampleLookup.RemoveFirst(y => y.ID == sampleID));
+            }
+            else
+            {
+                IList<IDAndName> lookup = DocumentViewModelHelper.GetPatchDocumentViewModel(ViewModel.Document, documentID).SampleLookup;
+                lookup.RemoveFirst(x => x.ID == sampleID);
             }
         }
 
@@ -1687,13 +1822,23 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void SamplePropertiesCloseOrLoseFocus(Action partialAction)
         {
-            // Full ToEntity needed for updating Sample OperatorViewModels.
+            // ToEntity
             Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
+            // Partial action
             partialAction();
-
             DispatchViewModel(_samplePropertiesPresenter.ViewModel);
 
+            // Business
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
+
+            // ToViewModel
             if (_samplePropertiesPresenter.ViewModel.Successful)
             {
                 int sampleID = _samplePropertiesPresenter.ViewModel.Entity.ID;
@@ -1721,11 +1866,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void ScaleCreate()
         {
             // ToEntity
-            // TODO: Can I get away with converting only part of the user input to entities?
-            Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Business
-            Scale scale = _scaleManager.Create(document, mustSetDefaults: true, mustGenerateName: true);
+            Scale scale = _scaleManager.Create(rootDocument, mustSetDefaults: true, mustGenerateName: true);
+
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
 
             // ToViewModel
             IDAndName listItemViewModel = scale.ToIDAndName();
@@ -1741,6 +1893,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void ScaleDelete(int id)
         {
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
             // TODO: It is not very clean to assume business logic will also not in the future have any delete constraints.
 
             // 'Business' / ToViewModel
@@ -1776,10 +1930,11 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void ScalePropertiesCloseOrLoseFocus(Action partialAction)
         {
-            // TODO: Can I get away with converting only part of the user input to entities?
             ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             partialAction();
+
+            // TODO: Pass it to the manager and validate full document.
 
             // Update Number Column Title of the ToneGridEdit's ToneGrid.
             int scaleID = _scalePropertiesPresenter.ViewModel.Entity.ID;
@@ -1800,12 +1955,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
         public void ToneCreate(int scaleID)
         {
             // ToEntity
-            // TODO: Can I get away with converting only part of the user input to entities?
-            Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
             Scale scale = _repositories.ScaleRepository.Get(scaleID);
 
             // Business
             Tone tone = _scaleManager.CreateTone(scale);
+
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return;
+            }
 
             // ToViewModel
             ToneGridEditViewModel toneGridEditViewModel = DocumentViewModelHelper.GetToneGridEditViewModel(ViewModel.Document, scale.ID);
@@ -1816,6 +1978,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void ToneDelete(int id)
         {
+            // TODO: Pass it to the business logic.
             foreach (IList<ToneViewModel> tonesViewModel in ViewModel.Document.ToneGridEditList.Select(x => x.Tones))
             {
                 bool isRemoved = tonesViewModel.TryRemoveFirst(x => x.ID == id);
@@ -1838,18 +2001,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void ToneGridEditCloseOrLoseFocus(Action partialAction)
         {
-            // TODO: You might be able to do this validation in the partial presenter,
-            // if you do not do a full-document ToEntity in the MainPresenter.
-            IValidator validator = new ToneGridEditViewModelValidator(_toneGridEditPresenter.ViewModel);
-            if (!validator.IsValid)
+            IValidator presentationValidator = new ToneGridEditViewModelValidator(_toneGridEditPresenter.ViewModel);
+            if (!presentationValidator.IsValid)
             {
                 _toneGridEditPresenter.ViewModel.Successful = false;
-                _toneGridEditPresenter.ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                _toneGridEditPresenter.ViewModel.ValidationMessages = presentationValidator.ValidationMessages.ToCanonical();
                 DispatchViewModel(_toneGridEditPresenter.ViewModel);
                 return;
             }
 
-            // TODO: Can I get away with converting only part of the user input to entities?
             ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             partialAction();
@@ -1865,17 +2025,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// </summary>
         public string TonePlay(int id)
         {
-            IValidator validator = new ToneGridEditViewModelValidator(_toneGridEditPresenter.ViewModel);
-            if (!validator.IsValid)
+            IValidator presentationValidator = new ToneGridEditViewModelValidator(_toneGridEditPresenter.ViewModel);
+            if (!presentationValidator.IsValid)
             {
                 _toneGridEditPresenter.ViewModel.Successful = false;
-                _toneGridEditPresenter.ViewModel.ValidationMessages = validator.ValidationMessages.ToCanonical();
+                _toneGridEditPresenter.ViewModel.ValidationMessages = presentationValidator.ValidationMessages.ToCanonical();
                 DispatchViewModel(_toneGridEditPresenter.ViewModel);
                 return null;
             }
 
             // ToEntity
             Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Business
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                ViewModel.Successful &= validationResult.Successful;
+                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                return null;
+            }
 
             // Get Entities
             Tone tone = _repositories.ToneRepository.Get(id);
@@ -1892,7 +2061,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 underlyingPatches.Add(underlyingDocument.Patches[0]);
             }
 
-            // Business
+            // Busness
             Outlet outlet = null;
             if (underlyingPatches.Count != 0)
             {

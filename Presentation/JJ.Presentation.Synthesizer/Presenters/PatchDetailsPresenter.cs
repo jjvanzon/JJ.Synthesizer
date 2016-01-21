@@ -57,7 +57,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             {
                 selectedOperatorID = ViewModel.SelectedOperator.ID;
             }
-                
+            
             ViewModel = entity.ToDetailsViewModel(
                 _repositories.OperatorTypeRepository,
                 _repositories.SampleRepository,
