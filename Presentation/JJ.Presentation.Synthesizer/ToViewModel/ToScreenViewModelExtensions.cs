@@ -725,7 +725,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Scale
 
-        public static ToneGridEditViewModel ToDetailsViewModel(this Scale entity)
+        public static ToneGridEditViewModel ToToneGridEditViewModel(this Scale entity)
         {
             if (entity == null) throw new NullException(() => entity);
 

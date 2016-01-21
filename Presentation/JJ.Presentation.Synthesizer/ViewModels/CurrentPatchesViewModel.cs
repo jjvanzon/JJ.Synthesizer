@@ -9,5 +9,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
     {
         public IList<CurrentPatchItemViewModel> List { get; set; }
         public bool Visible;
+        public bool Successful { get; set; }
     }
 }

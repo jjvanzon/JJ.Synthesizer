@@ -1884,7 +1884,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ViewModel.Document.ScaleGrid.List.Add(listItemViewModel);
             ViewModel.Document.ScaleGrid.List = ViewModel.Document.ScaleGrid.List.OrderBy(x => x.Name).ToList();
 
-            ToneGridEditViewModel toneGridEditViewModel = scale.ToDetailsViewModel();
+            ToneGridEditViewModel toneGridEditViewModel = scale.ToToneGridEditViewModel();
             ViewModel.Document.ToneGridEditList.Add(toneGridEditViewModel);
 
             ScalePropertiesViewModel propertiesViewModel = scale.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
@@ -1909,12 +1909,20 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void ScaleShow(int id)
         {
-            _toneGridEditPresenter.ViewModel = ViewModel.Document.ToneGridEditList.First(x => x.ScaleID == id);
-            _toneGridEditPresenter.Show();
-            DispatchViewModel(_toneGridEditPresenter.ViewModel);
+            ToneGridEditViewModel userInput1 = DocumentViewModelHelper.GetToneGridEditViewModel(ViewModel.Document, scaleID: id);
+
+            // ToEntity
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Partial Actions
+            ToneGridEditViewModel toneGridEditViewModel = _toneGridEditPresenter.Show(userInput1);
 
             _scalePropertiesPresenter.ViewModel = ViewModel.Document.ScalePropertiesList.First(x => x.Entity.ID == id);
             _scalePropertiesPresenter.Show();
+
+            // DispatchViewModel
+            DispatchViewModel(toneGridEditViewModel);
+            
             DispatchViewModel(_scalePropertiesPresenter.ViewModel);
         }
 
@@ -1954,6 +1962,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void ToneCreate(int scaleID)
         {
+            // Get ViewModel
+            ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(ViewModel.Document);
+            userInput.Successful = false;
+
+            // ViewModel Validator
+            IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
+            if (!viewModelValidator.IsValid)
+            {
+                userInput.ValidationMessages = viewModelValidator.ValidationMessages.ToCanonical();
+                DispatchViewModel(userInput);
+                return;
+            }
+
             // ToEntity
             Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
             Scale scale = _repositories.ScaleRepository.Get(scaleID);
@@ -1964,57 +1985,106 @@ namespace JJ.Presentation.Synthesizer.Presenters
             VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                ViewModel.Successful &= validationResult.Successful;
-                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                userInput.Successful = false;
+                userInput.ValidationMessages.AddRange(validationResult.Messages);
+                DispatchViewModel(userInput);
                 return;
             }
 
             // ToViewModel
-            ToneGridEditViewModel toneGridEditViewModel = DocumentViewModelHelper.GetToneGridEditViewModel(ViewModel.Document, scale.ID);
+
             ToneViewModel toneViewModel = tone.ToViewModel();
-            toneGridEditViewModel.Tones.Add(toneViewModel);
+            userInput.Tones.Add(toneViewModel);
             // Do not sort grid, so that the new item appears at the bottom.
+
+            // DispatchViewModel
+            userInput.Successful = true;
+            DispatchViewModel(userInput);
         }
 
         public void ToneDelete(int id)
         {
-            // TODO: Pass it to the business logic.
-            foreach (IList<ToneViewModel> tonesViewModel in ViewModel.Document.ToneGridEditList.Select(x => x.Tones))
+            // Get ViewModel
+            ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(ViewModel.Document);
+            userInput.Successful = false;
+
+            // ViewModel Validator
+            IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
+            if (!viewModelValidator.IsValid)
             {
-                bool isRemoved = tonesViewModel.TryRemoveFirst(x => x.ID == id);
-                if (isRemoved)
-                {
-                    break;
-                }
+                userInput.Successful = false;
+                userInput.ValidationMessages = viewModelValidator.ValidationMessages.ToCanonical();
+                DispatchViewModel(userInput);
+                return;
             }
+
+            // ToEntity
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+            Tone tone = _repositories.ToneRepository.Get(id);
+            Scale scale = tone.Scale;
+
+            // Business
+            _scaleManager.DeleteTone(tone);
+
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                userInput.Successful = false;
+                userInput.ValidationMessages.AddRange(validationResult.Messages);
+                return;
+            }
+
+            // ToViewModel
+            ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();
+
+            // Non-Persisted
+            viewModel.Visible = userInput.Visible;
+
+            // Dispatch ViewModel
+            viewModel.Successful = true;
+            DispatchViewModel(viewModel);
         }
 
         public void ToneGridEditClose()
         {
-            ToneGridEditCloseOrLoseFocus(() => _toneGridEditPresenter.Close());
+            ToneGridEditCloseOrLoseFocus(x => _toneGridEditPresenter.Close(x));
         }
 
         public void ToneGridEditLoseFocus()
         {
-            ToneGridEditCloseOrLoseFocus(() => _toneGridEditPresenter.LoseFocus());
+            ToneGridEditCloseOrLoseFocus(x => _toneGridEditPresenter.LoseFocus(x));
         }
 
-        private void ToneGridEditCloseOrLoseFocus(Action partialAction)
+        private void ToneGridEditCloseOrLoseFocus(Func<ToneGridEditViewModel, ToneGridEditViewModel> partialAction)
         {
-            IValidator presentationValidator = new ToneGridEditViewModelValidator(_toneGridEditPresenter.ViewModel);
-            if (!presentationValidator.IsValid)
+            // Get ViewModel
+            ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(ViewModel.Document);
+            userInput.Successful = false;
+
+            // ToEntity
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Partial Action
+            ToneGridEditViewModel viewModel = partialAction(userInput);
+            if (!viewModel.Successful)
             {
-                _toneGridEditPresenter.ViewModel.Successful = false;
-                _toneGridEditPresenter.ViewModel.ValidationMessages = presentationValidator.ValidationMessages.ToCanonical();
-                DispatchViewModel(_toneGridEditPresenter.ViewModel);
+                DispatchViewModel(viewModel);
                 return;
             }
 
-            ViewModel.ToEntityWithRelatedEntities(_repositories);
+            // Business
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                viewModel.Successful = false;
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+                DispatchViewModel(userInput);
+                return;
+            }
 
-            partialAction();
-
-            DispatchViewModel(_toneGridEditPresenter.ViewModel);
+            // Dispatch ViewModel
+            viewModel.Successful = true;
+            DispatchViewModel(viewModel);
         }
 
         /// <summary>
@@ -2025,28 +2095,25 @@ namespace JJ.Presentation.Synthesizer.Presenters
         /// </summary>
         public string TonePlay(int id)
         {
-            IValidator presentationValidator = new ToneGridEditViewModelValidator(_toneGridEditPresenter.ViewModel);
-            if (!presentationValidator.IsValid)
+            // NOTE:
+            // Cannot use partial presenter, because this action uses both
+            // ToneGridEditViewModel and CurrentPatches view model.
+
+            ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(ViewModel.Document);
+            userInput.Successful = false;
+
+            // ViewModel Validator
+            IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
+            if (!viewModelValidator.IsValid)
             {
-                _toneGridEditPresenter.ViewModel.Successful = false;
-                _toneGridEditPresenter.ViewModel.ValidationMessages = presentationValidator.ValidationMessages.ToCanonical();
-                DispatchViewModel(_toneGridEditPresenter.ViewModel);
+                userInput.Successful = false;
+                userInput.ValidationMessages = viewModelValidator.ValidationMessages.ToCanonical();
+                DispatchViewModel(userInput);
                 return null;
             }
 
             // ToEntity
             Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
-
-            // Business
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
-            if (!validationResult.Successful)
-            {
-                ViewModel.Successful &= validationResult.Successful;
-                ViewModel.PopupMessages.AddRange(validationResult.Messages);
-                return null;
-            }
-
-            // Get Entities
             Tone tone = _repositories.ToneRepository.Get(id);
 
             var underlyingPatches = new List<Patch>(ViewModel.Document.CurrentPatches.List.Count);
@@ -2061,7 +2128,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 underlyingPatches.Add(underlyingDocument.Patches[0]);
             }
 
-            // Busness
+            // Business
             Outlet outlet = null;
             if (underlyingPatches.Count != 0)
             {
@@ -2069,21 +2136,31 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 outlet = patchManager.TryAutoPatch_WithTone(tone, underlyingPatches);
             }
 
-            // Fallback to Sine
-            if (outlet == null)
+            if (outlet == null) // Fallback to Sine
             {
                 var x = new PatchApi();
                 double frequency = tone.GetFrequency();
                 outlet = x.Sine(x.PatchInlet(InletTypeEnum.Frequency, frequency));
             }
 
+            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                userInput.Successful = false;
+                userInput.ValidationMessages = validationResult.Messages;
+                return null;
+            }
+
             IPatchCalculator patchCalculator = CreatePatchCalculator(_patchRepositories, outlet);
 
+            // Infrastructure
             AudioFileOutput audioFileOutput = _audioFileOutputManager.CreateWithRelatedEntities();
             audioFileOutput.FilePath = _playOutputFilePath;
             audioFileOutput.Duration = DEFAULT_DURATION;
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
             _audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
+
+            userInput.Successful = true;
 
             return _playOutputFilePath;
         }

@@ -215,11 +215,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             ToneGridEditRefresh(viewModel);
         }
 
-        private void ToneGridEditRefresh(ToneGridEditViewModel viewModel)
+        private void ToneGridEditRefresh(ToneGridEditViewModel userInput)
         {
-            _toneGridEditPresenter.ViewModel = viewModel;
-            _toneGridEditPresenter.Refresh();
-            DispatchViewModel(_toneGridEditPresenter.ViewModel);
+            ToneGridEditViewModel viewModel = _toneGridEditPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
         }
 
         private void UnderylingDocumentLookupRefresh()

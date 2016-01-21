@@ -57,11 +57,13 @@ namespace JJ.Presentation.Synthesizer.Presenters
             return dictionary;
         }
 
-        /// <summary> 
-        /// Applies a ViewModel from a partial presenter in the right way to the MainViewModel. 
-        /// This can mean assigning a partial ViewModel to a property of the MainViewModel,
-        /// but also for instance also yielding over the validation message from a partial
-        /// ViewModel to the MainViewModel.
+        /// <summary>
+        /// Closes the deal with regards to the action method,
+        /// combining a temporary partial view model with the MainViewModel.
+        /// Applies it in the right way to the MainViewModel. 
+        /// This means assigning a partial ViewModel to a property of the MainViewModel,
+        /// but also for instance yielding over the validation message from a partial
+        /// ViewModel to the MainViewModel, and showing and hiding views currently not on the foreground.
         /// </summary>
         private void DispatchViewModel(object viewModel2)
         {

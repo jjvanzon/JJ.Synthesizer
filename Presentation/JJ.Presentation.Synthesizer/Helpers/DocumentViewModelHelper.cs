@@ -942,5 +942,18 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
             return viewModel;
         }
+
+        public static ToneGridEditViewModel GetVisibleToneGridEditViewModel(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            ToneGridEditViewModel userInput = rootDocumentViewModel.ToneGridEditList.Where(x => x.Visible).FirstOrDefault();
+            if (userInput == null)
+            {
+                throw new Exception("No Visible ToneGridEditViewModel found in rootDocumentViewModel.");
+            }
+
+            return userInput;
+        }
     }
 }

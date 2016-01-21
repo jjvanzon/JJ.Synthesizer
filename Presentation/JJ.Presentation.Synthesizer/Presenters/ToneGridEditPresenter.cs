@@ -9,6 +9,9 @@ using JJ.Business.Synthesizer;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
 using JJ.Presentation.Synthesizer.ViewModels;
+using JJ.Framework.Validation;
+using JJ.Presentation.Synthesizer.Validators;
+using JJ.Business.Canonical;
 
 namespace JJ.Presentation.Synthesizer.Presenters
 {
@@ -16,8 +19,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private ScaleRepositories _repositories;
         private ScaleManager _scaleManager;
-
-        public ToneGridEditViewModel ViewModel { get; set; }
 
         public ToneGridEditPresenter(ScaleRepositories repositories)
         {
@@ -27,63 +28,91 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _scaleManager = new ScaleManager(_repositories);
         }
 
-        public void Show()
+        public ToneGridEditViewModel Show(ToneGridEditViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            userInput.Successful = false;
+
+            // ToEntity
+            Scale scale = _repositories.ScaleRepository.Get(userInput.ScaleID);
+
+            // ToViewModel
+            ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();
+
+            // Non-Persisted
+            viewModel.Visible = true;
+
+            userInput.Successful = true;
+            return viewModel;
         }
 
-        public void Refresh()
+        public ToneGridEditViewModel Refresh(ToneGridEditViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Scale entity = _repositories.ScaleRepository.Get(ViewModel.ScaleID);
+            userInput.Successful = false;
 
-            bool visible = ViewModel.Visible;
+            // ToEntity
+            Scale scale = _repositories.ScaleRepository.Get(userInput.ScaleID);
 
-            ViewModel = entity.ToDetailsViewModel();
+            // ToViewModel
+            ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();
 
-            ViewModel.Visible = visible;
+            // Non-Persisted
+            viewModel.Visible = userInput.Visible;
+
+            userInput.Successful = true;
+            return viewModel;
         }
 
-        public void Close()
+        public ToneGridEditViewModel Close(ToneGridEditViewModel userInput)
         {
-            AssertViewModel();
+            ToneGridEditViewModel viewModel = Update(userInput);
 
-            Update();
-
-            if (ViewModel.Successful)
+            if (viewModel.Successful)
             {
-                ViewModel.Visible = false;
+                viewModel.Visible = false;
             }
+
+            return viewModel;
         }
 
-        public void LoseFocus()
+        public ToneGridEditViewModel LoseFocus(ToneGridEditViewModel userInput)
         {
-            Update();
+            ToneGridEditViewModel viewModel = Update(userInput);
+            return viewModel;
         }
 
-        private void Update()
+        private ToneGridEditViewModel Update(ToneGridEditViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Scale scale = ViewModel.ToEntityWithRelatedEntities(_repositories);
+            userInput.Successful = false;
 
+            // ViewModel Validator
+            IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
+            if (!viewModelValidator.IsValid)
+            {
+                userInput.ValidationMessages = viewModelValidator.ValidationMessages.ToCanonical();
+                return userInput;
+            }
+
+            // ToEntity
+            Scale scale = userInput.ToEntityWithRelatedEntities(_repositories);
+
+            // Business
             VoidResult result = _scaleManager.Save(scale);
 
-            // Reapply sorting
-            ViewModel.Tones = scale.Tones.ToToneViewModels();
+            // ToViewModel
+            ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();
+            viewModel.ValidationMessages = result.Messages;
+            viewModel.Successful = result.Successful;
 
-            ViewModel.Successful = result.Successful;
-            ViewModel.ValidationMessages = result.Messages;
-        }
+            // Non-Persisted
+            viewModel.Visible = userInput.Visible;
 
-        // Helpers
-
-        private void AssertViewModel()
-        {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            return viewModel;
         }
     }
 }

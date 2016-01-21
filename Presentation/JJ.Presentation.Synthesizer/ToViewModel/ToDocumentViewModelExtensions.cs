@@ -36,7 +36,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SamplePropertiesList = document.Samples.Select(x => x.ToPropertiesViewModel(new SampleRepositories(repositories))).ToList(),
                 ScaleGrid = document.Scales.ToGridViewModel(document.ID),
                 ScalePropertiesList = document.Scales.Select(x => x.ToPropertiesViewModel(repositories.ScaleTypeRepository)).ToList(),
-                ToneGridEditList = document.Scales.Select(x => x.ToDetailsViewModel()).ToList(),
+                ToneGridEditList = document.Scales.Select(x => x.ToToneGridEditViewModel()).ToList(),
                 AutoPatchDetails = ViewModelHelper.CreateEmptyPatchDetailsViewModel()
             };
 
