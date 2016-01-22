@@ -1868,12 +1868,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DispatchViewModel(viewModel);
                 return;
             }
+            viewModel.Successful = false;
 
             // Business
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                viewModel.Successful = false;
                 viewModel.ValidationMessages.AddRange(validationResult.Messages);
                 DispatchViewModel(userInput);
                 return;
@@ -1904,12 +1904,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DispatchViewModel(viewModel);
                 return;
             }
+            viewModel.Successful = false;
 
             // Business
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                viewModel.Successful = false;
                 viewModel.ValidationMessages.AddRange(validationResult.Messages);
                 DispatchViewModel(userInput);
                 return;
@@ -1939,7 +1939,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                userInput.Successful = false;
                 userInput.ValidationMessages = validationResult.Messages;
                 DispatchViewModel(userInput);
                 return;
@@ -1980,7 +1979,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                userInput.Successful = false;
                 userInput.ValidationMessages.AddRange(validationResult.Messages);
                 DispatchViewModel(userInput);
                 return;
@@ -2015,6 +2013,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DispatchViewModel(scalePropertiesViewModel);
                 return;
             }
+            scalePropertiesViewModel.Successful = false;
 
             ToneGridEditViewModel toneGridEditViewModel = _toneGridEditPresenter.Show(userInput2);
             if (!toneGridEditViewModel.Successful)
@@ -2022,16 +2021,15 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DispatchViewModel(toneGridEditViewModel);
                 return;
             }
+            toneGridEditViewModel.Successful = false;
 
             // Business
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                scalePropertiesViewModel.Successful = false;
                 scalePropertiesViewModel.ValidationMessages.AddRange(validationResult.Messages);
                 DispatchViewModel(scalePropertiesViewModel);
 
-                toneGridEditViewModel.Successful = false;
                 DispatchViewModel(toneGridEditViewModel);
                 return;
             }
@@ -2074,12 +2072,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DispatchViewModel(viewModel);
                 return;
             }
+            viewModel.Successful = false;
 
             // Business
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                viewModel.Successful = false;
                 viewModel.ValidationMessages.AddRange(validationResult.Messages);
                 DispatchViewModel(userInput);
                 return;
@@ -2125,7 +2123,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                userInput.Successful = false;
                 userInput.ValidationMessages.AddRange(validationResult.Messages);
                 DispatchViewModel(userInput);
                 return;
@@ -2155,7 +2152,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
             if (!viewModelValidator.IsValid)
             {
-                userInput.Successful = false;
                 userInput.ValidationMessages = viewModelValidator.ValidationMessages.ToCanonical();
                 DispatchViewModel(userInput);
                 return;
@@ -2172,7 +2168,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                userInput.Successful = false;
                 userInput.ValidationMessages.AddRange(validationResult.Messages);
                 DispatchViewModel(userInput);
                 return;
@@ -2219,12 +2214,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 DispatchViewModel(viewModel);
                 return;
             }
+            viewModel.Successful = false;
 
             // Business
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                viewModel.Successful = false;
                 viewModel.ValidationMessages.AddRange(validationResult.Messages);
                 DispatchViewModel(viewModel);
                 return;
@@ -2249,6 +2244,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Cannot use partial presenter, because this action uses both
             // ToneGridEditViewModel and CurrentPatches view model.
 
+            // GetEntity
             ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(ViewModel.Document);
 
             // Set !Successful
@@ -2258,7 +2254,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
             if (!viewModelValidator.IsValid)
             {
-                userInput.Successful = false;
                 userInput.ValidationMessages = viewModelValidator.ValidationMessages.ToCanonical();
                 DispatchViewModel(userInput);
                 return null;

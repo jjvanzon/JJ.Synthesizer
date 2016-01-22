@@ -17,5 +17,6 @@ namespace JJ.Presentation.Synthesizer.ViewModels
         public DummyViewModel AudioFileOutputsNode { get; set; }
 
         public ReferencedDocumentsTreeNodeViewModel ReferencedDocumentsNode { get; set; }
+        public bool Successful { get; internal set; }
     }
 }

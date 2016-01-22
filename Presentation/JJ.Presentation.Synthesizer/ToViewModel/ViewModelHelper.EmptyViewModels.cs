@@ -122,8 +122,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentPropertiesViewModel
             {
                 Entity = new IDAndName(),
-                ValidationMessages = new List<Message>(),
-                Successful = true
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;

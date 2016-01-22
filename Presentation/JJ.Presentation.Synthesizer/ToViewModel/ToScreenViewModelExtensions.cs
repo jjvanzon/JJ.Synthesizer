@@ -53,8 +53,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 AudioFileFormatLookup = ViewModelHelper.CreateAudioFileFormatLookupViewModel(audioFileFormatRepository),
                 SampleDataTypeLookup = ViewModelHelper.CreateSampleDataTypeLookupViewModel(sampleDataTypeRepository),
                 SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(speakerSetupRepository),
-                ValidationMessages = new List<Message>(),
-                Successful = true
+                ValidationMessages = new List<Message>()
             };
 
             // TODO: Delegate to something in ViewModelHelper_Lookups.cs?
@@ -125,8 +124,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new CurvePropertiesViewModel
             {
                 Entity = entity.ToIDAndName(),
-                ValidationMessages = new List<Message>(),
-                Successful = true
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -140,8 +138,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 Entity = entity.ToViewModel(),
                 ValidationMessages = new List<Message>(),
-                NodeTypeLookup = ViewModelHelper.CreateNodeTypeLookupViewModel(nodeTypeRepository),
-                Successful = true
+                NodeTypeLookup = ViewModelHelper.CreateNodeTypeLookupViewModel(nodeTypeRepository)
             };
 
             return viewModel;
@@ -165,8 +162,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             var viewModel = new DocumentPropertiesViewModel
             {
                 Entity = document.ToIDAndName(),
-                ValidationMessages = new List<Message>(),
-                Successful = true
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -383,7 +379,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                Successful = true,
                 ValidationMessages = new List<Message>()
             };
 
@@ -406,7 +401,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 Name = entity.Name,
                 InletCount = entity.Inlets.Count,
-                Successful = true,
                 ValidationMessages = new List<Message>()
             };
 
@@ -421,7 +415,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                Successful = true,
                 ValidationMessages = new List<Message>()
             };
 
@@ -445,7 +438,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                Successful = true,
                 ValidationMessages = new List<Message>()
             };
 
@@ -471,7 +463,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 Name = entity.Name,
                 Number = wrapper.Number.ToString(),
-                Successful = true,
                 ValidationMessages = new List<Message>()
             };
 
@@ -492,7 +483,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = entity.Name,
                 DefaultValue = Convert.ToString(wrapper.Inlet.DefaultValue),
                 InletTypeLookup = ViewModelHelper.CreateInletTypeLookupViewModel(inletTypeRepository),
-                Successful = true,
                 ValidationMessages = new List<Message>()
             };
 
@@ -527,7 +517,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 Name = entity.Name,
                 OutletTypeLookup = ViewModelHelper.CreateOutletTypeLookupViewModel(outletTypeRepository),
-                Successful = true,
                 ValidationMessages = new List<Message>()
             };
 
@@ -557,7 +546,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
             {
                 ID = entity.ID,
                 Name = entity.Name,
-                Successful = true,
                 ValidationMessages = new List<Message>()
             };
 
@@ -583,7 +571,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ID = entity.ID,
                 Name = entity.Name,
                 OutletCount = entity.Outlets.Count,
-                Successful = true,
                 ValidationMessages = new List<Message>()
             };
 
@@ -618,8 +605,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 Name = childDocument.Name,
                 Group = childDocument.GroupName,
                 ValidationMessages = new List<Message>(),
-                CanAddToCurrentPatches = true,
-                Successful = true
+                CanAddToCurrentPatches = true
             };
 
             return viewModel;
@@ -700,8 +686,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 SampleDataTypeLookup = ViewModelHelper.CreateSampleDataTypeLookupViewModel(repositories.SampleDataTypeRepository),
                 SpeakerSetupLookup = ViewModelHelper.CreateSpeakerSetupLookupViewModel(repositories.SpeakerSetupRepository),
                 InterpolationTypeLookup = ViewModelHelper.CreateInterpolationTypesLookupViewModel(repositories.InterpolationTypeRepository),
-                ValidationMessages = new List<Message>(),
-                Successful = true
+                ValidationMessages = new List<Message>()
             };
 
             byte[] bytes = repositories.SampleRepository.TryGetBytes(entity.ID);
@@ -725,6 +710,39 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
 
         // Scale
 
+        public static ScalePropertiesViewModel ToPropertiesViewModel(this Scale entity, IScaleTypeRepository scaleTypeRepository)
+        {
+            if (entity == null) throw new NullException(() => entity);
+            if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
+
+            var viewModel = new ScalePropertiesViewModel
+            {
+                Entity = entity.ToViewModel(),
+                ScaleTypeLookup = ViewModelHelper.CreateScaleTypeLookupViewModel(scaleTypeRepository),
+                ValidationMessages = new List<Message>(),
+            };
+
+            return viewModel;
+        }
+
+        public static ScaleGridViewModel ToGridViewModel(this IList<Scale> entities, int documentID)
+        {
+            if (entities == null) throw new NullException(() => entities);
+
+            var viewModel = new ScaleGridViewModel
+            {
+                DocumentID = documentID,
+                ValidationMessages = new List<Message>(),
+                List = entities.OrderBy(x => x.Name)
+                               .Select(x => x.ToIDAndName())
+                               .ToList(),
+            };
+
+            return viewModel;
+        }
+
+        // Tone
+
         public static ToneGridEditViewModel ToToneGridEditViewModel(this Scale entity)
         {
             if (entity == null) throw new NullException(() => entity);
@@ -734,8 +752,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                 ScaleID = entity.ID,
                 NumberTitle =  ViewModelHelper.GetToneGridEditNumberTitle(entity),
                 Tones = entity.Tones.ToToneViewModels(),
-                ValidationMessages = new List<Message>(),
-                Successful = true
+                ValidationMessages = new List<Message>()
             };
 
             return viewModel;
@@ -750,37 +767,6 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
                                                       .Select(x => x.ToViewModel())
                                                       .ToList();
             return viewModels;
-        }
-
-        public static ScalePropertiesViewModel ToPropertiesViewModel(this Scale entity, IScaleTypeRepository scaleTypeRepository)
-        {
-            if (entity == null) throw new NullException(() => entity);
-            if (scaleTypeRepository == null) throw new NullException(() => scaleTypeRepository);
-
-            var viewModel = new ScalePropertiesViewModel
-            {
-                Entity = entity.ToViewModel(),
-                ScaleTypeLookup = ViewModelHelper.CreateScaleTypeLookupViewModel(scaleTypeRepository),
-                ValidationMessages = new List<Message>(),
-                Successful = true
-            };
-
-            return viewModel;
-        }
-
-        public static ScaleGridViewModel ToGridViewModel(this IList<Scale> entities, int documentID)
-        {
-            if (entities == null) throw new NullException(() => entities);
-
-            var viewModel = new ScaleGridViewModel
-            {
-                DocumentID = documentID,
-                List = entities.OrderBy(x => x.Name)
-                               .Select(x => x.ToIDAndName())
-                               .ToList()
-            };
-
-            return viewModel;
         }
 
         // Helpers
