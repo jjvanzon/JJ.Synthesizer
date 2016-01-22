@@ -16,41 +16,41 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
             try
             {
-                Text = _presenter.ViewModel.WindowTitle + _titleBarExtraText;
+                Text = _presenter.MainViewModel.WindowTitle + _titleBarExtraText;
 
-                menuUserControl.Show(_presenter.ViewModel.Menu);
+                menuUserControl.Show(_presenter.MainViewModel.Menu);
 
                 // NOTE: Actually making controls visible is postponed till last, to do it in a way that does not flash as much.
 
-                audioFileOutputGridUserControl.ViewModel = _presenter.ViewModel.Document.AudioFileOutputGrid;
-                audioFileOutputPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.AudioFileOutputPropertiesList
+                audioFileOutputGridUserControl.ViewModel = _presenter.MainViewModel.Document.AudioFileOutputGrid;
+                audioFileOutputPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.AudioFileOutputPropertiesList
                                                                                               .Where(x => x.Visible)
                                                                                               .FirstOrDefault();
 
                 // AutoPatch
-                _autoPatchDetailsForm.ViewModel = _presenter.ViewModel.Document.AutoPatchDetails;
-                _autoPatchDetailsForm.Visible = _presenter.ViewModel.Document.AutoPatchDetails.Visible;
+                _autoPatchDetailsForm.ViewModel = _presenter.MainViewModel.Document.AutoPatchDetails;
+                _autoPatchDetailsForm.Visible = _presenter.MainViewModel.Document.AutoPatchDetails.Visible;
 
                 // CurrentPatches
-                currentPatchesUserControl.ViewModel = _presenter.ViewModel.Document.CurrentPatches;
+                currentPatchesUserControl.ViewModel = _presenter.MainViewModel.Document.CurrentPatches;
                 currentPatchesUserControl.Visible = currentPatchesUserControl.ViewModel.Visible;
 
                 // CurveDetails
                 curveDetailsUserControl.ViewModel =
                     Enumerable.Union(
-                        _presenter.ViewModel.Document.CurveDetailsList,
-                        _presenter.ViewModel.Document.PatchDocumentList.SelectMany(x => x.CurveDetailsList))
+                        _presenter.MainViewModel.Document.CurveDetailsList,
+                        _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.CurveDetailsList))
                    .Where(x => x.Visible)
                    .FirstOrDefault();
 
                 // CurveGrid
-                if (_presenter.ViewModel.Document.CurveGrid.Visible)
+                if (_presenter.MainViewModel.Document.CurveGrid.Visible)
                 {
-                    curveGridUserControl.ViewModel = _presenter.ViewModel.Document.CurveGrid;
+                    curveGridUserControl.ViewModel = _presenter.MainViewModel.Document.CurveGrid;
                 }
                 else
                 {
-                    curveGridUserControl.ViewModel = _presenter.ViewModel.Document.PatchDocumentList
+                    curveGridUserControl.ViewModel = _presenter.MainViewModel.Document.PatchDocumentList
                                                                                   .Select(x => x.CurveGrid)
                                                                                   .Where(x => x.Visible)
                                                                                   .FirstOrDefault();
@@ -59,34 +59,34 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 // CurveProperties
                 curvePropertiesUserControl.ViewModel =
                     Enumerable.Union(
-                        _presenter.ViewModel.Document.CurvePropertiesList,
-                        _presenter.ViewModel.Document.PatchDocumentList.SelectMany(x => x.CurvePropertiesList))
+                        _presenter.MainViewModel.Document.CurvePropertiesList,
+                        _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.CurvePropertiesList))
                    .Where(x => x.Visible)
                    .FirstOrDefault();
 
                 // Document
-                documentDetailsUserControl.ViewModel = _presenter.ViewModel.DocumentDetails;
-                documentGridUserControl.ViewModel = _presenter.ViewModel.DocumentGrid;
-                documentPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.DocumentProperties;
-                documentTreeUserControl.ViewModel = _presenter.ViewModel.Document.DocumentTree;
+                documentDetailsUserControl.ViewModel = _presenter.MainViewModel.DocumentDetails;
+                documentGridUserControl.ViewModel = _presenter.MainViewModel.DocumentGrid;
+                documentPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentProperties;
+                documentTreeUserControl.ViewModel = _presenter.MainViewModel.Document.DocumentTree;
 
                 // NodeProperties
                 nodePropertiesUserControl.ViewModel =
                     Enumerable.Union(
-                        _presenter.ViewModel.Document.NodePropertiesList,
-                        _presenter.ViewModel.Document.PatchDocumentList.SelectMany(x => x.NodePropertiesList))
+                        _presenter.MainViewModel.Document.NodePropertiesList,
+                        _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.NodePropertiesList))
                    .Where(x => x.Visible)
                    .FirstOrDefault();
 
                 // OperatorProperties
                 operatorPropertiesUserControl.ViewModel =
-                    _presenter.ViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList)
+                    _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
                 // OperatorProperties_ForBundle
                 operatorPropertiesUserControl_ForBundle.ViewModel =
-                    _presenter.ViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForBundles)
+                    _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForBundles)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
@@ -94,7 +94,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 // (Needs slightly different code, because the CurveLookup is different for root documents and child documents.
                 operatorPropertiesUserControl_ForCurve.ViewModel = null;
                 OperatorPropertiesViewModel_ForCurve visibleOperatorPropertiesViewModel_ForCurve = null;
-                foreach (PatchDocumentViewModel patchDocumentViewModel in _presenter.ViewModel.Document.PatchDocumentList)
+                foreach (PatchDocumentViewModel patchDocumentViewModel in _presenter.MainViewModel.Document.PatchDocumentList)
                 {
                     visibleOperatorPropertiesViewModel_ForCurve = patchDocumentViewModel.OperatorPropertiesList_ForCurves.Where(x => x.Visible).FirstOrDefault();
                     if (visibleOperatorPropertiesViewModel_ForCurve != null)
@@ -107,26 +107,26 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 // OperatorProperties_ForCustomOperator
                 operatorPropertiesUserControl_ForCustomOperator.ViewModel =
-                    _presenter.ViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators)
+                    _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForCustomOperators)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
-                operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingPatchLookup(_presenter.ViewModel.Document.UnderlyingPatchLookup);
+                operatorPropertiesUserControl_ForCustomOperator.SetUnderlyingPatchLookup(_presenter.MainViewModel.Document.UnderlyingPatchLookup);
 
                 // OperatorProperties_ForNumber
                 operatorPropertiesUserControl_ForNumber.ViewModel =
-                    _presenter.ViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers)
+                    _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForNumbers)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
                 // OperatorProperties_ForPatchInlet
                 operatorPropertiesUserControl_ForPatchInlet.ViewModel =
-                    _presenter.ViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchInlets)
+                    _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchInlets)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
                 // OperatorProperties_ForPatchOutlet
                 operatorPropertiesUserControl_ForPatchOutlet.ViewModel =
-                    _presenter.ViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets)
+                    _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForPatchOutlets)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
@@ -134,7 +134,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 // (Needs slightly different code, because the SampleLookup is different for root documents and child documents.
                 operatorPropertiesUserControl_ForSample.ViewModel = null;
                 OperatorPropertiesViewModel_ForSample visibleOperatorPropertiesViewModel_ForSample = null;
-                foreach (PatchDocumentViewModel patchDocumentViewModel in _presenter.ViewModel.Document.PatchDocumentList)
+                foreach (PatchDocumentViewModel patchDocumentViewModel in _presenter.MainViewModel.Document.PatchDocumentList)
                 {
                     visibleOperatorPropertiesViewModel_ForSample = patchDocumentViewModel.OperatorPropertiesList_ForSamples.Where(x => x.Visible).FirstOrDefault();
                     if (visibleOperatorPropertiesViewModel_ForSample != null)
@@ -147,34 +147,34 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 
                 // OperatorProperties_ForUnbundle
                 operatorPropertiesUserControl_ForUnbundle.ViewModel =
-                    _presenter.ViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles)
+                    _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.OperatorPropertiesList_ForUnbundles)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
                 // PatchDetails
                 patchDetailsUserControl.ViewModel =
-                    _presenter.ViewModel.Document.PatchDocumentList.Select(x => x.PatchDetails)
+                    _presenter.MainViewModel.Document.PatchDocumentList.Select(x => x.PatchDetails)
                     .Where(x => x.Visible)
                     .FirstOrDefault();
 
                 // PatchGrid
-                patchGridUserControl.ViewModel = _presenter.ViewModel.Document.PatchGridList
+                patchGridUserControl.ViewModel = _presenter.MainViewModel.Document.PatchGridList
                                                                               .Where(x => x.Visible)
                                                                               .FirstOrDefault();
 
                 // PatchProperties
-                patchPropertiesUserControl.ViewModel = _presenter.ViewModel.Document.PatchDocumentList
+                patchPropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.PatchDocumentList
                                                                                     .Select(x => x.PatchProperties)
                                                                                     .Where(x => x.Visible)
                                                                                     .FirstOrDefault();
                 // SampleGrid
-                if (_presenter.ViewModel.Document.SampleGrid.Visible)
+                if (_presenter.MainViewModel.Document.SampleGrid.Visible)
                 {
-                    sampleGridUserControl.ViewModel = _presenter.ViewModel.Document.SampleGrid;
+                    sampleGridUserControl.ViewModel = _presenter.MainViewModel.Document.SampleGrid;
                 }
                 else
                 {
-                    sampleGridUserControl.ViewModel = _presenter.ViewModel.Document.PatchDocumentList
+                    sampleGridUserControl.ViewModel = _presenter.MainViewModel.Document.PatchDocumentList
                                                                                    .Select(x => x.SampleGrid)
                                                                                    .Where(x => x.Visible)
                                                                                    .FirstOrDefault();
@@ -183,17 +183,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 // SampleProperties
                 samplePropertiesUserControl.ViewModel =
                     Enumerable.Union(
-                        _presenter.ViewModel.Document.SamplePropertiesList,
-                        _presenter.ViewModel.Document.PatchDocumentList.SelectMany(x => x.SamplePropertiesList))
+                        _presenter.MainViewModel.Document.SamplePropertiesList,
+                        _presenter.MainViewModel.Document.PatchDocumentList.SelectMany(x => x.SamplePropertiesList))
                    .Where(x => x.Visible)
                    .FirstOrDefault();
 
                 // Scale
-                scaleGridUserControl.ViewModel = _presenter.ViewModel.Document.ScaleGrid;
-                toneGridEditUserControl.ViewModel = _presenter.ViewModel.Document.ToneGridEditList
+                scaleGridUserControl.ViewModel = _presenter.MainViewModel.Document.ScaleGrid;
+                toneGridEditUserControl.ViewModel = _presenter.MainViewModel.Document.ToneGridEditList
                                                                                  .Where(x => x.Visible)
                                                                                  .FirstOrDefault();
-                scalePropertiesUserControl.ViewModel = _presenter.ViewModel.Document.ScalePropertiesList
+                scalePropertiesUserControl.ViewModel = _presenter.MainViewModel.Document.ScalePropertiesList
                                                                                     .Where(x => x.Visible)
                                                                                     .FirstOrDefault();
                 // Set Visible Properties
@@ -337,38 +337,38 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 ResumeLayout();
             }
 
-            if (_presenter.ViewModel.NotFound.Visible)
+            if (_presenter.MainViewModel.NotFound.Visible)
             {
-                MessageBoxHelper.ShowNotFound(_presenter.ViewModel.NotFound);
+                MessageBoxHelper.ShowNotFound(_presenter.MainViewModel.NotFound);
             }
 
-            if (_presenter.ViewModel.DocumentDelete.Visible)
+            if (_presenter.MainViewModel.DocumentDelete.Visible)
             {
-                MessageBoxHelper.ShowDocumentConfirmDelete(_presenter.ViewModel.DocumentDelete);
+                MessageBoxHelper.ShowDocumentConfirmDelete(_presenter.MainViewModel.DocumentDelete);
             }
 
-            if (_presenter.ViewModel.DocumentDeleted.Visible)
+            if (_presenter.MainViewModel.DocumentDeleted.Visible)
             {
                 MessageBoxHelper.ShowDocumentIsDeleted();
             }
 
-            if (_presenter.ViewModel.DocumentCannotDelete.Visible)
+            if (_presenter.MainViewModel.DocumentCannotDelete.Visible)
             {
-                _documentCannotDeleteForm.ShowDialog(_presenter.ViewModel.DocumentCannotDelete);
+                _documentCannotDeleteForm.ShowDialog(_presenter.MainViewModel.DocumentCannotDelete);
             }
 
-            if (_presenter.ViewModel.ValidationMessages.Count != 0)
+            if (_presenter.MainViewModel.ValidationMessages.Count != 0)
             {
                 // TODO: Lower priorty: This is a temporary dispatching of the validation messages. Later it will be shown in a separate Panel.
-                MessageBox.Show(String.Join(Environment.NewLine, _presenter.ViewModel.ValidationMessages.Select(x => x.Text)));
+                MessageBox.Show(String.Join(Environment.NewLine, _presenter.MainViewModel.ValidationMessages.Select(x => x.Text)));
 
                 // Clear them so the next time the message box is not shown (message box is a temporary solution).
-                _presenter.ViewModel.ValidationMessages.Clear();
+                _presenter.MainViewModel.ValidationMessages.Clear();
             }
 
-            if (_presenter.ViewModel.PopupMessages.Count != 0)
+            if (_presenter.MainViewModel.PopupMessages.Count != 0)
             {
-                MessageBoxHelper.ShowPopupMessages(_presenter.ViewModel.PopupMessages);
+                MessageBoxHelper.ShowPopupMessages(_presenter.MainViewModel.PopupMessages);
             }
 
             // Focus control if not valid.

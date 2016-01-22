@@ -84,7 +84,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (AudioFileOutputGridViewModel)viewModel2;
 
-            ViewModel.Document.AudioFileOutputGrid = (AudioFileOutputGridViewModel)viewModel2;
+            MainViewModel.Document.AudioFileOutputGrid = (AudioFileOutputGridViewModel)viewModel2;
 
             if (castedViewModel.Visible)
             {
@@ -97,7 +97,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (AudioFileOutputPropertiesViewModel)viewModel2;
 
-            var list = ViewModel.Document.AudioFileOutputPropertiesList;
+            var list = MainViewModel.Document.AudioFileOutputPropertiesList;
             int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
             if (listIndex.HasValue)
             {
@@ -114,7 +114,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -127,7 +127,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (CurveDetailsViewModel)viewModel2;
 
-            var list = DocumentViewModelHelper.GetCurveDetailsViewModelList_ByCurveID(ViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetCurveDetailsViewModelList_ByCurveID(MainViewModel.Document, castedViewModel.ID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -144,7 +144,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -152,14 +152,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (CurveGridViewModel)viewModel2;
 
-            bool isRootDocument = ViewModel.Document.ID == castedViewModel.DocumentID;
+            bool isRootDocument = MainViewModel.Document.ID == castedViewModel.DocumentID;
             if (isRootDocument)
             {
-                ViewModel.Document.CurveGrid = castedViewModel;
+                MainViewModel.Document.CurveGrid = castedViewModel;
             }
             else
             {
-                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(ViewModel.Document, castedViewModel.DocumentID);
+                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(MainViewModel.Document, castedViewModel.DocumentID);
                 patchDocumentViewModel.CurveGrid = castedViewModel;
             }
 
@@ -174,7 +174,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (CurvePropertiesViewModel)viewModel2;
 
-            var list = DocumentViewModelHelper.GetCurvePropertiesViewModelList_ByCurveID(ViewModel.Document, castedViewModel.Entity.ID);
+            var list = DocumentViewModelHelper.GetCurvePropertiesViewModelList_ByCurveID(MainViewModel.Document, castedViewModel.Entity.ID);
             int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
             if (listIndex.HasValue)
             {
@@ -191,7 +191,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -199,18 +199,18 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (DocumentCannotDeleteViewModel)viewModel2;
 
-            ViewModel.DocumentCannotDelete = castedViewModel;
+            MainViewModel.DocumentCannotDelete = castedViewModel;
         }
 
         private void DispatchDocumentDeletedViewModel(object viewModel2)
         {
             var castedViewModel = (DocumentDeletedViewModel)viewModel2;
 
-            ViewModel.DocumentDeleted = castedViewModel;
+            MainViewModel.DocumentDeleted = castedViewModel;
 
             // TODO: This is quite an assumption.
-            ViewModel.DocumentDelete.Visible = false;
-            ViewModel.DocumentDetails.Visible = false;
+            MainViewModel.DocumentDelete.Visible = false;
+            MainViewModel.DocumentDetails.Visible = false;
 
             if (!castedViewModel.Visible)
             {
@@ -222,14 +222,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private void DispatchDocumentDeleteViewModel(object viewModel2)
         {
             var castedViewModel = (DocumentDeleteViewModel)viewModel2;
-            ViewModel.DocumentDelete = castedViewModel;
+            MainViewModel.DocumentDelete = castedViewModel;
         }
 
         private void DispatchDocumentDetailsViewModel(object viewModel2)
         {
             var documentDetailsViewModel = (DocumentDetailsViewModel)viewModel2;
 
-            ViewModel.DocumentDetails = documentDetailsViewModel;
+            MainViewModel.DocumentDetails = documentDetailsViewModel;
 
             if (documentDetailsViewModel.Visible)
             {
@@ -237,7 +237,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 documentDetailsViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(documentDetailsViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(documentDetailsViewModel.ValidationMessages);
             documentDetailsViewModel.ValidationMessages.Clear();
         }
 
@@ -245,7 +245,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (DocumentGridViewModel)viewModel2;
 
-            ViewModel.DocumentGrid = castedViewModel;
+            MainViewModel.DocumentGrid = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -258,7 +258,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (DocumentPropertiesViewModel)viewModel2;
 
-            ViewModel.Document.DocumentProperties = castedViewModel;
+            MainViewModel.Document.DocumentProperties = castedViewModel;
 
             if (castedViewModel.Visible)
             {
@@ -266,27 +266,27 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
         private void DispatchDocumentTreeViewModel(object viewModel2)
         {
             var castedViewModel = (DocumentTreeViewModel)viewModel2;
-            ViewModel.Document.DocumentTree = castedViewModel;
+            MainViewModel.Document.DocumentTree = castedViewModel;
         }
 
         private void DispatchMenuViewModel(object viewModel2)
         {
             var castedViewModel = (MenuViewModel)viewModel2;
-            ViewModel.Menu = castedViewModel;
+            MainViewModel.Menu = castedViewModel;
         }
 
         private void DispatchNodePropertiesViewModel(object viewModel2)
         {
             var castedViewModel = (NodePropertiesViewModel)viewModel2;
 
-            var list = DocumentViewModelHelper.GetNodePropertiesViewModelList_ByNodeID(ViewModel.Document, castedViewModel.Entity.ID);
+            var list = DocumentViewModelHelper.GetNodePropertiesViewModelList_ByNodeID(MainViewModel.Document, castedViewModel.Entity.ID);
             int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
             if (listIndex.HasValue)
             {
@@ -303,7 +303,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -311,7 +311,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (NotFoundViewModel)viewModel2;
 
-            ViewModel.NotFound = castedViewModel;
+            MainViewModel.NotFound = castedViewModel;
 
             // HACK: Checking visibility of the NotFound view model
             // prevents refreshing the DocumentList twice:
@@ -331,7 +331,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -348,7 +348,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -356,7 +356,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForBundle)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForBundles_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForBundles_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -373,7 +373,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -381,7 +381,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCurve)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCurves_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCurves_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -398,7 +398,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -406,7 +406,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForCustomOperator)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCustomOperators_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForCustomOperators_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -423,7 +423,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -431,7 +431,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForPatchInlet)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchInlets_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchInlets_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -448,7 +448,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -456,7 +456,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForPatchOutlet)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchOutlets_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForPatchOutlets_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -473,7 +473,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -481,7 +481,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForSample)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForSamples_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForSamples_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -498,7 +498,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -506,7 +506,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForNumber)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForNumbers_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForNumbers_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -523,7 +523,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -531,7 +531,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (OperatorPropertiesViewModel_ForUnbundle)viewModel2;
 
-            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForUnbundles_ByOperatorID(ViewModel.Document, castedViewModel.ID);
+            var list = DocumentViewModelHelper.GetOperatorPropertiesViewModelList_ForUnbundles_ByOperatorID(MainViewModel.Document, castedViewModel.ID);
             int? listIndex = list.TryGetIndexOf(x => x.ID == castedViewModel.ID);
             if (listIndex.HasValue)
             {
@@ -548,7 +548,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -556,8 +556,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (PatchDetailsViewModel)viewModel2;
             
-            var list = ViewModel.Document.PatchDocumentList;
-            int listIndex = ViewModel.Document.PatchDocumentList.IndexOf(x => x.PatchDetails.Entity.PatchID == castedViewModel.Entity.PatchID);
+            var list = MainViewModel.Document.PatchDocumentList;
+            int listIndex = MainViewModel.Document.PatchDocumentList.IndexOf(x => x.PatchDetails.Entity.PatchID == castedViewModel.Entity.PatchID);
             list[listIndex].PatchDetails = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -566,7 +566,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -574,8 +574,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (PatchGridViewModel)viewModel2;
 
-            ViewModel.Document.PatchGridList.TryRemoveFirst(x => String.Equals(x.Group, castedViewModel.Group));
-            ViewModel.Document.PatchGridList.Add(castedViewModel);
+            MainViewModel.Document.PatchGridList.TryRemoveFirst(x => String.Equals(x.Group, castedViewModel.Group));
+            MainViewModel.Document.PatchGridList.Add(castedViewModel);
 
             if (castedViewModel.Visible)
             {
@@ -588,8 +588,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (PatchPropertiesViewModel)viewModel2;
 
-            var list = ViewModel.Document.PatchDocumentList;
-            int listIndex = ViewModel.Document.PatchDocumentList.IndexOf(x => x.PatchProperties.PatchID == castedViewModel.PatchID);
+            var list = MainViewModel.Document.PatchDocumentList;
+            int listIndex = MainViewModel.Document.PatchDocumentList.IndexOf(x => x.PatchProperties.PatchID == castedViewModel.PatchID);
             list[listIndex].PatchProperties = castedViewModel;
 
             if (castedViewModel.Visible)
@@ -598,7 +598,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -606,14 +606,14 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (SampleGridViewModel)viewModel2;
 
-            bool isRootDocument = ViewModel.Document.ID == castedViewModel.DocumentID;
+            bool isRootDocument = MainViewModel.Document.ID == castedViewModel.DocumentID;
             if (isRootDocument)
             {
-                ViewModel.Document.SampleGrid = castedViewModel;
+                MainViewModel.Document.SampleGrid = castedViewModel;
             }
             else
             {
-                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(ViewModel.Document, castedViewModel.DocumentID);
+                PatchDocumentViewModel patchDocumentViewModel = DocumentViewModelHelper.GetPatchDocumentViewModel(MainViewModel.Document, castedViewModel.DocumentID);
                 patchDocumentViewModel.SampleGrid = castedViewModel;
             }
 
@@ -628,7 +628,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (SamplePropertiesViewModel)viewModel2;
 
-            var list = DocumentViewModelHelper.GetSamplePropertiesViewModelList_BySampleID(ViewModel.Document, castedViewModel.Entity.ID);
+            var list = DocumentViewModelHelper.GetSamplePropertiesViewModelList_BySampleID(MainViewModel.Document, castedViewModel.Entity.ID);
             int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
             if (listIndex.HasValue)
             {
@@ -645,7 +645,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.ValidationMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -653,7 +653,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (ScaleGridViewModel)viewModel2;
 
-            ViewModel.Document.ScaleGrid = (ScaleGridViewModel)viewModel2;
+            MainViewModel.Document.ScaleGrid = (ScaleGridViewModel)viewModel2;
 
             if (castedViewModel.Visible)
             {
@@ -666,7 +666,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (ScalePropertiesViewModel)viewModel2;
 
-            var list = ViewModel.Document.ScalePropertiesList;
+            var list = MainViewModel.Document.ScalePropertiesList;
             int? listIndex = list.TryGetIndexOf(x => x.Entity.ID == castedViewModel.Entity.ID);
             if (listIndex.HasValue)
             {
@@ -683,7 +683,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
 
@@ -691,7 +691,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             var castedViewModel = (ToneGridEditViewModel)viewModel2;
 
-            var list = ViewModel.Document.ToneGridEditList;
+            var list = MainViewModel.Document.ToneGridEditList;
             int? listIndex = list.TryGetIndexOf(x => x.ScaleID == castedViewModel.ScaleID);
             if (listIndex.HasValue)
             {
@@ -708,7 +708,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 castedViewModel.Visible = true;
             }
 
-            ViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
+            MainViewModel.PopupMessages.AddRange(castedViewModel.ValidationMessages);
             castedViewModel.ValidationMessages.Clear();
         }
     }

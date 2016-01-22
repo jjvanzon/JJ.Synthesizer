@@ -41,6 +41,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Successful
             viewModel.Successful = true;
+
             return viewModel;
         }
 
@@ -62,6 +63,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Successful
             viewModel.Successful = true;
+
             return viewModel;
         }
 

@@ -1126,7 +1126,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
                 ApplyViewModel();
 
-                if (_presenter.ViewModel.Successful)
+                if (_presenter.MainViewModel.Successful)
                 {
                     SoundPlayer soundPlayer = new SoundPlayer(outputFilePath);
                     soundPlayer.Play();

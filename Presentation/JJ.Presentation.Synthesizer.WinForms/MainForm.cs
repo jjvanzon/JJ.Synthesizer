@@ -112,7 +112,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
 
         private void RecreatePatchCalculator()
         {
-            IList<Patch> patches = _presenter.ViewModel.Document.CurrentPatches.List
+            IList<Patch> patches = _presenter.MainViewModel.Document.CurrentPatches.List
                                                                 .Select(x => _repositories.DocumentRepository.Get(x.ChildDocumentID))
                                                                 .Select(x => x.Patches.Single())
                                                                 .ToArray();

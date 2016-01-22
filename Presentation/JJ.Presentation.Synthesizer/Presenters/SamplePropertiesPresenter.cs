@@ -2,10 +2,8 @@
 using JJ.Framework.Validation;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Data.Synthesizer;
-using JJ.Business.Synthesizer.Validation;
 using JJ.Business.Synthesizer.Helpers;
 using JJ.Business.Synthesizer.Extensions;
-using JJ.Presentation.Synthesizer.Helpers;
 using JJ.Presentation.Synthesizer.ViewModels;
 using JJ.Presentation.Synthesizer.ToEntity;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -19,8 +17,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private SampleRepositories _repositories;
         private SampleManager _sampleManager;
 
-        public SamplePropertiesViewModel ViewModel { get; set; }
-
         public SamplePropertiesPresenter(SampleRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
@@ -29,74 +25,93 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _sampleManager = new SampleManager(repositories);
         }
 
-        public void Show()
+        public SamplePropertiesViewModel Show(SamplePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Sample sample = _repositories.SampleRepository.Get(userInput.Entity.ID);
+
+            // ToViewModel
+            SamplePropertiesViewModel viewModel = sample.ToPropertiesViewModel(_repositories);
+
+            // Non-Persisted
+            viewModel.Visible = true;
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        public void Refresh()
+        public SamplePropertiesViewModel Refresh(SamplePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Sample entity = _repositories.SampleRepository.Get(ViewModel.Entity.ID);
+            // !Successful
+            userInput.Successful = false;
 
-            bool visible = ViewModel.Visible;
+            // GetEntity
+            Sample entity = _repositories.SampleRepository.Get(userInput.Entity.ID);
 
-            ViewModel = entity.ToPropertiesViewModel(_repositories);
+            // ToViewModel
+            SamplePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories);
 
-            ViewModel.Visible = visible;
+            // Non-Persisted
+            viewModel.Visible = userInput.Visible;
+
+            // Successfule
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        public void Close()
+        public SamplePropertiesViewModel Close(SamplePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            SamplePropertiesViewModel viewModel = Update(userInput);
 
-            Update();
-
-            if (ViewModel.Successful)
+            if (viewModel.Successful)
             {
-                RefreshDuration();
-
-                ViewModel.Visible = false;
+                viewModel.Visible = false;
             }
+
+            return viewModel;
         }
 
-        public void LoseFocus()
+        public SamplePropertiesViewModel LoseFocus(SamplePropertiesViewModel userInput)
         {
-            AssertViewModel();
-
-            Update();
-
-            if (ViewModel.Successful)
-            {
-                RefreshDuration();
-            }
+            SamplePropertiesViewModel viewModel = Update(userInput);
+            return viewModel;
         }
 
-        private void Update()
+        private SamplePropertiesViewModel Update(SamplePropertiesViewModel userInput)
         {
-            // TODO: Consider letting ToEntity return SampleInfo, because it also updates the sample's Bytes.
-            Sample entity = ViewModel.ToEntity(_repositories);
+            if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Sample entity = _repositories.SampleRepository.Get(userInput.Entity.ID);
+
+            // Business
             VoidResult result = _sampleManager.Validate(entity);
 
-            ViewModel.Successful = result.Successful;
-            ViewModel.ValidationMessages = result.Messages;
-        }
+            // ToViewModel
+            SamplePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories);
+            viewModel.Successful = result.Successful;
+            viewModel.ValidationMessages = result.Messages;
 
-        // Helpers
+            // Non-Persisted
+            viewModel.Visible = userInput.Visible;
 
-        private void AssertViewModel()
-        {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
-        }
+            // Successful
+            viewModel.Successful = result.Successful;
 
-        private void RefreshDuration()
-        {
-            Sample sample = _repositories.SampleRepository.Get(ViewModel.Entity.ID);
-            ViewModel.Entity.Duration = sample.GetDuration(ViewModel.Entity.Bytes);
+            return viewModel;
         }
     }
 }

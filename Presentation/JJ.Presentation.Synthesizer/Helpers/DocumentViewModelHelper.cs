@@ -823,6 +823,19 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // Sample
 
+        public static SamplePropertiesViewModel GetVisibleSamplePropertiesViewModel(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            SamplePropertiesViewModel userInput = rootDocumentViewModel.SamplePropertiesList.Where(x => x.Visible).FirstOrDefault();
+            if (userInput == null)
+            {
+                throw new Exception("No Visible SamplePropertiesViewModel found in rootDocumentViewModel.");
+            }
+
+            return userInput;
+        }
+
         public static SamplePropertiesViewModel GetSamplePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int sampleID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
