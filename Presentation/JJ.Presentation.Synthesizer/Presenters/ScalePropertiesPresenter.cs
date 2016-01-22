@@ -15,8 +15,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
         private ScaleRepositories _repositories;
         private ScaleManager _scaleManager;
 
-        public ScalePropertiesViewModel ViewModel { get; set; }
-
         public ScalePropertiesPresenter(ScaleRepositories repositories)
         {
             if (repositories == null) throw new NullException(() => repositories);
@@ -25,60 +23,90 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _scaleManager = new ScaleManager(_repositories);
         }
 
-        public void Show()
+        public ScalePropertiesViewModel Show(ScalePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Scale scale = _repositories.ScaleRepository.Get(userInput.Entity.ID);
+
+            // ToViewModel
+            ScalePropertiesViewModel viewModel = scale.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
+
+            // Non-Persisted
+            viewModel.Visible = true;
+
+            // Successful
+            viewModel.Successful = true;
+            return viewModel;
         }
 
-        public void Refresh()
+        public ScalePropertiesViewModel Refresh(ScalePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Scale entity = _repositories.ScaleRepository.Get(ViewModel.Entity.ID);
+            // !Successful
+            userInput.Successful = false;
 
-            bool visible = ViewModel.Visible;
+            // GetEntity
+            Scale entity = _repositories.ScaleRepository.Get(userInput.Entity.ID);
 
-            ViewModel = entity.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
+            // ToViewModel
+            ScalePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
 
-            ViewModel.Visible = visible;
+            // Non-Persisted
+            viewModel.Visible = userInput.Visible;
+
+            // Successful
+            viewModel.Successful = true;
+            return viewModel;
         }
 
-        public void Close()
+        public ScalePropertiesViewModel Close(ScalePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            ScalePropertiesViewModel viewModel = Update(userInput);
 
-            Update();
-
-            if (ViewModel.Successful)
+            if (viewModel.Successful)
             {
-                ViewModel.Visible = false;
+                viewModel.Visible = false;
             }
+
+            return viewModel;
         }
 
-        public void LoseFocus()
+        public ScalePropertiesViewModel LoseFocus(ScalePropertiesViewModel userInput)
         {
-            Update();
+            ScalePropertiesViewModel viewModel = Update(userInput);
+            return viewModel;
         }
 
-        private void Update()
+        private ScalePropertiesViewModel Update(ScalePropertiesViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Scale scale = ViewModel.ToEntity(_repositories.ScaleRepository, _repositories.ScaleTypeRepository);
+            // Set !Successful
+            userInput.Successful = false;
 
-            VoidResult result = _scaleManager.ValidateWithoutTones(scale);
+            // GetEntity
+            Scale entity = userInput.ToEntity(_repositories.ScaleRepository, _repositories.ScaleTypeRepository);
 
-            ViewModel.Successful = result.Successful;
-            ViewModel.ValidationMessages = result.Messages;
-        }
+            // Business
+            VoidResult result = _scaleManager.ValidateWithoutTones(entity);
 
-        // Helpers
+            // ToViewModel
+            ScalePropertiesViewModel viewModel = entity.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
+            viewModel.ValidationMessages = result.Messages;
 
-        private void AssertViewModel()
-        {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            // Non-Persisted
+            viewModel.Visible = userInput.Visible;
+
+            // Successful
+            viewModel.Successful = result.Successful;
+
+            return viewModel;
         }
     }
 }

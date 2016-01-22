@@ -929,6 +929,34 @@ namespace JJ.Presentation.Synthesizer.Helpers
 
         // Scale
 
+        public static ScalePropertiesViewModel GetVisibleScalePropertiesViewModel(DocumentViewModel rootDocumentViewModel)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            ScalePropertiesViewModel userInput = rootDocumentViewModel.ScalePropertiesList.Where(x => x.Visible).FirstOrDefault();
+            if (userInput == null)
+            {
+                throw new Exception("No Visible ScalePropertiesViewModel found in rootDocumentViewModel.");
+            }
+
+            return userInput;
+        }
+
+        public static ScalePropertiesViewModel GetScalePropertiesViewModel(DocumentViewModel rootDocumentViewModel, int scaleID)
+        {
+            if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
+
+            ScalePropertiesViewModel propertiesViewModel = rootDocumentViewModel.ScalePropertiesList.FirstOrDefault(x => x.Entity.ID == scaleID);
+            if (propertiesViewModel == null)
+            {
+                throw new Exception(String.Format("ScalePropertiesViewModel with ID '{0}' not found in rootDocumentViewModel.", scaleID));
+            }
+
+            return propertiesViewModel;
+        }
+
+        // Tone
+
         public static ToneGridEditViewModel GetToneGridEditViewModel(DocumentViewModel rootDocumentViewModel, int scaleID)
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);

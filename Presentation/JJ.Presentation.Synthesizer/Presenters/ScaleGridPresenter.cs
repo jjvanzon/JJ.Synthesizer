@@ -1,4 +1,5 @@
-﻿using JJ.Data.Synthesizer;
+﻿using System;
+using JJ.Data.Synthesizer;
 using JJ.Data.Synthesizer.DefaultRepositories.Interfaces;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.ToViewModel;
@@ -10,8 +11,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
     {
         private IDocumentRepository _documentRepository;
 
-        public ScaleGridViewModel ViewModel { get; set; }
-
         public ScaleGridPresenter(IDocumentRepository documentRepository)
         {
             if (documentRepository == null) throw new NullException(() => documentRepository);
@@ -19,45 +18,69 @@ namespace JJ.Presentation.Synthesizer.Presenters
             _documentRepository = documentRepository;
         }
 
-        public void Show()
+        public ScaleGridViewModel Show(ScaleGridViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = true;
+            // Set !Successful
+            userInput.Successful = false;
+
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.DocumentID);
+
+            // ToViewModel
+            ScaleGridViewModel viewModel = document.Scales.ToGridViewModel(userInput.DocumentID);
+
+            // Non-Persisted
+            viewModel.Visible = true;
+
+            // Successful
+            viewModel.Successful = true;
+            return viewModel;
         }
 
-        /// <summary> Can return ScaleGridViewModel or NotFoundViewModel. </summary>
-        public object Refresh()
+        public ScaleGridViewModel Refresh(ScaleGridViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            Document document = _documentRepository.TryGet(ViewModel.DocumentID);
-            if (document == null)
-            {
-                ViewModelHelper.CreateDocumentNotFoundViewModel();
-            }
+            // Set !Successful
+            userInput.Successful = false;
 
-            bool visible = ViewModel.Visible;
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.DocumentID);
 
-            ViewModel = document.Scales.ToGridViewModel(ViewModel.DocumentID);
+            // ToViewModel
+            ScaleGridViewModel viewModel = document.Scales.ToGridViewModel(userInput.DocumentID);
 
-            ViewModel.Visible = visible;
+            // Non-Persisted
+            viewModel.Visible = userInput.Visible;
 
-            return ViewModel;
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
 
-        public void Close()
+        public ScaleGridViewModel Close(ScaleGridViewModel userInput)
         {
-            AssertViewModel();
+            if (userInput == null) throw new NullException(() => userInput);
 
-            ViewModel.Visible = false;
-        }
+            // Set !Successful
+            userInput.Successful = false;
 
-        // Helpers
+            // GetEntity
+            Document document = _documentRepository.Get(userInput.DocumentID);
 
-        private void AssertViewModel()
-        {
-            if (ViewModel == null) throw new NullException(() => ViewModel);
+            // ToViewModel
+            ScaleGridViewModel viewModel = document.Scales.ToGridViewModel(userInput.DocumentID);
+
+            // Non-Persisted
+            viewModel.Visible = false;
+
+            // Successful
+            viewModel.Successful = true;
+
+            return viewModel;
         }
     }
 }

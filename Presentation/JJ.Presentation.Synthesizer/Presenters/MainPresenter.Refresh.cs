@@ -205,8 +205,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         private void ScaleGridRefresh()
         {
-            object viewModel2 = _scaleGridPresenter.Refresh();
-            DispatchViewModel(viewModel2);
+            ScaleGridViewModel userInput = ViewModel.Document.ScaleGrid;
+            ScaleGridViewModel viewModel = _scaleGridPresenter.Refresh(userInput);
+            DispatchViewModel(viewModel);
         }
 
         private void ToneGridEditRefresh(int scaleID)

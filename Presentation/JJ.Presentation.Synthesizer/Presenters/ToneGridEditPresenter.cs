@@ -32,9 +32,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
             userInput.Successful = false;
 
-            // ToEntity
+            // GetEntity
             Scale scale = _repositories.ScaleRepository.Get(userInput.ScaleID);
 
             // ToViewModel
@@ -43,7 +44,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             viewModel.Visible = true;
 
-            userInput.Successful = true;
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
@@ -51,9 +54,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
             userInput.Successful = false;
 
-            // ToEntity
+            // GetEntity
             Scale scale = _repositories.ScaleRepository.Get(userInput.ScaleID);
 
             // ToViewModel
@@ -62,7 +66,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             viewModel.Visible = userInput.Visible;
 
-            userInput.Successful = true;
+            // Successful
+            viewModel.Successful = true;
+
             return viewModel;
         }
 
@@ -88,6 +94,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             if (userInput == null) throw new NullException(() => userInput);
 
+            // Set !Successful
             userInput.Successful = false;
 
             // ViewModel Validator
@@ -107,10 +114,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToViewModel
             ToneGridEditViewModel viewModel = scale.ToToneGridEditViewModel();
             viewModel.ValidationMessages = result.Messages;
-            viewModel.Successful = result.Successful;
 
             // Non-Persisted
             viewModel.Visible = userInput.Visible;
+
+            // Successful
+            viewModel.Successful = result.Successful;
 
             return viewModel;
         }

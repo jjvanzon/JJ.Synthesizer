@@ -373,7 +373,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             partialAction();
 
             // Business
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 ViewModel.Successful &= validationResult.Successful;
@@ -475,7 +475,6 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // E.g. SampleGrid is not assigned here, because it can be different for each child document.
             _audioFileOutputGridPresenter.ViewModel = ViewModel.Document.AudioFileOutputGrid;
             _documentTreePresenter.ViewModel = ViewModel.Document.DocumentTree;
-            _scaleGridPresenter.ViewModel = ViewModel.Document.ScaleGrid;
             _currentPatchesPresenter.ViewModel = ViewModel.Document.CurrentPatches;
 
             ViewModel.WindowTitle = String.Format("{0} - {1}", document.Name, Titles.ApplicationName);
@@ -497,7 +496,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document document = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Business
-            VoidResult result = _documentManager.ValidateRecursive(document);
+            IResult result = _documentManager.ValidateRecursive(document);
 
             if (result.Successful)
             {
@@ -550,7 +549,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             partialAction();
 
             // Business
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 ViewModel.Successful &= validationResult.Successful;
@@ -622,7 +621,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             partialAction();
 
             // Business
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 ViewModel.Successful &= validationResult.Successful;
@@ -667,7 +666,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             Node node = _curveManager.CreateNode(curve, afterNode);
 
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 ViewModel.Successful &= validationResult.Successful;
@@ -723,7 +722,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             _curveManager.DeleteNode(node);
 
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 ViewModel.Successful &= validationResult.Successful;
@@ -1085,7 +1084,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             partialAction();
 
-            VoidResult result = _documentManager.ValidateRecursive(rootDocument);
+            IResult result = _documentManager.ValidateRecursive(rootDocument);
             partialPresenter.ViewModel.Successful &= result.Successful;
             partialPresenter.ViewModel.ValidationMessages.AddRange(result.Messages);
 
@@ -1123,7 +1122,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             partialAction();
 
-            VoidResult result = _documentManager.ValidateRecursive(rootDocument);
+            IResult result = _documentManager.ValidateRecursive(rootDocument);
             partialPresenter.ViewModel.Successful &= result.Successful;
             partialPresenter.ViewModel.ValidationMessages.AddRange(result.Messages);
 
@@ -1149,7 +1148,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             // Do a full validate, because of the error-proneness of the CustomOperator-UnderlyingPatch synchronization,
             // to prevent getting stuck in a screen in which you cannot correct the problem.
-            VoidResult result = _documentManager.ValidateRecursive(rootDocument);
+            IResult result = _documentManager.ValidateRecursive(rootDocument);
             partialPresenter.ViewModel.Successful &= result.Successful;
             partialPresenter.ViewModel.ValidationMessages.AddRange(result.Messages);
 
@@ -1225,7 +1224,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var patchManager = new PatchManager(patch, _patchRepositories);
             Operator op = patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
 
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 ViewModel.Successful &= validationResult.Successful;
@@ -1281,7 +1280,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var patchManager = new PatchManager(patch, _patchRepositories);
             Operator op = patchManager.CreateOperator((OperatorTypeEnum)operatorTypeID);
 
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 ViewModel.Successful &= validationResult.Successful;
@@ -1377,7 +1376,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 var patchManager = new PatchManager(patch, _patchRepositories);
                 patchManager.DeleteOperator(op);
 
-                VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+                IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
                 if (!validationResult.Successful)
                 {
                     ViewModel.Successful &= validationResult.Successful;
@@ -1505,7 +1504,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             partialAction();
 
             // Business
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 ViewModel.Successful &= validationResult.Successful;
@@ -1568,7 +1567,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             partialAction();
 
             // Business
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 ViewModel.Successful &= validationResult.Successful;
@@ -1621,7 +1620,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             patchManager.CreatePatch(childDocument, mustGenerateName: true);
             Patch patch = patchManager.Patch;
 
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 ViewModel.Successful &= validationResult.Successful;
@@ -1652,7 +1651,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document childDocument = _repositories.DocumentRepository.Get(childDocumentID);
 
             // Businesss
-            VoidResult result = _documentManager.DeleteWithRelatedEntities(childDocument);
+            IResult result = _documentManager.DeleteWithRelatedEntities(childDocument);
             if (!result.Successful)
             {
                 // ToViewModel
@@ -1660,7 +1659,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return;
             }
 
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 ViewModel.Successful &= validationResult.Successful;
@@ -1716,7 +1715,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             Sample sample = _sampleManager.CreateSample(document, mustGenerateName: true);
 
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 ViewModel.Successful &= validationResult.Successful;
@@ -1764,7 +1763,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             bool isRootDocument = sample.Document.ParentDocument == null;
 
             // Business
-            VoidResult result = _sampleManager.Delete(sample);
+            IResult result = _sampleManager.Delete(sample);
             if (!result.Successful)
             {
                 // ToViewModel
@@ -1772,7 +1771,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 return;
             }
 
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 ViewModel.Successful &= validationResult.Successful;
@@ -1830,7 +1829,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             DispatchViewModel(_samplePropertiesPresenter.ViewModel);
 
             // Business
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 ViewModel.Successful &= validationResult.Successful;
@@ -1853,29 +1852,96 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void ScaleGridShow()
         {
-            _scaleGridPresenter.Show();
-            DispatchViewModel(_scaleGridPresenter.ViewModel);
+            // GetViewModel
+            ScaleGridViewModel userInput = ViewModel.Document.ScaleGrid;
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // ToEntity
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Partial Action
+            ScaleGridViewModel viewModel = _scaleGridPresenter.Show(userInput);
+            if (!viewModel.Successful)
+            {
+                DispatchViewModel(viewModel);
+                return;
+            }
+
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                viewModel.Successful = false;
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+                DispatchViewModel(userInput);
+                return;
+            }
+
+            // Successful
+            viewModel.Successful = true;
+
+            // DispatchViewModel
+            DispatchViewModel(viewModel);
         }
 
         public void ScaleGridClose()
         {
-            _scaleGridPresenter.Close();
-            DispatchViewModel(_scaleGridPresenter.ViewModel);
+            // GetViewModel
+            ScaleGridViewModel userInput = ViewModel.Document.ScaleGrid;
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // ToEntity
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+
+            // Partial Action
+            ScaleGridViewModel viewModel = _scaleGridPresenter.Close(userInput);
+            if (!viewModel.Successful)
+            {
+                DispatchViewModel(viewModel);
+                return;
+            }
+
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                viewModel.Successful = false;
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+                DispatchViewModel(userInput);
+                return;
+            }
+
+            // Successful
+            viewModel.Successful = true;
+
+            // Dispatch ViewModel
+            DispatchViewModel(viewModel);
         }
 
         public void ScaleCreate()
         {
+            // GetViewModel
+            ScaleGridViewModel userInput = ViewModel.Document.ScaleGrid;
+
+            // Set !Successful
+            userInput.Successful = false;
+
             // ToEntity
             Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Business
             Scale scale = _scaleManager.Create(rootDocument, mustSetDefaults: true, mustGenerateName: true);
 
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
-                ViewModel.Successful &= validationResult.Successful;
-                ViewModel.PopupMessages.AddRange(validationResult.Messages);
+                userInput.Successful = false;
+                userInput.ValidationMessages = validationResult.Messages;
+                DispatchViewModel(userInput);
                 return;
             }
 
@@ -1886,87 +1952,161 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
             ToneGridEditViewModel toneGridEditViewModel = scale.ToToneGridEditViewModel();
             ViewModel.Document.ToneGridEditList.Add(toneGridEditViewModel);
+            
+            ScalePropertiesViewModel scalePropertiesViewModel = scale.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
+            ViewModel.Document.ScalePropertiesList.Add(scalePropertiesViewModel);
 
-            ScalePropertiesViewModel propertiesViewModel = scale.ToPropertiesViewModel(_repositories.ScaleTypeRepository);
-            ViewModel.Document.ScalePropertiesList.Add(propertiesViewModel);
+            // Set Successful
+            userInput.Successful = true;
+            scalePropertiesViewModel.Successful = true;
+            toneGridEditViewModel.Successful = true;
         }
 
         public void ScaleDelete(int id)
         {
+            // GetViewModel
+            ScaleGridViewModel userInput = ViewModel.Document.ScaleGrid;
+
+            // Set !Successful
+            userInput.Successful = false;
+
+            // ToEntity
             Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+            Scale scale = _repositories.ScaleRepository.Get(id);
 
-            // TODO: It is not very clean to assume business logic will also not in the future have any delete constraints.
+            // Business
+            _scaleManager.DeleteWithRelatedEntities(id);
 
-            // 'Business' / ToViewModel
-            ViewModel.Document.ToneGridEditList.RemoveFirst(x => x.ScaleID == id);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                userInput.Successful = false;
+                userInput.ValidationMessages.AddRange(validationResult.Messages);
+                DispatchViewModel(userInput);
+                return;
+            }
+
+            // ToViewModel
             ViewModel.Document.ScaleGrid.List.RemoveFirst(x => x.ID == id);
+            ViewModel.Document.ToneGridEditList.RemoveFirst(x => x.ScaleID == id);
             ViewModel.Document.ScalePropertiesList.RemoveFirst(x => x.Entity.ID == id);
 
-            // No need to do ToEntity, 
-            // because we are not executing any additional business logic or refreshing 
-            // that uses the entity models.
+            // Successful
+            userInput.Successful = true;
         }
 
         public void ScaleShow(int id)
         {
-            ToneGridEditViewModel userInput1 = DocumentViewModelHelper.GetToneGridEditViewModel(ViewModel.Document, scaleID: id);
+            // GetViewModel
+            ScalePropertiesViewModel userInput1 = DocumentViewModelHelper.GetScalePropertiesViewModel(ViewModel.Document, id);
+            ToneGridEditViewModel userInput2 = DocumentViewModelHelper.GetToneGridEditViewModel(ViewModel.Document, scaleID: id);
+
+            // Set !Successful
+            userInput1.Successful = false;
+            userInput2.Successful = false;
 
             // ToEntity
             Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
 
             // Partial Actions
-            ToneGridEditViewModel toneGridEditViewModel = _toneGridEditPresenter.Show(userInput1);
+            ScalePropertiesViewModel scalePropertiesViewModel = _scalePropertiesPresenter.Show(userInput1);
+            if (!scalePropertiesViewModel.Successful)
+            {
+                DispatchViewModel(scalePropertiesViewModel);
+                return;
+            }
 
-            _scalePropertiesPresenter.ViewModel = ViewModel.Document.ScalePropertiesList.First(x => x.Entity.ID == id);
-            _scalePropertiesPresenter.Show();
+            ToneGridEditViewModel toneGridEditViewModel = _toneGridEditPresenter.Show(userInput2);
+            if (!toneGridEditViewModel.Successful)
+            {
+                DispatchViewModel(toneGridEditViewModel);
+                return;
+            }
+
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                scalePropertiesViewModel.Successful = false;
+                scalePropertiesViewModel.ValidationMessages.AddRange(validationResult.Messages);
+                DispatchViewModel(scalePropertiesViewModel);
+
+                toneGridEditViewModel.Successful = false;
+                DispatchViewModel(toneGridEditViewModel);
+                return;
+            }
+
+            // Set Successful
+            scalePropertiesViewModel.Successful = true;
+            toneGridEditViewModel.Successful = true;
 
             // DispatchViewModel
+            DispatchViewModel(scalePropertiesViewModel);
             DispatchViewModel(toneGridEditViewModel);
-            
-            DispatchViewModel(_scalePropertiesPresenter.ViewModel);
         }
 
         public void ScalePropertiesClose()
         {
-            ScalePropertiesCloseOrLoseFocus(() => _scalePropertiesPresenter.Close());
+            ScalePropertiesCloseOrLoseFocus(x => _scalePropertiesPresenter.Close(x));
         }
 
         public void ScalePropertiesLoseFocus()
         {
-            ScalePropertiesCloseOrLoseFocus(() => _scalePropertiesPresenter.LoseFocus());
+            ScalePropertiesCloseOrLoseFocus(x => _scalePropertiesPresenter.LoseFocus(x));
         }
 
-        private void ScalePropertiesCloseOrLoseFocus(Action partialAction)
+        private void ScalePropertiesCloseOrLoseFocus(Func<ScalePropertiesViewModel, ScalePropertiesViewModel> partialAction)
         {
-            ViewModel.ToEntityWithRelatedEntities(_repositories);
+            // Get ViewModel
+            ScalePropertiesViewModel userInput = DocumentViewModelHelper.GetVisibleScalePropertiesViewModel(ViewModel.Document);
 
-            partialAction();
+            // Set !Successful
+            userInput.Successful = false;
 
-            // TODO: Pass it to the manager and validate full document.
+            // ToEntity
+            Document rootDocument = ViewModel.ToEntityWithRelatedEntities(_repositories);
+            Scale scale = _repositories.ScaleRepository.Get(userInput.Entity.ID);
 
-            // Update Number Column Title of the ToneGridEdit's ToneGrid.
-            int scaleID = _scalePropertiesPresenter.ViewModel.Entity.ID;
-            Scale scale = _repositories.ScaleRepository.Get(scaleID);
-            ToneGridEditViewModel toneGridEditViewModel = DocumentViewModelHelper.GetToneGridEditViewModel(ViewModel.Document, scaleID);
-            toneGridEditViewModel.NumberTitle = ViewModelHelper.GetToneGridEditNumberTitle(scale);
-
-            DispatchViewModel(_scalePropertiesPresenter.ViewModel);
-
-            if (_scalePropertiesPresenter.ViewModel.Successful)
+            // Partial Action
+            ScalePropertiesViewModel viewModel = partialAction(userInput);
+            if (!viewModel.Successful)
             {
-                ScaleGridRefresh();
+                DispatchViewModel(viewModel);
+                return;
             }
+
+            // Business
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            if (!validationResult.Successful)
+            {
+                viewModel.Successful = false;
+                viewModel.ValidationMessages.AddRange(validationResult.Messages);
+                DispatchViewModel(userInput);
+                return;
+            }
+
+            // Successful
+            viewModel.Successful = true;
+
+            // Dispatch ViewModel
+            DispatchViewModel(viewModel);
+
+            // Refresh
+            ToneGridEditRefresh(scale.ID);
+            ScaleGridRefresh();
         }
 
         // Tone
 
         public void ToneCreate(int scaleID)
         {
-            // Get ViewModel
+            // GetViewModel
             ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(ViewModel.Document);
+
+            // Set !Successful
             userInput.Successful = false;
 
-            // ViewModel Validator
+            // ViewModelValidator
             IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
             if (!viewModelValidator.IsValid)
             {
@@ -1982,7 +2122,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             Tone tone = _scaleManager.CreateTone(scale);
 
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 userInput.Successful = false;
@@ -1992,23 +2132,26 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // ToViewModel
-
             ToneViewModel toneViewModel = tone.ToViewModel();
             userInput.Tones.Add(toneViewModel);
             // Do not sort grid, so that the new item appears at the bottom.
 
-            // DispatchViewModel
+            // Successful
             userInput.Successful = true;
+
+            // DispatchViewModel
             DispatchViewModel(userInput);
         }
 
         public void ToneDelete(int id)
         {
-            // Get ViewModel
+            // GetViewModel
             ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(ViewModel.Document);
+
+            // Set !Successful
             userInput.Successful = false;
 
-            // ViewModel Validator
+            // ViewModelValidator
             IValidator viewModelValidator = new ToneGridEditViewModelValidator(userInput);
             if (!viewModelValidator.IsValid)
             {
@@ -2026,11 +2169,12 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Business
             _scaleManager.DeleteTone(tone);
 
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 userInput.Successful = false;
                 userInput.ValidationMessages.AddRange(validationResult.Messages);
+                DispatchViewModel(userInput);
                 return;
             }
 
@@ -2040,8 +2184,10 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // Non-Persisted
             viewModel.Visible = userInput.Visible;
 
-            // Dispatch ViewModel
+            // Successful
             viewModel.Successful = true;
+
+            // Dispatch ViewModel
             DispatchViewModel(viewModel);
         }
 
@@ -2059,6 +2205,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
         {
             // Get ViewModel
             ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(ViewModel.Document);
+
+            // Set !Successful
             userInput.Successful = false;
 
             // ToEntity
@@ -2073,17 +2221,19 @@ namespace JJ.Presentation.Synthesizer.Presenters
             }
 
             // Business
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 viewModel.Successful = false;
                 viewModel.ValidationMessages.AddRange(validationResult.Messages);
-                DispatchViewModel(userInput);
+                DispatchViewModel(viewModel);
                 return;
             }
 
-            // Dispatch ViewModel
+            // Successful
             viewModel.Successful = true;
+
+            // Dispatch ViewModel
             DispatchViewModel(viewModel);
         }
 
@@ -2100,6 +2250,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
             // ToneGridEditViewModel and CurrentPatches view model.
 
             ToneGridEditViewModel userInput = DocumentViewModelHelper.GetVisibleToneGridEditViewModel(ViewModel.Document);
+
+            // Set !Successful
             userInput.Successful = false;
 
             // ViewModel Validator
@@ -2143,7 +2295,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
                 outlet = x.Sine(x.PatchInlet(InletTypeEnum.Frequency, frequency));
             }
 
-            VoidResult validationResult = _documentManager.ValidateRecursive(rootDocument);
+            IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)
             {
                 userInput.Successful = false;
@@ -2160,6 +2312,7 @@ namespace JJ.Presentation.Synthesizer.Presenters
             audioFileOutput.AudioFileOutputChannels[0].Outlet = outlet;
             _audioFileOutputManager.WriteFile(audioFileOutput, patchCalculator);
 
+            // Successful
             userInput.Successful = true;
 
             return _playOutputFilePath;
