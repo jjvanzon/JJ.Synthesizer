@@ -36,6 +36,7 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.SpeedUp, typeof(OperatorWarningValidator_SpeedUp) },
             { OperatorTypeEnum.SquareWave, typeof(OperatorWarningValidator_SquareWave) },
             { OperatorTypeEnum.Subtract, typeof(OperatorWarningValidator_Subtract) },
+            { OperatorTypeEnum.Stretch, typeof(OperatorWarningValidator_Stretch) },
             { OperatorTypeEnum.TimePower, typeof(OperatorWarningValidator_TimePower) },
             { OperatorTypeEnum.TriangleWave, typeof(OperatorWarningValidator_TriangleWave) },
             { OperatorTypeEnum.Unbundle, typeof(OperatorWarningValidator_Unbundle) },

@@ -36,6 +36,7 @@ namespace JJ.Data.Synthesizer.Memory.Repositories
             RepositoryHelper.EnsureEnumEntity(this, 26, "Select");
             RepositoryHelper.EnsureEnumEntity(this, 27, "Bundle");
             RepositoryHelper.EnsureEnumEntity(this, 28, "Unbundle");
+            RepositoryHelper.EnsureEnumEntity(this, 29, "Stretch");
         }
     }
 }

@@ -30,6 +30,13 @@
         Loop = 25,
         Select = 26,
         Bundle = 27,
-        Unbundle = 28
+        Unbundle = 28,
+
+        /// <summary>
+        /// Almost an alias for SlowDown, except that Stretch does not track phase and has an origin parameter.
+        /// It is more appropriate when you are e.g. stretching curves for filters.
+        /// It makes more sense when the x-axis is not used as time.
+        /// </summary>
+        Stretch = 29
     }
 }

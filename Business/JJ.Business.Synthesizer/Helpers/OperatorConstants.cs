@@ -61,6 +61,10 @@
         public const int SQUARE_WAVE_PHASE_SHIFT_INDEX = 1;
         public const int SQUARE_WAVE_FREQUENCY_INDEX = 0;
         public const int SQUARE_WAVE_RESULT_INDEX = 0;
+        public const int STRETCH_RESULT_INDEX = 0;
+        public const int STRETCH_SIGNAL_INDEX = 0;
+        public const int STRETCH_FACTOR_INDEX = 1;
+        public const int STRETCH_ORIGIN_INDEX = 2;
         public const int SUBTRACT_OPERAND_A_INDEX = 0;
         public const int SUBTRACT_OPERAND_B_INDEX = 1;
         public const int SUBTRACT_RESULT_INDEX = 0;

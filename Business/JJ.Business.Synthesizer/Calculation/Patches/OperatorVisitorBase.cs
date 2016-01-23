@@ -36,6 +36,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Select, VisitSelect },
                 { OperatorTypeEnum.Sine, VisitSine },
                 { OperatorTypeEnum.SquareWave, VisitSquareWave },
+                { OperatorTypeEnum.Stretch, VisitStretch },
                 { OperatorTypeEnum.Subtract, VisitSubtract },
                 { OperatorTypeEnum.SpeedUp, VisitSpeedUp },
                 { OperatorTypeEnum.SlowDown, VisitSlowDown },
@@ -101,7 +102,19 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitCurveOperator(Operator op) { }
 
         /// <summary> does nothing </summary>
+        protected virtual void VisitDelay(Operator op) { }
+
+        /// <summary> does nothing </summary>
         protected virtual void VisitDivide(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitEarlier(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitExponent(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitLoop(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitMultiply(Operator op) { }
@@ -137,25 +150,16 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitSubtract(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitExponent(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitLoop(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitDelay(Operator op) { }
-
-        /// <summary> does nothing </summary>
         protected virtual void VisitSpeedUp(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitSlowDown(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitTimePower(Operator op) { }
+        protected virtual void VisitStretch(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitEarlier(Operator op) { }
+        protected virtual void VisitTimePower(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitNumber(Operator op) { }

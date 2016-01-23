@@ -438,11 +438,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet factor = null)
+        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet factor = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.SpeedUp, inletCount: 2, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.SlowDown, inletCount: 2, outletCount: 1);
 
-            var wrapper = new SpeedUp_OperatorWrapper(op)
+            var wrapper = new SlowDown_OperatorWrapper(op)
             {
                 Signal = signal,
                 Factor = factor,
@@ -452,11 +452,11 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
-        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet factor = null)
+        public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet factor = null)
         {
-            Operator op = CreateOperatorBase(OperatorTypeEnum.SlowDown, inletCount: 2, outletCount: 1);
+            Operator op = CreateOperatorBase(OperatorTypeEnum.SpeedUp, inletCount: 2, outletCount: 1);
 
-            var wrapper = new SlowDown_OperatorWrapper(op)
+            var wrapper = new SpeedUp_OperatorWrapper(op)
             {
                 Signal = signal,
                 Factor = factor,
@@ -474,6 +474,21 @@ namespace JJ.Business.Synthesizer
             {
                 Frequency = frequency,
                 PhaseShift = phaseShift
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+            return wrapper;
+        }
+
+        public Stretch_OperatorWrapper Stretch(Outlet signal = null, Outlet factor = null, Outlet origin = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Stretch, inletCount: 3, outletCount: 1);
+
+            var wrapper = new Stretch_OperatorWrapper(op)
+            {
+                Signal = signal,
+                Factor = factor,
+                Origin = origin
             };
 
             wrapper.WrappedOperator.LinkTo(Patch);

@@ -1,0 +1,1 @@
+alter table OperatorType drop column SortOrder;

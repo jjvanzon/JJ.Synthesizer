@@ -77,7 +77,7 @@ namespace JJ.Presentation.Synthesizer.ToViewModel
         {
             if (operatorTypeRepository == null) throw new NullException(() => operatorTypeRepository);
 
-            IList<OperatorType> operatorTypes = operatorTypeRepository.GetAllOrderedBySortOrder();
+            IList<OperatorType> operatorTypes = operatorTypeRepository.GetAll();
 
             IList<OperatorTypeViewModel> operatorTypeViewModels = operatorTypes.Select(x => x.ToViewModel())
                                                                                .OrderBy(x => x.DisplayName)

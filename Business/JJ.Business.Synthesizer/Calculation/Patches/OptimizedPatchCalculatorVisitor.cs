@@ -1030,6 +1030,81 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitStretch(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase factorCalculator = _stack.Pop();
+            OperatorCalculatorBase originCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            factorCalculator = factorCalculator ?? new One_OperatorCalculator();
+            originCalculator = originCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate(0, 0);
+            double factor = factorCalculator.Calculate(0, 0);
+            double origin = originCalculator.Calculate(0, 0);
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool factorIsConst = factorCalculator is Number_OperatorCalculator;
+            bool originIsConst = originCalculator is Number_OperatorCalculator;
+
+            bool signalIsConstZero = signalIsConst && signal == 0;
+            bool factorIsConstZero = factorIsConst && factor == 0;
+            bool originIsConstZero = originIsConst && origin == 0;
+
+            bool factorIsConstOne = factorIsConst && factor == 1;
+
+            if (factorIsConstZero)
+            {
+                // Weird number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConstZero)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (factorIsConstOne)
+            {
+                calculator = signalCalculator;
+            }
+            else if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else if (!signalIsConst && factorIsConst && originIsConstZero)
+            {
+                calculator = new Stretch_VarSignal_ConstFactor_ZeroOrigin_OperatorCalculator(signalCalculator, factor);
+            }
+            else if (!signalIsConst && !factorIsConst && originIsConstZero)
+            {
+                calculator = new Stretch_VarSignal_VarFactor_ZeroOrigin_OperatorCalculator(signalCalculator, factorCalculator);
+            }
+            else if (!signalIsConst && factorIsConst && originIsConst)
+            {
+                calculator = new Stretch_VarSignal_ConstFactor_ConstOrigin_OperatorCalculator(signalCalculator, factor, origin);
+            }
+            else if (!signalIsConst && factorIsConst && !originIsConst)
+            {
+                calculator = new Stretch_VarSignal_ConstFactor_VarOrigin_OperatorCalculator(signalCalculator, factor, originCalculator);
+            }
+            else if (!signalIsConst && !factorIsConst && originIsConst)
+            {
+                calculator = new Stretch_VarSignal_VarFactor_ConstOrigin_OperatorCalculator(signalCalculator, factorCalculator, origin);
+            }
+            else if (!signalIsConst && !factorIsConst && !originIsConst)
+            {
+                calculator = new Stretch_VarSignal_VarFactor_VarOrigin_OperatorCalculator(signalCalculator, factorCalculator, originCalculator);
+            }
+            else
+            {
+                throw new Exception("Error in Stretch Operator optimization. No approproate variation on the calculation was found.");
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitEarlier(Operator op)
         {
             OperatorCalculatorBase calculator;

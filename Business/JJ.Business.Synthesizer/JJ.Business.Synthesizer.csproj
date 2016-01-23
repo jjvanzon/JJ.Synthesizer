@@ -50,6 +50,7 @@
     <Compile Include="Calculation\Operators\Divide OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\Multiply OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\OperatorCalculatorBase_WithChildCalculators.cs" />
+    <Compile Include="Calculation\Operators\Stretch OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\VariableInput_OperatorCalculator.cs" />
     <Compile Include="Calculation\Operators\Power OperatorCalculator Classes.cs" />
     <Compile Include="Calculation\Operators\SawTooth OperatorCalculator Classes.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Calculation\WhiteNoiseCalculator.cs" />
     <Compile Include="Configuration\ConfigurationSection.cs" />
     <Compile Include="Converters\PatchToOperatorConverter.cs" />
+    <Compile Include="EntityWrappers\Stretch_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Unbundle_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Bundle_OperatorWrapper.cs" />
     <Compile Include="EntityWrappers\Select_OperatorWrapper.cs" />
@@ -191,6 +193,7 @@
     <Compile Include="Validation\CurveValidator_InDocument.cs" />
     <Compile Include="Validation\CurveValidator_Nodes.cs" />
     <Compile Include="Validation\DocumentValidator_RootDocument.cs" />
+    <Compile Include="Validation\OperatorValidator_Stretch.cs" />
     <Compile Include="Validation\OutletValidator_ForOtherOperator.cs" />
     <Compile Include="Validation\InletValidator_ForOtherOperator.cs" />
     <Compile Include="Validation\SampleValidator_UniqueName.cs" />
@@ -203,6 +206,7 @@
     <Compile Include="SampleManager.cs" />
     <Compile Include="ScaleManager.cs" />
     <Compile Include="Warnings\OperatorWarningValidator_Base_AllInletsFilled.cs" />
+    <Compile Include="Warnings\OperatorWarningValidator_Stretch.cs" />
     <Compile Include="WavHeaderManager.cs" />
     <Compile Include="Resources\Messages.Designer.cs">
       <AutoGen>True</AutoGen>

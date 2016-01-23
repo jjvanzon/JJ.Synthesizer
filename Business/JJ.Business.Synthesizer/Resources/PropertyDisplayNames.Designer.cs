@@ -988,6 +988,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stretch.
+        /// </summary>
+        public static string Stretch {
+            get {
+                return ResourceManager.GetString("Stretch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subtract.
         /// </summary>
         public static string Subtract {

@@ -1462,7 +1462,8 @@ namespace JJ.Presentation.Synthesizer.Presenters
 
         public void OperatorSelect(int operatorID)
         {
-            Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
+            // HACK: If SelectOperator is too slow I cannot double click it.
+            //Document rootDocument = MainViewModel.ToEntityWithRelatedEntities(_repositories);
 
             _patchDetailsPresenter.SelectOperator(operatorID);
 
@@ -1616,9 +1617,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             Document childDocument = _documentManager.CreateChildDocument(rootDocument, mustGenerateName: true);
             childDocument.GroupName = group;
 
-            var patchManager = new PatchManager(_patchRepositories);
-            patchManager.CreatePatch(childDocument, mustGenerateName: true);
-            Patch patch = patchManager.Patch;
+            //var patchManager = new PatchManager(_patchRepositories);
+            //patchManager.CreatePatch(childDocument, mustGenerateName: true);
+            //Patch patch = patchManager.Patch;
 
             IResult validationResult = _documentManager.ValidateRecursive(rootDocument);
             if (!validationResult.Successful)

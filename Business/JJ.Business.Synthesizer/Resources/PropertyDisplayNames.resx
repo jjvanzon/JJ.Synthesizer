@@ -487,4 +487,7 @@
   <data name="Intensity" xml:space="preserve">
     <value>Intensity</value>
   </data>
+  <data name="Stretch" xml:space="preserve">
+    <value>Stretch</value>
+  </data>
 </root>
