@@ -22,17 +22,17 @@ namespace JJ.Presentation.Synthesizer.WinForms
         [STAThread]
         static void Main()
         {
-            var config1 = CustomConfigurationManager.GetSection<JJ.Business.Synthesizer.Configuration.ConfigurationSection>();
-            ConfigurationHelper.SetSection(config1);
+            var businessConfig = CustomConfigurationManager.GetSection<JJ.Business.Synthesizer.Configuration.ConfigurationSection>();
+            ConfigurationHelper.SetSection(businessConfig);
 
-            var config2 = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.Helpers.ConfigurationSection>();
-            ConfigurationHelper.SetSection(config2);
+            var presenterConfig = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.Helpers.ConfigurationSection>();
+            ConfigurationHelper.SetSection(presenterConfig);
 
-            var config3 = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.VectorGraphics.Configuration.ConfigurationSection>();
-            ConfigurationHelper.SetSection(config3);
+            var vectorGraphicsConfig = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.VectorGraphics.Configuration.ConfigurationSection>();
+            ConfigurationHelper.SetSection(vectorGraphicsConfig);
 
-            var config4 = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection>();
-            CultureHelper.SetThreadCultureName(config4.DefaultCulture);
+            var winFormsConfig = CustomConfigurationManager.GetSection<JJ.Presentation.Synthesizer.WinForms.Configuration.ConfigurationSection>();
+            CultureHelper.SetThreadCultureName(winFormsConfig.DefaultCulture);
 
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += Application_ThreadException;
@@ -41,10 +41,18 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer();
+            if (winFormsConfig.MultiThreaded)
+            {
+                PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer();
+            }
+            else
+            {
+                PatchCalculatorContainer = new SingleThreadedPatchCalculatorContainer();
+            }
+
             _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer);
             _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _audioOutputProcessor);
-            _midiInputProcessor.MaxConcurrentNotes = config4.MaxConcurrentNotes;
+            _midiInputProcessor.MaxConcurrentNotes = winFormsConfig.MaxConcurrentNotes;
 
             _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
             _midiInputThread = StartMidiInputThread(_midiInputProcessor);

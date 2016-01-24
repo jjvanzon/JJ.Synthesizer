@@ -21,7 +21,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         double Calculate(double time, int channelIndex);
 
-        double[] CalculateArray(int sampleCount, double t0, double sampleDuration, int channelIndex);
+        double[] Calculate(double t0, double sampleDuration, int sampleCount, int channelIndex);
 
         void ResetState();
         void ResetState(string name);

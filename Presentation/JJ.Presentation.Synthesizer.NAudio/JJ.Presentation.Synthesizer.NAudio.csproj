@@ -40,7 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioOutputProcessor.cs" />
-    <Compile Include="AudioOutputSampleProvider_MultiThreaded.cs" />
+    <Compile Include="AudioOutputSampleProvider.cs" />
     <Compile Include="IPatchCalculatorContainer.cs" />
     <Compile Include="MidiInputProcessor.cs" />
     <Compile Include="NoteInfo.cs" />

@@ -120,7 +120,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// This parameter is currently not used, but I want this abstraction to stay similar
         /// to PatchCalculator, or I would be refactoring my brains out.
         /// </param>
-        public double[] CalculateArray(int count, double t0, double sampleDuration, int channelIndex)
+        public double[] Calculate(double t0, double sampleDuration, int count, int channelIndex)
         {
             // TODO: Document that count and sampleDuration are not used.
 

@@ -63,9 +63,22 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
-        public double[] CalculateArray(int count, double t0, double sampleDuration, int channelIndex)
+        public double[] Calculate(double t0, double sampleDuration, int count, int channelIndex)
         {
-            throw new NotImplementedException();
+            double t = t0;
+
+            double[] values = new double[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                double value = Calculate(t, channelIndex);
+
+                values[i] = value;
+
+                t += sampleDuration;
+            }
+
+            return values;
         }
 
         public double GetValue(int listIndex)

@@ -129,7 +129,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return Calculate(_channelOutlets[_channelIndex], time);
         }
 
-        public double[] CalculateArray(int count, double t0, double sampleDuration, int channelIndex)
+        public double[] Calculate(double t0, double sampleDuration, int count, int channelIndex)
         {
             throw new NotImplementedException();
         }

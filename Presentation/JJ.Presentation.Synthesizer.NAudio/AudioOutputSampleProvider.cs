@@ -56,7 +56,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     return count;
                 }
 
-                double[] values = patchCalculator.CalculateArray(count, _time, SAMPLE_DURATION, DEFAULT_CHANNEL_INDEX);
+                double[] values = patchCalculator.Calculate(_time, SAMPLE_DURATION, count, DEFAULT_CHANNEL_INDEX);
 
                 for (int i = offset; i < count; i++)
                 {
