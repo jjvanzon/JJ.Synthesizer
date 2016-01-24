@@ -7,10 +7,11 @@ using JJ.Business.Synthesizer.Enums;
 using JJ.Business.Synthesizer.Calculation;
 using System.Threading;
 using System.Diagnostics;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public static class MidiInputProcessor
+    public class MidiInputProcessor
     {
         private class ControllerInfo
         {
@@ -28,10 +29,23 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private static readonly Dictionary<int, ControllerInfo> _controllerCode_To_ControllerInfo_Dictionary = Create_ControllerCode_To_ControllerInfo_Dictionary();
         private static readonly double[] _noteNumber_To_Frequency_Array = Create_NoteNumber_To_Frequency_Array();
-        private static MidiIn _midiIn;
-        private static NoteRecycler _noteRecycler = new NoteRecycler();
 
-        public static int MaxConcurrentNotes
+        private readonly IPatchCalculatorContainer _patchCalculatorContainer;
+        private readonly AudioOutputProcessor _audioOutputProcessor;
+
+        private MidiIn _midiIn;
+        private NoteRecycler _noteRecycler = new NoteRecycler();
+
+        public MidiInputProcessor(IPatchCalculatorContainer patchCalculatorContainer, AudioOutputProcessor audioOutputProcessor)
+        {
+            if (patchCalculatorContainer == null) throw new NullException(() => patchCalculatorContainer);
+            if (audioOutputProcessor == null) throw new NullException(() => audioOutputProcessor);
+
+            _patchCalculatorContainer = patchCalculatorContainer;
+            _audioOutputProcessor = audioOutputProcessor;
+        }
+
+        public int MaxConcurrentNotes
         {
             get { return _noteRecycler.MaxConcurrentNotes; }
             set { _noteRecycler.MaxConcurrentNotes = value; }
@@ -41,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// For now will only work with the first MIDI device it finds. 
         /// Does nothing when no MIDI devices. 
         /// </summary>
-        public static void TryStart()
+        public void TryStart()
         {
             if (MidiIn.NumberOfDevices == 0)
             {
@@ -59,7 +73,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _midiIn = midiIn;
         }
 
-        public static void Stop()
+        public void Stop()
         {
             if (_midiIn != null)
             {
@@ -71,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        private static void _midiIn_MessageReceived(object sender, MidiInMessageEventArgs e)
+        private void _midiIn_MessageReceived(object sender, MidiInMessageEventArgs e)
         {
             switch (e.MidiEvent.CommandCode)
             {
@@ -89,16 +103,16 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        private static void HandleNoteOn(MidiEvent midiEvent)
+        private void HandleNoteOn(MidiEvent midiEvent)
         {
             var noteOnEvent = (NoteOnEvent)midiEvent;
 
-            ReaderWriterLockSlim lck = PolyphonyCalculatorContainer.Lock;
+            ReaderWriterLockSlim lck = _patchCalculatorContainer.Lock;
 
             lck.EnterWriteLock();
             try
             {
-                double time = AudioOutputProcessor.Time;
+                double time = _audioOutputProcessor.Time;
 
                 NoteInfo noteInfo = _noteRecycler.TryGetNoteInfoToStart(noteOnEvent.NoteNumber, time);
                 if (noteInfo == null)
@@ -106,7 +120,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     return;
                 }
 
-                PolyphonyCalculator calculator = PolyphonyCalculatorContainer.Calculator;
+                IPatchCalculator calculator = _patchCalculatorContainer.Calculator;
                 if (calculator != null)
                 {
                     double frequency = _noteNumber_To_Frequency_Array[noteOnEvent.NoteNumber];
@@ -146,19 +160,19 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        private static void HandleNoteOff(MidiEvent midiEvent)
+        private void HandleNoteOff(MidiEvent midiEvent)
         {
             var noteEvent = (NoteEvent)midiEvent;
 
-            ReaderWriterLockSlim lck = PolyphonyCalculatorContainer.Lock;
+            ReaderWriterLockSlim lck = _patchCalculatorContainer.Lock;
 
             lck.EnterWriteLock();
             try
             {
-                PolyphonyCalculator calculator = PolyphonyCalculatorContainer.Calculator;
+                IPatchCalculator calculator = _patchCalculatorContainer.Calculator;
                 if (calculator != null)
                 {
-                    double time = AudioOutputProcessor.Time;
+                    double time = _audioOutputProcessor.Time;
 
                     NoteInfo noteInfo = _noteRecycler.TryGetNoteInfoToRelease(noteEvent.NoteNumber, time);
                     if (noteInfo == null)
@@ -182,7 +196,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             }
         }
 
-        private static void HandleControlChange(MidiEvent midiEvent)
+        private void HandleControlChange(MidiEvent midiEvent)
         {
             var controlChangeEvent = (ControlChangeEvent)midiEvent;
 
@@ -200,12 +214,12 @@ namespace JJ.Presentation.Synthesizer.NAudio
                     return;
                 }
 
-                ReaderWriterLockSlim lck = PolyphonyCalculatorContainer.Lock;
+                ReaderWriterLockSlim lck = _patchCalculatorContainer.Lock;
 
                 lck.EnterWriteLock();
                 try
                 {
-                    PolyphonyCalculator calculator = PolyphonyCalculatorContainer.Calculator;
+                    IPatchCalculator calculator = _patchCalculatorContainer.Calculator;
                     if (calculator != null)
                     {
                         double value = calculator.GetValue(controllerInfo.InletTypeEnum);

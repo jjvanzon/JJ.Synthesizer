@@ -129,6 +129,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return Calculate(_channelOutlets[_channelIndex], time);
         }
 
+        public double[] CalculateArray(int count, double t0, double sampleDuration, int channelIndex)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <param name="outlet">nullable</param>
         private double Calculate(Outlet outlet, double time)
         {

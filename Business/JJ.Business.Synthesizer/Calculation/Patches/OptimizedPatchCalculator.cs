@@ -63,6 +63,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return value;
         }
 
+        public double[] CalculateArray(int count, double t0, double sampleDuration, int channelIndex)
+        {
+            throw new NotImplementedException();
+        }
+
         public double GetValue(int listIndex)
         {
             // Be tollerant for non-existent list indexes, because you can switch instruments so dynamically.

@@ -20,6 +20,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         void SetValue(InletTypeEnum inletTypeEnum, int listIndex, double value);
 
         double Calculate(double time, int channelIndex);
+
+        double[] CalculateArray(int sampleCount, double t0, double sampleDuration, int channelIndex);
+
         void ResetState();
         void ResetState(string name);
         void ResetState(int listIndex);

@@ -121,8 +121,7 @@ namespace JJ.Presentation.Synthesizer.WinForms
                 patches = new Patch[] { CreateDefaultSinePatch() };
             }
 
-            //PatchCalculatorContainer.RecreatePatchCalculator(patches, _maxConcurrentNotes, new PatchRepositories(_repositories));
-            PolyphonyCalculatorContainer.RecreateCalculator(patches, _maxConcurrentNotes, new PatchRepositories(_repositories));
+            Program.PatchCalculatorContainer.RecreateCalculator(patches, _maxConcurrentNotes, new PatchRepositories(_repositories));
         }
 
         private Patch CreateDefaultSinePatch()

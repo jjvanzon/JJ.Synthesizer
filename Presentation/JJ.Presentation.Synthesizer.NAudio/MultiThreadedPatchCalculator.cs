@@ -9,7 +9,7 @@ using JJ.Business.Synthesizer.Enums;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public class PolyphonyCalculator : IDisposable
+    public class MultiThreadedPatchCalculator : IPatchCalculator, IDisposable
     {
         private class PatchCalculatorInfo
         {
@@ -24,7 +24,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             public IPatchCalculator PatchCalculator { get; private set; }
             public int NoteListIndex { get; private set; }
             public bool IsActive { get; set; }
-            public double Delay { get; set; }
+            public double NoteStart { get; set; }
         }
 
         private class ThreadInfo
@@ -55,7 +55,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private double _t0;
 
-        public PolyphonyCalculator(int threadCount, int bufferSize, double sampleDuration)
+        public MultiThreadedPatchCalculator(int threadCount, int bufferSize, double sampleDuration)
         {
             if (threadCount < 0) throw new LessThanException(() => threadCount, 0);
             if (bufferSize < 0) throw new LessThanException(() => bufferSize, 0);
@@ -85,7 +85,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _countdownEvent = new CountdownEvent(threadCount);
         }
 
-        ~PolyphonyCalculator()
+        ~MultiThreadedPatchCalculator()
         {
             Dispose();
         }
@@ -120,8 +120,10 @@ namespace JJ.Presentation.Synthesizer.NAudio
         /// This parameter is currently not used, but I want this abstraction to stay similar
         /// to PatchCalculator, or I would be refactoring my brains out.
         /// </param>
-        public double[] Calculate(double t0, int channelIndex)
+        public double[] CalculateArray(int count, double t0, double sampleDuration, int channelIndex)
         {
+            // TODO: Document that count and sampleDuration are not used.
+
             _t0 = t0;
 
             Array.Clear(_buffer, 0, _buffer.Length);
@@ -137,6 +139,11 @@ namespace JJ.Presentation.Synthesizer.NAudio
             _countdownEvent.Wait();
 
             return _buffer;
+        }
+
+        public double Calculate(double time, int channelIndex)
+        {
+            throw new NotSupportedException();
         }
 
         private void CalculateSingleThread(object threadInfoObject)
@@ -160,9 +167,9 @@ Wait:
                     }
 
                     IPatchCalculator patchCalculator = patchCalculatorInfo.PatchCalculator;
-                    double delay = patchCalculatorInfo.Delay;
+                    double noteStart = patchCalculatorInfo.NoteStart;
 
-                    double t = _t0 - delay;
+                    double t = _t0 - noteStart;
 
                     for (int j = 0; j < _buffer.Length; j++)
                     {
@@ -262,25 +269,59 @@ Wait:
 
         // Values
 
-        public void SetDelay(int patchCalculatorIndex, double delay)
+        public double GetValue(int noteListIndex)
         {
-            PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(patchCalculatorIndex);
-
-            patchCalculatorInfo.Delay = delay;
+            throw new NotSupportedException();
         }
 
-        public void SetValue(InletTypeEnum inletTypeEnum, int noteListIndex, double value)
+        public void SetValue(int noteListIndex, double value)
+        {
+            throw new NotSupportedException();
+        }
+
+        public double GetValue(string name)
+        {
+            PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos.FirstOrDefault();
+
+            if (patchCalculatorInfo != null)
+            {
+                return patchCalculatorInfo.PatchCalculator.GetValue(name);
+            }
+
+            return 0.0;
+        }
+
+        public void SetValue(string name, double value)
+        {
+            for (int i = 0; i < _patchCalculatorInfos.Count; i++)
+            {
+                PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[i];
+                patchCalculatorInfo.PatchCalculator.SetValue(name, value);
+            }
+        }
+
+        public double GetValue(string name, int noteListIndex)
         {
             PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);
+            return patchCalculatorInfo.PatchCalculator.GetValue(name);
+        }
 
-            if (inletTypeEnum == InletTypeEnum.NoteStart)
+        public void SetValue(string name, int noteListIndex, double value)
+        {
+            PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);
+            patchCalculatorInfo.PatchCalculator.SetValue(name, value);
+        }
+
+        public double GetValue(InletTypeEnum inletTypeEnum)
+        {
+            PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos.FirstOrDefault();
+
+            if (patchCalculatorInfo != null)
             {
-                patchCalculatorInfo.Delay = value;
+                return patchCalculatorInfo.PatchCalculator.GetValue(inletTypeEnum);
             }
-            else
-            {
-                patchCalculatorInfo.PatchCalculator.SetValue(inletTypeEnum, value);
-            }
+
+            return 0.0;
         }
 
         public void SetValue(InletTypeEnum inletTypeEnum, double value)
@@ -292,29 +333,13 @@ Wait:
             }
         }
 
-        public double GetValue(InletTypeEnum inletTypeEnum)
-        {
-            PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos.FirstOrDefault();
-            if (patchCalculatorInfo != null)
-            {
-                return patchCalculatorInfo.PatchCalculator.GetValue(inletTypeEnum);
-            }
-            return 0.0;
-        }
-
-        public void ResetState(int noteListIndex)
-        {
-            PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);
-            patchCalculatorInfo.PatchCalculator.ResetState();
-        }
-
         public double GetValue(InletTypeEnum inletTypeEnum, int noteListIndex)
         {
             PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);
 
             if (inletTypeEnum == InletTypeEnum.NoteStart)
             {
-                return patchCalculatorInfo.Delay;
+                return patchCalculatorInfo.NoteStart;
             }
             else
             {
@@ -323,14 +348,59 @@ Wait:
             }
         }
 
-        public void CloneValues(PolyphonyCalculator sourceCalculator)
+        public void SetValue(InletTypeEnum inletTypeEnum, int noteListIndex, double value)
+        {
+            PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);
+
+            if (inletTypeEnum == InletTypeEnum.NoteStart)
+            {
+                patchCalculatorInfo.NoteStart = value;
+            }
+            else
+            {
+                patchCalculatorInfo.PatchCalculator.SetValue(inletTypeEnum, value);
+            }
+        }
+
+        public void ResetState(int noteListIndex)
+        {
+            PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(noteListIndex);
+            patchCalculatorInfo.PatchCalculator.ResetState();
+        }
+
+        public void ResetState()
         {
             for (int i = 0; i < _patchCalculatorInfos.Count; i++)
             {
-                PatchCalculatorInfo source = sourceCalculator._patchCalculatorInfos[i];
+                PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[i];
+                patchCalculatorInfo.NoteStart = 0.0;
+                patchCalculatorInfo.PatchCalculator.ResetState();
+            }
+        }
+
+        public void ResetState(string name)
+        {
+            for (int i = 0; i < _patchCalculatorInfos.Count; i++)
+            {
+                PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[i];
+                patchCalculatorInfo.PatchCalculator.ResetState(name);
+            }
+        }
+
+        public void CloneValues(IPatchCalculator sourceCalculator)
+        {
+            var castedSourceCalculator = sourceCalculator as MultiThreadedPatchCalculator;
+            if (castedSourceCalculator == null)
+            {
+                throw new IsNotTypeException<MultiThreadedPatchCalculator>(() => castedSourceCalculator);
+            }
+
+            for (int i = 0; i < _patchCalculatorInfos.Count; i++)
+            {
+                PatchCalculatorInfo source = castedSourceCalculator._patchCalculatorInfos[i];
                 PatchCalculatorInfo dest = _patchCalculatorInfos[i];
 
-                dest.Delay = source.Delay;
+                dest.NoteStart = source.NoteStart;
                 dest.PatchCalculator.CloneValues(source.PatchCalculator);
             }
         }
@@ -349,6 +419,13 @@ Wait:
 
             PatchCalculatorInfo patchCalculatorInfo = _patchCalculatorInfos[noteListIndex];
             return patchCalculatorInfo;
+        }
+
+        private void SetDelay(int patchCalculatorIndex, double delay)
+        {
+            PatchCalculatorInfo patchCalculatorInfo = GetPatchCalculatorInfo(patchCalculatorIndex);
+
+            patchCalculatorInfo.NoteStart = delay;
         }
 
         // Source: http://stackoverflow.com/questions/1400465/why-is-there-no-overload-of-interlocked-add-that-accepts-doubles-as-parameters

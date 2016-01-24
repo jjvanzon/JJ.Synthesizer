@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using JJ.Framework.Common;
 using JJ.Framework.Configuration;
 using JJ.Framework.Logging;
+using JJ.Framework.Reflection.Exceptions;
 using JJ.Presentation.Synthesizer.NAudio;
 using JJ.Presentation.Synthesizer.Resources;
 
@@ -11,6 +12,10 @@ namespace JJ.Presentation.Synthesizer.WinForms
 {
     internal static class Program
     {
+        private static AudioOutputProcessor _audioOutputProcessor;
+        private static MidiInputProcessor _midiInputProcessor;
+        public static IPatchCalculatorContainer PatchCalculatorContainer { get; private set; }
+
         private static Thread _audioOutputThread;
         private static Thread _midiInputThread;
 
@@ -36,41 +41,47 @@ namespace JJ.Presentation.Synthesizer.WinForms
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            StartAudioOutputThread();
-            StartMidiInputThread(config4.MaxConcurrentNotes);
+            PatchCalculatorContainer = new MultiThreadedPatchCalculatorContainer();
+            _audioOutputProcessor = new AudioOutputProcessor(PatchCalculatorContainer);
+            _midiInputProcessor = new MidiInputProcessor(PatchCalculatorContainer, _audioOutputProcessor);
+            _midiInputProcessor.MaxConcurrentNotes = config4.MaxConcurrentNotes;
+
+            _audioOutputThread = StartAudioOutputThread(_audioOutputProcessor);
+            _midiInputThread = StartMidiInputThread(_midiInputProcessor);
 
             var form = new MainForm();
             Application.Run(form);
 
-            MidiInputProcessor.Stop();
-            AudioOutputProcessor.Stop();
+            _audioOutputProcessor.Stop();
+            _midiInputProcessor.Stop();
 
-            if (PolyphonyCalculatorContainer.Calculator != null)
-            {
-                PolyphonyCalculatorContainer.Calculator.Dispose();
-            }
+            // TODO: Clean-up threads all over the place.
+            //_patchCalculatorContainer.Dispose();
         }
 
-        private static void StartMidiInputThread(int maxCurrentNotes)
+        private static Thread StartMidiInputThread(MidiInputProcessor midiInputProcessor)
         {
-            MidiInputProcessor.Stop();
+            if (midiInputProcessor == null) throw new NullException(() => midiInputProcessor);
 
-            MidiInputProcessor.MaxConcurrentNotes = maxCurrentNotes;
-            _midiInputThread = new Thread(() => MidiInputProcessor.TryStart());
-            _midiInputThread.Start();
+            Thread thread = new Thread(() => midiInputProcessor.TryStart());
+            thread.Start();
+
+            return thread;
         }
 
-        public static void StartAudioOutputThread()
+        public static Thread StartAudioOutputThread(AudioOutputProcessor audioOutputProcessor)
         {
-            AudioOutputProcessor.Stop();
-            
+            if (audioOutputProcessor == null) throw new NullException(() => audioOutputProcessor);
+
             // Temporarily call another method for debugging (2016-01-09).
-            _audioOutputThread = new Thread(() => AudioOutputProcessor.Start());
+            Thread thread = new Thread(() => audioOutputProcessor.Start());
             //_audioOutputThread = new Thread(() => AudioOutputProcessor.StartAndPause());
-            _audioOutputThread.Start();
+            thread.Start();
 
             // Starting AudioOutputProcessor on another thread seems to start and keep alive a new Windows message loop,
             // but that does not mean that the thread keeps running.
+
+            return thread;
         }
 
         static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

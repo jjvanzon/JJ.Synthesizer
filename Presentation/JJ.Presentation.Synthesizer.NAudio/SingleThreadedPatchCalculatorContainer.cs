@@ -9,18 +9,18 @@ using JJ.Data.Synthesizer;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    public static class PatchCalculatorContainer
+    public class SingleThreadedPatchCalculatorContainer : IPatchCalculatorContainer
     {
-        public static ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();
+        public ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();
 
         /// <summary> null if RecreateCalculator is not yet called. </summary>
-        public static IPatchCalculator Calculator { get; private set; }
+        public IPatchCalculator Calculator { get; private set; }
 
         /// <summary> 
         /// You must call this on the thread that keeps the IContext open. 
         /// Will automatically use a WriteLock.
         /// </summary>
-        public static void RecreateCalculator(
+        public void RecreateCalculator(
             IList<Patch> patches, 
             int maxConcurrentNotes, 
             PatchRepositories repositories)

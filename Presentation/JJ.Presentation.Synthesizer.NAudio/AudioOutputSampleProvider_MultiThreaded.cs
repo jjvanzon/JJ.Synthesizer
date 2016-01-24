@@ -4,10 +4,12 @@ using System.Linq;
 using NAudio.Wave;
 using JJ.Business.Synthesizer.Calculation.Patches;
 using System.Threading;
+using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    internal class AudioOutputSampleProvider_MultiThreaded : ISampleProvider
+    // TODO: Rename file after check-in.
+    internal class AudioOutputSampleProvider : ISampleProvider
     {
         private const int DEFAULT_SAMPLE_RATE = 44100;
         private const int DEFAULT_CHANNEL_COUNT = 1;
@@ -16,8 +18,17 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         private static WaveFormat _waveFormat = CreateWaveFormat();
 
+        private readonly IPatchCalculatorContainer _patchCalculatorContainer;
+
         public double _time;
         public volatile bool _isRunning;
+
+        public AudioOutputSampleProvider(IPatchCalculatorContainer patchCalculatorContainer)
+        {
+            if (patchCalculatorContainer == null) throw new NullException(() => patchCalculatorContainer);
+
+            _patchCalculatorContainer = patchCalculatorContainer;
+        }
 
         private static WaveFormat CreateWaveFormat()
         {
@@ -32,20 +43,20 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         int ISampleProvider.Read(float[] buffer, int offset, int count)
         {
-            ReaderWriterLockSlim lck = PolyphonyCalculatorContainer.Lock;
+            ReaderWriterLockSlim lck = _patchCalculatorContainer.Lock;
 
             lck.EnterReadLock();
             try
             {
-                PolyphonyCalculator calculator = PolyphonyCalculatorContainer.Calculator;
+                IPatchCalculator patchCalculator = _patchCalculatorContainer.Calculator;
 
-                if (!_isRunning || calculator == null)
+                if (!_isRunning || patchCalculator == null)
                 {
                     Array.Clear(buffer, 0, buffer.Length);
                     return count;
                 }
 
-                double[] values = calculator.Calculate(_time, DEFAULT_CHANNEL_INDEX);
+                double[] values = patchCalculator.CalculateArray(count, _time, SAMPLE_DURATION, DEFAULT_CHANNEL_INDEX);
 
                 for (int i = offset; i < count; i++)
                 {
