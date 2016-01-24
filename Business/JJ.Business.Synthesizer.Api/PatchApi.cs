@@ -113,14 +113,14 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Number(number);
         }
 
+        public PatchInlet_OperatorWrapper PatchInlet()
+        {
+            return _patchManager.PatchInlet();
+        }
+
         public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum)
         {
             return _patchManager.PatchInlet(inletTypeEnum);
-        }
-
-        public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum, double defaultValue)
-        {
-            return _patchManager.PatchInlet(inletTypeEnum, defaultValue);
         }
 
         public PatchInlet_OperatorWrapper PatchInlet(string name)
@@ -133,9 +133,14 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.PatchInlet(name, defaultValue);
         }
 
-        public PatchInlet_OperatorWrapper PatchInlet()
+        public PatchInlet_OperatorWrapper PatchInlet(InletTypeEnum inletTypeEnum, double defaultValue)
         {
-            return _patchManager.PatchInlet();
+            return _patchManager.PatchInlet(inletTypeEnum, defaultValue);
+        }
+
+        public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
+        {
+            return _patchManager.PatchOutlet(input);
         }
 
         public PatchOutlet_OperatorWrapper PatchOutlet(OutletTypeEnum outletTypeEnum, Outlet input = null)
@@ -148,11 +153,6 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.PatchOutlet(name, input);
         }
 
-        public PatchOutlet_OperatorWrapper PatchOutlet(Outlet input = null)
-        {
-            return _patchManager.PatchOutlet(input);
-        }
-
         public Power_OperatorWrapper Power(Outlet @base = null, Outlet exponent = null)
         {
             return _patchManager.Power(@base, exponent);
@@ -163,19 +163,24 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Resample(signal, samplingRate);
         }
 
-        public SawTooth_OperatorWrapper SawTooth(Outlet frequency = null, Outlet phaseShift = null)
-        {
-            return _patchManager.SawTooth(frequency, phaseShift);
-        }
-
         public Sample_OperatorWrapper Sample(Sample sample = null)
         {
             return _patchManager.Sample(sample);
         }
 
+        public SawTooth_OperatorWrapper SawTooth(Outlet frequency = null, Outlet phaseShift = null)
+        {
+            return _patchManager.SawTooth(frequency, phaseShift);
+        }
+
         public Select_OperatorWrapper Select(Outlet signal = null, Outlet time = null)
         {
             return _patchManager.Select(signal, time);
+        }
+
+        public Shift_OperatorWrapper Shift(Outlet signal = null, Outlet difference = null)
+        {
+            return _patchManager.Shift(signal, difference);
         }
 
         public Sine_OperatorWrapper Sine(Outlet frequency = null, Outlet phaseShift = null)
@@ -193,6 +198,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.SpeedUp(signal, factor);
         }
 
+        public SquareWave_OperatorWrapper SquareWave(Outlet frequency = null, Outlet phaseShift = null)
+        {
+            return _patchManager.SquareWave(frequency, phaseShift);
+        }
+
         public Stretch_OperatorWrapper Stretch(Outlet signal = null, Outlet factor = null, Outlet origin = null)
         {
             return _patchManager.Stretch(signal, factor, origin);
@@ -201,11 +211,6 @@ namespace JJ.Business.Synthesizer.Api
         public Subtract_OperatorWrapper Subtract(Outlet operandA = null, Outlet operandB = null)
         {
             return _patchManager.Subtract(operandA, operandB);
-        }
-
-        public SquareWave_OperatorWrapper SquareWave(Outlet frequency = null, Outlet phaseShift = null)
-        {
-            return _patchManager.SquareWave(frequency, phaseShift);
         }
 
         public TimePower_OperatorWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)

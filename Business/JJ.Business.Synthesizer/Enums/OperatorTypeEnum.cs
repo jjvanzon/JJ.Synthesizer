@@ -44,6 +44,11 @@
         /// It is more appropriate when you are e.g. stretching curves for filters.
         /// It makes more sense when the x-axis is not used as time.
         /// </summary>
-        Narrower = 30
+        Narrower = 30,
+
+        /// <summary>
+        /// A synonym to Delay. The word 'Shift' makes more sense when the x-axis is not used as time.
+        /// </summary>
+        Shift = 31
     }
 }

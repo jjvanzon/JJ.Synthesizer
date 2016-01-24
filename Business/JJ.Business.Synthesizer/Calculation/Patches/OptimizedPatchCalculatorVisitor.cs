@@ -861,6 +861,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitShift(Operator op)
+        {
+            // Shift is a synonym for Delay, that makes more sense in case the x-axis does not represent time.
+            VisitDelay(op);
+        }
+
         protected override void VisitSine(Operator op)
         {
             OperatorCalculatorBase calculator;

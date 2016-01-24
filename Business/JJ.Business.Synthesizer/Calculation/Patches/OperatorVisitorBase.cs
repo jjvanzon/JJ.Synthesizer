@@ -21,8 +21,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Bundle, VisitBundle },
                 { OperatorTypeEnum.Curve, VisitCurveOperator },
                 { OperatorTypeEnum.CustomOperator, VisitCustomOperator },
-                { OperatorTypeEnum.Divide, VisitDivide },
                 { OperatorTypeEnum.Delay, VisitDelay },
+                { OperatorTypeEnum.Divide, VisitDivide },
+                { OperatorTypeEnum.Earlier, VisitEarlier },
                 { OperatorTypeEnum.Exponent, VisitExponent },
                 { OperatorTypeEnum.Loop, VisitLoop },
                 { OperatorTypeEnum.Multiply, VisitMultiply },
@@ -35,14 +36,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 { OperatorTypeEnum.Sample, VisitSampleOperator },
                 { OperatorTypeEnum.SawTooth, VisitSawTooth },
                 { OperatorTypeEnum.Select, VisitSelect },
+                { OperatorTypeEnum.Shift, VisitShift },
                 { OperatorTypeEnum.Sine, VisitSine },
+                { OperatorTypeEnum.SlowDown, VisitSlowDown },
+                { OperatorTypeEnum.SpeedUp, VisitSpeedUp },
                 { OperatorTypeEnum.SquareWave, VisitSquareWave },
                 { OperatorTypeEnum.Stretch, VisitStretch },
                 { OperatorTypeEnum.Subtract, VisitSubtract },
-                { OperatorTypeEnum.SpeedUp, VisitSpeedUp },
-                { OperatorTypeEnum.SlowDown, VisitSlowDown },
                 { OperatorTypeEnum.TimePower, VisitTimePower },
-                { OperatorTypeEnum.Earlier, VisitEarlier },
                 { OperatorTypeEnum.TriangleWave, VisitTriangleWave },
                 { OperatorTypeEnum.Unbundle, VisitUnbundle },
                 { OperatorTypeEnum.WhiteNoise, VisitWhiteNoise }
@@ -97,10 +98,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitBundle(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitCustomOperator(Operator op) { }
+        protected virtual void VisitCurveOperator(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitCurveOperator(Operator op) { }
+        protected virtual void VisitCustomOperator(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitDelay(Operator op) { }
@@ -127,10 +128,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitNumber(Operator op) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitPatchOutlet(Operator obj) { }
+        protected virtual void VisitPatchInlet(Operator obj) { }
 
         /// <summary> does nothing </summary>
-        protected virtual void VisitPatchInlet(Operator obj) { }
+        protected virtual void VisitPatchOutlet(Operator obj) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitPower(Operator op) { }
@@ -148,22 +149,25 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         protected virtual void VisitSelect(Operator obj) { }
 
         /// <summary> does nothing </summary>
+        protected virtual void VisitShift(Operator op) { }
+
+        /// <summary> does nothing </summary>
         protected virtual void VisitSine(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitSquareWave(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitSubtract(Operator op) { }
-
-        /// <summary> does nothing </summary>
-        protected virtual void VisitSpeedUp(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitSlowDown(Operator op) { }
 
         /// <summary> does nothing </summary>
+        protected virtual void VisitSpeedUp(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitSquareWave(Operator op) { }
+
+        /// <summary> does nothing </summary>
         protected virtual void VisitStretch(Operator op) { }
+
+        /// <summary> does nothing </summary>
+        protected virtual void VisitSubtract(Operator op) { }
 
         /// <summary> does nothing </summary>
         protected virtual void VisitTimePower(Operator op) { }

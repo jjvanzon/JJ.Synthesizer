@@ -496,4 +496,7 @@
   <data name="Narrower" xml:space="preserve">
     <value>Inkrimpen</value>
   </data>
+  <data name="Shift" xml:space="preserve">
+    <value>Schuiven</value>
+  </data>
 </root>

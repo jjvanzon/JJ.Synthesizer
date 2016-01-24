@@ -493,4 +493,7 @@
   <data name="Narrower" xml:space="preserve">
     <value>Narrower</value>
   </data>
+  <data name="Shift" xml:space="preserve">
+    <value>Shift</value>
+  </data>
 </root>

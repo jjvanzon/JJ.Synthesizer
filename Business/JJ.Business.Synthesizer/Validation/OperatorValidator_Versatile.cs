@@ -15,14 +15,14 @@ namespace JJ.Business.Synthesizer.Validation
 
         private Dictionary<OperatorTypeEnum, Type> _validatorTypeDictionary = new Dictionary<OperatorTypeEnum, Type>
         {
-            { OperatorTypeEnum.Adder, typeof(OperatorValidator_Adder) },
             { OperatorTypeEnum.Add, typeof(OperatorValidator_Add) },
+            { OperatorTypeEnum.Adder, typeof(OperatorValidator_Adder) },
             { OperatorTypeEnum.Bundle, typeof(OperatorValidator_Bundle) },
             { OperatorTypeEnum.Curve, typeof(OperatorValidator_Curve) },
             { OperatorTypeEnum.Delay, typeof(OperatorValidator_Delay) },
             { OperatorTypeEnum.Divide, typeof(OperatorValidator_Divide) },
-            { OperatorTypeEnum.Exponent, typeof(OperatorValidator_Exponent) },
             { OperatorTypeEnum.Earlier, typeof(OperatorValidator_Earlier) },
+            { OperatorTypeEnum.Exponent, typeof(OperatorValidator_Exponent) },
             { OperatorTypeEnum.Loop, typeof(OperatorValidator_Loop) },
             { OperatorTypeEnum.Multiply, typeof(OperatorValidator_Multiply) },
             { OperatorTypeEnum.Narrower, typeof(OperatorValidator_Narrower) },
@@ -32,18 +32,19 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.Power, typeof(OperatorValidator_Power) },
             { OperatorTypeEnum.Resample, typeof(OperatorValidator_Resample) },
             { OperatorTypeEnum.Sample, typeof(OperatorValidator_Sample) },
-            { OperatorTypeEnum.Select, typeof(OperatorValidator_Select) },
-            { OperatorTypeEnum.Sine, typeof(OperatorValidator_Sine) },
-            { OperatorTypeEnum.SquareWave, typeof(OperatorValidator_SquareWave) },
-            { OperatorTypeEnum.Subtract, typeof(OperatorValidator_Subtract) },
             { OperatorTypeEnum.SawTooth, typeof(OperatorValidator_SawTooth) },
-            { OperatorTypeEnum.SpeedUp, typeof(OperatorValidator_SpeedUp) },
+            { OperatorTypeEnum.Select, typeof(OperatorValidator_Select) },
+            { OperatorTypeEnum.Shift, typeof(OperatorValidator_Shift) },
+            { OperatorTypeEnum.Sine, typeof(OperatorValidator_Sine) },
             { OperatorTypeEnum.SlowDown, typeof(OperatorValidator_SlowDown) },
+            { OperatorTypeEnum.SpeedUp, typeof(OperatorValidator_SpeedUp) },
+            { OperatorTypeEnum.SquareWave, typeof(OperatorValidator_SquareWave) },
             { OperatorTypeEnum.Stretch, typeof(OperatorValidator_Stretch) },
+            { OperatorTypeEnum.Subtract, typeof(OperatorValidator_Subtract) },
             { OperatorTypeEnum.TimePower, typeof(OperatorValidator_TimePower) },
             { OperatorTypeEnum.TriangleWave, typeof(OperatorValidator_TriangleWave) },
             { OperatorTypeEnum.Unbundle, typeof(OperatorValidator_Unbundle) },
-            { OperatorTypeEnum.WhiteNoise, typeof(OperatorValidator_WhiteNoise) },
+            { OperatorTypeEnum.WhiteNoise, typeof(OperatorValidator_WhiteNoise) }
         };
 
         public OperatorValidator_Versatile(Operator obj, IPatchRepository patchRepository)
