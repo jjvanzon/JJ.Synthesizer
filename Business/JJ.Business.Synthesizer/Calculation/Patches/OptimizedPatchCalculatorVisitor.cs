@@ -31,31 +31,33 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             public Result(
                 IList<OperatorCalculatorBase> output_OperatorCalculators,
                 IList<VariableInput_OperatorCalculator> input_OperatorCalculators,
-                Dictionary<string, IList<OperatorCalculatorBase>> name_To_ResettableOperatorCalculator_Dictionary)
+                IList<ResettableOperatorTuple> resettableOperatorTuples)
             {
                 Output_OperatorCalculators = output_OperatorCalculators;
                 Input_OperatorCalculators = input_OperatorCalculators;
-                Name_To_ResettableOperatorCalculators_Dictionary = name_To_ResettableOperatorCalculator_Dictionary;
+                ResettableOperatorTuples = resettableOperatorTuples;
             }
 
             public IList<OperatorCalculatorBase> Output_OperatorCalculators { get; private set; }
             public IList<VariableInput_OperatorCalculator> Input_OperatorCalculators { get; private set; }
-            public Dictionary<string, IList<OperatorCalculatorBase>> Name_To_ResettableOperatorCalculators_Dictionary { get; private set; }
+            public IList<ResettableOperatorTuple> ResettableOperatorTuples { get; private set; }
         }
 
-        private class ResettableOperatorTuple
+        public class ResettableOperatorTuple
         {
-            public ResettableOperatorTuple(string name, OperatorCalculatorBase operatorCalculator)
+            public ResettableOperatorTuple(OperatorCalculatorBase operatorCalculator, string name, int? listIndex)
             {
                 if (operatorCalculator == null) throw new NullException(() => operatorCalculator);
-
                 // Name is optional.
+
                 Name = name;
+                ListIndex = listIndex;
                 OperatorCalculator = operatorCalculator;
             }
 
-            public string Name { get; private set; }
             public OperatorCalculatorBase OperatorCalculator { get; private set; }
+            public string Name { get; private set; }
+            public int? ListIndex { get; private set; }
         }
 
         private readonly ICurveRepository _curveRepository;
@@ -156,13 +158,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                 outputOperatorCalculators.Add(operatorCalculator);
             }
 
-            Dictionary<string, IList<OperatorCalculatorBase>> name_To_ResettableOperatorCalculator_Dictionary =
-                _resettableOperatorTuples.ToNonUniqueDictionary(x => x.Name ?? "", x => x.OperatorCalculator);
-
             return new Result(
                 outputOperatorCalculators, 
                 _patchInlet_Calculator_Dictionary.Values.ToArray(),
-                name_To_ResettableOperatorCalculator_Dictionary); 
+                _resettableOperatorTuples); 
         }
 
         protected override void VisitAdd(Operator op)
@@ -1544,10 +1543,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         protected override void VisitReset(Operator op)
         {
+            var wrapper = new Reset_OperatorWrapper(op);
+
             OperatorCalculatorBase calculator = _stack.Peek();
 
-            // Be forgiving when it comes to name being filled in. A warning is given to the user.
-            _resettableOperatorTuples.Add(new ResettableOperatorTuple(op.Name, calculator));
+            // Be forgiving when it comes to name being filled in. A warning is generated instead.
+            _resettableOperatorTuples.Add(new ResettableOperatorTuple(calculator, op.Name, wrapper.ListIndex));
         }
     }
 }

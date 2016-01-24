@@ -1050,7 +1050,12 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _phaseDictionary.Clear();
         }
 
-        public void ResetState(string resetOperatorName)
+        public void ResetState(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ResetState(int listIndex)
         {
             throw new NotImplementedException();
         }

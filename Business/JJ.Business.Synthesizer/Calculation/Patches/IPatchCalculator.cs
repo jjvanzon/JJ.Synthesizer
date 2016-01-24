@@ -21,7 +21,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
         double Calculate(double time, int channelIndex);
         void ResetState();
-        void ResetState(string resetOperatorName);
+        void ResetState(string name);
+        void ResetState(int listIndex);
 
         void CloneValues(IPatchCalculator sourcePatchCalculator);
     }
