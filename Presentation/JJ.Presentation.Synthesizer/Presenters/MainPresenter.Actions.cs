@@ -192,6 +192,9 @@ namespace JJ.Presentation.Synthesizer.Presenters
             var patchManager = new PatchManager(_patchRepositories);
             patchManager.AutoPatch(underlyingPatches);
 
+            // For debugging, use this code line instead to preview the polyponic auto-patch.
+            //patchManager.AutoPatchPolyphonic(underlyingPatches, 2);
+
             // ToViewModel
             MainViewModel.Document.AutoPatchDetails = patchManager.Patch.ToDetailsViewModel(
                 _repositories.OperatorTypeRepository,

@@ -78,6 +78,18 @@ namespace JJ.Business.Synthesizer
                 }
             }
 
+            // Add Reset operators in between.
+            // TODO: Low priority: I have the feeling that this code belongs in the previous loop.
+            for (int i = 0; i < monophonicOutlets.Count; i++)
+            {
+                Outlet monophonicOutlet = monophonicOutlets[i];
+
+                Reset_OperatorWrapper resetWrapper = Reset(monophonicOutlet);
+                resetWrapper.ListIndex = i;
+
+                monophonicOutlets[i] = resetWrapper;
+            }
+
             Adder_OperatorWrapper adderWrapper = Adder(monophonicOutlets);
             Outlet polyphonicOutlet = adderWrapper.Result;
 

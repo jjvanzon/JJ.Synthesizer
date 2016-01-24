@@ -827,10 +827,12 @@ namespace JJ.Presentation.Synthesizer.Helpers
         {
             if (rootDocumentViewModel == null) throw new NullException(() => rootDocumentViewModel);
 
-            SamplePropertiesViewModel userInput = rootDocumentViewModel.SamplePropertiesList.Where(x => x.Visible).FirstOrDefault();
+            SamplePropertiesViewModel userInput = DocumentViewModelHelper.EnumerateSamplePropertiesViewModels(rootDocumentViewModel)
+                                                                         .Where(x => x.Visible)
+                                                                         .FirstOrDefault();
             if (userInput == null)
             {
-                throw new Exception("No Visible SamplePropertiesViewModel found in rootDocumentViewModel.");
+                throw new Exception("No Visible SamplePropertiesViewModel found in rootDocumentViewModel nor its PatchDocumentViewModels.");
             }
 
             return userInput;
