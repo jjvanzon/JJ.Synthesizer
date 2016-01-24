@@ -397,6 +397,19 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Reset_OperatorWrapper Reset(Outlet operand = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Reset, inletCount: 1, outletCount: 1);
+
+            var wrapper = new Reset_OperatorWrapper(op)
+            {
+                Operand = operand
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+            return wrapper;
+        }
+
         public Sample_OperatorWrapper Sample(Sample sample = null)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Sample, inletCount: 1, outletCount: 1);

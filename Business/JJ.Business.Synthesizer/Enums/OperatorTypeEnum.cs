@@ -49,6 +49,17 @@
         /// <summary>
         /// A synonym to Delay. The word 'Shift' makes more sense when the x-axis is not used as time.
         /// </summary>
-        Shift = 31
+        Shift = 31,
+
+        /// <summary>
+        /// Allows you to reset a whole branch of a patch.
+        /// The effect of this is among other things,
+        /// that samples start playing from the start again,
+        /// variable input is reset to default values,
+        /// sines start at phase 0,
+        /// and other time / phase tracking mechanisms are reset to their initial state.
+        /// The most common usage for this, is starting a new note.
+        /// </summary>
+        Reset = 32
     }
 }

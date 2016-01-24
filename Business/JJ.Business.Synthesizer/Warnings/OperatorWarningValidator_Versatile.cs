@@ -29,6 +29,7 @@ namespace JJ.Business.Synthesizer.Warnings
             { OperatorTypeEnum.PatchOutlet, typeof(OperatorWarningValidator_PatchOutlet) },
             { OperatorTypeEnum.Power, typeof(OperatorWarningValidator_Power) },
             { OperatorTypeEnum.Resample, typeof(OperatorWarningValidator_Resample) },
+            { OperatorTypeEnum.Reset, typeof(OperatorWarningValidator_Reset) },
             { OperatorTypeEnum.Sample, typeof(OperatorWarningValidator_Sample) },
             { OperatorTypeEnum.SawTooth, typeof(OperatorWarningValidator_SawTooth) },
             { OperatorTypeEnum.Select, typeof(OperatorWarningValidator_Select) },

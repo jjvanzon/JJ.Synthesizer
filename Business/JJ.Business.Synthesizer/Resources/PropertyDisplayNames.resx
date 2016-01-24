@@ -496,4 +496,7 @@
   <data name="Shift" xml:space="preserve">
     <value>Shift</value>
   </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
 </root>

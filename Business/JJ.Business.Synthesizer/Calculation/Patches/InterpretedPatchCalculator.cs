@@ -22,6 +22,10 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         // The InterpretedPatchCalculator may not have the exact same behavior as the OptimizedPatchCalculator,
         // because it is used much less and is not maintained as well.
 
+        // Also: code is not implemented for all operator types.
+        // There are plans to maybe get rid of this class altogether,
+        // so it is not worth doing 2x the programming work.
+
         // TODO: Implement SetValue methods.
 
         private const double SAMPLE_BASE_FREQUENCY = 440.0;
@@ -1044,6 +1048,11 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             _previousTimeDictionary.Clear();
             _phaseDictionary.Clear();
+        }
+
+        public void ResetState(string resetOperatorName)
+        {
+            throw new NotImplementedException();
         }
 
         // TODO: Implement these methods.

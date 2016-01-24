@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using JJ.Framework.Common;
 using JJ.Framework.Reflection.Exceptions;
 using JJ.Framework.Validation;
 using JJ.Data.Synthesizer;
@@ -29,14 +30,32 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         {
             public Result(
                 IList<OperatorCalculatorBase> output_OperatorCalculators,
-                IList<VariableInput_OperatorCalculator> input_OperatorCalculators)
+                IList<VariableInput_OperatorCalculator> input_OperatorCalculators,
+                Dictionary<string, IList<OperatorCalculatorBase>> name_To_ResettableOperatorCalculator_Dictionary)
             {
                 Output_OperatorCalculators = output_OperatorCalculators;
                 Input_OperatorCalculators = input_OperatorCalculators;
+                Name_To_ResettableOperatorCalculators_Dictionary = name_To_ResettableOperatorCalculator_Dictionary;
             }
 
             public IList<OperatorCalculatorBase> Output_OperatorCalculators { get; private set; }
             public IList<VariableInput_OperatorCalculator> Input_OperatorCalculators { get; private set; }
+            public Dictionary<string, IList<OperatorCalculatorBase>> Name_To_ResettableOperatorCalculators_Dictionary { get; private set; }
+        }
+
+        private class ResettableOperatorTuple
+        {
+            public ResettableOperatorTuple(string name, OperatorCalculatorBase operatorCalculator)
+            {
+                if (operatorCalculator == null) throw new NullException(() => operatorCalculator);
+
+                // Name is optional.
+                Name = name;
+                OperatorCalculator = operatorCalculator;
+            }
+
+            public string Name { get; private set; }
+            public OperatorCalculatorBase OperatorCalculator { get; private set; }
         }
 
         private readonly ICurveRepository _curveRepository;
@@ -64,6 +83,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private Dictionary<Operator, double> _operator_WhiteNoiseOffsetInSeconds_Dictionary;
         private Outlet _currentChannelOutlet;
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_Calculator_Dictionary;
+        //private Dictionary<string, OperatorCalculatorBase> _name_To_ResettableOperatorCalculator_Dictionary;
+        private IList<ResettableOperatorTuple> _resettableOperatorTuples;
 
         public OptimizedPatchCalculatorVisitor(ICurveRepository curveRepository, ISampleRepository sampleRepository, IPatchRepository patchRepository)
         {
@@ -105,6 +126,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _sample_SampleCalculator_Dictionary = new Dictionary<Sample, ISampleCalculator>();
             _operator_WhiteNoiseOffsetInSeconds_Dictionary = new Dictionary<Operator, double>();
             _patchInlet_Calculator_Dictionary = new Dictionary<Operator, VariableInput_OperatorCalculator>();
+            _resettableOperatorTuples = new List<ResettableOperatorTuple>();
 
             _channelCount = channelOutlets.Count;
 
@@ -129,12 +151,18 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
                     throw new Exception("_stack.Count should have been 0.");
                 }
 
-                operatorCalculator = operatorCalculator ?? new Zero_OperatorCalculator(); 
+                operatorCalculator = operatorCalculator ?? new Zero_OperatorCalculator();
 
                 outputOperatorCalculators.Add(operatorCalculator);
             }
 
-            return new Result(outputOperatorCalculators, _patchInlet_Calculator_Dictionary.Values.ToArray()); 
+            Dictionary<string, IList<OperatorCalculatorBase>> name_To_ResettableOperatorCalculator_Dictionary =
+                _resettableOperatorTuples.ToNonUniqueDictionary(x => x.Name ?? "", x => x.OperatorCalculator);
+
+            return new Result(
+                outputOperatorCalculators, 
+                _patchInlet_Calculator_Dictionary.Values.ToArray(),
+                name_To_ResettableOperatorCalculator_Dictionary); 
         }
 
         protected override void VisitAdd(Operator op)
@@ -1512,6 +1540,14 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             }
 
             _bundleIndexStack.Push(bundleIndex);
+        }
+
+        protected override void VisitReset(Operator op)
+        {
+            OperatorCalculatorBase calculator = _stack.Peek();
+
+            // Be forgiving when it comes to name being filled in. A warning is given to the user.
+            _resettableOperatorTuples.Add(new ResettableOperatorTuple(op.Name, calculator));
         }
     }
 }

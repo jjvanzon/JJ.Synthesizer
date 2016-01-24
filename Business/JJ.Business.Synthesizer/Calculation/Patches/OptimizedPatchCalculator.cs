@@ -14,6 +14,7 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         /// <summary> Array for optimization in calculating values. </summary>
         private readonly OperatorCalculatorBase[] _outputOperatorCalculators;
         private readonly VariableInput_OperatorCalculator[] _inputOperatorCalculators;
+        private readonly Dictionary<string, IList<OperatorCalculatorBase>> _name_To_ResettableOperatorCalculators_Dictionary;
 
         private Dictionary<int, double> _valuesByListIndex = new Dictionary<int, double>();
         private Dictionary<string, double> _valuesByName = new Dictionary<string, double>();
@@ -47,10 +48,9 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             OptimizedPatchCalculatorVisitor.Result result = visitor.Execute(channelOutlets, whiteNoiseCalculator);
 
-            // TODO: One would think that the outlet operators should be sorted by a list index too. But it does not have a ListIndex property.
-            _outputOperatorCalculators = result.Output_OperatorCalculators.ToArray();
-
+            _outputOperatorCalculators = result.Output_OperatorCalculators.ToArray(); // TODO: Low priority: One would think that the outlet operators should be sorted by a list index too. But it does not have a ListIndex property.
             _inputOperatorCalculators = result.Input_OperatorCalculators.OrderBy(x => x.ListIndex).ToArray();
+            _name_To_ResettableOperatorCalculators_Dictionary = result.Name_To_ResettableOperatorCalculators_Dictionary;
         }
 
         public double Calculate(double time, int channelIndex)
@@ -294,21 +294,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             return null;
         }
 
-        public void ResetState()
-        {
-            for (int i = 0; i < _outputOperatorCalculators.Length; i++)
-            {
-                OperatorCalculatorBase outputOperatorCalculator = _outputOperatorCalculators[i];
-                outputOperatorCalculator.ResetState();
-            }
-
-            _valuesByListIndex.Clear();
-            _valuesByName.Clear();
-            _valuesByNameAndListIndex.Clear();
-            _valuesByInletTypeEnum.Clear();
-            _valuesByInletTypeEnumAndListIndex.Clear();
-        }
-
         public void CloneValues(IPatchCalculator sourcePatchCalculator)
         {
             if (sourcePatchCalculator == null) throw new NullException(() => sourcePatchCalculator);
@@ -342,6 +327,38 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             foreach (var entry in source._valuesByInletTypeEnumAndListIndex)
             {
                 SetValue(entry.Key.Item1, entry.Key.Item2, entry.Value);
+            }
+        }
+
+        public void ResetState()
+        {
+            for (int i = 0; i < _outputOperatorCalculators.Length; i++)
+            {
+                OperatorCalculatorBase outputOperatorCalculator = _outputOperatorCalculators[i];
+                outputOperatorCalculator.ResetState();
+            }
+
+            _valuesByListIndex.Clear();
+            _valuesByName.Clear();
+            _valuesByNameAndListIndex.Clear();
+            _valuesByInletTypeEnum.Clear();
+            _valuesByInletTypeEnumAndListIndex.Clear();
+        }
+
+        public void ResetState(string resetOperatorName)
+        {
+            // Necessary for using null or empty string as the key of a dictionary.
+            // The dictionary neither accepts null as a key, 
+            // and also null and empty must have the same behavior.
+            resetOperatorName = resetOperatorName ?? "";
+
+            IList<OperatorCalculatorBase> calculators;
+            if (_name_To_ResettableOperatorCalculators_Dictionary.TryGetValue(resetOperatorName, out calculators))
+            {
+                foreach (OperatorCalculatorBase calculator in calculators)
+                {
+                    calculator.ResetState();
+                }
             }
         }
     }

@@ -45,6 +45,8 @@
         public const int RESAMPLE_RESULT_INDEX = 0;
         public const int RESAMPLE_SAMPLING_RATE_INDEX = 1;
         public const int RESAMPLE_SIGNAL_INDEX = 0;
+        public const int RESET_OPERAND_INDEX = 0;
+        public const int RESET_RESULT_INDEX = 0;
         public const int SAMPLE_FREQUENCY_INDEX = 0;
         public const int SAMPLE_OPERATOR_RESULT_INDEX = 0;
         public const int SAW_TOOTH_PHASE_SHIFT_INDEX = 1;

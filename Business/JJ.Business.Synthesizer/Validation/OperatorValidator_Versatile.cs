@@ -31,6 +31,7 @@ namespace JJ.Business.Synthesizer.Validation
             { OperatorTypeEnum.PatchOutlet, typeof(OperatorValidator_PatchOutlet) },
             { OperatorTypeEnum.Power, typeof(OperatorValidator_Power) },
             { OperatorTypeEnum.Resample, typeof(OperatorValidator_Resample) },
+            { OperatorTypeEnum.Reset, typeof(OperatorValidator_Reset) },
             { OperatorTypeEnum.Sample, typeof(OperatorValidator_Sample) },
             { OperatorTypeEnum.SawTooth, typeof(OperatorValidator_SawTooth) },
             { OperatorTypeEnum.Select, typeof(OperatorValidator_Select) },

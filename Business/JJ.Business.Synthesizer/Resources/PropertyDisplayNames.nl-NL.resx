@@ -499,4 +499,7 @@
   <data name="Shift" xml:space="preserve">
     <value>Schuiven</value>
   </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Terugzetten</value>
+  </data>
 </root>

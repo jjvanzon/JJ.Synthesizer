@@ -163,6 +163,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Resample(signal, samplingRate);
         }
 
+        public Reset_OperatorWrapper Reset(Outlet operand = null)
+        {
+            return _patchManager.Reset(operand);
+        }
+
         public Sample_OperatorWrapper Sample(Sample sample = null)
         {
             return _patchManager.Sample(sample);
