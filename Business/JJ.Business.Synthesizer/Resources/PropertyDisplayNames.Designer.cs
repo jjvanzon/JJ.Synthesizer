@@ -565,6 +565,15 @@ namespace JJ.Business.Synthesizer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Narrower.
+        /// </summary>
+        public static string Narrower {
+            get {
+                return ResourceManager.GetString("Narrower", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Node.
         /// </summary>
         public static string Node {

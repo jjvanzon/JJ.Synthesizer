@@ -246,6 +246,21 @@ namespace JJ.Business.Synthesizer
             return wrapper;
         }
 
+        public Narrower_OperatorWrapper Narrower(Outlet signal = null, Outlet factor = null, Outlet origin = null)
+        {
+            Operator op = CreateOperatorBase(OperatorTypeEnum.Narrower, inletCount: 3, outletCount: 1);
+
+            var wrapper = new Narrower_OperatorWrapper(op)
+            {
+                Signal = signal,
+                Factor = factor,
+                Origin = origin
+            };
+
+            wrapper.WrappedOperator.LinkTo(Patch);
+            return wrapper;
+        }
+
         public Number_OperatorWrapper Number(double number = 0)
         {
             Operator op = CreateOperatorBase(OperatorTypeEnum.Number, inletCount: 0, outletCount: 1);

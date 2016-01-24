@@ -77,6 +77,11 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Divide(numerator, denominator, origin);
         }
 
+        public Earlier_OperatorWrapper Earlier(Outlet signal = null, Outlet timeDifference = null)
+        {
+            return _patchManager.Earlier(signal, timeDifference);
+        }
+
         public Exponent_OperatorWrapper Exponent(Outlet low = null, Outlet high = null, Outlet ratio = null)
         {
             return _patchManager.Exponent(low, high, ratio);
@@ -96,6 +101,11 @@ namespace JJ.Business.Synthesizer.Api
         public Multiply_OperatorWrapper Multiply(Outlet operandA = null, Outlet operandB = null, Outlet origin = null)
         {
             return _patchManager.Multiply(operandA, operandB, origin);
+        }
+
+        public Narrower_OperatorWrapper Narrower(Outlet signal = null, Outlet factor = null, Outlet origin = null)
+        {
+            return _patchManager.Narrower(signal, factor, origin);
         }
 
         public Number_OperatorWrapper Number(double number = 0)
@@ -173,9 +183,9 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.Sine(frequency, phaseShift);
         }
 
-        public Subtract_OperatorWrapper Subtract(Outlet operandA = null, Outlet operandB = null)
+        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet factor = null)
         {
-            return _patchManager.Subtract(operandA, operandB);
+            return _patchManager.SlowDown(signal, factor);
         }
 
         public SpeedUp_OperatorWrapper SpeedUp(Outlet signal = null, Outlet factor = null)
@@ -183,9 +193,14 @@ namespace JJ.Business.Synthesizer.Api
             return _patchManager.SpeedUp(signal, factor);
         }
 
-        public SlowDown_OperatorWrapper SlowDown(Outlet signal = null, Outlet factor = null)
+        public Stretch_OperatorWrapper Stretch(Outlet signal = null, Outlet factor = null, Outlet origin = null)
         {
-            return _patchManager.SlowDown(signal, factor);
+            return _patchManager.Stretch(signal, factor, origin);
+        }
+
+        public Subtract_OperatorWrapper Subtract(Outlet operandA = null, Outlet operandB = null)
+        {
+            return _patchManager.Subtract(operandA, operandB);
         }
 
         public SquareWave_OperatorWrapper SquareWave(Outlet frequency = null, Outlet phaseShift = null)
@@ -196,11 +211,6 @@ namespace JJ.Business.Synthesizer.Api
         public TimePower_OperatorWrapper TimePower(Outlet signal = null, Outlet exponent = null, Outlet origin = null)
         {
             return _patchManager.TimePower(signal, exponent, origin);
-        }
-
-        public Earlier_OperatorWrapper Earlier(Outlet signal = null, Outlet timeDifference = null)
-        {
-            return _patchManager.Earlier(signal, timeDifference);
         }
 
         public TriangleWave_OperatorWrapper TriangleWave(Outlet frequency = null, Outlet phaseShift = null)

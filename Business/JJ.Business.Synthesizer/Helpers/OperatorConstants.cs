@@ -30,6 +30,10 @@
         public const int MULTIPLY_OPERAND_B_INDEX = 1;
         public const int MULTIPLY_ORIGIN_INDEX = 2;
         public const int MULTIPLY_RESULT_INDEX = 0;
+        public const int NARROWER_RESULT_INDEX = 0;
+        public const int NARROWER_SIGNAL_INDEX = 0;
+        public const int NARROWER_FACTOR_INDEX = 1;
+        public const int NARROWER_ORIGIN_INDEX = 2;
         public const int NUMBER_OPERATOR_RESULT_INDEX = 0;
         public const int PATCH_INLET_INPUT_INDEX = 0;
         public const int PATCH_INLET_RESULT_INDEX = 0;

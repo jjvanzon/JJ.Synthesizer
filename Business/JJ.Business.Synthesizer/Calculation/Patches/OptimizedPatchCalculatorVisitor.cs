@@ -527,6 +527,93 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             _stack.Push(calculator);
         }
 
+        protected override void VisitNarrower(Operator op)
+        {
+            OperatorCalculatorBase calculator;
+
+            OperatorCalculatorBase signalCalculator = _stack.Pop();
+            OperatorCalculatorBase factorCalculator = _stack.Pop();
+            OperatorCalculatorBase originCalculator = _stack.Pop();
+
+            signalCalculator = signalCalculator ?? new Zero_OperatorCalculator();
+            factorCalculator = factorCalculator ?? new One_OperatorCalculator();
+            originCalculator = originCalculator ?? new Zero_OperatorCalculator();
+
+            double signal = signalCalculator.Calculate(0, 0);
+            double factor = factorCalculator.Calculate(0, 0);
+            double origin = originCalculator.Calculate(0, 0);
+
+            bool signalIsConst = signalCalculator is Number_OperatorCalculator;
+            bool factorIsConst = factorCalculator is Number_OperatorCalculator;
+            bool originIsConst = originCalculator is Number_OperatorCalculator;
+
+            bool signalIsConstZero = signalIsConst && signal == 0;
+            bool factorIsConstZero = factorIsConst && factor == 0;
+            bool originIsConstZero = originIsConst && origin == 0;
+
+            bool factorIsConstOne = factorIsConst && factor == 1;
+
+            bool signalIsConstSpecialNumber = signalIsConst && Double.IsNaN(signal) || Double.IsInfinity(signal);
+            bool factorIsConstSpecialNumber = factorIsConst && Double.IsNaN(factor) || Double.IsInfinity(factor);
+            bool originIsConstSpecialNumber = originIsConst && Double.IsNaN(origin) || Double.IsInfinity(origin);
+
+            if (signalIsConstSpecialNumber || factorIsConstSpecialNumber || originIsConstSpecialNumber)
+            {
+                // Wierd number
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (factorIsConstZero)
+            {
+                // Weird number
+                // I cannot hack this one other than to return NaN.
+                // Slow down of 0 means speed up to infinity, wich only renders a number if the signal time = origin,
+                // which is very rare.
+                calculator = new Number_OperatorCalculator(Double.NaN);
+            }
+            else if (signalIsConstZero)
+            {
+                calculator = new Zero_OperatorCalculator();
+            }
+            else if (factorIsConstOne)
+            {
+                calculator = signalCalculator;
+            }
+            else if (signalIsConst)
+            {
+                calculator = signalCalculator;
+            }
+            else if (!signalIsConst && factorIsConst && originIsConstZero)
+            {
+                calculator = new Narrower_VarSignal_ConstFactor_ZeroOrigin_OperatorCalculator(signalCalculator, factor);
+            }
+            else if (!signalIsConst && !factorIsConst && originIsConstZero)
+            {
+                calculator = new Narrower_VarSignal_VarFactor_ZeroOrigin_OperatorCalculator(signalCalculator, factorCalculator);
+            }
+            else if (!signalIsConst && factorIsConst && originIsConst)
+            {
+                calculator = new Narrower_VarSignal_ConstFactor_ConstOrigin_OperatorCalculator(signalCalculator, factor, origin);
+            }
+            else if (!signalIsConst && factorIsConst && !originIsConst)
+            {
+                calculator = new Narrower_VarSignal_ConstFactor_VarOrigin_OperatorCalculator(signalCalculator, factor, originCalculator);
+            }
+            else if (!signalIsConst && !factorIsConst && originIsConst)
+            {
+                calculator = new Narrower_VarSignal_VarFactor_ConstOrigin_OperatorCalculator(signalCalculator, factorCalculator, origin);
+            }
+            else if (!signalIsConst && !factorIsConst && !originIsConst)
+            {
+                calculator = new Narrower_VarSignal_VarFactor_VarOrigin_OperatorCalculator(signalCalculator, factorCalculator, originCalculator);
+            }
+            else
+            {
+                throw new Exception("Error in Narrower Operator optimization. No approproate variation on the calculation was found.");
+            }
+
+            _stack.Push(calculator);
+        }
+
         protected override void VisitNumber(Operator op)
         {
             var wrapper = new Number_OperatorWrapper(op);
@@ -835,11 +922,15 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             double signal = signalCalculator.Calculate(0, 0);
             double factor = factorCalculator.Calculate(0, 0);
+
             bool signalIsConst = signalCalculator is Number_OperatorCalculator;
             bool factorIsConst = factorCalculator is Number_OperatorCalculator;
+
             bool signalIsConstZero = signalIsConst && signal == 0;
             bool factorIsConstZero = factorIsConst && factor == 0;
+
             bool factorIsConstOne = factorIsConst && factor == 1;
+
             bool signalIsConstSpecialNumber = signalIsConst && Double.IsNaN(signal) || Double.IsInfinity(signal);
             bool factorIsConstSpecialNumber = factorIsConst && Double.IsNaN(factor) || Double.IsInfinity(factor);
 
@@ -1056,6 +1147,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
 
             bool factorIsConstOne = factorIsConst && factor == 1;
 
+            // TODO: Handle const special numbers.
+
             if (factorIsConstZero)
             {
                 // Weird number
@@ -1251,6 +1344,8 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
             var calculator = new WhiteNoise_OperatorCalculator(_whiteNoiseCalculator, offset);
             _stack.Push(calculator);
         }
+
+        // Special Visitation
 
         /// <summary> Overridden to push null-inlets or default values for those inlets. </summary>
         protected override void VisitInlet(Inlet inlet)

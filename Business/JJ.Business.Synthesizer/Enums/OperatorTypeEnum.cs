@@ -37,6 +37,13 @@
         /// It is more appropriate when you are e.g. stretching curves for filters.
         /// It makes more sense when the x-axis is not used as time.
         /// </summary>
-        Stretch = 29
+        Stretch = 29,
+
+        /// <summary>
+        /// Almost an alias for SpeedUp, except that Narrower does not track phase and has an origin parameter.
+        /// It is more appropriate when you are e.g. stretching curves for filters.
+        /// It makes more sense when the x-axis is not used as time.
+        /// </summary>
+        Narrower = 30
     }
 }

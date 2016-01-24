@@ -493,4 +493,7 @@
   <data name="Stretch" xml:space="preserve">
     <value>Uitrekken</value>
   </data>
+  <data name="Narrower" xml:space="preserve">
+    <value>Inkrimpen</value>
+  </data>
 </root>

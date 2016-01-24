@@ -490,4 +490,7 @@
   <data name="Stretch" xml:space="preserve">
     <value>Stretch</value>
   </data>
+  <data name="Narrower" xml:space="preserve">
+    <value>Narrower</value>
+  </data>
 </root>

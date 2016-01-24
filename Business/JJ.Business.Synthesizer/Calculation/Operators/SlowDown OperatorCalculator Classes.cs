@@ -27,7 +27,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
         {
             double factor = _factorCalculator.Calculate(time, channelIndex);
 
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+            // IMPORTANT: To multiply the time in the output, you have to divide the time of the input.
             double dt = time - _previousTime;
             double phase = _phase + dt / factor;
 
@@ -76,7 +76,7 @@ namespace JJ.Business.Synthesizer.Calculation.Operators
 
         public override double Calculate(double time, int channelIndex)
         {
-            // IMPORTANT: To divide the time in the output, you have to multiply the time of the input.
+            // IMPORTANT: To multiply the time in the output, you have to divide the time of the input.
             double transformedTime = time / _factorValue; 
             double result = _signalCalculator.Calculate(transformedTime, channelIndex);
             return result;
