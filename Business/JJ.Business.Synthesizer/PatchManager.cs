@@ -493,8 +493,7 @@ namespace JJ.Business.Synthesizer
                 SubstituteSineForUnfilledInSignalPatchInlets();
             }
 
-            int assumedSamplingRate = 44100;
-            var whiteNoiseCalculator = new WhiteNoiseCalculator(assumedSamplingRate);
+            WhiteNoiseCalculator whiteNoiseCalculator = GetWhiteNoiseCalculator();
 
             IPatchCalculator calculator = new OptimizedPatchCalculator(
                 channelOutlets,
@@ -526,8 +525,7 @@ namespace JJ.Business.Synthesizer
                 SubstituteSineForUnfilledInSignalPatchInlets();
             }
 
-            int assumedSamplingRate = 44100;
-            var whiteNoiseCalculator = new WhiteNoiseCalculator(assumedSamplingRate);
+            WhiteNoiseCalculator whiteNoiseCalculator = GetWhiteNoiseCalculator();
 
             return new InterpretedPatchCalculator(
                 channelOutlets,
@@ -551,6 +549,23 @@ namespace JJ.Business.Synthesizer
             foreach (PatchInlet_OperatorWrapper patchInletWrapper in patchInletWrappers)
             {
                 patchInletWrapper.Input = sineOutlet;
+            }
+        }
+
+        private static object _whiteNoiseCalculatorLock = new object();
+        private static WhiteNoiseCalculator _whiteNoiseCalculator;
+
+        private static WhiteNoiseCalculator GetWhiteNoiseCalculator()
+        {
+            lock (_whiteNoiseCalculatorLock)
+            {
+                if (_whiteNoiseCalculator == null)
+                {
+                    int assumedSamplingRate = 44100;
+                    _whiteNoiseCalculator = new WhiteNoiseCalculator(assumedSamplingRate);
+                }
+
+                return _whiteNoiseCalculator;
             }
         }
 

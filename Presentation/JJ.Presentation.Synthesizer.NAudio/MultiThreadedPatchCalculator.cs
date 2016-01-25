@@ -54,6 +54,7 @@ namespace JJ.Presentation.Synthesizer.NAudio
         private readonly object[] _bufferLocks;
 
         private double _t0;
+        private bool _disposing;
 
         public MultiThreadedPatchCalculator(int threadCount, int bufferSize, double sampleDuration)
         {
@@ -92,17 +93,31 @@ namespace JJ.Presentation.Synthesizer.NAudio
 
         public void Dispose()
         {
-            // TODO: Not sure how to do it better
+            _disposing = true;
+
+            // TODO: This seems a lot of hassle to let the threads stop properly, but I do not know how else to do it.
             if (_threadInfos != null)
             {
+                if (_countdownEvent != null)
+                {
+                    _countdownEvent.Reset();
+                }
+
                 for (int i = 0; i < _threadInfos.Count; i++)
                 {
                     ThreadInfo threadInfo = _threadInfos[i];
-                    if (threadInfo.Thread.ThreadState != ThreadState.Aborted)
-                    {
-                        threadInfo.Lock.Dispose();
-                        threadInfo.Thread.Abort();
-                    }
+                    threadInfo.Lock.Set();
+                }
+
+                if (_countdownEvent != null)
+                {
+                    _countdownEvent.Wait();
+                }
+
+                for (int i = 0; i < _threadInfos.Count; i++)
+                {
+                    ThreadInfo threadInfo = _threadInfos[i];
+                    threadInfo.Lock.Dispose();
                 }
             }
 
@@ -157,6 +172,12 @@ Wait:
 
             try
             {
+                if (_disposing)
+                {
+                    // TODO: Low priority: Not sure how to clean up the threads properly without introducing an if-statement.
+                    return;
+                }
+
                 for (int i = 0; i < patchCalculatorInfos.Count; i++)
                 {
                     PatchCalculatorInfo patchCalculatorInfo = patchCalculatorInfos[i];
@@ -175,7 +196,7 @@ Wait:
                     {
                         double value = patchCalculator.Calculate(t, DEFAULT_CHANNEL_INDEX);
 
-                        // TODO: Not sure how to do a quicker interlocked add for doubles.
+                        // TODO: Low priority: Not sure how to do a quicker interlocked add for doubles.
                         lock (_bufferLocks[j])
                         {
                             _buffer[j] += value;

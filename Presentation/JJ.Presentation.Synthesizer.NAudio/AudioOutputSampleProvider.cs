@@ -8,7 +8,6 @@ using JJ.Framework.Reflection.Exceptions;
 
 namespace JJ.Presentation.Synthesizer.NAudio
 {
-    // TODO: Rename file after check-in.
     internal class AudioOutputSampleProvider : ISampleProvider
     {
         private const int DEFAULT_SAMPLE_RATE = 44100;

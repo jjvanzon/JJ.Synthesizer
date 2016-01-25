@@ -85,7 +85,6 @@ namespace JJ.Business.Synthesizer.Calculation.Patches
         private Dictionary<Operator, double> _operator_WhiteNoiseOffsetInSeconds_Dictionary;
         private Outlet _currentChannelOutlet;
         private Dictionary<Operator, VariableInput_OperatorCalculator> _patchInlet_Calculator_Dictionary;
-        //private Dictionary<string, OperatorCalculatorBase> _name_To_ResettableOperatorCalculator_Dictionary;
         private IList<ResettableOperatorTuple> _resettableOperatorTuples;
 
         public OptimizedPatchCalculatorVisitor(ICurveRepository curveRepository, ISampleRepository sampleRepository, IPatchRepository patchRepository)
